@@ -12,34 +12,25 @@ const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const CirculationGap = lazy(() => import('./CirculationGap'));
 
 // Skeleton fallback for sections
-const SectionSkeleton = ({ height = "h-64" }: { height?: string }) => (
-  <div className={`py-4 md:py-16 ${height}`}>
+const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (
+  <div className={`py-2 md:py-8 ${height}`}>
     <div className="max-w-7xl mx-auto px-4">
-      <div className="animate-pulse space-y-6">
-        <div className="h-8 bg-white/10 rounded w-1/3 mx-auto"></div>
+      <div className="animate-pulse space-y-4">
+        <div className="h-6 bg-white/10 rounded w-1/3 mx-auto"></div>
         <div className="h-4 bg-white/5 rounded w-2/3 mx-auto"></div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[1,2,3].map(i => (
-            <div key={i} className="h-32 bg-white/5 rounded-xl"></div>
-          ))}
-        </div>
       </div>
     </div>
   </div>
 );
 
 const BusinessSkeleton = () => (
-  <div className="py-12 md:py-16">
+  <div className="py-3 md:py-8">
     <div className="max-w-7xl mx-auto px-4">
-      <div className="animate-pulse space-y-6">
-        <div className="h-8 bg-white/10 rounded w-1/3 mx-auto"></div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {[1,2,3,4].map(i => (
-            <div key={i} className="space-y-3">
-              <div className="aspect-square bg-white/5 rounded-xl"></div>
-              <div className="h-4 bg-white/10 rounded"></div>
-              <div className="h-3 bg-white/5 rounded w-3/4"></div>
-            </div>
+      <div className="animate-pulse space-y-4">
+        <div className="h-6 bg-white/10 rounded w-1/3 mx-auto"></div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {[1,2,3].map(i => (
+            <div key={i} className="h-24 bg-white/5 rounded-xl"></div>
           ))}
         </div>
       </div>
@@ -50,17 +41,25 @@ const BusinessSkeleton = () => (
 const HomePageSections: React.FC = () => {
   return (
     <>
-      {/* Mission Preview - Lazy loaded with viewport trigger */}
+      {/* Mission Preview */}
       <SectionErrorBoundary sectionName="Mission Preview">
         <LazySection threshold={0.1} rootMargin="200px">
-          <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <Suspense fallback={<SectionSkeleton height="h-24" />}>
             <MissionPreview />
           </Suspense>
         </LazySection>
       </SectionErrorBoundary>
 
+      {/* Vacation Rentals CTA - Mansa Stays promotion */}
+      <SectionErrorBoundary sectionName="Vacation Rentals CTA">
+        <LazySection threshold={0.1} rootMargin="200px">
+          <Suspense fallback={<SectionSkeleton height="h-48" />}>
+            <VacationRentalsCTA />
+          </Suspense>
+        </LazySection>
+      </SectionErrorBoundary>
 
-      {/* Three Pillars - Deferred */}
+      {/* Three Pillars */}
       <SectionErrorBoundary sectionName="Three Pillars">
         <LazySection threshold={0.15} rootMargin="150px">
           <Suspense fallback={<SectionSkeleton />}>
@@ -69,16 +68,7 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* Vacation Rentals CTA - Mansa Stays promotion */}
-      <SectionErrorBoundary sectionName="Vacation Rentals CTA">
-        <LazySection threshold={0.15} rootMargin="150px">
-          <Suspense fallback={<SectionSkeleton height="h-80" />}>
-            <VacationRentalsCTA />
-          </Suspense>
-        </LazySection>
-      </SectionErrorBoundary>
-
-      {/* Featured Businesses - Heavy component, load last */}
+      {/* Featured Businesses */}
       <SectionErrorBoundary sectionName="Featured Businesses">
         <LazySection threshold={0.2} rootMargin="100px">
           <Suspense fallback={<BusinessSkeleton />}>
