@@ -61,40 +61,32 @@ const HomePageSections: React.FC = () => {
 
       {/* Three Pillars */}
       <SectionErrorBoundary sectionName="Three Pillars">
-        <LazySection threshold={0.15} rootMargin="150px">
-          <Suspense fallback={<SectionSkeleton />}>
-            <ThreePillars />
-          </Suspense>
-        </LazySection>
+        <Suspense fallback={<SectionSkeleton />}>
+          <ThreePillars />
+        </Suspense>
       </SectionErrorBoundary>
 
       {/* Featured Businesses */}
       <SectionErrorBoundary sectionName="Featured Businesses">
-        <LazySection threshold={0.2} rootMargin="100px">
-          <Suspense fallback={<BusinessSkeleton />}>
-            <FeaturedBusinesses limit={3} />
-          </Suspense>
-        </LazySection>
+        <Suspense fallback={<BusinessSkeleton />}>
+          <FeaturedBusinesses limit={3} />
+        </Suspense>
       </SectionErrorBoundary>
 
-      {/* CTA Section - Load when close to viewport */}
+      {/* CTA Section */}
       <SectionErrorBoundary sectionName="Call to Action">
-        <LazySection threshold={0.3} rootMargin="100px">
-          <Suspense fallback={<SectionSkeleton height="h-32" />}>
-            <section id="cta-section">
-              <CTASection />
-            </section>
-          </Suspense>
-        </LazySection>
+        <Suspense fallback={<SectionSkeleton height="h-32" />}>
+          <section id="cta-section">
+            <CTASection />
+          </section>
+        </Suspense>
       </SectionErrorBoundary>
 
       {/* Circulation Gap - After CTA */}
       <SectionErrorBoundary sectionName="Circulation Gap">
-        <LazySection threshold={0.2} rootMargin="100px">
-          <Suspense fallback={<SectionSkeleton height="h-48" />}>
-            <CirculationGap />
-          </Suspense>
-        </LazySection>
+        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <CirculationGap />
+        </Suspense>
       </SectionErrorBoundary>
     </>
   );
