@@ -54,7 +54,7 @@ const Hero = () => {
         <div className="absolute bottom-0 right-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-500/8 rounded-full blur-[80px] md:blur-[120px]" />
       </div>
 
-      <div className="relative container mx-auto px-4 pt-6 pb-8 md:pt-12 md:pb-20">
+      <div className="relative container mx-auto px-4 pt-6 pb-4 md:pt-12 md:pb-20">
 
         {/* Main Content - Single Column on Mobile */}
         <div className="max-w-3xl mx-auto text-center">
