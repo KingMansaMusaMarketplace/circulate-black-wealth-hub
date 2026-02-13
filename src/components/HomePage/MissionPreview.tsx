@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 
 const MissionPreview: React.FC = () => {
   return (
-    <section className="py-6 md:py-8 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
+    <section className="py-3 md:py-8 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header - EOS Positioning */}
-        <div className="text-center mb-5 md:mb-6">
+        <div className="text-center mb-3 md:mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mansagold/10 border border-mansagold/30 mb-4">
             <span className="text-xs font-semibold text-mansagold uppercase tracking-wider">Economic Operating System</span>
           </div>
@@ -22,7 +22,7 @@ const MissionPreview: React.FC = () => {
         </div>
 
         {/* CTA - Moved above The Circulation Gap */}
-        <div className="text-center mb-5">
+        <div className="text-center mb-3">
           <Link to="/about">
             <Button 
               variant="outline" 

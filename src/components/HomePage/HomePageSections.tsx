@@ -12,7 +12,7 @@ const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-64" }: { height?: string }) => (
-  <div className={`py-12 md:py-16 ${height}`}>
+  <div className={`py-4 md:py-16 ${height}`}>
     <div className="max-w-7xl mx-auto px-4">
       <div className="animate-pulse space-y-6">
         <div className="h-8 bg-white/10 rounded w-1/3 mx-auto"></div>
