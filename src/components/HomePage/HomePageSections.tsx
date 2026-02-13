@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import LazySection from '@/components/common/LazySection';
+
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 
 // Lazy load all non-critical sections
@@ -43,20 +43,16 @@ const HomePageSections: React.FC = () => {
     <>
       {/* Mission Preview */}
       <SectionErrorBoundary sectionName="Mission Preview">
-        <LazySection threshold={0.1} rootMargin="200px">
-          <Suspense fallback={<SectionSkeleton height="h-24" />}>
-            <MissionPreview />
-          </Suspense>
-        </LazySection>
+        <Suspense fallback={<SectionSkeleton height="h-24" />}>
+          <MissionPreview />
+        </Suspense>
       </SectionErrorBoundary>
 
       {/* Vacation Rentals CTA - Mansa Stays promotion */}
       <SectionErrorBoundary sectionName="Vacation Rentals CTA">
-        <LazySection threshold={0.1} rootMargin="200px">
-          <Suspense fallback={<SectionSkeleton height="h-48" />}>
-            <VacationRentalsCTA />
-          </Suspense>
-        </LazySection>
+        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <VacationRentalsCTA />
+        </Suspense>
       </SectionErrorBoundary>
 
       {/* Three Pillars */}
