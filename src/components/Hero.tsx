@@ -181,8 +181,8 @@ const Hero = () => {
               to={card.link}
               className="group bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-mansagold/30 hover:bg-slate-800/40 transition-all duration-300"
             >
-              <h3 className="text-lg font-bold text-white mb-2">{card.title}</h3>
-              <p className="text-sm text-blue-200/70 mb-3">{card.desc}</p>
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{card.title}</h3>
+              <p className="text-base md:text-lg text-blue-200/70 mb-3">{card.desc}</p>
               <ArrowRight className="w-5 h-5 text-mansagold/50 group-hover:text-mansagold mt-2 group-hover:translate-x-1 transition-all" />
             </Link>
           ))}
