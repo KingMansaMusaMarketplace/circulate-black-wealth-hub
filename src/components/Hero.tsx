@@ -161,7 +161,17 @@ const Hero = () => {
                 </>
               )}
             </Button>
-            
+
+            <Link to="/about">
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-mansagold/50 text-mansagold hover:bg-mansagold/10 hover:border-mansagold group h-12 px-6 rounded-xl"
+              >
+                Learn Our Full Story
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
 
