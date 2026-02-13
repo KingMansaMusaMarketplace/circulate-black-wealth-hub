@@ -7,7 +7,7 @@ import { ArrowRight, Building2, Sparkles } from 'lucide-react';
 
 const CTASection = () => {
   return (
-    <section className="py-20 md:py-24 relative overflow-hidden">
+    <section className="py-4 md:py-24 relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 bg-gradient-to-r from-mansagold/10 via-amber-500/5 to-mansagold/10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-mansagold/20 rounded-full blur-[120px]" />
