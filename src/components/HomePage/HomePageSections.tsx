@@ -9,6 +9,7 @@ const CTASection = lazy(() => import('@/components/CTASection'));
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const ThreePillars = lazy(() => import('./ThreePillars'));
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
+const CirculationGap = lazy(() => import('./CirculationGap'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-64" }: { height?: string }) => (
@@ -93,6 +94,15 @@ const HomePageSections: React.FC = () => {
             <section id="cta-section">
               <CTASection />
             </section>
+          </Suspense>
+        </LazySection>
+      </SectionErrorBoundary>
+
+      {/* Circulation Gap - After CTA */}
+      <SectionErrorBoundary sectionName="Circulation Gap">
+        <LazySection threshold={0.2} rootMargin="100px">
+          <Suspense fallback={<SectionSkeleton height="h-48" />}>
+            <CirculationGap />
           </Suspense>
         </LazySection>
       </SectionErrorBoundary>
