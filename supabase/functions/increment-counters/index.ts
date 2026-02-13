@@ -17,7 +17,26 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    const { action, id } = await req.json()
+    const body = await req.json()
+    const { action, id } = body
+
+    // Validate action is one of the allowed values
+    const allowedActions = ['increment_topic_views', 'increment_event_attendees']
+    if (!action || typeof action !== 'string' || !allowedActions.includes(action)) {
+      return new Response(JSON.stringify({ error: 'Invalid action' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    // Validate id is a valid UUID
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    if (!id || typeof id !== 'string' || !uuidRegex.test(id)) {
+      return new Response(JSON.stringify({ error: 'Invalid id: must be a valid UUID' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
     if (action === 'increment_topic_views') {
       // Use RPC call to increment views_count atomically

@@ -130,9 +130,8 @@ Deno.serve(async (req) => {
     }
     
     return new Response(JSON.stringify({ 
-      error: error?.message || 'Unknown error',
-      request_id: requestId,
-      processing_time_ms: processingTime
+      error: 'Referral processing failed',
+      request_id: requestId
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 400,
