@@ -65,10 +65,10 @@ const CTASection = () => {
               <div className="mt-8">
                 <Link 
                   to="/how-it-works"
-                  className="inline-flex items-center gap-2 text-blue-200/70 hover:text-mansagold transition-colors font-medium"
+                  className="inline-flex items-center gap-2 text-blue-200/70 hover:text-mansagold transition-colors font-bold text-xl md:text-2xl"
                 >
                   Learn How It Works
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-6 h-6" />
                 </Link>
               </div>
             </div>
