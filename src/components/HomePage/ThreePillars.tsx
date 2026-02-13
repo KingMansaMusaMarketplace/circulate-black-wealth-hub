@@ -3,7 +3,7 @@ import { TrendingUp, Target, ArrowRight } from 'lucide-react';
 
 const ThreePillars: React.FC = () => {
   return (
-    <section className="py-3 md:py-8 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
+    <section className="py-1 md:py-8 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
           <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all duration-300 group">
