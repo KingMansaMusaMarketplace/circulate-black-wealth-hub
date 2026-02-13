@@ -1,32 +1,27 @@
 
 
-## Reduce Blank Space Between Homepage Sections on Mobile
+## Enhance Hero Background Gradient
 
-### Problem
-On iPhone, there's too much empty blue space:
-- Above the "Learn Our Full Story" button
-- Below the "6 hours vs 28+ days" box
-- Between sections all the way to the Mansa Stays box
+The goal is to make the dark gradient background in the Hero section feel more premium and more "on brand" for **Mansa Musa Marketplace** -- warmer, with more gold presence, while keeping the dark luxurious feel.
 
-The root cause is excessive vertical padding on each section, compounded by transparent backgrounds that expose the page's blue gradient, making the gaps feel even larger on mobile.
+### What Changes
 
-### Changes
+**File: `src/components/Hero.tsx`**
 
-**1. MissionPreview.tsx** — Tighten spacing
-- Reduce section padding from `py-6` to `py-3 md:py-8` (mobile gets much less)
-- Reduce margin above "Learn Our Full Story" from `mb-5` to `mb-3`
-- Reduce header margin from `mb-5` to `mb-3 md:mb-6`
+1. **Richer gradient base** -- Shift the background from pure blue-slate tones to include warmer undertones. Change `from-slate-950 via-blue-950 to-slate-900` to something like `from-slate-950 via-[#0a1628] to-[#1a1005]`, adding a subtle warm/gold edge.
 
-**2. ThreePillars.tsx** — Tighten mobile spacing
-- Reduce section padding from `py-6 md:py-8` to `py-3 md:py-8`
+2. **Stronger gold ambient glow** -- Increase the gold orb opacity from `bg-mansagold/10` to `bg-mansagold/15` and make it slightly larger so the gold warmth is more visible behind the headline.
 
-**3. VacationRentalsCTA.tsx** — Tighten mobile spacing
-- Reduce section padding from `py-8 md:py-10` to `py-3 md:py-10`
+3. **Add a subtle gold radial accent** -- Add a new soft radial glow positioned behind the text area using a warm amber/gold tone (`bg-gradient-to-t from-mansagold/8 to-transparent`) to give a "spotlight" effect on the headline.
 
-**4. HomePageSections.tsx** — Reduce skeleton fallback spacing
-- Change skeleton `py-12 md:py-16` to `py-4 md:py-16` so loading placeholders don't create huge gaps on mobile
+4. **Subtle bottom gold edge** -- Add a faint gold-to-transparent gradient at the bottom of the hero to create a warm transition into the next section.
 
 ### Technical Details
 
-All changes are CSS class adjustments only — no logic or layout structure changes. The `md:` breakpoint values stay the same so desktop is unaffected.
+All changes are CSS/Tailwind class adjustments in `src/components/Hero.tsx` only. No new dependencies or structural changes needed. The modifications:
+
+- Background: `bg-gradient-to-br from-slate-950 via-[#0a1628] to-[#1a0d05]`
+- Gold orb: increase opacity to `/15` and size to `w-[500px] md:w-[700px]`
+- New center glow div: `absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-mansagold/8 rounded-full blur-[150px]`
+- Bottom fade: `absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-mansagold/5 to-transparent`
 
