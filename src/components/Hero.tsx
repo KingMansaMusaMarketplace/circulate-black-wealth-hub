@@ -14,8 +14,12 @@ const Hero = () => {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-mansagold/15 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 right-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/8 rounded-full blur-[100px]" />
-        {/* Gold radial spotlight behind headline */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-mansagold/8 rounded-full blur-[150px]" />
+        {/* Gold radial spotlight behind headline with shimmer */}
+        <motion.div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-mansagold/8 rounded-full blur-[150px]"
+          animate={{ opacity: [0.6, 1, 0.6], scale: [0.95, 1.05, 0.95] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
 
       {/* Bottom gold edge transition */}
