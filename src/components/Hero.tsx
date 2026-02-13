@@ -163,19 +163,6 @@ const Hero = () => {
             </Button>
             
           </motion.div>
-
-          {/* Social Proof */}
-          <motion.div
-            className="p-4 md:p-5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-          >
-            <p className="text-sm md:text-base text-blue-100/80">
-              <span className="text-mansagold font-bold">1325.AI</span> — The intelligence layer for Black economic power. 
-              Share with family & friends to help us grow.
-            </p>
-          </motion.div>
         </div>
 
         {/* Feature cards - Desktop Only - Simplified to 2 paths */}
