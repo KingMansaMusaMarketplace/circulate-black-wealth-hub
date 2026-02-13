@@ -127,7 +127,7 @@ const QuickAddBusiness = () => {
         </Button>
       </form>
 
-      <p className="text-xs text-center text-white/50 mt-3">
+      <p className="text-sm md:text-base text-center text-white/80 mt-3">
         We'll publish your business from your URL within 24-48 hours
       </p>
     </motion.div>
