@@ -2,7 +2,7 @@ import React from 'react';
 
 const MissionPreview: React.FC = () => {
   return (
-    <section className="py-2 md:py-6 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
+    <section className="py-1 md:py-6 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header - EOS Positioning */}
         <div className="text-center">
