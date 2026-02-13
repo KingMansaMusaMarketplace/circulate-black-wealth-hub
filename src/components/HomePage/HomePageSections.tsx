@@ -5,7 +5,7 @@ import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBo
 // Lazy load all non-critical sections
 const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
 const CTASection = lazy(() => import('@/components/CTASection'));
-const HowItWorksPreview = lazy(() => import('./HowItWorksPreview'));
+
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const ThreePillars = lazy(() => import('./ThreePillars'));
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
@@ -58,14 +58,6 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* How It Works Preview - Deferred until scrolled */}
-      <SectionErrorBoundary sectionName="How It Works Preview">
-        <LazySection threshold={0.1} rootMargin="150px">
-          <Suspense fallback={<SectionSkeleton />}>
-            <HowItWorksPreview />
-          </Suspense>
-        </LazySection>
-      </SectionErrorBoundary>
 
       {/* Three Pillars - Deferred */}
       <SectionErrorBoundary sectionName="Three Pillars">
