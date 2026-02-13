@@ -55,20 +55,6 @@ const Hero = () => {
       </div>
 
       <div className="relative container mx-auto px-4 pt-6 pb-8 md:pt-12 md:pb-20">
-        {/* Single Unified Urgency Badge */}
-        <motion.div 
-          className="text-center mb-6 md:mb-10"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-mansagold/30 border-2 border-mansagold shadow-lg">
-            <Sparkles className="w-5 h-5 text-white" />
-            <span className="text-sm md:text-base font-black text-white tracking-wide uppercase">
-              🚀 Founding Member Access — Free Until Sept 2026
-            </span>
-          </div>
-        </motion.div>
 
         {/* Main Content - Single Column on Mobile */}
         <div className="max-w-3xl mx-auto text-center">
