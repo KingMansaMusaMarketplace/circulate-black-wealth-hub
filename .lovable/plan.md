@@ -1,73 +1,32 @@
 
 
-## Crawl Protection: robots.txt + noindex Meta Tags
+## Reduce Blank Space Between Homepage Sections on Mobile
 
-### 1. Update `robots.txt`
+### Problem
+On iPhone, there's too much empty blue space:
+- Above the "Learn Our Full Story" button
+- Below the "6 hours vs 28+ days" box
+- Between sections all the way to the Mansa Stays box
 
-Block sensitive paths from all crawlers while keeping the public directory crawlable:
+The root cause is excessive vertical padding on each section, compounded by transparent backgrounds that expose the page's blue gradient, making the gaps feel even larger on mobile.
 
-- `/admin/*` - All admin routes
-- `/dashboard/*` and `/business-dashboard/*` - User dashboards
-- `/app-functionality-test` - Test pages
-- `/api/*` - API endpoints
-- Supabase edge function paths
+### Changes
 
-### 2. Add `noindex` Meta Tags to Private Pages
+**1. MissionPreview.tsx** — Tighten spacing
+- Reduce section padding from `py-6` to `py-3 md:py-8` (mobile gets much less)
+- Reduce margin above "Learn Our Full Story" from `mb-5` to `mb-3`
+- Reduce header margin from `mb-5` to `mb-3 md:mb-6`
 
-Add `<meta name="robots" content="noindex, nofollow">` via `react-helmet-async` to the following admin/private pages:
+**2. ThreePillars.tsx** — Tighten mobile spacing
+- Reduce section padding from `py-6 md:py-8` to `py-3 md:py-8`
 
-- `AdminFraudDetectionPage`
-- `AdminSentimentAnalysisPage`
-- `AdminVerificationPage`
-- `AdminBusinessImport`
-- Any other admin/dashboard pages found in the codebase
+**3. VacationRentalsCTA.tsx** — Tighten mobile spacing
+- Reduce section padding from `py-8 md:py-10` to `py-3 md:py-10`
 
-This ensures even if a crawler ignores `robots.txt`, search engines won't index these pages.
-
----
+**4. HomePageSections.tsx** — Reduce skeleton fallback spacing
+- Change skeleton `py-12 md:py-16` to `py-4 md:py-16` so loading placeholders don't create huge gaps on mobile
 
 ### Technical Details
 
-**robots.txt changes:**
-```
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /dashboard
-Disallow: /business-dashboard
-Disallow: /app-functionality-test
-Disallow: /api/
-
-# Block aggressive scrapers
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
-
-User-agent: MJ12bot
-Disallow: /
-
-# Allow legitimate crawlers
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-Sitemap: https://1325.ai/sitemap.xml
-```
-
-**Meta tag pattern** (added to each admin page's existing `<Helmet>` block):
-```jsx
-<meta name="robots" content="noindex, nofollow" />
-```
-
-**Files to modify:**
-- `public/robots.txt`
-- `src/pages/AdminFraudDetectionPage.tsx`
-- `src/pages/AdminSentimentAnalysisPage.tsx`
-- `src/pages/AdminVerificationPage.tsx`
-- `src/pages/AdminBusinessImport.tsx` (add Helmet with noindex)
-- Other admin/dashboard pages found during implementation
+All changes are CSS class adjustments only — no logic or layout structure changes. The `md:` breakpoint values stay the same so desktop is unaffected.
 
