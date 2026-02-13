@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const VacationRentalsCTA: React.FC = () => {
   return (
-    <section className="py-8 md:py-10 relative overflow-hidden">
+    <section className="py-3 md:py-10 relative overflow-hidden">
       {/* Background accent */}
       <div className="absolute inset-0 bg-gradient-to-r from-mansagold/5 via-transparent to-mansagold/5" />
       
