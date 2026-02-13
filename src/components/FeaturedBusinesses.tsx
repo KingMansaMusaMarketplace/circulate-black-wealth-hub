@@ -4,51 +4,61 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Star, ArrowRight } from 'lucide-react';
-import { businesses } from '@/data/businessesData';
+import { MapPin, Star, ArrowRight, Loader2 } from 'lucide-react';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
+import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
+import { mapSupabaseBusinessToBusiness } from '@/lib/api/directory/mappers';
 
 const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
-  // Get the first N featured businesses from our business data
-  const featuredBusinesses = businesses
-    .filter(business => business.isFeatured)
-    .slice(0, limit)
-    .map(business => ({
-      id: business.id,
-      name: business.name,
-      category: business.category,
-      description: `Discover amazing ${business.category.toLowerCase()} services and earn loyalty points`,
-      rating: business.rating,
-      reviews: business.reviewCount,
-      distance: business.distance,
-      image: business.imageUrl,
-      discount: business.discount,
-      isSample: business.isSample
-    }));
+  const { data: displayBusinesses = [], isLoading } = useQuery({
+    queryKey: ['featured-businesses', limit],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('business_directory')
+        .select('*')
+        .eq('is_verified', true)
+        .order('average_rating', { ascending: false })
+        .limit(limit);
 
-  // If we don't have enough featured businesses, fill with regular ones
-  const allDisplayBusinesses = featuredBusinesses.length >= limit 
-    ? featuredBusinesses 
-    : [
-        ...featuredBusinesses,
-        ...businesses.slice(0, limit - featuredBusinesses.length).map(business => ({
+      if (error) {
+        console.error('Error fetching featured businesses:', error);
+        return [];
+      }
+
+      return data.map(b => {
+        const business = mapSupabaseBusinessToBusiness(b);
+        return {
           id: business.id,
           name: business.name,
           category: business.category,
-          description: `Discover amazing ${business.category.toLowerCase()} services and earn loyalty points`,
+          description: business.description || `Discover amazing ${business.category.toLowerCase()} services and earn loyalty points`,
           rating: business.rating,
           reviews: business.reviewCount,
           distance: business.distance,
-          image: business.imageUrl,
+          image: business.bannerUrl || business.imageUrl || business.logoUrl,
           discount: business.discount,
-          isSample: business.isSample
-        }))
-      ];
+        };
+      });
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  if (isLoading) {
+    return (
+      <section className="py-10 md:py-12 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+        <div className="container mx-auto px-4 flex justify-center py-20">
+          <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
+        </div>
+      </section>
+    );
+  }
+
+  if (displayBusinesses.length === 0) return null;
 
   return (
     <section className="py-10 md:py-12 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-      {/* Subtle background accent */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-mansablue/10 rounded-full blur-3xl" />
@@ -67,14 +77,9 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
           </p>
         </div>
 
-        <div className={`grid gap-8 mb-12 ${allDisplayBusinesses.length <= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
-          {allDisplayBusinesses.map((business) => (
+        <div className={`grid gap-8 mb-12 ${displayBusinesses.length <= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+          {displayBusinesses.map((business) => (
             <Card key={business.id} className="group h-full flex flex-col overflow-hidden bg-slate-900/80 backdrop-blur-xl border-white/10 hover:border-mansagold/50 hover:shadow-[0_0_30px_rgba(251,191,36,0.15)] transition-all duration-300 hover:-translate-y-1">
-              {business.isSample && (
-                <div className="bg-gradient-to-r from-mansablue to-blue-600 text-white text-xs font-semibold px-3 py-1.5 text-center">
-                  📋 Sample Business - For demonstration purposes
-                </div>
-              )}
               <CardHeader>
                 <div className="aspect-video bg-slate-800 rounded-lg mb-4 overflow-hidden ring-1 ring-white/10">
                   <OptimizedImage 
@@ -93,9 +98,11 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
                       {business.category}
                     </Badge>
                   </div>
-                  <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                    {business.discount}
-                  </Badge>
+                  {business.discount && (
+                    <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      {business.discount}
+                    </Badge>
+                  )}
                 </div>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col">
@@ -108,10 +115,6 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
                     <Star className="h-4 w-4 text-mansagold mr-1 fill-mansagold" />
                     <span className="text-white">{business.rating}</span>
                     <span className="ml-1 text-gray-500">({business.reviews} reviews)</span>
-                  </div>
-                  <div className="flex items-center text-gray-500">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    <span>{business.distance}</span>
                   </div>
                 </div>
                 
@@ -131,7 +134,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
         <div className="text-center">
           <Link to="/directory">
             <Button size="lg" variant="outline" className="border-mansagold/50 text-mansagold hover:bg-mansagold hover:text-slate-900 transition-all duration-300 font-semibold px-10 py-6 text-lg">
-              View All Real Businesses
+              View All Businesses
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
