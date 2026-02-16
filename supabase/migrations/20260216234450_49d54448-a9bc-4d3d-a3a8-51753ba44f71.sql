@@ -1,0 +1,41 @@
+INSERT INTO public.businesses (
+  name, business_name, description, category, address, city, state, phone, email, website,
+  logo_url, banner_url, is_verified, listing_status, owner_id, created_at, updated_at
+) VALUES (
+  'Commonwealth National Bank',
+  'Commonwealth National Bank',
+  'Commonwealth National Bank is a Black-owned financial institution based in coastal Alabama offering personalized personal and business banking, including deposit products, digital banking, and various loan options. They are committed to building financial success for their community.',
+  'Banking',
+  '',
+  'Mobile',
+  'AL',
+  '251-476-5938',
+  '',
+  'https://ecommonwealthbank.com',
+  'https://www.ecommonwealthbank.com/wp-content/uploads/elementor/thumbs/cnb-logo-full-color-inline-qw1i9d5mxlx7kq5qaxrm697vm27iw57myezozvvwmk.webp',
+  '',
+  true,
+  'live',
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  now(),
+  now()
+),
+(
+  'BHM Bank',
+  'BHM Bank',
+  'BHM Bank is a mission-driven, Black-owned community bank based in Birmingham, Alabama, focused on investing capital into the local community. They offer personal and business banking services including checking, savings, and digital banking tools designed to help build generational wealth.',
+  'Banking',
+  '2170 Highland Ave, Suite 150',
+  'Birmingham',
+  'AL',
+  '205-558-4600',
+  'info@bhm.bank',
+  'https://alamericabank.com',
+  'https://static.wixstatic.com/media/c4fe82_4a78bed6bdcc4c9085132605daf5e5f9~mv2.png',
+  '',
+  true,
+  'live',
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  now(),
+  now()
+);
