@@ -1,0 +1,41 @@
+INSERT INTO public.businesses (
+  name, business_name, description, category, address, city, state, phone, email, website,
+  logo_url, banner_url, is_verified, listing_status, owner_id, created_at, updated_at
+) VALUES (
+  'Carver State Bank',
+  'Carver State Bank',
+  'Carver State Bank is a Black-owned financial institution providing personal and business banking services, including checking, savings, and loan products. They specialize in community-focused financial solutions such as credit counseling, New Markets Tax Credits, and online banking services.',
+  'Banking',
+  '',
+  'Savannah',
+  'GA',
+  '',
+  '',
+  'https://carverstatebank.com',
+  'https://www.carverstatebank.com/wp-content/themes/BankSiteResponsive_2017/img/logo.png',
+  '',
+  true,
+  'live',
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  now(),
+  now()
+),
+(
+  'Citizens Savings Bank & Trust',
+  'Citizens Savings Bank & Trust',
+  'Citizens Savings Bank & Trust, founded in 1904, is America''s oldest continuously operating Black-owned bank. Based in Nashville, they provide personal and business banking services focused on empowering low- to moderate-income and minority communities to realize their economic dreams.',
+  'Banking',
+  '',
+  'Nashville',
+  'TN',
+  '',
+  '',
+  'https://bankcbn.com',
+  '',
+  '',
+  true,
+  'live',
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  now(),
+  now()
+);
