@@ -2,6 +2,34 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 
+// Build version for cache-busting stale service workers
+const BUILD_VERSION = '20260216a';
+
+// Version-aware cache clearing: if BUILD_VERSION changed, nuke SW caches and reload once
+if (typeof window !== 'undefined') {
+  const storedVersion = localStorage.getItem('app_build_version');
+  if (storedVersion && storedVersion !== BUILD_VERSION) {
+    // Version mismatch — clear everything and reload
+    localStorage.setItem('app_build_version', BUILD_VERSION);
+    (async () => {
+      try {
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+        }
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map(r => r.unregister()));
+        }
+      } catch {}
+      window.location.reload();
+    })();
+    // Stop further execution — page will reload
+    throw new Error('App version changed, reloading');
+  }
+  localStorage.setItem('app_build_version', BUILD_VERSION);
+}
+
 console.log('[MAIN] Script loaded at', new Date().toISOString());
 console.log('[MAIN] User Agent:', navigator.userAgent);
 
