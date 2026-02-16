@@ -47,7 +47,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
 
   if (isLoading) {
     return (
-      <section className="py-3 md:py-8 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+      <section className="py-1 md:py-8 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
         <div className="container mx-auto px-4 flex justify-center py-6">
           <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
         </div>
@@ -58,7 +58,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
   if (displayBusinesses.length === 0) return null;
 
   return (
-    <section className="py-3 md:py-8 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+    <section className="py-1 md:py-8 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-mansablue/10 rounded-full blur-3xl" />
