@@ -26,10 +26,10 @@ const RefreshPage: React.FC = () => {
         } catch {}
       } catch {}
 
-      // Redirect back to home with cache-buster
+      // Redirect back to home with unique cache-buster
       const url = new URL(window.location.href);
       url.pathname = '/';
-      url.searchParams.set('v', '4');
+      url.searchParams.set('v', String(Date.now()));
       setStatus('Reloading…');
       window.location.replace(url.toString());
     })();

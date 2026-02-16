@@ -97,6 +97,8 @@ export default defineConfig(({ mode }) => ({
         // Skip waiting for immediate activation
         skipWaiting: true,
         clientsClaim: true,
+        // Automatically remove old precache entries on new SW activation
+        cleanupOutdatedCaches: true,
         // Don't cache index.html aggressively
         navigateFallback: null,
       },
