@@ -1,27 +1,52 @@
 
 
-## Enhance Hero Background Gradient
+## Fix: Stale Service Worker Cache Serving Old Hero Content
 
-The goal is to make the dark gradient background in the Hero section feel more premium and more "on brand" for **Mansa Musa Marketplace** -- warmer, with more gold presence, while keeping the dark luxurious feel.
+### Root Cause
 
-### What Changes
+Your app uses `vite-plugin-pwa` with Workbox, which generates a service worker that **precaches** all your built JS/CSS/HTML chunks. When you deploy new code, returning visitors' browsers still run the **old service worker** which serves the old cached content (the "1325.AI", "Circulate. Accumulate.", BHM promo version of the hero).
 
-**File: `src/components/Hero.tsx`**
+Even though `skipWaiting: true` and `autoUpdate` are configured, the old precached assets remain until the new service worker fully activates and clears them -- which can take multiple page loads or fail silently.
 
-1. **Richer gradient base** -- Shift the background from pure blue-slate tones to include warmer undertones. Change `from-slate-950 via-blue-950 to-slate-900` to something like `from-slate-950 via-[#0a1628] to-[#1a1005]`, adding a subtle warm/gold edge.
+### Plan
 
-2. **Stronger gold ambient glow** -- Increase the gold orb opacity from `bg-mansagold/10` to `bg-mansagold/15` and make it slightly larger so the gold warmth is more visible behind the headline.
+**1. Add a version-aware cache-busting mechanism to `src/main.tsx`**
 
-3. **Add a subtle gold radial accent** -- Add a new soft radial glow positioned behind the text area using a warm amber/gold tone (`bg-gradient-to-t from-mansagold/8 to-transparent`) to give a "spotlight" effect on the headline.
+Add logic at app startup that detects when a new version is available and forces the old service worker caches to clear immediately, then reload:
 
-4. **Subtle bottom gold edge** -- Add a faint gold-to-transparent gradient at the bottom of the hero to create a warm transition into the next section.
+- Store a build version string (timestamp-based) in the app
+- On load, compare with `localStorage` stored version
+- If mismatch, unregister all service workers, clear all caches, and reload once
+
+**2. Update `vite.config.ts` PWA config for better cache invalidation**
+
+- Add `cleanupOutdatedCaches: true` to the Workbox config to automatically remove old precache entries
+- Set `navigateFallback: 'index.html'` with `navigateFallbackDenylist` to prevent stale HTML from being served
+
+**3. Bump the cache-buster version in `RefreshPage.tsx`**
+
+- Update the `v` query param from `4` to a timestamp-based value so it always busts
 
 ### Technical Details
 
-All changes are CSS/Tailwind class adjustments in `src/components/Hero.tsx` only. No new dependencies or structural changes needed. The modifications:
+```text
+Files to modify:
+  1. vite.config.ts         -- Add cleanupOutdatedCaches: true to workbox config
+  2. src/main.tsx            -- Add version check + auto-clear logic at boot
+  3. src/pages/RefreshPage.tsx -- Use Date.now() for cache-buster param
+```
 
-- Background: `bg-gradient-to-br from-slate-950 via-[#0a1628] to-[#1a0d05]`
-- Gold orb: increase opacity to `/15` and size to `w-[500px] md:w-[700px]`
-- New center glow div: `absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-mansagold/8 rounded-full blur-[150px]`
-- Bottom fade: `absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-mansagold/5 to-transparent`
+**vite.config.ts changes:**
+- Add `cleanupOutdatedCaches: true` inside the `workbox` block
+- This tells Workbox to automatically delete old precache entries when a new service worker activates
 
+**src/main.tsx changes:**
+- Define a `BUILD_VERSION` constant (e.g., current timestamp string)
+- On app init, compare against `localStorage.getItem('app_build_version')`
+- If different: unregister service workers, clear caches, save new version, reload
+- This guarantees returning visitors always get the latest build within one reload
+
+**src/pages/RefreshPage.tsx changes:**
+- Replace hardcoded `?v=4` with `?v=${Date.now()}` to ensure a unique cache-bust every time
+
+This will permanently fix the stale content issue for all users, including those on the published site.
