@@ -107,6 +107,46 @@ const businessCardImages: Record<string, string> = {
   '3df33c62-f355-4472-afef-cde085affc1b': '/businesses/market-me-card.jpg',
   // OneUnited Bank - Largest Black-owned bank
   '1ab54e23-df01-45bf-8f52-0165b142b755': '/businesses/oneunited-bank-card.jpg',
+  // OneUnited Bank (second record)
+  'ffea40e4-e957-4964-8ad6-027258b34955': '/businesses/oneunited-bank-card2.webp',
+  // City First Bank (second record) - reuse same card image
+  'ae543527-1380-437a-ac84-7c17e8b15713': '/businesses/city-first-bank-card.jpg',
+  // HOPE Credit Union - website hero screenshot
+  'aa742480-db73-4ad1-879c-9b091f623917': '/businesses/hope-credit-union-card.png',
+  // Commonwealth National Bank - local screenshot hero
+  '0cbf9a9d-60a8-4142-8c03-2f83589735e5': '/images/businesses/commonwealth-national-bank-hero.png',
+  // Unity National Bank - local screenshot hero
+  'adace47f-9f23-44c4-aefd-355ff6eab220': '/images/businesses/unity-national-bank-hero.png',
+  // M&F Bank - community bank card
+  'd7d5f08d-7b40-4141-8485-d1ae9d80e6cd': '/businesses/mf-bank-card.jpg',
+  // Optus Bank - family hero image
+  '0eab419f-8921-455c-b945-aa7371c0103e': '/businesses/optus-bank-card.jpg',
+  // GN Bank - generated building image
+  '3665d965-e27f-406b-bd93-43e0583ccb45': '/businesses/gn-bank-card.jpg',
+  // First Independence Bank - website screenshot
+  'abaa9e48-72c4-4494-a6a8-e8a3d1b05237': '/businesses/first-independence-card.png',
+  // Harbor Bank of Maryland (second record)
+  '8d60bf8d-c333-40e0-b856-d13fcd14db26': '/businesses/harbor-bank-card2.jpg',
+  // Liberty Bank & Trust (SVG logo record) - local hero
+  '5e7de452-7a43-4008-8119-f4c5e67292bd': '/images/businesses/liberty-bank-hero.png',
+  // BHM Bank - community banking hero
+  '1909b5a1-e5d2-4d6a-9996-208903221a21': '/businesses/bhm-bank-card.jpg',
+  // Carver Federal Savings Bank (second record)
+  'c11942ec-24d9-4ef6-9698-50554ec561b3': '/businesses/carver-federal-card2.jpg',
+  // Carver State Bank - Savannah community bank
+  '583f01f8-6efe-4a7f-887d-ba2057e278ff': '/businesses/carver-state-bank-card.jpg',
+  // Citizens Savings Bank & Trust
+  'b7738dbd-dcbf-44ab-ad30-bf7a067c21b5': '/businesses/citizens-savings-bank-card.jpg',
+  // Citizens Trust Bank (second record)
+  'e30d037c-ac72-432f-8464-c18654955e86': '/businesses/citizens-trust-bank-card2.jpg',
+  // Columbia Savings & Loan Association
+  '5a6f75cf-26d9-44f3-ab48-1500066c24e6': '/businesses/columbia-savings-card.jpg',
+  // Industrial Bank (second record)
+  'dedbc685-0b39-470c-b146-20eea32ec857': '/businesses/industrial-bank-card2.jpg',
+  // MoCaFi - Mobile banking platform
+  '19e5a3cc-cf4d-4945-8942-578a1eb3cbb5': '/businesses/mocafi-card.jpg',
+  // United Bank of Philadelphia
+  'b7caff5c-0c7f-42ae-a243-b44912468439': '/businesses/united-bank-philly-card.jpg',
 };
 
 /**
