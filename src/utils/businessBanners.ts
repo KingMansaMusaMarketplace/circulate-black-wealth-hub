@@ -7,10 +7,18 @@
 
 // Map of business IDs to their fallback banner images
 const businessBannerFallbacks: Record<string, string> = {
+  // Allstate Insurance Agent: Barbara J. Brown - Financial Services in Homewood, IL
+  '78fce9c3-8447-493d-a4bc-e92806f9a29f': '/images/businesses/allstate-barbara-brown-banner.jpg',
+  // GN Bank - Banking & Financial Services in Chicago, IL
+  '3665d965-e27f-406b-bd93-43e0583ccb45': '/images/businesses/gn-bank-banner.jpg',
+  // Jarvis Christian University - HBCU in Hawkins, TX
+  '041ff4ed-bb4e-4d08-bdec-a2897224bed3': '/images/businesses/jarvis-christian-university-banner.jpg',
+  // The Howard Group - Professional Services in Buffalo, NY
+  'a338867f-a495-4bcb-88af-8233ab992cd8': '/images/businesses/the-howard-group-banner.jpg',
   // Timeless Tunez - DJ and event services in Buffalo
   '58a964e8-1e5e-4fa6-a075-76525eb6e617': '/images/businesses/timeless-tunez-banner.jpg',
-  // VECRA INC - Consulting services, veteran-owned small business
-  '97f59bb4-dba9-48f0-87d8-d8ea35748e46': '/images/businesses/vecra-inc-banner.png',
+  // VECRA INC - Consulting services in Bowie, MD
+  '97f59bb4-dba9-48f0-87d8-d8ea35748e46': '/images/businesses/vecra-inc-banner.jpg',
   // Durham Memorial Outreach Center, Inc. - Community outreach services
   'f3776cb0-6f2c-45bf-95cb-b5b11a095875': '/images/businesses/durham-memorial-banner.png',
   // Infinite Seeds Academy - Edible landscaping and green education
