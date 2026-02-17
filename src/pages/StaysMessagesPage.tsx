@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
 import StaysMessaging from '@/components/stays/messaging/StaysMessaging';
@@ -10,6 +11,10 @@ const StaysMessagesPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      <Helmet>
+        <title>Messages | Mansa Stays</title>
+        <meta name="description" content="Communicate with hosts and guests on Mansa Stays." />
+      </Helmet>
       {/* Gold accent line at top */}
       <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60" />
 

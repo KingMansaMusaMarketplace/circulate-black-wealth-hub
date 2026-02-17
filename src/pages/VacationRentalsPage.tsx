@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import PropertyCard from '@/components/vacation-rentals/PropertyCard';
 import PropertyMap from '@/components/stays/PropertyMap';
@@ -62,6 +63,14 @@ const VacationRentalsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      <Helmet>
+        <title>Mansa Stays — Vacation & Monthly Rentals from Black Hosts</title>
+        <meta name="description" content="Book unique vacation and monthly rentals from verified Black property owners. Lower 7.5% fees, community impact, and authentic hospitality on Mansa Stays." />
+        <meta property="og:title" content="Mansa Stays — Vacation & Monthly Rentals" />
+        <meta property="og:description" content="Support Black hosts. Lower fees. Book unique stays with community impact." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://circulate-black-wealth-hub.lovable.app/stays" />
+      </Helmet>
       {/* Gold accent line at top */}
       <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60" />
       
