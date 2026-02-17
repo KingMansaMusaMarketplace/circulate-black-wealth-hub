@@ -3,15 +3,33 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button } from '@/components/ui/button';
 import { Building2, Search, Filter, MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { businesses } from '@/data/businessData';
 import BusinessCard from '@/components/BusinessCard';
 
 const BusinessesPage: React.FC = () => {
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const itemsPerPage = 16; // Show 16 businesses per page
-  
+  const itemsPerPage = 16;
+
+  // Scroll to business card if hash is present (e.g. #business-{id})
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      // Find which page the business is on
+      const businessIndex = businesses.findIndex(b => `business-${b.id}` === id);
+      if (businessIndex >= 0) {
+        const targetPage = Math.floor(businessIndex / itemsPerPage) + 1;
+        setCurrentPage(targetPage);
+        // Wait for re-render then scroll
+        setTimeout(() => {
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
+
   // Filter businesses based on search term
   const filteredBusinesses = businesses.filter((business) =>
     business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -119,8 +137,8 @@ const BusinessesPage: React.FC = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {currentBusinesses.map((business) => (
+              <div key={business.id} id={`business-${business.id}`}>
               <BusinessCard 
-                key={business.id}
                 id={business.id}
                 name={business.name}
                 category={business.category}
@@ -134,6 +152,7 @@ const BusinessesPage: React.FC = () => {
                 isFeatured={business.isFeatured}
                 isSample={business.isSample}
               />
+              </div>
             ))}
           </div>
           

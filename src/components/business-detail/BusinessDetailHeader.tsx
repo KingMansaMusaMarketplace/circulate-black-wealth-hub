@@ -25,7 +25,7 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => navigate('/directory')}
+          onClick={() => navigate(`/directory#business-${business.id}`)}
           className="absolute top-3 left-3 bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm rounded-full px-3"
         >
           <ArrowLeft size={16} className="mr-1" />
