@@ -13,7 +13,7 @@ const MissionPreview: React.FC = () => {
             Not Just a Directory. <span className="text-mansagold">Infrastructure.</span>
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
-            <span className="text-mansagold font-mono tracking-wider">1325.AI</span> is the intelligence layer powering Black economic circulation—connecting consumers, 
+            <span className="text-mansagold font-mono tracking-wider">1325.AI</span> is the intelligence layer powering economic circulation—connecting consumers, 
             businesses, and capital in one unified ecosystem.
           </p>
         </div>

@@ -167,7 +167,7 @@ const DataSeeder: React.FC = () => {
                 {getStatusIcon(seedStatus.businesses)}
                 <div>
                   <span className="font-medium">Sample Businesses</span>
-                  <p className="text-sm text-gray-600">5 diverse Black-owned businesses</p>
+                  <p className="text-sm text-gray-600">5 diverse community businesses</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">

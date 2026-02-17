@@ -29,7 +29,7 @@ const CirculationVisualization = () => {
             See The Money Flow
           </h2>
           <p className="text-lg font-semibold text-white/90 max-w-2xl mx-auto">
-            When you spend at Black-owned businesses, your money circulates in the community multiple times, creating a stronger economic foundation.
+            When you spend at community businesses, your money circulates multiple times, creating a stronger economic foundation.
           </p>
         </motion.div>
         
@@ -46,7 +46,7 @@ const CirculationVisualization = () => {
             <InfoCard 
               number="1"
               title="Members Spend"
-              description="Your spending power is directed to Black-owned businesses"
+              description="Your spending power is directed to community businesses"
               isVisible={isVisible}
               delay={0.3}
             />
