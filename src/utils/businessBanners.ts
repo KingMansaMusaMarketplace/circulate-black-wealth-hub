@@ -53,6 +53,46 @@ const businessBannerFallbacks: Record<string, string> = {
   '2b664e9d-ab7d-4848-884e-23b926ac3708': '/images/businesses/drake-state-banner.jpg',
   // Industrial Bank - Washington, DC
   'dedbc685-0b39-470c-b146-20eea32ec857': '/images/businesses/industrial-bank-banner.jpg',
+  // Central State University - Wilberforce, OH
+  '112e9e6d-f9d9-475c-b528-43ca32ace1ca': '/images/businesses/central-state-university-banner.jpg',
+  // Claflin University - Orangeburg, SC
+  '84be34ce-6243-4a74-be60-e7e57037c4aa': '/images/businesses/claflin-university-banner.jpg',
+  // Clark Atlanta University - Atlanta, GA
+  '4d3c3a35-0ba4-4a6e-abc3-251c62e803f3': '/images/businesses/clark-atlanta-university-banner.jpg',
+  // Coppin State University - Baltimore, MD
+  '97f14091-733d-4402-869d-c30cedaed321': '/images/businesses/coppin-state-university-banner.jpg',
+  // Delaware State University - Dover, DE
+  '7fd78c85-c0c8-4706-97b8-b44e54756096': '/images/businesses/delaware-state-university-banner.jpg',
+  // Miles College - Fairfield, AL (record 1)
+  '9b0a643f-763e-4a20-aa77-32ec9b16a45e': '/images/businesses/miles-college-banner.jpg',
+  // Miles College - Fairfield, AL (record 2)
+  'b3d42f27-e0d0-4975-b253-bce409e1e67f': '/images/businesses/miles-college-banner.jpg',
+  // Norfolk State University - Norfolk, VA
+  '33860c9f-e682-41fa-9af9-0f24917325d5': '/images/businesses/norfolk-state-university-banner.jpg',
+  // North Carolina Central University - Durham, NC
+  'faa8104c-21e2-4e5a-9fa6-e80ab775a830': '/images/businesses/nccu-banner.jpg',
+  // Oakwood University - Huntsville, AL
+  '0b6a8b92-4864-4786-9789-48453f0cb0da': '/images/businesses/oakwood-university-banner.jpg',
+  // OneUnited Bank (record 1)
+  'ffea40e4-e957-4964-8ad6-027258b34955': '/images/businesses/oneunited-bank-banner.jpg',
+  // OneUnited Bank (record 2)
+  '1ab54e23-df01-45bf-8f52-0165b142b755': '/images/businesses/oneunited-bank-banner.jpg',
+  // Optus Bank - Columbia, SC
+  '0eab419f-8921-455c-b945-aa7371c0103e': '/images/businesses/optus-bank-banner.jpg',
+  // Paine College - Augusta, GA
+  'd3d0b05a-9bea-4cdb-b066-20f39ceb60c2': '/images/businesses/paine-college-banner.jpg',
+  // Southwestern Christian College - Terrell, TX
+  'cb387841-d27c-4da1-8f2c-139eb6ca3a30': '/images/businesses/southwestern-christian-college-banner.jpg',
+  // Stillman College - Tuscaloosa, AL
+  'c930198a-4849-4611-a9f0-ce53e639a6d5': '/images/businesses/stillman-college-banner.jpg',
+  // The Harbor Bank of Maryland (record 1)
+  '8d60bf8d-c333-40e0-b856-d13fcd14db26': '/images/businesses/harbor-bank-maryland-banner.jpg',
+  // The Harbor Bank of Maryland (record 2)
+  '951e24f5-4a7a-4b32-87a3-5c02f9c0c9f9': '/images/businesses/harbor-bank-maryland-banner.jpg',
+  // United Bank of Philadelphia
+  'b7caff5c-0c7f-42ae-a243-b44912468439': '/images/businesses/united-bank-philly-banner.jpg',
+  // University of Maryland Eastern Shore
+  '63d59e47-5b19-458c-a44f-822bd7243699': '/images/businesses/umes-banner.jpg',
   // Durham Memorial Outreach Center, Inc. - Community outreach services
   'f3776cb0-6f2c-45bf-95cb-b5b11a095875': '/images/businesses/durham-memorial-banner.png',
   // Infinite Seeds Academy - Edible landscaping and green education

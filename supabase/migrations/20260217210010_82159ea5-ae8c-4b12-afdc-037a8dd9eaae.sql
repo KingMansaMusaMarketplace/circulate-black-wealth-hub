@@ -1,0 +1,21 @@
+-- Update all remaining external banner URLs to local paths
+UPDATE businesses SET banner_url = '/images/businesses/central-state-university-banner.jpg', updated_at = now() WHERE id = '112e9e6d-f9d9-475c-b528-43ca32ace1ca';
+UPDATE businesses SET banner_url = '/images/businesses/claflin-university-banner.jpg', updated_at = now() WHERE id = '84be34ce-6243-4a74-be60-e7e57037c4aa';
+UPDATE businesses SET banner_url = '/images/businesses/clark-atlanta-university-banner.jpg', updated_at = now() WHERE id = '4d3c3a35-0ba4-4a6e-abc3-251c62e803f3';
+UPDATE businesses SET banner_url = '/images/businesses/coppin-state-university-banner.jpg', updated_at = now() WHERE id = '97f14091-733d-4402-869d-c30cedaed321';
+UPDATE businesses SET banner_url = '/images/businesses/delaware-state-university-banner.jpg', updated_at = now() WHERE id = '7fd78c85-c0c8-4706-97b8-b44e54756096';
+UPDATE businesses SET banner_url = '/images/businesses/miles-college-banner.jpg', updated_at = now() WHERE id = '9b0a643f-763e-4a20-aa77-32ec9b16a45e';
+UPDATE businesses SET banner_url = '/images/businesses/miles-college-banner.jpg', updated_at = now() WHERE id = 'b3d42f27-e0d0-4975-b253-bce409e1e67f';
+UPDATE businesses SET banner_url = '/images/businesses/norfolk-state-university-banner.jpg', updated_at = now() WHERE id = '33860c9f-e682-41fa-9af9-0f24917325d5';
+UPDATE businesses SET banner_url = '/images/businesses/nccu-banner.jpg', updated_at = now() WHERE id = 'faa8104c-21e2-4e5a-9fa6-e80ab775a830';
+UPDATE businesses SET banner_url = '/images/businesses/oakwood-university-banner.jpg', updated_at = now() WHERE id = '0b6a8b92-4864-4786-9789-48453f0cb0da';
+UPDATE businesses SET banner_url = '/images/businesses/oneunited-bank-banner.jpg', updated_at = now() WHERE id = 'ffea40e4-e957-4964-8ad6-027258b34955';
+UPDATE businesses SET banner_url = '/images/businesses/oneunited-bank-banner.jpg', updated_at = now() WHERE id = '1ab54e23-df01-45bf-8f52-0165b142b755';
+UPDATE businesses SET banner_url = '/images/businesses/optus-bank-banner.jpg', updated_at = now() WHERE id = '0eab419f-8921-455c-b945-aa7371c0103e';
+UPDATE businesses SET banner_url = '/images/businesses/paine-college-banner.jpg', updated_at = now() WHERE id = 'd3d0b05a-9bea-4cdb-b066-20f39ceb60c2';
+UPDATE businesses SET banner_url = '/images/businesses/southwestern-christian-college-banner.jpg', updated_at = now() WHERE id = 'cb387841-d27c-4da1-8f2c-139eb6ca3a30';
+UPDATE businesses SET banner_url = '/images/businesses/stillman-college-banner.jpg', updated_at = now() WHERE id = 'c930198a-4849-4611-a9f0-ce53e639a6d5';
+UPDATE businesses SET banner_url = '/images/businesses/harbor-bank-maryland-banner.jpg', updated_at = now() WHERE id = '8d60bf8d-c333-40e0-b856-d13fcd14db26';
+UPDATE businesses SET banner_url = '/images/businesses/harbor-bank-maryland-banner.jpg', updated_at = now() WHERE id = '951e24f5-4a7a-4b32-87a3-5c02f9c0c9f9';
+UPDATE businesses SET banner_url = '/images/businesses/united-bank-philly-banner.jpg', updated_at = now() WHERE id = 'b7caff5c-0c7f-42ae-a243-b44912468439';
+UPDATE businesses SET banner_url = '/images/businesses/umes-banner.jpg', updated_at = now() WHERE id = '63d59e47-5b19-458c-a44f-822bd7243699';
