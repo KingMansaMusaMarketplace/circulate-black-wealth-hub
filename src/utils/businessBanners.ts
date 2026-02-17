@@ -147,6 +147,22 @@ const businessCardImages: Record<string, string> = {
   '19e5a3cc-cf4d-4945-8942-578a1eb3cbb5': '/businesses/mocafi-card.jpg',
   // United Bank of Philadelphia
   'b7caff5c-0c7f-42ae-a243-b44912468439': '/businesses/united-bank-philly-card.jpg',
+  // Blessings Community Care Clinic - Healthcare
+  'df1024ac-4576-4f81-85dd-95f35d87445a': '/businesses/blessings-clinic-card.png',
+  // Carl Bean Men's Health & Wellness Center
+  '94f28680-4ff7-40a7-a59b-8e6fd39fb520': '/businesses/carl-bean-card.png',
+  // Center for Black Women's Wellness
+  'e706a5cd-8e37-4075-afc1-20edbde5e12f': '/businesses/cbww-card.png',
+  // HEALing Community Health
+  '46912a78-7dd2-4143-bd3c-3b3d9cb4cc24': '/businesses/healing-community-card.png',
+  // Howard University Hospital
+  '85287b33-ea59-4b4a-86fa-2c6caaffb4a7': '/businesses/howard-hospital-card.png',
+  // Premier Health Urgent Care - Chicago
+  '658268d6-9da7-4555-bb4c-4857f2b37d97': '/businesses/premier-health-uc-card.jpg',
+  // Sol Direct Primary Care & MedSpa
+  'b5c748e8-3cb3-4912-aa67-38ba2daef83a': '/businesses/sol-dpc-card.png',
+  // Southside Medical Center
+  '5c65d21c-d54d-4672-a101-88bfac21fd99': '/businesses/southside-medical-card.png',
 };
 
 /**
