@@ -500,6 +500,11 @@ function App() {
                                   <LazyBusinessSignupPage />
                                 </IOSProtectedRoute>
                               } />
+                              <Route path="/business/profile" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessProfilePage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               <Route path="/button-test" element={<LazyButtonTestPage />} />
