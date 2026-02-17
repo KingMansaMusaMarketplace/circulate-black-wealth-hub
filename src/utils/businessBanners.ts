@@ -29,6 +29,30 @@ const businessBannerFallbacks: Record<string, string> = {
   'f090f21c-0228-4111-b026-f1d3f5dfc73e': '/images/businesses/carver-federal-savings-bank-banner.jpg',
   // Columbia Savings & Loan Association - Milwaukee, WI
   '5a6f75cf-26d9-44f3-ab48-1500066c24e6': '/images/businesses/columbia-savings-loan-banner.jpg',
+  // Carver State Bank - Savannah, GA
+  '583f01f8-6efe-4a7f-887d-ba2057e278ff': '/images/businesses/carver-state-bank-banner.jpg',
+  // Citizens Savings Bank & Trust - Nashville, TN
+  'b7738dbd-dcbf-44ab-ad30-bf7a067c21b5': '/images/businesses/citizens-savings-bank-banner.jpg',
+  // Citizens Trust Bank - Atlanta, GA (record 1)
+  'e30d037c-ac72-432f-8464-c18654955e86': '/images/businesses/citizens-trust-bank-banner.jpg',
+  // Citizens Trust Bank - Atlanta, GA (record 2)
+  'b3454666-ff6a-41e1-97e7-92a06b69ec9f': '/images/businesses/citizens-trust-bank-banner.jpg',
+  // City First Bank - Washington, DC (record 1)
+  'ae543527-1380-437a-ac84-7c17e8b15713': '/images/businesses/city-first-bank-banner.jpg',
+  // City First Bank - Washington, DC (record 2)
+  '94cb662d-ff2f-4893-9e34-047b2aa3ecb8': '/images/businesses/city-first-bank-banner.jpg',
+  // HOPE Credit Union - Deep South CDFI
+  'aa742480-db73-4ad1-879c-9b091f623917': '/images/businesses/hope-credit-union-banner.jpg',
+  // MoCaFi - Fintech banking platform
+  '19e5a3cc-cf4d-4945-8942-578a1eb3cbb5': '/images/businesses/mocafi-banner.jpg',
+  // First Independence Bank - Detroit, MI
+  'abaa9e48-72c4-4494-a6a8-e8a3d1b05237': '/images/businesses/first-independence-bank-banner.jpg',
+  // Drake State Community & Technical College - Huntsville, AL
+  '5886e373-31ec-4df8-afc7-254df8b36d98': '/images/businesses/drake-state-banner.jpg',
+  // J.F. Drake State Community and Technical College (second record)
+  '2b664e9d-ab7d-4848-884e-23b926ac3708': '/images/businesses/drake-state-banner.jpg',
+  // Industrial Bank - Washington, DC
+  'dedbc685-0b39-470c-b146-20eea32ec857': '/images/businesses/industrial-bank-banner.jpg',
   // Durham Memorial Outreach Center, Inc. - Community outreach services
   'f3776cb0-6f2c-45bf-95cb-b5b11a095875': '/images/businesses/durham-memorial-banner.png',
   // Infinite Seeds Academy - Edible landscaping and green education
