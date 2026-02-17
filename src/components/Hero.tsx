@@ -7,8 +7,8 @@ import { ArrowRight } from 'lucide-react';
 const Hero = () => {
   return (
     <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center overflow-hidden">
-      {/* Premium gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-[#0a1628] to-[#1a0d05]" />
+      {/* Premium gradient background - matching directory deep blue */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" />
       
       {/* Ambient effects with stronger gold presence */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
