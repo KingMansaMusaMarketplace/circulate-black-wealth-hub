@@ -31,6 +31,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     '/scanner',
     '/qr-scanner',
     '/admin-dashboard',
+    '/business-dashboard',
+    '/user-dashboard',
+    '/dashboard',
+    '/business',
   ];
   
   // On native apps, ALWAYS show bottom tab bar for navigation recovery
