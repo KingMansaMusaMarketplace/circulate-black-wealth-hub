@@ -1,0 +1,1 @@
+UPDATE public.businesses SET banner_url = '/images/businesses/greenwood-historic.png', updated_at = now() WHERE id = '67fa1de0-5446-480c-a774-65fb0635f88d';
