@@ -37,7 +37,7 @@ const ThreePillars: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-white mb-1 md:mb-2">B2B Marketplace</h3>
-                <p className="text-gray-300 text-sm">Black businesses buying from Black businesses—supply chain sovereignty.</p>
+                <p className="text-gray-300 text-sm">Our businesses buying from our businesses—supply chain sovereignty.</p>
               </div>
             </div>
           </div>

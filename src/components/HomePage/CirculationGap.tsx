@@ -17,7 +17,7 @@ const CirculationGap: React.FC = () => {
               <span className="text-4xl md:text-5xl font-bold text-green-400">28+ days</span>
             </div>
             <p className="text-base md:text-lg text-gray-300 max-w-xl">
-              The Black dollar leaves our community in 6 hours. Others retain wealth for 28+ days. 
+              Our dollar leaves the community in 6 hours. Others retain wealth for 28+ days. 
               <span className="text-mansagold font-mono font-medium tracking-wider"> 1325.AI</span> closes this gap.
             </p>
           </div>
