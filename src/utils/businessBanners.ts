@@ -19,6 +19,16 @@ const businessBannerFallbacks: Record<string, string> = {
   '58a964e8-1e5e-4fa6-a075-76525eb6e617': '/images/businesses/timeless-tunez-banner.jpg',
   // VECRA INC - Consulting services in Bowie, MD
   '97f59bb4-dba9-48f0-87d8-d8ea35748e46': '/images/businesses/vecra-inc-banner.jpg',
+  // Allen University - HBCU in Columbia, SC
+  'b9fcdeff-6a51-4ffe-abdb-38b42afffdf3': '/images/businesses/allen-university-banner.jpg',
+  // BHM Bank - Black-owned community bank
+  '1909b5a1-e5d2-4d6a-9996-208903221a21': '/images/businesses/bhm-bank-banner.jpg',
+  // Carver Federal Savings Bank - Historic Harlem bank (record 1)
+  'c11942ec-24d9-4ef6-9698-50554ec561b3': '/images/businesses/carver-federal-savings-bank-banner.jpg',
+  // Carver Federal Savings Bank - Historic Harlem bank (record 2)
+  'f090f21c-0228-4111-b026-f1d3f5dfc73e': '/images/businesses/carver-federal-savings-bank-banner.jpg',
+  // Columbia Savings & Loan Association - Milwaukee, WI
+  '5a6f75cf-26d9-44f3-ab48-1500066c24e6': '/images/businesses/columbia-savings-loan-banner.jpg',
   // Durham Memorial Outreach Center, Inc. - Community outreach services
   'f3776cb0-6f2c-45bf-95cb-b5b11a095875': '/images/businesses/durham-memorial-banner.png',
   // Infinite Seeds Academy - Edible landscaping and green education
