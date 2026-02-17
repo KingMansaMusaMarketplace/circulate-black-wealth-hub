@@ -9,13 +9,15 @@ import ActiveFiltersBar from '@/components/stays/ActiveFiltersBar';
 import FeaturedPropertySpotlight from '@/components/stays/FeaturedPropertySpotlight';
 import { vacationRentalService } from '@/lib/services/vacation-rental-service';
 import { VacationProperty, PropertySearchFilters } from '@/types/vacation-rental';
-import { Loader2, Home, Plus, Luggage, Sparkles } from 'lucide-react';
+import { Loader2, Home, Plus, Luggage, Sparkles, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import { useWishlist } from '@/hooks/useWishlist';
 
 const VacationRentalsPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isFavorited, toggleFavorite } = useWishlist();
   const [properties, setProperties] = useState<VacationProperty[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<PropertySearchFilters>({});
@@ -163,6 +165,14 @@ const VacationRentalsPage: React.FC = () => {
                 My Stays
               </Button>
               <Button
+                onClick={() => navigate('/stays/favorites')}
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10 hover:border-mansagold/50"
+              >
+                <Heart className="w-4 h-4 mr-2" />
+                Favorites
+              </Button>
+              <Button
                 onClick={() => navigate('/stays/list-property')}
                 className="bg-gradient-to-r from-mansagold to-amber-500 text-slate-900 hover:from-amber-400 hover:to-mansagold font-bold shadow-lg shadow-mansagold/30"
               >
@@ -305,6 +315,8 @@ const VacationRentalsPage: React.FC = () => {
                     property={property} 
                     isHighlighted={selectedPropertyId === property.id}
                     onHover={(id) => setSelectedPropertyId(id || undefined)}
+                    isFavorited={isFavorited(property.id)}
+                    onToggleFavorite={toggleFavorite}
                   />
                 </motion.div>
               ))}

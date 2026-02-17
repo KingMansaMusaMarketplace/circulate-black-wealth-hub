@@ -44,6 +44,7 @@ import {
 } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { useAuth } from '@/contexts/AuthContext';
+import { useWishlist } from '@/hooks/useWishlist';
 import { loadStripe } from '@stripe/stripe-js';
 
 // Stripe public key from environment
@@ -54,6 +55,7 @@ const PropertyDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { createBooking, loading: bookingLoading } = useVacationBooking();
+  const { isFavorited, toggleFavorite } = useWishlist();
 
   const [property, setProperty] = useState<VacationProperty | null>(null);
   const [reviews, setReviews] = useState<PropertyReview[]>([]);
@@ -290,8 +292,16 @@ const PropertyDetailPage: React.FC = () => {
                   <Button variant="outline" size="icon" className="border-white/20 text-white hover:bg-white/10">
                     <Share2 className="w-4 h-4" />
                   </Button>
-                  <Button variant="outline" size="icon" className="border-white/20 text-white hover:bg-white/10">
-                    <Heart className="w-4 h-4" />
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className={cn(
+                      "border-white/20 hover:bg-white/10",
+                      id && isFavorited(id) ? "text-red-500" : "text-white"
+                    )}
+                    onClick={() => id && toggleFavorite(id)}
+                  >
+                    <Heart className={cn("w-4 h-4", id && isFavorited(id) && "fill-red-500")} />
                   </Button>
                 </div>
               </div>

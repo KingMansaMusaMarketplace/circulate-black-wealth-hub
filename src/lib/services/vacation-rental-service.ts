@@ -371,7 +371,7 @@ export async function fetchHostBookings(hostId: string): Promise<VacationBooking
 }
 
 // Helper to map DB record to TypeScript type
-function mapPropertyFromDB(data: any): VacationProperty {
+export function mapPropertyFromDB(data: any): VacationProperty {
   return {
     id: data.id,
     host_id: data.host_id,
