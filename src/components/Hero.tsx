@@ -8,7 +8,7 @@ const Hero = () => {
   return (
     <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center overflow-hidden">
       {/* Premium gradient background - matching directory deep blue */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#020617] via-[#0a1a3a] to-[#0f172a]" />
       
       {/* Ambient effects with stronger gold presence */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
