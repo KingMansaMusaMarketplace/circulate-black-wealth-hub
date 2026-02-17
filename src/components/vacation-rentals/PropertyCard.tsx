@@ -11,6 +11,8 @@ interface PropertyCardProps {
   isHighlighted?: boolean;
   onHover?: (id: string | null) => void;
   onClick?: (id: string) => void;
+  isFavorited?: boolean;
+  onToggleFavorite?: (propertyId: string) => void;
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
@@ -18,6 +20,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   isHighlighted = false,
   onHover,
   onClick,
+  isFavorited = false,
+  onToggleFavorite,
 }) => {
   const navigate = useNavigate();
   const [currentPhotoIndex, setCurrentPhotoIndex] = React.useState(0);
@@ -76,13 +80,21 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
         {/* Favorite button */}
         <button
-          className="absolute top-3 right-3 p-2 rounded-full bg-black/20 hover:bg-black/40 transition-colors"
+          className={cn(
+            "absolute top-3 right-3 p-2 rounded-full transition-all",
+            isFavorited 
+              ? "bg-white/90 hover:bg-white" 
+              : "bg-black/20 hover:bg-black/40"
+          )}
           onClick={(e) => {
             e.stopPropagation();
-            // TODO: Toggle favorite
+            onToggleFavorite?.(property.id);
           }}
         >
-          <Heart className="w-5 h-5 text-white" />
+          <Heart className={cn(
+            "w-5 h-5 transition-colors",
+            isFavorited ? "fill-red-500 text-red-500" : "text-white"
+          )} />
         </button>
 
         {/* Badges */}
