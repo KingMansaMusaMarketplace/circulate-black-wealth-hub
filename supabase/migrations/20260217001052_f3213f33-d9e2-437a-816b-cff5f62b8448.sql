@@ -1,0 +1,1 @@
+UPDATE public.businesses SET banner_url = 'https://columbiasavingsandloans.com/wp-content/uploads/2024/02/FamilyHug.jpg', updated_at = now() WHERE name = 'Columbia Savings & Loan Association';
