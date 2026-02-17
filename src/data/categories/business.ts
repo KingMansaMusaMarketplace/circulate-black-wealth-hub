@@ -80,18 +80,6 @@ export const businessCategories: BusinessCategory[] = [
     icon: '🏢'
   },
   {
-    id: 'real-estate-services',
-    name: 'Real Estate Services',
-    description: 'Property management and real estate',
-    icon: '🏘️'
-  },
-  {
-    id: 'insurance-agency',
-    name: 'Insurance Agency',
-    description: 'Insurance products and services',
-    icon: '🛡️'
-  },
-  {
     id: 'hr-services',
     name: 'HR Services',
     description: 'Human resources and staffing',
@@ -115,10 +103,4 @@ export const businessCategories: BusinessCategory[] = [
     description: 'Media relations and communication',
     icon: '📢'
   },
-  {
-    id: 'translation-business',
-    name: 'Translation & Interpretation',
-    description: 'Language services for businesses',
-    icon: '🌐'
-  }
 ];
