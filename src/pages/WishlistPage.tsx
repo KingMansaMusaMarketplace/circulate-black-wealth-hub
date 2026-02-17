@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -49,6 +50,10 @@ const WishlistPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#020617] via-[#0a1a3a] to-[#0f172a]">
+      <Helmet>
+        <title>My Favorites | Mansa Stays</title>
+        <meta name="description" content="View your saved vacation and monthly rental properties on Mansa Stays." />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">

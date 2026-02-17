@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { vacationRentalService, calculatePricing } from '@/lib/services/vacation-rental-service';
 import { VacationProperty, PropertyReview, PricingBreakdown as PricingBreakdownType } from '@/types/vacation-rental';
@@ -213,6 +214,15 @@ const PropertyDetailPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      <Helmet>
+        <title>{property.title} | Mansa Stays</title>
+        <meta name="description" content={`${property.property_type} in ${property.city}, ${property.state} — ${property.bedrooms} bed, ${property.bathrooms} bath, up to ${property.max_guests} guests. From $${property.base_nightly_rate}/night on Mansa Stays.`} />
+        <meta property="og:title" content={`${property.title} | Mansa Stays`} />
+        <meta property="og:description" content={`${property.bedrooms} bed · ${property.bathrooms} bath · ${property.max_guests} guests — $${property.base_nightly_rate}/night`} />
+        {property.photos[0] && <meta property="og:image" content={property.photos[0]} />}
+        <meta property="og:type" content="product" />
+        <link rel="canonical" href={`https://circulate-black-wealth-hub.lovable.app/stays/${property.id}`} />
+      </Helmet>
       {/* Gold accent line at top */}
       <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60" />
 
