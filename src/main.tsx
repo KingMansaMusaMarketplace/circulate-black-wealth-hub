@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 
 // Build version for cache-busting stale service workers
-const BUILD_VERSION = '20260216a';
+const BUILD_VERSION = '20260217b';
 
 // Version-aware cache clearing: if BUILD_VERSION changed, nuke SW caches and reload once
 if (typeof window !== 'undefined') {

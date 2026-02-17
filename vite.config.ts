@@ -58,7 +58,7 @@ export default defineConfig(({ mode }) => ({
               cacheName: 'businesses-cache',
               expiration: {
                 maxEntries: 200,
-                maxAgeSeconds: 60 * 60 * 24, // 24 hours
+                maxAgeSeconds: 60 * 60 * 2, // 2 hours - refresh faster for new listings
               },
             },
           },
@@ -101,6 +101,8 @@ export default defineConfig(({ mode }) => ({
         cleanupOutdatedCaches: true,
         // Don't cache index.html aggressively
         navigateFallback: null,
+        // Never cache OAuth redirects
+        navigateFallbackDenylist: [/^\/~oauth/],
       },
       devOptions: {
         enabled: false, // Disable in development to avoid confusion
