@@ -73,7 +73,7 @@ const Hero = () => {
 
           {/* Scroll indicator */}
           <motion.div
-            className="flex flex-col items-center mt-10 text-white/50 cursor-pointer hover:text-white/80 transition-colors"
+            className="flex flex-col items-center mt-10 text-white cursor-pointer hover:text-mansagold transition-colors"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.8 }}
