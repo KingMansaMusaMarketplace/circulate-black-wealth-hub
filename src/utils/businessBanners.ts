@@ -190,9 +190,9 @@ const businessCardImages: Record<string, string> = {
   // Market Me Consulting - Marketing agency
   '3df33c62-f355-4472-afef-cde085affc1b': '/businesses/market-me-card.jpg',
   // OneUnited Bank - Largest Black-owned bank
-  '1ab54e23-df01-45bf-8f52-0165b142b755': '/businesses/oneunited-bank-card.jpg',
+  '1ab54e23-df01-45bf-8f52-0165b142b755': '/businesses/oneunited-bank-card-new.jpg',
   // OneUnited Bank (second record)
-  'ffea40e4-e957-4964-8ad6-027258b34955': '/businesses/oneunited-bank-card2.webp',
+  'ffea40e4-e957-4964-8ad6-027258b34955': '/businesses/oneunited-bank-card-new.jpg',
   // City First Bank (second record) - reuse same card image
   'ae543527-1380-437a-ac84-7c17e8b15713': '/businesses/city-first-bank-card.jpg',
   // HOPE Credit Union - website hero screenshot
