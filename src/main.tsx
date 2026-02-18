@@ -3,13 +3,13 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 
 // Build version for cache-busting stale service workers
-const BUILD_VERSION = '20260217b';
+const BUILD_VERSION = '20260218c';
 
 // Version-aware cache clearing: if BUILD_VERSION changed, nuke SW caches and reload once
 if (typeof window !== 'undefined') {
   const storedVersion = localStorage.getItem('app_build_version');
-  if (storedVersion && storedVersion !== BUILD_VERSION) {
-    // Version mismatch — clear everything and reload
+  if (storedVersion !== BUILD_VERSION) {
+    // Version mismatch OR first visit — clear everything and reload once
     localStorage.setItem('app_build_version', BUILD_VERSION);
     (async () => {
       try {
@@ -22,12 +22,13 @@ if (typeof window !== 'undefined') {
           await Promise.all(regs.map(r => r.unregister()));
         }
       } catch {}
-      window.location.reload();
+      // Only reload if we had a previous version stored (not a true first visit)
+      if (storedVersion) {
+        window.location.reload();
+        throw new Error('App version changed, reloading');
+      }
     })();
-    // Stop further execution — page will reload
-    throw new Error('App version changed, reloading');
   }
-  localStorage.setItem('app_build_version', BUILD_VERSION);
 }
 
 console.log('[MAIN] Script loaded at', new Date().toISOString());
