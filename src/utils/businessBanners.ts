@@ -11,6 +11,8 @@ const businessBannerFallbacks: Record<string, string> = {
   '78fce9c3-8447-493d-a4bc-e92806f9a29f': '/images/businesses/allstate-barbara-brown-banner.jpg',
   // GN Bank - Banking & Financial Services in Chicago, IL
   '3665d965-e27f-406b-bd93-43e0583ccb45': '/images/businesses/gn-bank-banner.jpg',
+  // Amhad Freeman Interiors - Interior Design in Chicago, IL & Nashville, TN
+  'af3e2b91-7c14-4d88-a621-5f9e8d3c1b47': '/images/businesses/amhad-freeman-banner.jpg',
   // Jarvis Christian University - HBCU in Hawkins, TX
   '041ff4ed-bb4e-4d08-bdec-a2897224bed3': '/images/businesses/jarvis-christian-university-banner.jpg',
   // The Howard Group - Professional Services in Buffalo, NY
