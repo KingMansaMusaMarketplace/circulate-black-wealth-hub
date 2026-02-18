@@ -234,7 +234,7 @@ const businessCardImages: Record<string, string> = {
   // Blessings Community Care Clinic - Healthcare
   'df1024ac-4576-4f81-85dd-95f35d87445a': '/businesses/blessings-clinic-card.png',
   // Carl Bean Men's Health & Wellness Center
-  '94f28680-4ff7-40a7-a59b-8e6fd39fb520': '/businesses/carl-bean-card.png',
+  '94f28680-4ff7-40a7-a59b-8e6fd39fb520': '/businesses/carl-bean-mens-health-card.jpg',
   // Center for Black Women's Wellness
   'e706a5cd-8e37-4075-afc1-20edbde5e12f': '/businesses/cbww-card.png',
   // HEALing Community Health
