@@ -220,7 +220,7 @@ const businessCardImages: Record<string, string> = {
   // Carver State Bank - Savannah community bank
   '583f01f8-6efe-4a7f-887d-ba2057e278ff': '/businesses/carver-state-bank-card.jpg',
   // Citizens Savings Bank & Trust
-  'b7738dbd-dcbf-44ab-ad30-bf7a067c21b5': '/businesses/citizens-savings-bank-card.jpg',
+  'b7738dbd-dcbf-44ab-ad30-bf7a067c21b5': '/businesses/citizens-savings-bank-card-new.jpg',
   // Citizens Trust Bank (second record)
   'e30d037c-ac72-432f-8464-c18654955e86': '/businesses/citizens-trust-bank-card2.jpg',
   // Columbia Savings & Loan Association
