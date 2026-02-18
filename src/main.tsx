@@ -8,9 +8,9 @@ const BUILD_VERSION = '20260218c';
 // Version-aware cache clearing: if BUILD_VERSION changed, nuke SW caches and reload once
 if (typeof window !== 'undefined') {
   const storedVersion = localStorage.getItem('app_build_version');
-  if (storedVersion !== BUILD_VERSION) {
-    // Version mismatch OR first visit — clear everything and reload once
-    localStorage.setItem('app_build_version', BUILD_VERSION);
+  localStorage.setItem('app_build_version', BUILD_VERSION);
+  if (storedVersion && storedVersion !== BUILD_VERSION) {
+    // Version mismatch — clear caches and reload
     (async () => {
       try {
         if ('caches' in window) {
@@ -22,11 +22,7 @@ if (typeof window !== 'undefined') {
           await Promise.all(regs.map(r => r.unregister()));
         }
       } catch {}
-      // Only reload if we had a previous version stored (not a true first visit)
-      if (storedVersion) {
-        window.location.reload();
-        throw new Error('App version changed, reloading');
-      }
+      window.location.reload();
     })();
   }
 }
