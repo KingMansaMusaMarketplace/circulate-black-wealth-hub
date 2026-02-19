@@ -254,28 +254,82 @@ LISTING IS FREE: No subscription, no listing fee — Mansa Stays only earns when
 - Email confirmations, booking history in dashboard
 
 **B2B MARKETPLACE:**
-- Connect Black-owned businesses with each other
+- Connect businesses with each other at /b2b
 - Supplier/buyer matching based on capabilities and needs
 - Direct B2B messaging and reviews
 
 **BUSINESS OWNER FEATURES:**
 - Dashboard with key metrics: views, scans, bookings, revenue
 - Multi-location support for franchises
-- QR code generation and campaign tracking
+- QR code generation and campaign tracking at /qr-code-management
+- Download QR codes as PNG/PDF, run timed campaigns with bonus multiplier points
 - Financial tools: invoicing, expense tracking, budgets, bank reconciliation
 - Business verification for priority placement and badges
+- First month FREE — Premium tier for advanced features
+- Claim unclaimed listings at /claim-business
+- Workflow automation at /workflow-builder — no-code if/then rules for business operations
+
+**LOYALTY & REWARDS:**
+- /rewards and /loyalty-history — full points history and redemption
+- Earn 25 points per QR scan + 15% discount, plus points for reviews, referrals, daily logins
+- Streaks, achievements, milestone badges
+- /leaderboard — top community contributors by Economic Karma score
+- /recommendations — AI-personalized business suggestions
+
+**GROUP CHALLENGES:**
+- /group-challenges — teams compete in time-limited economic challenges
+- Winning teams earn bonus points and leaderboard recognition
+
+**CORPORATE SPONSORSHIP:**
+- /corporate-sponsorship — company tiers (Bronze/Silver/Gold/Platinum)
+- Benefits: homepage placement, spotlights, newsletter features, event co-branding
+- /corporate-dashboard — impact metrics for sponsors
+
+**COALITION:**
+- /coalition — organizations, churches, HBCUs join for collective buying power and group analytics
+- HBCU-specific badging and campus proximity alerts
+
+**COMMUNITY FINANCE:**
+- /community-finance — beyond Susu Circles, structured community investment opportunities
+
+**LEARNING HUB:**
+- /learning-hub — educational content for consumers and business owners
+- /ambassador-resources — training portal with videos, quizzes, certifications for Ambassadors
+- Auto-branded marketing material library (flyers, email templates, social posts)
 
 **DEVELOPER PROGRAM:**
-- License patented technology via APIs
-- CMAL API: Community Multiplier Algorithm for impact scoring
-- Voice AI API: Kayla-powered conversational commerce
-- Susu API: Escrow and rotational savings infrastructure
-- Free tier: 1,000 CMAL calls/month; Pro tier: $299/mo for 50,000 calls
+- /developers — license patented technology via APIs
+- APIs: CMAL (impact scoring), Voice AI (embed Kayla), Susu API (escrow/savings), Directory API
+- Free (1,000 calls/mo), Pro ($299/mo for 50k calls), Enterprise (custom)
+- Patent-protected — provisional application filed
+
+**INVESTOR & PITCH:**
+- /investor and /pitch-deck — platform positioned as Economic Super-App PaaS
+- Five pillars: Discovery, Transactions, Banking, Community Finance, Gamification
+- Target: 47M+ Black Americans + allies, 3.1M+ Black-owned businesses
+
+**HELP & SUPPORT:**
+- /help-center, /faq, /knowledge-base — searchable guides
+- /support, /submit-ticket — tracked in /my-tickets
+- AI auto-resolves common issues
+
+**PROFILE & SETTINGS:**
+- /profile — loyalty stats, Karma score, review history
+- /settings — email, password, notifications, privacy, payment methods
+
+**BLOG & MEDIA:**
+- /blog, /media-kit, /case-studies, /economic-impact — news, press assets, impact data
+
+**ABOUT & LEGAL:**
+- /about — Thomas D. Bowling's full story
+- /founders-wall — early founding supporters
+- /privacy-policy, /terms-of-service, /cookie-policy, /accessibility, /contact
 
 **MOBILE APP (Capacitor Native):**
 - Native iOS and Android via Capacitor
 - Camera for QR scanning, push notifications, geolocation
 - Haptic feedback, offline caching, optimized performance
+- Install at /install
 
 **USER TYPES:**
 - Consumers: Browse, scan QR codes, earn rewards
