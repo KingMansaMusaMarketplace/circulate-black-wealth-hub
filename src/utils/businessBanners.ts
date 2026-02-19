@@ -251,6 +251,12 @@ const businessCardImages: Record<string, string> = {
   'af097bb0-7f38-4fa1-86ae-0d26c98a09ae': '/businesses/lincoln-university-card.png',
 };
 
+// Additional banner fallbacks for Agriculture category
+Object.assign(businessBannerFallbacks, {
+  // National Black Farmers Association (NBFA) - Baskerville, VA
+  '8f42b1c3-5d9e-4a7b-b2e1-9c3f4d5a6e7b': '/images/businesses/nbfa-banner.jpg',
+});
+
 /**
  * Get banner URL for a business, with fallback support
  * @param businessId - The business UUID
