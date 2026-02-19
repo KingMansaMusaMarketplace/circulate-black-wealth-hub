@@ -69,11 +69,16 @@ const PropertyDetailPage: React.FC = () => {
   
   // Booking dialog state
   const [showBookingDialog, setShowBookingDialog] = useState(false);
+  const [bookingStep, setBookingStep] = useState<'details' | 'identity'>('details');
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
   const [guestPhone, setGuestPhone] = useState('');
   const [specialRequests, setSpecialRequests] = useState('');
   const [processingPayment, setProcessingPayment] = useState(false);
+  // Identity verification fields
+  const [idDob, setIdDob] = useState('');
+  const [idGovNumber, setIdGovNumber] = useState('');
+  const [idAgreed, setIdAgreed] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -119,6 +124,14 @@ const PropertyDetailPage: React.FC = () => {
     }
   };
 
+  const handleOpenBookingDialog = () => {
+    setBookingStep('details');
+    setIdDob('');
+    setIdGovNumber('');
+    setIdAgreed(false);
+    setShowBookingDialog(true);
+  };
+
   const handleBookNow = () => {
     if (!user) {
       toast.error('Please log in to book this property');
@@ -131,7 +144,7 @@ const PropertyDetailPage: React.FC = () => {
       return;
     }
 
-    setShowBookingDialog(true);
+    handleOpenBookingDialog();
   };
 
   const handleConfirmBooking = async () => {
@@ -221,7 +234,36 @@ const PropertyDetailPage: React.FC = () => {
         <meta property="og:description" content={`${property.bedrooms} bed · ${property.bathrooms} bath · ${property.max_guests} guests — $${property.base_nightly_rate}/night`} />
         {property.photos[0] && <meta property="og:image" content={property.photos[0]} />}
         <meta property="og:type" content="product" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${property.title} | Mansa Stays`} />
+        {property.photos[0] && <meta name="twitter:image" content={property.photos[0]} />}
         <link rel="canonical" href={`https://circulate-black-wealth-hub.lovable.app/stays/${property.id}`} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LodgingBusiness",
+          "name": property.title,
+          "description": property.description || `${property.property_type} in ${property.city}, ${property.state}`,
+          "image": property.photos,
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": property.city,
+            "addressRegion": property.state,
+            "addressCountry": "US"
+          },
+          "numberOfRooms": property.bedrooms,
+          "amenityFeature": (property.amenities || []).map((a: string) => ({ "@type": "LocationFeatureSpecification", "name": a, "value": true })),
+          "priceRange": `$${property.base_nightly_rate}/night`,
+          ...(property.average_rating > 0 ? {
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": property.average_rating,
+              "reviewCount": property.review_count || 1,
+              "bestRating": 5,
+              "worstRating": 1
+            }
+          } : {}),
+          "url": `https://circulate-black-wealth-hub.lovable.app/stays/${property.id}`
+        })}</script>
       </Helmet>
       {/* Gold accent line at top */}
       <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60" />
@@ -544,116 +586,151 @@ const PropertyDetailPage: React.FC = () => {
         <Dialog open={showBookingDialog} onOpenChange={setShowBookingDialog}>
           <DialogContent className="sm:max-w-md bg-slate-900 border-white/10">
             <DialogHeader>
-              <DialogTitle className="text-white">Confirm Your Booking</DialogTitle>
+              <DialogTitle className="text-white flex items-center gap-2">
+                {bookingStep === 'identity' ? (
+                  <><Shield className="w-5 h-5 text-mansagold" /> Identity Verification</>
+                ) : 'Confirm Your Booking'}
+              </DialogTitle>
               <DialogDescription className="text-white/60">
-                {property.title} • {nights} night{nights !== 1 ? 's' : ''}
+                {bookingStep === 'identity'
+                  ? 'Mansa Stays verifies guest identity for host safety'
+                  : `${property.title} • ${nights} night${nights !== 1 ? 's' : ''}`}
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-4 py-4">
-              {/* Booking Summary */}
-              <div className="p-4 bg-slate-800 rounded-lg border border-white/10">
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm text-white/70">Check-in</span>
-                  <span className="font-medium text-white">
-                    {dateRange?.from && format(dateRange.from, 'MMM d, yyyy')}
-                  </span>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm text-white/70">Check-out</span>
-                  <span className="font-medium text-white">
-                    {dateRange?.to && format(dateRange.to, 'MMM d, yyyy')}
-                  </span>
-                </div>
-                <Separator className="my-2 bg-white/10" />
-                <div className="flex justify-between font-semibold text-white">
-                  <span>Total</span>
-                  <span className="text-mansagold">${pricing?.total.toLocaleString()}</span>
-                </div>
-              </div>
-
-              {/* Guest Information */}
-              <div className="space-y-3">
-                <div>
-                  <Label htmlFor="guestName" className="text-white">Full Name</Label>
-                  <Input
-                    id="guestName"
-                    value={guestName}
-                    onChange={(e) => setGuestName(e.target.value)}
-                    placeholder="Your full name"
-                    required
-                    className="bg-slate-800 border-white/20 text-white"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="guestEmail" className="text-white">Email</Label>
-                  <Input
-                    id="guestEmail"
-                    type="email"
-                    value={guestEmail}
-                    onChange={(e) => setGuestEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    className="bg-slate-800 border-white/20 text-white"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="guestPhone" className="text-white">Phone (optional)</Label>
-                  <Input
-                    id="guestPhone"
-                    type="tel"
-                    value={guestPhone}
-                    onChange={(e) => setGuestPhone(e.target.value)}
-                    placeholder="(555) 555-5555"
-                    className="bg-slate-800 border-white/20 text-white"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="specialRequests" className="text-white">Special Requests (optional)</Label>
-                  <Textarea
-                    id="specialRequests"
-                    value={specialRequests}
-                    onChange={(e) => setSpecialRequests(e.target.value)}
-                    placeholder="Early check-in, late checkout, etc."
-                    rows={3}
-                    className="bg-slate-800 border-white/20 text-white"
-                  />
-                </div>
-              </div>
-
-              {/* Platform Fee Notice */}
-              <p className="text-xs text-white/50 text-center">
-                A 7.5% platform fee helps support Black-owned businesses
-              </p>
+            {/* Step indicator */}
+            <div className="flex items-center gap-2 text-xs text-white/40">
+              <span className={bookingStep === 'details' ? 'text-mansagold font-medium' : ''}>1. Details</span>
+              <span>→</span>
+              <span className={bookingStep === 'identity' ? 'text-mansagold font-medium' : ''}>2. Identity</span>
+              <span>→</span>
+              <span>3. Payment</span>
             </div>
 
-            <div className="flex gap-3">
-              <Button
-                variant="outline"
-                className="flex-1 border-white/20 text-white hover:bg-white/10"
-                onClick={() => setShowBookingDialog(false)}
-                disabled={processingPayment}
-              >
-                Cancel
-              </Button>
-              <Button
-                className="flex-1 bg-mansagold hover:bg-mansagold/90 text-black"
-                onClick={handleConfirmBooking}
-                disabled={processingPayment || !guestName || !guestEmail}
-              >
-                {processingPayment ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    <CreditCard className="w-4 h-4 mr-2" />
-                    Confirm Booking
-                  </>
-                )}
-              </Button>
-            </div>
+            {bookingStep === 'details' ? (
+              <div className="space-y-4 py-2">
+                {/* Booking Summary */}
+                <div className="p-4 bg-slate-800 rounded-lg border border-white/10">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm text-white/70">Check-in</span>
+                    <span className="font-medium text-white">
+                      {dateRange?.from && format(dateRange.from, 'MMM d, yyyy')}
+                    </span>
+                  </div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm text-white/70">Check-out</span>
+                    <span className="font-medium text-white">
+                      {dateRange?.to && format(dateRange.to, 'MMM d, yyyy')}
+                    </span>
+                  </div>
+                  <Separator className="my-2 bg-white/10" />
+                  <div className="flex justify-between font-semibold text-white">
+                    <span>Total</span>
+                    <span className="text-mansagold">${pricing?.total.toLocaleString()}</span>
+                  </div>
+                </div>
+
+                {/* Guest Information */}
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="guestName" className="text-white">Full Name</Label>
+                    <Input id="guestName" value={guestName} onChange={(e) => setGuestName(e.target.value)} placeholder="Your full name" required className="bg-slate-800 border-white/20 text-white" />
+                  </div>
+                  <div>
+                    <Label htmlFor="guestEmail" className="text-white">Email</Label>
+                    <Input id="guestEmail" type="email" value={guestEmail} onChange={(e) => setGuestEmail(e.target.value)} placeholder="your@email.com" required className="bg-slate-800 border-white/20 text-white" />
+                  </div>
+                  <div>
+                    <Label htmlFor="guestPhone" className="text-white">Phone (optional)</Label>
+                    <Input id="guestPhone" type="tel" value={guestPhone} onChange={(e) => setGuestPhone(e.target.value)} placeholder="(555) 555-5555" className="bg-slate-800 border-white/20 text-white" />
+                  </div>
+                  <div>
+                    <Label htmlFor="specialRequests" className="text-white">Special Requests (optional)</Label>
+                    <Textarea id="specialRequests" value={specialRequests} onChange={(e) => setSpecialRequests(e.target.value)} placeholder="Early check-in, late checkout, etc." rows={2} className="bg-slate-800 border-white/20 text-white" />
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Button variant="outline" className="flex-1 border-white/20 text-white hover:bg-white/10" onClick={() => setShowBookingDialog(false)}>Cancel</Button>
+                  <Button className="flex-1 bg-mansagold hover:bg-mansagold/90 text-black font-semibold" onClick={() => setBookingStep('identity')} disabled={!guestName || !guestEmail}>
+                    Next: Verify ID
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4 py-2">
+                {/* Identity Verification */}
+                <div className="p-4 bg-mansagold/10 border border-mansagold/20 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <Shield className="w-5 h-5 text-mansagold flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm text-white font-medium mb-1">Why we verify identity</p>
+                      <p className="text-xs text-white/60">
+                        We collect basic identity information to protect our host community. Your information is kept private and secure.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div>
+                    <Label className="text-white">Date of Birth</Label>
+                    <Input
+                      type="date"
+                      value={idDob}
+                      onChange={e => setIdDob(e.target.value)}
+                      max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0]}
+                      className="bg-slate-800 border-white/20 text-white"
+                      required
+                    />
+                    <p className="text-xs text-white/40 mt-1">Must be 18+ to book</p>
+                  </div>
+                  <div>
+                    <Label className="text-white">Government ID Number (last 4 digits)</Label>
+                    <Input
+                      type="text"
+                      maxLength={4}
+                      pattern="\d{4}"
+                      value={idGovNumber}
+                      onChange={e => setIdGovNumber(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                      placeholder="e.g. 1234"
+                      className="bg-slate-800 border-white/20 text-white"
+                      required
+                    />
+                    <p className="text-xs text-white/40 mt-1">Passport, Driver's License, or State ID</p>
+                  </div>
+                  <div className="flex items-start gap-2 pt-1">
+                    <input
+                      type="checkbox"
+                      id="idAgreed"
+                      checked={idAgreed}
+                      onChange={e => setIdAgreed(e.target.checked)}
+                      className="mt-1 accent-yellow-500"
+                    />
+                    <label htmlFor="idAgreed" className="text-xs text-white/70 cursor-pointer">
+                      I confirm that the information I've provided is accurate and I agree to Mansa Stays' guest verification policy.
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Button variant="outline" className="flex-1 border-white/20 text-white hover:bg-white/10" onClick={() => setBookingStep('details')} disabled={processingPayment}>
+                    Back
+                  </Button>
+                  <Button
+                    className="flex-1 bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
+                    onClick={handleConfirmBooking}
+                    disabled={processingPayment || !idDob || idGovNumber.length !== 4 || !idAgreed}
+                  >
+                    {processingPayment ? (
+                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Processing...</>
+                    ) : (
+                      <><CreditCard className="w-4 h-4 mr-2" />Confirm & Pay</>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            )}
           </DialogContent>
         </Dialog>
       </div>

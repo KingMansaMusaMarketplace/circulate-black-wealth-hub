@@ -9042,6 +9042,8 @@ export type Database = {
           created_at: string
           host_user_id: string
           id: string
+          invite_expires_at: string | null
+          invite_token: string | null
           invited_at: string
           permissions: string[]
           property_id: string
@@ -9055,6 +9057,8 @@ export type Database = {
           created_at?: string
           host_user_id: string
           id?: string
+          invite_expires_at?: string | null
+          invite_token?: string | null
           invited_at?: string
           permissions?: string[]
           property_id: string
@@ -9068,6 +9072,8 @@ export type Database = {
           created_at?: string
           host_user_id?: string
           id?: string
+          invite_expires_at?: string | null
+          invite_token?: string | null
           invited_at?: string
           permissions?: string[]
           property_id?: string
@@ -12191,6 +12197,83 @@ export type Database = {
           },
           {
             foreignKeyName: "stays_conversations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stays_experiences: {
+        Row: {
+          average_rating: number | null
+          category: string
+          city: string | null
+          created_at: string
+          description: string | null
+          duration_hours: number
+          host_user_id: string
+          id: string
+          included_items: string[] | null
+          is_active: boolean
+          languages: string[] | null
+          location: string | null
+          max_guests: number
+          photos: string[] | null
+          price_per_person: number
+          property_id: string | null
+          state: string | null
+          title: string
+          total_reviews: number | null
+          updated_at: string
+        }
+        Insert: {
+          average_rating?: number | null
+          category?: string
+          city?: string | null
+          created_at?: string
+          description?: string | null
+          duration_hours?: number
+          host_user_id: string
+          id?: string
+          included_items?: string[] | null
+          is_active?: boolean
+          languages?: string[] | null
+          location?: string | null
+          max_guests?: number
+          photos?: string[] | null
+          price_per_person?: number
+          property_id?: string | null
+          state?: string | null
+          title: string
+          total_reviews?: number | null
+          updated_at?: string
+        }
+        Update: {
+          average_rating?: number | null
+          category?: string
+          city?: string | null
+          created_at?: string
+          description?: string | null
+          duration_hours?: number
+          host_user_id?: string
+          id?: string
+          included_items?: string[] | null
+          is_active?: boolean
+          languages?: string[] | null
+          location?: string | null
+          max_guests?: number
+          photos?: string[] | null
+          price_per_person?: number
+          property_id?: string | null
+          state?: string | null
+          title?: string
+          total_reviews?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_experiences_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"

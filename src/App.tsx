@@ -189,6 +189,9 @@ const LazyHostDashboardPage = lazy(() => import('@/pages/HostDashboardPage'));
 const LazyGuestBookingsPage = lazy(() => import('@/pages/GuestBookingsPage'));
 const LazyStaysMessagesPage = lazy(() => import('@/pages/StaysMessagesPage'));
 const LazyWishlistPage = lazy(() => import('@/pages/WishlistPage'));
+const LazyCoHostAcceptPage = lazy(() => import('@/pages/CoHostAcceptPage'));
+const LazyExperiencesPage = lazy(() => import('@/pages/stays/ExperiencesPage'));
+const LazyCreateExperiencePage = lazy(() => import('@/pages/stays/CreateExperiencePage'));
 
 // Founder's Wall
 const LazyFoundersWallPage = lazy(() => import('@/pages/FoundersWallPage'));
@@ -638,6 +641,9 @@ function App() {
                               <Route path="/stays/my-bookings" element={<LazyGuestBookingsPage />} />
                               <Route path="/stays/messages" element={<LazyStaysMessagesPage />} />
                               <Route path="/stays/favorites" element={<LazyWishlistPage />} />
+                              <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
+                              <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
+                              <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
                               <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                               <Route path="/wallet" element={<LazyWalletPage />} />
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
@@ -927,6 +933,9 @@ function App() {
                         <Route path="/stays/my-bookings" element={<LazyGuestBookingsPage />} />
                         <Route path="/stays/messages" element={<LazyStaysMessagesPage />} />
                         <Route path="/stays/favorites" element={<LazyWishlistPage />} />
+                        <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
+                        <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
+                        <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
                         <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                         <Route path="/wallet" element={<LazyWalletPage />} />
                         <Route path="/settings" element={<LazyUserSettingsPage />} />
