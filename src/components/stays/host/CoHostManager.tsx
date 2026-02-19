@@ -84,6 +84,12 @@ const CoHostManager: React.FC<CoHostManagerProps> = ({ properties }) => {
 
     setInviting(true);
     try {
+      // Generate secure invite token
+      const tokenBytes = new Uint8Array(32);
+      crypto.getRandomValues(tokenBytes);
+      const inviteToken = Array.from(tokenBytes).map(b => b.toString(16).padStart(2, '0')).join('');
+      const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
       const { error } = await supabase
         .from('property_cohosts')
         .insert({
@@ -92,6 +98,8 @@ const CoHostManager: React.FC<CoHostManagerProps> = ({ properties }) => {
           cohost_email: inviteEmail.trim().toLowerCase(),
           permissions: selectedPermissions,
           status: 'pending',
+          invite_token: inviteToken,
+          invite_expires_at: expiresAt,
         });
 
       if (error) {
@@ -103,7 +111,17 @@ const CoHostManager: React.FC<CoHostManagerProps> = ({ properties }) => {
         return;
       }
 
-      toast.success(`Co-host invitation sent to ${inviteEmail}`);
+      // Show invite link to copy
+      const inviteLink = `${window.location.origin}/stays/cohost-accept?token=${inviteToken}`;
+      await navigator.clipboard.writeText(inviteLink).catch(() => {});
+      toast.success(`Invitation created! Share this link with ${inviteEmail}`, {
+        description: inviteLink,
+        duration: 8000,
+        action: {
+          label: 'Copy',
+          onClick: () => navigator.clipboard.writeText(inviteLink),
+        },
+      });
       setInviteEmail('');
       setShowInviteForm(false);
       setSelectedPermissions(['messaging', 'calendar']);
