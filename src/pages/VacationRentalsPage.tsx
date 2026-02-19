@@ -105,7 +105,7 @@ const VacationRentalsPage: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-6"
+            className="font-display text-7xl sm:text-8xl md:text-9xl font-bold mb-6"
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-mansagold via-amber-400 to-mansagold drop-shadow-[0_0_30px_rgba(251,191,36,0.4)]">
               Mansa Stays
