@@ -15,6 +15,7 @@ import PropertyReviews from '@/components/stays/PropertyReviews';
 import { HostVerificationCard } from '@/components/stays/trust';
 import { toast } from 'sonner';
 import { format, isAfter, isBefore } from 'date-fns';
+import CoHostManager from '@/components/stays/host/CoHostManager';
 import {
   Home,
   Plus,
@@ -205,6 +206,7 @@ const HostDashboardPage: React.FC = () => {
             <TabsTrigger value="bookings">Reservations</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="earnings">Earnings</TabsTrigger>
+            <TabsTrigger value="cohosts">Co-Hosts</TabsTrigger>
             <TabsTrigger value="verification">Verification</TabsTrigger>
           </TabsList>
 
@@ -507,6 +509,11 @@ const HostDashboardPage: React.FC = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Co-Hosts Tab */}
+          <TabsContent value="cohosts" className="mt-6">
+            <CoHostManager properties={properties} />
           </TabsContent>
 
           {/* Verification Tab */}
