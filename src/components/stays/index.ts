@@ -10,5 +10,6 @@ export { default as StripeConnectOnboarding } from './host/StripeConnectOnboardi
 export { default as HostAnalyticsDashboard } from './host/HostAnalyticsDashboard';
 export { default as PayoutHistory } from './host/PayoutHistory';
 export { default as DynamicPricingManager } from './host/DynamicPricingManager';
+export { default as CoHostManager } from './host/CoHostManager';
 export { default as WriteReviewForm } from './reviews/WriteReviewForm';
 export { default as ReviewCard } from './reviews/ReviewCard';

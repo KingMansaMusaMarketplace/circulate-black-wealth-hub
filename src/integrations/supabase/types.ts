@@ -9034,6 +9034,48 @@ export type Database = {
           },
         ]
       }
+      property_cohosts: {
+        Row: {
+          accepted_at: string | null
+          cohost_email: string
+          cohost_user_id: string | null
+          created_at: string
+          host_user_id: string
+          id: string
+          invited_at: string
+          permissions: string[]
+          property_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          cohost_email: string
+          cohost_user_id?: string | null
+          created_at?: string
+          host_user_id: string
+          id?: string
+          invited_at?: string
+          permissions?: string[]
+          property_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          cohost_email?: string
+          cohost_user_id?: string | null
+          created_at?: string
+          host_user_id?: string
+          id?: string
+          invited_at?: string
+          permissions?: string[]
+          property_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       property_price_overrides: {
         Row: {
           created_at: string
