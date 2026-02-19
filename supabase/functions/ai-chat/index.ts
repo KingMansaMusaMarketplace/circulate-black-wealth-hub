@@ -474,12 +474,111 @@ This is the referral program where community members earn money while building t
 - QR code generation and campaign tracking
 - Service management for booking-enabled businesses
 
+**CORPORATE SPONSORSHIP PROGRAM:**
+- Companies sponsor the platform at /corporate-sponsorship or /sponsorship
+- Tiers: Bronze, Silver, Gold, Platinum — escalating benefits and visibility
+- Benefits: homepage logo placement, featured business spotlights, newsletter mentions, event co-branding, dedicated account management at higher tiers
+- Corporate Dashboard at /corporate-dashboard for sponsors to track impact metrics
+
+**LOYALTY & REWARDS PROGRAM (Deep Knowledge):**
+- Full loyalty system at /rewards and /loyalty-history
+- Earn points from: QR code scans (25 pts each), referrals, reviews, check-ins, profile completion, Susu circles, daily logins
+- Redeem for: discounts at participating businesses, perks, exclusive badges
+- Streak System: consecutive daily logins/scans build streaks
+- Achievements: milestone badges (e.g., "First Scan", "10 Check-ins", "Community Champion")
+- Leaderboard at /leaderboard ranked by Economic Karma score
+- Loyalty history at /loyalty-history shows full point transaction log
+
+**QR CODE MANAGEMENT:**
+- Manage all QR codes from /qr-code-management
+- Generate QR codes for different locations, campaigns, or promotions
+- Download as PNG or PDF for printing
+- Track: total scans, unique customers, scan trends
+- Campaign mode: set start/end dates and bonus point multipliers
+
+**AI RECOMMENDATIONS:**
+- Personalized business discovery at /recommendations
+- AI analyzes scan history, reviews, loyalty activity, and Karma behavior
+- Shows businesses the user hasn't visited yet with personalized reasons (e.g., "Based on your love of restaurants")
+
+**GROUP CHALLENGES:**
+- Community competition at /group-challenges
+- Join teams and compete in time-limited economic challenges
+- Winning teams earn bonus points, badges, and leaderboard recognition
+
+**DEVELOPER PROGRAM:**
+- License patented technology via APIs at /developers
+- APIs: CMAL (Community Multiplier Algorithm), Voice AI (embed Kayla), Susu API (escrow/savings), Directory API
+- Pricing: Free (1,000 CMAL calls/month), Pro ($299/mo for 50,000 calls), Enterprise (custom)
+- Patent-protected — provisional application filed
+
+**INVESTOR & PITCH DECK:**
+- /investor and /pitch-deck for platform investment information
+- Positioned as "Economic Super-App" and PaaS-level "Economic Operating System"
+- Five pillars: Discovery, Transactions, Banking, Community Finance, Gamification
+- Target: 47M+ Black Americans + allies, 3.1M+ Black-owned businesses
+
+**COMMUNITY FINANCE:**
+- Direct investment platform at /community-finance
+- Community members collectively fund community-owned projects and businesses
+
+**COALITION:**
+- Community alliance at /coalition for organizations, churches, HBCUs, community groups
+- Collective buying power, shared QR programs, group analytics
+- HBCU-specific badging and proximity alerts for campus businesses
+
+**LEARNING HUB & AMBASSADOR RESOURCES:**
+- /learning-hub: Educational content for consumers and business owners
+- /ambassador-resources: Training portal for Mansa Ambassadors
+- Content: videos, articles, quizzes, certifications with progress tracking
+- Auto-branded marketing materials library (flyers, email templates, social assets)
+
+**WORKFLOW BUILDER:**
+- No-code automation at /workflow-builder for business owners
+- If/then rule builder: e.g., "If customer scans 3x in a week, send bonus discount"
+- Works with AI Agent Dashboard at /ai-agent-dashboard for full autonomous operations
+
+**CLAIM YOUR BUSINESS:**
+- Unclaimed directory listings can be taken over at /claim-business
+- Search, verify ownership, and unlock full listing control — editing, QR codes, dashboard, bookings
+
+**SUBSCRIPTION & PRICING:**
+- Business tiers at /subscription — first month FREE
+- Free: basic listing, QR code, limited analytics
+- Premium: advanced analytics, featured placement, multi-location, financial tools, priority support
+
+**HELP CENTER & SUPPORT:**
+- /help-center: Searchable knowledge base
+- /faq: Frequently asked questions
+- /support and /submit-ticket: Submit support requests tracked in /my-tickets
+- AI auto-resolves common support issues
+
+**PROFILE & SETTINGS:**
+- /profile: Loyalty stats, review history, Economic Karma score
+- /settings: Email, password, notifications, privacy, payment methods
+
+**BLOG & MEDIA:**
+- /blog: News, business spotlights, community stories
+- /media-kit: Press assets, brand guidelines, logo downloads
+- /case-studies: Real success stories; /economic-impact: Community impact data
+
+**HOW IT WORKS & ONBOARDING:**
+- /how-it-works: Visual platform walkthrough
+- /features, /user-guide: Feature overview and step-by-step guide
+- /install: iOS/Android mobile app installation instructions
+
+**ABOUT & LEGAL:**
+- /about: Thomas D. Bowling's story and the platform's origin
+- /founders-wall: Recognizes early founding supporters
+- /privacy-policy, /terms-of-service, /cookie-policy, /accessibility: Standard legal pages
+- /contact, /team-contact: Contact form and team directory
+
 **TECHNICAL DETAILS:**
 - React 18 + TypeScript + Vite
 - Supabase for database, auth, and real-time features
 - Stripe for payments and subscriptions
 - Native mobile apps via Capacitor (iOS & Android)
-- Voice assistant using OpenAI's GPT-4o Realtime API
+- Voice assistant using OpenAI GPT-4o Realtime API
 
 **CONTACT:**
 - Phone: 312.709.6006
