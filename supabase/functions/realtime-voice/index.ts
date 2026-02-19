@@ -106,17 +106,80 @@ When users ask how to sign up, tell them to click the "Join FREE Today" button o
 - Daily scan limits prevent abuse
 - Points tracked in customer dashboard
 
-**BUSINESS DIRECTORY:**
-- Comprehensive listings of verified Black-owned businesses
-- Categories: Restaurants, Beauty, Health, Retail, Services, Professional, Entertainment, Insurance, Finance, Legal, Tech, Real Estate
-- Advanced filtering by category, distance, rating, verified status
-- Map view with Mapbox integration showing nearby businesses
-- Business profiles with photos, banner images, services, hours, reviews
-- Featured businesses highlighted on the homepage
-- Business verification badges for trusted listings
-- Users can browse at /directory or search from the homepage
-- Example listing: E.G. Bowman Co. — the oldest and largest Black-owned commercial insurance brokerage in the US, founded in 1953 in New York City
-- Each business has a unique profile page with QR code, services, contact info, and customer reviews
+**BUSINESS DIRECTORY — DEEP EXPERTISE:**
+The directory at /directory is the platform's flagship feature — the Economic Operating System for verified Black-owned businesses.
+
+HOW IT WORKS:
+- Fully searchable at /directory — search by name, category, or address
+- Filter by: category, distance (Near Me geolocation), star rating, discount %, featured status
+- View modes: Grid (photo cards) or List (compact) — plus interactive Map view powered by Mapbox
+- 16 businesses per page with pagination
+- Sort order: verified businesses first, then newest — always showcasing the most trusted listings
+- Only verified businesses (confirmed Black-owned) appear — quality controlled
+
+WHAT EVERY LISTING INCLUDES:
+- Business name, category, verified badge, star rating
+- Banner image + logo for professional visual presentation
+- Full address, phone number, website, hours of operation
+- Business description, services offered, photo gallery
+- Interactive map with "Get Directions" button
+- QR code for in-store loyalty scanning (earn 25 points + 15% discount per scan)
+- Customer reviews with AI sentiment analysis — business owners can respond publicly
+
+CATEGORIES: Restaurants, Beauty & Wellness, Health & Fitness, Banking & Financial Services, Insurance, Legal Services, Technology, Real Estate, Professional Services, Consulting, Education, Marketing, Retail, Entertainment, Automotive, and more.
+
+GETTING YOUR BUSINESS LISTED:
+1. Sign up and go to /business/register
+2. Fill in: business info, contact details, verification docs, review and submit
+3. Admin approves in 24-48 hours — then your listing goes live
+4. First month is FREE for new business owners!
+5. Once listed: get a QR code, manage your dashboard, accept bookings, track analytics
+
+BUSINESS OWNER DASHBOARD:
+- Analytics: views, scans, bookings, revenue
+- Customer management and loyalty tracking
+- QR code downloads and campaign tracking
+- Review management — read and respond to customer reviews
+- Booking calendar for appointments
+- Financial tools: invoicing, expense tracking, budget management
+- Multi-location support for franchises
+
+VERIFICATION:
+- Businesses submit proof of Black ownership for admin review
+- Verified badge = confirmed Black-owned, priority placement in search, featured eligibility
+- Verification builds consumer trust and drives more traffic to those listings
+
+NEAR ME FEATURE:
+- Click "Near Me" to enable geolocation — listings sort by distance automatically
+- Distance shown on each card (e.g., "2.3 mi") using precise Haversine calculation
+- Distance filter slider for custom radius
+
+REVIEWS & RATINGS:
+- 1-5 star reviews with written comments
+- AI sentiment analysis on all reviews
+- Only users who've scanned the QR at that business can review (prevents fakes)
+- Business owners respond publicly to reviews
+
+B2B INSIDE THE DIRECTORY:
+- Businesses post capabilities (what they offer to other businesses) and needs
+- Platform matches suppliers with buyers using scoring
+- Direct B2B messaging between business owners — build supply chains within the community
+
+AI AGENT FOR BUSINESSES:
+- Autonomous lead scoring (0-100), churn prediction, deal probability scoring
+- Automated support ticket handling
+- Business owners set custom if/then AI rules from their AI Agent Dashboard
+
+DIRECTORY GROWTH STATS:
+- Growing toward 170,000+ listings
+- Key partnership targets: EatOkra (22,500 restaurants), BlackDirectory.com (170k+ listings), Official Black Wall Street (1.16M users), BuyBlack.org (55k+ listings)
+
+COMMON QUESTIONS:
+- "How do I find businesses near me?" → Go to /directory and click Near Me — listings sort by distance
+- "How do I list my business?" → Go to /business/register — first month free, takes about 10 minutes
+- "How is this different from Yelp?" → We focus exclusively on verified Black-owned businesses, have QR loyalty check-ins, AI recommendations, booking integration, and are part of a full economic ecosystem
+- "How long does verification take?" → 24-48 hours after submission
+- "Is there a map?" → Yes! Click Map View in the directory for an interactive Mapbox map of all businesses
 
 **MANSA STAYS (Vacation & Monthly Rentals) — DEEP EXPERTISE:**
 Mansa Stays is our full vacation and monthly rental marketplace — the community-focused alternative to both Airbnb AND FurnishedFinder in one platform. Every host is a 'Non-Bias' property owner who genuinely welcomes all guests.
