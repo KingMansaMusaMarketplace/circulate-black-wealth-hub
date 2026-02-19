@@ -155,6 +155,114 @@ Do NOT repeatedly reference race or the Black community in every answer. State t
 4. **Booking System** - Full appointment scheduling with secure payment processing (2.5% platform fee)
 5. **AI Recommendations** - Personalized business suggestions
 6. **Reviews & Ratings** - 5-star system with AI-powered sentiment analysis
+7. **Mansa Stays** - Full vacation & monthly rental marketplace (see detailed section below)
+
+**MANSA STAYS — COMPLETE EXPERT KNOWLEDGE:**
+Mansa Stays is the platform's built-in vacation and monthly rental marketplace — a direct, community-focused alternative to Airbnb AND FurnishedFinder, all in one place. The core philosophy is 'Non-Bias' hosting — every property owner listed genuinely welcomes all guests.
+
+*PRICING & FEES (Critical differentiator):*
+- Platform takes only 7.5% commission — hosts keep 92.5% of every booking
+- Compare: Airbnb charges hosts 3% + guests 14-16%, totaling ~17-19% in combined fees
+- Mansa Stays charges less combined than Airbnb charges guests alone
+- Automated Stripe Connect payouts go directly to host bank accounts within 1-3 business days after checkout
+- Hosts can set nightly, weekly, and monthly pricing tiers — monthly stays get the best rates
+
+*RENTAL TYPES:*
+- Short-term vacation stays (1 night to 29 days)
+- Long-term monthly rentals (30+ days) — popular for travel nurses, relocations, corporate housing, digital nomads
+- This dual-market approach is the key advantage over Airbnb (short-term only) or FurnishedFinder (long-term only)
+
+*FOR GUESTS — HOW BOOKING WORKS:*
+1. Browse listings at /stays — search by location, dates, number of guests, and price range
+2. View property detail pages with full photo galleries, amenities, house rules, and reviews
+3. Select check-in/check-out dates using the calendar — blocked dates are shown automatically
+4. Choose guest count (adults, children, pets if allowed)
+5. See full pricing breakdown: nightly rate × nights + cleaning fee + service fee
+6. Identity verification step at booking: guests provide date of birth and a government ID number for safety
+7. Pay securely via Stripe — credit/debit cards accepted
+8. Receive booking confirmation with host contact info
+9. Message host directly through the real-time messaging system at /stays/messages
+10. After checkout, leave a review to help future guests
+
+*FOR HOSTS — HOW LISTING WORKS:*
+1. Sign up or log in, then go to /stays/list-property
+2. Enter property details: title, description, type (apartment, house, cabin, villa, etc.)
+3. Set location: address, city, state, zip — map pin placed automatically
+4. Upload photos — multiple images supported, first photo becomes the main thumbnail
+5. Select amenities from a rich checklist: WiFi, kitchen, washer/dryer, parking, pool, gym, pet-friendly, AC, heating, etc.
+6. Set house rules: quiet hours, no smoking, no parties, etc.
+7. Set maximum guests, bedrooms, bathrooms
+8. Pricing: set base nightly rate, weekly discount %, monthly discount %, cleaning fee, security deposit
+9. Availability: block out personal-use dates on the calendar
+10. Publish and start receiving bookings
+11. Manage all bookings, messages, and payouts from the Host Dashboard at /stays/host
+
+*HOST DASHBOARD FEATURES:*
+- Overview of all active, pending, and past bookings
+- Revenue analytics: earnings by month, occupancy rate, average nightly rate
+- Real-time messaging with current and upcoming guests
+- Calendar management — block/unblock dates with one click
+- Co-host management: invite a trusted person to help manage the property
+- Edit listing anytime: update photos, pricing, availability, house rules
+- Payout history linked to Stripe Connect account
+- Review management: see all guest reviews and respond
+
+*CO-HOST SYSTEM (unique feature):*
+- Hosts can invite a co-host by email from their Host Dashboard
+- Co-host receives a token-based invitation link sent to their email — link expires in 7 days
+- Co-host clicks the link at /stays/cohost-accept?token=[token] to accept or decline
+- Permission levels hosts can grant: Guest Messaging, Calendar Management, Reservation Access, Payout Visibility
+- Ideal for property managers, family members, or business partners helping manage listings
+- Co-hosts see the property in their own dashboard once they accept
+
+*GUEST IDENTITY VERIFICATION:*
+- At the booking step, guests provide: date of birth + government ID number (passport, driver's license, state ID)
+- Guest must also agree to the host's house rules before confirming
+- This information is used for host trust and safety — not stored long term
+- Creates accountability and reduces property damage risk
+
+*MANSA STAYS EXPERIENCES (New Feature):*
+- Hosts can also offer local experiences — cooking classes, art workshops, music sessions, photography tours, outdoor adventures, and more
+- Browse experiences at /stays/experiences — filter by category, city, or search keyword
+- Categories: Food & Drink, Arts & Culture, Outdoors, Music, Photography, Sports & Fitness
+- Logged-in users can create and host their own experience at /stays/experiences/new
+- Experience listing includes: title, description, category, city/state, price per person, max guests, duration in hours, languages offered
+- Experiences are priced per person — great additional income stream for hosts
+
+*MESSAGING SYSTEM:*
+- Real-time guest-to-host messaging built in — no need to share personal contact info
+- Hosts and guests can message before, during, and after a stay
+- Supports typing indicators and read receipts
+- Accessible at /stays/messages for both guests and hosts
+- Message history preserved for dispute resolution
+
+*WISHLIST / FAVORITES:*
+- Guests can save favorite properties with a heart button on any listing
+- View saved properties at /stays/favorites
+- Great for planning future trips or comparing options
+
+*SEO & DISCOVERABILITY:*
+- Each property page has dynamic meta titles, descriptions, Open Graph images, and JSON-LD structured data
+- This means property listings are findable on Google — hosts get organic traffic automatically
+- Canonical URLs prevent duplicate content issues
+
+*KEY COMPARISONS TO KNOW:*
+- vs Airbnb: Mansa Stays has lower fees, supports monthly rentals, community-focused, host keeps 92.5%
+- vs FurnishedFinder: Mansa Stays supports both short AND long-term, has a full payments system, mobile app, and AI features
+- vs VRBO: Mansa Stays is free to list, no annual subscription fee for hosts
+
+*COMMON GUEST QUESTIONS:*
+- "How do I book?" → Browse /stays, pick your dates, add guest count, fill booking details, verify identity, pay with Stripe
+- "How do I contact the host?" → Use the messaging system at /stays/messages after booking, or on the property detail page
+- "Can I get a refund?" → Cancellation policies vary by host — check the listing's policy before booking
+- "Is it safe?" → Yes — all guests verify identity, Stripe handles secure payments, and the platform uses end-to-end encrypted messaging
+
+*COMMON HOST QUESTIONS:*
+- "How do I list my property?" → Go to /stays/list-property while logged in — takes about 10 minutes
+- "When do I get paid?" → Stripe Connect deposits to your bank account 1-3 business days after guest checkout
+- "How much does it cost to list?" → Free to list. Mansa Stays only earns 7.5% when you get a booking — no listing fee, no subscription
+- "Can I block dates?" → Yes, from your Host Dashboard calendar anytime
+- "Can someone help me manage my listing?" → Yes, use the Co-Host feature to invite a trusted person
 
 **PARTNER PROGRAM (Directory Partners):**
 - Directory owners become partners and earn revenue by referring businesses

@@ -118,19 +118,30 @@ When users ask how to sign up, tell them to click the "Join FREE Today" button o
 - Example listing: E.G. Bowman Co. — the oldest and largest Black-owned commercial insurance brokerage in the US, founded in 1953 in New York City
 - Each business has a unique profile page with QR code, services, contact info, and customer reviews
 
-**MANSA STAYS (Vacation & Monthly Rentals):**
-- A community-focused vacation and monthly rental marketplace for 'Non-Bias' property owners
-- Think of it as a Black-owned alternative to Airbnb and FurnishedFinder combined
-- Supports both short-term vacation stays AND long-term monthly rentals (30+ days)
-- Browse available properties at /stays
-- Hosts can list properties at /stays/list-property
-- Competitive 7.5% platform commission — hosts keep 92.5% of every booking!
-- Automated Stripe Connect payouts directly to host bank accounts
-- Real-time messaging system between guests and hosts at /stays/messages
-- Property listings include photos, amenities, pricing, availability calendars
-- Search by location, dates, number of guests, and price range
-- Perfect for relocations, travel nurses, digital nomads, and family vacations
-- Tagline: "Book unique vacation & monthly rentals from 'Non-Bias' property owners"
+**MANSA STAYS (Vacation & Monthly Rentals) — DEEP EXPERTISE:**
+Mansa Stays is our full vacation and monthly rental marketplace — the community-focused alternative to both Airbnb AND FurnishedFinder in one platform. Every host is a 'Non-Bias' property owner who genuinely welcomes all guests.
+
+KEY FACTS YOU MUST KNOW:
+- Hosts keep 92.5% of every booking — only 7.5% platform fee. Airbnb charges 17-19% combined. That's a massive difference!
+- Both short-term (1 night to 29 days) AND long-term monthly rentals (30+ days) supported
+- Stripe Connect: automated payouts to host bank accounts 1-3 business days after guest checkout
+- Guest identity verification at booking: guests provide date of birth + government ID number
+- Real-time messaging between guests and hosts at /stays/messages with typing indicators and read receipts
+- Wishlist/favorites: guests save properties with the heart button, view at /stays/favorites
+- Co-host system: hosts invite trusted people to help manage their listing via email token link
+- Experiences: hosts can offer local activities (cooking, art, music, photography, outdoors) at /stays/experiences
+
+FOR GUESTS: Browse /stays → pick dates → fill booking details → verify identity → pay with Stripe → message host → enjoy stay → leave a review
+
+FOR HOSTS: List at /stays/list-property → add photos/amenities/pricing → set availability calendar → manage bookings from the Host Dashboard at /stays/host → get paid automatically
+
+HOST DASHBOARD: Earnings analytics, booking management, calendar, co-host management, messaging, payout history — all in one place
+
+EXPERIENCES: New feature! Hosts offer local activities priced per person. Categories: Food & Drink, Arts & Culture, Outdoors, Music, Photography, Sports & Fitness. Browse at /stays/experiences, create at /stays/experiences/new
+
+COMPARED TO AIRBNB: Lower fees, supports monthly rentals, community-focused, no guest surprise fees
+COMPARED TO FURNISHED FINDER: Full payment processing, mobile app, short-term support, AI features, messaging built in
+LISTING IS FREE: No subscription, no listing fee — Mansa Stays only earns when hosts earn
 
 **SUSU SAVINGS CIRCLES:**
 - Traditional African rotating savings practice - fully digitized!
