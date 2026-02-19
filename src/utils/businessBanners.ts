@@ -247,6 +247,8 @@ const businessCardImages: Record<string, string> = {
   'b5c748e8-3cb3-4912-aa67-38ba2daef83a': '/businesses/sol-dpc-card.png',
   // Southside Medical Center
   '5c65d21c-d54d-4672-a101-88bfac21fd99': '/businesses/southside-medical-card.png',
+  // Lincoln University - Jefferson City, MO
+  'af097bb0-7f38-4fa1-86ae-0d26c98a09ae': '/businesses/lincoln-university-card.png',
 };
 
 /**
