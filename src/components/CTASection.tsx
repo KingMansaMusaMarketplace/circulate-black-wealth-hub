@@ -44,7 +44,7 @@ const CTASection = () => {
               </h2>
               
               <p className="text-lg md:text-xl text-blue-100/80 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Join our mission to reach 1 million members supporting Black-owned businesses 
+                Join our mission to reach 1 million members supporting businesses 
                 and creating generational economic impact.
               </p>
               
