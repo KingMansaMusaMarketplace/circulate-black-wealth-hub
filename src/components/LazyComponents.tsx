@@ -80,3 +80,6 @@ export const LazyMediaKitPage = lazyWithRetry(() => import('@/pages/MediaKitPage
 export const LazyCoalitionPage = lazyWithRetry(() => import('@/pages/CoalitionPage'));
 export const LazyB2BMarketplacePage = lazyWithRetry(() => import('@/pages/B2BMarketplacePage'));
 export const LazyB2BDashboardPage = lazyWithRetry(() => import('@/pages/business/B2BDashboardPage'));
+
+// Noir Travel
+export const LazyNoirLandingPage = lazyWithRetry(() => import('@/pages/NoirLandingPage'));
