@@ -12,10 +12,10 @@ const FoundersWallPage = () => {
   return (
     <>
       <Helmet>
-        <title>Founder's Wall - First 100 Black-Owned Businesses</title>
+        <title>Founder's Wall - First 100 Community Businesses | 1325.AI</title>
         <meta
           name="description"
-          content="Celebrating our founding members - the first 100 Black-owned businesses to join the Mansa Musa Marketplace community. Join the movement!"
+          content="Celebrating our founding members - the first 100 community businesses to join the 1325.AI community. Join the movement!"
         />
       </Helmet>
 
@@ -59,7 +59,7 @@ const FoundersWallPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                Celebrating the first 100 Black-owned businesses who believed in our mission from day one. These pioneers are building generational wealth together.
+                Celebrating the first 100 community businesses who believed in our mission from day one. These pioneers are building generational wealth together.
               </motion.p>
 
               {/* Spots remaining counter */}
@@ -170,7 +170,7 @@ const FoundersWallPage = () => {
               First <span className="text-gradient-gold">100</span> Businesses
             </h2>
             <p className="text-blue-200/70">
-              The pioneers building Black wealth together
+              The pioneers building community wealth together
             </p>
           </motion.div>
 

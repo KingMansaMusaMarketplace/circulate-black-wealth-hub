@@ -140,7 +140,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
               </div>
               <div>
                 <h2 style={{ color: '#ffffff' }} className="font-semibold text-sm">Admin Panel</h2>
-                <p style={{ color: 'rgba(148, 163, 184, 0.7)' }} className="text-xs">Mansa Musa</p>
+                <p style={{ color: 'rgba(148, 163, 184, 0.7)' }} className="text-xs">1325.AI</p>
               </div>
             </div>
           )}

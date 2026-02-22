@@ -24,7 +24,7 @@ const VideoScriptGenerator: React.FC<VideoScriptGeneratorProps> = ({ partner }) 
       wordCount: '~75 words',
       script: `Hey family! I want to tell you about 1325.ai.
 
-It's an economic operating system built for Black-owned businesses - and right now, it's FREE to join.
+It's an economic operating system built for community businesses - and right now, it's FREE to join.
 
 We're talking $700 worth of business tools for just $100 a month. That's 7 times your investment back.
 
@@ -43,7 +43,7 @@ ${partner.directory_name} has partnered with 1325.ai - and if you're a Black bus
 
 1325.ai is an economic operating system designed specifically for us. Here's what you get:
 
-You get discovered by consumers who are ACTIVELY looking to support Black-owned businesses.
+You get discovered by consumers who are ACTIVELY looking to support community businesses.
 
 You get B2B matching to find partners, suppliers, and customers within our community.
 
@@ -62,17 +62,17 @@ Let's build generational wealth together. I'll see you inside!`,
       wordCount: '~225 words',
       script: `Family, let me tell you something that could change your business.
 
-I've been looking for ways to grow my network, find new customers, and connect with other Black-owned businesses. And I found 1325.ai.
+I've been looking for ways to grow my network, find new customers, and connect with other community businesses. And I found 1325.ai.
 
 ${partner.directory_name} just partnered with them, and I had to share this with you.
 
-So what is 1325.ai? It's an economic operating system - not just a directory, but real tools built specifically for Black-owned businesses.
+So what is 1325.ai? It's an economic operating system - not just a directory, but real tools built specifically for community businesses.
 
 Let me break down what you get:
 
-First, visibility. You get discovered by conscious consumers who are actively looking to support Black businesses. These aren't random people - these are people with intent.
+First, visibility. You get discovered by conscious consumers who are actively looking to support community businesses. These aren't random people - these are people with intent.
 
-Second, B2B connections. Find partners, suppliers, and customers within our community. Imagine getting your supplies from another Black-owned business, and they're getting theirs from another. That's how we circulate wealth.
+Second, B2B connections. Find partners, suppliers, and customers within our community. Imagine getting your supplies from another community business, and they're getting theirs from another. That's how we circulate wealth.
 
 Third, Susu circles. Community-powered rotating savings. No bank, no credit check. Just our community supporting each other.
 

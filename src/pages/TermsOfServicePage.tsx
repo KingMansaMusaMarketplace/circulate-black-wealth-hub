@@ -9,31 +9,31 @@ const TermsOfServicePage = () => {
     {
       icon: <CheckCircle className="h-6 w-6" />,
       title: "Acceptance of Terms",
-      content: "By accessing and using Mansa Musa Marketplace, you accept and agree to be bound by the terms and provision of this agreement. Your continued use of the platform constitutes acceptance of any updates or modifications to these terms.",
+      content: "By accessing and using 1325.AI, you accept and agree to be bound by the terms and provision of this agreement. Your continued use of the platform constitutes acceptance of any updates or modifications to these terms.",
       iconBg: "from-blue-500 to-cyan-600"
     },
     {
       icon: <Database className="h-6 w-6" />,
       title: "Data Ownership & Aggregate Insights",
-      content: "While merchants retain full ownership of their specific business data (name, address, inventory, customer lists), Mansa Musa Marketplace owns all 'Aggregate Data' and 'AI-Derived Insights' generated from platform-wide activity. This includes anonymized trend reports, market analysis, spending patterns, and community economic impact metrics. This aggregate data may be used for research, reporting, and commercial purposes without individual attribution.",
+      content: "While merchants retain full ownership of their specific business data (name, address, inventory, customer lists), 1325.AI owns all 'Aggregate Data' and 'AI-Derived Insights' generated from platform-wide activity. This includes anonymized trend reports, market analysis, spending patterns, and community economic impact metrics. This aggregate data may be used for research, reporting, and commercial purposes without individual attribution.",
       iconBg: "from-purple-500 to-indigo-600"
     },
     {
       icon: <Key className="h-6 w-6" />,
       title: "License to Content",
-      content: "By listing your business or posting content on Mansa Musa Marketplace, you grant us a non-exclusive, worldwide, royalty-free license to use, display, reproduce, and distribute your business names, logos, product images, descriptions, and promotional materials. This license enables us to operate the Proximity Notification system, populate the business directory, feature your content in the social feed, and promote the marketplace ecosystem.",
+      content: "By listing your business or posting content on 1325.AI, you grant us a non-exclusive, worldwide, royalty-free license to use, display, reproduce, and distribute your business names, logos, product images, descriptions, and promotional materials. This license enables us to operate the Proximity Notification system, populate the business directory, feature your content in the social feed, and promote the marketplace ecosystem.",
       iconBg: "from-green-500 to-emerald-600"
     },
     {
       icon: <Bot className="h-6 w-6" />,
       title: "AI Services Disclaimer",
-      content: "Mansa Musa Marketplace provides AI-powered features including but not limited to: b2b-match (business matching), generate-business-insights, ai-recommendations, detect-fraud, and analyze-review-sentiment. These services are provided 'as-is' for informational purposes only. AI-generated suggestions, recommendations, and insights are NOT professional advice. The platform is NOT liable for any business decisions, financial outcomes, or actions taken based on AI-generated output. Users should exercise independent judgment and consult qualified professionals for business, legal, or financial decisions.",
+      content: "1325.AI provides AI-powered features including but not limited to: b2b-match (business matching), generate-business-insights, ai-recommendations, detect-fraud, and analyze-review-sentiment. These services are provided 'as-is' for informational purposes only. AI-generated suggestions, recommendations, and insights are NOT professional advice. The platform is NOT liable for any business decisions, financial outcomes, or actions taken based on AI-generated output. Users should exercise independent judgment and consult qualified professionals for business, legal, or financial decisions.",
       iconBg: "from-violet-500 to-purple-600"
     },
     {
       icon: <Users className="h-6 w-6" />,
       title: "Agent Non-Solicitation",
-      content: "Merchants and businesses agree NOT to directly solicit, recruit, hire, or engage Mansa Musa Marketplace Sales Agents ('Ambassadors') for the purpose of bypassing the platform's commission structure. This prohibition extends for 24 months following any interaction with a Sales Agent through the platform. Violation of this clause may result in account termination and legal action to recover lost commissions and damages.",
+      content: "Merchants and businesses agree NOT to directly solicit, recruit, hire, or engage 1325.AI Sales Agents ('Ambassadors') for the purpose of bypassing the platform's commission structure. This prohibition extends for 24 months following any interaction with a Sales Agent through the platform. Violation of this clause may result in account termination and legal action to recover lost commissions and damages.",
       iconBg: "from-orange-500 to-red-600"
     },
     {
@@ -45,13 +45,13 @@ const TermsOfServicePage = () => {
     {
       icon: <CreditCard className="h-6 w-6" />,
       title: "Subscription & Transaction Fees",
-      content: "Mansa Musa Marketplace operates on a multi-tier revenue model including: Business Subscriptions (Basic, Premium, Enterprise), Sponsor Subscriptions (Community, Corporate), Platform Transaction Fees, Sales Agent Commissions, B2B Marketplace Fees, Premium AI Features, and Verified Certification Fees. All fees are processed via Stripe Connect and Apple In-App Purchase (for iOS). Subscription fees are non-refundable except as required by applicable law or platform policies. Transaction fees are deducted automatically from applicable transactions.",
+      content: "1325.AI operates on a multi-tier revenue model including: Business Subscriptions (Basic, Premium, Enterprise), Sponsor Subscriptions (Community, Corporate), Platform Transaction Fees, Sales Agent Commissions, B2B Marketplace Fees, Premium AI Features, and Verified Certification Fees. All fees are processed via Stripe Connect and Apple In-App Purchase (for iOS). Subscription fees are non-refundable except as required by applicable law or platform policies. Transaction fees are deducted automatically from applicable transactions.",
       iconBg: "from-emerald-500 to-green-600"
     },
     {
       icon: <Briefcase className="h-6 w-6" />,
       title: "B2B Marketplace Terms",
-      content: "Businesses participating in the B2B Marketplace acknowledge that their inventory, capabilities, and service offerings will be 'discoverable' by other verified vendors. By opting into B2B features, you consent to automated matching via our b2b-match AI system. All B2B transactions, contracts, and agreements are between the participating businesses; Mansa Musa Marketplace acts solely as a facilitator and is not party to any B2B contracts.",
+      content: "Businesses participating in the B2B Marketplace acknowledge that their inventory, capabilities, and service offerings will be 'discoverable' by other verified vendors. By opting into B2B features, you consent to automated matching via our b2b-match AI system. All B2B transactions, contracts, and agreements are between the participating businesses; 1325.AI acts solely as a facilitator and is not party to any B2B contracts.",
       iconBg: "from-sky-500 to-blue-600"
     },
     {
@@ -63,7 +63,7 @@ const TermsOfServicePage = () => {
     {
       icon: <Scale className="h-6 w-6" />,
       title: "Limitation of Liability",
-      content: "In no event shall Mansa Musa Marketplace, its officers, directors, employees, or agents be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from: (i) your access to or use of or inability to access or use the service; (ii) any conduct or content of any third party on the service; (iii) AI-generated recommendations or insights; (iv) unauthorized access, use or alteration of your transmissions or content.",
+      content: "In no event shall 1325.AI, its officers, directors, employees, or agents be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from: (i) your access to or use of or inability to access or use the service; (ii) any conduct or content of any third party on the service; (iii) AI-generated recommendations or insights; (iv) unauthorized access, use or alteration of your transmissions or content.",
       iconBg: "from-gray-500 to-slate-600"
     },
     {
@@ -114,7 +114,7 @@ const TermsOfServicePage = () => {
         <div className="max-w-5xl mx-auto">
           <div className="mb-12 text-center">
             <p className="text-lg text-blue-200">
-              Please read these terms carefully before using our platform. By using Mansa Musa Marketplace, you agree to these terms and conditions.
+              Please read these terms carefully before using our platform. By using 1325.AI, you agree to these terms and conditions.
             </p>
           </div>
 
@@ -151,7 +151,7 @@ const TermsOfServicePage = () => {
                 <div>
                   <h3 className="font-bold text-green-400 mb-2 text-lg">Built for Trust & Compliance</h3>
                   <p className="text-green-100/80 leading-relaxed">
-                    The Mansa Musa Marketplace infrastructure is built for CCPA and GDPR compliance. By utilizing Supabase Row-Level Security, we ensure that user data is mathematically isolated. Our Stripe Connect integration ensures that we never touch raw sensitive financial data, reducing our regulatory footprint while maximizing merchant security.
+                    The 1325.AI infrastructure is built for CCPA and GDPR compliance. By utilizing Supabase Row-Level Security, we ensure that user data is mathematically isolated. Our Stripe Connect integration ensures that we never touch raw sensitive financial data, reducing our regulatory footprint while maximizing merchant security.
                   </p>
                 </div>
               </div>

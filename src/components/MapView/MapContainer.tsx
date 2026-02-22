@@ -22,7 +22,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
         <div className="bg-white p-4 border-b border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-lg font-medium text-mansablue">Nearby Black-Owned Businesses</h3>
+              <h3 className="text-lg font-medium text-mansablue">Nearby Verified Businesses</h3>
               <p className="text-sm text-gray-500">
                 {userLocation ? `${nearbyBusinesses.length} businesses found near you` : `Find businesses near you`}
               </p>

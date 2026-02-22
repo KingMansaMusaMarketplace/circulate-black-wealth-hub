@@ -138,7 +138,7 @@ export const useAppLifecycle = () => {
       window.history.back();
     } else {
       // On home page, show exit confirmation
-      if (confirm('Exit Mansa Musa Marketplace?')) {
+      if (confirm('Exit 1325.AI?')) {
         try {
           const { App } = await import('@capacitor/app');
           App.exitApp();
@@ -164,7 +164,7 @@ export const useAppLifecycle = () => {
         await LocalNotifications.schedule({
           notifications: [{
             title: 'Welcome Back! 👋',
-            body: 'Discover new Black-owned businesses and check your rewards.',
+            body: 'Discover new verified businesses and check your rewards.',
             id: Date.now(),
             schedule: { at: new Date(Date.now() + 1000) }
           }]

@@ -28,7 +28,7 @@ const UserSettingsPage: React.FC = () => {
         <title>Account Settings - 1325.AI</title>
         <meta 
           name="description" 
-          content="Manage your account settings, preferences, and data on Mansa Musa Marketplace." 
+          content="Manage your account settings, preferences, and data on 1325.AI." 
         />
       </Helmet>
       

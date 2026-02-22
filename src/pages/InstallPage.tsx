@@ -88,7 +88,7 @@ const InstallPage: React.FC = () => {
             </div>
             <CardTitle className="text-green-800">App Installed!</CardTitle>
             <CardDescription className="text-green-700">
-              You're already using the installed version of Mansa Musa Marketplace
+              You're already using the installed version of 1325.AI
             </CardDescription>
           </CardHeader>
         </Card>
@@ -101,10 +101,10 @@ const InstallPage: React.FC = () => {
       <div className="text-center mb-8">
         <img 
           src="/app-icon-source.png" 
-          alt="Mansa Musa Marketplace" 
-          className="w-24 h-24 mx-auto mb-4 rounded-2xl shadow-lg"
-        />
-        <h1 className="text-3xl font-bold mb-2">Install Mansa Musa</h1>
+           alt="1325.AI" 
+           className="w-24 h-24 mx-auto mb-4 rounded-2xl shadow-lg"
+         />
+        <h1 className="text-3xl font-bold mb-2">Install 1325.AI</h1>
         <p className="text-muted-foreground">
           Get the full app experience with offline access, push notifications, and more
         </p>

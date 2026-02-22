@@ -4,14 +4,14 @@ export const getBriefPartnershipOverviewContent = (): string => {
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 25px; border-bottom: 3px solid #000000; padding-bottom: 20px;">
         <h1 style="color: #000000; font-size: 28px; margin-bottom: 5px; font-weight: bold;">Partnership Overview</h1>
-        <h2 style="color: #000000; font-size: 20px; margin-bottom: 10px; font-weight: bold;">Mansa Musa Marketplace</h2>
+        <h2 style="color: #000000; font-size: 20px; margin-bottom: 10px; font-weight: bold;">1325.AI</h2>
         <p style="font-size: 15px; color: #000000; margin: 0;">Building the Community Economic Ecosystem</p>
       </div>
 
       <!-- Mission & Impact -->
       <div style="margin-bottom: 25px;">
         <h3 style="color: #000000; font-size: 18px; margin-bottom: 10px; font-weight: bold;">Our Mission & Your Impact</h3>
-        <p style="font-size: 15px; margin-bottom: 10px; color: #000000; line-height: 1.7;">Mansa Musa Marketplace builds, protects, and expands the community economic ecosystem through intentional consumer behavior and strategic digital infrastructure. <strong>Your partnership directly supports verified businesses and creates sustainable economic opportunities in underserved communities.</strong></p>
+        <p style="font-size: 15px; margin-bottom: 10px; color: #000000; line-height: 1.7;">1325.AI builds, protects, and expands the community economic ecosystem through intentional consumer behavior and strategic digital infrastructure. <strong>Your partnership directly supports verified businesses and creates sustainable economic opportunities in underserved communities.</strong></p>
       </div>
 
       <!-- Partnership Tiers -->
@@ -84,7 +84,7 @@ export const getBriefPartnershipOverviewContent = (): string => {
 
       <!-- Footer -->
       <div style="text-align: center; margin-top: 20px; font-size: 13px; color: #000000;">
-        <p>© 2026 Mansa Musa Marketplace • U.S. Patent Pending 63/969,202 • www.mansamusamarketplace.com</p>
+        <p>© 2026 1325.AI • U.S. Patent Pending 63/969,202 • www.1325.ai</p>
       </div>
     </div>
   `;

@@ -16,7 +16,7 @@ const HowItWorksContent: React.FC = () => {
           <li className="pl-2">
             <span className="font-medium">Complete the qualification test</span>
             <p className="text-gray-600 ml-6 mt-1">
-              Pass a simple test about Mansa Musa Marketplace to ensure you can represent us effectively.
+              Pass a simple test about 1325.AI to ensure you can represent us effectively.
             </p>
           </li>
           <li className="pl-2">
