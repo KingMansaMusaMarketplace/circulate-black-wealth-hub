@@ -1,59 +1,41 @@
 
 
-# Noir Travel - Homepage CTA + Landing Page
+# Noir Rebrand: Lead with Excellence
 
 ## Overview
-Add **Noir** as the third branded vertical on the homepage, following the proven pattern established by **Mansa Stays**. Noir will have both a homepage CTA card and a dedicated `/noir` landing page.
+Update the Noir homepage CTA and landing page to position Noir as a full-market ride-share competitor. Lead with quality, fairness, and the 80/20 driver split -- not race-specific language.
 
-## Homepage Placement
+## Changes
 
-The homepage section order will become:
+### 1. Homepage CTA (`src/components/HomePage/NoirRideCTA.tsx`)
 
-1. Hero
-2. MissionPreview
-3. **VacationRentalsCTA (Mansa Stays)**
-4. **NoirRideCTA (NEW)** -- right after Stays, grouping the two branded verticals together
-5. ThreePillars
-6. FeaturedBusinesses
-7. CTASection
-8. CirculationGap
+**Current** --> **New**
+- Headline: "Premium Rides to **Black-Owned** Businesses" --> "Premium Rides. **Fair Prices.** Your Driver Keeps More."
+- Description: "supporting Black drivers and Black businesses" --> "Lower fees for riders, higher pay for drivers. Noir takes just 20% -- your driver keeps the rest."
+- Value props: Keep "Safe Rides" and "Door-to-Door", add "Drivers Keep 80%"
 
-The Noir CTA card will mirror the Mansa Stays card design (glassmorphic card, two-column layout with content + image) but with its own luxury black/gold branding to match the "noir.travel" identity.
+### 2. Landing Page (`src/pages/NoirLandingPage.tsx`)
 
-## What Gets Built
+**Hero Section**
+- Current: "Premium rides to Black-owned businesses. Support the community with every trip."
+- New: "The Ride-Share That Puts People First. Lower fares. Higher driver pay. Premium experience."
 
-### 1. Homepage CTA Component
-**File:** `src/components/HomePage/NoirRideCTA.tsx`
+**How It Works Steps**
+- Step 1: "Pick a Destination" --> "Enter Your Destination" / "Going anywhere? Enter an address or pick a spot from our directory."
+- Step 2: "Choose Your Ride" --> "Get Matched" / "We connect you with a nearby Noir driver. No surge pricing games."
+- Step 3: "Arrive & Support" --> "Ride and Save" / "Pay less than the big apps. Your driver takes home 80% of the fare."
 
-- Same card structure as VacationRentalsCTA (animated reveal, two-column layout)
-- Branding: Black/dark theme with gold accents, car/ride imagery
-- Value props: "Safe Rides," "Support Black Drivers," "Door-to-Door"
-- Two CTA buttons:
-  - **"Request a Ride"** --> links to `/noir`
-  - **"Become a Driver"** --> links to `/noir#drivers` (future)
-- Lazy-loaded in HomePageSections.tsx like all other sections
+**Featured Destinations**
+- Header: "Ride to **Featured Businesses**" --> "**Popular Destinations**"
+- Subtext stays functional (pick a destination, we open your ride app)
 
-### 2. Dedicated Landing Page
-**File:** `src/pages/NoirLandingPage.tsx`
-**Route:** `/noir`
-
-- Premium landing page with luxury branding
-- Hero section with noir.travel domain callout
-- "How It Works" steps (pick destination, choose ride, go)
-- Integration with directory: "Ride to any business in our directory"
-- Deep-link buttons that open Uber/Lyft with the destination pre-filled (Phase 1 MVP)
-- Featured businesses you can ride to (pulls from directory)
-- Future driver signup section
-
-### 3. Route Registration
-- Add `/noir` route to the app router
-- Add NoirLandingPage to lazy components registry
+**Driver CTA**
+- Current: "drivers serving the community. Fair pay..."
+- New: "Keep 80% of every fare. No gimmicks. Noir drivers earn more because we take less -- just 20%."
 
 ## Technical Details
 
-- **NoirRideCTA.tsx** follows the exact same pattern as `VacationRentalsCTA.tsx` -- framer-motion scroll reveal, glassmorphic card, responsive grid layout
-- **HomePageSections.tsx** gets a new lazy import and section entry between VacationRentalsCTA and ThreePillars
-- **NoirLandingPage.tsx** is added to `LazyComponents.ts` for code-splitting
-- Uber deep-link format: `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]={lat}&dropoff[longitude]={lng}&dropoff[nickname]={businessName}`
-- The landing page will pull featured businesses from the existing directory data to show "popular destinations"
+Only two files are modified -- no routing, schema, or structural changes:
+- `src/components/HomePage/NoirRideCTA.tsx` -- copy updates to headline, description, and value props
+- `src/pages/NoirLandingPage.tsx` -- copy updates to hero, steps array, section headers, and driver CTA text
 
