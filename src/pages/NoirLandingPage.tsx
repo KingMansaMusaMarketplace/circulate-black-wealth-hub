@@ -93,7 +93,7 @@ const NoirLandingPage: React.FC = () => {
             transition={{ duration: 0.7 }}
           >
             <div className="flex items-center justify-center mb-6">
-              <img src={noirLogo} alt="Noir Rideshare" className="h-56 md:h-80 w-auto brightness-150 contrast-125 drop-shadow-[0_0_60px_rgba(255,193,7,0.5)]" />
+              <img src={noirLogo} alt="Noir Rideshare" className="h-64 md:h-96 w-auto brightness-150 contrast-125 drop-shadow-[0_0_60px_rgba(255,193,7,0.5)]" />
             </div>
 
             <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-3 leading-relaxed">
