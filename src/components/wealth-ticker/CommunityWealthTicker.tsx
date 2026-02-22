@@ -126,7 +126,7 @@ const CommunityWealthTicker = ({ variant = 'full', className = '' }: CommunityWe
           <span className="text-gradient-gold">Wealth Multiplier</span>
         </h2>
         <p className="text-blue-200/80 max-w-2xl mx-auto">
-          Every dollar spent at a Black-owned business creates <span className="text-mansagold font-semibold">{metrics.multiplier}x</span> the economic impact in our community.
+          Every dollar spent at a community business creates <span className="text-mansagold font-semibold">{metrics.multiplier}x</span> the economic impact in our community.
         </p>
       </motion.div>
 

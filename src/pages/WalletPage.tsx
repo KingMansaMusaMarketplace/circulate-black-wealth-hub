@@ -58,7 +58,7 @@ const WalletPage: React.FC = () => {
             My Wallet
           </h1>
           <p className="text-slate-300 max-w-2xl mx-auto text-lg">
-            Manage your funds, track transactions, and spend at Black-owned businesses.
+            Manage your funds, track transactions, and spend at community businesses.
           </p>
         </motion.div>
 

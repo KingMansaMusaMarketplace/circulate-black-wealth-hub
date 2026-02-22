@@ -50,7 +50,7 @@ const AdvancedSearchFilters: React.FC<AdvancedSearchFiltersProps> = ({
   };
   
   const features = [
-    'Black-owned',
+    'Community-owned',
     'Verified business',
     'Online ordering',
     'Delivery available',

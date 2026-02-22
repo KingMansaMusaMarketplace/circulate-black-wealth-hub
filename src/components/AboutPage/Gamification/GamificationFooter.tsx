@@ -12,7 +12,7 @@ const GamificationFooter = () => {
         </Button>
       </Link>
       <p className="text-white/90 font-medium mt-6 bg-white/10 backdrop-blur-sm inline-block px-6 py-3 rounded-full border border-mansagold/30 shadow-md">
-        🎮 Join the movement and get rewarded for supporting Black-owned businesses
+        🎮 Join the movement and get rewarded for supporting community businesses
       </p>
     </div>
   );

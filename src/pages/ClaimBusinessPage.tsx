@@ -168,7 +168,7 @@ const ClaimBusinessPage: React.FC = () => {
                   </Badge>
                   <h3 className="text-xl font-semibold text-white mb-2">{businessName}</h3>
                   <p className="text-slate-400 text-sm">
-                    You're about to claim ownership of this business listing on Mansa Musa Marketplace.
+                    You're about to claim ownership of this business listing on 1325.AI.
                   </p>
                 </div>
 

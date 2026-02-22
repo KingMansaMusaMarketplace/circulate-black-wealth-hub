@@ -25,7 +25,7 @@ const tierConfig = {
     bgClass: 'bg-muted',
     textClass: 'text-muted-foreground',
     borderClass: 'border-muted-foreground/30',
-    description: 'This business is listed on Mansa Musa Marketplace',
+    description: 'This business is listed on 1325.AI',
   },
   verified: {
     label: 'Verification Pending',
@@ -41,7 +41,7 @@ const tierConfig = {
     bgClass: 'bg-gradient-to-r from-emerald-500/20 to-green-500/20',
     textClass: 'text-emerald-500 dark:text-emerald-400',
     borderClass: 'border-emerald-500/50',
-    description: 'Verified 51%+ Black-owned business',
+    description: 'Verified 51%+ community-owned business',
   },
   premium: {
     label: 'Premium Certified',
@@ -49,7 +49,7 @@ const tierConfig = {
     bgClass: 'bg-gradient-to-r from-amber-500/30 to-yellow-400/30',
     textClass: 'text-amber-800 dark:text-amber-200',
     borderClass: 'border-amber-500/70',
-    description: 'Verified Black-owned business with premium membership',
+    description: 'Verified community-owned business with premium membership',
   },
 };
 

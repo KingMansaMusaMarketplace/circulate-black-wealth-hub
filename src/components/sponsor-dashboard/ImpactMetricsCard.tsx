@@ -33,7 +33,7 @@ export const ImpactMetricsCard: React.FC<ImpactMetricsCardProps> = ({
       label: 'Businesses Supported',
       value: businessesSupported,
       icon: <Building2 className="h-5 w-5" />,
-      description: 'Unique Black-owned businesses',
+      description: 'Unique community businesses',
       format: 'number',
       gradient: 'from-amber-500 to-yellow-600',
     },

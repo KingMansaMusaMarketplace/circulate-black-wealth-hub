@@ -82,7 +82,7 @@ const SponsorshipCTASection: React.FC<SponsorshipCTASectionProps> = ({
               
               {/* Trust statement */}
               <p className="mt-10 text-sm text-blue-200/50">
-                Join 50+ organizations already making an impact with Mansa Musa Marketplace
+                Join 50+ organizations already making an impact with 1325.AI
               </p>
             </div>
           </div>

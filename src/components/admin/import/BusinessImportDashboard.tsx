@@ -191,7 +191,7 @@ export const BusinessImportDashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white">Business Import Engine</h1>
-          <p className="text-blue-200">Import and reach out to Black-owned businesses at scale</p>
+          <p className="text-blue-200">Import and reach out to community businesses at scale</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <Button 

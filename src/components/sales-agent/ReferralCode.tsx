@@ -58,8 +58,8 @@ const ReferralCode: React.FC<ReferralCodeProps> = ({ referralCode }) => {
       try {
         setSharing(true);
         await navigator.share({
-          title: 'Join Mansa Musa Marketplace',
-          text: 'Join Mansa Musa Marketplace using my referral code',
+          title: 'Join 1325.AI',
+          text: 'Join 1325.AI using my referral code',
           url: referralUrl,
         });
         

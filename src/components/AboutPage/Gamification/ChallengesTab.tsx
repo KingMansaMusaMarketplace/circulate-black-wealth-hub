@@ -7,8 +7,8 @@ import { Star, Trophy } from 'lucide-react';
 
 const ChallengesTab = () => {
   const currentChallenges = [
-    { title: 'Weekend Explorer', desc: 'Visit 3 different Black-owned businesses this weekend', progress: 33, current: '1/3', timeLeft: '2 days left', reward: '100 bonus points', badge: 'Active', badgeColor: 'bg-mansablue', gradient: 'from-mansablue to-blue-700' },
-    { title: 'Foodie Tour', desc: 'Visit 5 different Black-owned restaurants this month', progress: 60, current: '3/5', timeLeft: '12 days left', reward: '$15 gift card', badge: 'Active', badgeColor: 'bg-blue-600', gradient: 'from-blue-600 to-blue-800' },
+    { title: 'Weekend Explorer', desc: 'Visit 3 different community businesses this weekend', progress: 33, current: '1/3', timeLeft: '2 days left', reward: '100 bonus points', badge: 'Active', badgeColor: 'bg-mansablue', gradient: 'from-mansablue to-blue-700' },
+    { title: 'Foodie Tour', desc: 'Visit 5 different community restaurants this month', progress: 60, current: '3/5', timeLeft: '12 days left', reward: '$15 gift card', badge: 'Active', badgeColor: 'bg-blue-600', gradient: 'from-blue-600 to-blue-800' },
     { title: 'Circulation Champion', desc: 'Spend a total of $200 at Black-owned businesses within 7 days', progress: 62.5, current: '$125/$200', timeLeft: '3 days left', reward: '250 bonus points + exclusive badge', badge: 'Special', badgeColor: 'bg-mansagold', gradient: 'from-mansagold to-amber-600' }
   ];
 

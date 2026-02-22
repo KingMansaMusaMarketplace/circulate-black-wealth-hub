@@ -26,7 +26,7 @@ const AllPagesDirectory = () => {
     { path: '/', name: 'Home', icon: Home, category: 'Main', description: 'Main landing page' },
     { path: '/about', name: 'About Us', icon: Info, category: 'Main', description: 'Learn about our mission' },
     { path: '/blog', name: 'Blog', icon: BookOpen, category: 'Main', description: 'News and articles' },
-    { path: '/directory', name: 'Business Directory', icon: Store, category: 'Main', description: 'Find Black-owned businesses' },
+    { path: '/directory', name: 'Business Directory', icon: Store, category: 'Main', description: 'Find verified community businesses' },
     { path: '/community', name: 'Community Hub', icon: Users, category: 'Main', description: 'Community resources' },
     { path: '/how-it-works', name: 'How It Works', icon: BookOpen, category: 'Main', description: 'Platform guide' },
     { path: '/features', name: 'Features', icon: Sparkles, category: 'Main', description: 'Platform features' },

@@ -10,7 +10,7 @@ const SponsorshipSuccessStories = () => {
       logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       title: "Empowering Entrepreneurs",
       description: "Through our Platinum sponsorship, we've helped fund workshops that provided business development training to over 200 entrepreneurs, resulting in 35 new businesses launching within 6 months.",
-      quote: "Our partnership with Mansa Musa Marketplace aligns perfectly with our mission to create financial equity in underserved communities. The quantifiable impact has exceeded our expectations.",
+      quote: "Our partnership with 1325.AI aligns perfectly with our mission to create financial equity in underserved communities. The quantifiable impact has exceeded our expectations.",
       author: "Jennifer Wells",
       role: "Chief Diversity Officer",
       image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"

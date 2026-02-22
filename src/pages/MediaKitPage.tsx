@@ -66,12 +66,12 @@ const MediaKitPage = () => {
     {
       icon: Building2,
       title: 'Business Directory',
-      description: 'Comprehensive directory of verified Black-owned businesses with reviews and ratings'
+      description: 'Comprehensive directory of verified community businesses with reviews and ratings'
     },
     {
       icon: Award,
       title: 'Loyalty Points System',
-      description: 'Reward customers for supporting Black-owned businesses with redeemable points'
+      description: 'Reward customers for supporting community businesses with redeemable points'
     },
     {
       icon: Users,
@@ -80,8 +80,8 @@ const MediaKitPage = () => {
     },
     {
       icon: Sparkles,
-      title: 'Mansa AI Assistant',
-      description: 'AI-powered assistant for business recommendations and financial guidance'
+      title: '1325 AI Assistant',
+      description: 'AI-powered assistant for business recommendations and community guidance'
     },
     {
       icon: Target,
@@ -91,7 +91,7 @@ const MediaKitPage = () => {
     {
       icon: ShieldCheck,
       title: 'Business Verification',
-      description: 'Multi-step verification ensuring authenticity of Black-owned businesses'
+      description: 'Multi-step verification ensuring authenticity of community businesses'
     }
   ];
 

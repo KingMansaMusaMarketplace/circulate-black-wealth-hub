@@ -32,7 +32,7 @@ export const DiscoveredBusinessesSection: React.FC = () => {
   };
 
   const handleCopyShareLink = (lead: ExternalLead) => {
-    const shareText = `Check out ${lead.business_name} on Mansa Musa Marketplace - a platform supporting Black-owned businesses! ${window.location.origin}/directory`;
+    const shareText = `Check out ${lead.business_name} on 1325.AI - a platform supporting community businesses! ${window.location.origin}/directory`;
     navigator.clipboard.writeText(shareText);
     toast.success('Share text copied!');
   };

@@ -39,7 +39,7 @@ const LeaderboardCard: React.FC<LeaderboardCardProps> = ({ limit = 10 }) => {
       .slice(0, 2);
   };
   
-  const shareTitle = "Check out my rank on the Mansa Musa Loyalty Leaderboard!";
+  const shareTitle = "Check out my rank on the 1325.AI Loyalty Leaderboard!";
   const shareText = userRank 
     ? `I'm ranked #${userRank} on the 1325.AI Loyalty Leaderboard with ${leaderboard.find(u => u.isCurrentUser)?.totalPoints || 0} points. Join me in supporting great businesses!` 
     : "Join me on 1325.AI, the app that rewards you for supporting great businesses!";

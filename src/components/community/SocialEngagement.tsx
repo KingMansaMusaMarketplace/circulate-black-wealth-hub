@@ -33,7 +33,7 @@ const SocialEngagement: React.FC<SocialEngagementProps> = ({
   const [sharing, setSharing] = useState(false);
 
   const shareUrl = `${window.location.origin}/business/${businessId}`;
-  const shareText = `Check out ${businessName} on Mansa Musa Marketplace - supporting Black-owned businesses!`;
+  const shareText = `Check out ${businessName} on 1325.AI - supporting community businesses!`;
 
   const handleShare = async (platform: string) => {
     setSharing(true);

@@ -111,7 +111,7 @@ export const NativeFeaturesOnboarding = () => {
       id: 'location',
       icon: MapPin,
       title: 'Background Location',
-      description: 'Get notified about nearby Black-owned businesses even when the app is closed',
+      description: 'Get notified about nearby community businesses even when the app is closed',
       action: async () => {
         try {
           await enableBackgroundLocation();
@@ -132,7 +132,7 @@ export const NativeFeaturesOnboarding = () => {
       action: async () => {
         await showLocalNotification(
           '🎉 Notifications Enabled!',
-          'You\'ll now receive updates about Black-owned businesses near you'
+          'You\'ll now receive updates about community businesses near you'
         );
         await haptics.success();
         toast.success('Check your notification center!');

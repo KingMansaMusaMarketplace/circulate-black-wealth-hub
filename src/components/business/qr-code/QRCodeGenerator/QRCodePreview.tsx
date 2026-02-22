@@ -64,7 +64,7 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({
                 />
               </div>
               <div className="text-center">
-                <p className="text-sm font-medium text-foreground">Mansa Musa Marketplace, Inc.</p>
+                <p className="text-sm font-medium text-foreground">1325.AI, Inc.</p>
               </div>
             </div>
           ) : (

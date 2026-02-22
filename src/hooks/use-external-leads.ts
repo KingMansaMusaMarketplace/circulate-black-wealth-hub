@@ -92,7 +92,7 @@ export function useExternalLeads() {
         body: {
           businessName: lead.business_name,
           businessEmail: email,
-          inviterName: profile?.full_name || 'A Mansa Musa member',
+          inviterName: profile?.full_name || 'A 1325.AI member',
           inviterBusinessName: business?.business_name,
           category: lead.category || 'business services',
           personalMessage,
@@ -184,7 +184,7 @@ export function useExternalLeads() {
                 body: {
                   businessName: lead.business_name,
                   businessEmail: lead.contact_info?.email,
-                  inviterName: profile?.full_name || 'A Mansa Musa member',
+                  inviterName: profile?.full_name || 'A 1325.AI member',
                   inviterBusinessName: business?.business_name,
                   category: lead.category || 'business services',
                   personalMessage,

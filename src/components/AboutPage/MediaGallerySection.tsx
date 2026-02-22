@@ -11,7 +11,7 @@ const MediaGallerySection = () => {
       title: "The Economic Power of Circulation",
       source: "Economic Empowerment Today",
       date: "May 15, 2024",
-      preview: "How Mansa Musa Marketplace is revolutionizing Black economic empowerment through intentional circulation...",
+      preview: "How 1325.AI is revolutionizing community economic empowerment through intentional circulation...",
       icon: <FileText className="h-5 w-5" />,
       link: "/blog",
       isExternal: false
@@ -31,7 +31,7 @@ const MediaGallerySection = () => {
       title: "Black Dollar Circulation: The 72-Hour Challenge",
       source: "Community Economics Magazine",
       date: "March 21, 2024",
-      preview: "Analyzing how Mansa Musa Marketplace has extended Black dollar circulation time from 6 to 72 hours...",
+      preview: "Analyzing how 1325.AI has extended community dollar circulation time from 6 to 72 hours...",
       icon: <FileText className="h-5 w-5" />,
       link: "/blog",
       isExternal: false

@@ -82,7 +82,7 @@ const SalesAgentHelpSection: React.FC = () => {
       <div className="text-center">
         <h2 className="text-2xl font-bold text-mansablue mb-4">Sales Agent Help Center</h2>
         <p className="text-gray-600 mb-6">
-          Everything you need to know about being a successful Mansa Musa Marketplace sales agent
+          Everything you need to know about being a successful 1325.AI sales agent
         </p>
         <Button onClick={resetOnboarding} variant="outline" className="mb-8">
           Restart Onboarding Tour

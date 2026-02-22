@@ -235,7 +235,7 @@ const ContactForm = () => {
               allowFullScreen 
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Mansa Musa Marketplace Office Location"
+              title="1325.AI Office Location"
             ></iframe>
           </div>
         </div>

@@ -32,7 +32,7 @@ const VisionSection = () => {
             </CardHeader>
             <CardContent className="pt-6">
               <p className="text-blue-100/90 text-center font-medium leading-relaxed">
-                Black-owned businesses empowered globally through our platform
+                Community businesses empowered globally through our platform
               </p>
             </CardContent>
           </Card>

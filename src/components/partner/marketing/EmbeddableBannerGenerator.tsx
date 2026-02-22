@@ -97,7 +97,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     <div style="font-size: 11px; opacity: 0.9;">${valueProposition.roi} ROI on business tools</div>
   </div>
   <p style="margin: 0 0 16px 0; font-size: 14px; color: ${colors.muted}; line-height: 1.5;">
-    The economic operating system for Black-owned businesses. Get discovered, connect B2B, and build wealth together.
+    The economic operating system for community businesses. Get discovered, connect B2B, and build wealth together.
   </p>
   <a href="${partner.referral_link}" target="_blank" rel="noopener" style="
     display: inline-block;
@@ -146,7 +146,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
   </div>
   
   <p style="margin: 0 0 16px 0; font-size: 14px; color: ${colors.muted}; line-height: 1.6;">
-    The economic operating system for Black-owned businesses.
+    The economic operating system for community businesses.
   </p>
   
   <div style="margin-bottom: 20px;">

@@ -33,7 +33,7 @@ const NDACoverLetter = forwardRef<HTMLDivElement, NDACoverLetterProps>(
             style={{ height: "70px", marginBottom: "6px" }}
           />
           <p style={{ fontSize: "11px", color: "#4a5568", margin: "0" }}>
-            d/b/a Mansa Musa Marketplace, Inc. — Chicago, Illinois
+            d/b/a 1325.AI, Inc. — Chicago, Illinois
           </p>
         </div>
 
@@ -101,7 +101,7 @@ const NDACoverLetter = forwardRef<HTMLDivElement, NDACoverLetterProps>(
           <p style={{ fontWeight: "bold", margin: 0, fontSize: "13px" }}>Thomas D. Bowling</p>
           <p style={{ fontSize: "11px", margin: "3px 0 0 0" }}>Founder & Chief Architect</p>
           <p style={{ fontSize: "11px", color: "#4a5568", margin: "3px 0 0 0" }}>
-            1325.AI | Mansa Musa Marketplace, Inc.
+            1325.AI, Inc.
           </p>
         </div>
 

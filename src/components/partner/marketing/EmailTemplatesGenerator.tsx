@@ -31,13 +31,13 @@ const EmailTemplatesGenerator: React.FC<EmailTemplatesGeneratorProps> = ({ partn
       subject: `Exciting News: ${partner.directory_name} Partners with 1325.AI`,
       body: `Hello,
 
-I'm excited to share that ${partner.directory_name} has partnered with 1325.AI - the Economic Operating System designed specifically for Black-owned businesses.
+I'm excited to share that ${partner.directory_name} has partnered with 1325.AI - the Economic Operating System designed specifically for community businesses.
 
 💰 THE VALUE: $700/month in business tools for just $100/month - that's a 7x return on your investment!
 
 This platform offers incredible tools to help your business thrive:
 
-✅ Get discovered by conscious consumers actively seeking Black-owned businesses
+✅ Get discovered by conscious consumers actively seeking community businesses
 ✅ Connect with other businesses for B2B partnerships and opportunities  
 ✅ Access community-powered financing through Susu savings circles
 ✅ Build customer loyalty with integrated rewards programs
@@ -60,7 +60,7 @@ ${partner.directory_name}`,
       subject: 'Don\'t Miss Out: $700/mo in Tools for $100/mo at 1325.AI',
       body: `Hi there,
 
-A quick reminder about 1325.AI - the platform helping Black-owned businesses grow and connect.
+A quick reminder about 1325.AI - the platform helping community businesses grow and connect.
 
 💰 THE VALUE: Members get $700/month worth of business tools for just $100/month. That's a 7x ROI!
 
@@ -98,7 +98,7 @@ Since joining, our community members have:
 • Increased visibility to conscious consumers
 • Built stronger customer loyalty
 
-The platform tracks economic impact using their CMAL (Circulatory Multiplier Attribution Logic) system - showing how every dollar spent at Black-owned businesses multiplies through the community.
+The platform tracks economic impact using their CMAL (Circulatory Multiplier Attribution Logic) system - showing how every dollar spent at community businesses multiplies through the community.
 
 Ready to be part of this movement? Sign up free:
 ${partner.referral_link}

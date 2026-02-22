@@ -15,7 +15,7 @@ const FAQSection = () => {
       answer: "Unlike traditional marketplaces that simply facilitate transactions, 1325.AI is designed with economic circulation as its core principle. We track, measure, and incentivize spending within community businesses, creating a virtuous cycle of economic empowerment."
     },
     {
-      question: "Who was Mansa Musa and why name the platform after him?",
+      question: "Who was Mansa Musa and why is the platform inspired by him?",
       answer: "Mansa Musa was the 10th Emperor of Mali who ruled in the 14th century and is widely considered to be the wealthiest person in history. His economic influence and strategic wealth building serves as inspiration for our mission of creating sustainable community wealth circulation systems."
     },
     {
