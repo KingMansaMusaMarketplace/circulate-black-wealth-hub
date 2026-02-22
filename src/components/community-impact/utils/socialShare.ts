@@ -8,7 +8,7 @@ interface UserImpactMetrics {
 
 export const shareImpact = (userMetrics: UserImpactMetrics | null) => {
   if (userMetrics) {
-    const text = `I've supported ${userMetrics.businesses_supported} community businesses and helped circulate ${formatCurrency(userMetrics.wealth_circulated)} in our community! 💪 #CommunityWealth #MansaMusaMarketplace`;
+    const text = `I've supported ${userMetrics.businesses_supported} community businesses and helped circulate ${formatCurrency(userMetrics.wealth_circulated)} in our community! 💪 #CommunityWealth #1325AI`;
     
     if (navigator.share) {
       navigator.share({

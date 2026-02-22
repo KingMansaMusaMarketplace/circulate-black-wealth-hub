@@ -22,7 +22,7 @@ const CertificationAgreement: React.FC<CertificationAgreementProps> = ({
         <AlertDescription className="text-amber-800 dark:text-amber-200">
           <strong>Black-Owned Business Certification</strong>
           <p className="mt-1 text-sm">
-            Mansa Musa Marketplace is committed to supporting authentic Black-owned businesses. 
+            1325.AI is committed to supporting authentic Black-owned businesses. 
             Please carefully read and accept the certification agreement below.
           </p>
         </AlertDescription>
@@ -48,14 +48,14 @@ const CertificationAgreement: React.FC<CertificationAgreementProps> = ({
           </li>
           <li>
             I understand that providing false information may result in <strong>immediate removal</strong> 
-            from the Mansa Musa Marketplace platform and potential legal action.
+            from the 1325.AI platform and potential legal action.
           </li>
           <li>
-            I agree to <strong>notify Mansa Musa Marketplace</strong> within 30 days if there are any 
+            I agree to <strong>notify 1325.AI</strong> within 30 days if there are any 
             changes to the ownership structure that would affect the 51% Black ownership requirement.
           </li>
           <li>
-            I consent to Mansa Musa Marketplace <strong>verifying the information</strong> provided 
+            I consent to 1325.AI <strong>verifying the information</strong> provided 
             through third-party sources if necessary.
           </li>
         </ol>

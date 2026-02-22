@@ -4,7 +4,7 @@ export const getBrandAssetsContent = (): string => {
     <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #000000;">
       <div style="text-align: center; margin-bottom: 40px;">
         <h1 style="color: #000000; font-size: 36px; margin-bottom: 10px; font-weight: bold;">Brand Assets Package</h1>
-        <h2 style="color: #000000; font-size: 24px; margin-bottom: 20px; font-weight: bold;">Mansa Musa Marketplace</h2>
+        <h2 style="color: #000000; font-size: 24px; margin-bottom: 20px; font-weight: bold;">1325.AI</h2>
         <p style="font-size: 18px; color: #000000;">Logo Files, Brand Guidelines & Co-Marketing Materials</p>
       </div>
 

@@ -94,7 +94,7 @@ export const generateAchievementShareText = (achievement: {
 }) => {
   return {
     title: `🎉 Achievement Earned: ${achievement.achievement_name}!`,
-    text: `I just earned ${achievement.points_awarded} points on Mansa Musa Marketplace for ${achievement.achievement_name}! Join me in supporting Black-owned businesses.`,
+    text: `I just earned ${achievement.points_awarded} points on 1325.AI for ${achievement.achievement_name}! Join me in supporting great businesses.`,
     url: window.location.origin,
   };
 };
@@ -106,7 +106,7 @@ export const generateStreakShareText = (streak: {
 }) => {
   return {
     title: `🔥 ${streak.current_streak}-Day Shopping Streak!`,
-    text: `I'm on a ${streak.current_streak}-day streak supporting Black-owned businesses on Mansa Musa Marketplace! My longest streak is ${streak.longest_streak} days. #SupportBlackBusiness`,
+    text: `I'm on a ${streak.current_streak}-day streak supporting great businesses on 1325.AI! My longest streak is ${streak.longest_streak} days. #CommunityWealth`,
     url: window.location.origin,
   };
 };

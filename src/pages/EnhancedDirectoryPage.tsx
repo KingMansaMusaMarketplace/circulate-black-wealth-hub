@@ -132,7 +132,7 @@ const EnhancedDirectoryPage: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <Helmet>
         <title>Enhanced Directory | Mansa Musa Marketplace</title>
-        <meta name="description" content="Discover Black-owned businesses with AI-powered recommendations and smart filtering" />
+        <meta name="description" content="Discover community businesses with AI-powered recommendations and smart filtering" />
       </Helmet>
       
       {/* Desktop Hero Section */}

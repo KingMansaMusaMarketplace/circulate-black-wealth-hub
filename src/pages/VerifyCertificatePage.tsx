@@ -151,7 +151,7 @@ const VerifyCertificatePage: React.FC = () => {
                 Valid Certificate
               </h2>
               <p className="text-muted-foreground">
-                This business has been verified as a Certified Black-Owned Business
+                This business has been verified as a Certified Community Business
               </p>
             </div>
           ) : (
@@ -208,13 +208,13 @@ const VerifyCertificatePage: React.FC = () => {
             </Button>
             <Button asChild variant="ghost">
               <Link to="/">
-                Return to Mansa Musa Marketplace
+                Return to 1325.AI
               </Link>
             </Button>
           </div>
           
           <p className="text-xs text-center text-muted-foreground">
-            Verified by Mansa Musa Marketplace • Supporting Black-Owned Businesses
+            Verified by 1325.AI • Supporting Community Businesses
           </p>
         </CardContent>
       </Card>

@@ -341,7 +341,7 @@ export default function LeadsDashboardPage() {
                 <Globe className="h-12 w-12 text-slate-500 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-white mb-2">No leads yet</h3>
                 <p className="text-slate-400 mb-6">
-                  Discover Black-owned suppliers using web search in the B2B Marketplace
+                  Discover verified suppliers using web search in the B2B Marketplace
                 </p>
                 <Link to="/b2b-marketplace">
                   <Button className="bg-blue-600 hover:bg-blue-700 text-white">

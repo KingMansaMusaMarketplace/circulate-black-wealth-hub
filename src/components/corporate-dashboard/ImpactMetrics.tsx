@@ -88,7 +88,7 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ subscriptionId }) => {
               </div>
               <p className="text-3xl font-bold">{metrics.businesses_supported}</p>
               <p className="text-xs text-muted-foreground">
-                Black-owned businesses helped
+                Community businesses helped
               </p>
             </div>
 
@@ -136,12 +136,12 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ subscriptionId }) => {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground">
-            As a {metrics.businesses_supported > 0 ? 'valued' : 'new'} corporate sponsor, you're part of a movement that's creating real economic change in Black communities.
+            As a {metrics.businesses_supported > 0 ? 'valued' : 'new'} corporate sponsor, you're part of a movement that's creating real economic change in communities.
           </p>
           {metrics.businesses_supported > 0 && (
             <>
               <p className="text-muted-foreground">
-                Your support has helped <strong>{metrics.businesses_supported} Black-owned businesses</strong> grow and thrive, 
+                Your support has helped <strong>{metrics.businesses_supported} community businesses</strong> grow and thrive, 
                 facilitating <strong>{metrics.total_transactions} transactions</strong> and circulating 
                 <strong> ${metrics.economic_impact.toLocaleString()}</strong> in economic value.
               </p>

@@ -34,13 +34,13 @@ const customerSteps: OnboardingStep[] = [
   {
     id: 'welcome',
     title: 'Welcome to the Movement',
-    description: 'Join the community supporting Black-owned businesses',
+    description: 'Join the community supporting great local businesses',
     icon: Users,
     content: {
       title: 'Welcome to Mansa Musa Marketplace!',
-      description: 'You\'re now part of a movement to circulate wealth within the Black community. Every purchase you make helps strengthen our economic ecosystem.',
+      description: 'You\'re now part of a movement to circulate wealth within our community. Every purchase you make helps strengthen our economic ecosystem.',
       features: [
-        'Discover thousands of Black-owned businesses nationwide',
+        'Discover thousands of verified businesses nationwide',
         'Earn loyalty points and rewards for your support',
         'Track your community impact and economic contribution',
         'Connect with like-minded supporters and business owners'

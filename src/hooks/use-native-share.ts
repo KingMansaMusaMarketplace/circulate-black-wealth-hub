@@ -114,7 +114,7 @@ export const useNativeShare = () => {
 
   const shareBusiness = async (businessName: string, businessId: string) => {
     const url = `${window.location.origin}/business/${businessId}`;
-    const text = `Check out ${businessName} on Mansa Musa Marketplace - Supporting Black-owned businesses!`;
+    const text = `Check out ${businessName} on 1325.AI - Discover great businesses in your community!`;
     
     return await shareUrl(url, text, 'Share Business');
   };
@@ -124,7 +124,7 @@ export const useNativeShare = () => {
       ? `${window.location.origin}?ref=${referralCode}`
       : window.location.origin;
     
-    const text = 'Join me in supporting Black-owned businesses on Mansa Musa Marketplace! Download the app and earn rewards.';
+    const text = 'Join me on 1325.AI - discover great businesses in your community and earn rewards!';
     
     return await shareUrl(url, text, 'Invite Friends');
   };

@@ -15,7 +15,7 @@ const SocialProofPage = () => {
   const statsData = [
     { value: "1M", label: "Member Goal", sublabel: "Help us grow" },
     { value: "New", label: "& Growing", sublabel: "Join early" },
-    { value: "100%", label: "Black-Owned", sublabel: "Supporting our community" },
+    { value: "100%", label: "Verified", sublabel: "Supporting our community" },
     { value: "24/7", label: "Always Open", sublabel: "Shop anytime" }
   ];
 

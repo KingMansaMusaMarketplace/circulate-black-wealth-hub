@@ -47,7 +47,7 @@ ${partner.referral_link}`,
 
 💰 THE VALUE: $700/month in business tools for just $100/month - that's a 7x ROI!
 
-1325.ai is building the economic infrastructure for Black-owned businesses, offering:
+1325.ai is building the economic infrastructure for community businesses, offering:
 
 ✅ Business directory visibility to conscious consumers
 ✅ B2B marketplace for partnerships & supply chain
@@ -55,13 +55,13 @@ ${partner.referral_link}`,
 ✅ Loyalty & engagement tools
 ✅ Economic impact tracking
 
-If you're a Black business owner, this is your opportunity to join a movement focused on building generational wealth.
+If you're a business owner, this is your opportunity to join a movement focused on building generational wealth.
 
 Sign up for FREE Founding Member status (closes Sept 1, 2026 or 100K members — whichever first!):
 ${partner.referral_link}
 
 Let's circulate wealth and build legacy together. 💪`,
-      hashtags: ['BlackOwnedBusiness', 'EconomicEmpowerment', 'BuyBlack', 'BusinessGrowth', 'CommunityWealth'],
+      hashtags: ['CommunityBusiness', 'EconomicEmpowerment', 'SupportLocal', 'BusinessGrowth', 'CommunityWealth'],
     },
     {
       id: 'facebook',
@@ -73,9 +73,9 @@ ${partner.directory_name} has partnered with 1325.ai to bring you an amazing opp
 
 💰 GET $700/MONTH IN BUSINESS TOOLS FOR JUST $100/MONTH - THAT'S 7X YOUR INVESTMENT! 💰
 
-1325.ai is a FREE platform designed specifically for Black-owned businesses. Here's what you get:
+1325.ai is a FREE platform designed to help community businesses thrive. Here's what you get:
 
-🔹 Get discovered by customers looking to support Black businesses
+🔹 Get discovered by customers looking to support great businesses
 🔹 Connect with other businesses for partnerships
 🔹 Access community savings circles (Susu)
 🔹 Build customer loyalty programs
@@ -84,14 +84,14 @@ ${partner.directory_name} has partnered with 1325.ai to bring you an amazing opp
 Sign up now and become a Founding Member (FREE — closes Sept 2026 or at 100K members!):
 ${partner.referral_link}
 
-Tag a Black business owner who needs to see this! 👇`,
-      hashtags: ['BlackOwnedBusiness', 'BuyBlack', 'SupportBlackBusiness', 'CommunityWealth'],
+Tag a business owner who needs to see this! 👇`,
+      hashtags: ['CommunityBusiness', 'SupportLocal', 'CommunityWealth'],
     },
     {
       id: 'whatsapp',
       platform: 'WhatsApp / SMS',
       icon: <MessageCircle className="w-4 h-4" />,
-      content: `Hey! I wanted to share something with you. ${partner.directory_name} just partnered with 1325.ai - a FREE platform for Black-owned businesses.
+      content: `Hey! I wanted to share something with you. ${partner.directory_name} just partnered with 1325.ai - a FREE platform for community businesses.
 
 💰 The value: $700/month in tools for just $100/month (7x ROI!)
 

@@ -13,7 +13,7 @@ import {
 
 const PitchSlide3Solution: React.FC = () => {
   const solutions = [
-    { icon: Building2, title: 'Business Directory', description: 'Verified Black-owned business listings with full profiles' },
+    { icon: Building2, title: 'Business Directory', description: 'Verified business listings with full profiles' },
     { icon: Calculator, title: 'Full Accounting Suite', description: 'Invoicing, expenses, payroll — we are their QuickBooks' },
     { icon: Network, title: 'B2B Marketplace', description: 'Connect businesses for wholesale supply chain' },
     { icon: Heart, title: 'Loyalty Program', description: 'Cross-business rewards keeping dollars in community' },

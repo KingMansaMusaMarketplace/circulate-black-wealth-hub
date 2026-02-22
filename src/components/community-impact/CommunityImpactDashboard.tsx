@@ -98,7 +98,7 @@ const CommunityImpactDashboard: React.FC = () => {
                 <div>
                   <p className="text-white font-medium">Start Your Impact Journey</p>
                   <p className="text-sm text-white/70">
-                    Visit and support Black-owned businesses to see your personal impact metrics grow!
+                    Visit and support community businesses to see your personal impact metrics grow!
                   </p>
                 </div>
               </CardContent>

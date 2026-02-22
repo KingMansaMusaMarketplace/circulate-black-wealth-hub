@@ -71,7 +71,7 @@ const QRCodeScannerV2Page: React.FC = () => {
                   <span className="text-blue-600 text-xl font-bold">1</span>
                 </div>
                 <h3 className="font-medium mb-2">Find a QR Code</h3>
-                <p className="text-sm text-gray-500">Look for QR codes at participating Black-owned businesses</p>
+                <p className="text-sm text-gray-500">Look for QR codes at participating businesses</p>
               </div>
               
               <div className="flex flex-col items-center text-center">

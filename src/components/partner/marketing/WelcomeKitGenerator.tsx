@@ -16,7 +16,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
 
   const benefits = [
-    'Get discovered by conscious consumers actively seeking Black-owned businesses',
+    'Get discovered by conscious consumers actively seeking great businesses',
     'Access exclusive B2B matching to find partners, suppliers, and customers',
     'Join rotating savings circles (Susu) for community-powered financing',
     'Build loyalty with integrated rewards and customer engagement tools',
@@ -86,7 +86,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
   <div class="container">
     <div class="header">
       <h1 style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</h1>
-      <p>The Economic Operating System for Black-Owned Businesses</p>
+      <p>The Economic Operating System for Community Businesses</p>
       <div class="partner-badge">Referred by ${partner.directory_name}</div>
     </div>
     

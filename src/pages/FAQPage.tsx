@@ -9,7 +9,7 @@ const FAQPage = () => {
   const faqs = [
     {
       question: "What is Mansa Musa Marketplace?",
-      answer: "Mansa Musa Marketplace is a platform that connects consumers with Black-owned businesses, helping to strengthen community wealth through strategic economic circulation."
+      answer: "Mansa Musa Marketplace is a platform that connects consumers with great businesses in their community, helping to strengthen community wealth through strategic economic circulation."
     },
     {
       question: "How do I sign up?",
@@ -41,7 +41,7 @@ const FAQPage = () => {
     <div className="min-h-screen bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark relative overflow-hidden">
       <Helmet>
         <title>FAQ - Frequently Asked Questions | Mansa Musa Marketplace</title>
-        <meta name="description" content="Find answers to common questions about Mansa Musa Marketplace - how to sign up, use loyalty points, and support Black-owned businesses." />
+        <meta name="description" content="Find answers to common questions about Mansa Musa Marketplace - how to sign up, use loyalty points, and support community businesses." />
       </Helmet>
 
       {/* Premium ambient background */}

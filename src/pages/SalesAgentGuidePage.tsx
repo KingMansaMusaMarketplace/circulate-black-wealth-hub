@@ -65,7 +65,7 @@ const SalesAgentGuidePage: React.FC = () => {
               Earn up to 15% commissions + $75 recruitment bonuses + 7.5% team overrides
             </p>
             <p className="text-lg text-white mb-8 max-w-3xl mx-auto">
-              Join the Mansa Ambassador Program and get paid to connect Black-owned businesses with customers who want to support them.
+              Join the Mansa Ambassador Program and get paid to connect businesses with customers who want to support them.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -308,7 +308,7 @@ const SalesAgentGuidePage: React.FC = () => {
                 <div className="ml-6 flex-1">
                   <h3 className="text-xl font-bold mb-2 text-foreground">Pass Qualification Test</h3>
                   <p className="text-foreground/80 mb-3">
-                    Complete a short test about our platform and Black-owned businesses. Shows you're ready to succeed!
+                    Complete a short test about our platform and community businesses. Shows you're ready to succeed!
                   </p>
                   <div className="flex items-center text-sm text-foreground/60">
                     <Clock className="w-4 h-4 mr-2" />

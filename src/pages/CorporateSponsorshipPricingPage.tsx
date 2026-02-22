@@ -144,7 +144,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
 
   const handleShare = async () => {
     const url = window.location.href;
-    const title = 'Support Black-Owned Businesses - Corporate Sponsorship';
+    const title = 'Support Community Businesses - Corporate Sponsorship';
     const text = 'Partner with us to create real impact! Choose from Bronze, Silver, Gold, or Platinum sponsorship tiers and support economic empowerment.';
     
     await shareUrl(url, text, title);
@@ -153,14 +153,14 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
   return (
     <IOSPaymentBlocker>
       <Helmet>
-        <title>Corporate Sponsorship - Support Black-Owned Businesses</title>
+        <title>Corporate Sponsorship - Support Community Businesses</title>
         <meta
           name="description"
           content="Become a corporate sponsor and make a real impact. Choose from Bronze, Silver, Gold, or Platinum partnership tiers. Get visibility while supporting economic empowerment."
         />
         <meta
           name="keywords"
-          content="corporate sponsorship, Black-owned businesses, community support, corporate social responsibility, CSR, economic empowerment"
+          content="corporate sponsorship, community businesses, community support, corporate social responsibility, CSR, economic empowerment"
         />
       </Helmet>
 
@@ -479,7 +479,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { title: 'Measurable Impact', description: 'Track exactly how your sponsorship supports Black-owned businesses with real-time metrics and transparent reporting.' },
+                { title: 'Measurable Impact', description: 'Track exactly how your sponsorship supports community businesses with real-time metrics and transparent reporting.' },
                 { title: 'Brand Visibility', description: 'Increase your brand awareness among socially conscious consumers who value corporate responsibility.' },
                 { title: 'Tax Benefits', description: 'Your sponsorship is tax-deductible. We provide all necessary documentation for your records.' },
                 { title: 'Community Building', description: 'Join a network of forward-thinking companies committed to economic empowerment and social justice.' },

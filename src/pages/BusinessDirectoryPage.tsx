@@ -77,7 +77,7 @@ const BusinessDirectoryPage: React.FC = () => {
       
       <Helmet>
         <title>Business Directory | Mansa Musa Marketplace</title>
-        <meta name="description" content="Discover and support Black-owned businesses in the Mansa Musa Marketplace directory." />
+        <meta name="description" content="Discover and support verified businesses in the 1325.AI community directory." />
       </Helmet>
       
       {/* Hero Section */}
@@ -101,7 +101,7 @@ const BusinessDirectoryPage: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <span className="text-white">Discover </span>
-            <span className="text-gradient-gold">Black-Owned</span>
+            <span className="text-gradient-gold">Verified</span>
             <br />
             <span className="text-white">Businesses</span>
           </motion.h1>
@@ -112,7 +112,7 @@ const BusinessDirectoryPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Support economic circulation by shopping at verified Black-owned businesses in your community
+            Support economic circulation by shopping at verified businesses in your community
           </motion.p>
           
           {/* Search Bar */}

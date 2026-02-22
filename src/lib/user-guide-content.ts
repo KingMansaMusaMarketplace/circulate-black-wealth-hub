@@ -60,7 +60,7 @@ export const CORE_FEATURES: GuideSection[] = [
         details: 'The 1325.AI platform is designed for intuitive navigation. The main navigation bar provides quick access to all major features, while contextual menus appear based on your user type and current activity.',
         steps: [
           'Use the top navigation bar to access Directory, Services, Community, and more',
-          'The Directory link takes you to browse all Black-owned businesses',
+          'The Directory link takes you to browse all verified businesses',
           'Services dropdown includes Karma Dashboard, Susu Circles, and other tools',
           'Access your profile and settings through the user menu (top right)',
           'Use the global search (Cmd/Ctrl + K) to find anything quickly',
