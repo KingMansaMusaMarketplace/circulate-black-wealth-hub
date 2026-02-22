@@ -50,10 +50,10 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
               <Award className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
               <div>
                 <h2 className="text-xl font-semibold text-foreground mb-2">
-                  Welcome, Mansa Ambassador
+                  Welcome, 1325.AI Ambassador
                 </h2>
                 <p className="text-muted-foreground">
-                  As a Mansa Musa Agent, you are the face of the world's first <strong>Economic Operating System</strong> for the community. 
+                  As a 1325.AI Agent, you are the face of the world's first <strong>Economic Operating System</strong> for the community. 
                   This Code of Conduct ensures that every agent—from a local ambassador to a city lead—protects the 1325.AI 
                   brand and our proprietary intellectual property while building economic empowerment on the ground.
                 </p>
@@ -79,7 +79,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
                 Accuracy in Communication
               </h3>
               <p className="text-muted-foreground mb-3">
-                Agents must only use <strong>official Mansa Musa pitch decks and marketing materials</strong>. 
+                Agents must only use <strong>official 1325.AI pitch decks and marketing materials</strong>. 
                 All promotional content must be approved by the platform and accurately represent our services.
               </p>
               <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
@@ -95,7 +95,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
             <div>
               <h3 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                 <Award className="w-4 h-4 text-primary" />
-                The "Mansa Standard"
+                The "1325 Standard"
               </h3>
               <p className="text-muted-foreground">
                 Agents must prioritize the onboarding of businesses that meet our <strong>"Official Certification" standards</strong>:
@@ -103,7 +103,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
               <ul className="list-disc list-inside text-muted-foreground mt-2 space-y-1 ml-4">
                 <li>Verified physical location or legitimate online presence</li>
                 <li>Active business operations with valid licensing (where applicable)</li>
-                <li>Community alignment with Mansa Musa values</li>
+                <li>Community alignment with 1325.AI values</li>
                 <li>Commitment to quality products/services</li>
               </ul>
             </div>
@@ -148,7 +148,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
                 <h3 className="font-semibold text-foreground mb-2">Lead Ownership</h3>
                 <p className="text-sm text-muted-foreground">
                   All merchant data, business leads, contact information, and onboarding documentation gathered during 
-                  the recruitment process is the <strong>sole property of Mansa Musa Marketplace</strong>. This data may not be 
+                  the recruitment process is the <strong>sole property of 1325.AI</strong>. This data may not be 
                   used for personal gain or shared with third parties.
                 </p>
               </div>
@@ -210,7 +210,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
                 Community Respect
               </h3>
               <p className="text-muted-foreground">
-                Agents represent the Mansa Musa brand in the community. You must:
+                Agents represent the 1325.AI brand in the community. You must:
               </p>
               <ul className="list-disc list-inside text-muted-foreground mt-2 space-y-1 ml-4">
                 <li>Treat all merchants with dignity and respect, regardless of business size</li>
@@ -293,7 +293,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">
-              By participating in the Mansa Musa Marketplace Sales Agent Program, you acknowledge that you have 
+              By participating in the 1325.AI Sales Agent Program, you acknowledge that you have 
               read, understood, and agree to abide by this Code of Conduct. Violations may result in:
             </p>
             <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-4 mb-4">
@@ -304,7 +304,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
             </ul>
             <p className="text-sm text-muted-foreground italic">
               This Code of Conduct is incorporated by reference into the Sales Agent Agreement and 
-              the Mansa Musa Marketplace Terms of Service.
+              the 1325.AI Terms of Service.
             </p>
           </CardContent>
         </Card>

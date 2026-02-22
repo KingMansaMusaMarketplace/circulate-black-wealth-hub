@@ -40,7 +40,7 @@ const BulkUploadDialog: React.FC<BulkUploadDialogProps> = ({ open, onOpenChange,
 
   const downloadTemplate = () => {
     const template = `title,description,type,dimensions,fileName
-Hero Banner - Blue,Main promotional banner with Mansa Musa branding,banner,1200x628px,hero-banner.png
+Hero Banner - Blue,Main promotional banner with 1325.AI branding,banner,1200x628px,hero-banner.png
 Instagram Story,Eye-catching story template,social,1080x1920px,insta-story.png
 Email Template,Introduction email for businesses,email,,email-intro.html`;
 

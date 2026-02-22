@@ -64,7 +64,7 @@ const FeatureGuidePage = () => {
         'No physical loyalty cards needed'
       ],
       howToUse: [
-        'Open the Mansa Musa app',
+        'Open the 1325.AI app',
         'Tap the "Scan" button at checkout',
         'Point camera at business QR code',
         'Discount applied automatically'
@@ -72,8 +72,8 @@ const FeatureGuidePage = () => {
     },
     {
       id: 'business-directory',
-      title: 'Black-Owned Business Directory',
-      description: 'Discover and connect with Black-owned businesses in your community through our comprehensive directory.',
+      title: 'Verified Business Directory',
+      description: 'Discover and connect with verified community businesses through our comprehensive directory.',
       icon: <Globe className="h-6 w-6" />,
       category: 'consumer',
       tags: ['discovery', 'search', 'community'],
@@ -81,7 +81,7 @@ const FeatureGuidePage = () => {
         'Find businesses by category and location',
         'Read reviews and ratings from community',
         'View exclusive offers and promotions',
-        'Support local Black entrepreneurs'
+        'Support local community entrepreneurs'
       ],
       howToUse: [
         'Navigate to Directory page',
@@ -395,7 +395,7 @@ const FeatureGuidePage = () => {
     {
       id: 'community-impact',
       title: 'Community Impact Tracking',
-      description: 'See the real-time economic impact of your spending on Black-owned businesses and communities.',
+      description: 'See the real-time economic impact of your spending on community businesses.',
       icon: <Heart className="h-6 w-6" />,
       category: 'impact',
       tags: ['impact', 'community', 'transparency'],

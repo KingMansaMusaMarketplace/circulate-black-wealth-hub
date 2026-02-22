@@ -29,7 +29,7 @@ const HeroSection = () => {
             <div className="lg:w-2/5 text-white mb-8 lg:mb-0">
             
               <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6">
-                How <span className="bg-gradient-gold bg-clip-text text-transparent">Mansa Musa</span> Works
+                How <span className="bg-gradient-gold bg-clip-text text-transparent">1325.AI</span> Works
               </h1>
               <p className="font-body text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed mb-8 max-w-2xl">
                 We're building more than an app — we're creating infrastructure for community wealth circulation.
@@ -69,7 +69,7 @@ const HeroSection = () => {
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10">
                   <img 
                     src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" 
-                    alt="Community members using the Mansa Musa Marketplace" 
+                    alt="Community members using the 1325.AI platform" 
                     className="w-full h-auto object-cover"
                   />
                   

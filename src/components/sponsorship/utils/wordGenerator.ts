@@ -62,7 +62,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         new Paragraph({
           children: [
             new TextRun({
-              text: "Mansa Musa Marketplace is a comprehensive digital ecosystem designed to empower Black-owned businesses and strengthen economic circulation within the African American community. Named after the legendary West African emperor known for his immense wealth and generosity, our platform embodies the spirit of economic empowerment and community prosperity.",
+              text: "1325.AI is a comprehensive digital ecosystem designed to empower community businesses and strengthen economic circulation. Named after the legendary West African emperor known for his immense wealth and generosity, our platform embodies the spirit of economic empowerment and community prosperity.",
               size: 24,
             }),
           ],
@@ -76,7 +76,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
               size: 24,
             }),
             new TextRun({
-              text: "Yes, Mansa Musa Marketplace has legitimate billion-dollar potential. The platform addresses a $1.6 trillion market opportunity with a unique 4-sided marketplace model, comprehensive feature set, and clear path to scale.",
+              text: "Yes, 1325.AI has legitimate billion-dollar potential. The platform addresses a $1.6 trillion market opportunity with a unique 4-sided marketplace model, comprehensive feature set, and clear path to scale.",
               size: 24,
             }),
           ],
@@ -104,7 +104,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         }),
         new Paragraph({
           children: [
-            new TextRun({ text: "• Black-owned businesses receive less than 1% of venture capital funding", size: 24 }),
+            new TextRun({ text: "• Community businesses receive less than 1% of venture capital funding", size: 24 }),
           ],
           spacing: { after: 100 },
         }),
@@ -116,7 +116,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         }),
         new Paragraph({
           children: [
-            new TextRun({ text: "• Fragmented discovery of Black-owned businesses", size: 24 }),
+            new TextRun({ text: "• Fragmented discovery of community businesses", size: 24 }),
           ],
           spacing: { after: 300 },
         }),

@@ -161,7 +161,7 @@ const MediaKitPage = () => {
               Media Kit
             </h1>
             <p className="text-xl text-blue-200/80 max-w-3xl mx-auto leading-relaxed">
-              Everything you need to know about Mansa Musa Marketplace – the revolutionary platform building, protecting, and expanding the Black economic ecosystem.
+              Everything you need to know about 1325.AI – the revolutionary platform building, protecting, and expanding the community economic ecosystem.
             </p>
           </motion.div>
 
@@ -179,10 +179,10 @@ const MediaKitPage = () => {
                   <h2 className="text-2xl md:text-3xl font-bold text-white">Our Mission</h2>
                 </div>
                 <p className="text-lg text-blue-100/80 leading-relaxed mb-6">
-                  Mansa Musa Marketplace is named after the legendary 14th-century African emperor, renowned as the wealthiest person in history. Our platform embodies his legacy of economic empowerment and community wealth-building.
+                  1325.AI is named after the legendary 14th-century African emperor, renowned as the wealthiest person in history. Our platform embodies his legacy of economic empowerment and community wealth-building.
                 </p>
                 <p className="text-lg text-blue-100/80 leading-relaxed mb-6">
-                  We connect consumers with verified Black-owned businesses, reward community support through loyalty points, and create sustainable economic ecosystems that circulate wealth within the community.
+                  We connect consumers with verified community businesses, reward community support through loyalty points, and create sustainable economic ecosystems that circulate wealth within the community.
                 </p>
                 <div className="grid md:grid-cols-3 gap-4 mt-8">
                   <div className="bg-white/5 rounded-xl p-4 border border-white/10">

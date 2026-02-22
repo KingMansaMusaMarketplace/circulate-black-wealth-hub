@@ -31,7 +31,7 @@ const PitchSlide15SequoiaAlignment: React.FC = () => {
     },
     {
       sequoiaInsight: '"Go vertical-specific, function-specific. Build moats across the entire value chain."',
-      ourAlignment: 'Only PaaS for Black-Owned Commerce',
+      ourAlignment: 'Only PaaS for Community Commerce',
       description: '27 patents covering consumer → business → B2B → developer APIs. Full value chain ownership.',
       icon: Building2,
       color: 'green-500'
