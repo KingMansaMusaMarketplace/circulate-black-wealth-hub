@@ -890,6 +890,7 @@ function App() {
                         <Route path="/my-tickets" element={<LazyMyTicketsPage />} />
                         
                         {/* N */}
+                        <Route path="/noir" element={<LazyNoirLandingPage />} />
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                         <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                         <Route path="/network" element={<LazyNetworkPage />} />
