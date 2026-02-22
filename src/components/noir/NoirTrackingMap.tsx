@@ -145,8 +145,9 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
     } else {
       // Smoothly update position
       driverMarkerRef.current.setLngLat(lngLat);
-      const el = driverMarkerRef.current.getElement().firstChild as HTMLElement;
-      if (el) {
+      const markerEl = driverMarkerRef.current.getElement();
+      const el = markerEl?.firstChild as HTMLElement | null;
+      if (el?.style) {
         el.style.transform = `rotate(${activeLocation.heading || 0}deg)`;
       }
     }
