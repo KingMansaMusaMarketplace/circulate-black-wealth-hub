@@ -33,8 +33,8 @@ export const WelcomeEmail = ({
     switch (userType) {
       case 'business':
         return {
-          title: 'Welcome to the Mansa Musa Business Network! 🏢',
-          intro: 'Thank you for joining our community of Black-owned businesses. You\'re now part of a powerful network that\'s building economic empowerment together.',
+          title: 'Welcome to the 1325.AI Business Network! 🏢',
+          intro: 'Thank you for joining our community of businesses. You\'re now part of a powerful network that\'s building economic empowerment together.',
           features: [
             '📊 Business Dashboard & Analytics',
             '📱 QR Code Generation for Customer Loyalty',
@@ -52,7 +52,7 @@ export const WelcomeEmail = ({
       case 'sponsor':
         return {
           title: 'Welcome to Corporate Partnership! 🤝',
-          intro: 'Thank you for supporting Black-owned businesses and community economic development. Your partnership makes a real difference.',
+          intro: 'Thank you for supporting community businesses and economic development. Your partnership makes a real difference.',
           features: [
             '🎯 Targeted Community Impact',
             '📊 Partnership Analytics & Reporting',
@@ -69,10 +69,10 @@ export const WelcomeEmail = ({
         };
       default: // customer
         return {
-          title: 'Welcome to Mansa Musa Marketplace! 🎉',
-          intro: 'Thank you for joining our community! You\'re now part of a movement that supports Black-owned businesses and builds community wealth.',
+          title: 'Welcome to 1325.AI! 🎉',
+          intro: 'Thank you for joining our community! You\'re now part of a movement that supports community businesses and builds community wealth.',
           features: [
-            '🏪 Discover Local Black-Owned Businesses',
+            '🏪 Discover Local Community Businesses',
             '📱 Scan QR Codes to Earn Loyalty Points',
             '🎁 Redeem Exclusive Rewards & Discounts',
             '🌟 Leave Reviews & Build Community',
@@ -102,7 +102,7 @@ export const WelcomeEmail = ({
               src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=200&h=80&fit=crop&crop=center"
               width="180"
               height="60"
-              alt="Mansa Musa Marketplace"
+              alt="1325.AI"
               style={logo}
             />
           </Section>
@@ -170,7 +170,7 @@ export const WelcomeEmail = ({
                 Need help getting started? Our community support team is here to help!
               </Text>
               <Text style={support_text}>
-                📧 Email us at <Link href="mailto:support@mansamusa.com" style={link}>support@mansamusa.com</Link>
+                📧 Email us at <Link href="mailto:support@1325.ai" style={link}>support@1325.ai</Link>
               </Text>
               <Text style={support_text}>
                 💬 Visit our <Link href={`${dashboardUrl}/help`} style={link}>Help Center</Link>
@@ -184,7 +184,7 @@ export const WelcomeEmail = ({
               Building wealth. Building community. Building the future.
             </Text>
             <Text style={footer_text}>
-              © 2024 Mansa Musa Marketplace. All rights reserved.
+              © 2024 1325.AI. All rights reserved.
             </Text>
             <Text style={footer_links}>
               <Link href={`${dashboardUrl}/privacy`} style={footer_link}>Privacy Policy</Link> | 

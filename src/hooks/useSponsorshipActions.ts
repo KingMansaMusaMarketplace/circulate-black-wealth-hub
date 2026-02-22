@@ -28,8 +28,8 @@ export const useSponsorshipActions = () => {
   };
 
   const handleContactPartnership = () => {
-    const subject = 'Partnership Inquiry - Mansa Musa Marketplace';
-    const body = `Hello,\n\nI am interested in exploring corporate sponsorship opportunities with Mansa Musa Marketplace.\n\nPlease contact me to discuss:\n- Available partnership tiers\n- Custom sponsorship opportunities\n- Partnership benefits and ROI\n- Next steps in the process\n\nI look forward to hearing from you.\n\nBest regards`;
+    const subject = 'Partnership Inquiry - 1325.AI';
+    const body = `Hello,\n\nI am interested in exploring corporate sponsorship opportunities with 1325.AI.\n\nPlease contact me to discuss:\n- Available partnership tiers\n- Custom sponsorship opportunities\n- Partnership benefits and ROI\n- Next steps in the process\n\nI look forward to hearing from you.\n\nBest regards`;
     
     const mailtoUrl = `mailto:Thomas@1325.AI?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoUrl;

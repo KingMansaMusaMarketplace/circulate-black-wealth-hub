@@ -244,7 +244,7 @@ const InvestorPage: React.FC = () => {
                 <thead>
                   <tr className="border-b border-white/10">
                     <th className="text-left p-6 text-white font-bold">Feature</th>
-                    <th className="text-center p-6 text-mansagold font-bold">Mansa Musa</th>
+                    <th className="text-center p-6 text-mansagold font-bold">1325.AI</th>
                     <th className="text-center p-6 text-white/60 font-bold">Competitors</th>
                   </tr>
                 </thead>
