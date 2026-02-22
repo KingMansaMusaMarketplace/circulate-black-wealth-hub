@@ -6,11 +6,11 @@ export const teamMembers: TeamMember[] = [
     name: "Aisha Johnson",
     role: "Chief Operations Officer",
     bio: "15+ years in supply chain management and logistics optimization for marketplace platforms.",
-    extendedBio: "Aisha has led operations for several major e-commerce platforms before joining Mansa Musa Marketplace. She specializes in developing efficient logistics networks that prioritize Black-owned businesses and community economic development.",
+    extendedBio: "Aisha has led operations for several major e-commerce platforms before joining 1325.AI. She specializes in developing efficient logistics networks that prioritize verified businesses and community economic development.",
     experience: [
       "Former VP of Operations at Global Commerce Partners",
       "Supply Chain Director at Urban Marketplace Initiative",
-      "Consultant for Black Business Alliance"
+      "Consultant for Community Business Alliance"
     ],
     education: "MBA from Howard University, BS in Business Management from Spelman College",
     image: "AJ",
@@ -25,12 +25,12 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Marcus Williams",
     role: "Head of Merchant Relations",
-    bio: "Former small business owner with expertise in scaling Black-owned businesses across multiple sectors.",
-    extendedBio: "Marcus brings firsthand experience as a successful entrepreneur who built and sold three businesses in the food service and retail sectors. His passion is helping other Black entrepreneurs navigate growth challenges.",
+    bio: "Former small business owner with expertise in scaling community businesses across multiple sectors.",
+    extendedBio: "Marcus brings firsthand experience as a successful entrepreneur who built and sold three businesses in the food service and retail sectors. His passion is helping other entrepreneurs navigate growth challenges.",
     experience: [
       "Founder of Williams Retail Group",
       "Small Business Development Advisor",
-      "Board Member at National Black Chamber of Commerce"
+      "Board Member at National Chamber of Commerce"
     ],
     education: "BA in Economics from Morehouse College",
     image: "MW",

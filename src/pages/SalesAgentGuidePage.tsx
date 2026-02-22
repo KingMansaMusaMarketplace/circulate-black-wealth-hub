@@ -41,8 +41,8 @@ const SalesAgentGuidePage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light">
       <Helmet>
-        <title>Become a Mansa Ambassador - Mansa Musa Marketplace</title>
-        <meta name="description" content="Join the Mansa Ambassador Program. Earn competitive commissions, recruitment bonuses, and team overrides while building the largest Black business network in your city!" />
+        <title>Become a 1325 Ambassador - 1325.AI</title>
+        <meta name="description" content="Join the 1325 Ambassador Program. Earn competitive commissions, recruitment bonuses, and team overrides while building the largest verified business network in your city!" />
       </Helmet>
 
       {/* Hero Section */}

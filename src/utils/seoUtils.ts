@@ -109,14 +109,14 @@ export const updateMetaTags = (data: {
 // Pre-defined SEO configurations for common pages
 export const pageSEO = {
   home: {
-    title: '1325.AI | The Economic Operating System for Black-Owned Businesses',
-    description: 'AI-powered Economic Operating System extending Black dollar circulation beyond 6 hours. Discover businesses, earn rewards, build wealth.',
-    keywords: ['economic operating system', 'Black-owned businesses', 'economic infrastructure', 'IaaS', 'economic rails', 'Black wealth circulation', '1325 AI'],
+    title: '1325.AI | The Economic Operating System for Verified Businesses',
+    description: 'AI-powered Economic Operating System extending community dollar circulation beyond 6 hours. Discover businesses, earn rewards, build wealth.',
+    keywords: ['economic operating system', 'verified businesses', 'economic infrastructure', 'IaaS', 'economic rails', 'community wealth circulation', '1325 AI'],
   },
   directory: {
     title: '1325.AI Business Directory | The Flagship Data Layer',
-    description: 'The flagship data layer of verified Black-owned businesses. Curated for excellence, powered by AI infrastructure. Restaurants, services, shops & more.',
-    keywords: ['1325.AI directory', 'economic data layer', 'verified Black businesses', 'business infrastructure', 'Black-owned companies'],
+    description: 'The flagship data layer of verified community businesses. Curated for excellence, powered by AI infrastructure. Restaurants, services, shops & more.',
+    keywords: ['1325.AI directory', 'economic data layer', 'verified businesses', 'business infrastructure', 'community companies'],
   },
   about: {
     title: 'About 1325.AI | Economic Infrastructure Protocol',
@@ -125,13 +125,13 @@ export const pageSEO = {
   },
   howItWorks: {
     title: 'How It Works | 1325.AI Economic Infrastructure',
-    description: 'Discover how 1325.AI infrastructure connects you with verified Black-owned businesses. Learn about our economic rails and circulation protocol.',
+    description: 'Discover how 1325.AI infrastructure connects you with verified community businesses. Learn about our economic rails and circulation protocol.',
     keywords: ['how it works', 'economic infrastructure', 'circulation protocol', 'economic rails', 'support local business'],
   },
   sponsor: {
     title: 'Infrastructure Investment | 1325.AI Sponsorship',
-    description: 'Invest in the economic infrastructure of Black business. Corporate sponsorship opportunities for patent-protected, AI-powered economic rails.',
-    keywords: ['infrastructure investment', 'sponsor economic rails', 'DEI infrastructure', 'Black business infrastructure', 'economic sponsorship'],
+    description: 'Invest in the economic infrastructure of community business. Corporate sponsorship opportunities for patent-protected, AI-powered economic rails.',
+    keywords: ['infrastructure investment', 'sponsor economic rails', 'DEI infrastructure', 'community business infrastructure', 'economic sponsorship'],
   },
   ambassador: {
     title: '1325 Ambassador Program | Human Layer of Infrastructure',
@@ -162,15 +162,15 @@ export const generateBusinessSEO = (business: {
     title: `${businessName}${location ? ` - ${location}` : ''} | 1325.AI`,
     description: business.description 
       ? business.description.substring(0, 155) + (business.description.length > 155 ? '...' : '')
-      : `Discover ${businessName}, a verified Black-owned ${business.category || 'business'}${location ? ` in ${location}` : ''}. Part of the 1325.AI Economic Operating System.`,
+      : `Discover ${businessName}, a verified ${business.category || 'business'}${location ? ` in ${location}` : ''}. Part of the 1325.AI Economic Operating System.`,
     keywords: [
       businessName,
-      'Black-owned business',
+      'verified business',
       business.category,
       business.city,
       business.state,
       'local business',
-      'support Black businesses',
+      'support community businesses',
     ].filter(Boolean) as string[],
     path: `/business/${business.id}`,
   };

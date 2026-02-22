@@ -51,7 +51,7 @@ const MultiplierEffectCard: React.FC<MultiplierEffectCardProps> = ({
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <div className="text-sm text-blue-200 mb-2">
-                When you spend {formatCurrency(userMetrics?.total_spending || 0)} at Black-owned businesses:
+                When you spend {formatCurrency(userMetrics?.total_spending || 0)} at verified community businesses:
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -65,7 +65,7 @@ const MultiplierEffectCard: React.FC<MultiplierEffectCardProps> = ({
                   </span>
                 </div>
                 <div className="text-xs text-blue-200 mt-2">
-                  Black-owned businesses recirculate 67% more money in the community compared to non-Black businesses
+                  Verified community businesses recirculate 67% more money locally compared to chain alternatives
                 </div>
               </div>
             </div>

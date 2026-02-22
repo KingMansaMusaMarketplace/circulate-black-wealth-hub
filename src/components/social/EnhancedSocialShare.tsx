@@ -43,7 +43,7 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
   const [shareStats, setShareStats] = React.useState<Record<string, number>>({});
 
   const shareUrl = url || window.location.href;
-  const shareText = `Check out ${businessName} on Mansa Musa Marketplace - Supporting Black-owned businesses and building community wealth! 💰🚀`;
+  const shareText = `Check out ${businessName} on 1325.AI - Supporting verified businesses and building community wealth! 💰🚀`;
   
   React.useEffect(() => {
     if (showStats) {
@@ -105,7 +105,7 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
   };
 
   const shareToTwitter = () => {
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}&hashtags=BlackOwnedBusiness,CommunityWealth,MansaMusaMarketplace`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}&hashtags=VerifiedBusiness,CommunityWealth,1325AI`;
     window.open(twitterUrl, '_blank');
     recordShare('twitter');
     toast.success('Shared to Twitter!');

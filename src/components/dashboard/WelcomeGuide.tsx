@@ -21,7 +21,7 @@ const WelcomeGuide: React.FC<WelcomeGuideProps> = ({ userType }) => {
     {
       icon: <Store className="h-5 w-5" />,
       title: "Discover Businesses",
-      description: "Find Black-owned businesses in your area and support your community",
+      description: "Find verified businesses in your area and support your community",
       action: "Explore Businesses",
       link: "/directory"
     },

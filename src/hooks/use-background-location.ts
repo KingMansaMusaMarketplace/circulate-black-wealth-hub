@@ -187,7 +187,7 @@ export const useBackgroundLocation = () => {
         
         await LocalNotifications.schedule({
           notifications: [{
-            title: '🎯 Black-Owned Business Nearby!',
+            title: '🎯 Verified Business Nearby!',
             body: `${business.name}${business.category ? ` (${business.category})` : ''} is ${distanceText}. Visit and earn rewards!`,
             id: Date.now(),
             schedule: { at: new Date(Date.now() + 1000) },

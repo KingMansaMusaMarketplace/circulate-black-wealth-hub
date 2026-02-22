@@ -39,7 +39,7 @@ const WelcomePage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Welcome to Mansa Musa! | Find Black-Owned Businesses</title>
+        <title>Welcome to 1325.AI | Discover Verified Businesses</title>
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-mansablue to-indigo-900 relative overflow-hidden">
@@ -64,7 +64,7 @@ const WelcomePage: React.FC = () => {
               Welcome, {userName}! 🎉
             </h1>
             <p className="text-xl text-blue-100/80">
-              You're now part of the movement to support Black-owned businesses.
+              You're now part of the movement to support great businesses in your community.
             </p>
           </motion.div>
 
@@ -150,7 +150,7 @@ const WelcomePage: React.FC = () => {
           >
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-mansagold" />
-              Featured Black-Owned Businesses
+              Featured Verified Businesses
             </h3>
             <div className="space-y-3">
               {sampleBusinesses.map((business) => (

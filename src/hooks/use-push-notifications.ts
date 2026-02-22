@@ -125,15 +125,15 @@ export const usePushNotifications = () => {
 
   const sendWelcomeNotification = () => {
     showLocalNotification(
-      'Welcome to Mansa Musa Marketplace!',
-      'Discover Black-owned businesses and start earning rewards.'
+      'Welcome to 1325.AI!',
+      'Discover verified businesses and start earning rewards.'
     );
   };
 
   const sendLoyaltyNotification = (points: number) => {
     showLocalNotification(
       'Loyalty Points Earned!',
-      `You've earned ${points} loyalty points. Keep supporting Black-owned businesses!`
+      `You've earned ${points} loyalty points. Keep supporting verified businesses!`
     );
   };
 
@@ -156,7 +156,7 @@ export const usePushNotifications = () => {
   const sendPartnershipUpdateNotification = (partnerName: string, tier: string) => {
     showLocalNotification(
       'New Partnership!',
-      `Welcome ${partnerName} as a ${tier} partner! Thank you for supporting Black-owned businesses.`,
+      `Welcome ${partnerName} as a ${tier} partner! Thank you for supporting verified businesses.`,
       { route: '/sponsor-pricing' }
     );
   };

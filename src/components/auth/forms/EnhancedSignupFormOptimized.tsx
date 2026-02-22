@@ -35,7 +35,7 @@ const EnhancedSignupForm: React.FC = memo(() => {
       tier: 'free',
       price: 'Free',
       features: [
-        'Browse Black-owned businesses',
+        'Browse verified businesses',
         'QR code scanning',
         'Basic loyalty points',
         'Community access'
@@ -162,7 +162,7 @@ const EnhancedSignupForm: React.FC = memo(() => {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Join the Movement</CardTitle>
           <CardDescription>
-            Create an account to start supporting Black-owned businesses and building community wealth
+            Create an account to start supporting verified businesses and building community wealth
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6">

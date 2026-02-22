@@ -368,15 +368,15 @@ export default function AdminSponsorDetailPage() {
   const emailTemplates: Record<string, { subject: string; content: string }> = {
     renewal: {
       subject: `Your ${sponsor.tier.toUpperCase()} sponsorship is up for renewal`,
-      content: `Dear ${sponsor.company_name},\n\nYour sponsorship is expiring soon. We would love to continue our partnership. Please let us know if you'd like to renew.\n\nBest regards,\nMansa Musa Marketplace Team`,
+      content: `Dear ${sponsor.company_name},\n\nYour sponsorship is expiring soon. We would love to continue our partnership. Please let us know if you'd like to renew.\n\nBest regards,\n1325.AI Team`,
     },
     logo_reminder: {
       subject: 'Action Required: Upload Your Company Logo',
-      content: `Dear ${sponsor.company_name},\n\nWe noticed you haven't uploaded your company logo yet. Your logo helps increase brand visibility across our platform.\n\nPlease upload your logo through your sponsor dashboard.\n\nBest regards,\nMansa Musa Marketplace Team`,
+      content: `Dear ${sponsor.company_name},\n\nWe noticed you haven't uploaded your company logo yet. Your logo helps increase brand visibility across our platform.\n\nPlease upload your logo through your sponsor dashboard.\n\nBest regards,\n1325.AI Team`,
     },
     welcome: {
-      subject: `Welcome to Mansa Musa Marketplace - ${sponsor.tier.toUpperCase()} Sponsor`,
-      content: `Dear ${sponsor.company_name},\n\nWelcome to Mansa Musa Marketplace! We're thrilled to have you as a ${sponsor.tier} sponsor.\n\nYour sponsorship helps support Black-owned businesses in our community.\n\nBest regards,\nMansa Musa Marketplace Team`,
+      subject: `Welcome to 1325.AI - ${sponsor.tier.toUpperCase()} Sponsor`,
+      content: `Dear ${sponsor.company_name},\n\nWelcome to 1325.AI! We're thrilled to have you as a ${sponsor.tier} sponsor.\n\nYour sponsorship helps support verified businesses in our community.\n\nBest regards,\n1325.AI Team`,
     },
   };
 

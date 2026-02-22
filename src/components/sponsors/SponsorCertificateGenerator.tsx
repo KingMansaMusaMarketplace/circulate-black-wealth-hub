@@ -109,7 +109,7 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
-      const description = 'In recognition of their commitment to supporting Black-owned businesses and contributing to economic empowerment in our community.';
+      const description = 'In recognition of their commitment to supporting verified businesses and contributing to economic empowerment in our community.';
       const splitDescription = doc.splitTextToSize(description, 200);
       doc.text(splitDescription, pageWidth / 2, 145, { align: 'center' });
 
@@ -165,7 +165,7 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(100, 100, 100);
-      doc.text('Supporting Black-Owned Businesses', margin, 37);
+      doc.text('Supporting Verified Businesses', margin, 37);
 
       // Line
       doc.setDrawColor(27, 54, 93);
@@ -193,7 +193,7 @@ Thank you for your generous support of Mansa Musa Marketplace through your ${spo
 
 This letter acknowledges that your organization has contributed sponsorship support during the period from ${format(new Date(validFrom), 'MMMM d, yyyy')} to ${format(new Date(validTo), 'MMMM d, yyyy')}.
 
-Your sponsorship helps us continue our mission of supporting and promoting Black-owned businesses in our community, fostering economic empowerment and creating opportunities for entrepreneurs.
+Your sponsorship helps us continue our mission of supporting and promoting verified businesses in our community, fostering economic empowerment and creating opportunities for entrepreneurs.
 
 Please consult with your tax advisor regarding the deductibility of your sponsorship contribution.
 

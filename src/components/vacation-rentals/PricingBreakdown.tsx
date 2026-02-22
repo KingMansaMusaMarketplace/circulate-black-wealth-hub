@@ -75,7 +75,7 @@ const PricingBreakdown: React.FC<PricingBreakdownProps> = ({
             <TooltipContent className="bg-slate-800 border-white/20">
               <p className="max-w-xs text-xs text-white">
                 This helps us run Mansa Stays and provides 24/7 support for your trip.
-                A portion of this fee supports Black-owned community initiatives.
+                A portion of this fee supports community initiatives.
               </p>
             </TooltipContent>
           </Tooltip>

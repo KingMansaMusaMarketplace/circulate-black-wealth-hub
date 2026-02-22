@@ -94,7 +94,7 @@ const PartnerSuccessStories: React.FC<PartnerSuccessStoriesProps> = ({
         setTopPartners([
           {
             id: '1',
-            directoryName: 'Atlanta Black Business Directory',
+            directoryName: 'Atlanta Business Directory',
             totalEarnings: 2450,
             totalReferrals: 89,
             conversions: 45,
@@ -114,7 +114,7 @@ const PartnerSuccessStories: React.FC<PartnerSuccessStoriesProps> = ({
           },
           {
             id: '3',
-            directoryName: 'Chicago Black-Owned',
+            directoryName: 'Chicago Verified Businesses',
             totalEarnings: 1245,
             totalReferrals: 45,
             conversions: 23,
