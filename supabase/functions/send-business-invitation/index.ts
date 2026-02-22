@@ -45,7 +45,7 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Failed to fetch invitation details");
     }
 
-    const signupUrl = `${Deno.env.get("SITE_URL") || "https://mansa-musa-marketplace.lovable.app"}/business-signup?invite=${invitation.invitation_token}`;
+    const signupUrl = `${Deno.env.get("SITE_URL") || "https://1325.ai"}/business-signup?invite=${invitation.invitation_token}`;
 
     const personalMessage = message 
       ? `<p style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; border-left: 4px solid #d4a017; margin: 20px 0;">
@@ -55,9 +55,9 @@ const handler = async (req: Request): Promise<Response> => {
       : "";
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@resend.dev>",
+      from: "1325.AI <noreply@1325.ai>",
       to: [email],
-      subject: `You're Invited to Join Mansa Musa Marketplace${businessName ? ` - ${businessName}` : ""}`,
+      subject: `You're Invited to Join 1325.AI${businessName ? ` - ${businessName}` : ""}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -68,8 +68,8 @@ const handler = async (req: Request): Promise<Response> => {
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           
           <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: #1a365d; margin-bottom: 10px;">🏛️ Mansa Musa Marketplace</h1>
-            <p style="color: #666; font-size: 14px;">The Premier Directory for Black-Owned Businesses</p>
+            <h1 style="color: #1a365d; margin-bottom: 10px;">🏛️ 1325.AI</h1>
+            <p style="color: #666; font-size: 14px;">The Premier Directory for Community Businesses</p>
           </div>
 
           <div style="background: linear-gradient(135deg, #1a365d 0%, #2d4a6f 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 30px;">
@@ -79,13 +79,13 @@ const handler = async (req: Request): Promise<Response> => {
 
           <p>Hello${businessName ? ` from ${businessName}` : ""},</p>
 
-          <p>${inviterName || "A community member"} thinks your business would be a great addition to <strong>Mansa Musa Marketplace</strong> - the growing platform connecting customers with Black-owned businesses across the country.</p>
+          <p>${inviterName || "A community member"} thinks your business would be a great addition to <strong>1325.AI</strong> - the growing platform connecting customers with community businesses across the country.</p>
 
           ${personalMessage}
 
           <h3 style="color: #1a365d;">Why Join Our Platform?</h3>
           <ul style="padding-left: 20px;">
-            <li>📈 <strong>Increase Visibility</strong> - Get discovered by customers actively seeking Black-owned businesses</li>
+            <li>📈 <strong>Increase Visibility</strong> - Get discovered by customers actively seeking community businesses</li>
             <li>🤝 <strong>B2B Connections</strong> - Network with other businesses for partnerships and suppliers</li>
             <li>⭐ <strong>Build Trust</strong> - Verified business badges and customer reviews</li>
             <li>💰 <strong>Loyalty Programs</strong> - Tools to retain customers and grow revenue</li>
@@ -105,7 +105,7 @@ const handler = async (req: Request): Promise<Response> => {
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
 
           <p style="color: #888; font-size: 12px; text-align: center;">
-            This invitation was sent by ${inviterName || "a member"} of Mansa Musa Marketplace.<br/>
+            This invitation was sent by ${inviterName || "a member"} of 1325.AI.<br/>
             If you believe this was sent in error, you can safely ignore this email.
           </p>
 

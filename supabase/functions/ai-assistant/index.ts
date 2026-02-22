@@ -123,7 +123,7 @@ serve(async (req) => {
       );
     }
 
-    const systemPrompt = `You are a helpful AI assistant for Mansa Musa Marketplace - a loyalty rewards platform connecting customers with local businesses.
+    const systemPrompt = `You are a helpful AI assistant for 1325.AI - a loyalty rewards platform connecting customers with local businesses.
 
 Your role:
 - Help customers understand the loyalty program and how to earn/redeem points

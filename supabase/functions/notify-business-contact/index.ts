@@ -85,7 +85,7 @@ serve(async (req) => {
         Authorization: `Bearer ${resendApiKey}`,
       },
       body: JSON.stringify({
-        from: "Mansa Musa Marketplace <notifications@mansamusamarketplace.com>",
+        from: "1325.AI <notifications@1325.ai>",
         to: [recipientEmail],
         subject: `New Contact Request: ${subject}`,
         html: `
@@ -95,19 +95,19 @@ serve(async (req) => {
             </div>
             <div style="padding: 20px; background: #f8fafc;">
               <p>Hello,</p>
-              <p>You have received a new contact request for <strong>${business.business_name}</strong> on Mansa Musa Marketplace.</p>
+              <p>You have received a new contact request for <strong>${business.business_name}</strong> on 1325.AI.</p>
               <div style="background: white; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #fbbf24;">
                 <p style="margin: 0 0 10px 0;"><strong>From:</strong> ${senderName}</p>
                 <p style="margin: 0;"><strong>Subject:</strong> ${subject}</p>
               </div>
               <p>Log in to your dashboard to view the full message and respond.</p>
-              <a href="https://mansamusamarketplace.com/business/dashboard" 
+              <a href="https://1325.ai/business/dashboard" 
                  style="display: inline-block; background: #fbbf24; color: #1e293b; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
                 View Message
               </a>
             </div>
             <div style="padding: 15px; text-align: center; color: #64748b; font-size: 12px;">
-              <p>Mansa Musa Marketplace - Empowering Black-Owned Businesses</p>
+              <p>1325.AI - Empowering Community Businesses</p>
             </div>
           </div>
         `,
