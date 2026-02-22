@@ -575,28 +575,58 @@ const NoirLandingPage: React.FC = () => {
 
       {/* Driver Signup */}
       <section id="drivers" className="py-20 md:py-28 border-b border-white/5 bg-gradient-to-b from-transparent via-mansagold/3 to-transparent">
-        <div className="container max-w-4xl mx-auto px-4">
+        <div className="container max-w-5xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-10"
+            className="text-center mb-6"
           >
             <Award className="h-12 w-12 text-mansagold mx-auto mb-4" />
             <h2 className="text-3xl md:text-5xl font-bold mb-3">
-              Drive with <span className="text-mansagold">Noir</span>
+              Tired of the 50% Take-Rate?{' '}
+              <span className="text-mansagold">Switch to Noir.</span>
             </h2>
-            <p className="text-white/60 max-w-lg mx-auto">
-              Keep 80% of every fare. No gimmicks. Flexible hours. Premium experience.
-              Join the driver network that respects your hustle.
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
+              Your skills. Your car. Your clients. We just take 20% — flat, transparent, always.
+              No algorithmic wage games. No "black box" pay calculations.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-4 mb-10">
+          {/* Fare Transparency Demo */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-md mx-auto mb-12"
+          >
+            <div className="bg-white/5 backdrop-blur-xl border border-mansagold/20 rounded-2xl p-6">
+              <h4 className="text-mansagold font-bold text-sm mb-4 tracking-wider uppercase">What You See Before Every Trip</h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-white/60">Rider Pays</span>
+                  <span className="text-white font-mono font-bold text-lg">$50.00</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-white/60">Noir Fee (20%)</span>
+                  <span className="text-white/40 font-mono">−$10.00</span>
+                </div>
+                <div className="h-px bg-mansagold/20" />
+                <div className="flex justify-between items-center">
+                  <span className="text-emerald-400 font-bold">You Earn</span>
+                  <span className="text-emerald-400 font-mono font-bold text-2xl">$40.00</span>
+                </div>
+              </div>
+              <p className="text-white/30 text-xs text-center mt-4">Every trip. No surprises. No hidden math.</p>
+            </div>
+          </motion.div>
+
+          {/* Key Differentiators */}
+          <div className="grid md:grid-cols-3 gap-4 mb-6">
             {[
-              { icon: DollarSign, title: '80% Take-Home', desc: 'Industry-leading driver pay' },
-              { icon: Clock, title: 'Flexible Schedule', desc: 'Drive when you want' },
-              { icon: Users, title: 'Community Network', desc: 'Connected to 1325.AI ecosystem' },
+              { icon: DollarSign, title: 'Keep 80% of Every Fare', desc: 'Flat 20% fee — not 40-60% like the other apps' },
+              { icon: Zap, title: 'Instant Daily Payouts', desc: 'Your money hits your account same-day, not next week' },
+              { icon: Star, title: '"Favorite Driver" Feature', desc: 'Riders book YOU directly. Build your own client base' },
             ].map((perk, i) => (
               <motion.div
                 key={perk.title}
@@ -604,14 +634,64 @@ const NoirLandingPage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-center"
+                className="bg-white/5 border border-white/10 rounded-xl p-5 text-center"
               >
-                <perk.icon className="h-8 w-8 text-mansagold mx-auto mb-2" />
-                <h4 className="font-bold text-white text-sm">{perk.title}</h4>
-                <p className="text-white/40 text-xs mt-1">{perk.desc}</p>
+                <perk.icon className="h-8 w-8 text-mansagold mx-auto mb-3" />
+                <h4 className="font-bold text-white text-sm mb-1">{perk.title}</h4>
+                <p className="text-white/40 text-xs leading-relaxed">{perk.desc}</p>
               </motion.div>
             ))}
           </div>
+
+          <div className="grid md:grid-cols-3 gap-4 mb-12">
+            {[
+              { icon: Shield, title: 'Human Appeals Process', desc: 'No robot deactivations — speak to a real person within 24hrs' },
+              { icon: Users, title: 'Driver Referral Bonuses', desc: 'Earn $250 for every driver you bring to Noir' },
+              { icon: Clock, title: 'Your Schedule, Your Rules', desc: 'No forced surge zones. No punishment for declining trips' },
+            ].map((perk, i) => (
+              <motion.div
+                key={perk.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 + 0.3 }}
+                className="bg-white/5 border border-white/10 rounded-xl p-5 text-center"
+              >
+                <perk.icon className="h-8 w-8 text-mansagold mx-auto mb-3" />
+                <h4 className="font-bold text-white text-sm mb-1">{perk.title}</h4>
+                <p className="text-white/40 text-xs leading-relaxed">{perk.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Comparison Callout */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-r from-red-500/10 via-transparent to-emerald-500/10 border border-white/10 rounded-2xl p-6 mb-12"
+          >
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="text-center">
+                <div className="text-white/40 text-xs font-mono uppercase tracking-wider mb-2">Uber / Lyft</div>
+                <ul className="space-y-2 text-sm text-white/50">
+                  <li className="flex items-center gap-2 justify-center"><span className="text-red-400">✕</span> Takes 25–60% of your fare</li>
+                  <li className="flex items-center gap-2 justify-center"><span className="text-red-400">✕</span> Algorithm decides your pay</li>
+                  <li className="flex items-center gap-2 justify-center"><span className="text-red-400">✕</span> Deactivated by a bot</li>
+                  <li className="flex items-center gap-2 justify-center"><span className="text-red-400">✕</span> Can't build repeat clients</li>
+                </ul>
+              </div>
+              <div className="text-center">
+                <div className="text-mansagold text-xs font-mono uppercase tracking-wider mb-2">Noir Travel</div>
+                <ul className="space-y-2 text-sm text-white/80">
+                  <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> Flat 20% — you keep 80%</li>
+                  <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> Full fare breakdown before every trip</li>
+                  <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> Human-led appeals within 24hrs</li>
+                  <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> "Favorite Driver" — your book of business</li>
+                </ul>
+              </div>
+            </div>
+          </motion.div>
 
           {driverSubmitted ? (
             <motion.div
