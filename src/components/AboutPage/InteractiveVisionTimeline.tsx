@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardContent } from '@/components/ui/card';
@@ -239,8 +240,8 @@ const InteractiveVisionTimeline: React.FC = () => {
         </Card>
         
         <div className="mt-12 text-center">
-          <Button className="bg-gradient-to-r from-mansagold to-amber-500 hover:from-mansagold/90 hover:to-amber-500/90 text-mansablue px-8 py-2 text-lg font-bold">
-            Join Our Movement
+          <Button asChild className="bg-gradient-to-r from-mansagold to-amber-500 hover:from-mansagold/90 hover:to-amber-500/90 text-mansablue px-8 py-2 text-lg font-bold">
+            <Link to="/auth">Join Our Movement</Link>
           </Button>
           <p className="mt-4 text-sm text-blue-200/70">
             Be part of the solution and help us build economic sovereignty for future generations.
