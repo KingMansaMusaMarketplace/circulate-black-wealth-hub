@@ -41,6 +41,14 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
   const [mapReady, setMapReady] = useState(false);
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
 
+  // Demo animation state
+  const demoIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [demoLocation, setDemoLocation] = useState<DriverLocation | null>(null);
+  const [demoStatus, setDemoStatus] = useState<RideStatus | null>(null);
+
+  const activeLocation = isDemo ? demoLocation : driverLocation;
+  const activeStatus = isDemo ? demoStatus : rideStatus;
+
   // Fetch Mapbox token
   useEffect(() => {
     const fetchToken = async () => {
