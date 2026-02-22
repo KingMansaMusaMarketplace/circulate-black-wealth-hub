@@ -7729,6 +7729,236 @@ export type Database = {
         }
         Relationships: []
       }
+      noir_driver_location_history: {
+        Row: {
+          driver_id: string
+          heading: number | null
+          id: string
+          lat: number
+          lng: number
+          recorded_at: string
+          ride_id: string | null
+          speed: number | null
+        }
+        Insert: {
+          driver_id: string
+          heading?: number | null
+          id?: string
+          lat: number
+          lng: number
+          recorded_at?: string
+          ride_id?: string | null
+          speed?: number | null
+        }
+        Update: {
+          driver_id?: string
+          heading?: number | null
+          id?: string
+          lat?: number
+          lng?: number
+          recorded_at?: string
+          ride_id?: string | null
+          speed?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noir_driver_location_history_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noir_driver_location_history_ride_id_fkey"
+            columns: ["ride_id"]
+            isOneToOne: false
+            referencedRelation: "noir_rides"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      noir_drivers: {
+        Row: {
+          created_at: string
+          current_heading: number | null
+          current_lat: number | null
+          current_lng: number | null
+          current_speed: number | null
+          drivers_license_number: string | null
+          email: string | null
+          full_name: string
+          id: string
+          is_active: boolean | null
+          is_approved: boolean | null
+          is_online: boolean | null
+          license_plate: string | null
+          location_updated_at: string | null
+          phone: string | null
+          profile_photo_url: string | null
+          rating_average: number | null
+          total_earnings: number | null
+          total_rides: number | null
+          updated_at: string
+          user_id: string
+          vehicle_color: string | null
+          vehicle_make: string | null
+          vehicle_model: string | null
+          vehicle_year: number | null
+        }
+        Insert: {
+          created_at?: string
+          current_heading?: number | null
+          current_lat?: number | null
+          current_lng?: number | null
+          current_speed?: number | null
+          drivers_license_number?: string | null
+          email?: string | null
+          full_name: string
+          id?: string
+          is_active?: boolean | null
+          is_approved?: boolean | null
+          is_online?: boolean | null
+          license_plate?: string | null
+          location_updated_at?: string | null
+          phone?: string | null
+          profile_photo_url?: string | null
+          rating_average?: number | null
+          total_earnings?: number | null
+          total_rides?: number | null
+          updated_at?: string
+          user_id: string
+          vehicle_color?: string | null
+          vehicle_make?: string | null
+          vehicle_model?: string | null
+          vehicle_year?: number | null
+        }
+        Update: {
+          created_at?: string
+          current_heading?: number | null
+          current_lat?: number | null
+          current_lng?: number | null
+          current_speed?: number | null
+          drivers_license_number?: string | null
+          email?: string | null
+          full_name?: string
+          id?: string
+          is_active?: boolean | null
+          is_approved?: boolean | null
+          is_online?: boolean | null
+          license_plate?: string | null
+          location_updated_at?: string | null
+          phone?: string | null
+          profile_photo_url?: string | null
+          rating_average?: number | null
+          total_earnings?: number | null
+          total_rides?: number | null
+          updated_at?: string
+          user_id?: string
+          vehicle_color?: string | null
+          vehicle_make?: string | null
+          vehicle_model?: string | null
+          vehicle_year?: number | null
+        }
+        Relationships: []
+      }
+      noir_rides: {
+        Row: {
+          accepted_at: string | null
+          actual_fare: number | null
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          created_at: string
+          driver_id: string | null
+          driver_payout: number | null
+          driver_rating: number | null
+          dropoff_address: string
+          dropoff_at: string | null
+          dropoff_lat: number | null
+          dropoff_lng: number | null
+          estimated_distance_miles: number | null
+          estimated_duration_minutes: number | null
+          estimated_fare: number | null
+          id: string
+          payment_intent_id: string | null
+          pickup_address: string
+          pickup_at: string | null
+          pickup_lat: number | null
+          pickup_lng: number | null
+          platform_fee: number | null
+          requested_at: string
+          rider_rating: number | null
+          rider_user_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          actual_fare?: number | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          created_at?: string
+          driver_id?: string | null
+          driver_payout?: number | null
+          driver_rating?: number | null
+          dropoff_address: string
+          dropoff_at?: string | null
+          dropoff_lat?: number | null
+          dropoff_lng?: number | null
+          estimated_distance_miles?: number | null
+          estimated_duration_minutes?: number | null
+          estimated_fare?: number | null
+          id?: string
+          payment_intent_id?: string | null
+          pickup_address: string
+          pickup_at?: string | null
+          pickup_lat?: number | null
+          pickup_lng?: number | null
+          platform_fee?: number | null
+          requested_at?: string
+          rider_rating?: number | null
+          rider_user_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          actual_fare?: number | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          created_at?: string
+          driver_id?: string | null
+          driver_payout?: number | null
+          driver_rating?: number | null
+          dropoff_address?: string
+          dropoff_at?: string | null
+          dropoff_lat?: number | null
+          dropoff_lng?: number | null
+          estimated_distance_miles?: number | null
+          estimated_duration_minutes?: number | null
+          estimated_fare?: number | null
+          id?: string
+          payment_intent_id?: string | null
+          pickup_address?: string
+          pickup_at?: string | null
+          pickup_lat?: number | null
+          pickup_lng?: number | null
+          platform_fee?: number | null
+          requested_at?: string
+          rider_rating?: number | null
+          rider_user_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noir_rides_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification_batch_queue: {
         Row: {
           batch_id: string | null

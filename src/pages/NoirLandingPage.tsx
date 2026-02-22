@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, lazy, Suspense } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Car, MapPin, Navigation, Shield, Star, ArrowRight, ExternalLink,
   DollarSign, Users, Clock, Zap, CheckCircle, ChevronDown, ChevronUp,
-  Phone, Mail, Briefcase, Award, Globe
+  Phone, Mail, Briefcase, Award, Globe, Radio
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { businesses } from '@/data/businessesData';
 import earthImage from '@/assets/earth.png';
+
+const NoirTrackingMap = lazy(() => import('@/components/noir/NoirTrackingMap'));
 
 const UBER_DEEPLINK = (lat: number, lng: number, name: string) =>
   `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${lat}&dropoff[longitude]=${lng}&dropoff[nickname]=${encodeURIComponent(name)}`;
@@ -56,6 +58,7 @@ const NoirLandingPage: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [driverForm, setDriverForm] = useState({ name: '', email: '', phone: '', city: '', vehicle: '' });
   const [driverSubmitted, setDriverSubmitted] = useState(false);
+  const [showTracking, setShowTracking] = useState(false);
 
   const calculateFare = () => {
     if (pickup && dropoff) {
@@ -169,6 +172,14 @@ const NoirLandingPage: React.FC = () => {
                         <a href="#destinations">
                           Pick a Destination <MapPin className="ml-1 h-3 w-3" />
                         </a>
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={() => setShowTracking(true)}
+                        className="flex-1 bg-mansagold/20 border border-mansagold/30 text-mansagold hover:bg-mansagold/30 rounded-lg"
+                      >
+                        <Radio className="mr-1 h-3 w-3" />
+                        Live Tracking Demo
                       </Button>
                     </div>
                   </motion.div>
@@ -770,6 +781,40 @@ const NoirLandingPage: React.FC = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Live Tracking Demo Overlay */}
+      <AnimatePresence>
+        {showTracking && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="w-full max-w-2xl h-[500px] md:h-[600px]"
+            >
+              <Suspense fallback={
+                <div className="w-full h-full bg-white/5 rounded-2xl flex items-center justify-center">
+                  <div className="text-mansagold animate-pulse">Loading map...</div>
+                </div>
+              }>
+                <NoirTrackingMap
+                  driverLocation={null}
+                  rideStatus={null}
+                  pickupCoords={[-84.388, 33.749]}
+                  dropoffCoords={[-84.365, 33.762]}
+                  onClose={() => setShowTracking(false)}
+                  isDemo={true}
+                />
+              </Suspense>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
