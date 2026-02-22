@@ -255,6 +255,8 @@ const businessCardImages: Record<string, string> = {
 Object.assign(businessBannerFallbacks, {
   // National Black Farmers Association (NBFA) - Baskerville, VA
   '8f42b1c3-5d9e-4a7b-b2e1-9c3f4d5a6e7b': '/images/businesses/nbfa-banner.jpg',
+  // Lincoln University - Jefferson City, MO (domed HQ building)
+  'af097bb0-7f38-4fa1-86ae-0d26c98a09ae': '/images/businesses/lincoln-university-banner.jpg',
 });
 
 /**
