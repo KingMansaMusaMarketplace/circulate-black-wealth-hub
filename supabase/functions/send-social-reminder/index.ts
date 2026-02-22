@@ -134,7 +134,7 @@ serve(async (req) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              from: 'Mansa Musa Marketplace <noreply@mansamusamarketplace.com>',
+              from: '1325.AI <noreply@1325.ai>',
               to: [reminder.email],
               subject: `🌟 Time for your ${getTierFrequencyText(reminder.tier)} social media spotlight!`,
               html: emailHtml,
@@ -214,9 +214,9 @@ function getTierFrequencyText(tier: string): string {
 
 function generateSuggestedContent(companyName: string, tier: string): string {
   const templates = [
-    `🌟 Proud to spotlight ${companyName}, one of our amazing ${tier} sponsors! Their support helps us empower Black-owned businesses every day. #MansamusaMarketplace #SupportBlackBusiness`,
-    `A huge thank you to ${companyName} for their continued support as a ${tier} sponsor! Together, we're building economic empowerment in our community. 🙏 #BlackOwnedBusiness #CommunitySupport`,
-    `Meet ${companyName} – a valued ${tier} sponsor helping us make a difference! Their commitment to our mission means the world. 💫 #EconomicEmpowerment #BlackExcellence`,
+    `🌟 Proud to spotlight ${companyName}, one of our amazing ${tier} sponsors! Their support helps us empower community businesses every day. #1325AI #SupportCommunityBusiness`,
+    `A huge thank you to ${companyName} for their continued support as a ${tier} sponsor! Together, we're building economic empowerment in our community. 🙏 #CommunityBusiness #CommunitySupport`,
+    `Meet ${companyName} – a valued ${tier} sponsor helping us make a difference! Their commitment to our mission means the world. 💫 #EconomicEmpowerment #CommunityExcellence`,
   ];
   
   return templates[Math.floor(Math.random() * templates.length)];
@@ -245,19 +245,19 @@ function generateEmailHtml(companyName: string, tier: string): string {
         <div style="background: #fff; border-left: 4px solid #d4af37; padding: 15px 20px; margin: 20px 0; border-radius: 0 8px 8px 0;">
           <p style="margin: 0; font-weight: bold; color: #1b365d;">Suggested Post:</p>
           <p style="margin: 10px 0 0 0; font-style: italic; color: #666;">
-            "Proud to support @MansamusaMarketplace in their mission to empower Black-owned businesses! Together, we're making a difference. 💪🏾 #SupportBlackBusiness #EconomicEmpowerment"
+            "Proud to support @1325AI in their mission to empower community businesses! Together, we're making a difference. 💪🏾 #SupportCommunityBusiness #EconomicEmpowerment"
           </p>
         </div>
         
         <p>Your social media posts help us:</p>
         <ul style="color: #555;">
-          <li>Increase visibility for Black-owned businesses</li>
+          <li>Increase visibility for community businesses</li>
           <li>Attract new community members</li>
           <li>Inspire other companies to support our mission</li>
         </ul>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://mansamusamarketplace.com/sponsor-dashboard" 
+          <a href="https://1325.ai/sponsor-dashboard" 
              style="display: inline-block; background: linear-gradient(135deg, #d4af37, #b8960f); color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: bold;">
             View Your Impact Dashboard
           </a>
@@ -271,7 +271,7 @@ function generateEmailHtml(companyName: string, tier: string): string {
         
         <p style="color: #666; font-size: 14px; text-align: center;">
           Thank you for your continued support!<br>
-          <strong>The Mansa Musa Marketplace Team</strong>
+          <strong>The 1325.AI Team</strong>
         </p>
       </div>
     </body>

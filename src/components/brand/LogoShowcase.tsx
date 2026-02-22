@@ -6,9 +6,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 const LogoShowcase = () => {
   const logoVariants = [
     { name: 'Default', variant: 'default', description: 'Modern MM with crown and circulation symbol' },
-    { name: 'Royal Crown', variant: 'crown', description: 'Elegant crown symbolizing Mansa Musa\'s wealth' },
+    { name: 'Royal Crown', variant: 'crown', description: 'Elegant crown symbolizing historic wealth' },
     { name: 'Gold Coins', variant: 'coins', description: 'Coins representing wealth circulation' },
-    { name: 'Silhouette', variant: 'silhouette', description: 'Mansa Musa silhouette with Mali map' },
+    { name: 'Silhouette', variant: 'silhouette', description: 'Historic silhouette with Mali map' },
     { name: 'Interlocking', variant: 'interlocking', description: 'Interlocking Ms representing connectivity' }
   ] as const;
 

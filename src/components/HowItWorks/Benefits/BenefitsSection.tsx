@@ -37,7 +37,7 @@ const BenefitsSection = () => {
     {
       title: 'Save Money',
       description: 'Save 10-20% every time you shop at participating verified businesses.',
-      details: 'Our partner businesses offer exclusive discounts to Mansa Musa members. These savings add up quickly, helping you keep more money in your pocket while supporting the community.'
+      details: 'Our partner businesses offer exclusive discounts to 1325.AI members. These savings add up quickly, helping you keep more money in your pocket while supporting the community.'
     },
     {
       title: 'Earn Loyalty Points',

@@ -19,11 +19,11 @@ const StepVideo: React.FC<StepVideoProps> = ({ isVisible }) => {
         See How It Works
       </h3>
       
-      {/* First Video - Mansa Musa Benefits Explained */}
+      {/* First Video - 1325.AI Benefits Explained */}
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         <VideoPlayer
           src="https://www.youtube.com/embed/71FmkfENYDI"
-          title="Mansa Musa Benefits Explained"
+          title="1325.AI Benefits Explained"
           isYouTube={true}
           className="w-full"
         />

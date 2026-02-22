@@ -119,7 +119,7 @@ const handler = async (req: Request): Promise<Response> => {
       
       try {
         const emailResponse = await resend.emails.send({
-          from: "Mansa Musa Marketplace <onboarding@resend.dev>",
+          from: "1325.AI <noreply@1325.ai>",
           to: batch,
           subject: subject,
           html: `
@@ -173,17 +173,17 @@ const handler = async (req: Request): Promise<Response> => {
             </head>
             <body>
               <div class="header">
-                <h1 style="margin: 0; font-size: 24px;">Mansa Musa Marketplace</h1>
+                <h1 style="margin: 0; font-size: 24px;">1325.AI</h1>
               </div>
               <div class="content">
                 ${sanitizeHtmlContent(content)}
                 
                 <div style="text-align: center; margin-top: 30px;">
-                  <a href="https://mansamusamarketplace.com" class="button">Visit Marketplace</a>
+                  <a href="https://1325.ai" class="button">Visit Marketplace</a>
                 </div>
               </div>
               <div class="footer">
-                <p>© ${new Date().getFullYear()} Mansa Musa Marketplace. All rights reserved.</p>
+                <p>© ${new Date().getFullYear()} 1325.AI. All rights reserved.</p>
                 <p>You're receiving this email because you signed up for our platform.</p>
               </div>
             </body>
