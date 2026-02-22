@@ -14,8 +14,8 @@ const BlogPage = () => {
 
   const comingSoonPosts = [
     {
-      title: "The Economic Impact of Black Dollar Circulation",
-      excerpt: "Exploring how every dollar spent at Black-owned businesses creates a multiplier effect in our communities.",
+      title: "The Economic Impact of Dollar Circulation",
+      excerpt: "Exploring how every dollar spent at local businesses creates a multiplier effect in our communities.",
       author: "Economic Research Team",
       readTime: "8 min read",
       category: "Economic Impact"
@@ -28,8 +28,8 @@ const BlogPage = () => {
       category: "Success Stories"
     },
     {
-      title: "Building Generational Wealth Through Black Business Support",
-      excerpt: "How supporting Black-owned businesses creates lasting economic change for future generations.",
+      title: "Building Generational Wealth Through Community Business Support",
+      excerpt: "How supporting community businesses creates lasting economic change for future generations.",
       author: "Wealth Building Team",
       readTime: "10 min read",
       category: "Wealth Building"
@@ -119,7 +119,7 @@ const BlogPage = () => {
               </h1>
               <p className="text-xl text-blue-100/90 max-w-2xl mx-auto font-medium">
                 Stories, insights, and updates from our community of entrepreneurs 
-                and supporters building Black economic empowerment ✨
+                and supporters building economic empowerment ✨
               </p>
             </div>
           </div>

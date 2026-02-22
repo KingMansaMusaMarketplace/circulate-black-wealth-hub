@@ -153,7 +153,7 @@ const VacationRentalsPage: React.FC = () => {
               <p className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-mansagold to-amber-400">
                 100%
               </p>
-              <p className="text-white/60 text-sm font-mono tracking-wider uppercase">Black-Owned</p>
+              <p className="text-white/60 text-sm font-mono tracking-wider uppercase">Community-Owned</p>
             </div>
           </motion.div>
 

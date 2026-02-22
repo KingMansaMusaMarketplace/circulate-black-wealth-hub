@@ -267,7 +267,7 @@ export const ImpactDashboard = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-mansablue/5 to-mansagold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <CardHeader className="relative z-10">
                 <CardTitle className="text-2xl text-transparent bg-gradient-to-r from-blue-300 to-amber-300 bg-clip-text">Businesses You've Empowered</CardTitle>
-                <CardDescription className="text-lg text-slate-400">These Black-owned businesses are thriving because of you</CardDescription>
+                <CardDescription className="text-lg text-slate-400">These businesses are thriving because of you</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10">
                 <div className="flex flex-wrap gap-3">

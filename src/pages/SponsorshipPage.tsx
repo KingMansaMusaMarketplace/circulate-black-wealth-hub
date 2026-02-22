@@ -19,7 +19,7 @@ const SponsorshipPage: React.FC = () => {
           Corporate Partnership Program
         </h1>
         <p className="text-gray-600 text-center max-w-2xl mx-auto">
-          Purchase corporate partnership services to support Black-owned businesses, 
+          Purchase corporate partnership services to support community businesses, 
           gain visibility in our marketplace, and access exclusive partnership benefits including 
           co-branding opportunities, networking events, and business development resources.
         </p>

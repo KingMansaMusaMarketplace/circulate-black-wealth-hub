@@ -56,7 +56,7 @@ const getHonestLabel = (type: 'businesses' | 'members' | 'transactions' | 'value
     if (count === 1) return 'Founding Business';
     if (count <= 10) return 'Founding Businesses';
     if (count <= 50) return 'Businesses & Growing';
-    return 'Black-Owned Businesses';
+    return 'Verified Businesses';
   }
   if (type === 'members') {
     if (count === 0) return 'Join as a Founder';
@@ -178,7 +178,7 @@ export const ImpactCounter: React.FC = () => {
             <span className="text-gradient-gold">Building Wealth</span>
           </h2>
           <p className="text-lg text-blue-200/70 max-w-2xl mx-auto">
-            Join our growing community. Every transaction strengthens Black economic power.
+            Join our growing community. Every transaction strengthens economic power.
           </p>
         </motion.div>
         

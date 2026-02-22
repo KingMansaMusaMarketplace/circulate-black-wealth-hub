@@ -73,7 +73,7 @@ export default function B2BMarketplacePage() {
                 B2B Supplier Marketplace
               </h2>
               <p className="text-slate-300 max-w-xl">
-                Connect with fellow Black-owned businesses. When we buy from each other, 
+                Connect with fellow businesses on our platform. When we buy from each other, 
                 money circulates 6x longer in our community. Find suppliers, post needs, 
                 and build lasting business relationships.
               </p>

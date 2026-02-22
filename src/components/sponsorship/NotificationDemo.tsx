@@ -42,7 +42,7 @@ const NotificationDemo: React.FC = () => {
       description: 'Celebrate sponsorship milestones',
       icon: Award,
       action: () => {
-        sendMilestoneNotification('Your sponsorship has supported 100 Black-owned businesses!');
+        sendMilestoneNotification('Your sponsorship has supported 100 community businesses!');
         toast.success('Test notification sent!');
       },
     },

@@ -40,7 +40,7 @@ const actionMessages: Record<string, { title: string; description: string; icon:
     title: 'Start Earning Points',
     description: 'Create an account to scan QR codes and earn loyalty points.',
     icon: Star,
-    benefit: 'Get rewards at every Black-owned business you visit!',
+    benefit: 'Get rewards at every business you visit!',
   },
   loyalty: {
     title: 'Join the Loyalty Program',
@@ -120,7 +120,7 @@ export const SignupPromptModal: React.FC<SignupPromptModalProps> = ({
         </div>
 
         <p className="text-xs text-center text-muted-foreground mt-4">
-          Join thousands of members saving money while supporting Black-owned businesses.
+          Join thousands of members saving money while supporting businesses in your community.
         </p>
       </DialogContent>
     </Dialog>

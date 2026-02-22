@@ -41,7 +41,7 @@ const ProximitySettings: React.FC = () => {
             Proximity Alerts
           </CardTitle>
           <CardDescription className="text-gray-400">
-            Get notified when you're near Black-owned businesses
+            Get notified when you're near businesses in your community
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -67,7 +67,7 @@ const ProximitySettings: React.FC = () => {
           Proximity Alerts
         </CardTitle>
         <CardDescription className="text-gray-400">
-          Get notified when you're near Black-owned businesses
+          Get notified when you're near businesses in your community
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">

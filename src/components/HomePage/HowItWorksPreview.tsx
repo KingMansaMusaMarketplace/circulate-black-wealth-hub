@@ -12,7 +12,7 @@ const HowItWorksPreview = () => {
       icon: Search,
       number: "1",
       title: "Discover",
-      description: "Browse verified Black-owned businesses near you"
+      description: "Browse verified businesses near you"
     },
     {
       icon: Smartphone,
@@ -37,7 +37,7 @@ const HowItWorksPreview = () => {
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Three simple steps to start saving money
-            <span className="block mt-1">and supporting Black-owned businesses</span>
+            <span className="block mt-1">and supporting businesses in your community</span>
           </p>
         </div>
 
