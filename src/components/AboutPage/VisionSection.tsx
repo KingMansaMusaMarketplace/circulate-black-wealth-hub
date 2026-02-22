@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import earthImage from '@/assets/earth.png';
 
 const VisionSection = () => {
   return (
@@ -27,7 +28,9 @@ const VisionSection = () => {
         <div className="grid md:grid-cols-3 gap-8">
           <Card className="border-2 border-white/10 hover:border-mansagold/50 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-slate-800/60 backdrop-blur-xl">
             <CardHeader className="text-center border-b-2 border-white/10 pb-6">
-              <div className="text-5xl mb-4 flex justify-center animate-pulse">✊🏾</div>
+              <div className="mb-4 flex justify-center">
+                <img src={earthImage} alt="Global Network" className="h-16 w-16 rounded-full drop-shadow-[0_0_15px_rgba(255,193,7,0.5)] animate-pulse" />
+              </div>
               <CardTitle className="text-2xl font-extrabold text-white">100,000+</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
