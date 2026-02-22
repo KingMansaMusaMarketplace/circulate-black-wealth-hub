@@ -12,11 +12,11 @@ const FAQSection = () => {
   const faqs = [
     {
       question: "How is Mansa Musa Marketplace different from other marketplaces?",
-      answer: "Unlike traditional marketplaces that simply facilitate transactions, Mansa Musa Marketplace is designed with economic circulation as its core principle. We track, measure, and incentivize spending within Black-owned businesses, creating a virtuous cycle of economic empowerment."
+      answer: "Unlike traditional marketplaces that simply facilitate transactions, Mansa Musa Marketplace is designed with economic circulation as its core principle. We track, measure, and incentivize spending within community businesses, creating a virtuous cycle of economic empowerment."
     },
     {
       question: "Who was Mansa Musa and why name the platform after him?",
-      answer: "Mansa Musa was the 10th Emperor of Mali who ruled in the 14th century and is widely considered to be the wealthiest person in history. His economic influence and strategic wealth building serves as inspiration for our mission of creating sustainable Black wealth circulation systems."
+      answer: "Mansa Musa was the 10th Emperor of Mali who ruled in the 14th century and is widely considered to be the wealthiest person in history. His economic influence and strategic wealth building serves as inspiration for our mission of creating sustainable community wealth circulation systems."
     },
     {
       question: "How are businesses vetted for inclusion in the marketplace?",
@@ -28,7 +28,7 @@ const FAQSection = () => {
     },
     {
       question: "Can non-Black individuals sign up as customers and business owners?",
-      answer: "Absolutely YES! The marketplace welcomes everyone. As a customer, you'll enjoy: • Access to unique Black-owned businesses and products • Loyalty rewards and exclusive discounts • Community event invitations • Impact tracking to see your economic contribution. As a business owner (of any background), you'll benefit from: • Access to a motivated customer base • Marketing and visibility tools • Community partnerships and networking • Support for businesses committed to economic empowerment."
+      answer: "Absolutely YES! The marketplace welcomes everyone. As a customer, you'll enjoy: • Access to unique, verified businesses and products • Loyalty rewards and exclusive discounts • Community event invitations • Impact tracking to see your economic contribution. As a business owner (of any background), you'll benefit from: • Access to a motivated customer base • Marketing and visibility tools • Community partnerships and networking • Support for businesses committed to economic empowerment."
     }
   ];
 

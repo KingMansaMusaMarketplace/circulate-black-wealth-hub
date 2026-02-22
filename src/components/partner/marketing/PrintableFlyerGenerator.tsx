@@ -15,7 +15,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
   const [isGenerating, setIsGenerating] = useState(false);
 
   const benefits = [
-    { title: 'Get Discovered', desc: 'By conscious consumers seeking Black-owned businesses' },
+    { title: 'Get Discovered', desc: 'By consumers seeking quality verified businesses' },
     { title: 'B2B Matching', desc: 'Find partners, suppliers, and customers' },
     { title: 'Susu Circles', desc: 'Community-powered rotating savings' },
     { title: 'Loyalty Tools', desc: 'Build customer engagement & rewards' },
@@ -77,7 +77,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
   <div class="flyer">
     <div class="header">
       <h1 style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</h1>
-      <p>The Economic Operating System for Black-Owned Businesses</p>
+      <p>The Economic Operating System for Community Businesses</p>
       <div class="partner-badge">Referred by ${partner.directory_name}</div>
     </div>
     

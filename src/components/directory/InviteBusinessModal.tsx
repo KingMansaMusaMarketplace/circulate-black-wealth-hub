@@ -110,7 +110,7 @@ export const InviteBusinessModal: React.FC<InviteBusinessModalProps> = ({
             <DialogTitle className="text-xl text-white">Invite a Business</DialogTitle>
           </div>
           <DialogDescription className="text-slate-400">
-            Help grow our community by inviting Black-owned businesses to join the platform.
+            Help grow our community by inviting businesses to join the platform.
           </DialogDescription>
         </DialogHeader>
 

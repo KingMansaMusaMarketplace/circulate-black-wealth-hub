@@ -48,7 +48,7 @@ const SponsorMetricsControl: React.FC = () => {
             Metrics are automatically calculated based on real marketplace transactions. This includes:
           </p>
           <ul className="text-sm text-muted-foreground space-y-1 ml-4">
-            <li>• Number of unique Black-owned businesses supported</li>
+            <li>• Number of unique verified businesses supported</li>
             <li>• Total transactions facilitated since subscription start</li>
             <li>• Community reach (estimated people impacted)</li>
             <li>• Economic impact with 2.3x multiplier effect</li>

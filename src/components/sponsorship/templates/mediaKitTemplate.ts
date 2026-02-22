@@ -10,7 +10,7 @@ export const getMediaKitContent = (): string => {
 
       <div style="margin-bottom: 30px;">
         <h3 style="color: #000000; font-size: 20px; margin-bottom: 15px; font-weight: bold;">Company Overview</h3>
-        <p style="line-height: 1.8; font-size: 16px; color: #000000;">Mansa Musa Marketplace is a revolutionary platform dedicated to building, protecting, and expanding the Black economic ecosystem.</p>
+        <p style="line-height: 1.8; font-size: 16px; color: #000000;">Mansa Musa Marketplace is a revolutionary platform dedicated to building, protecting, and expanding the community economic ecosystem.</p>
       </div>
 
       <div style="text-align: center; margin-top: 40px; padding: 20px; background-color: #1a1a1a; color: white; border-radius: 8px;">

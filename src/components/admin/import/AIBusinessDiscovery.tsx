@@ -71,7 +71,7 @@ export const AIBusinessDiscovery: React.FC<AIBusinessDiscoveryProps> = ({ onClos
         // Select all by default
         setSelectedBusinesses(new Set(data.businesses.map((_: DiscoveredBusiness, i: number) => i)));
         setStep('results');
-        toast.success(`Found ${data.businesses.length} Black-owned businesses!`);
+        toast.success(`Found ${data.businesses.length} businesses!`);
       } else {
         toast.info('No businesses found. Try a different search query.');
       }
@@ -162,7 +162,7 @@ export const AIBusinessDiscovery: React.FC<AIBusinessDiscoveryProps> = ({ onClos
             AI Business Discovery
           </DialogTitle>
           <DialogDescription className="text-blue-200">
-            Use AI to search the web and discover Black-owned businesses to add to your leads database.
+            Use AI to search the web and discover businesses to add to your leads database.
           </DialogDescription>
         </DialogHeader>
 

@@ -58,7 +58,7 @@ const LiveImpactCounter: React.FC<LiveImpactCounterProps> = ({
     },
     {
       icon: Building2,
-      label: 'Black-Owned Businesses',
+      label: 'Verified Businesses',
       value: counts.businesses.toLocaleString(),
       subtext: 'Verified & thriving',
       color: 'text-secondary'

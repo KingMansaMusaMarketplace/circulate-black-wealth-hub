@@ -35,7 +35,7 @@ const HowItWorksSteps = () => {
     {
       number: '01',
       title: 'Sign Up',
-      description: 'Join to browse the complete directory of Black-owned businesses.',
+      description: 'Join to browse the complete directory of verified businesses.',
       details: [
         'Access to full business listings',
         'QR code scanning functionality',
@@ -92,7 +92,7 @@ const HowItWorksSteps = () => {
               How It <span className="text-yellow-400">Works</span>
             </h2>
             <p className="font-body text-lg font-semibold text-white/90 max-w-2xl mx-auto">
-              Three simple steps to start supporting Black-owned businesses and building community wealth
+              Three simple steps to start discovering great businesses and building community wealth
             </p>
           </div>
         </ScrollReveal>
