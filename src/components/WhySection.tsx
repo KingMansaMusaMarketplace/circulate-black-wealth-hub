@@ -38,10 +38,10 @@ const WhySection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Why Choose Mansa Musa Marketplace?
+            Why Choose 1325.AI?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join a movement that's creating real economic change in the Black community through conscious spending and business support.
+            Join a movement that's creating real economic change in the community through conscious spending and business support.
           </p>
         </div>
 

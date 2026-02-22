@@ -401,7 +401,7 @@ function App() {
   // Show loading screen while app initializes
   if (!appReady) {
     console.log('[APP INIT] Not ready, showing loader');
-    return <LoadingFallback message="Loading Mansa Musa Marketplace..." />;
+    return <LoadingFallback message="Loading 1325.AI..." />;
   }
   
   console.log('[APP INIT] Rendering main app');
@@ -421,7 +421,7 @@ function App() {
                     <ScrollToTop />
                     <AnalyticsTracker />
                     <TooltipProvider>
-                    <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
+                    <div className="min-h-screen bg-background" role="application" aria-label="1325.AI">
                       {/* Skip to main content link for keyboard navigation */}
                       <a href="#main-content" className="skip-link">
                         Skip to main content
@@ -721,7 +721,7 @@ function App() {
                     <ScrollToTop />
                     <AnalyticsTracker />
                   <TooltipProvider>
-                  <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
+                  <div className="min-h-screen bg-background" role="application" aria-label="1325.AI">
                     {/* Skip to main content link for keyboard navigation */}
                     <a href="#main-content" className="skip-link">
                       Skip to main content

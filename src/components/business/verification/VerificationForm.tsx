@@ -132,7 +132,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
           <div className="flex items-start justify-between">
             <div>
               <CardTitle>Verification Status</CardTitle>
-              <CardDescription>Your Black-Owned Business certification status</CardDescription>
+              <CardDescription>Your Community Business certification status</CardDescription>
             </div>
             <VerifiedBlackOwnedBadge
               tier={isPending ? 'verified' : isApproved ? 'certified' : 'basic'}
@@ -146,7 +146,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
             <div className="grid gap-4 md:grid-cols-2">
               <div className="p-4 bg-muted/30 rounded-lg">
                 <p className="text-xs text-muted-foreground">Ownership</p>
-                <p className="font-semibold">{verificationStatus.ownership_percentage}% Black-Owned</p>
+                <p className="font-semibold">{verificationStatus.ownership_percentage}% Community-Owned</p>
               </div>
               <div className="p-4 bg-muted/30 rounded-lg">
                 <p className="text-xs text-muted-foreground">Submitted</p>
@@ -286,7 +286,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
             <Shield className="h-5 w-5 text-amber-600" />
           </div>
           <div>
-            <CardTitle>Certified Black-Owned Business</CardTitle>
+            <CardTitle>Certified Community Business</CardTitle>
             <CardDescription>
               Complete verification to receive your official certification badge
             </CardDescription>

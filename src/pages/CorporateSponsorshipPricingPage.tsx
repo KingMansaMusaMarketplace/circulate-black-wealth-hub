@@ -241,7 +241,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                Your corporate sponsorship directly supports Black-owned businesses
+                Your corporate sponsorship directly supports community businesses
                 and strengthens communities. Choose a partnership tier that aligns
                 with your company's values and budget.
               </motion.p>

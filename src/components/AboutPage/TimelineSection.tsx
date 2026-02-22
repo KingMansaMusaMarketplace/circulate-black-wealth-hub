@@ -7,7 +7,7 @@ const TimelineSection = () => {
     {
       year: "2021",
       title: "The Vision",
-      description: "Thomas Bowling first conceptualizes Mansa Musa Marketplace after studying circulation patterns in economic systems.",
+      description: "Thomas Bowling first conceptualizes 1325.AI after studying circulation patterns in economic systems.",
       icon: <Clock className="h-6 w-6" />
     },
     {

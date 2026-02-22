@@ -4,7 +4,7 @@ export const customerTourSteps: TourStep[] = [
   {
     target: '[data-tour="directory-link"]',
     title: 'Welcome to the Marketplace! 🎉',
-    description: 'Discover and support Black-owned businesses in your community. Let\'s take a quick tour to help you get started.',
+    description: 'Discover and support community businesses in your area. Let\'s take a quick tour to help you get started.',
     position: 'bottom',
   },
   {
@@ -16,7 +16,7 @@ export const customerTourSteps: TourStep[] = [
   {
     target: '[data-tour="business-card"]',
     title: 'Business Listings',
-    description: 'Browse verified Black-owned businesses. Each listing shows ratings, reviews, and key information.',
+    description: 'Browse verified community businesses. Each listing shows ratings, reviews, and key information.',
     position: 'right',
   },
   {

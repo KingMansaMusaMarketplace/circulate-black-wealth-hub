@@ -45,7 +45,7 @@ export const FAQSection: React.FC = () => {
           </h2>
         </div>
         <p className="text-blue-200 max-w-2xl mx-auto">
-          Find quick answers to common questions about using Mansa Musa Marketplace.
+          Find quick answers to common questions about using 1325.AI.
         </p>
       </div>
 

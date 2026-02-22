@@ -499,7 +499,7 @@ const FeatureGuidePage = () => {
                 ✨ Complete Feature Guide
               </Badge>
               <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-2xl">
-                Everything You Can Do with <span className="bg-gradient-to-r from-mansagold via-mansagold-light to-white bg-clip-text text-transparent">Mansa Musa Marketplace</span>
+                Everything You Can Do with <span className="bg-gradient-to-r from-mansagold via-mansagold-light to-white bg-clip-text text-transparent">1325.AI</span>
               </h1>
               <p className="text-xl text-white/90 font-medium drop-shadow-lg">
                 Discover powerful features for consumers, business owners, and community impact tracking. 🚀

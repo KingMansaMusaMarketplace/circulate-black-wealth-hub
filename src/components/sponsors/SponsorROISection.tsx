@@ -205,7 +205,7 @@ const SponsorROISection = () => {
           <div className="mt-6 p-4 bg-gradient-to-r from-mansagold/10 to-transparent rounded-xl border border-mansagold/20">
             <p className="text-white text-sm">
               <span className="text-mansagold font-bold">Your Impact:</span> With a ${investmentAmount.toLocaleString()}/month investment, 
-              you'll directly support {roi.businessConnections} Black-owned businesses and create ${roi.economicImpact.toLocaleString()} in economic circulation within our community.
+              you'll directly support {roi.businessConnections} community businesses and create ${roi.economicImpact.toLocaleString()} in economic circulation within our community.
             </p>
           </div>
         </div>

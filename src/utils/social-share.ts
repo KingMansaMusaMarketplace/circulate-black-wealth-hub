@@ -130,7 +130,7 @@ export const generateImpactShareText = (impact: {
 
   return {
     title: '💪 My Community Impact',
-    text: `I'm making an impact with Mansa Musa Marketplace! ${parts.join(', ')}. Join me in building Black economic power!`,
+    text: `I'm making an impact with 1325.AI! ${parts.join(', ')}. Join me in building community economic power!`,
     url: window.location.origin,
   };
 };

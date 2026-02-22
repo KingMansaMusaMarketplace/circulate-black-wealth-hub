@@ -251,9 +251,9 @@ const HowItWorksPage = () => {
                       <Users className="h-6 w-6 text-green-300" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-semibold text-white">Customer Pays MMM</div>
+                      <div className="font-semibold text-white">Customer Pays 1325.AI</div>
                       <div className="text-sm text-blue-200/70">
-                        Customer sees "Pay Mansa Musa Marketplace" - builds trust
+                        Customer sees "Pay 1325.AI" - builds trust
                       </div>
                     </div>
                     <div className="text-xl font-bold text-green-300">$100</div>

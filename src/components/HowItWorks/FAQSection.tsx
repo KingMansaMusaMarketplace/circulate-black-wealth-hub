@@ -76,7 +76,7 @@ const FAQSection = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-lg font-semibold text-white/90 max-w-2xl mx-auto">
-            Find answers to common questions about Mansa Musa Marketplace.
+            Find answers to common questions about 1325.AI.
           </p>
         </motion.div>
 

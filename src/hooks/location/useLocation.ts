@@ -100,7 +100,7 @@ export function useLocation(options: UseLocationOptions = {}) {
       if (isNative) {
         if (platform === 'ios') {
           const iosError = err.message?.includes('denied') 
-            ? 'Please enable location access in your iOS Settings app for Mansa Musa Marketplace'
+            ? 'Please enable location access in your iOS Settings app for 1325.AI'
             : 'Unable to determine your location';
           setError(iosError);
         } else {

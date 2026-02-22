@@ -25,7 +25,7 @@ const QuoteSection = () => {
               Wealth is created by systems — built, protected, and expanded together.
             </span>
             <span className="block mt-6 font-extrabold text-3xl md:text-4xl bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-lg">
-              Mansa Musa Marketplace is your system.
+              1325.AI is your system.
             </span>
             <span className="block mt-3 text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-200 via-yellow-200 to-white bg-clip-text text-transparent">
               Now circulate, build, and lead.

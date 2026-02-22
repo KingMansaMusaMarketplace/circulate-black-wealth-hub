@@ -32,7 +32,7 @@ export const useMFASetup = () => {
     try {
       const { data, error } = await supabase.auth.mfa.enroll({
         factorType: 'totp',
-        issuer: 'Mansa Musa Marketplace'
+        issuer: '1325.AI'
       });
 
       if (error) throw error;

@@ -1,14 +1,14 @@
 export const outreachEmailTemplates = {
   blavity: {
-    subject: "Partnership Opportunity: Mansa Musa Marketplace x AfroTech Community",
+    subject: "Partnership Opportunity: 1325.AI x AfroTech Community",
     to: "partnerships@blavity.com",
     cc: "morgan@blavity.com, jeff@blavity.com",
     body: `Dear Blavity Partnership Team,
 
-I hope this message finds you well. I'm reaching out from Mansa Musa Marketplace, a digital platform dedicated to building and expanding the community economic ecosystem through intentional consumer behavior and strategic partnerships.
+I hope this message finds you well. I'm reaching out from 1325.AI, a digital platform dedicated to building and expanding the community economic ecosystem through intentional consumer behavior and strategic partnerships.
 
 WHY THIS PARTNERSHIP MAKES SENSE:
-Our missions align perfectly - while AfroTech empowers professionals in technology, Mansa Musa Marketplace creates sustainable economic opportunities for community businesses. Together, we can create a comprehensive ecosystem that supports excellence from career development to economic empowerment.
+Our missions align perfectly - while AfroTech empowers professionals in technology, 1325.AI creates sustainable economic opportunities for community businesses. Together, we can create a comprehensive ecosystem that supports excellence from career development to economic empowerment.
 
 PARTNERSHIP OPPORTUNITIES:
 • Cross-promotion at AfroTech events and digital platforms
@@ -27,24 +27,24 @@ I'd love to schedule a brief 15-minute call to explore how we can create meaning
 Best regards,
 [Your Name]
 [Your Title]
-Mansa Musa Marketplace
+1325.AI
 Phone: 312.709.6006
 Email: Thomas@1325.AI
-Website: www.mansamusamarketplace.com
+Website: www.1325.ai
 
 P.S. I've attached our brief partnership overview that outlines specific collaboration opportunities and mutual benefits.`
   },
 
   beCommerce: {
-    subject: "Strategic Partnership: Mansa Musa Marketplace x BE Commerce",
+    subject: "Strategic Partnership: 1325.AI x BE Commerce",
     to: "partnerships@becommerce.co",
     cc: "info@becommerce.co",
     body: `Dear BE Commerce Team,
 
-Greetings! I'm writing from Mansa Musa Marketplace, a platform dedicated to building the community economic ecosystem through strategic digital infrastructure and community engagement.
+Greetings! I'm writing from 1325.AI, a platform dedicated to building the community economic ecosystem through strategic digital infrastructure and community engagement.
 
 THE SYNERGY OPPORTUNITY:
-BE Commerce powers community e-commerce businesses, while Mansa Musa Marketplace drives consumer discovery and loyalty. Together, we can create a comprehensive solution that helps businesses thrive both online and offline.
+BE Commerce powers community e-commerce businesses, while 1325.AI drives consumer discovery and loyalty. Together, we can create a comprehensive solution that helps businesses thrive both online and offline.
 
 PROPOSED COLLABORATION:
 • Integration opportunities for BE Commerce merchants on our platform
@@ -69,25 +69,25 @@ I'd appreciate the opportunity to discuss how we can amplify each other's missio
 Warm regards,
 [Your Name]
 [Your Title]
-Mansa Musa Marketplace
+1325.AI
 Phone: 312.709.6006
 Email: Thomas@1325.AI
-Website: www.mansamusamarketplace.com
+Website: www.1325.ai
 
 Best,
 [Your Name]`
   },
 
   theShadeRoom: {
-    subject: "Media Partnership: Amplifying Black Business Stories with The Shade Room",
+    subject: "Media Partnership: Amplifying Community Business Stories with The Shade Room",
     to: "business@theshaderoom.com",
     cc: "partnerships@theshaderoom.com",
     body: `Hello The Shade Room Team,
 
-Hope you're doing well! I'm reaching out from Mansa Musa Marketplace regarding an exciting media partnership opportunity that aligns perfectly with TSR's commitment to uplifting the community.
+Hope you're doing well! I'm reaching out from 1325.AI regarding an exciting media partnership opportunity that aligns perfectly with TSR's commitment to uplifting the community.
 
 THE PARTNERSHIP VISION:
-While The Shade Room amplifies voices and culture, Mansa Musa Marketplace amplifies community economic power. Together, we can create compelling content that celebrates business success while driving real economic impact.
+While The Shade Room amplifies voices and culture, 1325.AI amplifies community economic power. Together, we can create compelling content that celebrates business success while driving real economic impact.
 
 CONTENT COLLABORATION IDEAS:
 • "TSR Business Spotlight" featuring successful entrepreneurs from our platform
@@ -115,24 +115,24 @@ Would you be interested in a brief 15-minute call to explore this partnership? I
 Best,
 [Your Name]
 [Your Title]
-Mansa Musa Marketplace
+1325.AI
 Phone: 312.709.6006
 Email: Thomas@1325.AI
-Website: www.mansamusamarketplace.com
+Website: www.1325.ai
 
 P.S. Happy to send over our media kit and partnership overview for your review.`
   },
 
   followUp: {
-    subject: "Following Up: Partnership Opportunity with Mansa Musa Marketplace",
+    subject: "Following Up: Partnership Opportunity with 1325.AI",
     body: `Hi [Name],
 
-I wanted to follow up on my previous email regarding a potential partnership between [Partner Company] and Mansa Musa Marketplace.
+I wanted to follow up on my previous email regarding a potential partnership between [Partner Company] and 1325.AI.
 
 I understand you receive many partnership inquiries, but I believe our missions are uniquely aligned in supporting community economic empowerment. 
 
 QUICK RECAP:
-• Mansa Musa Marketplace: Digital platform supporting verified community businesses
+• 1325.AI: Digital platform supporting verified community businesses
 • Partnership Goal: Amplify impact through strategic collaboration
 • Mutual Benefit: Expanded reach and shared resources for community impact
 
@@ -144,18 +144,18 @@ Thank you for your time and consideration.
 
 Best regards,
 [Your Name]
-Mansa Musa Marketplace
+1325.AI
 Phone: 312.709.6006
 Email: Thomas@1325.AI`
   },
 
   customizable: {
-    subject: "Partnership Opportunity: [Your Company] x Mansa Musa Marketplace",
+    subject: "Partnership Opportunity: [Your Company] x 1325.AI",
     body: `Dear [Partner Name] Team,
 
-I hope this message finds you well. I'm reaching out from Mansa Musa Marketplace regarding a strategic partnership opportunity.
+I hope this message finds you well. I'm reaching out from 1325.AI regarding a strategic partnership opportunity.
 
-ABOUT MANSA MUSA MARKETPLACE:
+ABOUT 1325.AI:
 We're a digital platform dedicated to building and expanding the community economic ecosystem through intentional consumer behavior, loyalty rewards, and community engagement.
 
 WHY [PARTNER COMPANY]:
@@ -182,10 +182,10 @@ I'd love to schedule a brief 15-minute exploratory call to discuss how we can cr
 Best regards,
 [Your Name]
 [Your Title]
-Mansa Musa Marketplace
+1325.AI
 Phone: 312.709.6006
 Email: Thomas@1325.AI
-Website: www.mansamusamarketplace.com`
+Website: www.1325.ai`
   }
 };
 

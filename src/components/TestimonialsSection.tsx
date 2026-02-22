@@ -67,7 +67,7 @@ const TestimonialsSection = () => {
               <Star className="w-12 h-12 text-amber-400 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-gray-800 mb-2">Be the First to Share Your Story</h3>
               <p className="text-gray-600">
-                Join our growing community and share your experience with Mansa Musa Marketplace!
+                Join our growing community and share your experience with 1325.AI!
               </p>
             </div>
           </motion.div>

@@ -69,7 +69,7 @@ const SupportPage = () => {
         },
         {
           question: "What are the listing requirements?",
-          answer: "Your business must be Black-owned (at least 51%), have a valid business license, provide accurate contact information, and comply with our community guidelines. See our Terms of Service for complete requirements."
+          answer: "Your business must be community-owned (at least 51%), have a valid business license, provide accurate contact information, and comply with our community guidelines. See our Terms of Service for complete requirements."
         }
       ]
     },
@@ -78,7 +78,7 @@ const SupportPage = () => {
       faqs: [
         {
           question: "How do QR codes work?",
-          answer: "Each participating business has a unique QR code. When you make a purchase, scan the code using our app's QR Scanner. This earns you loyalty points and helps track your support of Black-owned businesses."
+          answer: "Each participating business has a unique QR code. When you make a purchase, scan the code using our app's QR Scanner. This earns you loyalty points and helps track your support of community businesses."
         },
         {
           question: "How do I earn loyalty points?",

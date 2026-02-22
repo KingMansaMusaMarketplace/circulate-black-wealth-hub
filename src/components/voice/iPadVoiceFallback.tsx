@@ -9,7 +9,7 @@ interface iPadVoiceFallbackProps {
 
 export const IPadVoiceFallback: React.FC<iPadVoiceFallbackProps> = ({ onDismiss }) => {
   const handleVisitWebsite = () => {
-    window.open('https://mansamusamarketplace.com', '_blank');
+    window.open('https://1325.ai', '_blank');
   };
 
   const handleContactSupport = () => {

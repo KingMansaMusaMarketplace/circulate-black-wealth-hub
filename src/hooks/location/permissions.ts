@@ -58,7 +58,7 @@ export async function requestLocationPermission(): Promise<boolean> {
       
       if (platform === 'ios') {
         toast.error('Location access denied', {
-          description: 'Please enable location access in your iOS Settings app for Mansa Musa Marketplace',
+          description: 'Please enable location access in your iOS Settings app for 1325.AI',
           duration: 5000,
         });
       } else {
@@ -101,12 +101,12 @@ export function useLocationPermissions() {
       // For now we show instructions in a toast
       if (platform === 'ios') {
         toast.info('How to enable location access', {
-          description: 'Go to iOS Settings > Privacy > Location Services > Mansa Musa Marketplace',
+          description: 'Go to iOS Settings > Privacy > Location Services > 1325.AI',
           duration: 8000,
         });
       } else {
         toast.info('How to enable location access', {
-          description: 'Go to Settings > Apps > Mansa Musa Marketplace > Permissions > Location',
+          description: 'Go to Settings > Apps > 1325.AI > Permissions > Location',
           duration: 8000,
         });
       }

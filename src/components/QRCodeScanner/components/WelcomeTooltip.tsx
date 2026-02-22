@@ -68,7 +68,7 @@ const WelcomeTooltip: React.FC = () => {
             <ArrowRight className="h-3 w-3 text-blue-600" />
           </div>
           <p className="text-xs text-gray-700">
-            <span className="font-medium">Regular Visits:</span> Support Black-owned businesses and earn more rewards with repeat visits
+            <span className="font-medium">Regular Visits:</span> Support community businesses and earn more rewards with repeat visits
           </p>
         </div>
       </div>

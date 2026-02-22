@@ -20,9 +20,9 @@ const CertificationAgreement: React.FC<CertificationAgreementProps> = ({
       <Alert className="bg-amber-500/10 border-amber-500/30">
         <Shield className="h-4 w-4 text-amber-600" />
         <AlertDescription className="text-amber-800 dark:text-amber-200">
-          <strong>Black-Owned Business Certification</strong>
+          <strong>Community Business Certification</strong>
           <p className="mt-1 text-sm">
-            1325.AI is committed to supporting authentic Black-owned businesses. 
+            1325.AI is committed to supporting authentic community businesses. 
             Please carefully read and accept the certification agreement below.
           </p>
         </AlertDescription>

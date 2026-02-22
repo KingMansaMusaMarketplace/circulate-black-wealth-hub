@@ -601,7 +601,7 @@ const VerificationQueue: React.FC = () => {
                       <SelectContent className="bg-mansablue border-white/20">
                         <SelectItem value="certified" className="text-white hover:bg-white/10">
                           <div className="flex items-center gap-2">
-                            <span>Certified Black-Owned</span>
+                            <span>Certified Community-Owned</span>
                             <span className="text-xs text-white/50">(Standard)</span>
                           </div>
                         </SelectItem>

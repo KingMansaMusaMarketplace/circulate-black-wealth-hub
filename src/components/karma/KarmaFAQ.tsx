@@ -11,7 +11,7 @@ import { HelpCircle, Sparkles, TrendingDown, TrendingUp, Gift, Shield, Clock, St
 const karmaFAQs = [
   {
     question: "What is Economic Karma?",
-    answer: "Economic Karma is a trust and engagement score that reflects your participation in the Black economic ecosystem. It measures how actively you support Black-owned businesses, contribute to the community, and maintain reliable behavior on the platform.",
+    answer: "Economic Karma is a trust and engagement score that reflects your participation in the community economic ecosystem. It measures how actively you support community businesses, contribute to the community, and maintain reliable behavior on the platform.",
     icon: Sparkles
   },
   {

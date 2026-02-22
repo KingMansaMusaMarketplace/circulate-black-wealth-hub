@@ -77,7 +77,7 @@ export const HelpSection: React.FC = () => {
             Help & Support Center 🆘
           </h1>
           <p className="text-xl text-blue-100/90 max-w-2xl mx-auto font-medium">
-            Get the help you need to make the most of Mansa Musa Marketplace ✨
+            Get the help you need to make the most of 1325.AI ✨
           </p>
         </div>
       </div>
