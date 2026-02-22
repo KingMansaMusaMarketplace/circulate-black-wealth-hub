@@ -32,7 +32,7 @@ const VerifiedCorporationBadge: React.FC<VerifiedCorporationBadgeProps> = ({
               <CheckCircle2 className="h-5 w-5 text-green-600" />
             </div>
             <p className="text-sm text-gray-700 mb-3">
-              Mansa Musa Marketplace, Inc. is officially incorporated in the State of Illinois.
+              1325.AI, Inc. is officially incorporated in the State of Illinois.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
               <div>

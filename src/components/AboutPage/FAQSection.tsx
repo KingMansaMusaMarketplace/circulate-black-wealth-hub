@@ -11,8 +11,8 @@ import { Link } from 'react-router-dom';
 const FAQSection = () => {
   const faqs = [
     {
-      question: "How is Mansa Musa Marketplace different from other marketplaces?",
-      answer: "Unlike traditional marketplaces that simply facilitate transactions, Mansa Musa Marketplace is designed with economic circulation as its core principle. We track, measure, and incentivize spending within community businesses, creating a virtuous cycle of economic empowerment."
+      question: "How is 1325.AI different from other marketplaces?",
+      answer: "Unlike traditional marketplaces that simply facilitate transactions, 1325.AI is designed with economic circulation as its core principle. We track, measure, and incentivize spending within community businesses, creating a virtuous cycle of economic empowerment."
     },
     {
       question: "Who was Mansa Musa and why name the platform after him?",
@@ -20,14 +20,14 @@ const FAQSection = () => {
     },
     {
       question: "How are businesses vetted for inclusion in the marketplace?",
-      answer: "We have a thorough verification process that confirms Black ownership (at least 51%), ensures businesses are properly registered, and reviews business standing. We also gather community feedback to ensure businesses align with our quality standards and mission."
+      answer: "We have a thorough verification process that confirms community ownership, ensures businesses are properly registered, and reviews business standing. We also gather community feedback to ensure businesses align with our quality standards and mission."
     },
     {
       question: "What percentage of transaction fees go back to the community?",
       answer: "40% of our transaction fees are reinvested directly into community development programs, business grants, and financial literacy initiatives. Another 35% goes to platform development and expansion to serve more communities."
     },
     {
-      question: "Can non-Black individuals sign up as customers and business owners?",
+      question: "Can anyone sign up as customers and business owners?",
       answer: "Absolutely YES! The marketplace welcomes everyone. As a customer, you'll enjoy: • Access to unique, verified businesses and products • Loyalty rewards and exclusive discounts • Community event invitations • Impact tracking to see your economic contribution. As a business owner (of any background), you'll benefit from: • Access to a motivated customer base • Marketing and visibility tools • Community partnerships and networking • Support for businesses committed to economic empowerment."
     }
   ];

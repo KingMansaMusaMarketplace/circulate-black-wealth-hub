@@ -258,7 +258,7 @@ const SubscriptionPage: React.FC = () => {
                   <ul className="space-y-3">
                     <li className="flex items-start">
                       <span className="text-mansagold mr-3">✓</span>
-                      <span className="text-slate-300">Browse and discover Black-owned businesses</span>
+                      <span className="text-slate-300">Browse and discover verified community businesses</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-mansagold mr-3">✓</span>

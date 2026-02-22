@@ -66,7 +66,7 @@ export function CoalitionPointsCard({
         </div>
 
         <p className="text-xs text-white/60">
-          Earn points at any participating Black-owned business and redeem anywhere in the coalition!
+          Earn points at any participating verified business and redeem anywhere in the coalition!
         </p>
       </CardContent>
     </Card>

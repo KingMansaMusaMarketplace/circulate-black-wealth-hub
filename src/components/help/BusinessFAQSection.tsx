@@ -45,7 +45,7 @@ export const BusinessFAQSection: React.FC = () => {
           </h2>
         </div>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Find answers to common questions about growing your business on Mansa Musa Marketplace.
+          Find answers to common questions about growing your business on 1325.AI.
         </p>
       </div>
 

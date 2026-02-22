@@ -91,8 +91,8 @@ const PitchSlide14Why776: React.FC = () => {
             <div className="text-center">
               <h3 className="text-2xl font-bold text-white mb-4">Let's Build Together</h3>
               <p className="text-white font-medium mb-6 max-w-2xl mx-auto">
-                Mansa Musa Marketplace is more than a platform — it's a movement to create lasting economic 
-                infrastructure for Black communities. With 776's support, we can accelerate from prototype to 
+                1325.AI is more than a platform — it's a movement to create lasting economic 
+                infrastructure for our communities. With 776's support, we can accelerate from prototype to 
                 market leader.
               </p>
               

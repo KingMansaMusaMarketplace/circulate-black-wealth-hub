@@ -30,7 +30,7 @@ const MansaMusaHistory = () => {
             </span>
           </h2>
           <p className="text-white/90 max-w-3xl mx-auto text-lg">
-            Mansa Musa Marketplace is inspired by the legendary African ruler who exemplifies wealth circulation and community empowerment.
+            1325.AI is inspired by the legendary African ruler who exemplifies wealth circulation and community empowerment.
           </p>
         </div>
         

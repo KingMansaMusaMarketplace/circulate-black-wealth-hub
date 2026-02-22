@@ -18,11 +18,11 @@ export const getPartnershipGuideContent = (): string => {
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
           <div style="padding: 15px; border-left: 4px solid #000000;">
             <h4 style="color: #000000; margin-bottom: 5px; font-size: 16px; font-weight: bold;">Community Growth</h4>
-            <p style="font-size: 15px; color: #000000; line-height: 1.6;">Support the growth of Black-owned businesses and create sustainable economic opportunities.</p>
+            <p style="font-size: 15px; color: #000000; line-height: 1.6;">Support the growth of community businesses and create sustainable economic opportunities.</p>
           </div>
           <div style="padding: 15px; border-left: 4px solid #000000;">
             <h4 style="color: #000000; margin-bottom: 5px; font-size: 16px; font-weight: bold;">Economic Circulation</h4>
-            <p style="font-size: 15px; color: #000000; line-height: 1.6;">Help keep dollars circulating within Black communities, building generational wealth.</p>
+            <p style="font-size: 15px; color: #000000; line-height: 1.6;">Help keep dollars circulating within our communities, building generational wealth.</p>
           </div>
         </div>
       </div>

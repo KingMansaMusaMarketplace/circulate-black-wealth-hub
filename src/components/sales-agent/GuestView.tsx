@@ -15,7 +15,7 @@ const GuestView: React.FC = () => {
           Become a Mansa Ambassador
         </h2>
         <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          Join our growing team of ambassadors and earn commissions by connecting businesses and customers to the Mansa Musa Marketplace.
+          Join our growing team of ambassadors and earn commissions by connecting businesses and customers to 1325.AI.
         </p>
         <Button 
           asChild 
@@ -73,7 +73,7 @@ const GuestView: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold mb-3 text-foreground">Community Impact</h3>
               <p className="text-foreground/70">
-                Help build wealth in Black communities by connecting businesses with customers who value supporting them.
+                Help build community wealth by connecting businesses with customers who value supporting them.
               </p>
             </div>
           </div>
@@ -102,7 +102,7 @@ const GuestView: React.FC = () => {
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 text-white">Pass the Qualification Test</h3>
               <p className="text-white/80">
-                Complete a simple test about Mansa Musa Marketplace to ensure you can represent us effectively.
+                Complete a simple test about 1325.AI to ensure you can represent us effectively.
               </p>
             </div>
           </li>
@@ -135,7 +135,7 @@ const GuestView: React.FC = () => {
         <div className="relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-mansablue-dark">Ready to Become a Mansa Ambassador?</h2>
           <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-mansablue-dark/90">
-            Sign up today and start earning commissions while helping to build wealth in Black communities.
+            Sign up today and start earning commissions while helping to build community wealth.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 

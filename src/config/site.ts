@@ -10,10 +10,10 @@ export const siteConfig = {
   // Brand identity
   name: '1325.AI',
   tagline: 'Building the Future of Digital Commerce | AI',
-  description: 'AI-powered protocol connecting consumers with Black-owned businesses, enabling wealth circulation and economic empowerment through intelligent discovery and rewards.',
+  description: 'AI-powered protocol connecting consumers with verified community businesses, enabling wealth circulation and economic empowerment through intelligent discovery and rewards.',
   
   // Infrastructure positioning (IaaS)
-  infrastructureTagline: 'The Economic Rails for Black Wealth Circulation',
+  infrastructureTagline: 'The Economic Rails for Community Wealth Circulation',
   investorDescription: '1325.AI is not a directory app — it\'s the economic infrastructure layer for an underserved $1.6T market. We own the data rails: the transaction ledger, the supply chain graph, and the AI intelligence layer.',
   
   // IaaS Architecture Pillars

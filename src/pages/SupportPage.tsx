@@ -149,7 +149,7 @@ const SupportPage = () => {
                 Support <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Center</span> 🎧
               </h1>
               <p className="text-xl text-blue-100/90 font-medium">
-                We're here to help you make the most of Mansa Musa Marketplace ✨
+                We're here to help you make the most of 1325.AI ✨
               </p>
             </div>
           </div>

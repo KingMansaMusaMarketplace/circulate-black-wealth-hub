@@ -22,7 +22,7 @@ const HowItWorksPage = () => {
     window.scrollTo(0, 0);
     
     // Update page title and add meta description
-    document.title = 'How It Works | Mansa Musa Marketplace';
+    document.title = 'How It Works | 1325.AI';
     
     // Add meta description if it doesn't exist
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -32,7 +32,7 @@ const HowItWorksPage = () => {
       document.head.appendChild(metaDescription);
     }
     metaDescription.setAttribute('content', 
-      'Learn how Mansa Musa Marketplace works to help you discover, support, and save at businesses in your community.'
+      'Learn how 1325.AI works to help you discover, support, and save at businesses in your community.'
     );
   }, []);
 

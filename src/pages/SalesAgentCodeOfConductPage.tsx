@@ -36,7 +36,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
             Sales Agent Code of Conduct
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            The Field Manual for Mansa Musa Marketplace Ambassadors
+            The Field Manual for 1325.AI Ambassadors
           </p>
           <p className="text-sm text-muted-foreground mt-4 italic">
             Last Updated: December 2024
@@ -54,7 +54,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
                 </h2>
                 <p className="text-muted-foreground">
                   As a Mansa Musa Agent, you are the face of the world's first <strong>Economic Operating System</strong> for the community. 
-                  This Code of Conduct ensures that every agent—from a local ambassador to a city lead—protects the Mansa Musa Marketplace 
+                  This Code of Conduct ensures that every agent—from a local ambassador to a city lead—protects the 1325.AI 
                   brand and our proprietary intellectual property while building economic empowerment on the ground.
                 </p>
               </div>

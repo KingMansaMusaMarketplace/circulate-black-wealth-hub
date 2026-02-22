@@ -41,7 +41,7 @@ const TeamContactPage = () => {
             <h1 className="text-4xl md:text-5xl font-bold text-mansablue mb-4">Our Team</h1>
             <div className="w-24 h-1 bg-mansagold mx-auto mb-6"></div>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Meet the dedicated team behind Mansa Musa Marketplace, working to empower Black communities and businesses.
+              Meet the dedicated team behind 1325.AI, working to empower communities and businesses.
             </p>
             <div className="flex justify-center mt-8">
               <Button 

@@ -18,7 +18,7 @@ interface VideoStructuredDataProps {
 export const VideoStructuredData: React.FC<VideoStructuredDataProps> = ({
   src,
   title,
-  description = "Video content from Mansa Musa Marketplace",
+  description = "Video content from 1325.AI",
   uploadDate = new Date().toISOString().split('T')[0], // Default to today's date
   thumbnailUrl = "/placeholder.svg",
   isYouTube = false,

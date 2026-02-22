@@ -76,7 +76,7 @@ const SponsorshipImpactSection: React.FC = () => {
     {
       icon: TrendingUp,
       title: 'Economic Growth',
-      description: 'Direct investment in Black-owned businesses creates ripple effects across entire communities, generating sustainable wealth.',
+      description: 'Direct investment in community businesses creates ripple effects across entire communities, generating sustainable wealth.',
     },
     {
       icon: Heart,
@@ -86,7 +86,7 @@ const SponsorshipImpactSection: React.FC = () => {
     {
       icon: Users,
       title: 'Generational Impact',
-      description: 'Help break economic barriers and create pathways for the next generation of Black entrepreneurs.',
+      description: 'Help break economic barriers and create pathways for the next generation of community entrepreneurs.',
     },
   ];
 

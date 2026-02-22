@@ -362,7 +362,7 @@ Total: $${invoice.total_amount.toFixed(2)}
 
 Status: ${invoice.status.toUpperCase()}
 
-Thank you for being a Mansa Musa Marketplace partner!
+Thank you for being a 1325.AI partner!
     `;
 
     const blob = new Blob([receiptContent], { type: 'text/plain' });
