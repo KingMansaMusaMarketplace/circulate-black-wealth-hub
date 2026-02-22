@@ -83,6 +83,11 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
     map.on('load', () => {
       setMapReady(true);
 
+      // Force resize after animation completes
+      setTimeout(() => {
+        map.resize();
+      }, 500);
+
       if (pickupCoords) {
         new mapboxgl.Marker({ color: '#22c55e' })
           .setLngLat(pickupCoords)
@@ -223,7 +228,7 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
   const statusInfo = activeStatus ? STATUS_LABELS[activeStatus.status] || STATUS_LABELS.requested : STATUS_LABELS.requested;
 
   return (
-    <div className="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10">
+    <div className="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10" style={{ height: '100%' }}>
       {/* Map */}
       <div
         ref={mapContainer}
