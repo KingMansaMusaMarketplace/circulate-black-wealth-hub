@@ -22,10 +22,10 @@ const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVis
       <div className="flex flex-col md:flex-row items-center gap-6">
         <div className="w-full md:w-1/2">
           <div className="text-xl font-semibold text-mansablue mb-3 flex items-center">
-            <MapPin className="mr-2 text-mansagold" /> Find Nearby Black-Owned Businesses
+            <MapPin className="mr-2 text-mansagold" /> Find Nearby Verified Businesses
           </div>
           <p className="text-gray-600 mb-4">
-            Discover and support local Black-owned businesses in your neighborhood. Our interactive map 
+            Discover and support local businesses in your neighborhood. Our interactive map 
             helps you locate, engage with, and directly contribute to wealth circulation in your community.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -55,7 +55,7 @@ const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVis
                 <TrendingUp size={18} className="text-mansablue mr-2" />
                 <h4 className="font-medium">Economic Impact</h4>
               </div>
-              <p className="text-sm text-gray-600">Track your contribution to circulating Black wealth</p>
+              <p className="text-sm text-gray-600">Track your contribution to circulating community wealth</p>
             </div>
           </div>
           <Link to="/directory">

@@ -21,7 +21,7 @@ const successStories = [
     name: "Jamal Washington",
     business: "Tech Roots Solutions",
     location: "Oakland, CA",
-    testimonial: "The verification process gave my clients confidence in my business. I've connected with enterprise clients who specifically sought out verified Black-owned tech companies.",
+    testimonial: "The verification process gave my clients confidence in my business. I've connected with enterprise clients who specifically sought out verified tech companies on the platform.",
     image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     impact: "5 enterprise partnerships",
     category: "Technology",

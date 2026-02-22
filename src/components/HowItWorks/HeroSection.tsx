@@ -32,7 +32,7 @@ const HeroSection = () => {
                 How <span className="bg-gradient-gold bg-clip-text text-transparent">Mansa Musa</span> Works
               </h1>
               <p className="font-body text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed mb-8 max-w-2xl">
-                We're building more than an app — we're creating infrastructure for Black wealth circulation.
+                We're building more than an app — we're creating infrastructure for community wealth circulation.
                 Here's how you can be part of this economic movement.
               </p>
               

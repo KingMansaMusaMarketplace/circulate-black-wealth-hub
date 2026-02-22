@@ -17,7 +17,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
       step: 1,
       icon: <QrCode className="h-8 w-8" />,
       title: "Scan QR Codes",
-      description: "Visit participating Black-owned businesses and scan their unique QR code at checkout to earn loyalty points."
+      description: "Visit participating businesses and scan their unique QR code at checkout to earn loyalty points."
     },
     {
       step: 2,
@@ -44,7 +44,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
       step: 1,
       icon: <Building2 className="h-8 w-8" />,
       title: "Register Your Business",
-      description: "Sign up as a business owner and complete your verification to join our coalition of Black-owned businesses."
+      description: "Sign up as a business owner and complete your verification to join our coalition of verified businesses."
     },
     {
       step: 2,
@@ -62,7 +62,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
       step: 4,
       icon: <HandCoins className="h-8 w-8" />,
       title: "Grow Revenue Together",
-      description: "Benefit from cross-promotion, increased visibility, and a community of customers committed to supporting Black businesses."
+      description: "Benefit from cross-promotion, increased visibility, and a community of customers committed to supporting local businesses."
     }
   ];
 
@@ -141,7 +141,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
   const faqs = [
     {
       question: "How do I earn points as a consumer?",
-      answer: "Simply scan the QR code at any participating Black-owned business after making a purchase. Points are automatically added to your account based on your transaction amount."
+      answer: "Simply scan the QR code at any participating business after making a purchase. Points are automatically added to your account based on your transaction amount."
     },
     {
       question: "Do my points expire?",
@@ -149,7 +149,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
     },
     {
       question: "How do businesses benefit from joining?",
-      answer: "Businesses gain access to loyal customers actively seeking to support Black-owned establishments, plus B2B networking, marketing support, and analytics tools."
+      answer: "Businesses gain access to loyal customers actively seeking quality local establishments, plus B2B networking, marketing support, and analytics tools."
     },
     {
       question: "Is there a cost to join the coalition?",
@@ -204,7 +204,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                 Coalition Loyalty Program
               </h1>
               <p className="text-xl text-white/80 max-w-3xl mx-auto mb-8">
-                Building Black wealth through community-powered rewards. Learn how our loyalty program 
+                Building community wealth through rewards that matter. Learn how our loyalty program 
                 benefits consumers and businesses in our coalition ecosystem.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
@@ -444,7 +444,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                   Ready to Join the Coalition?
                 </h2>
                 <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">
-                  Whether you're a consumer looking to support Black-owned businesses or a business owner 
+                  Whether you're a consumer looking to discover great businesses or a business owner 
                   wanting to grow your customer base, we're here for you.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">

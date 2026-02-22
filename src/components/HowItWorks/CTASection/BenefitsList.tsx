@@ -14,7 +14,7 @@ export const BenefitsList: React.FC<BenefitsListProps> = ({ isVisible, controls 
     {
       icon: <Users className="h-5 w-5" />,
       text: "Help us reach 1M members",
-      tooltip: "Be part of building the Black economic movement"
+      tooltip: "Be part of building the community economic movement"
     },
     {
       icon: <Star className="h-5 w-5" />,

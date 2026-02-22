@@ -36,7 +36,7 @@ const BenefitsSection = () => {
   const customerBenefits: Benefit[] = [
     {
       title: 'Save Money',
-      description: 'Save 10-20% every time you shop at participating Black-owned businesses.',
+      description: 'Save 10-20% every time you shop at participating verified businesses.',
       details: 'Our partner businesses offer exclusive discounts to Mansa Musa members. These savings add up quickly, helping you keep more money in your pocket while supporting the community.'
     },
     {
@@ -59,7 +59,7 @@ const BenefitsSection = () => {
   const businessBenefits: Benefit[] = [
     {
       title: 'Greater Visibility',
-      description: 'Get discovered by customers specifically looking to support Black-owned businesses.',
+      description: 'Get discovered by customers specifically looking for quality verified businesses.',
       details: 'Your business will be featured in our searchable directory, helping you reach customers who are already committed to supporting businesses like yours.'
     },
     {

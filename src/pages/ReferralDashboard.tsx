@@ -130,7 +130,7 @@ const ReferralDashboard: React.FC = () => {
                 <ShareButton
                   data={{
                     title: 'Join Mansa Musa Marketplace!',
-                    text: 'Join me on Mansa Musa Marketplace and support Black-owned businesses while earning rewards!',
+                    text: 'Join me on Mansa Musa Marketplace — discover great businesses and earn rewards!',
                     url: referralLink,
                   }}
                   variant="default"

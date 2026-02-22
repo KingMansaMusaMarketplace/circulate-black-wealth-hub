@@ -27,7 +27,7 @@ const CirculationStats = ({ isVisible }: CirculationStatsProps) => {
       animate={isVisible ? "visible" : "hidden"}
     >
       <p className="text-xl font-bold mb-3 text-white">
-        <strong>The Dollar Multiplier Effect:</strong> A dollar spent at a Black-owned business stays in the community for...
+        <strong>The Dollar Multiplier Effect:</strong> A dollar spent at a community business stays in the neighborhood for...
       </p>
       <p className="text-5xl font-extrabold text-yellow-400 mb-3 drop-shadow-sm">
         6 Hours
