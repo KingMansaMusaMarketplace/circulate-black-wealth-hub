@@ -9,6 +9,7 @@ const CTASection = lazy(() => import('@/components/CTASection'));
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const ThreePillars = lazy(() => import('./ThreePillars'));
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
+const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 const CirculationGap = lazy(() => import('./CirculationGap'));
 
 // Skeleton fallback for sections
@@ -52,6 +53,13 @@ const HomePageSections: React.FC = () => {
       <SectionErrorBoundary sectionName="Vacation Rentals CTA">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
           <VacationRentalsCTA />
+        </Suspense>
+      </SectionErrorBoundary>
+
+      {/* Noir Ride CTA */}
+      <SectionErrorBoundary sectionName="Noir Ride CTA">
+        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <NoirRideCTA />
         </Suspense>
       </SectionErrorBoundary>
 

@@ -72,6 +72,7 @@ const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
 const LazyB2BMarketplacePage = lazy(() => import('@/pages/B2BMarketplacePage'));
 const LazyB2BDashboardPage = lazy(() => import('@/pages/business/B2BDashboardPage'));
+const LazyNoirLandingPage = lazy(() => import('@/pages/NoirLandingPage'));
 const LazyLeadsDashboardPage = lazy(() => import('@/pages/LeadsDashboardPage'));
 const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
 const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
@@ -598,6 +599,7 @@ function App() {
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
                               
                               {/* N */}
+                              <Route path="/noir" element={<LazyNoirLandingPage />} />
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                               <Route path="/network" element={<LazyNetworkPage />} />
