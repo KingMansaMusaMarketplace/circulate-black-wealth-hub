@@ -6,8 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Phone, MessageSquare, Star, Navigation, Clock, X } from 'lucide-react';
 import type { DriverLocation, RideStatus } from '@/hooks/useDriverTracking';
-
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || 'pk.eyJ1IjoibWFuc2FtdXNhbWFya2V0cGxhY2UiLCJhIjoiY200ZG51eGJhMG5jNTJqczl2NDUxYmJnNyJ9.UzMjkOhf9gMz3-jXByRo-Q';
+import { supabase } from '@/integrations/supabase/client';
 
 interface NoirTrackingMapProps {
   driverLocation: DriverLocation | null;
@@ -40,22 +39,30 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const driverMarkerRef = useRef<mapboxgl.Marker | null>(null);
   const [mapReady, setMapReady] = useState(false);
+  const [mapboxToken, setMapboxToken] = useState<string | null>(null);
 
-  // Demo animation state
-  const demoIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [demoLocation, setDemoLocation] = useState<DriverLocation | null>(null);
-  const [demoStatus, setDemoStatus] = useState<RideStatus | null>(null);
-
-  const activeLocation = isDemo ? demoLocation : driverLocation;
-  const activeStatus = isDemo ? demoStatus : rideStatus;
+  // Fetch Mapbox token
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-mapbox-token');
+        if (!error && data?.token) {
+          setMapboxToken(data.token);
+        }
+      } catch (e) {
+        console.error('Failed to fetch Mapbox token:', e);
+      }
+    };
+    fetchToken();
+  }, []);
 
   // Initialize map
   useEffect(() => {
-    if (!mapContainer.current || mapRef.current) return;
+    if (!mapContainer.current || mapRef.current || !mapboxToken) return;
 
-    mapboxgl.accessToken = MAPBOX_TOKEN;
+    mapboxgl.accessToken = mapboxToken;
 
-    const defaultCenter: [number, number] = pickupCoords || [-84.388, 33.749]; // Atlanta default
+    const defaultCenter: [number, number] = pickupCoords || [-84.388, 33.749];
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
@@ -68,7 +75,6 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
     map.on('load', () => {
       setMapReady(true);
 
-      // Add pickup marker
       if (pickupCoords) {
         new mapboxgl.Marker({ color: '#22c55e' })
           .setLngLat(pickupCoords)
@@ -76,14 +82,12 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
           .addTo(map);
       }
 
-      // Add dropoff marker
       if (dropoffCoords) {
         new mapboxgl.Marker({ color: '#ef4444' })
           .setLngLat(dropoffCoords)
           .setPopup(new mapboxgl.Popup().setText('Dropoff'))
           .addTo(map);
 
-        // Fit bounds to show both markers
         if (pickupCoords) {
           const bounds = new mapboxgl.LngLatBounds()
             .extend(pickupCoords)
@@ -100,7 +104,7 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
       mapRef.current = null;
       setMapReady(false);
     };
-  }, [pickupCoords, dropoffCoords]);
+  }, [mapboxToken, pickupCoords, dropoffCoords]);
 
   // Update driver marker position
   useEffect(() => {
