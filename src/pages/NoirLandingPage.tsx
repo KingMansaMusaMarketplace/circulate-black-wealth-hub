@@ -298,7 +298,7 @@ const NoirLandingPage: React.FC = () => {
               </div>
               <Card className="bg-mansagold/10 border-mansagold/30 h-full">
                 <CardHeader className="text-center pb-2">
-                  <Car className="h-10 w-10 text-mansagold mx-auto mb-2" />
+                  <img src={noirLogo} alt="Noire Rideshare" className="h-20 w-auto mx-auto mb-2 brightness-150 contrast-125 drop-shadow-[0_0_20px_rgba(255,193,7,0.4)]" />
                   <CardTitle className="text-2xl text-mansagold">Noire</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center space-y-4">
