@@ -32,12 +32,12 @@ const NoirRideCTA: React.FC = () => {
               </div>
               
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
-                Premium Rides to{' '}
-                <span className="text-mansagold">Black-Owned</span> Businesses
+                Premium Rides.{' '}
+                <span className="text-mansagold">Fair Prices.</span> Your Driver Keeps More.
               </h2>
               
               <p className="text-base text-blue-200/70 mb-4">
-                Get there in style. Request a ride to any business in our directory — supporting Black drivers and Black businesses in one trip.
+                Lower fees for riders, higher pay for drivers. Noir takes just 20% — your driver keeps the rest.
               </p>
               
               {/* Value Props */}
@@ -49,6 +49,10 @@ const NoirRideCTA: React.FC = () => {
                 <div className="flex items-center gap-2 text-sm text-slate-300">
                   <MapPin className="h-4 w-4 text-mansagold" />
                   <span>Door-to-Door</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-slate-300">
+                  <Car className="h-4 w-4 text-mansagold" />
+                  <span>Drivers Keep 80%</span>
                 </div>
               </div>
               

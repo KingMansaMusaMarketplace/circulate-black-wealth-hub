@@ -18,9 +18,9 @@ const featuredDestinations = businesses
   .slice(0, 6);
 
 const steps = [
-  { icon: MapPin, title: 'Pick a Destination', description: 'Browse Black-owned businesses in our directory or enter any address.' },
-  { icon: Car, title: 'Choose Your Ride', description: 'We connect you to Uber or Lyft with your destination pre-filled.' },
-  { icon: Navigation, title: 'Arrive & Support', description: 'Get there safely and spend your dollars where they circulate.' },
+  { icon: MapPin, title: 'Enter Your Destination', description: 'Going anywhere? Enter an address or pick a spot from our directory.' },
+  { icon: Car, title: 'Get Matched', description: 'We connect you with a nearby Noir driver. No surge pricing games.' },
+  { icon: Navigation, title: 'Ride and Save', description: 'Pay less than the big apps. Your driver takes home 80% of the fare.' },
 ];
 
 const NoirLandingPage: React.FC = () => {
@@ -49,9 +49,9 @@ const NoirLandingPage: React.FC = () => {
             </div>
 
             <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-4">
-              Premium rides to Black-owned businesses.
+              The ride-share that puts people first.
               <br className="hidden md:block" />
-              Support the community with every trip.
+              Lower fares. Higher driver pay. Premium experience.
             </p>
 
             <p className="text-sm font-mono text-mansagold/60 tracking-widest uppercase mb-8">
@@ -128,7 +128,7 @@ const NoirLandingPage: React.FC = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-3">
-              Ride to <span className="text-mansagold">Featured Businesses</span>
+              <span className="text-mansagold">Popular Destinations</span>
             </h2>
             <p className="text-white/60 max-w-xl mx-auto">
               Pick a destination below and we'll open your preferred ride app with the address ready to go.
@@ -212,7 +212,7 @@ const NoirLandingPage: React.FC = () => {
               Drive with <span className="text-mansagold">Noir</span>
             </h2>
             <p className="text-white/60 max-w-lg mx-auto mb-6">
-              Coming soon — join our network of drivers serving the community. Fair pay, flexible hours, and a mission that matters.
+              Keep 80% of every fare. No gimmicks. Noir drivers earn more because we take less — just 20%. Flexible hours, premium experience.
             </p>
             <Button
               size="lg"
