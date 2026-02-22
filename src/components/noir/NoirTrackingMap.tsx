@@ -228,12 +228,12 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
   const statusInfo = activeStatus ? STATUS_LABELS[activeStatus.status] || STATUS_LABELS.requested : STATUS_LABELS.requested;
 
   return (
-    <div className="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10" style={{ height: '100%' }}>
+    <div className="relative w-full h-full min-h-[400px] rounded-2xl border border-white/10" style={{ height: '100%', overflow: 'hidden' }}>
       {/* Map */}
       <div
         ref={mapContainer}
         className="absolute inset-0"
-        style={{ transform: 'translateZ(0)' }}
+        style={{ width: '100%', height: '100%' }}
       />
 
       {/* Close button */}
