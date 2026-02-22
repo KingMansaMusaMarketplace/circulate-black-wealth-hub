@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Car, Shield, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import noirLogo from '@/assets/noir-rideshare-logo.png';
 
 const NoirRideCTA: React.FC = () => {
   return (
@@ -22,13 +23,7 @@ const NoirRideCTA: React.FC = () => {
             {/* Content Side */}
             <div className="p-6 md:p-8 flex flex-col justify-center">
               <div className="flex items-center gap-2 mb-3">
-                <Car className="h-9 w-9 text-mansagold" />
-                <span className="text-mansagold font-bold text-3xl md:text-4xl uppercase tracking-wider">
-                  Noir
-                </span>
-                <span className="text-white/60 font-light text-lg md:text-xl tracking-widest ml-1">
-                  .travel
-                </span>
+                <img src={noirLogo} alt="Noir Rideshare" className="h-16 md:h-20 w-auto brightness-150 contrast-125 drop-shadow-[0_0_30px_rgba(255,193,7,0.4)]" />
               </div>
               
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
