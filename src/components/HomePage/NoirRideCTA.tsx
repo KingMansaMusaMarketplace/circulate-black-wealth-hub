@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Car, Shield, MapPin } from 'lucide-react';
+import { ArrowRight, Car, Shield, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const NoirRideCTA: React.FC = () => {
@@ -32,27 +32,27 @@ const NoirRideCTA: React.FC = () => {
               </div>
               
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
-                Premium Rides.{' '}
-                <span className="text-mansagold">Fair Prices.</span> Your Driver Keeps More.
+                Tired of the 50% Take-Rate?{' '}
+                <span className="text-mansagold">Switch to Noir.</span>
               </h2>
               
               <p className="text-base text-blue-200/70 mb-4">
-                Lower fees for riders, higher pay for drivers. Noir takes just 20% — your driver keeps the rest.
+                Flat 20% fee. Full fare transparency. Your driver keeps 80% — no algorithm games, no hidden math.
               </p>
               
               {/* Value Props */}
               <div className="flex flex-wrap gap-3 mb-5">
                 <div className="flex items-center gap-2 text-sm text-slate-300">
                   <Shield className="h-4 w-4 text-green-400" />
-                  <span>Safe Rides</span>
+                  <span>Human Appeals</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-slate-300">
-                  <MapPin className="h-4 w-4 text-mansagold" />
-                  <span>Door-to-Door</span>
+                  <Star className="h-4 w-4 text-mansagold" />
+                  <span>Favorite Driver</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-slate-300">
                   <Car className="h-4 w-4 text-mansagold" />
-                  <span>Drivers Keep 80%</span>
+                  <span>Daily Payouts</span>
                 </div>
               </div>
               
