@@ -21,7 +21,7 @@ const NoirRideCTA: React.FC = () => {
         >
           <div className="grid lg:grid-cols-2 gap-0">
             {/* Content Side */}
-            <div className="p-6 md:p-8 flex flex-col justify-center">
+            <div className="p-8 md:p-10 flex flex-col justify-center">
               <div className="flex items-center mb-3">
                 <img src={noirLogo} alt="Noir Rideshare" className="h-32 md:h-40 w-auto brightness-150 contrast-125 drop-shadow-[0_0_30px_rgba(255,193,7,0.4)]" />
               </div>
@@ -75,7 +75,7 @@ const NoirRideCTA: React.FC = () => {
             </div>
             
             {/* Image Side */}
-            <div className="relative h-48 lg:h-auto min-h-[200px]">
+            <div className="relative h-64 lg:h-auto min-h-[280px]">
               <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 via-black/30 to-black/60" />
               <img
                 src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80"
