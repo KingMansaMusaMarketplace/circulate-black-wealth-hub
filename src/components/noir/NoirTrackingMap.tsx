@@ -116,44 +116,57 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
 
   // Update driver marker position
   useEffect(() => {
-    if (!mapReady || !mapRef.current || !activeLocation) return;
+    const map = mapRef.current;
+    if (!mapReady || !map || !activeLocation) return;
 
     const lngLat: [number, number] = [activeLocation.lng, activeLocation.lat];
 
     if (!driverMarkerRef.current) {
       // Create custom car marker
       const el = document.createElement('div');
-      el.innerHTML = `
-        <div style="
-          width: 40px; height: 40px;
-          background: #d4af37;
-          border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 0 20px rgba(212,175,55,0.6);
-          transform: rotate(${activeLocation.heading || 0}deg);
-          transition: transform 0.5s ease;
-        ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5">
-            <path d="M12 2L19 21L12 17L5 21L12 2Z"/>
-          </svg>
-        </div>
+      const innerDiv = document.createElement('div');
+      Object.assign(innerDiv.style, {
+        width: '40px',
+        height: '40px',
+        background: '#d4af37',
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 0 20px rgba(212,175,55,0.6)',
+        transform: `rotate(${activeLocation.heading || 0}deg)`,
+        transition: 'transform 0.5s ease',
+      });
+      innerDiv.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5">
+          <path d="M12 2L19 21L12 17L5 21L12 2Z"/>
+        </svg>
       `;
+      el.appendChild(innerDiv);
 
       driverMarkerRef.current = new mapboxgl.Marker({ element: el })
         .setLngLat(lngLat)
-        .addTo(mapRef.current);
+        .addTo(map);
     } else {
       // Smoothly update position
       driverMarkerRef.current.setLngLat(lngLat);
-      const markerEl = driverMarkerRef.current.getElement();
-      const el = markerEl?.firstChild as HTMLElement | null;
-      if (el?.style) {
-        el.style.transform = `rotate(${activeLocation.heading || 0}deg)`;
+      try {
+        const markerEl = driverMarkerRef.current.getElement();
+        const child = markerEl?.firstChild as HTMLElement | null;
+        if (child?.style) {
+          child.style.transform = `rotate(${activeLocation.heading || 0}deg)`;
+        }
+      } catch (e) {
+        // Marker element may have been removed
       }
     }
 
     // Pan map to follow driver
-    mapRef.current.panTo(lngLat, { duration: 1000 });
+    try {
+      map.panTo(lngLat, { duration: 1000 });
+    } catch (e) {
+      // Map may have been removed
+    }
   }, [activeLocation, mapReady]);
 
   // Demo mode: simulate a driver approaching pickup
