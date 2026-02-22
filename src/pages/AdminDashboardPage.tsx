@@ -34,6 +34,7 @@ import PartnerSuccessStories from '@/components/partner/PartnerSuccessStories';
 import AdminEcosystemDashboard from '@/components/admin/AdminEcosystemDashboard';
 import AdminDevelopers from '@/components/admin/AdminDevelopers';
 import ArchiveRecovery from '@/components/admin/ArchiveRecovery';
+import ValuationMetrics from '@/components/admin/ValuationMetrics';
 import DatabaseSetup from '@/components/admin/DatabaseSetup';
 import SupabaseSetup from '@/components/admin/SupabaseSetup';
 import { Button } from '@/components/ui/button';
@@ -118,6 +119,8 @@ const AdminDashboardPage: React.FC = () => {
         return <AdminEcosystemDashboard />;
       case 'developers':
         return <AdminDevelopers />;
+      case 'valuation':
+        return <ValuationMetrics />;
       case 'archive':
         return <ArchiveRecovery />;
       case 'setup':
