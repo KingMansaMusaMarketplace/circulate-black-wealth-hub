@@ -11,6 +11,7 @@ import {
 import { Link } from 'react-router-dom';
 import { businesses } from '@/data/businessesData';
 import earthImage from '@/assets/earth.png';
+import noirLogo from '@/assets/noir-rideshare-logo.png';
 
 const NoirTrackingMap = lazy(() => import('@/components/noir/NoirTrackingMap'));
 
@@ -91,12 +92,8 @@ const NoirLandingPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <Car className="h-14 w-14 text-mansagold" />
-              <h1 className="text-6xl md:text-8xl font-bold tracking-tight">
-                <span className="text-mansagold">Noir</span>
-                <span className="text-white/40 font-light">.travel</span>
-              </h1>
+            <div className="flex items-center justify-center mb-6">
+              <img src={noirLogo} alt="Noir Rideshare" className="h-24 md:h-36 w-auto" />
             </div>
 
             <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-3 leading-relaxed">
