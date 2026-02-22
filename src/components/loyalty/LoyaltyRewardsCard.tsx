@@ -84,8 +84,8 @@ export function LoyaltyRewardsCard({
   
   // Prepare sharing content
   const getShareContent = (reward: Reward) => ({
-    title: `Check out this reward from Mansa Musa!`,
-    text: `I found "${reward.title}" for ${reward.pointsCost} points on Mansa Musa. Join me in supporting Black-owned businesses!`,
+    title: `Check out this reward from 1325.AI!`,
+    text: `I found "${reward.title}" for ${reward.pointsCost} points on 1325.AI. Join me in supporting community businesses!`,
     customPath: `/loyalty`
   });
 

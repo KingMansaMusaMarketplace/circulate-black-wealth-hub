@@ -227,7 +227,7 @@ const ContactSupport: React.FC = () => {
               <Mail className="h-5 w-5 text-mansablue" />
               <div>
                 <p className="font-medium">Email Support</p>
-                <p className="text-sm text-gray-600">support@mansamusa.com</p>
+                <p className="text-sm text-gray-600">support@1325.ai</p>
               </div>
             </div>
             

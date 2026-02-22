@@ -57,7 +57,7 @@ export const PublicSponsorDisplay = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-2">Our Sponsors</h2>
         <p className="text-center text-muted-foreground mb-8">
-          Supporting Black-owned businesses together
+          Supporting community businesses together
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

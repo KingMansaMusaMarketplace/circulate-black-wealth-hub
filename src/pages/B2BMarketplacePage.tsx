@@ -13,7 +13,7 @@ export default function B2BMarketplacePage() {
   return (
     <>
       <Helmet>
-        <title>B2B Marketplace | MansaMusa</title>
+        <title>B2B Marketplace | 1325.AI</title>
         <meta 
           name="description" 
           content="Connect community businesses with each other. Find suppliers, post needs, and keep money circulating in our community." 

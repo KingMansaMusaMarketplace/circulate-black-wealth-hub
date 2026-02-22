@@ -431,7 +431,7 @@ const PrivacyPolicyPage = () => {
             <div className="p-6 space-y-2">
               <p className="text-blue-200">If you have any questions about this Privacy Policy or our data practices, please contact us:</p>
               <div className="text-white font-medium">
-                <p>Email: privacy@mansamusamarketplace.com</p>
+                <p>Email: privacy@1325.ai</p>
                 <p>Subject Line: Privacy Policy Inquiry</p>
               </div>
             </div>

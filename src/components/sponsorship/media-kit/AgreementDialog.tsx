@@ -38,19 +38,19 @@ const AgreementDialog: React.FC<AgreementDialogProps> = ({ open, onOpenChange, o
         
         <div className="py-6">
           <div className="prose max-w-none">
-            <h2>MANSA MUSA MARKETPLACE SPONSORSHIP AGREEMENT</h2>
+            <h2>1325.AI SPONSORSHIP AGREEMENT</h2>
             <p className="text-gray-600">Last Updated: May 20, 2025</p>
             
             <h3>1. PARTIES</h3>
             <p>
-              This Sponsorship Agreement (the "Agreement") is entered into between Mansa Musa Marketplace, 
-              a corporation organized and existing under the laws of [State] ("Mansa Musa"), 
+              This Sponsorship Agreement (the "Agreement") is entered into between 1325.AI, 
+              a corporation organized and existing under the laws of [State] ("1325.AI"), 
               and the sponsor identified in the Sponsorship Application ("Sponsor").
             </p>
             
             <h3>2. SPONSORSHIP BENEFITS</h3>
             <p>
-              Mansa Musa agrees to provide Sponsor with the benefits associated with the sponsorship level 
+              1325.AI agrees to provide Sponsor with the benefits associated with the sponsorship level 
               selected by Sponsor in the Sponsorship Application. These benefits may include, but are not limited to, 
               logo placement, promotional activities, distribution of materials, and digital marketing exposure.
             </p>
@@ -63,14 +63,14 @@ const AgreementDialog: React.FC<AgreementDialogProps> = ({ open, onOpenChange, o
             
             <h3>4. SPONSORSHIP FEE</h3>
             <p>
-              Sponsor agrees to pay Mansa Musa the fee associated with the selected sponsorship level, 
+              Sponsor agrees to pay 1325.AI the fee associated with the selected sponsorship level, 
               as set forth in the Sponsorship Application. Unless otherwise specified, all fees are due within 
               thirty (30) days of the Effective Date.
             </p>
             
             <h3>5. INTELLECTUAL PROPERTY</h3>
             <p>
-              Each party retains all rights to its respective intellectual property. Sponsor hereby grants Mansa Musa 
+              Each party retains all rights to its respective intellectual property. Sponsor hereby grants 1325.AI 
               a non-exclusive, royalty-free license to use Sponsor's name, logo, and other materials provided by Sponsor 
               for the purpose of fulfilling this Agreement.
             </p>
@@ -115,9 +115,9 @@ const AgreementDialog: React.FC<AgreementDialogProps> = ({ open, onOpenChange, o
             
             <div>
               <SocialShareButtons
-                title="Mansa Musa Marketplace Sponsorship Agreement"
+                title="1325.AI Sponsorship Agreement"
                 text="Join our sponsorship program and make a difference in our community."
-                url="https://mansamusa.com/sponsorship/agreement"
+                url="https://1325.ai/sponsorship/agreement"
                 showLabels={false}
               />
             </div>

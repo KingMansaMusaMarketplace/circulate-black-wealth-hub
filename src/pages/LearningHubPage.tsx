@@ -24,7 +24,7 @@ const LearningHubPage = () => {
     },
     {
       title: "Business Growth",
-      description: "Resources to help Black-owned businesses thrive",
+      description: "Resources to help community businesses thrive",
       icon: <TrendingUp className="h-8 w-8" />,
       topics: [
         "Marketing Your Business Effectively",
@@ -39,7 +39,7 @@ const LearningHubPage = () => {
     },
     {
       title: "Community Economics",
-      description: "Understanding the power of circulating Black dollars",
+      description: "Understanding the power of circulating community dollars",
       icon: <Users className="h-8 w-8" />,
       topics: [
         "The Multiplier Effect in Communities",
@@ -54,12 +54,12 @@ const LearningHubPage = () => {
     },
     {
       title: "Marketplace Mastery",
-      description: "Get the most out of Mansa Musa Marketplace",
+      description: "Get the most out of 1325.AI",
       icon: <Building2 className="h-8 w-8" />,
       topics: [
         "How to Use QR Code Rewards",
         "Tracking Your Community Impact",
-        "Finding the Best Black-Owned Businesses",
+        "Finding the Best Community Businesses",
         "Earning & Redeeming Loyalty Points"
       ],
       gradient: "from-amber-500/20 via-mansagold/20 to-amber-700/20",

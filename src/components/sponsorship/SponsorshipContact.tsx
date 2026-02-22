@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const SponsorshipContact = () => {
   const handleScheduleCall = () => {
-    window.open('https://calendly.com/mansamusa-partnerships', '_blank');
+    window.open('https://calendly.com/1325ai-partnerships', '_blank');
   };
 
   const handleEmailClick = () => {

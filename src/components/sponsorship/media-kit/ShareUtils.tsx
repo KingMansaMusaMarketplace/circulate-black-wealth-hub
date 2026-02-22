@@ -5,11 +5,11 @@ import { useSocialShare } from '@/hooks/use-social-share';
 export const useShareSponsorship = () => {
   const socialShare = useSocialShare();
   
-  const getShareData = (title: string = 'Mansa Musa Marketplace Sponsorship Agreement') => {
+  const getShareData = (title: string = '1325.AI Sponsorship Agreement') => {
     return {
       title,
       text: 'Join our sponsorship program and make a difference in our community.',
-      url: 'https://mansamusa.com/sponsorship/agreement'
+      url: 'https://1325.ai/sponsorship/agreement'
     };
   };
   

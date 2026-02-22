@@ -12,10 +12,10 @@ export default function CoalitionPage() {
   return (
     <>
       <Helmet>
-        <title>Coalition Loyalty Program | MansaMusa</title>
+        <title>Coalition Loyalty Program | 1325.AI</title>
         <meta 
           name="description" 
-          content="Earn and redeem points at any participating Black-owned business. Join the coalition and support our community together." 
+          content="Earn and redeem points at any participating community business. Join the coalition and support our community together."
         />
       </Helmet>
 

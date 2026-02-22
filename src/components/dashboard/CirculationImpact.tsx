@@ -35,7 +35,7 @@ const CirculationImpact: React.FC<CirculationImpactProps> = ({ metrics }) => {
         <CardContent>
           <div className="text-2xl font-bold text-white">{metrics.businessesSupported}</div>
           <p className="text-xs text-white/70">
-            Black-owned businesses
+            Community businesses
           </p>
         </CardContent>
       </Card>

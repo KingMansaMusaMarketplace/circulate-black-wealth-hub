@@ -19,7 +19,7 @@ export const teamMembers: TeamMember[] = [
       linkedin: "#", 
       twitter: "#", 
       website: "#",
-      email: "aisha@mansamusamarketplace.com" 
+      email: "aisha@1325.ai" 
     }
   },
   {
@@ -38,7 +38,7 @@ export const teamMembers: TeamMember[] = [
     socials: { 
       linkedin: "#", 
       twitter: "#",
-      email: "marcus@mansamusamarketplace.com"
+      email: "marcus@1325.ai"
     }
   },
   {
@@ -57,7 +57,7 @@ export const teamMembers: TeamMember[] = [
     socials: { 
       linkedin: "#", 
       website: "#",
-      email: "zara@mansamusamarketplace.com"
+      email: "zara@1325.ai"
     }
   },
   {
@@ -76,7 +76,7 @@ export const teamMembers: TeamMember[] = [
     socials: { 
       twitter: "#", 
       website: "#",
-      email: "devon@mansamusamarketplace.com"
+      email: "devon@1325.ai"
     }
   }
 ];

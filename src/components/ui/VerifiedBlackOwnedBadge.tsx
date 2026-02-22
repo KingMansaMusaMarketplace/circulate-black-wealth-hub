@@ -36,7 +36,7 @@ const tierConfig = {
     description: 'Verification documents submitted and under review',
   },
   certified: {
-    label: 'Certified Black-Owned',
+    label: 'Certified Community-Owned',
     icon: CheckCircle,
     bgClass: 'bg-gradient-to-r from-emerald-500/20 to-green-500/20',
     textClass: 'text-emerald-500 dark:text-emerald-400',

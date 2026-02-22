@@ -41,10 +41,10 @@ const AccessibilityPage: React.FC = () => {
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-display">
-              Accessibility at Mansa Musa Marketplace
+              Accessibility at 1325.AI
             </h1>
             <p className="text-xl text-white/80 max-w-2xl mx-auto font-body">
-              We believe economic empowerment should be accessible to everyone in the Black community, regardless of ability.
+              We believe economic empowerment should be accessible to everyone in our community, regardless of ability.
             </p>
           </div>
 
@@ -57,7 +57,7 @@ const AccessibilityPage: React.FC = () => {
               <h2 className="text-2xl font-bold text-white font-display">Our Commitment</h2>
             </div>
             <p className="text-white/80 leading-relaxed text-lg font-body">
-              At Mansa Musa Marketplace, accessibility isn't an afterthought—it's fundamental to our mission. 
+              At 1325.AI, accessibility isn't an afterthought—it's fundamental to our mission. 
               We're committed to ensuring that all members of our community can fully participate in the 
               economic empowerment we're building together. Our platform is designed to work seamlessly 
               with assistive technologies and accommodate users with diverse needs.

@@ -49,7 +49,7 @@ const SalesAgentPage: React.FC = () => {
                 <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">Earn With Us</span>
                 <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Mansa Ambassador Program</h1>
                 <p className="text-blue-200/80 text-lg max-w-2xl mx-auto">
-                  Join the Mansa Ambassador Program and earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
+                  Join the Mansa Ambassador Program and earn commissions by referring new customers and businesses to 1325.AI.
                 </p>
               </div>
 
@@ -69,7 +69,7 @@ const SalesAgentPage: React.FC = () => {
               <ProgressiveDisclosure
                 id="sales-agent-getting-started"
                 title="Ready to Start Earning?"
-                message="Join the Mansa Ambassador Program today and start earning commissions by referring new customers and businesses to Mansa Musa Marketplace."
+                message="Join the Mansa Ambassador Program today and start earning commissions by referring new customers and businesses to 1325.AI."
                 position="bottom"
                 showOnMount={true}
                 delay={5000}
@@ -89,7 +89,7 @@ const SalesAgentPage: React.FC = () => {
                 <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">Your Dashboard</span>
                 <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Mansa Ambassador Program</h1>
                 <p className="text-blue-200/80 text-lg max-w-2xl mx-auto">
-                  Welcome to the Mansa Ambassador Program. Earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
+                  Welcome to the Mansa Ambassador Program. Earn commissions by referring new customers and businesses to 1325.AI.
                 </p>
               </div>
 
