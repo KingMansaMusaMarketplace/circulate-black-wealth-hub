@@ -646,7 +646,7 @@ const NoirLandingPage: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-4 mb-12">
             {[
               { icon: Shield, title: 'Human Appeals Process', desc: 'No robot deactivations — speak to a real person within 24hrs' },
-              { icon: Users, title: 'Driver Referral Bonuses', desc: 'Earn $250 for every driver you bring to Noir' },
+              { icon: Users, title: 'Driver Referral Bonuses', desc: '$100 after your referral hits 10 rides + $150 after 50 rides' },
               { icon: Clock, title: 'Your Schedule, Your Rules', desc: 'No forced surge zones. No punishment for declining trips' },
             ].map((perk, i) => (
               <motion.div
