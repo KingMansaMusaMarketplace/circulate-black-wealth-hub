@@ -129,10 +129,10 @@ const SalesAgentHelpSection: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button variant="default" onClick={() => toast.info('Contact support at support@mansamusa.com')}>
+            <Button variant="default" onClick={() => toast.info('Contact support at support@1325.ai')}>
               Contact Support
             </Button>
-            <Button variant="outline" onClick={() => window.open('https://discord.gg/mansamusa', '_blank')}>
+            <Button variant="outline" onClick={() => window.open('https://discord.gg/1325ai', '_blank')}>
               Join Community Forum
             </Button>
             <Button variant="outline" onClick={() => toast.info('Training call scheduling coming soon!')}>
