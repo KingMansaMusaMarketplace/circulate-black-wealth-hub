@@ -1,35 +1,59 @@
 
-## Add National Black Farmers Association to the Directory
 
-### What This Does
-Inserts the **National Black Farmers Association (NBFA)** — founded by John Boyd Jr. — into the business directory database as a verified listing.
+# Noir Travel - Homepage CTA + Landing Page
 
-### Data to Be Inserted
+## Overview
+Add **Noir** as the third branded vertical on the homepage, following the proven pattern established by **Mansa Stays**. Noir will have both a homepage CTA card and a dedicated `/noir` landing page.
 
-| Field | Value |
-|---|---|
-| Name | National Black Farmers Association (NBFA) |
-| Category | Agriculture |
-| Address | Baskerville, VA 23915 |
-| City | Baskerville |
-| State | VA |
-| Phone | (804) 691-8528 |
-| Email | Johnwesleyboydjr@gmail.com |
-| Website | https://www.blackfarmers.org |
-| Description | Non-profit org representing African American farmers and families across the U.S. Advocates for civil rights, land retention, fair lending, agricultural education, and rural economic development for Black and small farmers. |
-| is_verified | true |
-| listing_status | live |
+## Homepage Placement
 
-### Technical Steps
+The homepage section order will become:
 
-1. **Insert via SQL** — Use the Supabase insert tool to add the record to the `businesses` table with a generated UUID, the standard placeholder `owner_id`, and all contact fields populated.
+1. Hero
+2. MissionPreview
+3. **VacationRentalsCTA (Mansa Stays)**
+4. **NoirRideCTA (NEW)** -- right after Stays, grouping the two branded verticals together
+5. ThreePillars
+6. FeaturedBusinesses
+7. CTASection
+8. CirculationGap
 
-2. **Set listing_status to `live`** — So it immediately appears in the `business_directory` view (which filters for `is_verified = true` OR `listing_status = live`).
+The Noir CTA card will mirror the Mansa Stays card design (glassmorphic card, two-column layout with content + image) but with its own luxury black/gold branding to match the "noir.travel" identity.
 
-3. **Category** — Will be inserted as `"Agriculture"` to align with the existing category taxonomy in the directory.
+## What Gets Built
 
-4. **No banner/logo image** needed at insert time — The directory will use a placeholder; a local asset can be added as a follow-up to meet the institutional visual standard.
+### 1. Homepage CTA Component
+**File:** `src/components/HomePage/NoirRideCTA.tsx`
 
-### Files / Resources Affected
-- Supabase `businesses` table — 1 new row inserted
-- No code changes required; the directory will pick it up automatically from the `business_directory` view
+- Same card structure as VacationRentalsCTA (animated reveal, two-column layout)
+- Branding: Black/dark theme with gold accents, car/ride imagery
+- Value props: "Safe Rides," "Support Black Drivers," "Door-to-Door"
+- Two CTA buttons:
+  - **"Request a Ride"** --> links to `/noir`
+  - **"Become a Driver"** --> links to `/noir#drivers` (future)
+- Lazy-loaded in HomePageSections.tsx like all other sections
+
+### 2. Dedicated Landing Page
+**File:** `src/pages/NoirLandingPage.tsx`
+**Route:** `/noir`
+
+- Premium landing page with luxury branding
+- Hero section with noir.travel domain callout
+- "How It Works" steps (pick destination, choose ride, go)
+- Integration with directory: "Ride to any business in our directory"
+- Deep-link buttons that open Uber/Lyft with the destination pre-filled (Phase 1 MVP)
+- Featured businesses you can ride to (pulls from directory)
+- Future driver signup section
+
+### 3. Route Registration
+- Add `/noir` route to the app router
+- Add NoirLandingPage to lazy components registry
+
+## Technical Details
+
+- **NoirRideCTA.tsx** follows the exact same pattern as `VacationRentalsCTA.tsx` -- framer-motion scroll reveal, glassmorphic card, responsive grid layout
+- **HomePageSections.tsx** gets a new lazy import and section entry between VacationRentalsCTA and ThreePillars
+- **NoirLandingPage.tsx** is added to `LazyComponents.ts` for code-splitting
+- Uber deep-link format: `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]={lat}&dropoff[longitude]={lng}&dropoff[nickname]={businessName}`
+- The landing page will pull featured businesses from the existing directory data to show "popular destinations"
+
