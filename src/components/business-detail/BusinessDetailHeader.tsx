@@ -108,13 +108,13 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
                 <DialogHeader>
                   <DialogTitle>Share {business.name}</DialogTitle>
                   <DialogDescription>
-                    Share this amazing Black-owned business with your network
+                    Share this amazing community business with your network
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-center py-4">
                   <SocialShareButtons
-                    title={`Check out ${business.name} on Mansa Musa Marketplace`}
-                    text={`I found this amazing Black-owned business: ${business.name} - ${business.description.substring(0, 100)}...`}
+                    title={`Check out ${business.name} on 1325.AI`}
+                    text={`I found this amazing community business: ${business.name} - ${business.description.substring(0, 100)}...`}
                     url={`${window.location.origin}/business/${business.id}`}
                     showLabels={true}
                     size="default"

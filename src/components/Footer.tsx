@@ -66,7 +66,7 @@ const Footer = () => {
               Building the Future of Digital Commerce | AI
             </p>
             <p className="bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent mb-6 max-w-md leading-relaxed font-bold text-lg">
-              Empowering Black-owned businesses and building community wealth through every purchase.
+              Empowering community businesses and building wealth through every purchase.
             </p>
             <div className="space-y-3">
               <div className="flex items-center group">

@@ -16,12 +16,12 @@ export const BenefitsSection: React.FC = () => {
           </Badge>
         </div>
         <h3 className="text-base font-bold text-transparent bg-gradient-to-r from-blue-300 via-white to-amber-300 bg-clip-text mb-4 animate-fade-in">
-          Join the Mansa Musa Movement
+          Join the 1325.AI Movement
         </h3>
         <div className="grid grid-cols-2 gap-3 text-sm font-medium">
           <div className="group/item flex items-center p-2 bg-gradient-to-br from-slate-700/50 to-slate-800/50 hover:from-mansablue/20 hover:to-blue-800/20 rounded-lg border border-white/5 hover:border-mansablue/30 transition-all duration-300">
             <MapPin size={14} className="text-blue-400 mr-2 flex-shrink-0 group-hover/item:scale-110 transition-transform" />
-            <span className="text-slate-200">Find Black-owned businesses</span>
+            <span className="text-slate-200">Find verified businesses</span>
           </div>
           <div className="group/item flex items-center p-2 bg-gradient-to-br from-slate-700/50 to-slate-800/50 hover:from-mansagold/20 hover:to-amber-800/20 rounded-lg border border-white/5 hover:border-mansagold/30 transition-all duration-300">
             <BadgeDollarSign size={14} className="text-amber-400 mr-2 flex-shrink-0 group-hover/item:scale-110 transition-transform" />

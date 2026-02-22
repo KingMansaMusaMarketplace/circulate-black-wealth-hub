@@ -24,7 +24,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
         </div>
         <h3 className="text-2xl font-bold text-white mb-3">No businesses found</h3>
         <p className="text-gray-400 max-w-md mx-auto text-lg">
-          Try adjusting your search or filters to discover more Black-owned businesses in your area
+          Try adjusting your search or filters to discover more verified businesses in your area
         </p>
       </motion.div>
     );

@@ -25,15 +25,15 @@ const ImpactMetricsSection = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-mansablue via-blue-600 to-mansagold mx-auto mb-6 rounded-full"></div>
           <p className="text-lg text-blue-100/90 max-w-2xl mx-auto font-medium">
-            We measure our success by the economic impact we create within Black communities.
+            We measure our success by the economic impact we create within our communities.
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           {[
-            { icon: TrendingUp, value: "$2.4M", text: "Dollars circulated through Black businesses via our platform" },
-            { icon: Users, value: "175+", text: "Black-owned businesses enrolled and benefiting" },
-            { icon: Calendar, value: "72 hrs", text: "Average circulation time of the Black dollar in our ecosystem (vs. 6 hours nationally)" }
+            { icon: TrendingUp, value: "$2.4M", text: "Dollars circulated through community businesses via our platform" },
+            { icon: Users, value: "175+", text: "Verified businesses enrolled and benefiting" },
+            { icon: Calendar, value: "72 hrs", text: "Average circulation time of our dollar in the ecosystem (vs. 6 hours nationally)" }
           ].map((metric, idx) => {
             const Icon = metric.icon;
             const colors = metricColors[idx];
@@ -63,7 +63,7 @@ const ImpactMetricsSection = () => {
                 {[
                   "Increase circulation time to 1 week average",
                   "Enroll 500+ businesses across 10 major cities",
-                  "Facilitate $10M in Black business transactions"
+                  "Facilitate $10M in community business transactions"
                 ].map((goal, idx) => (
                   <li key={idx} className="flex items-center group">
                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 mr-3 group-hover:scale-125 transition-transform shadow-md"></div>

@@ -18,7 +18,7 @@ const TalkingPointsCard: React.FC<TalkingPointsCardProps> = ({ partner }) => {
       id: 'elevator',
       title: '30-Second Elevator Pitch',
       icon: '🎤',
-      content: `"Have you heard of 1325.AI? It's an economic operating system built specifically for Black-owned businesses. You get $700 worth of tools for just $100 a month - that's a 7x return. They have B2B matching, community financing circles, and help you get discovered by conscious consumers. Right now it's FREE to join as a Founding Member until September 2026. I can send you my referral link - what's your email?"`,
+      content: `"Have you heard of 1325.AI? It's an economic operating system built specifically for community businesses. You get $700 worth of tools for just $100 a month - that's a 7x return. They have B2B matching, community financing circles, and help you get discovered by conscious consumers. Right now it's FREE to join as a Founding Member until September 2026. I can send you my referral link - what's your email?"`,
     },
     {
       id: 'objections',
@@ -31,7 +31,7 @@ const TalkingPointsCard: React.FC<TalkingPointsCardProps> = ({ partner }) => {
 → "No catch. They're building to 10,000 businesses by September 2026. After that, it moves to paid tiers. Getting in now locks in Founding Member benefits for life."
 
 **"I already have a website/social media."**
-→ "This isn't replacing that - it's amplifying it. Think of it as getting discovered by people actively looking to support Black-owned businesses, plus B2B tools your website can't offer."
+→ "This isn't replacing that - it's amplifying it. Think of it as getting discovered by people actively looking to support community businesses, plus B2B tools your website can't offer."
 
 **"How do I know it's legit?"**
 → "I'm a verified partner. ${partner.directory_name} vetted this before partnering. Plus, they're backed by real technology - Susu circles, economic tracking, the works."`,
@@ -42,7 +42,7 @@ const TalkingPointsCard: React.FC<TalkingPointsCardProps> = ({ partner }) => {
       icon: '💰',
       content: `• **$700/month value for $100/month** = 7x ROI on business tools
 • **FREE until September 1, 2026** - Founding Member status locked in
-• **Get discovered** by consumers actively seeking Black-owned businesses
+• **Get discovered** by consumers actively seeking community businesses
 • **B2B marketplace** - find partners, suppliers, customers within the community
 • **Susu circles** - community-powered rotating savings (no bank needed)
 • **Loyalty tools** - build customer engagement and rewards

@@ -34,7 +34,7 @@ export const SuccessStories: React.FC = () => {
             Real Businesses, Real Growth
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            See how businesses are thriving with Mansa Musa Marketplace
+            See how businesses are thriving with 1325.AI
           </p>
         </div>
 

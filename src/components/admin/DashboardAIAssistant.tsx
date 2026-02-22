@@ -36,7 +36,7 @@ const DashboardAIAssistant: React.FC = () => {
   }, [messages]);
 
   const dashboardContext = `
-You are a helpful assistant for the Mansa Musa Marketplace Admin Dashboard. Here's what you know about the dashboard:
+You are a helpful assistant for the 1325.AI Admin Dashboard. Here's what you know about the dashboard:
 
 NAVIGATION FEATURES:
 - Breadcrumb Navigation: Shows current location, click to go back

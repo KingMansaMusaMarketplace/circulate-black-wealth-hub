@@ -165,7 +165,7 @@ export const QRCodeReferral: React.FC<QRCodeReferralProps> = ({ compact = false 
           </Button>
           <ShareButton
             data={{
-              title: 'Join Mansa Musa Marketplace!',
+              title: 'Join 1325.AI!',
               text: `Use my referral code ${referralCode} to join!`,
               url: referralLink,
             }}

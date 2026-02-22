@@ -149,8 +149,8 @@ const QuickWinOnboarding = ({ businessId, onComplete, onDismiss }: QuickWinOnboa
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Check out my business on Mansa Musa Marketplace!',
-          text: 'I just listed my Black-owned business. Support local!',
+          title: 'Check out my business on 1325.AI!',
+          text: 'I just listed my business. Support local!',
           url: shareUrl
         });
         markStepComplete('share');

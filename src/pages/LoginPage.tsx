@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
         <div className="text-center mb-6 md:mb-8 w-full max-w-md">
           <Link to="/" className="inline-block">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-mansagold via-amber-400 to-mansagold bg-clip-text text-transparent mb-2">
-              Mansa Musa Marketplace
+              1325.AI
             </h1>
           </Link>
           <p className="text-white/70 text-sm sm:text-base">

@@ -33,7 +33,7 @@ const SalesAgentFAQSection: React.FC = () => {
     },
     {
       question: "Can I refer both businesses and individual customers?",
-      answer: "Sales agents earn commissions only on business referrals (businesses listing products/services on our platform). Individual customer sign-ups do not earn commissions for sales agents. Focus on connecting with Black-owned businesses to maximize your earnings."
+      answer: "Sales agents earn commissions only on business referrals (businesses listing products/services on our platform). Individual customer sign-ups do not earn commissions for sales agents. Focus on connecting with community businesses to maximize your earnings."
     },
     {
       question: "How do I share my referral code?",

@@ -1,8 +1,8 @@
 {
   "app": {
-    "name": "Mansa Musa Marketplace",
-    "tagline": "Faites Circuler la Richesse Noire",
-    "description": "Le Système d'Exploitation Économique pour la circulation de la richesse noire"
+    "name": "1325.AI",
+    "tagline": "Faites Circuler la Richesse Communautaire",
+    "description": "Le Système d'Exploitation Économique pour la circulation de la richesse communautaire"
   },
   "nav": {
     "home": "Accueil",
@@ -51,7 +51,7 @@
     "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
   },
   "footer": {
-    "copyright": "© {{year}} Mansa Musa Marketplace. Tous droits réservés.",
+    "copyright": "© {{year}} 1325.AI. Tous droits réservés.",
     "privacyPolicy": "Politique de Confidentialité",
     "termsOfService": "Conditions d'Utilisation",
     "cookiePolicy": "Politique des Cookies"

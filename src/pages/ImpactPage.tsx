@@ -6,8 +6,8 @@ import { useEffect } from 'react';
 const ImpactPage = () => {
   useEffect(() => {
     updateMetaTags({
-      title: 'My Impact - Mansa Musa Marketplace',
-      description: 'See how you\'re building Black wealth and circulating money within the community through Mansa Musa Marketplace.',
+      title: 'My Impact - 1325.AI',
+      description: 'See how you\'re building community wealth and circulating money within the community through 1325.AI.',
       path: '/impact'
     });
   }, []);

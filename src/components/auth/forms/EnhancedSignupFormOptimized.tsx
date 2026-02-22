@@ -122,8 +122,8 @@ const EnhancedSignupForm: React.FC = memo(() => {
           </CardTitle>
           <CardDescription>
             {signupSuccess ? 
-              'Welcome! Select a plan to get the most out of Mansa Musa Marketplace' :
-              'Select a plan to get the most out of Mansa Musa Marketplace'
+              'Welcome! Select a plan to get the most out of 1325.AI' :
+              'Select a plan to get the most out of 1325.AI'
             }
           </CardDescription>
         </CardHeader>

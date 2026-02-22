@@ -55,7 +55,7 @@ const CTASection = () => {
             animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            Join Mansa Musa Marketplace today and become part of the movement to strengthen community economic power.
+            Join 1325.AI today and become part of the movement to strengthen community economic power.
           </motion.p>
           
           <BenefitsList isVisible={isVisible} controls={controls} />
