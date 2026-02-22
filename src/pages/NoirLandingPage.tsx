@@ -885,8 +885,8 @@ const NoirLandingPage: React.FC = () => {
                 <NoirTrackingMap
                   driverLocation={null}
                   rideStatus={null}
-                  pickupCoords={[-84.388, 33.749]}
-                  dropoffCoords={[-84.365, 33.762]}
+                  pickupCoords={[-87.6298, 41.8781]}
+                  dropoffCoords={[-87.6553, 41.8827]}
                   onClose={() => setShowTracking(false)}
                   isDemo={true}
                 />
