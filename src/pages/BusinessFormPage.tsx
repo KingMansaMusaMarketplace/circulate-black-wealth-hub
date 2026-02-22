@@ -32,7 +32,7 @@ const BusinessFormPage: React.FC = () => {
             <div className="relative px-8 py-12 text-white">
               <h1 className="text-5xl font-bold mb-4 animate-fade-in-up bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">Register Your Business</h1>
               <p className="text-xl text-slate-300 max-w-2xl animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-                Join the Mansa Musa Marketplace and connect with customers in your community
+                Join 1325.AI and connect with customers in your community
               </p>
             </div>
           </div>

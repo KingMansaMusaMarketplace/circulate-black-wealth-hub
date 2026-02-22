@@ -20,7 +20,7 @@ const PreSubmissionChecklistPage: React.FC = () => {
     {
       id: 'demo-account',
       title: 'Demo Account Credentials Match',
-      description: 'Verify demo@mansamusa.com / Demo123! is set up in Supabase and displayed on login page',
+      description: 'Verify demo@1325.ai / Demo123! is set up in Supabase and displayed on login page',
       status: 'pending',
       critical: true,
     },
@@ -76,7 +76,7 @@ const PreSubmissionChecklistPage: React.FC = () => {
     {
       id: 'app-connect-updated',
       title: 'App Store Connect Updated',
-      description: 'Demo credentials and review notes updated with: demo@mansamusa.com / Demo123!',
+      description: 'Demo credentials and review notes updated with: demo@1325.ai / Demo123!',
       status: 'pending',
       critical: true,
     },

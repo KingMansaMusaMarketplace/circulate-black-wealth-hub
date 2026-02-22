@@ -125,7 +125,7 @@ const MansaAmbassadorsPage: React.FC = () => {
               Earn money while building the largest Black business network in your city
             </p>
             <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
-              Join the grassroots movement connecting Black-owned businesses with customers who want to support them.
+              Join the grassroots movement connecting community businesses with customers who want to support them.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

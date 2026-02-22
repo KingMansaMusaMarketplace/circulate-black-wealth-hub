@@ -221,7 +221,7 @@ const SponsorROISection = () => {
         <div className="max-w-2xl mx-auto bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
           <div className="text-4xl mb-4">"</div>
           <p className="text-white text-lg italic mb-6">
-            Partnering with Mansa Musa Marketplace has been one of our best corporate social responsibility decisions. 
+            Partnering with 1325.AI has been one of our best corporate social responsibility decisions. 
             The transparency in reporting and the real impact we see every month is incredible.
           </p>
           <div className="flex items-center justify-center gap-4">

@@ -29,7 +29,7 @@ export const OrganizationStructuredData = () => {
       name: 'United States',
     },
     knowsAbout: [
-      'Black-owned businesses',
+      'Community businesses',
       'Business directory',
       'AI-powered discovery',
       'Loyalty rewards protocol',

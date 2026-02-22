@@ -248,7 +248,7 @@ const BusinessOnboardingPage: React.FC = () => {
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                Get discovered by customers actively looking for Black-owned businesses
+                Get discovered by customers actively looking for community businesses
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />

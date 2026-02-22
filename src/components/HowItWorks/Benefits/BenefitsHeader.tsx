@@ -16,7 +16,7 @@ const BenefitsHeader: React.FC<BenefitsHeaderProps> = ({ isVisible }) => {
     >
       <h2 className="heading-lg text-mansablue mb-4">Member Benefits</h2>
       <p className="text-gray-600 max-w-2xl mx-auto">
-        Mansa Musa Marketplace offers unique advantages for both customers and business owners.
+        1325.AI offers unique advantages for both customers and business owners.
       </p>
     </motion.div>
   );

@@ -344,7 +344,7 @@ const QRScannerPage = () => {
     return (
       <>
         <Helmet>
-          <title>Scan Successful | Mansa Musa Marketplace</title>
+          <title>Scan Successful | 1325.AI</title>
         </Helmet>
         
         <div className="min-h-screen bg-background flex items-center justify-center p-4">

@@ -8,10 +8,10 @@ export const getDirectoryPartnershipProposalContent = (): string => {
         <div style="border: 3px solid #b45309; padding: 60px; border-radius: 8px; background: rgba(0,0,0,0.3);">
           <p style="font-size: 14px; letter-spacing: 4px; margin-bottom: 20px; color: #fbbf24;">STRATEGIC PARTNERSHIP PROPOSAL</p>
           <h1 style="font-size: 42px; font-weight: bold; margin: 20px 0; color: #fbbf24;">From Directory to Digital Empire</h1>
-          <p style="font-size: 22px; margin: 30px 0; color: #93c5fd;">A Partnership Opportunity for Black Business Directories</p>
+          <p style="font-size: 22px; margin: 30px 0; color: #93c5fd;">A Partnership Opportunity for Community Business Directories</p>
           <div style="width: 100px; height: 4px; background: #b45309; margin: 40px auto;"></div>
-          <p style="font-size: 16px; color: #bfdbfe;">Mansa Musa Marketplace</p>
-          <p style="font-size: 14px; color: #93c5fd; margin-top: 10px;">The Complete Economic Infrastructure for Black Business Excellence</p>
+          <p style="font-size: 16px; color: #bfdbfe;">1325.AI</p>
+          <p style="font-size: 14px; color: #93c5fd; margin-top: 10px;">The Complete Economic Infrastructure for Community Business Excellence</p>
         </div>
       </div>
 
@@ -21,7 +21,7 @@ export const getDirectoryPartnershipProposalContent = (): string => {
         
         <div style="background: #f0f9ff; padding: 30px; border-left: 5px solid #1e40af; margin-bottom: 30px;">
           <p style="font-size: 18px; font-style: italic; color: #1e3a8a; margin: 0;">
-            "Black business directories have built invaluable communities. Now it's time to give those communities the economic infrastructure they deserve."
+            "Community business directories have built invaluable communities. Now it's time to give those communities the economic infrastructure they deserve."
           </p>
         </div>
 
@@ -30,20 +30,20 @@ export const getDirectoryPartnershipProposalContent = (): string => {
           You've done the hardest work: building trust, curating businesses, and growing a community. But in today's digital economy, a directory alone isn't enough. Your businesses need booking systems, payment processing, loyalty programs, analytics, and more.
         </p>
         <p style="font-size: 16px; margin-bottom: 20px;">
-          <strong>Mansa Musa Marketplace (MMM)</strong> has built all of that—and we want to partner with you to bring it to your community.
+          <strong>1325.AI</strong> has built all of that—and we want to partner with you to bring it to your community.
         </p>
 
         <h3 style="color: #b45309; font-size: 20px; margin: 30px 0 15px;">What We're Proposing</h3>
         <ul style="font-size: 16px; margin-left: 20px;">
           <li style="margin-bottom: 12px;"><strong>Technology Partnership:</strong> Your directory + our platform = complete business solution</li>
           <li style="margin-bottom: 12px;"><strong>Revenue Sharing:</strong> Earn ongoing income from businesses you bring to the ecosystem</li>
-          <li style="margin-bottom: 12px;"><strong>Founding Partner Status:</strong> Shape the future of Black economic infrastructure</li>
-          <li style="margin-bottom: 12px;"><strong>Regional Ownership:</strong> Become the MMM authority in your market</li>
+           <li style="margin-bottom: 12px;"><strong>Founding Partner Status:</strong> Shape the future of community economic infrastructure</li>
+           <li style="margin-bottom: 12px;"><strong>Regional Ownership:</strong> Become the 1325.AI authority in your market</li>
         </ul>
 
         <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 25px; border-radius: 8px; margin-top: 30px; border: 2px solid #b45309;">
           <p style="font-size: 18px; font-weight: bold; color: #92400e; margin: 0; text-align: center;">
-            Together, we can build the largest unified network of Black-owned businesses in history.
+            Together, we can build the largest unified network of community-owned businesses in history.
           </p>
         </div>
       </div>
@@ -53,7 +53,7 @@ export const getDirectoryPartnershipProposalContent = (): string => {
         <h2 style="color: #1e40af; font-size: 28px; border-bottom: 3px solid #b45309; padding-bottom: 15px; margin-bottom: 30px;">The Directory Dilemma</h2>
         
         <p style="font-size: 16px; margin-bottom: 25px;">
-          Running a Black business directory is a labor of love. But let's be honest about the challenges:
+          Running a community business directory is a labor of love. But let's be honest about the challenges:
         </p>
 
         <div style="display: grid; gap: 20px; margin-bottom: 30px;">
@@ -92,10 +92,10 @@ export const getDirectoryPartnershipProposalContent = (): string => {
 
       <!-- The MMM Solution -->
       <div style="padding: 50px; page-break-after: always;">
-        <h2 style="color: #1e40af; font-size: 28px; border-bottom: 3px solid #b45309; padding-bottom: 15px; margin-bottom: 30px;">The Mansa Musa Marketplace Solution</h2>
+        <h2 style="color: #1e40af; font-size: 28px; border-bottom: 3px solid #b45309; padding-bottom: 15px; margin-bottom: 30px;">The 1325.AI Solution</h2>
         
         <p style="font-size: 16px; margin-bottom: 25px;">
-          MMM isn't just another directory. It's a complete economic infrastructure built specifically for Black-owned businesses:
+           1325.AI isn't just another directory. It's a complete economic infrastructure built specifically for community businesses:
         </p>
 
         <div style="display: grid; gap: 15px; margin-bottom: 30px;">
@@ -188,17 +188,17 @@ export const getDirectoryPartnershipProposalContent = (): string => {
         <h2 style="color: #1e40af; font-size: 28px; border-bottom: 3px solid #b45309; padding-bottom: 15px; margin-bottom: 30px;">Partnership Model A: Regional Federation</h2>
         
         <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); color: white; padding: 30px; border-radius: 8px; margin-bottom: 30px;">
-          <h3 style="color: #fbbf24; margin: 0 0 15px; font-size: 22px;">Keep Your Brand. Gain Our Technology.</h3>
+           <h3 style="color: #fbbf24; margin: 0 0 15px; font-size: 22px;">Keep Your Brand. Gain Our Technology.</h3>
           <p style="margin: 0; font-size: 16px;">
-            Your directory becomes an official MMM Regional Chapter while maintaining its identity, brand, and community relationships.
+            Your directory becomes an official 1325.AI Regional Chapter while maintaining its identity, brand, and community relationships.
           </p>
         </div>
 
         <h4 style="color: #166534; font-size: 18px; margin: 25px 0 15px;">What You Get:</h4>
         <ul style="font-size: 16px; margin-left: 20px;">
-          <li style="margin-bottom: 12px;"><strong>White-Label Technology:</strong> Full MMM platform features under your brand</li>
-          <li style="margin-bottom: 12px;"><strong>30% Revenue Share:</strong> Earn from every subscription your businesses generate</li>
-          <li style="margin-bottom: 12px;"><strong>"Powered by MMM" Badge:</strong> Credibility of the national network</li>
+           <li style="margin-bottom: 12px;"><strong>White-Label Technology:</strong> Full 1325.AI platform features under your brand</li>
+           <li style="margin-bottom: 12px;"><strong>30% Revenue Share:</strong> Earn from every subscription your businesses generate</li>
+           <li style="margin-bottom: 12px;"><strong>"Powered by 1325.AI" Badge:</strong> Credibility of the national network</li>
           <li style="margin-bottom: 12px;"><strong>Regional Exclusivity:</strong> Territory protection for your market</li>
           <li style="margin-bottom: 12px;"><strong>Marketing Support:</strong> National campaigns that drive local traffic</li>
           <li style="margin-bottom: 12px;"><strong>Training & Onboarding:</strong> We help you migrate and launch</li>
@@ -226,13 +226,13 @@ export const getDirectoryPartnershipProposalContent = (): string => {
         <div style="background: linear-gradient(135deg, #b45309 0%, #d97706 100%); color: white; padding: 30px; border-radius: 8px; margin-bottom: 30px;">
           <h3 style="color: white; margin: 0 0 15px; font-size: 22px;">Become a Founding Partner. Build Equity.</h3>
           <p style="margin: 0; font-size: 16px;">
-            Merge your directory's listings into MMM and become a stakeholder in the platform's success.
+            Merge your directory's listings into 1325.AI and become a stakeholder in the platform's success.
           </p>
         </div>
 
         <h4 style="color: #166534; font-size: 18px; margin: 25px 0 15px;">What You Get:</h4>
         <ul style="font-size: 16px; margin-left: 20px;">
-          <li style="margin-bottom: 12px;"><strong>Equity Opportunity:</strong> Ownership stake in MMM based on listings contributed</li>
+          <li style="margin-bottom: 12px;"><strong>Equity Opportunity:</strong> Ownership stake in 1325.AI based on listings contributed</li>
           <li style="margin-bottom: 12px;"><strong>"Founding Regional Partner" Title:</strong> Permanent recognition and status</li>
           <li style="margin-bottom: 12px;"><strong>Advisory Board Seat:</strong> Shape platform development and strategy</li>
           <li style="margin-bottom: 12px;"><strong>Enhanced Commission:</strong> 40% revenue share on businesses you brought</li>
@@ -385,7 +385,7 @@ export const getDirectoryPartnershipProposalContent = (): string => {
             <tr style="background: #1e40af; color: white;">
               <th style="padding: 15px; text-align: left; border: 1px solid #1e3a8a; width: 30%;">Feature</th>
               <th style="padding: 15px; text-align: center; border: 1px solid #1e3a8a; width: 35%;">Directory Listing Only</th>
-              <th style="padding: 15px; text-align: center; border: 1px solid #1e3a8a; width: 35%;">MMM Partnership</th>
+              <th style="padding: 15px; text-align: center; border: 1px solid #1e3a8a; width: 35%;">1325.AI Partnership</th>
             </tr>
           </thead>
           <tbody>
@@ -451,15 +451,15 @@ export const getDirectoryPartnershipProposalContent = (): string => {
 
       <!-- The Vision -->
       <div style="padding: 50px; page-break-after: always;">
-        <h2 style="color: #1e40af; font-size: 28px; border-bottom: 3px solid #b45309; padding-bottom: 15px; margin-bottom: 30px;">The Vision: A United Black Business Network</h2>
+        <h2 style="color: #1e40af; font-size: 28px; border-bottom: 3px solid #b45309; padding-bottom: 15px; margin-bottom: 30px;">The Vision: A United Community Business Network</h2>
         
         <div style="text-align: center; margin-bottom: 40px;">
           <p style="font-size: 48px; margin: 0;">🌍</p>
-          <h3 style="color: #b45309; font-size: 24px; margin: 20px 0;">One Million Connected Black-Owned Businesses</h3>
+          <h3 style="color: #b45309; font-size: 24px; margin: 20px 0;">One Million Connected Community-Owned Businesses</h3>
         </div>
 
         <p style="font-size: 16px; margin-bottom: 25px;">
-          Imagine a world where every Black-owned business—from the barbershop in Atlanta to the tech startup in Oakland—is connected on one platform. Where customers earn points at one business and spend them at another. Where businesses buy from each other first. Where collective data gives us negotiating power with suppliers, banks, and corporations.
+          Imagine a world where every community business—from the barbershop in Atlanta to the tech startup in Oakland—is connected on one platform. Where customers earn points at one business and spend them at another. Where businesses buy from each other first. Where collective data gives us negotiating power with suppliers, banks, and corporations.
         </p>
 
         <div style="display: grid; gap: 20px; margin: 30px 0;">
@@ -486,7 +486,7 @@ export const getDirectoryPartnershipProposalContent = (): string => {
 
         <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0f172a 100%); color: white; padding: 40px; border-radius: 8px; text-align: center; margin-top: 30px;">
           <p style="font-size: 22px; margin: 0; font-style: italic;">
-            "Directories brought us together. MMM will make us unstoppable."
+            "Directories brought us together. 1325.AI will make us unstoppable."
           </p>
         </div>
       </div>
@@ -561,19 +561,19 @@ export const getDirectoryPartnershipProposalContent = (): string => {
           
           <div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; margin-bottom: 30px;">
             <p style="font-size: 18px; margin: 0 0 10px; color: #93c5fd;">Website</p>
-            <p style="font-size: 22px; font-weight: bold; margin: 0; color: #fbbf24;">www.mansamusamarketplace.com</p>
+            <p style="font-size: 22px; font-weight: bold; margin: 0; color: #fbbf24;">www.1325.ai</p>
           </div>
         </div>
 
         <div style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.2);">
           <p style="font-size: 14px; color: #93c5fd; margin: 0 0 10px;">
-            Mansa Musa Marketplace
+             1325.AI
           </p>
           <p style="font-size: 16px; font-style: italic; color: #bfdbfe; margin: 0;">
-            "Building the economic infrastructure for Black business excellence"
+            "Building the economic infrastructure for community business excellence"
           </p>
           <p style="font-size: 12px; color: #64748b; margin-top: 30px;">
-            © ${new Date().getFullYear()} Mansa Musa Marketplace. All rights reserved.
+            © ${new Date().getFullYear()} 1325.AI. All rights reserved.
           </p>
         </div>
       </div>

@@ -15,10 +15,10 @@ const LogoShowcase = () => {
   return (
     <div className="container mx-auto py-10">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-mansablue mb-4">Mansa Musa Marketplace Logo Concepts</h2>
+        <h2 className="text-3xl font-bold text-mansablue mb-4">1325.AI Logo Concepts</h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Each concept captures a different aspect of Mansa Musa's legacy and the marketplace's mission 
-          to circulate Black wealth.
+          Each concept captures a different aspect of our legacy and the platform's mission 
+          to circulate community wealth.
         </p>
       </div>
 

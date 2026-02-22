@@ -32,7 +32,7 @@ const CategoryExploration: React.FC<CategoryExplorationProps> = ({
     <div className={className}>
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-mansablue mb-2">Explore by Category</h2>
-        <p className="text-gray-600">Discover Black-owned businesses by what you're looking for</p>
+        <p className="text-gray-600">Discover community businesses by what you're looking for</p>
       </div>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">

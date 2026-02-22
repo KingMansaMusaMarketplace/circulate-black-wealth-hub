@@ -27,7 +27,7 @@ const DirectoryHero: React.FC<DirectoryHeroProps> = ({ searchTerm, onSearchChang
           />
         </h1>
         <p className="font-body text-xl sm:text-2xl text-slate-300 leading-relaxed max-w-4xl mx-auto mb-4 font-medium">
-          The Economic Operating System for Black-Owned Businesses
+          The Economic Operating System for Community Businesses
         </p>
         <p className="font-body text-base sm:text-lg text-slate-400 max-w-3xl mx-auto mb-6">
           Verified • Curated • Community-Powered

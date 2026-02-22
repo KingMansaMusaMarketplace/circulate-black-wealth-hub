@@ -67,7 +67,7 @@ const NavLinks: React.FC = () => {
                     <div className="text-sm font-medium leading-none">Features</div>
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Discover powerful tools to support Black-owned businesses
+                    Discover powerful tools to support community businesses
                   </p>
                 </Link>
               </li>
@@ -239,7 +239,7 @@ const NavLinks: React.FC = () => {
                     <div className="text-sm font-medium leading-none text-mansagold">Founder's Wall ✨</div>
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    First 100 Black-owned businesses - claim your spot!
+                    First 100 community businesses - claim your spot!
                   </p>
                 </Link>
               </li>
@@ -314,7 +314,7 @@ const NavLinks: React.FC = () => {
                     <div className="text-sm font-medium leading-none">Directory</div>
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Browse all Black-owned businesses
+                    Browse all community businesses
                   </p>
                 </Link>
               </li>

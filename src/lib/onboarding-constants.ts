@@ -15,11 +15,11 @@ export interface OnboardingStep {
 export const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'welcome',
-    title: 'Welcome to Mansa Musa Marketplace!',
-    description: 'Your gateway to discovering and supporting Black-owned businesses in your community.',
+    title: 'Welcome to 1325.AI!',
+    description: 'Your gateway to discovering and supporting community businesses near you.',
     illustration: Heart,
     features: [
-      'Discover amazing Black-owned businesses near you',
+      'Discover amazing community businesses near you',
       'Earn rewards for every purchase you make',
       'Build stronger community connections',
       'Make a real economic impact'
@@ -117,7 +117,7 @@ export const HELP_SECTIONS = [
       { 
         title: 'Creating Your Account', 
         description: 'Learn how to sign up and set up your profile',
-        details: `Getting started with Mansa Musa Marketplace is easy! Here's how to create your account:
+        details: `Getting started with 1325.AI is easy! Here's how to create your account:
 
 **Step 1: Sign Up**
 - Click the "Sign Up" button in the top right corner
@@ -141,7 +141,7 @@ export const HELP_SECTIONS = [
       { 
         title: 'Finding Businesses', 
         description: 'Tips for discovering businesses in your area',
-        details: `Discover amazing Black-owned businesses near you with these helpful tips:
+        details: `Discover amazing community businesses near you with these helpful tips:
 
 **Using the Directory**
 - Browse by category: Restaurants, Services, Retail, and more
@@ -172,11 +172,11 @@ export const HELP_SECTIONS = [
 **Before You Visit:**
 - Ensure you're logged into your account
 - Check that the business participates in our rewards program
-- Look for the Mansa Musa QR code at checkout
+- Look for the 1325.AI QR code at checkout
 
 **At the Business:**
 1. Complete your purchase as normal
-2. Open the Mansa Musa app
+2. Open the 1325.AI app
 3. Tap the QR Scanner icon
 4. Point your camera at the business's QR code
 5. Wait for the green checkmark confirmation

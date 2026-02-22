@@ -173,7 +173,7 @@ const EducationPage: React.FC = () => {
             </span>
           </h1>
           <p className="text-xl text-blue-200 max-w-3xl mx-auto">
-            Access comprehensive courses, expert resources, and practical tools designed to help Black-owned businesses thrive and grow.
+            Access comprehensive courses, expert resources, and practical tools designed to help community businesses thrive and grow.
           </p>
         </div>
 

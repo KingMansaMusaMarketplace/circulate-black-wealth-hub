@@ -492,8 +492,8 @@ const HostDashboardPage: React.FC = () => {
                 <CardContent className="space-y-4">
                   <div className="p-4 bg-slate-700/50 rounded-lg">
                     <p className="text-slate-300 text-sm">
-                      Mansa Stays charges a 7.5% platform fee on each booking. This fee helps 
-                      support the Black-owned business ecosystem and circulates wealth within 
+                      1325.AI Stays charges a 7.5% platform fee on each booking. This fee helps 
+                      support the community business ecosystem and circulates wealth within 
                       our community.
                     </p>
                   </div>

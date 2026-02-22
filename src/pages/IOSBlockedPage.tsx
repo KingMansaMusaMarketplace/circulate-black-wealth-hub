@@ -51,12 +51,12 @@ const IOSBlockedPage: React.FC = () => {
                   <span className="text-sm text-slate-300">To register a new business or manage subscriptions, please visit:</span>
                   <br />
                   <a 
-                    href="https://mansamusamarketplace.com" 
+                    href="https://1325.ai" 
                     className="inline-block mt-2 text-lg font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent hover:from-amber-400 hover:to-orange-400 transition-all duration-300"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    mansamusamarketplace.com →
+                    1325.AI →
                   </a>
                 </p>
               </div>
