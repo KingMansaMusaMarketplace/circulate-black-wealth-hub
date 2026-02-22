@@ -4,7 +4,7 @@ import {
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
-  Handshake, Rocket, Trophy, FileText, Code2, BookOpen
+  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem
 } from 'lucide-react';
 import {
   Sidebar,
@@ -42,6 +42,7 @@ const menuGroups = [
     label: 'Dashboard',
     items: [
       { id: 'overview', label: 'Overview', icon: BarChart3 },
+      { id: 'valuation', label: 'Valuation Metrics', icon: Gem },
       { id: 'growth', label: 'Growth Dashboard', icon: Rocket },
     ]
   },
