@@ -23,7 +23,7 @@ const NoirRideCTA: React.FC = () => {
             {/* Content Side */}
             <div className="p-8 md:p-10 flex flex-col justify-center">
               <div className="flex items-center mb-3">
-                <img src={noirLogo} alt="Noir Rideshare" className="h-32 md:h-40 w-auto brightness-150 contrast-125 drop-shadow-[0_0_30px_rgba(255,193,7,0.4)]" />
+                <img src={noirLogo} alt="Noir Rideshare" className="h-44 md:h-48 w-auto brightness-150 contrast-125 drop-shadow-[0_0_30px_rgba(255,193,7,0.4)]" />
               </div>
               
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
