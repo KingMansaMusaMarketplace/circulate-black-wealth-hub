@@ -49,7 +49,7 @@ const PitchSlide1Cover: React.FC = () => {
           </Badge>
 
           <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
-            <span className="text-white">Mansa Musa</span>
+            <span className="text-white">1325.AI</span>
             <br />
             <span className="bg-gradient-to-r from-mansagold via-mansagold-light to-mansagold bg-clip-text text-transparent">
               Marketplace

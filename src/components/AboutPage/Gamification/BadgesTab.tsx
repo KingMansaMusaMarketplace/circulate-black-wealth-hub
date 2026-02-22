@@ -22,7 +22,7 @@ const BadgesTab = () => {
             Your Achievement Badges
           </h3>
           <p className="text-white/90 font-medium">
-            Collect badges as you support Black-owned businesses and reach important milestones
+            Collect badges as you support community businesses and reach important milestones
           </p>
         </div>
         
@@ -46,7 +46,7 @@ const BadgesTab = () => {
         
         <div className="mt-10 text-center">
           <p className="text-white font-bold mb-5 text-lg">
-            🎖️ You've earned 3 out of 12 possible badges. Keep supporting Black-owned businesses to earn more!
+            🎖️ You've earned 3 out of 12 possible badges. Keep supporting community businesses to earn more!
           </p>
           <Button 
             variant="outline" 

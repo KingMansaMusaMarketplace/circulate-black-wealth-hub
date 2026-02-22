@@ -21,7 +21,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         new Paragraph({
           children: [
             new TextRun({
-              text: "MANSA MUSA MARKETPLACE",
+              text: "1325.AI",
               bold: true,
               size: 48,
               color: "1a1a2e",
@@ -313,7 +313,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         }),
         new Paragraph({
           children: [
-            new TextRun({ text: `© ${new Date().getFullYear()} Mansa Musa Marketplace. All rights reserved.`, size: 20, color: "666666" }),
+            new TextRun({ text: `© ${new Date().getFullYear()} 1325.AI. All rights reserved.`, size: 20, color: "666666" }),
           ],
           alignment: AlignmentType.CENTER,
         }),

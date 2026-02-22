@@ -230,15 +230,15 @@ const NotificationSettings = () => {
           <div className="pt-4 border-t border-gray-200">
             <h4 className="font-medium mb-3 flex items-center gap-2">
               <Users className="h-4 w-4 text-mansablue" />
-              Share Mansa Musa Marketplace
+              Share 1325.AI
             </h4>
             <p className="text-sm text-muted-foreground mb-4">
               Invite friends and family to join our economic empowerment movement
             </p>
             
             <SocialShareButtons 
-              title="Join Mansa Musa Marketplace" 
-              text="I'm circulating wealth in the Black community with Mansa Musa Marketplace. Join me!" 
+              title="Join 1325.AI" 
+              text="I'm circulating wealth in the community with 1325.AI. Join me!" 
               url={window.location.origin}
               showLabels={true}
               className="justify-start"

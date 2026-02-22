@@ -11,7 +11,7 @@ const SponsorshipFAQ = () => {
   const faqs = [
     {
       question: "What does my sponsorship money support?",
-      answer: "Your sponsorship directly supports the Mansa Musa Marketplace platform and its mission to promote economic circulation in Black communities. Funds are used for technology development, community outreach, educational initiatives, and supporting businesses on our platform."
+      answer: "Your sponsorship directly supports the 1325.AI platform and its mission to promote economic circulation in communities. Funds are used for technology development, community outreach, educational initiatives, and supporting businesses on our platform."
     },
     {
       question: "How long is the sponsorship commitment?",
@@ -35,7 +35,7 @@ const SponsorshipFAQ = () => {
     },
     {
       question: "Is my sponsorship tax-deductible?",
-      answer: "Mansa Musa Marketplace is a for-profit social enterprise. While sponsorships are generally considered business expenses, they are not tax-deductible charitable contributions. We recommend consulting your tax advisor about the specific tax implications for your organization."
+      answer: "1325.AI is a for-profit social enterprise. While sponsorships are generally considered business expenses, they are not tax-deductible charitable contributions. We recommend consulting your tax advisor about the specific tax implications for your organization."
     },
     {
       question: "Can we sponsor a specific initiative or program?",

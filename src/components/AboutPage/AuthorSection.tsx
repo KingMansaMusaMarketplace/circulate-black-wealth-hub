@@ -43,7 +43,7 @@ const AuthorSection = () => {
             <div className="md:col-span-2 p-8 bg-white/95 backdrop-blur-sm">
               <p className="text-gray-800 mb-4 text-lg leading-relaxed">
                 Thomas D. Bowling is a <span className="font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">visionary entrepreneur</span>, strategic founder, and inventor behind
-                Mansa Musa Marketplace. With a mission to engineer economic empowerment through
+                1325.AI. With a mission to engineer economic empowerment through
                 infrastructure, Thomas brings decades of experience in strategic development,
                 community-centered innovation, and business leadership.
               </p>
@@ -75,7 +75,7 @@ const AuthorSection = () => {
                 </p>
                 
                 <p className="text-gray-800 leading-relaxed">
-                  <span className="font-bold text-mansablue">Mansa Musa Marketplace</span> isn't just another business venture—it's the culmination of decades of hard-won wisdom. It's the blueprint I wish I had when I started my journey. My commitment is to ensure that the next generation of Black builders won't just survive but will <span className="font-bold bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">thrive</span>, creating legacies that transform communities and rewrite economic narratives for generations to come.
+                  <span className="font-bold text-mansablue">1325.AI</span> isn't just another business venture—it's the culmination of decades of hard-won wisdom. It's the blueprint I wish I had when I started my journey. My commitment is to ensure that the next generation of community builders won't just survive but will <span className="font-bold bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">thrive</span>, creating legacies that transform communities and rewrite economic narratives for generations to come.
                 </p>
               </div>
             </div>

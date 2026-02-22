@@ -14,7 +14,7 @@ const visionMetrics = [
     icon: <Building className="h-5 w-5" />,
     current: 25,
     goal: 100000,
-    description: "Black-owned businesses empowered globally through our platform",
+    description: "Community businesses empowered globally through our platform",
     unit: "",
     color: "bg-mansablue"
   },
@@ -61,7 +61,7 @@ const yearMilestones = {
     "10,000+ verified businesses on platform",
     "$50M circulation within communities",
     "Launch mobile payment system",
-    "Partner with 3 Black-owned banks"
+    "Partner with 3 community banks"
   ],
   "2029": [
     "50,000+ verified businesses on platform",

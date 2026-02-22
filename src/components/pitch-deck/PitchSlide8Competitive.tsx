@@ -8,7 +8,7 @@ const PitchSlide8Competitive: React.FC = () => {
     { name: 'Yelp', type: 'General Directory' },
     { name: 'Official Black Wall Street', type: 'Black Biz Directory' },
     { name: 'WeBuyBlack', type: 'E-commerce' },
-    { name: 'Mansa Musa', type: 'Economic OS', highlight: true }
+    { name: '1325.AI', type: 'Economic OS', highlight: true }
   ];
 
   const features = [

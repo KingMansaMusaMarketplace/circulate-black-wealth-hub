@@ -3,7 +3,7 @@ import { Target, FileText, GraduationCap, Link2, DollarSign } from 'lucide-react
 export const SALES_AGENT_ONBOARDING_STEPS = [
   {
     title: "Welcome to the Sales Agent Program",
-    description: "Join our exclusive sales agent program and start earning commissions by referring new customers and businesses to Mansa Musa Marketplace.",
+    description: "Join our exclusive sales agent program and start earning commissions by referring new customers and businesses to 1325.AI.",
     illustration: Target,
     features: [
       "Earn up to 25% commission on referrals",

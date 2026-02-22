@@ -19,7 +19,7 @@ const StillNeedHelpSection = () => {
         <h2 className="text-2xl font-bold text-mansablue mb-4">Still Need Help?</h2>
         <p className="text-foreground mb-6 max-w-2xl mx-auto font-medium">
           Can't find what you're looking for? Our support team is here to help you succeed 
-          on the Mansa Musa Marketplace platform.
+          on the 1325.AI platform.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button 

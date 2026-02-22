@@ -22,7 +22,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   return (
     <div className={`flex flex-col min-h-screen ${className}`}>
       <Helmet>
-        {title && <title>{title} | Mansa Musa Marketplace</title>}
+        {title && <title>{title} | 1325.AI</title>}
         {description && <meta name="description" content={description} />}
       </Helmet>
       

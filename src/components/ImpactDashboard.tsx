@@ -75,7 +75,7 @@ export const ImpactDashboard = () => {
   const shareImpact = () => {
     if (!report) return;
     
-    const text = `I've circulated $${report.stats.totalSpent.toFixed(2)} in the Black community through Mansa Musa Marketplace this ${period}! Join me in building economic empowerment. 💪`;
+    const text = `I've circulated $${report.stats.totalSpent.toFixed(2)} in the community through 1325.AI this ${period}! Join me in building economic empowerment. 💪`;
     
     if (navigator.share) {
       navigator.share({ text, url: window.location.origin });

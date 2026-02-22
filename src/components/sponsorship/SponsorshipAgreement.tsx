@@ -12,7 +12,7 @@ const SponsorshipAgreement = () => {
     <div className="max-w-4xl mx-auto p-8 bg-white">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold mb-2">CORPORATE SPONSORSHIP AGREEMENT</h1>
-        <p className="text-lg">MANSA MUSA MARKETPLACE</p>
+        <p className="text-lg">1325.AI</p>
       </div>
       
       <div className="mb-6">
@@ -22,7 +22,7 @@ const SponsorshipAgreement = () => {
       <section className="mb-6">
         <h2 className="text-xl font-bold mb-2">1. PARTIES</h2>
         <p>This Corporate Sponsorship Agreement (the "Agreement") is entered into between:</p>
-        <p className="my-2"><strong>Mansa Musa Marketplace Inc.</strong>, a Delaware corporation with its principal place of business at [ADDRESS] ("MMM" or the "Company")</p>
+        <p className="my-2"><strong>1325.AI Inc.</strong>, a Delaware corporation with its principal place of business at [ADDRESS] ("MMM" or the "Company")</p>
         <p className="my-2">AND</p>
         <p className="my-2"><strong>[SPONSOR NAME]</strong>, a [STATE/COUNTRY] [ENTITY TYPE] with its principal place of business at [SPONSOR ADDRESS] (the "Sponsor").</p>
         <p className="my-2">(Each a "Party" and collectively the "Parties")</p>
@@ -70,8 +70,8 @@ const SponsorshipAgreement = () => {
           <li>Its performance of this Agreement does not violate any agreement or obligation between it and any third party;</li>
           <li>It shall comply with all applicable laws, rules, and regulations in performing its obligations under this Agreement.</li>
         </ul>
-        <p className="mb-2">6.2 <u>MMM Representations</u>: MMM represents and warrants that it shall use the Sponsorship Amount in accordance with its mission to promote economic circulation in Black communities and support Black-owned businesses.</p>
-        <p className="mb-2">6.3 <u>Sponsor Representations</u>: Sponsor represents and warrants that its operations and business practices align with MMM's mission and values, and it is not engaged in activities that would damage MMM's reputation or conflict with its goals of economic empowerment for Black communities.</p>
+        <p className="mb-2">6.2 <u>MMM Representations</u>: MMM represents and warrants that it shall use the Sponsorship Amount in accordance with its mission to promote economic circulation in communities and support verified businesses.</p>
+        <p className="mb-2">6.3 <u>Sponsor Representations</u>: Sponsor represents and warrants that its operations and business practices align with MMM's mission and values, and it is not engaged in activities that would damage MMM's reputation or conflict with its goals of economic empowerment for communities.</p>
       </section>
       
       <section className="mb-6">
@@ -132,7 +132,7 @@ const SponsorshipAgreement = () => {
         
         <div className="grid grid-cols-2 gap-8 mt-6">
           <div>
-            <p className="font-bold">MANSA MUSA MARKETPLACE INC.</p>
+            <p className="font-bold">1325.AI INC.</p>
             <p className="mt-10">By: ________________________</p>
             <p>Name: ______________________</p>
             <p>Title: _______________________</p>

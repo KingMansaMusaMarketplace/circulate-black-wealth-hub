@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="text-2xl font-bold text-mansablue">Mansa Musa</Link>
+              <Link to="/" className="text-2xl font-bold text-mansablue">1325.AI</Link>
             </div>
             
             {/* Desktop Navigation Links */}

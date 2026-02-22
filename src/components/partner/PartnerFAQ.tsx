@@ -30,7 +30,7 @@ const faqItems = [
     id: 'approval-time',
     icon: Clock,
     question: 'How long does partner approval take?',
-    answer: 'Most applications are reviewed within 24-48 hours. We verify that your directory is active and aligned with our mission of supporting Black-owned businesses. You\'ll receive an email notification once your application is approved or if we need additional information.'
+    answer: 'Most applications are reviewed within 24-48 hours. We verify that your directory is active and aligned with our mission of supporting community businesses. You\'ll receive an email notification once your application is approved or if we need additional information.'
   },
   {
     id: 'founding-partner',

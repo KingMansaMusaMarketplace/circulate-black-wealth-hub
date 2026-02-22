@@ -12,7 +12,7 @@ export const getInvestorAnalysisContent = (): string => {
       <!-- Cover Page -->
       <div style="text-align: center; padding: 60px 0; border-bottom: 3px solid #000000; margin-bottom: 40px;">
         <h1 style="font-size: 32px; color: #000000; margin-bottom: 10px; font-weight: bold;">
-          MANSA MUSA MARKETPLACE
+          1325.AI
         </h1>
         <h2 style="font-size: 24px; color: #000000; margin-bottom: 30px; font-weight: bold;">
           Billion-Dollar Business Analysis
@@ -27,15 +27,15 @@ export const getInvestorAnalysisContent = (): string => {
           EXECUTIVE SUMMARY
         </h2>
         <p style="font-size: 14px; line-height: 1.8; margin-bottom: 15px; color: #000000;">
-          Mansa Musa Marketplace is a comprehensive digital ecosystem designed to empower Black-owned businesses 
-          and strengthen economic circulation within the African American community. Named after the legendary 
+          1325.AI is a comprehensive digital ecosystem designed to empower community businesses 
+          and strengthen economic circulation. Named after the legendary 
           West African emperor known for his immense wealth and generosity, our platform embodies the spirit 
           of economic empowerment and community prosperity.
         </p>
         <div style="background: #f8f9fa; padding: 20px; border-left: 4px solid #000000; margin: 20px 0;">
           <h3 style="font-size: 16px; color: #000000; margin-bottom: 10px; font-weight: bold;">THE BILLION-DOLLAR VERDICT</h3>
           <p style="font-size: 14px; line-height: 1.6; margin: 0; color: #000000;">
-            <strong>Yes, Mansa Musa Marketplace has legitimate billion-dollar potential.</strong> The platform addresses 
+            <strong>Yes, 1325.AI has legitimate billion-dollar potential.</strong> The platform addresses 
             a $1.6 trillion market opportunity with a unique 4-sided marketplace model, comprehensive feature set, 
             and clear path to scale. With proper execution, strategic partnerships, and continued development, 
             this platform could achieve unicorn status within 5-7 years.
@@ -60,7 +60,7 @@ export const getInvestorAnalysisContent = (): string => {
             <td style="padding: 12px; text-align: right; border: 1px solid #ddd; font-weight: bold; color: #000000;">$1.6 Trillion</td>
           </tr>
           <tr style="background: #f8f9fa;">
-            <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Black-Owned Businesses in U.S.</td>
+            <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Community-Owned Businesses in U.S.</td>
             <td style="padding: 12px; text-align: right; border: 1px solid #ddd; color: #000000;">3.1 Million</td>
           </tr>
           <tr>
@@ -78,10 +78,10 @@ export const getInvestorAnalysisContent = (): string => {
           Despite significant spending power, Black communities face systemic challenges:
         </p>
         <ul style="font-size: 14px; line-height: 1.8; padding-left: 25px; margin-bottom: 20px; color: #000000;">
-          <li style="color: #000000;">Only 2% of Black consumer dollars circulate within Black communities</li>
-          <li style="color: #000000;">Black-owned businesses receive less than 1% of venture capital funding</li>
+          <li style="color: #000000;">Only 2% of community consumer dollars circulate within their communities</li>
+          <li style="color: #000000;">Community businesses receive less than 1% of venture capital funding</li>
           <li style="color: #000000;">Limited access to business tools, financing, and growth resources</li>
-          <li style="color: #000000;">Fragmented discovery of Black-owned businesses</li>
+          <li style="color: #000000;">Fragmented discovery of community businesses</li>
         </ul>
       </div>
 
@@ -299,7 +299,7 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Footer -->
       <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
-        <p style="font-size: 12px; color: #000000;">© 2025 Mansa Musa Marketplace. All rights reserved.</p>
+        <p style="font-size: 12px; color: #000000;">© 2025 1325.AI. All rights reserved.</p>
       </div>
     </div>
   `;

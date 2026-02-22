@@ -96,7 +96,7 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
             window.location.href = `/subscription?tier=${pendingSubscription}`;
           }, 1500);
         } else {
-          toast.success('Welcome to Mansa Musa! 🎉', {
+          toast.success('Welcome to 1325.AI! 🎉', {
             description: authData.session ? 'Let\'s find some businesses near you!' : 'Please check your email to verify your account.'
           });
           

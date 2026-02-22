@@ -79,7 +79,7 @@ const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVis
                     <div className="w-6 h-6 rounded-full bg-mansablue flex items-center justify-center">
                       <span className="text-white text-xs">M</span>
                     </div>
-                    <span className="ml-1 text-xs font-medium">Mansa Musa</span>
+                    <span className="ml-1 text-xs font-medium">1325.AI</span>
                   </div>
                   <div className="text-xs font-medium flex items-center">
                     <MapPin size={12} className="mr-1 text-mansablue" />

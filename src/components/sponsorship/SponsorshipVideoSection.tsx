@@ -133,7 +133,7 @@ const SponsorshipVideoSection = () => {
           
           <div className="mt-8 flex flex-col items-center">
             <p className="mb-6 text-gray-700 text-center max-w-2xl">
-              Corporate partnerships with Black businesses and marketplaces like Mansa Musa create mutual value while driving economic equity.
+              Corporate partnerships with community businesses and marketplaces like 1325.AI create mutual value while driving economic equity.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button 

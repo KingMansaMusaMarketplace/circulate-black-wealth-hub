@@ -54,7 +54,7 @@ const PrivacyPolicyPage = () => {
             </div>
             <div className="p-6">
               <p className="text-blue-200 leading-relaxed">
-                Mansa Musa Marketplace is committed to empowering Black-owned businesses and strengthening community wealth. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application and services.
+                1325.AI is committed to empowering community businesses and strengthening community wealth. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application and services.
               </p>
             </div>
           </div>
@@ -96,7 +96,7 @@ const PrivacyPolicyPage = () => {
               <div>
                 <h3 className="text-lg font-bold text-yellow-400 mb-3">Location Information & Proximity Triggers 📍</h3>
                 <p className="text-blue-200 mb-3">
-                  We use <strong className="text-white">Geofencing technology</strong> to power our Proximity Notification system, which alerts you when you're near Black-owned businesses you might be interested in.
+                  We use <strong className="text-white">Geofencing technology</strong> to power our Proximity Notification system, which alerts you when you're near community businesses you might be interested in.
                 </p>
                 <ul className="text-blue-200 space-y-2 ml-6 list-disc">
                   <li><strong className="text-white">Local Processing First:</strong> Location data is processed locally on your device whenever possible to minimize data transmission</li>
@@ -166,7 +166,7 @@ const PrivacyPolicyPage = () => {
               <div>
                 <h3 className="text-lg font-bold text-yellow-400 mb-3">AI-Powered Features</h3>
                 <p className="text-blue-200 mb-3">
-                  Mansa Musa Marketplace uses AI to enhance your experience through features including:
+                  1325.AI uses AI to enhance your experience through features including:
                 </p>
                 <ul className="text-blue-200 space-y-2 ml-6 list-disc">
                   <li><strong className="text-white">Business Recommendations:</strong> Personalized suggestions based on your preferences and activity</li>
@@ -197,7 +197,7 @@ const PrivacyPolicyPage = () => {
                   When you use our AI voice assistant "Kayla," we collect and process your voice recordings to provide conversational assistance.
                 </p>
                 <ul className="text-blue-200 space-y-2 ml-6 list-disc">
-                  <li><strong className="text-white">No Permanent Storage:</strong> Voice recordings are NOT permanently stored by Mansa Musa Marketplace</li>
+                  <li><strong className="text-white">No Permanent Storage:</strong> Voice recordings are NOT permanently stored by 1325.AI</li>
                   <li><strong className="text-white">Real-Time Processing:</strong> Audio is processed in real-time and discarded after the conversation session ends</li>
                   <li><strong className="text-white">Session Cache:</strong> Conversation transcripts may be temporarily cached in your device's session storage for context</li>
                   <li><strong className="text-white">User Control:</strong> You can clear this data by closing the app or clearing your browser/app cache</li>
@@ -260,10 +260,10 @@ const PrivacyPolicyPage = () => {
             <div className="p-6">
               <ul className="text-blue-200 space-y-2 ml-6 list-disc">
                 <li>Provide and maintain our marketplace services</li>
-                <li>Facilitate connections between customers and Black-owned businesses</li>
+                <li>Facilitate connections between customers and community businesses</li>
                 <li>Enable camera access for QR code scanning and photo uploads (only when you choose to use these features)</li>
                 <li>Process voice recordings through OpenAI's API to provide AI voice assistant "Kayla" (only when you activate this feature)</li>
-                <li>Use location data to help you discover nearby Black-owned businesses</li>
+                <li>Use location data to help you discover nearby community businesses</li>
                 <li>Send push notifications for loyalty rewards, bookings, and important updates (with your permission)</li>
                 <li>Process QR code scans and loyalty point transactions</li>
                 <li>Process subscription payments and manage subscription services</li>
@@ -317,7 +317,7 @@ const PrivacyPolicyPage = () => {
               <p className="text-blue-200">We do not sell your personal information. We may share your information only in the following circumstances:</p>
               <ul className="text-blue-200 space-y-2 ml-6 list-disc">
                 <li><strong className="text-white">With Your Consent:</strong> When you explicitly agree to share information</li>
-                <li><strong className="text-white">Business Directory:</strong> Business information is publicly displayed to help customers discover Black-owned businesses</li>
+                <li><strong className="text-white">Business Directory:</strong> Business information is publicly displayed to help customers discover community businesses</li>
                 <li><strong className="text-white">Service Providers:</strong> With trusted third-party services (like Supabase for data storage, Stripe for payments) that help us operate the app</li>
                 <li><strong className="text-white">AI Voice Processing:</strong> Voice recordings are shared with OpenAI for real-time speech recognition and AI assistant responses when you use the voice assistant feature</li>
                 <li><strong className="text-white">Payment Processors:</strong> Subscription and payment data is shared with our payment processors (Stripe, Apple, Google) as necessary to process transactions and manage subscriptions</li>
@@ -449,7 +449,7 @@ const PrivacyPolicyPage = () => {
             </div>
             <div className="p-6">
               <p className="text-blue-200 leading-relaxed">
-                As part of our mission to empower Black-owned businesses and strengthen economic communities, we are committed to maintaining your trust through transparent and responsible data practices. Your privacy is essential to achieving our shared goals of economic empowerment and community building.
+                As part of our mission to empower community businesses and strengthen economic communities, we are committed to maintaining your trust through transparent and responsible data practices. Your privacy is essential to achieving our shared goals of economic empowerment and community building.
               </p>
             </div>
           </div>

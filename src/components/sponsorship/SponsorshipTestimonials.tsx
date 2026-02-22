@@ -13,7 +13,7 @@ const SponsorshipTestimonials = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">What Our Sponsors Say</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Learn how corporate partnerships with Mansa Musa Marketplace have created value for these organizations.
+            Learn how corporate partnerships with 1325.AI have created value for these organizations.
           </p>
         </div>
         

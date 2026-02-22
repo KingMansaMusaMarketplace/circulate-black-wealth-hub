@@ -42,7 +42,7 @@ const InteractiveDemo = () => {
             See How It Works
           </h2>
           <p className="text-xl sm:text-2xl font-semibold text-white max-w-3xl mx-auto mb-6 animate-fade-in">
-            Experience the Mansa Musa Marketplace through our interactive demo
+            Experience the 1325.AI platform through our interactive demo
           </p>
           
           {/* Interactive Controls Info */}

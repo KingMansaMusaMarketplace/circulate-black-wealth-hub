@@ -28,7 +28,7 @@ const GettingStartedFAQ = () => {
                   <li>Check the box if you're an HBCU member for special benefits</li>
                   <li>Click "Create Account" and verify your email</li>
                 </ol>
-                <p>Once verified, you can start exploring Black-owned businesses and earning loyalty points!</p>
+                <p>Once verified, you can start exploring community businesses and earning loyalty points!</p>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -55,7 +55,7 @@ const GettingStartedFAQ = () => {
             <AccordionTrigger>How do loyalty points work?</AccordionTrigger>
             <AccordionContent>
               <div className="space-y-3 text-gray-600">
-                <p>Our loyalty system rewards you for supporting Black-owned businesses:</p>
+                <p>Our loyalty system rewards you for supporting community businesses:</p>
                 <ul className="list-disc ml-6 space-y-2">
                   <li><strong>Earn Points:</strong> Scan QR codes at participating businesses to earn points</li>
                   <li><strong>Point Values:</strong> Each business sets their own point rewards (typically 10-100 points per visit)</li>

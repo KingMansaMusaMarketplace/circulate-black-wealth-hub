@@ -31,7 +31,7 @@ const successStories = [
     name: "Denise Carter",
     business: "Sankofa Wellness",
     location: "Chicago, IL",
-    testimonial: "Before Mansa Musa Marketplace, I struggled with customer retention. Now my clients are part of a loyalty ecosystem that keeps them coming back.",
+    testimonial: "Before 1325.AI, I struggled with customer retention. Now my clients are part of a loyalty ecosystem that keeps them coming back.",
     image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     impact: "78% increased retention",
     category: "Health & Wellness",
