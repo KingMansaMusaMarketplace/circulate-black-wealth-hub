@@ -3,8 +3,6 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Car, MapPin, Navigation, Shield, Star, ArrowRight, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/Footer';
 import { businesses } from '@/data/businessesData';
 
 const UBER_DEEPLINK = (lat: number, lng: number, name: string) =>
@@ -26,7 +24,6 @@ const steps = [
 const NoirLandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar />
 
       {/* Hero */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
@@ -225,7 +222,6 @@ const NoirLandingPage: React.FC = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };
