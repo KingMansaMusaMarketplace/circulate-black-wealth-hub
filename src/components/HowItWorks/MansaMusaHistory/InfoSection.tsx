@@ -7,14 +7,14 @@ const InfoSection = () => {
     <div className="space-y-6">
       <InfoCard 
         title="Our Inspiration"
-        content="Mansa Musa Marketplace draws inspiration from this legacy of economic power coupled with community reinvestment. Just as Mansa Musa's wealth strengthened his empire, we believe the collective economic power of our communities can be harnessed to build generational wealth and opportunity."
+        content="1325.AI draws inspiration from this legacy of economic power coupled with community reinvestment. Just as Mansa Musa's wealth strengthened his empire, we believe the collective economic power of our communities can be harnessed to build generational wealth and opportunity."
         borderColor="yellow-400"
         titleColor="yellow-400"
       />
       
       <InfoCard 
         title="Our Mission"
-        content="We're creating modern infrastructure for wealth circulation within our communities. By connecting consumers with community businesses and providing tools for sustained engagement, we're enabling the &quot;Mansa Musa Effect&quot; — where dollars circulate longer, creating prosperity that benefits everyone."
+        content="We're creating modern infrastructure for wealth circulation within our communities. By connecting consumers with great businesses and providing tools for sustained engagement, we're enabling the &quot;Circulation Effect&quot; — where dollars circulate longer, creating prosperity that benefits everyone."
         borderColor="blue-400"
         titleColor="yellow-400"
       />

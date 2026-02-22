@@ -88,7 +88,7 @@ const CommunityWideImpact: React.FC<CommunityWideImpactProps> = ({
                   {formatNumber(communityMetrics?.total_businesses || 0)}
                 </div>
               </div>
-              <div className="text-sm font-semibold text-blue-200 mb-1">Black-Owned Businesses</div>
+              <div className="text-sm font-semibold text-blue-200 mb-1">Verified Businesses</div>
               <div className="text-xs text-blue-300">supported by our community</div>
             </motion.div>
             

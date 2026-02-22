@@ -31,8 +31,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
         
         <p className="text-base text-blue-200 max-w-2xl mx-auto leading-relaxed mb-4">
           {user 
-            ? 'See how your support of Black-owned businesses creates real wealth circulation and job opportunities in our community'
-            : 'Discover the collective impact of supporting Black-owned businesses in building community wealth and economic empowerment'
+            ? 'See how your support of community businesses creates real wealth circulation and job opportunities'
+            : 'Discover the collective impact of supporting community businesses in building wealth and economic empowerment'
           }
         </p>
         

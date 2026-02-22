@@ -107,7 +107,7 @@ const EnhancedSignupForm: React.FC = () => {
             <div className="space-y-4">
               <h3 className="text-3xl font-bold bg-gradient-to-r from-mansablue via-mansablue-light to-mansagold bg-clip-text text-transparent group-hover:scale-105 transition-all duration-300">I'm a Customer</h3>
               <p className="text-foreground/80 text-base leading-relaxed px-2 font-medium">
-                Support Black-owned businesses, earn rewards, and discover amazing local spots 🎁
+                Discover great businesses, earn rewards, and find amazing local spots 🎁
               </p>
             </div>
             <div className="pt-4">

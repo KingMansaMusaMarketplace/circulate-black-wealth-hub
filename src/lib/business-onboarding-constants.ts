@@ -16,10 +16,10 @@ export const BUSINESS_ONBOARDING_STEPS: BusinessOnboardingStep[] = [
   {
     id: 'welcome-business',
     title: 'Welcome to Your Business Dashboard!',
-    description: 'Get your Black-owned business discovered by thousands of potential customers in your community.',
+    description: 'Get your business discovered by thousands of potential customers in your community.',
     illustration: Store,
     features: [
-      'Reach customers actively looking for Black-owned businesses',
+      'Reach customers actively looking for great businesses',
       'Build a loyal customer base with our rewards system',
       'Get verified to boost your credibility and visibility',
       'Track customer engagement with detailed analytics'

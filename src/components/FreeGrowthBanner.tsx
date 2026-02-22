@@ -209,7 +209,7 @@ const FreeGrowthBanner = () => {
                 <Target className="h-6 w-6 text-yellow-400" />
               </div>
               <h4 className="text-xl font-semibold mb-2 text-white">Business Signups</h4>
-              <p className="text-blue-200">Growing our network of Black-owned businesses</p>
+              <p className="text-blue-200">Growing our network of verified businesses</p>
             </div>
 
             <div className="text-center">

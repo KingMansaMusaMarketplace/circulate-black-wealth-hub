@@ -204,7 +204,7 @@ const RewardsPage = () => {
     <>
       <Helmet>
         <title>Rewards & Points | Mansa Musa Marketplace</title>
-        <meta name="description" content="Earn and redeem points for supporting Black-owned businesses" />
+        <meta name="description" content="Earn and redeem points for supporting community businesses" />
       </Helmet>
 
       <div className="min-h-screen bg-background">
@@ -222,7 +222,7 @@ const RewardsPage = () => {
                 Rewards & Points 🎁
               </h1>
               <p className="text-xl text-white/90 max-w-2xl mx-auto font-medium">
-                Earn points by making purchases at Black-owned businesses and redeem for exclusive rewards on products and services ✨
+                Earn points by making purchases at community businesses and redeem for exclusive rewards on products and services ✨
               </p>
             </div>
 

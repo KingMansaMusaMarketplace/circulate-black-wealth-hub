@@ -16,7 +16,7 @@ export default function B2BMarketplacePage() {
         <title>B2B Marketplace | MansaMusa</title>
         <meta 
           name="description" 
-          content="Connect Black-owned businesses with each other. Find suppliers, post needs, and keep money circulating in our community." 
+          content="Connect community businesses with each other. Find suppliers, post needs, and keep money circulating in our community." 
         />
       </Helmet>
 

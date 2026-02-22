@@ -159,7 +159,7 @@ export function B2BMarketplace() {
                 Expand Search to Web
               </Label>
               <p className="text-xs text-slate-400 mt-0.5">
-                Use AI to discover Black-owned suppliers beyond our platform
+                Use AI to discover verified suppliers beyond our platform
               </p>
             </div>
           </div>
@@ -221,7 +221,7 @@ export function B2BMarketplace() {
             <div className="flex items-center justify-center py-12 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-blue-500/10">
               <div className="text-center">
                 <Loader2 className="h-8 w-8 animate-spin text-blue-400 mx-auto mb-3" />
-                <p className="text-slate-300">Searching the web for Black-owned suppliers...</p>
+                <p className="text-slate-300">Searching the web for verified suppliers...</p>
                 <p className="text-xs text-slate-500 mt-1">Powered by Perplexity AI</p>
               </div>
             </div>

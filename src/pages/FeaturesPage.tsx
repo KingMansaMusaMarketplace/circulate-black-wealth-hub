@@ -9,8 +9,8 @@ const FeaturesPage = () => {
   const howItWorksSteps = [
     {
       icon: Users,
-      title: "Discover Black-Owned Businesses",
-      description: "Browse our curated directory of verified Black-owned businesses in your area",
+      title: "Discover Great Businesses",
+      description: "Browse our curated directory of verified businesses in your area",
     },
     {
       icon: Smartphone,
@@ -25,7 +25,7 @@ const FeaturesPage = () => {
     {
       icon: Zap,
       title: "Track Your Impact",
-      description: "See your contribution to circulating Black wealth and supporting local businesses",
+      description: "See your contribution to community wealth circulation and supporting local businesses",
     },
   ];
 
@@ -49,7 +49,7 @@ const FeaturesPage = () => {
 
       <Helmet>
         <title>Features - Mansa Musa Marketplace</title>
-        <meta name="description" content="Discover the powerful features that make Mansa Musa Marketplace the premier platform for supporting Black-owned businesses." />
+        <meta name="description" content="Discover the powerful features that make Mansa Musa Marketplace the premier platform for supporting community businesses." />
       </Helmet>
 
       {/* Hero Section */}
@@ -122,7 +122,7 @@ const FeaturesPage = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
-              Discover the tools and features that make supporting Black-owned businesses easier than ever
+              Discover the tools and features that make supporting great businesses easier than ever
             </motion.p>
           </motion.div>
         </div>

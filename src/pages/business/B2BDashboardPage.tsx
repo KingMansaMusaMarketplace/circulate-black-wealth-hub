@@ -140,7 +140,7 @@ export default function B2BDashboardPage() {
     <>
       <Helmet>
         <title>B2B Dashboard | MansaMusa</title>
-        <meta name="description" content="Manage your B2B listings, capabilities, and connections with other Black-owned businesses." />
+        <meta name="description" content="Manage your B2B listings, capabilities, and connections with other community businesses." />
       </Helmet>
 
       <div className="dark min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">

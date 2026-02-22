@@ -4,7 +4,7 @@ export const getImpactReportContent = (): string => {
     <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #000000;">
       <div style="text-align: center; margin-bottom: 40px;">
         <h1 style="color: #000000; font-size: 36px; margin-bottom: 10px; font-weight: bold;">Community Impact Report</h1>
-        <h2 style="color: #000000; font-size: 24px; margin-bottom: 20px; font-weight: bold;">Mansa Musa Marketplace</h2>
+        <h2 style="color: #000000; font-size: 24px; margin-bottom: 20px; font-weight: bold;">1325.AI</h2>
         <p style="font-size: 18px; color: #000000;">Q4 2024 Impact Metrics & Success Stories</p>
       </div>
 
@@ -14,12 +14,12 @@ export const getImpactReportContent = (): string => {
           <div style="padding: 20px; background-color: #f3f4f6; border-radius: 8px; text-align: center;">
             <h4 style="color: #000000; font-size: 32px; margin: 0; font-weight: bold;">$2.4M</h4>
             <p style="margin: 8px 0; font-weight: bold; font-size: 16px; color: #000000;">Economic Circulation</p>
-            <p style="font-size: 15px; color: #000000; line-height: 1.5;">Total dollars circulated through Black businesses</p>
+            <p style="font-size: 15px; color: #000000; line-height: 1.5;">Total dollars circulated through community businesses</p>
           </div>
           <div style="padding: 20px; background-color: #f3f4f6; border-radius: 8px; text-align: center;">
             <h4 style="color: #000000; font-size: 32px; margin: 0; font-weight: bold;">2,500+</h4>
             <p style="margin: 8px 0; font-weight: bold; font-size: 16px; color: #000000;">Businesses Supported</p>
-            <p style="font-size: 15px; color: #000000; line-height: 1.5;">Black-owned businesses on our platform</p>
+            <p style="font-size: 15px; color: #000000; line-height: 1.5;">Community businesses on our platform</p>
           </div>
         </div>
       </div>
