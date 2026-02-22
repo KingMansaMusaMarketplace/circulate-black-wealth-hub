@@ -27,7 +27,7 @@ const featuredDestinations = businesses
 
 const steps = [
   { icon: MapPin, title: 'Enter Your Destination', description: 'Type an address or pick a Black-owned business from our directory.' },
-  { icon: Car, title: 'Get Matched', description: 'We connect you with a nearby Noir driver. No surge pricing games.' },
+  { icon: Car, title: 'Get Matched', description: 'We connect you with a nearby Noire driver. No surge pricing games.' },
   { icon: Navigation, title: 'Ride and Save', description: 'Pay less than the big apps. Your driver takes home 80% of the fare.' },
 ];
 
@@ -39,17 +39,17 @@ const stats = [
 ];
 
 const faqs = [
-  { q: 'How is Noir different from Uber/Lyft?', a: 'Noir takes only 20% — compared to Uber\'s 25-50% and Lyft\'s 25-40%. Your driver keeps 80% of every fare. Plus, we\'re deeply integrated with the 1325.AI ecosystem, routing riders to community businesses.' },
-  { q: 'Is Noir available in my city?', a: 'We\'re launching in Chicago, Atlanta, Houston, DC, Detroit, NYC, and LA first. We\'re building the driver network now — sign up to drive or request early access for your city.' },
+  { q: 'How is Noire different from Uber/Lyft?', a: 'Noire takes only 20% — compared to Uber\'s 25-50% and Lyft\'s 25-40%. Your driver keeps 80% of every fare. Plus, we\'re deeply integrated with the 1325.AI ecosystem, routing riders to community businesses.' },
+  { q: 'Is Noire available in my city?', a: 'We\'re launching in Chicago, Atlanta, Houston, DC, Detroit, NYC, and LA first. We\'re building the driver network now — sign up to drive or request early access for your city.' },
   { q: 'How does pricing work?', a: 'Our base fare is $2.50 + $1.25/mile + $0.20/min. No surge pricing ever. What you see is what you pay.' },
   { q: 'Can I schedule rides in advance?', a: 'Scheduled rides are coming in Phase 2. Right now, we connect you to available drivers in real-time or deeplink to partner ride-share apps.' },
-  { q: 'How do I become a Noir driver?', a: 'Fill out the driver application below. You\'ll need a valid license, insurance, a vehicle 2015 or newer, and pass a background check. We\'re onboarding drivers in waves.' },
+  { q: 'How do I become a Noire driver?', a: 'Fill out the driver application below. You\'ll need a valid license, insurance, a vehicle 2015 or newer, and pass a background check. We\'re onboarding drivers in waves.' },
 ];
 
 const testimonials = [
   { name: 'Marcus J.', city: 'Chicago', text: 'Finally a ride-share that doesn\'t gouge me on pricing. And knowing my driver keeps 80%? That matters.', rating: 5 },
-  { name: 'Aisha T.', city: 'Atlanta', text: 'I love that Noir routes me to Black-owned businesses. Got dropped off at a restaurant I never knew existed. Amazing food.', rating: 5 },
-  { name: 'Devon R.', city: 'Houston', text: 'As a driver, switching to Noir was a no-brainer. I make $200 more per week on the same number of rides.', rating: 5 },
+  { name: 'Aisha T.', city: 'Atlanta', text: 'I love that Noire routes me to Black-owned businesses. Got dropped off at a restaurant I never knew existed. Amazing food.', rating: 5 },
+  { name: 'Devon R.', city: 'Houston', text: 'As a driver, switching to Noire was a no-brainer. I make $200 more per week on the same number of rides.', rating: 5 },
 ];
 
 const NoirLandingPage: React.FC = () => {
@@ -93,7 +93,7 @@ const NoirLandingPage: React.FC = () => {
             transition={{ duration: 0.7 }}
           >
             <div className="flex items-center justify-center mb-6">
-              <img src={noirLogo} alt="Noir Rideshare" className="h-64 md:h-96 w-auto brightness-150 contrast-125 drop-shadow-[0_0_60px_rgba(255,193,7,0.5)]" />
+              <img src={noirLogo} alt="Noire Rideshare" className="h-64 md:h-96 w-auto brightness-150 contrast-125 drop-shadow-[0_0_60px_rgba(255,193,7,0.5)]" />
             </div>
 
             <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-3 leading-relaxed">
@@ -149,7 +149,7 @@ const NoirLandingPage: React.FC = () => {
                     className="mt-5 p-4 bg-mansagold/10 border border-mansagold/20 rounded-2xl"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-white/70 text-sm">Estimated Noir Fare</span>
+                      <span className="text-white/70 text-sm">Estimated Noire Fare</span>
                       <span className="text-3xl font-bold text-mansagold">${estimatedFare.toFixed(2)}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm text-white/40 mb-4">
@@ -237,7 +237,7 @@ const NoirLandingPage: React.FC = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold text-center mb-4"
           >
-            How <span className="text-mansagold">Noir</span> Works
+            How <span className="text-mansagold">Noire</span> Works
           </motion.h2>
           <p className="text-white/50 text-center max-w-lg mx-auto mb-14">
             Three steps to a better ride experience — for riders and drivers.
@@ -299,7 +299,7 @@ const NoirLandingPage: React.FC = () => {
               <Card className="bg-mansagold/10 border-mansagold/30 h-full">
                 <CardHeader className="text-center pb-2">
                   <Car className="h-10 w-10 text-mansagold mx-auto mb-2" />
-                  <CardTitle className="text-2xl text-mansagold">Noir</CardTitle>
+                  <CardTitle className="text-2xl text-mansagold">Noire</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center space-y-4">
                   <div>
@@ -528,7 +528,7 @@ const NoirLandingPage: React.FC = () => {
                 Safety is <span className="text-mansagold">Non-Negotiable</span>
               </h2>
               <p className="text-white/60 leading-relaxed mb-6">
-                Every Noir driver undergoes a comprehensive background check, vehicle inspection,
+                Every Noire driver undergoes a comprehensive background check, vehicle inspection,
                 and community verification. We don't cut corners on safety — ever.
               </p>
               <ul className="space-y-3">
@@ -556,7 +556,7 @@ const NoirLandingPage: React.FC = () => {
             >
               <div className="relative">
                 <div className="w-64 h-64 bg-mansagold/10 rounded-full flex items-center justify-center border border-mansagold/20">
-                  <img src={earthImage} alt="Global Noir Network" className="w-40 h-40 rounded-full drop-shadow-[0_0_30px_rgba(255,193,7,0.3)]" />
+                  <img src={earthImage} alt="Global Noire Network" className="w-40 h-40 rounded-full drop-shadow-[0_0_30px_rgba(255,193,7,0.3)]" />
                 </div>
                 <div className="absolute -top-4 -right-4 bg-emerald-500/20 border border-emerald-500/30 rounded-xl px-3 py-1 text-emerald-400 text-xs font-mono">
                   Live Tracking
@@ -582,7 +582,7 @@ const NoirLandingPage: React.FC = () => {
             <Award className="h-12 w-12 text-mansagold mx-auto mb-4" />
             <h2 className="text-3xl md:text-5xl font-bold mb-3">
               Tired of the 50% Take-Rate?{' '}
-              <span className="text-mansagold">Switch to Noir.</span>
+              <span className="text-mansagold">Switch to Noire.</span>
             </h2>
             <p className="text-xl text-white/60 max-w-2xl mx-auto">
               Your skills. Your car. Your clients. We just take 20% — flat, transparent, always.
@@ -605,7 +605,7 @@ const NoirLandingPage: React.FC = () => {
                   <span className="text-white font-mono font-bold text-lg">$50.00</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/60">Noir Fee (20%)</span>
+                  <span className="text-white/60">Noire Fee (20%)</span>
                   <span className="text-white/40 font-mono">−$10.00</span>
                 </div>
                 <div className="h-px bg-mansagold/20" />
@@ -679,7 +679,7 @@ const NoirLandingPage: React.FC = () => {
                 </ul>
               </div>
               <div className="text-center">
-                <div className="text-mansagold text-xs font-mono uppercase tracking-wider mb-2">Noir Travel</div>
+                <div className="text-mansagold text-xs font-mono uppercase tracking-wider mb-2">Noire Travel</div>
                 <ul className="space-y-2 text-sm text-white/80">
                   <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> Flat 20% — you keep 80%</li>
                   <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> Full fare breakdown before every trip</li>
