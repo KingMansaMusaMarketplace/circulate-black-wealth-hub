@@ -81,8 +81,8 @@ const handler = async (req: Request): Promise<Response> => {
           
           <div style="background: #f5f5f5; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; border: 1px solid #e5e5e5; border-top: none;">
             <p style="margin: 0; font-size: 12px; color: #666;">
-              Mansa Musa Marketplace<br>
-              <a href="https://mansamusamarketplace.com" style="color: #1B365D;">mansamusamarketplace.com</a>
+              1325.AI<br>
+              <a href="https://1325.ai" style="color: #1B365D;">1325.ai</a>
             </p>
           </div>
         </body>

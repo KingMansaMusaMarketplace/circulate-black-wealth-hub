@@ -60,8 +60,8 @@ export const siteConfig = {
   
   // App info
   app: {
-    iosUrl: 'https://apps.apple.com/app/mansa-musa-marketplace',
-    androidUrl: 'https://play.google.com/store/apps/details?id=com.mansamusa',
+    iosUrl: 'https://apps.apple.com/app/1325-ai',
+    androidUrl: 'https://play.google.com/store/apps/details?id=com.1325ai',
   }
 } as const;
 
