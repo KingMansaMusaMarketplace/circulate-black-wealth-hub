@@ -154,7 +154,7 @@ const AIAgentDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-background p-6">
       <Helmet>
-        <title>AI Agent Dashboard | Mansa Musa Marketplace</title>
+        <title>AI Agent Dashboard | 1325.AI</title>
       </Helmet>
 
       <div className="max-w-7xl mx-auto space-y-6">

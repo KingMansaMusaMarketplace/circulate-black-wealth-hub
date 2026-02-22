@@ -95,7 +95,7 @@ const Dashboard: React.FC = () => {
           <Card className="hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer bg-slate-800/60 backdrop-blur-xl border border-white/10">
             <CardHeader>
               <CardTitle className="text-lg bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Scan QR Code</CardTitle>
-              <CardDescription className="text-blue-200/70">Earn points at Black-owned businesses</CardDescription>
+              <CardDescription className="text-blue-200/70">Earn points at verified businesses</CardDescription>
             </CardHeader>
             <CardContent>
               <Button className="w-full bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansablue-dark hover:to-blue-700 text-white">
@@ -110,7 +110,7 @@ const Dashboard: React.FC = () => {
           <Card className="hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer bg-slate-800/60 backdrop-blur-xl border border-white/10">
             <CardHeader>
               <CardTitle className="text-lg bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Find Businesses</CardTitle>
-              <CardDescription className="text-blue-200/70">Discover nearby Black-owned businesses</CardDescription>
+              <CardDescription className="text-blue-200/70">Discover nearby verified businesses</CardDescription>
             </CardHeader>
             <CardContent>
               <Button className="w-full bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansablue-dark hover:to-blue-700 text-white">

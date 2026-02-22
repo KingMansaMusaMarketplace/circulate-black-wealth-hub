@@ -22,8 +22,8 @@ const CustomerSignupPage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col justify-center py-12">
       <Helmet>
-        <title>Customer Sign Up | Mansa Musa Marketplace</title>
-        <meta name="description" content="Create a customer account on Mansa Musa Marketplace" />
+        <title>Customer Sign Up | 1325.AI</title>
+        <meta name="description" content="Create a customer account on 1325.AI" />
       </Helmet>
 
       {/* Animated Background */}

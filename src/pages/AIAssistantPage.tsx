@@ -5,7 +5,7 @@ export default function AIAssistantPage() {
   return (
     <div className="min-h-screen gradient-primary p-6 relative overflow-hidden">
       <Helmet>
-        <title>AI Assistant | Mansa Musa Marketplace</title>
+        <title>AI Assistant | 1325.AI</title>
       </Helmet>
 
       {/* Animated gradient orbs */}

@@ -59,7 +59,7 @@ const PaymentSuccessPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Payment Successful - Mansa Musa Marketplace</title>
+        <title>Payment Successful - 1325.AI</title>
       </Helmet>
 
       <div className="dark min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a1628] via-[#1a1f3c] to-[#0d2847] p-4 relative overflow-hidden">

@@ -103,7 +103,7 @@ const SignupSuccessPage = () => {
           </div>
           
           <h1 className="text-2xl font-bold text-center text-gray-800 mb-2">
-            Welcome to Mansa Musa Marketplace!
+            Welcome to 1325.AI!
           </h1>
           
           {/* Founding Member Badge for users who signed up during free period */}

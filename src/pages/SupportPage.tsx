@@ -120,9 +120,9 @@ const SupportPage = () => {
   return (
     <>
       <Helmet>
-        <title>Support Center - Mansa Musa Marketplace</title>
-        <meta name="description" content="Get help with Mansa Musa Marketplace. Contact our support team, browse FAQs, and find solutions to common issues." />
-        <link rel="canonical" href="https://mansamusamarketplace.com/support" />
+        <title>Support Center - 1325.AI</title>
+        <meta name="description" content="Get help with 1325.AI. Contact our support team, browse FAQs, and find solutions to common issues." />
+        <link rel="canonical" href="https://1325.ai/support" />
       </Helmet>
       
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">

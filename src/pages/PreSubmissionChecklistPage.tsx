@@ -118,7 +118,7 @@ const PreSubmissionChecklistPage: React.FC = () => {
       </div>
 
       <Helmet>
-        <title>Pre-Submission Checklist | Mansa Musa Marketplace</title>
+        <title>Pre-Submission Checklist | 1325.AI</title>
         <meta name="description" content="Final checklist before Apple App Store submission" />
       </Helmet>
 

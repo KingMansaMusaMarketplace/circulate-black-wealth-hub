@@ -64,7 +64,7 @@ export const getInvestorAnalysisContent = (): string => {
             <td style="padding: 12px; text-align: right; border: 1px solid #ddd; color: #000000;">3.1 Million</td>
           </tr>
           <tr>
-            <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Average Annual Revenue per Black Business</td>
+            <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Average Annual Revenue per Community Business</td>
             <td style="padding: 12px; text-align: right; border: 1px solid #ddd; color: #000000;">$142,000</td>
           </tr>
           <tr style="background: #f8f9fa;">
@@ -283,7 +283,7 @@ export const getInvestorAnalysisContent = (): string => {
             <strong>Funding & Resources:</strong> Raise capital to accelerate growth, expand team, and scale marketing efforts.
           </li>
           <li style="margin-bottom: 15px; color: #000000;">
-            <strong>Community Engagement:</strong> Build authentic relationships with Black business owners and community leaders.
+            <strong>Community Engagement:</strong> Build authentic relationships with community business owners and leaders.
           </li>
         </ol>
       </div>

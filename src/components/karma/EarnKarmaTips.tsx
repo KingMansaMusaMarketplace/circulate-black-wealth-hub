@@ -27,7 +27,7 @@ const tips: KarmaTip[] = [
   {
     icon: ShoppingBag,
     title: 'Shop at Partner Businesses',
-    description: 'Make purchases at Black-owned businesses in our directory',
+    description: 'Make purchases at verified businesses in our directory',
     points: '+5-10 karma',
     action: 'Explore Businesses',
     link: '/directory',

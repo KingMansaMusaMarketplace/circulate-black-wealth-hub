@@ -28,7 +28,7 @@ const QRCodeScannerV2Page: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Helmet>
-        <title>QR Scanner | Mansa Musa Marketplace</title>
+        <title>QR Scanner | 1325.AI</title>
         <meta name="description" content="Scan QR codes to earn loyalty points or access special offers" />
       </Helmet>
 

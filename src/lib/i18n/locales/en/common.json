@@ -1,8 +1,8 @@
 {
   "app": {
-    "name": "Mansa Musa Marketplace",
-    "tagline": "Circulate Black Wealth",
-    "description": "The Economic Operating System for Black wealth circulation"
+    "name": "1325.AI",
+    "tagline": "Circulate Community Wealth",
+    "description": "The Economic Operating System for community wealth circulation"
   },
   "nav": {
     "home": "Home",
@@ -51,7 +51,7 @@
     "sessionExpired": "Your session has expired. Please log in again."
   },
   "footer": {
-    "copyright": "© {{year}} Mansa Musa Marketplace. All rights reserved.",
+    "copyright": "© {{year}} 1325.AI. All rights reserved.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "cookiePolicy": "Cookie Policy"

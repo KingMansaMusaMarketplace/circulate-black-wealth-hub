@@ -14,8 +14,8 @@ const PrivacyPolicyPage = () => {
       </div>
 
       <Helmet>
-        <title>Privacy Policy | Mansa Musa Marketplace</title>
-        <meta name="description" content="Privacy Policy for Mansa Musa Marketplace - Learn how we collect, use, and protect your data." />
+        <title>Privacy Policy | 1325.AI</title>
+        <meta name="description" content="Privacy Policy for 1325.AI - Learn how we collect, use, and protect your data." />
       </Helmet>
 
       {/* Hero Section */}

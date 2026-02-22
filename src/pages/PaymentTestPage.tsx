@@ -17,7 +17,7 @@ const PaymentTestPage: React.FC = () => {
   return (
     <div className="dark min-h-screen bg-gradient-to-br from-[#0a1628] via-[#1a1f3c] to-[#0d2847] relative overflow-hidden">
       <Helmet>
-        <title>Payment Test | Mansa Musa Marketplace</title>
+        <title>Payment Test | 1325.AI</title>
       </Helmet>
 
       {/* Animated gradient orbs */}

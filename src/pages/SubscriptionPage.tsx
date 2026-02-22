@@ -78,7 +78,7 @@ const SubscriptionPage: React.FC = () => {
 
         <div className="relative z-10">
           <Helmet>
-            <title>Subscription | Mansa Musa Marketplace</title>
+            <title>Subscription | 1325.AI</title>
           </Helmet>
 
           <div className="container mx-auto px-4 py-16">
@@ -220,7 +220,7 @@ const SubscriptionPage: React.FC = () => {
       </div>
       
       <Helmet>
-        <title>Subscription Plans | Mansa Musa Marketplace</title>
+        <title>Subscription Plans | 1325.AI</title>
       </Helmet>
 
       <IOSPaymentBlocker>

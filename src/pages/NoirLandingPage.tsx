@@ -55,7 +55,7 @@ const NoirLandingPage: React.FC = () => {
             </p>
 
             <p className="text-sm font-mono text-mansagold/60 tracking-widest uppercase mb-8">
-              Powered by Mansa Musa Marketplace
+              Powered by 1325.AI
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

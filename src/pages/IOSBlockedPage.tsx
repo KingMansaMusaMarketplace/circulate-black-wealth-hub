@@ -11,7 +11,7 @@ const IOSBlockedPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Feature Not Available on iOS | Mansa Musa Marketplace</title>
+        <title>Feature Not Available on iOS | 1325.AI</title>
         <meta name="description" content="This feature is not available on the iOS app." />
       </Helmet>
       

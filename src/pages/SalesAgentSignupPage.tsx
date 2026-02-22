@@ -34,8 +34,8 @@ const SalesAgentSignupPage: React.FC = () => {
   return (
     <ResponsiveLayout title="Sales Agent Application">
       <Helmet>
-        <title>Become a Sales Agent | Mansa Musa Marketplace</title>
-        <meta name="description" content="Apply to become a sales agent for Mansa Musa Marketplace" />
+        <title>Become a Sales Agent | 1325.AI</title>
+        <meta name="description" content="Apply to become a sales agent for 1325.AI" />
       </Helmet>
       
       {/* Modern Navy/Gold Background with Animated Orbs */}

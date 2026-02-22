@@ -32,7 +32,7 @@ const QRCodeGeneratorPage = () => {
   return (
     <>
       <Helmet>
-        <title>QR Code Generator | Mansa Musa Marketplace</title>
+        <title>QR Code Generator | 1325.AI</title>
         <meta name="description" content="Generate and manage QR codes for your business" />
       </Helmet>
       

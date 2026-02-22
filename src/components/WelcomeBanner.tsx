@@ -8,7 +8,7 @@ interface WelcomeBannerProps {
   siteUrl?: string;
 }
 
-const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ siteUrl = "Mansa Musa Marketplace" }) => {
+const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ siteUrl = "1325.AI" }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ siteUrl = "Mansa Musa Mar
   const handleJoinCommunity = () => {
     handleDismiss();
     toast("Welcome to our community!", {
-      description: "Thank you for joining our mission to build Black economic wealth!",
+      description: "Thank you for joining our mission to build community economic wealth!",
     });
   };
 
@@ -48,7 +48,7 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ siteUrl = "Mansa Musa Mar
               Welcome to {siteUrl}!
             </h3>
             <p className="text-gray-600 mb-4">
-              Join our growing community dedicated to circulating Black wealth and building economic legacy. 
+              Join our growing community dedicated to circulating wealth and building economic legacy. 
               Together, we're creating sustainable prosperity for generations to come.
             </p>
             <div className="flex flex-wrap gap-2">

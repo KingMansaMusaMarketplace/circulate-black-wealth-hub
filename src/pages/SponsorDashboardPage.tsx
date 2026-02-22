@@ -76,7 +76,7 @@ export default function SponsorDashboardPage() {
         </div>
       <ResponsiveLayout useSubtleBackground={false} className="!bg-transparent">
         <Helmet>
-          <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
+          <title>Sponsor Dashboard | 1325.AI</title>
         </Helmet>
         <div className="max-w-4xl mx-auto py-8 px-4 relative z-10">
             <Button
@@ -122,7 +122,7 @@ export default function SponsorDashboardPage() {
 
       <ResponsiveLayout useSubtleBackground={false} className="!bg-transparent">
         <Helmet>
-          <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
+          <title>Sponsor Dashboard | 1325.AI</title>
           <meta name="description" content="Manage your corporate sponsorship" />
         </Helmet>
 

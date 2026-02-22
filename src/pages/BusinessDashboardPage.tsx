@@ -58,7 +58,7 @@ const BusinessDashboardPage = () => {
   return (
     <>
       <Helmet>
-        <title>Business Dashboard | Mansa Musa Marketplace</title>
+        <title>Business Dashboard | 1325.AI</title>
         <meta name="description" content="Manage your business profile, analytics, and engagement tools" />
       </Helmet>
       

@@ -15,7 +15,7 @@ const AppleComplianceTestPage: React.FC = () => {
       </div>
 
       <Helmet>
-        <title>Apple App Store Compliance Test | Mansa Musa Marketplace</title>
+        <title>Apple App Store Compliance Test | 1325.AI</title>
         <meta name="description" content="iOS App Store submission compliance testing" />
       </Helmet>
 

@@ -62,8 +62,8 @@ const BusinessesPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-amber-50 relative overflow-hidden">
       <Helmet>
-        <title>All Businesses | Mansa Musa Marketplace</title>
-        <meta name="description" content="Browse all Black-owned businesses in the Mansa Musa Marketplace" />
+        <title>All Businesses | 1325.AI</title>
+        <meta name="description" content="Browse all verified businesses on 1325.AI" />
       </Helmet>
       
       {/* Animated background elements */}

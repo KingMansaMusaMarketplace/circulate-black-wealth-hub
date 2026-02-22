@@ -203,7 +203,7 @@ const RewardsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Rewards & Points | Mansa Musa Marketplace</title>
+        <title>Rewards & Points | 1325.AI</title>
         <meta name="description" content="Earn and redeem points for supporting community businesses" />
       </Helmet>
 

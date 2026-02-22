@@ -272,7 +272,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         new Paragraph({
           children: [
             new TextRun({ text: "5. Community Engagement: ", bold: true, size: 24 }),
-            new TextRun({ text: "Build authentic relationships with Black business owners", size: 24 }),
+            new TextRun({ text: "Build authentic relationships with community business owners", size: 24 }),
           ],
           spacing: { after: 400 },
         }),
@@ -359,10 +359,10 @@ function createMarketTable(): Table {
     width: { size: 100, type: WidthType.PERCENTAGE },
     rows: [
       createTableRow(["Market Segment", "Value"], true),
-      createTableRow(["Black Consumer Spending Power (Annual)", "$1.6 Trillion"]),
-      createTableRow(["Black-Owned Businesses in U.S.", "3.1 Million"]),
-      createTableRow(["Average Annual Revenue per Black Business", "$142,000"]),
-      createTableRow(["Projected Black Spending Power by 2030", "$2.1 Trillion"]),
+      createTableRow(["Community Consumer Spending Power (Annual)", "$1.6 Trillion"]),
+      createTableRow(["Community-Owned Businesses in U.S.", "3.1 Million"]),
+      createTableRow(["Average Annual Revenue per Community Business", "$142,000"]),
+      createTableRow(["Projected Community Spending Power by 2030", "$2.1 Trillion"]),
     ],
   });
 }

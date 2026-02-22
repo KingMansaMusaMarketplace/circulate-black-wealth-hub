@@ -125,7 +125,7 @@ const LeaderboardPage: React.FC = () => {
       </div>
 
       <Helmet>
-        <title>Sales Agent Leaderboard | Mansa Musa Marketplace</title>
+        <title>Sales Agent Leaderboard | 1325.AI</title>
         <meta name="description" content="View top performing sales agents and their achievements" />
       </Helmet>
 

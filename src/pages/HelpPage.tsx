@@ -50,7 +50,7 @@ const HelpPage = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
       
       <Helmet>
-        <title>{getHelpSectionTitle()} - Mansa Musa Marketplace</title>
+        <title>{getHelpSectionTitle()} - 1325.AI</title>
         <meta name="description" content={getMetaDescription()} />
       </Helmet>
 

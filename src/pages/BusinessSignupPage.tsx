@@ -177,8 +177,8 @@ const BusinessSignupPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative flex flex-col justify-center py-12">
       <Helmet>
-        <title>Business Sign Up | Mansa Musa Marketplace</title>
-        <meta name="description" content="Register your business with Mansa Musa Marketplace" />
+        <title>Business Sign Up | 1325.AI</title>
+        <meta name="description" content="Register your business with 1325.AI" />
       </Helmet>
 
       {/* Animated gradient orbs */}

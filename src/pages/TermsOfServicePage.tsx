@@ -77,8 +77,8 @@ const TermsOfServicePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
       <Helmet>
-        <title>Terms of Service | Mansa Musa Marketplace</title>
-        <meta name="description" content="Terms of Service for Mansa Musa Marketplace - Your rights and responsibilities when using our platform." />
+        <title>Terms of Service | 1325.AI</title>
+        <meta name="description" content="Terms of Service for 1325.AI - Your rights and responsibilities when using our platform." />
       </Helmet>
 
       {/* Animated gradient orbs */}

@@ -37,7 +37,7 @@ const customerSteps: OnboardingStep[] = [
     description: 'Join the community supporting great local businesses',
     icon: Users,
     content: {
-      title: 'Welcome to Mansa Musa Marketplace!',
+      title: 'Welcome to 1325.AI!',
       description: 'You\'re now part of a movement to circulate wealth within our community. Every purchase you make helps strengthen our economic ecosystem.',
       features: [
         'Discover thousands of verified businesses nationwide',

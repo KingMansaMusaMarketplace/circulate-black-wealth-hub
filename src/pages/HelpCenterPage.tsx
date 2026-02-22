@@ -34,8 +34,8 @@ const HelpCenterPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <Helmet>
-        <title>Help Center | Mansa Musa Marketplace</title>
-        <meta name="description" content="Get help with Mansa Musa Marketplace" />
+        <title>Help Center | 1325.AI</title>
+        <meta name="description" content="Get help with 1325.AI" />
       </Helmet>
 
       {/* Animated Background */}

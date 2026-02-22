@@ -63,7 +63,7 @@ const GettingStartedFAQ = () => {
                   <li><strong>Track Progress:</strong> View your points balance and history in your dashboard</li>
                   <li><strong>Leaderboard:</strong> Compete with other community members</li>
                 </ul>
-                <p>The more you support Black businesses, the more rewards you earn!</p>
+                <p>The more you support community businesses, the more rewards you earn!</p>
               </div>
             </AccordionContent>
           </AccordionItem>

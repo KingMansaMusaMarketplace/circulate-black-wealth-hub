@@ -75,7 +75,7 @@ const UnifiedTestDashboard: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
       
       <Helmet>
-        <title>Unified Test Dashboard | Mansa Musa Marketplace</title>
+        <title>Unified Test Dashboard | 1325.AI</title>
         <meta name="description" content="Comprehensive testing dashboard for all system components" />
       </Helmet>
 

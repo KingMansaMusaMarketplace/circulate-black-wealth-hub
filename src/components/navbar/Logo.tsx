@@ -31,7 +31,7 @@ const Logo: React.FC = () => {
   const logoSrc = isIOSApp ? mansaMusaLogo : logo1325;
   const brandName = isIOSApp ? 'Mansa Musa' : '1325.AI';
   const tagline = isIOSApp 
-    ? 'The Premier Black Business Marketplace' 
+    ? 'The Premier Community Business Marketplace' 
     : 'Building the Future of Digital Commerce | AI';
 
   return (

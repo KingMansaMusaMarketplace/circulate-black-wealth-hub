@@ -12,8 +12,8 @@ const AboutUsPage = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>About Us | Mansa Musa Marketplace</title>
-        <meta name="description" content="Learn about Mansa Musa Marketplace - building the future of Black wealth circulation through intentional economic infrastructure." />
+        <title>About Us | 1325.AI</title>
+        <meta name="description" content="Learn about 1325.AI - building the future of community wealth circulation through intentional economic infrastructure." />
       </Helmet>
       
       <main>

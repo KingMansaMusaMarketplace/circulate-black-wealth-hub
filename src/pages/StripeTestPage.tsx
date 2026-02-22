@@ -11,7 +11,7 @@ const StripeTestPage: React.FC = () => {
       description="Test and verify Stripe payment integration"
     >
       <Helmet>
-        <title>Stripe Test | Mansa Musa Marketplace</title>
+        <title>Stripe Test | 1325.AI</title>
       </Helmet>
 
       <div className="max-w-4xl mx-auto space-y-8">

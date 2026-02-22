@@ -474,8 +474,8 @@ const FeatureGuidePage = () => {
   return (
     <>
       <Helmet>
-        <title>Feature Guide - Mansa Musa Marketplace</title>
-        <meta name="description" content="Comprehensive guide to all Mansa Musa Marketplace features for consumers, businesses, and community impact tracking." />
+        <title>Feature Guide - 1325.AI</title>
+        <meta name="description" content="Comprehensive guide to all 1325.AI features for consumers, businesses, and community impact tracking." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light relative overflow-hidden">

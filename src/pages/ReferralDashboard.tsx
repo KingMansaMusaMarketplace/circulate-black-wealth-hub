@@ -93,7 +93,7 @@ const ReferralDashboard: React.FC = () => {
               </h1>
             </div>
             <p className="text-blue-200 text-xl font-medium ml-16">
-              Earn rewards by inviting friends to join Mansa Musa Marketplace 🚀
+              Earn rewards by inviting friends to join 1325.AI 🚀
             </p>
           </div>
         </div>
@@ -129,8 +129,8 @@ const ReferralDashboard: React.FC = () => {
               <div className="flex gap-2">
                 <ShareButton
                   data={{
-                    title: 'Join Mansa Musa Marketplace!',
-                    text: 'Join me on Mansa Musa Marketplace — discover great businesses and earn rewards!',
+                    title: 'Join 1325.AI!',
+                    text: 'Join me on 1325.AI — discover great businesses and earn rewards!',
                     url: referralLink,
                   }}
                   variant="default"

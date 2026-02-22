@@ -30,8 +30,8 @@ const CaseStudiesPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
       <Helmet>
-        <title>Case Studies | Mansa Musa Marketplace</title>
-        <meta name="description" content="Real success stories from businesses thriving through intentional economic circulation on Mansa Musa Marketplace." />
+        <title>Case Studies | 1325.AI</title>
+        <meta name="description" content="Real success stories from businesses thriving through intentional economic circulation on 1325.AI." />
       </Helmet>
 
       {/* Animated gradient orbs */}

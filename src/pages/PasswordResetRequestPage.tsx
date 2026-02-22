@@ -8,7 +8,7 @@ const PasswordResetRequestPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden flex flex-col justify-center py-12">
       <Helmet>
-        <title>Password Reset | Mansa Musa Marketplace</title>
+        <title>Password Reset | 1325.AI</title>
         <meta name="description" content="Request a password reset for your account" />
       </Helmet>
 

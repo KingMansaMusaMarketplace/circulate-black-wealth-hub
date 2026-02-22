@@ -81,7 +81,7 @@ export default function BookBusinessPage() {
   return (
     <>
       <Helmet>
-        <title>Book {business.business_name} | Mansa Musa Marketplace</title>
+        <title>Book {business.business_name} | 1325.AI</title>
         <meta name="description" content={`Book an appointment with ${business.business_name}. ${business.description || ''}`} />
       </Helmet>
 

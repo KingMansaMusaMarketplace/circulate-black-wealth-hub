@@ -7,8 +7,8 @@ const BusinessFormPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden flex flex-col">
       <Helmet>
-        <title>Business Registration | Mansa Musa Marketplace</title>
-        <meta name="description" content="Register your business with Mansa Musa Marketplace" />
+        <title>Business Registration | 1325.AI</title>
+        <meta name="description" content="Register your business with 1325.AI" />
       </Helmet>
 
       {/* Animated gradient orbs */}

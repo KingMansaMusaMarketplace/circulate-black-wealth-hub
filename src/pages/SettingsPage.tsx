@@ -12,7 +12,7 @@ const SettingsPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <Helmet>
-        <title>Settings | Mansa Musa Marketplace</title>
+        <title>Settings | 1325.AI</title>
         <meta name="description" content="Manage your account settings and preferences" />
       </Helmet>
 

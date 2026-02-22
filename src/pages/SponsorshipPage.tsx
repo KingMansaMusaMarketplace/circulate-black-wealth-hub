@@ -7,11 +7,11 @@ const SponsorshipPage: React.FC = () => {
   return (
     <ResponsiveLayout
       title="Corporate Sponsorship"
-      description="Partner with Mansa Musa Marketplace"
+      description="Partner with 1325.AI"
     >
       <Helmet>
-        <title>Corporate Sponsorship | Mansa Musa Marketplace</title>
-        <meta name="description" content="Corporate sponsorship opportunities with Mansa Musa Marketplace" />
+        <title>Corporate Sponsorship | 1325.AI</title>
+        <meta name="description" content="Corporate sponsorship opportunities with 1325.AI" />
       </Helmet>
 
       <div className="container mx-auto px-4 py-8">

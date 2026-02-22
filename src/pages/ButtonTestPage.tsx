@@ -43,7 +43,7 @@ const ButtonTestPage: React.FC = () => {
       </div>
       
       <Helmet>
-        <title>Button Test | Mansa Musa Marketplace</title>
+        <title>Button Test | 1325.AI</title>
         <meta name="description" content="Test all button variants and ensure visibility" />
       </Helmet>
 

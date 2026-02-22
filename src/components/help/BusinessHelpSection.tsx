@@ -68,7 +68,7 @@ export const BusinessHelpSection: React.FC = () => {
           Business Help Center
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Everything you need to succeed on Mansa Musa Marketplace. 
+          Everything you need to succeed on 1325.AI. 
           From setup to growth, we've got you covered.
         </p>
       </div>
@@ -190,7 +190,7 @@ export const BusinessHelpSection: React.FC = () => {
             Ready to Grow Your Business?
           </h2>
           <p className="text-green-100 mb-6 max-w-2xl mx-auto">
-            Join thousands of successful Black-owned businesses on our platform. 
+            Join thousands of successful verified businesses on our platform. 
             Get the support and tools you need to reach more customers and build lasting relationships.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

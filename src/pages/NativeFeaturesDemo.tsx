@@ -56,7 +56,7 @@ const NativeFeaturesDemo: React.FC = () => {
       </div>
 
       <Helmet>
-        <title>Native Features Demo | Mansa Musa Marketplace</title>
+        <title>Native Features Demo | 1325.AI</title>
         <meta name="description" content="Demonstration of native iOS/Android features" />
       </Helmet>
 

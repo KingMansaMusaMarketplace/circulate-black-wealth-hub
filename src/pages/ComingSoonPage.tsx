@@ -26,8 +26,8 @@ const ComingSoonPage: React.FC = () => {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
       
       <Helmet>
-        <title>{featureName} - Coming Soon | Mansa Musa Marketplace</title>
-        <meta name="description" content={`${featureName} is coming soon to the Mansa Musa Marketplace platform.`} />
+        <title>{featureName} - Coming Soon | 1325.AI</title>
+        <meta name="description" content={`${featureName} is coming soon to the 1325.AI platform.`} />
       </Helmet>
 
       <Card className="relative z-10 max-w-lg mx-4 bg-slate-900/60 backdrop-blur-xl border-yellow-400/20">

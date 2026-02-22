@@ -76,7 +76,7 @@ const BusinessDirectoryPage: React.FC = () => {
       />
       
       <Helmet>
-        <title>Business Directory | Mansa Musa Marketplace</title>
+        <title>Business Directory | 1325.AI</title>
         <meta name="description" content="Discover and support verified businesses in the 1325.AI community directory." />
       </Helmet>
       
