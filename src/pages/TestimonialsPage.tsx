@@ -8,8 +8,8 @@ const TestimonialsPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
       <Helmet>
-        <title>Testimonials | Mansa Musa Marketplace</title>
-        <meta name="description" content="Read success stories and testimonials from businesses and customers using Mansa Musa Marketplace." />
+        <title>Testimonials | 1325.AI</title>
+        <meta name="description" content="Read success stories and testimonials from businesses and customers using 1325.AI." />
       </Helmet>
 
       {/* Animated gradient orbs */}

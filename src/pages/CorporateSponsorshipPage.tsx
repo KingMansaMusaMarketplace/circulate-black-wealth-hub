@@ -21,8 +21,8 @@ const CorporateSponsorshipPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Corporate Sponsorship | Partner with Mansa Musa Marketplace</title>
-        <meta name="description" content="Partner with Mansa Musa Marketplace to support Black-owned businesses and create meaningful economic impact. Join 50+ organizations making a difference." />
+        <title>Corporate Sponsorship | Partner with 1325.AI</title>
+        <meta name="description" content="Partner with 1325.AI to support verified businesses and create meaningful economic impact. Join 50+ organizations making a difference." />
       </Helmet>
       
       <main className="flex-grow min-h-screen relative overflow-hidden bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark">

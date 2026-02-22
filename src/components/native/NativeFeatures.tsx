@@ -77,7 +77,7 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
           // Show native exit confirmation
           showLocalNotification(
             "Return soon!", 
-            "Come back to continue supporting Black-owned businesses"
+            "Come back to continue supporting great businesses"
           );
           App.exitApp();
         } else {
@@ -97,7 +97,7 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
             // Show native notification for shared business
             showLocalNotification(
               "Business Shared!", 
-              "Check out this amazing Black-owned business"
+              "Check out this amazing verified business"
             );
           }
         }
@@ -111,8 +111,8 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
             // Request location to provide location-aware welcome
             const position = await Geolocation.getCurrentPosition();
             showLocalNotification(
-              "Welcome to Mansa Musa!", 
-              `Find Black-owned businesses near you and start earning rewards!`
+              "Welcome to 1325.AI!", 
+              `Find great businesses near you and start earning rewards!`
             );
           } catch {
             sendWelcomeNotification();

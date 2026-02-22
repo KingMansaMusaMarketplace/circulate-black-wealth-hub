@@ -21,8 +21,8 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Sales Agent Code of Conduct | Mansa Musa Marketplace</title>
-        <meta name="description" content="The official Code of Conduct for Mansa Musa Marketplace Sales Agents - Professional standards, ethical guidelines, and operational protocols." />
+        <title>Sales Agent Code of Conduct | 1325.AI</title>
+        <meta name="description" content="The official Code of Conduct for 1325.AI Sales Agents - Professional standards, ethical guidelines, and operational protocols." />
       </Helmet>
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">

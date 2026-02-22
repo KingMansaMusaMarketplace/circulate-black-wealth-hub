@@ -32,7 +32,7 @@ const BusinessProfilePage = () => {
   return (
     <>
       <Helmet>
-        <title>Business Profile | Mansa Musa Marketplace</title>
+        <title>Business Profile | 1325.AI</title>
         <meta name="description" content="Manage your business profile and settings" />
       </Helmet>
       

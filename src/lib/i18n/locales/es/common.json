@@ -1,8 +1,8 @@
 {
   "app": {
-    "name": "Mansa Musa Marketplace",
-    "tagline": "Circula la Riqueza Negra",
-    "description": "El Sistema Operativo Económico para la circulación de riqueza negra"
+    "name": "1325.AI",
+    "tagline": "Circula la Riqueza Comunitaria",
+    "description": "El Sistema Operativo Económico para la circulación de riqueza comunitaria"
   },
   "nav": {
     "home": "Inicio",
@@ -51,7 +51,7 @@
     "sessionExpired": "Su sesión ha expirado. Por favor inicie sesión de nuevo."
   },
   "footer": {
-    "copyright": "© {{year}} Mansa Musa Marketplace. Todos los derechos reservados.",
+    "copyright": "© {{year}} 1325.AI. Todos los derechos reservados.",
     "privacyPolicy": "Política de Privacidad",
     "termsOfService": "Términos de Servicio",
     "cookiePolicy": "Política de Cookies"

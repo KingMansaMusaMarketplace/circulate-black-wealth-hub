@@ -126,9 +126,9 @@ const MediaKitPage = () => {
   return (
     <>
       <Helmet>
-        <title>Media Kit | Mansa Musa Marketplace</title>
-        <meta name="description" content="Access Mansa Musa Marketplace's media kit with platform stats, brand assets, partnership opportunities, and press resources." />
-        <meta property="og:title" content="Media Kit | Mansa Musa Marketplace" />
+        <title>Media Kit | 1325.AI</title>
+        <meta name="description" content="Access 1325.AI's media kit with platform stats, brand assets, partnership opportunities, and press resources." />
+        <meta property="og:title" content="Media Kit | 1325.AI" />
         <meta property="og:description" content="Download our media kit, brand assets, and partnership information." />
       </Helmet>
 

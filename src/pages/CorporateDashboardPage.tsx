@@ -79,7 +79,7 @@ const CorporateDashboardPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Corporate Dashboard - Mansa Musa Marketplace</title>
+        <title>Corporate Dashboard - 1325.AI</title>
         <meta name="description" content="Manage your corporate sponsorship and track your community impact." />
       </Helmet>
 

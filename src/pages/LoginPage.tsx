@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
 
       <Helmet>
-        <title>Login | Mansa Musa Marketplace</title>
+        <title>Login | 1325.AI</title>
       </Helmet>
       
       <div className="relative z-10 flex-1 flex flex-col items-center justify-start pt-8 sm:pt-12 md:justify-center md:pt-0 px-4 pb-8">

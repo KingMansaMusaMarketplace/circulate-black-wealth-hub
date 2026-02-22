@@ -22,7 +22,7 @@ const ErrorPage: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden p-4">
       <Helmet>
-        <title>{errorStatus} - {is404 ? 'Page Not Found' : 'Error'} | Mansa Musa Marketplace</title>
+        <title>{errorStatus} - {is404 ? 'Page Not Found' : 'Error'} | 1325.AI</title>
       </Helmet>
       
       {/* Animated Gradient Orbs */}

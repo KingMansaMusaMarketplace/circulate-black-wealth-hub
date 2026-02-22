@@ -1,7 +1,7 @@
 {
   "directory": {
     "title": "Directorio de Negocios",
-    "subtitle": "Descubre y apoya negocios propiedad de personas negras",
+    "subtitle": "Descubre y apoya negocios verificados",
     "search": "Buscar negocios...",
     "filters": "Filtros",
     "categories": "Categorías",
@@ -21,11 +21,11 @@
     "call": "Llamar",
     "share": "Compartir",
     "writeReview": "Escribir una Reseña",
-    "verified": "Verificado como Propiedad Negra"
+    "verified": "Negocio Verificado"
   },
   "register": {
     "title": "Registra Tu Negocio",
-    "subtitle": "Únete a la comunidad de Mansa Musa Marketplace",
+    "subtitle": "Únete a la comunidad de 1325.AI",
     "step1": "Información del Negocio",
     "step2": "Datos de Contacto",
     "step3": "Verificación",

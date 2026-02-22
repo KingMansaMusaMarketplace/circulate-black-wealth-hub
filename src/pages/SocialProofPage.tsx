@@ -153,7 +153,7 @@ const SocialProofPage = () => {
               </span>
             </h2>
             <p className="text-xl text-white/70">
-              Mansa Musa Marketplace offers unique advantages for both customers and business owners
+              1325.AI offers unique advantages for both customers and business owners
             </p>
           </motion.div>
 

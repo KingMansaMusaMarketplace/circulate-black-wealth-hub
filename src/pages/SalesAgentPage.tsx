@@ -33,7 +33,7 @@ const SalesAgentPage: React.FC = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none opacity-50" />
       
       <Helmet>
-        <title>Mansa Ambassador Program | Mansa Musa Marketplace</title>
+        <title>Mansa Ambassador Program | 1325.AI</title>
       </Helmet>
 
       <main className="relative z-10 py-12">

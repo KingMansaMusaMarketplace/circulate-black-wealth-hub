@@ -51,7 +51,7 @@ const MobileTestPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Helmet>
-        <title>Mobile App Test - Mansa Musa Marketplace</title>
+        <title>Mobile App Test - 1325.AI</title>
         <meta name="description" content="Test mobile app functionality and device capabilities" />
       </Helmet>
 

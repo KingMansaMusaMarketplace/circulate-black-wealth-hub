@@ -147,7 +147,7 @@ const SalesAgentDashboardPage: React.FC = () => {
 
       <ResponsiveLayout title="Agent Dashboard">
         <Helmet>
-          <title>Sales Agent Dashboard | Mansa Musa Marketplace</title>
+          <title>Sales Agent Dashboard | 1325.AI</title>
           <meta name="description" content="Manage your sales agent account and track your earnings" />
         </Helmet>
 

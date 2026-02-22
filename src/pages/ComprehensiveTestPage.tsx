@@ -7,7 +7,7 @@ const ComprehensiveTestPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
       <Helmet>
-        <title>Comprehensive System Test | Mansa Musa Marketplace</title>
+        <title>Comprehensive System Test | 1325.AI</title>
         <meta name="description" content="Complete system test for mobile deployment readiness" />
       </Helmet>
 

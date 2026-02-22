@@ -333,7 +333,7 @@ const MobileReadinessTestPage: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
       
       <Helmet>
-        <title>Mobile Readiness Test | Mansa Musa Marketplace</title>
+        <title>Mobile Readiness Test | 1325.AI</title>
         <meta name="description" content="Complete mobile deployment readiness test" />
       </Helmet>
 

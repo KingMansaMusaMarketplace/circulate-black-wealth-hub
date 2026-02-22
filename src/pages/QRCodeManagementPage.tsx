@@ -60,7 +60,7 @@ const QRCodeManagementPage: React.FC = () => {
     return (
       <div className="min-h-screen relative overflow-hidden">
         <Helmet>
-          <title>QR Code Management | Mansa Musa Marketplace</title>
+          <title>QR Code Management | 1325.AI</title>
         </Helmet>
         
         {/* Animated Background */}
@@ -84,7 +84,7 @@ const QRCodeManagementPage: React.FC = () => {
     return (
       <div className="min-h-screen relative overflow-hidden">
         <Helmet>
-          <title>QR Code Management | Mansa Musa Marketplace</title>
+          <title>QR Code Management | 1325.AI</title>
         </Helmet>
         
         {/* Animated Background */}
@@ -115,7 +115,7 @@ const QRCodeManagementPage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <Helmet>
-        <title>QR Code Management | Mansa Musa Marketplace</title>
+        <title>QR Code Management | 1325.AI</title>
         <meta name="description" content="Create and manage QR codes for your business" />
       </Helmet>
 

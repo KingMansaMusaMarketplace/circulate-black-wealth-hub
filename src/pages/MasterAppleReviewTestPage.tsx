@@ -15,7 +15,7 @@ const MasterAppleReviewTestPage: React.FC = () => {
       </div>
 
       <Helmet>
-        <title>Master Apple Review Test | Mansa Musa Marketplace</title>
+        <title>Master Apple Review Test | 1325.AI</title>
         <meta name="description" content="Comprehensive Apple App Store submission validation" />
       </Helmet>
 

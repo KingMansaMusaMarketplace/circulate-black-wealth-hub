@@ -46,7 +46,7 @@ const EmailVerified: React.FC = () => {
 
         if (data.user) {
           setVerificationStatus('success');
-          toast.success('Email verified successfully! Welcome to Mansa Musa Marketplace.');
+          toast.success('Email verified successfully! Welcome to 1325.AI.');
           
           // Start countdown for redirect
           const timer = setInterval(() => {
@@ -80,7 +80,7 @@ const EmailVerified: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 p-4 relative overflow-hidden">
       <Helmet>
-        <title>Email Verified | Mansa Musa Marketplace</title>
+        <title>Email Verified | 1325.AI</title>
       </Helmet>
       
       {/* Animated gradient orbs */}
@@ -115,7 +115,7 @@ const EmailVerified: React.FC = () => {
               </div>
               <CardTitle className="text-xl bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Email Verified!</CardTitle>
               <CardDescription className="text-slate-300">
-                Welcome to Mansa Musa Marketplace! Your account is now active.
+                Welcome to 1325.AI! Your account is now active.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

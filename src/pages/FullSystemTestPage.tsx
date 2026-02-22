@@ -11,7 +11,7 @@ const FullSystemTestPage: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
       
       <Helmet>
-        <title>Full System Test | Mansa Musa Marketplace</title>
+        <title>Full System Test | 1325.AI</title>
         <meta name="description" content="Comprehensive system testing dashboard" />
       </Helmet>
 

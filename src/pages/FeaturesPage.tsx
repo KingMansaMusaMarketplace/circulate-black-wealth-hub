@@ -48,8 +48,8 @@ const FeaturesPage = () => {
       />
 
       <Helmet>
-        <title>Features - Mansa Musa Marketplace</title>
-        <meta name="description" content="Discover the powerful features that make Mansa Musa Marketplace the premier platform for supporting community businesses." />
+        <title>Features - 1325.AI</title>
+        <meta name="description" content="Discover the powerful features that make 1325.AI the premier platform for supporting community businesses." />
       </Helmet>
 
       {/* Hero Section */}

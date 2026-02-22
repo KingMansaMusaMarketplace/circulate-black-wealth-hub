@@ -405,7 +405,7 @@ const SalesAgentGuidePage: React.FC = () => {
             Ready to Become a Mansa Ambassador?
           </h2>
           <p className="text-xl mb-8 text-mansablue-dark/90">
-            Join hundreds of ambassadors already earning with Mansa Musa Marketplace
+            Join hundreds of ambassadors already earning with 1325.AI
           </p>
           <Button 
             size="lg" 

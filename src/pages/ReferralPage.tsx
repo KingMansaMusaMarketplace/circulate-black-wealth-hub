@@ -37,7 +37,7 @@ const ReferralPage = () => {
     return (
       <div className="min-h-screen relative overflow-hidden">
         <Helmet>
-          <title>Referral Program | Mansa Musa Marketplace</title>
+          <title>Referral Program | 1325.AI</title>
         </Helmet>
         
         {/* Animated Background */}
@@ -57,7 +57,7 @@ const ReferralPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <Helmet>
-        <title>Referral Program | Mansa Musa Marketplace</title>
+        <title>Referral Program | 1325.AI</title>
         <meta name="description" content="Share your referral code and earn rewards" />
       </Helmet>
 

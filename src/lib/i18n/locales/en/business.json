@@ -1,7 +1,7 @@
 {
   "directory": {
     "title": "Business Directory",
-    "subtitle": "Discover and support Black-owned businesses",
+    "subtitle": "Discover and support verified businesses",
     "search": "Search businesses...",
     "filters": "Filters",
     "categories": "Categories",
@@ -21,11 +21,11 @@
     "call": "Call",
     "share": "Share",
     "writeReview": "Write a Review",
-    "verified": "Verified Black-Owned"
+    "verified": "Verified Business"
   },
   "register": {
     "title": "Register Your Business",
-    "subtitle": "Join the Mansa Musa Marketplace community",
+    "subtitle": "Join the 1325.AI community",
     "step1": "Business Info",
     "step2": "Contact Details",
     "step3": "Verification",

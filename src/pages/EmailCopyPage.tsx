@@ -13,7 +13,7 @@ Dear Anton,
 
 Thank you for this incredible honor and opportunity. Being recognized as one of your most active users and selected for the first wave of the Lovable app marketplace is truly humbling.
 
-I'm building Mansa Musa Marketplace - a mission-driven platform focused on circulating Black wealth and empowering Black-owned businesses through technology. The platform combines loyalty programs, business discovery, corporate sponsorships, and economic impact tracking to create lasting community wealth.
+I'm building 1325.AI - a mission-driven platform focused on circulating community wealth and empowering verified businesses through technology. The platform combines loyalty programs, business discovery, corporate sponsorships, and economic impact tracking to create lasting community wealth.
 
 I've just submitted my application and would be deeply honored to showcase this work to the Lovable community. Your platform has been instrumental in bringing this vision to life, and the opportunity to reach millions of builders is both exciting and meaningful.
 

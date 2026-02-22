@@ -15,7 +15,7 @@ export const AIAssistant = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Hi! I\'m your AI assistant for Mansa Musa Marketplace. Ask me anything about our loyalty program, rewards, or how to use the platform!'
+      content: 'Hi! I\'m your AI assistant for 1325.AI. Ask me anything about our loyalty program, rewards, or how to use the platform!'
     }
   ]);
   const [input, setInput] = useState('');

@@ -72,7 +72,7 @@ export const ExternalLeadCard: React.FC<ExternalLeadCardProps> = ({
 
         {/* Description */}
         <p className="text-sm text-slate-400 line-clamp-2 mb-3">
-          {lead.business_description || 'Black-owned business discovered via AI search'}
+          {lead.business_description || 'Community business discovered via AI search'}
         </p>
 
         {/* Location - show city/state or location */}

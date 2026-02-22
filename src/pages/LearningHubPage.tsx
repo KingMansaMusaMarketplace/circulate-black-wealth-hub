@@ -72,8 +72,8 @@ const LearningHubPage = () => {
   return (
     <>
       <Helmet>
-        <title>Learning Hub - Mansa Musa Marketplace</title>
-        <meta name="description" content="Educational resources for financial empowerment, business growth, and building Black wealth through community support." />
+        <title>Learning Hub - 1325.AI</title>
+        <meta name="description" content="Educational resources for financial empowerment, business growth, and building community wealth through support." />
       </Helmet>
 
       <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">

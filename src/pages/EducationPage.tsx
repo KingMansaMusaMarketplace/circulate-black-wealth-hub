@@ -77,7 +77,7 @@ const EducationPage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       <Helmet>
-        <title>Education Center | Mansa Musa Marketplace</title>
+        <title>Education Center | 1325.AI</title>
         <meta name="description" content="Access free business education courses, resources, and training to grow your business" />
       </Helmet>
 

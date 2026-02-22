@@ -116,8 +116,8 @@ const ClaimBusinessPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Claim Your Business | Mansa Musa Marketplace</title>
-        <meta name="description" content="Claim your business listing on Mansa Musa Marketplace" />
+        <title>Claim Your Business | 1325.AI</title>
+        <meta name="description" content="Claim your business listing on 1325.AI" />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center p-4">

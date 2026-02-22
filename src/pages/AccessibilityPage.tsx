@@ -18,8 +18,8 @@ const AccessibilityPage: React.FC = () => {
   return (
     <div className="min-h-screen gradient-primary relative overflow-hidden">
       <Helmet>
-        <title>Accessibility | Mansa Musa Marketplace</title>
-        <meta name="description" content="Learn about accessibility features and support at Mansa Musa Marketplace. We're committed to making economic empowerment accessible to everyone." />
+        <title>Accessibility | 1325.AI</title>
+        <meta name="description" content="Learn about accessibility features and support at 1325.AI. We're committed to making economic empowerment accessible to everyone." />
       </Helmet>
 
       {/* Animated Gradient Orbs */}

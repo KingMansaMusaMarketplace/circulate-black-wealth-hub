@@ -21,7 +21,7 @@ const BlogPage = () => {
       category: "Economic Impact"
     },
     {
-      title: "Success Stories: Businesses Thriving on Mansa Musa Marketplace",
+      title: "Success Stories: Businesses Thriving on 1325.AI",
       excerpt: "Real stories from entrepreneurs who have grown their businesses through our platform.",
       author: "Community Team",
       readTime: "5 min read",
@@ -89,8 +89,8 @@ const BlogPage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
       <Helmet>
-        <title>Blog - Mansa Musa Marketplace</title>
-        <meta name="description" content="Read the latest insights, stories, and updates from the Mansa Musa Marketplace community about Black economic empowerment and business success." />
+        <title>Blog - 1325.AI</title>
+        <meta name="description" content="Read the latest insights, stories, and updates from the 1325.AI community about economic empowerment and business success." />
       </Helmet>
 
       {/* Animated gradient orbs */}
@@ -114,7 +114,7 @@ const BlogPage = () => {
                 </div>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Mansa Musa Marketplace</span>
+                <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">1325.AI</span>
                 <span className="text-white"> Blog</span> 📚
               </h1>
               <p className="text-xl text-blue-100/90 max-w-2xl mx-auto font-medium">

@@ -18,8 +18,8 @@ const SubscriptionBenefits: React.FC<SubscriptionBenefitsProps> = ({ userType })
         </h3>
         <p className="text-slate-300">
           {userType === 'business' 
-            ? 'Connect with customers and grow your revenue in the Black community'
-            : 'Track and amplify your contribution to Black wealth circulation'
+            ? 'Connect with customers and grow your revenue in the community'
+            : 'Track and amplify your contribution to community wealth circulation'
           }
         </p>
       </div>
@@ -30,7 +30,7 @@ const SubscriptionBenefits: React.FC<SubscriptionBenefitsProps> = ({ userType })
         </div>
         <h3 className="text-xl font-semibold text-slate-100">Support Community</h3>
         <p className="text-slate-300">
-          Every subscription directly supports Black business growth and community development
+          Every subscription directly supports community business growth and development
         </p>
       </div>
 

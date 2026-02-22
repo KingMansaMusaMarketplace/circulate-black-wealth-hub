@@ -114,8 +114,8 @@ const PartnershipFrameworkPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-[hsl(210,100%,12%)] to-[hsl(210,100%,8%)]">
       <Helmet>
-        <title>Partnership Framework - Mansa Musa Marketplace</title>
-        <meta name="description" content="Strategic partnership framework for Mansa Musa Marketplace business development." />
+        <title>Partnership Framework - 1325.AI</title>
+        <meta name="description" content="Strategic partnership framework for 1325.AI business development." />
       </Helmet>
 
       {/* Header */}

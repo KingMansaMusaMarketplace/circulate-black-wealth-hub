@@ -320,7 +320,7 @@ const BusinessDetailPage = () => {
   return (
     <>
       <Helmet>
-        <title>{business.business_name} | Mansa Musa Marketplace</title>
+        <title>{business.business_name} | 1325.AI</title>
         <meta name="description" content={business.description} />
       </Helmet>
 

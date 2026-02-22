@@ -170,8 +170,8 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden transition-colors duration-300">
       <Helmet>
-        <title>Admin Dashboard | Mansa Musa Marketplace</title>
-        <meta name="description" content="Complete admin dashboard for Mansa Musa Marketplace" />
+        <title>Admin Dashboard | 1325.AI</title>
+        <meta name="description" content="Complete admin dashboard for 1325.AI" />
       </Helmet>
 
       {/* Animated gradient orbs */}
