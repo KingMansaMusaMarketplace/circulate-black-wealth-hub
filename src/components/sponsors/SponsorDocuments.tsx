@@ -95,7 +95,7 @@ export function SponsorDocuments({ subscription }: SponsorDocumentsProps) {
           <ul className="space-y-3 text-sm text-blue-200/80">
             <li className="flex items-start gap-2">
               <span className="text-amber-400 font-bold">•</span>
-              <span><strong className="text-amber-100">Certificate of Sponsorship:</strong> Use for internal recognition, press releases, and public display. Shows your commitment to supporting Black-owned businesses.</span>
+              <span><strong className="text-amber-100">Certificate of Sponsorship:</strong> Use for internal recognition, press releases, and public display. Shows your commitment to supporting community businesses.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-amber-400 font-bold">•</span>

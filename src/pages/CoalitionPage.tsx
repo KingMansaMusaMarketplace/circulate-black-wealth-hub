@@ -56,7 +56,7 @@ export default function CoalitionPage() {
                 Coalition Loyalty Program
               </h2>
               <p className="text-[hsl(222,47%,11%)]/80 max-w-xl">
-                Earn points at any Black-owned business in our coalition. 
+                Earn points at any business in our coalition. 
                 Redeem rewards anywhere. Together, we keep money circulating in our community.
               </p>
             </div>

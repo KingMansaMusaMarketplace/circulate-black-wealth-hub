@@ -32,7 +32,7 @@ const HowItWorksPage = () => {
       document.head.appendChild(metaDescription);
     }
     metaDescription.setAttribute('content', 
-      'Learn how Mansa Musa Marketplace works to help you discover, support, and save at Black-owned businesses in your community.'
+      'Learn how Mansa Musa Marketplace works to help you discover, support, and save at businesses in your community.'
     );
   }, []);
 

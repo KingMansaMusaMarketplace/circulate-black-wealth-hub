@@ -10,7 +10,7 @@ const BookingAccessSection: React.FC = () => {
     {
       icon: Calendar,
       title: 'Easy Scheduling',
-      description: 'Book appointments with Black-owned businesses in just a few taps'
+      description: 'Book appointments with businesses in just a few taps'
     },
     {
       icon: Clock,
@@ -46,7 +46,7 @@ const BookingAccessSection: React.FC = () => {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
               Schedule Appointments with{' '}
               <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                Black-Owned Businesses
+                Local Businesses
               </span>
             </h2>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto">

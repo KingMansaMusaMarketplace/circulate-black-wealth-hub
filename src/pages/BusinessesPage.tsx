@@ -87,7 +87,7 @@ const BusinessesPage: React.FC = () => {
                   All <span className="text-mansagold ml-2">Businesses</span>
                 </h1>
                 <p className="text-white drop-shadow-md mt-3 text-lg md:text-xl font-medium">
-                  Discover and support Black-owned businesses in our community 🌟
+                  Discover and support businesses in your community 🌟
                 </p>
               </div>
               
