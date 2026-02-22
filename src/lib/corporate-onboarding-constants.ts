@@ -16,10 +16,10 @@ export const CORPORATE_ONBOARDING_STEPS: CorporateOnboardingStep[] = [
   {
     id: 'welcome-corporate',
     title: 'Welcome, Corporate Partner!',
-    description: 'Join leading companies making a real difference by supporting Black-owned businesses and strengthening communities.',
+    description: 'Join leading companies making a real difference by supporting verified businesses and strengthening communities.',
     illustration: Building2,
     features: [
-      'Drive measurable economic impact in Black communities',
+      'Drive measurable economic impact in communities',
       'Enhance your corporate social responsibility profile',
       'Connect with engaged, diverse customer demographics',
       'Receive detailed impact reporting and analytics'
@@ -156,7 +156,7 @@ export const CORPORATE_HELP_SECTIONS = [
     items: [
       { title: 'Employee Engagement Opportunities', description: 'Volunteer programs and mentorship initiatives for your team' },
       { title: 'Co-Marketing and Brand Collaboration', description: 'Joint campaigns and authentic community storytelling' },
-      { title: 'Network Access and Business Development', description: 'Connecting with high-growth Black-owned businesses' }
+      { title: 'Network Access and Business Development', description: 'Connecting with high-growth verified businesses' }
     ]
   }
 ];

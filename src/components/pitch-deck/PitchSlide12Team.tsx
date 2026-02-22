@@ -18,7 +18,7 @@ const PitchSlide12Team: React.FC = () => {
     background: [
       'Serial entrepreneur with deep community roots',
       'Technical founder — built the entire platform',
-      'Passionate about economic justice and Black wealth building',
+      'Passionate about economic justice and community wealth building',
       'Direct connection to target market and community needs'
     ],
     quote: "I built this because I lived this. Our community deserves economic infrastructure, not just another directory."
@@ -27,7 +27,7 @@ const PitchSlide12Team: React.FC = () => {
   const advisors = [
     { role: 'Technical Advisor', expertise: 'Platform Architecture' },
     { role: 'Business Advisor', expertise: 'FinTech Strategy' },
-    { role: 'Community Advisor', expertise: 'Black Business Networks' },
+    { role: 'Community Advisor', expertise: 'Community Business Networks' },
   ];
 
   const capabilities = [

@@ -87,7 +87,7 @@ export const BusinessSubscriptionBenefits: React.FC = () => {
     {
       icon: <Zap className="h-6 w-6" />,
       title: "Community Impact Tracking",
-      description: "Showcase your contribution to Black wealth circulation and community growth",
+      description: "Showcase your contribution to community wealth circulation and economic growth",
       color: "text-cyan-600"
     }
   ];
@@ -124,8 +124,8 @@ export const BusinessSubscriptionBenefits: React.FC = () => {
             <h4 className="font-semibold text-lg">Monthly Investment: $100</h4>
           </div>
           <p className="text-sm text-muted-foreground">
-            Your subscription supports the growth of Black businesses and strengthens economic empowerment 
-            in our community. Every dollar invested helps build a more prosperous future for Black entrepreneurs.
+            Your subscription supports the growth of community businesses and strengthens economic empowerment 
+            in our community. Every dollar invested helps build a more prosperous future for entrepreneurs.
           </p>
         </div>
       </CardContent>

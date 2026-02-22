@@ -17,7 +17,7 @@ const GamificationHeader = () => {
         </p>
       </div>
       <p className="text-lg text-white/90 max-w-2xl mx-auto font-medium">
-        Discover how our gamified platform rewards you for supporting Black-owned businesses 
+        Discover how our gamified platform rewards you for supporting verified businesses 
         and participating in economic circulation.
       </p>
     </div>

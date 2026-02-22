@@ -14,7 +14,7 @@ const MissionSection = () => {
               <span className="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-mansagold to-amber-500 rounded-full"></span>
             </h2>
             <p className="text-gray-700 text-lg mb-6 font-medium leading-relaxed">
-              To build, protect, and expand the Black economic ecosystem through intentional 
+              To build, protect, and expand the community economic ecosystem through intentional 
               consumer behavior, loyalty rewards, and strategic digital infrastructure.
             </p>
             
@@ -62,7 +62,7 @@ const MissionSection = () => {
                   <div>
                     <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Consumer Empowerment</h4>
                     <p className="text-gray-700 font-medium">
-                      Turn spending into investing by rewarding loyalty to Black-owned businesses.
+                      Turn spending into investing by rewarding loyalty to verified businesses.
                     </p>
                   </div>
                 </li>
@@ -74,7 +74,7 @@ const MissionSection = () => {
                   <div>
                     <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Merchant Empowerment</h4>
                     <p className="text-gray-700 font-medium">
-                      Provide Black-owned businesses with visibility, loyalty programs, and direct new customer pipelines.
+                      Provide verified businesses with visibility, loyalty programs, and direct new customer pipelines.
                     </p>
                   </div>
                 </li>

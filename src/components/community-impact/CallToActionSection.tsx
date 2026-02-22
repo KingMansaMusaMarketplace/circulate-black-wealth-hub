@@ -30,8 +30,8 @@ const CallToActionSection: React.FC<CallToActionSectionProps> = ({ user }) => {
             </h3>
             <p className="text-lg text-blue-200 mb-6 leading-relaxed max-w-xl mx-auto">
               {user 
-                ? 'Discover more Black-owned businesses in your area and continue building community wealth through every purchase you make.'
-                : 'Join our community and start supporting Black-owned businesses to build wealth together and create lasting economic change.'
+                ? 'Discover more verified businesses in your area and continue building community wealth through every purchase you make.'
+                : 'Join our community and start supporting verified businesses to build wealth together and create lasting economic change.'
               }
             </p>
             
@@ -79,7 +79,7 @@ const CallToActionSection: React.FC<CallToActionSectionProps> = ({ user }) => {
               </div>
               <div className="text-center">
                 <div className="text-xl font-bold text-yellow-400 mb-1">187+</div>
-                <div className="text-sm text-blue-200">Black-Owned Businesses</div>
+                <div className="text-sm text-blue-200">Verified Businesses</div>
               </div>
               <div className="text-center">
                 <div className="text-xl font-bold text-yellow-400 mb-1">$485K+</div>

@@ -100,7 +100,7 @@ const EconomicImpactDashboard: React.FC = () => {
       {/* Header */}
       <div className="text-center">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Economic Impact Dashboard</h1>
-        <p className="text-gray-600">Tracking the circulation and growth of Black economic power</p>
+        <p className="text-gray-600">Tracking the circulation and growth of community economic power</p>
       </div>
 
       {/* Key Metrics Cards */}

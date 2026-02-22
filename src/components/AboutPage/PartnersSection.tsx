@@ -13,9 +13,9 @@ const PartnersSection = () => {
       description: "Network of urban entrepreneurs focused on business development and expansion."
     },
     {
-      name: "Black Economic Initiative",
+      name: "Community Economic Initiative",
       logo: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      description: "Research institute dedicated to analyzing and enhancing Black wealth circulation patterns."
+      description: "Research institute dedicated to analyzing and enhancing community wealth circulation patterns."
     },
     {
       name: "Financial Future Foundation",
@@ -25,7 +25,7 @@ const PartnersSection = () => {
     {
       name: "Community Capital Partners",
       logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      description: "Investment group focused exclusively on funding Black-owned businesses and initiatives."
+      description: "Investment group focused exclusively on funding verified businesses and initiatives."
     }
   ];
 

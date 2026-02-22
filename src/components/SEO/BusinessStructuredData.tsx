@@ -74,10 +74,10 @@ export const BusinessStructuredData = ({ business }: BusinessStructuredDataProps
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': schemaType,
-    '@id': `https://mansamusamarketplace.com/business/${business.id}`,
+    '@id': `https://1325.ai/business/${business.id}`,
     name: businessName,
-    description: business.description || `${businessName} - Black-owned business on Mansa Musa Marketplace`,
-    url: `https://mansamusamarketplace.com/business/${business.id}`,
+    description: business.description || `${businessName} - Verified business on 1325.AI`,
+    url: `https://1325.ai/business/${business.id}`,
     ...(business.logo_url && { logo: business.logo_url }),
     ...(business.banner_url && { image: business.banner_url }),
     ...(business.phone && { telephone: business.phone }),
@@ -104,8 +104,8 @@ export const BusinessStructuredData = ({ business }: BusinessStructuredDataProps
     }),
     isPartOf: {
       '@type': 'WebSite',
-      name: 'Mansa Musa Marketplace',
-      url: 'https://mansamusamarketplace.com',
+      name: '1325.AI',
+      url: 'https://1325.ai',
     },
   };
 

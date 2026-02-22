@@ -29,7 +29,7 @@ const SponsorshipSuccessStories = () => {
       company: "Unity Investments",
       logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       title: "Capital Access Program",
-      description: "We worked with Mansa Musa Marketplace to create a special funding pathway that has connected 45 Black business owners with over $1.2M in accessible capital for expansion.",
+      description: "We worked with 1325.AI to create a special funding pathway that has connected 45 business owners with over $1.2M in accessible capital for expansion.",
       quote: "What began as a corporate social responsibility initiative has evolved into a strategic partnership that generates measurable business value while creating community impact.",
       author: "Darius Johnson",
       role: "Director of Impact Investing",

@@ -20,7 +20,7 @@ interface VideoPlayerProps {
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   src,
-  title = "Circulate Black Wealth",
+  title = "Circulate Community Wealth",
   posterImage = "/placeholder.svg",
   className = "",
   isYouTube = false,

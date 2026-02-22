@@ -37,11 +37,11 @@ export const FAQStructuredData = ({ faqs }: FAQStructuredDataProps) => {
 // Common FAQs for the marketplace
 export const marketplaceFAQs: FAQItem[] = [
   {
-    question: 'What is Mansa Musa Marketplace?',
-    answer: 'Mansa Musa Marketplace is a digital platform dedicated to connecting consumers with Black-owned businesses. We make it easy to discover, support, and engage with local Black entrepreneurs while earning rewards for your loyalty.',
+    question: 'What is 1325.AI?',
+    answer: '1325.AI is a digital platform dedicated to connecting consumers with verified community businesses. We make it easy to discover, support, and engage with local entrepreneurs while earning rewards for your loyalty.',
   },
   {
-    question: 'How do I find Black-owned businesses near me?',
+    question: 'How do I find verified businesses near me?',
     answer: 'Use our Business Directory to search by category, location, or business name. Each listing includes details like address, hours, reviews, and direct contact information.',
   },
   {
@@ -49,7 +49,7 @@ export const marketplaceFAQs: FAQItem[] = [
     answer: 'Earn points by visiting businesses, making purchases, leaving reviews, and referring friends. Points can be redeemed for discounts, rewards, and exclusive offers from participating businesses.',
   },
   {
-    question: 'How can I register my Black-owned business?',
+    question: 'How can I register my business?',
     answer: 'Click "Register Your Business" and complete the verification process. Once approved, you\'ll have access to a dashboard to manage your listing, respond to reviews, and track customer engagement.',
   },
   {
@@ -57,12 +57,12 @@ export const marketplaceFAQs: FAQItem[] = [
     answer: 'Our Ambassador Program allows community members to earn commissions by referring new businesses to the platform. Ambassadors receive training, marketing materials, and ongoing support.',
   },
   {
-    question: 'How do corporate sponsors support Black-owned businesses?',
+    question: 'How do corporate sponsors support community businesses?',
     answer: 'Corporate sponsors fund rewards, provide matching grants, and offer promotional opportunities for businesses on our platform. This creates a sustainable ecosystem that benefits everyone.',
   },
   {
     question: 'Is the platform free to use for consumers?',
-    answer: 'Yes! Consumers can browse, search, and discover Black-owned businesses completely free. You can also earn and redeem loyalty points at no cost.',
+    answer: 'Yes! Consumers can browse, search, and discover verified businesses completely free. You can also earn and redeem loyalty points at no cost.',
   },
   {
     question: 'How are businesses verified?',
