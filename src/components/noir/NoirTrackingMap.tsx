@@ -1,0 +1,284 @@
+import React, { useEffect, useRef, useState } from 'react';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Phone, MessageSquare, Star, Navigation, Clock, X } from 'lucide-react';
+import type { DriverLocation, RideStatus } from '@/hooks/useDriverTracking';
+
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || 'pk.eyJ1IjoibWFuc2FtdXNhbWFya2V0cGxhY2UiLCJhIjoiY200ZG51eGJhMG5jNTJqczl2NDUxYmJnNyJ9.UzMjkOhf9gMz3-jXByRo-Q';
+
+interface NoirTrackingMapProps {
+  driverLocation: DriverLocation | null;
+  rideStatus: RideStatus | null;
+  pickupCoords?: [number, number]; // [lng, lat]
+  dropoffCoords?: [number, number];
+  onClose?: () => void;
+  isDemo?: boolean;
+}
+
+const STATUS_LABELS: Record<string, { label: string; color: string }> = {
+  requested: { label: 'Finding your driver...', color: 'bg-yellow-500' },
+  accepted: { label: 'Driver assigned', color: 'bg-blue-500' },
+  driver_en_route: { label: 'Driver en route', color: 'bg-purple-500' },
+  arrived: { label: 'Driver arrived', color: 'bg-green-500' },
+  in_progress: { label: 'Ride in progress', color: 'bg-green-600' },
+  completed: { label: 'Ride completed', color: 'bg-gray-500' },
+  cancelled: { label: 'Ride cancelled', color: 'bg-red-500' },
+};
+
+const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
+  driverLocation,
+  rideStatus,
+  pickupCoords,
+  dropoffCoords,
+  onClose,
+  isDemo = false,
+}) => {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const driverMarkerRef = useRef<mapboxgl.Marker | null>(null);
+  const [mapReady, setMapReady] = useState(false);
+
+  // Demo animation state
+  const demoIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [demoLocation, setDemoLocation] = useState<DriverLocation | null>(null);
+  const [demoStatus, setDemoStatus] = useState<RideStatus | null>(null);
+
+  const activeLocation = isDemo ? demoLocation : driverLocation;
+  const activeStatus = isDemo ? demoStatus : rideStatus;
+
+  // Initialize map
+  useEffect(() => {
+    if (!mapContainer.current || mapRef.current) return;
+
+    mapboxgl.accessToken = MAPBOX_TOKEN;
+
+    const defaultCenter: [number, number] = pickupCoords || [-84.388, 33.749]; // Atlanta default
+
+    const map = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/dark-v11',
+      center: defaultCenter,
+      zoom: 14,
+      attributionControl: false,
+    });
+
+    map.on('load', () => {
+      setMapReady(true);
+
+      // Add pickup marker
+      if (pickupCoords) {
+        new mapboxgl.Marker({ color: '#22c55e' })
+          .setLngLat(pickupCoords)
+          .setPopup(new mapboxgl.Popup().setText('Pickup'))
+          .addTo(map);
+      }
+
+      // Add dropoff marker
+      if (dropoffCoords) {
+        new mapboxgl.Marker({ color: '#ef4444' })
+          .setLngLat(dropoffCoords)
+          .setPopup(new mapboxgl.Popup().setText('Dropoff'))
+          .addTo(map);
+
+        // Fit bounds to show both markers
+        if (pickupCoords) {
+          const bounds = new mapboxgl.LngLatBounds()
+            .extend(pickupCoords)
+            .extend(dropoffCoords);
+          map.fitBounds(bounds, { padding: 80 });
+        }
+      }
+    });
+
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+      setMapReady(false);
+    };
+  }, [pickupCoords, dropoffCoords]);
+
+  // Update driver marker position
+  useEffect(() => {
+    if (!mapReady || !mapRef.current || !activeLocation) return;
+
+    const lngLat: [number, number] = [activeLocation.lng, activeLocation.lat];
+
+    if (!driverMarkerRef.current) {
+      // Create custom car marker
+      const el = document.createElement('div');
+      el.innerHTML = `
+        <div style="
+          width: 40px; height: 40px;
+          background: #d4af37;
+          border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          box-shadow: 0 0 20px rgba(212,175,55,0.6);
+          transform: rotate(${activeLocation.heading || 0}deg);
+          transition: transform 0.5s ease;
+        ">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5">
+            <path d="M12 2L19 21L12 17L5 21L12 2Z"/>
+          </svg>
+        </div>
+      `;
+
+      driverMarkerRef.current = new mapboxgl.Marker({ element: el })
+        .setLngLat(lngLat)
+        .addTo(mapRef.current);
+    } else {
+      // Smoothly update position
+      driverMarkerRef.current.setLngLat(lngLat);
+      const el = driverMarkerRef.current.getElement().firstChild as HTMLElement;
+      if (el) {
+        el.style.transform = `rotate(${activeLocation.heading || 0}deg)`;
+      }
+    }
+
+    // Pan map to follow driver
+    mapRef.current.panTo(lngLat, { duration: 1000 });
+  }, [activeLocation, mapReady]);
+
+  // Demo mode: simulate a driver approaching pickup
+  useEffect(() => {
+    if (!isDemo || !mapReady) return;
+
+    const pickup = pickupCoords || [-84.388, 33.749];
+    let step = 0;
+    const totalSteps = 60;
+    const startLat = pickup[1] + 0.015;
+    const startLng = pickup[0] - 0.012;
+
+    setDemoStatus({
+      id: 'demo',
+      status: 'driver_en_route',
+      driver_name: 'Marcus Johnson',
+      vehicle_info: '2023 Tesla Model 3 · Black',
+      driver_rating: 4.92,
+      estimated_arrival_minutes: 4,
+    });
+
+    demoIntervalRef.current = setInterval(() => {
+      step++;
+      const progress = step / totalSteps;
+      const lat = startLat + (pickup[1] - startLat) * progress;
+      const lng = startLng + (pickup[0] - startLng) * progress;
+      const heading = Math.atan2(pickup[0] - startLng, pickup[1] - startLat) * (180 / Math.PI);
+
+      setDemoLocation({
+        driver_id: 'demo-driver',
+        lat,
+        lng,
+        heading,
+        speed: 25 + Math.random() * 10,
+        timestamp: Date.now(),
+      });
+
+      setDemoStatus(prev => prev ? {
+        ...prev,
+        estimated_arrival_minutes: Math.max(1, Math.round((1 - progress) * 4)),
+        status: progress > 0.9 ? 'arrived' : 'driver_en_route',
+      } : null);
+
+      if (step >= totalSteps) {
+        if (demoIntervalRef.current) clearInterval(demoIntervalRef.current);
+      }
+    }, 1500);
+
+    return () => {
+      if (demoIntervalRef.current) clearInterval(demoIntervalRef.current);
+    };
+  }, [isDemo, mapReady, pickupCoords]);
+
+  const statusInfo = activeStatus ? STATUS_LABELS[activeStatus.status] || STATUS_LABELS.requested : STATUS_LABELS.requested;
+
+  return (
+    <div className="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10">
+      {/* Map */}
+      <div
+        ref={mapContainer}
+        className="absolute inset-0"
+        style={{ transform: 'translateZ(0)' }}
+      />
+
+      {/* Close button */}
+      {onClose && (
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 bg-black/70 backdrop-blur-sm rounded-full p-2 hover:bg-black/90 transition-colors"
+        >
+          <X className="h-5 w-5 text-white" />
+        </button>
+      )}
+
+      {/* Status banner */}
+      <div className="absolute top-4 left-4 right-14 z-10">
+        <div className="bg-black/80 backdrop-blur-md rounded-xl px-4 py-3 flex items-center gap-3">
+          <div className={`w-3 h-3 rounded-full ${statusInfo.color} animate-pulse`} />
+          <span className="text-white font-medium text-sm">{statusInfo.label}</span>
+          {activeStatus?.estimated_arrival_minutes && activeStatus.status !== 'arrived' && (
+            <Badge variant="outline" className="ml-auto border-[#d4af37]/50 text-[#d4af37] gap-1">
+              <Clock className="h-3 w-3" />
+              {activeStatus.estimated_arrival_minutes} min
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      {/* Driver info card */}
+      {activeStatus?.driver_name && (
+        <Card className="absolute bottom-4 left-4 right-4 z-10 bg-black/85 backdrop-blur-md border-white/10">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              {/* Driver avatar */}
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#d4af37] to-[#b8960c] flex items-center justify-center text-black font-bold text-xl flex-shrink-0">
+                {activeStatus.driver_name.charAt(0)}
+              </div>
+
+              {/* Driver details */}
+              <div className="flex-1 min-w-0">
+                <h4 className="text-white font-semibold text-base truncate">{activeStatus.driver_name}</h4>
+                {activeStatus.vehicle_info && (
+                  <p className="text-white/60 text-sm truncate">{activeStatus.vehicle_info}</p>
+                )}
+                {activeStatus.driver_rating && (
+                  <div className="flex items-center gap-1 mt-1">
+                    <Star className="h-3.5 w-3.5 fill-[#d4af37] text-[#d4af37]" />
+                    <span className="text-[#d4af37] text-sm font-medium">{activeStatus.driver_rating}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex gap-2 flex-shrink-0">
+                <Button size="icon" variant="outline" className="rounded-full border-white/20 bg-white/5 hover:bg-white/10 h-10 w-10">
+                  <Phone className="h-4 w-4 text-white" />
+                </Button>
+                <Button size="icon" variant="outline" className="rounded-full border-white/20 bg-white/5 hover:bg-white/10 h-10 w-10">
+                  <MessageSquare className="h-4 w-4 text-white" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Live location indicator */}
+            {activeLocation && (
+              <div className="mt-3 pt-3 border-t border-white/10 flex items-center gap-2 text-xs text-white/40">
+                <Navigation className="h-3 w-3 text-[#d4af37]" />
+                <span>Live tracking · {Math.round(activeLocation.speed || 0)} mph</span>
+                <span className="ml-auto">
+                  {isDemo ? 'Demo mode' : 'Connected'}
+                </span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
+
+export default NoirTrackingMap;
