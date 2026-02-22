@@ -103,10 +103,10 @@ const handler = async (req: Request): Promise<Response> => {
       try {
         // Generate a claim token
         const claimToken = crypto.randomUUID();
-        const claimUrl = `${Deno.env.get("FRONTEND_URL") || "https://mansamusa.app"}/claim-business?token=${claimToken}&lead=${lead.id}`;
+        const claimUrl = `${Deno.env.get("FRONTEND_URL") || "https://1325.ai"}/claim-business?token=${claimToken}&lead=${lead.id}`;
 
         // Personalize the email
-        const personalizedSubject = (template?.subject || "Claim Your Business on Mansa Musa Marketplace!")
+        const personalizedSubject = (template?.subject || "Claim Your Business on 1325.AI!")
           .replace('{{business_name}}', lead.business_name)
           .replace('{{owner_name}}', lead.owner_name || 'Business Owner');
 
@@ -119,7 +119,7 @@ const handler = async (req: Request): Promise<Response> => {
 
         // Send the email
         const { error: emailError } = await resend.emails.send({
-          from: "Mansa Musa Marketplace <hello@mansamusamarketplace.com>",
+          from: "1325.AI <hello@1325.ai>",
           to: [lead.owner_email],
           subject: personalizedSubject,
           html: personalizedBody,
@@ -199,15 +199,15 @@ function getDefaultEmailBody(): string {
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5;">
   <div style="background: linear-gradient(135deg, #1B365D 0%, #0f2447 100%); padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
-    <img src="https://mansamusamarketplace.com/images/mansa-musa-logo.png" alt="Mansa Musa Marketplace" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #FFD700; object-fit: cover;">
+    <img src="https://1325.ai/images/1325-ai-logo.png" alt="1325.AI" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #FFD700; object-fit: cover;">
     <h1 style="color: #FFD700; margin: 0; font-size: 28px;">You're Invited!</h1>
-    <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 14px;">Join the Premier Directory for Black-Owned Businesses</p>
+    <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 14px;">Join the Premier Directory for Community Businesses</p>
   </div>
   
   <div style="background: #ffffff; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
     <p style="font-size: 16px;">Hi {{owner_name}},</p>
     
-    <p>We discovered <strong>{{business_name}}</strong> and we'd love for you to be part of our growing community! <a href="https://mansamusamarketplace.com" style="color: #1B365D; font-weight: bold;">Mansa Musa Marketplace</a> is the premier platform connecting customers with Black-owned businesses across the nation.</p>
+    <p>We discovered <strong>{{business_name}}</strong> and we'd love for you to be part of our growing community! <a href="https://1325.ai" style="color: #1B365D; font-weight: bold;">1325.AI</a> is the premier platform connecting customers with community businesses across the nation.</p>
     
     <p><strong>The best part?</strong> Claiming your listing is completely <span style="color: #FFD700; background: #1B365D; padding: 2px 8px; border-radius: 4px; font-weight: bold;">FREE</span>!</p>
     
@@ -217,7 +217,7 @@ function getDefaultEmailBody(): string {
         <li style="margin-bottom: 8px;"><strong>Verified business profile</strong> with photos & reviews</li>
         <li style="margin-bottom: 8px;"><strong>Customer loyalty program</strong> to reward repeat customers</li>
         <li style="margin-bottom: 8px;"><strong>Business analytics dashboard</strong> to track your growth</li>
-        <li style="margin-bottom: 8px;"><strong>B2B networking</strong> with other Black-owned businesses</li>
+        <li style="margin-bottom: 8px;"><strong>B2B networking</strong> with other community businesses</li>
         <li style="margin-bottom: 8px;"><strong>Marketing materials</strong> & promotional support</li>
       </ul>
     </div>
@@ -238,21 +238,21 @@ function getDefaultEmailBody(): string {
     <p style="font-size: 14px; color: #555;">Have questions? Simply reply to this email - we're here to help!</p>
     
     <p style="font-size: 14px; color: #333; margin-bottom: 5px;">Warm regards,</p>
-    <p style="font-size: 16px; color: #1B365D; font-weight: bold; margin-top: 0;">The Mansa Musa Marketplace Team 👑</p>
+    <p style="font-size: 16px; color: #1B365D; font-weight: bold; margin-top: 0;">The 1325.AI Team 👑</p>
     
     <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
     
     <div style="text-align: center;">
-      <a href="https://mansamusamarketplace.com" style="color: #1B365D; font-weight: bold; text-decoration: none; font-size: 14px;">Visit Mansa Musa Marketplace</a>
+      <a href="https://1325.ai" style="color: #1B365D; font-weight: bold; text-decoration: none; font-size: 14px;">Visit 1325.AI</a>
       <p style="font-size: 12px; color: #666; margin-top: 15px;">
         1000 E. 111th Street, Suite 1100<br>
         Chicago, Illinois 60628
       </p>
       <p style="font-size: 12px; color: #999; margin-top: 10px;">
-        © 2025 Mansa Musa Marketplace. Empowering Black-owned businesses everywhere.
+        © 2025 1325.AI. Empowering community businesses everywhere.
       </p>
       <p style="font-size: 11px; color: #bbb; margin-top: 10px;">
-        You received this email because your business was discovered in our search for Black-owned businesses. 
+        You received this email because your business was discovered in our search for community businesses. 
         If you'd prefer not to receive these emails, simply ignore this message.
       </p>
     </div>

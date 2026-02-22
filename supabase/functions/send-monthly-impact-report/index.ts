@@ -81,7 +81,7 @@ serve(async (req) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              from: 'Mansa Musa Marketplace <noreply@mansamusamarketplace.com>',
+              from: '1325.AI <noreply@1325.ai>',
               to: [email],
               subject: `📊 Your ${monthName} Sponsorship Impact Report`,
               html: emailHtml,
@@ -226,13 +226,13 @@ function generateImpactReportEmail(
         <div style="background: #f0fdf4; border: 1px solid #86efac; padding: 15px; border-radius: 8px; margin: 20px 0;">
           <p style="margin: 0; color: #166534;">
             <strong>🌟 Your Impact Story:</strong><br>
-            This month, your sponsorship helped support <strong>${formatNumber(metrics.businessesSupported)}</strong> Black-owned businesses, 
+            This month, your sponsorship helped support <strong>${formatNumber(metrics.businessesSupported)}</strong> community businesses, 
             generating <strong>${formatCurrency(metrics.economicImpact)}</strong> in economic activity within our community.
           </p>
         </div>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://mansamusamarketplace.com/sponsor-dashboard" 
+          <a href="https://1325.ai/sponsor-dashboard" 
              style="display: inline-block; background: linear-gradient(135deg, #d4af37, #b8960f); color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-right: 10px;">
             View Full Dashboard
           </a>
@@ -241,9 +241,9 @@ function generateImpactReportEmail(
         <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
         
         <p style="color: #666; font-size: 14px; text-align: center;">
-          Questions about your sponsorship? <a href="mailto:sponsors@mansamusamarketplace.com" style="color: #d4af37;">Contact our team</a><br><br>
+          Questions about your sponsorship? <a href="mailto:sponsors@1325.ai" style="color: #d4af37;">Contact our team</a><br><br>
           Thank you for making a difference!<br>
-          <strong>The Mansa Musa Marketplace Team</strong>
+          <strong>The 1325.AI Team</strong>
         </p>
       </div>
     </body>

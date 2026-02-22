@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
       throw new Error('Failed to fetch business details');
     }
 
-    const systemPrompt = `You are an AI business analyst helping users compare Black-owned businesses. Provide objective, detailed comparisons highlighting:
+    const systemPrompt = `You are an AI business analyst helping users compare community businesses. Provide objective, detailed comparisons highlighting:
 1. Key differentiators and unique selling points
 2. Service/product offerings comparison
 3. Pricing and value propositions

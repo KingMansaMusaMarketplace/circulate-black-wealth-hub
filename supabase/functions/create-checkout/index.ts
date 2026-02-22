@@ -10,7 +10,7 @@ const getAllowedOrigins = (): string[] => {
   if (origins) {
     return origins.split(',').map(o => o.trim());
   }
-  // Default allowed origins for MansaMusa platform
+  // Default allowed origins for 1325.AI platform
   return [
     'https://agoclnqfyinwjxdmjnns.lovableproject.com',
     'https://lovable.dev',

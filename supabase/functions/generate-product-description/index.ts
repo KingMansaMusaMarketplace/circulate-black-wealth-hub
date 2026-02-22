@@ -20,7 +20,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const systemPrompt = `You are an expert product copywriter specializing in creating compelling product descriptions for Black-owned businesses. Your descriptions should be:
+    const systemPrompt = `You are an expert product copywriter specializing in creating compelling product descriptions for community businesses. Your descriptions should be:
 - Engaging and persuasive
 - SEO-optimized with natural keyword usage
 - Focused on benefits, not just features

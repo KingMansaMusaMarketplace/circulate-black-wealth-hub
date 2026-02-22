@@ -121,14 +121,14 @@ Deno.serve(async (req) => {
 
     const totalCirculation = allTransactions?.reduce((sum, t) => sum + parseFloat(t.amount?.toString() || '0'), 0) || 0;
 
-    const systemPrompt = `You are an AI storyteller for Mansa Musa Marketplace, a platform dedicated to circulating wealth within the Black community. Your goal is to create inspiring, personalized impact stories that make users feel proud of their contribution to economic empowerment.
+    const systemPrompt = `You are an AI storyteller for 1325.AI, a platform dedicated to circulating wealth within the community. Your goal is to create inspiring, personalized impact stories that make users feel proud of their contribution to economic empowerment.
 
 Generate a compelling impact report that:
 1. Celebrates their specific contributions with enthusiasm
 2. Shows concrete economic impact with real numbers
 3. Connects individual actions to broader community benefit
 4. Uses inspiring language about wealth building and economic power
-5. References Mansa Musa's legacy of wealth and prosperity
+5. References the legacy of wealth and prosperity that inspires the platform
 6. Makes them feel like heroes in the economic empowerment movement
 
 IMPORTANT: Do NOT use any markdown formatting like ** or __ for bold/emphasis. Write in plain text only. Use emojis occasionally but not excessively. Be warm, uplifting, and motivational. Focus on transformation and collective power.`;
@@ -138,7 +138,7 @@ Period: ${period === 'month' ? 'This Month' : period === 'year' ? 'This Year' : 
 
 USER'S PERSONAL IMPACT:
 - Total Amount Circulated: $${totalSpent.toFixed(2)}
-- Black-Owned Businesses Supported: ${uniqueBusinesses}
+- Community Businesses Supported: ${uniqueBusinesses}
 - Business Visits/Discoveries: ${totalVisits}
 - Transactions Made: ${transactionCount}
 - Businesses Supported: ${businessNames.map(b => `${b.business_name} (${b.category})`).join(', ') || 'None yet'}

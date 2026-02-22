@@ -193,7 +193,7 @@ const handler = async (req: Request): Promise<Response> => {
 
                   <div class="footer">
                     <p>This is an automated monthly report. For questions, please contact support.</p>
-                    <p>© ${new Date().getFullYear()} Mansa Musa Marketplace</p>
+                    <p>© ${new Date().getFullYear()} 1325.AI</p>
                   </div>
                 </div>
               </div>
@@ -203,7 +203,7 @@ const handler = async (req: Request): Promise<Response> => {
 
         // Send email
         const emailResponse = await resend.emails.send({
-          from: "Mansa Musa Marketplace <reports@mansamusamarketplace.com>",
+          from: "1325.AI <reports@1325.ai>",
           to: [business.email],
           subject: `📊 Your Commission Report for ${monthName}`,
           html: emailHtml,

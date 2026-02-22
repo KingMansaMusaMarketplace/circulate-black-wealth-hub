@@ -3,7 +3,7 @@ import { Resend } from "npm:resend@2.0.0";
 
 /**
  * Send B2B Invitation Edge Function
- * Invites discovered businesses to join the Mansa Musa Marketplace
+ * Invites discovered businesses to join the 1325.AI platform
  */
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
@@ -62,7 +62,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     // Sanitize inputs to prevent XSS in emails
     const sanitizedBusinessName = businessName.replace(/[<>]/g, '');
-    const sanitizedInviterName = inviterName?.replace(/[<>]/g, '') || 'A Mansa Musa member';
+    const sanitizedInviterName = inviterName?.replace(/[<>]/g, '') || 'A 1325.AI member';
     const sanitizedInviterBusinessName = inviterBusinessName?.replace(/[<>]/g, '');
     const sanitizedPersonalMessage = personalMessage?.replace(/[<>]/g, '');
 
@@ -78,7 +78,7 @@ const handler = async (req: Request): Promise<Response> => {
       ...(invitationToken && { token: invitationToken })
     });
     
-    const signupUrl = `https://mansamusa.app/business/signup?${utmParams.toString()}`;
+    const signupUrl = `https://1325.ai/business/signup?${utmParams.toString()}`;
     
     // Build tracking pixel URL for open tracking
     const trackingPixelUrl = invitationToken 
@@ -90,16 +90,16 @@ const handler = async (req: Request): Promise<Response> => {
       : signupUrl;
     
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@mansamusa.app>",
+      from: "1325.AI <noreply@1325.ai>",
       to: [businessEmail],
-      subject: `${inviterName} invites you to join the Mansa Musa B2B Marketplace`,
+      subject: `${inviterName} invites you to join the 1325.AI B2B Marketplace`,
       html: `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Join Mansa Musa Marketplace</title>
+          <title>Join 1325.AI</title>
         </head>
         <body style="margin: 0; padding: 0; background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
           ${trackingPixelUrl ? `<img src="${trackingPixelUrl}" width="1" height="1" style="display:none;" alt="" />` : ''}
@@ -110,7 +110,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <!-- Header -->
                   <tr>
                     <td style="text-align: center; padding-bottom: 30px;">
-                      <h1 style="color: #f59e0b; font-size: 28px; margin: 0;">Mansa Musa</h1>
+                      <h1 style="color: #f59e0b; font-size: 28px; margin: 0;">1325.AI</h1>
                       <p style="color: #94a3b8; font-size: 14px; margin: 5px 0 0 0;">B2B Marketplace</p>
                     </td>
                   </tr>
@@ -138,9 +138,9 @@ const handler = async (req: Request): Promise<Response> => {
                       ` : ''}
                       
                       <div style="background-color: rgba(245, 158, 11, 0.1); border-radius: 12px; padding: 20px; margin: 25px 0;">
-                        <h3 style="color: #f59e0b; font-size: 18px; margin: 0 0 15px 0;">Why Join Mansa Musa?</h3>
+                        <h3 style="color: #f59e0b; font-size: 18px; margin: 0 0 15px 0;">Why Join 1325.AI?</h3>
                         <ul style="color: #cbd5e1; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
-                          <li><strong>Connect with Black-owned businesses</strong> actively seeking suppliers like you</li>
+                          <li><strong>Connect with community businesses</strong> actively seeking suppliers like you</li>
                           <li><strong>Keep money circulating</strong> in our community 6x longer</li>
                           <li><strong>Access B2B opportunities</strong> from verified member businesses</li>
                           <li><strong>Build lasting partnerships</strong> with businesses that share your values</li>
@@ -163,7 +163,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <tr>
                     <td style="text-align: center; padding-top: 30px;">
                       <p style="color: #475569; font-size: 12px; margin: 0;">
-                        © ${new Date().getFullYear()} Mansa Musa Marketplace. All rights reserved.
+                        © ${new Date().getFullYear()} 1325.AI. All rights reserved.
                       </p>
                       <p style="color: #475569; font-size: 11px; margin: 10px 0 0 0;">
                         You received this email because a member discovered your business through our platform.

@@ -135,7 +135,7 @@ const handler = async (req: Request): Promise<Response> => {
       for (const recipient of recipients) {
         try {
           await resend.emails.send({
-            from: "Mansa Musa Admin <admin@mansamusamarketplace.com>",
+            from: "1325.AI Admin <admin@1325.ai>",
             to: [recipient],
             subject: `${digestType === 'daily' ? 'Daily' : 'Weekly'} Notification Digest - ${now.toLocaleDateString()}`,
             html: emailHtml,
