@@ -119,7 +119,7 @@ const AuthPage = () => {
         } else {
           toast({
             title: "Account Created!",
-            description: "Welcome to Mansa Musa Marketplace! Check your email to verify your account.",
+            description: "Welcome to 1325.AI! Check your email to verify your account.",
           });
           navigate('/');
         }
@@ -182,7 +182,7 @@ const AuthPage = () => {
             </CardTitle>
             <CardDescription className="text-lg text-slate-300 font-medium">
               {isLogin 
-                ? 'Sign in to your Mansa Musa Marketplace account'
+                ? 'Sign in to your 1325.AI account'
                 : 'Create your FREE account and start building community wealth'
               }
             </CardDescription>

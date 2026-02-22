@@ -91,7 +91,7 @@ export function WebSearchSection({ initialQuery = '' }: WebSearchSectionProps) {
               Can't Find What You're Looking For?
             </h3>
             <p className="text-slate-300 max-w-2xl mx-auto">
-              Search the web for Black-owned businesses that aren't on our platform yet. 
+              Search the web for community businesses that aren't on our platform yet. 
               Powered by AI to help you discover amazing businesses everywhere.
             </p>
           </div>
@@ -142,7 +142,7 @@ export function WebSearchSection({ initialQuery = '' }: WebSearchSectionProps) {
             <div className="text-center py-8">
               <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-purple-500/20 border border-purple-500/30">
                 <Loader2 className="h-5 w-5 animate-spin text-purple-400" />
-                <span className="text-purple-300">Searching the web for Black-owned businesses...</span>
+                <span className="text-purple-300">Searching the web for community businesses...</span>
               </div>
             </div>
           )}

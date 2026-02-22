@@ -30,7 +30,7 @@ const DesktopHeroSection: React.FC<DesktopHeroSectionProps> = ({
     <div className="bg-gradient-to-r from-mansablue to-mansablue-dark py-12">
       <div className="container mx-auto text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          Discover Amazing Black-Owned Businesses
+          Discover Amazing Community Businesses
         </h1>
         <p className="text-white/80 max-w-2xl mx-auto mb-8 text-lg">
           Powered by AI recommendations, smart filtering, and real-time location data

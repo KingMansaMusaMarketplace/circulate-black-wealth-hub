@@ -29,10 +29,10 @@ const HelpPage = () => {
   };
 
   const getMetaDescription = () => {
-    if (isAgent) return 'Sales agent help and support for Mansa Musa Marketplace. Maximize your referral earnings and grow your network.';
-    if (isCorporateUser) return 'Corporate partnership help and support for Mansa Musa Marketplace. Maximize your sponsorship impact and community engagement.';
-    if (isBusinessUser) return 'Business help and support for Mansa Musa Marketplace. Grow your business with our platform.';
-    return 'Get help and support for Mansa Musa Marketplace. Find resources and contact our support team.';
+    if (isAgent) return 'Sales agent help and support for 1325.AI. Maximize your referral earnings and grow your network.';
+    if (isCorporateUser) return 'Corporate partnership help and support for 1325.AI. Maximize your sponsorship impact and community engagement.';
+    if (isBusinessUser) return 'Business help and support for 1325.AI. Grow your business with our platform.';
+    return 'Get help and support for 1325.AI. Find resources and contact our support team.';
   };
 
   return (

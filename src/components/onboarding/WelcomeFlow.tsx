@@ -55,11 +55,11 @@ const customerSteps: OnboardingStep[] = [
   {
     id: 'discover',
     title: 'Discover Businesses',
-    description: 'Find Black-owned businesses near you',
+    description: 'Find community businesses near you',
     icon: Building,
     content: {
       title: 'Explore the Business Directory',
-      description: 'Our comprehensive directory features verified Black-owned businesses across all categories and locations.',
+      description: 'Our comprehensive directory features verified community businesses across all categories and locations.',
       features: [
         'Search by location, category, or business name',
         'View detailed business profiles with photos and reviews',
@@ -97,11 +97,11 @@ const customerSteps: OnboardingStep[] = [
   {
     id: 'rewards',
     title: 'Earn Rewards',
-    description: 'Get rewarded for supporting Black-owned businesses',
+    description: 'Get rewarded for supporting community businesses',
     icon: Gift,
     content: {
       title: 'Loyalty Points & Rewards',
-      description: 'The more you support Black-owned businesses, the more rewards you earn. It\'s our way of saying thank you!',
+      description: 'The more you support community businesses, the more rewards you earn. It\'s our way of saying thank you!',
       features: [
         'Earn points for QR code scans and purchases',
         'Redeem points for discounts and special offers on products and services',

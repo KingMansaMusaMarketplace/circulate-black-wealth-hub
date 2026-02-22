@@ -95,7 +95,7 @@ const FAQPage = () => {
             </span>
           </h1>
           <p className="text-xl text-white/80">
-            Find answers to common questions about Mansa Musa Marketplace
+            Find answers to common questions about 1325.AI
           </p>
         </motion.div>
 

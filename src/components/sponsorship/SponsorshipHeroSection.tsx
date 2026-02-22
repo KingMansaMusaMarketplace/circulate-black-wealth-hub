@@ -90,8 +90,8 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Partner with Mansa Musa Marketplace to create lasting economic change 
-            in Black communities while aligning your brand with authentic impact.
+            Partner with 1325.AI to create lasting economic change 
+            in communities while aligning your brand with authentic impact.
           </motion.p>
           
           <motion.div 

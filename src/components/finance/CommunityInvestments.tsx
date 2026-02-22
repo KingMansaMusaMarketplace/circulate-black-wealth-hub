@@ -30,7 +30,7 @@ export const CommunityInvestments: React.FC = () => {
       <div>
         <h2 className="text-2xl font-bold">Community Investments</h2>
         <p className="text-muted-foreground">
-          Invest in Black-owned businesses and share in their success
+          Invest in community businesses and share in their success
         </p>
       </div>
 

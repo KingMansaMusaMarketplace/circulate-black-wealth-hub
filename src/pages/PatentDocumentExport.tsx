@@ -100,7 +100,7 @@ const PatentDocumentExport = () => {
       // Summary
       addText('SUMMARY OF THE INVENTION', 12, true);
       addSpace(10);
-      addText('The present invention provides a comprehensive marketplace operating system ("Mansa Musa Marketplace") that addresses these deficiencies through multiple novel technical innovations:', 12, false);
+      addText('The present invention provides a comprehensive marketplace operating system ("1325.AI") that addresses these deficiencies through multiple novel technical innovations:', 12, false);
       addSpace(10);
 
       const claims = [
@@ -481,7 +481,7 @@ Full source code implementation in codebase.`}
             SUMMARY OF THE INVENTION
           </h2>
           <p style={{ textAlign: 'justify', marginBottom: '15px' }}>
-            The present invention provides a comprehensive marketplace operating system ("Mansa Musa Marketplace") that addresses these deficiencies through multiple novel and non-obvious technical innovations:
+            The present invention provides a comprehensive marketplace operating system ("1325.AI") that addresses these deficiencies through multiple novel and non-obvious technical innovations:
           </p>
           <ol style={{ marginLeft: '30px', marginBottom: '20px' }}>
             <li style={{ marginBottom: '8px' }}><strong>Temporal Founding Member Status System</strong> - Immutable lifetime benefits for early registrants based on timestamp-triggered database mechanisms.</li>

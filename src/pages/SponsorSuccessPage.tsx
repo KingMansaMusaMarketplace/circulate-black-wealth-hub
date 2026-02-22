@@ -29,7 +29,7 @@ const SponsorSuccessPage: React.FC = () => {
     <>
       <Helmet>
         <title>Sponsorship Confirmed - Thank You!</title>
-        <meta name="description" content="Your corporate sponsorship has been confirmed. Thank you for supporting Black-owned businesses." />
+        <meta name="description" content="Your corporate sponsorship has been confirmed. Thank you for supporting community businesses." />
       </Helmet>
 
       <div className="min-h-screen bg-[#0a1628] relative overflow-hidden flex items-center justify-center p-4">
@@ -58,7 +58,7 @@ const SponsorSuccessPage: React.FC = () => {
               <Crown className="h-6 w-6 text-amber-400" />
             </div>
             <CardDescription className="text-lg text-blue-200/80">
-              Thank you for becoming a corporate sponsor. Your support will make a real difference in strengthening Black-owned businesses and communities.
+              Thank you for becoming a corporate sponsor. Your support will make a real difference in strengthening community businesses and communities.
             </CardDescription>
           </CardHeader>
 

@@ -24,7 +24,7 @@ const CertificateDownload: React.FC<CertificateDownloadProps> = ({
   
   const embedCode = `<a href="${verificationUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:linear-gradient(135deg,#f59e0b,#eab308);color:#1a1a2e;border-radius:8px;text-decoration:none;font-family:system-ui,sans-serif;font-weight:600;font-size:14px;">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-  Certified Black-Owned Business
+  Certified Community Business
 </a>`;
 
   const handleCopyEmbed = () => {
@@ -52,7 +52,7 @@ const CertificateDownload: React.FC<CertificateDownloadProps> = ({
               Certification Active
             </CardTitle>
             <CardDescription>
-              Your business has been verified as Black-owned
+              Your business has been verified as community-owned
             </CardDescription>
           </div>
           <VerifiedBlackOwnedBadge 
@@ -106,7 +106,7 @@ const CertificateDownload: React.FC<CertificateDownloadProps> = ({
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Add this badge to your website to show customers your business is certified Black-owned.
+            Add this badge to your website to show customers your business is certified community-owned.
           </p>
           <div className="p-3 bg-muted rounded-lg">
             <p className="text-xs text-muted-foreground mb-2">Preview:</p>
@@ -117,7 +117,7 @@ const CertificateDownload: React.FC<CertificateDownloadProps> = ({
               className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-mansablue rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity"
             >
               <CheckCircle className="h-4 w-4" />
-              Certified Black-Owned Business
+              Certified Community Business
             </a>
           </div>
           <pre className="p-3 bg-muted/50 rounded-lg text-xs overflow-x-auto border">

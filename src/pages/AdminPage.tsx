@@ -55,7 +55,7 @@ const AdminPage: React.FC = () => {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white font-display">Admin Dashboard</h1>
-              <p className="text-white/70">Manage your Mansa Musa Marketplace</p>
+              <p className="text-white/70">Manage your 1325.AI</p>
             </div>
           </div>
         </div>
@@ -123,7 +123,7 @@ const AdminPage: React.FC = () => {
           </div>
           
           <p className="text-sm text-white/50 mt-4">
-            Complete these steps before using the Mansa Musa Marketplace application
+            Complete these steps before using the 1325.AI application
           </p>
         </div>
         

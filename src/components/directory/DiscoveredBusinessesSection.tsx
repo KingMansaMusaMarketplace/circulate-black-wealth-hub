@@ -79,7 +79,7 @@ export const DiscoveredBusinessesSection: React.FC = () => {
                   </Badge>
                 </CardTitle>
                 <p className="text-sm text-slate-400 mt-1">
-                  Black-owned businesses found across the web • Help them join our community
+                  Community businesses found across the web • Help them join our community
                 </p>
               </div>
             </div>
@@ -156,7 +156,7 @@ export const DiscoveredBusinessesSection: React.FC = () => {
             <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-center sm:text-left">
-                  <h4 className="font-semibold text-white">Know a Black-owned business?</h4>
+                  <h4 className="font-semibold text-white">Know a community business?</h4>
                   <p className="text-sm text-slate-400">
                     Invite them to join and earn rewards when they sign up!
                   </p>

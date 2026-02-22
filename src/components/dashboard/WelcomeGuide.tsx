@@ -65,7 +65,7 @@ const WelcomeGuide: React.FC<WelcomeGuideProps> = ({ userType }) => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-white">
           <Users className="h-5 w-5 text-blue-400" />
-          Welcome to Mansa Musa Marketplace
+          Welcome to 1325.AI
         </CardTitle>
       </CardHeader>
       <CardContent>

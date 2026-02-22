@@ -241,7 +241,7 @@ const UserSettingsPage: React.FC = () => {
                         </p>
                         <button 
                           className="text-yellow-400 hover:text-yellow-300 text-sm font-medium transition-colors"
-                          onClick={() => window.open('https://mansamusamarketplace.com/privacy-policy', '_blank')}
+                          onClick={() => window.open('https://1325.ai/privacy-policy', '_blank')}
                         >
                           View Privacy Policy →
                         </button>

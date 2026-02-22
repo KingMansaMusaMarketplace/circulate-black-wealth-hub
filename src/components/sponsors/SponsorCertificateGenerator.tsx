@@ -69,7 +69,7 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
       doc.setTextColor(212, 175, 55);
       doc.setFontSize(16);
       doc.setFont('helvetica', 'normal');
-      doc.text('MANSA MUSA MARKETPLACE', pageWidth / 2, 35, { align: 'center' });
+      doc.text('1325.AI', pageWidth / 2, 35, { align: 'center' });
 
       doc.setFontSize(36);
       doc.setFont('helvetica', 'bold');
@@ -129,7 +129,7 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
       
       doc.setFontSize(10);
       doc.setTextColor(180, 180, 180);
-      doc.text('Mansa Musa Marketplace', pageWidth / 2, 200, { align: 'center' });
+      doc.text('1325.AI', pageWidth / 2, 200, { align: 'center' });
 
       // Save the PDF
       doc.save(`${sponsor.company_name.replace(/\s+/g, '_')}_Sponsorship_Certificate.pdf`);
@@ -160,7 +160,7 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
       doc.setFontSize(20);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(27, 54, 93); // Brand color
-      doc.text('MANSA MUSA MARKETPLACE', margin, 30);
+      doc.text('1325.AI', margin, 30);
 
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
@@ -189,7 +189,7 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
       // Body
       const body = `Dear ${sponsor.company_name},
 
-Thank you for your generous support of Mansa Musa Marketplace through your ${sponsor.tier.toUpperCase()} sponsorship.
+Thank you for your generous support of 1325.AI through your ${sponsor.tier.toUpperCase()} sponsorship.
 
 This letter acknowledges that your organization has contributed sponsorship support during the period from ${format(new Date(validFrom), 'MMMM d, yyyy')} to ${format(new Date(validTo), 'MMMM d, yyyy')}.
 
@@ -207,7 +207,7 @@ We deeply appreciate your commitment to our community and look forward to our co
 With gratitude,
 
 
-Mansa Musa Marketplace
+1325.AI
 Thomas@1325.AI`;
 
       const splitBody = doc.splitTextToSize(body, pageWidth - (margin * 2));
@@ -241,7 +241,7 @@ Thomas@1325.AI`;
       {/* Preview */}
       <div className="border rounded-lg p-6 bg-slate-900 text-white">
         <div className="text-center space-y-4">
-          <p className="text-amber-400 text-sm tracking-wider">MANSA MUSA MARKETPLACE</p>
+          <p className="text-amber-400 text-sm tracking-wider">1325.AI</p>
           <h2 className="text-2xl font-bold text-amber-400">CERTIFICATE OF SPONSORSHIP</h2>
           <p className="text-sm">This certifies that</p>
           <p className="text-xl font-bold text-amber-400">{sponsor.company_name.toUpperCase()}</p>

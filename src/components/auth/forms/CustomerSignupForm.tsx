@@ -143,7 +143,7 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
             <h4 className="text-sm font-medium text-green-900 mb-2">🎉 FREE MEMBERSHIP INCLUDES:</h4>
             <ul className="text-xs text-green-700 space-y-1">
               <li>✓ Browse complete business directory</li>
-              <li>✓ Discover Black-owned businesses near you</li>
+              <li>✓ Discover community businesses near you</li>
               <li>✓ View detailed business profiles</li>
               <li>✓ Access business contact information</li>
               <li>✓ Support community economic growth</li>

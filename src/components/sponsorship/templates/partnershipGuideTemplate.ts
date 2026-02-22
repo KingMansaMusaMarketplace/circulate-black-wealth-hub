@@ -4,13 +4,13 @@ export const getPartnershipGuideContent = (): string => {
     <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #000000;">
       <div style="text-align: center; margin-bottom: 40px;">
         <h1 style="color: #000000; font-size: 36px; margin-bottom: 10px; font-weight: bold;">Partnership Guide</h1>
-        <h2 style="color: #000000; font-size: 24px; margin-bottom: 20px; font-weight: bold;">Mansa Musa Marketplace</h2>
-        <p style="font-size: 18px; color: #000000;">Building the Black Economic Ecosystem</p>
+        <h2 style="color: #000000; font-size: 24px; margin-bottom: 20px; font-weight: bold;">1325.AI</h2>
+        <p style="font-size: 18px; color: #000000;">Building the Community Economic Ecosystem</p>
       </div>
 
       <div style="margin-bottom: 30px;">
         <h3 style="color: #000000; font-size: 20px; margin-bottom: 15px; font-weight: bold;">Our Mission</h3>
-        <p style="line-height: 1.8; font-size: 16px; color: #000000;">Mansa Musa Marketplace is dedicated to building, protecting, and expanding the Black economic ecosystem through intentional consumer behavior, loyalty rewards, and strategic digital infrastructure.</p>
+        <p style="line-height: 1.8; font-size: 16px; color: #000000;">1325.AI is dedicated to building, protecting, and expanding the community economic ecosystem through intentional consumer behavior, loyalty rewards, and strategic digital infrastructure.</p>
       </div>
 
       <div style="margin-bottom: 30px;">

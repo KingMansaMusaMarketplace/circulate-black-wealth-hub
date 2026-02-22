@@ -115,7 +115,7 @@ const PitchSlide14Why776: React.FC = () => {
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a 
-                  href="mailto:investors@mansamusamarketplace.com?subject=776%20Investment%20Inquiry"
+                  href="mailto:investors@1325.ai?subject=776%20Investment%20Inquiry"
                   className="inline-flex items-center gap-2 bg-gradient-to-r from-mansagold to-mansagold-light text-mansablue-dark font-bold px-8 py-4 rounded-xl hover:shadow-xl hover:shadow-mansagold/30 transition-all"
                 >
                   <Mail className="w-5 h-5" />
@@ -132,7 +132,7 @@ const PitchSlide14Why776: React.FC = () => {
               </div>
 
               <p className="mt-6 text-white/50 text-sm">
-                investors@mansamusamarketplace.com • mansamusamarketplace.com
+                investors@1325.ai • 1325.ai
               </p>
             </div>
           </Card>

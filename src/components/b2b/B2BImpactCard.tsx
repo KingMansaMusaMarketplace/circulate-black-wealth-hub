@@ -57,7 +57,7 @@ export function B2BImpactCard({ metrics }: B2BImpactCardProps) {
           <h3 className="font-semibold">Community Economic Impact</h3>
         </div>
         <p className="text-sm text-primary-foreground/80 mt-1">
-          When Black-owned businesses buy from each other, money circulates 6x longer in our community
+          When community businesses buy from each other, money circulates 6x longer in our community
         </p>
       </div>
       <CardContent className="pt-4">

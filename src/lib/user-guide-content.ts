@@ -96,13 +96,13 @@ export const CORE_FEATURES: GuideSection[] = [
     id: 'business-directory',
     title: 'Business Directory',
     icon: 'Building2',
-    description: 'Discover and support Black-owned businesses in your community',
+    description: 'Discover and support community businesses in your area',
     content: [
       {
         id: 'browse-businesses',
         title: 'Browsing Businesses',
-        summary: 'Find Black-owned businesses near you',
-        details: 'The business directory is the heart of 1325.AI, featuring verified Black-owned businesses across numerous categories. Use powerful search and filter tools to discover exactly what you need.',
+        summary: 'Find community businesses near you',
+        details: 'The business directory is the heart of 1325.AI, featuring verified community businesses across numerous categories. Use powerful search and filter tools to discover exactly what you need.',
         steps: [
           'Navigate to Directory from the main navigation',
           'Use the search bar to find businesses by name or keyword',
@@ -251,7 +251,7 @@ export const FINANCIAL_FEATURES: GuideSection[] = [
         details: 'Economic Karma is a unique scoring system that measures your contribution to the circular economy. Higher Karma scores unlock better benefits, discounts, and community recognition.',
         steps: [
           'Your Karma score starts at a base level when you join',
-          'Score increases when you shop at Black-owned businesses',
+          'Score increases when you shop at community businesses',
           'Additional points for leaving reviews and referrals',
           'Score reflects your cumulative community impact',
           'Higher scores unlock premium benefits and recognition',
@@ -270,7 +270,7 @@ export const FINANCIAL_FEATURES: GuideSection[] = [
         id: 'earning-karma',
         title: 'Earning Karma Points',
         summary: 'Activities that boost your score',
-        details: 'Multiple activities contribute to your Karma score. The more you engage with the community and support Black-owned businesses, the faster your score grows.',
+        details: 'Multiple activities contribute to your Karma score. The more you engage with the community and support community businesses, the faster your score grows.',
         steps: [
           'Make purchases at participating businesses (primary method)',
           'Leave helpful reviews after your visits',
@@ -610,7 +610,7 @@ export const GROWTH_PROGRAMS: GuideSection[] = [
         id: 'partner-overview',
         title: 'Partner Program Overview',
         summary: 'Turn your network into income',
-        details: 'The 1325.AI Partner Program allows directory owners, influencers, and community leaders to earn by referring Black-owned businesses to the platform. Earn $5 per signup plus 10% recurring revenue share.',
+        details: 'The 1325.AI Partner Program allows directory owners, influencers, and community leaders to earn by referring community businesses to the platform. Earn $5 per signup plus 10% recurring revenue share.',
         steps: [
           'Apply through the Partner Portal',
           'Complete the application with your directory/network info',
@@ -683,7 +683,7 @@ export const GROWTH_PROGRAMS: GuideSection[] = [
           'Apply through the Sales Agent signup page',
           'Complete the onboarding and training program',
           'Receive your unique agent referral code',
-          'Begin reaching out to Black-owned businesses',
+          'Begin reaching out to community businesses',
           'Track your referrals and commissions',
           'Advance through commission tiers as you grow'
         ],

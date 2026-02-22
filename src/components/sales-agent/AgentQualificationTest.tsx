@@ -173,7 +173,7 @@ const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applica
       <CardHeader>
         <CardTitle>Sales Agent Qualification Test</CardTitle>
         <CardDescription>
-          Answer the following questions about Mansa Musa Marketplace to qualify as a sales agent.
+          Answer the following questions about 1325.AI to qualify as a sales agent.
         </CardDescription>
       </CardHeader>
       <CardContent>

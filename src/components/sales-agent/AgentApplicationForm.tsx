@@ -127,7 +127,7 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
           Sales Agent Application
         </CardTitle>
         <CardDescription className="text-foreground/70">
-          Apply to become a Mansa Musa Marketplace sales agent and earn commissions on referrals.
+          Apply to become a 1325.AI sales agent and earn commissions on referrals.
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-6">

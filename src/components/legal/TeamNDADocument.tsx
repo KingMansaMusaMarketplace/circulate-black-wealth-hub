@@ -9,7 +9,7 @@ interface TeamNDADocumentProps {
 }
 
 const TeamNDADocument: React.FC<TeamNDADocumentProps> = ({
-  companyName = "1325.AI d/b/a Mansa Musa Marketplace, Inc.",
+  companyName = "1325.AI, Inc.",
   recipientName = "[RECIPIENT NAME]",
   effectiveDate = "________________________",
   inventorName = "Thomas D. Bowling"

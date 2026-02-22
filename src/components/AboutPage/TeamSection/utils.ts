@@ -23,7 +23,7 @@ export const handleSendEmail = (email: string | undefined) => {
   }
   
   // If the email is just a placeholder, show a message
-  if (email.includes('mansamusamarketplace.com')) {
+  if (email.includes('1325.ai')) {
     window.location.href = `mailto:${email}`;
   } else {
     toast.info("This is a demo email address. Real email integration coming soon!");
