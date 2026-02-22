@@ -319,7 +319,7 @@ const NoirLandingPage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              <Card className="bg-white/5 border-white/10 h-full opacity-60">
+              <Card className="bg-white/5 border-white/10 h-full opacity-80">
                 <CardHeader className="text-center pb-2">
                   <div className="h-10 w-10 bg-white/10 rounded-xl mx-auto mb-2 flex items-center justify-center text-xl font-bold text-white/50">U</div>
                   <CardTitle className="text-2xl text-white/60">Uber</CardTitle>
@@ -350,7 +350,7 @@ const NoirLandingPage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <Card className="bg-white/5 border-white/10 h-full opacity-60">
+              <Card className="bg-white/5 border-white/10 h-full opacity-80">
                 <CardHeader className="text-center pb-2">
                   <div className="h-10 w-10 bg-white/10 rounded-xl mx-auto mb-2 flex items-center justify-center text-xl font-bold text-white/50">L</div>
                   <CardTitle className="text-2xl text-white/60">Lyft</CardTitle>
