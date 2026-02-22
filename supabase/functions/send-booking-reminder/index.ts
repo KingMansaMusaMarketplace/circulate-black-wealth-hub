@@ -84,7 +84,7 @@ const handler = async (req: Request): Promise<Response> => {
         });
 
         const emailResponse = await resend.emails.send({
-          from: "Mansa Musa Marketplace <bookings@mansamusamarketplace.com>",
+          from: "1325.AI <bookings@1325.ai>",
           to: [booking.customer_email],
           subject: `Reminder: Appointment with ${booking.business.business_name} in ${hoursUntil} hours`,
           html: emailHtml,
@@ -215,7 +215,7 @@ function generateReminderHTML(data: {
           </p>
           
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; font-size: 12px; color: #999;">
-            <p>Mansa Musa Marketplace</p>
+            <p>1325.AI</p>
             <p>Supporting Our Community</p>
           </div>
         </div>

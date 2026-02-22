@@ -5,7 +5,7 @@ import { Resend } from "https://esm.sh/resend@2.0.0";
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const adminEmail = Deno.env.get("ADMIN_EMAIL") || "contact@mansamusamarketplace.com";
+const adminEmail = Deno.env.get("ADMIN_EMAIL") || "contact@1325.ai";
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
@@ -156,8 +156,8 @@ const handler = async (req: Request): Promise<Response> => {
               </p>
             </div>
             <div class="footer">
-              <p>Mansa Musa Marketplace - Media Kit Access System</p>
-              <p>Building economic empowerment in the Black community</p>
+              <p>1325.AI - Media Kit Access System</p>
+              <p>Building economic empowerment in the community</p>
             </div>
           </div>
         </body>
@@ -165,7 +165,7 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const adminEmailResponse = await resend.emails.send({
-      from: "Mansa Musa Media Kit <media@mansamusamarketplace.com>",
+      from: "1325.AI Media Kit <media@1325.ai>",
       to: [adminEmail],
       subject: `📋 Media Kit Access Request: ${fullName} - ${documentLabel}`,
       html: adminEmailContent,
@@ -191,28 +191,28 @@ const handler = async (req: Request): Promise<Response> => {
           <div class="container">
             <div class="header">
               <h1>✅ Request Received</h1>
-              <p style="margin: 0; opacity: 0.9;">Mansa Musa Marketplace Media Kit</p>
+              <p style="margin: 0; opacity: 0.9;">1325.AI Media Kit</p>
             </div>
             <div class="content">
               <p>Hi ${fullName},</p>
               
-              <p>Thank you for your interest in the Mansa Musa Marketplace <strong>${documentLabel}</strong>.</p>
+              <p>Thank you for your interest in the 1325.AI <strong>${documentLabel}</strong>.</p>
               
               <div class="highlight-box">
                 <h3 style="margin-top: 0; color: #1e40af;">What happens next?</h3>
                 <p style="margin-bottom: 0;">Our team will review your request and get back to you within 1-2 business days. If approved, you'll receive an email with access to the requested document.</p>
               </div>
 
-              <p>In the meantime, feel free to explore our public media resources at <a href="https://mansamusamarketplace.com/media-kit">our Media Kit page</a>.</p>
+              <p>In the meantime, feel free to explore our public media resources at <a href="https://1325.ai/media-kit">our Media Kit page</a>.</p>
 
-              <p>If you have any questions, please contact us at <a href="mailto:contact@mansamusamarketplace.com">contact@mansamusamarketplace.com</a>.</p>
+              <p>If you have any questions, please contact us at <a href="mailto:contact@1325.ai">contact@1325.ai</a>.</p>
 
               <p>Best regards,<br>
-              <strong>The Mansa Musa Marketplace Team</strong></p>
+              <strong>The 1325.AI Team</strong></p>
             </div>
             <div class="footer">
-              <p>Mansa Musa Marketplace</p>
-              <p>Building economic empowerment in the Black community</p>
+              <p>1325.AI</p>
+              <p>Building economic empowerment in the community</p>
               <p style="margin-top: 15px; font-size: 11px;">1000 E. 111th St. Suite 1100, Chicago, IL 60628</p>
             </div>
           </div>
@@ -221,7 +221,7 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const requesterEmailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
+      from: "1325.AI <noreply@1325.ai>",
       to: [email],
       subject: `Your Media Kit Access Request - ${documentLabel}`,
       html: requesterEmailContent,

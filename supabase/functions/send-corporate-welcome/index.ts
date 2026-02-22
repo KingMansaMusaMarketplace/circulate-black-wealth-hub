@@ -46,9 +46,9 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
+      from: "1325.AI <noreply@1325.ai>",
       to: [email],
-      subject: `Welcome to Mansa Musa Corporate Partnership - ${tier.toUpperCase()} Tier`,
+      subject: `Welcome to 1325.AI Corporate Partnership - ${tier.toUpperCase()} Tier`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -123,7 +123,7 @@ const handler = async (req: Request): Promise<Response> => {
         <body>
           <div class="header">
             <h1>Welcome to the Partnership, ${companyName}!</h1>
-            <p>Thank you for supporting Black economic empowerment</p>
+            <p>Thank you for supporting community economic empowerment</p>
           </div>
           
           <div class="content">
@@ -135,7 +135,7 @@ const handler = async (req: Request): Promise<Response> => {
             
             <p>Dear ${companyName} Team,</p>
             
-            <p>Thank you for joining Mansa Musa Marketplace as a corporate sponsor! Your commitment to economic equity and community empowerment is making a real difference.</p>
+            <p>Thank you for joining 1325.AI as a corporate sponsor! Your commitment to economic equity and community empowerment is making a real difference.</p>
             
             <div class="highlight-box">
               <strong>🚀 Quick Start:</strong>
@@ -150,19 +150,19 @@ const handler = async (req: Request): Promise<Response> => {
             <ol>
               <li><strong>Dashboard Access:</strong> Log in to view real-time impact metrics</li>
               <li><strong>Logo Submission:</strong> Upload your company logo for marketplace placement</li>
-              <li><strong>Impact Tracking:</strong> Watch as your sponsorship supports Black-owned businesses</li>
+              <li><strong>Impact Tracking:</strong> Watch as your sponsorship supports community businesses</li>
               <li><strong>Monthly Reports:</strong> Receive detailed analytics on your community impact</li>
             </ol>
             
             <div class="highlight-box">
               <strong>💡 Did You Know?</strong>
-              <p>Every $1 circulated in Black communities generates $2.30 in economic value through the multiplier effect. Your sponsorship amplifies this impact!</p>
+              <p>Every $1 circulated in our communities generates $2.30 in economic value through the multiplier effect. Your sponsorship amplifies this impact!</p>
             </div>
             
             <h3>Need Help?</h3>
             <p>Our partnership team is here to support you:</p>
             <ul>
-              <li>📧 Email: partnerships@mansamusa.com</li>
+              <li>📧 Email: partnerships@1325.ai</li>
               <li>📞 Phone: (555) 123-4567</li>
               <li>💬 Live Chat: Available in your dashboard</li>
             </ul>
@@ -170,11 +170,11 @@ const handler = async (req: Request): Promise<Response> => {
             <p>Thank you for being a champion of economic equity and community empowerment!</p>
             
             <p>With gratitude,<br>
-            <strong>The Mansa Musa Marketplace Team</strong></p>
+            <strong>The 1325.AI Team</strong></p>
           </div>
           
           <div class="footer">
-            <p>© 2025 Mansa Musa Marketplace. All rights reserved.</p>
+            <p>© 2025 1325.AI. All rights reserved.</p>
             <p>Building wealth, creating opportunities, strengthening communities.</p>
           </div>
         </body>

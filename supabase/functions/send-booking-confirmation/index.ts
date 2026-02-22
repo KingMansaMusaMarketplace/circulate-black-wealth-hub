@@ -94,7 +94,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <bookings@mansamusamarketplace.com>",
+      from: "1325.AI <bookings@1325.ai>",
       to: [emailTo],
       subject: emailSubject,
       html: emailHtml,
@@ -208,12 +208,12 @@ function generateCustomerEmailHTML(data: {
           </div>
           
           <p style="margin-top: 30px; font-size: 14px; color: #666;">
-            Thank you for supporting Black-owned businesses!
+            Thank you for supporting community businesses!
           </p>
           
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; font-size: 12px; color: #999;">
-            <p>Mansa Musa Marketplace</p>
-            <p>Empowering the Black Community</p>
+            <p>1325.AI</p>
+            <p>Empowering the Community</p>
           </div>
         </div>
       </body>
@@ -310,8 +310,8 @@ function generateBusinessEmailHTML(data: {
           </div>
           
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; font-size: 12px; color: #999;">
-            <p>Mansa Musa Marketplace</p>
-            <p>Growing Black Businesses Together</p>
+            <p>1325.AI</p>
+            <p>Growing Community Businesses Together</p>
           </div>
         </div>
       </body>
