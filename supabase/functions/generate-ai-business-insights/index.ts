@@ -112,7 +112,7 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are an expert business coach for Black-owned businesses. Analyze the provided business data and provide 3-5 actionable insights to help them grow. Focus on revenue optimization, customer engagement, and operational efficiency. Be specific and practical.`
+            content: `You are an expert business coach for community businesses. Analyze the provided business data and provide 3-5 actionable insights to help them grow. Focus on revenue optimization, customer engagement, and operational efficiency. Be specific and practical.`
           },
           {
             role: 'user',

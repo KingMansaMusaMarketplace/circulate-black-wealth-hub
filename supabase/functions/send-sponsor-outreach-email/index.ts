@@ -72,7 +72,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Personalize the email
-    const personalizedSubject = (emailSubject || 'Partnership Opportunity with Mansa Musa Marketplace')
+    const personalizedSubject = (emailSubject || 'Partnership Opportunity with 1325.AI')
       .replace(/{{company_name}}/g, prospect.company_name)
       .replace(/{{contact_name}}/g, prospect.primary_contact_name || 'there')
       .replace(/{{contact_title}}/g, prospect.primary_contact_title || '')
@@ -94,7 +94,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send the email
     const { data: emailResult, error: emailError } = await resend.emails.send({
-      from: "Mansa Musa Marketplace <partnerships@mansamusa.app>",
+      from: "1325.AI <partnerships@1325.ai>",
       to: [prospect.primary_contact_email],
       subject: personalizedSubject,
       html: bodyWithTracking,
@@ -161,13 +161,13 @@ function getDefaultOutreachBody(): string {
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
   <p>Hi {{contact_name}},</p>
   
-  <p>I hope this email finds you well. I'm reaching out from <strong>Mansa Musa Marketplace</strong>, the fastest-growing platform connecting brands with Black-owned businesses and conscious consumers.</p>
+  <p>I hope this email finds you well. I'm reaching out from <strong>1325.AI</strong>, the fastest-growing platform connecting brands with community businesses and conscious consumers.</p>
   
   <p>Given {{company_name}}'s commitment to diversity and inclusion, I thought you'd be interested in exploring a sponsorship partnership that could:</p>
   
   <ul>
     <li>🎯 Reach our engaged community of 50,000+ users</li>
-    <li>💼 Support 500+ verified Black-owned businesses</li>
+    <li>💼 Support 500+ verified community businesses</li>
     <li>📊 Generate measurable impact reports for your DEI initiatives</li>
     <li>🏆 Showcase your brand's commitment to economic equity</li>
   </ul>
@@ -177,13 +177,13 @@ function getDefaultOutreachBody(): string {
   <p>Would you have 15 minutes this week or next for a quick chat?</p>
   
   <p>Best regards,<br>
-  <strong>The Mansa Musa Team</strong><br>
-  <a href="https://mansamusa.app" style="color: #1B365D;">mansamusa.app</a></p>
+  <strong>The 1325.AI Team</strong><br>
+  <a href="https://1325.ai" style="color: #1B365D;">1325.ai</a></p>
   
   <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
   
   <p style="font-size: 12px; color: #999;">
-    © 2026 Mansa Musa Marketplace. Empowering economic equity through community.
+    © 2026 1325.AI. Empowering economic equity through community.
   </p>
 </body>
 </html>

@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { Resend } from "https://esm.sh/resend@2.0.0";
-// Simple HTML template instead of React Email to avoid npm dependency issues
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -20,7 +19,6 @@ interface WelcomeEmailRequest {
 const handler = async (req: Request): Promise<Response> => {
   console.log('Welcome email function called');
   
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -32,10 +30,8 @@ const handler = async (req: Request): Promise<Response> => {
     );
 
     const { userId, email, fullName, userType }: WelcomeEmailRequest = await req.json();
-    
     console.log('Processing welcome email for:', { userId, email, fullName, userType });
 
-    // Get user profile data for personalization
     const { data: profile } = await supabase
       .from('profiles')
       .select('*')
@@ -44,7 +40,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log('User profile data:', profile);
 
-    // Generate welcome email HTML
     const html = generateWelcomeEmailHTML({
       fullName: fullName || 'New User',
       email: email,
@@ -55,11 +50,10 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log('Email template rendered successfully');
 
-    // Send welcome email
     const emailResponse = await resend.emails.send({
-      from: 'Mansa Musa Marketplace <welcome@mansamusamarketplace.com>',
+      from: '1325.AI <welcome@1325.ai>',
       to: [email],
-      subject: `Welcome to Mansa Musa Marketplace, ${fullName}! 🎉`,
+      subject: `Welcome to 1325.AI, ${fullName}! 🎉`,
       html,
     });
 
@@ -70,14 +64,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Welcome email sent successfully:", emailResponse);
 
-    // Log the email notification
     await supabase
       .from('email_notifications')
       .insert({
         user_id: userId,
         email_type: 'welcome',
         recipient_email: email,
-        subject: `Welcome to Mansa Musa Marketplace, ${fullName}! 🎉`,
+        subject: `Welcome to 1325.AI, ${fullName}! 🎉`,
         content: html,
         status: 'sent'
       });
@@ -90,33 +83,18 @@ const handler = async (req: Request): Promise<Response> => {
       message: 'Welcome email sent successfully' 
     }), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        ...corsHeaders,
-      },
+      headers: { "Content-Type": "application/json", ...corsHeaders },
     });
 
   } catch (error: any) {
     console.error("Error in send-welcome-email function:", error);
-    
     return new Response(
-      JSON.stringify({ 
-        success: false,
-        error: error.message,
-        details: error.toString()
-      }),
-      {
-        status: 500,
-        headers: { 
-          "Content-Type": "application/json", 
-          ...corsHeaders 
-        },
-      }
+      JSON.stringify({ success: false, error: error.message, details: error.toString() }),
+      { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }
 };
 
-// Simple HTML email template generator
 function generateWelcomeEmailHTML(props: {
   fullName: string;
   email: string;
@@ -128,8 +106,8 @@ function generateWelcomeEmailHTML(props: {
     switch (props.userType) {
       case 'business':
         return {
-          title: 'Welcome to the Mansa Musa Business Network! 🏢',
-          intro: 'Thank you for joining our community of Black-owned businesses. You\'re now part of a powerful network that\'s building economic empowerment together.',
+          title: 'Welcome to the 1325.AI Business Network! 🏢',
+          intro: 'Thank you for joining our community of businesses. You\'re now part of a powerful network that\'s building economic empowerment together.',
           features: [
             '📊 Business Dashboard & Analytics',
             '📱 QR Code Generation for Customer Loyalty',
@@ -141,7 +119,7 @@ function generateWelcomeEmailHTML(props: {
       case 'sponsor':
         return {
           title: 'Welcome to Corporate Partnership! 🤝',
-          intro: 'Thank you for supporting Black-owned businesses and community economic development. Your partnership makes a real difference.',
+          intro: 'Thank you for supporting community businesses and economic development. Your partnership makes a real difference.',
           features: [
             '🎯 Targeted Community Impact',
             '📊 Partnership Analytics & Reporting',
@@ -152,10 +130,10 @@ function generateWelcomeEmailHTML(props: {
         };
       default:
         return {
-          title: 'Welcome to Mansa Musa Marketplace! 🎉',
-          intro: 'Thank you for joining our community! You\'re now part of a movement that supports Black-owned businesses and builds community wealth.',
+          title: 'Welcome to 1325.AI! 🎉',
+          intro: 'Thank you for joining our community! You\'re now part of a movement that supports community businesses and builds wealth.',
           features: [
-            '🏪 Discover Local Black-Owned Businesses',
+            '🏪 Discover Local Community Businesses',
             '📱 Scan QR Codes to Earn Loyalty Points',
             '🎁 Redeem Exclusive Rewards & Discounts',
             '🌟 Leave Reviews & Build Community',
@@ -192,7 +170,7 @@ function generateWelcomeEmailHTML(props: {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">Mansa Musa Marketplace</div>
+          <div class="logo">1325.AI</div>
         </div>
         <div class="content">
           <h1 class="title">${content.title}</h1>
@@ -217,12 +195,12 @@ function generateWelcomeEmailHTML(props: {
           
           <p class="text">
             Need help getting started? Our community support team is here to help!<br>
-            📧 Email us at <a href="mailto:support@mansamusa.com">support@mansamusa.com</a>
+            📧 Email us at <a href="mailto:support@1325.ai">support@1325.ai</a>
           </p>
         </div>
         <div class="footer">
           <p class="footer-text">Building wealth. Building community. Building the future.</p>
-          <p class="footer-text">© 2024 Mansa Musa Marketplace. All rights reserved.</p>
+          <p class="footer-text">© 2024 1325.AI. All rights reserved.</p>
         </div>
       </div>
     </body>

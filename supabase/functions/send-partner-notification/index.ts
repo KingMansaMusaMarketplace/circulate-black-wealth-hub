@@ -34,7 +34,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     switch (type) {
       case 'application':
-        // Send confirmation to partner
         emailResponse = await resend.emails.send({
           from: "1325.ai Partners <partners@1325.ai>",
           to: [partnerEmail],
@@ -64,7 +63,7 @@ const handler = async (req: Request): Promise<Response> => {
                 <div class="content">
                   <p>Hello <strong>${partnerName}</strong>,</p>
                   
-                  <p>Thank you for applying to become a <strong>1325.ai Directory Partner</strong>! We're excited about the possibility of working together to support Black-owned businesses.</p>
+                  <p>Thank you for applying to become a <strong>1325.ai Directory Partner</strong>! We're excited about the possibility of working together to support community businesses.</p>
                   
                   <div class="highlight">
                     <strong>What happens next?</strong>
@@ -73,33 +72,23 @@ const handler = async (req: Request): Promise<Response> => {
                   <div class="steps">
                     <div class="step">
                       <div class="step-number">1</div>
-                      <div>
-                        <strong>Application Review</strong><br>
-                        <span style="color: #64748b;">Our team will review your application within 1-2 business days.</span>
-                      </div>
+                      <div><strong>Application Review</strong><br><span style="color: #64748b;">Our team will review your application within 1-2 business days.</span></div>
                     </div>
                     <div class="step">
                       <div class="step-number">2</div>
-                      <div>
-                        <strong>Approval Notification</strong><br>
-                        <span style="color: #64748b;">You'll receive an email once your application is approved.</span>
-                      </div>
+                      <div><strong>Approval Notification</strong><br><span style="color: #64748b;">You'll receive an email once your application is approved.</span></div>
                     </div>
                     <div class="step">
                       <div class="step-number">3</div>
-                      <div>
-                        <strong>Access Your Dashboard</strong><br>
-                        <span style="color: #64748b;">Start referring businesses and earning commissions!</span>
-                      </div>
+                      <div><strong>Access Your Dashboard</strong><br><span style="color: #64748b;">Start referring businesses and earning commissions!</span></div>
                     </div>
                   </div>
                   
                   <p>If you have any questions, feel free to reply to this email.</p>
-                  
                   <p>Best regards,<br><strong>The 1325.ai Partnership Team</strong></p>
                 </div>
                 <div class="footer">
-                  <p>1325.ai - Empowering Black-Owned Businesses</p>
+                  <p>1325.ai - Empowering Community Businesses</p>
                 </div>
               </div>
             </body>
@@ -107,7 +96,6 @@ const handler = async (req: Request): Promise<Response> => {
           `,
         });
 
-        // Send notification to admin
         await resend.emails.send({
           from: "1325.ai System <noreply@1325.ai>",
           to: [ADMIN_EMAIL],
@@ -130,27 +118,14 @@ const handler = async (req: Request): Promise<Response> => {
             </head>
             <body>
               <div class="container">
-                <div class="header">
-                  <h1>New Partner Application</h1>
-                </div>
+                <div class="header"><h1>New Partner Application</h1></div>
                 <div class="content">
                   <p>A new directory partner application has been submitted and requires review.</p>
-                  
                   <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                    <div class="info-row">
-                      <div class="info-label">Directory</div>
-                      <div class="info-value">${partnerName}</div>
-                    </div>
-                    <div class="info-row">
-                      <div class="info-label">Email</div>
-                      <div class="info-value">${partnerEmail}</div>
-                    </div>
-                    <div class="info-row">
-                      <div class="info-label">Partner ID</div>
-                      <div class="info-value" style="font-family: monospace; font-size: 12px;">${partnerId}</div>
-                    </div>
+                    <div class="info-row"><div class="info-label">Directory</div><div class="info-value">${partnerName}</div></div>
+                    <div class="info-row"><div class="info-label">Email</div><div class="info-value">${partnerEmail}</div></div>
+                    <div class="info-row"><div class="info-label">Partner ID</div><div class="info-value" style="font-family: monospace; font-size: 12px;">${partnerId}</div></div>
                   </div>
-                  
                   <a href="${APP_URL}/admin" class="cta-button">Review in Admin Dashboard</a>
                 </div>
               </div>
@@ -191,38 +166,18 @@ const handler = async (req: Request): Promise<Response> => {
             </head>
             <body>
               <div class="container">
-                <div class="header">
-                  <h1>🎉 Welcome to the Partner Program!</h1>
-                </div>
+                <div class="header"><h1>🎉 Welcome to the Partner Program!</h1></div>
                 <div class="content">
                   <p>Hello <strong>${partnerName}</strong>,</p>
-                  
                   <p>Great news! Your application to become a 1325.ai Directory Partner has been <strong>approved</strong>!</p>
-                  
-                  <p style="text-align: center;">
-                    <span class="tier-badge">✨ ${tierInfo.name}</span>
-                  </p>
-                  
+                  <p style="text-align: center;"><span class="tier-badge">✨ ${tierInfo.name}</span></p>
                   <div class="benefits">
                     <h3 style="margin-top: 0;">Your Partner Benefits</h3>
-                    <div class="benefit-row">
-                      <span>Revenue Share</span>
-                      <strong>${tierInfo.revenueShare}</strong>
-                    </div>
-                    <div class="benefit-row">
-                      <span>Flat Fee per Signup</span>
-                      <strong>${tierInfo.flatFee}</strong>
-                    </div>
-                    <div class="benefit-row">
-                      <span>Dedicated Dashboard</span>
-                      <strong>✓ Included</strong>
-                    </div>
-                    <div class="benefit-row">
-                      <span>Embed Widget</span>
-                      <strong>✓ Included</strong>
-                    </div>
+                    <div class="benefit-row"><span>Revenue Share</span><strong>${tierInfo.revenueShare}</strong></div>
+                    <div class="benefit-row"><span>Flat Fee per Signup</span><strong>${tierInfo.flatFee}</strong></div>
+                    <div class="benefit-row"><span>Dedicated Dashboard</span><strong>✓ Included</strong></div>
+                    <div class="benefit-row"><span>Embed Widget</span><strong>✓ Included</strong></div>
                   </div>
-                  
                   <p>You can now access your Partner Dashboard to:</p>
                   <ul>
                     <li>Get your unique referral link</li>
@@ -230,18 +185,11 @@ const handler = async (req: Request): Promise<Response> => {
                     <li>Monitor your earnings</li>
                     <li>Request payouts</li>
                   </ul>
-                  
-                  <p style="text-align: center;">
-                    <a href="${APP_URL}/partner-portal" class="cta-button">Access Your Dashboard</a>
-                  </p>
-                  
+                  <p style="text-align: center;"><a href="${APP_URL}/partner-portal" class="cta-button">Access Your Dashboard</a></p>
                   <p>Welcome to the family! We're excited to partner with you.</p>
-                  
                   <p>Best regards,<br><strong>The 1325.ai Partnership Team</strong></p>
                 </div>
-                <div class="footer">
-                  <p>1325.ai - Empowering Black-Owned Businesses</p>
-                </div>
+                <div class="footer"><p>1325.ai - Empowering Community Businesses</p></div>
               </div>
             </body>
             </html>
@@ -269,37 +217,26 @@ const handler = async (req: Request): Promise<Response> => {
             </head>
             <body>
               <div class="container">
-                <div class="header">
-                  <h1>Application Update</h1>
-                </div>
+                <div class="header"><h1>Application Update</h1></div>
                 <div class="content">
                   <p>Hello <strong>${partnerName}</strong>,</p>
-                  
                   <p>Thank you for your interest in becoming a 1325.ai Directory Partner.</p>
-                  
                   <p>After careful review, we've decided not to move forward with your application at this time.</p>
-                  
                   ${reason ? `
                   <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border-left: 4px solid #ef4444; margin: 20px 0;">
-                    <strong>Feedback:</strong><br>
-                    ${reason}
+                    <strong>Feedback:</strong><br>${reason}
                   </div>
                   ` : ''}
-                  
                   <p>This decision doesn't reflect on the quality of your directory. We encourage you to:</p>
                   <ul>
                     <li>Continue building your directory</li>
                     <li>Consider reapplying in the future</li>
                     <li>Reach out if you have questions</li>
                   </ul>
-                  
-                  <p>We appreciate your interest in supporting Black-owned businesses.</p>
-                  
+                  <p>We appreciate your interest in supporting community businesses.</p>
                   <p>Best regards,<br><strong>The 1325.ai Partnership Team</strong></p>
                 </div>
-                <div class="footer">
-                  <p>1325.ai - Empowering Black-Owned Businesses</p>
-                </div>
+                <div class="footer"><p>1325.ai - Empowering Community Businesses</p></div>
               </div>
             </body>
             </html>
@@ -321,10 +258,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.error("Error in send-partner-notification:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
+      { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }
 };

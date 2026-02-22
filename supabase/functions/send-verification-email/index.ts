@@ -5,8 +5,7 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface VerificationEmailRequest {
@@ -16,7 +15,6 @@ interface VerificationEmailRequest {
 }
 
 const handler = async (req: Request): Promise<Response> => {
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -27,15 +25,15 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending verification email to:", email);
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
+      from: "1325.AI <noreply@1325.ai>",
       to: [email],
-      subject: "Verify Your Email - Welcome to Mansa Musa Marketplace!",
+      subject: "Verify Your Email - Welcome to 1325.AI!",
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif;">
           <div style="background: linear-gradient(135deg, #1e3a8a, #3730a3); padding: 40px 20px; text-align: center;">
             <h1 style="color: white; margin: 0; font-size: 28px;">Welcome to the Movement!</h1>
             <p style="color: #e0e7ff; margin-top: 10px; font-size: 16px;">
-              Thank you for joining Mansa Musa Marketplace
+              Thank you for joining 1325.AI
             </p>
           </div>
           
@@ -43,8 +41,8 @@ const handler = async (req: Request): Promise<Response> => {
             <h2 style="color: #1e3a8a; margin-bottom: 20px;">Verify Your Email Address</h2>
             
             <p style="color: #374151; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
-              Welcome to Mansa Musa Marketplace! You're now part of a community dedicated to 
-              circulating wealth within the Black community and supporting Black-owned businesses.
+              Welcome to 1325.AI! You're now part of a community dedicated to 
+              circulating wealth and supporting community businesses.
             </p>
 
             <p style="color: #374151; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
@@ -85,7 +83,7 @@ const handler = async (req: Request): Promise<Response> => {
                 <li>Explore the business directory</li>
                 <li>Download our mobile app</li>
                 <li>Start earning loyalty points</li>
-                <li>Connect with Black-owned businesses!</li>
+                <li>Connect with community businesses!</li>
               </ul>
             </div>
             `}
@@ -100,7 +98,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <div style="background: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
             <p style="color: #6b7280; font-size: 12px; margin: 0 0 10px 0;">
-              © 2024 Mansa Musa Marketplace. Supporting Black-owned businesses nationwide.
+              © 2024 1325.AI. Supporting community businesses nationwide.
             </p>
             <p style="color: #6b7280; font-size: 12px; margin: 0;">
               "Circulating wealth, strengthening community, one transaction at a time."
@@ -114,19 +112,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        ...corsHeaders,
-      },
+      headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error: any) {
     console.error("Error sending verification email:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
+      { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }
 };

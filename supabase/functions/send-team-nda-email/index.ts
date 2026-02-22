@@ -56,7 +56,7 @@ const handler = async (req: Request): Promise<Response> => {
 <body>
   <div class="header">
     <img src="https://circulate-black-wealth-hub.lovable.app/images/1325-neural-brain-logo.jpeg" alt="1325.AI" class="logo">
-    <p class="company-info">d/b/a Mansa Musa Marketplace, Inc. — Chicago, Illinois</p>
+    <p class="company-info">1325.AI, Inc. — Chicago, Illinois</p>
   </div>
 
   <p>Dear ${recipientName},</p>
@@ -66,7 +66,7 @@ const handler = async (req: Request): Promise<Response> => {
   <div class="section">
     <h2>1. Protecting Our Technology</h2>
     <ul>
-      <li><strong>IP Ownership:</strong> Any inventions, code, or improvements created for 1325.AI (d/b/a Mansa Musa Marketplace, Inc.) belong to the company.</li>
+      <li><strong>IP Ownership:</strong> Any inventions, code, or improvements created for 1325.AI, Inc. belong to the company.</li>
       <li><strong>Patent Protection:</strong> The agreement specifically references our USPTO filing (No. 63/969,202), ensuring that systems like CMAL and Susu Circles are legally guarded.</li>
       <li><strong>Confidentiality:</strong> We all agree to keep technical architecture, algorithms, and business plans strictly confidential to maintain our competitive advantage.</li>
     </ul>
@@ -104,7 +104,7 @@ const handler = async (req: Request): Promise<Response> => {
     <p>Best regards,</p>
     <p class="signature-name">Thomas D. Bowling</p>
     <p class="signature-title">Founder & Chief Architect</p>
-    <p class="signature-title">1325.AI | Mansa Musa Marketplace, Inc.</p>
+    <p class="signature-title">1325.AI, Inc.</p>
   </div>
 
   <div class="footer">

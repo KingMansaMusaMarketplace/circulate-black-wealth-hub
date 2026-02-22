@@ -5,8 +5,7 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface PasswordResetRequest {
@@ -15,7 +14,6 @@ interface PasswordResetRequest {
 }
 
 const handler = async (req: Request): Promise<Response> => {
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -26,9 +24,9 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending password reset email to:", email);
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
+      from: "1325.AI <noreply@1325.ai>",
       to: [email],
-      subject: "Reset Your Password - Mansa Musa Marketplace",
+      subject: "Reset Your Password - 1325.AI",
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif;">
           <div style="background: linear-gradient(135deg, #1e3a8a, #3730a3); padding: 40px 20px; text-align: center;">
@@ -39,7 +37,7 @@ const handler = async (req: Request): Promise<Response> => {
             <h2 style="color: #1e3a8a; margin-bottom: 20px;">Reset Your Password</h2>
             
             <p style="color: #374151; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
-              We received a request to reset your password for your Mansa Musa Marketplace account. 
+              We received a request to reset your password for your 1325.AI account. 
               Click the button below to create a new password.
             </p>
             
@@ -69,7 +67,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <div style="background: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
             <p style="color: #6b7280; font-size: 12px; margin: 0;">
-              © 2024 Mansa Musa Marketplace. Supporting Black-owned businesses nationwide.
+              © 2024 1325.AI. Supporting community businesses nationwide.
             </p>
           </div>
         </div>
@@ -80,19 +78,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        ...corsHeaders,
-      },
+      headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error: any) {
     console.error("Error sending password reset email:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
+      { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }
 };

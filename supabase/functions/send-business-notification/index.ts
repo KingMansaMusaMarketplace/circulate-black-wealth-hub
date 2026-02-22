@@ -39,11 +39,11 @@ const handler = async (req: Request): Promise<Response> => {
 
     switch (type) {
       case 'new_business':
-        subject = `Welcome to Mansa Musa Marketplace, ${businessName}!`;
+        subject = `Welcome to 1325.AI, ${businessName}!`;
         htmlContent = `
-          <h1>Welcome to Mansa Musa Marketplace! 🎉</h1>
+          <h1>Welcome to 1325.AI! 🎉</h1>
           <p>Dear ${businessName} team,</p>
-          <p>Congratulations! Your business has been successfully registered on Mansa Musa Marketplace.</p>
+          <p>Congratulations! Your business has been successfully registered on 1325.AI.</p>
           <h2>What's Next?</h2>
           <ul>
             <li>Complete your business profile</li>
@@ -52,8 +52,8 @@ const handler = async (req: Request): Promise<Response> => {
             <li>Start connecting with customers in your community</li>
           </ul>
           <p>Together, we're building economic empowerment and keeping dollars circulating in our community.</p>
-          <p>Best regards,<br>The Mansa Musa Marketplace Team</p>
-          <p>For questions, contact us at: contact@mansamusamarketplace.com</p>
+          <p>Best regards,<br>The 1325.AI Team</p>
+          <p>For questions, contact us at: contact@1325.ai</p>
         `;
         break;
 
@@ -65,26 +65,26 @@ const handler = async (req: Request): Promise<Response> => {
           <p>Your business verification has been approved. You now have full access to all marketplace features.</p>
           <p>Your verified badge will help customers trust and find your business more easily.</p>
           <p>Start maximizing your impact in the community today!</p>
-          <p>For questions, contact us at: contact@mansamusamarketplace.com</p>
+          <p>For questions, contact us at: contact@1325.ai</p>
         `;
         break;
 
       case 'new_customer':
-        subject = `Welcome to Mansa Musa Marketplace, ${customerName}!`;
+        subject = `Welcome to 1325.AI, ${customerName}!`;
         htmlContent = `
           <h1>Welcome to the Movement! 🚀</h1>
           <p>Dear ${customerName},</p>
-          <p>Welcome to Mansa Musa Marketplace - where every purchase builds community wealth!</p>
+          <p>Welcome to 1325.AI - where every purchase builds community wealth!</p>
           <h2>Get Started:</h2>
           <ul>
-            <li>Discover amazing Black-owned businesses near you</li>
+            <li>Discover amazing community businesses near you</li>
             <li>Scan QR codes to earn loyalty points</li>
             <li>Get exclusive discounts and rewards</li>
             <li>Support economic empowerment with every purchase</li>
           </ul>
-          <p>Together, we're extending the circulation of the Black dollar beyond the national average of 6 hours.</p>
+          <p>Together, we're extending the circulation of the community dollar beyond the national average of 6 hours.</p>
           <p>Welcome to the movement!</p>
-          <p>For questions, contact us at: contact@mansamusamarketplace.com</p>
+          <p>For questions, contact us at: contact@1325.ai</p>
         `;
         break;
 
@@ -96,12 +96,12 @@ const handler = async (req: Request): Promise<Response> => {
           <p>Your <strong>${tier?.toUpperCase()}</strong> tier corporate sponsorship has been approved.</p>
           <h2>Your Impact Begins Now:</h2>
           <ul>
-            <li>Your logo will be featured across the Mansa Musa Marketplace platform</li>
+            <li>Your logo will be featured across the 1325.AI platform</li>
             <li>Track your sponsorship impact through our analytics dashboard</li>
-            <li>Connect with our community of Black-owned businesses</li>
+            <li>Connect with our community of businesses</li>
             <li>Receive monthly reports on the community impact of your sponsorship</li>
           </ul>
-          <p>Thank you for investing in economic empowerment and helping extend the circulation of the Black dollar.</p>
+          <p>Thank you for investing in economic empowerment and helping extend the circulation of the community dollar.</p>
           <p>Together, we're building generational wealth and stronger communities.</p>
           <p><strong>Next Steps:</strong></p>
           <ul>
@@ -109,7 +109,7 @@ const handler = async (req: Request): Promise<Response> => {
             <li>View real-time impact metrics</li>
             <li>Download your sponsorship certificate</li>
           </ul>
-          <p>For questions about your sponsorship, contact us at: sponsors@mansamusamarketplace.com</p>
+          <p>For questions about your sponsorship, contact us at: sponsors@1325.ai</p>
         `;
         break;
 
@@ -118,16 +118,16 @@ const handler = async (req: Request): Promise<Response> => {
         htmlContent = `
           <h1>Sponsorship Application Status Update</h1>
           <p>Dear ${companyName} team,</p>
-          <p>Thank you for your interest in becoming a corporate sponsor of Mansa Musa Marketplace.</p>
+          <p>Thank you for your interest in becoming a corporate sponsor of 1325.AI.</p>
           <p>After careful review, we are unable to approve your <strong>${tier?.toUpperCase()}</strong> tier sponsorship application at this time.</p>
           ${rejectionReason ? `
           <h2>Reason:</h2>
           <p style="padding: 15px; background-color: #f5f5f5; border-left: 4px solid #e74c3c;">${rejectionReason}</p>
           ` : ''}
-          <p>We appreciate your interest in supporting economic empowerment in the Black community. If you have any questions about this decision or would like to discuss alternative partnership opportunities, please don't hesitate to reach out.</p>
+          <p>We appreciate your interest in supporting economic empowerment in the community. If you have any questions about this decision or would like to discuss alternative partnership opportunities, please don't hesitate to reach out.</p>
           <p>You may reapply in the future if your circumstances change or if you would like to address the concerns raised.</p>
-          <p>Thank you for considering Mansa Musa Marketplace for your corporate social responsibility initiatives.</p>
-          <p>For questions, contact us at: sponsors@mansamusamarketplace.com</p>
+          <p>Thank you for considering 1325.AI for your corporate social responsibility initiatives.</p>
+          <p>For questions, contact us at: sponsors@1325.ai</p>
         `;
         break;
     }
@@ -135,7 +135,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Sending ${type} email to ${recipientEmail}`);
     
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
+      from: "1325.AI <noreply@1325.ai>",
       to: [recipientEmail],
       subject: subject,
       html: htmlContent,
@@ -143,7 +143,6 @@ const handler = async (req: Request): Promise<Response> => {
     
     console.log("Resend API response:", emailResponse);
 
-    // Record notification in database
     const { error: dbError } = await supabase
       .from('email_notifications')
       .insert({

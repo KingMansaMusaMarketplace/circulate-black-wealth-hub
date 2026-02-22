@@ -23,16 +23,16 @@ const handler = async (req: Request): Promise<Response> => {
     console.log('Sending newsletter welcome email to:', email);
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <newsletter@mansamusamarketplace.com>",
+      from: "1325.AI <newsletter@1325.ai>",
       to: [email],
-      subject: "Welcome to Mansa Musa Marketplace Newsletter! 🎉",
+      subject: "Welcome to 1325.AI Newsletter! 🎉",
       html: `
         <!DOCTYPE html>
         <html>
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Welcome to Mansa Musa Marketplace</title>
+            <title>Welcome to 1325.AI</title>
           </head>
           <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
             <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 40px 20px;">
@@ -43,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
                     <tr>
                       <td style="background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%); padding: 40px 40px 30px; text-align: center; border-radius: 8px 8px 0 0;">
                         <h1 style="margin: 0; color: #1a1a1a; font-size: 32px; font-weight: bold;">
-                          Welcome to Mansa Musa! 🎉
+                          Welcome to 1325.AI! 🎉
                         </h1>
                       </td>
                     </tr>
@@ -52,7 +52,7 @@ const handler = async (req: Request): Promise<Response> => {
                     <tr>
                       <td style="padding: 40px;">
                         <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #333333;">
-                          Thank you for subscribing to our newsletter! We're thrilled to have you join our community of conscious consumers supporting Black-owned businesses.
+                          Thank you for subscribing to our newsletter! We're thrilled to have you join our community of conscious consumers supporting community businesses.
                         </p>
                         
                         <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #333333;">
@@ -60,7 +60,7 @@ const handler = async (req: Request): Promise<Response> => {
                         </p>
                         
                         <ul style="margin: 0 0 30px; padding-left: 20px; font-size: 16px; line-height: 1.8; color: #333333;">
-                          <li>Featured Black-owned businesses in your area</li>
+                          <li>Featured community businesses in your area</li>
                           <li>Exclusive deals and special offers</li>
                           <li>Community impact stories</li>
                           <li>Updates on new marketplace features</li>
@@ -79,7 +79,7 @@ const handler = async (req: Request): Promise<Response> => {
                         
                         <p style="margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #333333;">
                           With gratitude,<br>
-                          <strong>The Mansa Musa Team</strong>
+                          <strong>The 1325.AI Team</strong>
                         </p>
                       </td>
                     </tr>
@@ -91,7 +91,7 @@ const handler = async (req: Request): Promise<Response> => {
                           You're receiving this email because you subscribed to our newsletter.
                         </p>
                         <p style="margin: 0; font-size: 14px; color: #999999;">
-                          © ${new Date().getFullYear()} Mansa Musa Marketplace. All rights reserved.
+                          © ${new Date().getFullYear()} 1325.AI. All rights reserved.
                         </p>
                       </td>
                     </tr>

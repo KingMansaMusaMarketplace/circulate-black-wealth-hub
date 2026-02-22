@@ -16,13 +16,10 @@ const corsHeaders = {
 interface AdminNotificationRequest {
   type: 'business_verification_submitted' | 'agent_milestone_reached';
   data: {
-    // For business verification
     businessId?: string;
     businessName?: string;
     ownerEmail?: string;
     verificationId?: string;
-    
-    // For agent milestone
     agentId?: string;
     agentName?: string;
     agentEmail?: string;
@@ -32,12 +29,8 @@ interface AdminNotificationRequest {
   };
 }
 
-/**
- * Get admin notification preferences from database
- */
 const getNotificationPreferences = async () => {
   try {
-    // Get first admin user's preferences (you can modify this to get specific admin)
     const { data, error } = await supabase
       .from('admin_notification_preferences')
       .select('*')
@@ -48,7 +41,6 @@ const getNotificationPreferences = async () => {
       console.log('No preferences found, using defaults');
       return null;
     }
-
     return data;
   } catch (error) {
     console.error('Error fetching preferences:', error);
@@ -56,68 +48,44 @@ const getNotificationPreferences = async () => {
   }
 };
 
-/**
- * Check if notification should be sent based on preferences
- */
 const shouldSendNotification = (
   preferences: any,
   type: string,
   milestoneData?: { type: string; value: number }
 ): boolean => {
-  if (!preferences) return true; // Default: send all notifications
-
-  // Check if immediate notifications are enabled
+  if (!preferences) return true;
   if (!preferences.send_immediate) return false;
-
-  // Check business verification
   if (type === 'business_verification_submitted') {
     return preferences.business_verification_enabled;
   }
-
-  // Check agent milestone
   if (type === 'agent_milestone_reached' && milestoneData) {
     if (!preferences.agent_milestone_enabled) return false;
-
     const { type: milestoneType, value } = milestoneData;
-
-    // Check referral milestones
     if (milestoneType.startsWith('referrals_')) {
       if (!preferences.milestone_referrals_enabled) return false;
       if (value < preferences.min_referral_milestone) return false;
     }
-
-    // Check earnings milestones
     if (milestoneType.startsWith('earnings_')) {
       if (!preferences.milestone_earnings_enabled) return false;
       if (value < preferences.min_earnings_milestone) return false;
     }
-
-    // Check conversion milestones
     if (milestoneType.startsWith('conversion_')) {
       if (!preferences.milestone_conversion_enabled) return false;
       if (value < preferences.min_conversion_milestone) return false;
     }
   }
-
   return true;
 };
 
-/**
- * Get email recipients from preferences
- */
 const getRecipients = (preferences: any): string[] => {
   const adminEmail = Deno.env.get("ADMIN_EMAIL");
-  
   if (!preferences) {
     return adminEmail ? [adminEmail] : [];
   }
-
   const recipients: string[] = [preferences.notification_email];
-  
   if (preferences.send_to_multiple_emails && preferences.send_to_multiple_emails.length > 0) {
     recipients.push(...preferences.send_to_multiple_emails);
   }
-
   return recipients.filter(email => email && email.trim() !== '');
 };
 
@@ -128,36 +96,25 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const { type, data }: AdminNotificationRequest = await req.json();
-
     console.log(`Processing admin notification: ${type}`);
 
-    // Get notification preferences
     const preferences = await getNotificationPreferences();
-
-    // Check if notification should be sent
     const milestoneData = type === 'agent_milestone_reached' && data.milestoneType && data.milestoneValue
       ? { type: data.milestoneType, value: data.milestoneValue }
       : undefined;
 
     if (!shouldSendNotification(preferences, type, milestoneData)) {
       console.log('Notification blocked by preferences');
-      return new Response(JSON.stringify({ 
-        success: true,
-        message: 'Notification blocked by preferences'
-      }), {
+      return new Response(JSON.stringify({ success: true, message: 'Notification blocked by preferences' }), {
         status: 200,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
 
-    // Get recipients
     const recipients = getRecipients(preferences);
     if (recipients.length === 0) {
       console.error('No recipients configured');
-      return new Response(JSON.stringify({ 
-        success: false,
-        error: 'No recipients configured'
-      }), {
+      return new Response(JSON.stringify({ success: false, error: 'No recipients configured' }), {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
@@ -165,6 +122,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     let subject = "";
     let htmlContent = "";
+    const adminEmail = Deno.env.get("ADMIN_EMAIL");
 
     switch (type) {
       case 'business_verification_submitted':
@@ -223,12 +181,12 @@ const handler = async (req: Request): Promise<Response> => {
                   </center>
 
                   <p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
-                    This notification was sent because a new business verification was submitted to Mansa Musa Marketplace.
+                    This notification was sent because a new business verification was submitted to 1325.AI.
                   </p>
                 </div>
                 <div class="footer">
-                  <p>Mansa Musa Marketplace Admin System</p>
-                  <p>Building economic empowerment in the Black community</p>
+                  <p>1325.AI Admin System</p>
+                  <p>Building economic empowerment in the community</p>
                 </div>
               </div>
             </body>
@@ -238,33 +196,19 @@ const handler = async (req: Request): Promise<Response> => {
 
       case 'agent_milestone_reached':
         const milestoneEmojis: { [key: string]: string } = {
-          'first_referral': '🎉',
-          'referrals_10': '🎯',
-          'referrals_25': '🌟',
-          'referrals_50': '💎',
-          'referrals_100': '👑',
-          'earnings_100': '💰',
-          'earnings_500': '💵',
-          'earnings_1000': '🏆',
-          'earnings_5000': '🚀',
-          'conversion_50': '📈',
-          'conversion_75': '⭐',
+          'first_referral': '🎉', 'referrals_10': '🎯', 'referrals_25': '🌟',
+          'referrals_50': '💎', 'referrals_100': '👑', 'earnings_100': '💰',
+          'earnings_500': '💵', 'earnings_1000': '🏆', 'earnings_5000': '🚀',
+          'conversion_50': '📈', 'conversion_75': '⭐',
         };
-
         const milestoneDescriptions: { [key: string]: string } = {
-          'first_referral': 'First Referral',
-          'referrals_10': '10 Referrals',
-          'referrals_25': '25 Referrals',
-          'referrals_50': '50 Referrals',
-          'referrals_100': '100 Referrals',
-          'earnings_100': '$100 Earned',
-          'earnings_500': '$500 Earned',
-          'earnings_1000': '$1,000 Earned',
-          'earnings_5000': '$5,000 Earned',
-          'conversion_50': '50% Conversion Rate',
+          'first_referral': 'First Referral', 'referrals_10': '10 Referrals',
+          'referrals_25': '25 Referrals', 'referrals_50': '50 Referrals',
+          'referrals_100': '100 Referrals', 'earnings_100': '$100 Earned',
+          'earnings_500': '$500 Earned', 'earnings_1000': '$1,000 Earned',
+          'earnings_5000': '$5,000 Earned', 'conversion_50': '50% Conversion Rate',
           'conversion_75': '75% Conversion Rate',
         };
-
         const emoji = milestoneEmojis[data.milestoneType || ''] || '🎊';
         const milestoneDesc = milestoneDescriptions[data.milestoneType || ''] || data.milestoneType;
 
@@ -299,49 +243,28 @@ const handler = async (req: Request): Promise<Response> => {
                     <div class="milestone-title">${milestoneDesc}</div>
                     <p style="color: #059669; font-weight: 600;">Congratulations!</p>
                   </div>
-
                   <p>Great news! One of your sales agents has reached an important milestone.</p>
-                  
                   <div class="info-box">
                     <h3>Agent Details</h3>
-                    <div class="info-row">
-                      <span class="label">Agent Name:</span>
-                      <span class="value">${data.agentName}</span>
-                    </div>
-                    <div class="info-row">
-                      <span class="label">Email:</span>
-                      <span class="value">${data.agentEmail}</span>
-                    </div>
-                    <div class="info-row">
-                      <span class="label">Milestone Type:</span>
-                      <span class="value">${milestoneDesc}</span>
-                    </div>
-                    <div class="info-row">
-                      <span class="label">Current Value:</span>
-                      <span class="value">${data.milestoneValue}</span>
-                    </div>
+                    <div class="info-row"><span class="label">Agent Name:</span><span class="value">${data.agentName}</span></div>
+                    <div class="info-row"><span class="label">Email:</span><span class="value">${data.agentEmail}</span></div>
+                    <div class="info-row"><span class="label">Milestone Type:</span><span class="value">${milestoneDesc}</span></div>
+                    <div class="info-row"><span class="label">Current Value:</span><span class="value">${data.milestoneValue}</span></div>
                   </div>
-
                   <p><strong>Consider:</strong></p>
                   <ul>
                     <li>Sending a congratulatory message to the agent</li>
                     <li>Featuring them in agent spotlight communications</li>
                     <li>Reviewing if they qualify for bonus rewards</li>
                   </ul>
-
                   <center>
-                    <a href="${supabaseUrl.replace('.supabase.co', '.lovableproject.com')}/admin-dashboard" class="button">
-                      View Agent Dashboard →
-                    </a>
+                    <a href="${supabaseUrl.replace('.supabase.co', '.lovableproject.com')}/admin-dashboard" class="button">View Agent Dashboard →</a>
                   </center>
-
-                  <p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
-                    This notification was sent because an agent reached a performance milestone.
-                  </p>
+                  <p style="margin-top: 30px; font-size: 14px; color: #6b7280;">This notification was sent because an agent reached a performance milestone.</p>
                 </div>
                 <div class="footer">
-                  <p>Mansa Musa Marketplace Admin System</p>
-                  <p>Building economic empowerment in the Black community</p>
+                  <p>1325.AI Admin System</p>
+                  <p>Building economic empowerment in the community</p>
                 </div>
               </div>
             </body>
@@ -356,7 +279,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Sending admin notification to ${recipients.join(', ')}`);
     
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Admin <admin@mansamusamarketplace.com>",
+      from: "1325.AI Admin <admin@1325.ai>",
       to: recipients,
       subject: subject,
       html: htmlContent,
@@ -364,7 +287,6 @@ const handler = async (req: Request): Promise<Response> => {
     
     console.log("Admin notification sent successfully:", emailResponse);
 
-    // Log the notification in database
     const { error: dbError } = await supabase
       .from('email_notifications')
       .insert({
@@ -378,27 +300,17 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (dbError) {
       console.error('Database logging error:', dbError);
-      // Don't fail the request if logging fails
     }
 
-    return new Response(JSON.stringify({ 
-      success: true,
-      emailId: emailResponse.id 
-    }), {
+    return new Response(JSON.stringify({ success: true, emailId: emailResponse.id }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error: any) {
     console.error("Error in send-admin-notification function:", error);
     return new Response(
-      JSON.stringify({ 
-        success: false,
-        error: error.message 
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
+      JSON.stringify({ success: false, error: error.message }),
+      { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }
 };

@@ -103,7 +103,7 @@ serve(async (req) => {
 
     switch (type) {
       case "analytics_chat":
-        systemPrompt = `You are an AI analytics assistant for the Mansa Musa Marketplace admin dashboard. 
+        systemPrompt = `You are an AI analytics assistant for the 1325.AI admin dashboard. 
 You help administrators understand their platform data, identify trends, and make data-driven decisions.
 You have access to the following data context:
 ${JSON.stringify(data, null, 2)}
@@ -112,7 +112,7 @@ Provide clear, actionable insights. Use numbers and percentages when relevant. B
         break;
 
       case "generate_insights":
-        systemPrompt = `You are an AI insights generator for the Mansa Musa Marketplace.
+        systemPrompt = `You are an AI insights generator for 1325.AI.
 Analyze the provided data and generate a brief executive summary with:
 1. Key highlights (2-3 bullet points)
 2. Concerns or anomalies (if any)
@@ -122,7 +122,7 @@ Keep it concise and actionable.`;
         break;
 
       case "content_moderation":
-        systemPrompt = `You are a content moderation AI for Mansa Musa Marketplace.
+        systemPrompt = `You are a content moderation AI for 1325.AI.
 Review the provided content and determine:
 1. approval_recommendation: "approve", "reject", or "needs_review"
 2. confidence_score: 0-100
@@ -135,7 +135,7 @@ Respond ONLY with valid JSON matching this structure.`;
         break;
 
       case "draft_announcement":
-        systemPrompt = `You are a professional communications writer for Mansa Musa Marketplace.
+        systemPrompt = `You are a professional communications writer for 1325.AI.
 Create engaging, clear announcements for the platform. Match the tone to the announcement type.
 - info: friendly and informative
 - warning: clear but not alarming
@@ -145,7 +145,7 @@ Create engaging, clear announcements for the platform. Match the tone to the ann
         break;
 
       case "fraud_analysis":
-        systemPrompt = `You are a fraud detection AI for Mansa Musa Marketplace.
+        systemPrompt = `You are a fraud detection AI for 1325.AI.
 Analyze the provided activity data and assess fraud risk.
 Respond with JSON:
 {
@@ -159,7 +159,7 @@ Respond with JSON:
         break;
 
       case "sentiment_analysis":
-        systemPrompt = `You are a sentiment analysis AI for Mansa Musa Marketplace.
+        systemPrompt = `You are a sentiment analysis AI for 1325.AI.
 Analyze the provided reviews/feedback and provide:
 {
   "overall_sentiment": "positive" | "neutral" | "negative",
@@ -173,7 +173,7 @@ Analyze the provided reviews/feedback and provide:
         break;
 
       case "predictive_analytics":
-        systemPrompt = `You are a predictive analytics AI for Mansa Musa Marketplace.
+        systemPrompt = `You are a predictive analytics AI for 1325.AI.
 Based on the provided user/business data, predict:
 {
   "churn_risk": "low" | "medium" | "high",
@@ -187,13 +187,13 @@ Based on the provided user/business data, predict:
         break;
 
       case "dashboard_help":
-        systemPrompt = sanitizeForPrompt(data?.context) || `You are a helpful assistant for the Mansa Musa Marketplace Admin Dashboard.
+        systemPrompt = sanitizeForPrompt(data?.context) || `You are a helpful assistant for the 1325.AI Admin Dashboard.
 Help administrators understand dashboard features, navigation, and functionality.
 Be concise and helpful. If you're unsure about something, say so.`;
         break;
 
       default:
-        systemPrompt = "You are a helpful AI assistant for the Mansa Musa Marketplace admin dashboard.";
+        systemPrompt = "You are a helpful AI assistant for the 1325.AI admin dashboard.";
     }
 
     console.log(`Processing ${type} request`);

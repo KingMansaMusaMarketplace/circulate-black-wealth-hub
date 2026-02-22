@@ -25,7 +25,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log('Sending sponsor rejection email to:', email);
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
+      from: "1325.AI <noreply@1325.ai>",
       to: [email],
       subject: "Update on Your Corporate Sponsorship Application",
       html: `
@@ -89,7 +89,7 @@ const handler = async (req: Request): Promise<Response> => {
           <div class="content">
             <p>Dear ${companyName} Team,</p>
             
-            <p>Thank you for your interest in becoming a corporate sponsor of Mansa Musa Marketplace.</p>
+            <p>Thank you for your interest in becoming a corporate sponsor of 1325.AI.</p>
             
             <p>After careful review, we regret to inform you that we are unable to approve your sponsorship application at this time.</p>
             
@@ -100,24 +100,24 @@ const handler = async (req: Request): Promise<Response> => {
               </div>
             ` : ''}
             
-            <p>We appreciate your interest in supporting Black economic empowerment and would welcome the opportunity to reconsider your application in the future.</p>
+            <p>We appreciate your interest in supporting community economic empowerment and would welcome the opportunity to reconsider your application in the future.</p>
             
             <h3>Next Steps</h3>
             <p>If you have questions about this decision or would like to discuss alternative partnership opportunities, please don't hesitate to reach out to our partnerships team:</p>
             
             <ul>
-              <li>📧 Email: partnerships@mansamusa.com</li>
+              <li>📧 Email: partnerships@1325.ai</li>
               <li>📞 Phone: (555) 123-4567</li>
             </ul>
             
-            <p>Thank you again for considering Mansa Musa Marketplace.</p>
+            <p>Thank you again for considering 1325.AI.</p>
             
             <p>Best regards,<br>
-            <strong>The Mansa Musa Marketplace Team</strong></p>
+            <strong>The 1325.AI Team</strong></p>
           </div>
           
           <div class="footer">
-            <p>© 2025 Mansa Musa Marketplace. All rights reserved.</p>
+            <p>© 2025 1325.AI. All rights reserved.</p>
           </div>
         </body>
         </html>

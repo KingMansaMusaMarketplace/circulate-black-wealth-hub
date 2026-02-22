@@ -169,7 +169,7 @@ serve(async (req) => {
               <p style="margin: 5px 0;"><strong>Service Date:</strong> ${new Date(booking.booking_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
             
-            <p><strong>Your feedback helps other customers discover great Black-owned businesses like this one!</strong></p>
+            <p><strong>Your feedback helps other customers discover great community businesses like this one!</strong></p>
             
             <p style="text-align: center; margin-top: 30px;">
               <a href="${reviewUrl}" class="cta-button">Write a Review</a>
@@ -181,7 +181,7 @@ serve(async (req) => {
           </div>
           
           <div class="footer">
-            <p>Mansa Musa Marketplace - Supporting Black-Owned Businesses</p>
+            <p>1325.AI - Supporting Community Businesses</p>
             <p>
               <a href="${Deno.env.get('SITE_URL')}/unsubscribe" style="color: #6b7280;">Unsubscribe</a> | 
               <a href="${Deno.env.get('SITE_URL')}/privacy" style="color: #6b7280;">Privacy Policy</a>
@@ -193,7 +193,7 @@ serve(async (req) => {
 
     // Send email via Resend
     const { data: emailData, error: emailError } = await resend.emails.send({
-      from: 'Mansa Musa Marketplace <reviews@mansamusamarketplace.com>',
+      from: '1325.AI <reviews@1325.ai>',
       to: [booking.customer_email],
       subject: `How was your experience at ${business.business_name}?`,
       html: emailHTML,

@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { Resend } from "https://esm.sh/resend@2.0.0";
-// Simple HTML template instead of React Email to avoid npm dependency issues
 
 interface NotificationRequest {
   userId: string;
@@ -30,29 +29,23 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// Helper function to send email with retry logic for rate limits
 async function sendEmailWithRetry(
   emailConfig: Parameters<typeof resend.emails.send>[0],
   maxRetries = 3
 ) {
   let lastError: any;
-  
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       const response = await resend.emails.send(emailConfig);
-      
       if (response.error) {
-        // Check if it's a rate limit error
         if (response.error.statusCode === 429) {
           console.log(`Rate limited on attempt ${attempt + 1}, retrying...`);
-          // Exponential backoff: 500ms, 1000ms, 2000ms
           await new Promise(resolve => setTimeout(resolve, 500 * Math.pow(2, attempt)));
           lastError = response.error;
           continue;
         }
         throw response.error;
       }
-      
       return response;
     } catch (error: any) {
       if (error?.statusCode === 429) {
@@ -64,7 +57,6 @@ async function sendEmailWithRetry(
       throw error;
     }
   }
-  
   throw lastError || new Error('Failed to send email after retries');
 }
 
@@ -84,10 +76,6 @@ const handler = async (req: Request): Promise<Response> => {
     const notificationRequest: NotificationRequest = await req.json();
     console.log('Processing notification:', notificationRequest);
 
-    // Check if user has this notification type enabled
-    // (This would check user preferences in a real implementation)
-    
-    // Generate notification email HTML
     const html = generateNotificationEmailHTML({
       type: notificationRequest.type,
       fullName: notificationRequest.data.fullName || 'User',
@@ -97,12 +85,11 @@ const handler = async (req: Request): Promise<Response> => {
       rewardName: notificationRequest.data.rewardName,
       expiryDate: notificationRequest.data.expiryDate,
       weeklyStats: notificationRequest.data.weeklyStats,
-      dashboardUrl: Deno.env.get('APP_URL') || 'https://mansamusamarketplace.com'
+      dashboardUrl: Deno.env.get('APP_URL') || 'https://1325.ai'
     });
 
-    // Send notification email with retry logic for rate limits
     const emailResponse = await sendEmailWithRetry({
-      from: 'Mansa Musa Marketplace <notifications@mansamusamarketplace.com>',
+      from: '1325.AI <notifications@1325.ai>',
       to: [notificationRequest.email],
       subject: notificationRequest.subject,
       html,
@@ -110,7 +97,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Notification email sent successfully:", emailResponse);
 
-    // Log the email notification
     await supabase
       .from('email_notifications')
       .insert({
@@ -128,32 +114,18 @@ const handler = async (req: Request): Promise<Response> => {
       message: 'Notification email sent successfully' 
     }), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        ...corsHeaders,
-      },
+      headers: { "Content-Type": "application/json", ...corsHeaders },
     });
 
   } catch (error: any) {
     console.error("Error in send-notification-email function:", error);
-    
     return new Response(
-      JSON.stringify({ 
-        success: false,
-        error: error.message 
-      }),
-      {
-        status: 500,
-        headers: { 
-          "Content-Type": "application/json", 
-          ...corsHeaders 
-        },
-      }
+      JSON.stringify({ success: false, error: error.message }),
+      { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }
 };
 
-// Simple HTML email template generator
 function generateNotificationEmailHTML(props: {
   type: 'points_milestone' | 'reward_expiry' | 'new_business' | 'special_offer' | 'weekly_digest';
   fullName: string;
@@ -162,11 +134,7 @@ function generateNotificationEmailHTML(props: {
   offerDetails?: string;
   rewardName?: string;
   expiryDate?: string;
-  weeklyStats?: {
-    pointsEarned: number;
-    businessesVisited: number;
-    rewardsRedeemed: number;
-  };
+  weeklyStats?: { pointsEarned: number; businessesVisited: number; rewardsRedeemed: number; };
   dashboardUrl: string;
 }) {
   const getNotificationContent = () => {
@@ -175,7 +143,7 @@ function generateNotificationEmailHTML(props: {
         return {
           emoji: '🏆',
           title: `Congratulations! You've reached ${props.points} points!`,
-          message: `Amazing work, ${props.fullName}! You've just reached ${props.points} loyalty points by supporting Black-owned businesses in your community.`,
+          message: `Amazing work, ${props.fullName}! You've just reached ${props.points} loyalty points by supporting community businesses.`,
           cta: 'View Your Rewards',
           ctaUrl: `${props.dashboardUrl}/rewards`,
           additional: 'Keep supporting local businesses to earn even more points and unlock exclusive rewards!'
@@ -193,7 +161,7 @@ function generateNotificationEmailHTML(props: {
         return {
           emoji: '🏪',
           title: `New business alert: ${props.businessName} just joined!`,
-          message: `Exciting news, ${props.fullName}! ${props.businessName} has just joined the Mansa Musa Marketplace. Be among the first to support this new Black-owned business!`,
+          message: `Exciting news, ${props.fullName}! ${props.businessName} has just joined 1325.AI. Be among the first to support this new community business!`,
           cta: 'Visit Business',
           ctaUrl: `${props.dashboardUrl}/directory`,
           additional: 'Early supporters often get special deals and help new businesses thrive in the community.'
@@ -211,7 +179,7 @@ function generateNotificationEmailHTML(props: {
         return {
           emoji: '📊',
           title: 'Your weekly community impact summary',
-          message: `Hi ${props.fullName}, here's your weekly impact summary for supporting Black-owned businesses in your community.`,
+          message: `Hi ${props.fullName}, here's your weekly impact summary for supporting community businesses.`,
           cta: 'View Full Dashboard',
           ctaUrl: props.dashboardUrl,
           additional: 'Every scan, every purchase, every review helps build stronger communities!'
@@ -220,7 +188,7 @@ function generateNotificationEmailHTML(props: {
         return {
           emoji: '📢',
           title: 'You have a new notification',
-          message: `Hi ${props.fullName}, you have a new notification from Mansa Musa Marketplace.`,
+          message: `Hi ${props.fullName}, you have a new notification from 1325.AI.`,
           cta: 'View Dashboard',
           ctaUrl: props.dashboardUrl,
           additional: 'Stay connected with your community.'
@@ -260,7 +228,7 @@ function generateNotificationEmailHTML(props: {
       <div class="container">
         <div class="header">
           <div class="emoji">${content.emoji}</div>
-          <div class="logo">Mansa Musa Marketplace</div>
+          <div class="logo">1325.AI</div>
         </div>
         <div class="content">
           <h1 class="title">${content.title}</h1>
@@ -292,7 +260,7 @@ function generateNotificationEmailHTML(props: {
           
           <div style="background-color: #fef3cd; padding: 20px; border-radius: 6px; text-align: center; margin: 20px 0;">
             <p style="color: #92400e; margin: 0; font-weight: 500;">
-              Thank you for being part of the Mansa Musa community. Together, we're building economic empowerment and community wealth! 💪
+              Thank you for being part of the 1325.AI community. Together, we're building economic empowerment and community wealth! 💪
             </p>
           </div>
         </div>
@@ -301,7 +269,7 @@ function generateNotificationEmailHTML(props: {
             <a href="${props.dashboardUrl}/profile" style="color: #6b7280; text-decoration: underline;">Manage Notifications</a> | 
             <a href="${props.dashboardUrl}/help" style="color: #6b7280; text-decoration: underline;">Help Center</a>
           </p>
-          <p class="footer-text">© 2024 Mansa Musa Marketplace. Building community wealth.</p>
+          <p class="footer-text">© 2024 1325.AI. Building community wealth.</p>
         </div>
       </div>
     </body>
