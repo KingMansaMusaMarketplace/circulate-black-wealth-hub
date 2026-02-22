@@ -27,12 +27,14 @@ const NoirRideCTA: React.FC = () => {
               </div>
               
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
-                Tired of the 50% Take-Rate?{' '}
-                <span className="text-mansagold">Switch to Noir.</span>
+                Your Ride.{' '}
+                <span className="text-mansagold">Your Driver. Your Community.</span>
               </h2>
               
               <p className="text-base text-blue-200/70 mb-4">
-                Flat 20% fee. Full fare transparency. Your driver keeps 80% — no algorithm games, no hidden math.
+                <span className="font-semibold text-white">Riders:</span> Book a ride and we'll pick you up & drop you off — reliable, safe, and community-powered.
+                <br className="hidden sm:block" />
+                <span className="font-semibold text-white">Drivers:</span> Keep 80% of every fare. Flat 20% fee, full transparency — no algorithm games, no hidden math.
               </p>
               
               {/* Value Props */}
