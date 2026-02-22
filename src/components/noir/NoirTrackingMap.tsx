@@ -247,13 +247,13 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
       )}
 
       {/* Status banner */}
-      <div className="absolute top-4 left-4 right-14 z-10">
-        <div className="bg-black/80 backdrop-blur-md rounded-xl px-4 py-3 flex items-center gap-3">
-          <div className={`w-3 h-3 rounded-full ${statusInfo.color} animate-pulse`} />
-          <span className="text-white font-medium text-sm">{statusInfo.label}</span>
+      <div className="absolute top-3 left-3 z-10 pointer-events-none">
+        <div className="pointer-events-auto bg-black/80 backdrop-blur-md rounded-lg px-3 py-2 flex items-center gap-2 w-fit">
+          <div className={`w-2.5 h-2.5 rounded-full ${statusInfo.color} animate-pulse`} />
+          <span className="text-white font-medium text-xs">{statusInfo.label}</span>
           {activeStatus?.estimated_arrival_minutes && activeStatus.status !== 'arrived' && (
-            <Badge variant="outline" className="ml-auto border-[#d4af37]/50 text-[#d4af37] gap-1">
-              <Clock className="h-3 w-3" />
+            <Badge variant="outline" className="border-[#d4af37]/50 text-[#d4af37] gap-1 text-[10px] px-1.5 py-0.5">
+              <Clock className="h-2.5 w-2.5" />
               {activeStatus.estimated_arrival_minutes} min
             </Badge>
           )}
@@ -262,47 +262,38 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
 
       {/* Driver info card */}
       {activeStatus?.driver_name && (
-        <Card className="absolute bottom-4 left-4 right-4 z-10 bg-black/85 backdrop-blur-md border-white/10">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-4">
-              {/* Driver avatar */}
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#d4af37] to-[#b8960c] flex items-center justify-center text-black font-bold text-xl flex-shrink-0">
+        <Card className="absolute bottom-3 left-3 right-3 z-10 bg-black/85 backdrop-blur-md border-white/10">
+          <CardContent className="p-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#d4af37] to-[#b8960c] flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
                 {activeStatus.driver_name.charAt(0)}
               </div>
-
-              {/* Driver details */}
               <div className="flex-1 min-w-0">
-                <h4 className="text-white font-semibold text-base truncate">{activeStatus.driver_name}</h4>
+                <h4 className="text-white font-semibold text-sm truncate">{activeStatus.driver_name}</h4>
                 {activeStatus.vehicle_info && (
-                  <p className="text-white/60 text-sm truncate">{activeStatus.vehicle_info}</p>
+                  <p className="text-white/60 text-xs truncate">{activeStatus.vehicle_info}</p>
                 )}
                 {activeStatus.driver_rating && (
-                  <div className="flex items-center gap-1 mt-1">
-                    <Star className="h-3.5 w-3.5 fill-[#d4af37] text-[#d4af37]" />
-                    <span className="text-[#d4af37] text-sm font-medium">{activeStatus.driver_rating}</span>
+                  <div className="flex items-center gap-1">
+                    <Star className="h-3 w-3 fill-[#d4af37] text-[#d4af37]" />
+                    <span className="text-[#d4af37] text-xs font-medium">{activeStatus.driver_rating}</span>
                   </div>
                 )}
               </div>
-
-              {/* Action buttons */}
-              <div className="flex gap-2 flex-shrink-0">
-                <Button size="icon" variant="outline" className="rounded-full border-white/20 bg-white/5 hover:bg-white/10 h-10 w-10">
-                  <Phone className="h-4 w-4 text-white" />
+              <div className="flex gap-1.5 flex-shrink-0">
+                <Button size="icon" variant="outline" className="rounded-full border-white/20 bg-white/5 hover:bg-white/10 h-8 w-8">
+                  <Phone className="h-3.5 w-3.5 text-white" />
                 </Button>
-                <Button size="icon" variant="outline" className="rounded-full border-white/20 bg-white/5 hover:bg-white/10 h-10 w-10">
-                  <MessageSquare className="h-4 w-4 text-white" />
+                <Button size="icon" variant="outline" className="rounded-full border-white/20 bg-white/5 hover:bg-white/10 h-8 w-8">
+                  <MessageSquare className="h-3.5 w-3.5 text-white" />
                 </Button>
               </div>
             </div>
-
-            {/* Live location indicator */}
             {activeLocation && (
-              <div className="mt-3 pt-3 border-t border-white/10 flex items-center gap-2 text-xs text-white/40">
-                <Navigation className="h-3 w-3 text-[#d4af37]" />
-                <span>Live tracking · {Math.round(activeLocation.speed || 0)} mph</span>
-                <span className="ml-auto">
-                  {isDemo ? 'Demo mode' : 'Connected'}
-                </span>
+              <div className="mt-2 pt-2 border-t border-white/10 flex items-center gap-2 text-[10px] text-white/40">
+                <Navigation className="h-2.5 w-2.5 text-[#d4af37]" />
+                <span>Live · {Math.round(activeLocation.speed || 0)} mph</span>
+                <span className="ml-auto">{isDemo ? 'Demo' : 'Connected'}</span>
               </div>
             )}
           </CardContent>
