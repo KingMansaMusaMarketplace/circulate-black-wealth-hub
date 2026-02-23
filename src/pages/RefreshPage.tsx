@@ -7,31 +7,63 @@ const RefreshPage: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        setStatus('Clearing caches…');
-        if ('caches' in window) {
-          const keys = await caches.keys();
-          await Promise.all(keys.map((k) => caches.delete(k)));
-        }
-
+        // 1. Unregister ALL service workers first
         setStatus('Unregistering service workers…');
         if ('serviceWorker' in navigator) {
           const regs = await navigator.serviceWorker.getRegistrations();
           await Promise.all(regs.map((r) => r.unregister()));
         }
 
-        setStatus('Clearing local storage…');
-        try {
-          localStorage.clear();
-          sessionStorage.clear();
-        } catch {}
-      } catch {}
+        // 2. Delete ALL Cache API entries
+        setStatus('Clearing caches…');
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((k) => caches.delete(k)));
+        }
 
-      // Redirect back to home with unique cache-buster
-      const url = new URL(window.location.href);
-      url.pathname = '/';
-      url.searchParams.set('v', String(Date.now()));
+        // 3. Clear all storage
+        setStatus('Clearing storage…');
+        try { localStorage.clear(); } catch {}
+        try { sessionStorage.clear(); } catch {}
+
+        // 4. Clear ALL IndexedDB databases (React Query, Supabase, etc.)
+        setStatus('Clearing databases…');
+        if ('indexedDB' in window && indexedDB.databases) {
+          try {
+            const dbs = await indexedDB.databases();
+            await Promise.all(
+              dbs.map((db) => {
+                if (db.name) {
+                  return new Promise<void>((resolve) => {
+                    const req = indexedDB.deleteDatabase(db.name!);
+                    req.onsuccess = () => resolve();
+                    req.onerror = () => resolve();
+                    req.onblocked = () => resolve();
+                  });
+                }
+                return Promise.resolve();
+              })
+            );
+          } catch {}
+        }
+
+        // 5. Clear cookies for this domain
+        setStatus('Clearing cookies…');
+        try {
+          document.cookie.split(';').forEach((c) => {
+            const name = c.split('=')[0].trim();
+            document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+          });
+        } catch {}
+
+      } catch (e) {
+        console.error('Refresh cleanup error:', e);
+      }
+
+      // 6. Hard redirect with cache-buster
       setStatus('Reloading…');
-      window.location.replace(url.toString());
+      const dest = window.location.origin + '/?v=' + Date.now();
+      window.location.replace(dest);
     })();
   }, []);
 
