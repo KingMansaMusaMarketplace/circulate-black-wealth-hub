@@ -1,0 +1,1 @@
+DELETE FROM businesses WHERE id = '8282e123-584a-4dfb-961c-ea79bce730b5';
