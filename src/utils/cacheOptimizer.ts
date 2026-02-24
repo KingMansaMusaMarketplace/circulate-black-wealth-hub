@@ -1,15 +1,10 @@
 
-// Cache optimization utilities
+// Cache optimization utilities - SW registration removed to prevent stale asset caching
 export const initializeCaching = () => {
+  // Actively unregister any lingering service workers to prevent old versions
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('SW registered: ', registration);
-        })
-        .catch((registrationError) => {
-          console.log('SW registration failed: ', registrationError);
-        });
+    navigator.serviceWorker.getRegistrations().then((regs) => {
+      regs.forEach((r) => r.unregister());
     });
   }
 };
