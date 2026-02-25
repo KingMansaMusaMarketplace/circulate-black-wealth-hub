@@ -76,6 +76,7 @@ const menuGroups = [
       { id: 'verifications', label: 'Verifications', icon: ShieldCheck },
       { id: 'agents', label: 'Sales Agents', icon: Users },
       { id: 'partners', label: 'Partners', icon: Handshake },
+      { id: 'sponsorship', label: 'Sponsorship', icon: Award, route: '/sponsorship' },
       { id: 'developers', label: 'Developers', icon: Code2 },
       { id: 'financial', label: 'Financial', icon: DollarSign },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award },
