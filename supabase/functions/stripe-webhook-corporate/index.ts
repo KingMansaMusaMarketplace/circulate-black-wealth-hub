@@ -11,7 +11,7 @@ const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 serve(async (req) => {
   const signature = req.headers.get("stripe-signature");
-  const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
+  const webhookSecret = Deno.env.get("STRIPE_CORPORATE_WEBHOOK_SECRET");
 
   if (!signature || !webhookSecret) {
     return new Response("Missing signature or webhook secret", { status: 400 });
