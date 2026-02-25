@@ -39,7 +39,7 @@ const SalesAgentSignupPage: React.FC = () => {
       </Helmet>
       
       {/* Modern Navy/Gold Background with Animated Orbs */}
-      <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
         {/* Animated Background Orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-float" />
