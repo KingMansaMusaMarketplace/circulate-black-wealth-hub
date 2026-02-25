@@ -28,6 +28,7 @@ import BusinessProfilePrompt from "@/components/business/BusinessProfilePrompt";
 import { GlobalErrorRecovery } from "@/components/error-recovery/GlobalErrorRecovery";
 import { OfflineBanner } from "@/components/network/OfflineBanner";
 import ScrollToTop from "@/components/ScrollToTop";
+import { useCartSync } from "@/hooks/useCartSync";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -231,6 +232,10 @@ const LazyMyTicketsPage = lazy(() => import('@/pages/MyTicketsPage'));
 // AI Agent Dashboard
 const LazyAIAgentDashboard = lazy(() => import('@/pages/AIAgentDashboard'));
 
+// Merch Store pages
+const LazyMerchStorePage = lazy(() => import('@/pages/MerchStorePage'));
+const LazyProductDetailPage = lazy(() => import('@/pages/ProductDetailPage'));
+
 // Developer Platform pages
 const LazyDeveloperLandingPage = lazy(() => import('@/pages/developers/DeveloperLandingPage'));
 const LazyDeveloperDashboard = lazy(() => import('@/pages/developers/DeveloperDashboard'));
@@ -273,6 +278,9 @@ function App() {
   const [appReady, setAppReady] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasRecoverableError, setHasRecoverableError] = useState(false);
+
+  // Sync Shopify cart state
+  useCartSync();
 
   // CRITICAL: Global unhandled rejection handler to prevent white screen crashes
   // This catches async errors that ErrorBoundary cannot catch
@@ -698,6 +706,10 @@ function App() {
                               {/* Patent Document Export */}
                               <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
                               
+                              {/* Merch Store */}
+                              <Route path="/merch" element={<LazyMerchStorePage />} />
+                              <Route path="/merch/:handle" element={<LazyProductDetailPage />} />
+                              
                               {/* Business Onboarding */}
                               <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
                               
@@ -999,6 +1011,10 @@ function App() {
                         
                         {/* Patent Document Export */}
                         <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
+                        
+                        {/* Merch Store */}
+                        <Route path="/merch" element={<LazyMerchStorePage />} />
+                        <Route path="/merch/:handle" element={<LazyProductDetailPage />} />
                         
                         {/* Business Onboarding */}
                         <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
