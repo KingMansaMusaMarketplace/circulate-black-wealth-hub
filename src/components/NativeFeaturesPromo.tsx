@@ -13,7 +13,7 @@ export const NativeFeaturesPromo = () => {
   }
 
   return (
-    <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 py-6 px-4 z-40 shadow-lg border-b border-mansagold/20 relative">
+    <div className="bg-gradient-to-r from-[#000000] via-[#050a18] to-[#030712] py-6 px-4 z-40 shadow-lg border-b border-mansagold/20 relative">
       {/* Close Button */}
       <button
         onClick={() => setDismissed(true)}

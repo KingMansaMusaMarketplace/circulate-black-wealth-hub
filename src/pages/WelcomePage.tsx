@@ -42,7 +42,7 @@ const WelcomePage: React.FC = () => {
         <title>Welcome to 1325.AI | Discover Verified Businesses</title>
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-mansablue to-indigo-900 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
         {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse" />

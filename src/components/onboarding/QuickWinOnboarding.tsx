@@ -228,7 +228,7 @@ const QuickWinOnboarding = ({ businessId, onComplete, onDismiss }: QuickWinOnboa
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      className="bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-dark rounded-2xl border border-white/10 overflow-hidden shadow-xl"
+      className="bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] rounded-2xl border border-white/10 overflow-hidden shadow-xl"
     >
       {/* Header */}
       <div className="px-6 py-4 bg-gradient-to-r from-mansagold/20 to-transparent border-b border-white/10">

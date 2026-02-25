@@ -87,7 +87,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-float" />

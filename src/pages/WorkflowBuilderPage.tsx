@@ -66,7 +66,7 @@ export default function WorkflowBuilderPage() {
 
   if (!business) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center">
         <Card className="bg-white/5 border-white/10 p-8 text-center">
           <Zap className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-white mb-2">Business Required</h2>
@@ -95,7 +95,7 @@ export default function WorkflowBuilderPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float" />
       <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />

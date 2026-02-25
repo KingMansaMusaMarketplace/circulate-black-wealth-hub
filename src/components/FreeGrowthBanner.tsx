@@ -18,7 +18,7 @@ import {
 
 const FreeGrowthBanner = () => {
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] text-white relative overflow-hidden">
       {/* Animated gradient orbs */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />

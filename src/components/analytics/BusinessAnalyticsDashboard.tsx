@@ -283,7 +283,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
 
   if (!analytics) {
     return (
-      <div className="relative min-h-[60vh] bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="relative min-h-[60vh] bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
         {/* Animated gradient orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float" />

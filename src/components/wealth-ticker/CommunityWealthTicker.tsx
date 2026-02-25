@@ -74,7 +74,7 @@ const CommunityWealthTicker = ({ variant = 'full', className = '' }: CommunityWe
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="bg-gradient-to-r from-mansablue-dark/90 via-mansablue/90 to-mansablue-dark/90 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+        <div className="bg-gradient-to-r from-[#000000]/90 via-[#050a18]/90 to-[#030712]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
           <div className="flex items-center justify-between flex-wrap gap-6">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-xl bg-mansagold/20">

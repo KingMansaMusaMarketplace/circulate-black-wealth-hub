@@ -39,7 +39,7 @@ const SalesAgentGuidePage: React.FC = () => {
   const totalWithBonus = totalMonthly + recruitmentBonus;
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
       <Helmet>
         <title>Become a 1325 Ambassador - 1325.AI</title>
         <meta name="description" content="Join the 1325 Ambassador Program. Earn competitive commissions, recruitment bonuses, and team overrides while building the largest verified business network in your city!" />
