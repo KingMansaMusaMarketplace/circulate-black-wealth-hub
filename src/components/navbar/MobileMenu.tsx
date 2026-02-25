@@ -90,7 +90,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
                 key={item.to}
                 to={item.to}
                 onClick={handleLinkClick}
-                className={`block px-3 py-3 text-base font-medium ${item.alwaysGold ? 'text-mansagold' : 'text-gray-700'} hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100`}
+                className={`block px-3 py-3 text-lg font-semibold text-black hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100`}
                 style={{ minHeight: '44px' }}
                 data-tour={item.dataTour}
               >
@@ -102,7 +102,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
             
             {/* For Businesses Section */}
             <div className="px-3 py-1">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
                 For Businesses
               </h3>
             </div>
@@ -111,7 +111,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
                 key={item.to}
                 to={item.to}
                 onClick={handleLinkClick}
-                className="block px-6 py-3 text-sm text-gray-600 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
+                className="block px-6 py-3 text-base font-medium text-black hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
                 style={{ minHeight: '44px' }}
               >
                 {item.label}
@@ -122,7 +122,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
             
             {/* Resources Section */}
             <div className="px-3 py-1">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
                 Resources
               </h3>
             </div>
@@ -131,7 +131,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
                 key={item.to}
                 to={item.to}
                 onClick={handleLinkClick}
-                className="block px-6 py-3 text-sm text-gray-600 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
+                className="block px-6 py-3 text-base font-medium text-black hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
                 style={{ minHeight: '44px' }}
               >
                 {item.label}
