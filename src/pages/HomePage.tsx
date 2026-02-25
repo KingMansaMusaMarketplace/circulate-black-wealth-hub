@@ -53,7 +53,7 @@ const HomePage = () => {
       <WebsiteStructuredData />
       <div className="min-h-screen relative overflow-hidden">
         {/* Modern dark gradient mesh background - matching directory page */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#020617] via-[#0a1a3a] to-[#0f172a]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
         
         {/* Animated gradient orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">

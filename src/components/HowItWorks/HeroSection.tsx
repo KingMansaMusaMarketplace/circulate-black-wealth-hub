@@ -21,7 +21,7 @@ const HeroSection = () => {
   return (
     <section className="py-20 md:py-28 relative overflow-hidden">
       {/* Glass morphism overlay */}
-      <div className="absolute inset-0 backdrop-blur-sm bg-white/5" />
+      <div className="absolute inset-0 backdrop-blur-sm bg-black/40" />
       
       <div className="container-custom px-4 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
