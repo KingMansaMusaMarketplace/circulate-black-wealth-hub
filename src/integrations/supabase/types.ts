@@ -5290,6 +5290,13 @@ export type Database = {
           id: string
           is_founding_sponsor: boolean | null
           is_visible: boolean | null
+          landing_page_cta_text: string | null
+          landing_page_cta_url: string | null
+          landing_page_description: string | null
+          landing_page_enabled: boolean | null
+          landing_page_headline: string | null
+          landing_page_hero_image_url: string | null
+          landing_page_slug: string | null
           logo_approved: boolean | null
           logo_url: string | null
           placement_override: Json | null
@@ -5318,6 +5325,13 @@ export type Database = {
           id?: string
           is_founding_sponsor?: boolean | null
           is_visible?: boolean | null
+          landing_page_cta_text?: string | null
+          landing_page_cta_url?: string | null
+          landing_page_description?: string | null
+          landing_page_enabled?: boolean | null
+          landing_page_headline?: string | null
+          landing_page_hero_image_url?: string | null
+          landing_page_slug?: string | null
           logo_approved?: boolean | null
           logo_url?: string | null
           placement_override?: Json | null
@@ -5346,6 +5360,13 @@ export type Database = {
           id?: string
           is_founding_sponsor?: boolean | null
           is_visible?: boolean | null
+          landing_page_cta_text?: string | null
+          landing_page_cta_url?: string | null
+          landing_page_description?: string | null
+          landing_page_enabled?: boolean | null
+          landing_page_headline?: string | null
+          landing_page_hero_image_url?: string | null
+          landing_page_slug?: string | null
           logo_approved?: boolean | null
           logo_url?: string | null
           placement_override?: Json | null
