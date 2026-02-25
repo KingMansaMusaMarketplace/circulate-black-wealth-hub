@@ -459,9 +459,10 @@
     overflow-x: hidden; /* Prevent horizontal scroll / white strip on right */
   }
   
-  /* Prevent horizontal overflow from animated elements */
+  /* Prevent horizontal overflow and white flash on scroll */
   html {
     overflow-x: hidden;
+    background-color: #000000;
   }
   
   /* Premium Typography - Headings use Playfair Display */
