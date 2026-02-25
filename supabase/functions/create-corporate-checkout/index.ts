@@ -44,10 +44,10 @@ serve(async (req) => {
 
     // Price IDs mapping (these need to be created in Stripe Dashboard)
     const priceIds: Record<string, string> = {
-      bronze: Deno.env.get("STRIPE_BRONZE_PRICE_ID") || "",
-      silver: Deno.env.get("STRIPE_SILVER_PRICE_ID") || "",
-      gold: Deno.env.get("STRIPE_GOLD_PRICE_ID") || "",
-      platinum: Deno.env.get("STRIPE_PLATINUM_PRICE_ID") || "",
+      bronze: Deno.env.get("STRIPE_CORPORATE_BRONZE_PRICE_ID") || "",
+      silver: Deno.env.get("STRIPE_CORPORATE_SILVER_PRICE_ID") || "",
+      gold: Deno.env.get("STRIPE_CORPORATE_GOLD_PRICE_ID") || "",
+      platinum: Deno.env.get("STRIPE_CORPORATE_PLATINUM_PRICE_ID") || "",
     };
 
     const priceId = priceIds[tier.toLowerCase()];
