@@ -12,6 +12,7 @@ const PRODUCT_FALLBACK_IMAGES: Record<string, string> = {
   'mansa-musa-1325-baseball-jersey': '/images/mansa-musa-jersey.png',
   '1325-ai-backpack': '/images/1325-ai-backpack.png',
   '1325-ai-camo-t-shirt': '/images/1325-ai-camo-tshirt.png',
+  '1325-ai-insulated-tumbler': '/images/1325-ai-tumbler.png',
 };
 
 const MerchStorePage = () => {
