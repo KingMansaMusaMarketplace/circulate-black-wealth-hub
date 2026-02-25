@@ -62,7 +62,7 @@ const MerchStorePage = () => {
           <div className="container mx-auto px-4 text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
               <ShoppingBag className="h-10 w-10 text-mansagold" />
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">Official Merch</h1>
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">MMM Official Merch</h1>
             </div>
             <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
               Wear the movement. Premium branded merchandise from 1325.AI — every purchase supports the mission.
