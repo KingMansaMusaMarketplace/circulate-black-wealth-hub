@@ -8,6 +8,10 @@ import { CartDrawer } from '@/components/merch/CartDrawer';
 import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct } from '@/lib/shopify/config';
 import { toast } from 'sonner';
 
+const PRODUCT_FALLBACK_IMAGES: Record<string, string> = {
+  'mansa-musa-1325-baseball-jersey': '/images/mansa-musa-jersey.png',
+};
+
 const MerchStorePage = () => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -85,16 +89,19 @@ const MerchStorePage = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => {
                 const image = product.node.images.edges[0]?.node;
+                const fallbackImage = PRODUCT_FALLBACK_IMAGES[product.node.handle];
+                const imageUrl = image?.url || fallbackImage;
+                const imageAlt = image?.altText || product.node.title;
                 const price = product.node.priceRange.minVariantPrice;
                 
                 return (
                   <div key={product.node.id} className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                     <Link to={`/merch/${product.node.handle}`}>
-                      <div className="aspect-square bg-muted overflow-hidden">
-                        {image ? (
+                    <div className="aspect-square bg-muted overflow-hidden">
+                        {imageUrl ? (
                           <img
-                            src={image.url}
-                            alt={image.altText || product.node.title}
+                            src={imageUrl}
+                            alt={imageAlt}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             loading="lazy"
                           />

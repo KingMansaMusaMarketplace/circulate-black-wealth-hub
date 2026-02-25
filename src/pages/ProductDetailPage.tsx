@@ -8,6 +8,10 @@ import { CartDrawer } from '@/components/merch/CartDrawer';
 import { storefrontApiRequest, STOREFRONT_PRODUCT_BY_HANDLE_QUERY, ShopifyProduct } from '@/lib/shopify/config';
 import { toast } from 'sonner';
 
+const PRODUCT_FALLBACK_IMAGES: Record<string, string> = {
+  'mansa-musa-1325-baseball-jersey': '/images/mansa-musa-jersey.png',
+};
+
 const ProductDetailPage = () => {
   const { handle } = useParams<{ handle: string }>();
   const [product, setProduct] = useState<ShopifyProduct['node'] | null>(null);
@@ -34,6 +38,7 @@ const ProductDetailPage = () => {
 
   const selectedVariant = product?.variants.edges[selectedVariantIndex]?.node;
   const images = product?.images.edges || [];
+  const fallbackImage = handle ? PRODUCT_FALLBACK_IMAGES[handle] : undefined;
 
   const handleAddToCart = async () => {
     if (!product || !selectedVariant) return;
@@ -97,6 +102,12 @@ const ProductDetailPage = () => {
                   <img
                     src={images[selectedImageIndex].node.url}
                     alt={images[selectedImageIndex].node.altText || product.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : fallbackImage ? (
+                  <img
+                    src={fallbackImage}
+                    alt={product.title}
                     className="w-full h-full object-cover"
                   />
                 ) : (
