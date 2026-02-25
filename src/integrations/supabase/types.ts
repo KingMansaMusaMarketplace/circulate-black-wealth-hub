@@ -12100,6 +12100,74 @@ export type Database = {
           },
         ]
       }
+      sponsor_press_releases: {
+        Row: {
+          body: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          published_at: string | null
+          quote: string | null
+          quote_attribution: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          subscription_id: string
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          published_at?: string | null
+          quote?: string | null
+          quote_attribution?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          subscription_id: string
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          published_at?: string | null
+          quote?: string | null
+          quote_attribution?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          subscription_id?: string
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_press_releases_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sponsor_prospects: {
         Row: {
           annual_revenue: string | null

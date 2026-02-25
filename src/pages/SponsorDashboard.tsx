@@ -4,6 +4,7 @@ import { useSponsorPortal } from '@/hooks/useSponsorPortal';
 import { ImpactMetricsCard } from '@/components/sponsor-dashboard/ImpactMetricsCard';
 import { LandingPageEditor } from '@/components/sponsor-dashboard/LandingPageEditor';
 import { SocialMediaRecognition } from '@/components/sponsor-dashboard/SocialMediaRecognition';
+import { PressReleasePRSupport } from '@/components/sponsor-dashboard/PressReleasePRSupport';
 import { SubscriptionDetailsCard } from '@/components/sponsor-dashboard/SubscriptionDetailsCard';
 import { LogoUploadCard } from '@/components/sponsor-dashboard/LogoUploadCard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -184,6 +185,14 @@ const SponsorDashboard: React.FC = () => {
                 subscriptionId={subscription.id}
                 companyName={subscription.company_name}
                 tier={subscription.tier}
+                className="bg-white/5 backdrop-blur-xl border-white/10"
+              />
+            )}
+
+            {subscription.tier === 'platinum' && (
+              <PressReleasePRSupport
+                subscriptionId={subscription.id}
+                companyName={subscription.company_name}
                 className="bg-white/5 backdrop-blur-xl border-white/10"
               />
             )}
