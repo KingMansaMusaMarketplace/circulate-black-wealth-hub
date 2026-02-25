@@ -44,6 +44,13 @@ const NavLinks: React.FC = () => {
           </Link>
         </NavigationMenuItem>
 
+        <NavigationMenuItem>
+          <Link to="/merch" className={`${goldLinkClassName} flex items-center gap-1.5`}>
+            <Store className="h-4 w-4 text-mansagold" />
+            Shop
+          </Link>
+        </NavigationMenuItem>
+
         {/* About & Learn Dropdown */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className={triggerClassName}>About & Learn</NavigationMenuTrigger>
