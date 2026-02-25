@@ -2,6 +2,7 @@ import React from 'react';
 import { useSponsorSubscription, useSponsorImpactMetrics } from '@/hooks/use-sponsor-subscription';
 import { useSponsorPortal } from '@/hooks/useSponsorPortal';
 import { ImpactMetricsCard } from '@/components/sponsor-dashboard/ImpactMetricsCard';
+import { LandingPageEditor } from '@/components/sponsor-dashboard/LandingPageEditor';
 import { SubscriptionDetailsCard } from '@/components/sponsor-dashboard/SubscriptionDetailsCard';
 import { LogoUploadCard } from '@/components/sponsor-dashboard/LogoUploadCard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -157,6 +158,22 @@ const SponsorDashboard: React.FC = () => {
               subscriptionId={subscription.id}
               currentLogoUrl={subscription.logo_url}
               currentWebsiteUrl={subscription.website_url}
+              onUpdate={refetch}
+              className="bg-white/5 backdrop-blur-xl border-white/10"
+            />
+
+            <LandingPageEditor
+              subscriptionId={subscription.id}
+              tier={subscription.tier}
+              initialData={{
+                landing_page_slug: (subscription as any).landing_page_slug ?? null,
+                landing_page_headline: (subscription as any).landing_page_headline ?? null,
+                landing_page_description: (subscription as any).landing_page_description ?? null,
+                landing_page_cta_text: (subscription as any).landing_page_cta_text ?? null,
+                landing_page_cta_url: (subscription as any).landing_page_cta_url ?? null,
+                landing_page_hero_image_url: (subscription as any).landing_page_hero_image_url ?? null,
+                landing_page_enabled: (subscription as any).landing_page_enabled ?? false,
+              }}
               onUpdate={refetch}
               className="bg-white/5 backdrop-blur-xl border-white/10"
             />

@@ -112,6 +112,7 @@ const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyAdminSponsorDetailPage = lazy(() => import('@/pages/AdminSponsorDetailPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
+const LazySponsorLandingPage = lazy(() => import('@/pages/SponsorLandingPage'));
 const LazyFeatureDiscoveryPage = lazy(() => import('@/components/onboarding/FeatureDiscovery'));
 const LazyCustomersPage = lazy(() => import('@/pages/CustomersPage'));
 const LazyCustomerDetailPage = lazy(() => import('@/pages/CustomerDetailPage'));
@@ -668,6 +669,7 @@ function App() {
                               <Route path="/sponsor-dashboard" element={<LazySponsorDashboardPage />} />
                               <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
                               <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
+                              <Route path="/sponsor/:slug" element={<LazySponsorLandingPage />} />
                               <Route path="/subscription" element={
                                 <IOSProtectedRoute>
                                   <LazySubscriptionPage />
@@ -964,6 +966,7 @@ function App() {
                           </IOSProtectedRoute>
                         } />
                         <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
+                        <Route path="/sponsor/:slug" element={<LazySponsorLandingPage />} />
                         <Route path="/subscription" element={
                           <IOSProtectedRoute>
                             <LazySubscriptionPage />
