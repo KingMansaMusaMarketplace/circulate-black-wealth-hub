@@ -56,7 +56,7 @@ const steps = [
 
 const PartnerLanding: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
       {/* Hero Section */}
       <section className="relative pt-20 pb-16 px-4">
         <div className="absolute inset-0 overflow-hidden">
