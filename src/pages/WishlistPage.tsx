@@ -49,7 +49,7 @@ const WishlistPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#020617] via-[#0a1a3a] to-[#0f172a]">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
       <Helmet>
         <title>My Favorites | Mansa Stays</title>
         <meta name="description" content="View your saved vacation and monthly rental properties on Mansa Stays." />
