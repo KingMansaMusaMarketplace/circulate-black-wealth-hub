@@ -11,21 +11,40 @@ interface SponsorshipTiersSectionProps {
 const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLearnMore }) => {
   const tiers = [
     {
-      name: 'Silver Partner',
+      name: 'Bronze Partner',
       price: '$2,500',
       period: '/month',
-      description: 'Perfect for companies beginning their impact journey',
+      description: 'Foundation-level support for community impact',
+      icon: Star,
+      popular: false,
+      gradient: 'from-orange-600 to-amber-700',
+      bgGlow: 'rgba(194, 127, 50, 0.15)',
+      features: [
+        'Logo in platform footer',
+        'Monthly impact summary email',
+        'Social media mention (1x/month)',
+        'Basic analytics reporting',
+        'Sponsor certificate',
+        'Community newsletter inclusion'
+      ]
+    },
+    {
+      name: 'Silver Partner',
+      price: '$3,500',
+      period: '/month',
+      description: 'Elevated visibility and engagement',
       icon: Star,
       popular: false,
       gradient: 'from-slate-400 to-slate-500',
       bgGlow: 'rgba(148, 163, 184, 0.15)',
       features: [
-        'Business directory listing highlight',
+        'Logo in footer, sidebar & directory',
         'Monthly newsletter inclusion',
         'Social media mentions (2x/month)',
         'Basic analytics reporting',
         'Community event co-branding',
-        'Quarterly impact summary'
+        'Quarterly impact summary',
+        'Sponsor certificate'
       ]
     },
     {
@@ -39,8 +58,8 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
       bgGlow: 'rgba(251, 191, 36, 0.2)',
       features: [
         'Premium directory placement',
-        'Weekly newsletter spotlight',
-        'Social media mentions (4x/month)',
+        'Rotating homepage banner',
+        'Social media recognition (4x/month)',
         'Advanced analytics dashboard',
         'Event speaking opportunities',
         'Custom content creation',
@@ -62,7 +81,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
         'Daily social media features',
         'Custom partnership landing page',
         'Real-time analytics access',
-        'Executive advisory board seat',
+        'Press release & PR support',
         'Custom research reports',
         'Annual impact summit VIP access',
         'Direct community engagement',
@@ -94,7 +113,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto items-start">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto items-start">
           {tiers.map((tier, index) => (
             <motion.div 
               key={tier.name}
