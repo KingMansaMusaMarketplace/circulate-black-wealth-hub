@@ -67,7 +67,7 @@ const PartnerPortal: React.FC = () => {
   // Not a partner yet - show application form
   if (!isPartner) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
         <div className="container max-w-4xl mx-auto py-12 px-4">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2 text-white">Become a Directory Partner</h1>
@@ -95,7 +95,7 @@ const PartnerPortal: React.FC = () => {
   // Partner exists but is pending approval
   if (partner && partner.status === 'pending') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
         <PartnerPendingReview partner={partner} />
       </div>
     );
@@ -103,7 +103,7 @@ const PartnerPortal: React.FC = () => {
 
   // Partner is active - show dashboard
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
       <PartnerDashboard
         partner={partner!}
         stats={stats!}

@@ -166,7 +166,7 @@ const AdminPartnerPreview: React.FC = () => {
   // Show partner selector if no partner selected
   if (!selectedPartnerId || !selectedPartner || !stats) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
         <div className="container max-w-4xl mx-auto py-12 px-4">
           <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
             <CardHeader>
@@ -265,7 +265,7 @@ const AdminPartnerPreview: React.FC = () => {
 
   // Show the actual dashboard with admin indicator
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
       {/* Admin Preview Banner */}
       <div className="bg-amber-500/20 border-b border-amber-500/30 py-2 px-4">
         <div className="container max-w-7xl mx-auto flex items-center justify-between">
