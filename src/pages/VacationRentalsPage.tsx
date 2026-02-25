@@ -62,7 +62,7 @@ const VacationRentalsPage: React.FC = () => {
   const featuredProperty = properties.find(p => p.is_verified) || properties[0];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       <Helmet>
         <title>Mansa Stays — Vacation & Monthly Rentals from Black Hosts</title>
         <meta name="description" content="Book unique vacation and monthly rentals from verified Black property owners. Lower 7.5% fees, community impact, and authentic hospitality on Mansa Stays." />
