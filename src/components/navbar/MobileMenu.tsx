@@ -52,6 +52,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
     { to: '/susu-circles', label: '💰 Susu Circles', alwaysGold: true },
     { to: '/recommendations', label: 'Discover & Achieve' },
     { to: '/impact', label: '❤️ My Impact', alwaysGold: true },
+    { to: '/merch', label: '🛍️ Shop Merch', alwaysGold: true },
     { to: '/features', label: 'Features ⚡' },
     { to: '/community', label: 'Community' },
     { to: '/community-finance', label: 'Community Finance' },
