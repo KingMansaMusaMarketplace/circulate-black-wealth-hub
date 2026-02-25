@@ -257,7 +257,7 @@ const LoyaltyPage = () => {
       title="Loyalty Program" 
       icon={<Award className="mr-2 h-5 w-5" />}
     >
-      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 -m-6 p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] -m-6 p-6 relative overflow-hidden">
         {/* Animated Gradient Orbs */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-pulse" />
         <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />

@@ -5,7 +5,7 @@ import ComprehensiveSystemTest from '@/components/testing/comprehensive/Comprehe
 
 const ComprehensiveTestPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       <Helmet>
         <title>Comprehensive System Test | 1325.AI</title>
         <meta name="description" content="Complete system test for mobile deployment readiness" />

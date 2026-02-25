@@ -63,7 +63,7 @@ const HowItWorksPage = () => {
 
   return (
     <motion.div 
-      className="min-h-screen relative overflow-hidden bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark"
+      className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]"
       initial="initial"
       animate="animate"
       exit="exit"

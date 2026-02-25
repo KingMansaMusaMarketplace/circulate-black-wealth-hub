@@ -76,7 +76,7 @@ const LearningHubPage = () => {
         <meta name="description" content="Educational resources for financial empowerment, business growth, and building community wealth through support." />
       </Helmet>
 
-      <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+      <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
         {/* Dark gradient mesh background */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
         
@@ -175,7 +175,7 @@ const LearningHubPage = () => {
             </div>
 
             {/* Call to Action */}
-            <Card className="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 border border-white/10 shadow-2xl">
+            <Card className="relative overflow-hidden bg-gradient-to-r from-[#000000] via-[#050a18] to-[#030712] border border-white/10 shadow-2xl">
               {/* Animated Background Pattern */}
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzR2Mi1oMnYtMmgtMnptMCA0djJoMnYtMmgtMnptLTItMnYyaDJ2LTJoLTJ6bTAtMnYyaDJ2LTJoLTJ6bS0yIDJ2Mmgydi0yaC0yeiIvPjwvZz48L2c+PC9zdmc+')] animate-pulse" />

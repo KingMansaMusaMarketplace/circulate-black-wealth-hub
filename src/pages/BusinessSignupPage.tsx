@@ -175,7 +175,7 @@ const BusinessSignupPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative flex flex-col justify-center py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative flex flex-col justify-center py-12">
       <Helmet>
         <title>Business Sign Up | 1325.AI</title>
         <meta name="description" content="Register your business with 1325.AI" />

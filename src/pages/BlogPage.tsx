@@ -87,7 +87,7 @@ const BlogPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       <Helmet>
         <title>Blog - 1325.AI</title>
         <meta name="description" content="Read the latest insights, stories, and updates from the 1325.AI community about economic empowerment and business success." />

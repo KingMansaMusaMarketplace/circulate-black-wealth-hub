@@ -78,7 +78,7 @@ const EmailVerified: React.FC = () => {
   }, [searchParams, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] p-4 relative overflow-hidden">
       <Helmet>
         <title>Email Verified | 1325.AI</title>
       </Helmet>
