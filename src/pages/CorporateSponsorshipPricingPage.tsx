@@ -403,10 +403,6 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Sponsor ROI Section */}
-        <section className="container mx-auto px-4 py-16 relative z-10">
-          <SponsorROISection />
-        </section>
 
         {/* Impact Section */}
         <section className="container mx-auto px-4 py-20 border-t border-white/10 relative z-10">
