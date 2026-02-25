@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 
 const PRODUCT_FALLBACK_IMAGES: Record<string, string> = {
   'mansa-musa-1325-baseball-jersey': '/images/mansa-musa-jersey.png',
+  '1325-ai-backpack': '/images/1325-ai-backpack.png',
 };
 
 const MerchStorePage = () => {
