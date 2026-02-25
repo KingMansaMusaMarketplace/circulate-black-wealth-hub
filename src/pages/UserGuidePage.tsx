@@ -114,7 +114,7 @@ const UserGuidePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
       <Helmet>
         <title>User Guide | 1325.AI Platform Documentation</title>
         <meta name="description" content="Comprehensive user guide for the 1325.AI platform. Learn about all features including business directory, loyalty points, Susu circles, Karma system, and more." />

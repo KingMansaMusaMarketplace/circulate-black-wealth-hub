@@ -67,7 +67,7 @@ const ShareImpactPage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Modern dark gradient mesh background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
       
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

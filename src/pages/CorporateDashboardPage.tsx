@@ -66,7 +66,7 @@ const CorporateDashboardPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="dark flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+      <div className="dark flex items-center justify-center min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400"></div>
       </div>
     );
@@ -83,7 +83,7 @@ const CorporateDashboardPage: React.FC = () => {
         <meta name="description" content="Manage your corporate sponsorship and track your community impact." />
       </Helmet>
 
-      <div className="dark min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      <div className="dark min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
         {/* Animated Gradient Orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-amber-500/20 rounded-full blur-3xl animate-pulse" />

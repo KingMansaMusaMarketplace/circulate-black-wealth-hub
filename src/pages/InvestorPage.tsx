@@ -98,7 +98,7 @@ const InvestorPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-[hsl(210,100%,12%)] to-[hsl(210,100%,8%)]">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
       <Helmet>
         <title>Investor Overview | 1325.AI Economic Infrastructure (IaaS)</title>
         <meta name="description" content="1325.AI: Full-stack economic infrastructure (IaaS) for the Black business economy. Patent-protected data rails including transaction ledger, supply chain graph, and AI intelligence layer." />

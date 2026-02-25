@@ -158,7 +158,7 @@ export default function LeadsDashboardPage() {
 
   if (!user) {
     return (
-      <div className="dark min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center">
+      <div className="dark min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center">
         <Card className="bg-slate-800/50 border-white/10 p-8 text-center">
           <p className="text-slate-300 mb-4">Please sign in to view your leads</p>
           <Link to="/auth">
@@ -178,7 +178,7 @@ export default function LeadsDashboardPage() {
         <meta name="description" content="Manage your discovered B2B supplier leads" />
       </Helmet>
 
-      <div className="dark min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      <div className="dark min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />

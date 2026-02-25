@@ -145,7 +145,7 @@ const AdminDashboard: React.FC = () => {
 
   if (authLoading || checkingAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-400"></div>
       </div>
     );
@@ -168,7 +168,7 @@ const AdminDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] dark:from-[#000000] dark:via-[#030712] dark:to-[#000000] relative overflow-hidden transition-colors duration-300">
       <Helmet>
         <title>Admin Dashboard | 1325.AI</title>
         <meta name="description" content="Complete admin dashboard for 1325.AI" />

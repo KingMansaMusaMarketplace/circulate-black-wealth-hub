@@ -20,7 +20,7 @@ const ErrorPage: React.FC = () => {
   const is404 = errorStatus === 404;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden p-4">
       <Helmet>
         <title>{errorStatus} - {is404 ? 'Page Not Found' : 'Error'} | 1325.AI</title>
       </Helmet>

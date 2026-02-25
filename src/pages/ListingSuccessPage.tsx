@@ -9,7 +9,7 @@ const ListingSuccessPage = () => {
   const sessionId = searchParams.get('session_id');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center p-4">
       <motion.div
         className="max-w-md w-full bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center"
         initial={{ opacity: 0, scale: 0.95 }}

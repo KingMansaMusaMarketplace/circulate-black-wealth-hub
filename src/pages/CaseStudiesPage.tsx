@@ -28,7 +28,7 @@ const caseStudies: Array<{
 
 const CaseStudiesPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       <Helmet>
         <title>Case Studies | 1325.AI</title>
         <meta name="description" content="Real success stories from businesses thriving through intentional economic circulation on 1325.AI." />

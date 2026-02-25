@@ -6,7 +6,7 @@ import { MessageSquare, Sparkles } from 'lucide-react';
 
 const TestimonialsPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       <Helmet>
         <title>Testimonials | 1325.AI</title>
         <meta name="description" content="Read success stories and testimonials from businesses and customers using 1325.AI." />

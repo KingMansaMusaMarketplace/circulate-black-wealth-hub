@@ -38,7 +38,7 @@ const FAQPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       <Helmet>
         <title>FAQ - Frequently Asked Questions | 1325.AI</title>
         <meta name="description" content="Find answers to common questions about 1325.AI - how to sign up, use loyalty points, and support community businesses." />
