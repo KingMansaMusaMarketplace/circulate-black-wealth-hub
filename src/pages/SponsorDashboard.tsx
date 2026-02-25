@@ -3,6 +3,7 @@ import { useSponsorSubscription, useSponsorImpactMetrics } from '@/hooks/use-spo
 import { useSponsorPortal } from '@/hooks/useSponsorPortal';
 import { ImpactMetricsCard } from '@/components/sponsor-dashboard/ImpactMetricsCard';
 import { LandingPageEditor } from '@/components/sponsor-dashboard/LandingPageEditor';
+import { SocialMediaRecognition } from '@/components/sponsor-dashboard/SocialMediaRecognition';
 import { SubscriptionDetailsCard } from '@/components/sponsor-dashboard/SubscriptionDetailsCard';
 import { LogoUploadCard } from '@/components/sponsor-dashboard/LogoUploadCard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -177,6 +178,15 @@ const SponsorDashboard: React.FC = () => {
               onUpdate={refetch}
               className="bg-white/5 backdrop-blur-xl border-white/10"
             />
+
+            {(subscription.tier === 'gold' || subscription.tier === 'platinum') && (
+              <SocialMediaRecognition
+                subscriptionId={subscription.id}
+                companyName={subscription.company_name}
+                tier={subscription.tier}
+                className="bg-white/5 backdrop-blur-xl border-white/10"
+              />
+            )}
           </div>
 
           <div className="space-y-6">
