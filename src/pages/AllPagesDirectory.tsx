@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import RequireAdmin from '@/components/auth/RequireAdmin';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -18,6 +19,14 @@ import {
 } from 'lucide-react';
 
 const AllPagesDirectory = () => {
+  return (
+    <RequireAdmin>
+      <AllPagesContent />
+    </RequireAdmin>
+  );
+};
+
+const AllPagesContent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['Main', 'User', 'Business']));
 
