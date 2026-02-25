@@ -59,7 +59,7 @@ const Dashboard: React.FC = () => {
   const validUserType: 'customer' | 'business' = userType === 'business' ? 'business' : 'customer';
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse"></div>

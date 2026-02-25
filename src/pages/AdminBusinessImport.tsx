@@ -11,7 +11,7 @@ const AdminBusinessImport: React.FC = () => {
         <title>Business Import - Admin Dashboard</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 p-6">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] p-6">
         <BusinessImportDashboard />
       </div>
     </RequireAdmin>

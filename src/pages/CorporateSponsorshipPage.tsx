@@ -25,7 +25,7 @@ const CorporateSponsorshipPage: React.FC = () => {
         <meta name="description" content="Partner with 1325.AI to support verified businesses and create meaningful economic impact. Join 50+ organizations making a difference." />
       </Helmet>
       
-      <main className="flex-grow min-h-screen relative overflow-hidden bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark">
+      <main className="flex-grow min-h-screen relative overflow-hidden bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
         {/* Premium ambient background */}
         <div className="fixed inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-mansagold/10 rounded-full blur-[120px] animate-pulse-slow" />

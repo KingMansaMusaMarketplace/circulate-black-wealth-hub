@@ -23,7 +23,7 @@ const PartnershipHero: React.FC<PartnershipHeroProps> = ({
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
       
       {/* Floating orbs */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-mansagold/20 rounded-full blur-3xl animate-float" />

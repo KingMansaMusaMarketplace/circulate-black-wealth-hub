@@ -95,7 +95,7 @@ const MansaAmbassadorsPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
       <Helmet>
         <title>Mansa Ambassadors Program - Join the Movement | 1325.AI</title>
         <meta name="description" content="Become a Mansa Ambassador and earn while empowering community businesses. 10-15% commissions, $75 recruitment bonuses, and 7.5% team overrides." />

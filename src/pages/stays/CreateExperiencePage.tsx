@@ -81,7 +81,7 @@ const CreateExperiencePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] px-4 py-12">
       <Helmet>
         <title>Host an Experience | Mansa Stays</title>
       </Helmet>

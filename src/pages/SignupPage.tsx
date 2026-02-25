@@ -7,7 +7,7 @@ import SignupForm from '@/components/auth/SignupForm';
 
 const SignupPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light relative overflow-hidden flex flex-col justify-center py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden flex flex-col justify-center py-12">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 left-10 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse"></div>

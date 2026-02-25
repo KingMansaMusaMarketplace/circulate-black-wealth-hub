@@ -26,7 +26,7 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Premium gradient mesh background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-dark opacity-90" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] opacity-90" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-mansagold/20 via-transparent to-transparent" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-purple-600/10 via-transparent to-transparent" />
       

@@ -34,7 +34,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white py-16 border-t border-white/10 overflow-hidden">
+    <footer className="relative bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] text-white py-16 border-t border-white/10 overflow-hidden">
       {/* Animated decorative elements */}
       <div className="absolute top-10 left-10 w-72 h-72 bg-mansagold/10 rounded-full blur-3xl animate-pulse-slow"></div>
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>

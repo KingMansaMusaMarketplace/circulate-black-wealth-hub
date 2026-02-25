@@ -63,7 +63,7 @@ export const HelpSection: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white rounded-2xl p-12 border border-white/10">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] text-white rounded-2xl p-12 border border-white/10">
         <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
         {/* Animated glow */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-mansagold/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
@@ -232,7 +232,7 @@ export const HelpSection: React.FC = () => {
       </Tabs>
 
       {/* Contact Banner */}
-      <Card className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white border border-white/10 hover:shadow-xl hover:shadow-mansagold/20 transition-all">
+      <Card className="relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] text-white border border-white/10 hover:shadow-xl hover:shadow-mansagold/20 transition-all">
         <div className="absolute inset-0 bg-white/5 backdrop-blur-sm pointer-events-none" aria-hidden="true" />
         {/* Animated glow */}
         <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-mansagold/20 to-transparent rounded-full blur-3xl animate-pulse"></div>

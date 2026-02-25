@@ -24,7 +24,7 @@ const CommunityImpactDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
             {[1, 2, 3, 4].map((i) => (

@@ -3,7 +3,7 @@ import { Clock } from 'lucide-react';
 
 const CirculationGap: React.FC = () => {
   return (
-    <section className="py-3 md:py-8 bg-gradient-to-b from-slate-950 via-blue-950/80 to-slate-900">
+    <section className="py-3 md:py-8 bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
       <div className="max-w-6xl mx-auto px-4">
         <div className="bg-black/90 border border-mansagold/20 rounded-2xl p-6 md:p-8 backdrop-blur-sm">
           <div className="flex flex-col items-center text-center">
