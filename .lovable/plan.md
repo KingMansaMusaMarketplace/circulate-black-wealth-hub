@@ -1,41 +1,51 @@
 
 
-# Noir Rebrand: Lead with Excellence
+# Push Hero Backgrounds Toward True Black
 
-## Overview
-Update the Noir homepage CTA and landing page to position Noir as a full-market ride-share competitor. Lead with quality, fairness, and the 80/20 driver split -- not race-specific language.
+**Goal**: Darken the hero section backgrounds from the current deep navy (`#020617` / `#0a1a3a` / `#0f172a`) toward true black (`#000000`) for a more premium, luxury feel -- inspired by the Musa Card aesthetic. This is fully reversible by changing the color values back.
 
-## Changes
+**What changes (and what stays the same)**:
+- All text, buttons, gold accents, and animations remain untouched
+- Only the background gradient colors shift darker
 
-### 1. Homepage CTA (`src/components/HomePage/NoirRideCTA.tsx`)
+---
 
-**Current** --> **New**
-- Headline: "Premium Rides to **Black-Owned** Businesses" --> "Premium Rides. **Fair Prices.** Your Driver Keeps More."
-- Description: "supporting Black drivers and Black businesses" --> "Lower fees for riders, higher pay for drivers. Noir takes just 20% -- your driver keeps the rest."
-- Value props: Keep "Safe Rides" and "Door-to-Door", add "Drivers Keep 80%"
+## Files to Update
 
-### 2. Landing Page (`src/pages/NoirLandingPage.tsx`)
+### 1. Homepage background (`src/pages/HomePage.tsx`)
+- **Line 56**: Change `from-[#020617] via-[#0a1a3a] to-[#0f172a]` to `from-[#000000] via-[#050a18] to-[#030712]`
+- Reduce the blue/gold orb opacity slightly so they glow against true black rather than washing out
 
-**Hero Section**
-- Current: "Premium rides to Black-owned businesses. Support the community with every trip."
-- New: "The Ride-Share That Puts People First. Lower fares. Higher driver pay. Premium experience."
+### 2. Homepage Hero (`src/components/Hero.tsx`)
+- **Line 11**: Change `from-[#020617] via-[#0a1a3a] to-[#0f172a]` to `from-[#000000] via-[#050a18] to-[#030712]`
+- Bump the gold ambient orb opacity up slightly (from `/3` to `/5`) so gold glows more visibly against the darker canvas
 
-**How It Works Steps**
-- Step 1: "Pick a Destination" --> "Enter Your Destination" / "Going anywhere? Enter an address or pick a spot from our directory."
-- Step 2: "Choose Your Ride" --> "Get Matched" / "We connect you with a nearby Noir driver. No surge pricing games."
-- Step 3: "Arrive & Support" --> "Ride and Save" / "Pay less than the big apps. Your driver takes home 80% of the fare."
+### 3. Directory Hero (`src/components/directory/DirectoryHero.tsx`)
+- **Line 14**: Change `from-slate-900 via-blue-900 to-slate-800` to `from-[#000000] via-[#060d1f] to-[#030712]`
 
-**Featured Destinations**
-- Header: "Ride to **Featured Businesses**" --> "**Popular Destinations**"
-- Subtext stays functional (pick a destination, we open your ride app)
+### 4. How It Works Hero (`src/components/HowItWorks/HeroSection.tsx`)
+- Add a darker overlay or push the glass-morphism backdrop toward true black
 
-**Driver CTA**
-- Current: "drivers serving the community. Fair pay..."
-- New: "Keep 80% of every fare. No gimmicks. Noir drivers earn more because we take less -- just 20%."
+---
+
+## Rollback Plan
+
+If you don't like it, I simply revert these 4 gradient values back to their current colors:
+- `from-[#020617] via-[#0a1a3a] to-[#0f172a]` (homepage + hero)
+- `from-slate-900 via-blue-900 to-slate-800` (directory)
+
+No structural or layout changes are involved -- just color hex values.
+
+---
 
 ## Technical Details
 
-Only two files are modified -- no routing, schema, or structural changes:
-- `src/components/HomePage/NoirRideCTA.tsx` -- copy updates to headline, description, and value props
-- `src/pages/NoirLandingPage.tsx` -- copy updates to hero, steps array, section headers, and driver CTA text
+| File | Current gradient | New gradient |
+|------|-----------------|--------------|
+| `HomePage.tsx` L56 | `#020617 / #0a1a3a / #0f172a` | `#000000 / #050a18 / #030712` |
+| `Hero.tsx` L11 | `#020617 / #0a1a3a / #0f172a` | `#000000 / #050a18 / #030712` |
+| `DirectoryHero.tsx` L14 | `slate-900 / blue-900 / slate-800` | `#000000 / #060d1f / #030712` |
+| `HeroSection.tsx` (HowItWorks) | glass overlay `bg-white/5` | `bg-black/40` for deeper contrast |
+
+Gold ambient orbs in `Hero.tsx` will get a slight opacity boost (`mansagold/3` to `mansagold/5`) so the gold glow pops more against the darker background.
 
