@@ -95,14 +95,15 @@ export default defineConfig(({ mode }) => ({
       '@radix-ui/react-tabs',
       '@radix-ui/react-tooltip',
       '@radix-ui/react-popover',
-      '@radix-ui/react-progress'
+      '@radix-ui/react-progress',
+      'recharts',
+      'lodash',
     ],
     exclude: [
       // Exclude heavy deps that should be loaded on demand
       'html5-qrcode',
       'html2pdf.js',
       'file-saver',
-      'recharts', // Heavy charting library
     ],
     esbuildOptions: {
       target: 'safari14'
