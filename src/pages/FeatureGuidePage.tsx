@@ -478,7 +478,7 @@ const FeatureGuidePage = () => {
         <meta name="description" content="Comprehensive guide to all 1325.AI features for consumers, businesses, and community impact tracking." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-10 left-10 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse"></div>
@@ -491,7 +491,7 @@ const FeatureGuidePage = () => {
         </div>
 
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light border-b border-mansagold/20 shadow-2xl">
+        <section className="relative overflow-hidden bg-gradient-to-r from-[#000000] via-[#050a18] to-[#030712] border-b border-mansagold/20 shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 via-transparent to-mansagold/10"></div>
           <div className="container-custom py-20 relative z-10">
             <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in">
@@ -673,7 +673,7 @@ const FeatureGuidePage = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="relative overflow-hidden bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light border-y border-mansagold/20 shadow-2xl py-20">
+        <section className="relative overflow-hidden bg-gradient-to-r from-[#000000] via-[#050a18] to-[#030712] border-y border-mansagold/20 shadow-2xl py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 via-transparent to-mansagold/10" />
           <div className="container-custom relative z-10">
             <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in">
