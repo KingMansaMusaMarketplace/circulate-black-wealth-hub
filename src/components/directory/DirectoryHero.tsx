@@ -11,7 +11,7 @@ interface DirectoryHeroProps {
 
 const DirectoryHero: React.FC<DirectoryHeroProps> = ({ searchTerm, onSearchChange }) => {
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 py-16 md:py-24 relative overflow-hidden border-b border-white/10">
+    <div className="bg-gradient-to-br from-[#000000] via-[#060d1f] to-[#030712] py-16 md:py-24 relative overflow-hidden border-b border-white/10">
       {/* Background effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.05),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.08),transparent_50%)]" />
