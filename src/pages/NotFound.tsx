@@ -1,11 +1,13 @@
 
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, ArrowLeft, Map, InfoIcon, AlertTriangle } from "lucide-react";
+import PageSEO from "@/components/SEO/PageSEO";
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.error(
@@ -16,6 +18,11 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden p-4">
+      <PageSEO
+        title="404 - Page Not Found"
+        description="The page you're looking for doesn't exist or has been moved."
+        noindex
+      />
       {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
@@ -78,12 +85,21 @@ const NotFound = () => {
             </Link>
           </div>
           
-          {/* Return Home Button */}
-          <Link to="/">
-            <Button className="bg-gradient-to-r from-mansagold to-amber-500 hover:from-amber-500 hover:to-mansagold text-slate-900 font-semibold shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 transition-all duration-300 px-8 py-3">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Return to Home
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button
+              onClick={() => navigate(-1)}
+              variant="outline"
+              className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" /> Go Back
             </Button>
-          </Link>
+            <Link to="/">
+              <Button className="bg-gradient-to-r from-mansagold to-amber-500 hover:from-amber-500 hover:to-mansagold text-slate-900 font-semibold shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 transition-all duration-300 px-8 py-3 w-full">
+                <Home className="mr-2 h-4 w-4" /> Return to Home
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
