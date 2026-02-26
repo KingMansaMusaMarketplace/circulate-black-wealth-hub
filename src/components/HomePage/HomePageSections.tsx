@@ -49,6 +49,20 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
+      {/* Featured Businesses */}
+      <SectionErrorBoundary sectionName="Featured Businesses">
+        <Suspense fallback={<BusinessSkeleton />}>
+          <FeaturedBusinesses limit={3} />
+        </Suspense>
+      </SectionErrorBoundary>
+
+      {/* Three Pillars */}
+      <SectionErrorBoundary sectionName="Three Pillars">
+        <Suspense fallback={<SectionSkeleton />}>
+          <ThreePillars />
+        </Suspense>
+      </SectionErrorBoundary>
+
       {/* Vacation Rentals CTA - Mansa Stays promotion */}
       <SectionErrorBoundary sectionName="Vacation Rentals CTA">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
@@ -60,20 +74,6 @@ const HomePageSections: React.FC = () => {
       <SectionErrorBoundary sectionName="Noir Ride CTA">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
           <NoirRideCTA />
-        </Suspense>
-      </SectionErrorBoundary>
-
-      {/* Three Pillars */}
-      <SectionErrorBoundary sectionName="Three Pillars">
-        <Suspense fallback={<SectionSkeleton />}>
-          <ThreePillars />
-        </Suspense>
-      </SectionErrorBoundary>
-
-      {/* Featured Businesses */}
-      <SectionErrorBoundary sectionName="Featured Businesses">
-        <Suspense fallback={<BusinessSkeleton />}>
-          <FeaturedBusinesses limit={3} />
         </Suspense>
       </SectionErrorBoundary>
 
