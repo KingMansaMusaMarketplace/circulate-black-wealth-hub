@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/dashboard';
 import { BookingsList } from '@/components/booking/BookingsList';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
-import { Loader2 } from 'lucide-react';
+import { ListPageSkeleton } from '@/components/ui/page-skeletons';
 
 export default function BusinessBookingsPage() {
   const { user } = useAuth();
@@ -17,9 +17,7 @@ export default function BusinessBookingsPage() {
   if (loading) {
     return (
       <DashboardLayout title="Bookings" icon={<Calendar className="w-6 h-6" />}>
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
+        <ListPageSkeleton />
       </DashboardLayout>
     );
   }

@@ -9,7 +9,7 @@ import SecuritySettings from '@/components/profile/SecuritySettings';
 import SystemHealthSettings from '@/components/profile/SystemHealthSettings';
 import ProfileCompletionCard from '@/components/profile/ProfileCompletionCard';
 import { DashboardLayout } from '@/components/dashboard';
-import { Loader2 } from 'lucide-react';
+import { ProfilePageSkeleton } from '@/components/ui/page-skeletons';
 
 const ProfilePage = () => {
   const { user, userRole, loading, authInitialized } = useAuth();
@@ -24,9 +24,7 @@ const ProfilePage = () => {
   if (loading || !authInitialized) {
     return (
       <DashboardLayout title="Account Settings">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
+        <ProfilePageSkeleton />
       </DashboardLayout>
     );
   }
