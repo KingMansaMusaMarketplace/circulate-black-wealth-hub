@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import EmailVerificationBanner from '@/components/auth/EmailVerificationBanner';
 import WelcomeFlow from '@/components/onboarding/WelcomeFlow';
 import { useOnboardingFlow } from '@/hooks/useOnboardingFlow';
+import BackToButton from '@/components/ui/BackToButton';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -26,6 +27,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       
       <main className="flex-1">
         <EmailVerificationBanner />
+        <div className="container mx-auto px-4 pt-2">
+          <BackToButton />
+        </div>
         {children}
       </main>
       
