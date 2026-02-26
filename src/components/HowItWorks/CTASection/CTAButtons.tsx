@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
+import { Building2, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -28,23 +28,25 @@ export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
       {/* Decorative elements behind buttons */}
       <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-16 bg-white/5 rounded-full blur-xl hidden md:block pointer-events-none"></div>
       
-      <Link to="/directory" style={{ touchAction: 'manipulation' }}>
+      <Link to="/register-business" style={{ touchAction: 'manipulation' }}>
         <Button 
           variant="white" 
           className="px-8 py-6 text-lg cursor-pointer transition-transform hover:scale-105 active:scale-95"
           style={{ touchAction: 'manipulation' }}
         >
-          <span className="pointer-events-none">Explore Businesses</span>
+          <Building2 className="mr-2 h-5 w-5 pointer-events-none" />
+          <span className="pointer-events-none">Business Sign Up</span>
         </Button>
       </Link>
       
-      <Link to="/directory" style={{ touchAction: 'manipulation' }}>
+      <Link to="/customer-signup" style={{ touchAction: 'manipulation' }}>
         <Button 
-          variant="white" 
-          className="px-8 py-6 text-lg cursor-pointer transition-transform hover:scale-105 active:scale-95"
+          variant="outline" 
+          className="px-8 py-6 text-lg cursor-pointer transition-transform hover:scale-105 active:scale-95 border-white/30 text-white hover:bg-white/10"
           style={{ touchAction: 'manipulation' }}
         >
-          <span className="pointer-events-none">Explore Businesses</span>
+          <Users className="mr-2 h-5 w-5 pointer-events-none" />
+          <span className="pointer-events-none">Consumer Sign Up</span>
         </Button>
       </Link>
     </motion.div>
