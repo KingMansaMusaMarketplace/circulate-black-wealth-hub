@@ -15,25 +15,11 @@ import {
   LazyCirculationVisualization,
   LazySponsorshipVideoSection
 } from '@/components/lazy';
+import PageSEO from '@/components/SEO/PageSEO';
 
 const HowItWorksPage = () => {
   useEffect(() => {
-    // Scroll to top on page load
     window.scrollTo(0, 0);
-    
-    // Update page title and add meta description
-    document.title = 'How It Works | 1325.AI';
-    
-    // Add meta description if it doesn't exist
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', 
-      'Learn how 1325.AI works to help you discover, support, and save at businesses in your community.'
-    );
   }, []);
 
   const navSections = [
@@ -62,7 +48,14 @@ const HowItWorksPage = () => {
   };
 
   return (
-    <motion.div 
+    <>
+    <PageSEO
+      title="How It Works"
+      description="Learn how 1325.AI works to help you discover, support, and save at businesses in your community."
+      path="/how-it-works"
+      keywords={['how it works', 'community business', 'loyalty rewards', 'wealth circulation']}
+    />
+    <motion.div
       className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]"
       initial="initial"
       animate="animate"
@@ -133,6 +126,7 @@ const HowItWorksPage = () => {
         <CTASection />
       </div>
     </motion.div>
+    </>
   );
 };
 
