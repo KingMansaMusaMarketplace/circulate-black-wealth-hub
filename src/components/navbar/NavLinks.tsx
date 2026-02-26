@@ -32,22 +32,9 @@ const NavLinks: React.FC = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/stays" className={goldLinkClassName}>
-            Stays
-          </Link>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
           <Link to="/partner-portal" className={`${goldLinkClassName} flex items-center gap-1.5`}>
             <Handshake className="h-4 w-4 text-mansagold" />
             Partner
-          </Link>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <Link to="/merch" className={`${goldLinkClassName} flex items-center gap-1.5`}>
-            <Store className="h-4 w-4 text-mansagold" />
-            Shop
           </Link>
         </NavigationMenuItem>
 
@@ -131,6 +118,28 @@ const NavLinks: React.FC = () => {
           <NavigationMenuTrigger className={triggerClassName}>Services</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-background/95 backdrop-blur-lg border border-border shadow-xl rounded-lg z-50">
+              <li>
+                <Link to="/stays" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02] bg-mansagold/10 border border-mansagold/20">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none text-mansagold">Stays 🏠</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Book Black-owned accommodations
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/merch" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02] bg-mansagold/10 border border-mansagold/20">
+                  <div className="flex items-center gap-2">
+                    <Store className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none text-mansagold">Shop 🛍️</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Official merch and community gear
+                  </p>
+                </Link>
+              </li>
               <li>
                 <Link to="/business/how-it-works" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
