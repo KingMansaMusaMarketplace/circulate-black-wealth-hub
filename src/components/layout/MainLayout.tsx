@@ -5,6 +5,7 @@ import EmailVerificationBanner from '@/components/auth/EmailVerificationBanner';
 import WelcomeFlow from '@/components/onboarding/WelcomeFlow';
 import { useOnboardingFlow } from '@/hooks/useOnboardingFlow';
 import BackToButton from '@/components/ui/BackToButton';
+import PWAInstallBanner from '@/components/pwa/PWAInstallBanner';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -37,6 +38,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       
       {/* Onboarding Flow */}
       <WelcomeFlow isOpen={showWelcome} onClose={closeWelcome} />
+      
+      {/* PWA Install Prompt */}
+      <PWAInstallBanner />
     </div>
   );
 };
