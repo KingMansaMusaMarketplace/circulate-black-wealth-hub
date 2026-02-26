@@ -22,6 +22,7 @@ const NoirRideCTA: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-0">
             {/* Content Side */}
             <div className="p-8 md:p-10 flex flex-col justify-center">
+              <span className="inline-block text-xs font-bold uppercase tracking-widest text-mansagold bg-mansagold/10 border border-mansagold/30 px-3 py-1 rounded-full mb-2">Coming Soon</span>
               <div className="flex items-center mb-3">
                 <img src={noirLogo} alt="Noire Rideshare" className="h-44 md:h-48 w-auto brightness-150 contrast-125 drop-shadow-[0_0_30px_rgba(255,193,7,0.4)]" />
               </div>
