@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import BackToButton from '@/components/ui/BackToButton';
 
 interface ResponsiveLayoutProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
       
       <main className={`flex-grow ${useSubtleBackground ? 'gradient-subtle' : ''} py-8`}>
         <div className={`container mx-auto px-4 ${containerClassName}`}>
+          <BackToButton />
           {children}
         </div>
       </main>

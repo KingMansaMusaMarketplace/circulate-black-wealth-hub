@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import DashboardHeader from './DashboardHeader';
 import Sidebar from './Sidebar';
 import PageHeader from './PageHeader';
+import BackToButton from '@/components/ui/BackToButton';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -58,6 +59,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         mobileNavOpen ? "lg:mr-0" : "mr-0",
       )}>
         <main className="px-4 sm:px-6 lg:px-8 pt-16 lg:pt-4">
+          <BackToButton />
           {/* Page header */}
           <PageHeader title={title} icon={icon} location={location} />
           
