@@ -21,6 +21,7 @@ const VacationRentalsCTA: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-0">
             {/* Content Side */}
             <div className="p-6 md:p-8 flex flex-col justify-center">
+              <span className="inline-block text-xs font-bold uppercase tracking-widest text-mansagold bg-mansagold/10 border border-mansagold/30 px-3 py-1 rounded-full mb-2">Coming Soon</span>
               <div className="flex items-center gap-2 mb-3">
                 <Home className="h-9 w-9 text-mansagold" />
                 <span className="text-mansagold font-bold text-3xl md:text-4xl uppercase tracking-wider">
