@@ -420,7 +420,7 @@ const FullAppTestPage: React.FC = () => {
   const pendingCount = tests.filter(t => t.status === 'pending').length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-8">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-3xl font-bold mb-2">🔍 Comprehensive App Testing Suite</h1>
