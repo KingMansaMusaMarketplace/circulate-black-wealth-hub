@@ -6,6 +6,7 @@ import WelcomeFlow from '@/components/onboarding/WelcomeFlow';
 import { useOnboardingFlow } from '@/hooks/useOnboardingFlow';
 import BackToButton from '@/components/ui/BackToButton';
 import PWAInstallBanner from '@/components/pwa/PWAInstallBanner';
+import OfflineBanner from '@/components/network/OfflineBanner';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -41,6 +42,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       
       {/* PWA Install Prompt */}
       <PWAInstallBanner />
+      
+      {/* Offline Status Banner */}
+      <OfflineBanner />
     </div>
   );
 };
