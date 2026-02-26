@@ -74,7 +74,7 @@ Create a description that highlights the product's unique value and appeals to c
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: imageUrl ? 'google/gemini-2.5-pro' : 'google/gemini-2.5-flash',
+        model: imageUrl ? 'google/gemini-3-pro-preview' : 'google/gemini-3-flash-preview',
         messages,
         tools: [{
           type: "function",
