@@ -547,7 +547,7 @@ async function callLovableAI(apiKey: string, prompt: string): Promise<string> {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
+      model: "google/gemini-3-flash-preview",
       messages: [
         { role: "system", content: "You are an autonomous AI agent that analyzes business data and makes decisions. Always respond with valid JSON only, no markdown or extra text." },
         { role: "user", content: prompt }
