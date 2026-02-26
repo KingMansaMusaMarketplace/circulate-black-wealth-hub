@@ -32,9 +32,8 @@ const NavLinks: React.FC = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/partner-portal" className={`${goldLinkClassName} flex items-center gap-1.5`}>
-            <Handshake className="h-4 w-4 text-mansagold" />
-            Partner
+          <Link to="/stays" className={goldLinkClassName}>
+            Stays
           </Link>
         </NavigationMenuItem>
 
@@ -244,6 +243,17 @@ const NavLinks: React.FC = () => {
           <NavigationMenuTrigger className={triggerClassName}>Community & Support</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-background/95 backdrop-blur-lg border border-border shadow-xl rounded-lg z-50">
+              <li>
+                <Link to="/partner-portal" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02] bg-mansagold/10 border border-mansagold/20">
+                  <div className="flex items-center gap-2">
+                    <Handshake className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none text-mansagold">Partner Portal 🤝</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Join as a partner and grow with us
+                  </p>
+                </Link>
+              </li>
               <li>
                 <Link to="/impact" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02] bg-mansagold/10 border border-mansagold/20">
                   <div className="flex items-center gap-2">
