@@ -40,9 +40,10 @@ export default defineConfig(({ mode }) => ({
           'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
           'query-vendor': ['@tanstack/react-query'],
           'supabase': ['@supabase/supabase-js'],
-          // Split admin modules into separate chunks
+          // Charts in their own chunk (loaded on-demand via route-level lazy loading)
+          'charts': ['recharts'],
+          // PDF/export tools in their own chunk
           'admin-heavy': [
-            'recharts',
             'jspdf',
             'jspdf-autotable',
             'html2canvas',
@@ -50,8 +51,10 @@ export default defineConfig(({ mode }) => ({
           ],
           // i18n in its own chunk
           'i18n': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
-          // Mapbox in its own chunk (heavy)
+          // Mapbox in its own chunk (heavy, loaded on-demand)
           'maps': ['mapbox-gl'],
+          // Framer Motion in its own cacheable chunk
+          'animation': ['framer-motion'],
         },
       },
     },
@@ -96,7 +99,6 @@ export default defineConfig(({ mode }) => ({
       '@radix-ui/react-tooltip',
       '@radix-ui/react-popover',
       '@radix-ui/react-progress',
-      'recharts',
       'lodash',
     ],
     exclude: [
