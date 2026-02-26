@@ -63,6 +63,15 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
+      {/* CTA Section */}
+      <SectionErrorBoundary sectionName="Call to Action">
+        <Suspense fallback={<SectionSkeleton height="h-32" />}>
+          <section id="cta-section">
+            <CTASection />
+          </section>
+        </Suspense>
+      </SectionErrorBoundary>
+
       {/* Vacation Rentals CTA - Mansa Stays promotion */}
       <SectionErrorBoundary sectionName="Vacation Rentals CTA">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
@@ -74,15 +83,6 @@ const HomePageSections: React.FC = () => {
       <SectionErrorBoundary sectionName="Noir Ride CTA">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
           <NoirRideCTA />
-        </Suspense>
-      </SectionErrorBoundary>
-
-      {/* CTA Section */}
-      <SectionErrorBoundary sectionName="Call to Action">
-        <Suspense fallback={<SectionSkeleton height="h-32" />}>
-          <section id="cta-section">
-            <CTASection />
-          </section>
         </Suspense>
       </SectionErrorBoundary>
 
