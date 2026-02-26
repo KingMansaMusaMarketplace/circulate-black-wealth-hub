@@ -28,7 +28,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-gradient-gold">1325.AI</span>
+            <span className="text-gradient-gold">Mansa Musa</span>
             <br />
             <span className="text-gradient-gold">Marketplace</span>
           </motion.h1>
