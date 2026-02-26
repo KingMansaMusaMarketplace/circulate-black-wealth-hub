@@ -54,7 +54,7 @@ const CTASection = () => {
                   size="lg" 
                   className="group bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold text-lg px-8 py-6 rounded-xl shadow-lg shadow-mansagold/25 hover:shadow-xl hover:shadow-mansagold/30 transition-all duration-300"
                 >
-                  <Link to="/register-business">
+                  <Link to="/business-signup">
                     <Building2 className="mr-2 h-5 w-5" />
                     Business Sign Up
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -65,7 +65,7 @@ const CTASection = () => {
                   size="lg" 
                   className="group bg-white/10 hover:bg-white/20 text-white font-semibold text-lg px-8 py-6 rounded-xl border border-white/20 backdrop-blur-sm transition-all duration-300"
                 >
-                  <Link to="/customer-signup">
+                  <Link to="/signup">
                     <Users className="mr-2 h-5 w-5" />
                     Consumer Sign Up
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
