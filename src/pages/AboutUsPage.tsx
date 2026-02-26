@@ -10,7 +10,7 @@ import CTASection from '@/components/AboutPage/CTASection';
 
 const AboutUsPage = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
       <Helmet>
         <title>About Us | 1325.AI</title>
         <meta name="description" content="Learn about 1325.AI - building the future of community wealth circulation through intentional economic infrastructure." />

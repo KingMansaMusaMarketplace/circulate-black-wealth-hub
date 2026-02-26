@@ -175,7 +175,7 @@ const EnhancedDirectoryPage: React.FC = () => {
         />
       )}
       
-      <div className="flex-grow bg-gray-50 py-8">
+      <div className="flex-grow py-8">
         <div className="container mx-auto">
           
           {/* Desktop Category Exploration */}
