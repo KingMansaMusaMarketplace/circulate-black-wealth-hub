@@ -1,21 +1,52 @@
 
 
-## Plan: Update SLACK_CHANNEL_ID and Verify Notifications
+# Create Notion Databases for Mansa Musa Marketplace
 
-### Problem
-The `send-slack-notification` edge function keeps returning `channel_not_found` because the stored `SLACK_CHANNEL_ID` secret has an incorrect value.
+Set up three Notion databases to serve as your project management hub.
 
-### Steps
+## 1. Business Listings Tracker
+A database to track all businesses being onboarded to the marketplace.
 
-1. **Update the `SLACK_CHANNEL_ID` secret** to the correct value: `C0AJB2V8F4G`
+**Properties:**
+- Business Name (title)
+- Category (select: Restaurant, Beauty, Fashion, Technology, Retail, Financial Services, Health, etc.)
+- Status (select: Lead, Applied, Under Review, Approved, Published, Rejected)
+- Website URL
+- Contact Email
+- Contact Phone
+- City / State
+- Subscription Plan (select: Free, Basic $50/yr, Premium)
+- Verified (checkbox)
+- Featured (checkbox)
+- Date Added
+- Notes (rich text)
 
-2. **Re-deploy the `send-slack-notification` edge function** to ensure it picks up the new secret value
+## 2. Feature Roadmap
+A database to plan and prioritize marketplace features.
 
-3. **Send a test notification** by calling the edge function with a sample `payment_confirmation` payload to confirm messages arrive in the Slack channel
+**Properties:**
+- Feature Name (title)
+- Status (select: Backlog, To Do, In Progress, Done)
+- Priority (select: Critical, High, Medium, Low)
+- Category (select: Frontend, Backend, Mobile, Integration, Design)
+- Target Date
+- Description (rich text)
+- Assigned To (people)
 
-### Technical Details
-- The edge function code (`supabase/functions/send-slack-notification/index.ts`) is already correct — no code changes needed
-- The Slack bot connection has the required `chat:write` scope
-- The function reads `SLACK_CHANNEL_ID` from environment at runtime, so updating the secret and redeploying should resolve the issue
-- If the channel is **private**, you will still need to invite the bot by typing `/invite @Lovable App` in that channel
+## 3. Content Hub
+A database to manage FAQs, program details, and marketplace content.
+
+**Properties:**
+- Content Title (title)
+- Type (select: FAQ, Blog Post, Program Details, Policy, Help Article)
+- Status (select: Draft, In Review, Published, Archived)
+- Section (select: Business Owners, Customers, Sales Agents, Corporate, General)
+- Last Updated
+- Content (rich text)
+
+## Technical Details
+
+- All three databases will be created as standalone workspace-level databases using the Notion `create-database` tool
+- Each uses appropriate Notion property types (SELECT, MULTI_SELECT, DATE, CHECKBOX, URL, EMAIL, RICH_TEXT, PEOPLE)
+- Categories in the Business Listings Tracker will match the existing app categories (from `src/data/categories/`)
 
