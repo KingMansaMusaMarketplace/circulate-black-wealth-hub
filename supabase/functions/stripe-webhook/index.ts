@@ -181,6 +181,28 @@ serve(async (req) => {
               console.log(`BHM lead marked as paid via email, expires: ${expiresAt.toISOString()}`);
             }
           }
+
+          // Send Slack payment notification
+          try {
+            await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-slack-notification`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+              },
+              body: JSON.stringify({
+                type: 'payment_confirmation',
+                data: {
+                  amount: session.amount_total || 0,
+                  payment_type: 'BHM Quick Add',
+                  customer_email: email || 'N/A',
+                  business_name: businessUrl || 'N/A',
+                },
+              }),
+            });
+          } catch (slackErr) {
+            console.error('Slack payment notification failed:', slackErr);
+          }
           
           break;
         }
@@ -284,7 +306,29 @@ serve(async (req) => {
             console.log('Welcome email triggered');
           } catch (emailError) {
             console.error('Failed to send welcome email:', emailError);
-            // Don't fail the webhook if email fails
+          }
+
+          // Send Slack payment notification for corporate subscription
+          try {
+            await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-slack-notification`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+              },
+              body: JSON.stringify({
+                type: 'payment_confirmation',
+                data: {
+                  amount: session.amount_total || 0,
+                  payment_type: 'Corporate Subscription',
+                  customer_email: customerEmail,
+                  business_name: corporateSubscription.company_name,
+                  tier: corporateSubscription.tier,
+                },
+              }),
+            });
+          } catch (slackErr) {
+            console.error('Slack notification failed:', slackErr);
           }
         }
 

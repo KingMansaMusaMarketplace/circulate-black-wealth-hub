@@ -349,6 +349,34 @@ Identify suspicious patterns and return structured fraud alerts.`;
         console.error('Error inserting fraud alerts:', insertError);
         throw insertError;
       }
+
+      // Send Slack notifications for critical/high severity alerts
+      const highSeverityAlerts = alerts.filter(a => a.severity === 'critical' || a.severity === 'high');
+      for (const alert of highSeverityAlerts) {
+        try {
+          await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/send-slack-notification`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+            },
+            body: JSON.stringify({
+              type: 'fraud_alert',
+              data: {
+                alert_type: alert.alert_type,
+                severity: alert.severity,
+                description: alert.description,
+                ai_confidence_score: alert.ai_confidence_score,
+                alerts_count: highSeverityAlerts.length,
+              },
+            }),
+          });
+          console.log(`Slack fraud alert sent: ${alert.alert_type} (${alert.severity})`);
+        } catch (slackError) {
+          console.error('Failed to send Slack fraud alert:', slackError);
+          // Don't fail the main flow if Slack notification fails
+        }
+      }
     }
 
     // Log the analysis (without sensitive data)
