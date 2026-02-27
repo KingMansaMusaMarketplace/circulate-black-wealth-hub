@@ -6,8 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertCircle, CheckCircle, Shield } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle, Shield, Sparkles } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CertificationAgreement from './CertificationAgreement';
 import CertificateDownload from './CertificateDownload';
@@ -51,7 +54,47 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
   const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
   const [videoUrl, setVideoUrl] = useState<string>('');
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+  const [docAnalysis, setDocAnalysis] = useState<Record<string, any>>({});
+  const [analyzingDoc, setAnalyzingDoc] = useState<string | null>(null);
   
+  // Parse document with AI after upload
+  const analyzeDocument = async (docUrl: string, docType: DocumentType) => {
+    setAnalyzingDoc(docType);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const { data, error } = await supabase.functions.invoke('parse-verification-document', {
+        body: { documentUrl: docUrl, documentType: docType, businessName },
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+
+      if (error) {
+        console.error('Document analysis error:', error);
+        return;
+      }
+
+      if (data?.success && data?.extraction) {
+        setDocAnalysis(prev => ({ ...prev, [docType]: data.extraction }));
+        
+        // Auto-fill owner name if found
+        if (data.extraction.ownerName && !ownerLegalName) {
+          setOwnerLegalName(data.extraction.ownerName);
+        }
+        
+        if (data.extraction.documentValid) {
+          toast.success(`AI verified: ${docType} document looks valid (${data.extraction.confidenceScore}% confidence)`);
+        } else {
+          toast.warning('AI flagged concerns with this document. Please review.');
+        }
+      }
+    } catch (err) {
+      console.error('Document analysis failed:', err);
+    } finally {
+      setAnalyzingDoc(null);
+    }
+  };
+
   // Handle document upload
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: DocumentType) => {
     const file = e.target.files?.[0];
@@ -79,6 +122,9 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
           setLicenseDocUrl(url);
           break;
       }
+      
+      // Trigger AI document parsing
+      analyzeDocument(url, type);
     }
     
     setUploadingType(null);
