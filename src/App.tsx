@@ -616,7 +616,7 @@ function App() {
                               {/* P */}
                               <Route path="/partner/eatokra" element={<LazyEatOkraPartnershipPage />} />
                               <Route path="/partner-portal" element={<LazyPartnerPortal />} />
-                              <Route path="/password-reset" element={<LazyResetPasswordPage />} />
+                              <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                               <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                               <Route path="/payment-test" element={
@@ -635,7 +635,7 @@ function App() {
                               <Route path="/recommendations" element={<LazyRecommendationsPage />} />
                               <Route path="/referrals" element={<LazyReferralDashboard />} />
                               <Route path="/refresh" element={<LazyRefreshPage />} />
-                              <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
+                              <Route path="/reset-password" element={<LazyResetPasswordPage />} />
                               
                               {/* S */}
                               <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
@@ -913,7 +913,7 @@ function App() {
                         <Route path="/partner/eatokra" element={<LazyEatOkraPartnershipPage />} />
                         <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
-                        <Route path="/password-reset" element={<LazyResetPasswordPage />} />
+                        <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                         <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                         <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                         <Route path="/payment-test" element={
@@ -933,7 +933,7 @@ function App() {
                         <Route path="/recommendations" element={<LazyRecommendationsPage />} />
                         <Route path="/referrals" element={<LazyReferralDashboard />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
-                        <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
+                        <Route path="/reset-password" element={<LazyResetPasswordPage />} />
                         
                         {/* S */}
                         <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
