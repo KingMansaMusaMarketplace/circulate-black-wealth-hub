@@ -42,9 +42,13 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
       const result = await onSubmit(values.email, values.password);
       console.log("Login result:", result);
       
-      if (result.error) {
-        console.error("Login error:", result.error);
-        throw new Error(result.error.message);
+      // Handle both formats: { error: "string" } from secureSignIn and { error: { message } } from Supabase
+      if (result.error || result.success === false) {
+        const errorMsg = typeof result.error === 'string' 
+          ? result.error 
+          : result.error?.message || 'Login failed. Please check your credentials.';
+        console.error("Login error:", errorMsg);
+        throw new Error(errorMsg);
       }
       
       // Check if MFA is required
@@ -62,7 +66,7 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
         return; // Stop here until MFA is verified
       }
       
-      if (result.data?.session) {
+      if (result.data?.session || result.success === true) {
         console.log("Login successful");
         
         // Check if there's a pending subscription from sessionStorage
@@ -81,12 +85,10 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
           }, 1000);
         } else {
           console.log("Login successful, navigating to:", from);
-          // Navigate to the page they were trying to access or dashboard
           navigate(from, { replace: true });
         }
       } else {
-        console.warn("Login returned success but no session", result);
-        // Handle edge case where login succeeds but no session is returned
+        console.warn("Login returned but no session or success flag", result);
         toast.error('Authentication Issue', {
           description: 'Your login was processed, but we couldn\'t establish a session. Please try again.',
         });
