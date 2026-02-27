@@ -47,31 +47,35 @@ export const DashboardPageSkeleton: React.FC = () => (
  * Profile page skeleton
  */
 export const ProfilePageSkeleton: React.FC = () => (
-  <div className="space-y-6 animate-in fade-in duration-300">
-    {/* Avatar + name */}
-    <div className="flex items-center gap-4">
-      <Skeleton className="h-20 w-20 rounded-full" />
-      <div className="space-y-2 flex-1">
-        <Skeleton className="h-6 w-48" />
-        <Skeleton className="h-4 w-32" />
+  <div className="space-y-4 animate-in fade-in duration-300">
+    {/* Avatar + name card */}
+    <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+      <div className="flex items-center gap-4">
+        <Skeleton className="h-16 w-16 rounded-full bg-white/10" />
+        <div className="space-y-2 flex-1">
+          <Skeleton className="h-5 w-48 bg-white/10" />
+          <Skeleton className="h-4 w-32 bg-white/10" />
+        </div>
       </div>
     </div>
 
     {/* Tabs */}
     <div className="flex gap-2">
       {[...Array(3)].map((_, i) => (
-        <Skeleton key={i} className="h-10 w-28 rounded-lg" />
+        <Skeleton key={i} className="h-10 w-28 rounded-lg bg-white/10" />
       ))}
     </div>
 
-    {/* Form fields */}
-    <div className="space-y-4">
-      {[...Array(4)].map((_, i) => (
+    {/* Form card */}
+    <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 space-y-4">
+      <Skeleton className="h-5 w-40 bg-white/10" />
+      {[...Array(3)].map((_, i) => (
         <div key={i} className="space-y-2">
-          <Skeleton className="h-4 w-24" />
-          <Skeleton className="h-10 w-full rounded-lg" />
+          <Skeleton className="h-4 w-24 bg-white/10" />
+          <Skeleton className="h-10 w-full rounded-lg bg-white/10" />
         </div>
       ))}
+      <Skeleton className="h-10 w-32 rounded-lg bg-white/10" />
     </div>
   </div>
 );
