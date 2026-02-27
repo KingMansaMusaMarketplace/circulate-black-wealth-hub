@@ -240,6 +240,9 @@ verify_jwt = false
 [functions.batch-scrape-hbcu-images]
 verify_jwt = false
 
+[functions.send-slack-notification]
+verify_jwt = false
+
 [functions.create-vacation-booking]
 verify_jwt = false
 
