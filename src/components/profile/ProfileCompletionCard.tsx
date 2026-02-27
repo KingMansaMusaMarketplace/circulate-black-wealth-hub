@@ -90,13 +90,18 @@ export const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({
     
     setIsLoading(true);
     try {
-      const { error } = await supabase
+      console.log('Saving profile field:', fieldKey, 'value:', fieldValue.trim(), 'user:', user.id);
+      const { error, data } = await supabase
         .from('profiles')
         .update({ [fieldKey]: fieldValue.trim() })
-        .eq('id', user.id);
+        .eq('id', user.id)
+        .select();
 
+      console.log('Profile update result:', { error, data });
       if (error) throw error;
 
+      // Update local profile state so UI reflects the change immediately
+      setProfile(prev => prev ? { ...prev, [fieldKey]: fieldValue.trim() } : { [fieldKey]: fieldValue.trim() });
       toast.success(`Profile updated! +${PROFILE_FIELDS.find(f => f.key === fieldKey)?.points} points earned!`);
       setEditingField(null);
       setFieldValue('');
