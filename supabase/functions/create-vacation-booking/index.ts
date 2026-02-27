@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -40,19 +41,43 @@ serve(async (req) => {
     }
     logStep("User authenticated", { userId: user.id, email: user.email });
 
+    // Parse and validate input with Zod
+    const BookingSchema = z.object({
+      propertyId: z.string().uuid('Invalid property ID'),
+      checkInDate: z.string().regex(/^\d{4}-\d{2}-\d{2}/, 'Invalid check-in date format'),
+      checkOutDate: z.string().regex(/^\d{4}-\d{2}-\d{2}/, 'Invalid check-out date format'),
+      numGuests: z.number().int().min(1).max(50),
+      numPets: z.number().int().min(0).max(10).default(0),
+      guestName: z.string().min(1).max(200),
+      guestEmail: z.string().email().max(255),
+      guestPhone: z.string().max(30).optional(),
+      specialRequests: z.string().max(2000).optional(),
+    });
+
+    const rawBody = await req.json();
+    const parseResult = BookingSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      const errors = parseResult.error.issues.map(i => i.message).join(', ');
+      logStep("Validation failed", { errors });
+      return new Response(
+        JSON.stringify({ success: false, error: `Validation error: ${errors}` }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const {
       propertyId,
       checkInDate,
       checkOutDate,
       numGuests,
-      numPets = 0,
+      numPets,
       guestName,
       guestEmail,
       guestPhone,
       specialRequests,
-    } = await req.json();
+    } = parseResult.data;
 
-    logStep("Request parsed", { propertyId, checkInDate, checkOutDate, numGuests, numPets });
+    logStep("Request validated", { propertyId, checkInDate, checkOutDate, numGuests, numPets });
 
     // Get property details
     const { data: property, error: propertyError } = await supabase

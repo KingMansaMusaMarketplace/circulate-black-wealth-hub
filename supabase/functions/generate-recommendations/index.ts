@@ -51,25 +51,34 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Parse and validate input
-    const rawBody = await req.json();
-    const parseResult = RecommendationsRequestSchema.safeParse(rawBody);
-    
-    if (!parseResult.success) {
-      const errors = parseResult.error.issues.map(i => i.message).join(', ');
-      console.log('Validation error:', errors);
+    // Authenticate user
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
       return new Response(
-        JSON.stringify({ error: `Validation error: ${errors}` }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'Authentication required' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    const { userId } = parseResult.data;
+    const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? '';
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
+    const authClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims?.sub) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid or expired authentication token' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Use authenticated user's ID instead of trusting body input
+    const userId = claimsData.claims.sub as string;
+    console.log(`Generate recommendations: Authenticated user ${userId}`);
     
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
-    );
+    const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
     // Get user's interaction history and preferences
     const { data: userProfile } = await supabaseClient
