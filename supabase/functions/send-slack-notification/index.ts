@@ -169,6 +169,17 @@ serve(async (req) => {
         throw new Error(`Unknown notification type: ${payload.type}`);
     }
 
+    // Auto-join the channel (works for public channels)
+    await fetch(`${GATEWAY_URL}/conversations.join`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'X-Connection-Api-Key': SLACK_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ channel }),
+    }).then(r => r.json()).catch(() => {});
+
     const slackResponse = await fetch(`${GATEWAY_URL}/chat.postMessage`, {
       method: 'POST',
       headers: {
