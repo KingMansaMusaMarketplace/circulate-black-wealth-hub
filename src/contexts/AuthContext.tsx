@@ -99,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Check for existing session with AGGRESSIVE timeout for iOS
     const initializeAuth = async () => {
-      const timeout = isIOS ? 1500 : 2000; // 1.5s on iOS, 2s elsewhere
+      const timeout = isIOS ? 3000 : 5000; // 3s on iOS, 5s elsewhere
       
       try {
         const sessionPromise = supabase.auth.getSession();
