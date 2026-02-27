@@ -170,7 +170,7 @@ serve(async (req) => {
     }
 
     // Auto-join the channel (works for public channels)
-    await fetch(`${GATEWAY_URL}/conversations.join`, {
+    const joinRes = await fetch(`${GATEWAY_URL}/conversations.join`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${LOVABLE_API_KEY}`,
@@ -178,7 +178,9 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ channel }),
-    }).then(r => r.json()).catch(() => {});
+    });
+    const joinData = await joinRes.json();
+    console.log('conversations.join result:', JSON.stringify(joinData));
 
     const slackResponse = await fetch(`${GATEWAY_URL}/chat.postMessage`, {
       method: 'POST',
