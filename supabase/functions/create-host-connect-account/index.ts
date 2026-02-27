@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -42,7 +43,22 @@ serve(async (req) => {
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
     const origin = req.headers.get("origin") || "https://circulate-black-wealth-hub.lovable.app";
-    const { returnUrl, refreshUrl } = await req.json();
+    
+    // Validate input
+    const ConnectSchema = z.object({
+      returnUrl: z.string().url().max(500).optional(),
+      refreshUrl: z.string().url().max(500).optional(),
+    });
+    const rawBody = await req.json();
+    const parseResult = ConnectSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      const errors = parseResult.error.issues.map(i => i.message).join(', ');
+      return new Response(
+        JSON.stringify({ success: false, error: `Validation error: ${errors}` }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    const { returnUrl, refreshUrl } = parseResult.data;
 
     // Check if user already has a connected account
     const { data: profile } = await supabaseClient

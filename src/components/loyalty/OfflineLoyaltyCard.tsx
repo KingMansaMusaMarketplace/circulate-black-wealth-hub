@@ -51,6 +51,7 @@ export const OfflineLoyaltyCard: React.FC<OfflineLoyaltyCardProps> = ({ classNam
         points: summary.totalPoints,
         tier: currentTier,
         lastSync: new Date().toISOString(),
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24hr cache TTL
       };
       localStorage.setItem('mansa-loyalty-cache', JSON.stringify(data));
       setCachedData(data);
@@ -62,9 +63,16 @@ export const OfflineLoyaltyCard: React.FC<OfflineLoyaltyCardProps> = ({ classNam
     const cached = localStorage.getItem('mansa-loyalty-cache');
     if (cached) {
       try {
-        setCachedData(JSON.parse(cached));
+        const parsed = JSON.parse(cached);
+        // Expire cache after TTL
+        if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+          localStorage.removeItem('mansa-loyalty-cache');
+          return;
+        }
+        setCachedData(parsed);
       } catch (e) {
         console.error('Failed to parse cached loyalty data:', e);
+        localStorage.removeItem('mansa-loyalty-cache');
       }
     }
   }, []);
