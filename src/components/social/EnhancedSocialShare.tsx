@@ -12,7 +12,8 @@ import {
   Share2, 
   Check,
   Mail,
-  Download
+  Download,
+  Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
@@ -158,9 +159,56 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
     }
   };
 
-  const generateShareableImage = () => {
-    // This would integrate with a service to generate branded share images
-    toast.info('Shareable image feature coming soon!');
+  const [isGeneratingImage, setIsGeneratingImage] = React.useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = React.useState<string | null>(null);
+
+  const generateShareableImage = async () => {
+    if (!user) {
+      toast.error('Please log in to generate share images');
+      return;
+    }
+
+    setIsGeneratingImage(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-share-image', {
+        body: {
+          businessName,
+          businessDescription: businessDescription?.slice(0, 500),
+          category: '',
+          style: 'vibrant',
+        },
+      });
+
+      if (error) throw error;
+
+      if (data?.success && data?.imageUrl) {
+        setGeneratedImageUrl(data.imageUrl);
+        
+        // Trigger download
+        const link = document.createElement('a');
+        link.href = data.storedUrl || data.imageUrl;
+        link.download = `${businessName.replace(/\s+/g, '-').toLowerCase()}-share-card.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        recordShare('share_image');
+        toast.success('Share image generated and downloaded!');
+      } else {
+        throw new Error(data?.error || 'Failed to generate image');
+      }
+    } catch (err: any) {
+      console.error('Error generating share image:', err);
+      if (err.message?.includes('429')) {
+        toast.error('Rate limit reached. Please try again in a moment.');
+      } else if (err.message?.includes('402')) {
+        toast.error('AI quota exceeded. Please try again later.');
+      } else {
+        toast.error('Failed to generate share image. Please try again.');
+      }
+    } finally {
+      setIsGeneratingImage(false);
+    }
   };
 
   const nativeShare = async () => {
@@ -284,9 +332,14 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
               variant="outline"
               className="w-full"
               size="sm"
+              disabled={isGeneratingImage}
             >
-              <Download className="h-4 w-4 mr-2" />
-              Download Share Image
+              {isGeneratingImage ? (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="h-4 w-4 mr-2" />
+              )}
+              {isGeneratingImage ? 'Generating...' : 'Download Share Image'}
             </Button>
           </div>
 

@@ -254,3 +254,9 @@ verify_jwt = false
 
 [functions.vacation-booking-webhook]
 verify_jwt = false
+
+[functions.parse-verification-document]
+verify_jwt = false
+
+[functions.generate-share-image]
+verify_jwt = false
