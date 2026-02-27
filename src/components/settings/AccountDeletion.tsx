@@ -31,12 +31,28 @@ const AccountDeletion: React.FC = () => {
     setIsDeleting(true);
 
     try {
-      // Call the delete account function
-      const { error } = await supabase.rpc('delete_user_account', {
-        user_id: user.id
+      // Call the delete-account edge function
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      
+      if (!token) {
+        throw new Error('No active session found');
+      }
+
+      const response = await supabase.functions.invoke('delete-account', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-      if (error) throw error;
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to delete account');
+      }
+
+      const result = response.data;
+      if (!result?.success) {
+        throw new Error(result?.error || 'Failed to delete account');
+      }
 
       toast.success('Your account has been permanently deleted');
       
