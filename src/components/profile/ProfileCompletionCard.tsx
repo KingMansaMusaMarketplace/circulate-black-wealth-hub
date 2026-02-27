@@ -50,26 +50,33 @@ export const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({
   const [editingField, setEditingField] = useState<string | null>(null);
   const [fieldValue, setFieldValue] = useState('');
 
-  // Fetch profile if not provided as prop
+  // Fetch profile data - always fetch fresh from DB
   React.useEffect(() => {
-    if (!propProfile && user) {
-      const fetchProfile = async () => {
-        try {
-          const { data } = await supabase
-            .from('profiles')
-            .select('full_name, phone, address, avatar_url')
-            .eq('id', user.id)
-            .single();
-          if (data) setProfile(data);
-        } catch (err) {
-          console.error('Error fetching profile:', err);
+    if (!user) return;
+    
+    const fetchProfile = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('full_name, phone, address, avatar_url')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (error) {
+          console.error('ProfileCompletionCard fetch error:', error);
+          return;
         }
-      };
-      fetchProfile();
-    } else if (propProfile) {
-      setProfile(propProfile);
-    }
-  }, [propProfile, user]);
+        
+        if (data) {
+          console.log('ProfileCompletionCard loaded profile:', data);
+          setProfile(data);
+        }
+      } catch (err) {
+        console.error('ProfileCompletionCard unexpected error:', err);
+      }
+    };
+    fetchProfile();
+  }, [user]);
 
   // Calculate completion
   const completedFields = PROFILE_FIELDS.filter(
