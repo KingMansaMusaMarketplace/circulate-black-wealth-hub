@@ -18,6 +18,8 @@ import { format, isAfter, isBefore } from 'date-fns';
 import CoHostManager from '@/components/stays/host/CoHostManager';
 import ManagedByMansaTierCard from '@/components/stays/host/ManagedByMansaTierCard';
 import NonBiasCertification from '@/components/stays/host/NonBiasCertification';
+import ListingQualityScore from '@/components/stays/host/ListingQualityScore';
+import ProfessionalPhotographyRequest from '@/components/stays/host/ProfessionalPhotographyRequest';
 import {
   Home,
   Plus,
@@ -210,6 +212,8 @@ const HostDashboardPage: React.FC = () => {
             <TabsTrigger value="earnings">Earnings</TabsTrigger>
             <TabsTrigger value="service-tier">Service Tier</TabsTrigger>
             <TabsTrigger value="certification">Non-Bias Cert</TabsTrigger>
+            <TabsTrigger value="quality">Quality Score</TabsTrigger>
+            <TabsTrigger value="photography">Photography</TabsTrigger>
             <TabsTrigger value="cohosts">Co-Hosts</TabsTrigger>
             <TabsTrigger value="verification">Verification</TabsTrigger>
           </TabsList>
@@ -523,6 +527,30 @@ const HostDashboardPage: React.FC = () => {
           {/* Non-Bias Certification Tab */}
           <TabsContent value="certification" className="mt-6">
             <NonBiasCertification />
+          </TabsContent>
+
+          {/* Quality Score Tab */}
+          <TabsContent value="quality" className="mt-6">
+            {properties.length === 0 ? (
+              <Card className="bg-slate-800/50 border-slate-700">
+                <CardContent className="flex flex-col items-center justify-center py-12">
+                  <Star className="w-12 h-12 text-slate-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">No properties yet</h3>
+                  <p className="text-slate-400 text-center">Add a property to see its quality score</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-6">
+                {properties.map((property) => (
+                  <ListingQualityScore key={property.id} property={property} />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          {/* Photography Tab */}
+          <TabsContent value="photography" className="mt-6">
+            <ProfessionalPhotographyRequest properties={properties} />
           </TabsContent>
 
           {/* Co-Hosts Tab */}
