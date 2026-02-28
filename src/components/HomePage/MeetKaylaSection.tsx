@@ -36,7 +36,7 @@ const MeetKaylaSection: React.FC = () => {
   };
 
   return (
-    <section className="py-12 md:py-20 relative">
+    <section className="py-8 md:py-12 relative">
       {showIPadFallback && (
         <IPadVoiceFallback onDismiss={() => setShowIPadFallback(false)} />
       )}
