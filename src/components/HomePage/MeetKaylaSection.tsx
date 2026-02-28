@@ -36,7 +36,7 @@ const MeetKaylaSection: React.FC = () => {
   };
 
   return (
-    <section className="py-8 md:py-12 relative">
+    <section className="pt-0 pb-8 md:pt-2 md:pb-12 relative">
       {showIPadFallback && (
         <IPadVoiceFallback onDismiss={() => setShowIPadFallback(false)} />
       )}
@@ -44,7 +44,7 @@ const MeetKaylaSection: React.FC = () => {
       <div className="max-w-5xl mx-auto px-4">
         {/* Section label */}
         <motion.div
-          className="text-center mb-6"
+          className="text-center mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
