@@ -23,6 +23,7 @@ import ProfessionalPhotographyRequest from '@/components/stays/host/Professional
 import SmartPricingEngine from '@/components/stays/host/SmartPricingEngine';
 import MansaHostCircles from '@/components/stays/host/MansaHostCircles';
 import RevenueAnalyticsDashboard from '@/components/stays/host/RevenueAnalyticsDashboard';
+import AutomatedMessaging from '@/components/stays/host/AutomatedMessaging';
 import {
   Home,
   Plus,
@@ -220,6 +221,7 @@ const HostDashboardPage: React.FC = () => {
             <TabsTrigger value="quality">Quality Score</TabsTrigger>
             <TabsTrigger value="photography">Photography</TabsTrigger>
             <TabsTrigger value="host-circles">Host Circles</TabsTrigger>
+            <TabsTrigger value="messaging">Auto Messages</TabsTrigger>
             <TabsTrigger value="cohosts">Co-Hosts</TabsTrigger>
             <TabsTrigger value="verification">Verification</TabsTrigger>
           </TabsList>
@@ -572,6 +574,11 @@ const HostDashboardPage: React.FC = () => {
           {/* Host Circles Tab */}
           <TabsContent value="host-circles" className="mt-6">
             <MansaHostCircles />
+          </TabsContent>
+
+          {/* Automated Messaging Tab */}
+          <TabsContent value="messaging" className="mt-6">
+            <AutomatedMessaging />
           </TabsContent>
 
           {/* Co-Hosts Tab */}

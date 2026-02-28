@@ -6950,6 +6950,59 @@ export type Database = {
         }
         Relationships: []
       }
+      host_message_templates: {
+        Row: {
+          body: string
+          category: string
+          created_at: string
+          host_id: string
+          id: string
+          is_active: boolean
+          name: string
+          property_id: string | null
+          subject: string | null
+          trigger_offset_hours: number
+          trigger_type: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          category?: string
+          created_at?: string
+          host_id: string
+          id?: string
+          is_active?: boolean
+          name: string
+          property_id?: string | null
+          subject?: string | null
+          trigger_offset_hours?: number
+          trigger_type?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          category?: string
+          created_at?: string
+          host_id?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          property_id?: string | null
+          subject?: string | null
+          trigger_offset_hours?: number
+          trigger_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "host_message_templates_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       host_verification_requests: {
         Row: {
           address_document_url: string | null
@@ -11788,6 +11841,66 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      scheduled_guest_messages: {
+        Row: {
+          body: string
+          booking_id: string
+          created_at: string
+          guest_id: string
+          host_id: string
+          id: string
+          property_id: string
+          scheduled_for: string
+          sent_at: string | null
+          status: string
+          subject: string | null
+          template_id: string | null
+        }
+        Insert: {
+          body: string
+          booking_id: string
+          created_at?: string
+          guest_id: string
+          host_id: string
+          id?: string
+          property_id: string
+          scheduled_for: string
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          template_id?: string | null
+        }
+        Update: {
+          body?: string
+          booking_id?: string
+          created_at?: string
+          guest_id?: string
+          host_id?: string
+          id?: string
+          property_id?: string
+          scheduled_for?: string
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          template_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_guest_messages_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_guest_messages_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "host_message_templates"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       scheduled_reports: {
         Row: {
