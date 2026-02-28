@@ -76,7 +76,7 @@ const MeetKaylaSection: React.FC = () => {
                 <cap.icon className="w-5 h-5 text-mansagold" />
               </div>
               <h3 className="text-white font-semibold text-sm mb-1">{cap.title}</h3>
-              <p className="text-gray-400 text-xs leading-relaxed">{cap.description}</p>
+              <p className="text-blue-100/80 text-xs leading-relaxed">{cap.description}</p>
             </div>
           ))}
         </motion.div>
