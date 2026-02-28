@@ -20,6 +20,7 @@ import ManagedByMansaTierCard from '@/components/stays/host/ManagedByMansaTierCa
 import NonBiasCertification from '@/components/stays/host/NonBiasCertification';
 import ListingQualityScore from '@/components/stays/host/ListingQualityScore';
 import ProfessionalPhotographyRequest from '@/components/stays/host/ProfessionalPhotographyRequest';
+import SmartPricingEngine from '@/components/stays/host/SmartPricingEngine';
 import {
   Home,
   Plus,
@@ -212,6 +213,7 @@ const HostDashboardPage: React.FC = () => {
             <TabsTrigger value="earnings">Earnings</TabsTrigger>
             <TabsTrigger value="service-tier">Service Tier</TabsTrigger>
             <TabsTrigger value="certification">Non-Bias Cert</TabsTrigger>
+            <TabsTrigger value="smart-pricing">Smart Pricing</TabsTrigger>
             <TabsTrigger value="quality">Quality Score</TabsTrigger>
             <TabsTrigger value="photography">Photography</TabsTrigger>
             <TabsTrigger value="cohosts">Co-Hosts</TabsTrigger>
@@ -527,6 +529,11 @@ const HostDashboardPage: React.FC = () => {
           {/* Non-Bias Certification Tab */}
           <TabsContent value="certification" className="mt-6">
             <NonBiasCertification />
+          </TabsContent>
+
+          {/* Smart Pricing Tab */}
+          <TabsContent value="smart-pricing" className="mt-6">
+            <SmartPricingEngine properties={properties} />
           </TabsContent>
 
           {/* Quality Score Tab */}
