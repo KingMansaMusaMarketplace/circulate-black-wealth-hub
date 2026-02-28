@@ -9,7 +9,8 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const PLATFORM_FEE_PERCENT = 7.5; // 7.5% platform commission
+const PLATFORM_FEE_BASIC = 7.5;    // 7.5% for basic tier
+const PLATFORM_FEE_PREMIUM = 12.0; // 12% for premium (Managed by Mansa) tier
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
@@ -160,6 +161,8 @@ serve(async (req) => {
       subtotal = nights * nightlyRate;
     }
 
+    const serviceTier = property.service_tier || 'basic';
+    const PLATFORM_FEE_PERCENT = serviceTier === 'premium' ? PLATFORM_FEE_PREMIUM : PLATFORM_FEE_BASIC;
     const totalBeforeFee = subtotal + cleaningFee + petFee;
     const platformFee = totalBeforeFee * (PLATFORM_FEE_PERCENT / 100);
     const total = totalBeforeFee + platformFee;
@@ -266,7 +269,7 @@ serve(async (req) => {
         unit_amount: Math.round(platformFee * 100),
         product_data: { 
           name: "Service Fee",
-          description: "Platform booking fee (7.5%)"
+          description: `Platform booking fee (${PLATFORM_FEE_PERCENT}%${serviceTier === 'premium' ? ' - Managed by Mansa' : ''})`
         },
       },
       quantity: 1,
