@@ -36,7 +36,7 @@ const MeetKaylaSection: React.FC = () => {
   };
 
   return (
-    <section className="-mt-4 pb-8 md:-mt-2 md:pb-12 relative">
+    <section className="-mt-8 pb-8 md:-mt-6 md:pb-12 relative">
       {showIPadFallback && (
         <IPadVoiceFallback onDismiss={() => setShowIPadFallback(false)} />
       )}
