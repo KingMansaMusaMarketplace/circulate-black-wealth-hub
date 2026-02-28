@@ -50,11 +50,11 @@ const MeetKaylaSection: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="section-label">AI Concierge</span>
-          <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <span className="section-label text-base md:text-lg">AI Concierge</span>
+          <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
             Meet <span className="text-gradient-gold">Kayla</span>
           </h2>
-          <p className="text-blue-100/70 text-lg md:text-xl max-w-2xl mx-auto">
+          <p className="text-blue-100/70 text-xl md:text-2xl max-w-2xl mx-auto">
             Your AI-powered guide to the entire Mansa Musa ecosystem. Just speak — she'll find businesses, book stays, and answer anything.
           </p>
         </motion.div>
