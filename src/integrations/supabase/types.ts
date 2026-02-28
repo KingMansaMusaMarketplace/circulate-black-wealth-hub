@@ -9061,6 +9061,62 @@ export type Database = {
           },
         ]
       }
+      photography_requests: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          host_id: string
+          id: string
+          notes: string | null
+          photo_count: number | null
+          photographer_name: string | null
+          preferred_date: string | null
+          preferred_time_slot: string | null
+          property_id: string
+          scheduled_date: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          host_id: string
+          id?: string
+          notes?: string | null
+          photo_count?: number | null
+          photographer_name?: string | null
+          preferred_date?: string | null
+          preferred_time_slot?: string | null
+          property_id: string
+          scheduled_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          host_id?: string
+          id?: string
+          notes?: string | null
+          photo_count?: number | null
+          photographer_name?: string | null
+          preferred_date?: string | null
+          preferred_time_slot?: string | null
+          property_id?: string
+          scheduled_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "photography_requests_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       platform_transactions: {
         Row: {
           amount_business: number
