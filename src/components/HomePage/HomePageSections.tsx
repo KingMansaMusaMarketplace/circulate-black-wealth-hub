@@ -11,6 +11,7 @@ const ThreePillars = lazy(() => import('./ThreePillars'));
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 const CirculationGap = lazy(() => import('./CirculationGap'));
+const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (
@@ -60,6 +61,13 @@ const HomePageSections: React.FC = () => {
       <SectionErrorBoundary sectionName="Three Pillars">
         <Suspense fallback={<SectionSkeleton />}>
           <ThreePillars />
+        </Suspense>
+      </SectionErrorBoundary>
+
+      {/* Meet Kayla Showcase */}
+      <SectionErrorBoundary sectionName="Meet Kayla">
+        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <MeetKaylaSection />
         </Suspense>
       </SectionErrorBoundary>
 
