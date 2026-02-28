@@ -14,6 +14,10 @@ import earthImage from '@/assets/earth.png';
 import noirLogo from '@/assets/noir-rideshare-logo.png';
 
 const NoirTrackingMap = lazy(() => import('@/components/noir/NoirTrackingMap'));
+const FavoriteDriverBooking = lazy(() => import('@/components/noir/FavoriteDriverBooking'));
+const NoireCommunityRewards = lazy(() => import('@/components/noir/NoireCommunityRewards'));
+const NoireImpactDashboard = lazy(() => import('@/components/noir/NoireImpactDashboard'));
+const KaylaDispatch = lazy(() => import('@/components/noir/KaylaDispatch'));
 
 const UBER_DEEPLINK = (lat: number, lng: number, name: string) =>
   `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${lat}&dropoff[longitude]=${lng}&dropoff[nickname]=${encodeURIComponent(name)}`;
@@ -856,6 +860,54 @@ const NoirLandingPage: React.FC = () => {
               </Button>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ===== NEW FEATURES SECTION ===== */}
+      <section className="py-20 md:py-28 border-b border-white/5 bg-gradient-to-b from-transparent via-mansagold/3 to-transparent">
+        <div className="container max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-3">
+              <span className="text-mansagold">Better</span> Than the Big Apps
+            </h2>
+            <p className="text-white/50 max-w-xl mx-auto">
+              Features Uber can't match — because they weren't built for community.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Kayla AI Dispatch */}
+            <Suspense fallback={<div className="h-32 bg-white/5 rounded-xl animate-pulse" />}>
+              <KaylaDispatch
+                pickup={pickup || undefined}
+                dropoff={dropoff || undefined}
+                favoriteDrivers={[
+                  { name: 'Marcus Johnson', vehicle: '2023 Tesla Model 3', rating: 4.92, distance_min: 5 },
+                  { name: 'Aisha Williams', vehicle: '2022 Toyota Camry', rating: 4.88, distance_min: 8 },
+                ]}
+              />
+            </Suspense>
+
+            {/* Favorite Driver Booking */}
+            <Suspense fallback={<div className="h-48 bg-white/5 rounded-xl animate-pulse" />}>
+              <FavoriteDriverBooking />
+            </Suspense>
+
+            {/* Community Rewards */}
+            <Suspense fallback={<div className="h-48 bg-white/5 rounded-xl animate-pulse" />}>
+              <NoireCommunityRewards />
+            </Suspense>
+
+            {/* Social Impact Dashboard */}
+            <Suspense fallback={<div className="h-48 bg-white/5 rounded-xl animate-pulse" />}>
+              <NoireImpactDashboard />
+            </Suspense>
+          </div>
         </div>
       </section>
 
