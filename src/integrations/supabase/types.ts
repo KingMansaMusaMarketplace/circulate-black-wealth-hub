@@ -7980,6 +7980,245 @@ export type Database = {
           },
         ]
       }
+      noire_community_credits: {
+        Row: {
+          credits_balance: number
+          id: string
+          total_earned: number
+          total_redeemed: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          credits_balance?: number
+          id?: string
+          total_earned?: number
+          total_redeemed?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          credits_balance?: number
+          id?: string
+          total_earned?: number
+          total_redeemed?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      noire_credit_transactions: {
+        Row: {
+          amount: number
+          business_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          ride_id: string | null
+          transaction_type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          business_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          ride_id?: string | null
+          transaction_type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          business_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          ride_id?: string | null
+          transaction_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noire_credit_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noire_credit_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noire_credit_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noire_credit_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noire_credit_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noire_credit_transactions_ride_id_fkey"
+            columns: ["ride_id"]
+            isOneToOne: false
+            referencedRelation: "noir_rides"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      noire_favorite_drivers: {
+        Row: {
+          created_at: string
+          driver_id: string
+          id: string
+          last_ride_at: string | null
+          nickname: string | null
+          rider_user_id: string
+          rides_together: number | null
+        }
+        Insert: {
+          created_at?: string
+          driver_id: string
+          id?: string
+          last_ride_at?: string | null
+          nickname?: string | null
+          rider_user_id: string
+          rides_together?: number | null
+        }
+        Update: {
+          created_at?: string
+          driver_id?: string
+          id?: string
+          last_ride_at?: string | null
+          nickname?: string | null
+          rider_user_id?: string
+          rides_together?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noire_favorite_drivers_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      noire_ride_impact: {
+        Row: {
+          co2_saved_kg: number
+          community_businesses_visited: number
+          community_credits_earned: number
+          driver_earnings_supported: number
+          id: string
+          total_fare_spent: number
+          total_rides: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          co2_saved_kg?: number
+          community_businesses_visited?: number
+          community_credits_earned?: number
+          driver_earnings_supported?: number
+          id?: string
+          total_fare_spent?: number
+          total_rides?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          co2_saved_kg?: number
+          community_businesses_visited?: number
+          community_credits_earned?: number
+          driver_earnings_supported?: number
+          id?: string
+          total_fare_spent?: number
+          total_rides?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      noire_scheduled_rides: {
+        Row: {
+          created_at: string
+          dropoff_address: string
+          dropoff_lat: number | null
+          dropoff_lng: number | null
+          estimated_fare: number | null
+          id: string
+          notes: string | null
+          pickup_address: string
+          pickup_lat: number | null
+          pickup_lng: number | null
+          preferred_driver_id: string | null
+          rider_user_id: string
+          scheduled_for: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dropoff_address: string
+          dropoff_lat?: number | null
+          dropoff_lng?: number | null
+          estimated_fare?: number | null
+          id?: string
+          notes?: string | null
+          pickup_address: string
+          pickup_lat?: number | null
+          pickup_lng?: number | null
+          preferred_driver_id?: string | null
+          rider_user_id: string
+          scheduled_for: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dropoff_address?: string
+          dropoff_lat?: number | null
+          dropoff_lng?: number | null
+          estimated_fare?: number | null
+          id?: string
+          notes?: string | null
+          pickup_address?: string
+          pickup_lat?: number | null
+          pickup_lng?: number | null
+          preferred_driver_id?: string | null
+          rider_user_id?: string
+          scheduled_for?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noire_scheduled_rides_preferred_driver_id_fkey"
+            columns: ["preferred_driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification_batch_queue: {
         Row: {
           batch_id: string | null
