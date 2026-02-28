@@ -10,7 +10,7 @@ import PricingBreakdown from '@/components/vacation-rentals/PricingBreakdown';
 import GuestCounter from '@/components/vacation-rentals/GuestCounter';
 import PropertyReviewsComponent from '@/components/stays/PropertyReviews';
 import ContactHostButton from '@/components/stays/ContactHostButton';
-import { SecurityDepositInfo } from '@/components/stays/trust';
+import { SecurityDepositInfo, MansaPromiseBadge } from '@/components/stays/trust';
 import { useVacationBooking } from '@/hooks/useVacationBooking';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -417,6 +417,10 @@ const PropertyDetailPage: React.FC = () => {
               <h2 className="text-xl font-semibold mb-4 text-white">Amenities</h2>
               <AmenitiesList amenities={property.amenities} variant="grid" />
             </div>
+
+            {/* Mansa Promise */}
+            <Separator className="bg-white/10" />
+            <MansaPromiseBadge propertyId={property.id} />
 
             {/* House Rules */}
             {property.house_rules && (

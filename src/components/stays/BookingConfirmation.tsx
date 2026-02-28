@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
+import { MansaPromiseBookingBanner } from '@/components/stays/trust';
 import { 
   CheckCircle, 
   Calendar, 
@@ -130,6 +131,9 @@ const BookingConfirmation: React.FC = () => {
             Your reservation has been confirmed. Check your email for details.
           </p>
         </div>
+
+        {/* Mansa Promise Banner */}
+        <MansaPromiseBookingBanner />
 
         {/* Property Card */}
         <Card className="bg-slate-800/50 border-white/10 overflow-hidden">
