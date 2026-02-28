@@ -9220,6 +9220,68 @@ export type Database = {
           },
         ]
       }
+      pricing_recommendations: {
+        Row: {
+          accepted_at: string | null
+          applies_from: string
+          applies_to: string
+          confidence_score: number
+          created_at: string
+          current_nightly_rate: number
+          dismissed_at: string | null
+          factors: Json | null
+          host_id: string
+          id: string
+          property_id: string
+          reason: string
+          recommended_nightly_rate: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          applies_from: string
+          applies_to: string
+          confidence_score?: number
+          created_at?: string
+          current_nightly_rate: number
+          dismissed_at?: string | null
+          factors?: Json | null
+          host_id: string
+          id?: string
+          property_id: string
+          reason: string
+          recommended_nightly_rate: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          applies_from?: string
+          applies_to?: string
+          confidence_score?: number
+          created_at?: string
+          current_nightly_rate?: number
+          dismissed_at?: string | null
+          factors?: Json | null
+          host_id?: string
+          id?: string
+          property_id?: string
+          reason?: string
+          recommended_nightly_rate?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pricing_recommendations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_images: {
         Row: {
           alt_text: string | null
