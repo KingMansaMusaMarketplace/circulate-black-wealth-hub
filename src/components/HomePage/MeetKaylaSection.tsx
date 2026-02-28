@@ -50,8 +50,8 @@ const MeetKaylaSection: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="section-label text-base md:text-lg">AI Concierge</span>
-          <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+          <span className="section-label text-lg md:text-xl tracking-widest">AI Concierge</span>
+          <h2 className="font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4">
             Meet <span className="text-gradient-gold">Kayla</span>
           </h2>
           <p className="text-blue-100/70 text-xl md:text-2xl max-w-2xl mx-auto">
