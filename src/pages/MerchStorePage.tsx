@@ -73,6 +73,37 @@ const MerchStorePage = () => {
           </div>
         </section>
 
+        {/* Promo Video Section */}
+        <section className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="rounded-xl overflow-hidden shadow-2xl border border-border bg-card">
+              <video
+                src="/videos/MANSA_MUSA_JERSEY_PROMO.mov"
+                controls
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full aspect-video object-cover"
+                poster="/images/mansa-musa-jersey.png"
+              />
+            </div>
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">
+                Mansa Musa 1325 Jersey
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Rock the legacy. Our signature baseball jersey pays homage to the richest man in history — designed for those who move culture and circulate wealth.
+              </p>
+              <Link to="/merch/mansa-musa-1325-baseball-jersey">
+                <Button size="lg" className="bg-mansagold hover:bg-mansagold/90 text-black font-bold mt-2">
+                  Shop Now
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Products Grid */}
         <section className="container mx-auto px-4 py-16">
           {loading ? (
