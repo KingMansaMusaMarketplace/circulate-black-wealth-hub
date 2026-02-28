@@ -20,11 +20,18 @@ const InfoSection = () => {
       />
       
       <InfoCard 
+        title="The Hospitality Legacy"
+        content="Mansa Musa built rest houses and way stations along his trade routes — early hospitality infrastructure ensuring travelers were welcomed and connected to local economies. Mansa Stays carries this tradition forward, creating trusted spaces where hosts build generational wealth and guests experience genuine community hospitality."
+        borderColor="yellow-400"
+        titleColor="yellow-400"
+        showIcon={true}
+      />
+      
+      <InfoCard 
         title="The Circulation Principle"
         content="While our dollar currently circulates for just 6 hours in the community (compared to 28+ days in other communities), our platform is designed to extend this circulation time. Every additional hour represents new opportunities for growth, employment, and community development."
         borderColor="yellow-400"
         titleColor="yellow-400"
-        showIcon={true}
       />
     </div>
   );

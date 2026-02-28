@@ -28,6 +28,12 @@ const MansaMusaVideoSection = () => {
               isYouTube={true}
               className="rounded-xl overflow-hidden"
             />
+            {/* Fallback if video is unavailable */}
+            <noscript>
+              <div className="rounded-xl bg-black/40 p-8 text-center">
+                <p className="text-white/80 text-lg">Video unavailable — search "Mansa Musa" to learn about the wealthiest person in recorded history.</p>
+              </div>
+            </noscript>
           </div>
         </div>
       </div>
