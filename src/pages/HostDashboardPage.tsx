@@ -22,6 +22,7 @@ import ListingQualityScore from '@/components/stays/host/ListingQualityScore';
 import ProfessionalPhotographyRequest from '@/components/stays/host/ProfessionalPhotographyRequest';
 import SmartPricingEngine from '@/components/stays/host/SmartPricingEngine';
 import MansaHostCircles from '@/components/stays/host/MansaHostCircles';
+import RevenueAnalyticsDashboard from '@/components/stays/host/RevenueAnalyticsDashboard';
 import {
   Home,
   Plus,
@@ -212,6 +213,7 @@ const HostDashboardPage: React.FC = () => {
             <TabsTrigger value="bookings">Reservations</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="earnings">Earnings</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="service-tier">Service Tier</TabsTrigger>
             <TabsTrigger value="certification">Non-Bias Cert</TabsTrigger>
             <TabsTrigger value="smart-pricing">Smart Pricing</TabsTrigger>
@@ -521,6 +523,11 @@ const HostDashboardPage: React.FC = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Analytics Tab */}
+          <TabsContent value="analytics" className="mt-6">
+            <RevenueAnalyticsDashboard bookings={bookings} properties={properties} />
           </TabsContent>
 
           {/* Service Tier Tab */}
