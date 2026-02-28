@@ -3,6 +3,8 @@ export type PropertyType = 'house' | 'apartment' | 'cabin' | 'villa' | 'cottage'
 
 export type ListingMode = 'nightly' | 'monthly' | 'both';
 
+export type ServiceTier = 'basic' | 'premium';
+
 export type VacationBookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'refunded';
 
 export type CancellationPolicyType = 'flexible' | 'moderate' | 'strict';
@@ -48,6 +50,7 @@ export interface VacationProperty {
   is_active: boolean;
   is_instant_book: boolean;
   is_verified: boolean;
+  service_tier?: ServiceTier;
   min_nights: number;
   max_nights: number;
   check_in_time: string;

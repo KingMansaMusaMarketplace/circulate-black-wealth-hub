@@ -16,6 +16,8 @@ import { HostVerificationCard } from '@/components/stays/trust';
 import { toast } from 'sonner';
 import { format, isAfter, isBefore } from 'date-fns';
 import CoHostManager from '@/components/stays/host/CoHostManager';
+import ManagedByMansaTierCard from '@/components/stays/host/ManagedByMansaTierCard';
+import NonBiasCertification from '@/components/stays/host/NonBiasCertification';
 import {
   Home,
   Plus,
@@ -206,6 +208,8 @@ const HostDashboardPage: React.FC = () => {
             <TabsTrigger value="bookings">Reservations</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="earnings">Earnings</TabsTrigger>
+            <TabsTrigger value="service-tier">Service Tier</TabsTrigger>
+            <TabsTrigger value="certification">Non-Bias Cert</TabsTrigger>
             <TabsTrigger value="cohosts">Co-Hosts</TabsTrigger>
             <TabsTrigger value="verification">Verification</TabsTrigger>
           </TabsList>
@@ -509,6 +513,16 @@ const HostDashboardPage: React.FC = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Service Tier Tab */}
+          <TabsContent value="service-tier" className="mt-6">
+            <ManagedByMansaTierCard />
+          </TabsContent>
+
+          {/* Non-Bias Certification Tab */}
+          <TabsContent value="certification" className="mt-6">
+            <NonBiasCertification />
           </TabsContent>
 
           {/* Co-Hosts Tab */}

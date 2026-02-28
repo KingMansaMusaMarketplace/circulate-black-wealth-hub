@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Star, MapPin, Users, Bed, Bath, Heart, Zap } from 'lucide-react';
+import { Star, MapPin, Users, Bed, Bath, Heart, Zap, Crown, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { VacationProperty } from '@/types/vacation-rental';
 import { useNavigate } from 'react-router-dom';
@@ -99,9 +99,16 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {property.is_verified && (
+          {property.service_tier === 'premium' && (
             <Badge className="bg-mansagold text-black font-semibold">
-              Verified
+              <Crown className="w-3 h-3 mr-1" />
+              Managed by Mansa
+            </Badge>
+          )}
+          {property.is_verified && (
+            <Badge className="bg-green-500 text-white font-semibold">
+              <Shield className="w-3 h-3 mr-1" />
+              Non-Bias Certified
             </Badge>
           )}
           {property.is_instant_book && (

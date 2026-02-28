@@ -8219,6 +8219,57 @@ export type Database = {
           },
         ]
       }
+      non_bias_certifications: {
+        Row: {
+          certified_at: string | null
+          created_at: string
+          expires_at: string | null
+          host_id: string
+          id: string
+          pledge_accepted: boolean | null
+          pledge_accepted_at: string | null
+          pledge_text: string | null
+          status: string
+          training_completed_at: string | null
+          training_module_1_completed: boolean | null
+          training_module_2_completed: boolean | null
+          training_module_3_completed: boolean | null
+          updated_at: string
+        }
+        Insert: {
+          certified_at?: string | null
+          created_at?: string
+          expires_at?: string | null
+          host_id: string
+          id?: string
+          pledge_accepted?: boolean | null
+          pledge_accepted_at?: string | null
+          pledge_text?: string | null
+          status?: string
+          training_completed_at?: string | null
+          training_module_1_completed?: boolean | null
+          training_module_2_completed?: boolean | null
+          training_module_3_completed?: boolean | null
+          updated_at?: string
+        }
+        Update: {
+          certified_at?: string | null
+          created_at?: string
+          expires_at?: string | null
+          host_id?: string
+          id?: string
+          pledge_accepted?: boolean | null
+          pledge_accepted_at?: string | null
+          pledge_text?: string | null
+          status?: string
+          training_completed_at?: string | null
+          training_module_1_completed?: boolean | null
+          training_module_2_completed?: boolean | null
+          training_module_3_completed?: boolean | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notification_batch_queue: {
         Row: {
           batch_id: string | null
@@ -14575,6 +14626,7 @@ export type Database = {
           review_count: number | null
           security_deposit: number | null
           service_fee_percent: number | null
+          service_tier: string
           state: string
           title: string
           updated_at: string | null
@@ -14616,6 +14668,7 @@ export type Database = {
           review_count?: number | null
           security_deposit?: number | null
           service_fee_percent?: number | null
+          service_tier?: string
           state: string
           title: string
           updated_at?: string | null
@@ -14657,6 +14710,7 @@ export type Database = {
           review_count?: number | null
           security_deposit?: number | null
           service_fee_percent?: number | null
+          service_tier?: string
           state?: string
           title?: string
           updated_at?: string | null
