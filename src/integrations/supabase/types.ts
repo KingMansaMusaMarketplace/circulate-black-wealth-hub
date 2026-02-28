@@ -7517,6 +7517,42 @@ export type Database = {
           },
         ]
       }
+      mansa_promise_guarantees: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          guarantee_key: string
+          icon_name: string
+          id: string
+          is_active: boolean
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description: string
+          guarantee_key: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          guarantee_key?: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       marketing_material_downloads: {
         Row: {
           created_at: string | null
@@ -9861,6 +9897,57 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      property_guarantee_compliance: {
+        Row: {
+          created_at: string
+          guarantee_id: string
+          id: string
+          is_compliant: boolean
+          notes: string | null
+          property_id: string
+          updated_at: string
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          guarantee_id: string
+          id?: string
+          is_compliant?: boolean
+          notes?: string | null
+          property_id: string
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          guarantee_id?: string
+          id?: string
+          is_compliant?: boolean
+          notes?: string | null
+          property_id?: string
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_guarantee_compliance_guarantee_id_fkey"
+            columns: ["guarantee_id"]
+            isOneToOne: false
+            referencedRelation: "mansa_promise_guarantees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_guarantee_compliance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       property_price_overrides: {
         Row: {
