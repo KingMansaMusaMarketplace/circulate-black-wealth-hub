@@ -92,10 +92,7 @@ const HomePage = () => {
         </SectionErrorBoundary>
       </div>
       
-      {/* Voice Interface - PRESERVED */}
-      <SectionErrorBoundary sectionName="Voice Assistant">
-        <VoiceInterface />
-      </SectionErrorBoundary>
+      {/* Voice Interface hidden on homepage - hero CTA and Meet Kayla section handle it */}
       
       {shouldShowTour && (
         <SectionErrorBoundary sectionName="Onboarding Tour">
