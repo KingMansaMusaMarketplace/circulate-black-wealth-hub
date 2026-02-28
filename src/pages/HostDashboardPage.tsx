@@ -21,6 +21,7 @@ import NonBiasCertification from '@/components/stays/host/NonBiasCertification';
 import ListingQualityScore from '@/components/stays/host/ListingQualityScore';
 import ProfessionalPhotographyRequest from '@/components/stays/host/ProfessionalPhotographyRequest';
 import SmartPricingEngine from '@/components/stays/host/SmartPricingEngine';
+import MansaHostCircles from '@/components/stays/host/MansaHostCircles';
 import {
   Home,
   Plus,
@@ -216,6 +217,7 @@ const HostDashboardPage: React.FC = () => {
             <TabsTrigger value="smart-pricing">Smart Pricing</TabsTrigger>
             <TabsTrigger value="quality">Quality Score</TabsTrigger>
             <TabsTrigger value="photography">Photography</TabsTrigger>
+            <TabsTrigger value="host-circles">Host Circles</TabsTrigger>
             <TabsTrigger value="cohosts">Co-Hosts</TabsTrigger>
             <TabsTrigger value="verification">Verification</TabsTrigger>
           </TabsList>
@@ -558,6 +560,11 @@ const HostDashboardPage: React.FC = () => {
           {/* Photography Tab */}
           <TabsContent value="photography" className="mt-6">
             <ProfessionalPhotographyRequest properties={properties} />
+          </TabsContent>
+
+          {/* Host Circles Tab */}
+          <TabsContent value="host-circles" className="mt-6">
+            <MansaHostCircles />
           </TabsContent>
 
           {/* Co-Hosts Tab */}

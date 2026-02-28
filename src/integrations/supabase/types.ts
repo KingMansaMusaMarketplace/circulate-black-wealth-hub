@@ -6829,6 +6829,127 @@ export type Database = {
         }
         Relationships: []
       }
+      host_circle_members: {
+        Row: {
+          circle_id: string
+          id: string
+          joined_at: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          circle_id: string
+          id?: string
+          joined_at?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          circle_id?: string
+          id?: string
+          joined_at?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "host_circle_members_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "host_circles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      host_circle_resources: {
+        Row: {
+          circle_id: string
+          contact_info: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          rating: number | null
+          resource_type: string
+          shared_by: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          circle_id: string
+          contact_info?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          rating?: number | null
+          resource_type: string
+          shared_by: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          circle_id?: string
+          contact_info?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          rating?: number | null
+          resource_type?: string
+          shared_by?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "host_circle_resources_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "host_circles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      host_circles: {
+        Row: {
+          circle_type: string
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          is_active: boolean
+          max_members: number
+          name: string
+          region: string | null
+          updated_at: string
+        }
+        Insert: {
+          circle_type?: string
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          max_members?: number
+          name: string
+          region?: string | null
+          updated_at?: string
+        }
+        Update: {
+          circle_type?: string
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          max_members?: number
+          name?: string
+          region?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       host_verification_requests: {
         Row: {
           address_document_url: string | null
@@ -16370,6 +16491,10 @@ export type Database = {
       }
       is_business_suspended: {
         Args: { check_business_id: string }
+        Returns: boolean
+      }
+      is_circle_member: {
+        Args: { _circle_id: string; _user_id: string }
         Returns: boolean
       }
       is_savings_circle_creator: {
