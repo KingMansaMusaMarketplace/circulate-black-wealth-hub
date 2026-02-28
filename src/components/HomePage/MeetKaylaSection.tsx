@@ -44,7 +44,7 @@ const MeetKaylaSection: React.FC = () => {
       <div className="max-w-5xl mx-auto px-4">
         {/* Section label */}
         <motion.div
-          className="text-center mb-10"
+          className="text-center mb-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
