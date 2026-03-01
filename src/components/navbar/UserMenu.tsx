@@ -46,7 +46,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
         <Link to="/login" className="text-white hover:text-mansagold transition-colors font-bold text-xs sm:text-base px-2 sm:px-3 py-2 whitespace-nowrap border border-white/20 rounded-lg">
           Login
         </Link>
-        <Button asChild className="font-bold text-xs sm:text-base px-3 sm:px-4 h-8 sm:h-10 bg-mansagold hover:bg-mansagold/90 text-slate-950 whitespace-nowrap min-w-fit">
+        <Button asChild className="font-bold text-xs sm:text-base px-2 sm:px-4 h-8 sm:h-10 bg-mansagold hover:bg-mansagold/90 text-slate-950 whitespace-nowrap overflow-visible">
           <Link to="/signup">Sign Up</Link>
         </Button>
       </div>
