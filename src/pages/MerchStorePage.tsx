@@ -85,7 +85,7 @@ const MerchStorePage = () => {
                 muted
                 loop
                 playsInline
-                className="w-full aspect-video object-contain bg-black"
+                className="w-full aspect-[3/4] object-contain bg-black"
                 poster="/images/mansa-musa-jersey.png"
               />
               {/* TikTok/IG-style music credit ticker */}
