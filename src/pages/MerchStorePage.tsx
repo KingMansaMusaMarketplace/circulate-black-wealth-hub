@@ -93,7 +93,7 @@ const MerchStorePage = () => {
                 <span className="text-white text-xs shrink-0 animate-spin-slow">♫</span>
                 <div className="overflow-hidden">
                   <p className="text-white text-xs font-medium whitespace-nowrap animate-marquee">
-                    Original Sound — Nixie Russell
+                    Original Sound — Nipsey Hussle
                   </p>
                 </div>
               </div>
