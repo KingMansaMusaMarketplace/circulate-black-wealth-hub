@@ -77,7 +77,7 @@ const MerchStorePage = () => {
         {/* Promo Video Section */}
         <section className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <div className="rounded-xl overflow-hidden shadow-2xl border border-border bg-card">
+            <div className="relative rounded-xl overflow-hidden shadow-2xl border border-border bg-card">
               <video
                 src="/videos/MANSA_MUSA_JERSEY_PROMO.mov"
                 controls
@@ -88,6 +88,15 @@ const MerchStorePage = () => {
                 className="w-full aspect-video object-cover"
                 poster="/images/mansa-musa-jersey.png"
               />
+              {/* TikTok/IG-style music credit ticker */}
+              <div className="absolute bottom-12 left-3 flex items-center gap-2 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 max-w-[70%]">
+                <span className="text-white text-xs shrink-0 animate-spin-slow">♫</span>
+                <div className="overflow-hidden">
+                  <p className="text-white text-xs font-medium whitespace-nowrap animate-marquee">
+                    Original Sound — Nixie Russell
+                  </p>
+                </div>
+              </div>
             </div>
             <div className="space-y-4">
               <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">
