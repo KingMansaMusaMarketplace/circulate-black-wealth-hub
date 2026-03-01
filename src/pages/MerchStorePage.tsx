@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ShoppingBag, Loader2, Music, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { ShoppingBag, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
 import { useCartStore } from '@/stores/cartStore';
 import { CartDrawer } from '@/components/merch/CartDrawer';
 import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct } from '@/lib/shopify/config';
@@ -19,13 +18,6 @@ const PRODUCT_FALLBACK_IMAGES: Record<string, string> = {
 const MerchStorePage = () => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
-  const [musicGenerating, setMusicGenerating] = useState(false);
-  const [musicPlaying, setMusicPlaying] = useState(false);
-  const [musicMuted, setMusicMuted] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(0.7);
-  const [musicReady, setMusicReady] = useState(false);
-  const musicAudioRef = useRef<HTMLAudioElement | null>(null);
-  const musicBlobUrlRef = useRef<string | null>(null);
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
 
@@ -43,87 +35,6 @@ const MerchStorePage = () => {
     fetchProducts();
   }, []);
 
-  const generateMusic = useCallback(async () => {
-    if (musicGenerating || musicReady) return;
-    setMusicGenerating(true);
-    try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-      const response = await fetch(`${supabaseUrl}/functions/v1/elevenlabs-music`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${supabaseKey}`,
-        },
-        body: JSON.stringify({
-          prompt: 'Epic, cinematic hip-hop beat with African drums and gold-themed luxury vibes, instrumental only',
-          duration: 30,
-        }),
-      });
-
-      if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err.error || 'Failed to generate music');
-      }
-
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      musicBlobUrlRef.current = url;
-
-      const audio = new Audio(url);
-      audio.loop = true;
-      audio.volume = musicVolume;
-      musicAudioRef.current = audio;
-
-      audio.addEventListener('canplaythrough', () => {
-        setMusicReady(true);
-      });
-
-      toast.success('🎵 Original AI music generated!');
-    } catch (error: any) {
-      console.error('Music generation error:', error);
-      toast.error('Failed to generate music', { description: error.message });
-    } finally {
-      setMusicGenerating(false);
-    }
-  }, [musicGenerating, musicReady, musicVolume]);
-
-  const toggleMusicPlayback = useCallback(() => {
-    const audio = musicAudioRef.current;
-    if (!audio) return;
-    if (musicPlaying) {
-      audio.pause();
-      setMusicPlaying(false);
-    } else {
-      audio.play().then(() => setMusicPlaying(true)).catch(console.error);
-    }
-  }, [musicPlaying]);
-
-  const toggleMusicMute = useCallback(() => {
-    const audio = musicAudioRef.current;
-    if (!audio) return;
-    audio.muted = !musicMuted;
-    setMusicMuted(!musicMuted);
-  }, [musicMuted]);
-
-  const handleVolumeChange = useCallback((value: number[]) => {
-    const vol = value[0];
-    setMusicVolume(vol);
-    if (musicAudioRef.current) {
-      musicAudioRef.current.volume = vol;
-    }
-  }, []);
-
-  // Cleanup blob URL on unmount
-  useEffect(() => {
-    return () => {
-      if (musicBlobUrlRef.current) {
-        URL.revokeObjectURL(musicBlobUrlRef.current);
-      }
-      musicAudioRef.current?.pause();
-    };
-  }, []);
 
   const handleAddToCart = async (product: ShopifyProduct) => {
     const variant = product.node.variants.edges[0]?.node;
@@ -191,50 +102,6 @@ const MerchStorePage = () => {
                 </Button>
               </Link>
 
-              {/* AI Music Controls */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                {!musicReady ? (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={generateMusic}
-                    disabled={musicGenerating}
-                    className="border-mansagold/50 text-mansagold hover:bg-mansagold/10"
-                  >
-                    {musicGenerating ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Music className="mr-2 h-4 w-4" />
-                        Generate Original Music
-                      </>
-                    )}
-                  </Button>
-                ) : (
-                  <div className="flex items-center gap-2 bg-card border border-border rounded-lg px-3 py-2">
-                    <Button size="icon" variant="ghost" className="h-8 w-8" onClick={toggleMusicPlayback}>
-                      {musicPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                    </Button>
-                    <Button size="icon" variant="ghost" className="h-8 w-8" onClick={toggleMusicMute}>
-                      {musicMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                    </Button>
-                    <Slider
-                      value={[musicVolume]}
-                      onValueChange={handleVolumeChange}
-                      max={1}
-                      step={0.05}
-                      className="w-24"
-                    />
-                    <span className="text-xs text-muted-foreground ml-1">AI Music</span>
-                  </div>
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground/60 italic">
-                🎵 Original AI-generated music by 1325.AI — royalty-free, no copyright issues
-              </p>
             </div>
           </div>
         </section>
