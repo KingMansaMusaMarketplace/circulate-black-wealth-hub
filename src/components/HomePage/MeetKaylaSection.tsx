@@ -65,7 +65,7 @@ const MeetKaylaSection: React.FC = () => {
               Powered by Real-Time Tools
             </span>
           </h2>
-          <p className="text-muted-foreground text-xl md:text-2xl max-w-2xl mx-auto mb-5">
+          <p className="text-white/75 text-xl md:text-2xl max-w-2xl mx-auto mb-5">
             More than a chatbot — Kayla takes action. She searches the live directory, checks your loyalty points, pulls your bookings, and delivers real answers — all by voice, in real time.
           </p>
           {/* Differentiator badges */}
