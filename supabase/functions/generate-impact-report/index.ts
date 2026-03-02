@@ -11,9 +11,37 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // ========== AUTHENTICATION CHECK ==========
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Authentication required' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const supabaseAuthClient = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_ANON_KEY')!,
+      { global: { headers: { Authorization: authHeader } } }
+    );
+
+    const { data: { user }, error: authError } = await supabaseAuthClient.auth.getUser();
+    if (authError || !user) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid authentication' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    console.log(`Authenticated user: ${user.id}`);
+    // ========== END AUTHENTICATION CHECK ==========
+
     const { userId, period = 'month' } = await req.json();
     
-    if (!userId) {
+    // Use authenticated user's ID, ignoring any userId from body to prevent IDOR
+    const effectiveUserId = user.id;
+    
+    if (!effectiveUserId) {
       throw new Error('User ID is required');
     }
 
@@ -38,13 +66,13 @@ Deno.serve(async (req) => {
       startDate.setDate(now.getDate() - 7); // week
     }
 
-    console.log('Fetching transactions for user:', userId);
+    console.log('Fetching transactions for user:', effectiveUserId);
 
     // Fetch user transactions from the existing transactions table
     const { data: transactions, error: transError } = await supabase
       .from('transactions')
       .select('amount, created_at, business_id')
-      .eq('customer_id', userId)
+      .eq('customer_id', effectiveUserId)
       .gte('created_at', startDate.toISOString())
       .order('created_at', { ascending: false });
 
@@ -57,7 +85,7 @@ Deno.serve(async (req) => {
     const { data: interactions, error: interactionsError } = await supabase
       .from('business_interactions')
       .select('business_id, created_at, interaction_type')
-      .eq('user_id', userId)
+      .eq('user_id', effectiveUserId)
       .gte('created_at', startDate.toISOString());
 
     if (interactionsError) {

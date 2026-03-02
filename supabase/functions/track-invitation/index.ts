@@ -31,6 +31,23 @@ const handler = async (req: Request): Promise<Response> => {
     const action = url.searchParams.get("action"); // 'open' or 'click'
     const redirect = url.searchParams.get("redirect");
 
+    // Validate action parameter
+    if (action && action !== "open" && action !== "click") {
+      return new Response("Invalid action", { status: 400, headers: corsHeaders });
+    }
+
+    // Validate token format (UUID)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (token && !uuidRegex.test(token)) {
+      console.log("Invalid token format");
+      if (action === "open") {
+        return new Response(TRACKING_PIXEL, {
+          headers: { ...corsHeaders, "Content-Type": "image/gif" },
+        });
+      }
+      return new Response("Invalid token", { status: 400, headers: corsHeaders });
+    }
+
     if (!token) {
       console.log("No token provided");
       // Still return valid response to not break email
@@ -65,12 +82,33 @@ const handler = async (req: Request): Promise<Response> => {
         console.log("Successfully tracked click for token:", token);
       }
 
-      // Redirect to the signup page
+      // Redirect to the signup page (validate redirect URL to prevent open redirect)
       if (redirect) {
-        return new Response(null, {
-          status: 302,
-          headers: { ...corsHeaders, "Location": redirect },
-        });
+        const allowedOrigins = [
+          Deno.env.get("SITE_URL") || "",
+          "https://circulate-black-wealth-hub.lovable.app",
+        ].filter(Boolean);
+        
+        let isAllowedRedirect = false;
+        try {
+          const redirectUrl = new URL(redirect);
+          isAllowedRedirect = allowedOrigins.some(origin => {
+            try { return new URL(origin).hostname === redirectUrl.hostname; } 
+            catch { return false; }
+          });
+        } catch {
+          isAllowedRedirect = false;
+        }
+
+        if (isAllowedRedirect) {
+          return new Response(null, {
+            status: 302,
+            headers: { ...corsHeaders, "Location": redirect },
+          });
+        } else {
+          console.warn("Blocked redirect to untrusted URL:", redirect);
+          return new Response("Invalid redirect", { status: 400, headers: corsHeaders });
+        }
       }
     }
 
