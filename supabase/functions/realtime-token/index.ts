@@ -765,7 +765,99 @@ When helping admins, provide specific guidance on navigating the dashboard, unde
           threshold: 0.5,
           prefix_padding_ms: 300,
           silence_duration_ms: 800
-        }
+        },
+        tools: [
+          {
+            type: "function",
+            name: "search_businesses",
+            description: "Search the 1325.AI business directory by name, category, or keyword. Use when a user asks to find businesses, restaurants, shops, services, etc.",
+            parameters: {
+              type: "object",
+              properties: {
+                query: { type: "string", description: "Search term (business name, type, or keyword)" },
+                category: { type: "string", description: "Optional category filter like Restaurant, Salon, etc." },
+                limit: { type: "number", description: "Number of results (1-10, default 5)" }
+              },
+              required: ["query"]
+            }
+          },
+          {
+            type: "function",
+            name: "get_business_details",
+            description: "Get full details and recent reviews for a specific business by ID. Use after search to give more info.",
+            parameters: {
+              type: "object",
+              properties: {
+                business_id: { type: "string", description: "The UUID of the business" }
+              },
+              required: ["business_id"]
+            }
+          },
+          {
+            type: "function",
+            name: "get_nearby_businesses",
+            description: "Find businesses in a specific city. Use when user mentions a location or asks for nearby businesses.",
+            parameters: {
+              type: "object",
+              properties: {
+                city: { type: "string", description: "City name to search in" },
+                category: { type: "string", description: "Optional category filter" },
+                limit: { type: "number", description: "Number of results (1-10, default 5)" }
+              },
+              required: ["city"]
+            }
+          },
+          {
+            type: "function",
+            name: "check_loyalty_points",
+            description: "Check the current user's loyalty points balance, tier, and earning history. Use when user asks about points, rewards, or loyalty status.",
+            parameters: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            type: "function",
+            name: "get_upcoming_bookings",
+            description: "Get the user's upcoming confirmed or pending bookings. Use when user asks about their schedule or appointments.",
+            parameters: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            type: "function",
+            name: "get_churn_alerts",
+            description: "Get customers at high risk of churning for the business owner. Only available to business owners.",
+            parameters: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            type: "function",
+            name: "get_deal_pipeline",
+            description: "Get B2B connection pipeline and deal scores. Only available to business owners.",
+            parameters: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            type: "function",
+            name: "get_agent_stats",
+            description: "Get AI agent automation stats — active rules, recent actions, execution counts. Only available to business owners.",
+            parameters: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          }
+        ]
       }),
     });
 

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 import { RealtimeChat } from '@/utils/RealtimeAudio';
+import { supabase } from '@/integrations/supabase/client';
 
 // Safe haptics helper - lazy load to prevent iOS crashes
 const triggerHaptics = async (style: 'light' | 'medium' | 'heavy') => {
@@ -27,7 +28,26 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
   const [isConnecting, setIsConnecting] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isExecutingTool, setIsExecutingTool] = useState(false);
+  const [activeToolName, setActiveToolName] = useState<string | null>(null);
   const voiceRef = useRef<RealtimeChat | null>(null);
+
+  // Tool call handler — invokes kayla-tools edge function
+  const handleToolCall = useCallback(async (toolName: string, args: any, callId: string) => {
+    console.log('[Kayla] Executing tool:', toolName, args);
+    setIsExecutingTool(true);
+    setActiveToolName(toolName);
+    try {
+      const { data, error } = await supabase.functions.invoke('kayla-tools', {
+        body: { tool: toolName, arguments: args },
+      });
+      if (error) throw error;
+      return data;
+    } finally {
+      setIsExecutingTool(false);
+      setActiveToolName(null);
+    }
+  }, []);
 
   const handleMessage = useCallback((event: any) => {
     console.log('[Kayla] Voice event:', event.type, event);
@@ -42,6 +62,27 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
 
     if (event.type === 'session.updated') {
       console.log('[Kayla] Session updated with modalities:', event.session?.modalities);
+    }
+
+    // Tool call UI states
+    if (event.type === 'tool_call.start') {
+      setIsExecutingTool(true);
+      setActiveToolName(event.tool);
+      const toolLabels: Record<string, string> = {
+        search_businesses: 'Searching businesses...',
+        get_business_details: 'Looking up details...',
+        get_nearby_businesses: 'Finding nearby businesses...',
+        check_loyalty_points: 'Checking your points...',
+        get_upcoming_bookings: 'Checking your bookings...',
+        get_churn_alerts: 'Analyzing churn risk...',
+        get_deal_pipeline: 'Pulling deal pipeline...',
+        get_agent_stats: 'Getting agent stats...',
+      };
+      setTranscript(toolLabels[event.tool] || 'Looking that up...');
+    }
+    if (event.type === 'tool_call.done') {
+      setIsExecutingTool(false);
+      setActiveToolName(null);
     }
 
     if (event.type === 'audio_blocked') {
@@ -149,6 +190,7 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         }
 
         const voice = new RealtimeChat(handleMessage);
+        voice.setToolCallHandler(handleToolCall);
         await voice.init();
 
         clearTimeout(timeoutId);
@@ -221,6 +263,8 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
     isConnected,
     isConnecting,
     isSpeaking,
+    isExecutingTool,
+    activeToolName,
     transcript,
     startConversation,
     endConversation,

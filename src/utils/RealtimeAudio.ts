@@ -67,9 +67,14 @@ export class RealtimeChat {
   private recorder: AudioRecorder | null = null;
   private localStream: MediaStream | null = null;
   private audioContext: AudioContext | null = null;
+  private onToolCall: ((toolName: string, args: any, callId: string) => Promise<any>) | null = null;
 
   constructor(private onMessage: (message: any) => void) {
     // Defer audio element creation to init() for better iOS compatibility
+  }
+
+  setToolCallHandler(handler: (toolName: string, args: any, callId: string) => Promise<any>) {
+    this.onToolCall = handler;
   }
 
   private createAudioElement() {
@@ -312,10 +317,50 @@ export class RealtimeChat {
       // Set up data channel
       console.log('Creating data channel...');
       this.dc = this.pc.createDataChannel("oai-events");
-      this.dc.addEventListener("message", (e) => {
+      this.dc.addEventListener("message", async (e) => {
         try {
           const event = JSON.parse(e.data);
           console.log("Received event:", event.type);
+
+          // Handle function calls from OpenAI
+          if (event.type === 'response.function_call_arguments.done' && this.onToolCall) {
+            console.log('[Kayla] Tool call received:', event.name, event.arguments);
+            this.onMessage({ type: 'tool_call.start', tool: event.name });
+            try {
+              const args = JSON.parse(event.arguments || '{}');
+              const result = await this.onToolCall(event.name, args, event.call_id);
+              // Send result back to OpenAI
+              if (this.dc && this.dc.readyState === 'open') {
+                this.dc.send(JSON.stringify({
+                  type: 'conversation.item.create',
+                  item: {
+                    type: 'function_call_output',
+                    call_id: event.call_id,
+                    output: JSON.stringify(result)
+                  }
+                }));
+                this.dc.send(JSON.stringify({ type: 'response.create' }));
+                console.log('[Kayla] Tool result sent back to OpenAI');
+              }
+              this.onMessage({ type: 'tool_call.done', tool: event.name });
+            } catch (toolError: any) {
+              console.error('[Kayla] Tool execution failed:', toolError);
+              if (this.dc && this.dc.readyState === 'open') {
+                this.dc.send(JSON.stringify({
+                  type: 'conversation.item.create',
+                  item: {
+                    type: 'function_call_output',
+                    call_id: event.call_id,
+                    output: JSON.stringify({ error: toolError.message || 'Tool execution failed' })
+                  }
+                }));
+                this.dc.send(JSON.stringify({ type: 'response.create' }));
+              }
+              this.onMessage({ type: 'tool_call.done', tool: event.name });
+            }
+            return;
+          }
+
           this.onMessage(event);
         } catch (parseError) {
           console.error('Failed to parse event:', parseError);
