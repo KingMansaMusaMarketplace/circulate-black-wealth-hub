@@ -57,7 +57,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           onEnd={endConversation}
         />
 
-        {isConnected && !isSpeaking && (
+        {isConnected && !isSpeaking && !isExecutingTool && (
           <p className="text-xs text-muted-foreground animate-pulse">
             Listening... speak naturally
           </p>
