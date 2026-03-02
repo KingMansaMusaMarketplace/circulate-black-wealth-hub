@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mic, Search, Home, Car, BookOpen, Loader2 } from 'lucide-react';
+import { Mic, Search, Home, Star, Calendar, TrendingUp, ShieldAlert, Database, Zap, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 import { IPadVoiceFallback } from '@/components/voice';
 
 const capabilities = [
-  { icon: Search, title: 'Find Businesses', description: 'Search by category, location, or just describe what you need.' },
-  { icon: Home, title: 'Book a Stay', description: 'Discover Mansa Stays vacation rentals in your destination.' },
-  { icon: Car, title: 'Get a Ride', description: 'Learn about Noir Ride and community transportation.' },
-  { icon: BookOpen, title: 'Learn the Mission', description: 'Understand CMAL, Economic Karma, and our vision.' },
+  { icon: Search, title: 'Live Directory Search', description: 'Ask for a restaurant nearby — she queries the real database and reads back results.' },
+  { icon: Star, title: 'Check Loyalty Points', description: "Say 'How many points do I have?' — she pulls your balance instantly." },
+  { icon: Calendar, title: 'View Your Bookings', description: 'Ask about upcoming reservations — she checks your schedule.' },
+  { icon: Home, title: 'Find Vacation Rentals', description: 'Describe your ideal trip — she searches Mansa Stays listings.' },
+  { icon: TrendingUp, title: 'Lead Insights', description: "Ask 'How are my leads?' — she runs live qualification scoring.", badge: 'Business Owners' },
+  { icon: ShieldAlert, title: 'Churn Alerts', description: 'Ask about at-risk customers — she surfaces churn predictions.', badge: 'Business Owners' },
+];
+
+const differentiators = [
+  { icon: Database, label: 'Real-Time Data' },
+  { icon: Mic, label: 'Voice-First' },
+  { icon: Zap, label: 'Takes Action' },
 ];
 
 const MeetKaylaSection: React.FC = () => {
@@ -50,33 +58,50 @@ const MeetKaylaSection: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="section-label text-lg md:text-xl tracking-widest">AI Concierge</span>
-          <h2 className="font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4">
+          <span className="section-label text-lg md:text-xl tracking-widest">Agentic AI Concierge</span>
+          <h2 className="font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4">
             Meet <span className="text-gradient-gold">Kayla</span>
+            <span className="inline-flex items-center ml-3 align-middle px-3 py-1 rounded-full text-xs font-semibold bg-mansagold/15 text-mansagold border border-mansagold/30 backdrop-blur-sm">
+              Powered by Real-Time Tools
+            </span>
           </h2>
-          <p className="text-blue-100/70 text-xl md:text-2xl max-w-2xl mx-auto">
-            Your AI-powered guide to the entire Mansa Musa ecosystem. Just speak — she'll find businesses, book stays, and answer anything.
+          <p className="text-muted-foreground text-xl md:text-2xl max-w-2xl mx-auto mb-5">
+            More than a chatbot — Kayla takes action. She searches the live directory, checks your loyalty points, pulls your bookings, and delivers real answers — all by voice, in real time.
           </p>
+          {/* Differentiator badges */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {differentiators.map((d) => (
+              <span key={d.label} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-mansagold bg-white/5 border border-white/10 backdrop-blur-sm">
+                <d.icon className="w-3.5 h-3.5" />
+                {d.label}
+              </span>
+            ))}
+          </div>
         </motion.div>
 
         {/* Capability cards */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10"
+          className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.15 }}
         >
-          {capabilities.map((cap, i) => (
+          {capabilities.map((cap) => (
             <div
               key={cap.title}
-              className="card-premium p-4 md:p-5 text-center group"
+              className="card-premium p-4 md:p-5 text-center group relative"
             >
+              {'badge' in cap && cap.badge && (
+                <span className="absolute top-2 right-2 text-[10px] px-1.5 py-0.5 rounded-full bg-mansagold/15 text-mansagold border border-mansagold/30">
+                  {cap.badge}
+                </span>
+              )}
               <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-mansagold/20 transition-colors">
                 <cap.icon className="w-5 h-5 text-mansagold" />
               </div>
-              <h3 className="text-white font-semibold text-sm mb-1">{cap.title}</h3>
-              <p className="text-blue-100/80 text-xs leading-relaxed">{cap.description}</p>
+              <h3 className="text-foreground font-semibold text-sm mb-1">{cap.title}</h3>
+              <p className="text-muted-foreground text-xs leading-relaxed">{cap.description}</p>
             </div>
           ))}
         </motion.div>
