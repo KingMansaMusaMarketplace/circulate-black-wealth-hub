@@ -90,18 +90,18 @@ const MeetKaylaSection: React.FC = () => {
           {capabilities.map((cap) => (
             <div
               key={cap.title}
-              className="card-premium p-4 md:p-5 text-center group relative"
+              className="card-premium p-4 md:p-5 text-center group relative bg-white/10 border border-white/20 backdrop-blur-md rounded-xl"
             >
               {'badge' in cap && cap.badge && (
-                <span className="absolute top-2 right-2 text-[10px] px-1.5 py-0.5 rounded-full bg-mansagold/15 text-mansagold border border-mansagold/30">
+                <span className="absolute top-2 right-2 text-[10px] px-1.5 py-0.5 rounded-full bg-mansagold/20 text-mansagold font-bold border border-mansagold/40">
                   {cap.badge}
                 </span>
               )}
-              <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-mansagold/20 transition-colors">
+              <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-mansagold/15 flex items-center justify-center group-hover:bg-mansagold/30 transition-colors">
                 <cap.icon className="w-5 h-5 text-mansagold" />
               </div>
-              <h3 className="text-foreground font-semibold text-sm mb-1">{cap.title}</h3>
-              <p className="text-muted-foreground text-xs leading-relaxed">{cap.description}</p>
+              <h3 className="text-white font-bold text-sm mb-1">{cap.title}</h3>
+              <p className="text-white/80 text-xs leading-relaxed">{cap.description}</p>
             </div>
           ))}
         </motion.div>
