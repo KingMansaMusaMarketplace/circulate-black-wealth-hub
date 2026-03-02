@@ -14,6 +14,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     isConnected,
     isConnecting,
     isSpeaking,
+    isExecutingTool,
     transcript,
     startConversation,
     endConversation,
@@ -51,6 +52,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           isConnected={isConnected}
           isConnecting={isConnecting}
           isSpeaking={isSpeaking}
+          isExecutingTool={isExecutingTool}
           onStart={handleStart}
           onEnd={endConversation}
         />

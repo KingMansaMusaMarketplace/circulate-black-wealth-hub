@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Mic, MicOff, Loader2 } from 'lucide-react';
+import { Mic, MicOff, Loader2, Search } from 'lucide-react';
 
 interface VoiceButtonProps {
   isConnected: boolean;
   isConnecting: boolean;
   isSpeaking: boolean;
+  isExecutingTool?: boolean;
   onStart: () => void;
   onEnd: () => void;
 }
@@ -21,6 +22,7 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
   isConnected,
   isConnecting,
   isSpeaking,
+  isExecutingTool = false,
   onStart,
   onEnd,
 }) => {
@@ -53,16 +55,27 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
       onClick={onEnd}
       size="lg"
       className={`${
-        isSpeaking
+        isExecutingTool
+          ? 'bg-amber-500 hover:bg-amber-600'
+          : isSpeaking
           ? 'kayla-button-active'
           : 'bg-red-500 hover:bg-red-600'
       } text-white font-semibold shadow-2xl min-w-[240px] min-h-[64px] text-lg transition-colors`}
       style={buttonStyles}
     >
-      <MicOff className={`mr-3 h-6 w-6 ${isSpeaking && 'kayla-mic-icon'}`} />
-      <span className="font-medium">
-        {isSpeaking ? 'Kayla Speaking...' : 'End Chat'}
-      </span>
+      {isExecutingTool ? (
+        <>
+          <Search className="mr-3 h-6 w-6 animate-pulse" />
+          <span className="font-medium">Looking up...</span>
+        </>
+      ) : (
+        <>
+          <MicOff className={`mr-3 h-6 w-6 ${isSpeaking && 'kayla-mic-icon'}`} />
+          <span className="font-medium">
+            {isSpeaking ? 'Kayla Speaking...' : 'End Chat'}
+          </span>
+        </>
+      )}
     </Button>
   );
 };
