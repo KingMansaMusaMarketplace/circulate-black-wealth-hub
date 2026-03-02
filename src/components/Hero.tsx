@@ -136,7 +136,7 @@ const Hero = () => {
               </Button>
             )}
             {!isConnected && (
-              <span className="text-sm text-blue-200/60">Your Agentic AI-powered guide</span>
+              <span className="text-sm text-blue-200/60">Your Agentic AI concierge</span>
             )}
 
             {/* Inline transcript when connected */}
