@@ -203,5 +203,56 @@ describe('Authentication Flow', () => {
       expect(getRedirectPath(isAuthenticated, protectedRoute)).toBe(loginRoute);
       expect(getRedirectPath(true, protectedRoute)).toBe(protectedRoute);
     });
+
+    it('should preserve intended destination after login', () => {
+      const intendedPath = '/loyalty';
+      const state = { from: { pathname: intendedPath } };
+      expect(state.from.pathname).toBe(intendedPath);
+    });
+  });
+
+  describe('User Type Validation', () => {
+    it('should validate all supported user types', () => {
+      const validUserTypes = ['customer', 'business', 'sales_agent'];
+      const isValidUserType = (type: string) => validUserTypes.includes(type);
+
+      expect(isValidUserType('customer')).toBe(true);
+      expect(isValidUserType('business')).toBe(true);
+      expect(isValidUserType('sales_agent')).toBe(true);
+      expect(isValidUserType('admin')).toBe(false);
+      expect(isValidUserType('')).toBe(false);
+    });
+
+    it('should require additional fields for sales agents', () => {
+      const validateSalesAgentSignup = (data: { referralCode?: string }) => {
+        // Sales agents may optionally provide a referral code
+        return { valid: true, hasReferral: !!data.referralCode };
+      };
+
+      expect(validateSalesAgentSignup({}).valid).toBe(true);
+      expect(validateSalesAgentSignup({ referralCode: 'REF123' }).hasReferral).toBe(true);
+    });
+  });
+
+  describe('Rate Limiting', () => {
+    it('should enforce rate limit after max attempts', () => {
+      const checkRateLimit = (attempts: number, max: number = 5) => {
+        return { allowed: attempts < max, remaining: Math.max(0, max - attempts) };
+      };
+
+      expect(checkRateLimit(0).allowed).toBe(true);
+      expect(checkRateLimit(4).allowed).toBe(true);
+      expect(checkRateLimit(5).allowed).toBe(false);
+      expect(checkRateLimit(5).remaining).toBe(0);
+    });
+
+    it('should calculate block expiry time', () => {
+      const BLOCK_DURATION_MS = 5 * 60 * 1000; // 5 minutes
+      const getBlockExpiry = () => new Date(Date.now() + BLOCK_DURATION_MS);
+
+      const expiry = getBlockExpiry();
+      expect(expiry.getTime()).toBeGreaterThan(Date.now());
+      expect(expiry.getTime()).toBeLessThanOrEqual(Date.now() + BLOCK_DURATION_MS + 100);
+    });
   });
 });

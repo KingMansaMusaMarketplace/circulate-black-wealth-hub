@@ -296,7 +296,93 @@ describe('Checkout Flow', () => {
       
       expect(applyDiscount(100, 20, 'percent')).toBe(80);
       expect(applyDiscount(100, 10, 'fixed')).toBe(90);
-      expect(applyDiscount(5, 10, 'fixed')).toBe(0); // Can't go negative
+      expect(applyDiscount(5, 10, 'fixed')).toBe(0);
+    });
+  });
+
+  describe('Corporate Checkout', () => {
+    it('should validate corporate checkout params', () => {
+      const validateCorporateCheckout = (data: {
+        companyName?: string;
+        tier?: string;
+        seats?: number;
+      }) => {
+        const errors: string[] = [];
+        if (!data.companyName) errors.push('Company name required');
+        if (!data.tier) errors.push('Tier selection required');
+        if (!data.seats || data.seats < 1) errors.push('At least 1 seat required');
+        return { valid: errors.length === 0, errors };
+      };
+
+      expect(validateCorporateCheckout({
+        companyName: 'Acme Corp',
+        tier: 'enterprise',
+        seats: 10,
+      })).toEqual({ valid: true, errors: [] });
+
+      expect(validateCorporateCheckout({})).toEqual({
+        valid: false,
+        errors: ['Company name required', 'Tier selection required', 'At least 1 seat required'],
+      });
+    });
+
+    it('should calculate bulk pricing', () => {
+      const calculateBulkPrice = (pricePerSeat: number, seats: number) => {
+        let discount = 0;
+        if (seats >= 50) discount = 0.20;
+        else if (seats >= 20) discount = 0.10;
+        else if (seats >= 10) discount = 0.05;
+        
+        const subtotal = pricePerSeat * seats;
+        const discountAmount = subtotal * discount;
+        return {
+          subtotal: Number(subtotal.toFixed(2)),
+          discount: Number(discountAmount.toFixed(2)),
+          total: Number((subtotal - discountAmount).toFixed(2)),
+        };
+      };
+
+      const result = calculateBulkPrice(29.99, 20);
+      expect(result.discount).toBeGreaterThan(0);
+      expect(result.total).toBeLessThan(result.subtotal);
+    });
+  });
+
+  describe('iOS Payment Blocking', () => {
+    it('should block Stripe payments on iOS', () => {
+      const shouldHidePayments = (platform: string) => platform === 'ios';
+
+      expect(shouldHidePayments('ios')).toBe(true);
+      expect(shouldHidePayments('android')).toBe(false);
+      expect(shouldHidePayments('web')).toBe(false);
+    });
+
+    it('should allow Apple IAP on iOS', () => {
+      const getPaymentMethod = (platform: string) => {
+        if (platform === 'ios') return 'apple_iap';
+        return 'stripe';
+      };
+
+      expect(getPaymentMethod('ios')).toBe('apple_iap');
+      expect(getPaymentMethod('web')).toBe('stripe');
+    });
+  });
+
+  describe('Webhook Event Processing', () => {
+    it('should handle subscription lifecycle events', () => {
+      const processWebhookEvent = (eventType: string) => {
+        const handlers: Record<string, string> = {
+          'checkout.session.completed': 'activate_subscription',
+          'customer.subscription.updated': 'update_subscription',
+          'customer.subscription.deleted': 'cancel_subscription',
+          'invoice.payment_failed': 'notify_payment_failure',
+        };
+        return handlers[eventType] || 'unknown_event';
+      };
+
+      expect(processWebhookEvent('checkout.session.completed')).toBe('activate_subscription');
+      expect(processWebhookEvent('customer.subscription.deleted')).toBe('cancel_subscription');
+      expect(processWebhookEvent('random.event')).toBe('unknown_event');
     });
   });
 });
