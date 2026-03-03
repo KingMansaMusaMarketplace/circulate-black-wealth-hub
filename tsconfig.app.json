@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
+    "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": [
       "ES2020",
@@ -28,5 +29,8 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "node_modules/gl-matrix"
   ]
 }
