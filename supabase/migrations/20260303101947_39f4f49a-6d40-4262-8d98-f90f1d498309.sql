@@ -1,0 +1,1 @@
+UPDATE public.businesses SET category = 'Restaurant' WHERE category = 'Restaurants';
