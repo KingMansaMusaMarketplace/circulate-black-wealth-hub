@@ -273,6 +273,8 @@ Object.assign(businessBannerFallbacks, {
   'a1b2c3d4-e5f6-7890-abcd-200000000003': '/images/businesses/jamit-bistro-banner.jpg',
   // Bamboo Walk - East Flatbush, Brooklyn
   'a1b2c3d4-e5f6-7890-abcd-200000000004': '/images/businesses/bamboo-walk-banner.jpg',
+  // Apparel Redefined - Custom apparel decoration in Crestwood, IL
+  'a1b2c3d4-e5f6-7890-abcd-300000000001': '/images/businesses/apparel-redefined-banner.jpg',
 });
 
 /**
