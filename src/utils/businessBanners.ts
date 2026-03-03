@@ -265,6 +265,10 @@ Object.assign(businessBannerFallbacks, {
   'a1b2c3d4-e5f6-7890-abcd-100000000001': '/images/businesses/beard-bar-atl-banner.jpg',
   // Royal Roots Barber Shop - East Point, GA
   'a1b2c3d4-e5f6-7890-abcd-100000000002': '/images/businesses/royal-roots-barbershop-banner.jpg',
+  // Hair & Co BKLYN - Brooklyn, NY
+  'a1b2c3d4-e5f6-7890-abcd-200000000001': '/images/businesses/hair-and-co-bklyn-banner.jpg',
+  // The Beauty Boutique - Brooklyn, NY
+  'a1b2c3d4-e5f6-7890-abcd-200000000002': '/images/businesses/beauty-boutique-bklyn-banner.jpg',
 });
 
 /**
