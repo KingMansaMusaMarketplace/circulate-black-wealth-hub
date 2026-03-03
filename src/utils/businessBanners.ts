@@ -281,6 +281,8 @@ Object.assign(businessBannerFallbacks, {
   'a1b2c3d4-e5f6-7890-abcd-300000000003': '/images/businesses/garrett-popcorn-banner.jpg',
   // I-57 Rib House - South Side Chicago BBQ
   'a1b2c3d4-e5f6-7890-abcd-300000000004': '/images/businesses/i57-rib-house-banner.jpg',
+  // Jodi's Italian Ice Factory - Hammond, IN
+  'a1b2c3d4-e5f6-7890-abcd-300000000005': '/images/businesses/jodis-italian-ice-banner.jpg',
 });
 
 /**
