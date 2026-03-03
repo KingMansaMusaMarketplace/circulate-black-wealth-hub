@@ -1,57 +1,153 @@
 
 
-# Update Meet Kayla Section to Showcase Agentic AI Powers
+# Full Deep Detail Test Plan -- Frontend and Backend
 
-## Why This Matters
+This plan covers a comprehensive end-to-end testing strategy for the entire 1325.AI / Mansa Musa Marketplace platform, covering 250 database tables, 100+ edge functions, and the full React frontend.
 
-Kayla just got upgraded with real tool-calling — she can now search the directory, check loyalty points, pull bookings, and run lead qualification **live during a voice conversation**. But the homepage still describes her as a generic "AI-powered guide." This is a missed opportunity to differentiate from every other chatbot on the market.
+---
 
-## What Changes
+## Phase 1: Automated Unit and Integration Tests (Vitest)
 
-### 1. Update Section Header Copy
+Expand the existing test suite (currently 7 test files) with new tests covering critical untested areas:
 
-**Current:**
-- Label: "AI Concierge"
-- Description: "Your AI-powered guide... Just speak — she'll find businesses, book stays, and answer anything."
+### 1.1 Auth Flow Tests (expand `src/test/auth.test.tsx`)
+- Sign-up with all user types (customer, business, sales agent)
+- Rate-limit enforcement (`check_auth_rate_limit_secure` RPC)
+- Session persistence and refresh
+- Password reset flow
+- Protected route redirect behavior
 
-**New:**
-- Label: "Agentic AI Concierge"
-- Add a small gold badge/pill next to the heading that says "Powered by Real-Time Tools" to visually signal this isn't a basic chatbot
-- Updated description: "More than a chatbot — Kayla takes action. She searches the live directory, checks your loyalty points, pulls your bookings, and delivers real answers — all by voice, in real time."
+### 1.2 Business Directory Tests (new `src/test/directory.test.tsx`)
+- Search and filter logic
+- Category and location filtering
+- Real-time updates subscription
+- Pagination and the 1000-row query limit
 
-### 2. Redesign Capability Cards to Show Agentic Actions
+### 1.3 QR Code and Loyalty Tests (expand `src/test/qr-code.test.tsx`)
+- QR generation and scanning flow
+- Loyalty point earning and redemption
+- Coalition points cross-business earning
+- Leaderboard ranking calculation
 
-Replace the current 4 generic cards with 6 cards that emphasize what Kayla **does**, not just what she knows about:
+### 1.4 Voice Interface Tests (new `src/test/voice.test.tsx`)
+- VoiceButton state transitions (idle, listening, speaking, tool-executing)
+- VoiceWaveform animation states
+- VoiceTranscript bubble rendering
 
-| Card | Icon | Title | Description |
-|------|------|-------|-------------|
-| 1 | Search | Live Directory Search | "Ask for a restaurant nearby — she queries the real database and reads back results." |
-| 2 | Star | Check Loyalty Points | "Say 'How many points do I have?' — she pulls your balance instantly." |
-| 3 | Calendar | View Your Bookings | "Ask about upcoming reservations — she checks your schedule." |
-| 4 | Home | Find Vacation Rentals | "Describe your ideal trip — she searches Mansa Stays listings." |
-| 5 | TrendingUp | Lead Insights (Business Owners) | "Ask 'How are my leads?' — she runs live qualification scoring." |
-| 6 | ShieldAlert | Churn Alerts (Business Owners) | "Ask about at-risk customers — she surfaces churn predictions." |
+### 1.5 Subscription and Payment Tests (expand `src/test/checkout.test.tsx`)
+- Corporate checkout session creation
+- Stripe webhook event handling logic
+- iOS payment blocking (`IOSProtectedRoute`)
+- Subscription status checking
 
-Grid changes from `grid-cols-2 md:grid-cols-4` to `grid-cols-2 md:grid-cols-3` to accommodate 6 cards cleanly.
+---
 
-### 3. Add "What Makes Kayla Different" Differentiator Row
+## Phase 2: Backend Database Health Checks
 
-A small row of 3 inline badges/pills below the description, before the capability cards:
+### 2.1 Table Integrity
+- Verify all 250 public tables are accessible
+- Check for orphaned foreign key references
+- Validate critical table row counts (profiles, businesses, qr_codes, loyalty_points)
 
-- "Real-Time Data" (with a database icon)
-- "Voice-First" (with a mic icon)
-- "Takes Action" (with a zap/bolt icon)
+### 2.2 RLS Policy Audit
+- Fix the SECURITY DEFINER view issue flagged by linter (public views like `partner_leaderboard`, `business_directory`)
+- Review the "RLS Policy Always True" warning -- identify which tables have overly permissive UPDATE/DELETE/INSERT policies
+- Ensure all sensitive tables (profiles, transactions, fraud_alerts, etc.) have proper user-scoped RLS
 
-These are styled as small glass-morphism pills with gold text, reinforcing that this is agentic AI, not a FAQ bot.
+### 2.3 Database Functions
+- Test `has_role` security definer function
+- Test `check_auth_rate_limit_secure` RPC
+- Validate audit logging triggers
 
-## File Changed
+---
 
-**`src/components/HomePage/MeetKaylaSection.tsx`** — Updated copy, expanded capabilities array from 4 to 6 cards, added differentiator badges, adjusted grid layout.
+## Phase 3: Edge Function Testing
 
-## Technical Notes
+### 3.1 Critical Edge Functions (JWT-required)
+Test via `curl_edge_functions` tool:
+- `ai-assistant` -- responds to authenticated requests
+- `create-payment-intent` -- validates parameters
+- `create-booking` -- validates booking data
+- `delete-account` -- requires authenticated user
+- `detect-fraud` -- processes fraud checks
+- `process-qr-transaction` -- handles QR scans
 
-- No new dependencies needed — uses existing Lucide icons (`Star`, `Calendar`, `TrendingUp`, `ShieldAlert`, `Database`, `Zap`) and existing `motion` animations
-- Maintains the same voice connection logic, CTA button, and sound wave visualization
-- Cards remain purely presentational — they describe what Kayla can do, the actual tool-calling happens through the voice interface
-- Grid shifts to `md:grid-cols-3` for 6 cards (2 rows of 3 on desktop, 3 rows of 2 on mobile)
+### 3.2 Public Edge Functions
+- `generate-sitemap` -- returns valid sitemap XML
+- `api-gateway` -- validates API key extraction and rate limiting
+- `track-invitation` -- validates token and redirect allowlist
+
+### 3.3 Webhook Endpoints
+- `stripe-webhook` -- signature validation
+- `stripe-webhook-corporate` -- subscription lifecycle events
+- `stripe-partner-webhook` -- referral credit automation
+
+---
+
+## Phase 4: Frontend Component and Page Tests
+
+### 4.1 Critical Page Rendering
+Browser-based verification that key pages render without errors:
+- `/` (Homepage with Hero, directory, voice interface)
+- `/auth` (Login/Signup)
+- `/directory` (Business directory with search)
+- `/loyalty` (Loyalty dashboard)
+- `/qr-scanner` (QR code scanner)
+- `/dashboard` (User dashboard)
+- `/admin` (Admin dashboard -- requires admin role)
+
+### 4.2 Mobile Responsiveness
+- Test at 375x812 (iPhone) and 768x1024 (iPad) viewports
+- Verify touch targets, navigation, and layout
+
+### 4.3 Performance Metrics
+- Bundle size check
+- First Contentful Paint target (under 3s)
+- Core Web Vitals from existing `PerformanceMonitor`
+
+---
+
+## Phase 5: Security Scan
+
+### 5.1 Automated Security
+- Run the full security scan tool
+- Address all ERROR-level findings
+- Review and document WARN-level findings
+
+### 5.2 Known Issues to Address
+- `gl-matrix` TypeScript build errors (pre-existing, unrelated to app code -- fix by adding `skipLibCheck: true` to tsconfig)
+- `cdn.tailwindcss.com` usage in production warning
+- Global error handler capturing undefined errors on page load
+
+---
+
+## Technical Implementation Details
+
+### New test files to create:
+1. `src/test/directory.test.tsx` -- Business directory search/filter tests
+2. `src/test/voice.test.tsx` -- Voice interface component tests  
+3. `src/test/security.test.tsx` -- RLS and auth guard tests
+4. `src/test/edge-functions.test.ts` -- Edge function response validation
+
+### Existing files to expand:
+1. `src/test/auth.test.tsx` -- Add rate limiting and multi-user-type tests
+2. `src/test/checkout.test.tsx` -- Add corporate and webhook tests
+3. `src/test/qr-code.test.tsx` -- Add coalition and leaderboard tests
+
+### Configuration fixes:
+1. `tsconfig.app.json` -- Add `skipLibCheck: true` to resolve gl-matrix errors
+2. Remove or replace `cdn.tailwindcss.com` script tag (already using PostCSS Tailwind)
+
+### Database fixes:
+1. Convert SECURITY DEFINER views to INVOKER or add proper security constraints
+2. Tighten overly permissive RLS policies on write operations
+
+---
+
+## Estimated Scope
+- ~15 new/expanded test files
+- ~200+ individual test cases
+- 6 edge function smoke tests
+- 7 critical page rendering verifications
+- 3 security/database fixes
 
