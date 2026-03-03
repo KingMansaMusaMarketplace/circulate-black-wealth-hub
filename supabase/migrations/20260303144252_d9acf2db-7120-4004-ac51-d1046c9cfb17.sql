@@ -1,0 +1,1 @@
+UPDATE public.businesses SET average_rating = 5.0, review_count = 20 WHERE id = 'a1b2c3d4-e5f6-7890-abcd-300000000001';
