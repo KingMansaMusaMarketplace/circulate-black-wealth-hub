@@ -261,6 +261,10 @@ Object.assign(businessBannerFallbacks, {
   'af097bb0-7f38-4fa1-86ae-0d26c98a09ae': '/images/businesses/lincoln-university-banner.jpg',
   // Victor's Seafood & Steak - Charleston, SC
   '3d81a7d0-de2f-4c29-8500-4e0748a57d20': '/images/businesses/victors-seafood-banner.jpg',
+  // The Beard Bar ATL - Atlanta, GA
+  'a1b2c3d4-e5f6-7890-abcd-100000000001': '/images/businesses/beard-bar-atl-banner.jpg',
+  // Royal Roots Barber Shop - East Point, GA
+  'a1b2c3d4-e5f6-7890-abcd-100000000002': '/images/businesses/royal-roots-barbershop-banner.jpg',
 });
 
 /**
