@@ -11,14 +11,15 @@ export async function fetchBusinesses(
   pagination?: PaginationParams
 ): Promise<BusinessQueryResult> {
   try {
-    // Check if user is authenticated - if not, use business_directory view
-    const { data: { user } } = await supabase.auth.getUser();
+    // Use cached session instead of network call to getUser()
+    const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user ?? null;
     
+    const limit = pagination?.pageSize || 20;
+    const offset = pagination ? (pagination.page - 1) * pagination.pageSize : 0;
+
     if (!user) {
       // Use business_directory view for non-authenticated users
-      const limit = pagination?.pageSize || 20;
-      const offset = pagination ? (pagination.page - 1) * pagination.pageSize : 0;
-      
       let query = supabase
         .from('business_directory')
         .select('*');
@@ -58,9 +59,6 @@ export async function fetchBusinesses(
     }
     
     // Authenticated users can use the RPC function for full functionality
-    const limit = pagination?.pageSize || 20;
-    const offset = pagination ? (pagination.page - 1) * pagination.pageSize : 0;
-    
     const { data, error } = await supabase
       .rpc('search_public_businesses', {
         p_search_term: filters?.searchTerm || null,
@@ -89,19 +87,12 @@ export async function fetchBusinesses(
       const userLat = filters.userLat;
       const userLng = filters.userLng;
       
-      // Calculate distance for each business
       businesses.forEach(business => {
-        const distance = calculateDistance(
-          userLat,
-          userLng,
-          business.lat,
-          business.lng
-        );
+        const distance = calculateDistance(userLat, userLng, business.lat, business.lng);
         business.distanceValue = distance;
         business.distance = distance.toFixed(1) + ' mi';
       });
       
-      // Filter by distance if specified
       if (filters.distance && filters.distance > 0) {
         return {
           businesses: businesses.filter(b => b.distanceValue <= filters.distance!),
