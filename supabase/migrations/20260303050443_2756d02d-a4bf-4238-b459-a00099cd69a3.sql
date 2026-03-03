@@ -1,0 +1,1 @@
+DROP POLICY "Service role can insert pricing recommendations" ON public.pricing_recommendations;
