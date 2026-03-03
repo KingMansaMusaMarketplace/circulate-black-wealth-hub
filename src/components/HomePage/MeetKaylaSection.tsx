@@ -59,12 +59,14 @@ const MeetKaylaSection: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <span className="section-label text-lg md:text-xl tracking-widest">Agentic AI Concierge</span>
-          <h2 className="font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4">
-            Meet <span className="text-gradient-gold">Kayla</span>
-            <span className="inline-flex items-center ml-3 align-middle px-3 py-1 rounded-full text-xs font-semibold bg-mansagold/15 text-mansagold border border-mansagold/30 backdrop-blur-sm">
+          <h2 className="font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-2">
+            Kayla
+          </h2>
+          <div className="mb-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-mansagold/15 text-mansagold border border-mansagold/30 backdrop-blur-sm">
               Powered by Real-Time Tools
             </span>
-          </h2>
+          </div>
           <p className="text-white/75 text-xl md:text-2xl max-w-2xl mx-auto mb-5">
             More than a chatbot — Kayla takes action. She searches the live directory, checks your loyalty points, pulls your bookings, and delivers real answers — all by voice, in real time.
           </p>
