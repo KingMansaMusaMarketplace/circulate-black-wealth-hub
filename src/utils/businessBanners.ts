@@ -269,6 +269,10 @@ Object.assign(businessBannerFallbacks, {
   'a1b2c3d4-e5f6-7890-abcd-200000000001': '/images/businesses/hair-and-co-bklyn-banner.jpg',
   // The Beauty Boutique - Brooklyn, NY
   'a1b2c3d4-e5f6-7890-abcd-200000000002': '/images/businesses/beauty-boutique-bklyn-banner.jpg',
+  // Jamit Bistro - Red Hook, Brooklyn
+  'a1b2c3d4-e5f6-7890-abcd-200000000003': '/images/businesses/jamit-bistro-banner.jpg',
+  // Bamboo Walk - East Flatbush, Brooklyn
+  'a1b2c3d4-e5f6-7890-abcd-200000000004': '/images/businesses/bamboo-walk-banner.jpg',
 });
 
 /**
