@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Star, ArrowRight, Loader2 } from 'lucide-react';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
+import { getBusinessCardImage } from '@/utils/businessBanners';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { mapSupabaseBusinessToBusiness } from '@/lib/api/directory/mappers';
@@ -54,7 +55,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
           rating: business.rating,
           reviews: business.reviewCount,
           distance: business.distance,
-          image: business.bannerUrl || business.imageUrl || business.logoUrl,
+          image: getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl || business.logoUrl,
           discount: business.discount,
         };
       });
