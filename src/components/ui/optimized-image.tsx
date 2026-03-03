@@ -41,9 +41,10 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   useEffect(() => {
+    const sources = generateSources(src);
+    
     if (!lazy) {
       setIsVisible(true);
-      const sources = generateSources(src);
       setCurrentSrc(sources.webp);
       return;
     }
@@ -51,16 +52,24 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     const currentImg = imgRef.current;
     if (!currentImg) return;
 
+    // Check if already in viewport (fixes mobile Safari race condition)
+    const rect = currentImg.getBoundingClientRect();
+    const isAlreadyVisible = rect.top < window.innerHeight + 50 && rect.bottom > -50;
+    if (isAlreadyVisible) {
+      setIsVisible(true);
+      setCurrentSrc(sources.webp);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          const sources = generateSources(src);
           setCurrentSrc(sources.webp);
           observer.unobserve(currentImg);
         }
       },
-      { threshold: 0.1, rootMargin: '50px' }
+      { threshold: 0.01, rootMargin: '100px' }
     );
 
     observer.observe(currentImg);
