@@ -277,6 +277,8 @@ Object.assign(businessBannerFallbacks, {
   'a1b2c3d4-e5f6-7890-abcd-300000000001': '/images/businesses/apparel-redefined-banner.jpg',
   // Portillo's - Chicago street food restaurant
   'a1b2c3d4-e5f6-7890-abcd-300000000002': '/images/businesses/portillos-banner.jpg',
+  // Garrett Popcorn Shops - Chicago popcorn since 1949
+  'a1b2c3d4-e5f6-7890-abcd-300000000003': '/images/businesses/garrett-popcorn-banner.jpg',
 });
 
 /**
