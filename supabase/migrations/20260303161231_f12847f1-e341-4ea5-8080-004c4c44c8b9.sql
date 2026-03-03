@@ -1,0 +1,1 @@
+UPDATE public.businesses SET category = 'Banking & Financial Services' WHERE id = 'c8cf4f61-b9af-4a25-afd8-27eede507e20';
