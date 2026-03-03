@@ -234,4 +234,61 @@ describe('QR Code System', () => {
       expect(calculateDiscountFromScan(discountQRCode, 0)).toBe(0);
     });
   });
+
+  describe('Coalition Points', () => {
+    it('should calculate cross-business coalition points', () => {
+      const calculateCoalitionPoints = (
+        basePoints: number,
+        coalitionMultiplier: number,
+        isCoalitionMember: boolean
+      ) => {
+        if (!isCoalitionMember) return basePoints;
+        return Math.floor(basePoints * coalitionMultiplier);
+      };
+
+      expect(calculateCoalitionPoints(100, 1.5, true)).toBe(150);
+      expect(calculateCoalitionPoints(100, 1.5, false)).toBe(100);
+      expect(calculateCoalitionPoints(50, 2.0, true)).toBe(100);
+    });
+
+    it('should aggregate points across businesses', () => {
+      const pointsByBusiness = [
+        { businessId: 'b1', points: 100 },
+        { businessId: 'b2', points: 250 },
+        { businessId: 'b3', points: 75 },
+      ];
+
+      const totalPoints = pointsByBusiness.reduce((sum, p) => sum + p.points, 0);
+      expect(totalPoints).toBe(425);
+    });
+  });
+
+  describe('Leaderboard Ranking', () => {
+    it('should rank users by total points', () => {
+      const users = [
+        { userId: 'u1', points: 500 },
+        { userId: 'u2', points: 1200 },
+        { userId: 'u3', points: 800 },
+        { userId: 'u4', points: 800 },
+      ];
+
+      const ranked = [...users].sort((a, b) => b.points - a.points);
+      expect(ranked[0].userId).toBe('u2');
+      expect(ranked[1].points).toBe(800);
+    });
+
+    it('should assign tier based on points', () => {
+      const getTier = (points: number) => {
+        if (points >= 10000) return 'platinum';
+        if (points >= 5000) return 'gold';
+        if (points >= 1000) return 'silver';
+        return 'bronze';
+      };
+
+      expect(getTier(15000)).toBe('platinum');
+      expect(getTier(5000)).toBe('gold');
+      expect(getTier(1000)).toBe('silver');
+      expect(getTier(999)).toBe('bronze');
+    });
+  });
 });
