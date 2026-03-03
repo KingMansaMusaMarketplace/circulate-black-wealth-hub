@@ -248,8 +248,11 @@
             }
           }, 200);
 
-          // Safety net disabled to prevent reload loops during debugging
-          // Previously: auto-refresh if app failed to mount after 4s
+          // Safety net: force-hide spinner after 8 seconds no matter what
+          setTimeout(() => {
+            HIDE();
+            clearInterval(hideInterval);
+          }, 8000);
 
 
           // Global helper to force-refresh with optional cache clear
