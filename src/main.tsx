@@ -114,15 +114,6 @@ if (!rootEl) {
 console.log('[MAIN] Creating React root');
 const root = ReactDOM.createRoot(rootEl);
 
-// Keep boot fallback visible; React or a readiness event will hide it
-console.log('[MAIN] Preserving boot fallback until app is ready');
-
-// Ensure boot fallback overlay is hidden once React mounts
-if (typeof window !== 'undefined') {
-  (window as any).__reactMounted = true;
-  console.log('[MAIN] Set __reactMounted flag');
-}
-
 console.log('[MAIN] Rendering App component');
 try {
   root.render(
@@ -130,7 +121,14 @@ try {
       <App />
     </React.StrictMode>
   );
-  console.log('[MAIN] App render initiated successfully');
+  // Set flag AFTER render is initiated so the boot fallback interval can detect it
+  if (typeof window !== 'undefined') {
+    (window as any).__reactMounted = true;
+    // Also immediately hide the boot fallback
+    const fb = document.getElementById('boot-fallback');
+    if (fb) fb.style.display = 'none';
+    console.log('[MAIN] App render initiated, boot fallback hidden');
+  }
 } catch (err) {
   console.error('[MAIN] FATAL: Failed to render App:', err);
   // On iOS/iPad, show a visible error instead of white screen
