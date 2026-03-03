@@ -283,6 +283,16 @@ Object.assign(businessBannerFallbacks, {
   'a1b2c3d4-e5f6-7890-abcd-300000000004': '/images/businesses/i57-rib-house-banner.jpg',
   // Jodi's Italian Ice Factory - Hammond, IN
   'a1b2c3d4-e5f6-7890-abcd-300000000005': '/images/businesses/jodis-italian-ice-banner.jpg',
+  // Goody Goody Gumdrops Daycare - Chicago South Side
+  'a1b2c3d4-e5f6-7890-abcd-300000000006': '/images/businesses/goody-goody-gumdrops-banner.jpg',
+  // Dianna's Home Daycare - Englewood, Chicago
+  'a1b2c3d4-e5f6-7890-abcd-300000000007': '/images/businesses/diannas-daycare-banner.jpg',
+  // Kenyatta's Day Care & Learning Center - Chicago
+  'a1b2c3d4-e5f6-7890-abcd-300000000008': '/images/businesses/kenyattas-daycare-banner.jpg',
+  // Huge Hugs Daycare - Roseland, Chicago
+  'a1b2c3d4-e5f6-7890-abcd-300000000009': '/images/businesses/huge-hugs-daycare-banner.jpg',
+  // Alpha Learning Center - Auburn Gresham, Chicago
+  'a1b2c3d4-e5f6-7890-abcd-300000000010': '/images/businesses/alpha-learning-center-banner.jpg',
 });
 
 /**
