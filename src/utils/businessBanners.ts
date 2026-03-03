@@ -111,6 +111,8 @@ const businessBannerFallbacks: Record<string, string> = {
   '01aee255-5b15-4a2d-be76-0a8b3a3b102f': '/businesses/1325-ai-banner.jpeg',
   // Arthur Wylie Entrepreneurship and Leadership Fund
   'd5afdc83-55b3-41bc-8b26-3aa1027b5d91': '/businesses/arthur-wylie-banner.png',
+  // Marathon Burger - Gourmet burger restaurant on Melrose Ave, Los Angeles
+  '9f6d51da-0645-4a68-a77b-dbbb3c9cce88': '/images/businesses/marathon-burger-banner.jpg',
 };
 
 // Map of business IDs to card-specific images (used in directory cards only, not detail pages)
