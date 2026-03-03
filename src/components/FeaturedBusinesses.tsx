@@ -11,14 +11,28 @@ import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { mapSupabaseBusinessToBusiness } from '@/lib/api/directory/mappers';
 
+// Prioritized business IDs for Featured Partners (order matters)
+const FEATURED_PARTNER_IDS = [
+  'a1b2c3d4-e5f6-7890-abcd-300000000001', // Apparel Redefined
+];
+
 const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
   const { data: displayBusinesses = [], isLoading } = useQuery({
     queryKey: ['featured-businesses', limit],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First fetch prioritized businesses
+      const { data: prioritized } = await supabase
+        .from('business_directory')
+        .select('*')
+        .in('id', FEATURED_PARTNER_IDS)
+        .eq('is_verified', true);
+
+      // Then fetch top-rated to fill remaining slots
+      const { data: topRated, error } = await supabase
         .from('business_directory')
         .select('*')
         .eq('is_verified', true)
+        .not('id', 'in', `(${FEATURED_PARTNER_IDS.join(',')})`)
         .order('average_rating', { ascending: false })
         .limit(limit);
 
@@ -27,7 +41,10 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
         return [];
       }
 
-      return data.map(b => {
+      // Combine: prioritized first, then top-rated to fill remaining slots
+      const combined = [...(prioritized || []), ...(topRated || [])].slice(0, limit);
+
+      return combined.map(b => {
         const business = mapSupabaseBusinessToBusiness(b);
         return {
           id: business.id,
