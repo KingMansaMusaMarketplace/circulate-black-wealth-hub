@@ -16547,6 +16547,38 @@ export type Database = {
           referral_code: string
         }[]
       }
+      get_public_vacation_properties: {
+        Args: { p_city?: string; p_limit?: number; p_state?: string }
+        Returns: {
+          amenities: Json
+          average_rating: number
+          base_nightly_rate: number
+          bathrooms: number
+          bedrooms: number
+          cancellation_policy: string
+          check_in_time: string
+          check_out_time: string
+          city: string
+          cleaning_fee: number
+          country: string
+          description: string
+          id: string
+          is_instant_book: boolean
+          is_verified: boolean
+          latitude: number
+          longitude: number
+          max_guests: number
+          max_nights: number
+          min_nights: number
+          pet_fee: number
+          pets_allowed: boolean
+          photos: Json
+          property_type: string
+          review_count: number
+          state: string
+          title: string
+        }[]
+      }
       get_qr_scan_metrics: { Args: { p_business_id: string }; Returns: Json }
       get_safe_business_listings: {
         Args: never
