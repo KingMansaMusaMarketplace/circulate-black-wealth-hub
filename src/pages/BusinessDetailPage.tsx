@@ -347,11 +347,7 @@ const BusinessDetailPage = () => {
           </div>
         )}
 
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
+        <BackgroundOrbs />
 
         {/* Header */}
         <div className="border-b border-white/10 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-50">
