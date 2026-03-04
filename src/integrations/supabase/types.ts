@@ -15578,7 +15578,6 @@ export type Database = {
           city: string | null
           created_at: string | null
           description: string | null
-          email: string | null
           id: string | null
           is_founding_member: boolean | null
           is_founding_sponsor: boolean | null
@@ -15588,7 +15587,6 @@ export type Database = {
           logo_url: string | null
           longitude: number | null
           name: string | null
-          phone: string | null
           review_count: number | null
           state: string | null
           updated_at: string | null
@@ -15604,7 +15602,6 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
-          email?: string | null
           id?: string | null
           is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
@@ -15614,7 +15611,6 @@ export type Database = {
           logo_url?: string | null
           longitude?: number | null
           name?: string | null
-          phone?: string | null
           review_count?: number | null
           state?: string | null
           updated_at?: string | null
@@ -15630,7 +15626,6 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
-          email?: string | null
           id?: string | null
           is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
@@ -15640,7 +15635,6 @@ export type Database = {
           logo_url?: string | null
           longitude?: number | null
           name?: string | null
-          phone?: string | null
           review_count?: number | null
           state?: string | null
           updated_at?: string | null
@@ -16469,6 +16463,34 @@ export type Database = {
         Returns: Json
       }
       get_platform_stats: { Args: never; Returns: Json }
+      get_public_business_by_id: {
+        Args: { p_business_id: string }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_founding_member: boolean
+          is_founding_sponsor: boolean
+          is_verified: boolean
+          latitude: number
+          listing_status: string
+          logo_url: string
+          longitude: number
+          name: string
+          owner_id: string
+          review_count: number
+          state: string
+          updated_at: string
+          website: string
+          zip_code: string
+        }[]
+      }
       get_public_business_info: {
         Args: never
         Returns: {
