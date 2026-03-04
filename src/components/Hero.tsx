@@ -136,10 +136,10 @@ const Hero = () => {
               </Button>
             )}
             {!isConnected && (
-              <div className="flex flex-col items-center gap-1">
+               <div className="flex flex-col items-center gap-1">
                 <span className="text-lg md:text-xl font-playfair font-bold text-mansagold tracking-wide">Kayla</span>
-                <span className="text-2xl md:text-4xl font-bold text-white/90 tracking-tight">Agentic AI Concierge</span>
-              </div>
+                <span className="text-4xl md:text-6xl font-bold text-mansagold tracking-tight font-playfair">Agentic AI Concierge</span>
+               </div>
             )}
 
             {/* Inline transcript when connected */}
