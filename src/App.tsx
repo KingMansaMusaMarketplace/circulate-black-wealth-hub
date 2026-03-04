@@ -268,6 +268,10 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false, // Don't refetch on window focus
       refetchOnMount: false, // Don't refetch on mount if data exists
       retry: 1, // Retry failed requests once
+      networkMode: 'always', // Don't pause queries based on network status
+    },
+    mutations: {
+      networkMode: 'always', // Don't pause mutations — prevents "Queue is paused" indicator
     },
   },
 });
