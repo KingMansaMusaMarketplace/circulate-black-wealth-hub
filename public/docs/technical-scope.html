@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1325.AI Platform — Technical Scope Document</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.7; padding: 40px 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 2rem; color: #d4a853; margin-bottom: 8px; }
+    h2 { font-size: 1.4rem; color: #d4a853; margin-top: 40px; margin-bottom: 16px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+    h3 { font-size: 1.1rem; color: #f0c060; margin-top: 24px; margin-bottom: 8px; }
+    .subtitle { color: #999; font-size: 0.95rem; margin-bottom: 4px; }
+    p, li { margin-bottom: 8px; font-size: 0.95rem; }
+    ul { padding-left: 24px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.9rem; }
+    th { background: #1a1a1a; color: #d4a853; text-align: left; padding: 10px 12px; border: 1px solid #333; }
+    td { padding: 10px 12px; border: 1px solid #333; }
+    tr:nth-child(even) { background: #111; }
+    .badge { display: inline-block; background: #d4a853; color: #000; padding: 2px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-right: 8px; }
+    .notice { background: #1a1200; border-left: 4px solid #d4a853; padding: 16px; margin: 20px 0; border-radius: 4px; }
+    .confidential { text-align: center; color: #666; font-size: 0.85rem; margin-top: 60px; border-top: 1px solid #333; padding-top: 20px; }
+    a { color: #d4a853; }
+    .print-btn { display: inline-block; background: #d4a853; color: #000; padding: 10px 24px; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 16px; text-decoration: none; }
+    .print-btn:hover { background: #e8bc5a; }
+    @media print { body { background: #fff; color: #000; } th { background: #f0f0f0; color: #000; } td, th { border-color: #ccc; } .print-btn { display: none; } .notice { border-left-color: #000; background: #f9f9f0; } h1, h2, h3, .badge { color: #000; } }
+  </style>
+</head>
+<body>
+<div class="container">
+
+<h1>1325.AI Platform — Technical Scope Document</h1>
+<p class="subtitle">For Agency / Development Partner Evaluation</p>
+<p class="subtitle"><strong>Prepared by:</strong> Thomas D. Bowling, Inventor &amp; Chief Architect</p>
+<p class="subtitle"><strong>Date:</strong> March 2026 &nbsp;|&nbsp; <strong>Patent Filing:</strong> USPTO 63/969,202 &nbsp;|&nbsp; <strong>Jurisdiction:</strong> Cook County, Illinois</p>
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+<h2>1. Platform Overview</h2>
+<p>1325.AI (Mansa) is an <strong>Economic Super-App</strong> serving as a multi-tenant vertical marketplace operating system for Black-owned businesses. The platform integrates discovery, transactions, banking, community finance, and gamification into a single ecosystem.</p>
+<p><strong>Live URL:</strong> <a href="https://circulate-black-wealth-hub.lovable.app" target="_blank">circulate-black-wealth-hub.lovable.app</a></p>
+
+<h2>2. Technology Stack</h2>
+<table>
+  <tr><th>Layer</th><th>Technology</th></tr>
+  <tr><td>Frontend</td><td>React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, Framer Motion</td></tr>
+  <tr><td>Backend</td><td>Supabase (PostgreSQL, Auth, Edge Functions, Realtime, Storage)</td></tr>
+  <tr><td>Payments</td><td>Stripe Connect (marketplace payouts), Stripe Subscriptions</td></tr>
+  <tr><td>Maps</td><td>Mapbox GL JS (3D directory, geospatial features)</td></tr>
+  <tr><td>AI — Reasoning</td><td>Google Gemini (Flash/Pro 3)</td></tr>
+  <tr><td>AI — Voice</td><td>OpenAI GPT-4o Realtime API, Whisper (STT), TTS</td></tr>
+  <tr><td>AI — Audio</td><td>ElevenLabs (TTS, Music Generation)</td></tr>
+  <tr><td>Analytics</td><td>PostHog</td></tr>
+  <tr><td>Mobile</td><td>Capacitor (iOS &amp; Android)</td></tr>
+  <tr><td>Email</td><td>Resend</td></tr>
+</table>
+
+<h2>3. Scale &amp; Complexity</h2>
+<table>
+  <tr><th>Metric</th><th>Count</th></tr>
+  <tr><td>Database Tables</td><td><span class="badge">250+</span></td></tr>
+  <tr><td>Edge Functions (Deno)</td><td><span class="badge">110+</span></td></tr>
+  <tr><td>Patent Claims</td><td><span class="badge">27</span> (documented in 180+ page Blue Book)</td></tr>
+  <tr><td>Third-Party Integrations</td><td><span class="badge">10+</span> (Stripe, Mapbox, OpenAI, Gemini, ElevenLabs, Resend, PostHog, Perplexity, Firecrawl, Apple IAP)</td></tr>
+</table>
+
+<h2>4. Core Modules Requiring Maintenance</h2>
+
+<h3>4.1 Business Directory &amp; Discovery</h3>
+<ul>
+  <li>3D Mapbox-powered business directory with geospatial search</li>
+  <li>Business profiles with verified contact info, reviews, ratings</li>
+  <li>Category-based filtering, multi-city support</li>
+  <li>HBCU-specific badging and proximity alerts</li>
+  <li>Business scraping and lead enrichment pipeline</li>
+</ul>
+
+<h3>4.2 Payments &amp; Commerce</h3>
+<ul>
+  <li>Stripe Connect marketplace (7.5% platform commission)</li>
+  <li>Booking engine with host payouts</li>
+  <li>Corporate sponsorship tiers (Bronze/Silver/Gold/Platinum)</li>
+  <li>Subscription management (Apple IAP + Stripe)</li>
+  <li>Invoice generation and commission tracking</li>
+</ul>
+
+<h3>4.3 AI Systems <span class="badge">Patent-Protected</span></h3>
+<ul>
+  <li><strong>CMAL Engine</strong> — Community Marketplace AI Logic (public API)</li>
+  <li><strong>Economic Karma</strong> — Social scoring with decay algorithms</li>
+  <li><strong>AI Agent</strong> — Rule-based automation for business owners</li>
+  <li><strong>Voice Concierge</strong> — Real-time voice AI assistant (WebSocket bridge)</li>
+  <li><strong>Review Sentiment Analysis</strong> — Automated review processing</li>
+  <li><strong>AI Recommendations</strong> — Personalized business suggestions</li>
+</ul>
+
+<h3>4.4 Community Finance <span class="badge">Patent-Protected</span></h3>
+<ul>
+  <li><strong>Susu Circles</strong> — Digital rotating savings with escrow</li>
+  <li><strong>Coalition Points</strong> — Multi-business loyalty system</li>
+</ul>
+
+<h3>4.5 Sales &amp; Growth Engine</h3>
+<ul>
+  <li>Sales agent/ambassador management with commission tracking</li>
+  <li>B2B business-to-business matching and connections</li>
+  <li>External lead discovery, import, enrichment, and invitation</li>
+  <li>QR code campaigns and transaction processing</li>
+  <li>Partner/Developer API ecosystem with usage-based billing</li>
+</ul>
+
+<h3>4.6 Admin Dashboard</h3>
+<ul>
+  <li>User &amp; business management</li>
+  <li>Sponsor CRM (Kanban pipeline)</li>
+  <li>Fraud detection system</li>
+  <li>Notification management (email batching, digests)</li>
+  <li>Content moderation and verification workflows</li>
+</ul>
+
+<h3>4.7 Mobile App</h3>
+<ul>
+  <li>Capacitor-based iOS &amp; Android builds</li>
+  <li>Push notifications, camera, geolocation, haptics</li>
+  <li>Apple IAP subscription validation</li>
+</ul>
+
+<h2>5. Edge Functions (110+)</h2>
+<table>
+  <tr><th>Category</th><th>Examples</th><th>Count</th></tr>
+  <tr><td>AI/ML</td><td>ai-chat, ai-agent, ai-recommendations, cmal-api, economic-karma</td><td>~15</td></tr>
+  <tr><td>Payments</td><td>create-checkout, create-booking, stripe-webhook, process-referral</td><td>~12</td></tr>
+  <tr><td>Email/Notifications</td><td>send-welcome-email, send-booking-confirmation, send-notification-digest</td><td>~25</td></tr>
+  <tr><td>Voice</td><td>realtime-voice, realtime-token, voice-api, text-to-speech, transcribe-audio</td><td>~6</td></tr>
+  <tr><td>B2B/Leads</td><td>b2b-web-search, b2b-match, auto-enrich-leads, validate-business-leads</td><td>~8</td></tr>
+  <tr><td>Business Ops</td><td>scrape-business-website, generate-business-description, import-businesses-csv</td><td>~15</td></tr>
+  <tr><td>Sponsorship</td><td>create-corporate-checkout, calculate-sponsor-impact, send-sponsor-email</td><td>~8</td></tr>
+  <tr><td>Susu/Finance</td><td>susu-api, susu-escrow, coalition-earn-points</td><td>~3</td></tr>
+  <tr><td>Admin/System</td><td>admin-ai-assistant, detect-fraud, fraud-api, generate-sitemap, api-gateway</td><td>~10</td></tr>
+</table>
+
+<h2>6. Database Architecture</h2>
+<ul>
+  <li><strong>250+ PostgreSQL tables</strong> with Row Level Security (RLS) policies</li>
+  <li>Key domains: businesses, users, profiles, bookings, payments, reviews, referrals, commissions, susu circles, sponsorships, leads, AI actions, notifications, API keys, developer accounts</li>
+  <li>Security-definer functions for role-based access</li>
+  <li>Automated triggers for timestamps, audit logging, and cascading updates</li>
+</ul>
+
+<h2>7. Roles Needed</h2>
+
+<h3>Role 1: Full-Stack React/Supabase Developer (Primary)</h3>
+<ul>
+  <li>React 18 + TypeScript frontend development</li>
+  <li>Supabase Edge Functions (Deno/TypeScript)</li>
+  <li>PostgreSQL + RLS policy management</li>
+  <li>Stripe Connect integration maintenance</li>
+  <li><strong>Estimated: 80–120 hrs/month</strong></li>
+</ul>
+
+<h3>Role 2: Mobile Developer</h3>
+<ul>
+  <li>Capacitor builds for iOS &amp; Android</li>
+  <li>Native plugin integration (push notifications, camera, etc.)</li>
+  <li>App Store / Google Play submission and updates</li>
+  <li><strong>Estimated: 20–40 hrs/month</strong></li>
+</ul>
+
+<h3>Role 3: DevOps / Backend Engineer</h3>
+<ul>
+  <li>CI/CD pipeline management</li>
+  <li>Supabase infrastructure monitoring</li>
+  <li>Performance optimization and scaling</li>
+  <li>Security audits and penetration testing</li>
+  <li><strong>Estimated: 20–40 hrs/month</strong></li>
+</ul>
+
+<h2>8. Ongoing Responsibilities</h2>
+<table>
+  <tr><th>Cadence</th><th>Tasks</th></tr>
+  <tr><td>Weekly</td><td>Bug triage and fixes, security patches, performance monitoring</td></tr>
+  <tr><td>Monthly</td><td>Feature releases, database optimization, Edge Function audit, dependency updates</td></tr>
+  <tr><td>Quarterly</td><td>Security audit, infrastructure scaling review, API documentation, disaster recovery testing</td></tr>
+</table>
+
+<h2>9. Intellectual Property Notice</h2>
+<div class="notice">
+  <p>This platform contains <strong>27 patent claims</strong> filed under <strong>USPTO 63/969,202</strong>. All development partners must sign an NDA before receiving codebase access.</p>
+  <p style="margin-top:12px">Patent-protected systems include:</p>
+  <ul>
+    <li>CMAL (Community Marketplace AI Logic) Engine</li>
+    <li>Economic Karma scoring system</li>
+    <li>Susu Digital Circles with escrow</li>
+    <li>Multi-tenant marketplace operating system architecture</li>
+    <li>Voice AI concierge bridge architecture</li>
+  </ul>
+  <p style="margin-top:12px"><strong>Trade secret protections are governed under Cook County, Illinois jurisdiction.</strong></p>
+</div>
+
+<h2>10. Budget Expectations</h2>
+<table>
+  <tr><th>Engagement Level</th><th>Monthly Estimate</th><th>Scope</th></tr>
+  <tr><td>Maintenance Only</td><td>$3,000 – $5,000</td><td>Bug fixes, security, monitoring</td></tr>
+  <tr><td>Maintenance + Features</td><td>$8,000 – $15,000</td><td>Above + new feature development</td></tr>
+  <tr><td>Full Team</td><td>$15,000 – $25,000</td><td>All 3 roles, continuous development</td></tr>
+</table>
+
+<h2>11. How to Respond</h2>
+<p>Agencies/developers interested in this engagement should provide:</p>
+<ol>
+  <li><strong>Relevant experience</strong> with React, Supabase, and Stripe Connect</li>
+  <li><strong>Team composition</strong> and availability</li>
+  <li><strong>Monthly retainer quote</strong> for each engagement level</li>
+  <li><strong>References</strong> from similar-scale projects</li>
+  <li><strong>NDA willingness</strong> before codebase access</li>
+</ol>
+
+<p style="margin-top: 24px;"><strong>Contact:</strong> Thomas D. Bowling<br>
+<strong>Email:</strong> contact@mansamusamarketplace.com<br>
+<strong>Platform:</strong> <a href="https://circulate-black-wealth-hub.lovable.app" target="_blank">circulate-black-wealth-hub.lovable.app</a></p>
+
+<p class="confidential">⚠️ This document is confidential and intended for evaluation purposes only.</p>
+
+</div>
+</body>
+</html>
