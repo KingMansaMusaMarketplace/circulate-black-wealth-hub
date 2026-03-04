@@ -13,8 +13,9 @@ export async function fetchBusinessById(id: string): Promise<Business | null> {
       return null;
     }
     
+    // Use the business_directory view (excludes PII like phone/email)
     const { data, error } = await supabase
-      .from('businesses')
+      .from('business_directory')
       .select('*')
       .eq('id', id)
       .maybeSingle();
