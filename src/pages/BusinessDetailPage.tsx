@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, memo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { 
@@ -35,6 +35,17 @@ import { businesses as sampleBusinesses } from '@/data/businessesData';
 import { getBusinessBanner } from '@/utils/businessBanners';
 import BusinessLocationMap from '@/components/business-detail/BusinessLocationMap';
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
+
+// Memoized background orbs to prevent re-render on typing
+const BackgroundOrbs = memo(() => (
+  <>
+    <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float pointer-events-none" style={{ willChange: 'transform', contain: 'strict' }} />
+    <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float pointer-events-none" style={{ willChange: 'transform', animationDelay: '2s', contain: 'strict' }} />
+    <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float pointer-events-none" style={{ willChange: 'transform', animationDelay: '4s', contain: 'strict' }} />
+    <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-float pointer-events-none" style={{ willChange: 'transform', animationDelay: '3s', contain: 'strict' }} />
+  </>
+));
+BackgroundOrbs.displayName = 'BackgroundOrbs';
 
 // Helper to check if ID is a valid UUID
 const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
@@ -294,9 +305,7 @@ const BusinessDetailPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <BackgroundOrbs />
         <LoadingSpinner />
       </div>
     );
@@ -305,9 +314,7 @@ const BusinessDetailPage = () => {
   if (error || !business) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <BackgroundOrbs />
         <Alert className="max-w-md bg-slate-900/40 backdrop-blur-xl border-white/10">
           <AlertDescription className="text-white">
             {error || 'Business not found'}
@@ -340,11 +347,7 @@ const BusinessDetailPage = () => {
           </div>
         )}
 
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
+        <BackgroundOrbs />
 
         {/* Header */}
         <div className="border-b border-white/10 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-50">
