@@ -607,28 +607,28 @@ const SusuCirclesPage: React.FC = () => {
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="p-4 rounded-lg bg-slate-800/60 border border-white/10">
-                    <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                    <div className="flex items-center gap-2 text-slate-200 text-sm font-medium mb-1">
                       <Clock className="w-4 h-4" />
                       Held in Escrow
                     </div>
                     <p className="text-2xl font-bold text-mansagold">${escrowStats.held}</p>
                   </div>
                   <div className="p-4 rounded-lg bg-slate-800/60 border border-white/10">
-                    <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                    <div className="flex items-center gap-2 text-slate-200 text-sm font-medium mb-1">
                       <CheckCircle className="w-4 h-4" />
                       Released
                     </div>
                     <p className="text-2xl font-bold text-emerald-400">${escrowStats.released}</p>
                   </div>
                   <div className="p-4 rounded-lg bg-slate-800/60 border border-white/10">
-                    <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                    <div className="flex items-center gap-2 text-slate-200 text-sm font-medium mb-1">
                       <DollarSign className="w-4 h-4" />
                       Total Received
                     </div>
                     <p className="text-2xl font-bold text-blue-400">${escrowStats.received}</p>
                   </div>
                   <div className="p-4 rounded-lg bg-slate-800/60 border border-white/10">
-                    <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                    <div className="flex items-center gap-2 text-slate-200 text-sm font-medium mb-1">
                       <Shield className="w-4 h-4" />
                       Platform Fee
                     </div>
