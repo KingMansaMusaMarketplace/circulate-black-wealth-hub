@@ -8,7 +8,7 @@ import React, { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // Lazy-load the entire recharts module once
-const RechartsModule = React.lazy(() => import('recharts'));
+const RechartsModule = React.lazy(() => import('recharts').then(mod => ({ default: mod.ResponsiveContainer as any })));
 
 // Chart loading fallback
 const ChartSkeleton = ({ height = 300 }: { height?: number }) => (

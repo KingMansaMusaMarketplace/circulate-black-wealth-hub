@@ -66,10 +66,9 @@ describe('useOfflineSupport', () => {
 
     act(() => {
       const queued = result.current.queueAction({
-        type: 'business_favorite',
+        type: 'business_favorite' as const,
         userId: 'user-1',
-        businessId: 'biz-1',
-        isFavorite: true,
+        data: { businessId: 'biz-1', isFavorite: true },
       });
       expect(queued).toBe(false);
     });
