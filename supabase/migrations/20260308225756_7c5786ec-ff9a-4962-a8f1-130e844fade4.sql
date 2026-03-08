@@ -1,0 +1,1 @@
+UPDATE businesses SET zip_code = '77004' WHERE id = 'adace47f-9f23-44c4-aefd-355ff6eab220'; -- Unity National Bank, Houston TX
