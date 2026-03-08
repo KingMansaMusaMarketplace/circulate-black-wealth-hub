@@ -349,7 +349,7 @@ const NativeFeaturesDemo: React.FC = () => {
 
               <Button 
                 onClick={() => runFeatureTest('offline', async () => {
-                  queueAction({ type: 'test', data: { test: true } });
+                  queueAction({ type: 'profile_update', userId: 'test', data: { test: true } } as any);
                 })}
                 className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >

@@ -11,7 +11,6 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CertificationAgreement from './CertificationAgreement';
 import CertificateDownload from './CertificateDownload';
 import PhoneVerification from './PhoneVerification';

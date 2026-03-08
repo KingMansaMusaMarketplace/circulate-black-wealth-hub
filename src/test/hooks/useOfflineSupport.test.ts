@@ -55,7 +55,7 @@ describe('useOfflineSupport', () => {
         userId: 'user-1',
         businessId: 'biz-1',
         isFavorite: true,
-      });
+      } as any);
       expect(queued).toBe(true);
     });
 
@@ -71,7 +71,7 @@ describe('useOfflineSupport', () => {
         userId: 'user-1',
         businessId: 'biz-1',
         isFavorite: true,
-      });
+      } as any);
       expect(queued).toBe(false);
     });
 
@@ -137,7 +137,7 @@ describe('useOfflineSupport', () => {
         businessId: 'biz-1',
         rating: 5,
         comment: 'Great!',
-      });
+      } as any);
     });
 
     const stored = JSON.parse(localStorage.getItem('offline_queue') || '[]');

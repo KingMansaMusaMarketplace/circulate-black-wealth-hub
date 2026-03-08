@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+// @ts-ignore - testing library types
 import { render, screen } from '@testing-library/react';
 import { SubscriptionUIBlocker } from '@/components/subscription/SubscriptionUIBlocker';
 

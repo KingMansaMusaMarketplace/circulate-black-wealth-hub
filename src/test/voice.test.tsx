@@ -4,6 +4,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+// @ts-ignore - testing library types
 import { render, screen, fireEvent } from '@testing-library/react';
 import { VoiceButton } from '@/components/voice/VoiceButton';
 import { VoiceWaveform } from '@/components/voice/VoiceWaveform';
