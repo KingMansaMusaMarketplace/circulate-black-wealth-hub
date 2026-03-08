@@ -31,6 +31,7 @@ const BusinessCard = ({
   id, 
   name, 
   category, 
+  description: descriptionProp,
   rating, 
   reviewCount, 
   discount, 
@@ -43,7 +44,7 @@ const BusinessCard = ({
   isSample = false,
   isVerified = false
 }: BusinessCardProps) => {
-  const description = `Discover amazing ${category.toLowerCase()} services and earn loyalty points`;
+  const description = descriptionProp || `Discover amazing ${category.toLowerCase()} services and earn loyalty points`;
 
   return (
     <Card className={`
