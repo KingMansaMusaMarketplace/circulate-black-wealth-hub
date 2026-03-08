@@ -23,34 +23,43 @@ serve(async (req) => {
       throw new Error('OPENAI_API_KEY is not set');
     }
 
-    // Check if user is admin by extracting auth from request
-    let isAdmin = false;
+    // Require authentication - prevent anonymous access to expensive OpenAI sessions
     const authHeader = req.headers.get("authorization");
-    
-    if (authHeader) {
-      try {
-        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-        const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-        const supabase = createClient(supabaseUrl, supabaseServiceKey);
-        
-        const token = authHeader.replace("Bearer ", "");
-        const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-        
-        if (user && !authError) {
-          // Check user_roles table for admin role
-          const { data: roleData } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", user.id)
-            .eq("role", "admin")
-            .single();
-          
-          isAdmin = !!roleData;
-          console.log(`User ${user.id} admin status: ${isAdmin}`);
-        }
-      } catch (e) {
-        console.log("Could not verify admin status:", e);
-      }
+    if (!authHeader?.startsWith("Bearer ")) {
+      return new Response(
+        JSON.stringify({ error: "Authentication required" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    const token = authHeader.replace("Bearer ", "");
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (!user || authError) {
+      return new Response(
+        JSON.stringify({ error: "Invalid or expired token" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Check if user is admin
+    let isAdmin = false;
+    try {
+      const { data: roleData } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .single();
+      
+      isAdmin = !!roleData;
+      console.log(`User ${user.id} admin status: ${isAdmin}`);
+    } catch (e) {
+      console.log("Could not verify admin status:", e);
     }
 
     console.log('Requesting ephemeral token from OpenAI...');
