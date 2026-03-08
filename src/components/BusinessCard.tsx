@@ -13,6 +13,7 @@ interface BusinessCardProps {
   id: string;
   name: string;
   category: string;
+  description?: string;
   rating: number;
   reviewCount: number;
   discount: string;
