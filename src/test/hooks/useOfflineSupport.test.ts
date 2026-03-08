@@ -137,7 +137,7 @@ describe('useOfflineSupport', () => {
         businessId: 'biz-1',
         rating: 5,
         comment: 'Great!',
-      });
+      } as any);
     });
 
     const stored = JSON.parse(localStorage.getItem('offline_queue') || '[]');

@@ -4,7 +4,9 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
+const screen = (await import('@testing-library/react')).screen;
+const fireEvent = (await import('@testing-library/react')).fireEvent;
 import { VoiceButton } from '@/components/voice/VoiceButton';
 import { VoiceWaveform } from '@/components/voice/VoiceWaveform';
 import { VoiceTranscript } from '@/components/voice/VoiceTranscript';
