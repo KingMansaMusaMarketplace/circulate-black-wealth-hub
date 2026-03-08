@@ -1,0 +1,57 @@
+
+INSERT INTO businesses (business_name, name, description, category, address, city, state, zip_code, phone, email, website, is_verified, latitude, longitude, owner_id, banner_url)
+VALUES 
+(
+  'Showcase BBQ',
+  'Showcase BBQ',
+  'Legendary Pittsburgh BBQ institution celebrating over 20 years of serving mouth-watering ribs, smoked wings, and brisket. A Black-owned staple in the Homewood-Brushton community known for generous portions and bold flavors.',
+  'Restaurant',
+  '6800 Frankstown Avenue',
+  'Pittsburgh',
+  'PA',
+  '15208',
+  '(412) 361-7469',
+  'showcasebbq@gmail.com',
+  'https://showcasebbq.net',
+  true,
+  40.4554,
+  -79.8946,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  '/images/businesses/showcase-bbq-pittsburgh.jpg'
+),
+(
+  'Alem Ethiopian Village',
+  'Alem Ethiopian Village',
+  'Authentic Ethiopian cuisine in downtown Milwaukee featuring traditional dishes of beef, chicken, lamb, and vegetarian delights served communally with injera. A warm cultural experience with Ethiopian ambience and hospitality.',
+  'Restaurant',
+  '307 E Wisconsin Ave',
+  'Milwaukee',
+  'WI',
+  '53202',
+  '(414) 224-5324',
+  'info@alem-ethiopianvillage.com',
+  'https://www.alem-ethiopianvillage.com',
+  true,
+  43.0389,
+  -87.9065,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  '/images/businesses/alem-ethiopian-village-milwaukee.jpg'
+),
+(
+  'Longleaf Swine',
+  'Longleaf Swine',
+  'Whole hog barbecue restaurant in downtown Raleigh''s historic Oakwood neighborhood. Specializing in slow-smoked meats rooted in Southern tradition, Longleaf Swine is a gathering place for chef-crafted BBQ, good music, and great company.',
+  'Restaurant',
+  '300 East Edenton Street',
+  'Raleigh',
+  'NC',
+  '27601',
+  '(984) 200-9649',
+  'info@longleafswine.com',
+  'https://www.longleafswine.com',
+  true,
+  35.7826,
+  -78.6350,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  '/images/businesses/longleaf-swine-raleigh.jpg'
+);

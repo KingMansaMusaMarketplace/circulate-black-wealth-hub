@@ -1,0 +1,57 @@
+
+INSERT INTO businesses (business_name, name, description, category, address, city, state, zip_code, phone, email, website, is_verified, latitude, longitude, owner_id, banner_url)
+VALUES 
+(
+  'Kountry Kitchen Soul Food Place',
+  'Kountry Kitchen Soul Food Place',
+  'A beloved Indianapolis institution serving soul food for decades. Known for its Southern-style comfort food including fried chicken, catfish, collard greens, and cornbread. A true community gathering spot with warm hospitality and generous portions.',
+  'Restaurant',
+  '1831 N College Ave',
+  'Indianapolis',
+  'IN',
+  '46202',
+  '(317) 926-4463',
+  'info@kountrykitchenindy.com',
+  'https://kountrykitchenindy.com',
+  true,
+  39.7883,
+  -86.1470,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  'https://kountrykitchenindy.com/images/businesses/kountry-kitchen-indy.jpg'
+),
+(
+  'Levels Nigerian Cuisine',
+  'Levels Nigerian Cuisine',
+  'The premiere destination for West African cuisine and culture in St. Louis. Located on Washington Avenue, Levels offers an elevated Nigerian dining experience with weekend brunch and dinner service in a stylish, sophisticated atmosphere.',
+  'Restaurant',
+  '1405 Washington Ave',
+  'St. Louis',
+  'MO',
+  '63103',
+  '(314) 571-9990',
+  'info@levelsstl.com',
+  'https://www.levelsstl.com',
+  true,
+  38.6318,
+  -90.2043,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  NULL
+),
+(
+  'Cafe Noir',
+  'Cafe Noir',
+  'Black-owned comfort food with a gourmet twist in Oakland''s Prescott Market. Led by Marisa and Steven, Cafe Noir blends Nigerian and Panamanian culture into every dish — a celebration of the African diaspora through flavor, memory, and story.',
+  'Restaurant',
+  '1620 18th St',
+  'Oakland',
+  'CA',
+  '94607',
+  '(415) 312-0990',
+  'cafenoiroakland@gmail.com',
+  'https://www.cafenoiroak.com',
+  true,
+  37.8109,
+  -122.2755,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  NULL
+);
