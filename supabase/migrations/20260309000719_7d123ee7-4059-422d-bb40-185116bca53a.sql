@@ -1,0 +1,1 @@
+UPDATE businesses SET banner_url = '/images/businesses/apparel-redefined-banner.jpg' WHERE id = 'a1b2c3d4-e5f6-7890-abcd-300000000001';
