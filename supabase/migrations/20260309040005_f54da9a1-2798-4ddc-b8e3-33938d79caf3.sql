@@ -1,0 +1,9 @@
+
+-- Batch 19: Sweet Red Peach (Inglewood), Shabazz Bakery (Inglewood), Harriet's Cheesecakes (Inglewood)
+INSERT INTO public.businesses (id, business_name, name, description, category, address, city, state, zip_code, phone, email, website, logo_url, banner_url, latitude, longitude, average_rating, review_count, is_verified, owner_id)
+VALUES
+(gen_random_uuid(), 'Sweet Red Peach', 'Sweet Red Peach', 'Inglewood landmark home to LA''s best red velvet cake. Each thick slice is appropriately dense yet implausibly light with silky cream cheese frosting. Featured in The Infatuation.', 'Restaurant', '421 E Manchester Blvd', 'Inglewood', 'CA', '90301', '(310) 673-8600', 'info@sweetredpeach.com', 'https://sweetredpeach.com', '', '', 33.9620, -118.3480, 4.8, 312, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b'),
+
+(gen_random_uuid(), 'Shabazz Bakery & Rosalie''s Restaurant', 'Shabazz Bakery & Rosalie''s Restaurant', 'Downtown Inglewood institution continuing the proud tradition of creating delicious Honey Bean Pies, Pineapple Cheesecake, Carrot Pie, and health-conscious Southern fare.', 'Restaurant', '201 E Hillcrest Blvd', 'Inglewood', 'CA', '90301', '(310) 674-0303', 'info@shabazzbakery.com', 'https://www.shabazzbakery.com', '', '', 33.9610, -118.3490, 4.6, 178, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b'),
+
+(gen_random_uuid(), 'Harriet''s Cheesecakes Unlimited', 'Harriet''s Cheesecakes Unlimited', 'Iconic Inglewood cake shop founded in 1983. Handcrafted gourmet cheesecakes using the finest ingredients attract loyal customers from all over the world. Praline, French Vanilla, Banana Pudding specialties.', 'Restaurant', '1515 Centinela Ave', 'Inglewood', 'CA', '90302', '(310) 419-2259', 'info@harrietscheesecakes.com', 'https://www.harrietscheesecakesunlimited.com', '', '', 33.9680, -118.3670, 4.9, 445, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b');
