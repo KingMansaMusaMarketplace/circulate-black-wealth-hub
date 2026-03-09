@@ -221,11 +221,11 @@ serve(async (req) => {
         // Get user's past interactions for personalization
         let recommendations: any[] = [];
         
-        if (user_id) {
+        if (authenticatedUserId) {
           const { data: interactions } = await supabase
             .from("business_interactions")
             .select("business_id")
-            .eq("user_id", user_id)
+            .eq("user_id", authenticatedUserId)
             .order("created_at", { ascending: false })
             .limit(5);
 
