@@ -49,6 +49,14 @@ function checkRateLimit(ip: string, maxRequests = 20, windowMs = 60000): boolean
 // UUID validation regex
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+// Sanitize wildcard characters from user input to prevent ILIKE abuse
+function sanitizeSearchInput(input: string): string {
+  return input
+    .replace(/[%_]/g, '') // Remove SQL wildcards
+    .trim()
+    .substring(0, 100); // Enforce max length
+}
+
 // Zod schema for input validation
 const VoiceConciergeRequestSchema = z.object({
   tool_name: z.enum([
