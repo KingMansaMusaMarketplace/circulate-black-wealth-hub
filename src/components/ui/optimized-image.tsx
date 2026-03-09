@@ -76,7 +76,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
           observer.unobserve(currentImg);
         }
       },
-      { threshold: 0.01, rootMargin: '100px' }
+      { threshold: 0.01, rootMargin: '400px' }
     );
 
     observer.observe(currentImg);
