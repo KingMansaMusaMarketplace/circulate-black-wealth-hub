@@ -269,3 +269,6 @@ verify_jwt = false
 
 [functions.kayla-tools]
 verify_jwt = false
+
+[functions.bulk-refresh-business-branding]
+verify_jwt = false
