@@ -1,0 +1,75 @@
+
+INSERT INTO public.businesses (
+  id, business_name, name, description, category, address, city, state, zip_code,
+  phone, email, website, logo_url, banner_url, is_verified, owner_id,
+  latitude, longitude, average_rating, review_count
+) VALUES
+-- 1. Tamales Elena (Bell Gardens / Watts) - First Afro-Mexican restaurant in LA, featured in LA Times
+(
+  gen_random_uuid(),
+  'Tamales Elena',
+  'Tamales Elena',
+  'The first Afro-Mexican restaurant in Los Angeles! Maria Elena Lorenzo started her tamale business over 20 years ago as a cart vendor in Watts. Specializing in regional food from La Costa Chica, Guerrero, Mexico — a historically Afro-Mexican region — Elena and her family bring authentic Afro-Mexican tamales and antojitos to LA. Featured in the Los Angeles Times and LA Magazine.',
+  'Restaurant',
+  '6566 Eastern Ave',
+  'Bell Gardens',
+  'CA',
+  '90201',
+  '(323) 510-5015',
+  'info@tamaleselena.com',
+  'https://www.tamaleselena.com',
+  'https://www.tamaleselena.com/-_-/res/b41cdf68-f5dd-472f-a736-049bc0209c6b/images/files/b41cdf68-f5dd-472f-a736-049bc0209c6b/52f223ca-d581-4ead-a611-cb426ea6545d/499-499/a81d2af037130165c64b04008cda4a3f38e26a67',
+  'https://www.tamaleselena.com/-_-/res/b41cdf68-f5dd-472f-a736-049bc0209c6b/images/files/b41cdf68-f5dd-472f-a736-049bc0209c6b/3369e488-0999-4776-98ab-932b472cadc4/1366-952/0aa219c880ed4df7f7b410432c43516b34b8e357',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.9351,
+  -118.2390,
+  4.6,
+  412
+),
+-- 2. WattsQ BBQ (Gardena) - Veteran-owned, authentic slow-smoked BBQ
+(
+  gen_random_uuid(),
+  'WattsQ BBQ',
+  'WattsQ BBQ',
+  'Authentic slow-smoked BBQ crafted with passion and tradition by veteran Jeriod Watts and his wife Connie. Based in Gardena, WattsQ brings bold Southern BBQ flavors to the heart of Los Angeles. Specializing in slow-smoked ribs, brisket, hot links, and sausages with signature dry rubs. Available for catering, parties, and events.',
+  'Restaurant',
+  '1517 W 162nd St',
+  'Gardena',
+  'CA',
+  '90247',
+  '(310) 770-8227',
+  'info@wattsq.com',
+  'https://wattsq.com',
+  'https://images.squarespace-cdn.com/content/v1/67980c1266f05479a6a32837/ca2165df-4cab-4206-8fff-6286f21f00a4/Sausage+Links+Plate.png',
+  'https://images.squarespace-cdn.com/content/v1/67980c1266f05479a6a32837/c36f7f08-ff45-455a-85e5-ccace9159f38/IMG_6973.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.8545,
+  -118.3128,
+  4.7,
+  187
+),
+-- 3. Smoke Soul Kitchen (San Francisco) - Bayview district, The Infatuation rated 8.0
+(
+  gen_random_uuid(),
+  'Smoke Soul Kitchen',
+  'Smoke Soul Kitchen',
+  'A standout Black-owned soul food spot in San Francisco''s Bayview district. Rated 8.0 by The Infatuation, Smoke Soul Kitchen serves satisfying brunch and comfort food classics with bold, smoky flavors. A community anchor bringing authentic Southern soul food to the Bayview neighborhood.',
+  'Restaurant',
+  '4618 3rd St',
+  'San Francisco',
+  'CA',
+  '94124',
+  '(415) 520-3147',
+  'info@smokesoulkitchen.com',
+  'https://www.smokesoulkitchen.com',
+  'https://blackpulsehq.com/wp-content/uploads/2025/06/MinnieBellSoulMovement4.webp',
+  'https://blackpulsehq.com/wp-content/uploads/2025/06/MinnieBellSoulMovement3.jpeg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  37.7373,
+  -122.3886,
+  4.5,
+  256
+);
