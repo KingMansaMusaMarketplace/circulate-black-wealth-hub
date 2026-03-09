@@ -77,6 +77,38 @@ serve(async (req) => {
       );
     }
 
+    // Validate base_points is a positive number within reasonable bounds
+    if (typeof base_points !== 'number' || base_points <= 0 || base_points > 10000) {
+      return new Response(
+        JSON.stringify({ error: "base_points must be a positive number not exceeding 10000" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Authorization: verify the caller owns or is associated with the business
+    const callerUserId = claimsData.user.id;
+    const { data: businessOwner, error: ownerError } = await supabase
+      .from("businesses")
+      .select("owner_id")
+      .eq("id", business_id)
+      .single();
+
+    if (ownerError || !businessOwner) {
+      return new Response(
+        JSON.stringify({ error: "Business not found" }),
+        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Only the business owner or an admin can award points
+    const { data: isAdmin } = await supabase.rpc("is_admin_secure");
+    if (businessOwner.owner_id !== callerUserId && !isAdmin) {
+      return new Response(
+        JSON.stringify({ error: "You are not authorized to award points for this business" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     // Check if business is a coalition member
     const { data: member, error: memberError } = await supabase
       .from("coalition_members")
@@ -115,7 +147,7 @@ serve(async (req) => {
   } catch (error) {
     console.error("Coalition earn points error:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "An internal error occurred" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
