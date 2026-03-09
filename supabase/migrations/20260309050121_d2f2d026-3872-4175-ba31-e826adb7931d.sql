@@ -1,0 +1,1 @@
+UPDATE businesses SET logo_url = 'https://circulate-black-wealth-hub.lovable.app/images/placeholders/restaurant-logo.png', banner_url = 'https://circulate-black-wealth-hub.lovable.app/images/placeholders/restaurant-banner.jpg' WHERE logo_url LIKE '%parastorage%';
