@@ -34,7 +34,7 @@ export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
     email: supabaseRecord.email || '',
     website: supabaseRecord.website || '',
     logoUrl: logoUrl,
-    bannerUrl: supabaseRecord.banner_url || '',
+    bannerUrl: normalizeImageUrl(supabaseRecord.banner_url),
     averageRating: Number(supabaseRecord.average_rating) || 0,
     reviewCount: supabaseRecord.review_count || 0,
     // Backward compatibility properties
