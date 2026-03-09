@@ -12,6 +12,8 @@ serve(async (req) => {
   }
 
   try {
+    const { offset = 0, limit = 10 } = await req.json().catch(() => ({}));
+
     const FIRECRAWL_API_KEY = Deno.env.get('FIRECRAWL_API_KEY');
     if (!FIRECRAWL_API_KEY) {
       return new Response(JSON.stringify({ error: 'FIRECRAWL_API_KEY not configured' }), {
@@ -24,13 +26,13 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Get all businesses with placeholder images
+    // Get businesses with placeholder images (paginated)
     const { data: businesses, error: fetchError } = await supabase
       .from('businesses')
       .select('id, name, website, logo_url, banner_url')
       .or('logo_url.like.%placeholders%,banner_url.like.%placeholders%')
-      .order('name');
-
+      .order('name')
+      .range(offset, offset + limit - 1);
     if (fetchError) {
       console.error('Fetch error:', fetchError);
       return new Response(JSON.stringify({ error: fetchError.message }), {
