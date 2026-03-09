@@ -1,0 +1,75 @@
+
+INSERT INTO public.businesses (
+  id, business_name, name, description, category, address, city, state, zip_code,
+  phone, email, website, logo_url, banner_url, is_verified, owner_id,
+  latitude, longitude, average_rating, review_count
+) VALUES
+-- 1. AfroEatz (Sacramento) - Best Liberian & West African restaurant
+(
+  gen_random_uuid(),
+  'AfroEatz',
+  'AfroEatz',
+  'Sacramento''s premier Liberian and West African restaurant. More than a restaurant — a piece of home. Every dish carries the warmth of West African traditions, the strength of ancestors, and love for the community. Serving soulful flavors of jollof rice, fufu, pepper soup, and more in the heart of Sacramento.',
+  'Restaurant',
+  '2820 Marconi Ave',
+  'Sacramento',
+  'CA',
+  '95821',
+  '(916) 550-1780',
+  'info@afroeatz.com',
+  'https://afroeatz.com',
+  'https://d1w7312wesee68.cloudfront.net/qGdRtoqpyKzAgVndBJoPZywHPVnSPJR03K8fXnIwMa0/ext:webp/quality:85/c:1694:1242:ce:-132:0/plain/s3://toast-sites-resources-prod/restaurantImages/13dc21ff-1cf0-4299-9288-73e944f45fbf/IMG_7644.jpeg',
+  'https://d1w7312wesee68.cloudfront.net/25xeMWtLIK3VVLWw53C6YoFEl1We_Q_05Xgz8DTHOfo/ext:webp/quality:85/plain/s3://toast-sites-resources-prod/restaurantImages/13dc21ff-1cf0-4299-9288-73e944f45fbf/edef3302-0930-4a1a-ab48-7b9a981c63dd-18',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  38.6157,
+  -121.4076,
+  4.7,
+  198
+),
+-- 2. Heritage (Long Beach) - Michelin Star, Black-owned, siblings Lauren & Chef Philip Pretty
+(
+  gen_random_uuid(),
+  'Heritage',
+  'Heritage',
+  'A Michelin-starred, Black-owned restaurant in Long Beach''s historic Rose Park neighborhood. Led by siblings Lauren and Chef Philip Pretty, Heritage is nestled in a century-old craftsman house and recognized with Michelin Star and Green Star certifications in 2023 and 2024. Fixed tasting menus showcase fresh, locally sourced California ingredients with innovative zero-waste sustainability practices.',
+  'Restaurant',
+  '2032 E 7th St',
+  'Long Beach',
+  'CA',
+  '90804',
+  '(562) 438-2900',
+  'reservations@heritagerestaurantlb.com',
+  'https://heritagerestaurantlb.com',
+  'https://heritagerestaurantlb.com/wp-content/uploads/2024/01/Heritage-Logo.png',
+  'https://heritagerestaurantlb.com/wp-content/uploads/2024/01/Heritage-Hero.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.7751,
+  -118.1668,
+  4.9,
+  614
+),
+-- 3. Georgia's Restaurant (Long Beach) - Casual soul food eatery, comfort meets culinary creativity
+(
+  gen_random_uuid(),
+  'Georgia''s Restaurant',
+  'Georgia''s Restaurant',
+  'A beloved Black-owned casual eatery in Long Beach where comfort meets culinary creativity. Known for mouthwatering breakfasts, soul food classics, and a diverse menu that satisfies all appetites. From fluffy waffles and crispy chicken to hearty brunch plates, Georgia''s offers a warm, welcoming dining experience with online ordering and catering.',
+  'Restaurant',
+  '4101 McGowen St, Unit 155',
+  'Long Beach',
+  'CA',
+  '90808',
+  '(562) 420-5637',
+  'info@georgias-restaurant.com',
+  'https://georgias-restaurant.com',
+  'https://d1w7312wesee68.cloudfront.net/Cf9dJghll4ynSYg6uftDBdR7BEedMsHTFIm4dy0Laak/ext:webp/quality:85/plain/s3://toast-sites-resources-prod/restaurantImages/00053bef-7d6d-4110-a964-1f749ee6c484/051418GeorgiasBrunch032.jpg',
+  'https://d1w7312wesee68.cloudfront.net/VGF3hKO777Q6jubNuxCyiCjtvm2hdq0S0GkM5VseoT8/ext:webp/quality:85/plain/s3://toast-sites-resources-prod/restaurantImages/00053bef-7d6d-4110-a964-1f749ee6c484/051418.Georgias.Brunch.082.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.8305,
+  -118.1448,
+  4.5,
+  342
+);
