@@ -172,7 +172,7 @@ verify_jwt = true
 verify_jwt = false
 
 [functions.coalition-earn-points]
-verify_jwt = true
+verify_jwt = false
 
 [functions.b2b-match]
 verify_jwt = false
