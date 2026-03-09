@@ -1,0 +1,75 @@
+
+INSERT INTO public.businesses (
+  id, business_name, name, description, category, address, city, state, zip_code,
+  phone, email, website, logo_url, banner_url, is_verified, owner_id,
+  latitude, longitude, average_rating, review_count
+) VALUES
+-- 1. Gram's BBQ (Riverside) - Family-owned since 1987, Southern smoked BBQ legacy
+(
+  gen_random_uuid(),
+  'Gram''s BBQ',
+  'Gram''s BBQ',
+  'A family-owned Southern smoked BBQ institution in downtown Riverside since 1987. Founded by Robert Bratton and named after his mother Josie "Gram" Bratton, who migrated from Rock Hill, South Carolina. Now run by the next generation, Gram''s serves slow-smoked ribs, brisket, pulled pork, seafood, and burgers with a California twist. Plus mobile catering services.',
+  'Restaurant',
+  '3527 Main St',
+  'Riverside',
+  'CA',
+  '92501',
+  '(951) 682-3242',
+  'info@gramsbbq.co',
+  'https://www.gramsbbq.co',
+  'https://gramsbbq.co/wp-content/uploads/2022/05/Bunch-of-BBQ-Family-Pack-3.jpg',
+  'https://gramsbbq.co/wp-content/uploads/2025/03/Grams-BBQ-Restaurant-e1766265778488.webp',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.9817,
+  -117.3755,
+  4.4,
+  523
+),
+-- 2. Hotlanta Wings and Things (Riverside) - Soul food wings specialist
+(
+  gen_random_uuid(),
+  'Hotlanta Wings and Things',
+  'Hotlanta Wings and Things',
+  'A casual Black-owned soul food spot in Riverside specializing in delicious American-style chicken wings with a variety of flavors. Perfect for groups, families, and even your furry friends. Offering delivery, takeout, and catering with a welcoming ambiance, happy hour specials, and a full selection of beverages.',
+  'Restaurant',
+  '3646 University Ave',
+  'Riverside',
+  'CA',
+  '92501',
+  '(951) 534-9464',
+  'info@hotlantawingsandthings.com',
+  'https://hotlantawingsandthings.shop',
+  'https://cdn.res-menu.net/hotlanta-wings-and-things/1.jpg',
+  'https://cdn.res-menu.net/hotlanta-wings-and-things/3.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.9537,
+  -117.3721,
+  4.3,
+  289
+),
+-- 3. Nkechi African Cafe (Inglewood) - Authentic West African cuisine
+(
+  gen_random_uuid(),
+  'Nkechi African Cafe',
+  'Nkechi African Cafe',
+  'An authentic West African restaurant in Inglewood where stepping inside feels like being welcomed into a warm, homey kitchen. The aromas and hospitality tell a story of heritage and community, serving traditional dishes that honor West African culinary traditions with rich flavors and generous portions.',
+  'Restaurant',
+  '2717 W Manchester Blvd',
+  'Inglewood',
+  'CA',
+  '90305',
+  '(310) 330-3596',
+  'info@nkechicafe.com',
+  'https://nkechi-african-cafe.hey-restaurants.com',
+  'https://cdn.res-menu.net/hotlanta-wings-and-things/2.jpg',
+  'https://cdn.res-menu.net/hotlanta-wings-and-things/2.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.9597,
+  -118.3498,
+  4.6,
+  178
+);
