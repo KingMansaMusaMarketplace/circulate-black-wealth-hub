@@ -1,0 +1,9 @@
+
+-- Batch 8: Flipnsoul, Jackie's Place, Lois the Pie Queen
+INSERT INTO public.businesses (id, business_name, name, description, category, address, city, state, zip_code, phone, email, website, logo_url, banner_url, latitude, longitude, average_rating, review_count, is_verified, owner_id)
+VALUES
+(gen_random_uuid(), 'Flipnsoul', 'Flipnsoul', 'A unique Oakland dining destination blending Filipino flavors with traditional soul food, featuring crispy fried chicken, garlic shrimp, lumpia, and bold comfort food in a cozy atmosphere.', 'Restaurant', '2101 14th Ave', 'Oakland', 'CA', '94606', '(510) 555-0199', 'info@flipnsoul.com', 'https://flipnsoul.hey-restaurants.com', 'https://cdn.hey-restaurants.com/flipnsoul/photo-1.jpg', 'https://cdn.hey-restaurants.com/flipnsoul/photo-1.jpg', 37.7750, -122.2330, 4.5, 87, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b'),
+
+(gen_random_uuid(), 'Jackie''s Place', 'Jackie''s Place', 'Elevated soul food and BBQ experience in San Jose. Black-owned, Women-owned, and Veteran-owned establishment serving Southern favorites like smothered chicken, Uncle Greg''s Ribs, and banana pudding.', 'Restaurant', '840 N 1st St', 'San Jose', 'CA', '95112', '(408) 295-1270', 'info@jackiesplacesj.com', 'https://jackiesplacesj.com', 'https://cdn.res-menu.net/jackies-place/photo-1.jpg', 'https://cdn.res-menu.net/jackies-place/photo-2.jpg', 37.3530, -121.9010, 4.7, 203, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b'),
+
+(gen_random_uuid(), 'Lois the Pie Queen', 'Lois the Pie Queen', 'Renowned Oakland institution serving authentic Southern soul food since 1956. Famous for the Reggie Jackson Special, Chicken and Waffles, and legendary homemade pies that have made it a Bay Area staple.', 'Restaurant', '851 60th St', 'Oakland', 'CA', '94608', '(510) 658-5616', 'info@loispies.com', 'https://loispies.com', '', '', 37.8423, -122.2668, 4.4, 445, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b');
