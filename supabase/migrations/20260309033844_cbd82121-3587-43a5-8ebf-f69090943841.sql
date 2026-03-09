@@ -1,0 +1,75 @@
+
+INSERT INTO public.businesses (
+  id, business_name, name, description, category, address, city, state, zip_code,
+  phone, email, website, logo_url, banner_url, is_verified, owner_id,
+  latitude, longitude, average_rating, review_count
+) VALUES
+-- 1. The Serving Spoon (Inglewood) - 2026 James Beard Award, since 1983
+(
+  gen_random_uuid(),
+  'The Serving Spoon',
+  'The Serving Spoon',
+  'A legendary Inglewood soul food institution since 1983, founded by Harold E. Sparks. Winner of the 2026 James Beard America''s Classic Award, recognized as a vital social and cultural anchor for the Black community in Los Angeles. Now run by the founder''s grandchildren, serving beloved breakfast, brunch, and Southern comfort food.',
+  'Restaurant',
+  '1403 Centinela Ave',
+  'Inglewood',
+  'CA',
+  '90302',
+  '(310) 412-3927',
+  'info@theservingspoon.net',
+  'https://theservingspoon.net',
+  'https://static.spotapps.co/spots/c7/beaa65b11645e28f4867b5a849337a/full',
+  'https://static.spotapps.co/spots/1c/8115eda990474ea8e7f71b0c57decb/full',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.9617,
+  -118.3701,
+  4.3,
+  2729
+),
+-- 2. Two Hommés (Inglewood) - Afro-Centric Eatery, featured on KTLA, The Infatuation
+(
+  gen_random_uuid(),
+  'Two Hommés',
+  'Two Hommés',
+  'An Afro-Centric eatery in Inglewood serving bold, creative dishes that blend African diaspora flavors with modern culinary techniques. Featured on KTLA and named one of LA''s best new restaurants by The Hungry Black Man. Smart casual dining with reservations recommended, plus a food truck for events and catering.',
+  'Restaurant',
+  '902 N La Brea Ave',
+  'Inglewood',
+  'CA',
+  '90302',
+  '(424) 227-6266',
+  'catering@twohommes.com',
+  'https://twohommes.com',
+  'https://i0.wp.com/twohommes.com/wp-content/uploads/2023/06/Asset-3.png?w=1128&ssl=1',
+  'https://i0.wp.com/twohommes.com/wp-content/uploads/2023/06/HBM-lgoo_100.png?w=1128&ssl=1',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  33.9618,
+  -118.3440,
+  4.6,
+  487
+),
+-- 3. Minnie Bell's Soul Movement (San Francisco) - SF Chronicle's best soul food, Fillmore District
+(
+  gen_random_uuid(),
+  'Minnie Bell''s Soul Movement',
+  'Minnie Bell''s Soul Movement',
+  'San Francisco''s premier soul food destination in the historic Fillmore District. Owned by Fernay McPherson, who grew up in the Fillmore and returned to her neighborhood after years running a food stall. Named SF''s best soul food by the San Francisco Chronicle, serving scratch-made fried chicken, mac and cheese, braised greens, and cornbread.',
+  'Restaurant',
+  '1375 Fillmore St',
+  'San Francisco',
+  'CA',
+  '94115',
+  '(415) 795-1462',
+  'info@minniebells.com',
+  'https://www.minniebells.com',
+  'https://blackpulsehq.com/wp-content/uploads/2025/06/MinnieBellSoulMovement1-768x512.jpg',
+  'https://blackpulsehq.com/wp-content/uploads/2025/06/MinnieBellSoulMovement2-768x432.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  37.7832,
+  -122.4318,
+  4.8,
+  966
+);
