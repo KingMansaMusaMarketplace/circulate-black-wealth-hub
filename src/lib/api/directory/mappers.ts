@@ -7,7 +7,19 @@ import { Business } from '@/types/business';
 export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
   // Handle both business_name and name columns (name takes precedence if both exist)
   const businessName = supabaseRecord.name || supabaseRecord.business_name || 'Unnamed Business';
-  const logoUrl = supabaseRecord.logo_url || '';
+  
+  // Convert placeholder URLs to relative paths for preview compatibility
+  const normalizeImageUrl = (url: string | null): string => {
+    if (!url) return '';
+    // Convert absolute placeholder URLs to relative for preview compatibility
+    const placeholderPrefix = 'https://circulate-black-wealth-hub.lovable.app/images/placeholders/';
+    if (url.startsWith(placeholderPrefix)) {
+      return '/images/placeholders/' + url.substring(placeholderPrefix.length);
+    }
+    return url;
+  };
+  
+  const logoUrl = normalizeImageUrl(supabaseRecord.logo_url);
   
   return {
     id: supabaseRecord.id,
@@ -22,7 +34,7 @@ export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
     email: supabaseRecord.email || '',
     website: supabaseRecord.website || '',
     logoUrl: logoUrl,
-    bannerUrl: supabaseRecord.banner_url || '',
+    bannerUrl: normalizeImageUrl(supabaseRecord.banner_url),
     averageRating: Number(supabaseRecord.average_rating) || 0,
     reviewCount: supabaseRecord.review_count || 0,
     // Backward compatibility properties
@@ -33,7 +45,7 @@ export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
     distanceValue: 0,
     lat: supabaseRecord.latitude ? Number(supabaseRecord.latitude) : 0,
     lng: supabaseRecord.longitude ? Number(supabaseRecord.longitude) : 0,
-    imageUrl: supabaseRecord.banner_url || logoUrl, // Prefer banner for card hero image, fall back to logo
+    imageUrl: normalizeImageUrl(supabaseRecord.banner_url) || logoUrl, // Prefer banner for card hero image, fall back to logo
     imageAlt: businessName,
     isFeatured: supabaseRecord.is_verified || false,
     isVerified: supabaseRecord.is_verified || false,
