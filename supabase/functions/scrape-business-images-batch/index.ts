@@ -33,162 +33,122 @@ serve(async (req) => {
       .or('logo_url.like.%placeholders%,banner_url.like.%placeholders%')
       .order('name')
       .range(offset, offset + limit - 1);
+
     if (fetchError) {
-      console.error('Fetch error:', fetchError);
       return new Response(JSON.stringify({ error: fetchError.message }), {
         status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
 
-    console.log(`Found ${businesses.length} businesses with placeholder images`);
+    console.log(`Processing ${businesses.length} businesses (offset ${offset})`);
+
+    // Junk URL patterns to reject
+    const junkPatterns = [
+      'parastorage.com', 'wix-public', 'error-pages', 'favicon',
+      'pixel.gif', 'spacer.gif', '1x1.', 'tracking', 'analytics',
+      'googletagmanager', 'facebook.com/tr', 'cloudflare',
+    ];
+
+    const isJunkUrl = (url: string) => junkPatterns.some(p => url.toLowerCase().includes(p));
 
     const results: { name: string; status: string; logo?: string; banner?: string }[] = [];
     let updatedCount = 0;
 
-    // Process in batches of 3 to avoid rate limits
-    for (let i = 0; i < businesses.length; i += 3) {
-      const batch = businesses.slice(i, i + 3);
-      
-      const batchPromises = batch.map(async (biz) => {
-        try {
-          if (!biz.website) {
-            results.push({ name: biz.name, status: 'no_website' });
-            return;
-          }
-
-          console.log(`Scraping: ${biz.name} (${biz.website})`);
-
-          const scrapeResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${FIRECRAWL_API_KEY}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              url: biz.website,
-              formats: ['html', 'links'],
-              onlyMainContent: false,
-              waitFor: 3000,
-            }),
-          });
-
-          if (!scrapeResponse.ok) {
-            const errText = await scrapeResponse.text();
-            console.error(`Firecrawl error for ${biz.name}: ${scrapeResponse.status} - ${errText}`);
-            results.push({ name: biz.name, status: `firecrawl_error_${scrapeResponse.status}` });
-            return;
-          }
-
-          const scrapeData = await scrapeResponse.json();
-          const html = scrapeData.data?.html || scrapeData.html || '';
-          const metadata = scrapeData.data?.metadata || scrapeData.metadata || {};
-
-          // Extract images from multiple sources
-          let logoUrl = '';
-          let bannerUrl = '';
-
-          // 1. Try metadata og:image for banner
-          if (metadata.ogImage) {
-            bannerUrl = metadata.ogImage;
-          }
-
-          // 2. Try to find logo from HTML
-          const logoPatterns = [
-            // img tags with logo in class/alt/id
-            /<img[^>]*?(?:class|alt|id)=["'][^"']*(logo|brand|site-logo|header-logo|navbar-logo)[^"']*["'][^>]*?src=["']([^"']+)["']/gi,
-            // img tags with src containing logo
-            /<img[^>]*?src=["']([^"']*logo[^"']*)["']/gi,
-            // link rel="icon" for favicon as fallback
-            /<link[^>]*?rel=["'](?:icon|shortcut icon|apple-touch-icon)["'][^>]*?href=["']([^"']+)["']/gi,
-          ];
-
-          for (const pattern of logoPatterns) {
-            if (logoUrl) break;
-            let match;
-            while ((match = pattern.exec(html)) !== null) {
-              // The URL is in the last capture group
-              const url = match[match.length - 1];
-              if (url && !url.includes('data:') && !url.includes('.svg') && url.length < 500) {
-                logoUrl = resolveUrl(url, biz.website);
-                break;
-              }
-            }
-          }
-
-          // 3. Try banner from HTML if no og:image
-          if (!bannerUrl) {
-            const bannerPatterns = [
-              /<img[^>]*?(?:class|alt)=["'][^"']*(hero|banner|cover|featured|main-image|header-image)[^"']*["'][^>]*?src=["']([^"']+)["']/gi,
-              // Large images in header areas
-              /<(?:header|section)[^>]*>[\s\S]*?<img[^>]*?src=["']([^"']+\.(?:jpg|jpeg|png|webp))["']/gi,
-            ];
-
-            for (const pattern of bannerPatterns) {
-              if (bannerUrl) break;
-              let match;
-              while ((match = pattern.exec(html)) !== null) {
-                const url = match[match.length - 1];
-                if (url && !url.includes('data:') && url.length < 500) {
-                  bannerUrl = resolveUrl(url, biz.website);
-                  break;
-                }
-              }
-            }
-          }
-
-          // 4. Resolve relative banner URL
-          if (bannerUrl && !bannerUrl.startsWith('http')) {
-            bannerUrl = resolveUrl(bannerUrl, biz.website);
-          }
-
-          // 5. If no logo found, use og:image as logo too
-          if (!logoUrl && bannerUrl) {
-            logoUrl = bannerUrl;
-          }
-
-          // 6. If still no banner, try first large image from metadata
-          if (!bannerUrl && metadata.image) {
-            bannerUrl = metadata.image;
-          }
-
-          if (logoUrl || bannerUrl) {
-            const updates: Record<string, string> = {};
-            if (logoUrl) updates.logo_url = logoUrl;
-            if (bannerUrl) updates.banner_url = bannerUrl;
-            updates.updated_at = new Date().toISOString();
-
-            const { error: updateError } = await supabase
-              .from('businesses')
-              .update(updates)
-              .eq('id', biz.id);
-
-            if (updateError) {
-              console.error(`Update error for ${biz.name}:`, updateError);
-              results.push({ name: biz.name, status: 'update_error', logo: logoUrl, banner: bannerUrl });
-            } else {
-              updatedCount++;
-              results.push({ name: biz.name, status: 'updated', logo: logoUrl, banner: bannerUrl });
-              console.log(`✅ Updated ${biz.name}: logo=${logoUrl ? 'yes' : 'no'}, banner=${bannerUrl ? 'yes' : 'no'}`);
-            }
-          } else {
-            results.push({ name: biz.name, status: 'no_images_found' });
-            console.log(`❌ No images found for ${biz.name}`);
-          }
-        } catch (err) {
-          console.error(`Error processing ${biz.name}:`, err);
-          results.push({ name: biz.name, status: 'exception' });
+    // Process sequentially to be gentle on rate limits
+    for (const biz of businesses) {
+      try {
+        if (!biz.website) {
+          results.push({ name: biz.name, status: 'no_website' });
+          continue;
         }
-      });
 
-      await Promise.all(batchPromises);
-      
-      // Small delay between batches
-      if (i + 5 < businesses.length) {
-        await new Promise(r => setTimeout(r, 1000));
+        console.log(`Scraping: ${biz.name} (${biz.website})`);
+
+        // Use branding format for logo extraction + screenshot metadata for banner
+        const scrapeResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${FIRECRAWL_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            url: biz.website,
+            formats: ['branding', 'markdown'],
+            onlyMainContent: false,
+            waitFor: 2000,
+          }),
+        });
+
+        if (!scrapeResponse.ok) {
+          const errText = await scrapeResponse.text();
+          console.error(`Firecrawl error for ${biz.name}: ${scrapeResponse.status}`);
+          results.push({ name: biz.name, status: `error_${scrapeResponse.status}` });
+          continue;
+        }
+
+        const scrapeData = await scrapeResponse.json();
+        const branding = scrapeData.data?.branding || scrapeData.branding || {};
+        const metadata = scrapeData.data?.metadata || scrapeData.metadata || {};
+
+        let logoUrl = '';
+        let bannerUrl = '';
+
+        // Extract logo from branding
+        if (branding.logo && !isJunkUrl(branding.logo)) {
+          logoUrl = branding.logo;
+        }
+        if (branding.images?.logo && !isJunkUrl(branding.images.logo)) {
+          logoUrl = branding.images.logo;
+        }
+
+        // Extract banner from branding or metadata
+        if (branding.images?.ogImage && !isJunkUrl(branding.images.ogImage)) {
+          bannerUrl = branding.images.ogImage;
+        }
+        if (!bannerUrl && metadata.ogImage && !isJunkUrl(metadata.ogImage)) {
+          bannerUrl = metadata.ogImage;
+        }
+        if (!bannerUrl && metadata.image && !isJunkUrl(metadata.image)) {
+          bannerUrl = metadata.image;
+        }
+
+        // If no logo, use og:image as logo too
+        if (!logoUrl && bannerUrl) logoUrl = bannerUrl;
+        // If no banner, use logo as banner
+        if (!bannerUrl && logoUrl) bannerUrl = logoUrl;
+
+        if ((logoUrl || bannerUrl) && !isJunkUrl(logoUrl || '') && !isJunkUrl(bannerUrl || '')) {
+          const updates: Record<string, string> = { updated_at: new Date().toISOString() };
+          if (logoUrl) updates.logo_url = logoUrl;
+          if (bannerUrl) updates.banner_url = bannerUrl;
+
+          const { error: updateError } = await supabase
+            .from('businesses')
+            .update(updates)
+            .eq('id', biz.id);
+
+          if (updateError) {
+            results.push({ name: biz.name, status: 'update_error' });
+          } else {
+            updatedCount++;
+            results.push({ name: biz.name, status: 'updated', logo: logoUrl, banner: bannerUrl });
+            console.log(`✅ ${biz.name}: logo=${!!logoUrl}, banner=${!!bannerUrl}`);
+          }
+        } else {
+          results.push({ name: biz.name, status: 'no_images_found' });
+          console.log(`❌ ${biz.name}: no usable images`);
+        }
+
+        // Small delay between requests
+        await new Promise(r => setTimeout(r, 500));
+
+      } catch (err) {
+        console.error(`Exception for ${biz.name}:`, err);
+        results.push({ name: biz.name, status: 'exception' });
       }
     }
 
-    console.log(`\nDone! Updated ${updatedCount}/${businesses.length} businesses`);
+    console.log(`Done batch: ${updatedCount}/${businesses.length} updated`);
 
     return new Response(JSON.stringify({
       success: true,
@@ -206,15 +166,3 @@ serve(async (req) => {
     });
   }
 });
-
-function resolveUrl(url: string, baseUrl: string): string {
-  if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  try {
-    const base = new URL(baseUrl);
-    if (url.startsWith('//')) return base.protocol + url;
-    if (url.startsWith('/')) return base.origin + url;
-    return new URL(url, baseUrl).href;
-  } catch {
-    return url;
-  }
-}
