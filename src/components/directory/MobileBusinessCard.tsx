@@ -34,13 +34,12 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
       <div className="flex h-32">
         {/* Image Section */}
         <div className="w-32 flex-shrink-0 relative">
-          <img
-            src={imageUrl}
+          <OptimizedImage
+            src={imageUrl || generatePlaceholder(128, 128, name)}
             alt={imageAlt || name}
             className="w-full h-full object-cover"
-            onError={(e) => {
-              e.currentTarget.src = `https://placehold.co/128x128/e0e0e0/808080?text=${name.charAt(0)}`;
-            }}
+            fallbackSrc={generatePlaceholder(128, 128, name)}
+            lazy={false}
           />
           {isFeatured && (
             <Badge className="absolute top-2 left-2 bg-mansagold text-white text-xs">

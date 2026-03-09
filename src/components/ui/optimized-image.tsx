@@ -59,9 +59,9 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     const currentImg = imgRef.current;
     if (!currentImg) return;
 
-    // Check if already in viewport (fixes mobile Safari race condition)
+    // Check if already in viewport or near it (fixes mobile Safari race condition)
     const rect = currentImg.getBoundingClientRect();
-    const isAlreadyVisible = rect.top < window.innerHeight + 50 && rect.bottom > -50;
+    const isAlreadyVisible = rect.top < window.innerHeight + 400 && rect.bottom > -100;
     if (isAlreadyVisible) {
       setIsVisible(true);
       setCurrentSrc(sources.webp);
