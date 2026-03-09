@@ -1,0 +1,9 @@
+
+-- Batch 13: Back to the Grind (Riverside), Rainy's Soul Food (IE), Pat's Place Louisiana Soul Food (San Bernardino)
+INSERT INTO public.businesses (id, business_name, name, description, category, address, city, state, zip_code, phone, email, website, logo_url, banner_url, latitude, longitude, average_rating, review_count, is_verified, owner_id)
+VALUES
+(gen_random_uuid(), 'Back to the Grind', 'Back to the Grind', 'Black-owned coffeehouse, venue, and gallery in downtown Riverside serving as a cultural hub for the Inland Empire community with specialty coffee, live events, and art exhibitions.', 'Restaurant', '3575 University Ave', 'Riverside', 'CA', '92501', '(951) 784-0800', 'info@backtothegrind.com', 'https://backtothegrind.com', '', '', 33.9650, -117.3710, 4.6, 210, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b'),
+
+(gen_random_uuid(), 'Rainy''s Soul Food', 'Rainy''s Soul Food', 'Authentic Southern-style soul food with doorstep delivery and catering. Quality fresh ingredients prepared with soul flavor, offering prepared meals and daily specials in the Inland Empire.', 'Restaurant', '1140 W Mill St', 'San Bernardino', 'CA', '92410', '(909) 555-0145', 'info@rainyssoulfood.com', 'https://www.rainyssoulfood.com', '', '', 34.1083, -117.3020, 4.5, 88, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b'),
+
+(gen_random_uuid(), 'Pat''s Place Louisiana Soul Food', 'Pat''s Place Louisiana Soul Food', 'Homestyle Louisiana cooking in San Bernardino serving authentic Creole and Cajun dishes, gumbo, jambalaya, and soul food classics passed down through generations.', 'Restaurant', '1241 E Baseline St', 'San Bernardino', 'CA', '92410', '(909) 381-1818', 'info@patsplacesoulfood.com', 'http://www.patsplacelouisianasoulfood.com', '', '', 34.1120, -117.2780, 4.4, 135, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b');
