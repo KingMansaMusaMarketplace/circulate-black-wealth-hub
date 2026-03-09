@@ -27,6 +27,27 @@ serve(async (req) => {
     const logoUrl = `${baseUrl}/images/placeholders/restaurant-logo.png`;
     const bannerUrl = `${baseUrl}/images/placeholders/restaurant-banner.jpg`;
 
+    // First get the IDs of businesses that need updating
+    const { data: toUpdate, error: fetchError } = await supabase
+      .from("businesses")
+      .select("id")
+      .eq("category", "Restaurant")
+      .or("logo_url.is.null,logo_url.eq.,banner_url.is.null,banner_url.eq.");
+
+    if (fetchError) {
+      return new Response(JSON.stringify({ error: fetchError.message }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+
+    const ids = toUpdate?.map(b => b.id) || [];
+    
+    if (ids.length === 0) {
+      return new Response(JSON.stringify({ success: true, updated: 0, message: "No businesses need updating" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+
     const { data, error } = await supabase
       .from("businesses")
       .update({
@@ -34,9 +55,7 @@ serve(async (req) => {
         banner_url: bannerUrl,
         updated_at: new Date().toISOString()
       })
-      .or("logo_url.is.null,logo_url.eq.")
-      .or("banner_url.is.null,banner_url.eq.")
-      .eq("category", "Restaurant")
+      .in("id", ids)
       .select("id, name");
 
     if (error) {
