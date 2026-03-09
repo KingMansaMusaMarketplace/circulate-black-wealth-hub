@@ -1,0 +1,9 @@
+
+-- Batch 16: Buna Ethiopian Restaurant (LA), Lalibela Ethiopian (LA), The Original House of Soul (Sacramento)
+INSERT INTO public.businesses (id, business_name, name, description, category, address, city, state, zip_code, phone, email, website, logo_url, banner_url, latitude, longitude, average_rating, review_count, is_verified, owner_id)
+VALUES
+(gen_random_uuid(), 'Buna Ethiopian Restaurant & Market', 'Buna Ethiopian Restaurant & Market', 'Award-winning best authentic Ethiopian food in Los Angeles. Sip, savor, and celebrate Ethiopia with immersive aromas, flavors of Ethiopian fusion cuisine, and a vibrant market.', 'Restaurant', '1033 S Fairfax Ave', 'Los Angeles', 'CA', '90019', '(323) 939-2866', 'info@bunaethiopianmarket.com', 'https://bunaethiopianmarket.com', '', '', 34.0574, -118.3644, 4.8, 388, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b'),
+
+(gen_random_uuid(), 'Lalibela Ethiopian Restaurant', 'Lalibela Ethiopian Restaurant', 'Tranquil family-run Ethiopian restaurant in Mid-Wilshire Los Angeles, featured in the Michelin Guide, offering authentic injera, stews, and traditional Ethiopian cuisine.', 'Restaurant', '1025 S Fairfax Ave', 'Los Angeles', 'CA', '90019', '(323) 938-3918', 'info@lalibelaethiopian.com', 'https://lalibelaethiopian.com', '', '', 34.0570, -118.3644, 4.5, 619, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b'),
+
+(gen_random_uuid(), 'The Original House of Soul', 'The Original House of Soul', 'Created by Cattie McCarver in 1968, this iconic Sacramento soul food institution carries a legendary legacy from Vallejo to Sacramento, serving cast-iron-cooked Southern classics for over 55 years.', 'Restaurant', '3731 Auburn Blvd', 'Sacramento', 'CA', '95821', '(916) 483-7685', 'info@theoriginalhouseofsoul.com', 'https://www.theoriginalhouseofsoul.com', '', '', 38.6285, -121.3520, 4.7, 312, true, 'bd72a75e-1310-4f40-9c74-380443b09d9b');
