@@ -103,8 +103,25 @@ serve(async (req) => {
       );
     }
 
-    const { tool_name, arguments: args, user_id } = parseResult.data;
+    const { tool_name, arguments: args } = parseResult.data;
     
+    // Authenticate user via JWT for tools that need user identity
+    const supabaseAnon = Deno.env.get("SUPABASE_ANON_KEY")!;
+    let authenticatedUserId: string | null = null;
+    
+    const authHeader = req.headers.get('Authorization');
+    if (authHeader?.startsWith('Bearer ')) {
+      const anonClient = createClient(supabaseUrl, supabaseAnon, {
+        global: { headers: { Authorization: authHeader } }
+      });
+      const token = authHeader.replace('Bearer ', '');
+      const { data: claimsData, error: claimsError } = await anonClient.auth.getClaims(token);
+      if (!claimsError && claimsData?.claims?.sub) {
+        authenticatedUserId = claimsData.claims.sub as string;
+      }
+    }
+
+    // Use service role client for data queries (RLS bypass for public business data)
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     console.log(`Voice concierge tool called: ${tool_name}`, args);
