@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import { useServerAdminVerification } from '@/hooks/useServerAdminVerification';
+import Loading from '@/components/ui/loading';
 import { getMaterialAnalytics, getDownloadTrends, MaterialAnalytics, DownloadTrend } from '@/lib/api/marketing-analytics-api';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { format, subDays } from 'date-fns';
@@ -24,23 +26,25 @@ const COLORS = {
 
 const MarketingAnalyticsPage: React.FC = () => {
   const navigate = useNavigate();
-  const { userRole } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { isAdmin, isVerifying } = useServerAdminVerification();
   const [loading, setLoading] = useState(true);
   const [analytics, setAnalytics] = useState<MaterialAnalytics[]>([]);
   const [trends, setTrends] = useState<DownloadTrend[]>([]);
   const [dateRange, setDateRange] = useState('30');
 
   useEffect(() => {
-    if (userRole !== 'admin') {
+    if (authLoading || isVerifying) return;
+    if (!user || !isAdmin) {
       toast.error('Access Denied', {
-        description: 'You need administrator privileges to access this page. Please contact an admin if you believe you should have access.',
+        description: 'You need administrator privileges to access this page.',
         duration: 5000,
       });
       navigate('/');
       return;
     }
     loadAnalytics();
-  }, [userRole, navigate, dateRange]);
+  }, [user, isAdmin, authLoading, isVerifying, navigate, dateRange]);
 
   const loadAnalytics = async () => {
     setLoading(true);
@@ -100,17 +104,8 @@ const MarketingAnalyticsPage: React.FC = () => {
     document: Number(trend.document_count)
   }));
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0a1628] relative overflow-hidden">
-        {/* Animated Orbs */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-mansablue/30 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-40 right-20 w-80 h-80 bg-mansagold/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold"></div>
-        </div>
-      </div>
-    );
+  if (authLoading || isVerifying || loading) {
+    return <Loading fullScreen text="Verifying admin access..." />;
   }
 
   return (

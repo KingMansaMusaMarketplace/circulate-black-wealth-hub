@@ -103,8 +103,25 @@ serve(async (req) => {
       );
     }
 
-    const { tool_name, arguments: args, user_id } = parseResult.data;
+    const { tool_name, arguments: args } = parseResult.data;
     
+    // Authenticate user via JWT for tools that need user identity
+    const supabaseAnon = Deno.env.get("SUPABASE_ANON_KEY")!;
+    let authenticatedUserId: string | null = null;
+    
+    const authHeader = req.headers.get('Authorization');
+    if (authHeader?.startsWith('Bearer ')) {
+      const anonClient = createClient(supabaseUrl, supabaseAnon, {
+        global: { headers: { Authorization: authHeader } }
+      });
+      const token = authHeader.replace('Bearer ', '');
+      const { data: claimsData, error: claimsError } = await anonClient.auth.getClaims(token);
+      if (!claimsError && claimsData?.claims?.sub) {
+        authenticatedUserId = claimsData.claims.sub as string;
+      }
+    }
+
+    // Use service role client for data queries (RLS bypass for public business data)
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     console.log(`Voice concierge tool called: ${tool_name}`, args);
@@ -204,11 +221,11 @@ serve(async (req) => {
         // Get user's past interactions for personalization
         let recommendations: any[] = [];
         
-        if (user_id) {
+        if (authenticatedUserId) {
           const { data: interactions } = await supabase
             .from("business_interactions")
             .select("business_id")
-            .eq("user_id", user_id)
+            .eq("user_id", authenticatedUserId)
             .order("created_at", { ascending: false })
             .limit(5);
 
@@ -246,7 +263,8 @@ serve(async (req) => {
       }
 
       case "check_coalition_points": {
-        if (!user_id) {
+        // SECURITY: Require authenticated user - never trust client-supplied user_id
+        if (!authenticatedUserId) {
           result = {
             points: 0,
             tier: null,
@@ -258,7 +276,7 @@ serve(async (req) => {
         const { data } = await supabase
           .from("coalition_points")
           .select("points, lifetime_earned, tier")
-          .eq("customer_id", user_id)
+          .eq("customer_id", authenticatedUserId)
           .single();
 
         result = {

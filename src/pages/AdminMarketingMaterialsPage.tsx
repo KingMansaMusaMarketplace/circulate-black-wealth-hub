@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Edit, Trash2, Download, Eye, EyeOff, Upload, BarChart3, Sparkles } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Trash2, Download, Eye, EyeOff, Upload, BarChart3, Sparkles, ShieldAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import { useServerAdminVerification } from '@/hooks/useServerAdminVerification';
+import Loading from '@/components/ui/loading';
 import {
   getAllMarketingMaterials,
   createMarketingMaterial,
@@ -21,7 +23,8 @@ import BulkUploadDialog from '@/components/marketing/BulkUploadDialog';
 
 const AdminMarketingMaterialsPage: React.FC = () => {
   const navigate = useNavigate();
-  const { userRole } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { isAdmin, isVerifying } = useServerAdminVerification();
   const [materials, setMaterials] = useState<MarketingMaterial[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -36,16 +39,17 @@ const AdminMarketingMaterialsPage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
-    if (userRole !== 'admin') {
+    if (authLoading || isVerifying) return;
+    if (!user || !isAdmin) {
       toast.error('Access Denied', {
-        description: 'You need administrator privileges to access this page. Please contact an admin if you believe you should have access.',
+        description: 'You need administrator privileges to access this page.',
         duration: 5000,
       });
       navigate('/');
       return;
     }
     loadMaterials();
-  }, [userRole, navigate]);
+  }, [user, isAdmin, authLoading, isVerifying, navigate]);
 
   const loadMaterials = async () => {
     try {
@@ -137,17 +141,8 @@ const AdminMarketingMaterialsPage: React.FC = () => {
     setDialogOpen(true);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0a1628] relative overflow-hidden">
-        {/* Animated Orbs */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-mansablue/30 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-40 right-20 w-80 h-80 bg-mansagold/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold"></div>
-        </div>
-      </div>
-    );
+  if (authLoading || isVerifying || loading) {
+    return <Loading fullScreen text="Verifying admin access..." />;
   }
 
   return (
