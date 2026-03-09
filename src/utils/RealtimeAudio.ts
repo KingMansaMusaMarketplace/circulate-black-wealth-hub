@@ -103,6 +103,23 @@ export class RealtimeChat {
         document.body.appendChild(this.audioEl);
         console.log('[Audio] Audio element created and attached to DOM');
       }
+
+      // CRITICAL: "Unlock" the audio element during the user gesture context
+      // On iOS/WKWebView, calling play() now (while gesture is still valid)
+      // allows future srcObject changes to auto-play without another gesture
+      try {
+        const silentPlay = this.audioEl.play();
+        if (silentPlay) {
+          silentPlay.then(() => {
+            console.log('[Audio] Audio element unlocked via silent play');
+          }).catch(() => {
+            console.log('[Audio] Silent play rejected (expected if no src yet)');
+          });
+        }
+      } catch (e) {
+        // Expected on some browsers - element is still unlocked for future play
+        console.log('[Audio] Silent unlock attempt completed');
+      }
     } catch (e) {
       console.error('[Audio] Could not create audio element:', e);
     }
