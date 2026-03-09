@@ -118,17 +118,20 @@ serve(async (req) => {
           .select("id, business_name, category, description, city, state, average_rating, review_count, logo_url")
           .eq("is_verified", true);
 
-        if (args.category) {
-          query = query.ilike("category", `%${args.category}%`);
+        if (args.category && typeof args.category === 'string') {
+          const safeCategory = sanitizeSearchInput(args.category);
+          if (safeCategory) query = query.ilike("category", `%${safeCategory}%`);
         }
-        if (args.city) {
-          query = query.ilike("city", `%${args.city}%`);
+        if (args.city && typeof args.city === 'string') {
+          const safeCity = sanitizeSearchInput(args.city);
+          if (safeCity) query = query.ilike("city", `%${safeCity}%`);
         }
         if (args.min_rating) {
           query = query.gte("average_rating", args.min_rating);
         }
-        if (args.query) {
-          query = query.or(`business_name.ilike.%${args.query}%,description.ilike.%${args.query}%,category.ilike.%${args.query}%`);
+        if (args.query && typeof args.query === 'string') {
+          const safeQuery = sanitizeSearchInput(args.query);
+          if (safeQuery) query = query.or(`business_name.ilike.%${safeQuery}%,description.ilike.%${safeQuery}%,category.ilike.%${safeQuery}%`);
         }
 
         const { data, error } = await query.limit(10);
