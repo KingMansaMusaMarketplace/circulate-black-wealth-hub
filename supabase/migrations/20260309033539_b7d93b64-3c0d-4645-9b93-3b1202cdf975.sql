@@ -1,0 +1,75 @@
+
+INSERT INTO public.businesses (
+  id, business_name, name, description, category, address, city, state, zip_code,
+  phone, email, website, logo_url, banner_url, is_verified, owner_id,
+  latitude, longitude, average_rating, review_count
+) VALUES
+-- 1. Y's Choice (Oakland) - Bay Area's Best Soul Food, Oakland Chamber member
+(
+  gen_random_uuid(),
+  'Y''s Choice',
+  'Y''s Choice',
+  'Home of the Bay Area''s Best Soul Food. Every dish is scratch-made, seasoned to perfection, and crafted with love by Chef Y. What began in her kitchen has evolved into a downtown Oakland staple where comfort, flavor, and hospitality come together. Specializing in seafood and soul food with dine-in, take-out, and catering services.',
+  'Restaurant',
+  '1825 San Pablo Ave',
+  'Oakland',
+  'CA',
+  '94612',
+  '(510) 366-3806',
+  'info@yschoice.space',
+  'https://www.yschoice.space',
+  'https://images.squarespace-cdn.com/content/v1/5ec346e940074e0960a473c5/f148f391-07be-4a9f-bcad-767baf6fcfe2/Untitled+design.jpg',
+  'https://images.squarespace-cdn.com/content/v1/5ec346e940074e0960a473c5/b42ff48e-69f4-436b-82d3-abf19ece5f5b/IMG_8773.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  37.8085,
+  -122.2711,
+  4.6,
+  389
+),
+-- 2. Surf & Soul Spot (San Diego) - Seafood soul food, generous portions, top-notch service
+(
+  gen_random_uuid(),
+  'Surf & Soul Spot',
+  'Surf & Soul Spot',
+  'A vibrant Black-owned seafood and soul food spot in San Diego known for generous portions and bold Southern-inspired flavors. Standout dishes include perfectly seasoned shrimp and grits, crispy fried fish sandwiches, and rave-worthy fried shrimp. Unique beverages like grape soda lemonade complement the richness of every meal.',
+  'Restaurant',
+  '7229 El Cajon Blvd',
+  'San Diego',
+  'CA',
+  '92115',
+  '(619) 432-8801',
+  'info@surfsoulspot.com',
+  'https://surfsoulspot.gotoeat.net',
+  'https://surfsoulspot.gotoeat.net/public/dot.jpg',
+  'https://surfsoulspot.gotoeat.net/public/dot.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  32.7648,
+  -117.0674,
+  4.5,
+  312
+),
+-- 3. Lucy Mae's Kitchen (San Diego) - Gourmet soul food, East Coast flair on the West Coast
+(
+  gen_random_uuid(),
+  'Lucy Mae''s Kitchen',
+  'Lucy Mae''s Kitchen',
+  'Gourmet soul food with homestyle cooking, bringing East Coast flair to San Diego. Chef Ashad, born and raised in Baltimore, Maryland, serves soul food classics like mac and cheese, collard greens, and candied yams alongside Baltimore signatures like Maryland-style crab cakes and the famous Tameka wings. Known as the best crab cakes in San Diego.',
+  'Restaurant',
+  '2830 Market St',
+  'San Diego',
+  'CA',
+  '92102',
+  '(619) 432-8788',
+  'info@lucymaeskitchen.com',
+  'https://www.lucymaeskitchen.com',
+  'https://static.wixstatic.com/media/4a0ee4_5f63f14d4b1f4d3f8c16febb3f18bfae~mv2.jpg/v1/fill/w_90,h_90,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/4a0ee4_5f63f14d4b1f4d3f8c16febb3f18bfae~mv2.jpg',
+  'https://static.wixstatic.com/media/4a0ee4_9acf7b3be47d4c5e840e38a8aba41d5f~mv2.jpg/v1/fill/w_691,h_691,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4a0ee4_9acf7b3be47d4c5e840e38a8aba41d5f~mv2.jpg',
+  true,
+  'bd72a75e-1310-4f40-9c74-380443b09d9b',
+  32.7157,
+  -117.1289,
+  4.7,
+  276
+);
