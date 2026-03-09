@@ -15866,6 +15866,27 @@ export type Database = {
           },
         ]
       }
+      referral_stats_leaderboard: {
+        Row: {
+          current_tier: string | null
+          rank: number | null
+          total_referrals: number | null
+          user_id: string | null
+        }
+        Insert: {
+          current_tier?: string | null
+          rank?: number | null
+          total_referrals?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          current_tier?: string | null
+          rank?: number | null
+          total_referrals?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       access_personal_data_secure: {

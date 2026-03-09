@@ -49,6 +49,14 @@ function checkRateLimit(ip: string, maxRequests = 20, windowMs = 60000): boolean
 // UUID validation regex
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+// Sanitize wildcard characters from user input to prevent ILIKE abuse
+function sanitizeSearchInput(input: string): string {
+  return input
+    .replace(/[%_]/g, '') // Remove SQL wildcards
+    .trim()
+    .substring(0, 100); // Enforce max length
+}
+
 // Zod schema for input validation
 const VoiceConciergeRequestSchema = z.object({
   tool_name: z.enum([
@@ -110,17 +118,20 @@ serve(async (req) => {
           .select("id, business_name, category, description, city, state, average_rating, review_count, logo_url")
           .eq("is_verified", true);
 
-        if (args.category) {
-          query = query.ilike("category", `%${args.category}%`);
+        if (args.category && typeof args.category === 'string') {
+          const safeCategory = sanitizeSearchInput(args.category);
+          if (safeCategory) query = query.ilike("category", `%${safeCategory}%`);
         }
-        if (args.city) {
-          query = query.ilike("city", `%${args.city}%`);
+        if (args.city && typeof args.city === 'string') {
+          const safeCity = sanitizeSearchInput(args.city);
+          if (safeCity) query = query.ilike("city", `%${safeCity}%`);
         }
         if (args.min_rating) {
           query = query.gte("average_rating", args.min_rating);
         }
-        if (args.query) {
-          query = query.or(`business_name.ilike.%${args.query}%,description.ilike.%${args.query}%,category.ilike.%${args.query}%`);
+        if (args.query && typeof args.query === 'string') {
+          const safeQuery = sanitizeSearchInput(args.query);
+          if (safeQuery) query = query.or(`business_name.ilike.%${safeQuery}%,description.ilike.%${safeQuery}%,category.ilike.%${safeQuery}%`);
         }
 
         const { data, error } = await query.limit(10);
