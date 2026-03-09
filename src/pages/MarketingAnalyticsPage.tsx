@@ -104,17 +104,8 @@ const MarketingAnalyticsPage: React.FC = () => {
     document: Number(trend.document_count)
   }));
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0a1628] relative overflow-hidden">
-        {/* Animated Orbs */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-mansablue/30 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-40 right-20 w-80 h-80 bg-mansagold/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold"></div>
-        </div>
-      </div>
-    );
+  if (authLoading || isVerifying || loading) {
+    return <Loading fullScreen text="Verifying admin access..." />;
   }
 
   return (

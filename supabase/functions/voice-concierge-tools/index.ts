@@ -263,7 +263,8 @@ serve(async (req) => {
       }
 
       case "check_coalition_points": {
-        if (!user_id) {
+        // SECURITY: Require authenticated user - never trust client-supplied user_id
+        if (!authenticatedUserId) {
           result = {
             points: 0,
             tier: null,
@@ -275,7 +276,7 @@ serve(async (req) => {
         const { data } = await supabase
           .from("coalition_points")
           .select("points, lifetime_earned, tier")
-          .eq("customer_id", user_id)
+          .eq("customer_id", authenticatedUserId)
           .single();
 
         result = {
