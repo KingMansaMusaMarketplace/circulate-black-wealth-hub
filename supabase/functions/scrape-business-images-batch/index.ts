@@ -45,9 +45,9 @@ serve(async (req) => {
     const results: { name: string; status: string; logo?: string; banner?: string }[] = [];
     let updatedCount = 0;
 
-    // Process in batches of 5 to avoid rate limits
-    for (let i = 0; i < businesses.length; i += 5) {
-      const batch = businesses.slice(i, i + 5);
+    // Process in batches of 3 to avoid rate limits
+    for (let i = 0; i < businesses.length; i += 3) {
+      const batch = businesses.slice(i, i + 3);
       
       const batchPromises = batch.map(async (biz) => {
         try {
