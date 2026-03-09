@@ -30,14 +30,21 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   // Generate WebP and fallback sources
   const generateSources = (originalSrc: string) => {
+    // Normalize placeholder URLs from published domain to relative paths
+    const placeholderPrefix = 'https://circulate-black-wealth-hub.lovable.app/images/placeholders/';
+    let normalizedSrc = originalSrc;
+    if (originalSrc.startsWith(placeholderPrefix)) {
+      normalizedSrc = '/images/placeholders/' + originalSrc.substring(placeholderPrefix.length);
+    }
+
     // Skip conversion for placeholders, data URLs, and local files
-    if (originalSrc.includes('placehold.co') || originalSrc.startsWith('data:') || originalSrc.startsWith('/')) {
-      return { webp: originalSrc, fallback: originalSrc };
+    if (normalizedSrc.includes('placehold.co') || normalizedSrc.startsWith('data:') || normalizedSrc.startsWith('/')) {
+      return { webp: normalizedSrc, fallback: normalizedSrc };
     }
 
     // For external URLs, try to generate WebP version
-    const webpSrc = originalSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-    return { webp: webpSrc, fallback: originalSrc };
+    const webpSrc = normalizedSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+    return { webp: webpSrc, fallback: normalizedSrc };
   };
 
   useEffect(() => {
