@@ -31,7 +31,7 @@ export const LazyImage = React.memo<LazyImageProps>(({
   alt,
   className,
   placeholderClassName,
-  rootMargin = '100px',
+  rootMargin = '400px',
   threshold = 0.01,
   blurUp = true,
   sizeBreakpoints,
