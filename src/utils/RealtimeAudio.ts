@@ -286,17 +286,33 @@ export class RealtimeChat {
           this.audioEl.muted = false;
           this.audioEl.volume = 1.0;
           
+          // On iOS, resume AudioContext if suspended (helps unlock playback)
+          if (this.audioContext && this.audioContext.state === 'suspended') {
+            try {
+              await this.audioContext.resume();
+              console.log('[Audio] AudioContext resumed for remote track');
+            } catch (e) {
+              console.warn('[Audio] AudioContext resume failed:', e);
+            }
+          }
+          
           // Multiple play attempts for iOS/Safari
           const attemptPlay = async (attempt: number = 1) => {
             try {
               console.log(`[Audio] Play attempt ${attempt}...`);
+              // On iOS, briefly mute then unmute can help trigger playback
+              if (attempt > 1) {
+                this.audioEl!.muted = true;
+                await new Promise(r => setTimeout(r, 50));
+                this.audioEl!.muted = false;
+              }
               await this.audioEl!.play();
               console.log('[Audio] Playback started successfully!');
             } catch (err: any) {
               console.warn(`[Audio] Play attempt ${attempt} failed:`, err.message);
-              if (attempt < 3) {
-                // Retry after a short delay
-                await new Promise(resolve => setTimeout(resolve, 100));
+              if (attempt < 5) {
+                // Retry with increasing delay
+                await new Promise(resolve => setTimeout(resolve, 150 * attempt));
                 return attemptPlay(attempt + 1);
               }
               // Final fallback: notify user
