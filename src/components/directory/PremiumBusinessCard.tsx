@@ -125,11 +125,6 @@ const PremiumBusinessCard = ({
               </span>
             </div>
           )}
-          {isSample && (
-            <div className="bg-gradient-to-r from-mansablue to-blue-600 text-white text-xs font-semibold px-3 py-1.5 text-center">
-              📋 Sample Business - For demonstration purposes
-            </div>
-          )}
           
           <CardHeader className="pb-3">
             <div className="aspect-video bg-slate-800 rounded-lg mb-4 overflow-hidden ring-1 ring-white/10 relative group/image">
@@ -153,9 +148,11 @@ const PremiumBusinessCard = ({
                   {category}
                 </Badge>
               </div>
-              <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0 group-hover:bg-emerald-500/30 group-hover:shadow-[0_0_10px_rgba(52,211,153,0.3)] transition-all duration-300">
-                {discount}
-              </Badge>
+              {discount && (
+                <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0 group-hover:bg-emerald-500/30 group-hover:shadow-[0_0_10px_rgba(52,211,153,0.3)] transition-all duration-300">
+                  {discount}
+                </Badge>
+              )}
             </div>
           </CardHeader>
           

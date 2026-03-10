@@ -30,7 +30,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[auto] md:min-h-[80vh] flex items-center overflow-hidden">
       {showIPadFallback && (
         <IPadVoiceFallback onDismiss={() => setShowIPadFallback(false)} />
       )}
@@ -47,7 +47,7 @@ const Hero = () => {
       {/* Bottom gold edge transition */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-mansagold/5 to-transparent" />
 
-      <div className="relative container mx-auto px-4 py-16 md:py-24">
+      <div className="relative container mx-auto px-4 py-10 md:py-24">
         <div className="max-w-3xl mx-auto text-center">
           {/* Headline */}
           <motion.h1 

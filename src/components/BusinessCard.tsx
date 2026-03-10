@@ -59,11 +59,6 @@ const BusinessCard = ({
           ✨ Featured Business ✨
         </div>
       )}
-      {isSample && (
-        <div className="bg-gradient-to-r from-mansablue to-blue-600 text-white text-xs font-semibold px-3 py-1.5 text-center">
-          📋 Sample Business - For demonstration purposes
-        </div>
-      )}
       <CardHeader className="pb-3">
         <div className="aspect-video bg-slate-800 rounded-lg mb-4 overflow-hidden ring-1 ring-white/10 relative">
           <OptimizedImage 
@@ -84,9 +79,11 @@ const BusinessCard = ({
               {category}
             </Badge>
           </div>
-          <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0">
-            {discount}
-          </Badge>
+          {discount && (
+            <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0">
+              {discount}
+            </Badge>
+          )}
         </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">
