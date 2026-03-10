@@ -148,9 +148,11 @@ const PremiumBusinessCard = ({
                   {category}
                 </Badge>
               </div>
-              <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0 group-hover:bg-emerald-500/30 group-hover:shadow-[0_0_10px_rgba(52,211,153,0.3)] transition-all duration-300">
-                {discount}
-              </Badge>
+              {discount && (
+                <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0 group-hover:bg-emerald-500/30 group-hover:shadow-[0_0_10px_rgba(52,211,153,0.3)] transition-all duration-300">
+                  {discount}
+                </Badge>
+              )}
             </div>
           </CardHeader>
           

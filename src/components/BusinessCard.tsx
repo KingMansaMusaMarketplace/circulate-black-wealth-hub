@@ -79,9 +79,11 @@ const BusinessCard = ({
               {category}
             </Badge>
           </div>
-          <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0">
-            {discount}
-          </Badge>
+          {discount && (
+            <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0">
+              {discount}
+            </Badge>
+          )}
         </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">

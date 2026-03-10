@@ -30,7 +30,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[auto] md:min-h-[80vh] flex items-center overflow-hidden">
       {showIPadFallback && (
         <IPadVoiceFallback onDismiss={() => setShowIPadFallback(false)} />
       )}
