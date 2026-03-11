@@ -166,7 +166,7 @@ export class RealtimeChat {
       
       // iPad detection - specific check for iPad devices
       const isIPad = /iPad/.test(navigator.userAgent) || 
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 && !/iPhone/.test(navigator.userAgent));
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 && !/iPhone/.test(navigator.userAgent) && 'ontouchstart' in window && window.innerWidth <= 1366);
       
       // iOS detection for special handling
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
