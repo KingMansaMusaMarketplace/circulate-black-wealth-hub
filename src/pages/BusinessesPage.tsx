@@ -4,31 +4,64 @@ import { Helmet } from 'react-helmet';
 import { Button } from '@/components/ui/button';
 import { Building2, Search, Filter, MapPin } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { businesses } from '@/data/businessData';
+import { supabase } from '@/integrations/supabase/client';
 import BusinessCard from '@/components/BusinessCard';
 
 const BusinessesPage: React.FC = () => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [businesses, setBusinesses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 16;
+
+  // Fetch businesses from Supabase
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('business_directory')
+        .select('*')
+        .order('is_verified', { ascending: false })
+        .order('created_at', { ascending: false });
+      
+      if (data) {
+        setBusinesses(data.map(b => ({
+          id: b.id,
+          name: b.business_name || b.name || '',
+          category: b.category || '',
+          address: b.address || '',
+          city: b.city || '',
+          state: b.state || '',
+          phone: b.phone || '',
+          rating: b.average_rating || 0,
+          reviewCount: b.review_count || 0,
+          discount: '',
+          imageUrl: b.logo_url || b.banner_url || '',
+          imageAlt: `${b.business_name || b.name} image`,
+          isFeatured: b.is_founding_sponsor || false,
+          isVerified: b.is_verified || false,
+        })));
+      }
+      setLoading(false);
+    };
+    fetchBusinesses();
+  }, []);
 
   // Scroll to business card if hash is present (e.g. #business-{id})
   useEffect(() => {
     if (location.hash) {
       const id = location.hash.replace('#', '');
-      // Find which page the business is on
       const businessIndex = businesses.findIndex(b => `business-${b.id}` === id);
       if (businessIndex >= 0) {
         const targetPage = Math.floor(businessIndex / itemsPerPage) + 1;
         setCurrentPage(targetPage);
-        // Wait for re-render then scroll
         setTimeout(() => {
           document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
       }
     }
-  }, [location.hash]);
+  }, [location.hash, businesses]);
 
   // Filter businesses based on search term
   const filteredBusinesses = businesses.filter((business) =>
@@ -52,12 +85,8 @@ const BusinessesPage: React.FC = () => {
   // Handle search
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1);
   };
-  
-  // Debug logging to check if businesses data is available
-  console.log(`Total businesses: ${businesses.length}`);
-  console.log(`Current page: ${currentPage}, businesses shown: ${currentBusinesses.length}`);
   
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-amber-50 relative overflow-hidden">

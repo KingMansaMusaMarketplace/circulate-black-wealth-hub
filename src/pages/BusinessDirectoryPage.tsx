@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, MapPin, Grid3X3, List, Sparkles } from 'lucide-react';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { businesses } from '@/data/businessData';
+import { businessCategories } from '@/data/businessData';
 import { useDirectorySearch } from '@/hooks/use-directory-search';
 import { BusinessLocation } from '@/components/MapView/types';
 import { supabase } from '@/integrations/supabase/client';
@@ -50,7 +50,7 @@ const BusinessDirectoryPage: React.FC = () => {
     categories,
     filteredBusinesses,
     mapData
-  } = useDirectorySearch(businesses);
+  } = useDirectorySearch([]);
 
   const mapViewBusinesses: BusinessLocation[] = mapData;
 

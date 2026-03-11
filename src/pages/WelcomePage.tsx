@@ -10,19 +10,36 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
-import { businesses } from '@/data/businessData';
+import { supabase } from '@/integrations/supabase/client';
 
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [zipCode, setZipCode] = useState('');
   const [showBusinesses, setShowBusinesses] = useState(false);
+  const [sampleBusinesses, setSampleBusinesses] = useState<any[]>([]);
 
   // Get user's name from metadata
   const userName = user?.user_metadata?.full_name?.split(' ')[0] || 'there';
 
-  // Get a few sample businesses to show
-  const sampleBusinesses = businesses.slice(0, 4);
+  // Fetch a few featured businesses from Supabase
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      const { data } = await supabase
+        .from('business_directory')
+        .select('id, business_name, name, category')
+        .eq('is_verified', true)
+        .limit(4);
+      if (data) {
+        setSampleBusinesses(data.map(b => ({
+          id: b.id,
+          name: b.business_name || b.name || '',
+          category: b.category || '',
+        })));
+      }
+    };
+    fetchFeatured();
+  }, []);
 
   const handleExplore = () => {
     if (zipCode) {
