@@ -155,6 +155,21 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         return { blocked: true, reason: 'already_connecting' };
       }
 
+      // Pre-flight checks - these are safe even if they fail
+      if (!navigator.mediaDevices?.getUserMedia) {
+        toast.error('Voice Not Supported', {
+          description: 'Your browser does not support voice features.',
+        });
+        return { blocked: true, reason: 'no_media_devices' };
+      }
+
+      if (!window.RTCPeerConnection) {
+        toast.error('Voice Not Supported', {
+          description: 'WebRTC is not available in your browser.',
+        });
+        return { blocked: true, reason: 'no_webrtc' };
+      }
+
       // CRITICAL: Request microphone IMMEDIATELY in the user gesture handler
       // Safari/iOS requires getUserMedia to be called directly from user interaction
       // Any async operation (like haptics) before this breaks the gesture chain
