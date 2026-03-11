@@ -172,13 +172,50 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         return { blocked: true, reason: 'no_webrtc' };
       }
 
-      // Safe to proceed with async operations now
+      // CRITICAL: Request microphone IMMEDIATELY in the user gesture handler
+      // Safari/iOS requires getUserMedia to be called directly from user interaction
+      // Any async operation (like haptics) before this breaks the gesture chain
+      let micStream: MediaStream;
+      try {
+        console.log('[Kayla] Requesting microphone (direct user gesture)...');
+        micStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+          },
+        });
+        console.log('[Kayla] Microphone access granted');
+      } catch (micError: any) {
+        console.error('[Kayla] Microphone denied:', micError);
+        const isIOS2 = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        if (micError.name === 'NotAllowedError') {
+          toast.error('Microphone Access Required', {
+            description: isIOS2
+              ? 'Please allow microphone access in Settings > Safari > Microphone'
+              : 'Microphone access denied. Please allow microphone access and try again.',
+          });
+        } else if (micError.name === 'NotFoundError') {
+          toast.error('No Microphone Found', {
+            description: 'Please connect a microphone and try again.',
+          });
+        } else {
+          toast.error('Microphone Error', {
+            description: micError.message || 'Could not access microphone.',
+          });
+        }
+        return { blocked: true, reason: 'mic_denied' };
+      }
+
+      // Now safe to do async operations - mic is already acquired
       await triggerHaptics('medium');
       setIsConnecting(true);
 
       const timeoutId = setTimeout(() => {
         console.error('[Kayla] Connection timeout after 20 seconds');
         setIsConnecting(false);
+        micStream.getTracks().forEach(t => t.stop());
         toast.error('Connection Timeout', {
           description: 'Taking too long to connect. Please try again.',
         });
@@ -186,12 +223,13 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
 
       try {
         if (!window.isSecureContext) {
+          micStream.getTracks().forEach(t => t.stop());
           throw new Error('Voice features require a secure connection (HTTPS)');
         }
 
         const voice = new RealtimeChat(handleMessage);
         voice.setToolCallHandler(handleToolCall);
-        await voice.init();
+        await voice.init(micStream);
 
         clearTimeout(timeoutId);
         voiceRef.current = voice;
@@ -204,24 +242,11 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         return { blocked: false };
       } catch (error: any) {
         clearTimeout(timeoutId);
+        micStream.getTracks().forEach(t => t.stop());
         console.error('[Kayla] Error starting conversation:', error);
 
-        let errorMessage = 'Failed to start conversation';
+        let errorMessage = error.message || 'Failed to start conversation';
         let errorTitle = 'Connection Failed';
-
-        if (error.name === 'NotAllowedError' || error.message?.includes('Permission denied')) {
-          errorTitle = 'Microphone Access Required';
-          errorMessage = isIOS
-            ? 'Please allow microphone access in Settings > Safari > Microphone'
-            : 'Microphone access denied. Please allow microphone access and try again.';
-        } else if (error.name === 'NotFoundError') {
-          errorMessage = 'No microphone found. Please connect a microphone and try again.';
-        } else if (error.name === 'AbortError') {
-          errorTitle = 'Connection Interrupted';
-          errorMessage = 'Please try again. Make sure no other apps are using the microphone.';
-        } else if (error.message) {
-          errorMessage = error.message;
-        }
 
         toast.error(errorTitle, { description: errorMessage });
         return { blocked: true, reason: 'error' };

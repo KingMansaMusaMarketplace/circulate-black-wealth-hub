@@ -160,7 +160,7 @@ export class RealtimeChat {
     }
   }
 
-  async init() {
+  async init(preAcquiredStream?: MediaStream) {
     try {
       console.log('Initializing RealtimeChat...');
       
@@ -197,30 +197,34 @@ export class RealtimeChat {
         console.log('[iOS] Applying iOS-specific safeguards...');
       }
       
-      // Request microphone FIRST on iOS - must happen immediately after user gesture
-      console.log('Requesting microphone access...');
-      try {
-        this.localStream = await navigator.mediaDevices.getUserMedia({ 
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            autoGainControl: true,
-            // iOS-specific: don't request specific sample rate to prevent WKWebView crash
-            ...(isIOS ? {} : { sampleRate: 24000 })
-          } 
-        });
-        console.log('Microphone access granted, tracks:', this.localStream.getAudioTracks().length);
-      } catch (micError: any) {
-        console.error('Microphone access denied:', micError);
-        if (micError.name === 'NotAllowedError') {
-          throw new Error('Microphone permission denied. Please allow microphone access in your device settings and try again.');
-        } else if (micError.name === 'NotFoundError') {
-          throw new Error('No microphone found on this device.');
-        } else if (micError.name === 'AbortError' || micError.name === 'NotReadableError') {
-          // These errors can crash WKWebView if not caught
-          throw new Error('Microphone is in use by another app. Please close other apps and try again.');
-        } else {
-          throw new Error(`Microphone error: ${micError.message || 'Unknown error'}`);
+      // Use pre-acquired stream if available (preserves user gesture chain)
+      if (preAcquiredStream) {
+        console.log('Using pre-acquired microphone stream');
+        this.localStream = preAcquiredStream;
+      } else {
+        // Fallback: request microphone directly
+        console.log('Requesting microphone access...');
+        try {
+          this.localStream = await navigator.mediaDevices.getUserMedia({ 
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true,
+              ...(isIOS ? {} : { sampleRate: 24000 })
+            } 
+          });
+          console.log('Microphone access granted, tracks:', this.localStream.getAudioTracks().length);
+        } catch (micError: any) {
+          console.error('Microphone access denied:', micError);
+          if (micError.name === 'NotAllowedError') {
+            throw new Error('Microphone permission denied. Please allow microphone access in your device settings and try again.');
+          } else if (micError.name === 'NotFoundError') {
+            throw new Error('No microphone found on this device.');
+          } else if (micError.name === 'AbortError' || micError.name === 'NotReadableError') {
+            throw new Error('Microphone is in use by another app. Please close other apps and try again.');
+          } else {
+            throw new Error(`Microphone error: ${micError.message || 'Unknown error'}`);
+          }
         }
       }
       
