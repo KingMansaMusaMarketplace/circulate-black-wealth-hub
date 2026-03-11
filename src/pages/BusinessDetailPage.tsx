@@ -152,34 +152,8 @@ const BusinessDetailPage = () => {
           longitude: data.longitude
         });
       } else {
-        // Non-UUID ID - look in sample/demo data
-        const sampleBusiness = sampleBusinesses.find(b => b.id === businessId);
-        if (sampleBusiness) {
-          // Map sample business to expected Business interface
-          setBusiness({
-            id: sampleBusiness.id,
-            business_name: sampleBusiness.name,
-            description: sampleBusiness.description || '',
-            category: sampleBusiness.category,
-            address: sampleBusiness.address || '',
-            city: sampleBusiness.city || '',
-            state: sampleBusiness.state || '',
-            zip_code: sampleBusiness.zipCode || '',
-            phone: sampleBusiness.phone || '',
-            email: sampleBusiness.email || '',
-            website: sampleBusiness.website || '',
-            logo_url: sampleBusiness.logoUrl || sampleBusiness.imageUrl || '',
-            banner_url: sampleBusiness.bannerUrl || '',
-            is_verified: sampleBusiness.isVerified || false,
-            is_founding_sponsor: false,
-            average_rating: sampleBusiness.rating || sampleBusiness.averageRating || 0,
-            review_count: sampleBusiness.reviewCount || 0,
-            created_at: sampleBusiness.createdAt || new Date().toISOString()
-          });
-          setIsSampleBusiness(true);
-        } else {
-          setError('Business not found');
-        }
+        // Non-UUID ID - no longer supported (sample data removed)
+        setError('Business not found');
       }
     } catch (error: any) {
       console.error('Error loading business:', error);
