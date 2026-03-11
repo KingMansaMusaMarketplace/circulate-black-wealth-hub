@@ -44,6 +44,7 @@ const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ business }) => {
               className="w-full h-full object-cover"
               fallbackSrc={generatePlaceholder(600, 400, business.name)}
               quality="high"
+              lazy={false}
             />
             {/* Overlay gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-slate-900/90" />
