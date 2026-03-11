@@ -242,24 +242,11 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         return { blocked: false };
       } catch (error: any) {
         clearTimeout(timeoutId);
+        micStream.getTracks().forEach(t => t.stop());
         console.error('[Kayla] Error starting conversation:', error);
 
-        let errorMessage = 'Failed to start conversation';
+        let errorMessage = error.message || 'Failed to start conversation';
         let errorTitle = 'Connection Failed';
-
-        if (error.name === 'NotAllowedError' || error.message?.includes('Permission denied')) {
-          errorTitle = 'Microphone Access Required';
-          errorMessage = isIOS
-            ? 'Please allow microphone access in Settings > Safari > Microphone'
-            : 'Microphone access denied. Please allow microphone access and try again.';
-        } else if (error.name === 'NotFoundError') {
-          errorMessage = 'No microphone found. Please connect a microphone and try again.';
-        } else if (error.name === 'AbortError') {
-          errorTitle = 'Connection Interrupted';
-          errorMessage = 'Please try again. Make sure no other apps are using the microphone.';
-        } else if (error.message) {
-          errorMessage = error.message;
-        }
 
         toast.error(errorTitle, { description: errorMessage });
         return { blocked: true, reason: 'error' };
