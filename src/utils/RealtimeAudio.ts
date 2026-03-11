@@ -245,6 +245,19 @@ export class RealtimeChat {
       
       console.log('Getting ephemeral token...');
       
+      // CRITICAL: Refresh the session before calling the edge function
+      // Expired JWTs cause "non-2xx status code" errors on mobile/Safari
+      try {
+        const { error: refreshError } = await supabase.auth.refreshSession();
+        if (refreshError) {
+          console.warn('[Auth] Session refresh failed:', refreshError.message);
+        } else {
+          console.log('[Auth] Session refreshed successfully');
+        }
+      } catch (refreshErr) {
+        console.warn('[Auth] Session refresh threw:', refreshErr);
+      }
+      
       // Get ephemeral token from our Supabase Edge Function
       const { data, error } = await supabase.functions.invoke("realtime-token", {
         body: {},
