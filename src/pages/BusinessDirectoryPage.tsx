@@ -50,7 +50,7 @@ const BusinessDirectoryPage: React.FC = () => {
     categories,
     filteredBusinesses,
     mapData
-  } = useDirectorySearch(businesses);
+  } = useDirectorySearch([]);
 
   const mapViewBusinesses: BusinessLocation[] = mapData;
 
