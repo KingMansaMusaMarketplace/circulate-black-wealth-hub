@@ -37,14 +37,27 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
       normalizedSrc = '/images/placeholders/' + originalSrc.substring(placeholderPrefix.length);
     }
 
-    // Skip conversion for placeholders, data URLs, and local files
-    if (normalizedSrc.includes('placehold.co') || normalizedSrc.startsWith('data:') || normalizedSrc.startsWith('/')) {
+    // Skip conversion for placeholders, data URLs, local files, and CDN-processed URLs
+    if (
+      normalizedSrc.includes('placehold.co') || 
+      normalizedSrc.startsWith('data:') || 
+      normalizedSrc.startsWith('/') ||
+      normalizedSrc.includes('cdn-cgi/') ||
+      normalizedSrc.includes('popmenucloud.com') ||
+      normalizedSrc.includes('supabase.co')
+    ) {
       return { webp: normalizedSrc, fallback: normalizedSrc };
     }
 
-    // For external URLs, try to generate WebP version
-    const webpSrc = normalizedSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-    return { webp: webpSrc, fallback: normalizedSrc };
+    // For external URLs, only try WebP if the extension is at the very end of the URL path
+    const url = new URL(normalizedSrc, window.location.origin);
+    const pathOnly = url.pathname;
+    if (/\.(jpg|jpeg|png)$/i.test(pathOnly)) {
+      const webpSrc = normalizedSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+      return { webp: webpSrc, fallback: normalizedSrc };
+    }
+
+    return { webp: normalizedSrc, fallback: normalizedSrc };
   };
 
   useEffect(() => {
