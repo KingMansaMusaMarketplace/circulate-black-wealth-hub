@@ -16746,7 +16746,6 @@ export type Database = {
             }
             Returns: boolean
           }
-        | { Args: { _role: string; _user_id: string }; Returns: boolean }
       has_transacted_with_business: {
         Args: { p_business_id: string; p_customer_id: string }
         Returns: boolean
