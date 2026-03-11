@@ -160,7 +160,7 @@ export class RealtimeChat {
     }
   }
 
-  async init() {
+  async init(preAcquiredStream?: MediaStream) {
     try {
       console.log('Initializing RealtimeChat...');
       
