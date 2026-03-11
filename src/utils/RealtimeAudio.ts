@@ -323,6 +323,14 @@ export class RealtimeChat {
       const EPHEMERAL_KEY = data.client_secret.value;
       console.log('Got ephemeral token');
 
+      // On Capacitor iOS, add a brief pause before WebRTC init to let WKWebView settle
+      const isCapacitorIOSForRTC = !!(window as any).Capacitor?.isNativePlatform?.() &&
+        /iPhone|iPad|iPod/.test(navigator.userAgent);
+      if (isCapacitorIOSForRTC) {
+        console.log('[iOS Native] Adding delay before RTCPeerConnection to prevent WKWebView crash');
+        await new Promise(r => setTimeout(r, 200));
+      }
+
       // Create peer connection with STUN servers for better connectivity
       console.log('Creating RTCPeerConnection...');
       this.pc = new RTCPeerConnection({
