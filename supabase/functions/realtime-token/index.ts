@@ -23,44 +23,50 @@ serve(async (req) => {
       throw new Error('OPENAI_API_KEY is not set');
     }
 
-    // Require authentication - prevent anonymous access to expensive OpenAI sessions
+    // Support both authenticated and guest sessions.
+    // Note: supabase.functions.invoke() may send the anon key as Bearer token when not logged in,
+    // so invalid/missing user claims should gracefully fall back to guest mode.
     const authHeader = req.headers.get("authorization");
-    if (!authHeader?.startsWith("Bearer ")) {
-      return new Response(
-        JSON.stringify({ error: "Authentication required" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const anonClient = createClient(supabaseUrl, supabaseAnonKey);
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    let userId: string | null = null;
 
-    if (!user || authError) {
-      return new Response(
-        JSON.stringify({ error: "Invalid or expired token" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (authHeader?.startsWith("Bearer ")) {
+      const token = authHeader.replace("Bearer ", "").trim();
+      if (token) {
+        const { data: claimsData, error: claimsError } = await anonClient.auth.getClaims(token);
+        if (!claimsError && claimsData?.claims?.sub) {
+          userId = String(claimsData.claims.sub);
+        } else {
+          console.warn("[realtime-token] Invalid bearer token; continuing as guest");
+        }
+      }
     }
 
-    // Check if user is admin
+    // Check if user is admin (authenticated users only)
     let isAdmin = false;
-    try {
-      const { data: roleData } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", user.id)
-        .eq("role", "admin")
-        .single();
-      
-      isAdmin = !!roleData;
-      console.log(`User ${user.id} admin status: ${isAdmin}`);
-    } catch (e) {
-      console.log("Could not verify admin status:", e);
+    if (userId) {
+      try {
+        const { data: roleData } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", userId)
+          .eq("role", "admin")
+          .single();
+
+        isAdmin = !!roleData;
+        console.log(`User ${userId} admin status: ${isAdmin}`);
+      } catch (e) {
+        console.log("Could not verify admin status:", e);
+      }
     }
+
+    console.log(`[realtime-token] Request mode: ${userId ? 'authenticated' : 'guest'}`);
 
     console.log('Requesting ephemeral token from OpenAI...');
 
