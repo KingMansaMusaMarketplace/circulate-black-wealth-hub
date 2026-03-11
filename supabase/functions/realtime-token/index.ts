@@ -32,18 +32,25 @@ serve(async (req) => {
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    const anonClient = createClient(supabaseUrl, supabaseAnonKey);
 
     let userId: string | null = null;
 
     if (authHeader?.startsWith("Bearer ")) {
       const token = authHeader.replace("Bearer ", "").trim();
       if (token) {
-        const { data: claimsData, error: claimsError } = await anonClient.auth.getClaims(token);
-        if (!claimsError && claimsData?.claims?.sub) {
-          userId = String(claimsData.claims.sub);
-        } else {
-          console.warn("[realtime-token] Invalid bearer token; continuing as guest");
+        try {
+          // Create a client with the user's auth header to validate the JWT
+          const authClient = createClient(supabaseUrl, supabaseAnonKey, {
+            global: { headers: { Authorization: authHeader } },
+          });
+          const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
+          if (!claimsError && claimsData?.claims?.sub) {
+            userId = String(claimsData.claims.sub);
+          } else {
+            console.warn("[realtime-token] Invalid bearer token; continuing as guest");
+          }
+        } catch (e) {
+          console.warn("[realtime-token] Token validation failed; continuing as guest:", e);
         }
       }
     }
