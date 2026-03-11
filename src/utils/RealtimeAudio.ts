@@ -78,6 +78,9 @@ export class RealtimeChat {
   }
 
   private createAudioElement() {
+    const isCapacitorIOS = !!(window as any).Capacitor?.isNativePlatform?.() &&
+      /iPhone|iPad|iPod/.test(navigator.userAgent);
+
     try {
       this.audioEl = document.createElement("audio");
       this.audioEl.autoplay = true;
@@ -104,21 +107,23 @@ export class RealtimeChat {
         console.log('[Audio] Audio element created and attached to DOM');
       }
 
-      // CRITICAL: "Unlock" the audio element during the user gesture context
-      // On iOS/WKWebView, calling play() now (while gesture is still valid)
-      // allows future srcObject changes to auto-play without another gesture
-      try {
-        const silentPlay = this.audioEl.play();
-        if (silentPlay) {
-          silentPlay.then(() => {
-            console.log('[Audio] Audio element unlocked via silent play');
-          }).catch(() => {
-            console.log('[Audio] Silent play rejected (expected if no src yet)');
-          });
+      // CRITICAL: Skip silent play() on Capacitor iOS — calling play() with no source
+      // crashes WKWebView. The element will auto-play when srcObject is set later.
+      if (!isCapacitorIOS) {
+        try {
+          const silentPlay = this.audioEl.play();
+          if (silentPlay) {
+            silentPlay.then(() => {
+              console.log('[Audio] Audio element unlocked via silent play');
+            }).catch(() => {
+              console.log('[Audio] Silent play rejected (expected if no src yet)');
+            });
+          }
+        } catch (e) {
+          console.log('[Audio] Silent unlock attempt completed');
         }
-      } catch (e) {
-        // Expected on some browsers - element is still unlocked for future play
-        console.log('[Audio] Silent unlock attempt completed');
+      } else {
+        console.log('[Audio] Skipping silent play on Capacitor iOS to prevent WKWebView crash');
       }
     } catch (e) {
       console.error('[Audio] Could not create audio element:', e);
@@ -126,8 +131,19 @@ export class RealtimeChat {
   }
   
   private async initAudioContext() {
+    // CRITICAL: Skip AudioContext entirely on Capacitor iOS.
+    // Creating an AudioContext and playing a silent buffer can crash WKWebView.
+    // WebRTC handles audio natively without needing this unlock trick.
+    const isCapacitorIOS = !!(window as any).Capacitor?.isNativePlatform?.() &&
+      /iPhone|iPad|iPod/.test(navigator.userAgent);
+
+    if (isCapacitorIOS) {
+      console.log('[Audio] Skipping AudioContext init on Capacitor iOS to prevent crash');
+      return;
+    }
+
     try {
-      // Create AudioContext to unlock audio on iOS/Safari
+      // Create AudioContext to unlock audio on iOS/Safari (browser only)
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioCtx) {
         console.warn('[Audio] No AudioContext available');
@@ -156,7 +172,6 @@ export class RealtimeChat {
       }
     } catch (e) {
       console.warn('[Audio] AudioContext init failed:', e);
-      // Don't throw - audio context is not critical for the connection
     }
   }
 
