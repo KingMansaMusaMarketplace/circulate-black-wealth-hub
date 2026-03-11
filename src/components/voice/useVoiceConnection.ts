@@ -140,7 +140,9 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         /iPad/.test(navigator.userAgent) ||
         (navigator.platform === 'MacIntel' &&
           navigator.maxTouchPoints > 1 &&
-          !/iPhone/.test(navigator.userAgent));
+          !/iPhone/.test(navigator.userAgent) &&
+          'ontouchstart' in window &&
+          window.innerWidth <= 1366);
 
       // Return immediately for iPad - no audio context or WebRTC initialization
       if (isIPad) {
