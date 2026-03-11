@@ -31,7 +31,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ReviewForm } from '@/components/reviews/ReviewForm';
 import { ReviewsList } from '@/components/reviews/ReviewsList';
 import { useNavigate } from 'react-router-dom';
-import { businesses as sampleBusinesses } from '@/data/businessesData';
+// Sample business data removed - all data comes from Supabase
 import { getBusinessBanner } from '@/utils/businessBanners';
 import BusinessLocationMap from '@/components/business-detail/BusinessLocationMap';
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';

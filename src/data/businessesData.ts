@@ -1,5 +1,6 @@
 
+// Sample business data has been removed. All business data now comes from Supabase.
+// This file is kept for backward compatibility but exports an empty array.
 import { Business } from '@/types/business';
-import { allBusinesses } from './businesses';
 
-export const businesses: Business[] = allBusinesses;
+export const businesses: Business[] = [];
