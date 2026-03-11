@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { Button } from '@/components/ui/button';
 import { Building2, Search, Filter, MapPin } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { businesses } from '@/data/businessData';
+import { supabase } from '@/integrations/supabase/client';
 import BusinessCard from '@/components/BusinessCard';
 
 const BusinessesPage: React.FC = () => {

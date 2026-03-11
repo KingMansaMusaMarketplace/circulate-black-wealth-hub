@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
-import { businesses } from '@/data/businessData';
+import { supabase } from '@/integrations/supabase/client';
 
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();

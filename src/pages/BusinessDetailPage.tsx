@@ -306,21 +306,6 @@ const BusinessDetailPage = () => {
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Sample Business Banner */}
-        {isSampleBusiness && (
-          <div className="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-900 py-3 px-4 relative z-50">
-            <div className="container mx-auto flex items-center justify-center gap-3">
-              <Info className="h-5 w-5" />
-              <p className="text-sm font-medium">
-                This is a sample business profile for demonstration purposes. 
-                <Link to="/directory" className="underline ml-1 font-semibold hover:text-slate-800">
-                  Explore real businesses →
-                </Link>
-              </p>
-            </div>
-          </div>
-        )}
-
         <BackgroundOrbs />
 
         {/* Header */}
