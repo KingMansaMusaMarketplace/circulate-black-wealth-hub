@@ -244,31 +244,56 @@ export class RealtimeChat {
       }
       
       console.log('Getting ephemeral token...');
-      
-      // CRITICAL: Refresh the session before calling the edge function
-      // Expired JWTs cause "non-2xx status code" errors on mobile/Safari
-      try {
-        const { error: refreshError } = await supabase.auth.refreshSession();
-        if (refreshError) {
-          console.warn('[Auth] Session refresh failed:', refreshError.message);
-        } else {
-          console.log('[Auth] Session refreshed successfully');
-        }
-      } catch (refreshErr) {
-        console.warn('[Auth] Session refresh threw:', refreshErr);
-      }
-      
-      // Get ephemeral token from our Supabase Edge Function
-      const { data, error } = await supabase.functions.invoke("realtime-token", {
-        body: {},
-      });
-      
-      if (error) {
-        console.error('Edge function error:', error);
-        // Clean up microphone on error
+
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+      if (!supabaseUrl || !supabasePublishableKey) {
         this.localStream?.getTracks().forEach(t => t.stop());
         this.localStream = null;
-        throw new Error(error.message || 'Failed to connect to voice service');
+        throw new Error('Supabase environment is not configured for voice connection');
+      }
+
+      // Refresh only when a user session exists; guests are allowed.
+      const { data: sessionData } = await supabase.auth.getSession();
+      let accessToken = sessionData.session?.access_token ?? null;
+
+      if (accessToken) {
+        const { data: refreshedData, error: refreshError } = await supabase.auth.refreshSession();
+        if (!refreshError && refreshedData.session?.access_token) {
+          accessToken = refreshedData.session.access_token;
+          console.log('[Auth] Session refreshed successfully');
+        } else if (refreshError) {
+          console.warn('[Auth] Session refresh failed, falling back to guest mode:', refreshError.message);
+          accessToken = null;
+        }
+      }
+
+      const tokenResponse = await fetch(`${supabaseUrl}/functions/v1/realtime-token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabasePublishableKey,
+          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
+        body: JSON.stringify({}),
+      });
+
+      const rawTokenBody = await tokenResponse.text();
+      let data: any = {};
+
+      try {
+        data = rawTokenBody ? JSON.parse(rawTokenBody) : {};
+      } catch {
+        data = { error: rawTokenBody };
+      }
+
+      if (!tokenResponse.ok) {
+        const message = data?.error || data?.message || `Failed to connect to voice service (${tokenResponse.status})`;
+        console.error('Edge function error:', tokenResponse.status, message);
+        this.localStream?.getTracks().forEach(t => t.stop());
+        this.localStream = null;
+        throw new Error(message);
       }
 
       console.log('Token response received');
