@@ -155,25 +155,6 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         return { blocked: true, reason: 'already_connecting' };
       }
 
-      const isIOS =
-        /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-      // Pre-flight checks - these are safe even if they fail
-      if (!navigator.mediaDevices) {
-        toast.error('Voice Not Supported', {
-          description: 'Your browser does not support voice features.',
-        });
-        return { blocked: true, reason: 'no_media_devices' };
-      }
-
-      if (!window.RTCPeerConnection) {
-        toast.error('Voice Not Supported', {
-          description: 'WebRTC is not available in your browser.',
-        });
-        return { blocked: true, reason: 'no_webrtc' };
-      }
-
       // CRITICAL: Request microphone IMMEDIATELY in the user gesture handler
       // Safari/iOS requires getUserMedia to be called directly from user interaction
       // Any async operation (like haptics) before this breaks the gesture chain
@@ -189,24 +170,72 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         });
         console.log('[Kayla] Microphone access granted');
       } catch (micError: any) {
-        console.error('[Kayla] Microphone denied:', micError);
-        const isIOS2 = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        if (micError.name === 'NotAllowedError') {
-          toast.error('Microphone Access Required', {
-            description: isIOS2
-              ? 'Please allow microphone access in Settings > Safari > Microphone'
-              : 'Microphone access denied. Please allow microphone access and try again.',
+        const micErrorName = micError?.name ?? 'UnknownError';
+        const micErrorMessage = String(micError?.message ?? '');
+        const isSecureContext = window.isSecureContext;
+        const isEmbeddedPreview = window.self !== window.top;
+        const isIPhone = /iPhone|iPod/.test(navigator.userAgent);
+        const isIPadDevice =
+          /iPad/.test(navigator.userAgent) ||
+          (navigator.platform === 'MacIntel' &&
+            navigator.maxTouchPoints > 1 &&
+            !/iPhone/.test(navigator.userAgent) &&
+            'ontouchstart' in window &&
+            window.innerWidth <= 1366);
+        const isIOSDevice = isIPhone || isIPadDevice;
+
+        let micPermissionState: PermissionState | 'unknown' = 'unknown';
+        try {
+          if (navigator.permissions?.query) {
+            const status = await navigator.permissions.query({ name: 'microphone' as PermissionName });
+            micPermissionState = status.state;
+          }
+        } catch {
+          // Permissions API may be unavailable in some browsers
+        }
+
+        const deniedByPolicy = /permissions? policy|feature policy|disallow/i.test(micErrorMessage);
+
+        console.error('[Kayla] Microphone denied:', {
+          name: micErrorName,
+          message: micErrorMessage,
+          isSecureContext,
+          isEmbeddedPreview,
+          micPermissionState,
+        });
+
+        if (!isSecureContext) {
+          toast.error('Secure Connection Required', {
+            description: 'Voice requires HTTPS. Open the app using a secure URL and try again.',
           });
-        } else if (micError.name === 'NotFoundError') {
+        } else if (micErrorName === 'NotAllowedError') {
+          if (isIOSDevice) {
+            toast.error('Microphone Access Required', {
+              description: 'Please allow microphone access in Settings > Safari > Microphone',
+            });
+          } else if (isEmbeddedPreview && (deniedByPolicy || micPermissionState !== 'granted')) {
+            toast.error('Microphone Access Required', {
+              description: 'Microphone is blocked in this embedded preview. Open the app in a new tab, allow microphone, then try again.',
+            });
+          } else if (micPermissionState === 'denied') {
+            toast.error('Microphone Access Required', {
+              description: 'Microphone is blocked in your browser. Click the lock icon in the address bar, allow microphone, and retry.',
+            });
+          } else {
+            toast.error('Microphone Access Required', {
+              description: 'Microphone access denied. Please allow microphone access and try again.',
+            });
+          }
+        } else if (micErrorName === 'NotFoundError') {
           toast.error('No Microphone Found', {
             description: 'Please connect a microphone and try again.',
           });
         } else {
           toast.error('Microphone Error', {
-            description: micError.message || 'Could not access microphone.',
+            description: micErrorMessage || 'Could not access microphone.',
           });
         }
+
         return { blocked: true, reason: 'mic_denied' };
       }
 
