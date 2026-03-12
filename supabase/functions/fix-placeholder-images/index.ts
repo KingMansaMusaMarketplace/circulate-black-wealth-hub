@@ -12,27 +12,34 @@ serve(async (req) => {
   }
 
   try {
+    const FIRECRAWL_API_KEY = Deno.env.get("FIRECRAWL_API_KEY");
+    if (!FIRECRAWL_API_KEY) {
+      return new Response(JSON.stringify({ success: false, error: "FIRECRAWL_API_KEY not set" }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
 
-    // Get businesses with placeholder images
+    // Get businesses still with placeholder images
     const { data: businesses, error } = await supabase
       .from("businesses")
-      .select("id, name, website, logo_url, banner_url")
+      .select("id, name, website, logo_url, banner_url, category")
       .ilike("banner_url", "%placeholder%")
       .not("website", "is", null)
       .neq("website", "");
 
     if (error) throw error;
     if (!businesses?.length) {
-      return new Response(JSON.stringify({ success: true, message: "No placeholder images found" }), {
+      return new Response(JSON.stringify({ success: true, message: "No placeholders remaining" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    console.log(`Found ${businesses.length} businesses with placeholder images`);
+    console.log(`Processing ${businesses.length} businesses with Firecrawl`);
 
     const results: Array<{ name: string; status: string; banner?: string; logo?: string; error?: string }> = [];
 
@@ -41,65 +48,48 @@ serve(async (req) => {
         let website = biz.website.trim();
         if (!website.startsWith("http")) website = `https://${website}`;
 
-        console.log(`Scraping: ${biz.name} (${website})`);
+        console.log(`Firecrawl scraping: ${biz.name} (${website})`);
 
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 10000);
-
-        const response = await fetch(website, {
-          signal: controller.signal,
+        const scrapeResponse = await fetch("https://api.firecrawl.dev/v1/scrape", {
+          method: "POST",
           headers: {
-            "User-Agent": "Mozilla/5.0 (compatible; BrandingBot/1.0)",
-            "Accept": "text/html",
+            "Authorization": `Bearer ${FIRECRAWL_API_KEY}`,
+            "Content-Type": "application/json",
           },
-          redirect: "follow",
+          body: JSON.stringify({
+            url: website,
+            formats: ["branding"],
+            onlyMainContent: false,
+            timeout: 15000,
+          }),
         });
-        clearTimeout(timeout);
 
-        if (!response.ok) {
-          results.push({ name: biz.name, status: "fetch_failed", error: `HTTP ${response.status}` });
+        const scrapeData = await scrapeResponse.json();
+
+        if (!scrapeResponse.ok || !scrapeData.success) {
+          console.log(`Firecrawl failed for ${biz.name}:`, scrapeData.error || "unknown");
+          results.push({ name: biz.name, status: "scrape_failed", error: scrapeData.error || `HTTP ${scrapeResponse.status}` });
           continue;
         }
 
-        const html = await response.text();
-        const finalUrl = response.url || website;
+        const branding = scrapeData.data?.branding || {};
+        const metadata = scrapeData.data?.metadata || {};
+        const brandingImages = branding?.images || {};
 
-        // Extract OG image for banner
-        const ogMatch = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
-                         html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+(?:property|name)=["']og:image["']/i);
-        
-        const twitterMatch = html.match(/<meta[^>]+(?:property|name)=["']twitter:image["'][^>]+content=["']([^"']+)["']/i) ||
-                             html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+(?:property|name)=["']twitter:image["']/i);
+        const ogImage = brandingImages.ogImage || metadata?.ogImage || "";
+        const logo = brandingImages.logo || branding?.logo || "";
 
-        let bannerUrl = (ogMatch?.[1] || twitterMatch?.[1] || "").trim();
-        
-        // Make relative URLs absolute
-        if (bannerUrl && !bannerUrl.startsWith("http")) {
-          try { bannerUrl = new URL(bannerUrl, finalUrl).toString(); } catch { bannerUrl = ""; }
-        }
-
-        // Extract logo
-        const logoMatch = html.match(/<img[^>]*(?:class|alt|id)=["'][^"']*(logo|brand)[^"']*["'][^>]*src=["']([^"']+)["']/i) ||
-                          html.match(/<img[^>]*src=["']([^"']+)["'][^>]*(?:class|alt|id)=["'][^"']*(logo|brand)[^"']*["']/i);
-        
-        let logoUrl = (logoMatch?.[2] || logoMatch?.[1] || "").trim();
-        if (logoUrl && !logoUrl.startsWith("http")) {
-          try { logoUrl = new URL(logoUrl, finalUrl).toString(); } catch { logoUrl = ""; }
-        }
-
-        // Filter junk
-        const isJunk = (url: string) => !url || url.includes("favicon") || url.includes("${") || url.includes("{{");
+        const isValid = (url: string) => url && url.startsWith("http") && !url.includes("${") && !url.includes("favicon");
 
         const updates: Record<string, string> = { updated_at: new Date().toISOString() };
-        
-        if (bannerUrl && !isJunk(bannerUrl)) {
-          updates.banner_url = bannerUrl;
+
+        if (isValid(ogImage)) {
+          updates.banner_url = ogImage;
         }
-        
-        // Only update logo if current one is also a placeholder
+
         const needsLogo = !biz.logo_url || biz.logo_url.includes("placeholder");
-        if (needsLogo && logoUrl && !isJunk(logoUrl)) {
-          updates.logo_url = logoUrl;
+        if (needsLogo && isValid(logo)) {
+          updates.logo_url = logo;
         }
 
         if (Object.keys(updates).length <= 1) {
@@ -118,15 +108,15 @@ serve(async (req) => {
           results.push({ name: biz.name, status: "updated", banner: updates.banner_url, logo: updates.logo_url });
         }
 
-        // Rate limit
-        await new Promise(r => setTimeout(r, 300));
+        // Rate limit between Firecrawl calls
+        await new Promise(r => setTimeout(r, 500));
       } catch (err) {
         results.push({ name: biz.name, status: "error", error: err instanceof Error ? err.message : "Unknown" });
       }
     }
 
     const updated = results.filter(r => r.status === "updated").length;
-    const failed = results.filter(r => ["error", "update_failed", "fetch_failed"].includes(r.status)).length;
+    const failed = results.filter(r => !["updated", "no_images_found"].includes(r.status)).length;
 
     return new Response(JSON.stringify({
       success: true,
@@ -137,8 +127,7 @@ serve(async (req) => {
     });
   } catch (err) {
     return new Response(JSON.stringify({ success: false, error: err instanceof Error ? err.message : "Unknown" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });
