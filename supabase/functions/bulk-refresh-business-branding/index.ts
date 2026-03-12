@@ -144,59 +144,70 @@ serve(async (req) => {
       });
     }
 
-    const supabaseAuth = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      { global: { headers: { Authorization: authHeader } } },
-    );
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+    const token = authHeader.replace("Bearer ", "");
+    const isServiceRole = token === serviceRoleKey;
 
-    const {
-      data: { user },
-      error: userError,
-    } = await supabaseAuth.auth.getUser();
+    if (!isServiceRole) {
+      const supabaseAuth = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+        { global: { headers: { Authorization: authHeader } } },
+      );
 
-    if (userError || !user) {
-      return new Response(JSON.stringify({ success: false, error: "Invalid authentication" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      const {
+        data: { user },
+        error: userError,
+      } = await supabaseAuth.auth.getUser();
+
+      if (userError || !user) {
+        return new Response(JSON.stringify({ success: false, error: "Invalid authentication" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const supabaseAdmin = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        serviceRoleKey,
+      );
+
+      let isAdmin = false;
+      const { data: hasRoleResult } = await supabaseAdmin.rpc("has_role", {
+        _user_id: user.id,
+        _role: "admin",
       });
+      if (hasRoleResult === true) {
+        isAdmin = true;
+      } else {
+        const { data: roleRows } = await supabaseAdmin
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", user.id)
+          .eq("role", "admin")
+          .limit(1);
+        isAdmin = !!roleRows?.length;
+      }
+
+      if (!isAdmin) {
+        return new Response(JSON.stringify({ success: false, error: "Admin access required" }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
     }
 
-    const supabaseAdmin = createClient(
+    const supabaseAdminClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      serviceRoleKey,
     );
-
-    let isAdmin = false;
-    const { data: hasRoleResult } = await supabaseAdmin.rpc("has_role", {
-      _user_id: user.id,
-      _role: "admin",
-    });
-    if (hasRoleResult === true) {
-      isAdmin = true;
-    } else {
-      const { data: roleRows } = await supabaseAdmin
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", user.id)
-        .eq("role", "admin")
-        .limit(1);
-      isAdmin = !!roleRows?.length;
-    }
-
-    if (!isAdmin) {
-      return new Response(JSON.stringify({ success: false, error: "Admin access required" }), {
-        status: 403,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
 
     const body = await req.json().catch(() => ({}));
     const batchSize = Math.min(Math.max(Number(body.batchSize) || 12, 1), 50);
     const offset = Math.max(Number(body.offset) || 0, 0);
     const ids: string[] | null = Array.isArray(body.ids) && body.ids.length ? body.ids : null;
 
-    let query = supabaseAdmin
+    let query = supabaseAdminClient
       .from("businesses")
       .select("id, name, website, logo_url, banner_url")
       .not("website", "is", null)
@@ -270,7 +281,7 @@ serve(async (req) => {
           continue;
         }
 
-        const { error: updateError } = await supabaseAdmin
+        const { error: updateError } = await supabaseAdminClient
           .from("businesses")
           .update(updates)
           .eq("id", biz.id);
