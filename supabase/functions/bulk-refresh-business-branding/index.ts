@@ -207,7 +207,7 @@ serve(async (req) => {
     const offset = Math.max(Number(body.offset) || 0, 0);
     const ids: string[] | null = Array.isArray(body.ids) && body.ids.length ? body.ids : null;
 
-    let query = supabaseAdmin
+    let query = supabaseAdminClient
       .from("businesses")
       .select("id, name, website, logo_url, banner_url")
       .not("website", "is", null)
