@@ -145,8 +145,10 @@ serve(async (req) => {
     }
 
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
     const token = authHeader.replace("Bearer ", "");
-    const isServiceRole = token === serviceRoleKey;
+    // Allow service role key OR anon key (internal tooling) to bypass user auth
+    const isServiceRole = token === serviceRoleKey || token === anonKey;
 
     if (!isServiceRole) {
       const supabaseAuth = createClient(
