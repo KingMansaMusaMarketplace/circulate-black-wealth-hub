@@ -281,7 +281,7 @@ serve(async (req) => {
           continue;
         }
 
-        const { error: updateError } = await supabaseAdmin
+        const { error: updateError } = await supabaseAdminClient
           .from("businesses")
           .update(updates)
           .eq("id", biz.id);
