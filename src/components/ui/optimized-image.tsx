@@ -28,8 +28,8 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // Normalize and return the image source directly — skip WebP conversion
-  // for external URLs since they almost always fail and cause double-loading
+  // Normalize src — no WebP conversion (external URLs don't support it,
+  // causing failed requests and double-loading delays)
   const normalizeSrc = (originalSrc: string): string => {
     const placeholderPrefix = 'https://circulate-black-wealth-hub.lovable.app/images/placeholders/';
     if (originalSrc.startsWith(placeholderPrefix)) {
@@ -39,11 +39,11 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   useEffect(() => {
-    const sources = generateSources(src);
+    const normalizedSrc = normalizeSrc(src);
     
     if (!lazy) {
       setIsVisible(true);
-      setCurrentSrc(sources.webp);
+      setCurrentSrc(normalizedSrc);
       return;
     }
 
@@ -55,7 +55,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     const isAlreadyVisible = rect.top < window.innerHeight + 400 && rect.bottom > -100;
     if (isAlreadyVisible) {
       setIsVisible(true);
-      setCurrentSrc(sources.webp);
+      setCurrentSrc(normalizedSrc);
       return;
     }
 
@@ -63,7 +63,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          setCurrentSrc(sources.webp);
+          setCurrentSrc(normalizedSrc);
           observer.unobserve(currentImg);
         }
       },
@@ -87,13 +87,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
       setCurrentSrc(fallbackSrc);
       setHasError(false);
     } else if (!hasError) {
-      // Try the original source if WebP fails
-      const sources = generateSources(src);
-      if (currentSrc !== sources.fallback) {
-        setCurrentSrc(sources.fallback);
-      } else {
-        setHasError(true);
-      }
+      setHasError(true);
     }
   };
 
@@ -104,18 +98,18 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   }[quality];
 
   return (
-    <div className={cn('relative overflow-hidden bg-gray-100', className)}>
+    <div className={cn('relative overflow-hidden bg-muted', className)}>
       {/* Loading skeleton */}
       {!isLoaded && isVisible && (
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse" 
+        <div className="absolute inset-0 bg-gradient-to-r from-muted via-muted-foreground/10 to-muted animate-pulse" 
              style={{ backgroundSize: '200% 100%' }} />
       )}
       
       {/* Error state */}
       {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400">
+        <div className="absolute inset-0 flex items-center justify-center bg-muted text-muted-foreground">
           <div className="text-center">
-            <div className="w-12 h-12 mx-auto mb-2 bg-gray-200 rounded"></div>
+            <div className="w-12 h-12 mx-auto mb-2 bg-muted-foreground/20 rounded"></div>
             <p className="text-xs">Image unavailable</p>
           </div>
         </div>
@@ -128,8 +122,10 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         alt={alt}
         onLoad={handleLoad}
         onError={handleError}
+        decoding="async"
+        fetchPriority={lazy ? 'low' : 'high'}
         className={cn(
-          'transition-all duration-300 w-full h-full object-cover',
+          'transition-opacity duration-150 w-full h-full object-cover',
           isLoaded ? 'opacity-100' : 'opacity-0',
           qualityClass,
           className
