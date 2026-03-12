@@ -197,6 +197,11 @@ serve(async (req) => {
       }
     }
 
+    const supabaseAdminClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      serviceRoleKey,
+    );
+
     const body = await req.json().catch(() => ({}));
     const batchSize = Math.min(Math.max(Number(body.batchSize) || 12, 1), 50);
     const offset = Math.max(Number(body.offset) || 0, 0);
