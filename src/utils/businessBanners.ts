@@ -251,6 +251,66 @@ const businessCardImages: Record<string, string> = {
   '5c65d21c-d54d-4672-a101-88bfac21fd99': '/businesses/southside-medical-card.png',
   // Lincoln University - Jefferson City, MO
   'af097bb0-7f38-4fa1-86ae-0d26c98a09ae': '/businesses/lincoln-university-card.png',
+  // Ackee Tree Jamaican Cuisine - San Diego, CA
+  '546f5746-5b61-4e44-bd67-85b74590488f': '/businesses/ackee-tree-card.jpg',
+  // Addis Restaurant - Ethiopian, San Diego, CA
+  '8aaed434-f359-4ba1-bfe2-f89444b0f9cc': '/businesses/addis-restaurant-card.jpg',
+  // Alma's Place - Compton, CA
+  '665e8cc6-2f03-4f40-b932-c87bf8597761': '/businesses/almas-place-card.jpg',
+  // Back to the Grind - Riverside, CA
+  'abf3a377-9f83-48ba-8c80-156230c0150d': '/businesses/back-to-the-grind-card.jpg',
+  // Billionaire Burger Boyz - Compton, CA
+  'd46ab682-2df7-45bc-b16a-d428fff0de90': '/businesses/billionaire-burger-boyz-card.jpg',
+  // Blacos Soul Tacos - Los Angeles, CA
+  '70cd4fe2-017a-4b3b-9fa2-9663d4d7e1ef': '/businesses/blacos-soul-tacos-card.jpg',
+  // Bludso's BBQ - Los Angeles, CA
+  '7e93eda8-c9c5-4def-804f-081a50414ab1': '/businesses/bludsos-bbq-card.jpg',
+  // Bonnie Jean's Soul Food Cafe - San Diego, CA
+  'a55cc9e1-a1f1-46e4-bce6-db3190943b22': '/businesses/bonnie-jeans-card.jpg',
+  // Colo's Soul Food - Sacramento, CA
+  'df686f73-f721-481c-9725-bc9e92c87c11': '/businesses/colos-soul-food-card.jpg',
+  // Dee Dee's Soul Food - San Diego, CA
+  'e59e35ad-308d-4d3a-955b-3805bc582ab7': '/businesses/dee-dees-soul-food-card.jpg',
+  // Doll's Kitchen - Fresno, CA
+  '739972a7-599f-4536-a762-73103aeb0b3e': '/businesses/dolls-kitchen-card.jpg',
+  // Fresno Gumbo House - Fresno, CA
+  '8e281c5f-8676-46e0-bf64-21845402e42a': '/businesses/fresno-gumbo-house-card.jpg',
+  // Hip Hop BBQ Shack - San Bruno, CA
+  'b3a3d6e1-9fdd-43fb-80ea-230f944e83d3': '/businesses/hip-hop-bbq-shack-card.jpg',
+  // Hot & Cool Cafe - Los Angeles, CA
+  '84db44b2-3106-47d3-a791-45a2fa531229': '/businesses/hot-cool-cafe-card.jpg',
+  // House of Soul - Vallejo, CA
+  '6a81e34b-a4b7-4d4b-abb7-bce5dd521d7d': '/businesses/house-of-soul-card.jpg',
+  // Jamit Bistro - Brooklyn, NY (override existing if needed)
+  'a1b2c3d4-e5f6-7890-abcd-200000000003': '/businesses/jamit-bistro-card.jpg',
+  // Lalibela Ethiopian Restaurant - Los Angeles, CA
+  '0701b47d-a567-4398-b16a-b17fc0e1a5e2': '/businesses/lalibela-card.jpg',
+  // Lois the Pie Queen - Oakland, CA
+  'c958fb24-6e39-4286-bcca-a8fd85d83931': '/businesses/lois-pie-queen-card.jpg',
+  // Lucia - Los Angeles, CA
+  'cbf0c42a-36ac-41a9-8a83-e4f0f8c9a9b2': '/businesses/lucia-card.jpg',
+  // Mahogany Soul - Oakland, CA
+  '0ec3db3c-44e7-4a17-a385-36958cd19c68': '/businesses/mahogany-soul-card.jpg',
+  // Nkechi African Cafe - Inglewood, CA
+  'afeca83d-4cef-40d7-b9ff-f6929fb04137': '/businesses/nkechi-african-cafe-card.jpg',
+  // Phill's Corner Grill - Clovis, CA
+  '30fa222f-34ec-4e5c-a0e4-92a37ffd1c30': '/businesses/phills-corner-grill-card.jpg',
+  // Portillo's - Chicago, IL
+  'a1b2c3d4-e5f6-7890-abcd-300000000002': '/businesses/portillos-card.jpg',
+  // Q1227 - Roseville, CA
+  'd5c9cde2-c599-4ac8-ae3e-d2de40e942f4': '/businesses/q1227-card.jpg',
+  // Rhapsody's Restaurant - Fresno, CA
+  'aca4f576-44e9-41f7-a46b-159b5f02f494': '/businesses/rhapsodys-card.jpg',
+  // Robert Earl's BBQ - Long Beach, CA
+  'fa2747b0-5515-4047-890e-942d015b6b83': '/businesses/robert-earls-bbq-card.jpg',
+  // The Court Cafe - Los Angeles, CA
+  '786c0c1a-82bb-44df-acd2-e47aa271e235': '/businesses/court-cafe-card.jpg',
+  // The Serving Spoon - Inglewood, CA
+  '40969bb1-181a-4a66-871b-636022553ccb': '/businesses/serving-spoon-card.jpg',
+  // Trap Kitchen - Los Angeles, CA
+  'bd411c25-708b-48de-88c9-b7ade8030db6': '/businesses/trap-kitchen-card.jpg',
+  // Triumph African Restaurant - Fresno, CA
+  '9fc9f22e-d7ea-440e-ab76-4f4ac50e3f17': '/businesses/triumph-african-card.jpg',
 };
 
 // Additional banner fallbacks for Agriculture category
