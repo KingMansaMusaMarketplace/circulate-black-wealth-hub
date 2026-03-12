@@ -24,13 +24,17 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
 
+    const body = await req.json().catch(() => ({}));
+    const limit = Math.min(Number(body.limit) || 5, 10);
+
     // Get businesses still with placeholder images
     const { data: businesses, error } = await supabase
       .from("businesses")
       .select("id, name, website, logo_url, banner_url, category")
       .ilike("banner_url", "%placeholder%")
       .not("website", "is", null)
-      .neq("website", "");
+      .neq("website", "")
+      .limit(limit);
 
     if (error) throw error;
     if (!businesses?.length) {
