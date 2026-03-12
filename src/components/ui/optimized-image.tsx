@@ -28,36 +28,14 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // Generate WebP and fallback sources
-  const generateSources = (originalSrc: string) => {
-    // Normalize placeholder URLs from published domain to relative paths
+  // Normalize and return the image source directly — skip WebP conversion
+  // for external URLs since they almost always fail and cause double-loading
+  const normalizeSrc = (originalSrc: string): string => {
     const placeholderPrefix = 'https://circulate-black-wealth-hub.lovable.app/images/placeholders/';
-    let normalizedSrc = originalSrc;
     if (originalSrc.startsWith(placeholderPrefix)) {
-      normalizedSrc = '/images/placeholders/' + originalSrc.substring(placeholderPrefix.length);
+      return '/images/placeholders/' + originalSrc.substring(placeholderPrefix.length);
     }
-
-    // Skip conversion for placeholders, data URLs, local files, and CDN-processed URLs
-    if (
-      normalizedSrc.includes('placehold.co') || 
-      normalizedSrc.startsWith('data:') || 
-      normalizedSrc.startsWith('/') ||
-      normalizedSrc.includes('cdn-cgi/') ||
-      normalizedSrc.includes('popmenucloud.com') ||
-      normalizedSrc.includes('supabase.co')
-    ) {
-      return { webp: normalizedSrc, fallback: normalizedSrc };
-    }
-
-    // For external URLs, only try WebP if the extension is at the very end of the URL path
-    const url = new URL(normalizedSrc, window.location.origin);
-    const pathOnly = url.pathname;
-    if (/\.(jpg|jpeg|png)$/i.test(pathOnly)) {
-      const webpSrc = normalizedSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-      return { webp: webpSrc, fallback: normalizedSrc };
-    }
-
-    return { webp: normalizedSrc, fallback: normalizedSrc };
+    return originalSrc;
   };
 
   useEffect(() => {
