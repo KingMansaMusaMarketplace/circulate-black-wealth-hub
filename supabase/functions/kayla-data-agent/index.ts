@@ -345,8 +345,8 @@ serve(async (req) => {
         }
         await new Promise(r => setTimeout(r, 1000));
       }
-      if (imagesScarped > 0) {
-        actionsTaken.push(`🔍 Scraped ${imagesScarped} fresh images from live business websites`);
+      if (imagesScraped > 0) {
+        actionsTaken.push(`🔍 Scraped ${imagesScraped} fresh images from live business websites`);
       }
 
       // ── FIX 4: Create proactive outreach notifications for incomplete profiles ──
