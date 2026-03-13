@@ -166,24 +166,16 @@ const BusinessFinancesPage: React.FC = () => {
 
   if (!financialData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
-        </div>
-
-        <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
-          <div className="relative z-10 space-y-8">
-            {/* Enhanced Empty State Header */}
-            <div className="animate-fade-in">
-              <div className="relative inline-block w-full">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-yellow-500/20 to-purple-500/30 rounded-3xl blur-2xl"></div>
-                <Card className="relative bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-2xl">
-                  <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-yellow-500 to-purple-500"></div>
-                  <CardContent className="p-12 text-center">
-                    <DollarSign className="w-20 h-20 mx-auto mb-6 text-yellow-400" />
+      <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
+        <div className="space-y-8">
+          {/* Enhanced Empty State Header */}
+          <div className="animate-fade-in">
+            <div className="relative inline-block w-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-yellow-500/20 to-purple-500/30 rounded-3xl blur-2xl"></div>
+              <Card className="relative bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-2xl">
+                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-yellow-500 to-purple-500"></div>
+                <CardContent className="p-12 text-center">
+                  <DollarSign className="w-20 h-20 mx-auto mb-6 text-yellow-400" />
                     <h3 className="text-3xl font-bold mb-3 text-white">
                       Welcome to Your Financial Dashboard! 💰
                     </h3>
