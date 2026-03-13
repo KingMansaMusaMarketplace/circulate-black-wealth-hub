@@ -389,7 +389,7 @@ serve(async (req) => {
             type: "kayla_profile_nudge",
             title: "Complete your business profile",
             message,
-            data: { business_id: biz.id, missing_fields: missing },
+            metadata: { business_id: biz.id, missing_fields: missing },
           });
 
         if (!error) {
