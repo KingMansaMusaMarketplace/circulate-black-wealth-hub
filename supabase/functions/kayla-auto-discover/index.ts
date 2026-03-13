@@ -454,14 +454,12 @@ Only include businesses you are highly confident are real and currently open. Qu
       const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       await supabase.from("kayla_agent_reports").insert({
-        service_name: "auto_discover",
-        run_type: "scheduled",
+        report_type: "auto_discover",
         status: "error",
         summary: `Auto-discover failed: ${errMsg}`,
-        details: { error: errMsg },
-        items_processed: 0,
-        items_fixed: 0,
-        duration_ms: Date.now() - startTime,
+        details: { error: errMsg, duration_ms: Date.now() - startTime },
+        issues_found: 0,
+        issues_fixed: 0,
       });
     } catch {}
 
