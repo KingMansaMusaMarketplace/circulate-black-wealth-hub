@@ -342,6 +342,9 @@ Only include businesses you are highly confident are real and currently open. Qu
 
       const isVerified = confidence >= 0.7;
 
+      // Clean website - filter out non-URL values like "Not publicly available"
+      const cleanWebsite = biz.website && biz.website.match(/^https?:\/\/|^www\./) ? biz.website.trim() : "";
+
       // Build the complete business record
       const businessRecord: Record<string, any> = {
         name: biz.name.trim(),
@@ -354,10 +357,9 @@ Only include businesses you are highly confident are real and currently open. Qu
         zip_code: biz.zip_code || "",
         phone: biz.phone || "",
         email: biz.email || "",
-        website: biz.website || "",
+        website: cleanWebsite,
         owner_id: PLACEHOLDER_OWNER_ID,
         is_verified: isVerified,
-        price_range: biz.price_range || null,
       };
 
       // Add images if scraped
