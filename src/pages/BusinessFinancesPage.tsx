@@ -638,7 +638,6 @@ const BusinessFinancesPage: React.FC = () => {
       </div>
     </DashboardLayout>
   );
-  );
 };
 
 export default BusinessFinancesPage;
