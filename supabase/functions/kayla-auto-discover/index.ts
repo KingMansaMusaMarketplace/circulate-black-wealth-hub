@@ -327,11 +327,14 @@ Only include businesses you are highly confident are real and currently open. Qu
       }
 
       // === ENRICHMENT PHASE ===
+      // Clean website URL before scraping
+      const websiteForScrape = biz.website && biz.website.match(/^https?:\/\/|^www\./) ? biz.website.trim() : null;
+      
       // 1. Scrape website for logo and banner images
       let images = { logo_url: null as string | null, banner_url: null as string | null };
-      if (biz.website && firecrawlKey) {
-        console.log(`[Kayla Auto-Discover] Scraping website for "${biz.name}": ${biz.website}`);
-        images = await scrapeWebsiteImages(biz.website, firecrawlKey);
+      if (websiteForScrape && firecrawlKey) {
+        console.log(`[Kayla Auto-Discover] Scraping website for "${biz.name}": ${websiteForScrape}`);
+        images = await scrapeWebsiteImages(websiteForScrape, firecrawlKey);
       }
 
       // 2. Geocode the address for map pin
