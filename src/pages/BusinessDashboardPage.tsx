@@ -62,62 +62,51 @@ const BusinessDashboardPage = () => {
         <meta name="description" content="Manage your business profile, analytics, and engagement tools" />
       </Helmet>
       
-      <div className="relative min-h-screen overflow-hidden">
-        {/* Animated Background */}
-        <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      <DashboardLayout title="Business Dashboard" icon={null}>
+        <div className="space-y-6">
+          {/* Verification Status Banner */}
+          <BusinessVerificationStatus
+            isVerified={profile.is_verified || false}
+            businessId={profile.id}
+            businessName={profile.business_name}
+          />
+
+          <Tabs defaultValue="overview" className="w-full">
+            <TabsList className="grid w-full grid-cols-6 bg-slate-800/40 backdrop-blur-sm border border-white/10">
+              <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
+              <TabsTrigger value="value" className="data-[state=active]:bg-emerald-900/60 data-[state=active]:text-emerald-300 text-emerald-400/70 font-medium">💰 ROI</TabsTrigger>
+              <TabsTrigger value="financials" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Financials</TabsTrigger>
+              <TabsTrigger value="reviews" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Reviews</TabsTrigger>
+              <TabsTrigger value="coaching" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">AI Coach</TabsTrigger>
+              <TabsTrigger value="benefits" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Benefits</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="overview">
+              <BusinessDashboard businessId={profile.id} />
+            </TabsContent>
+
+            <TabsContent value="value">
+              <ValueTracker />
+            </TabsContent>
+          
+            <TabsContent value="financials">
+              <FinancialsTab businessId={profile.id} />
+            </TabsContent>
+            
+            <TabsContent value="reviews">
+              <ReviewRequestsAnalytics businessId={profile.id} />
+            </TabsContent>
+            
+            <TabsContent value="coaching">
+              <AICoachingTab businessId={profile.id} />
+            </TabsContent>
+            
+            <TabsContent value="benefits">
+              <BusinessSubscriptionBenefits />
+            </TabsContent>
+          </Tabs>
         </div>
-
-        <div className="relative z-10">
-          <DashboardLayout title="Business Dashboard" icon={null}>
-            <div className="space-y-6">
-              {/* Verification Status Banner */}
-              <BusinessVerificationStatus
-                isVerified={profile.is_verified || false}
-                businessId={profile.id}
-                businessName={profile.business_name}
-              />
-
-              <Tabs defaultValue="overview" className="w-full">
-                <TabsList className="grid w-full grid-cols-6 bg-slate-800/40 backdrop-blur-sm border border-white/10">
-                  <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
-                  <TabsTrigger value="value" className="data-[state=active]:bg-emerald-900/60 data-[state=active]:text-emerald-300 text-emerald-400/70 font-medium">💰 ROI</TabsTrigger>
-                  <TabsTrigger value="financials" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Financials</TabsTrigger>
-                  <TabsTrigger value="reviews" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Reviews</TabsTrigger>
-                  <TabsTrigger value="coaching" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">AI Coach</TabsTrigger>
-                  <TabsTrigger value="benefits" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Benefits</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="overview">
-                  <BusinessDashboard businessId={profile.id} />
-                </TabsContent>
-
-                <TabsContent value="value">
-                  <ValueTracker />
-                </TabsContent>
-              
-              <TabsContent value="financials">
-                <FinancialsTab businessId={profile.id} />
-              </TabsContent>
-              
-              <TabsContent value="reviews">
-                <ReviewRequestsAnalytics businessId={profile.id} />
-              </TabsContent>
-              
-              <TabsContent value="coaching">
-                <AICoachingTab businessId={profile.id} />
-              </TabsContent>
-              
-              <TabsContent value="benefits">
-                <BusinessSubscriptionBenefits />
-              </TabsContent>
-              </Tabs>
-            </div>
-          </DashboardLayout>
-        </div>
-      </div>
+      </DashboardLayout>
     </>
   );
 };
