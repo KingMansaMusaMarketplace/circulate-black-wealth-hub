@@ -169,6 +169,8 @@ const AdminOverview: React.FC = () => {
       </Card>
       {/* Kayla Autonomous Agent Reports */}
       <KaylaAgentReports />
+      {/* Kayla Adaptive Intelligence Dashboard */}
+      <KaylaImpactDashboard />
     </div>
   );
 };
