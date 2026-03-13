@@ -51,6 +51,9 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
     let url = websiteUrl.trim();
     if (!url.startsWith("http")) url = `https://${url}`;
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
     const response = await fetch("https://api.firecrawl.dev/v1/scrape", {
       method: "POST",
       headers: {
@@ -61,9 +64,12 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
         url,
         formats: ["markdown"],
         onlyMainContent: false,
-        timeout: 15000,
+        timeout: 8000,
       }),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errText = await response.text();
