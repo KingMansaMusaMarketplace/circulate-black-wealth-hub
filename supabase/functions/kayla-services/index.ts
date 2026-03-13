@@ -407,10 +407,15 @@ async function runContentGenerator(supabase: ReturnType<typeof createClient>) {
 async function runQualityScorer(supabase: ReturnType<typeof createClient>) {
   const results: string[] = [];
 
-  const { data: businesses } = await supabase
+  const { data: businesses, error: bizError } = await supabase
     .from("businesses")
-    .select("id, name, business_name, description, logo_url, banner_url, website, phone, email, address, city, state, zip_code, category, hours_of_operation, average_rating, review_count")
+    .select("id, name, business_name, description, logo_url, banner_url, website, phone, email, address, city, state, zip_code, category, average_rating, review_count")
     .limit(50);
+
+  if (bizError) {
+    console.error("Scorer query error:", bizError);
+    return { results: [`Error querying businesses: ${bizError.message}`], count: 0 };
+  }
 
   if (!businesses?.length) return { results: ["No businesses to score"], count: 0 };
 
