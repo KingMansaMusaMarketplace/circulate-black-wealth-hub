@@ -469,7 +469,6 @@ const BusinessFinancesPage: React.FC = () => {
             </div>
           </div>
         </DashboardLayout>
-      </div>
     );
   }
 
