@@ -7282,6 +7282,51 @@ export type Database = {
           },
         ]
       }
+      kayla_agent_reports: {
+        Row: {
+          actions_taken: Json | null
+          created_at: string
+          details: Json | null
+          id: string
+          issues_fixed: number
+          issues_found: number
+          issues_requiring_review: number
+          report_type: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          summary: string
+        }
+        Insert: {
+          actions_taken?: Json | null
+          created_at?: string
+          details?: Json | null
+          id?: string
+          issues_fixed?: number
+          issues_found?: number
+          issues_requiring_review?: number
+          report_type?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          summary: string
+        }
+        Update: {
+          actions_taken?: Json | null
+          created_at?: string
+          details?: Json | null
+          id?: string
+          issues_fixed?: number
+          issues_found?: number
+          issues_requiring_review?: number
+          report_type?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          summary?: string
+        }
+        Relationships: []
+      }
       knowledge_base_articles: {
         Row: {
           business_id: string | null
