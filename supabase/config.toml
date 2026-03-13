@@ -278,3 +278,6 @@ verify_jwt = false
 
 [functions.kayla-services]
 verify_jwt = false
+
+[functions.kayla-health-check]
+verify_jwt = false
