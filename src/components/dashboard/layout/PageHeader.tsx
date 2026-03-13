@@ -9,7 +9,7 @@ interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, icon, location }) => {
   return (
-    <div className="mb-2">
+    <div className="mb-1">
       <h1 className="text-2xl font-bold flex items-center text-white">
         {icon}
         {title}
