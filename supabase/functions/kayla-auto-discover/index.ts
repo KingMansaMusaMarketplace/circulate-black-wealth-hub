@@ -205,7 +205,6 @@ serve(async (req) => {
         website: biz.website || "",
         owner_id: PLACEHOLDER_OWNER_ID,
         is_verified: isVerified,
-        source_citations: citations.length > 0 ? citations : null,
       });
 
       if (insertErr) {
