@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bot, RefreshCw, CheckCircle2, AlertTriangle, Clock, Wrench, MessageSquare, UserPlus, TrendingDown, Handshake, Pen, BarChart3 } from "lucide-react";
+import { Bot, RefreshCw, CheckCircle2, AlertTriangle, Clock, Wrench, MessageSquare, UserPlus, TrendingDown, Handshake, Pen, BarChart3, HeartPulse, XCircle, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 
@@ -23,6 +23,24 @@ interface AgentReport {
   reviewed_at: string | null;
 }
 
+interface HealthCheckRecord {
+  id: string;
+  check_type: string;
+  overall_status: string;
+  checks: Array<{
+    name: string;
+    status: "pass" | "fail" | "warn";
+    message: string;
+    duration_ms: number;
+  }>;
+  passed_count: number;
+  failed_count: number;
+  warning_count: number;
+  total_checks: number;
+  duration_ms: number;
+  created_at: string;
+}
+
 const SERVICE_OPTIONS = [
   { key: "all", label: "Run All", icon: Bot, desc: "Execute all 6 services" },
   { key: "reviews", label: "Review Responder", icon: MessageSquare, desc: "Draft review responses" },
@@ -32,6 +50,19 @@ const SERVICE_OPTIONS = [
   { key: "content", label: "Content Gen", icon: Pen, desc: "Generate social posts" },
   { key: "scorer", label: "Quality Scorer", icon: BarChart3, desc: "Score all profiles" },
 ];
+
+const statusColors: Record<string, string> = {
+  healthy: "bg-green-500/10 text-green-500 border-green-500/20",
+  degraded: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
+  critical: "bg-red-500/10 text-red-500 border-red-500/20",
+  pending: "bg-muted text-muted-foreground border-border",
+};
+
+const checkStatusIcon = (status: string) => {
+  if (status === "pass") return <CheckCircle2 className="h-4 w-4 text-green-500" />;
+  if (status === "warn") return <AlertCircle className="h-4 w-4 text-yellow-500" />;
+  return <XCircle className="h-4 w-4 text-red-500" />;
+};
 
 export function KaylaAgentReports() {
   const queryClient = useQueryClient();
@@ -47,6 +78,20 @@ export function KaylaAgentReports() {
       if (error) throw error;
       return data as AgentReport[];
     },
+  });
+
+  const { data: healthChecks, isLoading: healthLoading } = useQuery({
+    queryKey: ["kayla-health-checks"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("kayla_health_checks")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (error) throw error;
+      return data as HealthCheckRecord[];
+    },
+    refetchInterval: 60000, // Auto-refresh every minute
   });
 
   const runAuditMutation = useMutation({
@@ -77,6 +122,25 @@ export function KaylaAgentReports() {
     onError: (err) => toast.error("Service failed", { description: err.message }),
   });
 
+  const runHealthCheckMutation = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase.functions.invoke("kayla-health-check", {
+        body: { checkType: "manual" },
+      });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["kayla-health-checks"] });
+      queryClient.invalidateQueries({ queryKey: ["kayla-agent-reports"] });
+      const emoji = data.overall_status === "healthy" ? "✅" : data.overall_status === "degraded" ? "⚠️" : "🚨";
+      toast.success(`${emoji} Health Check: ${data.overall_status.toUpperCase()}`, {
+        description: `${data.passed}/4 checks passed in ${data.duration_ms}ms`,
+      });
+    },
+    onError: (err) => toast.error("Health check failed", { description: err.message }),
+  });
+
   const markReviewed = useMutation({
     mutationFn: async (reportId: string) => {
       const { error } = await supabase
@@ -91,7 +155,8 @@ export function KaylaAgentReports() {
     },
   });
 
-  const isRunning = runAuditMutation.isPending || runServiceMutation.isPending;
+  const isRunning = runAuditMutation.isPending || runServiceMutation.isPending || runHealthCheckMutation.isPending;
+  const latestCheck = healthChecks?.[0];
 
   return (
     <Card className="border-mansagold/20 bg-gradient-to-br from-card to-card/80">
@@ -103,21 +168,99 @@ export function KaylaAgentReports() {
             </div>
             <div>
               <CardTitle className="text-lg">Kayla — Autonomous Agent</CardTitle>
-              <p className="text-sm text-muted-foreground">7 agentic services running autonomously</p>
+              <p className="text-sm text-muted-foreground">8 agentic services • Health checks every 4 hours</p>
             </div>
           </div>
+          {latestCheck && (
+            <Badge className={`${statusColors[latestCheck.overall_status] || statusColors.pending}`}>
+              <HeartPulse className="h-3 w-3 mr-1" />
+              {latestCheck.overall_status.toUpperCase()}
+            </Badge>
+          )}
         </div>
       </CardHeader>
       <CardContent>
-        <Tabs defaultValue="services" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+        <Tabs defaultValue="health" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="health">Health</TabsTrigger>
             <TabsTrigger value="services">Services</TabsTrigger>
             <TabsTrigger value="reports">Reports ({reports?.length || 0})</TabsTrigger>
           </TabsList>
 
+          {/* ── Health Check Tab ── */}
+          <TabsContent value="health" className="mt-4">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm text-muted-foreground">
+                Automated every 4 hours • {latestCheck ? `Last: ${format(new Date(latestCheck.created_at), "MMM d, h:mm a")}` : "No checks yet"}
+              </p>
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-mansagold/20 hover:bg-mansagold/5"
+                onClick={() => runHealthCheckMutation.mutate()}
+                disabled={isRunning}
+              >
+                <HeartPulse className={`h-4 w-4 mr-2 text-mansagold ${runHealthCheckMutation.isPending ? "animate-pulse" : ""}`} />
+                Run Now
+              </Button>
+            </div>
+
+            {latestCheck ? (
+              <div className="space-y-3 mb-4">
+                {latestCheck.checks.map((check, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 p-3 rounded-lg border border-border/50 bg-background/50"
+                  >
+                    {checkStatusIcon(check.status)}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium">{check.name}</p>
+                        <span className="text-xs text-muted-foreground">{check.duration_ms}ms</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-0.5">{check.message}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <HeartPulse className="h-12 w-12 mx-auto mb-3 text-muted-foreground/40" />
+                <p className="text-muted-foreground">No health checks yet. Run one to see system status.</p>
+              </div>
+            )}
+
+            {/* History */}
+            {healthChecks && healthChecks.length > 1 && (
+              <div>
+                <p className="text-xs text-muted-foreground font-medium mb-2">Recent History</p>
+                <ScrollArea className="h-[200px]">
+                  <div className="space-y-2">
+                    {healthChecks.slice(1).map((hc) => (
+                      <div key={hc.id} className="flex items-center justify-between p-2 rounded border border-border/30 bg-background/30 text-xs">
+                        <div className="flex items-center gap-2">
+                          <Badge className={`${statusColors[hc.overall_status] || statusColors.pending} text-[10px] px-1.5`}>
+                            {hc.overall_status}
+                          </Badge>
+                          <span className="text-muted-foreground">{format(new Date(hc.created_at), "MMM d, h:mm a")}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-green-500">✅ {hc.passed_count}</span>
+                          {hc.warning_count > 0 && <span className="text-yellow-500">⚠️ {hc.warning_count}</span>}
+                          {hc.failed_count > 0 && <span className="text-red-500">❌ {hc.failed_count}</span>}
+                          <span className="text-muted-foreground">{hc.duration_ms}ms</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+            )}
+          </TabsContent>
+
+          {/* ── Services Tab ── */}
           <TabsContent value="services" className="mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-              {/* Data Audit button */}
               <Button
                 variant="outline"
                 className="h-auto p-3 flex items-start gap-3 justify-start border-mansagold/20 hover:bg-mansagold/5"
@@ -156,6 +299,7 @@ export function KaylaAgentReports() {
             )}
           </TabsContent>
 
+          {/* ── Reports Tab ── */}
           <TabsContent value="reports" className="mt-4">
             {isLoading ? (
               <div className="text-center py-8 text-muted-foreground">Loading reports...</div>
