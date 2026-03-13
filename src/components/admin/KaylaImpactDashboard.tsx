@@ -95,18 +95,20 @@ export function KaylaImpactDashboard() {
   const overallSuccessRate = totalFeedback > 0 ? Math.round((accepted / (accepted + rejected || 1)) * 100) : 0;
 
   // Service breakdown
-  const serviceStats = Object.entries(
-    (feedback || []).reduce((acc: Record<string, { accepted: number; rejected: number; total: number }>, f) => {
-      if (!acc[f.service_type]) acc[f.service_type] = { accepted: 0, rejected: 0, total: 0 };
-      acc[f.service_type].total++;
-      if (f.outcome === "accepted") acc[f.service_type].accepted++;
-      if (f.outcome === "rejected") acc[f.service_type].rejected++;
-      return acc;
-    }, {})
-  ).map(([service, stats]) => ({
+  const serviceStatsMap = (feedback || []).reduce((acc: Record<string, { accepted: number; rejected: number; total: number }>, f) => {
+    if (!acc[f.service_type]) acc[f.service_type] = { accepted: 0, rejected: 0, total: 0 };
+    acc[f.service_type].total++;
+    if (f.outcome === "accepted") acc[f.service_type].accepted++;
+    if (f.outcome === "rejected") acc[f.service_type].rejected++;
+    return acc;
+  }, {});
+  
+  const serviceStats = Object.entries(serviceStatsMap).map(([service, stats]) => ({
     service,
     label: SERVICE_LABELS[service] || service,
-    ...stats,
+    accepted: stats.accepted,
+    rejected: stats.rejected,
+    total: stats.total,
     rate: Math.round((stats.accepted / (stats.accepted + stats.rejected || 1)) * 100),
   }));
 
