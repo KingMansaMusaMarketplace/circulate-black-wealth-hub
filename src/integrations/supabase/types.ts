@@ -7438,6 +7438,158 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_learning_signals: {
+        Row: {
+          confidence: number
+          created_at: string
+          id: string
+          last_updated_at: string
+          sample_count: number
+          service_type: string
+          signal_key: string
+          signal_type: string
+          signal_value: Json
+        }
+        Insert: {
+          confidence?: number
+          created_at?: string
+          id?: string
+          last_updated_at?: string
+          sample_count?: number
+          service_type: string
+          signal_key: string
+          signal_type: string
+          signal_value: Json
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          id?: string
+          last_updated_at?: string
+          sample_count?: number
+          service_type?: string
+          signal_key?: string
+          signal_type?: string
+          signal_value?: Json
+        }
+        Relationships: []
+      }
+      kayla_outcome_feedback: {
+        Row: {
+          action_type: string
+          confidence_score: number | null
+          created_at: string
+          feedback_notes: string | null
+          feedback_source: string | null
+          id: string
+          modified_content: string | null
+          original_content: string | null
+          outcome: string
+          report_id: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          service_type: string
+          target_id: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action_type: string
+          confidence_score?: number | null
+          created_at?: string
+          feedback_notes?: string | null
+          feedback_source?: string | null
+          id?: string
+          modified_content?: string | null
+          original_content?: string | null
+          outcome?: string
+          report_id?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          service_type: string
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action_type?: string
+          confidence_score?: number | null
+          created_at?: string
+          feedback_notes?: string | null
+          feedback_source?: string | null
+          id?: string
+          modified_content?: string | null
+          original_content?: string | null
+          outcome?: string
+          report_id?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          service_type?: string
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_outcome_feedback_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "kayla_agent_reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kayla_performance_metrics: {
+        Row: {
+          accepted_count: number
+          avg_confidence: number | null
+          created_at: string
+          id: string
+          ignored_count: number
+          improvement_from_previous: number | null
+          learned_adjustments: Json | null
+          modified_count: number
+          period_end: string
+          period_start: string
+          rejected_count: number
+          service_type: string
+          success_rate: number | null
+          top_patterns: Json | null
+          total_actions: number
+        }
+        Insert: {
+          accepted_count?: number
+          avg_confidence?: number | null
+          created_at?: string
+          id?: string
+          ignored_count?: number
+          improvement_from_previous?: number | null
+          learned_adjustments?: Json | null
+          modified_count?: number
+          period_end: string
+          period_start: string
+          rejected_count?: number
+          service_type: string
+          success_rate?: number | null
+          top_patterns?: Json | null
+          total_actions?: number
+        }
+        Update: {
+          accepted_count?: number
+          avg_confidence?: number | null
+          created_at?: string
+          id?: string
+          ignored_count?: number
+          improvement_from_previous?: number | null
+          learned_adjustments?: Json | null
+          modified_count?: number
+          period_end?: string
+          period_start?: string
+          rejected_count?: number
+          service_type?: string
+          success_rate?: number | null
+          top_patterns?: Json | null
+          total_actions?: number
+        }
+        Relationships: []
+      }
       kayla_profile_scores: {
         Row: {
           breakdown: Json | null
