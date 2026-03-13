@@ -306,7 +306,7 @@ serve(async (req) => {
         .or("logo_url.is.null,banner_url.is.null")
         .limit(5);
 
-      let imagesSscraped = 0;
+      let imagesScraped = 0;
       for (const biz of scrapeCandidates || []) {
         const name = biz.business_name || biz.name || "Unknown";
         const website = biz.website?.trim();
