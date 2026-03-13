@@ -729,7 +729,14 @@ serve(async (req) => {
       actions_taken: Object.entries(allResults).flatMap(([key, val]) => val.results),
     });
 
-    console.log(`Kayla services completed in ${elapsed}ms. Total actions: ${totalActions}`);
+    // ── Adaptive Learning: update signals from recent outcomes ──
+    console.log("Updating adaptive learning signals...");
+    const servicesToLearn = Object.keys(allResults);
+    for (const svc of servicesToLearn) {
+      await updateLearningSignals(supabase, svc);
+    }
+
+    console.log(`Kayla services completed in ${elapsed}ms. Total actions: ${totalActions}. Learning signals updated for ${servicesToLearn.length} services.`);
 
     return new Response(
       JSON.stringify({ success: true, services: allResults, total_actions: totalActions, elapsed_ms: elapsed }),
