@@ -1,0 +1,1 @@
+UPDATE businesses SET is_verified = true WHERE id IN ('831cffdd-f2c3-44c9-a5eb-47d9bc55ed23', 'a338867f-a495-4bcb-88af-8233ab992cd8');
