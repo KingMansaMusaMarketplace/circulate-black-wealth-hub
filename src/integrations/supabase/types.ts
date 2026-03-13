@@ -7399,6 +7399,45 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_health_checks: {
+        Row: {
+          check_type: string
+          checks: Json
+          created_at: string
+          duration_ms: number | null
+          failed_count: number
+          id: string
+          overall_status: string
+          passed_count: number
+          total_checks: number
+          warning_count: number
+        }
+        Insert: {
+          check_type?: string
+          checks?: Json
+          created_at?: string
+          duration_ms?: number | null
+          failed_count?: number
+          id?: string
+          overall_status?: string
+          passed_count?: number
+          total_checks?: number
+          warning_count?: number
+        }
+        Update: {
+          check_type?: string
+          checks?: Json
+          created_at?: string
+          duration_ms?: number | null
+          failed_count?: number
+          id?: string
+          overall_status?: string
+          passed_count?: number
+          total_checks?: number
+          warning_count?: number
+        }
+        Relationships: []
+      }
       kayla_profile_scores: {
         Row: {
           breakdown: Json | null
