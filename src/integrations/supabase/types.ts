@@ -7327,6 +7327,147 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_b2b_matches: {
+        Row: {
+          buyer_business_id: string
+          capability_id: string | null
+          created_at: string
+          id: string
+          match_reason: string
+          match_score: number | null
+          need_id: string | null
+          notified_at: string | null
+          status: string
+          supplier_business_id: string
+        }
+        Insert: {
+          buyer_business_id: string
+          capability_id?: string | null
+          created_at?: string
+          id?: string
+          match_reason: string
+          match_score?: number | null
+          need_id?: string | null
+          notified_at?: string | null
+          status?: string
+          supplier_business_id: string
+        }
+        Update: {
+          buyer_business_id?: string
+          capability_id?: string | null
+          created_at?: string
+          id?: string
+          match_reason?: string
+          match_score?: number | null
+          need_id?: string | null
+          notified_at?: string | null
+          status?: string
+          supplier_business_id?: string
+        }
+        Relationships: []
+      }
+      kayla_generated_content: {
+        Row: {
+          business_id: string
+          content: string
+          content_type: string
+          created_at: string
+          id: string
+          platform: string | null
+          published_at: string | null
+          status: string
+        }
+        Insert: {
+          business_id: string
+          content: string
+          content_type?: string
+          created_at?: string
+          id?: string
+          platform?: string | null
+          published_at?: string | null
+          status?: string
+        }
+        Update: {
+          business_id?: string
+          content?: string
+          content_type?: string
+          created_at?: string
+          id?: string
+          platform?: string | null
+          published_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      kayla_profile_scores: {
+        Row: {
+          breakdown: Json | null
+          business_id: string
+          created_at: string
+          id: string
+          last_calculated_at: string
+          max_score: number
+          score: number
+          tips: Json | null
+        }
+        Insert: {
+          breakdown?: Json | null
+          business_id: string
+          created_at?: string
+          id?: string
+          last_calculated_at?: string
+          max_score?: number
+          score?: number
+          tips?: Json | null
+        }
+        Update: {
+          breakdown?: Json | null
+          business_id?: string
+          created_at?: string
+          id?: string
+          last_calculated_at?: string
+          max_score?: number
+          score?: number
+          tips?: Json | null
+        }
+        Relationships: []
+      }
+      kayla_review_drafts: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          business_id: string
+          created_at: string
+          draft_response: string
+          id: string
+          review_id: string
+          sentiment: string | null
+          status: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          business_id: string
+          created_at?: string
+          draft_response: string
+          id?: string
+          review_id: string
+          sentiment?: string | null
+          status?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          business_id?: string
+          created_at?: string
+          draft_response?: string
+          id?: string
+          review_id?: string
+          sentiment?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       knowledge_base_articles: {
         Row: {
           business_id: string | null
