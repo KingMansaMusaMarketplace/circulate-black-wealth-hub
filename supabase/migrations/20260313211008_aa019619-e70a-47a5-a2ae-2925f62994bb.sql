@@ -1,0 +1,1 @@
+UPDATE businesses SET category = 'Church' WHERE id = '1d694cce-f06f-43e3-aa7b-05a08f83255a';
