@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bot, RefreshCw, CheckCircle2, AlertTriangle, Clock, Wrench, MessageSquare, UserPlus, TrendingDown, Handshake, Pen, BarChart3, HeartPulse, XCircle, AlertCircle } from "lucide-react";
+import { Bot, RefreshCw, CheckCircle2, AlertTriangle, Clock, Wrench, MessageSquare, UserPlus, TrendingDown, Handshake, Pen, BarChart3, HeartPulse, XCircle, AlertCircle, ShieldCheck, ArrowUpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 
