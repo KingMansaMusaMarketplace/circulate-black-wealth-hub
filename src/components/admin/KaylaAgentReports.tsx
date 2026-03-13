@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bot, RefreshCw, CheckCircle2, AlertTriangle, Clock, Wrench, MessageSquare, UserPlus, TrendingDown, Handshake, Pen, BarChart3, HeartPulse, XCircle, AlertCircle } from "lucide-react";
+import { Bot, RefreshCw, CheckCircle2, AlertTriangle, Clock, Wrench, MessageSquare, UserPlus, TrendingDown, Handshake, Pen, BarChart3, HeartPulse, XCircle, AlertCircle, ShieldCheck, ArrowUpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 
@@ -32,6 +32,8 @@ interface HealthCheckRecord {
     status: "pass" | "fail" | "warn";
     message: string;
     duration_ms: number;
+    auto_fix_attempted?: boolean;
+    auto_fix_result?: string;
   }>;
   passed_count: number;
   failed_count: number;
@@ -219,9 +221,36 @@ export function KaylaAgentReports() {
                         <span className="text-xs text-muted-foreground">{check.duration_ms}ms</span>
                       </div>
                       <p className="text-xs text-muted-foreground mt-0.5">{check.message}</p>
+                      {check.auto_fix_attempted && (
+                        <p className="text-xs text-green-500 mt-1 flex items-center gap-1">
+                          <ShieldCheck className="h-3 w-3" /> {check.auto_fix_result}
+                        </p>
+                      )}
                     </div>
                   </div>
                 ))}
+
+                {/* Show remediation actions from latest report */}
+                {reports?.find(r => r.report_type === "health_check")?.details?.remediations?.length > 0 && (
+                  <div className="mt-3 p-3 rounded-lg border border-mansagold/20 bg-mansagold/5">
+                    <p className="text-xs font-medium text-mansagold flex items-center gap-1.5 mb-2">
+                      <Wrench className="h-3.5 w-3.5" /> Auto-Healing Actions
+                    </p>
+                    {(reports.find(r => r.report_type === "health_check")?.details?.remediations || []).map((rem: any, i: number) => (
+                      <div key={i} className="flex items-start gap-2 text-xs py-1">
+                        {rem.result === "fixed" ? (
+                          <CheckCircle2 className="h-3 w-3 mt-0.5 text-green-500 shrink-0" />
+                        ) : (
+                          <ArrowUpCircle className="h-3 w-3 mt-0.5 text-yellow-500 shrink-0" />
+                        )}
+                        <div>
+                          <span className="font-medium">{rem.action}</span>
+                          <span className="text-muted-foreground"> — {rem.details}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ) : (
               <div className="text-center py-8">
