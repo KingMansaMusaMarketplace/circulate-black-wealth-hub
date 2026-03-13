@@ -332,7 +332,7 @@ serve(async (req) => {
           .eq("id", biz.id);
 
         if (!error) {
-          imagesSscraped++;
+          imagesScraped++;
           totalFixed++;
           issues.push({
             business_id: biz.id,
