@@ -11,7 +11,20 @@ interface HealthCheck {
   status: "pass" | "fail" | "warn";
   message: string;
   duration_ms: number;
+  auto_fix_attempted?: boolean;
+  auto_fix_result?: string;
 }
+
+interface RemediationAction {
+  issue: string;
+  action: string;
+  result: "fixed" | "attempted" | "escalated";
+  details: string;
+}
+
+// ══════════════════════════════════════════════
+// HEALTH CHECKS
+// ══════════════════════════════════════════════
 
 async function checkDatabase(supabase: ReturnType<typeof createClient>): Promise<HealthCheck> {
   const start = Date.now();
@@ -19,7 +32,6 @@ async function checkDatabase(supabase: ReturnType<typeof createClient>): Promise
     const { count, error } = await supabase
       .from("businesses")
       .select("id", { count: "exact", head: true });
-
     if (error) throw error;
     return {
       name: "Database Connection & Queries",
@@ -43,7 +55,6 @@ async function checkAuth(supabase: ReturnType<typeof createClient>): Promise<Hea
     const { count, error } = await supabase
       .from("profiles")
       .select("id", { count: "exact", head: true });
-
     if (error) throw error;
     return {
       name: "Authentication & User Profiles",
@@ -64,75 +75,247 @@ async function checkAuth(supabase: ReturnType<typeof createClient>): Promise<Hea
 async function checkEdgeFunctions(): Promise<HealthCheck> {
   const start = Date.now();
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-
   try {
-    // Test a lightweight edge function endpoint
-    const res = await fetch(`${supabaseUrl}/functions/v1/kayla-services`, {
-      method: "OPTIONS",
-    });
+    const res = await fetch(`${supabaseUrl}/functions/v1/kayla-services`, { method: "OPTIONS" });
     await res.text();
-
     if (res.ok || res.status === 204) {
-      return {
-        name: "Edge Functions Runtime",
-        status: "pass",
-        message: "Edge Functions runtime is responding correctly.",
-        duration_ms: Date.now() - start,
-      };
+      return { name: "Edge Functions Runtime", status: "pass", message: "Edge Functions runtime responding.", duration_ms: Date.now() - start };
     }
-
-    return {
-      name: "Edge Functions Runtime",
-      status: "warn",
-      message: `Edge Functions returned status ${res.status}. May need attention.`,
-      duration_ms: Date.now() - start,
-    };
+    return { name: "Edge Functions Runtime", status: "warn", message: `Status ${res.status}. May need attention.`, duration_ms: Date.now() - start };
   } catch (e) {
-    return {
-      name: "Edge Functions Runtime",
-      status: "fail",
-      message: `Edge Functions unreachable: ${e instanceof Error ? e.message : "Unknown"}`,
-      duration_ms: Date.now() - start,
-    };
+    return { name: "Edge Functions Runtime", status: "fail", message: `Unreachable: ${e instanceof Error ? e.message : "Unknown"}`, duration_ms: Date.now() - start };
   }
 }
 
-async function checkRealtimeAndStorage(supabase: ReturnType<typeof createClient>): Promise<HealthCheck> {
+async function checkCoreServices(supabase: ReturnType<typeof createClient>): Promise<HealthCheck> {
   const start = Date.now();
   try {
-    // Test notifications table (used for real-time) and check recent activity
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-
     const { count: recentNotifications, error: notifError } = await supabase
       .from("notifications")
       .select("id", { count: "exact", head: true })
       .gte("created_at", oneDayAgo);
-
     if (notifError) throw notifError;
 
-    // Check QR transactions as a proxy for core business logic
     const { count: recentScans, error: scanError } = await supabase
       .from("qr_code_analytics")
       .select("id", { count: "exact", head: true })
       .gte("scanned_at", oneDayAgo);
-
     if (scanError) throw scanError;
 
     return {
       name: "Core Services (Notifications, QR, Storage)",
       status: "pass",
-      message: `Healthy. ${recentNotifications || 0} notifications and ${recentScans || 0} QR scans in last 24h.`,
+      message: `Healthy. ${recentNotifications || 0} notifications, ${recentScans || 0} QR scans in 24h.`,
       duration_ms: Date.now() - start,
     };
   } catch (e) {
     return {
       name: "Core Services (Notifications, QR, Storage)",
       status: "fail",
-      message: `Core services check failed: ${e instanceof Error ? e.message : "Unknown"}`,
+      message: `Failed: ${e instanceof Error ? e.message : "Unknown"}`,
       duration_ms: Date.now() - start,
     };
   }
 }
+
+// ══════════════════════════════════════════════
+// DATA INTEGRITY CHECKS (new — detects & fixes)
+// ══════════════════════════════════════════════
+
+async function checkAndFixDataIntegrity(supabase: ReturnType<typeof createClient>): Promise<{
+  check: HealthCheck;
+  remediations: RemediationAction[];
+}> {
+  const start = Date.now();
+  const remediations: RemediationAction[] = [];
+  const issues: string[] = [];
+  let fixedCount = 0;
+
+  try {
+    // 1. Find businesses with broken/placeholder images and regenerate
+    const PLACEHOLDER_PATTERNS = ["placeholder", "default-banner", "default-logo", "unsplash.com", "${", "{{"];
+    const { data: allBiz } = await supabase
+      .from("businesses")
+      .select("id, name, business_name, logo_url, banner_url, website, description, category, city, state")
+      .limit(100);
+
+    if (allBiz) {
+      const isPlaceholder = (url: string | null): boolean => {
+        if (!url) return false; // null is different from placeholder
+        const lc = url.toLowerCase();
+        return PLACEHOLDER_PATTERNS.some(p => lc.includes(p));
+      };
+
+      // Fix placeholder images
+      const bizWithPlaceholderImages = allBiz.filter(b => isPlaceholder(b.logo_url) || isPlaceholder(b.banner_url));
+      for (const biz of bizWithPlaceholderImages.slice(0, 5)) {
+        const updates: Record<string, any> = {};
+        if (isPlaceholder(biz.logo_url)) updates.logo_url = null;
+        if (isPlaceholder(biz.banner_url)) updates.banner_url = null;
+
+        const { error } = await supabase.from("businesses").update(updates).eq("id", biz.id);
+        if (!error) {
+          fixedCount++;
+          const name = biz.business_name || biz.name || "Unknown";
+          remediations.push({
+            issue: `Placeholder image on "${name}"`,
+            action: "Cleared placeholder URLs to trigger re-scrape",
+            result: "fixed",
+            details: `Removed ${Object.keys(updates).join(", ")}`,
+          });
+        }
+      }
+
+      // 2. Fix businesses with missing descriptions using AI
+      const bizNoDesc = allBiz.filter(b => !b.description || b.description.trim().length < 10);
+      if (bizNoDesc.length > 0) {
+        const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+        for (const biz of bizNoDesc.slice(0, 3)) {
+          const name = biz.business_name || biz.name || "Unknown";
+          if (LOVABLE_API_KEY) {
+            try {
+              const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+                method: "POST",
+                headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  model: "google/gemini-3-flash-preview",
+                  messages: [
+                    { role: "system", content: "Write concise, warm, professional business descriptions. 2-3 sentences. Be authentic." },
+                    { role: "user", content: `Business: "${name}"${biz.category ? `, Category: ${biz.category}` : ""}${biz.city ? `, in ${biz.city}${biz.state ? `, ${biz.state}` : ""}` : ""}` },
+                  ],
+                }),
+              });
+              if (res.ok) {
+                const data = await res.json();
+                const desc = data.choices?.[0]?.message?.content?.trim();
+                if (desc && desc.length > 20) {
+                  await supabase.from("businesses").update({ description: desc, updated_at: new Date().toISOString() }).eq("id", biz.id);
+                  fixedCount++;
+                  remediations.push({
+                    issue: `Missing description for "${name}"`,
+                    action: "Auto-generated AI description",
+                    result: "fixed",
+                    details: desc.slice(0, 80) + "...",
+                  });
+                }
+              } else {
+                await res.text();
+              }
+            } catch { /* skip */ }
+          } else {
+            issues.push(`Missing description for "${name}" (no AI key to auto-fix)`);
+            remediations.push({
+              issue: `Missing description for "${name}"`,
+              action: "Cannot auto-generate — LOVABLE_API_KEY unavailable",
+              result: "escalated",
+              details: "Admin should add description manually",
+            });
+          }
+          await new Promise(r => setTimeout(r, 300));
+        }
+
+        if (bizNoDesc.length > 3) {
+          issues.push(`${bizNoDesc.length - 3} more businesses without descriptions`);
+        }
+      }
+
+      // 3. Fix orphaned notifications (read but not cleared after 30 days)
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+      const { count: staleNotifs } = await supabase
+        .from("notifications")
+        .select("id", { count: "exact", head: true })
+        .eq("is_read", true)
+        .lt("created_at", thirtyDaysAgo);
+
+      if ((staleNotifs || 0) > 100) {
+        const { error } = await supabase
+          .from("notifications")
+          .delete()
+          .eq("is_read", true)
+          .lt("created_at", thirtyDaysAgo);
+
+        if (!error) {
+          fixedCount++;
+          remediations.push({
+            issue: `${staleNotifs} stale read notifications (30+ days old)`,
+            action: "Cleaned up old read notifications",
+            result: "fixed",
+            details: `Removed ${staleNotifs} stale notifications to keep database performant`,
+          });
+        }
+      }
+
+      // 4. Fix expired claim tokens on leads
+      const { count: expiredTokens } = await supabase
+        .from("b2b_external_leads")
+        .select("id", { count: "exact", head: true })
+        .not("claim_token", "is", null)
+        .lt("claim_token_expires_at", new Date().toISOString());
+
+      if ((expiredTokens || 0) > 0) {
+        const { error } = await supabase
+          .from("b2b_external_leads")
+          .update({ claim_token: null, claim_token_expires_at: null })
+          .not("claim_token", "is", null)
+          .lt("claim_token_expires_at", new Date().toISOString());
+
+        if (!error) {
+          fixedCount++;
+          remediations.push({
+            issue: `${expiredTokens} expired claim tokens on leads`,
+            action: "Cleared expired claim tokens",
+            result: "fixed",
+            details: "Expired tokens removed to prevent stale claim attempts",
+          });
+        }
+      }
+
+      // 5. Check for businesses without an owner (orphaned)
+      const orphanedBiz = allBiz.filter(b => !b.website && !b.description);
+      if (orphanedBiz.length > 5) {
+        issues.push(`${orphanedBiz.length} businesses with no website AND no description`);
+        remediations.push({
+          issue: `${orphanedBiz.length} businesses with incomplete core data`,
+          action: "Flagged for admin review — too many to auto-fix safely",
+          result: "escalated",
+          details: "Consider running the full Kayla data audit for batch remediation",
+        });
+      }
+    }
+
+    const totalIssues = remediations.length;
+    const status = totalIssues === 0 ? "pass" : fixedCount === totalIssues ? "pass" : "warn";
+
+    return {
+      check: {
+        name: "Data Integrity & Auto-Healing",
+        status,
+        message: totalIssues === 0
+          ? "All data integrity checks passed. No issues found."
+          : `Found ${totalIssues} issue(s): ${fixedCount} auto-fixed, ${totalIssues - fixedCount} escalated.`,
+        duration_ms: Date.now() - start,
+        auto_fix_attempted: fixedCount > 0,
+        auto_fix_result: fixedCount > 0 ? `${fixedCount} issue(s) automatically resolved` : undefined,
+      },
+      remediations,
+    };
+  } catch (e) {
+    return {
+      check: {
+        name: "Data Integrity & Auto-Healing",
+        status: "fail",
+        message: `Integrity check failed: ${e instanceof Error ? e.message : "Unknown"}`,
+        duration_ms: Date.now() - start,
+      },
+      remediations,
+    };
+  }
+}
+
+// ══════════════════════════════════════════════
+// MAIN HANDLER
+// ══════════════════════════════════════════════
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -149,25 +332,38 @@ serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
     const checkType = body.checkType || "scheduled";
+    const autoFix = body.autoFix !== false; // Default: true
 
-    console.log(`🏥 Kayla Health Check starting (${checkType})...`);
+    console.log(`🏥 Kayla Health Check starting (${checkType}, autoFix=${autoFix})...`);
 
-    // Run all 4 checks in parallel
-    const checks = await Promise.all([
+    // Run core checks in parallel
+    const [dbCheck, authCheck, edgeCheck, coreCheck] = await Promise.all([
       checkDatabase(supabase),
       checkAuth(supabase),
       checkEdgeFunctions(),
-      checkRealtimeAndStorage(supabase),
+      checkCoreServices(supabase),
     ]);
+
+    const checks: HealthCheck[] = [dbCheck, authCheck, edgeCheck, coreCheck];
+    let remediations: RemediationAction[] = [];
+
+    // Run data integrity + auto-healing if autoFix is enabled
+    if (autoFix) {
+      const integrityResult = await checkAndFixDataIntegrity(supabase);
+      checks.push(integrityResult.check);
+      remediations = integrityResult.remediations;
+    }
 
     const passed = checks.filter(c => c.status === "pass").length;
     const failed = checks.filter(c => c.status === "fail").length;
     const warned = checks.filter(c => c.status === "warn").length;
+    const autoFixed = remediations.filter(r => r.result === "fixed").length;
+    const escalated = remediations.filter(r => r.result === "escalated").length;
 
     const overallStatus = failed > 0 ? "critical" : warned > 0 ? "degraded" : "healthy";
     const totalDuration = Date.now() - startTime;
 
-    // Save to database
+    // Save health check record
     await supabase.from("kayla_health_checks").insert({
       check_type: checkType,
       overall_status: overallStatus,
@@ -179,11 +375,40 @@ serve(async (req) => {
       duration_ms: totalDuration,
     });
 
-    // If critical, send admin notification
+    // Build summary
+    const checkSummary = checks.map(c =>
+      `${c.status === "pass" ? "✅" : c.status === "warn" ? "⚠️" : "❌"} ${c.name}: ${c.message} (${c.duration_ms}ms)`
+    ).join("\n");
+
+    const remediationSummary = remediations.length > 0
+      ? `\n\n🔧 AUTO-HEALING ACTIONS:\n${remediations.map(r =>
+          `${r.result === "fixed" ? "✅" : r.result === "escalated" ? "🔺" : "🔄"} ${r.action} — ${r.details}`
+        ).join("\n")}`
+      : "";
+
+    const actionsTaken = remediations
+      .filter(r => r.result === "fixed")
+      .map(r => `🔧 ${r.action}: ${r.details}`);
+
+    if (overallStatus === "critical") {
+      actionsTaken.push("🚨 Admin alert sent for failing checks");
+    }
+
+    // Save agent report
+    await supabase.from("kayla_agent_reports").insert({
+      report_type: "health_check",
+      status: "completed",
+      summary: `🏥 Health Check: ${overallStatus.toUpperCase()} | ${autoFixed} auto-fixed | ${escalated} escalated\n${checkSummary}${remediationSummary}`,
+      issues_found: failed + warned + remediations.length,
+      issues_fixed: autoFixed,
+      issues_requiring_review: failed + escalated,
+      details: { checks, remediations, overall_status: overallStatus, duration_ms: totalDuration },
+      actions_taken: actionsTaken,
+    });
+
+    // Alert admins if critical
     if (overallStatus === "critical") {
       const failedChecks = checks.filter(c => c.status === "fail").map(c => c.name).join(", ");
-
-      // Notify all admins
       const { data: admins } = await supabase
         .from("profiles")
         .select("id")
@@ -191,42 +416,33 @@ serve(async (req) => {
         .limit(10);
 
       if (admins?.length) {
-        const notifications = admins.map((admin: any) => ({
-          user_id: admin.id,
-          type: "kayla_health_alert",
-          title: "🚨 System Health Alert",
-          message: `Kayla detected ${failed} failing system check(s): ${failedChecks}. Immediate attention required.`,
-          metadata: { checks, overall_status: overallStatus },
-        }));
-
-        await supabase.from("notifications").insert(notifications);
+        const fixNote = autoFixed > 0 ? ` Kayla auto-fixed ${autoFixed} issue(s), but ${failed} check(s) still need human attention.` : "";
+        await supabase.from("notifications").insert(
+          admins.map((admin: any) => ({
+            user_id: admin.id,
+            type: "kayla_health_alert",
+            title: "🚨 System Health Alert",
+            message: `Kayla detected ${failed} failing check(s): ${failedChecks}.${fixNote} Immediate attention required.`,
+            metadata: { checks, remediations, overall_status: overallStatus },
+          }))
+        );
       }
-
       console.error(`🚨 CRITICAL: ${failed} checks failed — ${failedChecks}`);
     }
 
-    // Also save as an agent report for unified view
-    await supabase.from("kayla_agent_reports").insert({
-      report_type: "health_check",
-      status: "completed",
-      summary: `🏥 Health Check: ${overallStatus.toUpperCase()}\n${checks.map(c => `${c.status === "pass" ? "✅" : c.status === "warn" ? "⚠️" : "❌"} ${c.name}: ${c.message} (${c.duration_ms}ms)`).join("\n")}`,
-      issues_found: failed + warned,
-      issues_fixed: 0,
-      issues_requiring_review: failed,
-      details: { checks, overall_status: overallStatus, duration_ms: totalDuration },
-      actions_taken: overallStatus === "critical" ? ["🚨 Admin alert sent for failing checks"] : [],
-    });
-
-    console.log(`🏥 Health Check complete: ${overallStatus} (${totalDuration}ms)`);
+    console.log(`🏥 Health Check complete: ${overallStatus} (${totalDuration}ms) — ${autoFixed} auto-fixed, ${escalated} escalated`);
 
     return new Response(
       JSON.stringify({
         success: true,
         overall_status: overallStatus,
         checks,
-        passed: passed,
-        failed: failed,
+        passed,
+        failed,
         warnings: warned,
+        auto_fixed: autoFixed,
+        escalated,
+        remediations,
         duration_ms: totalDuration,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
