@@ -281,3 +281,6 @@ verify_jwt = false
 
 [functions.kayla-health-check]
 verify_jwt = false
+
+[functions.kayla-auto-discover]
+verify_jwt = false
