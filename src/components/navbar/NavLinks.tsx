@@ -352,17 +352,6 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/all-pages" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
-                  <div className="flex items-center gap-2">
-                    <FolderOpen className="h-4 w-4 text-mansagold" />
-                    <div className="text-sm font-medium leading-none">All Pages</div>
-                  </div>
-                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Browse complete directory of pages
-                  </p>
-                </Link>
-              </li>
-              <li>
                 <Link to="/blog" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-4 w-4 text-mansagold" />
@@ -381,6 +370,17 @@ const NavLinks: React.FC = () => {
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                     Press resources and brand assets
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/all-pages" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                  <div className="flex items-center gap-2">
+                    <FolderOpen className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">All Pages</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Browse complete directory of pages
                   </p>
                 </Link>
               </li>
