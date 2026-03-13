@@ -272,3 +272,6 @@ verify_jwt = false
 
 [functions.bulk-refresh-business-branding]
 verify_jwt = false
+
+[functions.kayla-data-agent]
+verify_jwt = false
