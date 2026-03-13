@@ -219,8 +219,12 @@ const QRScannerPage = () => {
     try {
       setIsScanning(true);
       
+      // Wait for the DOM to render the scanner container
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       if (!containerRef.current) {
         toast.error('Scanner container not found');
+        setIsScanning(false);
         return;
       }
 
