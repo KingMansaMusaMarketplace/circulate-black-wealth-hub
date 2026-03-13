@@ -478,13 +478,9 @@ async function runQualityScorer(supabase: ReturnType<typeof createClient>) {
       tips.push("Set your business category to appear in filtered searches");
     }
 
-    // Hours (10 pts)
-    if (biz.hours_of_operation) {
-      breakdown.hours = { score: 10, max: 10, label: "Business Hours" };
-    } else {
-      breakdown.hours = { score: 0, max: 10, label: "Business Hours" };
-      tips.push("Add your hours of operation — customers check this first");
-    }
+    // Hours (10 pts) - column may not exist, skip gracefully
+    breakdown.hours = { score: 0, max: 10, label: "Business Hours" };
+    tips.push("Add your hours of operation — customers check this first");
 
     // Reviews (15 pts)
     const reviewScore = Math.min(15, (biz.review_count || 0) * 3);
