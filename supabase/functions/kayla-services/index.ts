@@ -46,6 +46,139 @@ async function callAI(prompt: string, systemPrompt: string): Promise<string | nu
 }
 
 // ══════════════════════════════════════════
+// ADAPTIVE LEARNING MODULE
+// ══════════════════════════════════════════
+interface LearningContext {
+  preferredTone?: string;
+  avoidPatterns: string[];
+  confidenceThreshold: number;
+}
+
+async function getLearningContext(
+  supabase: ReturnType<typeof createClient>,
+  serviceType: string
+): Promise<LearningContext> {
+  const ctx: LearningContext = { avoidPatterns: [], confidenceThreshold: 0.5 };
+  try {
+    const { data: signals } = await supabase
+      .from("kayla_learning_signals")
+      .select("signal_type, signal_key, signal_value, confidence")
+      .eq("service_type", serviceType)
+      .gte("confidence", 0.4);
+
+    for (const s of signals || []) {
+      if (s.signal_type === "preference" && s.signal_key === "tone") {
+        ctx.preferredTone = (s.signal_value as any)?.value;
+      } else if (s.signal_type === "avoidance") {
+        ctx.avoidPatterns.push(s.signal_key);
+      }
+    }
+
+    // Adjust threshold based on recent success rate
+    const { data: recent } = await supabase
+      .from("kayla_outcome_feedback")
+      .select("outcome")
+      .eq("service_type", serviceType)
+      .order("created_at", { ascending: false })
+      .limit(50);
+
+    if (recent && recent.length >= 10) {
+      const accepted = recent.filter((f: any) => f.outcome === "accepted").length;
+      const rate = accepted / recent.length;
+      if (rate < 0.5) ctx.confidenceThreshold = Math.min(0.9, ctx.confidenceThreshold + 0.15);
+    }
+  } catch (e) {
+    console.warn("Learning context load error:", e);
+  }
+  return ctx;
+}
+
+function applyLearningToPrompt(basePrompt: string, ctx: LearningContext): string {
+  const adds: string[] = [];
+  if (ctx.preferredTone) adds.push(`Use a ${ctx.preferredTone} tone — preferred in past interactions.`);
+  if (ctx.avoidPatterns.length) adds.push(`AVOID these previously rejected patterns: ${ctx.avoidPatterns.join(", ")}`);
+  return adds.length ? `${basePrompt}\n\n--- ADAPTIVE CONTEXT ---\n${adds.join("\n")}` : basePrompt;
+}
+
+async function updateLearningSignals(supabase: ReturnType<typeof createClient>, serviceType: string) {
+  try {
+    const { data: feedback } = await supabase
+      .from("kayla_outcome_feedback")
+      .select("outcome, action_type, confidence_score")
+      .eq("service_type", serviceType)
+      .not("outcome", "eq", "pending")
+      .order("created_at", { ascending: false })
+      .limit(100);
+
+    if (!feedback?.length || feedback.length < 5) return;
+    const accepted = feedback.filter((f: any) => f.outcome === "accepted").length;
+    const rejected = feedback.filter((f: any) => f.outcome === "rejected").length;
+    const total = accepted + rejected;
+    if (!total) return;
+
+    const successRate = accepted / total;
+
+    await supabase.from("kayla_learning_signals").upsert({
+      service_type: serviceType,
+      signal_type: "threshold",
+      signal_key: "success_rate",
+      signal_value: { rate: successRate, sample_size: total },
+      confidence: Math.min(0.99, 0.5 + (total / 200)),
+      sample_count: total,
+      last_updated_at: new Date().toISOString(),
+    }, { onConflict: "service_type,signal_type,signal_key" });
+
+    // Detect action-type patterns
+    const actionTypes = [...new Set(feedback.map((f: any) => f.action_type))];
+    for (const at of actionTypes) {
+      const atF = feedback.filter((f: any) => f.action_type === at);
+      const atAcc = atF.filter((f: any) => f.outcome === "accepted").length;
+      const atTot = atF.filter((f: any) => f.outcome !== "pending").length;
+      if (atTot < 3) continue;
+      const atRate = atAcc / atTot;
+      
+      if (atRate < 0.3) {
+        await supabase.from("kayla_learning_signals").upsert({
+          service_type: serviceType,
+          signal_type: "avoidance",
+          signal_key: at,
+          signal_value: { rejection_rate: 1 - atRate, sample_size: atTot },
+          confidence: Math.min(0.99, 0.5 + (atTot / 50)),
+          sample_count: atTot,
+          last_updated_at: new Date().toISOString(),
+        }, { onConflict: "service_type,signal_type,signal_key" });
+      } else if (atRate > 0.8) {
+        await supabase.from("kayla_learning_signals").upsert({
+          service_type: serviceType,
+          signal_type: "preference",
+          signal_key: at,
+          signal_value: { acceptance_rate: atRate, sample_size: atTot },
+          confidence: Math.min(0.99, 0.5 + (atTot / 50)),
+          sample_count: atTot,
+          last_updated_at: new Date().toISOString(),
+        }, { onConflict: "service_type,signal_type,signal_key" });
+      }
+    }
+
+    // Save performance snapshot
+    const now = new Date();
+    await supabase.from("kayla_performance_metrics").insert({
+      service_type: serviceType,
+      period_start: new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString(),
+      period_end: now.toISOString(),
+      total_actions: total,
+      accepted_count: accepted,
+      rejected_count: rejected,
+      modified_count: feedback.filter((f: any) => f.outcome === "modified").length,
+      ignored_count: feedback.filter((f: any) => f.outcome === "ignored").length,
+      success_rate: Math.round(successRate * 100),
+    });
+  } catch (e) {
+    console.warn("Learning signal update error:", e);
+  }
+}
+
+// ══════════════════════════════════════════
 // SERVICE 1: Smart Review Responder
 // ══════════════════════════════════════════
 async function runReviewResponder(supabase: ReturnType<typeof createClient>) {
