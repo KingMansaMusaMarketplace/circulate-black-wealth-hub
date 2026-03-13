@@ -32,6 +32,8 @@ interface HealthCheckRecord {
     status: "pass" | "fail" | "warn";
     message: string;
     duration_ms: number;
+    auto_fix_attempted?: boolean;
+    auto_fix_result?: string;
   }>;
   passed_count: number;
   failed_count: number;
