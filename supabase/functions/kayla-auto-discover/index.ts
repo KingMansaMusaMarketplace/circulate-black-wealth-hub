@@ -403,13 +403,12 @@ Only include businesses you are highly confident are real and currently open. Qu
       console.log(`[Kayla Auto-Discover] ✅ Added "${biz.name}" | logo:${images.logo_url ? "✅" : "❌"} banner:${images.banner_url ? "✅" : "❌"} coords:${coords.latitude ? "✅" : "❌"} phone:${biz.phone ? "✅" : "❌"}`);
     }
 
-    // Log report
+    // Log report using correct column names
     const durationMs = Date.now() - startTime;
     const reportData = {
-      service_name: "auto_discover",
-      run_type: "scheduled",
+      report_type: "auto_discover",
       status: "completed",
-      summary: `Discovered ${businesses.length} candidates in ${targetCity.city}, ${targetCity.state} (${categoryFocus}). Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}. Enrichment: ${enrichmentDetails.filter(d => d.has_logo).length}/${inserted} logos, ${enrichmentDetails.filter(d => d.has_banner).length}/${inserted} banners, ${enrichmentDetails.filter(d => d.has_coords).length}/${inserted} geocoded.`,
+      summary: `Discovered ${businesses.length} candidates in ${targetCity.city}, ${targetCity.state} (${categoryFocus}). Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}. Duration: ${durationMs}ms.`,
       details: {
         target_city: targetCity,
         category_focus: categoryFocus,
@@ -422,12 +421,12 @@ Only include businesses you are highly confident are real and currently open. Qu
         citations,
         duration_ms: durationMs,
       },
-      items_processed: businesses.length,
-      items_fixed: inserted,
-      duration_ms: durationMs,
+      issues_found: businesses.length,
+      issues_fixed: inserted,
     };
 
-    await supabase.from("kayla_agent_reports").insert(reportData);
+    const { error: reportErr } = await supabase.from("kayla_agent_reports").insert(reportData);
+    if (reportErr) console.error("[Kayla Auto-Discover] Report insert error:", reportErr.message);
 
     console.log(`[Kayla Auto-Discover] Complete: ${inserted} fully-enriched businesses added in ${durationMs}ms`);
 
