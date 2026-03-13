@@ -636,6 +636,7 @@ const BusinessFinancesPage: React.FC = () => {
           </TabsContent>
       </Tabs>
       </div>
+      </div>
     </DashboardLayout>
   );
 };
