@@ -207,6 +207,9 @@ async function runReviewResponder(supabase: ReturnType<typeof createClient>) {
 
   if (!newReviews.length) return { results: ["All recent reviews already have drafts"], count: 0 };
 
+  // Load adaptive learning context for reviews
+  const reviewCtx = await getLearningContext(supabase, "reviews");
+
   let drafted = 0;
   for (const review of newReviews.slice(0, 10)) {
     // Get business name
@@ -219,12 +222,14 @@ async function runReviewResponder(supabase: ReturnType<typeof createClient>) {
     const bizName = biz?.business_name || biz?.name || "the business";
     const sentiment = review.rating >= 4 ? "positive" : review.rating >= 3 ? "neutral" : "negative";
 
-    const draft = await callAI(
-      `Review (${review.rating}/5 stars): "${review.review_text}"`,
-      `You draft professional, warm review responses for "${bizName}" (${biz?.category || "business"}). 
+    const basePrompt = `You draft professional, warm review responses for "${bizName}" (${biz?.category || "business"}). 
 Keep responses 2-3 sentences. For positive reviews: thank them genuinely, mention something specific they said. 
 For negative reviews: apologize sincerely, acknowledge the issue, offer to make it right. 
-Never be defensive. Sound human, not corporate. Sign off with the business name.`
+Never be defensive. Sound human, not corporate. Sign off with the business name.`;
+
+    const draft = await callAI(
+      `Review (${review.rating}/5 stars): "${review.review_text}"`,
+      applyLearningToPrompt(basePrompt, reviewCtx)
     );
 
     if (draft) {
