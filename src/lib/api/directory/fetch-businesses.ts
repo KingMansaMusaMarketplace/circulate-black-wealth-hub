@@ -22,7 +22,7 @@ export async function fetchBusinesses(
       // Use business_directory view for non-authenticated users
       let query = supabase
         .from('business_directory')
-        .select('*');
+        .select('*', { count: 'exact' });
       
       if (filters?.searchTerm) {
         query = query.or(`business_name.ilike.%${filters.searchTerm}%,category.ilike.%${filters.searchTerm}%`);
