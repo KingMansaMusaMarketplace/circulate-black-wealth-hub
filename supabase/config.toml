@@ -275,3 +275,6 @@ verify_jwt = false
 
 [functions.kayla-data-agent]
 verify_jwt = false
+
+[functions.kayla-services]
+verify_jwt = false
