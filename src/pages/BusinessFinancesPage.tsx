@@ -634,11 +634,10 @@ const BusinessFinancesPage: React.FC = () => {
           <TabsContent value="audit">
             <FinancialsTab businessId={businessId} defaultTab="audit" />
           </TabsContent>
-        </Tabs>
-        </div>
-        </div>
-      </DashboardLayout>
-    </div>
+      </Tabs>
+      </div>
+    </DashboardLayout>
+  );
   );
 };
 
