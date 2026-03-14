@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 export async function fetchBusinessCategories(): Promise<string[]> {
   try {
     const { data, error } = await supabase
-      .from('businesses')
+      .from('business_directory')
       .select('category')
       .not('category', 'is', null);
       
