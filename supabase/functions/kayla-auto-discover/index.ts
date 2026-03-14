@@ -37,6 +37,17 @@ const TARGET_CITIES = [
   { city: "Jacksonville", state: "FL" },
   { city: "Columbus", state: "OH" },
   { city: "San Antonio", state: "TX" },
+  // New York State
+  { city: "New York", state: "NY" },
+  { city: "Harlem", state: "NY" },
+  { city: "Bronx", state: "NY" },
+  { city: "Queens", state: "NY" },
+  { city: "Buffalo", state: "NY" },
+  { city: "Rochester", state: "NY" },
+  { city: "Syracuse", state: "NY" },
+  { city: "Albany", state: "NY" },
+  { city: "Mount Vernon", state: "NY" },
+  { city: "Hempstead", state: "NY" },
 ];
 
 const CATEGORIES = [
