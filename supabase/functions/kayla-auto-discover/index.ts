@@ -778,7 +778,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           imageSource = "fallback";
         }
         if (!isValidImageUrl(finalBannerUrl)) {
-          finalBannerUrl = getCategoryBanner(biz.category || catFocus);
+          finalBannerUrl = getCategoryBanner(biz.category || catFocus, biz.name + (biz.city || '') + (biz.state || ''));
           imageSource = imageSource === "fallback" ? "fallback" : "mixed";
         }
         
