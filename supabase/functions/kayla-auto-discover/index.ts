@@ -128,7 +128,7 @@ const LOW_YIELD_CATEGORIES = [
   "Bookstore", "Florist", "Pet Grooming", "Tutoring",
 ];
 
-// Build weighted category pool: high=3x, medium=2x, low=1x
+// Build weighted category pool
 const CATEGORIES: string[] = [
   ...HIGH_YIELD_CATEGORIES, ...HIGH_YIELD_CATEGORIES, ...HIGH_YIELD_CATEGORIES,
   ...MEDIUM_YIELD_CATEGORIES, ...MEDIUM_YIELD_CATEGORIES,
@@ -137,29 +137,69 @@ const CATEGORIES: string[] = [
 
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
-// Increased batch: request 15 to aim for 10-15 quality inserts after filtering
-const TARGET_BATCH_SIZE = 15;
+// === OPTIMIZATION #3: Increased volume per cycle ===
+const NUM_SEARCHES = 20;        // Up from 15
+const PER_QUERY_LIMIT = 8;     // Up from 5
 const MIN_CONFIDENCE = 0.55;
+const SCRAPE_BATCH_SIZE = 10;   // Parallel Firecrawl batch limit
+
+// === OPTIMIZATION #4: Category-specific stock banners for fallback ===
+const CATEGORY_STOCK_BANNERS: Record<string, string> = {
+  "Restaurant": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
+  "Barbershop": "https://images.unsplash.com/photo-1585747860019-8e3e5da3c3ab?w=800&q=80",
+  "Beauty Salon": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80",
+  "Bakery": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
+  "Clothing": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80",
+  "Coffee Shop": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",
+  "Fitness": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
+  "Auto Repair": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80",
+  "Day Spa": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",
+  "Catering": "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80",
+  "Real Estate": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
+  "Photography": "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80",
+  "Art Gallery": "https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?w=800&q=80",
+  "Technology": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
+  "default": "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80",
+};
 
 /**
- * Validate that a URL points to a real image (not an error page or tracking pixel)
+ * Generate an initials-based placeholder logo URL
+ */
+function generateInitialsLogo(businessName: string): string {
+  const initials = businessName.split(/\s+/).map(w => w[0]?.toUpperCase()).filter(Boolean).slice(0, 2).join("");
+  return `https://placehold.co/400x400/1a1a2e/e0a346?text=${encodeURIComponent(initials)}&font=montserrat`;
+}
+
+/**
+ * Get a stock banner for a category
+ */
+function getCategoryBanner(category: string): string {
+  // Try exact match first, then partial match
+  for (const [key, url] of Object.entries(CATEGORY_STOCK_BANNERS)) {
+    if (key === "default") continue;
+    if (category.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(category.toLowerCase())) {
+      return url;
+    }
+  }
+  return CATEGORY_STOCK_BANNERS["default"];
+}
+
+/**
+ * Validate that a URL points to a real image
  */
 function isValidImageUrl(url: string | null): boolean {
   if (!url) return false;
   const lower = url.toLowerCase();
-  // Reject junk URLs
   if (lower.includes("data:") || lower.includes("pixel") || lower.includes("spacer")) return false;
   if (lower.includes("1x1") || lower.includes("tracking") || lower.includes("analytics")) return false;
   if (lower.includes("favicon.ico")) return false;
   if (lower.length < 15) return false;
-  // Must be an actual URL
   if (!lower.startsWith("http")) return false;
   return true;
 }
 
 /**
  * Scrape a business website for logo and banner images using Firecrawl
- * Returns images ONLY from the business's own website
  */
 async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Promise<{ logo_url: string | null; banner_url: string | null }> {
   const result = { logo_url: null as string | null, banner_url: null as string | null };
@@ -171,7 +211,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
     if (!url.startsWith("http")) url = `https://${url}`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000);
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // Reduced from 12s to 8s
 
     const response = await fetch("https://api.firecrawl.dev/v1/scrape", {
       method: "POST",
@@ -183,7 +223,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
         url,
         formats: ["markdown"],
         onlyMainContent: false,
-        timeout: 10000,
+        timeout: 7000,
       }),
       signal: controller.signal,
     });
@@ -200,17 +240,14 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
     const metadata = data?.data?.metadata || {};
     const markdown = data?.data?.markdown || "";
 
-    // Extract OG image as banner (these are specifically chosen by the site owner)
     if (metadata.ogImage && isValidImageUrl(metadata.ogImage)) {
       result.banner_url = metadata.ogImage;
     }
 
-    // Try to find a proper logo (not just favicon)
     if (metadata.favicon && !metadata.favicon.includes(".ico") && isValidImageUrl(metadata.favicon)) {
       result.logo_url = metadata.favicon;
     }
 
-    // Search page content for logo and banner images
     const imgRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
     let match;
     const allImages: { alt: string; src: string }[] = [];
@@ -221,24 +258,19 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
       if (!isValidImageUrl(src)) continue;
       allImages.push({ alt, src });
 
-      // Prioritize images with "logo" in alt text or URL
       if (alt.includes("logo") || src.toLowerCase().includes("logo")) {
         result.logo_url = src;
       }
-      // Use hero/banner images
       if (!result.banner_url && (alt.includes("hero") || alt.includes("banner") || alt.includes("header") || src.includes("hero") || src.includes("banner"))) {
         result.banner_url = src;
       }
     }
 
-    // If we still don't have a banner, use ogImage
     if (!result.banner_url && metadata.ogImage && isValidImageUrl(metadata.ogImage)) {
       result.banner_url = metadata.ogImage;
     }
 
-    // If no banner from og/hero, pick the first substantial image from the page
     if (!result.banner_url && allImages.length > 0) {
-      // Skip tiny icons, pick the first real content image
       const contentImage = allImages.find(img => 
         !img.alt.includes("icon") && !img.src.includes("icon") &&
         !img.alt.includes("arrow") && !img.src.includes("arrow")
@@ -248,7 +280,6 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
       }
     }
 
-    // If no logo found, use ogImage as logo fallback (business usually puts their branding there)
     if (!result.logo_url && result.banner_url) {
       result.logo_url = result.banner_url;
     }
@@ -288,7 +319,6 @@ async function geocodeAddress(address: string, city: string, state: string, zipC
     if (feature?.center) {
       result.longitude = feature.center[0];
       result.latitude = feature.center[1];
-      console.log(`[Geocode] ${fullAddress} → ${result.latitude}, ${result.longitude}`);
     }
   } catch (err) {
     console.log(`[Geocode] Error: ${err instanceof Error ? err.message : "unknown"}`);
@@ -313,19 +343,17 @@ serve(async (req) => {
       throw new Error("PERPLEXITY_API_KEY not configured");
     }
     if (!firecrawlKey) {
-      throw new Error("FIRECRAWL_API_KEY required — images are mandatory");
+      throw new Error("FIRECRAWL_API_KEY required");
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Run multiple search queries per invocation to maximize throughput
-    const NUM_SEARCHES = 15;
+    // === Pick unique city/category combos (OPTIMIZATION #3: 20 searches) ===
     const searchCombos: { city: typeof TARGET_CITIES[0]; category: string }[] = [];
     const usedCombos = new Set<string>();
     
-    // Pick 15 unique city/category combinations with weighted categories
     while (searchCombos.length < NUM_SEARCHES) {
       const city = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
       const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
@@ -336,7 +364,7 @@ serve(async (req) => {
       }
     }
 
-    console.log(`[Kayla Auto-Discover] Running ${NUM_SEARCHES} parallel searches: ${searchCombos.map(s => `${s.category} in ${s.city.city}`).join(", ")}`);
+    console.log(`[Kayla Auto-Discover] Running ${NUM_SEARCHES} parallel searches (requesting ${PER_QUERY_LIMIT} per query)`);
 
     // Fire all Perplexity searches in parallel
     const searchPromises = searchCombos.map(async (combo) => {
@@ -344,8 +372,6 @@ serve(async (req) => {
       const label = `${categoryFocus} in ${targetCity.city}, ${targetCity.state}`;
       
       try {
-        console.log(`[Kayla Auto-Discover] Searching: Black-owned ${label}`);
-        
         const perplexityResponse = await fetch("https://api.perplexity.ai/chat/completions", {
           method: "POST",
           headers: {
@@ -361,7 +387,7 @@ serve(async (req) => {
               },
               {
                 role: "user",
-                content: `Find 5 real, currently operating Black-owned ${categoryFocus} businesses in ${targetCity.city}, ${targetCity.state}. 
+                content: `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${categoryFocus} businesses in ${targetCity.city}, ${targetCity.state}. 
 
 IMPORTANT: Only include businesses that have their OWN website (not just a Yelp or Facebook page). The website URL is MANDATORY.
 
@@ -428,7 +454,6 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         const citations = perplexityData.citations || [];
 
         if (!content) {
-          console.log(`[Kayla Auto-Discover] No content for ${label}`);
           return { businesses: [], citations, label, targetCity, categoryFocus };
         }
 
@@ -436,7 +461,6 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         try {
           discovered = JSON.parse(content);
         } catch {
-          console.log(`[Kayla Auto-Discover] Failed to parse response for ${label}`);
           return { businesses: [], citations, label, targetCity, categoryFocus };
         }
 
@@ -451,7 +475,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
 
     const searchResults = await Promise.all(searchPromises);
     
-    // Flatten all candidates with their source info
+    // Flatten all candidates
     const allCandidates: { biz: any; targetCity: typeof TARGET_CITIES[0]; categoryFocus: string }[] = [];
     let allCitations: string[] = [];
     const searchSummaries: string[] = [];
@@ -464,136 +488,172 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       }
     }
     
-    console.log(`[Kayla Auto-Discover] Total candidates from ${NUM_SEARCHES} searches: ${allCandidates.length} (${searchSummaries.join(", ")})`);
+    console.log(`[Kayla Auto-Discover] Total candidates from ${NUM_SEARCHES} searches: ${allCandidates.length}`);
 
     if (allCandidates.length === 0) {
       console.log(`[Kayla Auto-Discover] No candidates found across all searches`);
     }
+
+    // === OPTIMIZATION #1 & #2: Filter basics first, then batch dedup ===
     
-    const businesses = allCandidates;
-    const citations = allCitations;
-    const categoryFocus = searchCombos.map(s => s.category).join(", ");
-
-    let inserted = 0;
-    let skippedDuplicates = 0;
+    // Step 1: Filter out candidates missing name/city, low confidence, no website
     let skippedLowConfidence = 0;
-    let skippedNoImages = 0;
     let skippedNoWebsite = 0;
-    const insertedNames: string[] = [];
-    const enrichmentDetails: any[] = [];
-
-    for (const { biz, targetCity, categoryFocus: catFocus } of businesses) {
-      if (!biz.name || !biz.city) {
-        console.log(`[Kayla Auto-Discover] Skipping - missing name or city`);
-        continue;
-      }
-
+    const viableCandidates: typeof allCandidates = [];
+    
+    for (const candidate of allCandidates) {
+      const { biz } = candidate;
+      if (!biz.name || !biz.city) continue;
+      
       const confidence = biz.confidence ?? 0.5;
       if (confidence < MIN_CONFIDENCE) {
-        console.log(`[Kayla Auto-Discover] Skipping "${biz.name}" - low confidence: ${confidence} (min: ${MIN_CONFIDENCE})`);
         skippedLowConfidence++;
         continue;
       }
-
-      // MANDATORY: Must have a website URL to scrape images from
+      
       const websiteUrl = biz.website && biz.website.match(/^https?:\/\/|^www\./) ? biz.website.trim() : null;
       if (!websiteUrl) {
-        console.log(`[Kayla Auto-Discover] Skipping "${biz.name}" - NO WEBSITE (images mandatory)`);
         skippedNoWebsite++;
         continue;
       }
+      
+      viableCandidates.push(candidate);
+    }
+    
+    console.log(`[Kayla Auto-Discover] Viable candidates after basic filter: ${viableCandidates.length}`);
 
-      // Deduplication against businesses table
-      const { data: existing } = await supabase
-        .from("businesses")
-        .select("id, name")
-        .ilike("name", biz.name.trim())
-        .ilike("city", biz.city.trim())
-        .limit(1);
-
-      if (existing && existing.length > 0) {
-        console.log(`[Kayla Auto-Discover] Skipping "${biz.name}" - already exists`);
+    // Step 2: BATCH DEDUPLICATION — single query instead of per-candidate lookups
+    let skippedDuplicates = 0;
+    const candidateNames = viableCandidates.map(c => c.biz.name.trim().toLowerCase());
+    const candidateCities = [...new Set(viableCandidates.map(c => c.biz.city.trim().toLowerCase()))];
+    
+    // Batch check businesses table
+    const { data: existingBusinesses } = await supabase
+      .from("businesses")
+      .select("name, city")
+      .in("city", candidateCities.map(c => c.charAt(0).toUpperCase() + c.slice(1)));
+    
+    const existingBizSet = new Set(
+      (existingBusinesses || []).map(b => `${b.name?.toLowerCase()}|${b.city?.toLowerCase()}`)
+    );
+    
+    // Batch check b2b_external_leads table
+    const { data: existingLeads } = await supabase
+      .from("b2b_external_leads")
+      .select("business_name, city")
+      .in("city", candidateCities.map(c => c.charAt(0).toUpperCase() + c.slice(1)));
+    
+    const existingLeadSet = new Set(
+      (existingLeads || []).map(l => `${l.business_name?.toLowerCase()}|${l.city?.toLowerCase()}`)
+    );
+    
+    const dedupedCandidates = viableCandidates.filter(c => {
+      const key = `${c.biz.name.trim().toLowerCase()}|${c.biz.city.trim().toLowerCase()}`;
+      if (existingBizSet.has(key) || existingLeadSet.has(key)) {
         skippedDuplicates++;
-        continue;
+        return false;
       }
+      return true;
+    });
+    
+    console.log(`[Kayla Auto-Discover] After batch dedup: ${dedupedCandidates.length} (${skippedDuplicates} duplicates removed)`);
 
-      // Deduplication against b2b_external_leads
-      const { data: existingLead } = await supabase
-        .from("b2b_external_leads")
-        .select("id")
-        .ilike("business_name", biz.name.trim())
-        .ilike("city", biz.city.trim())
-        .limit(1);
+    // === OPTIMIZATION #1: Parallel enrichment in batches of SCRAPE_BATCH_SIZE ===
+    let inserted = 0;
+    let skippedNoImages = 0;
+    const insertedNames: string[] = [];
+    const enrichmentDetails: any[] = [];
 
-      if (existingLead && existingLead.length > 0) {
-        console.log(`[Kayla Auto-Discover] Skipping "${biz.name}" - already in leads`);
-        skippedDuplicates++;
-        continue;
+    // Process in parallel batches
+    for (let i = 0; i < dedupedCandidates.length; i += SCRAPE_BATCH_SIZE) {
+      const batch = dedupedCandidates.slice(i, i + SCRAPE_BATCH_SIZE);
+      
+      // Parallel scrape + geocode for entire batch
+      const enrichmentResults = await Promise.allSettled(
+        batch.map(async ({ biz, targetCity, categoryFocus: catFocus }) => {
+          const websiteUrl = biz.website.trim();
+          
+          // Run scrape and geocode in parallel for each candidate
+          const [images, coords] = await Promise.all([
+            scrapeWebsiteImages(websiteUrl, firecrawlKey),
+            biz.address && mapboxToken
+              ? geocodeAddress(biz.address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken)
+              : Promise.resolve({ latitude: null, longitude: null }),
+          ]);
+          
+          return { biz, targetCity, catFocus, websiteUrl, images, coords };
+        })
+      );
+      
+      // Process results and insert
+      for (const result of enrichmentResults) {
+        if (result.status === "rejected") {
+          console.log(`[Kayla Auto-Discover] Enrichment failed: ${result.reason}`);
+          continue;
+        }
+        
+        const { biz, targetCity, catFocus, websiteUrl, images, coords } = result.value;
+        
+        // === OPTIMIZATION #4: Tiered image fallback ===
+        let finalLogoUrl = images.logo_url;
+        let finalBannerUrl = images.banner_url;
+        let imageSource = "website";
+        
+        if (!isValidImageUrl(finalLogoUrl)) {
+          finalLogoUrl = generateInitialsLogo(biz.name);
+          imageSource = "fallback";
+        }
+        if (!isValidImageUrl(finalBannerUrl)) {
+          finalBannerUrl = getCategoryBanner(biz.category || catFocus);
+          imageSource = imageSource === "fallback" ? "fallback" : "mixed";
+        }
+        
+        // Now we always have images — no more hard rejection
+        const businessRecord: Record<string, any> = {
+          name: biz.name.trim(),
+          business_name: biz.name.trim(),
+          description: biz.description || `Black-owned ${biz.category || catFocus} business in ${biz.city}, ${biz.state}.`,
+          category: biz.category || catFocus,
+          address: biz.address || "",
+          city: biz.city.trim(),
+          state: biz.state?.trim() || targetCity.state,
+          zip_code: biz.zip_code || "",
+          phone: biz.phone || "",
+          email: biz.email || "",
+          website: websiteUrl,
+          owner_id: PLACEHOLDER_OWNER_ID,
+          is_verified: true,
+          listing_status: 'live',
+          logo_url: finalLogoUrl,
+          banner_url: finalBannerUrl,
+        };
+
+        if (coords.latitude !== null) businessRecord.latitude = coords.latitude;
+        if (coords.longitude !== null) businessRecord.longitude = coords.longitude;
+
+        const { error: insertErr } = await supabase.from("businesses").insert(businessRecord);
+
+        if (insertErr) {
+          console.error(`[Kayla Auto-Discover] Insert error for "${biz.name}":`, insertErr.message);
+          continue;
+        }
+
+        inserted++;
+        insertedNames.push(biz.name);
+        enrichmentDetails.push({
+          name: biz.name,
+          has_logo: isValidImageUrl(images.logo_url),
+          has_banner: isValidImageUrl(images.banner_url),
+          image_source: imageSource,
+          has_coords: coords.latitude !== null,
+          has_phone: !!biz.phone,
+          has_website: true,
+          confidence: biz.confidence ?? 0.5,
+          verified: true,
+        });
+
+        console.log(`[Kayla Auto-Discover] ✅ Added "${biz.name}" | imgs:${imageSource} coords:${coords.latitude ? "✅" : "❌"}`);
       }
-
-      // === ENRICHMENT PHASE: Scrape website for images ===
-      console.log(`[Kayla Auto-Discover] Scraping website for "${biz.name}": ${websiteUrl}`);
-      const images = await scrapeWebsiteImages(websiteUrl, firecrawlKey);
-
-      // MANDATORY: Must have BOTH logo AND banner
-      if (!isValidImageUrl(images.logo_url) || !isValidImageUrl(images.banner_url)) {
-        console.log(`[Kayla Auto-Discover] ❌ Skipping "${biz.name}" - MISSING IMAGES (logo: ${images.logo_url ? "✅" : "❌"}, banner: ${images.banner_url ? "✅" : "❌"})`);
-        skippedNoImages++;
-        continue;
-      }
-
-      // Geocode the address for map pin
-      let coords = { latitude: null as number | null, longitude: null as number | null };
-      if (biz.address && mapboxToken) {
-        coords = await geocodeAddress(biz.address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken);
-      }
-
-      // Build the complete business record — only fully enriched listings
-      const businessRecord: Record<string, any> = {
-        name: biz.name.trim(),
-        business_name: biz.name.trim(),
-        description: biz.description || `Black-owned ${biz.category || catFocus} business in ${biz.city}, ${biz.state}.`,
-        category: biz.category || catFocus,
-        address: biz.address || "",
-        city: biz.city.trim(),
-        state: biz.state?.trim() || targetCity.state,
-        zip_code: biz.zip_code || "",
-        phone: biz.phone || "",
-        email: biz.email || "",
-        website: websiteUrl,
-        owner_id: PLACEHOLDER_OWNER_ID,
-        is_verified: true,
-        listing_status: 'live',
-        logo_url: images.logo_url,
-        banner_url: images.banner_url,
-      };
-
-      // Add coordinates if geocoded
-      if (coords.latitude !== null) businessRecord.latitude = coords.latitude;
-      if (coords.longitude !== null) businessRecord.longitude = coords.longitude;
-
-      const { error: insertErr } = await supabase.from("businesses").insert(businessRecord);
-
-      if (insertErr) {
-        console.error(`[Kayla Auto-Discover] Insert error for "${biz.name}":`, insertErr.message);
-        continue;
-      }
-
-      inserted++;
-      insertedNames.push(biz.name);
-      enrichmentDetails.push({
-        name: biz.name,
-        has_logo: true,
-        has_banner: true,
-        has_coords: coords.latitude !== null,
-        has_phone: !!biz.phone,
-        has_website: true,
-        has_address: !!biz.address,
-        confidence,
-        verified: true,
-      });
-
-      console.log(`[Kayla Auto-Discover] ✅ Added "${biz.name}" | logo:✅ banner:✅ coords:${coords.latitude ? "✅" : "❌"} phone:${biz.phone ? "✅" : "❌"}`);
     }
 
     // Log report
@@ -602,11 +662,14 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     const reportData = {
       report_type: "auto_discover",
       status: "completed",
-      summary: `Multi-search: ${NUM_SEARCHES} queries across cities. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}, No images: ${skippedNoImages}. Duration: ${durationMs}ms.`,
+      summary: `Optimized multi-search: ${NUM_SEARCHES} queries (${PER_QUERY_LIMIT}/query). ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}. Duration: ${durationMs}ms. Parallel enrichment + tiered image fallback active.`,
       details: {
         searches: searchCombosSummary,
         num_searches: NUM_SEARCHES,
+        per_query_limit: PER_QUERY_LIMIT,
         candidates_found: allCandidates.length,
+        viable_after_filter: viableCandidates.length,
+        after_dedup: dedupedCandidates.length,
         inserted,
         skipped_duplicates: skippedDuplicates,
         skipped_low_confidence: skippedLowConfidence,
@@ -614,10 +677,11 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         skipped_no_images: skippedNoImages,
         inserted_names: insertedNames,
         enrichment: enrichmentDetails,
-        citations,
+        citations: allCitations,
         duration_ms: durationMs,
         min_confidence: MIN_CONFIDENCE,
-        quality_gate: "mandatory_logo_and_banner",
+        quality_gate: "tiered_image_fallback",
+        optimizations: ["parallel_enrichment", "batch_dedup", "increased_volume", "tiered_images"],
       },
       issues_found: allCandidates.length,
       issues_fixed: inserted,
@@ -626,13 +690,16 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     const { error: reportErr } = await supabase.from("kayla_agent_reports").insert(reportData);
     if (reportErr) console.error("[Kayla Auto-Discover] Report insert error:", reportErr.message);
 
-    console.log(`[Kayla Auto-Discover] Complete: ${inserted}/${allCandidates.length} fully-enriched businesses added in ${durationMs}ms (${skippedNoImages} rejected for missing images)`);
+    console.log(`[Kayla Auto-Discover] Complete: ${inserted}/${allCandidates.length} businesses added in ${durationMs}ms`);
 
     return new Response(
       JSON.stringify({
         success: true,
         searches: NUM_SEARCHES,
+        perQueryLimit: PER_QUERY_LIMIT,
         candidates: allCandidates.length,
+        viable: viableCandidates.length,
+        afterDedup: dedupedCandidates.length,
         inserted,
         skippedDuplicates,
         skippedLowConfidence,
@@ -641,6 +708,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         insertedNames,
         enrichment: enrichmentDetails,
         durationMs,
+        optimizations: ["parallel_enrichment", "batch_dedup", "increased_volume", "tiered_images"],
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
