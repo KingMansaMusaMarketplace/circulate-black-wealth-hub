@@ -18,6 +18,14 @@ export interface FraudAlert {
   investigated_by?: string;
   investigated_at?: string;
   resolution_notes?: string;
+  // Multi-model consensus fields
+  primary_model?: string;
+  secondary_model?: string;
+  secondary_model_assessment?: any;
+  secondary_confidence_score?: number;
+  model_agreement?: boolean;
+  consensus_score?: number;
+  consensus_reviewed_at?: string;
   created_at: string;
   updated_at: string;
 }
@@ -120,6 +128,34 @@ export const useFraudDetection = (businessId?: string) => {
     },
   });
 
+  // Trigger consensus review for pending alerts
+  const runConsensusReview = async (alertIds?: string[]) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('fraud-consensus-review', {
+        body: {
+          alert_ids: alertIds,
+          review_all_pending: !alertIds,
+        }
+      });
+
+      if (error) {
+        console.error('Consensus review error:', error);
+        toast.error('Failed to run consensus review');
+        throw error;
+      }
+
+      if (data?.success) {
+        toast.success(`Consensus review: ${data.agreed} confirmed, ${data.disagreed} disputed`);
+        queryClient.invalidateQueries({ queryKey: ['fraud-alerts'] });
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error running consensus review:', error);
+      toast.error('Failed to run consensus review');
+    }
+  };
+
   // Get alert statistics
   const alertStats = {
     total: alerts?.length || 0,
@@ -130,12 +166,27 @@ export const useFraudDetection = (businessId?: string) => {
     low: alerts?.filter(a => a.severity === 'low').length || 0,
   };
 
+  // Multi-model consensus stats
+  const consensusStats = {
+    reviewed: alerts?.filter(a => a.consensus_score !== null && a.consensus_score !== undefined).length || 0,
+    pending_review: alerts?.filter(a => a.consensus_score === null && ['critical', 'high'].includes(a.severity)).length || 0,
+    agreed: alerts?.filter(a => a.model_agreement === true).length || 0,
+    disagreed: alerts?.filter(a => a.model_agreement === false).length || 0,
+    avg_consensus: (() => {
+      const reviewed = alerts?.filter(a => a.consensus_score !== null && a.consensus_score !== undefined) || [];
+      if (reviewed.length === 0) return 0;
+      return parseFloat((reviewed.reduce((sum, a) => sum + (a.consensus_score || 0), 0) / reviewed.length).toFixed(2));
+    })(),
+  };
+
   return {
     alerts: alerts || [],
     alertStats,
+    consensusStats,
     isLoading: alertsLoading,
     isRunningAnalysis,
     runAnalysis,
+    runConsensusReview,
     updateAlertStatus: updateAlertStatus.mutate,
     isUpdating: updateAlertStatus.isPending,
   };

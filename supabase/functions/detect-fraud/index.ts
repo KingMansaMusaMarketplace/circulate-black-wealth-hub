@@ -350,31 +350,71 @@ Identify suspicious patterns and return structured fraud alerts.`;
         throw insertError;
       }
 
-      // Send Slack notifications for critical/high severity alerts
+      // Trigger multi-model consensus review for high/critical alerts
       const highSeverityAlerts = alerts.filter(a => a.severity === 'critical' || a.severity === 'high');
-      for (const alert of highSeverityAlerts) {
+      if (highSeverityAlerts.length > 0) {
         try {
-          await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/send-slack-notification`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
-            },
-            body: JSON.stringify({
-              type: 'fraud_alert',
-              data: {
-                alert_type: alert.alert_type,
-                severity: alert.severity,
-                description: alert.description,
-                ai_confidence_score: alert.ai_confidence_score,
-                alerts_count: highSeverityAlerts.length,
+          // Fetch the inserted alert IDs for consensus review
+          const { data: insertedAlerts } = await supabase
+            .from('fraud_alerts')
+            .select('id')
+            .in('severity', ['critical', 'high'])
+            .is('consensus_score', null)
+            .order('created_at', { ascending: false })
+            .limit(highSeverityAlerts.length);
+
+          if (insertedAlerts?.length) {
+            const consensusResponse = await fetch(
+              `${Deno.env.get('SUPABASE_URL')}/functions/v1/fraud-consensus-review`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+                },
+                body: JSON.stringify({
+                  alert_ids: insertedAlerts.map((a: any) => a.id),
+                }),
+              }
+            );
+
+            if (consensusResponse.ok) {
+              const consensusData = await consensusResponse.json();
+              console.log(`Consensus review: ${consensusData.agreed} agreed, ${consensusData.disagreed} disagreed`);
+            } else {
+              const errorText = await consensusResponse.text();
+              console.error('Consensus review failed:', consensusResponse.status, errorText);
+            }
+          }
+        } catch (consensusError) {
+          console.error('Failed to trigger consensus review:', consensusError);
+          // Non-blocking: fraud alerts are still saved even if consensus fails
+        }
+
+        // Send Slack notifications for critical/high severity alerts
+        for (const alert of highSeverityAlerts) {
+          try {
+            await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/send-slack-notification`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
               },
-            }),
-          });
-          console.log(`Slack fraud alert sent: ${alert.alert_type} (${alert.severity})`);
-        } catch (slackError) {
-          console.error('Failed to send Slack fraud alert:', slackError);
-          // Don't fail the main flow if Slack notification fails
+              body: JSON.stringify({
+                type: 'fraud_alert',
+                data: {
+                  alert_type: alert.alert_type,
+                  severity: alert.severity,
+                  description: alert.description,
+                  ai_confidence_score: alert.ai_confidence_score,
+                  alerts_count: highSeverityAlerts.length,
+                },
+              }),
+            });
+            console.log(`Slack fraud alert sent: ${alert.alert_type} (${alert.severity})`);
+          } catch (slackError) {
+            console.error('Failed to send Slack fraud alert:', slackError);
+          }
         }
       }
     }

@@ -6529,15 +6529,22 @@ export type Database = {
           ai_confidence_score: number | null
           alert_type: string
           business_id: string | null
+          consensus_reviewed_at: string | null
+          consensus_score: number | null
           created_at: string | null
           description: string
           evidence: Json
           id: string
           investigated_at: string | null
           investigated_by: string | null
+          model_agreement: boolean | null
+          primary_model: string | null
           related_entity_id: string | null
           related_entity_type: string | null
           resolution_notes: string | null
+          secondary_confidence_score: number | null
+          secondary_model: string | null
+          secondary_model_assessment: Json | null
           severity: string
           status: string
           updated_at: string | null
@@ -6547,15 +6554,22 @@ export type Database = {
           ai_confidence_score?: number | null
           alert_type: string
           business_id?: string | null
+          consensus_reviewed_at?: string | null
+          consensus_score?: number | null
           created_at?: string | null
           description: string
           evidence: Json
           id?: string
           investigated_at?: string | null
           investigated_by?: string | null
+          model_agreement?: boolean | null
+          primary_model?: string | null
           related_entity_id?: string | null
           related_entity_type?: string | null
           resolution_notes?: string | null
+          secondary_confidence_score?: number | null
+          secondary_model?: string | null
+          secondary_model_assessment?: Json | null
           severity: string
           status?: string
           updated_at?: string | null
@@ -6565,15 +6579,22 @@ export type Database = {
           ai_confidence_score?: number | null
           alert_type?: string
           business_id?: string | null
+          consensus_reviewed_at?: string | null
+          consensus_score?: number | null
           created_at?: string | null
           description?: string
           evidence?: Json
           id?: string
           investigated_at?: string | null
           investigated_by?: string | null
+          model_agreement?: boolean | null
+          primary_model?: string | null
           related_entity_id?: string | null
           related_entity_type?: string | null
           resolution_notes?: string | null
+          secondary_confidence_score?: number | null
+          secondary_model?: string | null
+          secondary_model_assessment?: Json | null
           severity?: string
           status?: string
           updated_at?: string | null
