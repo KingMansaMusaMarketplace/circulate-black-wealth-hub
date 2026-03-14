@@ -233,38 +233,48 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const targetCity = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
+    // Run multiple search queries per invocation to maximize throughput
+    const NUM_SEARCHES = 5;
+    const searchCombos: { city: typeof TARGET_CITIES[0]; category: string }[] = [];
+    const usedCombos = new Set<string>();
     
-    // Try up to 3 different categories to ensure we find results
-    let businesses: any[] = [];
-    let categoryFocus = "";
-    let citations: string[] = [];
-    const triedCategories: string[] = [];
+    // Pick 5 unique city/category combinations
+    while (searchCombos.length < NUM_SEARCHES) {
+      const city = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
+      const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
+      const key = `${city.city}-${category}`;
+      if (!usedCombos.has(key)) {
+        usedCombos.add(key);
+        searchCombos.push({ city, category });
+      }
+    }
 
-    for (let attempt = 0; attempt < 3; attempt++) {
-      const availableCategories = CATEGORIES.filter(c => !triedCategories.includes(c));
-      if (availableCategories.length === 0) break;
-      categoryFocus = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-      triedCategories.push(categoryFocus);
+    console.log(`[Kayla Auto-Discover] Running ${NUM_SEARCHES} parallel searches: ${searchCombos.map(s => `${s.category} in ${s.city.city}`).join(", ")}`);
 
-      console.log(`[Kayla Auto-Discover] Attempt ${attempt + 1}: Searching for Black-owned ${categoryFocus} in ${targetCity.city}, ${targetCity.state}`);
-
-      const perplexityResponse = await fetch("https://api.perplexity.ai/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${perplexityKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "sonar",
-          messages: [
-            {
-              role: "system",
-              content: `You are a business research assistant specializing in finding Black-owned businesses. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address, working phone number, actual website URL, business hours, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot verify a detail, omit that field rather than guessing. CRITICAL: Every business MUST have a working website URL — do not include businesses without websites.`,
-            },
-            {
-              role: "user",
-              content: `Find ${TARGET_BATCH_SIZE} real, currently operating Black-owned ${categoryFocus} businesses in ${targetCity.city}, ${targetCity.state}. 
+    // Fire all Perplexity searches in parallel
+    const searchPromises = searchCombos.map(async (combo) => {
+      const { city: targetCity, category: categoryFocus } = combo;
+      const label = `${categoryFocus} in ${targetCity.city}, ${targetCity.state}`;
+      
+      try {
+        console.log(`[Kayla Auto-Discover] Searching: Black-owned ${label}`);
+        
+        const perplexityResponse = await fetch("https://api.perplexity.ai/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${perplexityKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "sonar",
+            messages: [
+              {
+                role: "system",
+                content: `You are a business research assistant specializing in finding Black-owned businesses. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address, working phone number, actual website URL, business hours, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot verify a detail, omit that field rather than guessing. CRITICAL: Every business MUST have a working website URL — do not include businesses without websites.`,
+              },
+              {
+                role: "user",
+                content: `Find 5 real, currently operating Black-owned ${categoryFocus} businesses in ${targetCity.city}, ${targetCity.state}. 
 
 IMPORTANT: Only include businesses that have their OWN website (not just a Yelp or Facebook page). The website URL is MANDATORY.
 
@@ -281,81 +291,101 @@ For EACH business provide ALL of the following:
 - Your confidence level (0 to 1) that this business exists and is currently operating
 
 Only include businesses you are highly confident (0.7+) are real and currently open WITH their own website. Quality over quantity.`,
-            },
-          ],
-          temperature: 0.1,
-          response_format: {
-            type: "json_schema",
-            json_schema: {
-              name: "discovered_businesses",
-              schema: {
-                type: "object",
-                properties: {
-                  businesses: {
-                    type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        name: { type: "string", description: "Exact business name" },
-                        description: { type: "string", description: "Rich 2-3 sentence description" },
-                        category: { type: "string", description: "Specific business category" },
-                        address: { type: "string", description: "Full street address" },
-                        city: { type: "string" },
-                        state: { type: "string", description: "2-letter state code" },
-                        zip_code: { type: "string" },
-                        phone: { type: "string", description: "Phone with area code" },
-                        email: { type: "string" },
-                        website: { type: "string", description: "Full website URL — REQUIRED" },
-                        price_range: { type: "string", description: "One of: $, $$, $$$, $$$$" },
-                        confidence: { type: "number", description: "0-1 confidence this is a real business" },
+              },
+            ],
+            temperature: 0.1,
+            response_format: {
+              type: "json_schema",
+              json_schema: {
+                name: "discovered_businesses",
+                schema: {
+                  type: "object",
+                  properties: {
+                    businesses: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          name: { type: "string", description: "Exact business name" },
+                          description: { type: "string", description: "Rich 2-3 sentence description" },
+                          category: { type: "string", description: "Specific business category" },
+                          address: { type: "string", description: "Full street address" },
+                          city: { type: "string" },
+                          state: { type: "string", description: "2-letter state code" },
+                          zip_code: { type: "string" },
+                          phone: { type: "string", description: "Phone with area code" },
+                          email: { type: "string" },
+                          website: { type: "string", description: "Full website URL — REQUIRED" },
+                          price_range: { type: "string", description: "One of: $, $$, $$$, $$$$" },
+                          confidence: { type: "number", description: "0-1 confidence this is a real business" },
+                        },
+                        required: ["name", "description", "category", "address", "city", "state", "website"],
                       },
-                      required: ["name", "description", "category", "address", "city", "state", "website"],
                     },
                   },
+                  required: ["businesses"],
                 },
-                required: ["businesses"],
               },
             },
-          },
-        }),
-      });
+          }),
+        });
 
-      if (!perplexityResponse.ok) {
-        const errText = await perplexityResponse.text();
-        console.error(`[Kayla Auto-Discover] Perplexity error on attempt ${attempt + 1}: ${perplexityResponse.status} - ${errText.substring(0, 200)}`);
-        continue;
+        if (!perplexityResponse.ok) {
+          const errText = await perplexityResponse.text();
+          console.error(`[Kayla Auto-Discover] Perplexity error for ${label}: ${perplexityResponse.status} - ${errText.substring(0, 200)}`);
+          return { businesses: [], citations: [], label, targetCity, categoryFocus };
+        }
+
+        const perplexityData = await perplexityResponse.json();
+        const content = perplexityData.choices?.[0]?.message?.content;
+        const citations = perplexityData.citations || [];
+
+        if (!content) {
+          console.log(`[Kayla Auto-Discover] No content for ${label}`);
+          return { businesses: [], citations, label, targetCity, categoryFocus };
+        }
+
+        let discovered: any;
+        try {
+          discovered = JSON.parse(content);
+        } catch {
+          console.log(`[Kayla Auto-Discover] Failed to parse response for ${label}`);
+          return { businesses: [], citations, label, targetCity, categoryFocus };
+        }
+
+        const bizList = discovered.businesses || [];
+        console.log(`[Kayla Auto-Discover] Found ${bizList.length} candidates for ${label}`);
+        return { businesses: bizList, citations, label, targetCity, categoryFocus };
+      } catch (err) {
+        console.error(`[Kayla Auto-Discover] Search error for ${label}: ${err instanceof Error ? err.message : "unknown"}`);
+        return { businesses: [], citations: [], label, targetCity, categoryFocus };
       }
+    });
 
-      const perplexityData = await perplexityResponse.json();
-      const content = perplexityData.choices?.[0]?.message?.content;
-      citations = perplexityData.citations || [];
-
-      if (!content) {
-        console.log(`[Kayla Auto-Discover] No content on attempt ${attempt + 1}, retrying...`);
-        continue;
+    const searchResults = await Promise.all(searchPromises);
+    
+    // Flatten all candidates with their source info
+    const allCandidates: { biz: any; targetCity: typeof TARGET_CITIES[0]; categoryFocus: string }[] = [];
+    let allCitations: string[] = [];
+    const searchSummaries: string[] = [];
+    
+    for (const result of searchResults) {
+      searchSummaries.push(`${result.label}: ${result.businesses.length} found`);
+      allCitations = [...allCitations, ...result.citations];
+      for (const biz of result.businesses) {
+        allCandidates.push({ biz, targetCity: result.targetCity, categoryFocus: result.categoryFocus });
       }
-
-      let discovered: any;
-      try {
-        discovered = JSON.parse(content);
-      } catch {
-        console.log(`[Kayla Auto-Discover] Failed to parse response on attempt ${attempt + 1}, retrying...`);
-        continue;
-      }
-
-      businesses = discovered.businesses || [];
-      
-      if (businesses.length > 0) {
-        console.log(`[Kayla Auto-Discover] Found ${businesses.length} candidates on attempt ${attempt + 1} (${categoryFocus})`);
-        break;
-      }
-      
-      console.log(`[Kayla Auto-Discover] 0 candidates for ${categoryFocus}, trying different category...`);
     }
+    
+    console.log(`[Kayla Auto-Discover] Total candidates from ${NUM_SEARCHES} searches: ${allCandidates.length} (${searchSummaries.join(", ")})`);
 
-    if (businesses.length === 0) {
-      console.log(`[Kayla Auto-Discover] No candidates found after trying: ${triedCategories.join(", ")}`);
+    if (allCandidates.length === 0) {
+      console.log(`[Kayla Auto-Discover] No candidates found across all searches`);
     }
+    
+    const businesses = allCandidates;
+    const citations = allCitations;
+    const categoryFocus = searchCombos.map(s => s.category).join(", ");
 
     let inserted = 0;
     let skippedDuplicates = 0;
