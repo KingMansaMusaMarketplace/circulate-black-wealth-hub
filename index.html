@@ -327,7 +327,10 @@
       // CRITICAL: Global error handlers that PREVENT crashes (especially on iOS/iPad)
       // These must use event.preventDefault() to stop the error from crashing the WebView
       window.addEventListener('error', function(e) {
-        console.error('Global error captured:', e.error, e.message, e.filename, e.lineno);
+        // Only log if there's meaningful error info (skip undefined ghost errors)
+        if (e.error || e.message) {
+          console.error('Global error captured:', e.message, e.filename, e.lineno);
+        }
         // CRITICAL: Prevent the error from crashing the app on iOS/iPad
         e.preventDefault();
         return true; // Suppress error reporting to console in production
