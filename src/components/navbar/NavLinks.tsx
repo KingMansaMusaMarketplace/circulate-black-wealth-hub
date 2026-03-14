@@ -37,12 +37,7 @@ const NavLinks: React.FC = () => {
           </Link>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <Link to="/merch" className={`${goldLinkClassName} flex items-center gap-1.5`}>
-            <Store className="h-4 w-4 text-mansagold" />
-            Shop
-          </Link>
-        </NavigationMenuItem>
+        {/* Shop merch link hidden temporarily */}
 
         {/* About & Learn Dropdown */}
         <NavigationMenuItem>
