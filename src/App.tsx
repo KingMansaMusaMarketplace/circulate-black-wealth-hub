@@ -232,9 +232,9 @@ const LazyMyTicketsPage = lazy(() => import('@/pages/MyTicketsPage'));
 // AI Agent Dashboard
 const LazyAIAgentDashboard = lazy(() => import('@/pages/AIAgentDashboard'));
 
-// Merch Store pages
-const LazyMerchStorePage = lazy(() => import('@/pages/MerchStorePage'));
-const LazyProductDetailPage = lazy(() => import('@/pages/ProductDetailPage'));
+// Merch Store pages (hidden temporarily)
+// const LazyMerchStorePage = lazy(() => import('@/pages/MerchStorePage'));
+// const LazyProductDetailPage = lazy(() => import('@/pages/ProductDetailPage'));
 
 // Developer Platform pages
 const LazyDeveloperLandingPage = lazy(() => import('@/pages/developers/DeveloperLandingPage'));
@@ -696,9 +696,9 @@ function App() {
                               {/* Patent Document Export */}
                               <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
                               
-                              {/* Merch Store */}
-                              <Route path="/merch" element={<LazyMerchStorePage />} />
-                              <Route path="/merch/:handle" element={<LazyProductDetailPage />} />
+                              {/* Merch Store (hidden temporarily) */}
+                              {/* <Route path="/merch" element={<LazyMerchStorePage />} /> */}
+                              {/* <Route path="/merch/:handle" element={<LazyProductDetailPage />} /> */}
                               
                               {/* Business Onboarding */}
                               <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
@@ -991,9 +991,9 @@ function App() {
                         {/* Patent Document Export */}
                         <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
                         
-                        {/* Merch Store */}
-                        <Route path="/merch" element={<LazyMerchStorePage />} />
-                        <Route path="/merch/:handle" element={<LazyProductDetailPage />} />
+                        {/* Merch Store (hidden temporarily) */}
+                        {/* <Route path="/merch" element={<LazyMerchStorePage />} /> */}
+                        {/* <Route path="/merch/:handle" element={<LazyProductDetailPage />} /> */}
                         
                         {/* Business Onboarding */}
                         <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
