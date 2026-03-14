@@ -219,7 +219,7 @@ serve(async (req) => {
             },
             {
               role: "user",
-              content: `Find 3 real, currently operating Black-owned ${categoryFocus} businesses in ${targetCity.city}, ${targetCity.state}. 
+              content: `Find 5 real, currently operating Black-owned ${categoryFocus} businesses in ${targetCity.city}, ${targetCity.state}. 
 
 For EACH business provide ALL of the following:
 - Exact legal business name
