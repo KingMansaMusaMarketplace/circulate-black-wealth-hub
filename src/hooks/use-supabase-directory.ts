@@ -87,15 +87,30 @@ export const useSupabaseDirectory = () => {
   const { data: rawBusinesses = [], isLoading, error } = useQuery({
     queryKey: ['directory-businesses'],
     queryFn: async () => {
-      // Use business_directory view for anonymous access (Safari/incognito users)
-      const { data, error } = await supabase
-        .from('business_directory')
-        .select('*')
-        .order('average_rating', { ascending: false, nullsFirst: false })
-        .order('review_count', { ascending: false });
+      // Use SECURITY DEFINER RPC for reliable anonymous/public directory access
+      const pageSize = 500;
+      let offset = 0;
+      const allBusinesses: SupabaseBusiness[] = [];
 
-      if (error) throw error;
-      return (data || []) as SupabaseBusiness[];
+      while (true) {
+        const { data, error } = await supabase.rpc('get_directory_businesses', {
+          p_limit: pageSize,
+          p_offset: offset,
+        });
+
+        if (error) throw error;
+
+        const batch = (data || []) as SupabaseBusiness[];
+        allBusinesses.push(...batch);
+
+        if (batch.length < pageSize) break;
+        offset += pageSize;
+
+        // Safety cap to prevent accidental infinite loops
+        if (offset >= 10000) break;
+      }
+
+      return allBusinesses;
     },
     staleTime: 30 * 1000, // 30 seconds — directory updates frequently via auto-discover
     gcTime: 5 * 60 * 1000,
