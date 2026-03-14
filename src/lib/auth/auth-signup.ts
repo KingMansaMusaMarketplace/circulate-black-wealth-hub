@@ -1,5 +1,6 @@
 
 import { supabase } from '@/lib/supabase';
+import { logSecurityEvent } from '@/lib/security/audit-logger';
 
 export const handleSignUp = async (
   email: string,
