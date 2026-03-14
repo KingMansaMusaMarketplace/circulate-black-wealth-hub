@@ -143,45 +143,219 @@ const PER_QUERY_LIMIT = 8;     // Up from 5
 const MIN_CONFIDENCE = 0.55;
 const SCRAPE_BATCH_SIZE = 10;   // Parallel Firecrawl batch limit
 
-// === OPTIMIZATION #4: Category-specific stock banners for fallback ===
-const CATEGORY_STOCK_BANNERS: Record<string, string> = {
-  "Restaurant": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
-  "Barbershop": "https://images.unsplash.com/photo-1585747860019-8e3e5da3c3ab?w=800&q=80",
-  "Beauty Salon": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80",
-  "Bakery": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
-  "Clothing": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80",
-  "Coffee Shop": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",
-  "Fitness": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
-  "Auto Repair": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80",
-  "Day Spa": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",
-  "Catering": "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80",
-  "Real Estate": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
-  "Photography": "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80",
-  "Art Gallery": "https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?w=800&q=80",
-  "Technology": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
-  "default": "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80",
+// === OPTIMIZATION #4: Diverse category-specific stock banner pools ===
+// Multiple images per category to avoid duplication. Images chosen to be
+// either scene/object-focused (no people) or culturally representative of
+// Black-owned businesses. Rotated deterministically by business ID hash.
+const CATEGORY_BANNER_POOLS: Record<string, string[]> = {
+  "Restaurant": [
+    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80", // elegant plated food
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80", // warm restaurant interior
+    "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80", // cozy dining atmosphere
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80", // vibrant food spread
+    "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80", // artisan pizza
+    "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80", // Black chef plating food
+    "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80", // chef in kitchen
+    "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80", // fine dining table
+  ],
+  "Barbershop": [
+    "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80", // barber tools closeup
+    "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=80", // barbershop interior
+    "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80", // barber chair
+    "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80", // Black barber at work
+    "https://images.unsplash.com/photo-1585747860019-8e3e5da3c3ab?w=800&q=80", // barbershop scene
+    "https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?w=800&q=80", // grooming products
+  ],
+  "Beauty Salon": [
+    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80", // salon interior
+    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80", // beauty products
+    "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&q=80", // salon chairs
+    "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80", // hair styling
+    "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=80", // Black woman beauty portrait
+    "https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&q=80", // beauty workspace
+  ],
+  "Bakery": [
+    "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80", // fresh bread
+    "https://images.unsplash.com/photo-1486427944544-d2c246c4d340?w=800&q=80", // pastries display
+    "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80", // cupcakes
+    "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&q=80", // artisan baked goods
+    "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=800&q=80", // bakery counter
+  ],
+  "Clothing": [
+    "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80", // clothing rack
+    "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=800&q=80", // fashion boutique
+    "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80", // stylish storefront
+    "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=800&q=80", // fashion display
+    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80", // fashion accessories
+  ],
+  "Coffee Shop": [
+    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80", // coffee shop interior
+    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80", // latte art
+    "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80", // pour over coffee
+    "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80", // espresso machine
+    "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800&q=80", // cozy cafe
+  ],
+  "Fitness": [
+    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80", // gym equipment
+    "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80", // Black athlete training
+    "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80", // weights
+    "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800&q=80", // modern gym
+    "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80", // fitness class
+  ],
+  "Auto Repair": [
+    "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80", // mechanic tools
+    "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80", // auto shop bay
+    "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80", // engine work
+    "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800&q=80", // car service
+  ],
+  "Day Spa": [
+    "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80", // spa treatment
+    "https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=800&q=80", // relaxation
+    "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80", // spa candles
+    "https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?w=800&q=80", // massage stones
+  ],
+  "Catering": [
+    "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80", // catering spread
+    "https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=800&q=80", // buffet setup
+    "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80", // elegant plating
+    "https://images.unsplash.com/photo-1562967914-608f82629710?w=800&q=80", // event catering
+  ],
+  "Real Estate": [
+    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80", // house keys
+    "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80", // modern home
+    "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=80", // property exterior
+    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80", // luxury home
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80", // house front
+  ],
+  "Photography": [
+    "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80", // camera lens
+    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80", // photographer at work
+    "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80", // photography studio
+    "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800&q=80", // camera equipment
+  ],
+  "Art Gallery": [
+    "https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?w=800&q=80", // gallery wall
+    "https://images.unsplash.com/photo-1577720643272-265f09367456?w=800&q=80", // art exhibition
+    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80", // paint palette
+    "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80", // artist studio
+  ],
+  "Technology": [
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80", // circuit board
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80", // tech workspace
+    "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80", // laptop setup
+    "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&q=80", // Black woman in tech
+    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80", // cybersecurity
+  ],
+  "Legal": [
+    "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80", // law books
+    "https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80", // courthouse
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80", // legal documents
+    "https://images.unsplash.com/photo-1521791055366-0d553872125f?w=800&q=80", // scales of justice
+  ],
+  "Healthcare": [
+    "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80", // medical instruments
+    "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80", // hospital corridor
+    "https://images.unsplash.com/photo-1584982751601-97deb901c48e?w=800&q=80", // Black doctor
+    "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80", // stethoscope
+    "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800&q=80", // Black nurse
+  ],
+  "Insurance": [
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80", // signing documents
+    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80", // financial planning
+    "https://images.unsplash.com/photo-1553729459-afe8f2e2ed65?w=800&q=80", // umbrella protection
+  ],
+  "Cleaning": [
+    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80", // clean home
+    "https://images.unsplash.com/photo-1527515637462-cee1395c0c3f?w=800&q=80", // cleaning supplies
+    "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=800&q=80", // sparkling clean
+  ],
+  "Education": [
+    "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80", // classroom
+    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80", // learning
+    "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80", // students studying
+    "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=800&q=80", // books stack
+  ],
+  "Consulting": [
+    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80", // team meeting
+    "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?w=800&q=80", // Black professional in meeting
+    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80", // business discussion
+    "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80", // presentation
+  ],
+  "Construction": [
+    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80", // construction site
+    "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80", // building frame
+    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80", // blueprints
+    "https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=800&q=80", // renovation
+  ],
+  "Accounting": [
+    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80", // financial charts
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80", // spreadsheets
+    "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80", // calculator
+  ],
+  "default": [
+    "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80", // business team
+    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80", // Black businesswoman
+    "https://images.unsplash.com/photo-1560472355-536de3962603?w=800&q=80", // storefront
+    "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80", // handshake
+    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&q=80", // Black businessman
+    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80", // professional attire
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80", // Black woman professional
+    "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80", // diverse team
+  ],
 };
+
+/**
+ * Simple hash of a string to get a deterministic number
+ */
+function simpleHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+}
 
 /**
  * Generate an initials-based placeholder logo URL
  */
 function generateInitialsLogo(businessName: string): string {
+  // Rotate through different color schemes based on business name
+  const colorSchemes = [
+    { bg: "1a1a2e", fg: "e0a346" },
+    { bg: "2d132c", fg: "ee4540" },
+    { bg: "0c3547", fg: "42e6a4" },
+    { bg: "3c1642", fg: "f7cb15" },
+    { bg: "1b2a49", fg: "e8d5b7" },
+    { bg: "2c3e50", fg: "e74c3c" },
+    { bg: "1a472a", fg: "f0c929" },
+    { bg: "4a1942", fg: "e6b422" },
+  ];
+  const scheme = colorSchemes[simpleHash(businessName) % colorSchemes.length];
   const initials = businessName.split(/\s+/).map(w => w[0]?.toUpperCase()).filter(Boolean).slice(0, 2).join("");
-  return `https://placehold.co/400x400/1a1a2e/e0a346?text=${encodeURIComponent(initials)}&font=montserrat`;
+  return `https://placehold.co/400x400/${scheme.bg}/${scheme.fg}?text=${encodeURIComponent(initials)}&font=montserrat`;
 }
 
 /**
- * Get a stock banner for a category
+ * Get a stock banner for a category, rotated by business ID to avoid duplicates
  */
-function getCategoryBanner(category: string): string {
+function getCategoryBanner(category: string, businessId?: string): string {
+  let pool: string[] | undefined;
   // Try exact match first, then partial match
-  for (const [key, url] of Object.entries(CATEGORY_STOCK_BANNERS)) {
+  for (const [key, urls] of Object.entries(CATEGORY_BANNER_POOLS)) {
     if (key === "default") continue;
     if (category.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(category.toLowerCase())) {
-      return url;
+      pool = urls;
+      break;
     }
   }
-  return CATEGORY_STOCK_BANNERS["default"];
+  if (!pool) pool = CATEGORY_BANNER_POOLS["default"];
+  
+  // Use business ID hash to deterministically pick an image (different business = different image)
+  const hashKey = businessId || category + Math.random().toString();
+  const index = simpleHash(hashKey) % pool.length;
+  return pool[index];
 }
 
 /**
@@ -604,7 +778,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           imageSource = "fallback";
         }
         if (!isValidImageUrl(finalBannerUrl)) {
-          finalBannerUrl = getCategoryBanner(biz.category || catFocus);
+          finalBannerUrl = getCategoryBanner(biz.category || catFocus, biz.name + (biz.city || '') + (biz.state || ''));
           imageSource = imageSource === "fallback" ? "fallback" : "mixed";
         }
         
