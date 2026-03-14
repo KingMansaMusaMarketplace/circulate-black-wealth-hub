@@ -696,9 +696,9 @@ function App() {
                               {/* Patent Document Export */}
                               <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
                               
-                              {/* Merch Store */}
-                              <Route path="/merch" element={<LazyMerchStorePage />} />
-                              <Route path="/merch/:handle" element={<LazyProductDetailPage />} />
+                              {/* Merch Store (hidden temporarily) */}
+                              {/* <Route path="/merch" element={<LazyMerchStorePage />} /> */}
+                              {/* <Route path="/merch/:handle" element={<LazyProductDetailPage />} /> */}
                               
                               {/* Business Onboarding */}
                               <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
