@@ -510,14 +510,15 @@ Only include businesses you are highly confident (0.7+) are real and currently o
 
     // Log report
     const durationMs = Date.now() - startTime;
+    const searchCombosSummary = searchCombos.map(s => `${s.category} in ${s.city.city}, ${s.city.state}`).join("; ");
     const reportData = {
       report_type: "auto_discover",
       status: "completed",
-      summary: `Discovered ${businesses.length} candidates in ${targetCity.city}, ${targetCity.state} (${categoryFocus}). Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}, No images: ${skippedNoImages}. Duration: ${durationMs}ms.`,
+      summary: `Multi-search: ${NUM_SEARCHES} queries across cities. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}, No images: ${skippedNoImages}. Duration: ${durationMs}ms.`,
       details: {
-        target_city: targetCity,
-        category_focus: categoryFocus,
-        candidates_found: businesses.length,
+        searches: searchCombosSummary,
+        num_searches: NUM_SEARCHES,
+        candidates_found: allCandidates.length,
         inserted,
         skipped_duplicates: skippedDuplicates,
         skipped_low_confidence: skippedLowConfidence,
@@ -527,25 +528,23 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         enrichment: enrichmentDetails,
         citations,
         duration_ms: durationMs,
-        batch_size: TARGET_BATCH_SIZE,
         min_confidence: MIN_CONFIDENCE,
         quality_gate: "mandatory_logo_and_banner",
       },
-      issues_found: businesses.length,
+      issues_found: allCandidates.length,
       issues_fixed: inserted,
     };
 
     const { error: reportErr } = await supabase.from("kayla_agent_reports").insert(reportData);
     if (reportErr) console.error("[Kayla Auto-Discover] Report insert error:", reportErr.message);
 
-    console.log(`[Kayla Auto-Discover] Complete: ${inserted}/${businesses.length} fully-enriched businesses added in ${durationMs}ms (${skippedNoImages} rejected for missing images)`);
+    console.log(`[Kayla Auto-Discover] Complete: ${inserted}/${allCandidates.length} fully-enriched businesses added in ${durationMs}ms (${skippedNoImages} rejected for missing images)`);
 
     return new Response(
       JSON.stringify({
         success: true,
-        city: `${targetCity.city}, ${targetCity.state}`,
-        category: categoryFocus,
-        candidates: businesses.length,
+        searches: NUM_SEARCHES,
+        candidates: allCandidates.length,
         inserted,
         skippedDuplicates,
         skippedLowConfidence,
