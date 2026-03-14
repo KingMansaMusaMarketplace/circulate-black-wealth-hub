@@ -18,6 +18,14 @@ export interface FraudAlert {
   investigated_by?: string;
   investigated_at?: string;
   resolution_notes?: string;
+  // Multi-model consensus fields
+  primary_model?: string;
+  secondary_model?: string;
+  secondary_model_assessment?: any;
+  secondary_confidence_score?: number;
+  model_agreement?: boolean;
+  consensus_score?: number;
+  consensus_reviewed_at?: string;
   created_at: string;
   updated_at: string;
 }
