@@ -395,7 +395,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     const insertedNames: string[] = [];
     const enrichmentDetails: any[] = [];
 
-    for (const biz of businesses) {
+    for (const { biz, targetCity, categoryFocus: catFocus } of businesses) {
       if (!biz.name || !biz.city) {
         console.log(`[Kayla Auto-Discover] Skipping - missing name or city`);
         continue;
@@ -465,8 +465,8 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       const businessRecord: Record<string, any> = {
         name: biz.name.trim(),
         business_name: biz.name.trim(),
-        description: biz.description || `Black-owned ${biz.category || categoryFocus} business in ${biz.city}, ${biz.state}.`,
-        category: biz.category || categoryFocus,
+        description: biz.description || `Black-owned ${biz.category || catFocus} business in ${biz.city}, ${biz.state}.`,
+        category: biz.category || catFocus,
         address: biz.address || "",
         city: biz.city.trim(),
         state: biz.state?.trim() || targetCity.state,
@@ -475,7 +475,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         email: biz.email || "",
         website: websiteUrl,
         owner_id: PLACEHOLDER_OWNER_ID,
-        is_verified: true, // All listings meeting our strict criteria are auto-verified
+        is_verified: true,
         logo_url: images.logo_url,
         banner_url: images.banner_url,
       };
