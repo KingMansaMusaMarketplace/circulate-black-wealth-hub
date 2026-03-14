@@ -408,15 +408,16 @@ serve(async (req) => {
 
     console.log(`🏥 Kayla Health Check starting (${checkType}, autoFix=${autoFix})...`);
 
-    // Run core checks in parallel
-    const [dbCheck, authCheck, edgeCheck, coreCheck] = await Promise.all([
+    // Run core checks in parallel (including signup monitoring)
+    const [dbCheck, authCheck, edgeCheck, coreCheck, signupCheck] = await Promise.all([
       checkDatabase(supabase),
       checkAuth(supabase),
       checkEdgeFunctions(),
       checkCoreServices(supabase),
+      checkSignupHealth(supabase),
     ]);
 
-    const checks: HealthCheck[] = [dbCheck, authCheck, edgeCheck, coreCheck];
+    const checks: HealthCheck[] = [dbCheck, authCheck, edgeCheck, coreCheck, signupCheck];
     let remediations: RemediationAction[] = [];
 
     // Run data integrity + auto-healing if autoFix is enabled
