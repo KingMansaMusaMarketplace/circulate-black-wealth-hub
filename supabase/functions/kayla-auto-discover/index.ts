@@ -113,20 +113,33 @@ const TARGET_CITIES = [
   { city: "Albuquerque", state: "NM" },
 ];
 
-const CATEGORIES = [
-  "Restaurant", "Barbershop", "Beauty Salon", "Bakery", "Bookstore",
-  "Clothing", "Coffee Shop", "Consulting", "Fitness", "Health & Wellness",
-  "Photography", "Real Estate", "Technology", "Catering", "Art Gallery",
-  "Legal Services", "Accounting", "Home Services", "Auto Repair", "Florist",
-  "Day Spa", "Insurance", "Financial Planning", "Event Planning", "Tutoring",
-  "Music Studio", "Dance Studio", "Tattoo Studio", "Pet Grooming", "Juice Bar",
+// High-yield categories get 3x weight, medium 2x, low 1x
+const HIGH_YIELD_CATEGORIES = [
+  "Restaurant", "Barbershop", "Beauty Salon", "Bakery", "Clothing",
+  "Catering", "Coffee Shop", "Fitness", "Health & Wellness", "Home Services",
+  "Auto Repair", "Day Spa",
+];
+const MEDIUM_YIELD_CATEGORIES = [
+  "Real Estate", "Consulting", "Photography", "Art Gallery", "Event Planning",
+  "Technology", "Tattoo Studio", "Juice Bar", "Dance Studio", "Music Studio",
+];
+const LOW_YIELD_CATEGORIES = [
+  "Legal Services", "Accounting", "Insurance", "Financial Planning",
+  "Bookstore", "Florist", "Pet Grooming", "Tutoring",
+];
+
+// Build weighted category pool: high=3x, medium=2x, low=1x
+const CATEGORIES: string[] = [
+  ...HIGH_YIELD_CATEGORIES, ...HIGH_YIELD_CATEGORIES, ...HIGH_YIELD_CATEGORIES,
+  ...MEDIUM_YIELD_CATEGORIES, ...MEDIUM_YIELD_CATEGORIES,
+  ...LOW_YIELD_CATEGORIES,
 ];
 
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
 // Increased batch: request 15 to aim for 10-15 quality inserts after filtering
 const TARGET_BATCH_SIZE = 15;
-const MIN_CONFIDENCE = 0.7;
+const MIN_CONFIDENCE = 0.55;
 
 /**
  * Validate that a URL points to a real image (not an error page or tracking pixel)
@@ -308,11 +321,11 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Run multiple search queries per invocation to maximize throughput
-    const NUM_SEARCHES = 5;
+    const NUM_SEARCHES = 15;
     const searchCombos: { city: typeof TARGET_CITIES[0]; category: string }[] = [];
     const usedCombos = new Set<string>();
     
-    // Pick 5 unique city/category combinations
+    // Pick 15 unique city/category combinations with weighted categories
     while (searchCombos.length < NUM_SEARCHES) {
       const city = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
       const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
