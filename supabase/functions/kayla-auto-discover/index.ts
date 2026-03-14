@@ -48,6 +48,17 @@ const TARGET_CITIES = [
   { city: "Albany", state: "NY" },
   { city: "Mount Vernon", state: "NY" },
   { city: "Hempstead", state: "NY" },
+  // California
+  { city: "Sacramento", state: "CA" },
+  { city: "San Diego", state: "CA" },
+  { city: "San Francisco", state: "CA" },
+  { city: "Compton", state: "CA" },
+  { city: "Inglewood", state: "CA" },
+  { city: "Long Beach", state: "CA" },
+  { city: "Fresno", state: "CA" },
+  { city: "San Jose", state: "CA" },
+  { city: "Riverside", state: "CA" },
+  { city: "Stockton", state: "CA" },
 ];
 
 const CATEGORIES = [
