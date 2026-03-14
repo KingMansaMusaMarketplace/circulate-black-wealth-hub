@@ -314,6 +314,78 @@ async function checkAndFixDataIntegrity(supabase: ReturnType<typeof createClient
 }
 
 // ══════════════════════════════════════════════
+// SIGNUP HEALTH MONITORING
+// ══════════════════════════════════════════════
+
+async function checkSignupHealth(supabase: ReturnType<typeof createClient>): Promise<HealthCheck> {
+  const start = Date.now();
+  try {
+    // Check for recent signup failures in the last 4 hours
+    const fourHoursAgo = new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString();
+
+    // 1. Check security_audit_log for signup failures
+    const { count: signupFailures } = await supabase
+      .from("security_audit_log")
+      .select("id", { count: "exact", head: true })
+      .eq("action", "signup_failure")
+      .gte("created_at", fourHoursAgo);
+
+    // 2. Check for failed auth attempts during signup
+    const { count: failedAuths } = await supabase
+      .from("failed_auth_attempts")
+      .select("id", { count: "exact", head: true })
+      .eq("failure_reason", "signup_trigger_error")
+      .gte("attempted_at", fourHoursAgo);
+
+    const totalFailures = (signupFailures || 0) + (failedAuths || 0);
+
+    // 3. Quick sanity: verify the handle_new_user trigger exists and works
+    // by checking recent profiles were created (if any users signed up)
+    const { count: recentProfiles } = await supabase
+      .from("profiles")
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", fourHoursAgo);
+
+    if (totalFailures > 0) {
+      // CRITICAL: signup is broken — send Slack alert
+      try {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+        const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+        await fetch(`${supabaseUrl}/functions/v1/send-slack-notification`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${supabaseKey}` },
+          body: JSON.stringify({
+            channel: "C0AJB2V8F4G",
+            text: `🚨 *SIGNUP ALERT*: ${totalFailures} signup failure(s) detected in the last 4 hours!\n• Audit log failures: ${signupFailures || 0}\n• Auth failures: ${failedAuths || 0}\n• Recent successful profiles: ${recentProfiles || 0}\n\n⚡ Immediate investigation required — users cannot create accounts.`,
+          }),
+        });
+      } catch { /* Slack alert is best-effort */ }
+
+      return {
+        name: "Signup Flow Health",
+        status: totalFailures >= 3 ? "fail" : "warn",
+        message: `⚠️ ${totalFailures} signup failure(s) in last 4h. ${recentProfiles || 0} profiles created successfully.`,
+        duration_ms: Date.now() - start,
+      };
+    }
+
+    return {
+      name: "Signup Flow Health",
+      status: "pass",
+      message: `Signup healthy. ${recentProfiles || 0} new profiles in last 4h. No failures detected.`,
+      duration_ms: Date.now() - start,
+    };
+  } catch (e) {
+    return {
+      name: "Signup Flow Health",
+      status: "fail",
+      message: `Signup health check error: ${e instanceof Error ? e.message : "Unknown"}`,
+      duration_ms: Date.now() - start,
+    };
+  }
+}
+
+// ══════════════════════════════════════════════
 // MAIN HANDLER
 // ══════════════════════════════════════════════
 
@@ -336,15 +408,16 @@ serve(async (req) => {
 
     console.log(`🏥 Kayla Health Check starting (${checkType}, autoFix=${autoFix})...`);
 
-    // Run core checks in parallel
-    const [dbCheck, authCheck, edgeCheck, coreCheck] = await Promise.all([
+    // Run core checks in parallel (including signup monitoring)
+    const [dbCheck, authCheck, edgeCheck, coreCheck, signupCheck] = await Promise.all([
       checkDatabase(supabase),
       checkAuth(supabase),
       checkEdgeFunctions(),
       checkCoreServices(supabase),
+      checkSignupHealth(supabase),
     ]);
 
-    const checks: HealthCheck[] = [dbCheck, authCheck, edgeCheck, coreCheck];
+    const checks: HealthCheck[] = [dbCheck, authCheck, edgeCheck, coreCheck, signupCheck];
     let remediations: RemediationAction[] = [];
 
     // Run data integrity + auto-healing if autoFix is enabled

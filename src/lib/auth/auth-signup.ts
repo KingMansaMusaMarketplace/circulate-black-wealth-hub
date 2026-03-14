@@ -1,5 +1,6 @@
 
 import { supabase } from '@/lib/supabase';
+import { logSecurityEvent } from '@/lib/security/audit-logger';
 
 export const handleSignUp = async (
   email: string,
@@ -18,6 +19,13 @@ export const handleSignUp = async (
     });
 
     if (error) {
+      // Log signup failure for monitoring
+      logSecurityEvent({
+        action: 'signup_failure',
+        table_name: 'auth.users',
+        user_agent: `Signup failed: ${error.message}`,
+      }).catch(() => {});
+
       showToast({
         title: 'Error',
         description: error.message,
