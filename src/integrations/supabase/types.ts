@@ -16767,9 +16767,12 @@ export type Database = {
           description: string
           id: string
           is_verified: boolean
+          latitude: number
+          listing_status: string
           location_name: string
           location_type: string
           logo_url: string
+          longitude: number
           name: string
           review_count: number
           state: string
