@@ -97,8 +97,8 @@ export const useSupabaseDirectory = () => {
       if (error) throw error;
       return (data || []) as SupabaseBusiness[];
     },
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
+    staleTime: 30 * 1000, // 30 seconds — directory updates frequently via auto-discover
+    gcTime: 5 * 60 * 1000,
   });
 
   // Map to frontend Business type
