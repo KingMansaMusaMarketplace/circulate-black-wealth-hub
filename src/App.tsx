@@ -232,9 +232,9 @@ const LazyMyTicketsPage = lazy(() => import('@/pages/MyTicketsPage'));
 // AI Agent Dashboard
 const LazyAIAgentDashboard = lazy(() => import('@/pages/AIAgentDashboard'));
 
-// Merch Store pages
-const LazyMerchStorePage = lazy(() => import('@/pages/MerchStorePage'));
-const LazyProductDetailPage = lazy(() => import('@/pages/ProductDetailPage'));
+// Merch Store pages (hidden temporarily)
+// const LazyMerchStorePage = lazy(() => import('@/pages/MerchStorePage'));
+// const LazyProductDetailPage = lazy(() => import('@/pages/ProductDetailPage'));
 
 // Developer Platform pages
 const LazyDeveloperLandingPage = lazy(() => import('@/pages/developers/DeveloperLandingPage'));
