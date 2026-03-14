@@ -321,11 +321,11 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Run multiple search queries per invocation to maximize throughput
-    const NUM_SEARCHES = 5;
+    const NUM_SEARCHES = 15;
     const searchCombos: { city: typeof TARGET_CITIES[0]; category: string }[] = [];
     const usedCombos = new Set<string>();
     
-    // Pick 5 unique city/category combinations
+    // Pick 15 unique city/category combinations with weighted categories
     while (searchCombos.length < NUM_SEARCHES) {
       const city = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
       const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
