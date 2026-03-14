@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Business } from '@/types/business';
 import { BusinessFilters } from '@/lib/api/directory/types';
@@ -73,6 +73,8 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
 };
 
 export const useSupabaseDirectory = () => {
+  const queryClient = useQueryClient();
+  const insertCountRef = useRef(0);
   const [selectedCity, setSelectedCity] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterOptions, setFilterOptions] = useState<BusinessFilters>({
@@ -82,6 +84,30 @@ export const useSupabaseDirectory = () => {
     featured: false,
     distance: 0,
   });
+
+  // Realtime subscription: auto-refresh directory every 15 new inserts from Kayla
+  useEffect(() => {
+    const channel = supabase
+      .channel('kayla-directory-refresh')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'businesses' },
+        () => {
+          insertCountRef.current += 1;
+          console.log(`[Kayla Live] New business detected (${insertCountRef.current}/15)`);
+          if (insertCountRef.current >= 15) {
+            console.log('[Kayla Live] 15 new businesses reached — refreshing directory');
+            insertCountRef.current = 0;
+            queryClient.invalidateQueries({ queryKey: ['directory-businesses'] });
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
 
   // Fetch businesses from Supabase
   const { data: rawBusinesses = [], isLoading, error } = useQuery({
