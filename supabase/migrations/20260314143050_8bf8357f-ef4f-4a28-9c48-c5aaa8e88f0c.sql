@@ -1,0 +1,1 @@
+UPDATE businesses SET listing_status = 'live' WHERE is_verified = true AND listing_status = 'draft';

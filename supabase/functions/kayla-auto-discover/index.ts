@@ -476,6 +476,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         website: websiteUrl,
         owner_id: PLACEHOLDER_OWNER_ID,
         is_verified: true,
+        listing_status: 'live',
         logo_url: images.logo_url,
         banner_url: images.banner_url,
       };
