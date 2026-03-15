@@ -10,6 +10,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import SignupPromptModal from '@/components/auth/SignupPromptModal';
 import { pageSEO } from '@/utils/seoUtils';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
+import DirectoryStructuredData from '@/components/SEO/DirectoryStructuredData';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 import { List, Map as MapIcon, Grid3X3, SlidersHorizontal } from 'lucide-react';
@@ -138,6 +139,7 @@ const DirectoryPage: React.FC = () => {
       </Helmet>
       
       <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
+      <DirectoryStructuredData totalBusinesses={totalBusinesses || 12000} />
       
       <div className="min-h-screen relative overflow-x-hidden">
         {/* Modern dark gradient mesh background */}
@@ -170,14 +172,14 @@ const DirectoryPage: React.FC = () => {
                 ✦ Discover • Support • Thrive ✦
               </span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-display">
-              Community Business
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-mansagold via-amber-400 to-mansagold">
-                Directory
-              </span>
-            </h1>
-            <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl">
-              Discover amazing businesses in your community and start earning loyalty points today
+             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-display">
+               Black-Owned Business
+               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-mansagold via-amber-400 to-mansagold">
+                 Directory
+               </span>
+             </h1>
+             <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl">
+               {totalBusinesses ? `${totalBusinesses.toLocaleString()}+ verified businesses` : '12,000+ verified businesses'} — discover, support, and earn loyalty points
             </p>
           </motion.div>
           
