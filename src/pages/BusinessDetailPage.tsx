@@ -104,52 +104,39 @@ const BusinessDetailPage = () => {
 
       // Check if this is a valid UUID (real database business)
       if (isValidUUID(businessId)) {
-        // First try the public business_directory view (works for anonymous users)
-        let { data, error } = await supabase
-          .from('business_directory')
-          .select('*')
-          .eq('id', businessId)
-          .maybeSingle();
-
-        // If not found in directory view, try the businesses table (for authenticated users/owners)
-        if (!data && !error) {
-          const result = await supabase
-            .from('businesses')
-            .select('*')
-            .eq('id', businessId)
-            .maybeSingle();
-          data = result.data;
-          error = result.error;
-        }
+        // Use SECURITY DEFINER RPC to bypass RLS and fetch public business data
+        const { data, error } = await supabase
+          .rpc('get_directory_business_by_id', { p_business_id: businessId });
 
         if (error) throw error;
-        if (!data) {
+        
+        const row = Array.isArray(data) ? data[0] : data;
+        if (!row) {
           setError('Business not found');
           return;
         }
         
-        // Map from view/table to Business interface (handle both column naming conventions)
         setBusiness({
-          id: data.id,
-          business_name: data.business_name || data.name || '',
-          description: data.description || '',
-          category: data.category || '',
-          address: data.address || '',
-          city: data.city || '',
-          state: data.state || '',
-          zip_code: data.zip_code || '',
-          phone: data.phone || '',
-          email: data.email || '',
-          website: data.website || '',
-          logo_url: data.logo_url || '',
-          banner_url: data.banner_url || '',
-          is_verified: data.is_verified || false,
-          is_founding_sponsor: data.is_founding_sponsor || false,
-          average_rating: data.average_rating || 0,
-          review_count: data.review_count || 0,
-          created_at: data.created_at || new Date().toISOString(),
-          latitude: data.latitude,
-          longitude: data.longitude
+          id: row.id,
+          business_name: row.business_name || row.name || '',
+          description: row.description || '',
+          category: row.category || '',
+          address: row.address || '',
+          city: row.city || '',
+          state: row.state || '',
+          zip_code: row.zip_code || '',
+          phone: row.phone || '',
+          email: row.email || '',
+          website: row.website || '',
+          logo_url: row.logo_url || '',
+          banner_url: row.banner_url || '',
+          is_verified: row.is_verified || false,
+          is_founding_sponsor: row.is_founding_sponsor || false,
+          average_rating: row.average_rating || 0,
+          review_count: row.review_count || 0,
+          created_at: row.created_at || new Date().toISOString(),
+          latitude: row.latitude,
+          longitude: row.longitude
         });
       } else {
         // Non-UUID ID - no longer supported (sample data removed)
