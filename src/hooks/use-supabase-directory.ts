@@ -133,7 +133,7 @@ export const useSupabaseDirectory = () => {
         offset += pageSize;
 
         // Safety cap to prevent accidental infinite loops
-        if (offset >= 10000) break;
+        if (offset >= 200000) break;
       }
 
       return allBusinesses;
