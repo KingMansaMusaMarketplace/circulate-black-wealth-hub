@@ -172,14 +172,14 @@ const DirectoryPage: React.FC = () => {
                 ✦ Discover • Support • Thrive ✦
               </span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-display">
-              Community Business
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-mansagold via-amber-400 to-mansagold">
-                Directory
-              </span>
-            </h1>
-            <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl">
-              Discover amazing businesses in your community and start earning loyalty points today
+             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-display">
+               Black-Owned Business
+               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-mansagold via-amber-400 to-mansagold">
+                 Directory
+               </span>
+             </h1>
+             <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl">
+               {totalBusinesses ? `${totalBusinesses.toLocaleString()}+ verified businesses` : '12,000+ verified businesses'} — discover, support, and earn loyalty points
             </p>
           </motion.div>
           
