@@ -139,6 +139,7 @@ const DirectoryPage: React.FC = () => {
       </Helmet>
       
       <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
+      <DirectoryStructuredData totalBusinesses={totalBusinesses || 12000} />
       
       <div className="min-h-screen relative overflow-x-hidden">
         {/* Modern dark gradient mesh background */}
