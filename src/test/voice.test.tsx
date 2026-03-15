@@ -34,9 +34,9 @@ describe('Voice Interface', () => {
       vi.clearAllMocks();
     });
 
-    it('should render idle state with "Talk to Kayla" text', () => {
+    it('should render idle state with "Ask Kayla" text', () => {
       render(<VoiceButton {...defaultProps} />);
-      expect(screen.getByText(/talk to kayla/i)).toBeInTheDocument();
+      expect(screen.getByText(/ask kayla/i)).toBeInTheDocument();
     });
 
     it('should show connecting state', () => {
