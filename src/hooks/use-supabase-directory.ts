@@ -114,7 +114,8 @@ export const useSupabaseDirectory = () => {
     queryKey: ['directory-businesses'],
     queryFn: async () => {
       // Use SECURITY DEFINER RPC for reliable anonymous/public directory access
-      const pageSize = 500;
+      // Large batch size to minimize round-trips (12K businesses ÷ 5000 = ~3 calls vs ~24)
+      const pageSize = 5000;
       let offset = 0;
       const allBusinesses: SupabaseBusiness[] = [];
 
@@ -138,8 +139,9 @@ export const useSupabaseDirectory = () => {
 
       return allBusinesses;
     },
-    staleTime: 30 * 1000, // 30 seconds — directory updates frequently via auto-discover
-    gcTime: 5 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // 5 minutes — reduce refetches, Kayla realtime handles freshness
+    gcTime: 15 * 60 * 1000, // 15 minutes — keep in cache longer
+    refetchOnWindowFocus: false, // Don't refetch 12K rows on every tab switch
   });
 
   // Map to frontend Business type
