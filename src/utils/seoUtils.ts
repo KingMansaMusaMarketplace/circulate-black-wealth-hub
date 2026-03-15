@@ -109,14 +109,14 @@ export const updateMetaTags = (data: {
 // Pre-defined SEO configurations for common pages
 export const pageSEO = {
   home: {
-    title: '1325.AI | The Economic Operating System for Verified Businesses',
-    description: 'AI-powered Economic Operating System extending community dollar circulation beyond 6 hours. Discover businesses, earn rewards, build wealth.',
-    keywords: ['economic operating system', 'verified businesses', 'economic infrastructure', 'IaaS', 'economic rails', 'community wealth circulation', '1325 AI'],
+    title: 'Black-Owned Business Directory | 12,000+ Verified Businesses | 1325.AI',
+    description: 'The largest verified Black-owned business directory with 12,000+ listings. Find Black-owned restaurants, shops, services & professionals near you. Powered by 1325.AI.',
+    keywords: ['Black-owned business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
   },
   directory: {
-    title: '1325.AI Business Directory | The Flagship Data Layer',
-    description: 'The flagship data layer of verified community businesses. Curated for excellence, powered by AI infrastructure. Restaurants, services, shops & more.',
-    keywords: ['1325.AI directory', 'economic data layer', 'verified businesses', 'business infrastructure', 'community companies'],
+    title: 'Black-Owned Business Directory | Search 12,000+ Verified Listings | 1325.AI',
+    description: 'Search the largest Black-owned business directory. 12,000+ verified Black-owned restaurants, services, shops & professionals across all cities.',
+    keywords: ['Black-owned business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
   about: {
     title: 'About 1325.AI | Economic Infrastructure Protocol',
