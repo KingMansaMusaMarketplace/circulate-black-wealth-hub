@@ -235,198 +235,222 @@ const SCRAPE_BATCH_SIZE = 10;
 
 // === Category-specific stock banner pools ===
 const CATEGORY_BANNER_POOLS: Record<string, string[]> = {
+  // Scene-neutral: food/storefront only — no people
   "Restaurant": [
-    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
-    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80",
-    "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80",
-    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
-    "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80",
-    "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80",
-    "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80",
-    "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80",  // restaurant interior
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",  // elegant dining room
+    "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80",  // restaurant facade
+    "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=800&q=80",  // plated food
+    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",  // fine dining plate
+    "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80",  // restaurant ambiance
   ],
+  // Black barbers — verified Unsplash photos
   "Barbershop": [
-    "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80",
-    "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=80",
-    "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80",
-    "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80",
-    "https://images.unsplash.com/photo-1585747860019-8e3e5da3ab?w=800&q=80",
-    "https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?w=800&q=80",
+    "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=80",  // Black barber at work
+    "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80",  // Black barber cutting hair
+    "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80",  // barbershop interior
+    "https://images.unsplash.com/photo-1585747860019-8e3e5da3ab?w=800&q=80",  // barber tools
+    "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80",  // barbershop chair
   ],
+  // Scene-neutral: salon interiors/products
   "Beauty Salon": [
-    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80",
-    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80",
-    "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&q=80",
-    "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80",
-    "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=80",
-    "https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&q=80",
+    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80",  // salon interior
+    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80",  // beauty products
+    "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&q=80",  // salon station
+    "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80",  // hair styling tools
+    "https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&q=80",  // braids close-up
   ],
+  // Scene-neutral: baked goods only
   "Bakery": [
-    "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
-    "https://images.unsplash.com/photo-1486427944544-d2c246c4d340?w=800&q=80",
-    "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80",
-    "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&q=80",
-    "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=800&q=80",
+    "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",  // bread display
+    "https://images.unsplash.com/photo-1486427944544-d2c246c4d340?w=800&q=80",  // pastries
+    "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80",  // bakery interior
+    "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&q=80",  // cupcakes
+    "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=800&q=80",  // artisan bread
   ],
+  // Scene-neutral: clothing racks/stores
   "Clothing": [
-    "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80",
-    "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=800&q=80",
-    "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80",
-    "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=800&q=80",
-    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80",
+    "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80",  // clothing rack
+    "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=800&q=80",  // boutique display
+    "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80",  // fashion storefront
+    "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=800&q=80",  // clothing store
+    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80",  // fashion display
   ],
+  // Scene-neutral: coffee/cafe interiors
   "Coffee Shop": [
-    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",
-    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
-    "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80",
-    "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80",
-    "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800&q=80",
+    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",  // coffee shop interior
+    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",  // latte art
+    "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80",  // coffee beans
+    "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80",  // espresso machine
+    "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800&q=80",  // cafe atmosphere
   ],
+  // Scene-neutral: gym equipment/spaces
   "Fitness": [
-    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
-    "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80",
-    "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
-    "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800&q=80",
-    "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80",
+    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",  // gym interior
+    "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",  // weights
+    "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800&q=80",  // fitness studio
+    "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=800&q=80",  // gym equipment
   ],
+  // Scene-neutral: cars/garage
   "Auto Repair": [
-    "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80",
-    "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80",
-    "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80",
-    "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800&q=80",
+    "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80",  // auto shop
+    "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80",  // mechanic tools
+    "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80",  // car repair
+    "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800&q=80",  // garage
   ],
+  // Scene-neutral: spa environment
   "Day Spa": [
-    "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",
-    "https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=800&q=80",
-    "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80",
-    "https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?w=800&q=80",
+    "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",  // spa stones
+    "https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=800&q=80",  // spa products
+    "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80",  // candles/oils
+    "https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?w=800&q=80",  // spa room
   ],
+  // Scene-neutral: catered food
   "Catering": [
-    "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80",
-    "https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=800&q=80",
-    "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80",
-    "https://images.unsplash.com/photo-1562967914-608f82629710?w=800&q=80",
+    "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80",  // catering setup
+    "https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=800&q=80",  // buffet spread
+    "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80",  // elegant food display
+    "https://images.unsplash.com/photo-1562967914-608f82629710?w=800&q=80",  // event table
   ],
+  // Scene-neutral: buildings/homes
   "Real Estate": [
-    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
-    "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80",
-    "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=80",
-    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",  // house keys
+    "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80",  // modern home
+    "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=80",  // house exterior
+    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",  // luxury home
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",  // modern architecture
   ],
+  // Scene-neutral: cameras/studio
   "Photography": [
-    "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80",
-    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80",
-    "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80",
-    "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800&q=80",
+    "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80",  // camera setup
+    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80",  // photo studio
+    "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80",  // camera lens
+    "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800&q=80",  // studio lighting
   ],
+  // Scene-neutral: art/gallery
   "Art Gallery": [
-    "https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?w=800&q=80",
-    "https://images.unsplash.com/photo-1577720643272-265f09367456?w=800&q=80",
-    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80",
-    "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80",
+    "https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?w=800&q=80",  // gallery wall
+    "https://images.unsplash.com/photo-1577720643272-265f09367456?w=800&q=80",  // gallery space
+    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80",  // art display
+    "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80",  // paint/canvas
   ],
+  // Scene-neutral: tech/screens
   "Technology": [
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
-    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",
-    "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80",
-    "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&q=80",
-    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",  // circuit board
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",  // tech workspace
+    "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80",  // laptop
+    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",  // tech abstract
   ],
+  // Scene-neutral: law books/gavel
   "Legal": [
-    "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
-    "https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80",
-    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
-    "https://images.unsplash.com/photo-1521791055366-0d553872125f?w=800&q=80",
+    "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",  // gavel
+    "https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80",  // law library
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",  // legal documents
+    "https://images.unsplash.com/photo-1521791055366-0d553872125f?w=800&q=80",  // courthouse
   ],
+  // Scene-neutral: medical/stethoscope
   "Healthcare": [
-    "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80",
-    "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80",
-    "https://images.unsplash.com/photo-1584982751601-97deb901c48e?w=800&q=80",
-    "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80",
-    "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800&q=80",
+    "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80",  // medical equipment
+    "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80",  // hospital corridor
+    "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80",  // stethoscope
+    "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800&q=80",  // medical supplies
   ],
+  // Scene-neutral: documents/office
   "Insurance": [
-    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
-    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",
-    "https://images.unsplash.com/photo-1553729459-afe8f2e2ed65?w=800&q=80",
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",  // signing documents
+    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",  // financial charts
+    "https://images.unsplash.com/photo-1553729459-afe8f2e2ed65?w=800&q=80",  // office desk
   ],
+  // Scene-neutral: cleaning supplies
   "Cleaning": [
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80",
-    "https://images.unsplash.com/photo-1527515637462-cee1395c0c3f?w=800&q=80",
-    "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=800&q=80",
+    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80",  // cleaning supplies
+    "https://images.unsplash.com/photo-1527515637462-cee1395c0c3f?w=800&q=80",  // clean space
+    "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=800&q=80",  // cleaning products
   ],
+  // Scene-neutral: classrooms/books
   "Education": [
-    "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
-    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
-    "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80",
-    "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=800&q=80",
+    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",  // classroom
+    "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80",  // campus walkway
+    "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=800&q=80",  // library
+    "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80",  // books stacked
   ],
+  // Black professionals in business settings
   "Consulting": [
-    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
-    "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?w=800&q=80",
-    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
-    "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80",
+    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80",  // Black businesswoman
+    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&q=80",  // Black professional smiling
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",  // Black businesswoman at desk
+    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",  // diverse business meeting
   ],
+  // Scene-neutral: construction sites/tools
   "Construction": [
-    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
-    "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80",
-    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
-    "https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=800&q=80",
+    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",  // construction site
+    "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80",  // building under construction
+    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",  // architecture plans
+    "https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=800&q=80",  // construction tools
   ],
+  // Scene-neutral: charts/calculators
   "Accounting": [
-    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",
-    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-    "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80",
+    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",  // financial data
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",  // analytics dashboard
+    "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80",  // calculator and reports
   ],
+  // Scene-neutral: food trucks
   "Food Truck": [
-    "https://images.unsplash.com/photo-1567129937968-cdad8f07e2f8?w=800&q=80",
-    "https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?w=800&q=80",
-    "https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?w=800&q=80",
+    "https://images.unsplash.com/photo-1567129937968-cdad8f07e2f8?w=800&q=80",  // food truck exterior
+    "https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?w=800&q=80",  // street food
+    "https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?w=800&q=80",  // food truck window
   ],
+  // Scene-neutral: brewery/craft beer
   "Brewery": [
-    "https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=80",
-    "https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=800&q=80",
-    "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&q=80",
+    "https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=80",  // brewing tanks
+    "https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=800&q=80",  // craft beer taps
+    "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&q=80",  // beer glasses
   ],
+  // Scene-neutral: jewelry display
   "Jewelry": [
-    "https://images.unsplash.com/photo-1515562141589-67f0d999b8f6?w=800&q=80",
-    "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&q=80",
-    "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&q=80",
+    "https://images.unsplash.com/photo-1515562141589-67f0d999b8f6?w=800&q=80",  // jewelry display
+    "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&q=80",  // rings
+    "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&q=80",  // necklaces
   ],
+  // Scene-neutral: flowers/memorial
   "Funeral": [
-    "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=800&q=80",
-    "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=800&q=80",
+    "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=800&q=80",  // flowers
+    "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=800&q=80",  // memorial wreath
   ],
+  // Scene-neutral: pets
   "Pet": [
-    "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&q=80",
-    "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80",
-    "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80",
+    "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&q=80",  // dogs running
+    "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80",  // pet grooming
+    "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80",  // dog portrait
   ],
+  // Scene-neutral: travel/destinations
   "Travel": [
-    "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80",
-    "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
-    "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80",
+    "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80",  // travel map
+    "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",  // road trip
+    "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80",  // scenic destination
   ],
+  // Scene-neutral: instruments/studio
   "Music": [
-    "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80",
-    "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80",
-    "https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&q=80",
+    "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80",  // piano keys
+    "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80",  // concert stage
+    "https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&q=80",  // recording studio
   ],
+  // Scene-neutral: media equipment
   "Media": [
-    "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80",
-    "https://images.unsplash.com/photo-1598743400863-0e42df1e8507?w=800&q=80",
-    "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80",
+    "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80",  // microphone
+    "https://images.unsplash.com/photo-1598743400863-0e42df1e8507?w=800&q=80",  // podcast setup
+    "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80",  // video production
   ],
+  // Default: Black professionals and diverse business scenes
   "default": [
-    "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80",
-    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80",
-    "https://images.unsplash.com/photo-1560472355-536de3962603?w=800&q=80",
-    "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80",
-    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&q=80",
-    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80",
-    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",
-    "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80",
+    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80",  // Black businesswoman confident
+    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&q=80",  // Black professional smiling
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",  // Black businesswoman at desk
+    "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80",  // diverse team collaboration
+    "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80",  // diverse business team
+    "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80",  // team working together
+    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",  // diverse office meeting
+    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",  // team brainstorming
   ],
 };
 
