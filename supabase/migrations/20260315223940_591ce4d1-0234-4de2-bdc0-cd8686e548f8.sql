@@ -1,0 +1,1 @@
+UPDATE businesses SET banner_url = NULL, updated_at = now() WHERE banner_url LIKE '%unsplash.com%';
