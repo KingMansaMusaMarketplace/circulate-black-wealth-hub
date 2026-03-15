@@ -16754,6 +16754,36 @@ export type Database = {
           total_calls: number
         }[]
       }
+      get_directory_business_by_id: {
+        Args: { p_business_id: string }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          email: string
+          id: string
+          is_founding_sponsor: boolean
+          is_verified: boolean
+          latitude: number
+          listing_status: string
+          location_name: string
+          location_type: string
+          logo_url: string
+          longitude: number
+          name: string
+          phone: string
+          review_count: number
+          state: string
+          updated_at: string
+          website: string
+          zip_code: string
+        }[]
+      }
       get_directory_businesses: {
         Args: { p_limit?: number; p_offset?: number }
         Returns: {
