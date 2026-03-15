@@ -9,72 +9,102 @@ const corsHeaders = {
 const TARGET_CITIES = [
   // Georgia
   { city: "Atlanta", state: "GA" }, { city: "Savannah", state: "GA" }, { city: "Augusta", state: "GA" }, { city: "Macon", state: "GA" }, { city: "Columbus", state: "GA" },
+  { city: "Albany", state: "GA" }, { city: "Valdosta", state: "GA" }, { city: "Athens", state: "GA" }, { city: "Marietta", state: "GA" }, { city: "Decatur", state: "GA" },
+  { city: "East Point", state: "GA" }, { city: "College Park", state: "GA" }, { city: "Stonecrest", state: "GA" },
   // California
   { city: "Los Angeles", state: "CA" }, { city: "Oakland", state: "CA" }, { city: "Sacramento", state: "CA" }, { city: "San Diego", state: "CA" }, { city: "San Francisco", state: "CA" },
   { city: "Compton", state: "CA" }, { city: "Inglewood", state: "CA" }, { city: "Long Beach", state: "CA" }, { city: "Fresno", state: "CA" }, { city: "San Jose", state: "CA" },
   { city: "Riverside", state: "CA" }, { city: "Stockton", state: "CA" }, { city: "Bakersfield", state: "CA" }, { city: "Vallejo", state: "CA" },
+  { city: "Palmdale", state: "CA" }, { city: "Moreno Valley", state: "CA" }, { city: "Antioch", state: "CA" }, { city: "Lancaster", state: "CA" },
   // Illinois
   { city: "Chicago", state: "IL" }, { city: "Rockford", state: "IL" }, { city: "Springfield", state: "IL" }, { city: "East St. Louis", state: "IL" },
+  { city: "Joliet", state: "IL" }, { city: "Aurora", state: "IL" }, { city: "Evanston", state: "IL" }, { city: "Champaign", state: "IL" },
   // DC / Maryland / Virginia
   { city: "Washington", state: "DC" }, { city: "Baltimore", state: "MD" }, { city: "Silver Spring", state: "MD" }, { city: "Prince George's County", state: "MD" },
   { city: "Richmond", state: "VA" }, { city: "Norfolk", state: "VA" }, { city: "Hampton", state: "VA" }, { city: "Newport News", state: "VA" }, { city: "Virginia Beach", state: "VA" },
+  { city: "Bowie", state: "MD" }, { city: "Waldorf", state: "MD" }, { city: "Laurel", state: "MD" }, { city: "Hyattsville", state: "MD" },
+  { city: "Petersburg", state: "VA" }, { city: "Chesapeake", state: "VA" }, { city: "Suffolk", state: "VA" }, { city: "Fredericksburg", state: "VA" },
   // Texas
   { city: "Houston", state: "TX" }, { city: "Dallas", state: "TX" }, { city: "San Antonio", state: "TX" }, { city: "Austin", state: "TX" }, { city: "Fort Worth", state: "TX" },
   { city: "Arlington", state: "TX" }, { city: "El Paso", state: "TX" }, { city: "Beaumont", state: "TX" }, { city: "Killeen", state: "TX" },
+  { city: "Plano", state: "TX" }, { city: "Garland", state: "TX" }, { city: "Irving", state: "TX" }, { city: "DeSoto", state: "TX" },
+  { city: "Cedar Hill", state: "TX" }, { city: "Lancaster", state: "TX" }, { city: "Missouri City", state: "TX" }, { city: "Sugar Land", state: "TX" },
   // Louisiana
   { city: "New Orleans", state: "LA" }, { city: "Baton Rouge", state: "LA" }, { city: "Shreveport", state: "LA" }, { city: "Lafayette", state: "LA" },
+  { city: "Lake Charles", state: "LA" }, { city: "Monroe", state: "LA" }, { city: "Alexandria", state: "LA" },
   // Tennessee
   { city: "Nashville", state: "TN" }, { city: "Memphis", state: "TN" }, { city: "Chattanooga", state: "TN" }, { city: "Knoxville", state: "TN" },
+  { city: "Clarksville", state: "TN" }, { city: "Murfreesboro", state: "TN" },
   // North Carolina
   { city: "Durham", state: "NC" }, { city: "Charlotte", state: "NC" }, { city: "Raleigh", state: "NC" }, { city: "Greensboro", state: "NC" }, { city: "Winston-Salem", state: "NC" }, { city: "Fayetteville", state: "NC" },
+  { city: "Wilmington", state: "NC" }, { city: "High Point", state: "NC" }, { city: "Rocky Mount", state: "NC" }, { city: "Greenville", state: "NC" },
   // New York
   { city: "New York", state: "NY" }, { city: "Harlem", state: "NY" }, { city: "Brooklyn", state: "NY" }, { city: "Bronx", state: "NY" }, { city: "Queens", state: "NY" },
   { city: "Buffalo", state: "NY" }, { city: "Rochester", state: "NY" }, { city: "Syracuse", state: "NY" }, { city: "Albany", state: "NY" }, { city: "Mount Vernon", state: "NY" }, { city: "Hempstead", state: "NY" },
+  { city: "Yonkers", state: "NY" }, { city: "White Plains", state: "NY" }, { city: "Jamaica", state: "NY" },
   // Michigan
   { city: "Detroit", state: "MI" }, { city: "Flint", state: "MI" }, { city: "Grand Rapids", state: "MI" }, { city: "Lansing", state: "MI" }, { city: "Saginaw", state: "MI" },
+  { city: "Kalamazoo", state: "MI" }, { city: "Southfield", state: "MI" }, { city: "Pontiac", state: "MI" }, { city: "Ypsilanti", state: "MI" },
   // Pennsylvania
   { city: "Philadelphia", state: "PA" }, { city: "Pittsburgh", state: "PA" }, { city: "Harrisburg", state: "PA" },
+  { city: "Chester", state: "PA" }, { city: "Reading", state: "PA" }, { city: "Allentown", state: "PA" },
   // Florida
   { city: "Miami", state: "FL" }, { city: "Tampa", state: "FL" }, { city: "Jacksonville", state: "FL" }, { city: "Orlando", state: "FL" }, { city: "Fort Lauderdale", state: "FL" },
   { city: "Tallahassee", state: "FL" }, { city: "St. Petersburg", state: "FL" }, { city: "West Palm Beach", state: "FL" },
+  { city: "Gainesville", state: "FL" }, { city: "Miramar", state: "FL" }, { city: "Pompano Beach", state: "FL" }, { city: "Lauderhill", state: "FL" },
+  { city: "Opa-locka", state: "FL" }, { city: "Riviera Beach", state: "FL" }, { city: "Pensacola", state: "FL" },
   // Alabama
   { city: "Birmingham", state: "AL" }, { city: "Montgomery", state: "AL" }, { city: "Mobile", state: "AL" }, { city: "Huntsville", state: "AL" }, { city: "Selma", state: "AL" },
+  { city: "Tuscaloosa", state: "AL" }, { city: "Dothan", state: "AL" }, { city: "Tuskegee", state: "AL" }, { city: "Bessemer", state: "AL" },
   // Mississippi
   { city: "Jackson", state: "MS" }, { city: "Hattiesburg", state: "MS" }, { city: "Gulfport", state: "MS" }, { city: "Meridian", state: "MS" },
+  { city: "Greenville", state: "MS" }, { city: "Vicksburg", state: "MS" }, { city: "Tupelo", state: "MS" }, { city: "Biloxi", state: "MS" },
   // Missouri
   { city: "St. Louis", state: "MO" }, { city: "Kansas City", state: "MO" }, { city: "Ferguson", state: "MO" },
+  { city: "Florissant", state: "MO" }, { city: "University City", state: "MO" },
   // Ohio
   { city: "Cleveland", state: "OH" }, { city: "Columbus", state: "OH" }, { city: "Cincinnati", state: "OH" }, { city: "Dayton", state: "OH" }, { city: "Toledo", state: "OH" }, { city: "Akron", state: "OH" },
+  { city: "Youngstown", state: "OH" }, { city: "Canton", state: "OH" }, { city: "Lorain", state: "OH" },
   // Indiana
   { city: "Indianapolis", state: "IN" }, { city: "Gary", state: "IN" }, { city: "Fort Wayne", state: "IN" }, { city: "South Bend", state: "IN" },
+  { city: "Evansville", state: "IN" }, { city: "Anderson", state: "IN" },
   // Wisconsin
   { city: "Milwaukee", state: "WI" }, { city: "Madison", state: "WI" }, { city: "Racine", state: "WI" },
+  { city: "Beloit", state: "WI" }, { city: "Kenosha", state: "WI" },
   // South Carolina
   { city: "Columbia", state: "SC" }, { city: "Charleston", state: "SC" }, { city: "Greenville", state: "SC" }, { city: "North Charleston", state: "SC" },
+  { city: "Sumter", state: "SC" }, { city: "Florence", state: "SC" }, { city: "Orangeburg", state: "SC" }, { city: "Rock Hill", state: "SC" },
   // New Jersey
   { city: "Newark", state: "NJ" }, { city: "Jersey City", state: "NJ" }, { city: "Trenton", state: "NJ" }, { city: "Camden", state: "NJ" }, { city: "Paterson", state: "NJ" },
+  { city: "East Orange", state: "NJ" }, { city: "Irvington", state: "NJ" }, { city: "Plainfield", state: "NJ" },
   // Connecticut
   { city: "Hartford", state: "CT" }, { city: "New Haven", state: "CT" }, { city: "Bridgeport", state: "CT" },
+  { city: "Waterbury", state: "CT" }, { city: "Stamford", state: "CT" },
   // Massachusetts
   { city: "Boston", state: "MA" }, { city: "Springfield", state: "MA" }, { city: "Worcester", state: "MA" }, { city: "Brockton", state: "MA" },
+  { city: "Randolph", state: "MA" }, { city: "Dorchester", state: "MA" }, { city: "Mattapan", state: "MA" },
   // Minnesota
   { city: "Minneapolis", state: "MN" }, { city: "St. Paul", state: "MN" }, { city: "Brooklyn Park", state: "MN" },
   // Colorado
   { city: "Denver", state: "CO" }, { city: "Aurora", state: "CO" }, { city: "Colorado Springs", state: "CO" },
   // Arizona
   { city: "Phoenix", state: "AZ" }, { city: "Tucson", state: "AZ" }, { city: "Mesa", state: "AZ" },
+  { city: "Chandler", state: "AZ" }, { city: "Tempe", state: "AZ" },
   // Nevada
   { city: "Las Vegas", state: "NV" }, { city: "Henderson", state: "NV" }, { city: "North Las Vegas", state: "NV" }, { city: "Reno", state: "NV" },
   // Oregon
   { city: "Portland", state: "OR" }, { city: "Salem", state: "OR" }, { city: "Eugene", state: "OR" },
   // Washington
   { city: "Seattle", state: "WA" }, { city: "Tacoma", state: "WA" }, { city: "Spokane", state: "WA" }, { city: "Kent", state: "WA" },
+  { city: "Federal Way", state: "WA" }, { city: "Renton", state: "WA" },
   // Kansas
   { city: "Wichita", state: "KS" }, { city: "Kansas City", state: "KS" }, { city: "Topeka", state: "KS" },
   // Oklahoma
   { city: "Oklahoma City", state: "OK" }, { city: "Tulsa", state: "OK" }, { city: "Lawton", state: "OK" },
+  { city: "Midwest City", state: "OK" }, { city: "Norman", state: "OK" },
   // Arkansas
   { city: "Little Rock", state: "AR" }, { city: "Pine Bluff", state: "AR" }, { city: "Fort Smith", state: "AR" },
+  { city: "North Little Rock", state: "AR" }, { city: "West Memphis", state: "AR" },
   // Kentucky
   { city: "Louisville", state: "KY" }, { city: "Lexington", state: "KY" }, { city: "Frankfort", state: "KY" },
   // Iowa
@@ -113,19 +143,65 @@ const TARGET_CITIES = [
   { city: "Albuquerque", state: "NM" },
 ];
 
-// High-yield categories get 3x weight, medium 2x, low 1x
+// === MASSIVELY EXPANDED CATEGORIES — ALL types of Black-owned businesses ===
+// High-yield: common business types with high discovery rates
 const HIGH_YIELD_CATEGORIES = [
-  "Restaurant", "Barbershop", "Beauty Salon", "Bakery", "Clothing",
-  "Catering", "Coffee Shop", "Fitness", "Health & Wellness", "Home Services",
-  "Auto Repair", "Day Spa",
+  "Restaurant", "Barbershop", "Beauty Salon", "Hair Salon", "Bakery", "Clothing Boutique",
+  "Catering", "Coffee Shop", "Fitness Studio", "Health & Wellness", "Home Services",
+  "Auto Repair", "Day Spa", "Nail Salon", "Food Truck", "Soul Food Restaurant",
+  "Caribbean Restaurant", "African Restaurant", "Vegan Restaurant", "Juice Bar",
+  "Cleaning Service", "Landscaping", "Moving Company", "Plumbing", "Electrician",
+  "HVAC Service", "Roofing Contractor", "Painting Contractor",
 ];
+
+// Medium-yield: professional services and specialty businesses
 const MEDIUM_YIELD_CATEGORIES = [
-  "Real Estate", "Consulting", "Photography", "Art Gallery", "Event Planning",
-  "Technology", "Tattoo Studio", "Juice Bar", "Dance Studio", "Music Studio",
+  "Real Estate Agent", "Consulting Firm", "Photography Studio", "Art Gallery", "Event Planning",
+  "Technology Company", "Tattoo Studio", "Dance Studio", "Music Studio", "Recording Studio",
+  "Graphic Design", "Web Development", "Marketing Agency", "PR Firm", "Staffing Agency",
+  "Dental Office", "Chiropractic", "Optometrist", "Pharmacy", "Mental Health Counseling",
+  "Therapy Practice", "Veterinarian", "Pet Grooming", "Dog Walking Service",
+  "Daycare Center", "Tutoring Service", "Driving School", "Music Lessons",
+  "Martial Arts Studio", "Yoga Studio", "Pilates Studio", "CrossFit Gym",
+  "Print Shop", "Tailor", "Alterations Shop", "Dry Cleaner", "Laundromat",
+  "Car Wash", "Auto Detailing", "Tire Shop", "Body Shop",
+  "Florist", "Gift Shop", "Bookstore", "Thrift Store", "Vintage Shop",
+  "Furniture Store", "Home Decor", "Interior Design",
+  "Wedding Planner", "DJ Service", "Party Rental", "Photo Booth Rental",
+  "Trucking Company", "Courier Service", "Logistics Company",
+  "Security Company", "Private Investigation", "Bail Bonds",
 ];
+
+// Low-yield but important: professional/niche businesses
 const LOW_YIELD_CATEGORIES = [
-  "Legal Services", "Accounting", "Insurance", "Financial Planning",
-  "Bookstore", "Florist", "Pet Grooming", "Tutoring",
+  "Law Firm", "Accounting Firm", "Tax Preparation", "Insurance Agency", "Financial Advisor",
+  "Mortgage Broker", "Investment Firm", "Notary Service",
+  "Construction Company", "General Contractor", "Architect", "Engineering Firm",
+  "Medical Practice", "Pediatrician", "Dermatologist", "Cardiologist", "OB/GYN",
+  "Physical Therapy", "Acupuncture", "Massage Therapy", "Naturopathic Medicine",
+  "IT Services", "Cybersecurity", "Software Development", "App Development",
+  "E-commerce Store", "Subscription Box", "Online Marketplace",
+  "Brewery", "Winery", "Distillery", "Cigar Lounge", "Hookah Lounge",
+  "Bed and Breakfast", "Boutique Hotel", "Travel Agency", "Tour Company",
+  "Tow Truck", "Pest Control", "Pressure Washing", "Window Cleaning",
+  "Appliance Repair", "Computer Repair", "Cell Phone Repair",
+  "Jewelry Store", "Watch Repair", "Shoe Repair", "Cobbler",
+  "Smoke Shop", "CBD Store", "Dispensary",
+  "Barbecue Restaurant", "Seafood Restaurant", "Breakfast & Brunch",
+  "Ice Cream Shop", "Dessert Shop", "Candy Store",
+  "Meat Market", "Grocery Store", "Specialty Foods", "Spice Shop",
+  "Fashion Designer", "Sneaker Store", "Hat Shop", "Wig Shop", "Beauty Supply",
+  "Candle Making", "Soap Making", "Cosmetics Brand", "Skincare Brand",
+  "Media Production", "Video Production", "Podcast Studio", "Radio Station",
+  "Newspaper", "Magazine", "Publishing Company",
+  "Nonprofit Organization", "Community Center", "Youth Program",
+  "Church", "Mosque", "Ministry",
+  "Funeral Home", "Cemetery", "Memorial Service",
+  "Pawn Shop", "Check Cashing", "Money Transfer",
+  "Auto Dealership", "Used Car Lot", "Car Rental",
+  "Real Estate Developer", "Property Management", "Commercial Real Estate",
+  "Farm", "Urban Farm", "Nursery", "Garden Center",
+  "Woodworking", "Welding", "Machine Shop", "Fabrication",
 ];
 
 // Build weighted category pool
@@ -135,193 +211,236 @@ const CATEGORIES: string[] = [
   ...LOW_YIELD_CATEGORIES,
 ];
 
+// Alternate search query patterns to avoid repetition and find more results
+const QUERY_PATTERNS = [
+  (cat: string, city: string, state: string) => 
+    `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${cat} businesses in ${city}, ${state}.`,
+  (cat: string, city: string, state: string) => 
+    `List Black-owned ${cat} businesses near ${city}, ${state} area with websites and contact info.`,
+  (cat: string, city: string, state: string) => 
+    `What are some popular African American owned ${cat} businesses in the ${city}, ${state} metropolitan area?`,
+  (cat: string, city: string, state: string) => 
+    `Find Black entrepreneurs running ${cat} businesses in and around ${city}, ${state}. Include newer and established businesses.`,
+  (cat: string, city: string, state: string) => 
+    `Discover lesser-known Black-owned ${cat} businesses in ${city}, ${state} that have their own website.`,
+];
+
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
 // === OPTIMIZATION #3: Increased volume per cycle ===
-const NUM_SEARCHES = 20;        // Up from 15
-const PER_QUERY_LIMIT = 8;     // Up from 5
+const NUM_SEARCHES = 20;
+const PER_QUERY_LIMIT = 8;
 const MIN_CONFIDENCE = 0.55;
-const SCRAPE_BATCH_SIZE = 10;   // Parallel Firecrawl batch limit
+const SCRAPE_BATCH_SIZE = 10;
 
-// === OPTIMIZATION #4: Diverse category-specific stock banner pools ===
-// Multiple images per category to avoid duplication. Images chosen to be
-// either scene/object-focused (no people) or culturally representative of
-// Black-owned businesses. Rotated deterministically by business ID hash.
+// === Category-specific stock banner pools ===
 const CATEGORY_BANNER_POOLS: Record<string, string[]> = {
   "Restaurant": [
-    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80", // elegant plated food
-    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80", // warm restaurant interior
-    "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80", // cozy dining atmosphere
-    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80", // vibrant food spread
-    "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80", // artisan pizza
-    "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80", // Black chef plating food
-    "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80", // chef in kitchen
-    "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80", // fine dining table
+    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80",
+    "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80",
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+    "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80",
+    "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80",
+    "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80",
+    "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80",
   ],
   "Barbershop": [
-    "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80", // barber tools closeup
-    "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=80", // barbershop interior
-    "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80", // barber chair
-    "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80", // Black barber at work
-    "https://images.unsplash.com/photo-1585747860019-8e3e5da3c3ab?w=800&q=80", // barbershop scene
-    "https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?w=800&q=80", // grooming products
+    "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80",
+    "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=80",
+    "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80",
+    "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80",
+    "https://images.unsplash.com/photo-1585747860019-8e3e5da3ab?w=800&q=80",
+    "https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?w=800&q=80",
   ],
   "Beauty Salon": [
-    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80", // salon interior
-    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80", // beauty products
-    "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&q=80", // salon chairs
-    "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80", // hair styling
-    "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=80", // Black woman beauty portrait
-    "https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&q=80", // beauty workspace
+    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80",
+    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80",
+    "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&q=80",
+    "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80",
+    "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=80",
+    "https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&q=80",
   ],
   "Bakery": [
-    "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80", // fresh bread
-    "https://images.unsplash.com/photo-1486427944544-d2c246c4d340?w=800&q=80", // pastries display
-    "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80", // cupcakes
-    "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&q=80", // artisan baked goods
-    "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=800&q=80", // bakery counter
+    "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
+    "https://images.unsplash.com/photo-1486427944544-d2c246c4d340?w=800&q=80",
+    "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80",
+    "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&q=80",
+    "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=800&q=80",
   ],
   "Clothing": [
-    "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80", // clothing rack
-    "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=800&q=80", // fashion boutique
-    "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80", // stylish storefront
-    "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=800&q=80", // fashion display
-    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80", // fashion accessories
+    "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80",
+    "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=800&q=80",
+    "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80",
+    "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=800&q=80",
+    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80",
   ],
   "Coffee Shop": [
-    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80", // coffee shop interior
-    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80", // latte art
-    "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80", // pour over coffee
-    "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80", // espresso machine
-    "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800&q=80", // cozy cafe
+    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",
+    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+    "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80",
+    "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80",
+    "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800&q=80",
   ],
   "Fitness": [
-    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80", // gym equipment
-    "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80", // Black athlete training
-    "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80", // weights
-    "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800&q=80", // modern gym
-    "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80", // fitness class
+    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
+    "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80",
+    "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
+    "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800&q=80",
+    "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80",
   ],
   "Auto Repair": [
-    "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80", // mechanic tools
-    "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80", // auto shop bay
-    "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80", // engine work
-    "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800&q=80", // car service
+    "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80",
+    "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80",
+    "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80",
+    "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800&q=80",
   ],
   "Day Spa": [
-    "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80", // spa treatment
-    "https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=800&q=80", // relaxation
-    "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80", // spa candles
-    "https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?w=800&q=80", // massage stones
+    "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",
+    "https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=800&q=80",
+    "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80",
+    "https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?w=800&q=80",
   ],
   "Catering": [
-    "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80", // catering spread
-    "https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=800&q=80", // buffet setup
-    "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80", // elegant plating
-    "https://images.unsplash.com/photo-1562967914-608f82629710?w=800&q=80", // event catering
+    "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&q=80",
+    "https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=800&q=80",
+    "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80",
+    "https://images.unsplash.com/photo-1562967914-608f82629710?w=800&q=80",
   ],
   "Real Estate": [
-    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80", // house keys
-    "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80", // modern home
-    "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=80", // property exterior
-    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80", // luxury home
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80", // house front
+    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
+    "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80",
+    "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=80",
+    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
   ],
   "Photography": [
-    "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80", // camera lens
-    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80", // photographer at work
-    "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80", // photography studio
-    "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800&q=80", // camera equipment
+    "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=800&q=80",
+    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80",
+    "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80",
+    "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800&q=80",
   ],
   "Art Gallery": [
-    "https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?w=800&q=80", // gallery wall
-    "https://images.unsplash.com/photo-1577720643272-265f09367456?w=800&q=80", // art exhibition
-    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80", // paint palette
-    "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80", // artist studio
+    "https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?w=800&q=80",
+    "https://images.unsplash.com/photo-1577720643272-265f09367456?w=800&q=80",
+    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80",
+    "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80",
   ],
   "Technology": [
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80", // circuit board
-    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80", // tech workspace
-    "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80", // laptop setup
-    "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&q=80", // Black woman in tech
-    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80", // cybersecurity
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",
+    "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80",
+    "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&q=80",
+    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
   ],
   "Legal": [
-    "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80", // law books
-    "https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80", // courthouse
-    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80", // legal documents
-    "https://images.unsplash.com/photo-1521791055366-0d553872125f?w=800&q=80", // scales of justice
+    "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
+    "https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80",
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
+    "https://images.unsplash.com/photo-1521791055366-0d553872125f?w=800&q=80",
   ],
   "Healthcare": [
-    "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80", // medical instruments
-    "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80", // hospital corridor
-    "https://images.unsplash.com/photo-1584982751601-97deb901c48e?w=800&q=80", // Black doctor
-    "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80", // stethoscope
-    "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800&q=80", // Black nurse
+    "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80",
+    "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80",
+    "https://images.unsplash.com/photo-1584982751601-97deb901c48e?w=800&q=80",
+    "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80",
+    "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800&q=80",
   ],
   "Insurance": [
-    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80", // signing documents
-    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80", // financial planning
-    "https://images.unsplash.com/photo-1553729459-afe8f2e2ed65?w=800&q=80", // umbrella protection
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
+    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",
+    "https://images.unsplash.com/photo-1553729459-afe8f2e2ed65?w=800&q=80",
   ],
   "Cleaning": [
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80", // clean home
-    "https://images.unsplash.com/photo-1527515637462-cee1395c0c3f?w=800&q=80", // cleaning supplies
-    "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=800&q=80", // sparkling clean
+    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80",
+    "https://images.unsplash.com/photo-1527515637462-cee1395c0c3f?w=800&q=80",
+    "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=800&q=80",
   ],
   "Education": [
-    "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80", // classroom
-    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80", // learning
-    "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80", // students studying
-    "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=800&q=80", // books stack
+    "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
+    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
+    "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80",
+    "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=800&q=80",
   ],
   "Consulting": [
-    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80", // team meeting
-    "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?w=800&q=80", // Black professional in meeting
-    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80", // business discussion
-    "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80", // presentation
+    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
+    "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?w=800&q=80",
+    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
+    "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80",
   ],
   "Construction": [
-    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80", // construction site
-    "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80", // building frame
-    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80", // blueprints
-    "https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=800&q=80", // renovation
+    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+    "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80",
+    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
+    "https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=800&q=80",
   ],
   "Accounting": [
-    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80", // financial charts
-    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80", // spreadsheets
-    "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80", // calculator
+    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+    "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80",
+  ],
+  "Food Truck": [
+    "https://images.unsplash.com/photo-1567129937968-cdad8f07e2f8?w=800&q=80",
+    "https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?w=800&q=80",
+    "https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?w=800&q=80",
+  ],
+  "Brewery": [
+    "https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=80",
+    "https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=800&q=80",
+    "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&q=80",
+  ],
+  "Jewelry": [
+    "https://images.unsplash.com/photo-1515562141589-67f0d999b8f6?w=800&q=80",
+    "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&q=80",
+    "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&q=80",
+  ],
+  "Funeral": [
+    "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=800&q=80",
+    "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=800&q=80",
+  ],
+  "Pet": [
+    "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&q=80",
+    "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80",
+    "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80",
+  ],
+  "Travel": [
+    "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80",
+    "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
+    "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80",
+  ],
+  "Music": [
+    "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80",
+    "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80",
+    "https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&q=80",
+  ],
+  "Media": [
+    "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80",
+    "https://images.unsplash.com/photo-1598743400863-0e42df1e8507?w=800&q=80",
+    "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80",
   ],
   "default": [
-    "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80", // business team
-    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80", // Black businesswoman
-    "https://images.unsplash.com/photo-1560472355-536de3962603?w=800&q=80", // storefront
-    "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80", // handshake
-    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&q=80", // Black businessman
-    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80", // professional attire
-    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80", // Black woman professional
-    "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80", // diverse team
+    "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80",
+    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80",
+    "https://images.unsplash.com/photo-1560472355-536de3962603?w=800&q=80",
+    "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80",
+    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&q=80",
+    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80",
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",
+    "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80",
   ],
 };
 
-/**
- * Simple hash of a string to get a deterministic number
- */
 function simpleHash(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32bit integer
+    hash = hash & hash;
   }
   return Math.abs(hash);
 }
 
-/**
- * Generate an initials-based placeholder logo URL
- */
 function generateInitialsLogo(businessName: string): string {
-  // Rotate through different color schemes based on business name
   const colorSchemes = [
     { bg: "1a1a2e", fg: "e0a346" },
     { bg: "2d132c", fg: "ee4540" },
@@ -337,12 +456,8 @@ function generateInitialsLogo(businessName: string): string {
   return `https://placehold.co/400x400/${scheme.bg}/${scheme.fg}?text=${encodeURIComponent(initials)}&font=montserrat`;
 }
 
-/**
- * Get a stock banner for a category, rotated by business ID to avoid duplicates
- */
 function getCategoryBanner(category: string, businessId?: string): string {
   let pool: string[] | undefined;
-  // Try exact match first, then partial match
   for (const [key, urls] of Object.entries(CATEGORY_BANNER_POOLS)) {
     if (key === "default") continue;
     if (category.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(category.toLowerCase())) {
@@ -351,16 +466,11 @@ function getCategoryBanner(category: string, businessId?: string): string {
     }
   }
   if (!pool) pool = CATEGORY_BANNER_POOLS["default"];
-  
-  // Use business ID hash to deterministically pick an image (different business = different image)
   const hashKey = businessId || category + Math.random().toString();
   const index = simpleHash(hashKey) % pool.length;
   return pool[index];
 }
 
-/**
- * Validate that a URL points to a real image
- */
 function isValidImageUrl(url: string | null): boolean {
   if (!url) return false;
   const lower = url.toLowerCase();
@@ -372,12 +482,8 @@ function isValidImageUrl(url: string | null): boolean {
   return true;
 }
 
-/**
- * Scrape a business website for logo and banner images using Firecrawl
- */
 async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Promise<{ logo_url: string | null; banner_url: string | null }> {
   const result = { logo_url: null as string | null, banner_url: null as string | null };
-  
   if (!websiteUrl || !firecrawlKey) return result;
 
   try {
@@ -385,7 +491,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
     if (!url.startsWith("http")) url = `https://${url}`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // Reduced from 12s to 8s
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     const response = await fetch("https://api.firecrawl.dev/v1/scrape", {
       method: "POST",
@@ -425,7 +531,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
     const imgRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
     let match;
     const allImages: { alt: string; src: string }[] = [];
-    
+
     while ((match = imgRegex.exec(markdown)) !== null) {
       const alt = (match[1] || "").toLowerCase();
       const src = match[2];
@@ -445,7 +551,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
     }
 
     if (!result.banner_url && allImages.length > 0) {
-      const contentImage = allImages.find(img => 
+      const contentImage = allImages.find(img =>
         !img.alt.includes("icon") && !img.src.includes("icon") &&
         !img.alt.includes("arrow") && !img.src.includes("arrow")
       );
@@ -466,12 +572,8 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
   return result;
 }
 
-/**
- * Geocode an address using Mapbox
- */
 async function geocodeAddress(address: string, city: string, state: string, zipCode: string, mapboxToken: string): Promise<{ latitude: number | null; longitude: number | null }> {
   const result = { latitude: null as number | null, longitude: null as number | null };
-  
   if (!mapboxToken) return result;
 
   try {
@@ -512,7 +614,7 @@ serve(async (req) => {
     const perplexityKey = Deno.env.get("PERPLEXITY_API_KEY");
     const firecrawlKey = Deno.env.get("FIRECRAWL_API_KEY");
     const mapboxToken = Deno.env.get("MAPBOX_PUBLIC_TOKEN");
-    
+
     if (!perplexityKey) {
       throw new Error("PERPLEXITY_API_KEY not configured");
     }
@@ -524,17 +626,19 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // === Pick unique city/category combos (OPTIMIZATION #3: 20 searches) ===
-    const searchCombos: { city: typeof TARGET_CITIES[0]; category: string }[] = [];
+    // Pick unique city/category combos
+    const searchCombos: { city: typeof TARGET_CITIES[0]; category: string; queryPattern: number }[] = [];
     const usedCombos = new Set<string>();
-    
+
     while (searchCombos.length < NUM_SEARCHES) {
       const city = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
       const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
       const key = `${city.city}-${category}`;
       if (!usedCombos.has(key)) {
         usedCombos.add(key);
-        searchCombos.push({ city, category });
+        // Rotate through query patterns for variety
+        const queryPattern = Math.floor(Math.random() * QUERY_PATTERNS.length);
+        searchCombos.push({ city, category, queryPattern });
       }
     }
 
@@ -542,10 +646,13 @@ serve(async (req) => {
 
     // Fire all Perplexity searches in parallel
     const searchPromises = searchCombos.map(async (combo) => {
-      const { city: targetCity, category: categoryFocus } = combo;
+      const { city: targetCity, category: categoryFocus, queryPattern } = combo;
       const label = `${categoryFocus} in ${targetCity.city}, ${targetCity.state}`;
-      
+
       try {
+        // Use varied query patterns
+        const userQuery = QUERY_PATTERNS[queryPattern](categoryFocus, targetCity.city, targetCity.state);
+
         const perplexityResponse = await fetch("https://api.perplexity.ai/chat/completions", {
           method: "POST",
           headers: {
@@ -557,18 +664,18 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: `You are a business research assistant specializing in finding Black-owned businesses. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address, working phone number, actual website URL, business hours, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot verify a detail, omit that field rather than guessing. CRITICAL: Every business MUST have a working website URL — do not include businesses without websites.`,
+                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address, working phone number, actual website URL, business hours, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot verify a detail, omit that field rather than guessing. CRITICAL: Every business MUST have a working website URL — do not include businesses without websites. Look for businesses of ALL sizes — from solo entrepreneurs to large companies.`,
               },
               {
                 role: "user",
-                content: `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${categoryFocus} businesses in ${targetCity.city}, ${targetCity.state}. 
+                content: `${userQuery}
 
 IMPORTANT: Only include businesses that have their OWN website (not just a Yelp or Facebook page). The website URL is MANDATORY.
 
 For EACH business provide ALL of the following:
 - Exact legal business name
 - Rich 2-3 sentence description of what they offer and what makes them special
-- Specific category (e.g. "Soul Food Restaurant" not just "Restaurant")
+- Specific category (e.g. "Soul Food Restaurant" not just "Restaurant", "Personal Injury Attorney" not just "Law Firm")
 - Complete street address (number and street name)
 - City, State (2-letter code), ZIP code
 - Phone number (with area code)
@@ -648,79 +755,74 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     });
 
     const searchResults = await Promise.all(searchPromises);
-    
+
     // Flatten all candidates
     const allCandidates: { biz: any; targetCity: typeof TARGET_CITIES[0]; categoryFocus: string }[] = [];
     let allCitations: string[] = [];
-    const searchSummaries: string[] = [];
-    
+
     for (const result of searchResults) {
-      searchSummaries.push(`${result.label}: ${result.businesses.length} found`);
       allCitations = [...allCitations, ...result.citations];
       for (const biz of result.businesses) {
         allCandidates.push({ biz, targetCity: result.targetCity, categoryFocus: result.categoryFocus });
       }
     }
-    
+
     console.log(`[Kayla Auto-Discover] Total candidates from ${NUM_SEARCHES} searches: ${allCandidates.length}`);
 
     if (allCandidates.length === 0) {
       console.log(`[Kayla Auto-Discover] No candidates found across all searches`);
     }
 
-    // === OPTIMIZATION #1 & #2: Filter basics first, then batch dedup ===
-    
-    // Step 1: Filter out candidates missing name/city, low confidence, no website
+    // Filter basics first, then batch dedup
     let skippedLowConfidence = 0;
     let skippedNoWebsite = 0;
     const viableCandidates: typeof allCandidates = [];
-    
+
     for (const candidate of allCandidates) {
       const { biz } = candidate;
       if (!biz.name || !biz.city) continue;
-      
+
       const confidence = biz.confidence ?? 0.5;
       if (confidence < MIN_CONFIDENCE) {
         skippedLowConfidence++;
         continue;
       }
-      
+
       const websiteUrl = biz.website && biz.website.match(/^https?:\/\/|^www\./) ? biz.website.trim() : null;
       if (!websiteUrl) {
         skippedNoWebsite++;
         continue;
       }
-      
+
       viableCandidates.push(candidate);
     }
-    
+
     console.log(`[Kayla Auto-Discover] Viable candidates after basic filter: ${viableCandidates.length}`);
 
-    // Step 2: BATCH DEDUPLICATION — single query instead of per-candidate lookups
+    // BATCH DEDUPLICATION
     let skippedDuplicates = 0;
-    const candidateNames = viableCandidates.map(c => c.biz.name.trim().toLowerCase());
     const candidateCities = [...new Set(viableCandidates.map(c => c.biz.city.trim().toLowerCase()))];
-    
+
     // Batch check businesses table
     const { data: existingBusinesses } = await supabase
       .from("businesses")
       .select("name, city")
       .in("city", candidateCities.map(c => c.charAt(0).toUpperCase() + c.slice(1)));
-    
+
     const existingBizSet = new Set(
       (existingBusinesses || []).map(b => `${b.name?.toLowerCase()}|${b.city?.toLowerCase()}`)
     );
-    
+
     // Batch check b2b_external_leads table
     const { data: existingLeads } = await supabase
       .from("b2b_external_leads")
       .select("business_name, city")
       .in("city", candidateCities.map(c => c.charAt(0).toUpperCase() + c.slice(1)));
-    
+
     const existingLeadSet = new Set(
       (existingLeads || []).map(l => `${l.business_name?.toLowerCase()}|${l.city?.toLowerCase()}`)
     );
-    
+
     const dedupedCandidates = viableCandidates.filter(c => {
       const key = `${c.biz.name.trim().toLowerCase()}|${c.biz.city.trim().toLowerCase()}`;
       if (existingBizSet.has(key) || existingLeadSet.has(key)) {
@@ -729,50 +831,46 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       }
       return true;
     });
-    
+
     console.log(`[Kayla Auto-Discover] After batch dedup: ${dedupedCandidates.length} (${skippedDuplicates} duplicates removed)`);
 
-    // === OPTIMIZATION #1: Parallel enrichment in batches of SCRAPE_BATCH_SIZE ===
+    // Parallel enrichment in batches
     let inserted = 0;
     let skippedNoImages = 0;
     const insertedNames: string[] = [];
     const enrichmentDetails: any[] = [];
 
-    // Process in parallel batches
     for (let i = 0; i < dedupedCandidates.length; i += SCRAPE_BATCH_SIZE) {
       const batch = dedupedCandidates.slice(i, i + SCRAPE_BATCH_SIZE);
-      
-      // Parallel scrape + geocode for entire batch
+
       const enrichmentResults = await Promise.allSettled(
         batch.map(async ({ biz, targetCity, categoryFocus: catFocus }) => {
           const websiteUrl = biz.website.trim();
-          
-          // Run scrape and geocode in parallel for each candidate
+
           const [images, coords] = await Promise.all([
             scrapeWebsiteImages(websiteUrl, firecrawlKey),
             biz.address && mapboxToken
               ? geocodeAddress(biz.address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken)
               : Promise.resolve({ latitude: null, longitude: null }),
           ]);
-          
+
           return { biz, targetCity, catFocus, websiteUrl, images, coords };
         })
       );
-      
-      // Process results and insert
+
       for (const result of enrichmentResults) {
         if (result.status === "rejected") {
           console.log(`[Kayla Auto-Discover] Enrichment failed: ${result.reason}`);
           continue;
         }
-        
+
         const { biz, targetCity, catFocus, websiteUrl, images, coords } = result.value;
-        
-        // === OPTIMIZATION #4: Tiered image fallback ===
+
+        // Tiered image fallback
         let finalLogoUrl = images.logo_url;
         let finalBannerUrl = images.banner_url;
         let imageSource = "website";
-        
+
         if (!isValidImageUrl(finalLogoUrl)) {
           finalLogoUrl = generateInitialsLogo(biz.name);
           imageSource = "fallback";
@@ -781,8 +879,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           finalBannerUrl = getCategoryBanner(biz.category || catFocus, biz.name + (biz.city || '') + (biz.state || ''));
           imageSource = imageSource === "fallback" ? "fallback" : "mixed";
         }
-        
-        // Now we always have images — no more hard rejection
+
         const businessRecord: Record<string, any> = {
           name: biz.name.trim(),
           business_name: biz.name.trim(),
@@ -816,6 +913,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         insertedNames.push(biz.name);
         enrichmentDetails.push({
           name: biz.name,
+          category: biz.category || catFocus,
           has_logo: isValidImageUrl(images.logo_url),
           has_banner: isValidImageUrl(images.banner_url),
           image_source: imageSource,
@@ -826,21 +924,23 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           verified: true,
         });
 
-        console.log(`[Kayla Auto-Discover] ✅ Added "${biz.name}" | imgs:${imageSource} coords:${coords.latitude ? "✅" : "❌"}`);
+        console.log(`[Kayla Auto-Discover] ✅ Added "${biz.name}" (${biz.category || catFocus}) | imgs:${imageSource} coords:${coords.latitude ? "✅" : "❌"}`);
       }
     }
 
     // Log report
     const durationMs = Date.now() - startTime;
     const searchCombosSummary = searchCombos.map(s => `${s.category} in ${s.city.city}, ${s.city.state}`).join("; ");
+    const uniqueCategories = [...new Set(searchCombos.map(s => s.category))];
     const reportData = {
       report_type: "auto_discover",
       status: "completed",
-      summary: `Optimized multi-search: ${NUM_SEARCHES} queries (${PER_QUERY_LIMIT}/query). ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}. Duration: ${durationMs}ms. Parallel enrichment + tiered image fallback active.`,
+      summary: `Expanded discovery: ${NUM_SEARCHES} queries across ${uniqueCategories.length} unique categories. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}. Duration: ${durationMs}ms.`,
       details: {
         searches: searchCombosSummary,
         num_searches: NUM_SEARCHES,
         per_query_limit: PER_QUERY_LIMIT,
+        unique_categories: uniqueCategories.length,
         candidates_found: allCandidates.length,
         viable_after_filter: viableCandidates.length,
         after_dedup: dedupedCandidates.length,
@@ -855,7 +955,8 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         duration_ms: durationMs,
         min_confidence: MIN_CONFIDENCE,
         quality_gate: "tiered_image_fallback",
-        optimizations: ["parallel_enrichment", "batch_dedup", "increased_volume", "tiered_images"],
+        total_category_pool: CATEGORIES.length,
+        optimizations: ["expanded_categories", "query_variations", "parallel_enrichment", "batch_dedup", "tiered_images"],
       },
       issues_found: allCandidates.length,
       issues_fixed: inserted,
@@ -871,6 +972,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         success: true,
         searches: NUM_SEARCHES,
         perQueryLimit: PER_QUERY_LIMIT,
+        uniqueCategories: uniqueCategories.length,
         candidates: allCandidates.length,
         viable: viableCandidates.length,
         afterDedup: dedupedCandidates.length,
@@ -882,7 +984,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         insertedNames,
         enrichment: enrichmentDetails,
         durationMs,
-        optimizations: ["parallel_enrichment", "batch_dedup", "increased_volume", "tiered_images"],
+        optimizations: ["expanded_categories", "query_variations", "parallel_enrichment", "batch_dedup", "tiered_images"],
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
