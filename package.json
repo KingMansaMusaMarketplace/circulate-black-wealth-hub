@@ -132,6 +132,10 @@
     "tailwindcss": "^3.4.11",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vitest": "^3.2.4",
+    "jsdom": "^20.0.3",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.0.0"
   }
 }
