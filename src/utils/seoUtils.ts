@@ -119,9 +119,9 @@ export const pageSEO = {
     keywords: ['Black-owned business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
   about: {
-    title: 'About 1325.AI | Economic Infrastructure Protocol',
-    description: '1325.AI is the Economic Operating System — infrastructure protocol for circulating Black dollars intentionally, systemically, and sustainably.',
-    keywords: ['about 1325.AI', 'economic infrastructure', 'IaaS', 'economic protocol', 'economic operating system'],
+    title: 'About 1325.AI | Black-Owned Business Discovery Platform',
+    description: '1325.AI is the largest Black-owned business directory — circulating Black dollars intentionally through 12,000+ verified businesses nationwide.',
+    keywords: ['about 1325.AI', 'Black-owned business platform', 'Black economic empowerment', 'Black dollar circulation', 'support Black businesses'],
   },
   howItWorks: {
     title: 'How It Works | 1325.AI Economic Infrastructure',
