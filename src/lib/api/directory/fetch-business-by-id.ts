@@ -13,21 +13,19 @@ export async function fetchBusinessById(id: string): Promise<Business | null> {
       return null;
     }
     
-    // Use the business_directory view (excludes PII like phone/email)
+    // Use SECURITY DEFINER RPC to bypass RLS
     const { data, error } = await supabase
-      .from('business_directory')
-      .select('*')
-      .eq('id', id)
-      .maybeSingle();
+      .rpc('get_directory_business_by_id', { p_business_id: id });
     
     if (error) {
       console.error('Error fetching business:', error);
       return null;
     }
     
-    if (!data) return null;
+    const row = Array.isArray(data) ? data[0] : data;
+    if (!row) return null;
     
-    return mapSupabaseBusinessToBusiness(data);
+    return mapSupabaseBusinessToBusiness(row);
   } catch (error) {
     console.error('Unexpected error fetching business:', error);
     return null;
