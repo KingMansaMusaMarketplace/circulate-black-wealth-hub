@@ -113,9 +113,8 @@ export const useSupabaseDirectory = () => {
   const { data: rawBusinesses = [], isLoading, error } = useQuery({
     queryKey: ['directory-businesses'],
     queryFn: async () => {
-      // Use SECURITY DEFINER RPC for reliable anonymous/public directory access
-      // Large batch size to minimize round-trips (12K businesses ÷ 5000 = ~3 calls vs ~24)
-      const pageSize = 5000;
+      // PostgREST caps RPC results at 1000 by default, so we paginate in 1000-row batches
+      const pageSize = 1000;
       let offset = 0;
       const allBusinesses: SupabaseBusiness[] = [];
 
@@ -130,13 +129,15 @@ export const useSupabaseDirectory = () => {
         const batch = (data || []) as SupabaseBusiness[];
         allBusinesses.push(...batch);
 
+        // If we got fewer than requested, we've reached the end
         if (batch.length < pageSize) break;
         offset += pageSize;
 
-        // Safety cap to prevent accidental infinite loops
+        // Safety cap
         if (offset >= 200000) break;
       }
 
+      console.log(`[Directory] Loaded ${allBusinesses.length} businesses in ${Math.ceil(offset / pageSize) + 1} batches`);
       return allBusinesses;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes — reduce refetches, Kayla realtime handles freshness
