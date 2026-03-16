@@ -71,8 +71,12 @@ const DirectoryPage: React.FC = () => {
     filteredBusinesses,
     mapData,
     totalBusinesses,
+    businessCounts,
     isLoading,
-    error
+    error,
+    page,
+    setPage,
+    totalPages,
   } = useSupabaseDirectory();
 
   // Get featured business for spotlight
