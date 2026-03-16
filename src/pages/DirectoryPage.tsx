@@ -120,14 +120,7 @@ const DirectoryPage: React.FC = () => {
     handleFilterChange({ category });
   }, [handleFilterChange]);
 
-  // Calculate business counts per category
-  const businessCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    filteredBusinesses?.forEach(b => {
-      counts[b.category] = (counts[b.category] || 0) + 1;
-    });
-    return counts;
-  }, [filteredBusinesses]);
+  // businessCounts now comes from the hook (server-side)
 
   // Show error state
   if (error) {
