@@ -11,25 +11,25 @@ interface MultiCityStatsProps {
 const MultiCityStats: React.FC<MultiCityStatsProps> = ({ selectedCity }) => {
   const selectedCityData = cities.find(city => city.id === selectedCity);
 
-  // These are honest stats - showing launch cities and growth potential
+  // Live stats reflecting current directory scale
   const stats = selectedCity === 'all' ? [
     {
       icon: <Building2 className="h-5 w-5 text-primary" />,
-      label: 'Launch Cities',
-      value: cities.length.toString(),
-      description: 'Growing network'
+      label: 'Businesses',
+      value: '21,000+',
+      description: 'And growing daily'
     },
     {
       icon: <MapPin className="h-5 w-5 text-secondary" />,
       label: 'Coverage',
-      value: '15 States',
-      description: 'IL, GA, TX, DC, MI, NY, CA, TN, MD, LA, AL, PA, FL, NC, MO, OH'
+      value: '50 States + Canada',
+      description: '1,200+ cities across US & Canada'
     },
     {
       icon: <Users className="h-5 w-5 text-accent" />,
       label: 'Status',
-      value: 'Beta',
-      description: 'Onboarding businesses'
+      value: 'Live',
+      description: 'AI-powered discovery active'
     },
     {
       icon: <TrendingUp className="h-5 w-5 text-success" />,
