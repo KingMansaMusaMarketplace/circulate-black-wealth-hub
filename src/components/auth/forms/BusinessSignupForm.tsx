@@ -12,12 +12,17 @@ import { secureSignUp } from '@/lib/security/auth-security';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { FormCheckbox } from './FormCheckbox';
+import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import { useNavigate } from 'react-router-dom';
 
-// Simplified schema - only 4 fields required upfront
 const businessSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Must include an uppercase letter')
+    .regex(/[a-z]/, 'Must include a lowercase letter')
+    .regex(/[0-9]/, 'Must include a number')
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, 'Must include a special character'),
   confirmPassword: z.string(),
   businessName: z.string().min(2, 'Business name must be at least 2 characters'),
   cityZip: z.string().min(2, 'Please enter your city or ZIP code'),
@@ -35,6 +40,35 @@ interface BusinessSignupFormProps {
   onSuccess?: () => void;
 }
 
+// Retry helper for business record creation (handles race condition with handle_new_user trigger)
+const createBusinessWithRetry = async (
+  businessData: { name: string; business_name: string; owner_id: string; email: string; city: string; listing_status: string },
+  maxRetries = 3
+): Promise<{ success: boolean; error?: string }> => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    const { error } = await supabase
+      .from('businesses')
+      .insert(businessData);
+
+    if (!error) {
+      return { success: true };
+    }
+
+    console.warn(`[BUSINESS SIGNUP] Business insert attempt ${attempt}/${maxRetries} failed:`, error.message);
+
+    // If it's not an RLS/timing error, don't retry
+    if (!error.message.includes('row-level security') && !error.message.includes('violates') && attempt === maxRetries) {
+      return { success: false, error: error.message };
+    }
+
+    // Wait before retrying (exponential backoff: 1s, 2s, 4s)
+    if (attempt < maxRetries) {
+      await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, attempt - 1)));
+    }
+  }
+  return { success: false, error: 'Could not create business record after multiple attempts.' };
+};
+
 const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({ 
   referralCode = '', 
   onSuccess 
@@ -49,17 +83,19 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    watch,
   } = useForm<BusinessSignupFormData>({
     resolver: zodResolver(businessSignupSchema)
   });
+
+  const passwordValue = watch('password', '');
 
   const onSubmit = async (data: BusinessSignupFormData) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // Use secure signup with enhanced validation and rate limiting
       const result = await secureSignUp(
         data.email,
         data.password,
@@ -68,7 +104,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           business_name: data.businessName,
           city_zip: data.cityZip,
           referral_code: referralCode || null,
-          profile_completion_percentage: 25, // Minimal signup = 25%
+          profile_completion_percentage: 25,
         }
       );
 
@@ -77,20 +113,18 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       }
 
       if (result.data?.user) {
-        // Create minimal business profile - rest filled in during onboarding
-        const { error: businessError } = await supabase
-          .from('businesses')
-          .insert({
-            name: data.businessName,
-            business_name: data.businessName,
-            owner_id: result.data.user.id,
-            email: data.email,
-            city: data.cityZip, // Will be refined during onboarding
-            listing_status: 'draft', // Not visible until they complete profile
-          });
+        // Create business record with retry logic for race condition
+        const businessResult = await createBusinessWithRetry({
+          name: data.businessName,
+          business_name: data.businessName,
+          owner_id: result.data.user.id,
+          email: data.email,
+          city: data.cityZip,
+          listing_status: 'draft',
+        });
 
-        if (businessError) {
-          console.error('Business creation error:', businessError);
+        if (!businessResult.success) {
+          console.error('Business creation failed after retries:', businessResult.error);
           toast.warning('Account created! Complete your business profile after verification.');
         }
 
@@ -101,7 +135,6 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         
         reset();
         
-        // Redirect to business onboarding after a short delay
         if (result.data.session) {
           setTimeout(() => {
             navigate('/business/onboarding');
@@ -112,8 +145,9 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       }
     } catch (err) {
       console.error('Business signup error:', err);
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
-      toast.error('Failed to create business account. Please try again.');
+      const message = err instanceof Error ? err.message : 'An unexpected error occurred';
+      setError(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -145,7 +179,6 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-500 via-orange-500 to-amber-500" />
           
           <div className="relative pt-4 space-y-6">
-            {/* Benefits Banner */}
             <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-2">
                 <div className="p-2 bg-gradient-to-br from-mansagold to-amber-500 rounded-lg">
@@ -233,7 +266,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                     type="password"
                     {...register('password')}
                     disabled={isLoading}
-                    placeholder="Create a password"
+                    placeholder="Create a strong password"
                     autoComplete="new-password"
                   />
                   {errors.password && (
@@ -256,6 +289,9 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                   )}
                 </div>
               </div>
+
+              {/* Password strength indicator below both password fields */}
+              <PasswordStrengthIndicator password={passwordValue} />
 
               <FormCheckbox
                 id="business-terms"

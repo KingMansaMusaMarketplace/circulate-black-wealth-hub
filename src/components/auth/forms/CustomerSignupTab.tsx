@@ -11,12 +11,17 @@ import { Loader2, AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { FormCheckbox } from './FormCheckbox';
+import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import { useNavigate } from 'react-router-dom';
 
-// Simplified schema - only email and password required upfront
 const customerSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Must include an uppercase letter')
+    .regex(/[a-z]/, 'Must include a lowercase letter')
+    .regex(/[0-9]/, 'Must include a number')
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, 'Must include a special character'),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
@@ -41,18 +46,20 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<CustomerSignupForm>({
     resolver: zodResolver(customerSignupSchema)
   });
+
+  const passwordValue = watch('password', '');
 
   const onSubmit = async (data: CustomerSignupForm) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      console.log('[CUSTOMER SIGNUP] Starting simplified signup process...');
+      console.log('[CUSTOMER SIGNUP] Starting signup process...');
       
-      // Detect platform
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       const isCapacitor = !!(window as any).Capacitor;
       const platform = isCapacitor ? (/(iPhone|iPad|iPod)/i.test(navigator.userAgent) ? 'ios' : 'android') : (isMobile ? 'mobile_web' : 'web');
@@ -66,31 +73,36 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
             user_type: 'customer',
             signup_platform: platform,
             device_info: navigator.userAgent,
-            profile_completion_percentage: 20, // Just email = 20%
+            profile_completion_percentage: 20,
           }
         }
       });
 
       if (authError) {
         console.error('[CUSTOMER SIGNUP] Signup error:', authError);
-        throw authError;
+        
+        // Friendly error messages
+        let friendlyError = authError.message;
+        if (authError.message.includes('already registered') || authError.message.includes('already been registered')) {
+          friendlyError = 'An account with this email already exists. Please sign in instead.';
+        } else if (authError.message.includes('rate') || authError.message.includes('limit')) {
+          friendlyError = 'Too many attempts. Please wait a few minutes and try again.';
+        }
+        
+        throw new Error(friendlyError);
       }
 
       if (authData.user) {
         console.log('[CUSTOMER SIGNUP] User created successfully:', authData.user.id);
         
-        // Check if there's a pending subscription from sessionStorage
         const pendingSubscription = sessionStorage.getItem('pendingSubscription');
         
         setSuccess(true);
         
         if (pendingSubscription) {
-          console.log('[CUSTOMER SIGNUP] Pending subscription found:', pendingSubscription);
           toast.success('Account created! Redirecting to complete your subscription...', {
             duration: 2000
           });
-          
-          // Wait for auth state to propagate
           setTimeout(() => {
             sessionStorage.removeItem('pendingSubscription');
             window.location.href = `/subscription?tier=${pendingSubscription}`;
@@ -100,7 +112,6 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
             description: authData.session ? 'Let\'s find some businesses near you!' : 'Please check your email to verify your account.'
           });
           
-          // If user is auto-logged in (session exists), redirect to welcome page
           if (authData.session) {
             setTimeout(() => {
               navigate('/welcome');
@@ -113,8 +124,9 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
       }
     } catch (err) {
       console.error('[CUSTOMER SIGNUP] Signup error:', err);
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
-      toast.error('Failed to create account. Please try again.');
+      const message = err instanceof Error ? err.message : 'An unexpected error occurred';
+      setError(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -133,7 +145,6 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
 
   return (
     <div className="space-y-6">
-      {/* Benefits Banner */}
       <div className="bg-gradient-to-r from-mansagold/10 to-amber-500/10 border border-mansagold/30 rounded-lg p-4">
         <div className="flex items-center gap-2 mb-2">
           <Sparkles className="w-5 h-5 text-mansagold" />
@@ -174,12 +185,13 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
             type="password"
             {...register('password')}
             disabled={isLoading}
-            placeholder="Create a password (8+ characters)"
+            placeholder="Create a strong password"
             autoComplete="new-password"
           />
           {errors.password && (
             <p className="text-sm text-red-600">{errors.password.message}</p>
           )}
+          <PasswordStrengthIndicator password={passwordValue} />
         </div>
 
         <div className="space-y-2">

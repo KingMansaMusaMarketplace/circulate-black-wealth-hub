@@ -37,21 +37,54 @@ export const validatePasswordComplexity = (password: string): PasswordValidation
   };
 };
 
-// Enhanced sign up with password validation and rate limiting
+// Client-side signup cooldown to replace server-side rate limiting for anonymous users
+const signupCooldowns = new Map<string, number>();
+const SIGNUP_COOLDOWN_MS = 30_000; // 30 seconds between signup attempts per email
+const MAX_SIGNUP_ATTEMPTS = 5;
+const SIGNUP_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+
+const signupAttemptCounts = new Map<string, { count: number; windowStart: number }>();
+
+const checkClientSideSignupLimit = (email: string): { allowed: boolean; message?: string } => {
+  const now = Date.now();
+  const normalizedEmail = email.toLowerCase().trim();
+
+  // Check cooldown
+  const lastAttempt = signupCooldowns.get(normalizedEmail);
+  if (lastAttempt && now - lastAttempt < SIGNUP_COOLDOWN_MS) {
+    const waitSec = Math.ceil((SIGNUP_COOLDOWN_MS - (now - lastAttempt)) / 1000);
+    return { allowed: false, message: `Please wait ${waitSec} seconds before trying again.` };
+  }
+
+  // Check attempt count in window
+  const attempts = signupAttemptCounts.get(normalizedEmail);
+  if (attempts) {
+    if (now - attempts.windowStart > SIGNUP_WINDOW_MS) {
+      // Reset window
+      signupAttemptCounts.set(normalizedEmail, { count: 1, windowStart: now });
+    } else if (attempts.count >= MAX_SIGNUP_ATTEMPTS) {
+      return { allowed: false, message: 'Too many signup attempts. Please try again in 15 minutes.' };
+    } else {
+      attempts.count++;
+    }
+  } else {
+    signupAttemptCounts.set(normalizedEmail, { count: 1, windowStart: now });
+  }
+
+  signupCooldowns.set(normalizedEmail, now);
+  return { allowed: true };
+};
+
+// Enhanced sign up with password validation and CLIENT-SIDE rate limiting
+// (Server-side rate limiting via check_rate_limit_secure uses auth.uid() which is NULL for anonymous users)
 export const secureSignUp = async (email: string, password: string, userData?: any) => {
   try {
-    // Check rate limit first
-    const { data: rateLimitResult } = await supabase.rpc('check_rate_limit_secure', {
-      operation_name: 'signup',
-      max_attempts: 3,
-      window_minutes: 60
-    });
-
-    if (rateLimitResult && !rateLimitResult.allowed) {      
+    // Use client-side rate limiting instead of server-side RPC (which requires auth.uid())
+    const rateCheck = checkClientSideSignupLimit(email);
+    if (!rateCheck.allowed) {
       return {
         success: false,
-        error: `Rate limit exceeded. ${rateLimitResult.message}`,
-        rateLimitInfo: rateLimitResult
+        error: rateCheck.message || 'Rate limit exceeded. Please try again later.',
       };
     }
 
@@ -60,7 +93,7 @@ export const secureSignUp = async (email: string, password: string, userData?: a
     if (!passwordValidation.isValid) {
       return {
         success: false,
-        error: 'Password does not meet complexity requirements: ' + passwordValidation.errors.join(', ')
+        error: 'Password does not meet requirements:\n• ' + passwordValidation.errors.join('\n• ')
       };
     }
 
@@ -74,28 +107,46 @@ export const secureSignUp = async (email: string, password: string, userData?: a
     });
 
     if (error) {
-      // Log failed signup attempt with enhanced audit trail
-      await supabase.rpc('log_failed_auth_attempt', {
-        email_param: email,
-        reason_param: error.message,
-        user_agent_param: navigator.userAgent
-      });
+      // Log failed signup attempt (best-effort, may fail for anon users)
+      try {
+        await supabase.rpc('log_failed_auth_attempt', {
+          email_param: email,
+          reason_param: error.message,
+          user_agent_param: navigator.userAgent
+        });
+      } catch (logErr) {
+        console.warn('Could not log failed auth attempt (expected for anon users):', logErr);
+      }
       
-      return { success: false, error: error.message };
+      // Provide user-friendly error messages
+      let friendlyError = error.message;
+      if (error.message.includes('already registered') || error.message.includes('already been registered')) {
+        friendlyError = 'An account with this email already exists. Please sign in instead.';
+      } else if (error.message.includes('rate') || error.message.includes('limit')) {
+        friendlyError = 'Too many attempts. Please wait a few minutes and try again.';
+      } else if (error.message.includes('password')) {
+        friendlyError = 'Password is too weak. Please include uppercase, lowercase, number, and special character.';
+      }
+      
+      return { success: false, error: friendlyError };
     }
 
-    // Log successful signup activity
+    // Log successful signup activity (best-effort)
     if (data.user) {
-      await supabase.rpc('log_user_activity', {
-        p_user_id: data.user.id,
-        p_activity_type: 'account_created',
-        p_activity_data: { email, signup_method: 'email_password' }
-      });
+      try {
+        await supabase.rpc('log_user_activity', {
+          p_user_id: data.user.id,
+          p_activity_type: 'account_created',
+          p_activity_data: { email, signup_method: 'email_password' }
+        });
+      } catch (logErr) {
+        console.warn('Could not log signup activity:', logErr);
+      }
     }
 
     return { success: true, data };
   } catch (error: any) {
-    return { success: false, error: error.message };
+    return { success: false, error: error.message || 'An unexpected error occurred. Please try again.' };
   }
 };
 
