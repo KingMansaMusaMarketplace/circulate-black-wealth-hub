@@ -9,13 +9,15 @@ interface CategoryPillsProps {
   selectedCategory: string | undefined;
   onSelectCategory: (category: string | undefined) => void;
   businessCounts?: Record<string, number>;
+  totalCount?: number;
 }
 
 const CategoryPills: React.FC<CategoryPillsProps> = ({
   categories,
   selectedCategory,
   onSelectCategory,
-  businessCounts = {}
+  businessCounts = {},
+  totalCount
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -133,7 +135,7 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
             "text-xs px-1.5 py-0.5 rounded-full",
             !selectedCategory ? "bg-slate-900/30 text-slate-900" : "bg-white/10 text-gray-400"
           )}>
-            {Object.values(businessCounts).reduce((a, b) => a + b, 0) || categories.length}
+            {totalCount ?? (Object.values(businessCounts).reduce((a, b) => a + b, 0) || categories.length)}
           </span>
         </motion.button>
 
