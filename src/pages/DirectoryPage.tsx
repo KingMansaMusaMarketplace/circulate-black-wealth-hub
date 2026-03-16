@@ -356,7 +356,20 @@ const DirectoryPage: React.FC = () => {
               />
             )}
           </div>
-          
+
+          {/* Pagination */}
+          {totalPages > 1 && !isLoading && (
+            <div className="mt-10">
+              <DirectoryPagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={(newPage) => {
+                  setPage(newPage);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            </div>
+          )}
           {/* Stats section - only show in grid/list view, not split */}
           {viewMode !== 'split' && (
             <motion.div 
