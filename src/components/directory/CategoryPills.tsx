@@ -135,7 +135,7 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
             "text-xs px-1.5 py-0.5 rounded-full",
             !selectedCategory ? "bg-slate-900/30 text-slate-900" : "bg-white/10 text-gray-400"
           )}>
-            {totalCount ?? Object.values(businessCounts).reduce((a, b) => a + b, 0) || categories.length}
+            {totalCount ?? (Object.values(businessCounts).reduce((a, b) => a + b, 0) || categories.length)}
           </span>
         </motion.button>
 
