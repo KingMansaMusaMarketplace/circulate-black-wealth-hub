@@ -28,6 +28,7 @@ import CategoryPills from '@/components/directory/CategoryPills';
 import { SkeletonGrid } from '@/components/directory/SkeletonCard';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import DirectorySplitView from '@/components/directory/DirectorySplitView';
+import DirectoryPagination from '@/components/directory/DirectoryPagination';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { useIsMobile } from '@/hooks/use-mobile';
 
