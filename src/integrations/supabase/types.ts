@@ -16818,6 +16818,21 @@ export type Database = {
           count: number
         }[]
       }
+      get_directory_map_markers: {
+        Args: {
+          p_category?: string
+          p_min_rating?: number
+          p_search_term?: string
+        }
+        Returns: {
+          average_rating: number
+          business_name: string
+          category: string
+          id: string
+          latitude: number
+          longitude: number
+        }[]
+      }
       get_download_trends: {
         Args: { p_end_date?: string; p_start_date?: string }
         Returns: {

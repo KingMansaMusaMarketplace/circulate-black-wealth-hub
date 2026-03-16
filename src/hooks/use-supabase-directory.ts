@@ -162,6 +162,30 @@ export const useSupabaseDirectory = () => {
     refetchOnWindowFocus: false,
   });
 
+  // Fetch ALL map markers (lightweight: id, name, lat, lng, category only)
+  const mapMarkersKey = useMemo(() => [
+    'directory-map-markers',
+    searchTerm || null,
+    filterOptions.category || null,
+    filterOptions.minRating || null,
+  ], [searchTerm, filterOptions.category, filterOptions.minRating]);
+
+  const { data: mapMarkersData } = useQuery({
+    queryKey: mapMarkersKey,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('get_directory_map_markers', {
+        p_search_term: searchTerm || null,
+        p_category: filterOptions.category || null,
+        p_min_rating: filterOptions.minRating || null,
+      });
+      if (error) throw error;
+      return (data || []) as { id: string; business_name: string; latitude: number; longitude: number; category: string; average_rating: number }[];
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
   const rawBusinesses = data?.results || [];
   const totalCount = data?.totalCount || 0;
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
@@ -183,18 +207,18 @@ export const useSupabaseDirectory = () => {
     return counts;
   }, [categoriesData]);
 
-  // Map data for split view
+  // Map data from dedicated lightweight RPC (ALL businesses with coordinates)
   const mapData = useMemo(() => {
-    return businesses.map(business => ({
-      id: business.id,
-      name: business.name,
-      lat: business.lat,
-      lng: business.lng,
-      category: business.category,
-      rating: business.rating,
-      discount: business.discount,
+    return (mapMarkersData || []).map(m => ({
+      id: m.id,
+      name: m.business_name,
+      lat: m.latitude,
+      lng: m.longitude,
+      category: m.category || 'Other',
+      rating: Number(m.average_rating) || 0,
+      discount: '',
     }));
-  }, [businesses]);
+  }, [mapMarkersData]);
 
   const handleFilterChange = useCallback((newFilters: Partial<BusinessFilters>) => {
     setFilterOptions(prev => ({ ...prev, ...newFilters }));
