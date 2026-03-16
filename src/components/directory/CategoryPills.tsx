@@ -9,6 +9,7 @@ interface CategoryPillsProps {
   selectedCategory: string | undefined;
   onSelectCategory: (category: string | undefined) => void;
   businessCounts?: Record<string, number>;
+  totalCount?: number;
 }
 
 const CategoryPills: React.FC<CategoryPillsProps> = ({

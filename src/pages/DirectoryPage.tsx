@@ -199,6 +199,7 @@ const DirectoryPage: React.FC = () => {
             selectedCategory={filterOptions.category}
             onSelectCategory={handleCategorySelect}
             businessCounts={businessCounts}
+            totalCount={totalBusinesses}
           />
           
           {/* Filters Panel */}
