@@ -16,7 +16,8 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
   categories,
   selectedCategory,
   onSelectCategory,
-  businessCounts = {}
+  businessCounts = {},
+  totalCount
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
