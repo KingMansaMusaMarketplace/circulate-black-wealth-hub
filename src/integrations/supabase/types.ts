@@ -16811,6 +16811,13 @@ export type Database = {
           zip_code: string
         }[]
       }
+      get_directory_categories: {
+        Args: never
+        Returns: {
+          category: string
+          count: number
+        }[]
+      }
       get_download_trends: {
         Args: { p_end_date?: string; p_start_date?: string }
         Returns: {
@@ -17364,37 +17371,72 @@ export type Database = {
         Args: { input_text: string; max_length?: number }
         Returns: string
       }
-      search_directory_businesses: {
-        Args: {
-          p_category?: string
-          p_city?: string
-          p_limit?: number
-          p_offset?: number
-          p_search_term?: string
-          p_state?: string
-        }
-        Returns: {
-          address: string
-          average_rating: number
-          banner_url: string
-          business_name: string
-          category: string
-          city: string
-          created_at: string
-          description: string
-          id: string
-          is_verified: boolean
-          location_name: string
-          location_type: string
-          logo_url: string
-          name: string
-          review_count: number
-          state: string
-          updated_at: string
-          website: string
-          zip_code: string
-        }[]
-      }
+      search_directory_businesses:
+        | {
+            Args: {
+              p_category?: string
+              p_city?: string
+              p_limit?: number
+              p_offset?: number
+              p_search_term?: string
+              p_state?: string
+            }
+            Returns: {
+              address: string
+              average_rating: number
+              banner_url: string
+              business_name: string
+              category: string
+              city: string
+              created_at: string
+              description: string
+              id: string
+              is_verified: boolean
+              location_name: string
+              location_type: string
+              logo_url: string
+              name: string
+              review_count: number
+              state: string
+              updated_at: string
+              website: string
+              zip_code: string
+            }[]
+          }
+        | {
+            Args: {
+              p_category?: string
+              p_limit?: number
+              p_min_rating?: number
+              p_offset?: number
+              p_search_term?: string
+            }
+            Returns: {
+              address: string
+              average_rating: number
+              banner_url: string
+              business_name: string
+              category: string
+              city: string
+              created_at: string
+              description: string
+              id: string
+              is_founding_member: boolean
+              is_founding_sponsor: boolean
+              is_verified: boolean
+              latitude: number
+              listing_status: string
+              logo_url: string
+              longitude: number
+              name: string
+              review_count: number
+              state: string
+              total_count: number
+              updated_at: string
+              website: string
+              zip_code: string
+            }[]
+          }
       search_public_businesses: {
         Args: {
           p_category?: string

@@ -28,6 +28,7 @@ import CategoryPills from '@/components/directory/CategoryPills';
 import { SkeletonGrid } from '@/components/directory/SkeletonCard';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import DirectorySplitView from '@/components/directory/DirectorySplitView';
+import DirectoryPagination from '@/components/directory/DirectoryPagination';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -71,8 +72,12 @@ const DirectoryPage: React.FC = () => {
     filteredBusinesses,
     mapData,
     totalBusinesses,
+    businessCounts,
     isLoading,
-    error
+    error,
+    page,
+    setPage,
+    totalPages,
   } = useSupabaseDirectory();
 
   // Get featured business for spotlight
@@ -116,14 +121,7 @@ const DirectoryPage: React.FC = () => {
     handleFilterChange({ category });
   }, [handleFilterChange]);
 
-  // Calculate business counts per category
-  const businessCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    filteredBusinesses?.forEach(b => {
-      counts[b.category] = (counts[b.category] || 0) + 1;
-    });
-    return counts;
-  }, [filteredBusinesses]);
+  // businessCounts now comes from the hook (server-side)
 
   // Show error state
   if (error) {
@@ -236,12 +234,15 @@ const DirectoryPage: React.FC = () => {
               <div className="flex items-center gap-3">
                 <div className="h-2 w-2 rounded-full bg-mansagold animate-pulse" />
                 <p className="text-gray-400">
-                  {isLoading ? (
+                {isLoading ? (
                     <span className="text-gray-500">Loading businesses...</span>
                   ) : (
                     <>
-                      <span className="text-mansagold font-bold text-xl">{filteredBusinesses?.length || 0}</span>
+                      <span className="text-mansagold font-bold text-xl">{totalBusinesses?.toLocaleString() || 0}</span>
                       <span className="ml-2">businesses found</span>
+                      {totalPages > 1 && (
+                        <span className="ml-2 text-gray-500">· page {page} of {totalPages}</span>
+                      )}
                     </>
                   )}
                 </p>
@@ -355,7 +356,20 @@ const DirectoryPage: React.FC = () => {
               />
             )}
           </div>
-          
+
+          {/* Pagination */}
+          {totalPages > 1 && !isLoading && (
+            <div className="mt-10">
+              <DirectoryPagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={(newPage) => {
+                  setPage(newPage);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            </div>
+          )}
           {/* Stats section - only show in grid/list view, not split */}
           {viewMode !== 'split' && (
             <motion.div 
