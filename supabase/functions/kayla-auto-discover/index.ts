@@ -141,6 +141,28 @@ const TARGET_CITIES = [
   { city: "Salt Lake City", state: "UT" },
   // New Mexico
   { city: "Albuquerque", state: "NM" },
+  // === CANADA ===
+  // Ontario
+  { city: "Toronto", state: "ON" }, { city: "Ottawa", state: "ON" }, { city: "Brampton", state: "ON" },
+  { city: "Mississauga", state: "ON" }, { city: "Hamilton", state: "ON" }, { city: "Scarborough", state: "ON" },
+  { city: "Markham", state: "ON" }, { city: "Ajax", state: "ON" }, { city: "Pickering", state: "ON" },
+  { city: "Windsor", state: "ON" }, { city: "London", state: "ON" }, { city: "Kitchener", state: "ON" },
+  // Quebec
+  { city: "Montreal", state: "QC" }, { city: "Laval", state: "QC" }, { city: "Gatineau", state: "QC" },
+  { city: "Longueuil", state: "QC" }, { city: "Quebec City", state: "QC" },
+  // British Columbia
+  { city: "Vancouver", state: "BC" }, { city: "Surrey", state: "BC" }, { city: "Burnaby", state: "BC" },
+  { city: "Richmond", state: "BC" }, { city: "Victoria", state: "BC" },
+  // Alberta
+  { city: "Calgary", state: "AB" }, { city: "Edmonton", state: "AB" }, { city: "Red Deer", state: "AB" },
+  // Manitoba
+  { city: "Winnipeg", state: "MB" }, { city: "Brandon", state: "MB" },
+  // Nova Scotia
+  { city: "Halifax", state: "NS" }, { city: "Dartmouth", state: "NS" },
+  // Saskatchewan
+  { city: "Saskatoon", state: "SK" }, { city: "Regina", state: "SK" },
+  // New Brunswick
+  { city: "Fredericton", state: "NB" }, { city: "Moncton", state: "NB" },
 ];
 
 // === MASSIVELY EXPANDED CATEGORIES — ALL types of Black-owned businesses ===
