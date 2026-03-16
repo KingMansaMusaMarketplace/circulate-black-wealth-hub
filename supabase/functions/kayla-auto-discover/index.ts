@@ -403,83 +403,23 @@ const CATEGORY_BANNER_POOLS: Record<string, string[]> = {
     "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=800&q=80",  // library
     "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80",  // books stacked
   ],
-  // Black professionals in business settings
+  // Scene-neutral: office/workspace — no people
   "Consulting": [
-    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80",  // Black businesswoman
-    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&q=80",  // Black professional smiling
-    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",  // Black businesswoman at desk
-    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",  // diverse business meeting
+    "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",  // modern office space
+    "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80",  // office desk setup
+    "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80",  // conference room
+    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",  // office building exterior
   ],
-  // Scene-neutral: construction sites/tools
-  "Construction": [
-    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",  // construction site
-    "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80",  // building under construction
-    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",  // architecture plans
-    "https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=800&q=80",  // construction tools
-  ],
-  // Scene-neutral: charts/calculators
-  "Accounting": [
-    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",  // financial data
-    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",  // analytics dashboard
-    "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80",  // calculator and reports
-  ],
-  // Scene-neutral: food trucks
-  "Food Truck": [
-    "https://images.unsplash.com/photo-1567129937968-cdad8f07e2f8?w=800&q=80",  // food truck exterior
-    "https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?w=800&q=80",  // street food
-    "https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?w=800&q=80",  // food truck window
-  ],
-  // Scene-neutral: brewery/craft beer
-  "Brewery": [
-    "https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=80",  // brewing tanks
-    "https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=800&q=80",  // craft beer taps
-    "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&q=80",  // beer glasses
-  ],
-  // Scene-neutral: jewelry display
-  "Jewelry": [
-    "https://images.unsplash.com/photo-1515562141589-67f0d999b8f6?w=800&q=80",  // jewelry display
-    "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&q=80",  // rings
-    "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&q=80",  // necklaces
-  ],
-  // Scene-neutral: flowers/memorial
-  "Funeral": [
-    "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=800&q=80",  // flowers
-    "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=800&q=80",  // memorial wreath
-  ],
-  // Scene-neutral: pets
-  "Pet": [
-    "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&q=80",  // dogs running
-    "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80",  // pet grooming
-    "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80",  // dog portrait
-  ],
-  // Scene-neutral: travel/destinations
-  "Travel": [
-    "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80",  // travel map
-    "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",  // road trip
-    "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80",  // scenic destination
-  ],
-  // Scene-neutral: instruments/studio
-  "Music": [
-    "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80",  // piano keys
-    "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80",  // concert stage
-    "https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&q=80",  // recording studio
-  ],
-  // Scene-neutral: media equipment
-  "Media": [
-    "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80",  // microphone
-    "https://images.unsplash.com/photo-1598743400863-0e42df1e8507?w=800&q=80",  // podcast setup
-    "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80",  // video production
-  ],
-  // Default: Black professionals and diverse business scenes
+  // Scene-neutral: professional spaces — NO people to avoid misrepresentation
   "default": [
-    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80",  // Black businesswoman confident
-    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&q=80",  // Black professional smiling
-    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",  // Black businesswoman at desk
-    "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80",  // diverse team collaboration
-    "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80",  // diverse business team
-    "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80",  // team working together
-    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",  // diverse office meeting
-    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",  // team brainstorming
+    "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",  // modern office interior
+    "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80",  // clean desk workspace
+    "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80",  // conference room
+    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",  // business building
+    "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",  // open office plan
+    "https://images.unsplash.com/photo-1462826303086-329426d1aef5?w=800&q=80",  // meeting room
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",  // tech workspace
+    "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=800&q=80",  // office building
   ],
 };
 
