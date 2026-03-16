@@ -1,11 +1,12 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Business } from '@/types/business';
 import { BusinessFilters } from '@/lib/api/directory/types';
 import { getBusinessBanner } from '@/utils/businessBanners';
 
-// Interface matches business_directory view columns (no PII exposed)
+// Interface matches the search_directory_businesses RPC return
 interface SupabaseBusiness {
   id: string;
   business_name: string;
@@ -29,14 +30,13 @@ interface SupabaseBusiness {
   listing_status: string | null;
   is_founding_member: boolean | null;
   is_founding_sponsor: boolean | null;
+  total_count: number;
 }
 
 const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
   const businessName = business.name || business.business_name || 'Unnamed Business';
   const logoUrl = business.logo_url || '';
-  // Use banner fallback for businesses without banners
   const bannerUrl = getBusinessBanner(business.id, business.banner_url) || '';
-  // Prefer banner for card image, fall back to logo
   const cardImage = bannerUrl || logoUrl;
   
   return {
@@ -48,8 +48,8 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     city: business.city || '',
     state: business.state || '',
     zipCode: business.zip_code || '',
-    phone: '', // Not exposed in public view for privacy
-    email: '', // Not exposed in public view for privacy
+    phone: '',
+    email: '',
     website: business.website || '',
     logoUrl: logoUrl,
     bannerUrl: bannerUrl,
@@ -66,17 +66,20 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     imageAlt: businessName,
     isFeatured: business.is_verified || false,
     isVerified: business.is_verified || false,
-    ownerId: '', // Not exposed in public view for privacy
+    ownerId: '',
     createdAt: business.created_at,
     updatedAt: business.updated_at
   };
 };
+
+const PAGE_SIZE = 24;
 
 export const useSupabaseDirectory = () => {
   const queryClient = useQueryClient();
   const insertCountRef = useRef(0);
   const [selectedCity, setSelectedCity] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [page, setPage] = useState(1);
   const [filterOptions, setFilterOptions] = useState<BusinessFilters>({
     category: undefined,
     minRating: 0,
@@ -109,99 +112,80 @@ export const useSupabaseDirectory = () => {
     };
   }, [queryClient]);
 
-  // Fetch businesses from Supabase
-  const { data: rawBusinesses = [], isLoading, error } = useQuery({
-    queryKey: ['directory-businesses'],
+  // Build query key from filters + pagination
+  const queryKey = useMemo(() => [
+    'directory-businesses',
+    searchTerm || null,
+    filterOptions.category || null,
+    filterOptions.minRating || null,
+    page,
+  ], [searchTerm, filterOptions.category, filterOptions.minRating, page]);
+
+  // Fetch paginated businesses from server-side RPC
+  const { data, isLoading, error } = useQuery({
+    queryKey,
     queryFn: async () => {
-      // PostgREST caps RPC results at 1000 by default, so we paginate in 1000-row batches
-      const pageSize = 1000;
-      let offset = 0;
-      const allBusinesses: SupabaseBusiness[] = [];
+      const offset = (page - 1) * PAGE_SIZE;
+      
+      const { data, error } = await supabase.rpc('search_directory_businesses', {
+        p_search_term: searchTerm || null,
+        p_category: filterOptions.category || null,
+        p_min_rating: filterOptions.minRating || null,
+        p_limit: PAGE_SIZE,
+        p_offset: offset,
+      });
 
-      while (true) {
-        const { data, error } = await supabase.rpc('get_directory_businesses', {
-          p_limit: pageSize,
-          p_offset: offset,
-        });
-
-        if (error) throw error;
-
-        const batch = (data || []) as SupabaseBusiness[];
-        allBusinesses.push(...batch);
-
-        // If we got fewer than requested, we've reached the end
-        if (batch.length < pageSize) break;
-        offset += pageSize;
-
-        // Safety cap
-        if (offset >= 200000) break;
-      }
-
-      console.log(`[Directory] Loaded ${allBusinesses.length} businesses in ${Math.ceil(offset / pageSize) + 1} batches`);
-      return allBusinesses;
+      if (error) throw error;
+      
+      const results = (data || []) as SupabaseBusiness[];
+      const totalCount = results.length > 0 ? Number(results[0].total_count) : 0;
+      
+      console.log(`[Directory] Page ${page}: loaded ${results.length} businesses (${totalCount} total)`);
+      
+      return { results, totalCount };
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes — reduce refetches, Kayla realtime handles freshness
-    gcTime: 15 * 60 * 1000, // 15 minutes — keep in cache longer
-    refetchOnWindowFocus: false, // Don't refetch 12K rows on every tab switch
+    staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
+  // Fetch categories from dedicated RPC
+  const { data: categoriesData } = useQuery({
+    queryKey: ['directory-categories'],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('get_directory_categories');
+      if (error) throw error;
+      return (data || []) as { category: string; count: number }[];
+    },
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  const rawBusinesses = data?.results || [];
+  const totalCount = data?.totalCount || 0;
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
   // Map to frontend Business type
-  const businesses = useMemo(() => {
-    return rawBusinesses.map(mapSupabaseToFrontend);
-  }, [rawBusinesses]);
+  const businesses = useMemo(() => rawBusinesses.map(mapSupabaseToFrontend), [rawBusinesses]);
 
-  // Filter businesses based on city
-  const cityBusinesses = useMemo(() => {
-    if (selectedCity === 'all') return businesses;
-    
-    const cityName = selectedCity.replace('-', ' ').toLowerCase();
-    return businesses.filter(business => 
-      business.city.toLowerCase().includes(cityName)
-    );
-  }, [selectedCity, businesses]);
-
-  // Filter businesses based on search and filters
-  const filteredBusinesses = useMemo(() => {
-    let filtered = cityBusinesses;
-
-    // Apply search filter
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      filtered = filtered.filter(business =>
-        business.name.toLowerCase().includes(searchLower) ||
-        business.category.toLowerCase().includes(searchLower) ||
-        business.description?.toLowerCase().includes(searchLower) ||
-        business.address.toLowerCase().includes(searchLower)
-      );
-    }
-
-    // Apply category filter
-    if (filterOptions.category && filterOptions.category !== 'all') {
-      filtered = filtered.filter(business => business.category === filterOptions.category);
-    }
-
-    // Apply rating filter
-    if (filterOptions.minRating && filterOptions.minRating > 0) {
-      filtered = filtered.filter(business => business.rating >= filterOptions.minRating!);
-    }
-
-    // Apply featured filter
-    if (filterOptions.featured) {
-      filtered = filtered.filter(business => business.isFeatured);
-    }
-
-    return filtered;
-  }, [cityBusinesses, searchTerm, filterOptions]);
-
-  // Get unique categories for filter dropdown
+  // Categories from dedicated RPC
   const categories = useMemo(() => {
-    const uniqueCategories = [...new Set(businesses.map(business => business.category))];
-    return uniqueCategories.filter(Boolean).sort();
-  }, [businesses]);
+    return (categoriesData || []).map(c => c.category).filter(Boolean).sort();
+  }, [categoriesData]);
 
-  // Convert businesses to map data format
+  // Business counts per category from RPC data
+  const businessCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    (categoriesData || []).forEach(c => {
+      if (c.category) counts[c.category] = Number(c.count);
+    });
+    return counts;
+  }, [categoriesData]);
+
+  // Map data for split view
   const mapData = useMemo(() => {
-    return filteredBusinesses.map(business => ({
+    return businesses.map(business => ({
       id: business.id,
       name: business.name,
       lat: business.lat,
@@ -210,14 +194,21 @@ export const useSupabaseDirectory = () => {
       rating: business.rating,
       discount: business.discount,
     }));
-  }, [filteredBusinesses]);
+  }, [businesses]);
 
-  const handleFilterChange = (newFilters: Partial<BusinessFilters>) => {
+  const handleFilterChange = useCallback((newFilters: Partial<BusinessFilters>) => {
     setFilterOptions(prev => ({ ...prev, ...newFilters }));
-  };
+    setPage(1); // Reset to page 1 on filter change
+  }, []);
 
-  const handleCityChange = (cityId: string) => {
+  const handleSearchChange = useCallback((term: string) => {
+    setSearchTerm(term);
+    setPage(1); // Reset to page 1 on search change
+  }, []);
+
+  const handleCityChange = useCallback((cityId: string) => {
     setSelectedCity(cityId);
+    setPage(1);
     setFilterOptions({
       category: undefined,
       minRating: 0,
@@ -225,20 +216,26 @@ export const useSupabaseDirectory = () => {
       featured: false,
       distance: 0,
     });
-  };
+  }, []);
 
   return {
     selectedCity,
     searchTerm,
-    setSearchTerm,
+    setSearchTerm: handleSearchChange,
     filterOptions,
     handleFilterChange,
     handleCityChange,
     categories,
-    filteredBusinesses,
+    filteredBusinesses: businesses,
     mapData,
-    totalBusinesses: businesses.length,
+    totalBusinesses: totalCount,
+    businessCounts,
     isLoading,
     error,
+    // Pagination
+    page,
+    setPage,
+    totalPages,
+    pageSize: PAGE_SIZE,
   };
 };
