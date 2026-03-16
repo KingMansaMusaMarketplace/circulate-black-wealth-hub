@@ -233,18 +233,25 @@ const CATEGORIES: string[] = [
   ...LOW_YIELD_CATEGORIES,
 ];
 
+// Canadian provinces for context-aware queries
+const CANADIAN_PROVINCES = new Set(["ON", "QC", "BC", "AB", "MB", "NS", "SK", "NB"]);
+
+const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
+const locationLabel = (city: string, state: string) => 
+  isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
+
 // Alternate search query patterns to avoid repetition and find more results
 const QUERY_PATTERNS = [
   (cat: string, city: string, state: string) => 
-    `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${cat} businesses in ${city}, ${state}.`,
+    `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${cat} businesses in ${locationLabel(city, state)}.`,
   (cat: string, city: string, state: string) => 
-    `List Black-owned ${cat} businesses near ${city}, ${state} area with websites and contact info.`,
+    `List Black-owned ${cat} businesses near ${locationLabel(city, state)} area with websites and contact info.`,
   (cat: string, city: string, state: string) => 
-    `What are some popular African American owned ${cat} businesses in the ${city}, ${state} metropolitan area?`,
+    `What are some popular ${isCanadian(state) ? 'Black Canadian' : 'African American'} owned ${cat} businesses in the ${locationLabel(city, state)} metropolitan area?`,
   (cat: string, city: string, state: string) => 
-    `Find Black entrepreneurs running ${cat} businesses in and around ${city}, ${state}. Include newer and established businesses.`,
+    `Find Black entrepreneurs running ${cat} businesses in and around ${locationLabel(city, state)}. Include newer and established businesses.`,
   (cat: string, city: string, state: string) => 
-    `Discover lesser-known Black-owned ${cat} businesses in ${city}, ${state} that have their own website.`,
+    `Discover lesser-known Black-owned ${cat} businesses in ${locationLabel(city, state)} that have their own website.`,
 ];
 
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
