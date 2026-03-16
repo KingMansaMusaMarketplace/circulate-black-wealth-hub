@@ -234,12 +234,15 @@ const DirectoryPage: React.FC = () => {
               <div className="flex items-center gap-3">
                 <div className="h-2 w-2 rounded-full bg-mansagold animate-pulse" />
                 <p className="text-gray-400">
-                  {isLoading ? (
+                {isLoading ? (
                     <span className="text-gray-500">Loading businesses...</span>
                   ) : (
                     <>
-                      <span className="text-mansagold font-bold text-xl">{filteredBusinesses?.length || 0}</span>
+                      <span className="text-mansagold font-bold text-xl">{totalBusinesses?.toLocaleString() || 0}</span>
                       <span className="ml-2">businesses found</span>
+                      {totalPages > 1 && (
+                        <span className="ml-2 text-gray-500">· page {page} of {totalPages}</span>
+                      )}
                     </>
                   )}
                 </p>
