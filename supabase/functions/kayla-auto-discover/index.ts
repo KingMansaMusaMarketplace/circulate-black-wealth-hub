@@ -257,7 +257,7 @@ const QUERY_PATTERNS = [
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
 // === OPTIMIZATION #3: Increased volume per cycle ===
-const NUM_SEARCHES = 20;
+const NUM_SEARCHES = 30;
 const PER_QUERY_LIMIT = 8;
 const MIN_CONFIDENCE = 0.55;
 const SCRAPE_BATCH_SIZE = 10;
