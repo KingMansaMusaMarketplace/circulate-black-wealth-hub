@@ -163,6 +163,17 @@ const TARGET_CITIES = [
   { city: "Saskatoon", state: "SK" }, { city: "Regina", state: "SK" },
   // New Brunswick
   { city: "Fredericton", state: "NB" }, { city: "Moncton", state: "NB" },
+  // === MEXICO ===
+  { city: "Mexico City", state: "CDMX" }, { city: "Guadalajara", state: "JAL" },
+  { city: "Monterrey", state: "NL" }, { city: "Cancún", state: "QROO" },
+  { city: "Playa del Carmen", state: "QROO" }, { city: "Mérida", state: "YUC" },
+  { city: "Puebla", state: "PUE" }, { city: "Oaxaca", state: "OAX" },
+  { city: "San Miguel de Allende", state: "GTO" }, { city: "Puerto Vallarta", state: "JAL" },
+  { city: "Tulum", state: "QROO" }, { city: "Querétaro", state: "QRO" },
+  { city: "León", state: "GTO" }, { city: "Tijuana", state: "BCN" },
+  { city: "Cabo San Lucas", state: "BCS" }, { city: "Acapulco", state: "GRO" },
+  { city: "Veracruz", state: "VER" }, { city: "San Cristóbal de las Casas", state: "CHIS" },
+  { city: "Mazatlán", state: "SIN" }, { city: "Cuernavaca", state: "MOR" },
 ];
 
 // === MASSIVELY EXPANDED CATEGORIES — ALL types of Black-owned businesses ===
