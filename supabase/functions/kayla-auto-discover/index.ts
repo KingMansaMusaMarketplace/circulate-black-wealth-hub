@@ -246,10 +246,16 @@ const CATEGORIES: string[] = [
 
 // Canadian provinces for context-aware queries
 const CANADIAN_PROVINCES = new Set(["ON", "QC", "BC", "AB", "MB", "NS", "SK", "NB"]);
+// Mexican states for context-aware queries
+const MEXICAN_STATES = new Set(["CDMX", "JAL", "NL", "QROO", "YUC", "PUE", "OAX", "GTO", "QRO", "BCN", "BCS", "GRO", "VER", "CHIS", "SIN", "MOR"]);
 
 const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
+const isMexican = (state: string) => MEXICAN_STATES.has(state);
 const locationLabel = (city: string, state: string) => 
-  isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
+  isMexican(state) ? `${city}, ${state}, Mexico` : isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
+
+const ethnicLabel = (state: string) => 
+  isMexican(state) ? 'Afro-Mexican' : isCanadian(state) ? 'Black Canadian' : 'African American';
 
 // Alternate search query patterns to avoid repetition and find more results
 const QUERY_PATTERNS = [
@@ -258,7 +264,7 @@ const QUERY_PATTERNS = [
   (cat: string, city: string, state: string) => 
     `List Black-owned ${cat} businesses near ${locationLabel(city, state)} area with websites and contact info.`,
   (cat: string, city: string, state: string) => 
-    `What are some popular ${isCanadian(state) ? 'Black Canadian' : 'African American'} owned ${cat} businesses in the ${locationLabel(city, state)} metropolitan area?`,
+    `What are some popular ${ethnicLabel(state)} owned ${cat} businesses in the ${locationLabel(city, state)} metropolitan area?`,
   (cat: string, city: string, state: string) => 
     `Find Black entrepreneurs running ${cat} businesses in and around ${locationLabel(city, state)}. Include newer and established businesses.`,
   (cat: string, city: string, state: string) => 
