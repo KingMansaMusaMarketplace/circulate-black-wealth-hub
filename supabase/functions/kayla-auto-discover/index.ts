@@ -283,14 +283,27 @@ const CATEGORIES: string[] = [
 const CANADIAN_PROVINCES = new Set(["ON", "QC", "BC", "AB", "MB", "NS", "SK", "NB"]);
 // Mexican states for context-aware queries
 const MEXICAN_STATES = new Set(["CDMX", "JAL", "NL", "QROO", "YUC", "PUE", "OAX", "GTO", "QRO", "BCN", "BCS", "GRO", "VER", "CHIS", "SIN", "MOR"]);
+// Caribbean country/territory codes
+const CARIBBEAN_CODES = new Set(["JM", "TT", "BS", "BB", "HT", "DO", "USVI", "PR", "CW", "AG", "LC", "GD", "KN", "BM", "KY", "TC", "BZ"]);
+const CARIBBEAN_NAMES: Record<string, string> = {
+  JM: "Jamaica", TT: "Trinidad & Tobago", BS: "Bahamas", BB: "Barbados",
+  HT: "Haiti", DO: "Dominican Republic", USVI: "US Virgin Islands", PR: "Puerto Rico",
+  CW: "Curaçao", AG: "Antigua & Barbuda", LC: "St. Lucia", GD: "Grenada",
+  KN: "St. Kitts & Nevis", BM: "Bermuda", KY: "Cayman Islands", TC: "Turks & Caicos", BZ: "Belize",
+};
 
 const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
 const isMexican = (state: string) => MEXICAN_STATES.has(state);
+const isCaribbean = (state: string) => CARIBBEAN_CODES.has(state);
 const locationLabel = (city: string, state: string) => 
-  isMexican(state) ? `${city}, ${state}, Mexico` : isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
+  isCaribbean(state) ? `${city}, ${CARIBBEAN_NAMES[state]}` :
+  isMexican(state) ? `${city}, ${state}, Mexico` : 
+  isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
 
 const ethnicLabel = (state: string) => 
-  isMexican(state) ? 'Afro-Mexican' : isCanadian(state) ? 'Black Canadian' : 'African American';
+  isCaribbean(state) ? 'Afro-Caribbean' :
+  isMexican(state) ? 'Afro-Mexican' : 
+  isCanadian(state) ? 'Black Canadian' : 'African American';
 
 // Alternate search query patterns to avoid repetition and find more results
 const QUERY_PATTERNS = [
