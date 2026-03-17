@@ -163,6 +163,17 @@ const TARGET_CITIES = [
   { city: "Saskatoon", state: "SK" }, { city: "Regina", state: "SK" },
   // New Brunswick
   { city: "Fredericton", state: "NB" }, { city: "Moncton", state: "NB" },
+  // === MEXICO ===
+  { city: "Mexico City", state: "CDMX" }, { city: "Guadalajara", state: "JAL" },
+  { city: "Monterrey", state: "NL" }, { city: "Cancún", state: "QROO" },
+  { city: "Playa del Carmen", state: "QROO" }, { city: "Mérida", state: "YUC" },
+  { city: "Puebla", state: "PUE" }, { city: "Oaxaca", state: "OAX" },
+  { city: "San Miguel de Allende", state: "GTO" }, { city: "Puerto Vallarta", state: "JAL" },
+  { city: "Tulum", state: "QROO" }, { city: "Querétaro", state: "QRO" },
+  { city: "León", state: "GTO" }, { city: "Tijuana", state: "BCN" },
+  { city: "Cabo San Lucas", state: "BCS" }, { city: "Acapulco", state: "GRO" },
+  { city: "Veracruz", state: "VER" }, { city: "San Cristóbal de las Casas", state: "CHIS" },
+  { city: "Mazatlán", state: "SIN" }, { city: "Cuernavaca", state: "MOR" },
 ];
 
 // === MASSIVELY EXPANDED CATEGORIES — ALL types of Black-owned businesses ===
@@ -235,10 +246,16 @@ const CATEGORIES: string[] = [
 
 // Canadian provinces for context-aware queries
 const CANADIAN_PROVINCES = new Set(["ON", "QC", "BC", "AB", "MB", "NS", "SK", "NB"]);
+// Mexican states for context-aware queries
+const MEXICAN_STATES = new Set(["CDMX", "JAL", "NL", "QROO", "YUC", "PUE", "OAX", "GTO", "QRO", "BCN", "BCS", "GRO", "VER", "CHIS", "SIN", "MOR"]);
 
 const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
+const isMexican = (state: string) => MEXICAN_STATES.has(state);
 const locationLabel = (city: string, state: string) => 
-  isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
+  isMexican(state) ? `${city}, ${state}, Mexico` : isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
+
+const ethnicLabel = (state: string) => 
+  isMexican(state) ? 'Afro-Mexican' : isCanadian(state) ? 'Black Canadian' : 'African American';
 
 // Alternate search query patterns to avoid repetition and find more results
 const QUERY_PATTERNS = [
@@ -247,7 +264,7 @@ const QUERY_PATTERNS = [
   (cat: string, city: string, state: string) => 
     `List Black-owned ${cat} businesses near ${locationLabel(city, state)} area with websites and contact info.`,
   (cat: string, city: string, state: string) => 
-    `What are some popular ${isCanadian(state) ? 'Black Canadian' : 'African American'} owned ${cat} businesses in the ${locationLabel(city, state)} metropolitan area?`,
+    `What are some popular ${ethnicLabel(state)} owned ${cat} businesses in the ${locationLabel(city, state)} metropolitan area?`,
   (cat: string, city: string, state: string) => 
     `Find Black entrepreneurs running ${cat} businesses in and around ${locationLabel(city, state)}. Include newer and established businesses.`,
   (cat: string, city: string, state: string) => 
