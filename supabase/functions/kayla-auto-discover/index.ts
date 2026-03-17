@@ -174,6 +174,41 @@ const TARGET_CITIES = [
   { city: "Cabo San Lucas", state: "BCS" }, { city: "Acapulco", state: "GRO" },
   { city: "Veracruz", state: "VER" }, { city: "San Cristóbal de las Casas", state: "CHIS" },
   { city: "Mazatlán", state: "SIN" }, { city: "Cuernavaca", state: "MOR" },
+  // === CARIBBEAN ===
+  // Jamaica
+  { city: "Kingston", state: "JM" }, { city: "Montego Bay", state: "JM" },
+  // Trinidad & Tobago
+  { city: "Port of Spain", state: "TT" }, { city: "San Fernando", state: "TT" },
+  // Bahamas
+  { city: "Nassau", state: "BS" }, { city: "Freeport", state: "BS" },
+  // Barbados
+  { city: "Bridgetown", state: "BB" },
+  // Haiti
+  { city: "Port-au-Prince", state: "HT" }, { city: "Cap-Haïtien", state: "HT" },
+  // Dominican Republic
+  { city: "Santo Domingo", state: "DO" }, { city: "Santiago", state: "DO" },
+  // US Virgin Islands
+  { city: "Charlotte Amalie", state: "USVI" }, { city: "Christiansted", state: "USVI" },
+  // Puerto Rico
+  { city: "San Juan", state: "PR" }, { city: "Ponce", state: "PR" },
+  // Curaçao
+  { city: "Willemstad", state: "CW" },
+  // Antigua & Barbuda
+  { city: "St. John's", state: "AG" },
+  // St. Lucia
+  { city: "Castries", state: "LC" },
+  // Grenada
+  { city: "St. George's", state: "GD" },
+  // St. Kitts & Nevis
+  { city: "Basseterre", state: "KN" },
+  // Bermuda
+  { city: "Hamilton", state: "BM" },
+  // Cayman Islands
+  { city: "George Town", state: "KY" },
+  // Turks & Caicos
+  { city: "Providenciales", state: "TC" },
+  // Belize
+  { city: "Belize City", state: "BZ" },
 ];
 
 // === MASSIVELY EXPANDED CATEGORIES — ALL types of Black-owned businesses ===
@@ -248,14 +283,27 @@ const CATEGORIES: string[] = [
 const CANADIAN_PROVINCES = new Set(["ON", "QC", "BC", "AB", "MB", "NS", "SK", "NB"]);
 // Mexican states for context-aware queries
 const MEXICAN_STATES = new Set(["CDMX", "JAL", "NL", "QROO", "YUC", "PUE", "OAX", "GTO", "QRO", "BCN", "BCS", "GRO", "VER", "CHIS", "SIN", "MOR"]);
+// Caribbean country/territory codes
+const CARIBBEAN_CODES = new Set(["JM", "TT", "BS", "BB", "HT", "DO", "USVI", "PR", "CW", "AG", "LC", "GD", "KN", "BM", "KY", "TC", "BZ"]);
+const CARIBBEAN_NAMES: Record<string, string> = {
+  JM: "Jamaica", TT: "Trinidad & Tobago", BS: "Bahamas", BB: "Barbados",
+  HT: "Haiti", DO: "Dominican Republic", USVI: "US Virgin Islands", PR: "Puerto Rico",
+  CW: "Curaçao", AG: "Antigua & Barbuda", LC: "St. Lucia", GD: "Grenada",
+  KN: "St. Kitts & Nevis", BM: "Bermuda", KY: "Cayman Islands", TC: "Turks & Caicos", BZ: "Belize",
+};
 
 const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
 const isMexican = (state: string) => MEXICAN_STATES.has(state);
+const isCaribbean = (state: string) => CARIBBEAN_CODES.has(state);
 const locationLabel = (city: string, state: string) => 
-  isMexican(state) ? `${city}, ${state}, Mexico` : isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
+  isCaribbean(state) ? `${city}, ${CARIBBEAN_NAMES[state]}` :
+  isMexican(state) ? `${city}, ${state}, Mexico` : 
+  isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
 
 const ethnicLabel = (state: string) => 
-  isMexican(state) ? 'Afro-Mexican' : isCanadian(state) ? 'Black Canadian' : 'African American';
+  isCaribbean(state) ? 'Afro-Caribbean' :
+  isMexican(state) ? 'Afro-Mexican' : 
+  isCanadian(state) ? 'Black Canadian' : 'African American';
 
 // Alternate search query patterns to avoid repetition and find more results
 const QUERY_PATTERNS = [
