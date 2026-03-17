@@ -174,6 +174,41 @@ const TARGET_CITIES = [
   { city: "Cabo San Lucas", state: "BCS" }, { city: "Acapulco", state: "GRO" },
   { city: "Veracruz", state: "VER" }, { city: "San Cristóbal de las Casas", state: "CHIS" },
   { city: "Mazatlán", state: "SIN" }, { city: "Cuernavaca", state: "MOR" },
+  // === CARIBBEAN ===
+  // Jamaica
+  { city: "Kingston", state: "JM" }, { city: "Montego Bay", state: "JM" },
+  // Trinidad & Tobago
+  { city: "Port of Spain", state: "TT" }, { city: "San Fernando", state: "TT" },
+  // Bahamas
+  { city: "Nassau", state: "BS" }, { city: "Freeport", state: "BS" },
+  // Barbados
+  { city: "Bridgetown", state: "BB" },
+  // Haiti
+  { city: "Port-au-Prince", state: "HT" }, { city: "Cap-Haïtien", state: "HT" },
+  // Dominican Republic
+  { city: "Santo Domingo", state: "DO" }, { city: "Santiago", state: "DO" },
+  // US Virgin Islands
+  { city: "Charlotte Amalie", state: "USVI" }, { city: "Christiansted", state: "USVI" },
+  // Puerto Rico
+  { city: "San Juan", state: "PR" }, { city: "Ponce", state: "PR" },
+  // Curaçao
+  { city: "Willemstad", state: "CW" },
+  // Antigua & Barbuda
+  { city: "St. John's", state: "AG" },
+  // St. Lucia
+  { city: "Castries", state: "LC" },
+  // Grenada
+  { city: "St. George's", state: "GD" },
+  // St. Kitts & Nevis
+  { city: "Basseterre", state: "KN" },
+  // Bermuda
+  { city: "Hamilton", state: "BM" },
+  // Cayman Islands
+  { city: "George Town", state: "KY" },
+  // Turks & Caicos
+  { city: "Providenciales", state: "TC" },
+  // Belize
+  { city: "Belize City", state: "BZ" },
 ];
 
 // === MASSIVELY EXPANDED CATEGORIES — ALL types of Black-owned businesses ===
