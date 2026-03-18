@@ -209,6 +209,12 @@ const TARGET_CITIES = [
   { city: "Providenciales", state: "TC" },
   // Belize
   { city: "Belize City", state: "BZ" },
+  // === GHANA ===
+  { city: "Accra", state: "GH" }, { city: "Kumasi", state: "GH" }, { city: "Tamale", state: "GH" },
+  { city: "Takoradi", state: "GH" }, { city: "Cape Coast", state: "GH" }, { city: "Tema", state: "GH" },
+  { city: "Koforidua", state: "GH" }, { city: "Sunyani", state: "GH" }, { city: "Ho", state: "GH" },
+  { city: "Bolgatanga", state: "GH" }, { city: "Wa", state: "GH" }, { city: "Techiman", state: "GH" },
+  { city: "Obuasi", state: "GH" }, { city: "Nkawkaw", state: "GH" }, { city: "Winneba", state: "GH" },
   // === UNITED KINGDOM ===
   // London & London boroughs
   { city: "London", state: "ENG" }, { city: "Croydon", state: "ENG" }, { city: "Hackney", state: "ENG" },
@@ -308,18 +314,23 @@ const CARIBBEAN_NAMES: Record<string, string> = {
 // United Kingdom codes
 const UK_CODES = new Set(["ENG", "SCT", "WAL"]);
 const UK_NAMES: Record<string, string> = { ENG: "England", SCT: "Scotland", WAL: "Wales" };
+// Ghana
+const GHANA_CODES = new Set(["GH"]);
 
 const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
 const isMexican = (state: string) => MEXICAN_STATES.has(state);
 const isCaribbean = (state: string) => CARIBBEAN_CODES.has(state);
 const isUK = (state: string) => UK_CODES.has(state);
+const isGhana = (state: string) => GHANA_CODES.has(state);
 const locationLabel = (city: string, state: string) => 
+  isGhana(state) ? `${city}, Ghana` :
   isCaribbean(state) ? `${city}, ${CARIBBEAN_NAMES[state]}` :
   isUK(state) ? `${city}, ${UK_NAMES[state]}, United Kingdom` :
   isMexican(state) ? `${city}, ${state}, Mexico` : 
   isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
 
 const ethnicLabel = (state: string) => 
+  isGhana(state) ? 'Ghanaian' :
   isCaribbean(state) ? 'Afro-Caribbean' :
   isUK(state) ? 'Black British' :
   isMexican(state) ? 'Afro-Mexican' : 
