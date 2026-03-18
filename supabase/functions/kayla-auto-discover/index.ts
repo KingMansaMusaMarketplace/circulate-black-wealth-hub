@@ -209,6 +209,12 @@ const TARGET_CITIES = [
   { city: "Providenciales", state: "TC" },
   // Belize
   { city: "Belize City", state: "BZ" },
+  // === GHANA ===
+  { city: "Accra", state: "GH" }, { city: "Kumasi", state: "GH" }, { city: "Tamale", state: "GH" },
+  { city: "Takoradi", state: "GH" }, { city: "Cape Coast", state: "GH" }, { city: "Tema", state: "GH" },
+  { city: "Koforidua", state: "GH" }, { city: "Sunyani", state: "GH" }, { city: "Ho", state: "GH" },
+  { city: "Bolgatanga", state: "GH" }, { city: "Wa", state: "GH" }, { city: "Techiman", state: "GH" },
+  { city: "Obuasi", state: "GH" }, { city: "Nkawkaw", state: "GH" }, { city: "Winneba", state: "GH" },
   // === UNITED KINGDOM ===
   // London & London boroughs
   { city: "London", state: "ENG" }, { city: "Croydon", state: "ENG" }, { city: "Hackney", state: "ENG" },
