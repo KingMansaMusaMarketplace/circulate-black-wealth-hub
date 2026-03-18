@@ -305,17 +305,23 @@ const CARIBBEAN_NAMES: Record<string, string> = {
   CW: "Curaçao", AG: "Antigua & Barbuda", LC: "St. Lucia", GD: "Grenada",
   KN: "St. Kitts & Nevis", BM: "Bermuda", KY: "Cayman Islands", TC: "Turks & Caicos", BZ: "Belize",
 };
+// United Kingdom codes
+const UK_CODES = new Set(["ENG", "SCT", "WAL"]);
+const UK_NAMES: Record<string, string> = { ENG: "England", SCT: "Scotland", WAL: "Wales" };
 
 const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
 const isMexican = (state: string) => MEXICAN_STATES.has(state);
 const isCaribbean = (state: string) => CARIBBEAN_CODES.has(state);
+const isUK = (state: string) => UK_CODES.has(state);
 const locationLabel = (city: string, state: string) => 
   isCaribbean(state) ? `${city}, ${CARIBBEAN_NAMES[state]}` :
+  isUK(state) ? `${city}, ${UK_NAMES[state]}, United Kingdom` :
   isMexican(state) ? `${city}, ${state}, Mexico` : 
   isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
 
 const ethnicLabel = (state: string) => 
   isCaribbean(state) ? 'Afro-Caribbean' :
+  isUK(state) ? 'Black British' :
   isMexican(state) ? 'Afro-Mexican' : 
   isCanadian(state) ? 'Black Canadian' : 'African American';
 
