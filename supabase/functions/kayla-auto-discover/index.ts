@@ -209,6 +209,20 @@ const TARGET_CITIES = [
   { city: "Providenciales", state: "TC" },
   // Belize
   { city: "Belize City", state: "BZ" },
+  // === UNITED KINGDOM ===
+  // London & London boroughs
+  { city: "London", state: "ENG" }, { city: "Croydon", state: "ENG" }, { city: "Hackney", state: "ENG" },
+  { city: "Brixton", state: "ENG" }, { city: "Tottenham", state: "ENG" }, { city: "Peckham", state: "ENG" },
+  { city: "Lewisham", state: "ENG" },
+  // Major English cities
+  { city: "Birmingham", state: "ENG" }, { city: "Manchester", state: "ENG" }, { city: "Bristol", state: "ENG" },
+  { city: "Leeds", state: "ENG" }, { city: "Liverpool", state: "ENG" }, { city: "Nottingham", state: "ENG" },
+  { city: "Leicester", state: "ENG" }, { city: "Luton", state: "ENG" }, { city: "Wolverhampton", state: "ENG" },
+  { city: "Coventry", state: "ENG" }, { city: "Sheffield", state: "ENG" }, { city: "Reading", state: "ENG" },
+  { city: "Milton Keynes", state: "ENG" },
+  // Scotland & Wales
+  { city: "Glasgow", state: "SCT" }, { city: "Edinburgh", state: "SCT" },
+  { city: "Cardiff", state: "WAL" },
 ];
 
 // === MASSIVELY EXPANDED CATEGORIES — ALL types of Black-owned businesses ===
@@ -291,17 +305,23 @@ const CARIBBEAN_NAMES: Record<string, string> = {
   CW: "Curaçao", AG: "Antigua & Barbuda", LC: "St. Lucia", GD: "Grenada",
   KN: "St. Kitts & Nevis", BM: "Bermuda", KY: "Cayman Islands", TC: "Turks & Caicos", BZ: "Belize",
 };
+// United Kingdom codes
+const UK_CODES = new Set(["ENG", "SCT", "WAL"]);
+const UK_NAMES: Record<string, string> = { ENG: "England", SCT: "Scotland", WAL: "Wales" };
 
 const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
 const isMexican = (state: string) => MEXICAN_STATES.has(state);
 const isCaribbean = (state: string) => CARIBBEAN_CODES.has(state);
+const isUK = (state: string) => UK_CODES.has(state);
 const locationLabel = (city: string, state: string) => 
   isCaribbean(state) ? `${city}, ${CARIBBEAN_NAMES[state]}` :
+  isUK(state) ? `${city}, ${UK_NAMES[state]}, United Kingdom` :
   isMexican(state) ? `${city}, ${state}, Mexico` : 
   isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
 
 const ethnicLabel = (state: string) => 
   isCaribbean(state) ? 'Afro-Caribbean' :
+  isUK(state) ? 'Black British' :
   isMexican(state) ? 'Afro-Mexican' : 
   isCanadian(state) ? 'Black Canadian' : 'African American';
 
