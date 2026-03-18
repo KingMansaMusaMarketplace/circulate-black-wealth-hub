@@ -314,18 +314,23 @@ const CARIBBEAN_NAMES: Record<string, string> = {
 // United Kingdom codes
 const UK_CODES = new Set(["ENG", "SCT", "WAL"]);
 const UK_NAMES: Record<string, string> = { ENG: "England", SCT: "Scotland", WAL: "Wales" };
+// Ghana
+const GHANA_CODES = new Set(["GH"]);
 
 const isCanadian = (state: string) => CANADIAN_PROVINCES.has(state);
 const isMexican = (state: string) => MEXICAN_STATES.has(state);
 const isCaribbean = (state: string) => CARIBBEAN_CODES.has(state);
 const isUK = (state: string) => UK_CODES.has(state);
+const isGhana = (state: string) => GHANA_CODES.has(state);
 const locationLabel = (city: string, state: string) => 
+  isGhana(state) ? `${city}, Ghana` :
   isCaribbean(state) ? `${city}, ${CARIBBEAN_NAMES[state]}` :
   isUK(state) ? `${city}, ${UK_NAMES[state]}, United Kingdom` :
   isMexican(state) ? `${city}, ${state}, Mexico` : 
   isCanadian(state) ? `${city}, ${state}, Canada` : `${city}, ${state}`;
 
 const ethnicLabel = (state: string) => 
+  isGhana(state) ? 'Ghanaian' :
   isCaribbean(state) ? 'Afro-Caribbean' :
   isUK(state) ? 'Black British' :
   isMexican(state) ? 'Afro-Mexican' : 
