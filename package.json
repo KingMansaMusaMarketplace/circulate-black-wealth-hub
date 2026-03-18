@@ -84,6 +84,7 @@
     "i18next-browser-languagedetector": "^8.2.0",
     "input-otp": "^1.2.4",
     "jsdom": "^20.0.3",
+    "jspdf": "3.0.4",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.462.0",
     "mapbox-gl": "^3.13.0",
