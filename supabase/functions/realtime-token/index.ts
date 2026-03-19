@@ -868,12 +868,13 @@ When helping admins, provide specific guidance on navigating the dashboard, unde
           {
             type: "function",
             name: "search_businesses",
-            description: "Search the 1325.AI business directory by name, category, or keyword. Use when a user asks to find businesses, restaurants, shops, services, etc.",
+            description: "Search the 1325.AI business directory by name, category, service type, or keyword. Also searches business descriptions. Use when a user asks to find businesses, restaurants, shops, services, plumbers, etc. When the user mentions a city, pass it as the 'city' parameter separately from the query.",
             parameters: {
               type: "object",
               properties: {
-                query: { type: "string", description: "Search term (business name, type, or keyword)" },
+                query: { type: "string", description: "Search term (business name, service type, or keyword like 'plumber', 'salon', 'restaurant')" },
                 category: { type: "string", description: "Optional category filter like Restaurant, Salon, etc." },
+                city: { type: "string", description: "City to filter results by (e.g. 'Chicago', 'Atlanta')" },
                 limit: { type: "number", description: "Number of results (1-10, default 5)" }
               },
               required: ["query"]

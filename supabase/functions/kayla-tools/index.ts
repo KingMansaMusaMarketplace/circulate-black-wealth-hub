@@ -101,7 +101,7 @@ async function getNearbyBusinesses(
     .limit(limit);
 
   if (args.category) {
-    query = query.ilike("category", `%${args.category}%`);
+    query = query.or(`category.ilike.%${args.category}%,description.ilike.%${args.category}%`);
   }
 
   const { data, error } = await query.order("average_rating", { ascending: false });
