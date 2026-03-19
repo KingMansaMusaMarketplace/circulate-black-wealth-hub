@@ -895,7 +895,7 @@ When helping admins, provide specific guidance on navigating the dashboard, unde
           {
             type: "function",
             name: "get_nearby_businesses",
-            description: "Find businesses in a specific city. Use when user mentions a location or asks for nearby businesses.",
+            description: "Find businesses in a specific city. Also searches business descriptions for service types. Use when user mentions a location or asks for nearby businesses.",
             parameters: {
               type: "object",
               properties: {
