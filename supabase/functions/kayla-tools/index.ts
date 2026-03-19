@@ -13,20 +13,24 @@ const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 async function searchBusinesses(
   supabase: ReturnType<typeof createClient>,
-  args: { query: string; category?: string; limit?: number }
+  args: { query: string; category?: string; city?: string; limit?: number }
 ) {
   const limit = Math.min(args.limit || 5, 10);
   let query = supabase
     .from("business_directory")
-    .select("id, business_name, category, address, city, state, average_rating, review_count, is_verified, logo_url")
+    .select("id, business_name, category, description, address, city, state, average_rating, review_count, is_verified, logo_url")
     .limit(limit);
 
   if (args.category) {
     query = query.ilike("category", `%${args.category}%`);
   }
+  // AND filter by city when provided separately
+  if (args.city) {
+    query = query.ilike("city", `%${args.city}%`);
+  }
   if (args.query) {
     query = query.or(
-      `business_name.ilike.%${args.query}%,category.ilike.%${args.query}%,city.ilike.%${args.query}%`
+      `business_name.ilike.%${args.query}%,category.ilike.%${args.query}%,description.ilike.%${args.query}%`
     );
   }
 
