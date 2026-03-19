@@ -1,9 +1,39 @@
 // Image optimization utilities
 
-// Generate a low-quality placeholder for progressive loading
+// Generate a built-in SVG placeholder so fallbacks always render without external requests
 export const generatePlaceholder = (width: number, height: number, text?: string) => {
-  const encodedText = encodeURIComponent(text || 'Image');
-  return `https://placehold.co/${width}x${height}/e5e7eb/6b7280?text=${encodedText}`;
+  const label = (text || 'Image')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join('') || 'I';
+
+  const fontSize = Math.max(24, Math.round(Math.min(width, height) * 0.18));
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${label}">
+      <defs>
+        <linearGradient id="placeholderGradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#1e40af" />
+          <stop offset="100%" stop-color="#0f172a" />
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#placeholderGradient)" rx="16" ry="16" />
+      <text
+        x="50%"
+        y="50%"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="${fontSize}"
+        font-weight="700"
+        fill="#f8fafc"
+        letter-spacing="1"
+      >${label}</text>
+    </svg>
+  `.trim();
+
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 };
 
 // Generate a tiny blur placeholder (data URL)
