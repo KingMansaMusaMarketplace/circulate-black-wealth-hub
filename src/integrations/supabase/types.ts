@@ -4001,6 +4001,8 @@ export type Database = {
           subscription_end_date: string | null
           subscription_start_date: string | null
           subscription_status: string | null
+          total_revenue_tracked: number | null
+          transaction_count: number | null
           updated_at: string | null
           website: string | null
           zip_code: string | null
@@ -4044,6 +4046,8 @@ export type Database = {
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
+          total_revenue_tracked?: number | null
+          transaction_count?: number | null
           updated_at?: string | null
           website?: string | null
           zip_code?: string | null
@@ -4087,6 +4091,8 @@ export type Database = {
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
+          total_revenue_tracked?: number | null
+          transaction_count?: number | null
           updated_at?: string | null
           website?: string | null
           zip_code?: string | null
@@ -5192,6 +5198,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      community_wealth_stats: {
+        Row: {
+          economic_impact: number | null
+          id: string
+          last_transaction_at: string | null
+          total_verified_spending: number | null
+          updated_at: string | null
+          verified_transaction_count: number | null
+        }
+        Insert: {
+          economic_impact?: number | null
+          id?: string
+          last_transaction_at?: string | null
+          total_verified_spending?: number | null
+          updated_at?: string | null
+          verified_transaction_count?: number | null
+        }
+        Update: {
+          economic_impact?: number | null
+          id?: string
+          last_transaction_at?: string | null
+          total_verified_spending?: number | null
+          updated_at?: string | null
+          verified_transaction_count?: number | null
+        }
+        Relationships: []
       }
       contact_submissions: {
         Row: {
@@ -15689,6 +15722,69 @@ export type Database = {
           },
         ]
       }
+      verified_transactions: {
+        Row: {
+          amount: number
+          business_id: string | null
+          customer_email: string | null
+          id: string
+          stripe_session_id: string | null
+          verified_at: string | null
+        }
+        Insert: {
+          amount: number
+          business_id?: string | null
+          customer_email?: string | null
+          id?: string
+          stripe_session_id?: string | null
+          verified_at?: string | null
+        }
+        Update: {
+          amount?: number
+          business_id?: string | null
+          customer_email?: string | null
+          id?: string
+          stripe_session_id?: string | null
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verified_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verified_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verified_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verified_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verified_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       wallet_transactions: {
         Row: {
           amount: number
@@ -17244,6 +17340,15 @@ export type Database = {
       has_transacted_with_business: {
         Args: { p_business_id: string; p_customer_id: string }
         Returns: boolean
+      }
+      increment_community_wealth: {
+        Args: {
+          p_amount: number
+          p_business_id?: string
+          p_customer_email?: string
+          p_stripe_session_id?: string
+        }
+        Returns: undefined
       }
       increment_material_downloads: {
         Args: { material_id: string }

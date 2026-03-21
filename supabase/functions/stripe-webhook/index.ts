@@ -126,6 +126,42 @@ serve(async (req) => {
         
         console.log(`Checkout completed: ${session.id}`, metadata);
 
+        // 🏦 WEALTH TICKER: Emit verified transaction to community wealth stats
+        if (session.amount_total && session.amount_total > 0) {
+          const amountDollars = session.amount_total / 100;
+          const businessId = metadata?.business_id || null;
+          
+          try {
+            await supabaseClient.rpc('increment_community_wealth', {
+              p_amount: amountDollars,
+              p_business_id: businessId,
+              p_stripe_session_id: session.id,
+              p_customer_email: session.customer_details?.email || null,
+            });
+            console.log(`💰 Wealth ticker updated: +$${amountDollars}`);
+          } catch (wealthErr) {
+            console.error('Wealth ticker update failed:', wealthErr);
+          }
+
+          // 🧠 Emit Kayla event for real-time processing
+          try {
+            await supabaseClient.from('kayla_event_queue').insert({
+              event_type: 'live_transaction',
+              target_service: 'wealth_ticker',
+              payload: {
+                amount: amountDollars,
+                currency: session.currency,
+                business_id: businessId,
+                customer_email: session.customer_details?.email,
+                stripe_session_id: session.id,
+              },
+              status: 'completed', // Already processed above
+            });
+          } catch (eventErr) {
+            console.error('Kayla event emission failed:', eventErr);
+          }
+        }
+
         // Handle BHM Quick Add payments
         if (metadata?.type === 'bhm_quick_add') {
           const businessUrl = metadata.business_url;
