@@ -11,6 +11,7 @@ interface MapboxMapProps {
   onBusinessClick?: (businessId: string) => void;
   highlightedBusinessId?: string | null;
   onMarkerHover?: (businessId: string | null) => void;
+  flyToOnClick?: boolean;
 }
 
 const MapboxMap: React.FC<MapboxMapProps> = ({ 
@@ -20,6 +21,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   onBusinessClick,
   highlightedBusinessId,
   onMarkerHover,
+  flyToOnClick = true,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
