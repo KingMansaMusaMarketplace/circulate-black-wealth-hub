@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Bot, Lightbulb, Shield, Wand2, ShieldAlert, Heart, Brain } from 'lucide-react';
+import { Bot, Lightbulb, Shield, Wand2, ShieldAlert, Heart, Brain, Zap } from 'lucide-react';
 import AIAnalyticsAssistant from './AIAnalyticsAssistant';
 import AIInsightsGenerator from './AIInsightsGenerator';
 import AIContentModeration from './AIContentModeration';
@@ -9,6 +9,7 @@ import AIAnnouncementWriter from './AIAnnouncementWriter';
 import AIFraudDetection from './AIFraudDetection';
 import AISentimentDashboard from './AISentimentDashboard';
 import AIPredictiveAnalytics from './AIPredictiveAnalytics';
+import KaylaEventDashboard from './KaylaEventDashboard';
 
 const AdminAIDashboard: React.FC = () => {
   return (
@@ -55,6 +56,10 @@ const AdminAIDashboard: React.FC = () => {
             <Brain className="h-3 w-3" />
             Predictions
           </TabsTrigger>
+          <TabsTrigger value="events" className="flex items-center gap-1 text-xs">
+            <Zap className="h-3 w-3" />
+            Kayla Events
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="assistant">
@@ -83,6 +88,10 @@ const AdminAIDashboard: React.FC = () => {
 
         <TabsContent value="predictive">
           <AIPredictiveAnalytics />
+        </TabsContent>
+
+        <TabsContent value="events">
+          <KaylaEventDashboard />
         </TabsContent>
       </Tabs>
     </div>

@@ -7387,6 +7387,48 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_event_queue: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          event_type: string
+          id: string
+          max_retries: number
+          payload: Json
+          processed_at: string | null
+          record_id: string | null
+          retry_count: number
+          status: string
+          target_service: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          event_type: string
+          id?: string
+          max_retries?: number
+          payload?: Json
+          processed_at?: string | null
+          record_id?: string | null
+          retry_count?: number
+          status?: string
+          target_service: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          event_type?: string
+          id?: string
+          max_retries?: number
+          payload?: Json
+          processed_at?: string | null
+          record_id?: string | null
+          retry_count?: number
+          status?: string
+          target_service?: string
+        }
+        Relationships: []
+      }
       kayla_generated_content: {
         Row: {
           business_id: string
