@@ -1,6 +1,6 @@
-import React, { useState, useRef, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { Map, List, X } from 'lucide-react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Map, List, X, Navigation, Star, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Business } from '@/types/business';
@@ -10,6 +10,7 @@ import CompactBusinessCard from './CompactBusinessCard';
 import MobileMapSheet from './MobileMapSheet';
 import MapboxMap from '@/components/MapView/MapboxMap';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface DirectorySplitViewProps {
   businesses: Business[];
@@ -29,12 +30,20 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
   mapApiKey = '',
 }) => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const [highlightedBusinessId, setHighlightedBusinessId] = useState<string | null>(null);
+  const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(null);
   const [showMobileMap, setShowMobileMap] = useState(false);
   const [showSplitView, setShowSplitView] = useState(true);
   const listRef = useRef<HTMLDivElement>(null);
 
+  const selectedBusiness = useMemo(() => {
+    if (!selectedBusinessId) return null;
+    return businesses.find(b => b.id === selectedBusinessId) || null;
+  }, [selectedBusinessId, businesses]);
+
   const handleMarkerClick = useCallback((businessId: string) => {
+    setSelectedBusinessId(businessId);
     setHighlightedBusinessId(businessId);
     
     // Scroll to the business card in the list
@@ -42,9 +51,6 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
     if (element && listRef.current) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-    
-    // Clear highlight after animation
-    setTimeout(() => setHighlightedBusinessId(null), 3000);
   }, []);
 
   const handleCardHover = useCallback((businessId: string | null) => {
@@ -54,6 +60,10 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
   const handleCardClick = useCallback((businessId: string) => {
     onSelectBusiness?.(businessId);
   }, [onSelectBusiness]);
+
+  const handleViewBusiness = useCallback((businessId: string) => {
+    navigate(`/business/${businessId}`);
+  }, [navigate]);
 
   // Mobile view with floating map button
   if (isMobile) {
@@ -164,10 +174,102 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
               onBusinessClick={handleMarkerClick}
               highlightedBusinessId={highlightedBusinessId}
               onMarkerHover={handleCardHover}
+              flyToOnClick
             />
             
             {/* Map overlay gradient at top */}
             <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-slate-900/40 to-transparent pointer-events-none z-10" />
+
+            {/* Selected Business Info Panel - appears when a dot is clicked */}
+            <AnimatePresence>
+              {selectedBusiness && (
+                <motion.div
+                  initial={{ y: 100, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 100, opacity: 0 }}
+                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                  className="absolute bottom-4 left-4 right-4 z-20"
+                >
+                  <div className="bg-slate-900/95 backdrop-blur-md border border-white/10 rounded-xl p-4 shadow-2xl">
+                    {/* Close button */}
+                    <button
+                      onClick={() => setSelectedBusinessId(null)}
+                      className="absolute top-2 right-2 p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                    >
+                      <X className="w-4 h-4 text-white" />
+                    </button>
+
+                    <div className="flex gap-4">
+                      {/* Image */}
+                      <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                        <img
+                          src={selectedBusiness.imageUrl || selectedBusiness.logoUrl || '/placeholder.svg'}
+                          alt={selectedBusiness.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-white text-lg truncate">{selectedBusiness.name}</h3>
+                        <p className="text-xs text-mansagold font-medium mt-0.5">{selectedBusiness.category}</p>
+                        
+                        <div className="flex items-center gap-3 mt-2">
+                          <div className="flex items-center gap-1">
+                            <Star className="w-3 h-3 fill-mansagold text-mansagold" />
+                            <span className="text-xs text-white">
+                              {selectedBusiness.averageRating?.toFixed(1) || selectedBusiness.rating?.toFixed(1) || 'New'}
+                            </span>
+                          </div>
+                          {selectedBusiness.distance && (
+                            <div className="flex items-center gap-1 text-gray-400">
+                              <MapPin className="w-3 h-3" />
+                              <span className="text-xs">{selectedBusiness.distance}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {selectedBusiness.address && (
+                          <p className="text-xs text-gray-400 mt-1 truncate">
+                            {selectedBusiness.address}{selectedBusiness.city ? `, ${selectedBusiness.city}` : ''}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        onClick={() => handleViewBusiness(selectedBusiness.id)}
+                        className={cn(
+                          'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg',
+                          'bg-mansagold text-black font-semibold text-sm',
+                          'hover:bg-mansagold/90 active:scale-[0.98] transition-all'
+                        )}
+                      >
+                        View Business
+                      </button>
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          `${selectedBusiness.name} ${selectedBusiness.address || ''} ${selectedBusiness.city || ''} ${selectedBusiness.state || ''}`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          'flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg',
+                          'bg-white/10 text-white text-sm font-medium',
+                          'hover:bg-white/20 active:scale-[0.98] transition-all'
+                        )}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Navigation className="w-4 h-4" />
+                        Directions
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       ) : (

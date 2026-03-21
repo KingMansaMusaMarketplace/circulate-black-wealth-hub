@@ -11,6 +11,7 @@ interface MapboxMapProps {
   onBusinessClick?: (businessId: string) => void;
   highlightedBusinessId?: string | null;
   onMarkerHover?: (businessId: string | null) => void;
+  flyToOnClick?: boolean;
 }
 
 const MapboxMap: React.FC<MapboxMapProps> = ({ 
@@ -20,6 +21,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   onBusinessClick,
   highlightedBusinessId,
   onMarkerHover,
+  flyToOnClick = true,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -191,6 +193,18 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       if (onBusinessClick) {
         el.addEventListener('click', (e) => {
           e.stopPropagation();
+          
+          // Fly to the clicked business marker
+          if (flyToOnClick && map.current) {
+            map.current.flyTo({
+              center: [business.lng, business.lat],
+              zoom: 15,
+              pitch: 50,
+              duration: 1200,
+              essential: true,
+            });
+          }
+          
           onBusinessClick(business.id);
         });
       }
