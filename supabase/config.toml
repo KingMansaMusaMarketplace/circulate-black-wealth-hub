@@ -287,3 +287,6 @@ verify_jwt = false
 
 [functions.fraud-consensus-review]
 verify_jwt = false
+
+[functions.kayla-event-processor]
+verify_jwt = false

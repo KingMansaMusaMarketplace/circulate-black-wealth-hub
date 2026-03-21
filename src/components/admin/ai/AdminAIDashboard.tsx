@@ -56,6 +56,10 @@ const AdminAIDashboard: React.FC = () => {
             <Brain className="h-3 w-3" />
             Predictions
           </TabsTrigger>
+          <TabsTrigger value="events" className="flex items-center gap-1 text-xs">
+            <Zap className="h-3 w-3" />
+            Kayla Events
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="assistant">
@@ -84,6 +88,10 @@ const AdminAIDashboard: React.FC = () => {
 
         <TabsContent value="predictive">
           <AIPredictiveAnalytics />
+        </TabsContent>
+
+        <TabsContent value="events">
+          <KaylaEventDashboard />
         </TabsContent>
       </Tabs>
     </div>
