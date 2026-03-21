@@ -97,6 +97,7 @@ const MobileMapSheet: React.FC<MobileMapSheetProps> = ({
                 onBusinessClick={handleMarkerClick}
                 highlightedBusinessId={highlightedBusinessId || selectedBusinessId}
                 onMarkerHover={() => {}}
+                flyToOnClick
               />
 
               {/* Selected Business Preview Card */}
