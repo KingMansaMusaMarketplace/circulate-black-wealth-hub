@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Mic, Search, Home, Star, Calendar, TrendingUp, ShieldAlert, Database, Zap, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
-import { IPadVoiceFallback } from '@/components/voice';
 
 const capabilities = [
   { icon: Search, title: 'Live Directory Search', description: 'Ask for a restaurant nearby — she queries the real database and reads back results.' },
@@ -22,7 +21,6 @@ const differentiators = [
 ];
 
 const MeetKaylaSection: React.FC = () => {
-  const [showIPadFallback, setShowIPadFallback] = useState(false);
   const {
     isConnected,
     isConnecting,
@@ -34,10 +32,7 @@ const MeetKaylaSection: React.FC = () => {
 
   const handleStart = async () => {
     try {
-      const result = await startConversation();
-      if (result && typeof result === 'object' && 'blocked' in result && result.blocked && result.reason === 'ipad') {
-        setShowIPadFallback(true);
-      }
+      await startConversation();
     } catch (error) {
       console.error('[MeetKayla] Error starting:', error);
     }
@@ -45,9 +40,6 @@ const MeetKaylaSection: React.FC = () => {
 
   return (
     <section className="pt-2 pb-8 md:pt-4 md:pb-12 relative">
-      {showIPadFallback && (
-        <IPadVoiceFallback onDismiss={() => setShowIPadFallback(false)} />
-      )}
 
       <div className="max-w-5xl mx-auto px-4">
         {/* Section label */}

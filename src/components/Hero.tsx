@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ArrowRight, Mic, MicOff, Loader2 } from 'lucide-react';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
-import { IPadVoiceFallback } from '@/components/voice';
 
 const Hero = () => {
-  const [showIPadFallback, setShowIPadFallback] = useState(false);
   const {
     isConnected,
     isConnecting,
@@ -20,10 +18,7 @@ const Hero = () => {
 
   const handleTalkToKayla = async () => {
     try {
-      const result = await startConversation();
-      if (result && typeof result === 'object' && 'blocked' in result && result.blocked && result.reason === 'ipad') {
-        setShowIPadFallback(true);
-      }
+      await startConversation();
     } catch (error) {
       console.error('[Hero] Error starting Kayla:', error);
     }
@@ -31,9 +26,6 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-[auto] md:min-h-[80vh] flex items-center overflow-hidden">
-      {showIPadFallback && (
-        <IPadVoiceFallback onDismiss={() => setShowIPadFallback(false)} />
-      )}
 
       {/* Premium gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
