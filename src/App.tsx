@@ -1039,6 +1039,7 @@ function App() {
                 <AIChatWidget />
                 <Toaster />
                 <Sonner />
+                <CookieConsentBanner />
               </TooltipProvider>
               </BrowserRouter>
                 )}
