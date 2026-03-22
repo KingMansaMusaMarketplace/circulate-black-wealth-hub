@@ -142,6 +142,8 @@ const LazyCommissionReportsPage = lazy(() => import('@/pages/business/Commission
 const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWorksPage'));
 const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
 const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
+const LazyKaylaAnnouncementPage = lazy(() => import('@/pages/KaylaAnnouncementPage'));
+const LazyKaylaOnboardingSequencePage = lazy(() => import('@/pages/KaylaOnboardingSequencePage'));
 const LazyAIAssistantPage = lazy(() => import('@/pages/AIAssistantPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
