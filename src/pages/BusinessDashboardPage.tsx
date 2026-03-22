@@ -73,8 +73,9 @@ const BusinessDashboardPage = () => {
           />
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-6 bg-slate-800/40 backdrop-blur-sm border border-white/10">
+            <TabsList className="grid w-full grid-cols-7 bg-slate-800/40 backdrop-blur-sm border border-white/10">
               <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
+              <TabsTrigger value="kayla" className="data-[state=active]:bg-yellow-900/60 data-[state=active]:text-yellow-300 text-yellow-400/70 font-medium">✨ Kayla AI</TabsTrigger>
               <TabsTrigger value="value" className="data-[state=active]:bg-emerald-900/60 data-[state=active]:text-emerald-300 text-emerald-400/70 font-medium">💰 ROI</TabsTrigger>
               <TabsTrigger value="financials" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Financials</TabsTrigger>
               <TabsTrigger value="reviews" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Reviews</TabsTrigger>
