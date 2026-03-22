@@ -33,7 +33,10 @@ const MobileMapSheet: React.FC<MobileMapSheetProps> = ({
   const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(null);
 
   const selectedBusiness = selectedBusinessId 
-    ? businesses.find(b => b.id === selectedBusinessId) 
+    ? businesses.find(b => b.id === selectedBusinessId) || (() => {
+        const fromMap = mapData.find(m => m.id === selectedBusinessId);
+        return fromMap ? { id: fromMap.id, name: fromMap.name, category: fromMap.category, latitude: fromMap.lat, longitude: fromMap.lng, distance: fromMap.distance } as unknown as Business : null;
+      })()
     : null;
 
   const handleMarkerClick = (id: string) => {
