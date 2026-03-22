@@ -16,6 +16,7 @@ import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnbo
 import { AIChatWidget } from "@/components/ai-chat/AIChatWidget";
 import { HelmetProvider } from 'react-helmet-async';
 // initializeCapacitorPlugins is dynamically imported below to avoid dual static+dynamic import
+import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
 import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboardingFlow";
@@ -1038,6 +1039,7 @@ function App() {
                 <AIChatWidget />
                 <Toaster />
                 <Sonner />
+                <CookieConsentBanner />
               </TooltipProvider>
               </BrowserRouter>
                 )}
