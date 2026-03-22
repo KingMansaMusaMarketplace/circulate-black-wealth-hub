@@ -142,6 +142,8 @@ const LazyCommissionReportsPage = lazy(() => import('@/pages/business/Commission
 const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWorksPage'));
 const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
 const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
+const LazyKaylaAnnouncementPage = lazy(() => import('@/pages/KaylaAnnouncementPage'));
+const LazyKaylaOnboardingSequencePage = lazy(() => import('@/pages/KaylaOnboardingSequencePage'));
 const LazyAIAssistantPage = lazy(() => import('@/pages/AIAssistantPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
@@ -562,6 +564,10 @@ function App() {
                               <Route path="/education" element={<LazyEducationPage />} />
                               <Route path="/email-copy" element={<LazyEmailCopyPage />} />
                               <Route path="/email-verified" element={<LazyEmailVerified />} />
+                              
+                              {/* K - Kayla GTM */}
+                              <Route path="/kayla-announcement" element={<LazyKaylaAnnouncementPage />} />
+                              <Route path="/kayla-onboarding-sequence" element={<LazyKaylaOnboardingSequencePage />} />
                               <Route path="/error" element={<LazyErrorPage />} />
                               
                               {/* F */}
@@ -849,6 +855,8 @@ function App() {
                         <Route path="/education" element={<LazyEducationPage />} />
                         <Route path="/email-copy" element={<LazyEmailCopyPage />} />
                         <Route path="/email-verified" element={<LazyEmailVerified />} />
+                        <Route path="/kayla-announcement" element={<LazyKaylaAnnouncementPage />} />
+                        <Route path="/kayla-onboarding-sequence" element={<LazyKaylaOnboardingSequencePage />} />
                         <Route path="/error" element={<LazyErrorPage />} />
                         
                         {/* F */}
