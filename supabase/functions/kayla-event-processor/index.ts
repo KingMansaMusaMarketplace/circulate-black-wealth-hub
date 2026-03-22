@@ -151,6 +151,16 @@ async function handleReviewEvent(
       status: review.rating >= 4 ? "auto_approved" : "pending_review",
       requires_approval: review.rating < 4,
     });
+
+    // Surface as business insight
+    await supabase.from("kayla_business_insights").insert({
+      business_id: review.business_id,
+      insight_type: "review_draft",
+      title: `${review.rating}★ Review Response Ready`,
+      content: aiResponse,
+      status: "pending",
+      metadata: { review_id: recordId, rating: review.rating, reviewer_text: review.review_text },
+    });
   }
 
   return { success: true, message: `Review response drafted (${review.rating}★)` };
