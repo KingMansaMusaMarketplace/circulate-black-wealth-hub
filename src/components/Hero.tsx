@@ -40,7 +40,7 @@ const Hero = () => {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-mansagold/5 to-transparent" />
 
       <div className="relative container mx-auto px-4 py-10 md:py-24">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl lg:max-w-5xl mx-auto text-center">
           {/* Headline */}
           <motion.h1 
             className="font-playfair text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[1.05] mb-8"
@@ -55,7 +55,7 @@ const Hero = () => {
           
           {/* Subhead */}
           <motion.p 
-            className="text-lg md:text-xl lg:text-2xl text-blue-100/80 mb-10 max-w-xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl lg:text-2xl text-blue-100/80 mb-10 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
