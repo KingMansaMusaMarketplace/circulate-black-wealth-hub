@@ -334,8 +334,7 @@ Be specific, actionable, and positive while being honest about areas needing imp
     console.error('Error in generate-business-insights function:', error);
     return new Response(
       JSON.stringify({ 
-        error: (error as Error)?.message || 'Failed to generate insights',
-        details: error instanceof Error ? error.stack : String(error)
+        error: 'Failed to generate insights'
       }), 
       {
         status: 500,
