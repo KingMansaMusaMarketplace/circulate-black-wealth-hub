@@ -172,9 +172,9 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
       </div>
 
       {showSplitView ? (
-        <div className="flex gap-6 h-[600px]">
+        <div className="flex gap-4 lg:gap-6 h-[600px]">
           {/* Left Panel - Scrollable Business List */}
-          <div className="w-[400px] flex-shrink-0">
+          <div className="w-[340px] ipad:w-[400px] lg:w-[440px] flex-shrink-0">
             <ScrollArea className="h-full rounded-xl border border-white/5 bg-slate-900/30 backdrop-blur-sm">
               <div ref={listRef} className="p-4 space-y-3">
                 <div className="flex items-center justify-between mb-4 sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10 py-2 -mt-2 -mx-4 px-4">
