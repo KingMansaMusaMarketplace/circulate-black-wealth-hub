@@ -341,7 +341,7 @@ const BusinessDetailPage = () => {
           
           {/* Business Info Overlay */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent text-white">
-            <div className="container mx-auto px-4 py-8">
+            <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="flex flex-col md:flex-row items-start md:items-end gap-6">
                 {/* Logo */}
                 <Avatar className="w-24 h-24 border-4 border-yellow-400/50 shadow-lg shadow-yellow-500/20">
