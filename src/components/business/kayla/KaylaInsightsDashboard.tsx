@@ -38,10 +38,11 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
   const [loading, setLoading] = useState(true);
   const { subscriptionInfo } = useSubscription();
 
-  const isKaylaSubscriber = subscriptionInfo?.subscription_tier === 'kayla_ai' ||
-    subscriptionInfo?.subscription_tier === 'enterprise' ||
-    subscriptionInfo?.subscription_tier === 'business' ||
-    subscriptionInfo?.subscription_tier === 'business_annual';
+  const tier = subscriptionInfo?.subscription_tier as string | undefined;
+  const isKaylaSubscriber = tier === 'kayla_ai' ||
+    tier === 'enterprise' ||
+    tier === 'business' ||
+    tier === 'business_annual';
 
   useEffect(() => {
     fetchInsights();

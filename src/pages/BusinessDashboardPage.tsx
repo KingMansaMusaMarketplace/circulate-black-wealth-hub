@@ -87,6 +87,10 @@ const BusinessDashboardPage = () => {
               <BusinessDashboard businessId={profile.id} />
             </TabsContent>
 
+            <TabsContent value="kayla">
+              <KaylaInsightsDashboard businessId={profile.id} />
+            </TabsContent>
+
             <TabsContent value="value">
               <ValueTracker />
             </TabsContent>
