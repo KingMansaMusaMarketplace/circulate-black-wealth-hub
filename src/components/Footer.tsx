@@ -45,7 +45,7 @@ const Footer = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none opacity-50" />
       
       <motion.div 
-        className="container mx-auto px-4 relative z-10"
+        className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
