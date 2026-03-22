@@ -7420,6 +7420,78 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_business_insights: {
+        Row: {
+          business_id: string
+          content: string
+          created_at: string | null
+          id: string
+          insight_type: string
+          metadata: Json | null
+          status: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          insight_type: string
+          metadata?: Json | null
+          status?: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          insight_type?: string
+          metadata?: Json | null
+          status?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kayla_event_queue: {
         Row: {
           created_at: string
