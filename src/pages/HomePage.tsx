@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '@/components/Hero';
 import HomePageSections from '@/components/HomePage/HomePageSections';
 
@@ -12,14 +12,24 @@ import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import VoiceInterface from '@/components/VoiceInterface';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructuredData';
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
+  const queryClient = useQueryClient();
+  const [showRefreshBar, setShowRefreshBar] = useState(true);
+  const [animationKey] = useState(() => Date.now());
   
   useEffect(() => {
+    // Brief refresh indicator
+    const timer = setTimeout(() => setShowRefreshBar(false), 600);
+    
+    // Force fresh data on mount
+    queryClient.invalidateQueries();
+
     // Track bundle performance
     trackBundleMetrics();
     
@@ -45,12 +55,30 @@ const HomePage = () => {
     setTimeout(() => {
       import('@/pages/LoginPage');
     }, 1000);
-  }, []);
+
+    return () => clearTimeout(timer);
+  }, [queryClient]);
 
   return (
     <>
       <OrganizationStructuredData />
       <WebsiteStructuredData />
+      
+      {/* Refresh loading indicator */}
+      {showRefreshBar && (
+        <div className="fixed top-0 left-0 right-0 z-[9999] h-1">
+          <div className="h-full bg-gradient-to-r from-mansagold via-amber-400 to-mansagold origin-left"
+               style={{ animation: 'shimmer 0.6s ease-out forwards' }} />
+          <style>{`
+            @keyframes shimmer {
+              0% { transform: scaleX(0); opacity: 1; }
+              80% { transform: scaleX(1); opacity: 1; }
+              100% { transform: scaleX(1); opacity: 0; }
+            }
+          `}</style>
+        </div>
+      )}
+
       <div className="min-h-screen relative overflow-hidden">
         {/* Modern dark gradient mesh background - matching directory page */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
@@ -74,9 +102,9 @@ const HomePage = () => {
           <SponsorBanner />
         </SectionErrorBoundary>
         
-        {/* Hero Section - Simplified with integrated Wealth Ticker */}
+        {/* Hero Section - key forces animation replay on refresh */}
         <SectionErrorBoundary sectionName="Hero">
-          <Hero />
+          <Hero key={animationKey} />
         </SectionErrorBoundary>
 
         {/* Essential Sections Only */}
@@ -84,15 +112,11 @@ const HomePage = () => {
           <HomePageSections />
         </SectionErrorBoundary>
 
-        {/* Ambassador CTA moved to /mansa-ambassadors page */}
-        
         {/* Public Sponsor Display */}
         <SectionErrorBoundary sectionName="Sponsor Showcase">
           <PublicSponsorDisplay />
         </SectionErrorBoundary>
       </div>
-      
-      {/* Voice Interface hidden on homepage - hero CTA and Meet Kayla section handle it */}
       
       {shouldShowTour && (
         <SectionErrorBoundary sectionName="Onboarding Tour">
