@@ -39,6 +39,31 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // --- Authentication: require a valid JWT ---
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } },
+    });
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    const userId = claimsData.claims.sub as string;
+
     // Apply rate limiting
     const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
                      req.headers.get('x-real-ip') || 
@@ -67,10 +92,30 @@ Deno.serve(async (req) => {
 
     const { businessId } = parseResult.data;
 
-    // Get Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    // Get Supabase service client for data queries
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // --- Authorization: verify the user owns this business ---
+    const { data: businessOwner, error: ownerError } = await supabase
+      .from('businesses')
+      .select('owner_id')
+      .eq('id', businessId)
+      .single();
+
+    if (ownerError || !businessOwner) {
+      return new Response(
+        JSON.stringify({ error: 'Business not found' }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (businessOwner.owner_id !== userId) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden: you do not own this business' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
     
     // Fetch business data
     const [
@@ -289,8 +334,7 @@ Be specific, actionable, and positive while being honest about areas needing imp
     console.error('Error in generate-business-insights function:', error);
     return new Response(
       JSON.stringify({ 
-        error: (error as Error)?.message || 'Failed to generate insights',
-        details: error instanceof Error ? error.stack : String(error)
+        error: 'Failed to generate insights'
       }), 
       {
         status: 500,

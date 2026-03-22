@@ -8545,6 +8545,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "noir_driver_location_history_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers_public"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "noir_driver_location_history_ride_id_fkey"
             columns: ["ride_id"]
             isOneToOne: false
@@ -8733,6 +8740,13 @@ export type Database = {
             referencedRelation: "noir_drivers"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "noir_rides_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       noire_community_credits: {
@@ -8874,6 +8888,13 @@ export type Database = {
             referencedRelation: "noir_drivers"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "noire_favorite_drivers_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       noire_ride_impact: {
@@ -8970,6 +8991,13 @@ export type Database = {
             columns: ["preferred_driver_id"]
             isOneToOne: false
             referencedRelation: "noir_drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noire_scheduled_rides_preferred_driver_id_fkey"
+            columns: ["preferred_driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers_public"
             referencedColumns: ["id"]
           },
         ]
@@ -16423,6 +16451,72 @@ export type Database = {
           technical_partners: number | null
           total_partner_earnings: number | null
           total_technical_partner_earnings: number | null
+        }
+        Relationships: []
+      }
+      noir_drivers_public: {
+        Row: {
+          created_at: string | null
+          current_heading: number | null
+          current_lat: number | null
+          current_lng: number | null
+          full_name: string | null
+          id: string | null
+          is_active: boolean | null
+          is_approved: boolean | null
+          is_online: boolean | null
+          license_plate: string | null
+          profile_photo_url: string | null
+          rating_average: number | null
+          total_rides: number | null
+          updated_at: string | null
+          user_id: string | null
+          vehicle_color: string | null
+          vehicle_make: string | null
+          vehicle_model: string | null
+          vehicle_year: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_heading?: number | null
+          current_lat?: number | null
+          current_lng?: number | null
+          full_name?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          is_approved?: boolean | null
+          is_online?: boolean | null
+          license_plate?: string | null
+          profile_photo_url?: string | null
+          rating_average?: number | null
+          total_rides?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+          vehicle_color?: string | null
+          vehicle_make?: string | null
+          vehicle_model?: string | null
+          vehicle_year?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          current_heading?: number | null
+          current_lat?: number | null
+          current_lng?: number | null
+          full_name?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          is_approved?: boolean | null
+          is_online?: boolean | null
+          license_plate?: string | null
+          profile_photo_url?: string | null
+          rating_average?: number | null
+          total_rides?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+          vehicle_color?: string | null
+          vehicle_make?: string | null
+          vehicle_model?: string | null
+          vehicle_year?: number | null
         }
         Relationships: []
       }
