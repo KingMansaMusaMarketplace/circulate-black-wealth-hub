@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useCapacitor } from '@/hooks/use-capacitor';
-import { VoiceButton, VoiceTranscript, useVoiceConnection, IPadVoiceFallback } from './voice';
+import { VoiceButton, VoiceTranscript, useVoiceConnection } from './voice';
 
 interface VoiceInterfaceProps {
   onSpeakingChange?: (speaking: boolean) => void;
@@ -8,7 +8,6 @@ interface VoiceInterfaceProps {
 
 const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => {
   const { isNative } = useCapacitor();
-  const [showIPadFallback, setShowIPadFallback] = useState(false);
 
   const {
     isConnected,
@@ -23,22 +22,14 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const handleStart = async () => {
     try {
       console.log('[VoiceInterface] Ask Kayla pressed - starting conversation...');
-      const result = await startConversation();
-      console.log('[VoiceInterface] startConversation result:', result);
-      if (result && typeof result === 'object' && 'blocked' in result && result.blocked && result.reason === 'ipad') {
-        setShowIPadFallback(true);
-      }
+      await startConversation();
     } catch (error) {
       console.error('[VoiceInterface] Error starting conversation:', error);
-      // Explicitly prevent any re-throw that could crash WKWebView
     }
   };
 
   return (
     <>
-      {showIPadFallback && (
-        <IPadVoiceFallback onDismiss={() => setShowIPadFallback(false)} />
-      )}
 
       <div
         className="fixed left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-4"

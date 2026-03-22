@@ -132,24 +132,7 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
   }, [onSpeakingChange]);
 
   const startConversation = async (): Promise<{ blocked: boolean; reason?: string } | void> => {
-    // CRITICAL: iPad detection MUST happen FIRST before any async operations
-    // to prevent crashes on iPad devices (Apple Guideline 2.1 compliance)
     try {
-      // Synchronous iPad detection - no async operations before this check
-      const isIPad =
-        /iPad/.test(navigator.userAgent) ||
-        (navigator.platform === 'MacIntel' &&
-          navigator.maxTouchPoints > 1 &&
-          !/iPhone/.test(navigator.userAgent) &&
-          'ontouchstart' in window &&
-          window.innerWidth <= 1366);
-
-      // Return immediately for iPad - no audio context or WebRTC initialization
-      if (isIPad) {
-        console.log('[Kayla] iPad detected - blocking voice initialization to prevent crash');
-        return { blocked: true, reason: 'ipad' };
-      }
-
       // Check if already connecting
       if (isConnecting) {
         return { blocked: true, reason: 'already_connecting' };
