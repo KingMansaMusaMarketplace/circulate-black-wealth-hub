@@ -1,44 +1,29 @@
 
 
-# Plan: Enable Kayla Voice on iPad
+## Fix: Home Page Refresh Appears Frozen
 
-Remove the iPad-specific block in `useVoiceConnection.ts` and let iPad users use voice with the same iOS safety mitigations already in place for iPhone.
+### Problem
+When refreshing `/`, the page appears completely frozen with no visual feedback because:
+1. **No loading indicator** -- `appReady` is hardcoded to `true` (line 284 of App.tsx), so no spinner ever shows
+2. **No data refetch** -- React Query is configured with `refetchOnMount: false` and `refetchOnWindowFocus: false`, so cached data persists across refreshes
+3. **Silent error swallowing** -- The global error handler in `index.html` calls `e.preventDefault()` on ALL errors, hiding any rendering failures
 
----
+### Plan
 
-## Changes
+**1. Add a brief refresh indicator on the Home Page**
+- In `HomePage.tsx`, detect a page refresh using `performance.navigation.type` or a sessionStorage flag
+- Show a subtle top-bar loading animation (gold gradient bar) for ~500ms on refresh so the user sees visual confirmation the page reloaded
 
-### 1. Remove iPad block in `useVoiceConnection.ts`
+**2. Force fresh data on mount for homepage sections**
+- In `HomePage.tsx`, call `queryClient.invalidateQueries()` on mount to ensure Featured Businesses and other Supabase-backed sections refetch fresh data after a refresh
+- This works alongside the existing `refetchOnMount: false` default by explicitly invalidating stale queries
 
-**File:** `src/components/voice/useVoiceConnection.ts`
+**3. Re-trigger hero entrance animations on refresh**
+- Add a `key` prop based on a refresh counter or timestamp to the `<Hero />` component so framer-motion entrance animations replay after a browser refresh, giving clear visual feedback that the page reloaded
 
-- Remove the early-return iPad detection block (lines 135-151) that returns `{ blocked: true, reason: 'ipad' }`
-- The existing iOS audio hardening (deferred audio, throttled init, reduced retries) already applies to iPad since it checks for iOS generically
-- Keep the secondary iPad detection in the mic error handler (lines 193-200) since it's used for better error messaging, not blocking
-
-### 2. Remove iPad fallback UI from VoiceInterface
-
-**File:** `src/components/VoiceInterface.tsx`
-
-- Remove the `showIPadFallback` state and the `IPadVoiceFallback` modal rendering
-- Remove the `blocked`/`reason === 'ipad'` check in `handleStart`
-- Remove the `IPadVoiceFallback` import
-
-### 3. Clean up unused fallback component
-
-**File:** `src/components/voice/iPadVoiceFallback.tsx` — Delete this file (no longer needed)
-
-**File:** `src/components/voice/index.ts` — Remove the `IPadVoiceFallback` export
-
----
-
-## What stays the same
-
-- All existing iOS audio safety measures (deferred audio element creation, skipping `refreshSession` on Capacitor iOS, throttled initialization delays, reduced playback retries) continue to protect iPad
-- The mic error handler still identifies iPad for better diagnostic logging
-- The `isIOSDevice` checks throughout the codebase already include iPad
-
-## Risk
-
-Low. iPad Safari has the same WebRTC/audio capabilities as iPhone Safari. The hardening measures are already iOS-generic. If instability does occur, it will be caught by the existing error recovery and global error handlers.
+### Technical Details
+- Files modified: `src/pages/HomePage.tsx`
+- The React Query `invalidateQueries()` call ensures data-driven sections (FeaturedBusinesses, sponsors) fetch fresh data
+- The animation replay uses React's key-based remounting -- changing the key forces React to unmount and remount the component, replaying all `initial`/`animate` transitions
+- No changes to global error handling or App.tsx needed for this fix
 
