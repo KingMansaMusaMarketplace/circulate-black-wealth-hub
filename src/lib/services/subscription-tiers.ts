@@ -194,8 +194,35 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
       canAccessNetworking: true,
       maxQRCodes: -1
     }
+  },
+  kayla_ai: {
+    displayName: 'Kayla AI Employee',
+    description: 'Your autonomous AI employee — reviews, B2B matching, churn prediction & content on autopilot',
+    price: 100,
+    interval: 'month',
+    popular: true,
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      canAccessAnalytics: true,
+      canCreateEvents: true,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+      maxQRCodes: -1
+    }
   }
 };
+
+// Stripe price/product IDs for Kayla AI Employee
+export const KAYLA_AI_STRIPE = {
+  product_id: 'prod_UByEsslXcmz8Tx',
+  price_id: 'price_1TDaHyAsptTW1mCm2F8e7NmE',
+} as const;
 
 export const getTierDisplayName = (tier: SubscriptionTier): string => {
   return subscriptionTiers[tier]?.displayName || 'Community Member';
