@@ -55,7 +55,7 @@ const Hero = () => {
           
           {/* Subhead */}
           <motion.p 
-            className="text-lg md:text-xl lg:text-2xl text-blue-100/80 mb-10 max-w-xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl lg:text-2xl text-blue-100/80 mb-10 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
