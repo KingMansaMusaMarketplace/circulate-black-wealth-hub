@@ -1,4 +1,4 @@
-export type SubscriptionTier = 'free' | 'business_starter' | 'business_starter_annual' | 'business' | 'business_annual' | 'business_multi_location' | 'business_multi_location_annual' | 'enterprise';
+export type SubscriptionTier = 'free' | 'business_starter' | 'business_starter_annual' | 'business' | 'business_annual' | 'business_multi_location' | 'business_multi_location_annual' | 'enterprise' | 'kayla_ai';
 
 export interface TierFeatures {
   canScanQR: boolean;
