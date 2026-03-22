@@ -253,6 +253,16 @@ async function handleScorerEvent(
     requires_approval: false,
   });
 
+  // Surface as business insight
+  await supabase.from("kayla_business_insights").insert({
+    business_id: recordId,
+    insight_type: "quality_score",
+    title: `Listing Quality: ${score}/100`,
+    content: score >= 80 ? `Great job! Your listing is ${score}% complete.` : `Your listing is ${score}% complete. Add a ${!business.logo_url ? 'logo' : !business.description ? 'description' : 'banner image'} to improve visibility.`,
+    status: "pending",
+    metadata: { quality_score: score, max_score: 100 },
+  });
+
   return { success: true, message: `Quality scored ${business.business_name}: ${score}/100` };
 }
 
