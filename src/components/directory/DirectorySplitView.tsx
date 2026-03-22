@@ -39,8 +39,23 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
 
   const selectedBusiness = useMemo(() => {
     if (!selectedBusinessId) return null;
-    return businesses.find(b => b.id === selectedBusinessId) || null;
-  }, [selectedBusinessId, businesses]);
+    // First check paginated businesses for full data
+    const fromBusinesses = businesses.find(b => b.id === selectedBusinessId);
+    if (fromBusinesses) return fromBusinesses;
+    // Fallback to mapData (lightweight) for markers not on current page
+    const fromMap = mapData.find(m => m.id === selectedBusinessId);
+    if (fromMap) {
+      return {
+        id: fromMap.id,
+        name: fromMap.name,
+        category: fromMap.category,
+        latitude: fromMap.lat,
+        longitude: fromMap.lng,
+        distance: fromMap.distance,
+      } as unknown as Business;
+    }
+    return null;
+  }, [selectedBusinessId, businesses, mapData]);
 
   const handleMarkerClick = useCallback((businessId: string) => {
     setSelectedBusinessId(businessId);
