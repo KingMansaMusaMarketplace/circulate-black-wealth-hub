@@ -855,6 +855,8 @@ function App() {
                         <Route path="/education" element={<LazyEducationPage />} />
                         <Route path="/email-copy" element={<LazyEmailCopyPage />} />
                         <Route path="/email-verified" element={<LazyEmailVerified />} />
+                        <Route path="/kayla-announcement" element={<LazyKaylaAnnouncementPage />} />
+                        <Route path="/kayla-onboarding-sequence" element={<LazyKaylaOnboardingSequencePage />} />
                         <Route path="/error" element={<LazyErrorPage />} />
                         
                         {/* F */}
