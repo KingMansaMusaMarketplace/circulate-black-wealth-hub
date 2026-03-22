@@ -1,62 +1,44 @@
 
 
-# Plan: Kayla "AI Employee" Go-to-Market Announcement Suite
+# Plan: Enable Kayla Voice on iPad
 
-Three deliverables that convert the Gemini draft into production-ready assets.
-
----
-
-## 1. Update KaylaOutreachPreview Component
-
-Replace the current generic outreach preview with the polished "AI Employee" copy from the Gemini draft.
-
-**File:** `src/components/business/kayla/KaylaOutreachPreview.tsx`
-
-- Rewrite email body to match the Gemini draft: founder intro ("For 40 years..."), 4 bullet capabilities (Review Management, B2B Matchmaking, Churn Prediction, Content Generation), Wealth Ticker multiplier callout, $100/mo CTA
-- Add a 4th capability bullet: **Content Generation** (social posts on autopilot)
-- Include the "Mansa Musa Multiplier" / Verified Wealth Ticker section
-- Signature block: "Thomas D. Bowling, Founder & Chief Architect, 1325.ai"
+Remove the iPad-specific block in `useVoiceConnection.ts` and let iPad users use voice with the same iOS safety mitigations already in place for iPhone.
 
 ---
 
-## 2. Create Kayla Announcement Page
+## Changes
 
-A new dedicated page (modeled on the existing `EmailCopyPage`) with the full LinkedIn/email announcement ready to copy.
+### 1. Remove iPad block in `useVoiceConnection.ts`
 
-**New file:** `src/pages/KaylaAnnouncementPage.tsx`
-- Full Gemini draft text with `[Business Name]` placeholder
-- "Copy to Clipboard" button (reuse the pattern from `EmailCopyPage`)
-- Gold/black brand theme matching the platform aesthetic
-- Separate copy buttons for "Email Version" and "LinkedIn Version" (LinkedIn version strips the subject line and shortens for post format)
+**File:** `src/components/voice/useVoiceConnection.ts`
 
-**Edit:** `src/App.tsx`
-- Add lazy import and route at `/kayla-announcement`
+- Remove the early-return iPad detection block (lines 135-151) that returns `{ blocked: true, reason: 'ipad' }`
+- The existing iOS audio hardening (deferred audio, throttled init, reduced retries) already applies to iPad since it checks for iOS generically
+- Keep the secondary iPad detection in the mic error handler (lines 193-200) since it's used for better error messaging, not blocking
 
----
+### 2. Remove iPad fallback UI from VoiceInterface
 
-## 3. Build 3-Email Onboarding Sequence Page
+**File:** `src/components/VoiceInterface.tsx`
 
-A page displaying the post-activation drip sequence that keeps new $100/mo subscribers engaged.
+- Remove the `showIPadFallback` state and the `IPadVoiceFallback` modal rendering
+- Remove the `blocked`/`reason === 'ipad'` check in `handleStart`
+- Remove the `IPadVoiceFallback` import
 
-**New file:** `src/pages/KaylaOnboardingSequencePage.tsx`
+### 3. Clean up unused fallback component
 
-Three emails displayed as tabbed cards:
+**File:** `src/components/voice/iPadVoiceFallback.tsx` — Delete this file (no longer needed)
 
-- **Email 1 (Day 0 — Welcome):** "Your AI Employee just clocked in" — confirms activation, shows first review draft Kayla generated, links to dashboard
-- **Email 2 (Day 3 — First Value):** "Kayla found 5 B2B partners for you" — surfaces B2B matches and churn alerts from the first 72 hours
-- **Email 3 (Day 7 — ROI Report):** "Your first week with Kayla" — weekly summary: reviews handled, matches found, estimated hours saved, Wealth Ticker impact
-
-Each email card has its own "Copy" button. All copy follows the "AI Employee" framing.
-
-**Edit:** `src/App.tsx`
-- Add lazy import and route at `/kayla-onboarding-sequence`
+**File:** `src/components/voice/index.ts` — Remove the `IPadVoiceFallback` export
 
 ---
 
-## Technical Notes
+## What stays the same
 
-- No database changes needed — these are static copy/template pages
-- Follows existing `EmailCopyPage` pattern (clipboard API, toast notifications, dark theme)
-- Brand colors: mansagold `#d4a843` accents, dark slate backgrounds
-- All three files are independent and can be built in parallel
+- All existing iOS audio safety measures (deferred audio element creation, skipping `refreshSession` on Capacitor iOS, throttled initialization delays, reduced playback retries) continue to protect iPad
+- The mic error handler still identifies iPad for better diagnostic logging
+- The `isIOSDevice` checks throughout the codebase already include iPad
+
+## Risk
+
+Low. iPad Safari has the same WebRTC/audio capabilities as iPhone Safari. The hardening measures are already iOS-generic. If instability does occur, it will be caught by the existing error recovery and global error handlers.
 
