@@ -47,10 +47,26 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
     setHighlightedBusinessId(businessId);
     
     // Scroll to the business card in the list
-    const element = document.getElementById(`business-${businessId}`);
-    if (element && listRef.current) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    // Use requestAnimationFrame to ensure DOM is ready (fixes iPad Safari timing)
+    requestAnimationFrame(() => {
+      const element = document.getElementById(`business-${businessId}`);
+      if (element) {
+        // Find the nearest scroll container (Radix ScrollArea viewport)
+        const scrollContainer = element.closest('[data-radix-scroll-area-viewport]') || listRef.current;
+        if (scrollContainer) {
+          const containerRect = scrollContainer.getBoundingClientRect();
+          const elementRect = element.getBoundingClientRect();
+          const offsetTop = elementRect.top - containerRect.top + scrollContainer.scrollTop;
+          scrollContainer.scrollTo({
+            top: offsetTop - containerRect.height / 2 + elementRect.height / 2,
+            behavior: 'smooth',
+          });
+        } else {
+          // Fallback
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    });
   }, []);
 
   const handleCardHover = useCallback((businessId: string | null) => {

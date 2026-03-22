@@ -141,13 +141,13 @@
         width: 100%;
       }
       
-      /* Safe area insets for iOS notches and home indicator */
+      /* Safe area insets - only vertical, horizontal handled by SafeAreaProvider */
       @supports (padding: max(0px)) {
         body {
           padding-top: env(safe-area-inset-top);
           padding-bottom: env(safe-area-inset-bottom);
-          padding-left: env(safe-area-inset-left);
-          padding-right: env(safe-area-inset-right);
+          /* Do NOT add padding-left/right here — causes double padding 
+             with SafeAreaProvider, truncating the page on iPad */
         }
       }
     </style>
