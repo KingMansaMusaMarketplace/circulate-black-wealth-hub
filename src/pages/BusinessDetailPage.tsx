@@ -297,7 +297,7 @@ const BusinessDetailPage = () => {
 
         {/* Header */}
         <div className="border-b border-white/10 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-50">
-          <div className="container mx-auto px-4 py-4">
+          <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <Link to="/directory" className="flex items-center gap-2 text-blue-200 hover:text-yellow-400 transition-colors">
                 <ArrowLeft className="h-4 w-4" />
@@ -341,7 +341,7 @@ const BusinessDetailPage = () => {
           
           {/* Business Info Overlay */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent text-white">
-            <div className="container mx-auto px-4 py-8">
+            <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="flex flex-col md:flex-row items-start md:items-end gap-6">
                 {/* Logo */}
                 <Avatar className="w-24 h-24 border-4 border-yellow-400/50 shadow-lg shadow-yellow-500/20">
@@ -409,7 +409,7 @@ const BusinessDetailPage = () => {
         </div>
 
         {/* Main Content */}
-        <div className="container mx-auto px-4 py-8 relative z-10">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Main Content */}
             <div className="lg:col-span-2 space-y-6">

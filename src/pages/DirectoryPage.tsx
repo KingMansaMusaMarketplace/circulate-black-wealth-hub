@@ -157,7 +157,7 @@ const DirectoryPage: React.FC = () => {
         {/* Subtle gold accent line at top */}
         <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60 relative z-10" />
         
-        <div className="container mx-auto px-4 py-16 relative z-10">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
           {/* Premium Header */}
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
