@@ -4,6 +4,7 @@ import PremiumBusinessCard from './PremiumBusinessCard';
 import { getBusinessCardImage } from '@/utils/businessBanners';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import InlineSponsorCard from '@/components/sponsors/InlineSponsorCard';
 
 interface BusinessGridViewProps {
   businesses: Business[];
