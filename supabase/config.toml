@@ -290,3 +290,18 @@ verify_jwt = false
 
 [functions.kayla-event-processor]
 verify_jwt = false
+
+[functions.kayla-grant-matcher]
+verify_jwt = false
+
+[functions.kayla-cashflow-forecast]
+verify_jwt = false
+
+[functions.kayla-price-optimizer]
+verify_jwt = false
+
+[functions.kayla-reminder-engine]
+verify_jwt = false
+
+[functions.kayla-email-campaigns]
+verify_jwt = false
