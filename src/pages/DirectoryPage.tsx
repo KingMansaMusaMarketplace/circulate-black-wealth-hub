@@ -31,6 +31,7 @@ import DirectorySplitView from '@/components/directory/DirectorySplitView';
 import DirectoryPagination from '@/components/directory/DirectoryPagination';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { useIsMobile } from '@/hooks/use-mobile';
+import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
