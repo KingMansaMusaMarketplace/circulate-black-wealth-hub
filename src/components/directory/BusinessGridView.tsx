@@ -4,6 +4,7 @@ import PremiumBusinessCard from './PremiumBusinessCard';
 import { getBusinessCardImage } from '@/utils/businessBanners';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import InlineSponsorCard from '@/components/sponsors/InlineSponsorCard';
 
 interface BusinessGridViewProps {
   businesses: Business[];
@@ -76,29 +77,36 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
         const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl;
         
         return (
-          <div 
-            key={business.id} 
-            id={`business-${business.id}`} 
-            className="h-full"
-          >
-            <PremiumBusinessCard 
-              id={business.id}
-              name={business.name}
-              category={business.category}
-              rating={business.rating}
-              reviewCount={business.reviewCount}
-              discount={business.discount}
-              distance={business.distance}
-              address={business.address}
-              phone={business.phone}
-              imageUrl={cardImageUrl}
-              imageAlt={business.imageAlt}
-              isFeatured={business.isFeatured}
-              isSample={business.isSample}
-              isVerified={business.isVerified}
-              index={index + featuredBusinesses.length}
-            />
-          </div>
+          <React.Fragment key={business.id}>
+            {/* Inline sponsor card after 3rd regular business (mobile only) */}
+            {index === 3 && (
+              <div className="col-span-1 md:col-span-2 lg:col-span-3">
+                <InlineSponsorCard />
+              </div>
+            )}
+            <div 
+              id={`business-${business.id}`} 
+              className="h-full"
+            >
+              <PremiumBusinessCard 
+                id={business.id}
+                name={business.name}
+                category={business.category}
+                rating={business.rating}
+                reviewCount={business.reviewCount}
+                discount={business.discount}
+                distance={business.distance}
+                address={business.address}
+                phone={business.phone}
+                imageUrl={cardImageUrl}
+                imageAlt={business.imageAlt}
+                isFeatured={business.isFeatured}
+                isSample={business.isSample}
+                isVerified={business.isVerified}
+                index={index + featuredBusinesses.length}
+              />
+            </div>
+          </React.Fragment>
         );
       })}
     </div>

@@ -31,6 +31,7 @@ import DirectorySplitView from '@/components/directory/DirectorySplitView';
 import DirectoryPagination from '@/components/directory/DirectoryPagination';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { useIsMobile } from '@/hooks/use-mobile';
+import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -332,30 +333,35 @@ const DirectoryPage: React.FC = () => {
             <div className="h-px flex-1 mx-6 bg-gradient-to-r from-transparent via-white/10 to-transparent hidden md:block" />
           </motion.div>
         
-          {/* Business Grid/List/Split with Skeleton Loading */}
-          <div data-tour="business-card">
-            {isLoading ? (
-              <SkeletonGrid count={6} />
-            ) : viewMode === 'split' ? (
-              <DirectorySplitView
-                businesses={regularBusinesses}
-                mapData={mapData}
-                onSelectBusiness={handleSelectBusiness}
-                isLoading={isLoading}
-                userLocation={location}
-                mapApiKey={mapApiKey}
-              />
-            ) : viewMode === 'grid' ? (
-              <BusinessGridView 
-                businesses={regularBusinesses} 
-                onSelectBusiness={handleSelectBusiness} 
-              />
-            ) : (
-              <BusinessListView 
-                businesses={regularBusinesses} 
-                onSelectBusiness={handleSelectBusiness} 
-              />
-            )}
+          {/* Business Grid/List/Split with Skeleton Loading + Sponsor Sidebar */}
+          <div className="flex gap-8">
+            <div className="flex-1 min-w-0" data-tour="business-card">
+              {isLoading ? (
+                <SkeletonGrid count={6} />
+              ) : viewMode === 'split' ? (
+                <DirectorySplitView
+                  businesses={regularBusinesses}
+                  mapData={mapData}
+                  onSelectBusiness={handleSelectBusiness}
+                  isLoading={isLoading}
+                  userLocation={location}
+                  mapApiKey={mapApiKey}
+                />
+              ) : viewMode === 'grid' ? (
+                <BusinessGridView 
+                  businesses={regularBusinesses} 
+                  onSelectBusiness={handleSelectBusiness} 
+                />
+              ) : (
+                <BusinessListView 
+                  businesses={regularBusinesses} 
+                  onSelectBusiness={handleSelectBusiness} 
+                />
+              )}
+            </div>
+
+            {/* Sponsor Sidebar - desktop only, hidden in split view */}
+            {viewMode !== 'split' && <SponsorSidebar />}
           </div>
 
           {/* Pagination */}
