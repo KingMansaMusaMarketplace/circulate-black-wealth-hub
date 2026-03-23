@@ -360,8 +360,8 @@ const DirectoryPage: React.FC = () => {
               )}
             </div>
 
-            {/* Sponsor Sidebar - desktop only, hidden in split view */}
-            {viewMode !== 'split' && <SponsorSidebar />}
+            {/* Sponsor Sidebar - desktop only, all view modes */}
+            <SponsorSidebar />
           </div>
 
           {/* Pagination */}
