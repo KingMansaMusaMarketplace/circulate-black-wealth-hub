@@ -17,6 +17,11 @@ import { KaylaCashFlowForecast } from './KaylaCashFlowForecast';
 import { KaylaPriceOptimizer } from './KaylaPriceOptimizer';
 import { KaylaAppointmentReminders } from './KaylaAppointmentReminders';
 import { KaylaEmailCampaigns } from './KaylaEmailCampaigns';
+import { KaylaInventoryManager } from './KaylaInventoryManager';
+import { KaylaTaxPrep } from './KaylaTaxPrep';
+import { KaylaInvestmentReadiness } from './KaylaInvestmentReadiness';
+import { KaylaComplianceReminders } from './KaylaComplianceReminders';
+import { KaylaLegalTemplates } from './KaylaLegalTemplates';
 
 interface KaylaInsight {
   id: string;
@@ -121,6 +126,11 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
           <TabsTrigger value="grants" className="data-[state=active]:bg-emerald-900/60 data-[state=active]:text-emerald-300 text-white/60 text-xs">💰 Grants</TabsTrigger>
           <TabsTrigger value="cashflow" className="data-[state=active]:bg-blue-900/60 data-[state=active]:text-blue-300 text-white/60 text-xs">📈 Cash Flow</TabsTrigger>
           <TabsTrigger value="pricing" className="data-[state=active]:bg-purple-900/60 data-[state=active]:text-purple-300 text-white/60 text-xs">🏷️ Pricing</TabsTrigger>
+          <TabsTrigger value="tax" className="data-[state=active]:bg-amber-900/60 data-[state=active]:text-amber-300 text-white/60 text-xs">🧾 Tax Prep</TabsTrigger>
+          <TabsTrigger value="investment" className="data-[state=active]:bg-cyan-900/60 data-[state=active]:text-cyan-300 text-white/60 text-xs">📊 Investor Score</TabsTrigger>
+          <TabsTrigger value="inventory" className="data-[state=active]:bg-orange-900/60 data-[state=active]:text-orange-300 text-white/60 text-xs">📦 Inventory</TabsTrigger>
+          <TabsTrigger value="compliance" className="data-[state=active]:bg-red-900/60 data-[state=active]:text-red-300 text-white/60 text-xs">🛡️ Compliance</TabsTrigger>
+          <TabsTrigger value="legal" className="data-[state=active]:bg-indigo-900/60 data-[state=active]:text-indigo-300 text-white/60 text-xs">⚖️ Legal</TabsTrigger>
           <TabsTrigger value="social" className="data-[state=active]:bg-pink-900/60 data-[state=active]:text-pink-300 text-white/60 text-xs">📱 Social</TabsTrigger>
           <TabsTrigger value="seo" className="data-[state=active]:bg-cyan-900/60 data-[state=active]:text-cyan-300 text-white/60 text-xs">🔍 SEO</TabsTrigger>
           <TabsTrigger value="segments" className="data-[state=active]:bg-indigo-900/60 data-[state=active]:text-indigo-300 text-white/60 text-xs">👥 Segments</TabsTrigger>
@@ -268,6 +278,26 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
 
         <TabsContent value="pricing">
           <KaylaPriceOptimizer businessId={businessId} />
+        </TabsContent>
+
+        <TabsContent value="tax">
+          <KaylaTaxPrep businessId={businessId} />
+        </TabsContent>
+
+        <TabsContent value="investment">
+          <KaylaInvestmentReadiness businessId={businessId} />
+        </TabsContent>
+
+        <TabsContent value="inventory">
+          <KaylaInventoryManager businessId={businessId} />
+        </TabsContent>
+
+        <TabsContent value="compliance">
+          <KaylaComplianceReminders businessId={businessId} />
+        </TabsContent>
+
+        <TabsContent value="legal">
+          <KaylaLegalTemplates businessId={businessId} />
         </TabsContent>
 
         <TabsContent value="social">
