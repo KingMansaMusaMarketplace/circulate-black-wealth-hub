@@ -117,41 +117,8 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
       popular: true
     },
   ];
-    {
-      id: 'business' as SubscriptionTier,
-      name: 'Professional Business',
-      price: 79,
-      period: 'month',
-      description: 'Complete business management suite',
-      features: [
-        'Everything in Starter',
-        'Up to 25 QR codes',
-        'Advanced analytics',
-        'Marketing tools',
-        'Priority support'
-      ],
-      icon: <Building className="h-6 w-6" />,
-      popular: true
-    },
-    {
-      id: 'business_annual' as SubscriptionTier,
-      name: 'Professional Business (Annual)',
-      price: 790,
-      period: 'year',
-      monthlyEquivalent: 65.83,
-      savingsText: 'Save $158/year',
-      description: 'Complete business management suite',
-      features: [
-        'Everything in Starter',
-        'Up to 25 QR codes',
-        'Advanced analytics',
-        'Marketing tools',
-        'Priority support'
-      ],
-      icon: <Building className="h-6 w-6" />,
-      popular: true
-    }
-  ];
+
+
 
   return (
     <div className="w-full max-w-6xl mx-auto">
