@@ -72,39 +72,51 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
 
   const businessPlans = [
     {
-      id: 'business_starter' as SubscriptionTier,
-      name: 'Starter Business',
-      price: 39,
+      id: 'free' as SubscriptionTier,
+      name: 'Free Directory Listing',
+      price: 0,
       period: 'month',
-      description: 'Perfect for new and small businesses',
+      description: 'Get discovered for free',
       features: [
-        'Business profile creation',
-        'Up to 5 QR codes',
-        'Basic analytics',
-        'Email support',
-        '30-day free trial'
+        'Business directory listing',
+        'Basic profile page',
+        'Community access',
       ],
       icon: <Rocket className="h-6 w-6" />,
       popular: false
     },
     {
-      id: 'business_starter_annual' as SubscriptionTier,
-      name: 'Starter Business (Annual)',
-      price: 390,
-      period: 'year',
-      monthlyEquivalent: 32.50,
-      savingsText: 'Save $78/year',
-      description: 'Perfect for new and small businesses',
+      id: 'business_pro' as SubscriptionTier,
+      name: 'Business Pro',
+      price: 29,
+      period: 'month',
+      description: 'Grow with analytics & tools',
       features: [
-        'Business profile creation',
-        'Up to 5 QR codes',
-        'Basic analytics',
-        'Email support',
-        '30-day free trial'
+        'Analytics dashboard',
+        'Booking system',
+        'Review management',
+        'Up to 25 QR codes',
+        'Priority support',
       ],
-      icon: <Rocket className="h-6 w-6" />,
+      icon: <Building className="h-6 w-6" />,
       popular: false
     },
+    {
+      id: 'business_pro_kayla' as SubscriptionTier,
+      name: 'Business Pro + Kayla AI',
+      price: 99,
+      period: 'month',
+      description: 'Your AI employee on autopilot',
+      features: [
+        'Everything in Business Pro',
+        'Kayla AI (20+ services)',
+        'Tax prep & legal templates',
+        'Unlimited QR codes',
+      ],
+      icon: <Building className="h-6 w-6" />,
+      popular: true
+    },
+  ];
     {
       id: 'business' as SubscriptionTier,
       name: 'Professional Business',

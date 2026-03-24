@@ -44,41 +44,55 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
 
   const businessPlans = [
     {
-      id: 'business_starter' as SubscriptionTier,
-      name: 'Starter Business',
-      price: 39,
+      id: 'free' as SubscriptionTier,
+      name: 'Free Directory Listing',
+      price: 0,
       period: 'month',
-      description: 'Perfect for new and small businesses getting started',
+      description: 'Get discovered — list your business for free',
       features: [
-        'Business profile creation & management',
-        'Up to 5 QR codes',
-        'Basic analytics dashboard',
-        'Customer loyalty program',
-        'Email support',
-        'Business verification',
-        '30-day free trial'
+        'Business directory listing',
+        'Basic profile page',
+        'Community access',
+        'Mentorship & networking',
       ],
       icon: <Rocket className="h-6 w-6" />,
+      buttonText: 'Current Plan',
+      popular: false
+    },
+    {
+      id: 'business_pro' as SubscriptionTier,
+      name: 'Business Pro',
+      price: 29,
+      period: 'month',
+      description: 'Everything you need to grow',
+      features: [
+        'Analytics dashboard',
+        'Booking system',
+        'Review management',
+        'Up to 25 QR codes',
+        'Priority support',
+        'Business verification',
+      ],
+      icon: <Building className="h-6 w-6" />,
       buttonText: 'Start Free Trial',
       popular: false
     },
     {
-      id: 'business' as SubscriptionTier,
-      name: 'Professional Business',
-      price: 79,
+      id: 'business_pro_kayla' as SubscriptionTier,
+      name: 'Business Pro + Kayla AI',
+      price: 99,
       period: 'month',
-      description: 'Complete business management and marketing suite',
+      description: 'Your autonomous AI employee',
       features: [
-        'Everything in Starter Business',
-        'Up to 25 QR codes',
-        'Advanced analytics dashboard',
-        'Marketing tools & promotions',
-        'Event creation & management',
-        'Priority business support',
-        'Advanced customer insights'
+        'Everything in Business Pro',
+        'Kayla AI Employee (20+ services)',
+        'AI review responses',
+        'Tax prep & legal templates',
+        'Investment readiness scoring',
+        'Unlimited QR codes',
       ],
       icon: <Building className="h-6 w-6" />,
-      buttonText: 'Start Free Trial',
+      buttonText: 'Get Kayla AI',
       popular: true
     }
   ];
@@ -87,15 +101,12 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
 
   const getButtonVariant = (planId: SubscriptionTier) => {
     if (currentTier === planId) return 'outline';
-    if (userType === 'business' && planId === 'business_pro') return 'default';
+    if (userType === 'business' && planId === 'business_pro_kayla') return 'default';
     return 'outline';
   };
 
   const getButtonText = (plan: any) => {
     if (currentTier === plan.id) return 'Current Plan';
-    if (userType === 'business' && (plan.id === 'business_starter' || plan.id === 'business')) {
-      return 'Start Free Trial';
-    }
     return plan.buttonText;
   };
 

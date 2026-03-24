@@ -30,7 +30,7 @@ const SubscriptionPage: React.FC = () => {
   
   // Determine user type based on profile or suggested tier
   const userType = user?.user_metadata?.user_type || 
-    (suggestedTier === 'business_starter' || suggestedTier === 'business' ? 'business' : 'customer');
+    (suggestedTier === 'business_pro' || suggestedTier === 'business_pro_kayla' ? 'business' : 'customer');
 
   // Handle iOS subscription management deep link with explicit touch handling
   const handleManageSubscriptions = (e?: React.MouseEvent | React.TouchEvent) => {

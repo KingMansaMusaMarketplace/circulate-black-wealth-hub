@@ -16,7 +16,7 @@ export const signupFormSchema = z.object({
   phone: z.string().optional(),
   address: z.string().optional(),
   // Updated subscription tier to support all tiers
-  subscription_tier: z.enum(['free', 'business_starter', 'business', 'business_multi_location', 'enterprise']).optional()
+  subscription_tier: z.enum(['free', 'business_pro', 'business_pro_kayla', 'enterprise']).optional()
 }).superRefine((data, ctx) => {
   // Make phone required for business signups
   if (data.user_type === 'business' && !data.phone) {
