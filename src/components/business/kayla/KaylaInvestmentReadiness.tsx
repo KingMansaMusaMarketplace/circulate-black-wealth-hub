@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { TrendingUp, Loader2, Target, CheckCircle2, XCircle, Lightbulb } from 'lucide-react';
+import { TrendingUp, Loader2, Target, CheckCircle2, XCircle, Lightbulb, Download } from 'lucide-react';
 import { toast } from 'sonner';
+import jsPDF from 'jspdf';
 
 interface Props { businessId: string; }
 
