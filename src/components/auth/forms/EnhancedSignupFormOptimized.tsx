@@ -66,14 +66,14 @@ const EnhancedSignupForm: React.FC = memo(() => {
       ]
     },
     {
-      tier: 'business_pro',
-      price: '$99.99/month',
+      tier: 'business_pro_kayla',
+      price: '$99/month',
       features: [
-        'Everything in Starter',
-        'Advanced analytics',
-        'Premium listing placement',
-        'Marketing tools',
-        'Dedicated support'
+        'Everything in Business Pro',
+        'Kayla AI Employee (20+ services)',
+        'Tax prep & legal templates',
+        'Unlimited QR codes',
+        'Investment readiness scoring'
       ]
     }
   ], []);
