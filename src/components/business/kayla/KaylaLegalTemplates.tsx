@@ -146,7 +146,9 @@ export const KaylaLegalTemplates: React.FC<Props> = ({ businessId }) => {
                   ) : (
                     <Badge variant="outline" className="border-emerald-400/30 text-emerald-400 text-xs">Active</Badge>
                   )}
+                </div>
               </div>
+            ))}
             ))}
           </CardContent>
         </Card>
