@@ -752,20 +752,20 @@ function App() {
                         {/* A */}
                         <Route path="/about" element={<LazyAboutPage />} />
                         <Route path="/accessibility" element={<LazyAccessibilityPage />} />
-                        <Route path="/admin" element={<LazyAdminPage />} />
-                        <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
-                        <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
-                        <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />
-                        <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
-                        <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
-                        <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
-                        <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
-<Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
-                        <Route path="/admin/sponsors/:id" element={<LazyAdminSponsorDetailPage />} />
-                        <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
-                        <Route path="/admin/business-import" element={<LazyAdminBusinessImport />} />
-                        <Route path="/admin/sponsor-crm" element={<LazyAdminSponsorCRM />} />
-                        <Route path="/admin/emails" element={<LazyAdminEmailAnalyticsPage />} />
+                        <Route path="/admin" element={<RequireAdmin><LazyAdminPage /></RequireAdmin>} />
+                        <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
+                        <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
+                        <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
+                        <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
+                        <Route path="/admin/marketing-analytics" element={<RequireAdmin><LazyMarketingAnalyticsPage /></RequireAdmin>} />
+                        <Route path="/admin/marketing-materials" element={<RequireAdmin><LazyAdminMarketingMaterialsPage /></RequireAdmin>} />
+                        <Route path="/admin/sentiment-analysis" element={<RequireAdmin><LazyAdminSentimentAnalysisPage /></RequireAdmin>} />
+                        <Route path="/admin/sponsors" element={<RequireAdmin><LazyAdminSponsorsPage /></RequireAdmin>} />
+                        <Route path="/admin/sponsors/:id" element={<RequireAdmin><LazyAdminSponsorDetailPage /></RequireAdmin>} />
+                        <Route path="/admin/verification" element={<RequireAdmin><LazyAdminVerificationPage /></RequireAdmin>} />
+                        <Route path="/admin/business-import" element={<RequireAdmin><LazyAdminBusinessImport /></RequireAdmin>} />
+                        <Route path="/admin/sponsor-crm" element={<RequireAdmin><LazyAdminSponsorCRM /></RequireAdmin>} />
+                        <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         {/* Test routes removed from production — use /all-pages (admin only) */}
