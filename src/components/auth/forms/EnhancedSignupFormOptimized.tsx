@@ -56,24 +56,24 @@ const EnhancedSignupForm: React.FC = memo(() => {
 
   const businessPlans = React.useMemo<PlanConfig[]>(() => [
     {
-      tier: 'business_starter',
-      price: '$29.99/month',
+      tier: 'business_pro',
+      price: '$29/month',
       features: [
-        'Business profile listing',
-        'QR code generation',
-        'Basic analytics',
-        '30-day free trial'
+        'Business profile & analytics',
+        'Booking system & reviews',
+        'QR codes (up to 25)',
+        'Priority support'
       ]
     },
     {
-      tier: 'business_pro',
-      price: '$99.99/month',
+      tier: 'business_pro_kayla',
+      price: '$99/month',
       features: [
-        'Everything in Starter',
-        'Advanced analytics',
-        'Premium listing placement',
-        'Marketing tools',
-        'Dedicated support'
+        'Everything in Business Pro',
+        'Kayla AI Employee (20+ services)',
+        'Tax prep & legal templates',
+        'Unlimited QR codes',
+        'Investment readiness scoring'
       ]
     }
   ], []);

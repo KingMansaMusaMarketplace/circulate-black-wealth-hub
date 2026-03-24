@@ -1,4 +1,4 @@
-export type SubscriptionTier = 'free' | 'business_starter' | 'business_starter_annual' | 'business' | 'business_annual' | 'business_multi_location' | 'business_multi_location_annual' | 'enterprise' | 'kayla_ai';
+export type SubscriptionTier = 'free' | 'business_pro' | 'business_pro_annual' | 'business_pro_kayla' | 'business_pro_kayla_annual' | 'enterprise' | 'kayla_ai';
 
 export interface TierFeatures {
   canScanQR: boolean;
@@ -12,6 +12,7 @@ export interface TierFeatures {
   canAccessPremiumSupport: boolean;
   canAccessMentorship: boolean;
   canAccessNetworking: boolean;
+  canAccessKaylaAI: boolean;
   maxQRCodes: number; // -1 for unlimited
 }
 
@@ -26,206 +27,134 @@ export interface TierInfo {
   monthlyEquivalent?: number;
 }
 
+const FREE_FEATURES: TierFeatures = {
+  canScanQR: true,
+  canEarnPoints: true,
+  canRedeemRewards: true,
+  canAccessExclusiveDeals: true,
+  canCreateBusiness: true,
+  canVerifyBusiness: false,
+  canAccessAnalytics: false,
+  canCreateEvents: false,
+  canAccessPremiumSupport: false,
+  canAccessMentorship: true,
+  canAccessNetworking: true,
+  canAccessKaylaAI: false,
+  maxQRCodes: 0,
+};
+
+const PRO_FEATURES: TierFeatures = {
+  canScanQR: true,
+  canEarnPoints: true,
+  canRedeemRewards: true,
+  canAccessExclusiveDeals: true,
+  canCreateBusiness: true,
+  canVerifyBusiness: true,
+  canAccessAnalytics: true,
+  canCreateEvents: true,
+  canAccessPremiumSupport: true,
+  canAccessMentorship: true,
+  canAccessNetworking: true,
+  canAccessKaylaAI: false,
+  maxQRCodes: 25,
+};
+
+const KAYLA_FEATURES: TierFeatures = {
+  ...PRO_FEATURES,
+  canAccessKaylaAI: true,
+  maxQRCodes: -1,
+};
+
 export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   free: {
-    displayName: 'Community Member',
-    description: '100% Free Forever - All Features Included',
+    displayName: 'Free Directory Listing',
+    description: 'Get discovered — list your business for free, forever',
     price: 0,
     interval: 'month',
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: false,
-      canVerifyBusiness: false,
-      canAccessAnalytics: false,
-      canCreateEvents: false,
-      canAccessPremiumSupport: false,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: 0
-    }
+    features: FREE_FEATURES,
   },
-  business_starter: {
-    displayName: 'Starter Business',
-    description: 'Perfect for solo entrepreneurs and new businesses',
-    price: 39,
+  business_pro: {
+    displayName: 'Business Pro',
+    description: 'Everything you need to grow — analytics, bookings, reviews & QR tools',
+    price: 29,
     interval: 'month',
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: false,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: 5
-    }
+    features: PRO_FEATURES,
   },
-  business_starter_annual: {
-    displayName: 'Starter Business (Annual)',
-    description: 'Perfect for solo entrepreneurs and new businesses',
-    price: 390,
+  business_pro_annual: {
+    displayName: 'Business Pro (Annual)',
+    description: 'Everything you need to grow — analytics, bookings, reviews & QR tools',
+    price: 290,
     interval: 'year',
-    savingsText: 'Save $78/year',
-    monthlyEquivalent: 32.50,
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: false,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: 5
-    }
+    savingsText: 'Save $58/year',
+    monthlyEquivalent: 24.17,
+    features: PRO_FEATURES,
   },
-  business: {
-    displayName: 'Professional Business',
-    description: 'Most popular for established businesses',
-    price: 79,
+  business_pro_kayla: {
+    displayName: 'Business Pro + Kayla AI',
+    description: 'Your autonomous AI employee — reviews, B2B matching, tax prep, legal & more on autopilot',
+    price: 99,
     interval: 'month',
     popular: true,
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: true,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: 25
-    }
+    features: KAYLA_FEATURES,
   },
-  business_annual: {
-    displayName: 'Professional Business (Annual)',
-    description: 'Most popular for established businesses',
-    price: 790,
+  business_pro_kayla_annual: {
+    displayName: 'Business Pro + Kayla AI (Annual)',
+    description: 'Your autonomous AI employee — reviews, B2B matching, tax prep, legal & more on autopilot',
+    price: 990,
     interval: 'year',
-    savingsText: 'Save $158/year',
-    monthlyEquivalent: 65.83,
+    savingsText: 'Save $198/year',
+    monthlyEquivalent: 82.50,
     popular: true,
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: true,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: 25
-    }
-  },
-  business_multi_location: {
-    displayName: 'Multi-Location Business',
-    description: 'Perfect for franchises and chains',
-    price: 149,
-    interval: 'month',
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: true,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: -1
-    }
-  },
-  business_multi_location_annual: {
-    displayName: 'Multi-Location Business (Annual)',
-    description: 'Perfect for franchises and chains',
-    price: 1490,
-    interval: 'year',
-    savingsText: 'Save $298/year',
-    monthlyEquivalent: 124.17,
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: true,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: -1
-    }
+    features: KAYLA_FEATURES,
   },
   enterprise: {
     displayName: 'Enterprise',
-    description: 'Custom solutions for large organizations',
+    description: 'Custom solutions for large organizations and franchises',
     price: 299,
     interval: 'month',
     features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: true,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: -1
-    }
+      ...KAYLA_FEATURES,
+      maxQRCodes: -1,
+    },
   },
+  // Legacy tier — kept for existing subscribers
   kayla_ai: {
     displayName: 'Kayla AI Employee',
     description: 'Your autonomous AI employee — reviews, B2B matching, churn prediction & content on autopilot',
     price: 100,
     interval: 'month',
-    popular: true,
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: true,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: -1
-    }
-  }
+    features: KAYLA_FEATURES,
+  },
 };
 
-// Stripe price/product IDs for Kayla AI Employee
+// Stripe price/product IDs
+export const STRIPE_TIERS = {
+  business_pro: {
+    product_id: 'prod_UCivXlP1UaKvZE',
+    price_id: 'price_1TEJTNAsptTW1mCmN77AMfHC',
+  },
+  business_pro_annual: {
+    product_id: 'prod_UCiv54CPK1aUm9',
+    price_id: 'price_1TEJU3AsptTW1mCmz4NCorgC',
+  },
+  business_pro_kayla: {
+    product_id: 'prod_UCiwV7cW2RoHtA',
+    price_id: 'price_1TEJUuAsptTW1mCmeJ3mPp06',
+  },
+  business_pro_kayla_annual: {
+    product_id: 'prod_UCixzeMjE209ho',
+    price_id: 'price_1TEJViAsptTW1mCmNcCOjwWz',
+  },
+} as const;
+
+// Legacy — keep for existing Kayla-only subscribers
 export const KAYLA_AI_STRIPE = {
   product_id: 'prod_UByEsslXcmz8Tx',
   price_id: 'price_1TDaHyAsptTW1mCm2F8e7NmE',
 } as const;
 
 export const getTierDisplayName = (tier: SubscriptionTier): string => {
-  return subscriptionTiers[tier]?.displayName || 'Community Member';
+  return subscriptionTiers[tier]?.displayName || 'Free Directory Listing';
 };
 
 export const getTierInfo = (tier: SubscriptionTier): TierInfo => {
@@ -248,6 +177,7 @@ export const getTierBenefits = (tier: SubscriptionTier): string[] => {
   if (features.canAccessAnalytics) benefits.push('Analytics Dashboard');
   if (features.maxQRCodes > 0) benefits.push(`${features.maxQRCodes} QR Codes`);
   if (features.maxQRCodes === -1) benefits.push('Unlimited QR Codes');
+  if (features.canAccessKaylaAI) benefits.push('Kayla AI Employee');
   if (features.canAccessMentorship) benefits.push('Mentorship Access');
   if (features.canAccessPremiumSupport) benefits.push('Premium Support');
   

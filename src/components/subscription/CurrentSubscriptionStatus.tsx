@@ -21,20 +21,19 @@ const CurrentSubscriptionStatus: React.FC<CurrentSubscriptionStatusProps> = ({
   const getTierDisplayName = (tier: SubscriptionTier) => {
     switch (tier) {
       case 'free':
-        return 'Community Member';
-      case 'business_starter':
-      case 'business_starter_annual':
-        return 'Starter Business';
-      case 'business':
-      case 'business_annual':
-        return 'Professional Business';
-      case 'business_multi_location':
-      case 'business_multi_location_annual':
-        return 'Multi-Location Business';
+        return 'Free Directory Listing';
+      case 'business_pro':
+      case 'business_pro_annual':
+        return 'Business Pro';
+      case 'business_pro_kayla':
+      case 'business_pro_kayla_annual':
+        return 'Business Pro + Kayla AI';
+      case 'kayla_ai':
+        return 'Kayla AI Employee';
       case 'enterprise':
         return 'Enterprise';
       default:
-        return 'Community Member';
+        return 'Free Directory Listing';
     }
   };
 

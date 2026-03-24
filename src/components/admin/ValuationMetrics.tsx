@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { TrendingUp, Users, Building2, DollarSign, Target, Gem, BarChart3, Activity } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
-const SUBSCRIPTION_PRICE_MONTHLY = 39; // $39/mo Directory Starter
+const SUBSCRIPTION_PRICE_MONTHLY = 29; // $29/mo Business Pro
 const PLATFORM_COMMISSION_RATE = 0.075; // 7.5%
 const AVG_BOOKING_VALUE = 150; // average transaction value
 const INFRASTRUCTURE_MULTIPLIER_LOW = 18;

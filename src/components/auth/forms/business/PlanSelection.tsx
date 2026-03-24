@@ -72,74 +72,53 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
 
   const businessPlans = [
     {
-      id: 'business_starter' as SubscriptionTier,
-      name: 'Starter Business',
-      price: 39,
+      id: 'free' as SubscriptionTier,
+      name: 'Free Directory Listing',
+      price: 0,
       period: 'month',
-      description: 'Perfect for new and small businesses',
+      description: 'Get discovered for free',
       features: [
-        'Business profile creation',
-        'Up to 5 QR codes',
-        'Basic analytics',
-        'Email support',
-        '30-day free trial'
+        'Business directory listing',
+        'Basic profile page',
+        'Community access',
       ],
       icon: <Rocket className="h-6 w-6" />,
       popular: false
     },
     {
-      id: 'business_starter_annual' as SubscriptionTier,
-      name: 'Starter Business (Annual)',
-      price: 390,
-      period: 'year',
-      monthlyEquivalent: 32.50,
-      savingsText: 'Save $78/year',
-      description: 'Perfect for new and small businesses',
+      id: 'business_pro' as SubscriptionTier,
+      name: 'Business Pro',
+      price: 29,
+      period: 'month',
+      description: 'Grow with analytics & tools',
       features: [
-        'Business profile creation',
-        'Up to 5 QR codes',
-        'Basic analytics',
-        'Email support',
-        '30-day free trial'
+        'Analytics dashboard',
+        'Booking system',
+        'Review management',
+        'Up to 25 QR codes',
+        'Priority support',
       ],
-      icon: <Rocket className="h-6 w-6" />,
+      icon: <Building className="h-6 w-6" />,
       popular: false
     },
     {
-      id: 'business' as SubscriptionTier,
-      name: 'Professional Business',
-      price: 79,
+      id: 'business_pro_kayla' as SubscriptionTier,
+      name: 'Business Pro + Kayla AI',
+      price: 99,
       period: 'month',
-      description: 'Complete business management suite',
+      description: 'Your AI employee on autopilot',
       features: [
-        'Everything in Starter',
-        'Up to 25 QR codes',
-        'Advanced analytics',
-        'Marketing tools',
-        'Priority support'
+        'Everything in Business Pro',
+        'Kayla AI (20+ services)',
+        'Tax prep & legal templates',
+        'Unlimited QR codes',
       ],
       icon: <Building className="h-6 w-6" />,
       popular: true
     },
-    {
-      id: 'business_annual' as SubscriptionTier,
-      name: 'Professional Business (Annual)',
-      price: 790,
-      period: 'year',
-      monthlyEquivalent: 65.83,
-      savingsText: 'Save $158/year',
-      description: 'Complete business management suite',
-      features: [
-        'Everything in Starter',
-        'Up to 25 QR codes',
-        'Advanced analytics',
-        'Marketing tools',
-        'Priority support'
-      ],
-      icon: <Building className="h-6 w-6" />,
-      popular: true
-    }
   ];
+
+
 
   return (
     <div className="w-full max-w-6xl mx-auto">
@@ -211,13 +190,13 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
                         <span className="text-3xl font-bold text-gray-900">${plan.price}</span>
                         <span className="text-sm text-gray-500 ml-1">/{plan.period}</span>
                       </div>
-                      {plan.monthlyEquivalent && (
+                      {(plan as any).monthlyEquivalent && (
                         <p className="text-sm text-gray-600 mt-1">
-                          ${plan.monthlyEquivalent}/month
+                          ${(plan as any).monthlyEquivalent}/month
                         </p>
                       )}
-                      {plan.savingsText && (
-                        <p className="text-sm text-green-600 mt-1 font-medium">{plan.savingsText}</p>
+                      {(plan as any).savingsText && (
+                        <p className="text-sm text-green-600 mt-1 font-medium">{(plan as any).savingsText}</p>
                       )}
                     </div>
                   </div>
