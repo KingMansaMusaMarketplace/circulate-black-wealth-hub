@@ -190,13 +190,13 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
                         <span className="text-3xl font-bold text-gray-900">${plan.price}</span>
                         <span className="text-sm text-gray-500 ml-1">/{plan.period}</span>
                       </div>
-                      {plan.monthlyEquivalent && (
+                      {(plan as any).monthlyEquivalent && (
                         <p className="text-sm text-gray-600 mt-1">
-                          ${plan.monthlyEquivalent}/month
+                          ${(plan as any).monthlyEquivalent}/month
                         </p>
                       )}
-                      {plan.savingsText && (
-                        <p className="text-sm text-green-600 mt-1 font-medium">{plan.savingsText}</p>
+                      {(plan as any).savingsText && (
+                        <p className="text-sm text-green-600 mt-1 font-medium">{(plan as any).savingsText}</p>
                       )}
                     </div>
                   </div>
