@@ -1,8 +1,8 @@
 import { useCachedSponsors } from '@/hooks/useCachedSponsors';
 import { supabase } from '@/integrations/supabase/client';
-import { Card } from '@/components/ui/card';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Star, Sparkles } from 'lucide-react';
 import { useEffect } from 'react';
+import { generatePlaceholder } from '@/utils/imageOptimizer';
 
 interface Sponsor {
   id: string;
@@ -13,19 +13,32 @@ interface Sponsor {
   status: string;
 }
 
-const tierOrder = { platinum: 1, gold: 2, silver: 3, bronze: 4 };
-const tierColors = {
-  platinum: 'from-purple-500 to-pink-500',
-  gold: 'from-yellow-500 to-amber-500',
-  silver: 'from-gray-400 to-gray-500',
-  bronze: 'from-orange-600 to-orange-700',
+const tierConfig: Record<string, { gradient: string; glow: string; label: string }> = {
+  platinum: {
+    gradient: 'from-purple-500 via-pink-500 to-purple-600',
+    glow: 'shadow-[0_0_30px_rgba(168,85,247,0.4)]',
+    label: 'PLATINUM FOUNDING SPONSOR',
+  },
+  gold: {
+    gradient: 'from-mansagold via-amber-500 to-mansagold',
+    glow: 'shadow-[0_0_20px_rgba(217,169,56,0.3)]',
+    label: 'GOLD SPONSOR',
+  },
+  silver: {
+    gradient: 'from-slate-400 via-gray-300 to-slate-500',
+    glow: 'shadow-[0_0_15px_rgba(148,163,184,0.25)]',
+    label: 'SILVER SPONSOR',
+  },
+  bronze: {
+    gradient: 'from-orange-600 via-amber-700 to-orange-700',
+    glow: 'shadow-[0_0_15px_rgba(194,120,50,0.25)]',
+    label: 'BRONZE SPONSOR',
+  },
 };
 
 export const PublicSponsorDisplay = () => {
-  // Use optimized cached sponsors hook with automatic 30-minute caching
   const { data: sponsors, isLoading } = useCachedSponsors();
 
-  // Track impressions when sponsors are displayed
   useEffect(() => {
     if (sponsors && sponsors.length > 0) {
       sponsors.forEach((sponsor) => {
@@ -37,12 +50,9 @@ export const PublicSponsorDisplay = () => {
   }, [sponsors]);
 
   const handleSponsorClick = async (sponsor: Sponsor) => {
-    // Track click
     await supabase.rpc('increment_sponsor_click', {
       p_subscription_id: sponsor.id,
     });
-
-    // Open sponsor website
     if (sponsor.website_url) {
       window.open(sponsor.website_url, '_blank', 'noopener,noreferrer');
     }
@@ -52,62 +62,135 @@ export const PublicSponsorDisplay = () => {
     return null;
   }
 
+  const platinumSponsors = sponsors.filter((s) => s.tier === 'platinum');
+  const otherSponsors = sponsors.filter((s) => s.tier !== 'platinum');
+
+  const getSponsorLogo = (sponsor: Sponsor) => {
+    if (sponsor.logo_url) return sponsor.logo_url;
+    return generatePlaceholder(120, 120, sponsor.company_name);
+  };
+
   return (
-    <section className="py-12 bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-2">Our Sponsors</h2>
-        <p className="text-center text-muted-foreground mb-8">
-          Supporting community businesses together
-        </p>
+    <section className="relative py-20 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#030712] via-[#050a18] to-[#000000]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.015)_1px,transparent_1px)] bg-[size:64px_64px]" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {sponsors.map((sponsor) => {
-            const tierGradient = tierColors[sponsor.tier as keyof typeof tierColors];
-            const isPlatinum = sponsor.tier === 'platinum';
-
-            return (
-              <Card
-                key={sponsor.id}
-                className={`relative overflow-hidden transition-all hover:scale-105 cursor-pointer group ${
-                  isPlatinum ? 'md:col-span-2' : ''
-                }`}
-                onClick={() => handleSponsorClick(sponsor)}
-              >
-                {/* Tier badge */}
-                <div
-                  className={`absolute top-0 right-0 px-3 py-1 text-xs font-semibold text-white bg-gradient-to-r ${tierGradient} rounded-bl-lg`}
-                >
-                  {sponsor.tier.toUpperCase()}
-                </div>
-
-                {/* Logo or company name */}
-                <div className="p-6 flex items-center justify-center min-h-32">
-                  {sponsor.logo_url ? (
-                    <img
-                      src={sponsor.logo_url}
-                      alt={sponsor.company_name}
-                      className="max-h-20 max-w-full object-contain"
-                    />
-                  ) : (
-                    <h3 className="text-xl font-bold text-center">{sponsor.company_name}</h3>
-                  )}
-                </div>
-
-                {/* Hover overlay with link icon */}
-                {sponsor.website_url && (
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <ExternalLink className="h-6 w-6 text-primary" />
-                  </div>
-                )}
-              </Card>
-            );
-          })}
+      <div className="container mx-auto px-4 relative z-10 max-w-[1600px]">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Sparkles className="h-5 w-5 text-mansagold" />
+            <span className="text-mansagold text-sm font-semibold tracking-[0.2em] uppercase">
+              Our Corporate Sponsors
+            </span>
+            <Sparkles className="h-5 w-5 text-mansagold" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+            Powering the Future of Black Business
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent mx-auto mb-4" />
+          <p className="text-gray-400 text-sm max-w-md mx-auto">
+            These organizations invest in our community's economic growth
+          </p>
         </div>
 
-        <p className="text-center text-sm text-muted-foreground mt-8">
+        {/* Platinum Sponsors — Full Width */}
+        {platinumSponsors.map((sponsor) => {
+          const config = tierConfig.platinum;
+          return (
+            <div
+              key={sponsor.id}
+              onClick={() => handleSponsorClick(sponsor)}
+              className={`relative mb-10 rounded-2xl p-[2px] bg-gradient-to-r ${config.gradient} ${config.glow} cursor-pointer group transition-all duration-300 hover:scale-[1.01]`}
+            >
+              <div className="rounded-2xl bg-slate-900/90 backdrop-blur-sm p-8">
+                <div className="flex items-center gap-2 mb-5">
+                  <Star className="h-4 w-4 text-purple-400 fill-purple-400" />
+                  <span className="text-[11px] font-bold tracking-[0.15em] uppercase text-purple-300">
+                    {config.label}
+                  </span>
+                </div>
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                  <div className="w-24 h-24 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <img
+                      src={getSponsorLogo(sponsor)}
+                      alt={sponsor.company_name}
+                      className="max-h-20 max-w-20 object-contain"
+                    />
+                  </div>
+                  <div className="flex-1 text-center md:text-left">
+                    <h3 className="text-2xl font-bold text-white">{sponsor.company_name}</h3>
+                    {sponsor.website_url && (
+                      <span className="inline-flex items-center gap-1.5 text-purple-300 text-sm mt-2 group-hover:text-purple-200 transition-colors">
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        Visit Website
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Other Sponsors — Grid */}
+        {otherSponsors.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {otherSponsors.map((sponsor) => {
+              const config = tierConfig[sponsor.tier] || tierConfig.gold;
+              return (
+                <div
+                  key={sponsor.id}
+                  onClick={() => handleSponsorClick(sponsor)}
+                  className={`relative rounded-xl p-[1.5px] bg-gradient-to-br ${config.gradient} ${config.glow} cursor-pointer group transition-all duration-300 hover:scale-[1.03]`}
+                >
+                  <div className="rounded-xl bg-slate-900/90 backdrop-blur-sm p-6 h-full flex flex-col items-center">
+                    {/* Tier badge */}
+                    <span
+                      className={`text-[9px] font-bold tracking-[0.15em] uppercase px-2.5 py-1 rounded-full bg-gradient-to-r ${config.gradient} text-white mb-4`}
+                    >
+                      {sponsor.tier}
+                    </span>
+
+                    {/* Logo */}
+                    <div className="w-20 h-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden mb-4">
+                      <img
+                        src={getSponsorLogo(sponsor)}
+                        alt={sponsor.company_name}
+                        className="max-h-16 max-w-16 object-contain"
+                      />
+                    </div>
+
+                    {/* Name */}
+                    <h4 className="text-white font-semibold text-center text-sm">
+                      {sponsor.company_name}
+                    </h4>
+
+                    {/* Hover CTA */}
+                    {sponsor.website_url && (
+                      <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="inline-flex items-center gap-1 text-mansagold text-xs">
+                          <ExternalLink className="h-3 w-3" />
+                          Visit Website
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* CTA */}
+        <p className="text-center text-sm text-gray-500 mt-12">
           Interested in sponsoring?{' '}
-          <a href="/sponsor-pricing" className="text-primary hover:underline">
-            Learn more about our sponsorship tiers
+          <a
+            href="/sponsor-pricing"
+            className="text-mansagold hover:text-amber-400 transition-colors font-medium"
+          >
+            Become a Sponsor →
           </a>
         </p>
       </div>
