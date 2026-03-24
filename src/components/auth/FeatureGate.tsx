@@ -33,7 +33,7 @@ const FeatureGate: React.FC<FeatureGateProps> = ({
   const handleUpgrade = async () => {
     try {
       const checkoutData = await subscriptionService.createCheckoutSession({
-        userType: requiredTier === 'business' || requiredTier === 'enterprise' ? 'business' : 'customer',
+        userType: requiredTier === 'business_pro' || requiredTier === 'business_pro_kayla' || requiredTier === 'enterprise' ? 'business' : 'customer',
         email: user?.email || '',
         name: user?.user_metadata?.name || '',
         tier: requiredTier === 'free' ? undefined : requiredTier,

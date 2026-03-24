@@ -293,7 +293,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
 
   const getButtonVariant = (planId: SubscriptionTier) => {
     if (currentTier === planId) return 'outline';
-    if (userType === 'business' && (planId === 'business' || planId === 'business_annual')) return 'default';
+    if (userType === 'business' && (planId === 'business_pro' || planId === 'business_pro_annual')) return 'default';
     return 'outline';
   };
 

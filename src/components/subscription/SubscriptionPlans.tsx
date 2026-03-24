@@ -87,7 +87,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
 
   const getButtonVariant = (planId: SubscriptionTier) => {
     if (currentTier === planId) return 'outline';
-    if (userType === 'business' && planId === 'business') return 'default';
+    if (userType === 'business' && planId === 'business_pro') return 'default';
     return 'outline';
   };
 
