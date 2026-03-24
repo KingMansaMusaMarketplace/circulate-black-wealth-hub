@@ -135,9 +135,17 @@ export const KaylaLegalTemplates: React.FC<Props> = ({ businessId }) => {
               <div key={t.id} className="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg cursor-pointer hover:bg-slate-900/50 transition-colors" onClick={() => setViewingTemplate(t)}>
                 <div>
                   <p className="text-sm font-medium text-white">{t.template_name}</p>
-                  <p className="text-xs text-white/40">{templateTypes.find(tt => tt.value === t.template_type)?.label || t.template_type} • {new Date(t.created_at).toLocaleDateString()}</p>
+                  <p className="text-xs text-white/40">
+                    {templateTypes.find(tt => tt.value === t.template_type)?.label || t.template_type} • v{t.version || 1} • {new Date(t.created_at).toLocaleDateString()}
+                    {t.jurisdiction && <span className="ml-1">• {t.jurisdiction}</span>}
+                  </p>
                 </div>
-                <Badge variant="outline" className="border-white/20 text-white/50 text-xs">{t.status}</Badge>
+                <div className="flex items-center gap-2">
+                  {t.status === 'outdated' ? (
+                    <Badge variant="outline" className="border-amber-400/30 text-amber-400 text-xs">⚠️ Outdated</Badge>
+                  ) : (
+                    <Badge variant="outline" className="border-emerald-400/30 text-emerald-400 text-xs">Active</Badge>
+                  )}
               </div>
             ))}
           </CardContent>
