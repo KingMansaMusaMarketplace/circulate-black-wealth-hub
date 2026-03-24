@@ -13,6 +13,7 @@ import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnboarding";
+import RequireAdmin from '@/components/auth/RequireAdmin';
 import { AIChatWidget } from "@/components/ai-chat/AIChatWidget";
 import { HelmetProvider } from 'react-helmet-async';
 // initializeCapacitorPlugins is dynamically imported below to avoid dual static+dynamic import
