@@ -7573,6 +7573,90 @@ export type Database = {
           },
         ]
       }
+      kayla_compliance_reminders: {
+        Row: {
+          ai_generated: boolean | null
+          business_id: string
+          category: string | null
+          completed_at: string | null
+          created_at: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          is_completed: boolean | null
+          reminder_type: string
+          state: string | null
+          title: string
+          urgency: string | null
+        }
+        Insert: {
+          ai_generated?: boolean | null
+          business_id: string
+          category?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          is_completed?: boolean | null
+          reminder_type: string
+          state?: string | null
+          title: string
+          urgency?: string | null
+        }
+        Update: {
+          ai_generated?: boolean | null
+          business_id?: string
+          category?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          is_completed?: boolean | null
+          reminder_type?: string
+          state?: string | null
+          title?: string
+          urgency?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_compliance_reminders_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_compliance_reminders_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_compliance_reminders_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_compliance_reminders_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_compliance_reminders_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kayla_customer_segments: {
         Row: {
           ai_insights: string | null
@@ -8193,6 +8277,186 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_inventory_items: {
+        Row: {
+          ai_notes: string | null
+          business_id: string
+          category: string | null
+          created_at: string | null
+          current_stock: number | null
+          id: string
+          item_name: string
+          last_restocked_at: string | null
+          min_stock_level: number | null
+          reorder_recommended: boolean | null
+          status: string | null
+          supplier_contact: string | null
+          supplier_name: string | null
+          unit_cost: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_notes?: string | null
+          business_id: string
+          category?: string | null
+          created_at?: string | null
+          current_stock?: number | null
+          id?: string
+          item_name: string
+          last_restocked_at?: string | null
+          min_stock_level?: number | null
+          reorder_recommended?: boolean | null
+          status?: string | null
+          supplier_contact?: string | null
+          supplier_name?: string | null
+          unit_cost?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_notes?: string | null
+          business_id?: string
+          category?: string | null
+          created_at?: string | null
+          current_stock?: number | null
+          id?: string
+          item_name?: string
+          last_restocked_at?: string | null
+          min_stock_level?: number | null
+          reorder_recommended?: boolean | null
+          status?: string | null
+          supplier_contact?: string | null
+          supplier_name?: string | null
+          unit_cost?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_inventory_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_inventory_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_inventory_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_inventory_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_inventory_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kayla_investment_readiness: {
+        Row: {
+          ai_assessment: string | null
+          assessed_at: string | null
+          business_id: string
+          created_at: string | null
+          documentation_score: number | null
+          financial_health_score: number | null
+          growth_trajectory_score: number | null
+          id: string
+          investor_type_fit: string[] | null
+          market_position_score: number | null
+          overall_score: number | null
+          recommendations: Json | null
+          strengths: Json | null
+          team_readiness_score: number | null
+          weaknesses: Json | null
+        }
+        Insert: {
+          ai_assessment?: string | null
+          assessed_at?: string | null
+          business_id: string
+          created_at?: string | null
+          documentation_score?: number | null
+          financial_health_score?: number | null
+          growth_trajectory_score?: number | null
+          id?: string
+          investor_type_fit?: string[] | null
+          market_position_score?: number | null
+          overall_score?: number | null
+          recommendations?: Json | null
+          strengths?: Json | null
+          team_readiness_score?: number | null
+          weaknesses?: Json | null
+        }
+        Update: {
+          ai_assessment?: string | null
+          assessed_at?: string | null
+          business_id?: string
+          created_at?: string | null
+          documentation_score?: number | null
+          financial_health_score?: number | null
+          growth_trajectory_score?: number | null
+          id?: string
+          investor_type_fit?: string[] | null
+          market_position_score?: number | null
+          overall_score?: number | null
+          recommendations?: Json | null
+          strengths?: Json | null
+          team_readiness_score?: number | null
+          weaknesses?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_investment_readiness_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_investment_readiness_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_investment_readiness_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_investment_readiness_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_investment_readiness_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kayla_learning_signals: {
         Row: {
           confidence: number
@@ -8228,6 +8492,84 @@ export type Database = {
           signal_value?: Json
         }
         Relationships: []
+      }
+      kayla_legal_templates: {
+        Row: {
+          ai_generated: boolean | null
+          business_id: string
+          content: string
+          created_at: string | null
+          id: string
+          is_customized: boolean | null
+          status: string | null
+          template_name: string
+          template_type: string
+          updated_at: string | null
+          variables: Json | null
+        }
+        Insert: {
+          ai_generated?: boolean | null
+          business_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          is_customized?: boolean | null
+          status?: string | null
+          template_name: string
+          template_type: string
+          updated_at?: string | null
+          variables?: Json | null
+        }
+        Update: {
+          ai_generated?: boolean | null
+          business_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_customized?: boolean | null
+          status?: string | null
+          template_name?: string
+          template_type?: string
+          updated_at?: string | null
+          variables?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_legal_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_legal_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_legal_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_legal_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_legal_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       kayla_outcome_feedback: {
         Row: {
@@ -8910,6 +9252,165 @@ export type Database = {
           },
           {
             foreignKeyName: "kayla_social_posts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kayla_tax_prep: {
+        Row: {
+          ai_summary: string | null
+          business_id: string
+          created_at: string | null
+          deductions_found: Json | null
+          estimated_expenses: number | null
+          estimated_revenue: number | null
+          estimated_tax_liability: number | null
+          filing_deadline: string | null
+          id: string
+          prep_status: string | null
+          quarterly_estimates: Json | null
+          tax_year: number
+          updated_at: string | null
+        }
+        Insert: {
+          ai_summary?: string | null
+          business_id: string
+          created_at?: string | null
+          deductions_found?: Json | null
+          estimated_expenses?: number | null
+          estimated_revenue?: number | null
+          estimated_tax_liability?: number | null
+          filing_deadline?: string | null
+          id?: string
+          prep_status?: string | null
+          quarterly_estimates?: Json | null
+          tax_year: number
+          updated_at?: string | null
+        }
+        Update: {
+          ai_summary?: string | null
+          business_id?: string
+          created_at?: string | null
+          deductions_found?: Json | null
+          estimated_expenses?: number | null
+          estimated_revenue?: number | null
+          estimated_tax_liability?: number | null
+          filing_deadline?: string | null
+          id?: string
+          prep_status?: string | null
+          quarterly_estimates?: Json | null
+          tax_year?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_tax_prep_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_tax_prep_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_tax_prep_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_tax_prep_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_tax_prep_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kayla_vendor_recommendations: {
+        Row: {
+          business_id: string
+          confidence_score: number | null
+          contact_info: Json | null
+          created_at: string | null
+          estimated_savings: number | null
+          id: string
+          recommendation_reason: string | null
+          status: string | null
+          vendor_name: string
+          vendor_type: string | null
+        }
+        Insert: {
+          business_id: string
+          confidence_score?: number | null
+          contact_info?: Json | null
+          created_at?: string | null
+          estimated_savings?: number | null
+          id?: string
+          recommendation_reason?: string | null
+          status?: string | null
+          vendor_name: string
+          vendor_type?: string | null
+        }
+        Update: {
+          business_id?: string
+          confidence_score?: number | null
+          contact_info?: Json | null
+          created_at?: string | null
+          estimated_savings?: number | null
+          id?: string
+          recommendation_reason?: string | null
+          status?: string | null
+          vendor_name?: string
+          vendor_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_vendor_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_vendor_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_vendor_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_vendor_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_vendor_recommendations_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "partner_referred_businesses_api"
