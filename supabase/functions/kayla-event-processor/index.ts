@@ -315,11 +315,7 @@ async function processPendingEvents(
 
   for (const event of pendingEvents) {
     try {
-      await supabase
-        .from("kayla_event_queue")
-        .update({ status: "processing" })
-        .eq("id", event.id);
-
+      // Event already claimed as 'processing' by SKIP LOCKED RPC
       const result = await routeToService(supabase, event);
 
       await supabase
