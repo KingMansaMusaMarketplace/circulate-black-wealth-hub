@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { sanitizeHtml } from '@/lib/security/content-sanitizer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -147,7 +148,7 @@ export const KaylaEmailCampaigns: React.FC<Props> = ({ businessId }) => {
                         <span className="flex items-center gap-1"><MousePointer className="h-3 w-3" /> {campaign.total_clicked} clicked</span>
                       </div>
                       {previewId === campaign.id && campaign.email_body && (
-                        <div className="mt-3 bg-white/5 rounded-lg p-3 text-xs text-white/60 max-h-40 overflow-y-auto" dangerouslySetInnerHTML={{ __html: campaign.email_body }} />
+                        <div className="mt-3 bg-white/5 rounded-lg p-3 text-xs text-white/60 max-h-40 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(campaign.email_body) }} />
                       )}
                     </div>
                     <div className="flex items-center gap-3">
