@@ -92,13 +92,31 @@ Create a complete, legally-informed template with placeholders in [BRACKETS] for
 
     const result = JSON.parse(toolCall.function.arguments);
 
-    // Save template
+    // Mark any existing templates of this type as outdated
+    await supabase.from("kayla_legal_templates")
+      .update({ status: "outdated" })
+      .eq("business_id", business_id)
+      .eq("template_type", template_type)
+      .eq("status", "active");
+
+    // Save new template with version tracking
+    const { data: existingCount } = await supabase.from("kayla_legal_templates")
+      .select("id", { count: "exact", head: true })
+      .eq("business_id", business_id)
+      .eq("template_type", template_type);
+
+    const version = (existingCount as any)?.length ? (existingCount as any).length + 1 : 1;
+
     const { data: saved } = await supabase.from("kayla_legal_templates").insert({
       business_id,
       template_type,
       template_name: result.template_name,
       content: result.content,
       variables: result.variables,
+      status: "active",
+      version,
+      jurisdiction: `${business.state}, US`,
+      generated_at: new Date().toISOString(),
     }).select().single();
 
     return new Response(JSON.stringify({ ...result, id: saved?.id }), {

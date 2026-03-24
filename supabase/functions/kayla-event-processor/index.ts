@@ -301,14 +301,10 @@ async function processPendingEvents(
 ): Promise<Response> {
   console.log("[Kayla Event] Sweep mode: processing pending events");
 
-  // Get pending events, including failed ones ready for retry
+  // Use SKIP LOCKED via RPC to prevent concurrent workers from processing the same events
+  // This prevents lock contention when multiple sweep instances run simultaneously
   const { data: pendingEvents } = await supabase
-    .from("kayla_event_queue")
-    .select("*")
-    .in("status", ["pending", "failed"])
-    .lt("retry_count", 3)
-    .order("created_at", { ascending: true })
-    .limit(50);
+    .rpc("claim_kayla_events", { batch_size: 50 });
 
   if (!pendingEvents?.length) {
     return jsonResponse({ success: true, message: "No pending events", processed: 0 });
@@ -319,11 +315,7 @@ async function processPendingEvents(
 
   for (const event of pendingEvents) {
     try {
-      await supabase
-        .from("kayla_event_queue")
-        .update({ status: "processing" })
-        .eq("id", event.id);
-
+      // Event already claimed as 'processing' by SKIP LOCKED RPC
       const result = await routeToService(supabase, event);
 
       await supabase

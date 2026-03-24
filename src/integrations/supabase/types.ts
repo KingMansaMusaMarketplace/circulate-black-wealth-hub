@@ -8499,39 +8499,48 @@ export type Database = {
           business_id: string
           content: string
           created_at: string | null
+          generated_at: string | null
           id: string
           is_customized: boolean | null
+          jurisdiction: string | null
           status: string | null
           template_name: string
           template_type: string
           updated_at: string | null
           variables: Json | null
+          version: number | null
         }
         Insert: {
           ai_generated?: boolean | null
           business_id: string
           content: string
           created_at?: string | null
+          generated_at?: string | null
           id?: string
           is_customized?: boolean | null
+          jurisdiction?: string | null
           status?: string | null
           template_name: string
           template_type: string
           updated_at?: string | null
           variables?: Json | null
+          version?: number | null
         }
         Update: {
           ai_generated?: boolean | null
           business_id?: string
           content?: string
           created_at?: string | null
+          generated_at?: string | null
           id?: string
           is_customized?: boolean | null
+          jurisdiction?: string | null
           status?: string | null
           template_name?: string
           template_type?: string
           updated_at?: string | null
           variables?: Json | null
+          version?: number | null
         }
         Relationships: [
           {
@@ -18314,6 +18323,28 @@ export type Database = {
       claim_business_lead: {
         Args: { p_token: string; p_user_id: string }
         Returns: Json
+      }
+      claim_kayla_events: {
+        Args: { batch_size?: number }
+        Returns: {
+          created_at: string
+          error_message: string | null
+          event_type: string
+          id: string
+          max_retries: number
+          payload: Json
+          processed_at: string | null
+          record_id: string | null
+          retry_count: number
+          status: string
+          target_service: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "kayla_event_queue"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       cleanup_expired_search_cache: { Args: never; Returns: undefined }
       cleanup_old_audit_logs: { Args: never; Returns: undefined }
