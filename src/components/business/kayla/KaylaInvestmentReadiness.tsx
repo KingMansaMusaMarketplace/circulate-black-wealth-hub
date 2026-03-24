@@ -58,10 +58,15 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+      <div className="flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-white flex items-center gap-2 flex-1">
           <TrendingUp className="h-5 w-5 text-yellow-400" /> Investment Readiness Score
         </h3>
+        {assessment && (
+          <Button size="sm" variant="outline" onClick={() => exportPDF(assessment, dimensions)} className="border-white/20 text-white/70 hover:text-white">
+            <Download className="h-4 w-4 mr-1" /> Export PDF
+          </Button>
+        )}
         <Button size="sm" onClick={generateAssessment} disabled={generating} className="bg-yellow-600 hover:bg-yellow-700 text-black">
           {generating ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Target className="h-4 w-4 mr-1" />}
           {assessment ? 'Reassess' : 'Run Assessment'}
