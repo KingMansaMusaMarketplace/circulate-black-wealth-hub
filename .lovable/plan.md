@@ -1,53 +1,57 @@
 
 
-## Recommendation: Sticky Sponsor Sidebar on Directory Pages
+## Redesign the Public Sponsor Display Section
 
-**Why this wins for sponsors:** The directory page is where users spend the most time — browsing, searching, filtering. A sticky sidebar ad gives sponsors persistent, non-intrusive visibility during high-intent browsing sessions. Unlike the dismissible banner, it stays visible the entire session. Sponsors paying $3,500-$10,000/mo get measurable, sustained exposure where it matters most.
-
-This is the approach used by Google, Yelp, and every major directory — because it works.
-
----
+The current sponsor section on the homepage shows plain white cards with just text names and small tier badges. It looks generic and doesn't communicate "these are our valued corporate sponsors" — it looks more like a placeholder list.
 
 ### What We'll Build
 
-**A `SponsorSidebar` component** that displays a rotating sponsor card pinned to the right side of the directory page (desktop only). On mobile, it becomes a slim inline card between search results.
+A premium, dark-themed sponsor showcase that:
+- Has a clear **"Our Corporate Sponsors"** heading with a gold accent line and subtitle
+- Generates **branded initials-based logo placeholders** (using the existing `generatePlaceholder` utility) when sponsors have no uploaded logo — so every card has a visual logo element
+- Uses **tier-specific gradient borders** (platinum = purple/pink glow, gold = amber glow, silver = slate shimmer, bronze = copper tone)
+- Shows the **company name below the logo** area instead of centered as the only content
+- Adds a **"Visit Website" CTA** on hover with smooth overlay
+- Platinum sponsors get a **larger, featured card** spanning full width with extra visual treatment
+- Adds a subtle **"Become a Sponsor"** CTA link at the bottom
 
-**Visual design:**
-- Subtle "Sponsored" label at top
-- Sponsor logo (large, prominent)
-- Company name + tier badge (Gold/Platinum glow)
-- "Visit Website" CTA button
-- Click and impression tracking via existing Supabase RPCs
-- Smooth fade transition between sponsors every 10 seconds
-- Styled to match the dark theme with gold accents
+### Visual Design (Dark Theme)
 
-**Placement:**
-- Desktop: Sticky sidebar alongside the business grid/list (right column)
-- Mobile: Inline card inserted after the 3rd business result
+```text
+┌──────────────────────────────────────────────┐
+│         ✦ Our Corporate Sponsors ✦           │
+│    Powering the future of Black business     │
+│                                              │
+│  ┌─────────────────────────────────────────┐ │
+│  │  ⭐ PLATINUM FOUNDING SPONSOR           │ │
+│  │  ┌──────┐                               │ │
+│  │  │  BC  │  Black Excellence Capital     │ │
+│  │  └──────┘                               │ │
+│  └─────────────────────────────────────────┘ │
+│                                              │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐    │
+│  │  ┌────┐  │ │  ┌────┐  │ │  ┌────┐  │    │
+│  │  │ UT │  │ │  │ HF │  │ │  │ MM │  │    │
+│  │  └────┘  │ │  └────┘  │ │  └────┘  │    │
+│  │  Unity   │ │ Heritage │ │  Mansa   │    │
+│  │  GOLD    │ │  GOLD    │ │  GOLD    │    │
+│  └──────────┘ └──────────┘ └──────────┘    │
+│                                              │
+│     Interested in sponsoring? Learn more →   │
+└──────────────────────────────────────────────┘
+```
 
----
+### Technical Changes
 
-### Technical Plan
+**1. Rewrite `src/components/sponsors/PublicSponsorDisplay.tsx`**
+- Import `generatePlaceholder` from `imageOptimizer.ts` to create branded SVG logos for sponsors missing `logo_url`
+- Platinum sponsors: full-width card with gradient border glow, larger logo area, "Founding Sponsor" label
+- Gold/Silver/Bronze: 3-column grid (1-col on mobile) with tier-colored gradient borders
+- Each card: dark `bg-slate-900/80` interior, logo/placeholder at top, company name below, tier badge
+- Hover: subtle scale + border glow intensifies + "Visit Website" overlay
+- Keep existing impression/click tracking logic unchanged
+- Section background: matches the premium dark theme (`from-[#000000] via-[#050a18]`)
+- Gold accent divider under the heading using `bg-mansagold`
 
-1. **Create `src/components/sponsors/SponsorSidebar.tsx`**
-   - Uses `useFeaturedSponsors()` hook (already exists) for data
-   - Auto-rotates sponsors with configurable interval
-   - Tracks impressions via `increment_sponsor_impression` RPC
-   - Tracks clicks via `increment_sponsor_click` RPC
-   - Framer Motion animations for transitions
-   - `sticky top-24` positioning on desktop
-   - Responsive: hidden on mobile (separate inline variant)
-
-2. **Create `src/components/sponsors/InlineSponsorCard.tsx`**
-   - Compact horizontal card for mobile insertion between results
-   - Same data source and tracking as sidebar
-
-3. **Update `src/pages/DirectoryPage.tsx`**
-   - Wrap the main content area in a flex layout: content (left) + sidebar (right)
-   - Desktop: add `SponsorSidebar` in right column alongside business results
-   - Only show for Gold+ tier sponsors (per the pricing model)
-
-4. **Update `BusinessGridView.tsx`**
-   - Accept optional `inlineSponsor` prop
-   - Insert `InlineSponsorCard` after the 3rd business card on mobile
+**2. No other files need changes** — the component is already imported and placed in `HomePage.tsx`.
 
