@@ -70,7 +70,7 @@ export const useSignupForm = () => {
   };
 
   const onSubmit = async (values: SignupFormValues & { 
-    subscription_tier?: 'free' | 'paid' | 'premium' | 'business_starter' | 'business' | 'enterprise';
+    subscription_tier?: 'free' | 'paid' | 'premium' | 'business_pro' | 'business_pro_kayla' | 'enterprise';
     business_name?: string;
     business_description?: string;
     business_address?: string;

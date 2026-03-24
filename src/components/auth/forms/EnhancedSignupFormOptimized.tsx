@@ -56,13 +56,13 @@ const EnhancedSignupForm: React.FC = memo(() => {
 
   const businessPlans = React.useMemo<PlanConfig[]>(() => [
     {
-      tier: 'business_starter',
-      price: '$29.99/month',
+      tier: 'business_pro',
+      price: '$29/month',
       features: [
-        'Business profile listing',
-        'QR code generation',
-        'Basic analytics',
-        '30-day free trial'
+        'Business profile & analytics',
+        'Booking system & reviews',
+        'QR codes (up to 25)',
+        'Priority support'
       ]
     },
     {
