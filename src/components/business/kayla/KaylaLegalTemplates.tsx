@@ -149,7 +149,6 @@ export const KaylaLegalTemplates: React.FC<Props> = ({ businessId }) => {
                 </div>
               </div>
             ))}
-            ))}
           </CardContent>
         </Card>
       )}
