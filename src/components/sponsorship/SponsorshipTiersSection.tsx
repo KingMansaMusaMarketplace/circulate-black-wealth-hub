@@ -12,7 +12,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
   const tiers = [
     {
       name: 'Bronze Partner',
-      price: '$2,500',
+      price: '$5,000',
       period: '/month',
       description: 'Foundation-level support for community impact',
       icon: Star,
@@ -30,7 +30,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
     },
     {
       name: 'Silver Partner',
-      price: '$3,500',
+      price: '$15,000',
       period: '/month',
       description: 'Elevated visibility and engagement',
       icon: Star,
@@ -49,7 +49,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
     },
     {
       name: 'Gold Partner',
-      price: '$5,000',
+      price: '$25,000',
       period: '/month',
       description: 'Our most popular tier for maximum visibility',
       icon: Crown,
@@ -69,7 +69,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
     },
     {
       name: 'Platinum Partner',
-      price: '$10,000',
+      price: '$50,000',
       period: '/month',
       description: 'Exclusive tier for transformational impact',
       icon: Zap,
