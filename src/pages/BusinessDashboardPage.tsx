@@ -15,6 +15,7 @@ import { BusinessSubscriptionBenefits } from '@/components/business/subscription
 import { BusinessVerificationStatus } from '@/components/business/BusinessVerificationStatus';
 import ValueTracker from '@/components/business/ValueTracker';
 import { KaylaInsightsDashboard } from '@/components/business/kayla/KaylaInsightsDashboard';
+import KaylaWelcomeOnboarding from '@/components/onboarding/KaylaWelcomeOnboarding';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -65,6 +66,12 @@ const BusinessDashboardPage = () => {
       
       <DashboardLayout title="Business Dashboard" icon={null}>
         <div className="space-y-6">
+          {/* Kayla Welcome Onboarding */}
+          <KaylaWelcomeOnboarding
+            businessId={profile.id}
+            businessName={profile.business_name}
+          />
+
           {/* Verification Status Banner */}
           <BusinessVerificationStatus
             isVerified={profile.is_verified || false}
