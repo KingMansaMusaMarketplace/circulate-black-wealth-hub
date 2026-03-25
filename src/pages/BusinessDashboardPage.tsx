@@ -15,6 +15,7 @@ import { BusinessSubscriptionBenefits } from '@/components/business/subscription
 import { BusinessVerificationStatus } from '@/components/business/BusinessVerificationStatus';
 import ValueTracker from '@/components/business/ValueTracker';
 import { KaylaInsightsDashboard } from '@/components/business/kayla/KaylaInsightsDashboard';
+import KaylaWelcomeOnboarding from '@/components/onboarding/KaylaWelcomeOnboarding';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
