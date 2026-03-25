@@ -66,6 +66,12 @@ const BusinessDashboardPage = () => {
       
       <DashboardLayout title="Business Dashboard" icon={null}>
         <div className="space-y-6">
+          {/* Kayla Welcome Onboarding */}
+          <KaylaWelcomeOnboarding
+            businessId={profile.id}
+            businessName={profile.business_name}
+          />
+
           {/* Verification Status Banner */}
           <BusinessVerificationStatus
             isVerified={profile.is_verified || false}
