@@ -62,7 +62,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Silver Partner',
       tier: 'silver',
-      price: '$3,500',
+      price: '$15,000',
       description: 'Enhanced visibility for growing organizations',
       icon: <Sparkles className="h-6 w-6 text-white" />,
       gradient: 'from-slate-400 to-slate-500',
