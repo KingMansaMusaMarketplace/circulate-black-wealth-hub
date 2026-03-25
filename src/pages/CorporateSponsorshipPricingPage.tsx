@@ -45,7 +45,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Bronze Partner',
       tier: 'bronze',
-      price: '$2,500',
+      price: '$5,000',
       description: 'Foundation-level support for community impact',
       icon: <Star className="h-6 w-6 text-white" />,
       gradient: 'from-amber-600 to-amber-700',
@@ -62,7 +62,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Silver Partner',
       tier: 'silver',
-      price: '$3,500',
+      price: '$15,000',
       description: 'Enhanced visibility for growing organizations',
       icon: <Sparkles className="h-6 w-6 text-white" />,
       gradient: 'from-slate-400 to-slate-500',
@@ -80,7 +80,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Gold Partner',
       tier: 'gold',
-      price: '$5,000',
+      price: '$25,000',
       description: 'Maximum impact for committed corporate partners',
       icon: <Crown className="h-6 w-6 text-white" />,
       popular: true,
@@ -101,7 +101,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Platinum Partner',
       tier: 'platinum',
-      price: '$10,000',
+      price: '$50,000',
       description: 'Premier partnership with maximum visibility and impact',
       icon: <Zap className="h-6 w-6 text-white" />,
       gradient: 'from-violet-400 via-purple-400 to-fuchsia-400',
