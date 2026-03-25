@@ -101,7 +101,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Platinum Partner',
       tier: 'platinum',
-      price: '$10,000',
+      price: '$50,000',
       description: 'Premier partnership with maximum visibility and impact',
       icon: <Zap className="h-6 w-6 text-white" />,
       gradient: 'from-violet-400 via-purple-400 to-fuchsia-400',
