@@ -184,9 +184,10 @@ const SponsorshipForm: React.FC = () => {
                     <SelectValue placeholder="Select a sponsorship tier" />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-white/10">
-                    <SelectItem value="silver" className="text-white hover:bg-slate-700">Silver Partner - $2,500/month</SelectItem>
-                    <SelectItem value="gold" className="text-white hover:bg-slate-700">Gold Partner - $5,000/month</SelectItem>
-                    <SelectItem value="platinum" className="text-white hover:bg-slate-700">Platinum Partner - $10,000/month</SelectItem>
+                    <SelectItem value="bronze" className="text-white hover:bg-slate-700">Bronze Partner - $5,000/month</SelectItem>
+                    <SelectItem value="silver" className="text-white hover:bg-slate-700">Silver Partner - $15,000/month</SelectItem>
+                    <SelectItem value="gold" className="text-white hover:bg-slate-700">Gold Partner - $25,000/month</SelectItem>
+                    <SelectItem value="platinum" className="text-white hover:bg-slate-700">Platinum Partner - $50,000/month</SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.sponsorshipTier && (

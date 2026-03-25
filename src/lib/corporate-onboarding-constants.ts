@@ -94,7 +94,7 @@ export const CORPORATE_ONBOARDING_STEPS: CorporateOnboardingStep[] = [
 export const CORPORATE_FAQ_ITEMS = [
   {
     question: 'What are the different sponsorship tiers and their benefits?',
-    answer: 'We offer Bronze ($5K), Silver ($15K), Gold ($50K), and Platinum ($100K+) tiers. Each includes increasing levels of brand visibility, impact reporting, networking opportunities, and exclusive partnership benefits. Higher tiers receive premium placement and co-marketing opportunities.'
+    answer: 'We offer Bronze ($5,000/mo), Silver ($15,000/mo), Gold ($25,000/mo), and Platinum ($50,000+/mo) tiers. Each includes increasing levels of brand visibility, impact reporting, networking opportunities, and exclusive partnership benefits. Higher tiers receive premium placement and co-marketing opportunities.'
   },
   {
     question: 'How do you measure and report on community impact?',

@@ -67,10 +67,10 @@ import {
 import { SponsorCertificateGenerator } from '@/components/sponsors/SponsorCertificateGenerator';
 
 const tierPrices = {
-  platinum: 15000,
-  gold: 5000,
-  silver: 1500,
-  bronze: 500,
+  platinum: 50000,
+  gold: 25000,
+  silver: 15000,
+  bronze: 5000,
 };
 
 interface Sponsor {

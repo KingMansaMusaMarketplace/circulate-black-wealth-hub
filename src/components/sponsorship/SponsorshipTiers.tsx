@@ -12,7 +12,7 @@ const SponsorshipTiers = () => {
     {
       name: "Silver",
       badge: "",
-      price: billingPeriod === 'monthly' ? "$2,000" : "$20,000",
+      price: billingPeriod === 'monthly' ? "$15,000" : "$150,000",
       description: "Perfect for medium-sized businesses looking to make an impact",
       benefits: [
         "Featured company logo on marketplace homepage",
@@ -25,7 +25,7 @@ const SponsorshipTiers = () => {
     {
       name: "Gold",
       badge: "Most Popular",
-      price: billingPeriod === 'monthly' ? "$5,000" : "$50,000",
+      price: billingPeriod === 'monthly' ? "$25,000" : "$250,000",
       description: "Ideal for larger corporations committed to community investment",
       benefits: [
         "All Silver benefits",
@@ -40,7 +40,7 @@ const SponsorshipTiers = () => {
     {
       name: "Platinum",
       badge: "",
-      price: billingPeriod === 'monthly' ? "$10,000" : "$100,000",
+      price: billingPeriod === 'monthly' ? "$50,000" : "$500,000",
       description: "Our premier partnership for maximum impact and visibility",
       benefits: [
         "All Gold benefits",
