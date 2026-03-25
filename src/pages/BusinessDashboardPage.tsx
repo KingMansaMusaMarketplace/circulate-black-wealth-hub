@@ -16,6 +16,7 @@ import { BusinessVerificationStatus } from '@/components/business/BusinessVerifi
 import ValueTracker from '@/components/business/ValueTracker';
 import { KaylaInsightsDashboard } from '@/components/business/kayla/KaylaInsightsDashboard';
 import KaylaWelcomeOnboarding from '@/components/onboarding/KaylaWelcomeOnboarding';
+import KaylaProactiveAlerts from '@/components/dashboard/KaylaProactiveAlerts';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -75,6 +76,12 @@ const BusinessDashboardPage = () => {
           {/* Verification Status Banner */}
           <BusinessVerificationStatus
             isVerified={profile.is_verified || false}
+            businessId={profile.id}
+            businessName={profile.business_name}
+          />
+
+          {/* Kayla Proactive Alerts */}
+          <KaylaProactiveAlerts
             businessId={profile.id}
             businessName={profile.business_name}
           />
