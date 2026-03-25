@@ -80,7 +80,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Gold Partner',
       tier: 'gold',
-      price: '$5,000',
+      price: '$25,000',
       description: 'Maximum impact for committed corporate partners',
       icon: <Crown className="h-6 w-6 text-white" />,
       popular: true,
