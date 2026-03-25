@@ -49,7 +49,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
     },
     {
       name: 'Gold Partner',
-      price: '$5,000',
+      price: '$25,000',
       period: '/month',
       description: 'Our most popular tier for maximum visibility',
       icon: Crown,
