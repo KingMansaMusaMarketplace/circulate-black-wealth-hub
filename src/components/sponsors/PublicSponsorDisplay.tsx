@@ -184,15 +184,17 @@ export const PublicSponsorDisplay = () => {
         )}
 
         {/* CTA */}
-        <p className="text-center text-sm text-gray-500 mt-12">
-          Interested in sponsoring?{' '}
+        <div className="text-center mt-16 mb-4">
+          <p className="text-2xl md:text-3xl font-bold text-white mb-6">
+            Interested in sponsoring?
+          </p>
           <a
             href="/sponsor-pricing"
-            className="text-mansagold hover:text-amber-400 transition-colors font-medium"
+            className="inline-block px-10 py-5 text-xl md:text-2xl font-bold rounded-xl bg-gradient-to-r from-mansagold to-amber-500 text-black hover:from-amber-400 hover:to-mansagold transition-all duration-300 shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 hover:scale-105"
           >
             Become a Sponsor →
           </a>
-        </p>
+        </div>
       </div>
     </section>
   );
