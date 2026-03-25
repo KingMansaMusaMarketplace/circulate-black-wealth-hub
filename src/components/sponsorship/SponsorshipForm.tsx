@@ -19,7 +19,7 @@ const sponsorshipFormSchema = z.object({
   email: z.string().email('Valid email is required'),
   phone: z.string().min(10, 'Phone number is required'),
   website: z.string().url().optional().or(z.literal('')),
-  sponsorshipTier: z.enum(['silver', 'gold', 'platinum']),
+  sponsorshipTier: z.enum(['bronze', 'silver', 'gold', 'platinum']),
   industry: z.string().min(2, 'Industry is required'),
   companySize: z.string().min(1, 'Company size is required'),
   message: z.string().optional(),
