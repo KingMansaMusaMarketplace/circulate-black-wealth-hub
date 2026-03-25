@@ -31,10 +31,10 @@ export const CORPORATE_ONBOARDING_STEPS: CorporateOnboardingStep[] = [
     description: 'Select the sponsorship tier that aligns with your company\'s goals and budget. Each tier offers unique benefits and visibility.',
     illustration: Award,
     features: [
-      'Bronze Tier: Essential community support ($5K/year)',
-      'Silver Tier: Enhanced visibility and reporting ($15K/year)',
-      'Gold Tier: Premium partnership benefits ($50K/year)',
-      'Platinum Tier: Exclusive strategic partnership ($100K+/year)'
+      'Bronze Tier: Essential community support ($5,000/month)',
+      'Silver Tier: Enhanced visibility and reporting ($15,000/month)',
+      'Gold Tier: Premium partnership benefits ($25,000/month)',
+      'Platinum Tier: Exclusive strategic partnership ($50,000+/month)'
     ],
     action: {
       text: 'View Sponsorship Tiers',
