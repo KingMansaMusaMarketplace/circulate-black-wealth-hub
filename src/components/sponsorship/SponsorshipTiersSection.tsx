@@ -69,7 +69,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
     },
     {
       name: 'Platinum Partner',
-      price: '$10,000',
+      price: '$50,000',
       period: '/month',
       description: 'Exclusive tier for transformational impact',
       icon: Zap,
