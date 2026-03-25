@@ -80,6 +80,16 @@ const BusinessDashboardPage = () => {
             businessName={profile.business_name}
           />
 
+          {/* Kayla Proactive Alerts */}
+          <KaylaProactiveAlerts
+            businessId={profile.id}
+            businessName={profile.business_name}
+          />
+            isVerified={profile.is_verified || false}
+            businessId={profile.id}
+            businessName={profile.business_name}
+          />
+
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-7 bg-slate-800/40 backdrop-blur-sm border border-white/10">
               <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
