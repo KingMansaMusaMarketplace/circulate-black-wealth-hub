@@ -45,7 +45,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Bronze Partner',
       tier: 'bronze',
-      price: '$2,500',
+      price: '$5,000',
       description: 'Foundation-level support for community impact',
       icon: <Star className="h-6 w-6 text-white" />,
       gradient: 'from-amber-600 to-amber-700',
