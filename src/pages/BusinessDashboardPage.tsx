@@ -85,10 +85,6 @@ const BusinessDashboardPage = () => {
             businessId={profile.id}
             businessName={profile.business_name}
           />
-            isVerified={profile.is_verified || false}
-            businessId={profile.id}
-            businessName={profile.business_name}
-          />
 
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-7 bg-slate-800/40 backdrop-blur-sm border border-white/10">
