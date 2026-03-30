@@ -311,9 +311,9 @@ const KaylaRecordsManagement: React.FC = () => {
             </Card>
           )}
           {expiringDocs.length > 0 && (
-            <Card className="border-yellow-500/50">
+            <Card className="border-primary/50">
               <CardHeader className="py-3">
-                <CardTitle className="text-sm flex items-center gap-2 text-yellow-500">
+                <CardTitle className="text-sm flex items-center gap-2 text-primary">
                   <Clock className="h-4 w-4" />
                   {expiringDocs.length} Expiring Soon
                 </CardTitle>
