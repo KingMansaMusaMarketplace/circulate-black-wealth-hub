@@ -248,8 +248,8 @@ const KaylaRecordsManagement: React.FC = () => {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'completed': return <Badge className="bg-green-500/20 text-green-400">Processed</Badge>;
-      case 'processing': return <Badge className="bg-yellow-500/20 text-yellow-400">Processing</Badge>;
+      case 'completed': return <Badge variant="secondary" className="bg-accent/20">Processed</Badge>;
+      case 'processing': return <Badge variant="secondary" className="bg-primary/20">Processing</Badge>;
       case 'failed': return <Badge variant="destructive">Failed</Badge>;
       default: return <Badge variant="secondary">Pending</Badge>;
     }
@@ -259,9 +259,9 @@ const KaylaRecordsManagement: React.FC = () => {
     if (!date) return null;
     const days = differenceInDays(new Date(date), new Date());
     if (days < 0) return <Badge variant="destructive">Expired {Math.abs(days)}d ago</Badge>;
-    if (days <= 7) return <Badge className="bg-red-500/20 text-red-400">Expires in {days}d</Badge>;
-    if (days <= 30) return <Badge className="bg-yellow-500/20 text-yellow-400">Expires in {days}d</Badge>;
-    return <Badge className="bg-green-500/20 text-green-400">Valid ({days}d)</Badge>;
+    if (days <= 7) return <Badge variant="destructive">Expires in {days}d</Badge>;
+    if (days <= 30) return <Badge variant="secondary" className="bg-primary/20">Expires in {days}d</Badge>;
+    return <Badge variant="secondary" className="bg-accent/20">Valid ({days}d)</Badge>;
   };
 
   return (
