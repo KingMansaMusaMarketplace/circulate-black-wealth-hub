@@ -5939,6 +5939,175 @@ export type Database = {
         }
         Relationships: []
       }
+      document_embeddings: {
+        Row: {
+          business_id: string
+          chunk_index: number
+          chunk_text: string
+          created_at: string | null
+          document_id: string
+          embedding: string | null
+          id: string
+        }
+        Insert: {
+          business_id: string
+          chunk_index?: number
+          chunk_text: string
+          created_at?: string | null
+          document_id: string
+          embedding?: string | null
+          id?: string
+        }
+        Update: {
+          business_id?: string
+          chunk_index?: number
+          chunk_text?: string
+          created_at?: string | null
+          document_id?: string
+          embedding?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_embeddings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_embeddings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_embeddings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_embeddings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_embeddings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_embeddings_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "document_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_records: {
+        Row: {
+          alert_sent: boolean | null
+          alert_sent_at: string | null
+          business_id: string
+          created_at: string | null
+          document_type: string | null
+          expiration_date: string | null
+          extracted_fields: Json | null
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          mime_type: string | null
+          ocr_text: string | null
+          processing_error: string | null
+          processing_status: string | null
+          updated_at: string | null
+          uploaded_by: string
+        }
+        Insert: {
+          alert_sent?: boolean | null
+          alert_sent_at?: string | null
+          business_id: string
+          created_at?: string | null
+          document_type?: string | null
+          expiration_date?: string | null
+          extracted_fields?: Json | null
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          ocr_text?: string | null
+          processing_error?: string | null
+          processing_status?: string | null
+          updated_at?: string | null
+          uploaded_by: string
+        }
+        Update: {
+          alert_sent?: boolean | null
+          alert_sent_at?: string | null
+          business_id?: string
+          created_at?: string | null
+          document_type?: string | null
+          expiration_date?: string | null
+          extracted_fields?: Json | null
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          ocr_text?: string | null
+          processing_error?: string | null
+          processing_status?: string | null
+          updated_at?: string | null
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_records_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_records_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_records_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_records_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_records_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       email_events: {
         Row: {
           created_at: string
@@ -19238,6 +19407,20 @@ export type Database = {
       mark_qr_scan_converted: {
         Args: { p_referral_code: string; p_user_id: string }
         Returns: boolean
+      }
+      match_document_chunks: {
+        Args: {
+          match_business_id: string
+          match_count?: number
+          match_threshold?: number
+          query_embedding: string
+        }
+        Returns: {
+          chunk_text: string
+          document_id: string
+          id: string
+          similarity: number
+        }[]
       }
       process_business_referral: {
         Args: { p_business_id: string; p_referral_code: string }

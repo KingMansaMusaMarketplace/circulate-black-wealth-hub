@@ -10,6 +10,7 @@ import AIFraudDetection from './AIFraudDetection';
 import AISentimentDashboard from './AISentimentDashboard';
 import AIPredictiveAnalytics from './AIPredictiveAnalytics';
 import KaylaEventDashboard from './KaylaEventDashboard';
+import KaylaRecordsManagement from './KaylaRecordsManagement';
 
 const AdminAIDashboard: React.FC = () => {
   return (
@@ -60,6 +61,10 @@ const AdminAIDashboard: React.FC = () => {
             <Zap className="h-3 w-3" />
             Kayla Events
           </TabsTrigger>
+          <TabsTrigger value="records" className="flex items-center gap-1 text-xs">
+            <Bot className="h-3 w-3" />
+            Records
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="assistant">
@@ -92,6 +97,10 @@ const AdminAIDashboard: React.FC = () => {
 
         <TabsContent value="events">
           <KaylaEventDashboard />
+        </TabsContent>
+
+        <TabsContent value="records">
+          <KaylaRecordsManagement />
         </TabsContent>
       </Tabs>
     </div>

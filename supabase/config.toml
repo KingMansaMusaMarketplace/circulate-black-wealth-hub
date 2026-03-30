@@ -320,3 +320,9 @@ verify_jwt = false
 
 [functions.kayla-legal-templates]
 verify_jwt = false
+
+[functions.kayla-records-processor]
+verify_jwt = false
+
+[functions.kayla-records-chat]
+verify_jwt = false
