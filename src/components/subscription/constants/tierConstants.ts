@@ -1,19 +1,33 @@
 
-import { Star, Crown, Building2, Zap, Rocket } from 'lucide-react';
+import { Star, Crown, Building2, Zap, Rocket, FileText, Bot, Shield } from 'lucide-react';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 
-export const tierIcons = {
+export const tierIcons: Record<SubscriptionTier, any> = {
   free: Star,
-  premium: Crown,
-  business_starter: Rocket,
-  business: Building2,
-  enterprise: Zap
+  business_pro: Rocket,
+  business_pro_annual: Rocket,
+  kayla_starter: FileText,
+  kayla_starter_annual: FileText,
+  kayla_pro: Bot,
+  kayla_pro_annual: Bot,
+  kayla_enterprise: Shield,
+  business_pro_kayla: Crown,
+  business_pro_kayla_annual: Crown,
+  enterprise: Building2,
+  kayla_ai: Zap,
 };
 
-export const tierColors = {
+export const tierColors: Record<SubscriptionTier, string> = {
   free: 'bg-gray-100 text-gray-800',
-  premium: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white',
-  business_starter: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white',
-  business: 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white',
-  enterprise: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white'
+  business_pro: 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white',
+  business_pro_annual: 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white',
+  kayla_starter: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white',
+  kayla_starter_annual: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white',
+  kayla_pro: 'bg-gradient-to-r from-yellow-500 to-amber-600 text-white',
+  kayla_pro_annual: 'bg-gradient-to-r from-yellow-500 to-amber-600 text-white',
+  kayla_enterprise: 'bg-gradient-to-r from-purple-500 to-pink-600 text-white',
+  business_pro_kayla: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white',
+  business_pro_kayla_annual: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white',
+  enterprise: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white',
+  kayla_ai: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white',
 };

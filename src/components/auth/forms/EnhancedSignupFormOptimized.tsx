@@ -66,14 +66,22 @@ const EnhancedSignupForm: React.FC = memo(() => {
       ]
     },
     {
-      tier: 'business_pro_kayla',
-      price: '$99/month',
+      tier: 'kayla_starter',
+      price: '$49/month',
       features: [
-        'Everything in Business Pro',
-        'Kayla AI Employee (20+ services)',
-        'Tax prep & legal templates',
-        'Unlimited QR codes',
-        'Investment readiness scoring'
+        'Records Management & document vault',
+        'OCR extraction & Ask Kayla chat',
+        'Expiration alerts & reminders'
+      ]
+    },
+    {
+      tier: 'kayla_pro',
+      price: '$149/month',
+      features: [
+        'All 23+ Kayla AI services',
+        'Replaces $1,650–$5,750/mo in human labor',
+        'Tax prep, legal, B2B matching & more',
+        'Unlimited QR codes'
       ]
     }
   ], []);

@@ -84,9 +84,9 @@ Churn Alerts:              3 at-risk customers flagged
 Content Created:           5 social posts generated
 Estimated Hours Saved:    12 hours of manual work
 
-💰 YOUR INVESTMENT:        $100/mo ($25 this week)
+💰 YOUR INVESTMENT:        $149/mo (Pro plan)
 ⏱️ HOURS SAVED:            12 hours
-📈 EFFECTIVE RATE:          $2.08/hour
+📈 EFFECTIVE RATE:          $3.10/hour
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -141,7 +141,7 @@ const KaylaOnboardingSequencePage = () => {
             Kayla Onboarding Sequence
           </h1>
           <p className="text-lg font-medium text-white/70">
-            3-email drip sequence to retain $100/mo subscribers 📧
+            3-email drip sequence to retain Kayla AI subscribers 📧
           </p>
         </div>
 
@@ -189,7 +189,7 @@ const KaylaOnboardingSequencePage = () => {
 
         <div className="mt-6 text-center">
           <p className="text-base font-medium text-white/50">
-            💡 These 3 emails are sent automatically after a business activates Kayla at $100/mo
+            💡 These 3 emails are sent automatically after a business activates Kayla (Starter $49/mo · Pro $149/mo)
           </p>
         </div>
       </div>

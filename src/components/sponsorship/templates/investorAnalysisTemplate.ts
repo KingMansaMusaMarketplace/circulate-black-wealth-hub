@@ -176,7 +176,7 @@ export const getInvestorAnalysisContent = (): string => {
           </tr>
           <tr>
             <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Business Subscriptions</td>
-            <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">$29-199/month tiers</td>
+            <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">$29-399/month tiers</td>
             <td style="padding: 12px; text-align: right; border: 1px solid #ddd; color: #000000;">High</td>
           </tr>
           <tr style="background: #f8f9fa;">

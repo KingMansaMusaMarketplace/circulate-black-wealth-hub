@@ -362,7 +362,7 @@ export const getDirectoryPartnershipProposalContent = (): string => {
         </table>
 
         <p style="font-size: 14px; color: #6b7280; margin-top: 15px;">
-          *Based on $29.99/month business subscription, 30% partner revenue share, annual projections
+          *Based on $49-399/month Kayla AI tiers, 30% partner revenue share, annual projections
         </p>
 
         <div style="background: linear-gradient(135deg, #166534 0%, #22c55e 100%); color: white; padding: 30px; border-radius: 8px; margin-top: 30px;">

@@ -238,8 +238,8 @@ describe('Payment & Commission System', () => {
     });
 
     it('should handle monthly subscription refund mid-cycle', () => {
-      // $99/month subscription, canceled on day 15 of 30
-      const originalAmount = 99;
+      // $149/month subscription, canceled on day 15 of 30
+      const originalAmount = 149;
       const daysUsed = 15;
       const totalDays = 30;
       

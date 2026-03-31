@@ -25,13 +25,21 @@ const CurrentSubscriptionStatus: React.FC<CurrentSubscriptionStatusProps> = ({
       case 'business_pro':
       case 'business_pro_annual':
         return 'Business Pro';
+      case 'kayla_starter':
+      case 'kayla_starter_annual':
+        return 'Kayla AI Starter';
+      case 'kayla_pro':
+      case 'kayla_pro_annual':
+        return 'Kayla AI Pro';
+      case 'kayla_enterprise':
+        return 'Kayla AI Enterprise';
       case 'business_pro_kayla':
       case 'business_pro_kayla_annual':
-        return 'Business Pro + Kayla AI';
+        return 'Business Pro + Kayla AI (Legacy)';
       case 'kayla_ai':
-        return 'Kayla AI Employee';
+        return 'Kayla AI Employee (Legacy)';
       case 'enterprise':
-        return 'Enterprise';
+        return 'Enterprise (Legacy)';
       default:
         return 'Free Directory Listing';
     }
