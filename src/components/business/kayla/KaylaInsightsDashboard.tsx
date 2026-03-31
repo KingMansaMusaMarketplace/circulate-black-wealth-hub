@@ -54,10 +54,16 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
   const { subscriptionInfo } = useSubscription();
 
   const tier = subscriptionInfo?.subscription_tier as string | undefined;
-  const isKaylaSubscriber = tier === 'kayla_ai' ||
+  const isKaylaSubscriber = tier === 'kayla_starter' ||
+    tier === 'kayla_starter_annual' ||
+    tier === 'kayla_pro' ||
+    tier === 'kayla_pro_annual' ||
+    tier === 'kayla_enterprise' ||
+    // Legacy tiers
+    tier === 'kayla_ai' ||
     tier === 'enterprise' ||
-    tier === 'business' ||
-    tier === 'business_annual';
+    tier === 'business_pro_kayla' ||
+    tier === 'business_pro_kayla_annual';
 
   useEffect(() => {
     fetchInsights();

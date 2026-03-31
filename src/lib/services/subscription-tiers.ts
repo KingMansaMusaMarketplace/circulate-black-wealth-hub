@@ -1,4 +1,4 @@
-export type SubscriptionTier = 'free' | 'business_pro' | 'business_pro_annual' | 'business_pro_kayla' | 'business_pro_kayla_annual' | 'enterprise' | 'kayla_ai';
+export type SubscriptionTier = 'free' | 'business_pro' | 'business_pro_annual' | 'kayla_starter' | 'kayla_starter_annual' | 'kayla_pro' | 'kayla_pro_annual' | 'kayla_enterprise' | 'business_pro_kayla' | 'business_pro_kayla_annual' | 'enterprise' | 'kayla_ai';
 
 export interface TierFeatures {
   canScanQR: boolean;
@@ -13,6 +13,7 @@ export interface TierFeatures {
   canAccessMentorship: boolean;
   canAccessNetworking: boolean;
   canAccessKaylaAI: boolean;
+  canAccessRecordsManagement: boolean;
   maxQRCodes: number; // -1 for unlimited
 }
 
@@ -25,6 +26,7 @@ export interface TierInfo {
   popular?: boolean;
   savingsText?: string;
   monthlyEquivalent?: number;
+  onboardingFee?: number;
 }
 
 const FREE_FEATURES: TierFeatures = {
@@ -40,6 +42,7 @@ const FREE_FEATURES: TierFeatures = {
   canAccessMentorship: true,
   canAccessNetworking: true,
   canAccessKaylaAI: false,
+  canAccessRecordsManagement: false,
   maxQRCodes: 0,
 };
 
@@ -56,12 +59,26 @@ const PRO_FEATURES: TierFeatures = {
   canAccessMentorship: true,
   canAccessNetworking: true,
   canAccessKaylaAI: false,
+  canAccessRecordsManagement: false,
   maxQRCodes: 25,
 };
 
-const KAYLA_FEATURES: TierFeatures = {
+const KAYLA_STARTER_FEATURES: TierFeatures = {
   ...PRO_FEATURES,
   canAccessKaylaAI: true,
+  canAccessRecordsManagement: true,
+  maxQRCodes: 25,
+};
+
+const KAYLA_PRO_FEATURES: TierFeatures = {
+  ...PRO_FEATURES,
+  canAccessKaylaAI: true,
+  canAccessRecordsManagement: true,
+  maxQRCodes: -1,
+};
+
+const KAYLA_ENTERPRISE_FEATURES: TierFeatures = {
+  ...KAYLA_PRO_FEATURES,
   maxQRCodes: -1,
 };
 
@@ -89,45 +106,108 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
     monthlyEquivalent: 24.17,
     features: PRO_FEATURES,
   },
-  business_pro_kayla: {
-    displayName: 'Business Pro + Kayla AI',
-    description: 'Your autonomous AI employee — reviews, B2B matching, tax prep, legal & more on autopilot',
-    price: 99,
+  kayla_starter: {
+    displayName: 'Kayla AI Starter',
+    description: 'Records Management only — document vault, OCR extraction, Ask Kayla chat & expiration alerts',
+    price: 49,
+    interval: 'month',
+    features: KAYLA_STARTER_FEATURES,
+  },
+  kayla_starter_annual: {
+    displayName: 'Kayla AI Starter (Annual)',
+    description: 'Records Management only — document vault, OCR extraction, Ask Kayla chat & expiration alerts',
+    price: 490,
+    interval: 'year',
+    savingsText: 'Save $98/year',
+    monthlyEquivalent: 40.83,
+    features: KAYLA_STARTER_FEATURES,
+  },
+  kayla_pro: {
+    displayName: 'Kayla AI Pro',
+    description: 'All 23+ Kayla services — replaces $1,650–$5,750/month in human labor starting at $149/month',
+    price: 149,
     interval: 'month',
     popular: true,
-    features: KAYLA_FEATURES,
+    features: KAYLA_PRO_FEATURES,
+    onboardingFee: 149,
+  },
+  kayla_pro_annual: {
+    displayName: 'Kayla AI Pro (Annual)',
+    description: 'All 23+ Kayla services — replaces $1,650–$5,750/month in human labor, a 10–38x value multiplier',
+    price: 1490,
+    interval: 'year',
+    savingsText: 'Save $298/year',
+    monthlyEquivalent: 124.17,
+    popular: true,
+    features: KAYLA_PRO_FEATURES,
+    onboardingFee: 149,
+  },
+  kayla_enterprise: {
+    displayName: 'Kayla AI Enterprise',
+    description: 'Multi-location support, white-label Kayla branding, HIPAA BAA, priority support & API access',
+    price: 399,
+    interval: 'month',
+    features: KAYLA_ENTERPRISE_FEATURES,
+    onboardingFee: 149,
+  },
+  // Legacy tiers — kept for existing subscribers
+  business_pro_kayla: {
+    displayName: 'Business Pro + Kayla AI (Legacy)',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 23+ services',
+    price: 99,
+    interval: 'month',
+    features: KAYLA_PRO_FEATURES,
   },
   business_pro_kayla_annual: {
-    displayName: 'Business Pro + Kayla AI (Annual)',
-    description: 'Your autonomous AI employee — reviews, B2B matching, tax prep, legal & more on autopilot',
+    displayName: 'Business Pro + Kayla AI Annual (Legacy)',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 23+ services',
     price: 990,
     interval: 'year',
     savingsText: 'Save $198/year',
     monthlyEquivalent: 82.50,
-    popular: true,
-    features: KAYLA_FEATURES,
+    features: KAYLA_PRO_FEATURES,
   },
   enterprise: {
-    displayName: 'Enterprise',
-    description: 'Custom solutions for large organizations and franchises',
+    displayName: 'Enterprise (Legacy)',
+    description: 'Legacy tier — please upgrade to Kayla AI Enterprise',
     price: 299,
     interval: 'month',
-    features: {
-      ...KAYLA_FEATURES,
-      maxQRCodes: -1,
-    },
+    features: KAYLA_ENTERPRISE_FEATURES,
   },
-  // Legacy tier — kept for existing subscribers
   kayla_ai: {
-    displayName: 'Kayla AI Employee',
-    description: 'Your autonomous AI employee — reviews, B2B matching, churn prediction & content on autopilot',
+    displayName: 'Kayla AI Employee (Legacy)',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 23+ services',
     price: 100,
     interval: 'month',
-    features: KAYLA_FEATURES,
+    features: KAYLA_PRO_FEATURES,
   },
 };
 
-// Stripe price/product IDs
+// New Kayla tier Stripe IDs
+export const KAYLA_STRIPE_TIERS = {
+  kayla_starter: {
+    product_id: 'prod_UFUdUF34VKQbzz',
+    price_id: 'price_1TGzeOAsptTW1mCmJCGRE0mL',
+  },
+  kayla_starter_annual: {
+    product_id: 'prod_UFUfwy9PZaHpDW',
+    price_id: 'price_1TGzg6AsptTW1mCmbkF4gffD',
+  },
+  kayla_pro: {
+    product_id: 'prod_UFUecESxNwisIp',
+    price_id: 'price_1TGzewAsptTW1mCmYKjYk0Fn',
+  },
+  kayla_pro_annual: {
+    product_id: 'prod_UFUf1uG3DHfqcT',
+    price_id: 'price_1TGzgRAsptTW1mCmloHSfeKB',
+  },
+  kayla_enterprise: {
+    product_id: 'prod_UFUePOjWHMDlbC',
+    price_id: 'price_1TGzfdAsptTW1mCms0S1EJ4d',
+  },
+} as const;
+
+// Legacy Stripe IDs — kept for existing subscribers
 export const STRIPE_TIERS = {
   business_pro: {
     product_id: 'prod_UCivXlP1UaKvZE',
@@ -153,6 +233,9 @@ export const KAYLA_AI_STRIPE = {
   price_id: 'price_1TDaHyAsptTW1mCm2F8e7NmE',
 } as const;
 
+// One-time onboarding fee (Pro and Enterprise only)
+export const KAYLA_ONBOARDING_FEE = 149;
+
 export const getTierDisplayName = (tier: SubscriptionTier): string => {
   return subscriptionTiers[tier]?.displayName || 'Free Directory Listing';
 };
@@ -177,6 +260,7 @@ export const getTierBenefits = (tier: SubscriptionTier): string[] => {
   if (features.canAccessAnalytics) benefits.push('Analytics Dashboard');
   if (features.maxQRCodes > 0) benefits.push(`${features.maxQRCodes} QR Codes`);
   if (features.maxQRCodes === -1) benefits.push('Unlimited QR Codes');
+  if (features.canAccessRecordsManagement) benefits.push('Records Management');
   if (features.canAccessKaylaAI) benefits.push('Kayla AI Employee');
   if (features.canAccessMentorship) benefits.push('Mentorship Access');
   if (features.canAccessPremiumSupport) benefits.push('Premium Support');
