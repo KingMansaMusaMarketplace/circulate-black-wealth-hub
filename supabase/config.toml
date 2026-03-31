@@ -332,3 +332,6 @@ verify_jwt = false
 
 [functions.kayla-supplier-diversity]
 verify_jwt = false
+
+[functions.kayla-loyalty-engine]
+verify_jwt = false

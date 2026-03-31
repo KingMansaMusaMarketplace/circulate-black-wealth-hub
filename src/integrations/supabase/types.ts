@@ -10043,6 +10043,302 @@ export type Database = {
         }
         Relationships: []
       }
+      loyalty_engine_campaigns: {
+        Row: {
+          ai_reasoning: string | null
+          ai_suggested: boolean | null
+          budget_points: number | null
+          business_id: string
+          campaign_type: string
+          conversion_count: number | null
+          created_at: string | null
+          description: string | null
+          ends_at: string | null
+          id: string
+          name: string
+          noire_credits_distributed: number | null
+          participants_count: number | null
+          points_distributed: number | null
+          rules: Json | null
+          starts_at: string | null
+          status: string
+          target_audience: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_reasoning?: string | null
+          ai_suggested?: boolean | null
+          budget_points?: number | null
+          business_id: string
+          campaign_type: string
+          conversion_count?: number | null
+          created_at?: string | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          name: string
+          noire_credits_distributed?: number | null
+          participants_count?: number | null
+          points_distributed?: number | null
+          rules?: Json | null
+          starts_at?: string | null
+          status?: string
+          target_audience?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_reasoning?: string | null
+          ai_suggested?: boolean | null
+          budget_points?: number | null
+          business_id?: string
+          campaign_type?: string
+          conversion_count?: number | null
+          created_at?: string | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          name?: string
+          noire_credits_distributed?: number | null
+          participants_count?: number | null
+          points_distributed?: number | null
+          rules?: Json | null
+          starts_at?: string | null
+          status?: string
+          target_audience?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_engine_campaigns_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_campaigns_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_campaigns_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_campaigns_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_campaigns_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loyalty_engine_events: {
+        Row: {
+          base_points: number | null
+          bonus_points: number | null
+          business_id: string
+          campaign_id: string | null
+          created_at: string | null
+          customer_id: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          multiplier: number | null
+          noire_credits_awarded: number | null
+          rule_id: string | null
+          total_points: number | null
+        }
+        Insert: {
+          base_points?: number | null
+          bonus_points?: number | null
+          business_id: string
+          campaign_id?: string | null
+          created_at?: string | null
+          customer_id: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          multiplier?: number | null
+          noire_credits_awarded?: number | null
+          rule_id?: string | null
+          total_points?: number | null
+        }
+        Update: {
+          base_points?: number | null
+          bonus_points?: number | null
+          business_id?: string
+          campaign_id?: string | null
+          created_at?: string | null
+          customer_id?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          multiplier?: number | null
+          noire_credits_awarded?: number | null
+          rule_id?: string | null
+          total_points?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_engine_events_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_events_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_events_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_events_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_events_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_events_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_engine_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_events_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_engine_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loyalty_engine_rules: {
+        Row: {
+          business_id: string
+          conditions: Json | null
+          created_at: string | null
+          current_uses: number | null
+          description: string | null
+          ends_at: string | null
+          id: string
+          is_active: boolean | null
+          max_uses_per_customer: number | null
+          max_uses_total: number | null
+          name: string
+          priority: number | null
+          reward_config: Json
+          rule_type: string
+          starts_at: string | null
+          trigger_event: string
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          conditions?: Json | null
+          created_at?: string | null
+          current_uses?: number | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_uses_per_customer?: number | null
+          max_uses_total?: number | null
+          name: string
+          priority?: number | null
+          reward_config?: Json
+          rule_type?: string
+          starts_at?: string | null
+          trigger_event: string
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          conditions?: Json | null
+          created_at?: string | null
+          current_uses?: number | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_uses_per_customer?: number | null
+          max_uses_total?: number | null
+          name?: string
+          priority?: number | null
+          reward_config?: Json
+          rule_type?: string
+          starts_at?: string | null
+          trigger_event?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_engine_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_engine_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       loyalty_points: {
         Row: {
           business_id: string

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar, Clock, CreditCard, Eye, Scale } from 'lucide-react';
+import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar, Clock, CreditCard, Eye, Scale, Star } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +17,7 @@ import { BusinessCalendarView } from './BusinessCalendarView';
 import BusinessDashboard from './BusinessDashboard';
 import KaylaReputationMonitor from './kayla/KaylaReputationMonitor';
 import KaylaSupplierDiversity from './kayla/KaylaSupplierDiversity';
+import KaylaLoyaltyEngine from './kayla/KaylaLoyaltyEngine';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { saveBusinessProfile } from '@/lib/api/business-api';
 import { useAuth } from '@/contexts/AuthContext';
@@ -187,6 +188,10 @@ const BusinessProfileManager = () => {
           <TabsTrigger value="reputation" className="flex items-center gap-2">
             <Eye size={16} />
             Reputation
+          </TabsTrigger>
+          <TabsTrigger value="loyalty-engine" className="flex items-center gap-2">
+            <Star size={16} />
+            Loyalty Engine
           </TabsTrigger>
           <TabsTrigger value="supplier-diversity" className="flex items-center gap-2">
             <Scale size={16} />
@@ -543,6 +548,10 @@ const BusinessProfileManager = () => {
               </div>
             </div>
           </div>
+        </TabsContent>
+
+        <TabsContent value="loyalty-engine" className="mt-6">
+          {profile?.id && <KaylaLoyaltyEngine businessId={profile.id} />}
         </TabsContent>
 
         <TabsContent value="supplier-diversity" className="mt-6">
