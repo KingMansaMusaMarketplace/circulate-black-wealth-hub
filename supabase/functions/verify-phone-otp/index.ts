@@ -12,6 +12,14 @@ interface VerifyRequest {
   otpCode: string;
 }
 
+async function hashOtp(code: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(code);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
@@ -73,8 +81,9 @@ serve(async (req) => {
       .update({ attempts: otpRecord.attempts + 1 })
       .eq("id", otpRecord.id);
 
-    // Verify the code
-    if (otpRecord.otp_code !== otpCode) {
+    // Hash the submitted code and compare with stored hash
+    const submittedHash = await hashOtp(otpCode);
+    if (otpRecord.otp_hash !== submittedHash) {
       const remainingAttempts = otpRecord.max_attempts - otpRecord.attempts - 1;
       return new Response(
         JSON.stringify({ 
