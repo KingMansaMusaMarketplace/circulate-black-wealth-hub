@@ -35,6 +35,7 @@ import { useNavigate } from 'react-router-dom';
 import { getBusinessBanner } from '@/utils/businessBanners';
 import BusinessLocationMap from '@/components/business-detail/BusinessLocationMap';
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
+import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
 
 // Memoized background orbs to prevent re-render on typing
 const BackgroundOrbs = memo(() => (
