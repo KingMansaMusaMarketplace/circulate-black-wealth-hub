@@ -79,7 +79,7 @@ const ValueTracker: React.FC = () => {
           (inquiries * leadValuePerInquiry) +
           (reviewCount * reviewValue);
 
-        const platformCost = 100; // $100/month subscription
+        const platformCost = 149; // $149/month Kayla AI Pro subscription
         const roi = platformCost > 0 ? Math.round((monthlyValue / platformCost) * 100) / 100 : 0;
 
         setMetrics({
