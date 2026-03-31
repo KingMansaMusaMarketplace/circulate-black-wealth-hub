@@ -44,20 +44,20 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
             </div>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-white/90">Starter Business</span>
-                <span className="font-bold text-blue-300">$39/month</span>
+                <span className="text-sm font-semibold text-white/90">Business Pro</span>
+                <span className="font-bold text-blue-300">$29/month</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-white/90">Professional Business</span>
-                <span className="font-bold text-blue-300">$79/month</span>
+                <span className="text-sm font-semibold text-white/90">Kayla AI Starter</span>
+                <span className="font-bold text-blue-300">$49/month</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-white/90">Multi-Location</span>
-                <span className="font-bold text-blue-300">$149/month</span>
+                <span className="text-sm font-semibold text-white/90">Kayla AI Pro</span>
+                <span className="font-bold text-yellow-400">$149/month</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-white/90">Enterprise</span>
-                <span className="font-bold text-blue-300">$299/month</span>
+                <span className="text-sm font-semibold text-white/90">Kayla AI Enterprise</span>
+                <span className="font-bold text-blue-300">$399/month</span>
               </div>
             </div>
             <ul className="mt-3 space-y-1 pt-3 border-t border-white/20">
