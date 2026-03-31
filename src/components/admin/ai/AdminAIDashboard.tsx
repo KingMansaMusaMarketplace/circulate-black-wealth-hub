@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Bot, Lightbulb, Shield, Wand2, ShieldAlert, Heart, Brain, Zap } from 'lucide-react';
+import { Bot, Lightbulb, Shield, Wand2, ShieldAlert, Heart, Brain, Zap, CreditCard } from 'lucide-react';
 import AIAnalyticsAssistant from './AIAnalyticsAssistant';
 import AIInsightsGenerator from './AIInsightsGenerator';
 import AIContentModeration from './AIContentModeration';
