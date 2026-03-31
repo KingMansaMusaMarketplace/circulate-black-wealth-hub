@@ -13669,6 +13669,189 @@ export type Database = {
           },
         ]
       }
+      reputation_mentions: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          discovered_at: string | null
+          drafted_response: string | null
+          full_content: string | null
+          id: string
+          is_dismissed: boolean | null
+          is_negative: boolean | null
+          is_read: boolean | null
+          mention_type: string
+          owner_response: string | null
+          published_at: string | null
+          response_status: string | null
+          sentiment: string
+          sentiment_score: number | null
+          snippet: string | null
+          source_domain: string | null
+          source_url: string
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          discovered_at?: string | null
+          drafted_response?: string | null
+          full_content?: string | null
+          id?: string
+          is_dismissed?: boolean | null
+          is_negative?: boolean | null
+          is_read?: boolean | null
+          mention_type?: string
+          owner_response?: string | null
+          published_at?: string | null
+          response_status?: string | null
+          sentiment?: string
+          sentiment_score?: number | null
+          snippet?: string | null
+          source_domain?: string | null
+          source_url: string
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          discovered_at?: string | null
+          drafted_response?: string | null
+          full_content?: string | null
+          id?: string
+          is_dismissed?: boolean | null
+          is_negative?: boolean | null
+          is_read?: boolean | null
+          mention_type?: string
+          owner_response?: string | null
+          published_at?: string | null
+          response_status?: string | null
+          sentiment?: string
+          sentiment_score?: number | null
+          snippet?: string | null
+          source_domain?: string | null
+          source_url?: string
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reputation_mentions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_mentions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_mentions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_mentions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_mentions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reputation_monitor_configs: {
+        Row: {
+          alert_on_negative: boolean
+          alert_on_neutral: boolean | null
+          business_id: string
+          created_at: string | null
+          custom_keywords: string[] | null
+          excluded_domains: string[] | null
+          id: string
+          is_active: boolean
+          last_scan_at: string | null
+          monitor_frequency: string
+          updated_at: string | null
+        }
+        Insert: {
+          alert_on_negative?: boolean
+          alert_on_neutral?: boolean | null
+          business_id: string
+          created_at?: string | null
+          custom_keywords?: string[] | null
+          excluded_domains?: string[] | null
+          id?: string
+          is_active?: boolean
+          last_scan_at?: string | null
+          monitor_frequency?: string
+          updated_at?: string | null
+        }
+        Update: {
+          alert_on_negative?: boolean
+          alert_on_neutral?: boolean | null
+          business_id?: string
+          created_at?: string | null
+          custom_keywords?: string[] | null
+          excluded_domains?: string[] | null
+          id?: string
+          is_active?: boolean
+          last_scan_at?: string | null
+          monitor_frequency?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reputation_monitor_configs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_monitor_configs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_monitor_configs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_monitor_configs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reputation_monitor_configs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       review_requests: {
         Row: {
           booking_id: string
