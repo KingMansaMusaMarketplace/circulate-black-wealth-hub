@@ -66,6 +66,10 @@ const AdminAIDashboard: React.FC = () => {
             <Bot className="h-3 w-3" />
             Records
           </TabsTrigger>
+          <TabsTrigger value="credit" className="flex items-center gap-1 text-xs">
+            <CreditCard className="h-3 w-3" />
+            Credit Ready
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="assistant">
