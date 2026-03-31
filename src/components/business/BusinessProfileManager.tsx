@@ -183,6 +183,10 @@ const BusinessProfileManager = () => {
             <Shield size={16} />
             Verification
           </TabsTrigger>
+          <TabsTrigger value="reputation" className="flex items-center gap-2">
+            <Eye size={16} />
+            Reputation
+          </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings size={16} />
             Settings
