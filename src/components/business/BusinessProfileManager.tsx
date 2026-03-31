@@ -138,7 +138,7 @@ const BusinessProfileManager = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-12">
+        <TabsList className="flex flex-wrap gap-1 h-auto p-2">
           <TabsTrigger value="details" className="flex items-center gap-2">
             <FileText size={16} />
             Details
