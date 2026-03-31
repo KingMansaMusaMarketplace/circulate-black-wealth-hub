@@ -663,7 +663,7 @@ export const GROWTH_PROGRAMS: GuideSection[] = [
         tips: [
           'Welcome Kits are great for in-person meetings',
           'Social media assets are sized for each platform',
-          'All materials feature the $700/mo value for $100/mo message'
+          'All materials feature the 10–38x value multiplier message (starting at $149/mo)'
         ]
       }
     ]

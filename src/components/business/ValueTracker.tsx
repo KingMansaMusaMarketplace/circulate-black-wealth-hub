@@ -316,7 +316,7 @@ const ValueTracker: React.FC = () => {
             7x ROI Target Progress
           </CardTitle>
           <CardDescription className="text-slate-400">
-            We promise $700/month value for your $100/month investment
+            We promise $1,650+/month value for your $149/month investment — a 10–38x multiplier
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -189,7 +189,7 @@ const KaylaOnboardingSequencePage = () => {
 
         <div className="mt-6 text-center">
           <p className="text-base font-medium text-white/50">
-            💡 These 3 emails are sent automatically after a business activates Kayla at $100/mo
+            💡 These 3 emails are sent automatically after a business activates Kayla (Starter $49/mo · Pro $149/mo)
           </p>
         </div>
       </div>
