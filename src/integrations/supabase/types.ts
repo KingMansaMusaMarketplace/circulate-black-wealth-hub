@@ -16672,6 +16672,306 @@ export type Database = {
           },
         ]
       }
+      supplier_diversity_certifications: {
+        Row: {
+          ai_notes: string | null
+          ai_readiness_score: number | null
+          application_url: string | null
+          business_id: string
+          certification_name: string
+          certification_number: string | null
+          certification_type: string
+          created_at: string | null
+          documents_needed: Json | null
+          documents_uploaded: Json | null
+          expiration_date: string | null
+          id: string
+          issued_date: string | null
+          issuing_agency: string
+          naics_codes: string[] | null
+          renewal_deadline: string | null
+          requirements_met: Json | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          ai_notes?: string | null
+          ai_readiness_score?: number | null
+          application_url?: string | null
+          business_id: string
+          certification_name: string
+          certification_number?: string | null
+          certification_type: string
+          created_at?: string | null
+          documents_needed?: Json | null
+          documents_uploaded?: Json | null
+          expiration_date?: string | null
+          id?: string
+          issued_date?: string | null
+          issuing_agency: string
+          naics_codes?: string[] | null
+          renewal_deadline?: string | null
+          requirements_met?: Json | null
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          ai_notes?: string | null
+          ai_readiness_score?: number | null
+          application_url?: string | null
+          business_id?: string
+          certification_name?: string
+          certification_number?: string | null
+          certification_type?: string
+          created_at?: string | null
+          documents_needed?: Json | null
+          documents_uploaded?: Json | null
+          expiration_date?: string | null
+          id?: string
+          issued_date?: string | null
+          issuing_agency?: string
+          naics_codes?: string[] | null
+          renewal_deadline?: string | null
+          requirements_met?: Json | null
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supplier_diversity_certifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_certifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_certifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_certifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_certifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      supplier_diversity_compliance: {
+        Row: {
+          ai_risk_assessment: string | null
+          business_id: string
+          compliance_status: string | null
+          created_at: string | null
+          id: string
+          last_report_submitted_at: string | null
+          next_report_due: string | null
+          program_name: string
+          program_type: string
+          reporting_period: string | null
+          spend_goal_percent: number | null
+          spend_to_date: number | null
+          sponsor_organization: string | null
+          total_contract_value: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_risk_assessment?: string | null
+          business_id: string
+          compliance_status?: string | null
+          created_at?: string | null
+          id?: string
+          last_report_submitted_at?: string | null
+          next_report_due?: string | null
+          program_name: string
+          program_type: string
+          reporting_period?: string | null
+          spend_goal_percent?: number | null
+          spend_to_date?: number | null
+          sponsor_organization?: string | null
+          total_contract_value?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_risk_assessment?: string | null
+          business_id?: string
+          compliance_status?: string | null
+          created_at?: string | null
+          id?: string
+          last_report_submitted_at?: string | null
+          next_report_due?: string | null
+          program_name?: string
+          program_type?: string
+          reporting_period?: string | null
+          spend_goal_percent?: number | null
+          spend_to_date?: number | null
+          sponsor_organization?: string | null
+          total_contract_value?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supplier_diversity_compliance_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_compliance_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_compliance_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_compliance_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_compliance_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      supplier_diversity_opportunities: {
+        Row: {
+          agency_name: string
+          ai_summary: string | null
+          applied_at: string | null
+          business_id: string
+          contract_type: string
+          created_at: string | null
+          deadline: string | null
+          description: string | null
+          estimated_value_max: number | null
+          estimated_value_min: number | null
+          id: string
+          is_bookmarked: boolean | null
+          match_reasons: Json | null
+          match_score: number | null
+          naics_codes: string[] | null
+          set_aside_type: string | null
+          solicitation_number: string | null
+          source_url: string | null
+          status: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          agency_name: string
+          ai_summary?: string | null
+          applied_at?: string | null
+          business_id: string
+          contract_type: string
+          created_at?: string | null
+          deadline?: string | null
+          description?: string | null
+          estimated_value_max?: number | null
+          estimated_value_min?: number | null
+          id?: string
+          is_bookmarked?: boolean | null
+          match_reasons?: Json | null
+          match_score?: number | null
+          naics_codes?: string[] | null
+          set_aside_type?: string | null
+          solicitation_number?: string | null
+          source_url?: string | null
+          status?: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          agency_name?: string
+          ai_summary?: string | null
+          applied_at?: string | null
+          business_id?: string
+          contract_type?: string
+          created_at?: string | null
+          deadline?: string | null
+          description?: string | null
+          estimated_value_max?: number | null
+          estimated_value_min?: number | null
+          id?: string
+          is_bookmarked?: boolean | null
+          match_reasons?: Json | null
+          match_score?: number | null
+          naics_codes?: string[] | null
+          set_aside_type?: string | null
+          solicitation_number?: string | null
+          source_url?: string | null
+          status?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supplier_diversity_opportunities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_opportunities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_opportunities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_opportunities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supplier_diversity_opportunities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_ticket_messages: {
         Row: {
           created_at: string | null
