@@ -11,6 +11,7 @@ import AISentimentDashboard from './AISentimentDashboard';
 import AIPredictiveAnalytics from './AIPredictiveAnalytics';
 import KaylaEventDashboard from './KaylaEventDashboard';
 import KaylaRecordsManagement from './KaylaRecordsManagement';
+import KaylaCreditReadiness from './KaylaCreditReadiness';
 
 const AdminAIDashboard: React.FC = () => {
   return (
