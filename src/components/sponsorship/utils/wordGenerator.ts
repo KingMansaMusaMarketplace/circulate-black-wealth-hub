@@ -386,7 +386,7 @@ function createRevenueTable(): Table {
     width: { size: 100, type: WidthType.PERCENTAGE },
     rows: [
       createTableRow(["Revenue Stream", "Model", "Potential"], true),
-      createTableRow(["Business Subscriptions", "$29-199/month tiers", "High"]),
+      createTableRow(["Business Subscriptions", "$29-399/month tiers", "High"]),
       createTableRow(["Corporate Sponsorships", "$5K-100K+ packages", "Very High"]),
       createTableRow(["Transaction Fees", "2-3% on bookings", "High"]),
       createTableRow(["Savings Circle Fees", "1-2% management fee", "Medium"]),
