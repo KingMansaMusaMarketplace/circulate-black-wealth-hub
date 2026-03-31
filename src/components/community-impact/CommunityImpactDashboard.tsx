@@ -144,6 +144,9 @@ const CommunityImpactDashboard: React.FC = () => {
         />
       )}
 
+      {/* Impact Leaderboard - Public */}
+      <ImpactLeaderboard />
+
       {/* Call to Action */}
       <CallToActionSection user={user} />
     </div>

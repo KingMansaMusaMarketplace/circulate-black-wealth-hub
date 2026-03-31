@@ -520,6 +520,12 @@ const BusinessDetailPage = () => {
 
             {/* Right Column - Contact & Info */}
             <div className="space-y-6">
+              {/* Community Impact Scorecard */}
+              <BusinessImpactScorecard
+                businessId={business.id}
+                businessName={business.business_name}
+              />
+
               {/* Contact Form - Secure Alternative */}
               <BusinessContactForm 
                 businessId={business.id} 
