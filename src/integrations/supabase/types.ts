@@ -18984,7 +18984,6 @@ export type Database = {
           city: string | null
           created_at: string | null
           description: string | null
-          email: string | null
           id: string | null
           is_founding_member: boolean | null
           is_founding_sponsor: boolean | null
@@ -18994,7 +18993,6 @@ export type Database = {
           logo_url: string | null
           longitude: number | null
           name: string | null
-          phone: string | null
           review_count: number | null
           state: string | null
           updated_at: string | null
@@ -19010,7 +19008,6 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
-          email?: string | null
           id?: string | null
           is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
@@ -19020,7 +19017,6 @@ export type Database = {
           logo_url?: string | null
           longitude?: number | null
           name?: string | null
-          phone?: string | null
           review_count?: number | null
           state?: string | null
           updated_at?: string | null
@@ -19036,7 +19032,6 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
-          email?: string | null
           id?: string | null
           is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
@@ -19046,7 +19041,6 @@ export type Database = {
           logo_url?: string | null
           longitude?: number | null
           name?: string | null
-          phone?: string | null
           review_count?: number | null
           state?: string | null
           updated_at?: string | null
