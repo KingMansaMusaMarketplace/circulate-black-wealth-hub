@@ -15,6 +15,7 @@ import RewardsManager from './rewards/RewardsManager';
 import { BusinessServicesContent, BusinessAvailabilityContent, StripeConnectContent } from './business-settings';
 import { BusinessCalendarView } from './BusinessCalendarView';
 import BusinessDashboard from './BusinessDashboard';
+import KaylaReputationMonitor from './kayla/KaylaReputationMonitor';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { saveBusinessProfile } from '@/lib/api/business-api';
 import { useAuth } from '@/contexts/AuthContext';
