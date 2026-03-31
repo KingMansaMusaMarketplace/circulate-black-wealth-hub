@@ -35,6 +35,7 @@ import { useNavigate } from 'react-router-dom';
 import { getBusinessBanner } from '@/utils/businessBanners';
 import BusinessLocationMap from '@/components/business-detail/BusinessLocationMap';
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
+import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
 
 // Memoized background orbs to prevent re-render on typing
 const BackgroundOrbs = memo(() => (
@@ -519,6 +520,12 @@ const BusinessDetailPage = () => {
 
             {/* Right Column - Contact & Info */}
             <div className="space-y-6">
+              {/* Community Impact Scorecard */}
+              <BusinessImpactScorecard
+                businessId={business.id}
+                businessName={business.business_name}
+              />
+
               {/* Contact Form - Secure Alternative */}
               <BusinessContactForm 
                 businessId={business.id} 

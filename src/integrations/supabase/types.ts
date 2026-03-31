@@ -3057,6 +3057,111 @@ export type Database = {
           },
         ]
       }
+      business_impact_scorecards: {
+        Row: {
+          average_rating: number | null
+          b2b_connections_count: number | null
+          b2b_connections_score: number
+          business_id: string
+          community_engagement_score: number
+          created_at: string | null
+          id: string
+          jobs_created_equivalent: number | null
+          jobs_supported_score: number
+          last_calculated_at: string | null
+          overall_score: number
+          qr_scans: number | null
+          reviews_reputation_score: number
+          tier: string
+          total_revenue_circulated: number | null
+          total_reviews: number | null
+          total_transactions: number | null
+          unique_customers: number | null
+          updated_at: string | null
+          wealth_circulation_score: number
+        }
+        Insert: {
+          average_rating?: number | null
+          b2b_connections_count?: number | null
+          b2b_connections_score?: number
+          business_id: string
+          community_engagement_score?: number
+          created_at?: string | null
+          id?: string
+          jobs_created_equivalent?: number | null
+          jobs_supported_score?: number
+          last_calculated_at?: string | null
+          overall_score?: number
+          qr_scans?: number | null
+          reviews_reputation_score?: number
+          tier?: string
+          total_revenue_circulated?: number | null
+          total_reviews?: number | null
+          total_transactions?: number | null
+          unique_customers?: number | null
+          updated_at?: string | null
+          wealth_circulation_score?: number
+        }
+        Update: {
+          average_rating?: number | null
+          b2b_connections_count?: number | null
+          b2b_connections_score?: number
+          business_id?: string
+          community_engagement_score?: number
+          created_at?: string | null
+          id?: string
+          jobs_created_equivalent?: number | null
+          jobs_supported_score?: number
+          last_calculated_at?: string | null
+          overall_score?: number
+          qr_scans?: number | null
+          reviews_reputation_score?: number
+          tier?: string
+          total_revenue_circulated?: number | null
+          total_reviews?: number | null
+          total_transactions?: number | null
+          unique_customers?: number | null
+          updated_at?: string | null
+          wealth_circulation_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_impact_scorecards_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_impact_scorecards_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_impact_scorecards_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_impact_scorecards_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_impact_scorecards_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_import_jobs: {
         Row: {
           businesses_found: number | null
@@ -18540,6 +18645,10 @@ export type Database = {
         Args: { p_as_of_date?: string; p_asset_id: string }
         Returns: number
       }
+      calculate_business_impact_scorecard: {
+        Args: { p_business_id: string }
+        Returns: Json
+      }
       calculate_coalition_tier: {
         Args: { lifetime_points: number }
         Returns: string
@@ -19077,6 +19186,7 @@ export type Database = {
           verified_by: string
         }[]
       }
+      get_impact_leaderboard: { Args: { p_limit?: number }; Returns: Json }
       get_material_analytics: {
         Args: { p_end_date?: string; p_start_date?: string }
         Returns: {
