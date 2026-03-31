@@ -33,7 +33,7 @@ export const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 export const LazyLoginPage = lazy(() => import('@/pages/LoginPage'));
 export const LazySignupPage = lazy(() => import('@/pages/SignupPage'));
 export const LazyPasswordResetRequestPage = lazy(() => import('@/pages/PasswordResetRequestPage'));
-export const LazyResetPasswordPage = lazy(() => import('@/pages/ResetPasswordPage'));
+export const LazyResetPasswordPage = lazy(() => import('@/pages/ResetPassword'));
 
 // How It Works components (lazy loaded)
 export const LazyHowItWorksPage = lazy(() => import('@/pages/HowItWorksPage'));
