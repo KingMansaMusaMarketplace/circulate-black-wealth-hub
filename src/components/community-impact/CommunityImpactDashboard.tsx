@@ -13,6 +13,7 @@ import ImpactGoals from './ImpactGoals';
 import CallToActionSection from './CallToActionSection';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertCircle, TrendingUp } from 'lucide-react';
+import ImpactLeaderboard from './ImpactLeaderboard';
 
 const CommunityImpactDashboard: React.FC = () => {
   const { user } = useAuth();
