@@ -16,6 +16,7 @@ import { BusinessServicesContent, BusinessAvailabilityContent, StripeConnectCont
 import { BusinessCalendarView } from './BusinessCalendarView';
 import BusinessDashboard from './BusinessDashboard';
 import KaylaReputationMonitor from './kayla/KaylaReputationMonitor';
+import KaylaSupplierDiversity from './kayla/KaylaSupplierDiversity';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { saveBusinessProfile } from '@/lib/api/business-api';
 import { useAuth } from '@/contexts/AuthContext';
