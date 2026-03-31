@@ -141,7 +141,7 @@ const KaylaOnboardingSequencePage = () => {
             Kayla Onboarding Sequence
           </h1>
           <p className="text-lg font-medium text-white/70">
-            3-email drip sequence to retain $100/mo subscribers 📧
+            3-email drip sequence to retain Kayla AI subscribers 📧
           </p>
         </div>
 
