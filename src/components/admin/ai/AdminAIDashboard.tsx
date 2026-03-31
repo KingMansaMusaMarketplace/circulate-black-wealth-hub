@@ -107,6 +107,10 @@ const AdminAIDashboard: React.FC = () => {
         <TabsContent value="records">
           <KaylaRecordsManagement />
         </TabsContent>
+
+        <TabsContent value="credit">
+          <KaylaCreditReadiness />
+        </TabsContent>
       </Tabs>
     </div>
   );
