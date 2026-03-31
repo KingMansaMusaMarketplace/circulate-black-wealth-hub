@@ -39,20 +39,27 @@ serve(async (req) => {
     // Generate 6-digit OTP
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
 
+    // Hash the OTP using SHA-256 before storing
+    const encoder = new TextEncoder();
+    const data = encoder.encode(otpCode);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const otpHash = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+
     // Delete any existing OTPs for this business
     await supabase
       .from("phone_verification_otps")
       .delete()
       .eq("business_id", businessId);
 
-    // Store OTP in database
+    // Store hashed OTP in database
     const { error: insertError } = await supabase
       .from("phone_verification_otps")
       .insert({
         business_id: businessId,
         user_id: userId,
         phone_number: phoneNumber,
-        otp_code: otpCode,
+        otp_hash: otpHash,
         expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString() // 10 minutes
       });
 
