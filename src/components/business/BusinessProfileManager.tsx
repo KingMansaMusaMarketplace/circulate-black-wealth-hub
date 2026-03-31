@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar, Clock, CreditCard, Eye, Scale } from 'lucide-react';
+import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar, Clock, CreditCard, Eye, Scale, Star } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
