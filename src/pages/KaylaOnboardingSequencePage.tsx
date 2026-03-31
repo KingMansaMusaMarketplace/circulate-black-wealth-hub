@@ -84,9 +84,9 @@ Churn Alerts:              3 at-risk customers flagged
 Content Created:           5 social posts generated
 Estimated Hours Saved:    12 hours of manual work
 
-💰 YOUR INVESTMENT:        $100/mo ($25 this week)
+💰 YOUR INVESTMENT:        $149/mo (Pro plan)
 ⏱️ HOURS SAVED:            12 hours
-📈 EFFECTIVE RATE:          $2.08/hour
+📈 EFFECTIVE RATE:          $3.10/hour
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
