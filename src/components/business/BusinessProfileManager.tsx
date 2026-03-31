@@ -188,6 +188,10 @@ const BusinessProfileManager = () => {
             <Eye size={16} />
             Reputation
           </TabsTrigger>
+          <TabsTrigger value="supplier-diversity" className="flex items-center gap-2">
+            <Scale size={16} />
+            Supplier Diversity
+          </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings size={16} />
             Settings
