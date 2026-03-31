@@ -544,6 +544,10 @@ const BusinessProfileManager = () => {
             </div>
           </div>
         </TabsContent>
+
+        <TabsContent value="supplier-diversity" className="mt-6">
+          {profile?.id && <KaylaSupplierDiversity businessId={profile.id} />}
+        </TabsContent>
       </Tabs>
     </div>
   );
