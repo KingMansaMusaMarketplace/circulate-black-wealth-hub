@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Bot, Lightbulb, Shield, Wand2, ShieldAlert, Heart, Brain, Zap } from 'lucide-react';
+import { Bot, Lightbulb, Shield, Wand2, ShieldAlert, Heart, Brain, Zap, CreditCard } from 'lucide-react';
 import AIAnalyticsAssistant from './AIAnalyticsAssistant';
 import AIInsightsGenerator from './AIInsightsGenerator';
 import AIContentModeration from './AIContentModeration';
@@ -11,6 +11,7 @@ import AISentimentDashboard from './AISentimentDashboard';
 import AIPredictiveAnalytics from './AIPredictiveAnalytics';
 import KaylaEventDashboard from './KaylaEventDashboard';
 import KaylaRecordsManagement from './KaylaRecordsManagement';
+import KaylaCreditReadiness from './KaylaCreditReadiness';
 
 const AdminAIDashboard: React.FC = () => {
   return (
@@ -65,6 +66,10 @@ const AdminAIDashboard: React.FC = () => {
             <Bot className="h-3 w-3" />
             Records
           </TabsTrigger>
+          <TabsTrigger value="credit" className="flex items-center gap-1 text-xs">
+            <CreditCard className="h-3 w-3" />
+            Credit Ready
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="assistant">
@@ -101,6 +106,10 @@ const AdminAIDashboard: React.FC = () => {
 
         <TabsContent value="records">
           <KaylaRecordsManagement />
+        </TabsContent>
+
+        <TabsContent value="credit">
+          <KaylaCreditReadiness />
         </TabsContent>
       </Tabs>
     </div>

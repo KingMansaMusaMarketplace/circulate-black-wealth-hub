@@ -5415,6 +5415,123 @@ export type Database = {
         }
         Relationships: []
       }
+      credit_readiness_reports: {
+        Row: {
+          business_id: string
+          cashflow_data: Json | null
+          created_at: string
+          credit_profile_score: number | null
+          debt_to_income_ratio: number | null
+          documentation_score: number | null
+          documents_included: Json | null
+          error_message: string | null
+          estimated_borrowing_range: Json | null
+          executive_summary: string | null
+          financial_health_score: number | null
+          id: string
+          investment_readiness_data: Json | null
+          loan_types_qualified: Json | null
+          monthly_expenses: number | null
+          monthly_revenue: number | null
+          months_in_business: number | null
+          overall_score: number | null
+          profit_margin: number | null
+          recommendations: Json | null
+          status: string
+          strengths: Json | null
+          updated_at: string
+          weaknesses: Json | null
+        }
+        Insert: {
+          business_id: string
+          cashflow_data?: Json | null
+          created_at?: string
+          credit_profile_score?: number | null
+          debt_to_income_ratio?: number | null
+          documentation_score?: number | null
+          documents_included?: Json | null
+          error_message?: string | null
+          estimated_borrowing_range?: Json | null
+          executive_summary?: string | null
+          financial_health_score?: number | null
+          id?: string
+          investment_readiness_data?: Json | null
+          loan_types_qualified?: Json | null
+          monthly_expenses?: number | null
+          monthly_revenue?: number | null
+          months_in_business?: number | null
+          overall_score?: number | null
+          profit_margin?: number | null
+          recommendations?: Json | null
+          status?: string
+          strengths?: Json | null
+          updated_at?: string
+          weaknesses?: Json | null
+        }
+        Update: {
+          business_id?: string
+          cashflow_data?: Json | null
+          created_at?: string
+          credit_profile_score?: number | null
+          debt_to_income_ratio?: number | null
+          documentation_score?: number | null
+          documents_included?: Json | null
+          error_message?: string | null
+          estimated_borrowing_range?: Json | null
+          executive_summary?: string | null
+          financial_health_score?: number | null
+          id?: string
+          investment_readiness_data?: Json | null
+          loan_types_qualified?: Json | null
+          monthly_expenses?: number | null
+          monthly_revenue?: number | null
+          months_in_business?: number | null
+          overall_score?: number | null
+          profit_margin?: number | null
+          recommendations?: Json | null
+          status?: string
+          strengths?: Json | null
+          updated_at?: string
+          weaknesses?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_readiness_reports_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_readiness_reports_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_readiness_reports_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_readiness_reports_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_readiness_reports_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customer_interactions: {
         Row: {
           business_id: string
