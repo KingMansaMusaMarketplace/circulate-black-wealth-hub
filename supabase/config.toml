@@ -329,3 +329,6 @@ verify_jwt = false
 
 [functions.kayla-credit-readiness]
 verify_jwt = false
+
+[functions.kayla-supplier-diversity]
+verify_jwt = false
