@@ -34,45 +34,74 @@ const ResetPasswordForm: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let redirectTimer: ReturnType<typeof setTimeout> | null = null;
+
     // Listen for PASSWORD_RECOVERY event from Supabase (handles URL hash tokens)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log('[ResetPasswordForm] Auth event:', event);
       if (event === 'PASSWORD_RECOVERY' || (event === 'SIGNED_IN' && session)) {
         setIsValidSession(true);
+        if (redirectTimer) clearTimeout(redirectTimer);
       }
     });
 
-    // Also check if there's already a valid session (e.g., page refresh)
     const checkSession = async () => {
-      // Give Supabase time to process URL hash tokens
+      // 1. Handle PKCE flow: exchange ?code= query param for session
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get('code');
+      if (code) {
+        console.log('[ResetPasswordForm] PKCE code detected, exchanging for session...');
+        try {
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) {
+            console.error('[ResetPasswordForm] Code exchange failed:', error);
+            toast.error('Invalid or expired reset link. Please request a new one.');
+            navigate('/login');
+            return;
+          }
+          if (data.session) {
+            console.log('[ResetPasswordForm] Session established via PKCE');
+            setIsValidSession(true);
+            // Clean up URL
+            url.searchParams.delete('code');
+            window.history.replaceState({}, '', url.pathname);
+            return;
+          }
+        } catch (err) {
+          console.error('[ResetPasswordForm] PKCE exchange error:', err);
+        }
+      }
+
+      // 2. Check for existing session
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         setIsValidSession(true);
-      } else {
-        // Check if URL has recovery tokens (hash fragment)
-        const hash = window.location.hash;
-        if (hash && (hash.includes('type=recovery') || hash.includes('access_token'))) {
-          // Tokens present but not yet processed — wait for onAuthStateChange
-          console.log('[ResetPasswordForm] Recovery tokens detected in URL, waiting for auth event...');
-          return;
-        }
-        // No session and no tokens — redirect after a short delay
-        setTimeout(() => {
-          // Re-check in case auth event fired during timeout
-          supabase.auth.getSession().then(({ data: { session: s } }) => {
-            if (!s && !isValidSession) {
-              toast.error('Invalid or expired reset link. Please request a new one.');
-              navigate('/login');
-            }
-          });
-        }, 3000);
+        return;
       }
+
+      // 3. Check for hash fragment tokens (legacy flow)
+      const hash = window.location.hash;
+      if (hash && (hash.includes('type=recovery') || hash.includes('access_token'))) {
+        console.log('[ResetPasswordForm] Recovery tokens detected in URL, waiting for auth event...');
+        return;
+      }
+
+      // 4. No session and no tokens — redirect after delay
+      redirectTimer = setTimeout(() => {
+        supabase.auth.getSession().then(({ data: { session: s } }) => {
+          if (!s) {
+            toast.error('Invalid or expired reset link. Please request a new one.');
+            navigate('/login');
+          }
+        });
+      }, 5000);
     };
 
     checkSession();
 
     return () => {
       subscription.unsubscribe();
+      if (redirectTimer) clearTimeout(redirectTimer);
     };
   }, [navigate]);
 
