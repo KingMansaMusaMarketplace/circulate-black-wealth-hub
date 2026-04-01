@@ -39,6 +39,8 @@ const PremiumBusinessCard = ({
   discount, 
   distance, 
   address,
+  city,
+  state,
   phone,
   imageUrl,
   imageAlt,
