@@ -1053,6 +1053,8 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         skipped_duplicates: skippedDuplicates,
         skipped_low_confidence: skippedLowConfidence,
         skipped_no_website: skippedNoWebsite,
+        skipped_no_phone: skippedNoPhone,
+        skipped_no_address: skippedNoAddress,
         skipped_no_images: skippedNoImages,
         inserted_names: insertedNames,
         enrichment: enrichmentDetails,
