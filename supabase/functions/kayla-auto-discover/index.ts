@@ -661,6 +661,125 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
   return result;
 }
 
+// === CONTACT INFO SCRAPING — Check About/Contact pages for address & phone ===
+const CONTACT_PAGE_PATHS = ["/contact", "/contact-us", "/about", "/about-us", "/location", "/locations"];
+
+// Regex patterns for extracting contact info from page content
+const ADDRESS_REGEX = /(\d{1,5}\s+[A-Za-z0-9\s.,#-]+(?:St|Street|Ave|Avenue|Blvd|Boulevard|Rd|Road|Dr|Drive|Ln|Lane|Way|Ct|Court|Pl|Place|Pkwy|Parkway|Cir|Circle|Hwy|Highway|Ter|Terrace)[.,]?\s*(?:[A-Za-z\s]+,\s*[A-Z]{2}\s*\d{5}(?:-\d{4})?))/gi;
+const PHONE_REGEX = /(?:\+?1[-.\s]?)?\(?([2-9]\d{2})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})/g;
+const ZIP_REGEX = /\b(\d{5})(?:-\d{4})?\b/g;
+
+interface ContactInfo {
+  address: string | null;
+  phone: string | null;
+  zip_code: string | null;
+}
+
+function extractContactFromMarkdown(markdown: string): ContactInfo {
+  const result: ContactInfo = { address: null, phone: null, zip_code: null };
+  if (!markdown) return result;
+
+  // Extract address
+  const addressMatches = markdown.match(ADDRESS_REGEX);
+  if (addressMatches && addressMatches.length > 0) {
+    // Pick the longest match (most complete address)
+    result.address = addressMatches.sort((a, b) => b.length - a.length)[0].trim();
+  }
+
+  // Extract phone — look near "phone", "call", "tel", "contact" keywords first
+  const lines = markdown.split("\n");
+  for (const line of lines) {
+    const lower = line.toLowerCase();
+    if (lower.includes("phone") || lower.includes("call") || lower.includes("tel:") || lower.includes("contact")) {
+      const phoneMatch = line.match(PHONE_REGEX);
+      if (phoneMatch) {
+        result.phone = phoneMatch[0].trim();
+        break;
+      }
+    }
+  }
+  // Fallback: first phone number found anywhere
+  if (!result.phone) {
+    const allPhones = markdown.match(PHONE_REGEX);
+    if (allPhones && allPhones.length > 0) {
+      result.phone = allPhones[0].trim();
+    }
+  }
+
+  // Extract zip code from address or standalone
+  if (result.address) {
+    const zipMatch = result.address.match(ZIP_REGEX);
+    if (zipMatch) result.zip_code = zipMatch[0];
+  }
+  if (!result.zip_code) {
+    const allZips = markdown.match(ZIP_REGEX);
+    if (allZips) result.zip_code = allZips[0];
+  }
+
+  return result;
+}
+
+async function scrapeContactPages(websiteUrl: string, firecrawlKey: string): Promise<ContactInfo> {
+  const combined: ContactInfo = { address: null, phone: null, zip_code: null };
+  if (!websiteUrl || !firecrawlKey) return combined;
+
+  try {
+    let baseUrl = websiteUrl.trim();
+    if (!baseUrl.startsWith("http")) baseUrl = `https://${baseUrl}`;
+    // Remove trailing slash
+    baseUrl = baseUrl.replace(/\/+$/, "");
+
+    // Try each contact page path until we find good data
+    for (const path of CONTACT_PAGE_PATHS) {
+      if (combined.address && combined.phone) break; // Got everything we need
+
+      const pageUrl = `${baseUrl}${path}`;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+        const response = await fetch("https://api.firecrawl.dev/v1/scrape", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${firecrawlKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            url: pageUrl,
+            formats: ["markdown"],
+            onlyMainContent: true,
+            timeout: 5000,
+          }),
+          signal: controller.signal,
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) continue;
+
+        const data = await response.json();
+        const pageMarkdown = data?.data?.markdown || "";
+        if (!pageMarkdown || pageMarkdown.length < 50) continue;
+
+        const extracted = extractContactFromMarkdown(pageMarkdown);
+
+        if (extracted.address && !combined.address) combined.address = extracted.address;
+        if (extracted.phone && !combined.phone) combined.phone = extracted.phone;
+        if (extracted.zip_code && !combined.zip_code) combined.zip_code = extracted.zip_code;
+
+        console.log(`[ContactScrape] ${pageUrl} → addr:${extracted.address ? "✅" : "❌"} phone:${extracted.phone ? "✅" : "❌"}`);
+      } catch {
+        // Page doesn't exist or timed out — try next
+        continue;
+      }
+    }
+  } catch (err) {
+    console.log(`[ContactScrape] Error for ${websiteUrl}: ${err instanceof Error ? err.message : "unknown"}`);
+  }
+
+  return combined;
+}
+
 async function geocodeAddress(address: string, city: string, state: string, zipCode: string, mapboxToken: string): Promise<{ latitude: number | null; longitude: number | null }> {
   const result = { latitude: null as number | null, longitude: null as number | null };
   if (!mapboxToken) return result;
