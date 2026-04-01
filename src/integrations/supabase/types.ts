@@ -19488,6 +19488,10 @@ export type Database = {
         }
         Returns: Json
       }
+      claim_b2b_lead: {
+        Args: { p_lead_id: string; p_token: string }
+        Returns: Json
+      }
       claim_business_lead: {
         Args: { p_token: string; p_user_id: string }
         Returns: Json
