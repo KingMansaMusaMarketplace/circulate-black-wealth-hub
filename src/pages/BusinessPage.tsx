@@ -153,6 +153,16 @@ const BusinessPage: React.FC = () => {
               <PhotosTab />
             </TabsContent>
           </Tabs>
+
+          {/* Nearby Businesses - Other Categories */}
+          {business.lat && business.lng && (
+            <NearbyBusinesses
+              currentBusinessId={business.id}
+              currentCategory={business.category}
+              lat={business.lat}
+              lng={business.lng}
+            />
+          )}
         </main>
       </div>
     </>

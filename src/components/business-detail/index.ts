@@ -6,3 +6,4 @@ export { default as PhotosTab } from './PhotosTab';
 export { default as LoadingState } from './LoadingState';
 export { default as NotFoundState } from './NotFoundState';
 export { default as RelatedBusinesses } from './RelatedBusinesses';
+export { default as NearbyBusinesses } from './NearbyBusinesses';
