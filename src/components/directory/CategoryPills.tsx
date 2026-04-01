@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,8 @@ interface CategoryPillsProps {
   totalCount?: number;
 }
 
+const ALPHABET = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 const CategoryPills: React.FC<CategoryPillsProps> = ({
   categories,
   selectedCategory,
@@ -20,8 +22,24 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
   totalCount
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const pillRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
+  const [activeLetter, setActiveLetter] = useState<string | null>(null);
+
+  // Build a set of letters that have at least one category
+  const availableLetters = useMemo(() => {
+    const letters = new Set<string>();
+    categories.forEach(cat => {
+      const first = cat.charAt(0).toUpperCase();
+      if (/[A-Z]/.test(first)) {
+        letters.add(first);
+      } else {
+        letters.add('#');
+      }
+    });
+    return letters;
+  }, [categories]);
 
   const checkScroll = () => {
     if (scrollRef.current) {
@@ -46,6 +64,31 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
       });
       setTimeout(checkScroll, 300);
     }
+  };
+
+  const scrollToLetter = (letter: string) => {
+    if (!scrollRef.current) return;
+    setActiveLetter(letter);
+
+    // Find first category starting with that letter
+    const targetCategory = categories.find(cat => {
+      const first = cat.charAt(0).toUpperCase();
+      if (letter === '#') return !/[A-Z]/.test(first);
+      return first === letter;
+    });
+
+    if (targetCategory) {
+      const pillEl = pillRefs.current.get(targetCategory);
+      if (pillEl && scrollRef.current) {
+        const container = scrollRef.current;
+        const scrollLeft = pillEl.offsetLeft - container.offsetLeft - 40;
+        container.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
+        setTimeout(checkScroll, 400);
+      }
+    }
+
+    // Clear active letter after a moment
+    setTimeout(() => setActiveLetter(null), 1200);
   };
 
   // Category icons mapping
@@ -98,6 +141,33 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
       transition={{ duration: 0.4, delay: 0.1 }}
       className="relative mb-8"
     >
+      {/* Alphabet Quick-Jump Bar */}
+      {categories.length > 10 && (
+        <div className="flex items-center justify-center gap-0.5 mb-3 px-1 flex-wrap">
+          {ALPHABET.map(letter => {
+            const hasCategories = availableLetters.has(letter);
+            return (
+              <button
+                key={letter}
+                onClick={() => hasCategories && scrollToLetter(letter)}
+                disabled={!hasCategories}
+                className={cn(
+                  "w-7 h-7 rounded-md text-xs font-bold transition-all duration-200 flex items-center justify-center flex-shrink-0",
+                  activeLetter === letter
+                    ? "bg-mansagold text-slate-900 scale-125 shadow-lg shadow-mansagold/40"
+                    : hasCategories
+                      ? "text-gray-300 hover:bg-mansagold/20 hover:text-mansagold cursor-pointer"
+                      : "text-gray-700 cursor-default opacity-40"
+                )}
+                title={hasCategories ? `Jump to "${letter}" categories` : `No categories starting with "${letter}"`}
+              >
+                {letter}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {/* Left scroll button */}
       {showLeftArrow && (
         <Button
@@ -105,6 +175,7 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
           size="icon"
           onClick={() => scroll('left')}
           className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-slate-900/90 border border-white/10 text-white hover:bg-slate-800 hover:text-mansagold shadow-lg"
+          style={{ top: categories.length > 10 ? 'calc(50% + 16px)' : '50%' }}
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
@@ -143,6 +214,10 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
         {categories.map((category, index) => (
           <motion.button
             key={category}
+            ref={(el) => {
+              if (el) pillRefs.current.set(category, el);
+              else pillRefs.current.delete(category);
+            }}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: index * 0.03 }}
@@ -177,6 +252,7 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
           size="icon"
           onClick={() => scroll('right')}
           className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-slate-900/90 border border-white/10 text-white hover:bg-slate-800 hover:text-mansagold shadow-lg"
+          style={{ top: categories.length > 10 ? 'calc(50% + 16px)' : '50%' }}
         >
           <ChevronRight className="h-4 w-4" />
         </Button>
@@ -184,10 +260,10 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
 
       {/* Gradient fades */}
       {showLeftArrow && (
-        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
+        <div className="absolute left-0 bottom-0 w-12 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" style={{ top: categories.length > 10 ? '36px' : '0' }} />
       )}
       {showRightArrow && (
-        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
+        <div className="absolute right-0 bottom-0 w-12 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" style={{ top: categories.length > 10 ? '36px' : '0' }} />
       )}
     </motion.div>
   );
