@@ -12,7 +12,8 @@ import {
   ReviewsTab, 
   PhotosTab, 
   LoadingState, 
-  NotFoundState 
+  NotFoundState,
+  NearbyBusinesses 
 } from '@/components/business-detail';
 import { BusinessStructuredData } from '@/components/SEO/BusinessStructuredData';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
