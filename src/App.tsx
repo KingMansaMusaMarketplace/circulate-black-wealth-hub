@@ -924,6 +924,8 @@ function App() {
                         
                         {/* Q */}
                         {/* /qr-test removed */}
+                        <Route path="/qr-code-generator" element={<LazyQRCodeGeneratorPage />} />
+                        <Route path="/qr-code-management" element={<LazyQRCodeGeneratorPage />} />
                         
                         {/* R */}
                         <Route path="/recommendations" element={<LazyRecommendationsPage />} />
