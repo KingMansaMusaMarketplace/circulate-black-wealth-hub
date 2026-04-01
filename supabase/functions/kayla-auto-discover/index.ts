@@ -802,7 +802,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
                           price_range: { type: "string", description: "One of: $, $$, $$$, $$$$" },
                           confidence: { type: "number", description: "0-1 confidence this is a real business" },
                         },
-                        required: ["name", "description", "category", "address", "city", "state", "website"],
+                        required: ["name", "description", "category", "address", "city", "state", "zip_code", "phone", "website"],
                       },
                     },
                   },
