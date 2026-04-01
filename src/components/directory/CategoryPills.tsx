@@ -134,16 +134,18 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
     return icons[category] || '✨';
   };
 
+  const hasAlphabet = categories.length > 10;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.1 }}
-      className="relative mb-8"
+      className="mb-8 space-y-2"
     >
       {/* Alphabet Quick-Jump Bar */}
-      {categories.length > 10 && (
-        <div className="flex items-center justify-center gap-0.5 mb-3 px-1 flex-wrap">
+      {hasAlphabet && (
+        <div className="flex items-center justify-center gap-[3px] px-2">
           {ALPHABET.map(letter => {
             const hasCategories = availableLetters.has(letter);
             return (
@@ -152,12 +154,12 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
                 onClick={() => hasCategories && scrollToLetter(letter)}
                 disabled={!hasCategories}
                 className={cn(
-                  "w-7 h-7 rounded-md text-xs font-bold transition-all duration-200 flex items-center justify-center flex-shrink-0",
+                  "w-[26px] h-[26px] rounded-md text-[11px] font-bold transition-all duration-200 flex items-center justify-center flex-shrink-0",
                   activeLetter === letter
-                    ? "bg-mansagold text-slate-900 scale-125 shadow-lg shadow-mansagold/40"
+                    ? "bg-mansagold text-slate-900 scale-110 shadow-md shadow-mansagold/40"
                     : hasCategories
                       ? "text-gray-300 hover:bg-mansagold/20 hover:text-mansagold cursor-pointer"
-                      : "text-gray-700 cursor-default opacity-40"
+                      : "text-gray-600 cursor-default"
                 )}
                 title={hasCategories ? `Jump to "${letter}" categories` : `No categories starting with "${letter}"`}
               >
@@ -168,103 +170,104 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
         </div>
       )}
 
-      {/* Left scroll button */}
-      {showLeftArrow && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-slate-900/90 border border-white/10 text-white hover:bg-slate-800 hover:text-mansagold shadow-lg"
-          style={{ top: categories.length > 10 ? 'calc(50% + 16px)' : '50%' }}
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-      )}
+      {/* Category pills with scroll controls */}
+      <div className="relative">
+        {/* Left scroll button */}
+        {showLeftArrow && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => scroll('left')}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-slate-900/90 border border-white/10 text-white hover:bg-slate-800 hover:text-mansagold shadow-lg"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+        )}
 
-      {/* Scrollable container */}
-      <div
-        ref={scrollRef}
-        onScroll={checkScroll}
-        className="flex gap-2 overflow-x-auto scrollbar-hide px-1 py-2"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        {/* All Categories pill */}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => onSelectCategory(undefined)}
-          className={cn(
-            "flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all duration-300 flex-shrink-0",
-            !selectedCategory
-              ? "bg-gradient-to-r from-mansagold to-amber-500 text-slate-900 font-semibold shadow-lg shadow-mansagold/30"
-              : "bg-slate-800/80 text-gray-300 border border-white/10 hover:border-mansagold/50 hover:text-white"
-          )}
+        {/* Scrollable container */}
+        <div
+          ref={scrollRef}
+          onScroll={checkScroll}
+          className="flex gap-2 overflow-x-auto scrollbar-hide px-1 py-2"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          <Sparkles className="h-4 w-4" />
-          <span>All</span>
-          <span className={cn(
-            "text-xs px-1.5 py-0.5 rounded-full",
-            !selectedCategory ? "bg-slate-900/30 text-slate-900" : "bg-white/10 text-gray-400"
-          )}>
-            {totalCount ?? (Object.values(businessCounts).reduce((a, b) => a + b, 0) || categories.length)}
-          </span>
-        </motion.button>
-
-        {/* Category pills */}
-        {categories.map((category, index) => (
+          {/* All Categories pill */}
           <motion.button
-            key={category}
-            ref={(el) => {
-              if (el) pillRefs.current.set(category, el);
-              else pillRefs.current.delete(category);
-            }}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.03 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => onSelectCategory(category)}
+            onClick={() => onSelectCategory(undefined)}
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all duration-300 flex-shrink-0",
-              selectedCategory === category
+              !selectedCategory
                 ? "bg-gradient-to-r from-mansagold to-amber-500 text-slate-900 font-semibold shadow-lg shadow-mansagold/30"
                 : "bg-slate-800/80 text-gray-300 border border-white/10 hover:border-mansagold/50 hover:text-white"
             )}
           >
-            <span>{getCategoryIcon(category)}</span>
-            <span>{category}</span>
-            {businessCounts[category] && (
-              <span className={cn(
-                "text-xs px-1.5 py-0.5 rounded-full",
-                selectedCategory === category ? "bg-slate-900/30 text-slate-900" : "bg-white/10 text-gray-400"
-              )}>
-                {businessCounts[category]}
-              </span>
-            )}
+            <Sparkles className="h-4 w-4" />
+            <span>All</span>
+            <span className={cn(
+              "text-xs px-1.5 py-0.5 rounded-full",
+              !selectedCategory ? "bg-slate-900/30 text-slate-900" : "bg-white/10 text-gray-400"
+            )}>
+              {totalCount ?? (Object.values(businessCounts).reduce((a, b) => a + b, 0) || categories.length)}
+            </span>
           </motion.button>
-        ))}
+
+          {/* Category pills */}
+          {categories.map((category, index) => (
+            <motion.button
+              key={category}
+              ref={(el) => {
+                if (el) pillRefs.current.set(category, el);
+                else pillRefs.current.delete(category);
+              }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.03 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onSelectCategory(category)}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all duration-300 flex-shrink-0",
+                selectedCategory === category
+                  ? "bg-gradient-to-r from-mansagold to-amber-500 text-slate-900 font-semibold shadow-lg shadow-mansagold/30"
+                  : "bg-slate-800/80 text-gray-300 border border-white/10 hover:border-mansagold/50 hover:text-white"
+              )}
+            >
+              <span>{getCategoryIcon(category)}</span>
+              <span>{category}</span>
+              {businessCounts[category] && (
+                <span className={cn(
+                  "text-xs px-1.5 py-0.5 rounded-full",
+                  selectedCategory === category ? "bg-slate-900/30 text-slate-900" : "bg-white/10 text-gray-400"
+                )}>
+                  {businessCounts[category]}
+                </span>
+              )}
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Right scroll button */}
+        {showRightArrow && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => scroll('right')}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-slate-900/90 border border-white/10 text-white hover:bg-slate-800 hover:text-mansagold shadow-lg"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        )}
+
+        {/* Gradient fades */}
+        {showLeftArrow && (
+          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
+        )}
+        {showRightArrow && (
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
+        )}
       </div>
-
-      {/* Right scroll button */}
-      {showRightArrow && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => scroll('right')}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-slate-900/90 border border-white/10 text-white hover:bg-slate-800 hover:text-mansagold shadow-lg"
-          style={{ top: categories.length > 10 ? 'calc(50% + 16px)' : '50%' }}
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      )}
-
-      {/* Gradient fades */}
-      {showLeftArrow && (
-        <div className="absolute left-0 bottom-0 w-12 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" style={{ top: categories.length > 10 ? '36px' : '0' }} />
-      )}
-      {showRightArrow && (
-        <div className="absolute right-0 bottom-0 w-12 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" style={{ top: categories.length > 10 ? '36px' : '0' }} />
-      )}
     </motion.div>
   );
 };
