@@ -1129,45 +1129,71 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       const enrichmentResults = await Promise.allSettled(
         batch.map(async ({ biz, targetCity, categoryFocus: catFocus }) => {
           const websiteUrl = biz.website.trim();
+          const address = biz.address?.trim() || "";
+          const phone = biz.phone?.trim() || "";
 
           const [images, coords] = await Promise.all([
             scrapeWebsiteImages(websiteUrl, firecrawlKey),
-            biz.address && mapboxToken
-              ? geocodeAddress(biz.address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken)
+            address && mapboxToken
+              ? geocodeAddress(address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken)
               : Promise.resolve({ latitude: null, longitude: null }),
           ]);
 
-      const addressLooksWeak = !address || address.length < 10 || 
-        address.toLowerCase().includes("not provided") || 
-        address.toLowerCase().includes("not available") ||
-        !phone || phone.length < 7;
+          // Check if address or phone looks weak — if so, scrape contact/about pages
+          const addressLooksWeak = !address || address.length < 10 ||
+            address.toLowerCase().includes("not provided") ||
+            address.toLowerCase().includes("not available");
+          const phoneLooksWeak = !phone || phone.length < 7;
 
-      // If address or phone looks weak, try scraping contact/about pages
-      let enrichedAddress = address;
-      let enrichedPhone = phone;
-      let enrichedZip = biz.zip_code || "";
-      let contactScraped = false;
+          let enrichedAddress = address;
+          let enrichedPhone = phone;
+          let enrichedZip = biz.zip_code || "";
+          let contactScraped = false;
+          let enrichedCoords = coords;
 
-      if (addressLooksWeak && firecrawlKey) {
-        const contactInfo = await scrapeContactPages(websiteUrl, firecrawlKey);
-        contactScraped = true;
+          if ((addressLooksWeak || phoneLooksWeak) && firecrawlKey) {
+            const contactInfo = await scrapeContactPages(websiteUrl, firecrawlKey);
+            contactScraped = true;
 
-        if (contactInfo.address && (!enrichedAddress || enrichedAddress.length < 10 ||
-            enrichedAddress.toLowerCase().includes("not provided"))) {
-          enrichedAddress = contactInfo.address;
-          console.log(`[Kayla Auto-Discover] 📍 Enriched address for "${biz.name}" from contact page: ${enrichedAddress}`);
+            if (contactInfo.address && (addressLooksWeak || enrichedAddress.length < contactInfo.address.length)) {
+              enrichedAddress = contactInfo.address;
+              console.log(`[Kayla Auto-Discover] 📍 Enriched address for "${biz.name}" from contact page: ${enrichedAddress}`);
+              
+              // Re-geocode with the better address
+              if (mapboxToken) {
+                enrichedCoords = await geocodeAddress(enrichedAddress, biz.city, biz.state || targetCity.state, enrichedZip, mapboxToken);
+              }
+            }
+            if (contactInfo.phone && phoneLooksWeak) {
+              enrichedPhone = contactInfo.phone;
+              console.log(`[Kayla Auto-Discover] 📞 Enriched phone for "${biz.name}" from contact page: ${enrichedPhone}`);
+            }
+            if (contactInfo.zip_code && !enrichedZip) {
+              enrichedZip = contactInfo.zip_code;
+            }
+          }
+
+          // Still skip if no address AND no phone after enrichment
+          if ((!enrichedAddress || enrichedAddress.length < 5) && (!enrichedPhone || enrichedPhone.length < 7)) {
+            return null; // Will be filtered out
+          }
+
+          return { biz, targetCity, catFocus, websiteUrl, images, coords: enrichedCoords,
+                   enrichedAddress, enrichedPhone, enrichedZip, contactScraped };
+        })
+      );
+
+      for (const result of enrichmentResults) {
+        if (result.status === "rejected") {
+          console.log(`[Kayla Auto-Discover] Enrichment failed: ${result.reason}`);
+          continue;
         }
-        if (contactInfo.phone && (!enrichedPhone || enrichedPhone.length < 7)) {
-          enrichedPhone = contactInfo.phone;
-          console.log(`[Kayla Auto-Discover] 📞 Enriched phone for "${biz.name}" from contact page: ${enrichedPhone}`);
-        }
-        if (contactInfo.zip_code && !enrichedZip) {
-          enrichedZip = contactInfo.zip_code;
-        }
-      }
 
-      return { biz, targetCity, catFocus, websiteUrl, images, coords, 
-               enrichedAddress, enrichedPhone, enrichedZip, contactScraped };
+        const enriched = result.value;
+        if (!enriched) continue; // Skipped due to missing data
+
+        const { biz, targetCity, catFocus, websiteUrl, images, coords,
+                enrichedAddress, enrichedPhone, enrichedZip, contactScraped } = enriched;
 
         // Tiered image fallback
         let finalLogoUrl = images.logo_url;
@@ -1188,11 +1214,11 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           business_name: biz.name.trim(),
           description: biz.description || `Black-owned ${biz.category || catFocus} business in ${biz.city}, ${biz.state}.`,
           category: biz.category || catFocus,
-          address: biz.address || "",
+          address: enrichedAddress || "",
           city: biz.city.trim(),
           state: biz.state?.trim() || targetCity.state,
-          zip_code: biz.zip_code || "",
-          phone: biz.phone || "",
+          zip_code: enrichedZip || "",
+          phone: enrichedPhone || "",
           email: biz.email || "",
           website: websiteUrl,
           owner_id: PLACEHOLDER_OWNER_ID,
@@ -1221,13 +1247,16 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           has_banner: isValidImageUrl(images.banner_url),
           image_source: imageSource,
           has_coords: coords.latitude !== null,
-          has_phone: !!biz.phone,
+          has_phone: !!enrichedPhone,
           has_website: true,
           confidence: biz.confidence ?? 0.5,
           verified: true,
+          contact_scraped: contactScraped,
+          address_enriched: contactScraped && enrichedAddress !== biz.address?.trim(),
+          phone_enriched: contactScraped && enrichedPhone !== biz.phone?.trim(),
         });
 
-        console.log(`[Kayla Auto-Discover] ✅ Added "${biz.name}" (${biz.category || catFocus}) | imgs:${imageSource} coords:${coords.latitude ? "✅" : "❌"}`);
+        console.log(`[Kayla Auto-Discover] ✅ Added "${biz.name}" (${biz.category || catFocus}) | imgs:${imageSource} coords:${coords.latitude ? "✅" : "❌"}${contactScraped ? " 🔍contact-scraped" : ""}`);
       }
     }
 
