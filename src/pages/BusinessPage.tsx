@@ -12,7 +12,8 @@ import {
   ReviewsTab, 
   PhotosTab, 
   LoadingState, 
-  NotFoundState 
+  NotFoundState,
+  NearbyBusinesses 
 } from '@/components/business-detail';
 import { BusinessStructuredData } from '@/components/SEO/BusinessStructuredData';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
@@ -152,6 +153,16 @@ const BusinessPage: React.FC = () => {
               <PhotosTab />
             </TabsContent>
           </Tabs>
+
+          {/* Nearby Businesses - Other Categories */}
+          {business.lat && business.lng && (
+            <NearbyBusinesses
+              currentBusinessId={business.id}
+              currentCategory={business.category}
+              lat={business.lat}
+              lng={business.lng}
+            />
+          )}
         </main>
       </div>
     </>
