@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { cn } from '@/lib/utils';
 import {
   Pagination,
   PaginationContent,
@@ -57,12 +58,15 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
   const pageNumbers = getPageNumbers();
   
   return (
-    <Pagination className="mt-6">
-      <PaginationContent>
+    <Pagination className="mt-8">
+      <PaginationContent className="gap-2">
         <PaginationItem>
           <PaginationPrevious 
             onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-            className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+            className={cn(
+              'cursor-pointer text-base font-medium px-4 py-2 h-auto',
+              currentPage === 1 ? 'pointer-events-none opacity-50' : 'hover:bg-accent'
+            )}
             aria-disabled={currentPage === 1}
           />
         </PaginationItem>
@@ -71,7 +75,7 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
           if (page === 'ellipsis-start' || page === 'ellipsis-end') {
             return (
               <PaginationItem key={`ellipsis-${index}`}>
-                <PaginationEllipsis />
+                <PaginationEllipsis className="h-10 w-10 text-muted-foreground" />
               </PaginationItem>
             );
           }
@@ -81,6 +85,13 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
               <PaginationLink
                 isActive={currentPage === page}
                 onClick={() => onPageChange(page as number)}
+                size="default"
+                className={cn(
+                  'cursor-pointer min-w-[2.75rem] h-10 text-base font-semibold rounded-lg',
+                  currentPage === page
+                    ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:text-primary-foreground'
+                    : 'hover:bg-accent text-foreground'
+                )}
               >
                 {page}
               </PaginationLink>
@@ -91,7 +102,10 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
         <PaginationItem>
           <PaginationNext 
             onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+            className={cn(
+              'cursor-pointer text-base font-medium px-4 py-2 h-auto',
+              currentPage === totalPages ? 'pointer-events-none opacity-50' : 'hover:bg-accent'
+            )}
             aria-disabled={currentPage === totalPages}
           />
         </PaginationItem>
