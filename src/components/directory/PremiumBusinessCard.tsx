@@ -19,6 +19,8 @@ interface PremiumBusinessCardProps {
   discount: string;
   distance?: string;
   address?: string;
+  city?: string;
+  state?: string;
   phone?: string;
   imageUrl?: string;
   imageAlt?: string;
