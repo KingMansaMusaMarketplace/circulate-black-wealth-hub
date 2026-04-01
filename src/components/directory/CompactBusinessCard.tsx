@@ -90,6 +90,14 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
           )}
         </div>
 
+        {/* Address */}
+        {business.address && (
+          <p className="text-xs text-gray-400 mt-1.5 truncate">
+            <MapPin className="w-3 h-3 inline mr-1 text-mansagold/50" />
+            {business.address}{business.city || business.state ? `, ${[business.city, business.state].filter(Boolean).join(', ')}` : ''}
+          </p>
+        )}
+
         {/* Discount badge */}
         {business.discount && business.discountValue > 0 && (
           <div className="mt-2">

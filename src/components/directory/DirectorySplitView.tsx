@@ -262,7 +262,7 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
 
                         {selectedBusiness.address && (
                           <p className="text-xs text-gray-400 mt-1 truncate">
-                            {selectedBusiness.address}{selectedBusiness.city ? `, ${selectedBusiness.city}` : ''}
+                            {selectedBusiness.address}{selectedBusiness.city || selectedBusiness.state ? `, ${[selectedBusiness.city, selectedBusiness.state].filter(Boolean).join(', ')}` : ''}
                           </p>
                         )}
                       </div>
