@@ -669,9 +669,24 @@ async function geocodeAddress(address: string, city: string, state: string, zipC
     const fullAddress = [address, city, state, zipCode].filter(Boolean).join(", ");
     if (!fullAddress || fullAddress.length < 5) return result;
 
+    // Determine country code for geocoding accuracy
+    let countryParam = "us";
+    if (isCanadian(state)) countryParam = "ca";
+    else if (isMexican(state)) countryParam = "mx";
+    else if (isGhana(state)) countryParam = "gh";
+    else if (isUK(state)) countryParam = "gb";
+    else if (isCaribbean(state)) {
+      const caribCountries: Record<string, string> = {
+        JM: "jm", TT: "tt", BS: "bs", BB: "bb", HT: "ht", DO: "do",
+        USVI: "us", PR: "us", CW: "cw", AG: "ag", LC: "lc", GD: "gd",
+        KN: "kn", BM: "bm", KY: "ky", TC: "tc", BZ: "bz",
+      };
+      countryParam = caribCountries[state] || "us";
+    }
+
     const encoded = encodeURIComponent(fullAddress);
     const geoRes = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encoded}.json?access_token=${mapboxToken}&limit=1&country=us`
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encoded}.json?access_token=${mapboxToken}&limit=1&country=${countryParam}`
     );
 
     if (!geoRes.ok) {
