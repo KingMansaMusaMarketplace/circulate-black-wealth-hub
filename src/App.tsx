@@ -157,6 +157,8 @@ const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPa
 const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
 const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
+const LazyQRCodeGeneratorPage = lazy(() => import('@/pages/QRCodeGeneratorPage'));
+const LazyQRCodeManagementPage = lazy(() => import('@/pages/QRCodeManagementPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
 
 // Unified Test Dashboard (consolidates all test pages)
