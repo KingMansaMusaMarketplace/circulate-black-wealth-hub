@@ -753,7 +753,7 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address, working phone number, actual website URL, business hours, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot verify a detail, omit that field rather than guessing. CRITICAL: Every business MUST have a working website URL — do not include businesses without websites. Look for businesses of ALL sizes — from solo entrepreneurs to large companies.`,
+                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address (number + street name), working phone number with area code, actual website URL, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot find a phone number, address, or website for a business, DO NOT include that business at all. CRITICAL: Every business MUST have a working website URL, a real phone number, AND a complete street address — skip any business missing these three.`,
               },
               {
                 role: "user",
@@ -802,7 +802,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
                           price_range: { type: "string", description: "One of: $, $$, $$$, $$$$" },
                           confidence: { type: "number", description: "0-1 confidence this is a real business" },
                         },
-                        required: ["name", "description", "category", "address", "city", "state", "website"],
+                        required: ["name", "description", "category", "address", "city", "state", "zip_code", "phone", "website"],
                       },
                     },
                   },
@@ -865,6 +865,8 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     // Filter basics first, then batch dedup
     let skippedLowConfidence = 0;
     let skippedNoWebsite = 0;
+    let skippedNoPhone = 0;
+    let skippedNoAddress = 0;
     const viableCandidates: typeof allCandidates = [];
 
     for (const candidate of allCandidates) {
@@ -880,6 +882,20 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       const websiteUrl = biz.website && biz.website.match(/^https?:\/\/|^www\./) ? biz.website.trim() : null;
       if (!websiteUrl) {
         skippedNoWebsite++;
+        continue;
+      }
+
+      // Require phone number
+      const phone = biz.phone?.trim();
+      if (!phone || phone.length < 7) {
+        skippedNoPhone++;
+        continue;
+      }
+
+      // Require street address
+      const address = biz.address?.trim();
+      if (!address || address.length < 5) {
+        skippedNoAddress++;
         continue;
       }
 
@@ -1024,7 +1040,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     const reportData = {
       report_type: "auto_discover",
       status: "completed",
-      summary: `Expanded discovery: ${NUM_SEARCHES} queries across ${uniqueCategories.length} unique categories. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}. Duration: ${durationMs}ms.`,
+      summary: `Expanded discovery: ${NUM_SEARCHES} queries across ${uniqueCategories.length} unique categories. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}, No phone: ${skippedNoPhone}, No address: ${skippedNoAddress}. Duration: ${durationMs}ms.`,
       details: {
         searches: searchCombosSummary,
         num_searches: NUM_SEARCHES,
@@ -1037,6 +1053,8 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         skipped_duplicates: skippedDuplicates,
         skipped_low_confidence: skippedLowConfidence,
         skipped_no_website: skippedNoWebsite,
+        skipped_no_phone: skippedNoPhone,
+        skipped_no_address: skippedNoAddress,
         skipped_no_images: skippedNoImages,
         inserted_names: insertedNames,
         enrichment: enrichmentDetails,
