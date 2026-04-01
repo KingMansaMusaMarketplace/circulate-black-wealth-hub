@@ -1,0 +1,1 @@
+UPDATE corporate_subscriptions SET website_url = NULL WHERE id IN ('dc05776a-0e60-4cd1-b0aa-fe6e7085e7cd', 'a9bd5592-c23e-46fb-ba18-c95cea48a53e', 'ef301367-d71e-4400-ad15-36657dedc355');
