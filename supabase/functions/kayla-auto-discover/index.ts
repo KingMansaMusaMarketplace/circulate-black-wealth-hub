@@ -865,6 +865,8 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     // Filter basics first, then batch dedup
     let skippedLowConfidence = 0;
     let skippedNoWebsite = 0;
+    let skippedNoPhone = 0;
+    let skippedNoAddress = 0;
     const viableCandidates: typeof allCandidates = [];
 
     for (const candidate of allCandidates) {
@@ -880,6 +882,20 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       const websiteUrl = biz.website && biz.website.match(/^https?:\/\/|^www\./) ? biz.website.trim() : null;
       if (!websiteUrl) {
         skippedNoWebsite++;
+        continue;
+      }
+
+      // Require phone number
+      const phone = biz.phone?.trim();
+      if (!phone || phone.length < 7) {
+        skippedNoPhone++;
+        continue;
+      }
+
+      // Require street address
+      const address = biz.address?.trim();
+      if (!address || address.length < 5) {
+        skippedNoAddress++;
         continue;
       }
 
