@@ -282,6 +282,82 @@ async function checkAndFixDataIntegrity(supabase: ReturnType<typeof createClient
           details: "Consider running the full Kayla data audit for batch remediation",
         });
       }
+
+      // 6. BACKFILL: Enrich businesses missing addresses by scraping contact/about pages
+      const firecrawlKey = Deno.env.get("FIRECRAWL_API_KEY");
+      const mapboxToken = Deno.env.get("MAPBOX_PUBLIC_TOKEN");
+      if (firecrawlKey) {
+        const { data: bizMissingAddr } = await supabase
+          .from("businesses")
+          .select("id, name, business_name, website, address, phone, city, state, zip_code")
+          .eq("is_verified", true)
+          .not("website", "is", null)
+          .or("address.is.null,address.eq.,address.ilike.%not provided%,address.ilike.%not available%")
+          .limit(30);
+
+        if (bizMissingAddr && bizMissingAddr.length > 0) {
+          let addressesFixed = 0;
+          let phonesFixed = 0;
+
+          for (const biz of bizMissingAddr) {
+            const bizName = biz.business_name || biz.name || "Unknown";
+            const websiteUrl = biz.website?.trim();
+            if (!websiteUrl || !websiteUrl.startsWith("http")) continue;
+
+            try {
+              const contactInfo = await scrapeContactFromPages(websiteUrl, firecrawlKey);
+              const updates: Record<string, any> = {};
+
+              if (contactInfo.address && contactInfo.address.length >= 10) {
+                updates.address = contactInfo.address;
+                addressesFixed++;
+              }
+              if (contactInfo.phone && contactInfo.phone.length >= 7 && (!biz.phone || biz.phone.length < 7)) {
+                updates.phone = contactInfo.phone;
+                phonesFixed++;
+              }
+              if (contactInfo.zip_code && (!biz.zip_code || biz.zip_code === "")) {
+                updates.zip_code = contactInfo.zip_code;
+              }
+
+              // Re-geocode if we found a new address
+              if (updates.address && mapboxToken) {
+                const geocodeResult = await geocodeForHealthCheck(
+                  updates.address, biz.city, biz.state, updates.zip_code || biz.zip_code || "", mapboxToken
+                );
+                if (geocodeResult.latitude !== null) {
+                  updates.latitude = geocodeResult.latitude;
+                  updates.longitude = geocodeResult.longitude;
+                }
+              }
+
+              if (Object.keys(updates).length > 0) {
+                updates.updated_at = new Date().toISOString();
+                const { error } = await supabase.from("businesses").update(updates).eq("id", biz.id);
+                if (!error) {
+                  fixedCount++;
+                  remediations.push({
+                    issue: `Missing address for "${bizName}"`,
+                    action: "Enriched from website contact/about page",
+                    result: "fixed",
+                    details: `${updates.address ? `Address: ${updates.address}` : ""}${updates.phone ? ` Phone: ${updates.phone}` : ""}`,
+                  });
+                  console.log(`[HealthCheck] 📍 Enriched "${bizName}": ${JSON.stringify(updates)}`);
+                }
+              }
+            } catch (err) {
+              console.log(`[HealthCheck] Scrape failed for "${bizName}": ${err instanceof Error ? err.message : "unknown"}`);
+            }
+
+            // Brief pause between scrapes to be polite to Firecrawl
+            await new Promise(r => setTimeout(r, 500));
+          }
+
+          if (addressesFixed > 0 || phonesFixed > 0) {
+            console.log(`[HealthCheck] 🔍 Address backfill: ${addressesFixed} addresses, ${phonesFixed} phones enriched`);
+          }
+        }
+      }
     }
 
     const totalIssues = remediations.length;
