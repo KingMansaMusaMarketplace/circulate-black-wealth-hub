@@ -604,8 +604,8 @@ function App() {
                               {/* L */}
                               <Route path="/learning-hub" element={<LazyLearningHubPage />} />
                               <Route path="/login" element={<LazyLoginPage />} />
-                              <Route path="/loyalty" element={<LazyRewardsPage />} />
                               <Route path="/loyalty" element={<LazyLoyaltyPage />} />
+                              <Route path="/rewards" element={<LazyRewardsPage />} />
                               <Route path="/loyalty-program-guide" element={<LazyLoyaltyProgramGuidePage />} />
                               
                               {/* M */}
