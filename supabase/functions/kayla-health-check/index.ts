@@ -462,6 +462,81 @@ async function checkSignupHealth(supabase: ReturnType<typeof createClient>): Pro
 }
 
 // ══════════════════════════════════════════════
+// ADDRESS ENRICHMENT HELPERS (for backfill)
+// ══════════════════════════════════════════════
+
+const CONTACT_PATHS = ["/contact", "/contact-us", "/about", "/about-us", "/location", "/locations"];
+const ADDR_RE = /(\d{1,5}\s+[A-Za-z0-9\s.,#-]+(?:St|Street|Ave|Avenue|Blvd|Boulevard|Rd|Road|Dr|Drive|Ln|Lane|Way|Ct|Court|Pl|Place|Pkwy|Parkway|Cir|Circle|Hwy|Highway|Ter|Terrace)[.,]?\s*(?:[A-Za-z\s]+,\s*[A-Z]{2}\s*\d{5}(?:-\d{4})?))/gi;
+const PHONE_RE = /(?:\+?1[-.\s]?)?\(?([2-9]\d{2})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})/g;
+const ZIP_RE = /\b(\d{5})(?:-\d{4})?\b/g;
+
+function extractContact(md: string): { address: string | null; phone: string | null; zip_code: string | null } {
+  const r = { address: null as string | null, phone: null as string | null, zip_code: null as string | null };
+  if (!md) return r;
+
+  const addrMatches = md.match(ADDR_RE);
+  if (addrMatches) r.address = addrMatches.sort((a, b) => b.length - a.length)[0].trim();
+
+  // Phone near keywords first
+  for (const line of md.split("\n")) {
+    const lo = line.toLowerCase();
+    if (lo.includes("phone") || lo.includes("call") || lo.includes("tel:") || lo.includes("contact")) {
+      const pm = line.match(PHONE_RE);
+      if (pm) { r.phone = pm[0].trim(); break; }
+    }
+  }
+  if (!r.phone) { const ap = md.match(PHONE_RE); if (ap) r.phone = ap[0].trim(); }
+
+  if (r.address) { const zm = r.address.match(ZIP_RE); if (zm) r.zip_code = zm[0]; }
+  if (!r.zip_code) { const az = md.match(ZIP_RE); if (az) r.zip_code = az[0]; }
+
+  return r;
+}
+
+async function scrapeContactFromPages(websiteUrl: string, firecrawlKey: string): Promise<{ address: string | null; phone: string | null; zip_code: string | null }> {
+  const combined = { address: null as string | null, phone: null as string | null, zip_code: null as string | null };
+  let baseUrl = websiteUrl.replace(/\/+$/, "");
+  if (!baseUrl.startsWith("http")) baseUrl = `https://${baseUrl}`;
+
+  for (const path of CONTACT_PATHS) {
+    if (combined.address && combined.phone) break;
+    try {
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 6000);
+      const res = await fetch("https://api.firecrawl.dev/v1/scrape", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${firecrawlKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ url: `${baseUrl}${path}`, formats: ["markdown"], onlyMainContent: true, timeout: 5000 }),
+        signal: ctrl.signal,
+      });
+      clearTimeout(tid);
+      if (!res.ok) continue;
+      const d = await res.json();
+      const md = d?.data?.markdown || "";
+      if (md.length < 50) continue;
+      const ex = extractContact(md);
+      if (ex.address && !combined.address) combined.address = ex.address;
+      if (ex.phone && !combined.phone) combined.phone = ex.phone;
+      if (ex.zip_code && !combined.zip_code) combined.zip_code = ex.zip_code;
+    } catch { continue; }
+  }
+  return combined;
+}
+
+async function geocodeForHealthCheck(address: string, city: string, state: string, zip: string, mapboxToken: string): Promise<{ latitude: number | null; longitude: number | null }> {
+  try {
+    const full = [address, city, state, zip].filter(Boolean).join(", ");
+    if (full.length < 5) return { latitude: null, longitude: null };
+    const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(full)}.json?access_token=${mapboxToken}&limit=1&country=us`);
+    if (!res.ok) return { latitude: null, longitude: null };
+    const d = await res.json();
+    const f = d?.features?.[0];
+    if (f?.center) return { latitude: f.center[1], longitude: f.center[0] };
+  } catch {}
+  return { latitude: null, longitude: null };
+}
+
+// ══════════════════════════════════════════════
 // MAIN HANDLER
 // ══════════════════════════════════════════════
 
