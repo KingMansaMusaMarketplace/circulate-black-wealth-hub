@@ -1137,17 +1137,37 @@ Only include businesses you are highly confident (0.7+) are real and currently o
               : Promise.resolve({ latitude: null, longitude: null }),
           ]);
 
-          return { biz, targetCity, catFocus, websiteUrl, images, coords };
-        })
-      );
+      const addressLooksWeak = !address || address.length < 10 || 
+        address.toLowerCase().includes("not provided") || 
+        address.toLowerCase().includes("not available") ||
+        !phone || phone.length < 7;
 
-      for (const result of enrichmentResults) {
-        if (result.status === "rejected") {
-          console.log(`[Kayla Auto-Discover] Enrichment failed: ${result.reason}`);
-          continue;
+      // If address or phone looks weak, try scraping contact/about pages
+      let enrichedAddress = address;
+      let enrichedPhone = phone;
+      let enrichedZip = biz.zip_code || "";
+      let contactScraped = false;
+
+      if (addressLooksWeak && firecrawlKey) {
+        const contactInfo = await scrapeContactPages(websiteUrl, firecrawlKey);
+        contactScraped = true;
+
+        if (contactInfo.address && (!enrichedAddress || enrichedAddress.length < 10 ||
+            enrichedAddress.toLowerCase().includes("not provided"))) {
+          enrichedAddress = contactInfo.address;
+          console.log(`[Kayla Auto-Discover] 📍 Enriched address for "${biz.name}" from contact page: ${enrichedAddress}`);
         }
+        if (contactInfo.phone && (!enrichedPhone || enrichedPhone.length < 7)) {
+          enrichedPhone = contactInfo.phone;
+          console.log(`[Kayla Auto-Discover] 📞 Enriched phone for "${biz.name}" from contact page: ${enrichedPhone}`);
+        }
+        if (contactInfo.zip_code && !enrichedZip) {
+          enrichedZip = contactInfo.zip_code;
+        }
+      }
 
-        const { biz, targetCity, catFocus, websiteUrl, images, coords } = result.value;
+      return { biz, targetCity, catFocus, websiteUrl, images, coords, 
+               enrichedAddress, enrichedPhone, enrichedZip, contactScraped };
 
         // Tiered image fallback
         let finalLogoUrl = images.logo_url;
