@@ -19,6 +19,8 @@ interface PremiumBusinessCardProps {
   discount: string;
   distance?: string;
   address?: string;
+  city?: string;
+  state?: string;
   phone?: string;
   imageUrl?: string;
   imageAlt?: string;
@@ -37,6 +39,8 @@ const PremiumBusinessCard = ({
   discount, 
   distance, 
   address,
+  city,
+  state,
   phone,
   imageUrl,
   imageAlt,
@@ -164,7 +168,9 @@ const PremiumBusinessCard = ({
             {address && (
               <div className="flex items-center text-base text-gray-300 mb-2 group-hover:text-gray-200 transition-colors">
                 <MapPin className="h-4 w-4 mr-1.5 flex-shrink-0 text-mansagold/70" />
-                <span className="truncate">{address}</span>
+                <span className="truncate">
+                  {address}{city || state ? `, ${[city, state].filter(Boolean).join(', ')}` : ''}
+                </span>
               </div>
             )}
             
