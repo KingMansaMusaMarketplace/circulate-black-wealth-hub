@@ -630,6 +630,8 @@ function App() {
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                               <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                               {/* /payment-test, /qr-test removed */}
+                              <Route path="/qr-code-generator" element={<LazyQRCodeGeneratorPage />} />
+                              <Route path="/qr-code-management" element={<LazyQRCodeGeneratorPage />} />
                               <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
                               <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
                               <Route path="/profile" element={<LazyProfilePage />} />
