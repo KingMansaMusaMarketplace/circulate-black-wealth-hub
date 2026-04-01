@@ -730,20 +730,64 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Pick unique city/category combos
+    // === SMART COMBO SELECTION: Track previously searched combos ===
+    // Fetch recently searched combos from reports to avoid repetition
+    const { data: recentReports } = await supabase
+      .from("kayla_agent_reports")
+      .select("details")
+      .eq("report_type", "auto_discover")
+      .order("created_at", { ascending: false })
+      .limit(20);
+
+    const recentSearches = new Set<string>();
+    for (const report of recentReports || []) {
+      const searches = (report.details as any)?.searches || "";
+      for (const s of searches.split("; ")) {
+        recentSearches.add(s.trim().toLowerCase());
+      }
+    }
+
+    // Weight US major cities higher (they yield more results)
+    const US_MAJOR_CITIES = new Set([
+      "Atlanta", "Houston", "Dallas", "Chicago", "New York", "Los Angeles", "Philadelphia",
+      "Detroit", "Memphis", "Baltimore", "Washington", "Miami", "Charlotte", "New Orleans",
+      "Birmingham", "Jacksonville", "Nashville", "Oakland", "San Antonio", "Cleveland",
+      "St. Louis", "Indianapolis", "Columbus", "Milwaukee", "Richmond", "Tampa",
+      "Durham", "Raleigh", "Brooklyn", "Harlem", "Bronx", "Fort Worth", "Austin",
+      "Denver", "Seattle", "Boston", "Newark", "Kansas City", "Louisville",
+      "Savannah", "Columbia", "Greensboro", "Norfolk", "Hampton", "Baton Rouge",
+    ]);
+
+    // Build weighted city pool: US majors 5x, other US 2x, international 1x
+    const weightedCities: typeof TARGET_CITIES = [];
+    for (const city of TARGET_CITIES) {
+      const isUSMajor = US_MAJOR_CITIES.has(city.city);
+      const isIntl = isGhana(city.state) || isCaribbean(city.state) || isUK(city.state) || isMexican(city.state) || isCanadian(city.state);
+      const weight = isUSMajor ? 5 : isIntl ? 1 : 2;
+      for (let w = 0; w < weight; w++) weightedCities.push(city);
+    }
+
+    // Pick unique combos, preferring those NOT recently searched
     const searchCombos: { city: typeof TARGET_CITIES[0]; category: string; queryPattern: number }[] = [];
     const usedCombos = new Set<string>();
+    let attempts = 0;
 
-    while (searchCombos.length < NUM_SEARCHES) {
-      const city = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
+    while (searchCombos.length < NUM_SEARCHES && attempts < NUM_SEARCHES * 10) {
+      attempts++;
+      const city = weightedCities[Math.floor(Math.random() * weightedCities.length)];
       const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
       const key = `${city.city}-${category}`;
-      if (!usedCombos.has(key)) {
-        usedCombos.add(key);
-        // Rotate through query patterns for variety
-        const queryPattern = Math.floor(Math.random() * QUERY_PATTERNS.length);
-        searchCombos.push({ city, category, queryPattern });
+      if (usedCombos.has(key)) continue;
+      usedCombos.add(key);
+
+      // Prefer combos not recently searched (but still allow them if we run out)
+      const label = `${category} in ${city.city}, ${city.state}`.toLowerCase();
+      if (recentSearches.has(label) && searchCombos.length < NUM_SEARCHES * 0.8 && attempts < NUM_SEARCHES * 6) {
+        continue; // Skip recently searched, but allow if we're struggling to fill slots
       }
+
+      const queryPattern = Math.floor(Math.random() * QUERY_PATTERNS.length);
+      searchCombos.push({ city, category, queryPattern });
     }
 
     console.log(`[Kayla Auto-Discover] Running ${NUM_SEARCHES} parallel searches (requesting ${PER_QUERY_LIMIT} per query)`);
