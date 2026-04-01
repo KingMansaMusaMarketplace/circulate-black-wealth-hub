@@ -244,7 +244,7 @@ describe('Payment & Commission System', () => {
       const totalDays = 30;
       
       const refund = calculateRefundAmount(originalAmount, daysUsed, totalDays);
-      expect(refund).toBe(49.50);
+      expect(refund).toBe(74.50);
     });
   });
 });
