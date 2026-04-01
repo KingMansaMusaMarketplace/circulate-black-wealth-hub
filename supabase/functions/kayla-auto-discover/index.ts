@@ -753,7 +753,7 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address, working phone number, actual website URL, business hours, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot verify a detail, omit that field rather than guessing. CRITICAL: Every business MUST have a working website URL — do not include businesses without websites. Look for businesses of ALL sizes — from solo entrepreneurs to large companies.`,
+                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address (number + street name), working phone number with area code, actual website URL, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot find a phone number, address, or website for a business, DO NOT include that business at all. CRITICAL: Every business MUST have a working website URL, a real phone number, AND a complete street address — skip any business missing these three.`,
               },
               {
                 role: "user",
