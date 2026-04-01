@@ -157,6 +157,8 @@ const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPa
 const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
 const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
+const LazyQRCodeGeneratorPage = lazy(() => import('@/pages/QRCodeGeneratorPage'));
+const LazyQRCodeManagementPage = lazy(() => import('@/pages/QRCodeManagementPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
 
 // Unified Test Dashboard (consolidates all test pages)
@@ -628,6 +630,8 @@ function App() {
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                               <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                               {/* /payment-test, /qr-test removed */}
+                              <Route path="/qr-code-generator" element={<LazyQRCodeGeneratorPage />} />
+                              <Route path="/qr-code-management" element={<LazyQRCodeGeneratorPage />} />
                               <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
                               <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
                               <Route path="/profile" element={<LazyProfilePage />} />
@@ -920,6 +924,8 @@ function App() {
                         
                         {/* Q */}
                         {/* /qr-test removed */}
+                        <Route path="/qr-code-generator" element={<LazyQRCodeGeneratorPage />} />
+                        <Route path="/qr-code-management" element={<LazyQRCodeGeneratorPage />} />
                         
                         {/* R */}
                         <Route path="/recommendations" element={<LazyRecommendationsPage />} />
