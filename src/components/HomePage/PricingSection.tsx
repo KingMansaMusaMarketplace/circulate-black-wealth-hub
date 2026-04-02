@@ -204,7 +204,7 @@ const PricingSection = () => {
 
         <ScrollReveal delay={0.5}>
           <p className="text-center text-white/80 text-sm mt-8">
-            All plans include a 14-day free trial. No credit card required to start.
+            All plans include a 14-day free trial. A valid credit card is required to start.
             <br />
             Pro & Enterprise include a one-time $149 onboarding fee.
           </p>
