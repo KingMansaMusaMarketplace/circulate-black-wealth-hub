@@ -67,7 +67,7 @@ const PricingSection = () => {
   ];
 
   return (
-    <section className="-mt-12 pb-2 relative z-10">
+    <section className="-mt-24 pb-2 relative z-10">
       <div className="max-w-7xl mx-auto px-4">
         <ScrollReveal>
           <div className="text-center mb-8">
