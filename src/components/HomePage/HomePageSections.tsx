@@ -7,6 +7,7 @@ const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'))
 const CTASection = lazy(() => import('@/components/CTASection'));
 
 const MissionPreview = lazy(() => import('./MissionPreview'));
+const PricingSection = lazy(() => import('./PricingSection'));
 const ThreePillars = lazy(() => import('./ThreePillars'));
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
@@ -47,6 +48,13 @@ const HomePageSections: React.FC = () => {
       <SectionErrorBoundary sectionName="Mission Preview">
         <Suspense fallback={<SectionSkeleton height="h-24" />}>
           <MissionPreview />
+        </Suspense>
+      </SectionErrorBoundary>
+
+      {/* Pricing Tiers */}
+      <SectionErrorBoundary sectionName="Pricing">
+        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <PricingSection />
         </Suspense>
       </SectionErrorBoundary>
 
