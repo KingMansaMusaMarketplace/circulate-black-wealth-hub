@@ -146,7 +146,10 @@ const BusinessDetailPage = () => {
       }
     } catch (error: any) {
       console.error('Error loading business:', error);
-      setError(error.message || 'Failed to load business details');
+      const isTimeout = error?.name === 'AbortError' || error?.message?.includes('abort');
+      setError(isTimeout 
+        ? 'Connection timed out. Please check your internet and try again.' 
+        : (error.message || 'Failed to load business details'));
     } finally {
       setLoading(false);
     }
