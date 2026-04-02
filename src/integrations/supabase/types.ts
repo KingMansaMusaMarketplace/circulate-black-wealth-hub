@@ -19229,12 +19229,10 @@ export type Database = {
           is_active: boolean | null
           is_approved: boolean | null
           is_online: boolean | null
-          license_plate: string | null
           profile_photo_url: string | null
           rating_average: number | null
           total_rides: number | null
           updated_at: string | null
-          user_id: string | null
           vehicle_color: string | null
           vehicle_make: string | null
           vehicle_model: string | null
@@ -19250,12 +19248,10 @@ export type Database = {
           is_active?: boolean | null
           is_approved?: boolean | null
           is_online?: boolean | null
-          license_plate?: string | null
           profile_photo_url?: string | null
           rating_average?: number | null
           total_rides?: number | null
           updated_at?: string | null
-          user_id?: string | null
           vehicle_color?: string | null
           vehicle_make?: string | null
           vehicle_model?: string | null
@@ -19271,12 +19267,10 @@ export type Database = {
           is_active?: boolean | null
           is_approved?: boolean | null
           is_online?: boolean | null
-          license_plate?: string | null
           profile_photo_url?: string | null
           rating_average?: number | null
           total_rides?: number | null
           updated_at?: string | null
-          user_id?: string | null
           vehicle_color?: string | null
           vehicle_make?: string | null
           vehicle_model?: string | null
@@ -19337,19 +19331,16 @@ export type Database = {
           current_tier: string | null
           rank: number | null
           total_referrals: number | null
-          user_id: string | null
         }
         Insert: {
           current_tier?: string | null
           rank?: number | null
           total_referrals?: number | null
-          user_id?: string | null
         }
         Update: {
           current_tier?: string | null
           rank?: number | null
           total_referrals?: number | null
-          user_id?: string | null
         }
         Relationships: []
       }
