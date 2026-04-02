@@ -151,9 +151,7 @@ const PricingSection = () => {
                   <div className="mb-6">
                     <div className="flex items-baseline gap-1">
                       <span className="text-4xl font-bold text-white">
-                        ${isAnnual && tier.annualPrice
-                          ? Math.round(tier.annualPrice / 12)
-                          : tier.monthlyPrice}
+                        ${tier.monthlyPrice}
                       </span>
                       <span className="text-white/50">/mo</span>
                     </div>
