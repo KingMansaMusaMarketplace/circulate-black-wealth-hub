@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '1290 Valentine Lane', city = 'Greer', state = 'South Carolina', zip_code = '29651', updated_at = now() WHERE id = 'f1a9c94f-64d1-4620-ae79-c0229b894f46';
