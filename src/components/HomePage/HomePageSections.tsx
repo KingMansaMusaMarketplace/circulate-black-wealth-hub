@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
+import LazySection from './LazySection';
 
 // Lazy load all non-critical sections
 const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
@@ -44,69 +45,64 @@ const BusinessSkeleton = () => (
 const HomePageSections: React.FC = () => {
   return (
     <>
-      {/* Mission Preview */}
+      {/* Mission Preview — near fold, load eagerly */}
       <SectionErrorBoundary sectionName="Mission Preview">
         <Suspense fallback={<SectionSkeleton height="h-24" />}>
           <MissionPreview />
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* Pricing Tiers */}
+      {/* Pricing Tiers — near fold, load eagerly */}
       <SectionErrorBoundary sectionName="Pricing">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
           <PricingSection />
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* Featured Businesses */}
+      {/* Below-fold sections: deferred until near viewport */}
+
       <SectionErrorBoundary sectionName="Featured Businesses">
-        <Suspense fallback={<BusinessSkeleton />}>
+        <LazySection fallback={<BusinessSkeleton />} minHeight="min-h-[200px]">
           <FeaturedBusinesses limit={3} />
-        </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* Three Pillars */}
       <SectionErrorBoundary sectionName="Three Pillars">
-        <Suspense fallback={<SectionSkeleton />}>
+        <LazySection fallback={<SectionSkeleton />} minHeight="min-h-[150px]">
           <ThreePillars />
-        </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* Meet Kayla Showcase */}
       <SectionErrorBoundary sectionName="Meet Kayla">
-        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
           <MeetKaylaSection />
-        </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* CTA Section */}
       <SectionErrorBoundary sectionName="Call to Action">
-        <Suspense fallback={<SectionSkeleton height="h-32" />}>
+        <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
           <section id="cta-section">
             <CTASection />
           </section>
-        </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* Vacation Rentals CTA - Mansa Stays promotion */}
       <SectionErrorBoundary sectionName="Vacation Rentals CTA">
-        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
           <VacationRentalsCTA />
-        </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* Noir Ride CTA */}
       <SectionErrorBoundary sectionName="Noir Ride CTA">
-        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
           <NoirRideCTA />
-        </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* Circulation Gap - After CTA */}
       <SectionErrorBoundary sectionName="Circulation Gap">
-        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
           <CirculationGap />
-        </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
     </>
   );
