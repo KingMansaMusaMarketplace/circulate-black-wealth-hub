@@ -33,7 +33,7 @@ const getCorsHeaders = (req: Request): Record<string, string> => {
 
 // Input validation schema
 const checkoutRequestSchema = z.object({
-  userType: z.enum(['business', 'corporate']),
+  userType: z.enum(['customer', 'business', 'corporate']),
   email: z.string().email().max(255),
   name: z.string().max(100).optional().default(''),
   businessName: z.string().max(200).optional().default(''),
