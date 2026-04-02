@@ -747,8 +747,8 @@ async function scrapeContactPages(websiteUrl: string, firecrawlKey: string): Pro
           body: JSON.stringify({
             url: pageUrl,
             formats: ["markdown"],
-            onlyMainContent: true,
-            timeout: 5000,
+             onlyMainContent: true,
+             timeout: 3500,
           }),
           signal: controller.signal,
         });
