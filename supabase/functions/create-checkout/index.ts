@@ -151,8 +151,21 @@ serve(async (req) => {
 
     // Set price based on user type and tier
     let priceId;
-    
-    if (userType === 'corporate' && tier) {
+
+    // Kayla AI tier price IDs (hardcoded for reliability)
+    const KAYLA_PRICE_IDS: Record<string, string> = {
+      'kayla_starter': 'price_1TGzeOAsptTW1mCmJCGRE0mL',
+      'kayla_starter_annual': 'price_1TGzg6AsptTW1mCmbkF4gffD',
+      'kayla_pro': 'price_1TGzewAsptTW1mCmYKjYk0Fn',
+      'kayla_pro_annual': 'price_1TGzgRAsptTW1mCmloHSfeKB',
+      'kayla_enterprise': 'price_1TGzfdAsptTW1mCms0S1EJ4d',
+    };
+
+    // Check Kayla AI tiers first (works for both customer and business userTypes)
+    if (tier && KAYLA_PRICE_IDS[tier]) {
+      priceId = KAYLA_PRICE_IDS[tier];
+      logStep(`Using Kayla AI tier price: ${tier}`, { priceId });
+    } else if (userType === 'corporate' && tier) {
       // Set price based on corporate sponsorship tier
       switch(tier) {
         case 'corporate_bronze':
@@ -169,8 +182,8 @@ serve(async (req) => {
           priceId = Deno.env.get("STRIPE_CORPORATE_BRONZE_PRICE_ID");
           logStep("Using default Corporate Bronze tier price", { priceId });
       }
-    } else if (userType === 'business' && tier) {
-      // Business tier-based pricing
+    } else if ((userType === 'business' || userType === 'customer') && tier) {
+      // Business/customer tier-based pricing
       switch(tier) {
         case 'business_starter':
           priceId = Deno.env.get("STRIPE_BUSINESS_STARTER_MONTHLY_PRICE_ID");
@@ -182,11 +195,13 @@ serve(async (req) => {
           break;
         case 'business':
         case 'business_professional':
+        case 'business_pro':
           priceId = Deno.env.get("STRIPE_BUSINESS_PROFESSIONAL_MONTHLY_PRICE_ID");
           logStep("Using Business Professional monthly price", { priceId });
           break;
         case 'business_annual':
         case 'business_professional_annual':
+        case 'business_pro_annual':
           priceId = Deno.env.get("STRIPE_BUSINESS_PROFESSIONAL_ANNUAL_PRICE_ID");
           logStep("Using Business Professional annual price", { priceId });
           break;
@@ -202,14 +217,18 @@ serve(async (req) => {
           priceId = Deno.env.get("STRIPE_ENTERPRISE_MONTHLY_PRICE_ID");
           logStep("Using Enterprise monthly price", { priceId });
           break;
+        case 'premium':
+          // Legacy "premium" tier maps to Kayla Pro
+          priceId = KAYLA_PRICE_IDS['kayla_pro'];
+          logStep("Mapping legacy 'premium' to Kayla Pro", { priceId });
+          break;
         default:
-          priceId = Deno.env.get("STRIPE_BUSINESS_STARTER_MONTHLY_PRICE_ID");
-          logStep("Using default Business Starter price", { priceId });
+          logStep("Unknown tier, attempting env lookup", { tier });
+          priceId = Deno.env.get(`STRIPE_${tier.toUpperCase()}_PRICE_ID`);
       }
     } else {
-      // Customers don't pay - this shouldn't be called for customers
-      logStep("ERROR: Customer accounts are free, no checkout needed", { userType });
-      throw new Error('Customer accounts are free and do not require payment');
+      logStep("ERROR: No valid tier specified", { userType, tier });
+      throw new Error('A subscription tier must be specified');
     }
     
     if (!priceId) {
