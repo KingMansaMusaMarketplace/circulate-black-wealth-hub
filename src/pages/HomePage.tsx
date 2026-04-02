@@ -1,10 +1,11 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy } from 'react';
 import Hero from '@/components/Hero';
 import HomePageSections from '@/components/HomePage/HomePageSections';
+import LazySection from '@/components/HomePage/LazySection';
 
 import { SponsorBanner } from '@/components/sponsors';
-import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay';
+const PublicSponsorDisplay = lazy(() => import('@/components/sponsors/PublicSponsorDisplay').then(m => ({ default: m.PublicSponsorDisplay })));
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
 import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
