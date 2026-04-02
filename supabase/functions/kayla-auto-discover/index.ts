@@ -353,10 +353,10 @@ const QUERY_PATTERNS = [
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
 // === OPTIMIZATION: High-throughput settings ===
-const NUM_SEARCHES = 50;
+const NUM_SEARCHES = 75;
 const PER_QUERY_LIMIT = 15;
 const MIN_CONFIDENCE = 0.55;
-const SCRAPE_BATCH_SIZE = 20;
+const SCRAPE_BATCH_SIZE = 40;
 
 // === Category-specific stock banner pools ===
 const CATEGORY_BANNER_POOLS: Record<string, string[]> = {
