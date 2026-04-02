@@ -51,16 +51,6 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* Kayla CTA Button */}
-      <div className="flex justify-center py-8 relative z-20 bg-gradient-to-b from-[#030712] to-[#030712]">
-        <a
-          href="/business-signup"
-          className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-mansagold text-black font-bold text-base md:text-lg shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30 hover:scale-105 transition-all duration-300"
-        >
-          How Kayla Saves You Money
-        </a>
-      </div>
-
       {/* Pricing Tiers */}
       <SectionErrorBoundary sectionName="Pricing">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
