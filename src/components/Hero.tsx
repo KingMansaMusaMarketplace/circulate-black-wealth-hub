@@ -93,7 +93,7 @@ const Hero = () => {
 
           {/* Talk to Kayla CTA */}
           <motion.div
-            className="mt-6 flex flex-col items-center gap-3"
+            className="mt-12 flex flex-col items-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
@@ -128,9 +128,9 @@ const Hero = () => {
               </Button>
             )}
             {!isConnected && (
-               <div className="flex flex-col items-center gap-1">
-                <span className="text-lg md:text-xl font-playfair font-bold text-mansagold tracking-wide">Kayla</span>
-                <span className="text-4xl md:text-6xl font-bold text-mansagold tracking-tight font-playfair">Agentic AI Concierge</span>
+               <div className="flex flex-col items-center gap-1 mt-4 opacity-80">
+                <span className="text-sm md:text-base font-playfair font-bold text-mansagold/70 tracking-widest uppercase">Kayla</span>
+                <span className="text-2xl md:text-3xl font-semibold text-mansagold/80 tracking-tight font-playfair">Agentic AI Concierge</span>
                </div>
             )}
 
