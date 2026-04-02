@@ -185,7 +185,7 @@ const PricingSection = () => {
                   </ul>
 
                   <Button
-                    onClick={() => navigate(tier.name === 'Enterprise' ? '/sponsorship' : '/login')}
+                    onClick={() => navigate(tier.name === 'Enterprise' ? '/contact' : '/business-signup')}
                     className={`w-full group ${
                       tier.highlight
                         ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 hover:from-amber-500 hover:via-yellow-500 hover:to-orange-500 text-slate-900 font-semibold shadow-lg shadow-mansagold/25'
