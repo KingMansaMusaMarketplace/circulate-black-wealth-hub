@@ -328,11 +328,11 @@ const BusinessDetailPage = () => {
           {(() => {
             const bannerUrl = getBusinessBanner(business.id, business.banner_url);
             return bannerUrl ? (
-              <div className="h-64 md:h-80 overflow-hidden">
+              <div className="h-72 md:h-96 overflow-hidden">
                 <img 
                   src={bannerUrl} 
                   alt={business.business_name}
-                  className="w-full h-full object-cover object-[center_10%]"
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
             ) : (
