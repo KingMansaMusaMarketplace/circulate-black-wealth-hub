@@ -94,6 +94,7 @@ const BusinessDetailPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [isSampleBusiness, setIsSampleBusiness] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   const loadBusiness = async () => {
     if (!businessId) return;
