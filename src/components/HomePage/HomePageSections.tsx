@@ -54,7 +54,7 @@ const HomePageSections: React.FC = () => {
       {/* Kayla CTA Button */}
       <div className="flex justify-center py-6 bg-gradient-to-b from-[#030712] to-[#030712]">
         <a
-          href="/what-kayla-does"
+          href="/business-signup"
           className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-mansagold text-black font-semibold text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
         >
           How Kayla Saves You Money
