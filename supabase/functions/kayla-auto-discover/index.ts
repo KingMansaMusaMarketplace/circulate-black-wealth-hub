@@ -1132,33 +1132,32 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           const address = biz.address?.trim() || "";
           const phone = biz.phone?.trim() || "";
 
-          const [images, coords] = await Promise.all([
-            scrapeWebsiteImages(websiteUrl, firecrawlKey),
-            address && mapboxToken
-              ? geocodeAddress(address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken)
-              : Promise.resolve({ latitude: null, longitude: null }),
-          ]);
-
-          // Check if address or phone looks weak — if so, scrape contact/about pages
           const addressLooksWeak = !address || address.length < 10 ||
             address.toLowerCase().includes("not provided") ||
             address.toLowerCase().includes("not available");
           const phoneLooksWeak = !phone || phone.length < 7;
+          const needsContactScrape = (addressLooksWeak || phoneLooksWeak) && firecrawlKey;
+
+          // Run image scraping, geocoding, AND contact scraping ALL in parallel
+          const [images, coords, contactInfo] = await Promise.all([
+            scrapeWebsiteImages(websiteUrl, firecrawlKey),
+            address && mapboxToken
+              ? geocodeAddress(address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken)
+              : Promise.resolve({ latitude: null, longitude: null }),
+            needsContactScrape
+              ? scrapeContactPages(websiteUrl, firecrawlKey)
+              : Promise.resolve({ address: null, phone: null, zip_code: null } as ContactInfo),
+          ]);
 
           let enrichedAddress = address;
           let enrichedPhone = phone;
           let enrichedZip = biz.zip_code || "";
-          let contactScraped = false;
+          let contactScraped = !!needsContactScrape;
           let enrichedCoords = coords;
 
-          if ((addressLooksWeak || phoneLooksWeak) && firecrawlKey) {
-            const contactInfo = await scrapeContactPages(websiteUrl, firecrawlKey);
-            contactScraped = true;
-
+          if (contactScraped && contactInfo) {
             if (contactInfo.address && (addressLooksWeak || enrichedAddress.length < contactInfo.address.length)) {
               enrichedAddress = contactInfo.address;
-              console.log(`[Kayla Auto-Discover] 📍 Enriched address for "${biz.name}" from contact page: ${enrichedAddress}`);
-              
               // Re-geocode with the better address
               if (mapboxToken) {
                 enrichedCoords = await geocodeAddress(enrichedAddress, biz.city, biz.state || targetCity.state, enrichedZip, mapboxToken);
@@ -1166,7 +1165,6 @@ Only include businesses you are highly confident (0.7+) are real and currently o
             }
             if (contactInfo.phone && phoneLooksWeak) {
               enrichedPhone = contactInfo.phone;
-              console.log(`[Kayla Auto-Discover] 📞 Enriched phone for "${biz.name}" from contact page: ${enrichedPhone}`);
             }
             if (contactInfo.zip_code && !enrichedZip) {
               enrichedZip = contactInfo.zip_code;
@@ -1175,7 +1173,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
 
           // Still skip if no address AND no phone after enrichment
           if ((!enrichedAddress || enrichedAddress.length < 5) && (!enrichedPhone || enrichedPhone.length < 7)) {
-            return null; // Will be filtered out
+            return null;
           }
 
           return { biz, targetCity, catFocus, websiteUrl, images, coords: enrichedCoords,
