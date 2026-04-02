@@ -76,7 +76,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 bg-slate-900/95 backdrop-blur-xl border-white/10" align="end" forceMount>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
             <div className="flex items-center justify-start gap-2 p-2">
               <div className="flex flex-col space-y-1 leading-none">
                 <p className="font-medium text-white">{displayName}</p>
@@ -85,17 +85,17 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                 </p>
               </div>
             </div>
-            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuSeparator />
             
             {userType === 'business' ? (
-              <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+              <DropdownMenuItem asChild>
                 <Link to="/business-dashboard" className="flex items-center">
                   <LayoutDashboard className="mr-2 h-4 w-4" />
                   <span>Business Dashboard</span>
                 </Link>
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+              <DropdownMenuItem asChild>
                 <Link to="/dashboard" className="flex items-center">
                   <LayoutDashboard className="mr-2 h-4 w-4" />
                   <span>Dashboard</span>
@@ -103,14 +103,14 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               </DropdownMenuItem>
             )}
             
-            <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+            <DropdownMenuItem asChild>
               <Link to="/profile" className="flex items-center">
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </Link>
             </DropdownMenuItem>
             
-            <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+            <DropdownMenuItem asChild>
               <Link to="/settings" className="flex items-center">
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
@@ -125,9 +125,9 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               </Link>
             </DropdownMenuItem>
             
-            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuSeparator />
             
-            <DropdownMenuItem onClick={handleLogout} className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>

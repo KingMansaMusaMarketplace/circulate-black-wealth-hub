@@ -45,7 +45,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           {showLabel && <span>{currentLanguage.nativeName}</span>}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-[150px]">
+       <DropdownMenuContent align="end" className="min-w-[150px]">
         {availableLanguages.map((language) => (
           <DropdownMenuItem
             key={language.code}
