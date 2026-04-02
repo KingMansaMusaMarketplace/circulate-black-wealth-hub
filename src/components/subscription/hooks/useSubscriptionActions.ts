@@ -103,7 +103,8 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
 
       // Web: Use Stripe
       console.log('[SUBSCRIPTION] Using Stripe for web');
-      const userType = (tier === 'business_pro' || tier === 'business_pro_kayla' || tier === 'enterprise') ? 'business' : 'customer';
+      const isBusinessTier = tier === 'business_pro' || tier === 'business_pro_kayla' || tier === 'enterprise';
+      const userType = isBusinessTier ? 'business' : 'customer';
       
       const checkoutData = await subscriptionService.createCheckoutSession({
         userType,
