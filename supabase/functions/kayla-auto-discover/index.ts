@@ -662,7 +662,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
 }
 
 // === CONTACT INFO SCRAPING — Check About/Contact pages for address & phone ===
-const CONTACT_PAGE_PATHS = ["/contact", "/contact-us", "/about", "/about-us", "/location", "/locations"];
+const CONTACT_PAGE_PATHS = ["/contact", "/about"];
 
 // Regex patterns for extracting contact info from page content
 const ADDRESS_REGEX = /(\d{1,5}\s+[A-Za-z0-9\s.,#-]+(?:St|Street|Ave|Avenue|Blvd|Boulevard|Rd|Road|Dr|Drive|Ln|Lane|Way|Ct|Court|Pl|Place|Pkwy|Parkway|Cir|Circle|Hwy|Highway|Ter|Terrace)[.,]?\s*(?:[A-Za-z\s]+,\s*[A-Z]{2}\s*\d{5}(?:-\d{4})?))/gi;
