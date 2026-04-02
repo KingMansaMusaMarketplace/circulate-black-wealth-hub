@@ -215,7 +215,7 @@ const BusinessDetailPage = () => {
     loadBusiness();
     loadReviews();
     loadServices();
-  }, [businessId]);
+  }, [businessId, retryCount]);
 
   const renderStars = (rating: number, size: 'sm' | 'md' = 'sm') => {
     const starSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
