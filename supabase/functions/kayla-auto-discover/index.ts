@@ -736,7 +736,7 @@ async function scrapeContactPages(websiteUrl: string, firecrawlKey: string): Pro
       const pageUrl = `${baseUrl}${path}`;
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
 
         const response = await fetch("https://api.firecrawl.dev/v1/scrape", {
           method: "POST",
