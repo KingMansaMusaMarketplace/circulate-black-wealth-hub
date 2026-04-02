@@ -592,7 +592,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
         url,
         formats: ["markdown"],
         onlyMainContent: false,
-        timeout: 7000,
+        timeout: 4500,
       }),
       signal: controller.signal,
     });
