@@ -88,14 +88,14 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <DropdownMenuSeparator />
             
             {userType === 'business' ? (
-              <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+              <DropdownMenuItem asChild>
                 <Link to="/business-dashboard" className="flex items-center">
                   <LayoutDashboard className="mr-2 h-4 w-4" />
                   <span>Business Dashboard</span>
                 </Link>
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+              <DropdownMenuItem asChild>
                 <Link to="/dashboard" className="flex items-center">
                   <LayoutDashboard className="mr-2 h-4 w-4" />
                   <span>Dashboard</span>
@@ -103,14 +103,14 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               </DropdownMenuItem>
             )}
             
-            <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+            <DropdownMenuItem asChild>
               <Link to="/profile" className="flex items-center">
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </Link>
             </DropdownMenuItem>
             
-            <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+            <DropdownMenuItem asChild>
               <Link to="/settings" className="flex items-center">
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
@@ -125,9 +125,9 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               </Link>
             </DropdownMenuItem>
             
-            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuSeparator />
             
-            <DropdownMenuItem onClick={handleLogout} className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>
