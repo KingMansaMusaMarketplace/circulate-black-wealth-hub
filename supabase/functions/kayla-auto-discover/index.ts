@@ -353,10 +353,10 @@ const QUERY_PATTERNS = [
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
 // === OPTIMIZATION: High-throughput settings ===
-const NUM_SEARCHES = 50;
+const NUM_SEARCHES = 75;
 const PER_QUERY_LIMIT = 15;
 const MIN_CONFIDENCE = 0.55;
-const SCRAPE_BATCH_SIZE = 20;
+const SCRAPE_BATCH_SIZE = 40;
 
 // === Category-specific stock banner pools ===
 const CATEGORY_BANNER_POOLS: Record<string, string[]> = {
@@ -580,7 +580,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
     if (!url.startsWith("http")) url = `https://${url}`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     const response = await fetch("https://api.firecrawl.dev/v1/scrape", {
       method: "POST",
@@ -592,7 +592,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
         url,
         formats: ["markdown"],
         onlyMainContent: false,
-        timeout: 7000,
+        timeout: 4500,
       }),
       signal: controller.signal,
     });
@@ -662,7 +662,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
 }
 
 // === CONTACT INFO SCRAPING — Check About/Contact pages for address & phone ===
-const CONTACT_PAGE_PATHS = ["/contact", "/contact-us", "/about", "/about-us", "/location", "/locations"];
+const CONTACT_PAGE_PATHS = ["/contact", "/about"];
 
 // Regex patterns for extracting contact info from page content
 const ADDRESS_REGEX = /(\d{1,5}\s+[A-Za-z0-9\s.,#-]+(?:St|Street|Ave|Avenue|Blvd|Boulevard|Rd|Road|Dr|Drive|Ln|Lane|Way|Ct|Court|Pl|Place|Pkwy|Parkway|Cir|Circle|Hwy|Highway|Ter|Terrace)[.,]?\s*(?:[A-Za-z\s]+,\s*[A-Z]{2}\s*\d{5}(?:-\d{4})?))/gi;
@@ -736,7 +736,7 @@ async function scrapeContactPages(websiteUrl: string, firecrawlKey: string): Pro
       const pageUrl = `${baseUrl}${path}`;
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
 
         const response = await fetch("https://api.firecrawl.dev/v1/scrape", {
           method: "POST",
@@ -747,8 +747,8 @@ async function scrapeContactPages(websiteUrl: string, firecrawlKey: string): Pro
           body: JSON.stringify({
             url: pageUrl,
             formats: ["markdown"],
-            onlyMainContent: true,
-            timeout: 5000,
+             onlyMainContent: true,
+             timeout: 3500,
           }),
           signal: controller.signal,
         });
@@ -1132,33 +1132,32 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           const address = biz.address?.trim() || "";
           const phone = biz.phone?.trim() || "";
 
-          const [images, coords] = await Promise.all([
-            scrapeWebsiteImages(websiteUrl, firecrawlKey),
-            address && mapboxToken
-              ? geocodeAddress(address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken)
-              : Promise.resolve({ latitude: null, longitude: null }),
-          ]);
-
-          // Check if address or phone looks weak — if so, scrape contact/about pages
           const addressLooksWeak = !address || address.length < 10 ||
             address.toLowerCase().includes("not provided") ||
             address.toLowerCase().includes("not available");
           const phoneLooksWeak = !phone || phone.length < 7;
+          const needsContactScrape = (addressLooksWeak || phoneLooksWeak) && firecrawlKey;
+
+          // Run image scraping, geocoding, AND contact scraping ALL in parallel
+          const [images, coords, contactInfo] = await Promise.all([
+            scrapeWebsiteImages(websiteUrl, firecrawlKey),
+            address && mapboxToken
+              ? geocodeAddress(address, biz.city, biz.state || targetCity.state, biz.zip_code || "", mapboxToken)
+              : Promise.resolve({ latitude: null, longitude: null }),
+            needsContactScrape
+              ? scrapeContactPages(websiteUrl, firecrawlKey)
+              : Promise.resolve({ address: null, phone: null, zip_code: null } as ContactInfo),
+          ]);
 
           let enrichedAddress = address;
           let enrichedPhone = phone;
           let enrichedZip = biz.zip_code || "";
-          let contactScraped = false;
+          let contactScraped = !!needsContactScrape;
           let enrichedCoords = coords;
 
-          if ((addressLooksWeak || phoneLooksWeak) && firecrawlKey) {
-            const contactInfo = await scrapeContactPages(websiteUrl, firecrawlKey);
-            contactScraped = true;
-
+          if (contactScraped && contactInfo) {
             if (contactInfo.address && (addressLooksWeak || enrichedAddress.length < contactInfo.address.length)) {
               enrichedAddress = contactInfo.address;
-              console.log(`[Kayla Auto-Discover] 📍 Enriched address for "${biz.name}" from contact page: ${enrichedAddress}`);
-              
               // Re-geocode with the better address
               if (mapboxToken) {
                 enrichedCoords = await geocodeAddress(enrichedAddress, biz.city, biz.state || targetCity.state, enrichedZip, mapboxToken);
@@ -1166,7 +1165,6 @@ Only include businesses you are highly confident (0.7+) are real and currently o
             }
             if (contactInfo.phone && phoneLooksWeak) {
               enrichedPhone = contactInfo.phone;
-              console.log(`[Kayla Auto-Discover] 📞 Enriched phone for "${biz.name}" from contact page: ${enrichedPhone}`);
             }
             if (contactInfo.zip_code && !enrichedZip) {
               enrichedZip = contactInfo.zip_code;
@@ -1175,7 +1173,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
 
           // Still skip if no address AND no phone after enrichment
           if ((!enrichedAddress || enrichedAddress.length < 5) && (!enrichedPhone || enrichedPhone.length < 7)) {
-            return null; // Will be filtered out
+            return null;
           }
 
           return { biz, targetCity, catFocus, websiteUrl, images, coords: enrichedCoords,
