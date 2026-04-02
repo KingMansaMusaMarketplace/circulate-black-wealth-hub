@@ -51,6 +51,13 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
+      {/* Pricing Tiers */}
+      <SectionErrorBoundary sectionName="Pricing">
+        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <PricingSection />
+        </Suspense>
+      </SectionErrorBoundary>
+
       {/* Featured Businesses */}
       <SectionErrorBoundary sectionName="Featured Businesses">
         <Suspense fallback={<BusinessSkeleton />}>
