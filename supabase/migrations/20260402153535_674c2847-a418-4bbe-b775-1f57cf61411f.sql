@@ -1,0 +1,1 @@
+UPDATE public.businesses SET banner_url = '/assets/new-hope-nation-banner.jpg' WHERE id = 'f1a9c94f-64d1-4620-ae79-c0229b894f46';
