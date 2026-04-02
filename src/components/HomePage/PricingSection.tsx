@@ -206,6 +206,8 @@ const PricingSection = () => {
           <p className="text-center text-white/80 text-sm mt-8">
             All plans include a 14-day free trial. A valid credit card is required to start.
             <br />
+            Your card will be charged automatically after the 14-day trial ends unless you cancel.
+            <br />
             Pro & Enterprise include a one-time $149 onboarding fee.
           </p>
         </ScrollReveal>
