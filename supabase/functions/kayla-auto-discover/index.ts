@@ -580,7 +580,7 @@ async function scrapeWebsiteImages(websiteUrl: string, firecrawlKey: string): Pr
     if (!url.startsWith("http")) url = `https://${url}`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     const response = await fetch("https://api.firecrawl.dev/v1/scrape", {
       method: "POST",
