@@ -113,9 +113,11 @@ const HomePage = () => {
           <HomePageSections />
         </SectionErrorBoundary>
 
-        {/* Public Sponsor Display */}
+        {/* Public Sponsor Display — deferred until near viewport */}
         <SectionErrorBoundary sectionName="Sponsor Showcase">
-          <PublicSponsorDisplay />
+          <LazySection minHeight="min-h-[100px]">
+            <PublicSponsorDisplay />
+          </LazySection>
         </SectionErrorBoundary>
       </div>
       
