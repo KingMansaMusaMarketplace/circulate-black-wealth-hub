@@ -52,10 +52,10 @@ const HomePageSections: React.FC = () => {
       </SectionErrorBoundary>
 
       {/* Kayla CTA Button */}
-      <div className="flex justify-center py-6 bg-gradient-to-b from-[#030712] to-[#030712]">
+      <div className="flex justify-center py-8 relative z-20 bg-gradient-to-b from-[#030712] to-[#030712]">
         <a
           href="/business-signup"
-          className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-mansagold text-black font-semibold text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+          className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-mansagold text-black font-bold text-base md:text-lg shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30 hover:scale-105 transition-all duration-300"
         >
           How Kayla Saves You Money
         </a>
