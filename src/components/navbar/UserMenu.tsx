@@ -85,7 +85,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                 </p>
               </div>
             </div>
-            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuSeparator />
             
             {userType === 'business' ? (
               <DropdownMenuItem asChild className="text-white/80 hover:text-white focus:text-white hover:bg-white/10 focus:bg-white/10">
