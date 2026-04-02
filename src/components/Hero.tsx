@@ -93,7 +93,7 @@ const Hero = () => {
 
           {/* Talk to Kayla CTA */}
           <motion.div
-            className="mt-6 flex flex-col items-center gap-3"
+            className="mt-12 flex flex-col items-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
