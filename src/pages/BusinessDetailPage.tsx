@@ -279,13 +279,31 @@ const BusinessDetailPage = () => {
 
   if (error || !business) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex flex-col items-center justify-center relative overflow-hidden px-4">
         <BackgroundOrbs />
-        <Alert className="max-w-md bg-slate-900/40 backdrop-blur-xl border-white/10">
-          <AlertDescription className="text-white">
-            {error || 'Business not found'}
-          </AlertDescription>
-        </Alert>
+        <div className="relative z-10 text-center max-w-md space-y-6">
+          <div className="text-6xl">😔</div>
+          <h2 className="text-xl font-bold text-white">
+            {error?.includes('timed out') ? 'Connection Issue' : 'Business Not Found'}
+          </h2>
+          <p className="text-blue-200/70 text-sm">
+            {error || 'This business listing could not be loaded.'}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button 
+              onClick={() => setRetryCount(c => c + 1)} 
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold"
+            >
+              Try Again
+            </Button>
+            <Link to="/directory">
+              <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 w-full">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Directory
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
