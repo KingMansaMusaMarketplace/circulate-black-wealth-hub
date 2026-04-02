@@ -332,7 +332,7 @@ const BusinessDetailPage = () => {
                 <img 
                   src={bannerUrl} 
                   alt={business.business_name}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-[center_30%]"
                 />
               </div>
             ) : (
