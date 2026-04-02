@@ -239,9 +239,9 @@ serve(async (req) => {
 
     // Determine trial period based on subscription type
     const getTrialPeriod = () => {
-      // Business plans get 30-day trial
-      if (userType === 'business') {
-        return 30;
+      // Kayla AI and business plans get 14-day trial
+      if (tier && (tier.startsWith('kayla_') || userType === 'business' || userType === 'customer')) {
+        return 14;
       }
       // Corporate sponsorships get no trial
       return 0;
