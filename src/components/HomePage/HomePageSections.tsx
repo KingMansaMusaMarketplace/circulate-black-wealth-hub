@@ -7,6 +7,7 @@ const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'))
 const CTASection = lazy(() => import('@/components/CTASection'));
 
 const MissionPreview = lazy(() => import('./MissionPreview'));
+const PricingSection = lazy(() => import('./PricingSection'));
 const ThreePillars = lazy(() => import('./ThreePillars'));
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
