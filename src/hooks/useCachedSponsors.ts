@@ -22,7 +22,7 @@ export const useCachedSponsors = (tier?: string) => {
     queryKey: ['sponsors', { tier }],
     queryFn: async () => {
       let query = supabase
-        .from('corporate_subscriptions')
+        .from('corporate_subscriptions_public')
         .select('*')
         .eq('status', 'active')
         .eq('is_visible', true)
