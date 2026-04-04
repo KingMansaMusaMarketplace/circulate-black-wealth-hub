@@ -335,6 +335,7 @@ export default function WorkflowBuilderPage() {
           </TabsContent>
         </Tabs>
         )}
+      </div>
     </div>
   );
 }
