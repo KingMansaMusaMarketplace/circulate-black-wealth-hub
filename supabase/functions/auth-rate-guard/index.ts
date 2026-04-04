@@ -22,7 +22,11 @@ Deno.serve(async (req) => {
     return new Response('ok', { headers: corsHeaders });
   }
 
-  try {
+    // CSRF protection: reject state-changing requests without a valid token
+    const csrfBlock = csrfGuard(req);
+    if (csrfBlock) return csrfBlock;
+
+
     const { identifier, attempt_type = 'login', success = false } = await req.json();
 
     if (!identifier || typeof identifier !== 'string') {
