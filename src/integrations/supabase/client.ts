@@ -1,5 +1,5 @@
-
 import { createClient } from '@supabase/supabase-js';
+import { getCsrfToken, CSRF_HEADER_NAME } from '@/lib/security/csrf';
 
 // Use environment variables for Supabase configuration
 // This allows key rotation without code changes
