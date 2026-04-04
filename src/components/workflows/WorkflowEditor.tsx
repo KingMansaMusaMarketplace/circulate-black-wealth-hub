@@ -15,6 +15,7 @@ import {
 import { toast } from 'sonner';
 import {
   Workflow, WorkflowAction, WorkflowTriggerType, WorkflowActionType,
+  ConditionConfig,
   createWorkflow, updateWorkflow, addWorkflowAction, deleteWorkflowAction,
   TRIGGER_TYPE_LABELS, ACTION_TYPE_LABELS
 } from '@/lib/api/workflow-api';
