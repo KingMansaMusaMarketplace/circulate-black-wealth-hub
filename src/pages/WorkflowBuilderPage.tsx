@@ -303,6 +303,12 @@ export default function WorkflowBuilderPage() {
             )}
           </CardContent>
         </Card>
+          </TabsContent>
+
+          <TabsContent value="executions">
+            <WorkflowExecutionDashboard businessId={business.id} />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
