@@ -12065,6 +12065,7 @@ export type Database = {
           id: string
           max_attempts: number | null
           otp_code: string
+          otp_hash: string | null
           phone_number: string
           user_id: string
           verified_at: string | null
@@ -12077,6 +12078,7 @@ export type Database = {
           id?: string
           max_attempts?: number | null
           otp_code: string
+          otp_hash?: string | null
           phone_number: string
           user_id: string
           verified_at?: string | null
@@ -12089,6 +12091,7 @@ export type Database = {
           id?: string
           max_attempts?: number | null
           otp_code?: string
+          otp_hash?: string | null
           phone_number?: string
           user_id?: string
           verified_at?: string | null
