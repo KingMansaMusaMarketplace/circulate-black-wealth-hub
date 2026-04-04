@@ -9,7 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Zap, Plus, Play, Pause, Trash2, Settings, 
-  ChevronRight, Activity, Clock, CheckCircle, XCircle
+  ChevronRight, Activity, Clock, CheckCircle, XCircle, BookTemplate
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { 
@@ -18,6 +18,7 @@ import {
 } from '@/lib/api/workflow-api';
 import { WorkflowEditor } from '@/components/workflows/WorkflowEditor';
 import { WorkflowExecutionDashboard } from '@/components/workflows/WorkflowExecutionDashboard';
+import { WorkflowTemplates, type WorkflowTemplate } from '@/components/workflows/WorkflowTemplates';
 
 export default function WorkflowBuilderPage() {
   const { user } = useAuth();
