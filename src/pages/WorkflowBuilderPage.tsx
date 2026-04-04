@@ -124,12 +124,20 @@ export default function WorkflowBuilderPage() {
             </h1>
             <p className="text-blue-200 mt-1">Create automated actions triggered by customer events</p>
           </div>
-          <Button 
+           <Button 
             onClick={() => setIsCreating(true)}
             className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 font-semibold"
           >
             <Plus className="h-4 w-4 mr-2" />
             Create Workflow
+          </Button>
+          <Button 
+            variant="outline"
+            onClick={() => setShowTemplates(true)}
+            className="border-white/20 text-white hover:bg-white/10"
+          >
+            <BookTemplate className="h-4 w-4 mr-2" />
+            Templates
           </Button>
         </div>
 

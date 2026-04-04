@@ -344,34 +344,51 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
                 onCancel={() => setShowAddCondition(false)}
               />
             ) : (
-              <Card className="bg-white/5 border-white/10">
-                <CardHeader>
-                  <CardTitle className="text-white text-lg">Preview</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-xs text-blue-200/60 mb-1">When</p>
-                    <p className="text-sm text-white">{TRIGGER_TYPE_LABELS[triggerType]}</p>
-                  </div>
-                  
-                  <Separator className="bg-white/10" />
-                  
-                  <div>
-                    <p className="text-xs text-blue-200/60 mb-1">Then</p>
-                    {actions.length === 0 ? (
-                      <p className="text-sm text-blue-200/40 italic">No actions defined</p>
-                    ) : (
-                      <ul className="space-y-1">
-                        {actions.map((action, i) => (
-                          <li key={i} className="text-sm text-white">
-                            {i + 1}. {action.action_type && ACTION_TYPE_LABELS[action.action_type]}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="space-y-4">
+                <Card className="bg-white/5 border-white/10">
+                  <CardHeader>
+                    <CardTitle className="text-white text-lg">Preview</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <p className="text-xs text-blue-200/60 mb-1">When</p>
+                      <p className="text-sm text-white">{TRIGGER_TYPE_LABELS[triggerType]}</p>
+                    </div>
+                    
+                    <Separator className="bg-white/10" />
+                    
+                    <div>
+                      <p className="text-xs text-blue-200/60 mb-1">Then</p>
+                      {actions.length === 0 ? (
+                        <p className="text-sm text-blue-200/40 italic">No actions defined</p>
+                      ) : (
+                        <ul className="space-y-1">
+                          {actions.map((action, i) => (
+                            <li key={i} className="text-sm text-white">
+                              {i + 1}. {action.action_type && ACTION_TYPE_LABELS[action.action_type]}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Output Chaining Panel */}
+                {actions.length > 0 && (
+                  <OutputChaining
+                    actionIndex={actions.length}
+                    previousActions={actions.filter(a => !a.is_condition).map((a, i) => ({
+                      action_type: a.action_type || 'notify_user',
+                      action_config: a.action_config || {},
+                      execution_order: i,
+                    }))}
+                    onInsertVariable={(variable) => {
+                      toast.success(`Copied ${variable} to clipboard`);
+                    }}
+                  />
+                )}
+              </div>
             )}
           </div>
         </div>
