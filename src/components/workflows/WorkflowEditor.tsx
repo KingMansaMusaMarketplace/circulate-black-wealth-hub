@@ -21,6 +21,7 @@ import {
 } from '@/lib/api/workflow-api';
 import { TriggerSelector } from './TriggerSelector';
 import { ActionBuilder } from './ActionBuilder';
+import { ConditionBuilder } from './ConditionBuilder';
 
 interface WorkflowEditorProps {
   workflow: Workflow | null;
