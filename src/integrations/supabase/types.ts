@@ -19040,6 +19040,72 @@ export type Database = {
       }
     }
     Views: {
+      activity_log_safe: {
+        Row: {
+          activity_data: Json | null
+          activity_type: string | null
+          business_id: string | null
+          created_at: string | null
+          id: string | null
+          points_involved: number | null
+          user_id: string | null
+        }
+        Insert: {
+          activity_data?: Json | null
+          activity_type?: string | null
+          business_id?: string | null
+          created_at?: string | null
+          id?: string | null
+          points_involved?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          activity_data?: Json | null
+          activity_type?: string | null
+          business_id?: string | null
+          created_at?: string | null
+          id?: string | null
+          points_involved?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       b2b_external_leads_public: {
         Row: {
           business_description: string | null
