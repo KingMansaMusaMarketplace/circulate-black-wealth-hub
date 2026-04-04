@@ -260,18 +260,31 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
                         
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
-                              Step {index + 1}
+                            <Badge className={action.is_condition 
+                              ? "bg-purple-500/20 text-purple-400 border-purple-500/30"
+                              : "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+                            }>
+                              {action.is_condition ? 'Condition' : `Step ${index + 1}`}
                             </Badge>
-                            <span className="font-medium text-white">
-                              {action.action_type && ACTION_TYPE_LABELS[action.action_type]}
+                            <span className="font-medium text-foreground">
+                              {action.is_condition 
+                                ? `If ${action.condition_config?.conditions?.[0]?.field || 'field'} ${action.condition_config?.conditions?.[0]?.operator || ''}`
+                                : action.action_type && ACTION_TYPE_LABELS[action.action_type]
+                              }
                             </span>
                           </div>
-                          {action.action_config && Object.keys(action.action_config).length > 0 && (
-                            <p className="text-sm text-blue-200/60 mt-1">
+                          {!action.is_condition && action.action_config && Object.keys(action.action_config).length > 0 && (
+                            <p className="text-sm text-muted-foreground mt-1">
                               {JSON.stringify(action.action_config).substring(0, 50)}...
                             </p>
                           )}
+                          {action.delay_seconds ? (
+                            <p className="text-sm text-blue-400 mt-1">
+                              ⏱ Delay: {action.delay_seconds >= 3600 
+                                ? `${Math.floor(action.delay_seconds / 3600)}h` 
+                                : `${Math.floor(action.delay_seconds / 60)}m`}
+                            </p>
+                          ) : null}
                         </div>
                         
                         <Button
