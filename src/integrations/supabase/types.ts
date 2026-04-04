@@ -19786,6 +19786,38 @@ export type Database = {
           },
         ]
       }
+      property_price_overrides_public: {
+        Row: {
+          created_at: string | null
+          date: string | null
+          id: string | null
+          price_per_night: number | null
+          property_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date?: string | null
+          id?: string | null
+          price_per_night?: number | null
+          property_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date?: string | null
+          id?: string | null
+          price_per_night?: number | null
+          property_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_price_overrides_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       referral_stats_leaderboard: {
         Row: {
           current_tier: string | null
