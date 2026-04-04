@@ -300,14 +300,24 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
                       </div>
                     ))}
                     
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowAddAction(true)}
-                      className="w-full bg-white/5 border-white/20 text-white border-dashed"
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Another Action
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => { setShowAddAction(true); setShowAddCondition(false); }}
+                        className="flex-1 bg-white/5 border-white/20 text-white border-dashed"
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Action
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => { setShowAddCondition(true); setShowAddAction(false); }}
+                        className="flex-1 bg-purple-500/10 border-purple-500/30 text-purple-400 border-dashed"
+                      >
+                        <GitBranch className="h-4 w-4 mr-2" />
+                        Add Condition
+                      </Button>
+                    </div>
                   </div>
                 )}
               </CardContent>
@@ -320,6 +330,14 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
               <ActionBuilder
                 onAdd={handleAddAction}
                 onCancel={() => setShowAddAction(false)}
+              />
+            ) : showAddCondition ? (
+              <ConditionBuilder
+                onAdd={(config) => {
+                  handleAddCondition(config);
+                  setShowAddCondition(false);
+                }}
+                onCancel={() => setShowAddCondition(false)}
               />
             ) : (
               <Card className="bg-white/5 border-white/10">
