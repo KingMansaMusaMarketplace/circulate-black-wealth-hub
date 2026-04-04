@@ -194,7 +194,12 @@ export default function WorkflowBuilderPage() {
           </Card>
         </div>
 
-        {/* Tabs for Workflows & Executions */}
+        {showTemplates ? (
+          <WorkflowTemplates
+            onSelectTemplate={handleSelectTemplate}
+            onClose={() => setShowTemplates(false)}
+          />
+        ) : (
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="bg-white/5 border border-white/10">
             <TabsTrigger value="workflows" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
