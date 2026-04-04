@@ -24,6 +24,7 @@ export default function WorkflowBuilderPage() {
   const queryClient = useQueryClient();
   const [selectedWorkflow, setSelectedWorkflow] = useState<Workflow | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [activeTab, setActiveTab] = useState('workflows');
 
   // Get business ID for the current user
   const { data: business } = useQuery({
