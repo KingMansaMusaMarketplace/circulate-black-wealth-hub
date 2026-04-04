@@ -9,7 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Zap, Plus, Play, Pause, Trash2, Settings, 
-  ChevronRight, Activity, Clock, CheckCircle, XCircle
+  ChevronRight, Activity, Clock, CheckCircle, XCircle, BookTemplate
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { 
@@ -18,6 +18,7 @@ import {
 } from '@/lib/api/workflow-api';
 import { WorkflowEditor } from '@/components/workflows/WorkflowEditor';
 import { WorkflowExecutionDashboard } from '@/components/workflows/WorkflowExecutionDashboard';
+import { WorkflowTemplates, type WorkflowTemplate } from '@/components/workflows/WorkflowTemplates';
 
 export default function WorkflowBuilderPage() {
   const { user } = useAuth();
@@ -25,6 +26,8 @@ export default function WorkflowBuilderPage() {
   const [selectedWorkflow, setSelectedWorkflow] = useState<Workflow | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [activeTab, setActiveTab] = useState('workflows');
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [templatePreset, setTemplatePreset] = useState<WorkflowTemplate | null>(null);
 
   // Get business ID for the current user
   const { data: business } = useQuery({
@@ -83,18 +86,27 @@ export default function WorkflowBuilderPage() {
       <WorkflowEditor
         workflow={selectedWorkflow}
         businessId={business.id}
+        templatePreset={templatePreset}
         onClose={() => {
           setSelectedWorkflow(null);
           setIsCreating(false);
+          setTemplatePreset(null);
         }}
         onSave={() => {
           queryClient.invalidateQueries({ queryKey: ['workflows'] });
           setSelectedWorkflow(null);
           setIsCreating(false);
+          setTemplatePreset(null);
         }}
       />
     );
   }
+
+  const handleSelectTemplate = (template: WorkflowTemplate) => {
+    setTemplatePreset(template);
+    setShowTemplates(false);
+    setIsCreating(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
@@ -112,13 +124,23 @@ export default function WorkflowBuilderPage() {
             </h1>
             <p className="text-blue-200 mt-1">Create automated actions triggered by customer events</p>
           </div>
-          <Button 
-            onClick={() => setIsCreating(true)}
-            className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 font-semibold"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Create Workflow
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button 
+              onClick={() => setIsCreating(true)}
+              className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 font-semibold"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Create Workflow
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => setShowTemplates(true)}
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              <BookTemplate className="h-4 w-4 mr-2" />
+              Templates
+            </Button>
+          </div>
         </div>
 
         {/* Stats */}
@@ -174,7 +196,12 @@ export default function WorkflowBuilderPage() {
           </Card>
         </div>
 
-        {/* Tabs for Workflows & Executions */}
+        {showTemplates ? (
+          <WorkflowTemplates
+            onSelectTemplate={handleSelectTemplate}
+            onClose={() => setShowTemplates(false)}
+          />
+        ) : (
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="bg-white/5 border border-white/10">
             <TabsTrigger value="workflows" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
@@ -309,6 +336,7 @@ export default function WorkflowBuilderPage() {
             <WorkflowExecutionDashboard businessId={business.id} />
           </TabsContent>
         </Tabs>
+        )}
       </div>
     </div>
   );

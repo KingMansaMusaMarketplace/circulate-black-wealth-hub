@@ -22,10 +22,13 @@ import {
 import { TriggerSelector } from './TriggerSelector';
 import { ActionBuilder } from './ActionBuilder';
 import { ConditionBuilder } from './ConditionBuilder';
+import { OutputChaining } from './OutputChaining';
+import type { WorkflowTemplate } from './WorkflowTemplates';
 
 interface WorkflowEditorProps {
   workflow: Workflow | null;
   businessId: string;
+  templatePreset?: WorkflowTemplate | null;
   onClose: () => void;
   onSave: () => void;
 }
@@ -33,22 +36,23 @@ interface WorkflowEditorProps {
 export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
   workflow,
   businessId,
+  templatePreset,
   onClose,
   onSave
 }) => {
   const isEditing = !!workflow;
   
-  const [name, setName] = useState(workflow?.name || '');
-  const [description, setDescription] = useState(workflow?.description || '');
+  const [name, setName] = useState(templatePreset?.name || workflow?.name || '');
+  const [description, setDescription] = useState(templatePreset?.description || workflow?.description || '');
   const [isActive, setIsActive] = useState(workflow?.is_active ?? true);
   const [triggerType, setTriggerType] = useState<WorkflowTriggerType>(
-    workflow?.trigger_type || 'purchase'
+    templatePreset?.triggerType || workflow?.trigger_type || 'purchase'
   );
   const [triggerConfig, setTriggerConfig] = useState<Record<string, any>>(
-    workflow?.trigger_config || {}
+    templatePreset?.triggerConfig || workflow?.trigger_config || {}
   );
   const [actions, setActions] = useState<Partial<WorkflowAction>[]>(
-    workflow?.actions || []
+    templatePreset?.actions?.map((a, i) => ({ ...a, execution_order: i })) || workflow?.actions || []
   );
   const [showAddAction, setShowAddAction] = useState(false);
   const [showAddCondition, setShowAddCondition] = useState(false);
@@ -340,34 +344,51 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
                 onCancel={() => setShowAddCondition(false)}
               />
             ) : (
-              <Card className="bg-white/5 border-white/10">
-                <CardHeader>
-                  <CardTitle className="text-white text-lg">Preview</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-xs text-blue-200/60 mb-1">When</p>
-                    <p className="text-sm text-white">{TRIGGER_TYPE_LABELS[triggerType]}</p>
-                  </div>
-                  
-                  <Separator className="bg-white/10" />
-                  
-                  <div>
-                    <p className="text-xs text-blue-200/60 mb-1">Then</p>
-                    {actions.length === 0 ? (
-                      <p className="text-sm text-blue-200/40 italic">No actions defined</p>
-                    ) : (
-                      <ul className="space-y-1">
-                        {actions.map((action, i) => (
-                          <li key={i} className="text-sm text-white">
-                            {i + 1}. {action.action_type && ACTION_TYPE_LABELS[action.action_type]}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="space-y-4">
+                <Card className="bg-white/5 border-white/10">
+                  <CardHeader>
+                    <CardTitle className="text-white text-lg">Preview</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <p className="text-xs text-blue-200/60 mb-1">When</p>
+                      <p className="text-sm text-white">{TRIGGER_TYPE_LABELS[triggerType]}</p>
+                    </div>
+                    
+                    <Separator className="bg-white/10" />
+                    
+                    <div>
+                      <p className="text-xs text-blue-200/60 mb-1">Then</p>
+                      {actions.length === 0 ? (
+                        <p className="text-sm text-blue-200/40 italic">No actions defined</p>
+                      ) : (
+                        <ul className="space-y-1">
+                          {actions.map((action, i) => (
+                            <li key={i} className="text-sm text-white">
+                              {i + 1}. {action.action_type && ACTION_TYPE_LABELS[action.action_type]}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Output Chaining Panel */}
+                {actions.length > 0 && (
+                  <OutputChaining
+                    actionIndex={actions.length}
+                    previousActions={actions.filter(a => !a.is_condition).map((a, i) => ({
+                      action_type: a.action_type || 'notify_user',
+                      action_config: a.action_config || {},
+                      execution_order: i,
+                    }))}
+                    onInsertVariable={(variable) => {
+                      toast.success(`Copied ${variable} to clipboard`);
+                    }}
+                  />
+                )}
+              </div>
             )}
           </div>
         </div>
