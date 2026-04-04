@@ -39,6 +39,9 @@ export const handleSignIn = async (
       return { error };
     }
 
+    // Reset rate limit on successful login
+    await resetAuthRateLimit(email, 'login');
+
     showToast({
       title: 'Success',
       description: 'Successfully signed in'
