@@ -1,8 +1,9 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { csrfGuard } from '../_shared/csrf-guard.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
 };
 
 /**
@@ -21,7 +22,11 @@ Deno.serve(async (req) => {
     return new Response('ok', { headers: corsHeaders });
   }
 
-  try {
+    // CSRF protection: reject state-changing requests without a valid token
+    const csrfBlock = csrfGuard(req);
+    if (csrfBlock) return csrfBlock;
+
+
     const { identifier, attempt_type = 'login', success = false } = await req.json();
 
     if (!identifier || typeof identifier !== 'string') {

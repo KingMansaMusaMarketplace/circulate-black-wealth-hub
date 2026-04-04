@@ -1,5 +1,5 @@
-
 import { createClient } from '@supabase/supabase-js';
+import { getCsrfToken, CSRF_HEADER_NAME } from '@/lib/security/csrf';
 
 // Use environment variables for Supabase configuration
 // This allows key rotation without code changes
@@ -68,7 +68,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     headers: {
       'X-Client-Info': 'mansa-musa-marketplace@1.1.0',
     },
-    fetch: (url, options = {}) => {
+    fetch: (url, options: RequestInit = {}) => {
       // CRITICAL: Shorter timeout on iOS (8s) vs web (15s)
       // iOS WKWebView can hang on slow connections
       const timeoutMs = isIOSDevice() ? 8000 : 15000;
@@ -78,10 +78,21 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         controller.abort();
       }, timeoutMs);
       
+      // Attach CSRF token to state-changing requests
+      const method = (options.method || 'GET').toUpperCase();
+      const csrfHeaders: Record<string, string> = {};
+      if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+        csrfHeaders[CSRF_HEADER_NAME] = getCsrfToken();
+      }
+      
       console.log('[SUPABASE] Fetch:', url.toString().substring(0, 80));
       
       return fetch(url, {
         ...options,
+        headers: {
+          ...(options.headers as Record<string, string> || {}),
+          ...csrfHeaders,
+        },
         signal: controller.signal,
       })
         .then(response => {

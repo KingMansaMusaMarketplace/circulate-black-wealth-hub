@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { rotateCsrfToken } from '@/lib/security/csrf';
 
 interface AuthContextType {
   user: User | null;
@@ -76,6 +77,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (!isMounted) return;
           
           console.log('[AUTH] State changed:', event, 'hasSession:', !!newSession);
+          
+          // Rotate CSRF token on every auth state change to prevent session fixation
+          rotateCsrfToken();
           
           setSession(newSession);
           setUser(newSession?.user ?? null);
