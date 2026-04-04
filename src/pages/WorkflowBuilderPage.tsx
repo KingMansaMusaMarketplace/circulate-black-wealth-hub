@@ -334,7 +334,7 @@ export default function WorkflowBuilderPage() {
             <WorkflowExecutionDashboard businessId={business.id} />
           </TabsContent>
         </Tabs>
-      </div>
+        )}
     </div>
   );
 }
