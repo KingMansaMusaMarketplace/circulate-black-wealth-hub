@@ -17,12 +17,14 @@ import {
   Workflow, TRIGGER_TYPE_LABELS
 } from '@/lib/api/workflow-api';
 import { WorkflowEditor } from '@/components/workflows/WorkflowEditor';
+import { WorkflowExecutionDashboard } from '@/components/workflows/WorkflowExecutionDashboard';
 
 export default function WorkflowBuilderPage() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [selectedWorkflow, setSelectedWorkflow] = useState<Workflow | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [activeTab, setActiveTab] = useState('workflows');
 
   // Get business ID for the current user
   const { data: business } = useQuery({
@@ -172,7 +174,21 @@ export default function WorkflowBuilderPage() {
           </Card>
         </div>
 
-        {/* Workflow List */}
+        {/* Tabs for Workflows & Executions */}
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="bg-white/5 border border-white/10">
+            <TabsTrigger value="workflows" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
+              <Zap className="h-4 w-4 mr-2" />
+              Workflows
+            </TabsTrigger>
+            <TabsTrigger value="executions" className="data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-400">
+              <Activity className="h-4 w-4 mr-2" />
+              Executions
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="workflows">
+          {/* Workflow List */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader>
             <CardTitle className="text-white">Your Workflows</CardTitle>
@@ -287,6 +303,12 @@ export default function WorkflowBuilderPage() {
             )}
           </CardContent>
         </Card>
+          </TabsContent>
+
+          <TabsContent value="executions">
+            <WorkflowExecutionDashboard businessId={business.id} />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
