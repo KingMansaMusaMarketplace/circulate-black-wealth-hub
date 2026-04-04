@@ -15527,6 +15527,13 @@ export type Database = {
             referencedRelation: "corporate_subscriptions"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "sponsor_admin_audit_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       sponsor_benefits: {
@@ -15563,6 +15570,13 @@ export type Database = {
             columns: ["subscription_id"]
             isOneToOne: false
             referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_benefits_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
             referencedColumns: ["id"]
           },
         ]
@@ -15609,6 +15623,13 @@ export type Database = {
             referencedRelation: "corporate_subscriptions"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "sponsor_communications_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       sponsor_documents: {
@@ -15651,6 +15672,13 @@ export type Database = {
             columns: ["sponsor_id"]
             isOneToOne: false
             referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_documents_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
             referencedColumns: ["id"]
           },
         ]
@@ -15788,6 +15816,13 @@ export type Database = {
             columns: ["subscription_id"]
             isOneToOne: false
             referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_impact_metrics_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
             referencedColumns: ["id"]
           },
         ]
@@ -15936,6 +15971,13 @@ export type Database = {
             columns: ["subscription_id"]
             isOneToOne: false
             referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_press_releases_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
             referencedColumns: ["id"]
           },
         ]
@@ -16111,6 +16153,13 @@ export type Database = {
             referencedRelation: "corporate_subscriptions"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "sponsor_reminders_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       sponsor_social_posts: {
@@ -16159,6 +16208,13 @@ export type Database = {
             columns: ["subscription_id"]
             isOneToOne: false
             referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_social_posts_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
             referencedColumns: ["id"]
           },
         ]
@@ -19386,6 +19442,75 @@ export type Database = {
           updated_at?: string | null
           website?: string | null
           zip_code?: string | null
+        }
+        Relationships: []
+      }
+      corporate_subscriptions_public: {
+        Row: {
+          approval_status: string | null
+          company_name: string | null
+          created_at: string | null
+          display_priority: number | null
+          featured_until: string | null
+          id: string | null
+          is_founding_sponsor: boolean | null
+          is_visible: boolean | null
+          landing_page_cta_text: string | null
+          landing_page_cta_url: string | null
+          landing_page_description: string | null
+          landing_page_enabled: boolean | null
+          landing_page_headline: string | null
+          landing_page_hero_image_url: string | null
+          landing_page_slug: string | null
+          logo_approved: boolean | null
+          logo_url: string | null
+          status: string | null
+          tier: string | null
+          website_url: string | null
+        }
+        Insert: {
+          approval_status?: string | null
+          company_name?: string | null
+          created_at?: string | null
+          display_priority?: number | null
+          featured_until?: string | null
+          id?: string | null
+          is_founding_sponsor?: boolean | null
+          is_visible?: boolean | null
+          landing_page_cta_text?: string | null
+          landing_page_cta_url?: string | null
+          landing_page_description?: string | null
+          landing_page_enabled?: boolean | null
+          landing_page_headline?: string | null
+          landing_page_hero_image_url?: string | null
+          landing_page_slug?: string | null
+          logo_approved?: boolean | null
+          logo_url?: string | null
+          status?: string | null
+          tier?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          approval_status?: string | null
+          company_name?: string | null
+          created_at?: string | null
+          display_priority?: number | null
+          featured_until?: string | null
+          id?: string | null
+          is_founding_sponsor?: boolean | null
+          is_visible?: boolean | null
+          landing_page_cta_text?: string | null
+          landing_page_cta_url?: string | null
+          landing_page_description?: string | null
+          landing_page_enabled?: boolean | null
+          landing_page_headline?: string | null
+          landing_page_hero_image_url?: string | null
+          landing_page_slug?: string | null
+          logo_approved?: boolean | null
+          logo_url?: string | null
+          status?: string | null
+          tier?: string | null
+          website_url?: string | null
         }
         Relationships: []
       }
