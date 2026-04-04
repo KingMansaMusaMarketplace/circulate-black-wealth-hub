@@ -1396,6 +1396,39 @@ export type Database = {
         }
         Relationships: []
       }
+      auth_rate_limits_v2: {
+        Row: {
+          attempt_count: number
+          attempt_type: string
+          blocked_until: string | null
+          created_at: string
+          id: string
+          identifier: string
+          updated_at: string
+          window_start: string
+        }
+        Insert: {
+          attempt_count?: number
+          attempt_type?: string
+          blocked_until?: string | null
+          created_at?: string
+          id?: string
+          identifier: string
+          updated_at?: string
+          window_start?: string
+        }
+        Update: {
+          attempt_count?: number
+          attempt_type?: string
+          blocked_until?: string | null
+          created_at?: string
+          id?: string
+          identifier?: string
+          updated_at?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       b2b_connections: {
         Row: {
           actual_value: number | null
@@ -19848,6 +19881,15 @@ export type Database = {
         Args: { p_email: string; p_ip?: unknown }
         Returns: Json
       }
+      check_auth_rate_limit_v2: {
+        Args: {
+          p_attempt_type?: string
+          p_identifier: string
+          p_max_attempts?: number
+          p_window_minutes?: number
+        }
+        Returns: Json
+      }
       check_business_access_rate_limit: {
         Args: { user_id_param?: string }
         Returns: boolean
@@ -19919,6 +19961,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      cleanup_auth_rate_limits: { Args: never; Returns: undefined }
       cleanup_expired_search_cache: { Args: never; Returns: undefined }
       cleanup_old_audit_logs: { Args: never; Returns: undefined }
       cleanup_old_batch_queue: { Args: never; Returns: undefined }
@@ -20898,6 +20941,10 @@ export type Database = {
         Returns: Json
       }
       require_mfa_for_admin: { Args: never; Returns: boolean }
+      reset_auth_rate_limit: {
+        Args: { p_attempt_type?: string; p_identifier: string }
+        Returns: undefined
+      }
       revoke_role: {
         Args: {
           target_role: Database["public"]["Enums"]["app_role"]
