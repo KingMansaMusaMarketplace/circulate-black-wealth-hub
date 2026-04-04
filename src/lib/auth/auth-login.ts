@@ -1,6 +1,7 @@
 
 import { supabase } from '@/lib/supabase';
 import { logFailedAuthAttempt } from '@/lib/security/audit-logger';
+import { checkAuthRateLimit, resetAuthRateLimit } from '@/lib/security/auth-rate-guard';
 
 export const handleSignIn = async (
   email: string,
@@ -8,20 +9,14 @@ export const handleSignIn = async (
   showToast: (props: { title: string; description: string; variant?: 'default' | 'destructive' }) => void
 ) => {
   try {
-    // Check server-side rate limiting before attempting authentication
-    const { data: rateLimitCheck } = await supabase.rpc('check_auth_rate_limit_secure', {
-      p_email: email,
-      p_ip: null // IP will be handled server-side
-    });
+    // Check server-side rate limiting via edge function (brute-force protection)
+    const rateLimitCheck = await checkAuthRateLimit(email, 'login');
 
-    if (rateLimitCheck && !rateLimitCheck.allowed) {
-      const blockMessage = rateLimitCheck.blocked_until 
-        ? `Too many failed attempts. Try again after ${new Date(rateLimitCheck.blocked_until).toLocaleTimeString()}`
-        : 'Rate limit exceeded. Please try again later.';
-      
+    if (!rateLimitCheck.allowed) {
+      const retryMinutes = Math.ceil(rateLimitCheck.retry_after_seconds / 60);
       showToast({
-        title: 'Authentication Blocked',
-        description: blockMessage,
+        title: 'Too Many Attempts',
+        description: `Account temporarily locked. Try again in ${retryMinutes} minute${retryMinutes !== 1 ? 's' : ''}.`,
         variant: 'destructive'
       });
       return { error: new Error('Rate limited') };
