@@ -42,14 +42,46 @@ export interface Workflow {
   actions?: WorkflowAction[];
 }
 
+export type ConditionOperator =
+  | 'equals'
+  | 'not_equals'
+  | 'greater_than'
+  | 'less_than'
+  | 'contains'
+  | 'not_contains'
+  | 'exists'
+  | 'not_exists';
+
+export interface ConditionConfig {
+  conditions: Array<{
+    field: string;
+    operator: ConditionOperator;
+    value: any;
+  }>;
+}
+
 export interface WorkflowAction {
   id: string;
   workflow_id: string;
   action_type: WorkflowActionType;
   action_config: Record<string, any>;
   execution_order: number;
+  condition_config: ConditionConfig | null;
+  delay_seconds: number;
+  is_condition: boolean;
   created_at: string;
 }
+
+export const CONDITION_OPERATOR_LABELS: Record<ConditionOperator, string> = {
+  equals: 'equals',
+  not_equals: 'does not equal',
+  greater_than: 'is greater than',
+  less_than: 'is less than',
+  contains: 'contains',
+  not_contains: 'does not contain',
+  exists: 'exists',
+  not_exists: 'does not exist',
+};
 
 export interface WorkflowExecution {
   id: string;
@@ -221,4 +253,34 @@ export const ACTION_TYPE_LABELS: Record<WorkflowActionType, string> = {
   create_task: 'Create a task',
   update_customer_field: 'Update customer field',
   webhook: 'Call webhook'
+};
+
+// Trigger a workflow execution via the engine
+export const triggerWorkflow = async (
+  businessId: string,
+  triggerType: WorkflowTriggerType,
+  triggerData: Record<string, any> = {}
+) => {
+  const { data, error } = await supabase.functions.invoke('workflow-engine', {
+    body: {
+      business_id: businessId,
+      trigger_type: triggerType,
+      trigger_data: triggerData,
+    },
+  });
+
+  if (error) throw error;
+  return data;
+};
+
+// Get execution steps for a specific execution
+export const getExecutionSteps = async (executionId: string) => {
+  const { data, error } = await supabase
+    .from('workflow_execution_steps')
+    .select('*')
+    .eq('execution_id', executionId)
+    .order('created_at', { ascending: true });
+
+  if (error) throw error;
+  return data;
 };

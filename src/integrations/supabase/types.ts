@@ -18767,25 +18767,34 @@ export type Database = {
         Row: {
           action_config: Json
           action_type: Database["public"]["Enums"]["workflow_action_type"]
+          condition_config: Json | null
           created_at: string
+          delay_seconds: number | null
           execution_order: number
           id: string
+          is_condition: boolean | null
           workflow_id: string
         }
         Insert: {
           action_config?: Json
           action_type: Database["public"]["Enums"]["workflow_action_type"]
+          condition_config?: Json | null
           created_at?: string
+          delay_seconds?: number | null
           execution_order?: number
           id?: string
+          is_condition?: boolean | null
           workflow_id: string
         }
         Update: {
           action_config?: Json
           action_type?: Database["public"]["Enums"]["workflow_action_type"]
+          condition_config?: Json | null
           created_at?: string
+          delay_seconds?: number | null
           execution_order?: number
           id?: string
+          is_condition?: boolean | null
           workflow_id?: string
         }
         Relationships: [
@@ -18794,6 +18803,60 @@ export type Database = {
             columns: ["workflow_id"]
             isOneToOne: false
             referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_execution_steps: {
+        Row: {
+          action_id: string
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          execution_id: string
+          id: string
+          input_data: Json | null
+          output_data: Json | null
+          started_at: string | null
+          status: string
+        }
+        Insert: {
+          action_id: string
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          execution_id: string
+          id?: string
+          input_data?: Json | null
+          output_data?: Json | null
+          started_at?: string | null
+          status?: string
+        }
+        Update: {
+          action_id?: string
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          execution_id?: string
+          id?: string
+          input_data?: Json | null
+          output_data?: Json | null
+          started_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_execution_steps_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_actions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_execution_steps_execution_id_fkey"
+            columns: ["execution_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_executions"
             referencedColumns: ["id"]
           },
         ]
@@ -18842,6 +18905,60 @@ export type Database = {
             columns: ["workflow_id"]
             isOneToOne: false
             referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_schedules: {
+        Row: {
+          action_id: string
+          attempts: number
+          created_at: string
+          execution_id: string
+          id: string
+          last_error: string | null
+          max_attempts: number
+          processed_at: string | null
+          scheduled_for: string
+          status: string
+        }
+        Insert: {
+          action_id: string
+          attempts?: number
+          created_at?: string
+          execution_id: string
+          id?: string
+          last_error?: string | null
+          max_attempts?: number
+          processed_at?: string | null
+          scheduled_for: string
+          status?: string
+        }
+        Update: {
+          action_id?: string
+          attempts?: number
+          created_at?: string
+          execution_id?: string
+          id?: string
+          last_error?: string | null
+          max_attempts?: number
+          processed_at?: string | null
+          scheduled_for?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_schedules_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_actions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_schedules_execution_id_fkey"
+            columns: ["execution_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_executions"
             referencedColumns: ["id"]
           },
         ]
@@ -19505,6 +19622,27 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "kayla_event_queue"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      claim_workflow_schedules: {
+        Args: { batch_size?: number }
+        Returns: {
+          action_id: string
+          attempts: number
+          created_at: string
+          execution_id: string
+          id: string
+          last_error: string | null
+          max_attempts: number
+          processed_at: string | null
+          scheduled_for: string
+          status: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "workflow_schedules"
           isOneToOne: false
           isSetofReturn: true
         }

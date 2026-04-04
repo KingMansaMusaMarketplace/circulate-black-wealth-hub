@@ -10,16 +10,18 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { 
   ArrowLeft, Zap, Plus, Trash2, Save, 
-  ChevronDown, ChevronUp, GripVertical
+  ChevronDown, ChevronUp, GripVertical, GitBranch
 } from 'lucide-react';
 import { toast } from 'sonner';
 import {
   Workflow, WorkflowAction, WorkflowTriggerType, WorkflowActionType,
+  ConditionConfig,
   createWorkflow, updateWorkflow, addWorkflowAction, deleteWorkflowAction,
   TRIGGER_TYPE_LABELS, ACTION_TYPE_LABELS
 } from '@/lib/api/workflow-api';
 import { TriggerSelector } from './TriggerSelector';
 import { ActionBuilder } from './ActionBuilder';
+import { ConditionBuilder } from './ConditionBuilder';
 
 interface WorkflowEditorProps {
   workflow: Workflow | null;
@@ -49,6 +51,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
     workflow?.actions || []
   );
   const [showAddAction, setShowAddAction] = useState(false);
+  const [showAddCondition, setShowAddCondition] = useState(false);
 
   const saveMutation = useMutation({
     mutationFn: async () => {
@@ -78,7 +81,10 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
               workflow_id: newWorkflow.id,
               action_type: action.action_type,
               action_config: action.action_config || {},
-              execution_order: i
+              execution_order: i,
+              condition_config: action.condition_config || null,
+              delay_seconds: action.delay_seconds || 0,
+              is_condition: action.is_condition || false,
             });
           }
         }
@@ -97,9 +103,23 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
     setActions([...actions, {
       action_type: actionType,
       action_config: actionConfig,
-      execution_order: actions.length
+      execution_order: actions.length,
+      condition_config: null,
+      delay_seconds: 0,
+      is_condition: false,
     }]);
     setShowAddAction(false);
+  };
+
+  const handleAddCondition = (conditionConfig: ConditionConfig) => {
+    setActions([...actions, {
+      action_type: 'notify_user' as WorkflowActionType,
+      action_config: {},
+      execution_order: actions.length,
+      condition_config: conditionConfig,
+      delay_seconds: 0,
+      is_condition: true,
+    }]);
   };
 
   const handleRemoveAction = (index: number) => {
@@ -242,18 +262,31 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
                         
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
-                              Step {index + 1}
+                            <Badge className={action.is_condition 
+                              ? "bg-purple-500/20 text-purple-400 border-purple-500/30"
+                              : "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+                            }>
+                              {action.is_condition ? 'Condition' : `Step ${index + 1}`}
                             </Badge>
-                            <span className="font-medium text-white">
-                              {action.action_type && ACTION_TYPE_LABELS[action.action_type]}
+                            <span className="font-medium text-foreground">
+                              {action.is_condition 
+                                ? `If ${action.condition_config?.conditions?.[0]?.field || 'field'} ${action.condition_config?.conditions?.[0]?.operator || ''}`
+                                : action.action_type && ACTION_TYPE_LABELS[action.action_type]
+                              }
                             </span>
                           </div>
-                          {action.action_config && Object.keys(action.action_config).length > 0 && (
-                            <p className="text-sm text-blue-200/60 mt-1">
+                          {!action.is_condition && action.action_config && Object.keys(action.action_config).length > 0 && (
+                            <p className="text-sm text-muted-foreground mt-1">
                               {JSON.stringify(action.action_config).substring(0, 50)}...
                             </p>
                           )}
+                          {action.delay_seconds ? (
+                            <p className="text-sm text-blue-400 mt-1">
+                              ⏱ Delay: {action.delay_seconds >= 3600 
+                                ? `${Math.floor(action.delay_seconds / 3600)}h` 
+                                : `${Math.floor(action.delay_seconds / 60)}m`}
+                            </p>
+                          ) : null}
                         </div>
                         
                         <Button
@@ -267,14 +300,24 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
                       </div>
                     ))}
                     
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowAddAction(true)}
-                      className="w-full bg-white/5 border-white/20 text-white border-dashed"
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Another Action
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => { setShowAddAction(true); setShowAddCondition(false); }}
+                        className="flex-1 bg-white/5 border-white/20 text-white border-dashed"
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Action
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => { setShowAddCondition(true); setShowAddAction(false); }}
+                        className="flex-1 bg-purple-500/10 border-purple-500/30 text-purple-400 border-dashed"
+                      >
+                        <GitBranch className="h-4 w-4 mr-2" />
+                        Add Condition
+                      </Button>
+                    </div>
                   </div>
                 )}
               </CardContent>
@@ -287,6 +330,14 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
               <ActionBuilder
                 onAdd={handleAddAction}
                 onCancel={() => setShowAddAction(false)}
+              />
+            ) : showAddCondition ? (
+              <ConditionBuilder
+                onAdd={(config) => {
+                  handleAddCondition(config);
+                  setShowAddCondition(false);
+                }}
+                onCancel={() => setShowAddCondition(false)}
               />
             ) : (
               <Card className="bg-white/5 border-white/10">
