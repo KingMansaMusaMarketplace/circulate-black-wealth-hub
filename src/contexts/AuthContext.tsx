@@ -78,6 +78,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           
           console.log('[AUTH] State changed:', event, 'hasSession:', !!newSession);
           
+          // Rotate CSRF token on every auth state change to prevent session fixation
+          rotateCsrfToken();
+          
           setSession(newSession);
           setUser(newSession?.user ?? null);
           
