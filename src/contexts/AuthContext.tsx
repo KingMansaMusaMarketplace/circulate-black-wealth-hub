@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { rotateCsrfToken } from '@/lib/security/csrf';
 
 interface AuthContextType {
   user: User | null;
