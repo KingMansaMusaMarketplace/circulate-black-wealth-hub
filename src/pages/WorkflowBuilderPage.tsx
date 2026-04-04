@@ -86,18 +86,27 @@ export default function WorkflowBuilderPage() {
       <WorkflowEditor
         workflow={selectedWorkflow}
         businessId={business.id}
+        templatePreset={templatePreset}
         onClose={() => {
           setSelectedWorkflow(null);
           setIsCreating(false);
+          setTemplatePreset(null);
         }}
         onSave={() => {
           queryClient.invalidateQueries({ queryKey: ['workflows'] });
           setSelectedWorkflow(null);
           setIsCreating(false);
+          setTemplatePreset(null);
         }}
       />
     );
   }
+
+  const handleSelectTemplate = (template: WorkflowTemplate) => {
+    setTemplatePreset(template);
+    setShowTemplates(false);
+    setIsCreating(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
