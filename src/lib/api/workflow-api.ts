@@ -42,14 +42,46 @@ export interface Workflow {
   actions?: WorkflowAction[];
 }
 
+export type ConditionOperator =
+  | 'equals'
+  | 'not_equals'
+  | 'greater_than'
+  | 'less_than'
+  | 'contains'
+  | 'not_contains'
+  | 'exists'
+  | 'not_exists';
+
+export interface ConditionConfig {
+  conditions: Array<{
+    field: string;
+    operator: ConditionOperator;
+    value: any;
+  }>;
+}
+
 export interface WorkflowAction {
   id: string;
   workflow_id: string;
   action_type: WorkflowActionType;
   action_config: Record<string, any>;
   execution_order: number;
+  condition_config: ConditionConfig | null;
+  delay_seconds: number;
+  is_condition: boolean;
   created_at: string;
 }
+
+export const CONDITION_OPERATOR_LABELS: Record<ConditionOperator, string> = {
+  equals: 'equals',
+  not_equals: 'does not equal',
+  greater_than: 'is greater than',
+  less_than: 'is less than',
+  contains: 'contains',
+  not_contains: 'does not contain',
+  exists: 'exists',
+  not_exists: 'does not exist',
+};
 
 export interface WorkflowExecution {
   id: string;
