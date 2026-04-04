@@ -254,3 +254,33 @@ export const ACTION_TYPE_LABELS: Record<WorkflowActionType, string> = {
   update_customer_field: 'Update customer field',
   webhook: 'Call webhook'
 };
+
+// Trigger a workflow execution via the engine
+export const triggerWorkflow = async (
+  businessId: string,
+  triggerType: WorkflowTriggerType,
+  triggerData: Record<string, any> = {}
+) => {
+  const { data, error } = await supabase.functions.invoke('workflow-engine', {
+    body: {
+      business_id: businessId,
+      trigger_type: triggerType,
+      trigger_data: triggerData,
+    },
+  });
+
+  if (error) throw error;
+  return data;
+};
+
+// Get execution steps for a specific execution
+export const getExecutionSteps = async (executionId: string) => {
+  const { data, error } = await supabase
+    .from('workflow_execution_steps')
+    .select('*')
+    .eq('execution_id', executionId)
+    .order('created_at', { ascending: true });
+
+  if (error) throw error;
+  return data;
+};
