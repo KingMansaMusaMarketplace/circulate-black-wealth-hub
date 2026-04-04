@@ -51,6 +51,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
     workflow?.actions || []
   );
   const [showAddAction, setShowAddAction] = useState(false);
+  const [showAddCondition, setShowAddCondition] = useState(false);
 
   const saveMutation = useMutation({
     mutationFn: async () => {
