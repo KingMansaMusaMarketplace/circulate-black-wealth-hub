@@ -22,10 +22,13 @@ import {
 import { TriggerSelector } from './TriggerSelector';
 import { ActionBuilder } from './ActionBuilder';
 import { ConditionBuilder } from './ConditionBuilder';
+import { OutputChaining } from './OutputChaining';
+import type { WorkflowTemplate } from './WorkflowTemplates';
 
 interface WorkflowEditorProps {
   workflow: Workflow | null;
   businessId: string;
+  templatePreset?: WorkflowTemplate | null;
   onClose: () => void;
   onSave: () => void;
 }
@@ -33,22 +36,23 @@ interface WorkflowEditorProps {
 export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
   workflow,
   businessId,
+  templatePreset,
   onClose,
   onSave
 }) => {
   const isEditing = !!workflow;
   
-  const [name, setName] = useState(workflow?.name || '');
-  const [description, setDescription] = useState(workflow?.description || '');
+  const [name, setName] = useState(templatePreset?.name || workflow?.name || '');
+  const [description, setDescription] = useState(templatePreset?.description || workflow?.description || '');
   const [isActive, setIsActive] = useState(workflow?.is_active ?? true);
   const [triggerType, setTriggerType] = useState<WorkflowTriggerType>(
-    workflow?.trigger_type || 'purchase'
+    templatePreset?.triggerType || workflow?.trigger_type || 'purchase'
   );
   const [triggerConfig, setTriggerConfig] = useState<Record<string, any>>(
-    workflow?.trigger_config || {}
+    templatePreset?.triggerConfig || workflow?.trigger_config || {}
   );
   const [actions, setActions] = useState<Partial<WorkflowAction>[]>(
-    workflow?.actions || []
+    templatePreset?.actions?.map((a, i) => ({ ...a, execution_order: i })) || workflow?.actions || []
   );
   const [showAddAction, setShowAddAction] = useState(false);
   const [showAddCondition, setShowAddCondition] = useState(false);
