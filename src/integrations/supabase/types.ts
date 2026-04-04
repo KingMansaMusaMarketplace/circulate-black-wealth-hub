@@ -2125,6 +2125,7 @@ export type Database = {
           category: string | null
           citations: string[] | null
           created_at: string | null
+          created_by: string | null
           expires_at: string | null
           id: string
           location: string | null
@@ -2136,6 +2137,7 @@ export type Database = {
           category?: string | null
           citations?: string[] | null
           created_at?: string | null
+          created_by?: string | null
           expires_at?: string | null
           id?: string
           location?: string | null
@@ -2147,6 +2149,7 @@ export type Database = {
           category?: string | null
           citations?: string[] | null
           created_at?: string | null
+          created_by?: string | null
           expires_at?: string | null
           id?: string
           location?: string | null
@@ -19538,6 +19541,8 @@ export type Database = {
           logo_url: string | null
           status: string | null
           tier: string | null
+          updated_at: string | null
+          user_id: string | null
           website_url: string | null
         }
         Insert: {
@@ -19560,6 +19565,8 @@ export type Database = {
           logo_url?: string | null
           status?: string | null
           tier?: string | null
+          updated_at?: string | null
+          user_id?: string | null
           website_url?: string | null
         }
         Update: {
@@ -19582,6 +19589,8 @@ export type Database = {
           logo_url?: string | null
           status?: string | null
           tier?: string | null
+          updated_at?: string | null
+          user_id?: string | null
           website_url?: string | null
         }
         Relationships: []

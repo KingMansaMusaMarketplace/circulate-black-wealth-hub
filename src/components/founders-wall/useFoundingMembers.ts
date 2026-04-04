@@ -47,7 +47,7 @@ export const useFoundingMembers = () => {
 
         // Fetch founding sponsors
         const { data: sponsorData, error: sponsorError } = await supabase
-          .from('corporate_subscriptions')
+          .from('corporate_subscriptions_public')
           .select('company_name, tier, logo_url, website_url, created_at')
           .eq('is_founding_sponsor', true)
           .eq('status', 'active')
