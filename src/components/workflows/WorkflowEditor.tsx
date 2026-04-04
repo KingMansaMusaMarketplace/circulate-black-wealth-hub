@@ -108,9 +108,9 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
     setShowAddAction(false);
   };
 
-  const handleAddCondition = (conditionConfig: Record<string, any>) => {
+  const handleAddCondition = (conditionConfig: ConditionConfig) => {
     setActions([...actions, {
-      action_type: 'notify_user' as WorkflowActionType, // placeholder — conditions don't execute
+      action_type: 'notify_user' as WorkflowActionType,
       action_config: {},
       execution_order: actions.length,
       condition_config: conditionConfig,
