@@ -14,7 +14,7 @@ export default function SponsorLandingPage() {
     queryKey: ['sponsor-landing', slug],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('corporate_subscriptions')
+        .from('corporate_subscriptions_public')
         .select('*')
         .eq('landing_page_slug', slug)
         .eq('landing_page_enabled', true)
