@@ -100,9 +100,23 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
     setActions([...actions, {
       action_type: actionType,
       action_config: actionConfig,
-      execution_order: actions.length
+      execution_order: actions.length,
+      condition_config: null,
+      delay_seconds: 0,
+      is_condition: false,
     }]);
     setShowAddAction(false);
+  };
+
+  const handleAddCondition = (conditionConfig: Record<string, any>) => {
+    setActions([...actions, {
+      action_type: 'notify_user' as WorkflowActionType, // placeholder — conditions don't execute
+      action_config: {},
+      execution_order: actions.length,
+      condition_config: conditionConfig,
+      delay_seconds: 0,
+      is_condition: true,
+    }]);
   };
 
   const handleRemoveAction = (index: number) => {
