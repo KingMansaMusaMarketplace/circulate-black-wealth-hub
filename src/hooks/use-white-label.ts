@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { sanitizeCSS } from '@/lib/security/css-sanitizer';
 
 export interface TenantConfig {
   id: string;
@@ -109,6 +110,23 @@ export function useWhiteLabel(businessId: string) {
     root.style.setProperty('--accent', colors.accent_color);
   };
 
+  /**
+   * Safely applies tenant custom CSS after sanitization.
+   * Strips @import, url(), expression(), and other injection vectors.
+   */
+  const applySafeCustomCSS = (customCSS: string | null) => {
+    if (typeof document === 'undefined' || !customCSS) return;
+
+    const sanitized = sanitizeCSS(customCSS);
+    const existingStyle = document.getElementById('tenant-custom-css');
+    if (existingStyle) existingStyle.remove();
+
+    const style = document.createElement('style');
+    style.id = 'tenant-custom-css';
+    style.textContent = sanitized;
+    document.head.appendChild(style);
+  };
+
   return {
     config,
     apiKey,
@@ -116,6 +134,7 @@ export function useWhiteLabel(businessId: string) {
     updateConfig,
     generateApiKey,
     applyTheme,
+    applySafeCustomCSS,
     refetch: fetchConfig,
   };
 }
