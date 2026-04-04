@@ -17,6 +17,7 @@ import {
   Workflow, TRIGGER_TYPE_LABELS
 } from '@/lib/api/workflow-api';
 import { WorkflowEditor } from '@/components/workflows/WorkflowEditor';
+import { WorkflowExecutionDashboard } from '@/components/workflows/WorkflowExecutionDashboard';
 
 export default function WorkflowBuilderPage() {
   const { user } = useAuth();
