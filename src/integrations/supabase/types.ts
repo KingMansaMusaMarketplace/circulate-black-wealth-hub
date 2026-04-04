@@ -19748,6 +19748,44 @@ export type Database = {
           },
         ]
       }
+      property_availability_public: {
+        Row: {
+          created_at: string | null
+          custom_price: number | null
+          date: string | null
+          id: string | null
+          is_available: boolean | null
+          notes: string | null
+          property_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          custom_price?: number | null
+          date?: string | null
+          id?: string | null
+          is_available?: boolean | null
+          notes?: string | null
+          property_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          custom_price?: number | null
+          date?: string | null
+          id?: string | null
+          is_available?: boolean | null
+          notes?: string | null
+          property_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_availability_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       referral_stats_leaderboard: {
         Row: {
           current_tier: string | null
