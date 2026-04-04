@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { 
   ArrowLeft, Zap, Plus, Trash2, Save, 
-  ChevronDown, ChevronUp, GripVertical
+  ChevronDown, ChevronUp, GripVertical, GitBranch
 } from 'lucide-react';
 import { toast } from 'sonner';
 import {
