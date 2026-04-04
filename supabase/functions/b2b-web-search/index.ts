@@ -354,6 +354,7 @@ PRIORITY: Return 10 businesses with emails rather than 25 without.`
         citations: citations.slice(0, 10),
         created_at: new Date().toISOString(),
         expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        created_by: userId,
       }, {
         onConflict: 'query_hash'
       });

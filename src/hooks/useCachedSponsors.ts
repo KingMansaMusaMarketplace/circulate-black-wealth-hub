@@ -55,7 +55,7 @@ export const useFeaturedSponsors = () => {
     queryKey: ['sponsors', 'featured'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('corporate_subscriptions')
+        .from('corporate_subscriptions_public')
         .select('*')
         .eq('status', 'active')
         .eq('is_visible', true)
