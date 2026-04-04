@@ -78,7 +78,10 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
               workflow_id: newWorkflow.id,
               action_type: action.action_type,
               action_config: action.action_config || {},
-              execution_order: i
+              execution_order: i,
+              condition_config: action.condition_config || null,
+              delay_seconds: action.delay_seconds || 0,
+              is_condition: action.is_condition || false,
             });
           }
         }
