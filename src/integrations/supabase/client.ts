@@ -87,10 +87,26 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       
       console.log('[SUPABASE] Fetch:', url.toString().substring(0, 80));
       
+      // Convert Headers object to plain object to preserve SDK-set headers (apikey, authorization)
+      const existingHeaders: Record<string, string> = {};
+      if (options.headers) {
+        if (options.headers instanceof Headers) {
+          options.headers.forEach((value, key) => {
+            existingHeaders[key] = value;
+          });
+        } else if (Array.isArray(options.headers)) {
+          options.headers.forEach(([key, value]) => {
+            existingHeaders[key] = value;
+          });
+        } else {
+          Object.assign(existingHeaders, options.headers);
+        }
+      }
+      
       return fetch(url, {
         ...options,
         headers: {
-          ...(options.headers as Record<string, string> || {}),
+          ...existingHeaders,
           ...csrfHeaders,
         },
         signal: controller.signal,
