@@ -17,6 +17,8 @@ import ValueTracker from '@/components/business/ValueTracker';
 import { KaylaInsightsDashboard } from '@/components/business/kayla/KaylaInsightsDashboard';
 import KaylaWelcomeOnboarding from '@/components/onboarding/KaylaWelcomeOnboarding';
 import KaylaProactiveAlerts from '@/components/dashboard/KaylaProactiveAlerts';
+import { KaylaAITeam } from '@/components/business/kayla/KaylaAITeam';
+import { KaylaOrchestrationDashboard } from '@/components/business/kayla/KaylaOrchestrationDashboard';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -87,8 +89,10 @@ const BusinessDashboardPage = () => {
           />
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-7 bg-slate-800/40 backdrop-blur-sm border border-white/10">
+            <TabsList className="grid w-full grid-cols-9 bg-slate-800/40 backdrop-blur-sm border border-white/10">
               <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
+              <TabsTrigger value="ai-team" className="data-[state=active]:bg-mansagold/20 data-[state=active]:text-mansagold text-mansagold/60 font-medium">👥 AI Team</TabsTrigger>
+              <TabsTrigger value="orchestration" className="data-[state=active]:bg-purple-900/60 data-[state=active]:text-purple-300 text-purple-400/60 font-medium">⚡ Live Ops</TabsTrigger>
               <TabsTrigger value="kayla" className="data-[state=active]:bg-yellow-900/60 data-[state=active]:text-yellow-300 text-yellow-400/70 font-medium">✨ Kayla AI</TabsTrigger>
               <TabsTrigger value="value" className="data-[state=active]:bg-emerald-900/60 data-[state=active]:text-emerald-300 text-emerald-400/70 font-medium">💰 ROI</TabsTrigger>
               <TabsTrigger value="financials" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Financials</TabsTrigger>
@@ -99,6 +103,14 @@ const BusinessDashboardPage = () => {
             
             <TabsContent value="overview">
               <BusinessDashboard businessId={profile.id} />
+            </TabsContent>
+
+            <TabsContent value="ai-team">
+              <KaylaAITeam businessId={profile.id} />
+            </TabsContent>
+
+            <TabsContent value="orchestration">
+              <KaylaOrchestrationDashboard businessId={profile.id} />
             </TabsContent>
 
             <TabsContent value="kayla">
