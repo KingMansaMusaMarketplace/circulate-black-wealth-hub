@@ -16,6 +16,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
 
   const benefits = [
+    'Kayla AI Concierge replaces $1,650–$7,950/mo in staffing costs',
     'Get discovered by conscious consumers actively seeking great businesses',
     'Access exclusive B2B matching to find partners, suppliers, and customers',
     'Join rotating savings circles (Susu) for community-powered financing',
@@ -24,9 +25,9 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
   ];
 
   const valueProposition = {
-    monthlyValue: 700,
-    monthlyPrice: 100,
-    roi: '7x',
+    laborCost: '$1,650–$7,950',
+    startingPrice: 19,
+    trialDays: 30,
   };
 
   const generateQRCode = async () => {
@@ -90,12 +91,11 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
       <div class="partner-badge">Referred by ${partner.directory_name}</div>
     </div>
     
-    <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 24px; border-radius: 12px; text-align: center; margin-bottom: 24px; color: #1e293b;">
-      <div style="font-size: 2.5rem; font-weight: 800;">$${valueProposition.monthlyValue}/mo</div>
-      <div style="font-size: 1.1rem; margin: 8px 0;">in business tools & benefits</div>
-      <div style="font-size: 1.5rem; font-weight: 700;">for just $${valueProposition.monthlyPrice}/month</div>
-      <div style="margin-top: 8px; font-size: 0.9rem; opacity: 0.9;">That's a ${valueProposition.roi} return on your investment!</div>
-    </div>
+     <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 24px; border-radius: 12px; text-align: center; margin-bottom: 24px; color: #1e293b;">
+       <div style="font-size: 1.1rem; margin-bottom: 8px;">Replaces <strong>${valueProposition.laborCost}/mo</strong> in staffing costs</div>
+       <div style="font-size: 2.5rem; font-weight: 800;">Starting at $${valueProposition.startingPrice}/mo</div>
+       <div style="margin-top: 8px; font-size: 0.9rem; opacity: 0.9;">${valueProposition.trialDays}-day free trial · No commitment</div>
+     </div>
     
     <div class="content">
       <h2 class="section-title">Why Join <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span>?</h2>
@@ -105,8 +105,8 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
     </div>
     
     <div class="cta-section">
-      <h2>Ready to Grow Your Business?</h2>
-      <p>Sign up FREE before September 1, 2026 to become a Founding Member</p>
+       <h2>Ready to Grow Your Business?</h2>
+       <p>Start your ${valueProposition.trialDays}-day free trial — plans from $${valueProposition.startingPrice}/mo</p>
       <div class="referral-link">${partner.referral_link}</div>
       <div class="qr-section">
         ${qrCode ? `<div class="qr-code"><img src="${qrCode}" alt="Scan to join" /><div class="qr-label">Scan to Join</div></div>` : ''}
@@ -175,8 +175,9 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
 
           {/* Value Proposition Banner */}
           <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg p-3 mb-4 text-center text-slate-900">
-            <div className="text-lg font-bold">${valueProposition.monthlyValue}/mo value → ${valueProposition.monthlyPrice}/mo</div>
-            <div className="text-xs opacity-90">{valueProposition.roi} ROI on business tools & benefits</div>
+            <div className="text-xs opacity-90">Replaces {valueProposition.laborCost}/mo in staffing costs</div>
+            <div className="text-lg font-bold">Starting at ${valueProposition.startingPrice}/mo</div>
+            <div className="text-xs opacity-90">{valueProposition.trialDays}-day free trial · No commitment</div>
           </div>
           
           <div className="space-y-2 mb-4">
