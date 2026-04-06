@@ -1,10 +1,72 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Sparkles, Zap, Crown, Building2, ArrowRight } from 'lucide-react';
+import { Check, Sparkles, Zap, Crown, Building2, ArrowRight, Star, Calculator, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import { Slider } from '@/components/ui/slider';
+
+const ROICalculator = () => {
+  const [monthlySpend, setMonthlySpend] = useState([2500]);
+  const kaylaProCost = 149;
+  const savings = monthlySpend[0] - kaylaProCost;
+  const annualSavings = savings * 12;
+  const multiplier = (monthlySpend[0] / kaylaProCost).toFixed(1);
+
+  return (
+    <ScrollReveal delay={0.3}>
+      <div className="max-w-2xl mx-auto mt-12 p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 via-slate-900/90 to-slate-800/80 border border-mansagold/20 backdrop-blur-xl">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 rounded-lg bg-mansagold/20">
+            <Calculator className="w-5 h-5 text-mansagold" />
+          </div>
+          <h3 className="text-xl font-bold text-white">ROI Calculator</h3>
+        </div>
+
+        <p className="text-sm text-white/60 mb-6">
+          How much do you currently spend per month on staff for marketing, bookkeeping, reviews, and admin?
+        </p>
+
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-white/70">Your current monthly cost</span>
+            <span className="text-2xl font-bold text-white">${monthlySpend[0].toLocaleString()}/mo</span>
+          </div>
+
+          <Slider
+            value={monthlySpend}
+            onValueChange={setMonthlySpend}
+            min={500}
+            max={6000}
+            step={50}
+            className="py-4"
+          />
+
+          <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-1 mb-1">
+                <DollarSign className="w-4 h-4 text-green-400" />
+                <span className="text-2xl font-bold text-green-400">${savings.toLocaleString()}</span>
+              </div>
+              <span className="text-xs text-white/50">Monthly savings</span>
+            </div>
+            <div className="text-center">
+              <span className="text-2xl font-bold text-mansagold">${annualSavings.toLocaleString()}</span>
+              <br />
+              <span className="text-xs text-white/50">Annual savings</span>
+            </div>
+            <div className="text-center">
+              <span className="text-2xl font-bold text-white">{multiplier}x</span>
+              <br />
+              <span className="text-xs text-white/50">Value multiplier</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ScrollReveal>
+  );
+};
 
 const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(true);
@@ -12,17 +74,36 @@ const PricingSection = () => {
 
   const tiers = [
     {
+      name: 'Essentials',
+      icon: Star,
+      monthlyPrice: 19,
+      annualPrice: 190,
+      description: 'Perfect for businesses just getting started with AI',
+      highlight: false,
+      trialText: '30-day free trial',
+      features: [
+        'Enhanced directory listing',
+        'Kayla AI chat assistant',
+        'Community marketplace access',
+        'Up to 5 QR codes',
+        'Email support',
+      ],
+      cta: 'Start Free Trial',
+    },
+    {
       name: 'Starter',
       icon: Zap,
       monthlyPrice: 49,
       annualPrice: 490,
-      description: 'Perfect for solo entrepreneurs getting started',
+      description: 'AI-powered records management & business tools',
       highlight: false,
+      trialText: '30-day free trial',
       features: [
+        'Everything in Essentials',
         'AI-powered records management',
-        'Basic business directory listing',
-        'Community marketplace access',
-        'Email support',
+        'Document vault & OCR extraction',
+        'Expiration alerts & reminders',
+        'Up to 25 QR codes',
         'Monthly impact reports',
       ],
       cta: 'Get Started',
@@ -35,6 +116,7 @@ const PricingSection = () => {
       description: 'Full suite of 24+ AI-powered services',
       highlight: true,
       badge: 'Most Popular',
+      trialText: '14-day free trial',
       features: [
         'Everything in Starter',
         'Full Kayla AI concierge suite',
@@ -49,10 +131,11 @@ const PricingSection = () => {
     {
       name: 'Enterprise',
       icon: Building2,
-      monthlyPrice: 399,
+      monthlyPrice: 599,
       annualPrice: null,
       description: 'Multi-location support & white-labeling',
       highlight: false,
+      trialText: '14-day free trial',
       features: [
         'Everything in Pro',
         'Multi-location management',
@@ -118,9 +201,9 @@ const PricingSection = () => {
           </div>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
           {tiers.map((tier, index) => (
-            <ScrollReveal key={tier.name} delay={index * 0.15}>
+            <ScrollReveal key={tier.name} delay={index * 0.1}>
               <motion.div
                 whileHover={{ y: -4, scale: 1.01 }}
                 transition={{ duration: 0.3 }}
@@ -138,12 +221,12 @@ const PricingSection = () => {
                   </div>
                 )}
                 
-                <div className={`rounded-2xl p-6 lg:p-8 h-full flex flex-col ${
+                <div className={`rounded-2xl p-5 lg:p-6 h-full flex flex-col ${
                   tier.highlight
                     ? 'bg-gradient-to-b from-slate-900 via-slate-800/95 to-slate-900'
                     : 'bg-slate-900/80 backdrop-blur-xl'
                 }`}>
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-3 mb-3">
                     <div className={`p-2 rounded-lg ${
                       tier.highlight ? 'bg-mansagold/20' : 'bg-white/10'
                     }`}>
@@ -151,17 +234,17 @@ const PricingSection = () => {
                         tier.highlight ? 'text-mansagold' : 'text-white/70'
                       }`} />
                     </div>
-                    <h3 className="text-xl font-bold text-white">{tier.name}</h3>
+                    <h3 className="text-lg font-bold text-white">{tier.name}</h3>
                   </div>
 
-                  <p className="text-sm text-white/60 mb-6">{tier.description}</p>
+                  <p className="text-xs text-white/60 mb-4">{tier.description}</p>
 
-                  <div className="mb-6">
+                  <div className="mb-5">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-bold text-white">
+                      <span className="text-3xl font-bold text-white">
                         ${tier.monthlyPrice}
                       </span>
-                      <span className="text-white/50">/mo</span>
+                      <span className="text-white/50 text-sm">/mo</span>
                     </div>
                     {isAnnual && tier.annualPrice && (
                       <p className="text-xs text-mansagold mt-1">
@@ -171,15 +254,16 @@ const PricingSection = () => {
                     {tier.name === 'Enterprise' && (
                       <p className="text-xs text-white/40 mt-1">Custom annual pricing available</p>
                     )}
+                    <p className="text-xs text-emerald-400 mt-1">{tier.trialText}</p>
                   </div>
 
-                  <ul className="space-y-3 mb-8 flex-1">
+                  <ul className="space-y-2.5 mb-6 flex-1">
                     {tier.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2.5">
-                        <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
+                      <li key={feature} className="flex items-start gap-2">
+                        <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
                           tier.highlight ? 'text-mansagold' : 'text-green-400'
                         }`} />
-                        <span className="text-sm text-white/80">{feature}</span>
+                        <span className="text-xs text-white/80">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -191,7 +275,7 @@ const PricingSection = () => {
                         ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 hover:from-amber-500 hover:via-yellow-500 hover:to-orange-500 text-slate-900 font-semibold shadow-lg shadow-mansagold/25'
                         : 'bg-white/10 hover:bg-white/15 text-white border border-white/10'
                     }`}
-                    size="lg"
+                    size="default"
                   >
                     {tier.cta}
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -202,15 +286,15 @@ const PricingSection = () => {
           ))}
         </div>
 
-        <ScrollReveal delay={0.5}>
+        <ScrollReveal delay={0.4}>
           <p className="text-center text-white/80 text-sm mt-8">
-            All plans include a 14-day free trial. A valid credit card is required to start.
+            All plans include a free trial. A valid credit card is required to start.
             <br />
-            Your card will be charged automatically after the 14-day trial ends unless you cancel.
-            <br />
-            Pro & Enterprise include a one-time $149 onboarding fee.
+            Your card will be charged automatically after the trial period ends unless you cancel.
           </p>
         </ScrollReveal>
+
+        <ROICalculator />
       </div>
     </section>
   );

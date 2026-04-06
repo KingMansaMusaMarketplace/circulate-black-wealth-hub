@@ -1,9 +1,11 @@
 
-import { Star, Crown, Building2, Zap, Rocket, FileText, Bot, Shield } from 'lucide-react';
+import { Star, Crown, Building2, Zap, Rocket, FileText, Bot, Shield, Sparkles } from 'lucide-react';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 
 export const tierIcons: Record<SubscriptionTier, any> = {
   free: Star,
+  kayla_essentials: Sparkles,
+  kayla_essentials_annual: Sparkles,
   business_pro: Rocket,
   business_pro_annual: Rocket,
   kayla_starter: FileText,
@@ -19,6 +21,8 @@ export const tierIcons: Record<SubscriptionTier, any> = {
 
 export const tierColors: Record<SubscriptionTier, string> = {
   free: 'bg-gray-100 text-gray-800',
+  kayla_essentials: 'bg-gradient-to-r from-sky-500 to-blue-600 text-white',
+  kayla_essentials_annual: 'bg-gradient-to-r from-sky-500 to-blue-600 text-white',
   business_pro: 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white',
   business_pro_annual: 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white',
   kayla_starter: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white',
