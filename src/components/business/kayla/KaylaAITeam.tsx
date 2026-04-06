@@ -193,6 +193,30 @@ const AI_EMPLOYEES: AIEmployee[] = [
     savingsPerMonth: '$400',
     badge: 'FINANCE',
   },
+  {
+    id: 'diversity-compliance',
+    icon: Scale,
+    name: 'Diversity Compliance Officer',
+    role: 'EEO & Supplier Diversity Specialist',
+    department: 'COMMUNITY',
+    description: 'Ensures your business is compliant and competitive for government contracts and corporate supplier diversity programs.',
+    capabilities: ['EEO & OFCCP contract readiness scans', 'Auto-generated D&I impact reports', 'Bias interruption on job posts & marketing copy', 'MBE/WBE certification renewal tracking'],
+    status: 'active',
+    savingsPerMonth: '$1,200',
+    badge: 'COMMUNITY',
+  },
+  {
+    id: 'b2b-partnership-scout',
+    icon: UserPlus,
+    name: 'B2B Partnership Scout',
+    role: 'Strategic Alliances & Lead Generation',
+    department: 'MARKETING',
+    description: 'Acts as a 24/7 business development rep, finding win-win collaborations within the 1325.ai ecosystem.',
+    capabilities: ['Give/Get ecosystem matchmaking', 'Trust-building partnership outreach', 'Trigger event monitoring (funding rounds, relocations)', 'Trust Equity KPI tracking'],
+    status: 'active',
+    savingsPerMonth: '$1,850',
+    badge: 'MARKETING',
+  },
 ];
 
 const DEPARTMENTS = ['ALL', 'MARKETING', 'FINANCE', 'OPERATIONS', 'COMMUNITY'] as const;
