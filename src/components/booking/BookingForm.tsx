@@ -120,6 +120,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
 
       const result = await bookingService.createBooking({
         businessId,
+        businessName,
         serviceId: formData.serviceId,
         bookingDate: bookingDateTime,
         customerName: formData.customerName,
