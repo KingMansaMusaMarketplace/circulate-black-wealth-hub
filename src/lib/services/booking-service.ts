@@ -36,6 +36,7 @@ export interface Booking {
 
 export interface CreateBookingParams {
   businessId: string;
+  businessName?: string;
   serviceId: string;
   bookingDate: string;
   customerName: string;
