@@ -105,6 +105,14 @@ const BusinessDashboardPage = () => {
               <BusinessDashboard businessId={profile.id} />
             </TabsContent>
 
+            <TabsContent value="ai-team">
+              <KaylaAITeam businessId={profile.id} />
+            </TabsContent>
+
+            <TabsContent value="orchestration">
+              <KaylaOrchestrationDashboard businessId={profile.id} />
+            </TabsContent>
+
             <TabsContent value="kayla">
               <KaylaInsightsDashboard businessId={profile.id} />
             </TabsContent>
