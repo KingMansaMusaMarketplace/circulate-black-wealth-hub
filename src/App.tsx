@@ -98,6 +98,7 @@ const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
+const LazyUnsubscribePage = lazy(() => import('@/pages/UnsubscribePage'));
 const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyAppTestPage = lazy(() => import('@/pages/AppTestPage'));
@@ -701,6 +702,7 @@ function App() {
                               <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
                               <Route path="/user-profile" element={<LazyUserProfilePage />} />
                               <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                              <Route path="/unsubscribe" element={<LazyUnsubscribePage />} />
                               
                               {/* W */}
 <Route path="/welcome" element={<LazyWelcomePage />} />
@@ -993,6 +995,7 @@ function App() {
                         <Route path="/user-guide" element={<LazyUserGuidePage />} />
                         <Route path="/user-profile" element={<LazyUserProfilePage />} />
                         <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                        <Route path="/unsubscribe" element={<LazyUnsubscribePage />} />
                         
                         {/* V */}
                         <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
