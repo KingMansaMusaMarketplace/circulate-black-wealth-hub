@@ -91,12 +91,11 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
       <div class="partner-badge">Referred by ${partner.directory_name}</div>
     </div>
     
-    <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 24px; border-radius: 12px; text-align: center; margin-bottom: 24px; color: #1e293b;">
-      <div style="font-size: 2.5rem; font-weight: 800;">$${valueProposition.monthlyValue}/mo</div>
-      <div style="font-size: 1.1rem; margin: 8px 0;">in business tools & benefits</div>
-      <div style="font-size: 1.5rem; font-weight: 700;">for just $${valueProposition.monthlyPrice}/month</div>
-      <div style="margin-top: 8px; font-size: 0.9rem; opacity: 0.9;">That's a ${valueProposition.roi} return on your investment!</div>
-    </div>
+     <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 24px; border-radius: 12px; text-align: center; margin-bottom: 24px; color: #1e293b;">
+       <div style="font-size: 1.1rem; margin-bottom: 8px;">Replaces <strong>${valueProposition.laborCost}/mo</strong> in staffing costs</div>
+       <div style="font-size: 2.5rem; font-weight: 800;">Starting at $${valueProposition.startingPrice}/mo</div>
+       <div style="margin-top: 8px; font-size: 0.9rem; opacity: 0.9;">${valueProposition.trialDays}-day free trial · No commitment</div>
+     </div>
     
     <div class="content">
       <h2 class="section-title">Why Join <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span>?</h2>
