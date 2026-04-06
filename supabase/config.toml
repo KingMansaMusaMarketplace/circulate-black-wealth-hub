@@ -1,337 +1,238 @@
 project_id = "agoclnqfyinwjxdmjnns"
 
-[functions.generate-sitemap]
-verify_jwt = false
-
-[functions.resend-webhook]
-verify_jwt = false
-
-[functions.track-invitation]
-verify_jwt = false
-
-[functions.admin-ai-assistant]
-verify_jwt = true
-
-[functions.generate-branded-qr]
-verify_jwt = false
-
-[functions.process-notification-batches]
-verify_jwt = false
-
-[functions.send-notification-digest]
-verify_jwt = false
-
-[functions.text-to-speech]
-verify_jwt = true
-
-[functions.increment-counters]
-verify_jwt = true
-
-[functions.send-password-reset]
-verify_jwt = false
-
-[functions.send-verification-email]
-verify_jwt = false
-
-[functions.send-welcome-email]
-verify_jwt = false
-
-[functions.send-notification-email]
-verify_jwt = false
-
-[functions.send-booking-confirmation]
-verify_jwt = false
-
-[functions.send-booking-cancellation]
-verify_jwt = false
-
-[functions.send-booking-reminder]
-verify_jwt = false
-
-[functions.send-review-request]
-verify_jwt = false
-
-[functions.send-admin-notification]
-verify_jwt = false
-
-[functions.send-media-kit-request]
-verify_jwt = false
-
-[functions.generate-business-description]
-verify_jwt = false
-
-[functions.generate-business-insights]
-verify_jwt = false
-
-[functions.generate-ai-business-insights]
-verify_jwt = true
-
-[functions.generate-recommendations]
-verify_jwt = false
-
-[functions.enhance-image]
-verify_jwt = false
-
-[functions.generate-qr-campaign]
-verify_jwt = false
-
-[functions.connect-stripe-account]
-verify_jwt = true
-
-[functions.create-payment-intent]
-verify_jwt = true
-
-[functions.send-corporate-welcome]
-verify_jwt = false
-
-[functions.calculate-sponsor-impact]
-verify_jwt = false
-
-[functions.update-sponsor-metrics-manual]
-verify_jwt = true
-
-[functions.stripe-webhook]
-verify_jwt = false
-
-[functions.stripe-webhook-corporate]
-verify_jwt = false
-
-[functions.create-booking]
-verify_jwt = true
-
-[functions.create-checkout]
-verify_jwt = false
-
-[functions.create-corporate-checkout]
-verify_jwt = true
-
-[functions.create-portal-session]
-verify_jwt = true
-
-[functions.handle-subscription-webhook]
-verify_jwt = false
-
-[functions.send-newsletter-welcome]
-verify_jwt = false
-
-[functions.generate-ai-recommendations]
-verify_jwt = true
-
-[functions.ai-chat]
-verify_jwt = true
-
-[functions.realtime-token]
-verify_jwt = false
-
-[functions.transcribe-audio]
-verify_jwt = true
-
-[functions.generate-material-recommendations]
-verify_jwt = true
-
-[functions.analyze-material-performance]
-verify_jwt = true
-
-[functions.ai-recommendations]
-verify_jwt = false
-
-[functions.generate-impact-report]
-verify_jwt = false
-
-[functions.parse-search-query]
-verify_jwt = false
-
-[functions.detect-fraud]
-verify_jwt = true
-
-[functions.analyze-review-sentiment]
-verify_jwt = false
-
-[functions.process-qr-transaction]
-verify_jwt = true
-
-[functions.send-commission-report]
-verify_jwt = false
-
-[functions.delete-account]
-verify_jwt = true
-
-[functions.realtime-voice]
-verify_jwt = true
-
-[functions.ai-assistant]
-verify_jwt = true
-
-[functions.send-sponsor-email]
-verify_jwt = true
-
-[functions.send-sponsor-rejection]
-verify_jwt = true
-
-[functions.voice-concierge-tools]
-verify_jwt = false
-
-[functions.coalition-earn-points]
-verify_jwt = false
-
-[functions.b2b-match]
-verify_jwt = false
-
-[functions.b2b-web-search]
-verify_jwt = false
-
-[functions.send-b2b-invitation]
-verify_jwt = false
-
-[functions.send-business-invitation]
-verify_jwt = true
-
-[functions.send-phone-otp]
-verify_jwt = true
-
-[functions.verify-phone-otp]
-verify_jwt = true
-
-[functions.send-bulk-claim-invitations]
-verify_jwt = true
-
-[functions.send-sponsor-outreach-email]
-verify_jwt = true
-
-[functions.import-businesses-csv]
-verify_jwt = true
-
-[functions.validate-business-leads]
-verify_jwt = false
-
-[functions.parse-business-info]
-verify_jwt = false
-
-[functions.auto-enrich-leads]
-verify_jwt = true
-
-[functions.enrich-lead-emails]
-verify_jwt = true
-
-[functions.stripe-partner-webhook]
-verify_jwt = false
-
-[functions.api-gateway]
-verify_jwt = false
-
-[functions.cmal-api]
-verify_jwt = false
-
-[functions.voice-api]
-verify_jwt = false
-
-[functions.susu-api]
-verify_jwt = false
-
-[functions.fraud-api]
-verify_jwt = false
-
-[functions.ai-agent]
-verify_jwt = true
-
-[functions.scrape-business-website]
-verify_jwt = false
-
-[functions.batch-scrape-hbcu-images]
-verify_jwt = false
-
-[functions.send-slack-notification]
-verify_jwt = false
-
-[functions.create-vacation-booking]
-verify_jwt = false
-
-[functions.create-host-connect-account]
-verify_jwt = false
-
-[functions.check-host-connect-status]
-verify_jwt = false
-
-[functions.vacation-booking-webhook]
-verify_jwt = false
-
-[functions.parse-verification-document]
-verify_jwt = false
-
-[functions.generate-share-image]
-verify_jwt = false
-
-[functions.kayla-dispatch]
-verify_jwt = false
-
-[functions.elevenlabs-music]
-verify_jwt = false
-
-[functions.kayla-tools]
-verify_jwt = false
-
-[functions.bulk-refresh-business-branding]
-verify_jwt = false
-
-[functions.kayla-data-agent]
-verify_jwt = false
-
-[functions.kayla-services]
-verify_jwt = false
-
-[functions.kayla-health-check]
-verify_jwt = false
-
-[functions.kayla-auto-discover]
-verify_jwt = false
-
-[functions.fraud-consensus-review]
-verify_jwt = false
-
-[functions.kayla-event-processor]
-verify_jwt = false
-
-[functions.kayla-grant-matcher]
-verify_jwt = false
-
-[functions.kayla-cashflow-forecast]
-verify_jwt = false
-
-[functions.kayla-price-optimizer]
-verify_jwt = false
-
-[functions.kayla-reminder-engine]
-verify_jwt = false
-
-[functions.kayla-email-campaigns]
-verify_jwt = false
-
-[functions.kayla-inventory-manager]
-verify_jwt = false
-
-[functions.kayla-tax-prep]
-verify_jwt = false
-
-[functions.kayla-investment-readiness]
-verify_jwt = false
-
-[functions.kayla-compliance-checker]
-verify_jwt = false
-
-[functions.kayla-legal-templates]
-verify_jwt = false
-
-[functions.kayla-records-processor]
-verify_jwt = false
-
-[functions.kayla-records-chat]
-verify_jwt = false
-
-[functions.kayla-credit-readiness]
-verify_jwt = false
-
-[functions.kayla-supplier-diversity]
-verify_jwt = false
-
-[functions.kayla-loyalty-engine]
-verify_jwt = false
+[functions]
+  [functions.admin-ai-assistant]
+    verify_jwt = true
+  [functions.ai-agent]
+    verify_jwt = true
+  [functions.ai-assistant]
+    verify_jwt = true
+  [functions.ai-chat]
+    verify_jwt = true
+  [functions.ai-recommendations]
+    verify_jwt = false
+  [functions.analyze-material-performance]
+    verify_jwt = true
+  [functions.analyze-review-sentiment]
+    verify_jwt = false
+  [functions.api-gateway]
+    verify_jwt = false
+  [functions.auth-email-hook]
+    verify_jwt = false
+  [functions.auto-enrich-leads]
+    verify_jwt = true
+  [functions.b2b-match]
+    verify_jwt = false
+  [functions.b2b-web-search]
+    verify_jwt = false
+  [functions.batch-scrape-hbcu-images]
+    verify_jwt = false
+  [functions.bulk-refresh-business-branding]
+    verify_jwt = false
+  [functions.calculate-sponsor-impact]
+    verify_jwt = false
+  [functions.check-host-connect-status]
+    verify_jwt = false
+  [functions.cmal-api]
+    verify_jwt = false
+  [functions.coalition-earn-points]
+    verify_jwt = false
+  [functions.connect-stripe-account]
+    verify_jwt = true
+  [functions.create-booking]
+    verify_jwt = true
+  [functions.create-checkout]
+    verify_jwt = false
+  [functions.create-corporate-checkout]
+    verify_jwt = true
+  [functions.create-host-connect-account]
+    verify_jwt = false
+  [functions.create-payment-intent]
+    verify_jwt = true
+  [functions.create-portal-session]
+    verify_jwt = true
+  [functions.create-vacation-booking]
+    verify_jwt = false
+  [functions.delete-account]
+    verify_jwt = true
+  [functions.detect-fraud]
+    verify_jwt = true
+  [functions.elevenlabs-music]
+    verify_jwt = false
+  [functions.enhance-image]
+    verify_jwt = false
+  [functions.enrich-lead-emails]
+    verify_jwt = true
+  [functions.fraud-api]
+    verify_jwt = false
+  [functions.fraud-consensus-review]
+    verify_jwt = false
+  [functions.generate-ai-business-insights]
+    verify_jwt = true
+  [functions.generate-ai-recommendations]
+    verify_jwt = true
+  [functions.generate-branded-qr]
+    verify_jwt = false
+  [functions.generate-business-description]
+    verify_jwt = false
+  [functions.generate-business-insights]
+    verify_jwt = false
+  [functions.generate-impact-report]
+    verify_jwt = false
+  [functions.generate-material-recommendations]
+    verify_jwt = true
+  [functions.generate-qr-campaign]
+    verify_jwt = false
+  [functions.generate-recommendations]
+    verify_jwt = false
+  [functions.generate-share-image]
+    verify_jwt = false
+  [functions.generate-sitemap]
+    verify_jwt = false
+  [functions.handle-subscription-webhook]
+    verify_jwt = false
+  [functions.import-businesses-csv]
+    verify_jwt = true
+  [functions.increment-counters]
+    verify_jwt = true
+  [functions.kayla-auto-discover]
+    verify_jwt = false
+  [functions.kayla-cashflow-forecast]
+    verify_jwt = false
+  [functions.kayla-compliance-checker]
+    verify_jwt = false
+  [functions.kayla-credit-readiness]
+    verify_jwt = false
+  [functions.kayla-data-agent]
+    verify_jwt = false
+  [functions.kayla-dispatch]
+    verify_jwt = false
+  [functions.kayla-email-campaigns]
+    verify_jwt = false
+  [functions.kayla-event-processor]
+    verify_jwt = false
+  [functions.kayla-grant-matcher]
+    verify_jwt = false
+  [functions.kayla-health-check]
+    verify_jwt = false
+  [functions.kayla-inventory-manager]
+    verify_jwt = false
+  [functions.kayla-investment-readiness]
+    verify_jwt = false
+  [functions.kayla-legal-templates]
+    verify_jwt = false
+  [functions.kayla-loyalty-engine]
+    verify_jwt = false
+  [functions.kayla-price-optimizer]
+    verify_jwt = false
+  [functions.kayla-records-chat]
+    verify_jwt = false
+  [functions.kayla-records-processor]
+    verify_jwt = false
+  [functions.kayla-reminder-engine]
+    verify_jwt = false
+  [functions.kayla-services]
+    verify_jwt = false
+  [functions.kayla-supplier-diversity]
+    verify_jwt = false
+  [functions.kayla-tax-prep]
+    verify_jwt = false
+  [functions.kayla-tools]
+    verify_jwt = false
+  [functions.parse-business-info]
+    verify_jwt = false
+  [functions.parse-search-query]
+    verify_jwt = false
+  [functions.parse-verification-document]
+    verify_jwt = false
+  [functions.process-notification-batches]
+    verify_jwt = false
+  [functions.process-qr-transaction]
+    verify_jwt = true
+  [functions.realtime-token]
+    verify_jwt = false
+  [functions.realtime-voice]
+    verify_jwt = true
+  [functions.resend-webhook]
+    verify_jwt = false
+  [functions.scrape-business-website]
+    verify_jwt = false
+  [functions.send-admin-notification]
+    verify_jwt = false
+  [functions.send-b2b-invitation]
+    verify_jwt = false
+  [functions.send-booking-cancellation]
+    verify_jwt = false
+  [functions.send-booking-confirmation]
+    verify_jwt = false
+  [functions.send-booking-reminder]
+    verify_jwt = false
+  [functions.send-bulk-claim-invitations]
+    verify_jwt = true
+  [functions.send-business-invitation]
+    verify_jwt = true
+  [functions.send-commission-report]
+    verify_jwt = false
+  [functions.send-corporate-welcome]
+    verify_jwt = false
+  [functions.send-media-kit-request]
+    verify_jwt = false
+  [functions.send-newsletter-welcome]
+    verify_jwt = false
+  [functions.send-notification-digest]
+    verify_jwt = false
+  [functions.send-notification-email]
+    verify_jwt = false
+  [functions.send-password-reset]
+    verify_jwt = false
+  [functions.send-phone-otp]
+    verify_jwt = true
+  [functions.send-review-request]
+    verify_jwt = false
+  [functions.send-slack-notification]
+    verify_jwt = false
+  [functions.send-sponsor-email]
+    verify_jwt = true
+  [functions.send-sponsor-outreach-email]
+    verify_jwt = true
+  [functions.send-sponsor-rejection]
+    verify_jwt = true
+  [functions.send-verification-email]
+    verify_jwt = false
+  [functions.send-welcome-email]
+    verify_jwt = false
+  [functions.stripe-partner-webhook]
+    verify_jwt = false
+  [functions.stripe-webhook]
+    verify_jwt = false
+  [functions.stripe-webhook-corporate]
+    verify_jwt = false
+  [functions.susu-api]
+    verify_jwt = false
+  [functions.text-to-speech]
+    verify_jwt = true
+  [functions.track-invitation]
+    verify_jwt = false
+  [functions.transcribe-audio]
+    verify_jwt = true
+  [functions.update-sponsor-metrics-manual]
+    verify_jwt = true
+  [functions.vacation-booking-webhook]
+    verify_jwt = false
+  [functions.validate-business-leads]
+    verify_jwt = false
+  [functions.verify-phone-otp]
+    verify_jwt = true
+  [functions.voice-api]
+    verify_jwt = false
+  [functions.voice-concierge-tools]
+    verify_jwt = false
+
+  [functions.send-transactional-email]
+    verify_jwt = true
+  [functions.preview-transactional-email]
+    verify_jwt = false
+  [functions.handle-email-unsubscribe]
+    verify_jwt = false
+  [functions.handle-email-suppression]
+    verify_jwt = false
