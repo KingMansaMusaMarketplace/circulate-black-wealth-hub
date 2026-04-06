@@ -16,6 +16,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
 
   const benefits = [
+    'Kayla AI Concierge replaces $1,650–$7,950/mo in staffing costs',
     'Get discovered by conscious consumers actively seeking great businesses',
     'Access exclusive B2B matching to find partners, suppliers, and customers',
     'Join rotating savings circles (Susu) for community-powered financing',
@@ -24,9 +25,9 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
   ];
 
   const valueProposition = {
-    monthlyValue: 700,
-    monthlyPrice: 100,
-    roi: '7x',
+    laborCost: '$1,650–$7,950',
+    startingPrice: 19,
+    trialDays: 30,
   };
 
   const generateQRCode = async () => {
