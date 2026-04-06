@@ -98,6 +98,7 @@ const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
+const LazyUnsubscribePage = lazy(() => import('@/pages/UnsubscribePage'));
 const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyAppTestPage = lazy(() => import('@/pages/AppTestPage'));
