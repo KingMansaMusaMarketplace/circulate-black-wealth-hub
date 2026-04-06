@@ -17,6 +17,8 @@ import ValueTracker from '@/components/business/ValueTracker';
 import { KaylaInsightsDashboard } from '@/components/business/kayla/KaylaInsightsDashboard';
 import KaylaWelcomeOnboarding from '@/components/onboarding/KaylaWelcomeOnboarding';
 import KaylaProactiveAlerts from '@/components/dashboard/KaylaProactiveAlerts';
+import { KaylaAITeam } from '@/components/business/kayla/KaylaAITeam';
+import { KaylaOrchestrationDashboard } from '@/components/business/kayla/KaylaOrchestrationDashboard';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
