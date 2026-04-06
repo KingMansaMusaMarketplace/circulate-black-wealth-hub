@@ -995,6 +995,7 @@ function App() {
                         <Route path="/user-guide" element={<LazyUserGuidePage />} />
                         <Route path="/user-profile" element={<LazyUserProfilePage />} />
                         <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                        <Route path="/unsubscribe" element={<LazyUnsubscribePage />} />
                         
                         {/* V */}
                         <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
