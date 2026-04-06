@@ -241,8 +241,16 @@ serve(async (req) => {
 
     // Determine trial period based on subscription type
     const getTrialPeriod = () => {
-      // Kayla AI and business plans get 14-day trial
-      if (tier && (tier.startsWith('kayla_') || userType === 'business' || userType === 'customer')) {
+      // Essentials and Starter tiers get 30-day trial
+      if (tier && (tier.startsWith('kayla_essentials') || tier.startsWith('kayla_starter'))) {
+        return 30;
+      }
+      // Pro and Enterprise tiers get 14-day trial
+      if (tier && (tier.startsWith('kayla_pro') || tier.startsWith('kayla_enterprise'))) {
+        return 14;
+      }
+      // Business plans get 14-day trial
+      if (userType === 'business' || userType === 'customer') {
         return 14;
       }
       // Corporate sponsorships get no trial
