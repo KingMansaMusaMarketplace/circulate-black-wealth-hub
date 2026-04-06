@@ -154,11 +154,13 @@ serve(async (req) => {
 
     // Kayla AI tier price IDs (hardcoded for reliability)
     const KAYLA_PRICE_IDS: Record<string, string> = {
+      'kayla_essentials': 'price_1TJ9yKAsptTW1mCmr8SJRK2g',
+      'kayla_essentials_annual': 'price_1TJ9yjAsptTW1mCmJ8pWHUqs',
       'kayla_starter': 'price_1TGzeOAsptTW1mCmJCGRE0mL',
       'kayla_starter_annual': 'price_1TGzg6AsptTW1mCmbkF4gffD',
       'kayla_pro': 'price_1TGzewAsptTW1mCmYKjYk0Fn',
       'kayla_pro_annual': 'price_1TGzgRAsptTW1mCmloHSfeKB',
-      'kayla_enterprise': 'price_1TGzfdAsptTW1mCms0S1EJ4d',
+      'kayla_enterprise': 'price_1TJ9zBAsptTW1mCmfyUQxqYc',
     };
 
     // Check Kayla AI tiers first (works for both customer and business userTypes)
