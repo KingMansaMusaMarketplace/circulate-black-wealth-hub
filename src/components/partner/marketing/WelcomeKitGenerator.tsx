@@ -105,8 +105,8 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
     </div>
     
     <div class="cta-section">
-      <h2>Ready to Grow Your Business?</h2>
-      <p>Sign up FREE before September 1, 2026 to become a Founding Member</p>
+       <h2>Ready to Grow Your Business?</h2>
+       <p>Start your ${valueProposition.trialDays}-day free trial — plans from $${valueProposition.startingPrice}/mo</p>
       <div class="referral-link">${partner.referral_link}</div>
       <div class="qr-section">
         ${qrCode ? `<div class="qr-code"><img src="${qrCode}" alt="Scan to join" /><div class="qr-label">Scan to Join</div></div>` : ''}
