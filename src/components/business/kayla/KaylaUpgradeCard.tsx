@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Bot, MessageSquare, TrendingUp, Handshake, Loader2, FileText, Shield, Building2 } from 'lucide-react';
+import { Sparkles, Bot, MessageSquare, TrendingUp, Handshake, Loader2, FileText, Shield, Building2, Star } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { KAYLA_STRIPE_TIERS } from '@/lib/services/subscription-tiers';
@@ -13,15 +13,28 @@ interface KaylaTier {
   description: string;
   features: { icon: React.ElementType; text: string }[];
   highlight?: boolean;
-  onboardingFee?: string;
+  trialText: string;
 }
 
 const tiers: KaylaTier[] = [
+  {
+    name: 'Essentials',
+    price: '$19/mo',
+    priceId: KAYLA_STRIPE_TIERS.kayla_essentials.price_id,
+    description: 'AI chat & directory listing',
+    trialText: '30-day free trial',
+    features: [
+      { icon: Star, text: 'Enhanced directory listing' },
+      { icon: MessageSquare, text: 'Kayla AI chat assistant' },
+      { icon: Bot, text: 'Community marketplace access' },
+    ],
+  },
   {
     name: 'Starter',
     price: '$49/mo',
     priceId: KAYLA_STRIPE_TIERS.kayla_starter.price_id,
     description: 'Records Management only',
+    trialText: '30-day free trial',
     features: [
       { icon: FileText, text: 'Document vault & OCR extraction' },
       { icon: MessageSquare, text: 'Ask Kayla chat assistant' },
@@ -32,9 +45,9 @@ const tiers: KaylaTier[] = [
     name: 'Pro',
     price: '$149/mo',
     priceId: KAYLA_STRIPE_TIERS.kayla_pro.price_id,
-    description: 'All 23+ Kayla services',
+    description: 'All 24+ Kayla services',
     highlight: true,
-    onboardingFee: '$149 one-time setup',
+    trialText: '14-day free trial',
     features: [
       { icon: MessageSquare, text: 'AI Review Responses — drafted & sent automatically' },
       { icon: TrendingUp, text: 'Churn Prediction — catch at-risk customers early' },
@@ -44,10 +57,10 @@ const tiers: KaylaTier[] = [
   },
   {
     name: 'Enterprise',
-    price: '$399/mo',
+    price: '$599/mo',
     priceId: KAYLA_STRIPE_TIERS.kayla_enterprise.price_id,
     description: 'Multi-location & white-label',
-    onboardingFee: '$149 one-time setup',
+    trialText: '14-day free trial',
     features: [
       { icon: Building2, text: 'Multi-location support & white-label branding' },
       { icon: Shield, text: 'HIPAA BAA documentation & priority support' },
@@ -85,10 +98,10 @@ export const KaylaUpgradeCard: React.FC = () => {
     <div className="space-y-4">
       <div className="text-center mb-2">
         <p className="text-sm text-white/60">
-          Replaces $1,650–$5,750/month in human labor starting at $149/month — a 10–38x value multiplier
+          Replaces $1,650–$5,750/month in human labor starting at $19/month
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {tiers.map((tier) => (
           <Card
             key={tier.name}
@@ -124,9 +137,7 @@ export const KaylaUpgradeCard: React.FC = () => {
 
                 <div className="text-center pt-2">
                   <span className="text-2xl font-bold text-white">{tier.price}</span>
-                  {tier.onboardingFee && (
-                    <p className="text-xs text-white/40 mt-1">+ {tier.onboardingFee}</p>
-                  )}
+                  <p className="text-xs text-emerald-400 mt-1">{tier.trialText}</p>
                 </div>
 
                 <Button
