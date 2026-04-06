@@ -109,7 +109,7 @@ export const bookingService = {
           idempotencyKey: `booking-confirm-${booking.id}`,
           templateData: {
             customerName: params.customerName,
-            businessName: booking.business_id, // Will be resolved by the business name in the UI
+            businessName: params.businessName || 'your business',
             bookingDate: new Date(params.bookingDate).toLocaleString('en-US', {
               dateStyle: 'long',
               timeStyle: 'short',
