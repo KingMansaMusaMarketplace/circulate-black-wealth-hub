@@ -19342,11 +19342,13 @@ export type Database = {
           is_founding_member: boolean | null
           is_founding_sponsor: boolean | null
           is_verified: boolean | null
+          latitude: number | null
           listing_status: string | null
           location_manager_id: string | null
           location_name: string | null
           location_type: string | null
           logo_url: string | null
+          longitude: number | null
           name: string | null
           onboarding_completed_at: string | null
           owner_avatar: string | null
@@ -19364,6 +19366,8 @@ export type Database = {
           subscription_end_date: string | null
           subscription_start_date: string | null
           subscription_status: string | null
+          total_revenue_tracked: number | null
+          transaction_count: number | null
           updated_at: string | null
           website: string | null
           zip_code: string | null
