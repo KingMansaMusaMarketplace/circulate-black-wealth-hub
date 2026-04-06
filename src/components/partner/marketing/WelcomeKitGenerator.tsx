@@ -175,8 +175,9 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
 
           {/* Value Proposition Banner */}
           <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg p-3 mb-4 text-center text-slate-900">
-            <div className="text-lg font-bold">${valueProposition.monthlyValue}/mo value → ${valueProposition.monthlyPrice}/mo</div>
-            <div className="text-xs opacity-90">{valueProposition.roi} ROI on business tools & benefits</div>
+            <div className="text-xs opacity-90">Replaces {valueProposition.laborCost}/mo in staffing costs</div>
+            <div className="text-lg font-bold">Starting at ${valueProposition.startingPrice}/mo</div>
+            <div className="text-xs opacity-90">{valueProposition.trialDays}-day free trial · No commitment</div>
           </div>
           
           <div className="space-y-2 mb-4">
