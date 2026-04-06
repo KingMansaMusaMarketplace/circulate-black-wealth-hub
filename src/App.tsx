@@ -702,6 +702,7 @@ function App() {
                               <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
                               <Route path="/user-profile" element={<LazyUserProfilePage />} />
                               <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                              <Route path="/unsubscribe" element={<LazyUnsubscribePage />} />
                               
                               {/* W */}
 <Route path="/welcome" element={<LazyWelcomePage />} />
