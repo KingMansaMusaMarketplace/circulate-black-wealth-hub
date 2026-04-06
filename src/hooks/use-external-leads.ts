@@ -22,7 +22,7 @@ export function useExternalLeads() {
       setLoading(true);
       const { data, error } = await supabase
         .from('b2b_external_leads')
-        .select('*')
+        .select('id, business_name, business_description, category, city, state, zip_code, location, owner_name, owner_email, phone_number, website_url, source_query, source_id, contact_info, social_profiles, source_citations, confidence_score, data_quality_score, lead_score, priority_rank, is_converted, converted_business_id, is_invited, invited_at, invitation_count, last_invited_at, last_campaign_id, invitation_clicked_at, invitation_opened_at, is_visible_in_directory, listing_type, listing_expires_at, claim_status, claimed_at, claimed_by_user_id, email_status, call_status, called_at, call_notes, phone_valid, website_valid, last_validated_at, validation_status, validation_notes, last_enriched_at, verification_method, discovered_by_user_id, discovered_by_business_id, import_job_id, paid_at, payment_amount, created_at, updated_at')
         .eq('discovered_by_user_id', user.id)
         .order('created_at', { ascending: false });
 
