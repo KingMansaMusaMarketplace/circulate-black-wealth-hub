@@ -87,9 +87,9 @@ export const bookingService = {
 
       if (error) throw error;
 
-      // Send confirmation emails in the background
+      // Send confirmation email in the background
       if (data.success && data.booking) {
-        this.sendConfirmationEmails(data.booking.id);
+        this.sendConfirmationEmail(data.booking, params);
       }
 
       return data;
@@ -99,18 +99,25 @@ export const bookingService = {
     }
   },
 
-  async sendConfirmationEmails(bookingId: string): Promise<void> {
+  async sendConfirmationEmail(booking: Booking, params: CreateBookingParams): Promise<void> {
     try {
-      // Send emails without awaiting to not block the response
-      supabase.functions.invoke('send-booking-confirmation', {
-        body: { bookingId, recipientType: 'customer' }
-      });
-      
-      supabase.functions.invoke('send-booking-confirmation', {
-        body: { bookingId, recipientType: 'business' }
+      await supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'booking-confirmation',
+          recipientEmail: params.customerEmail,
+          idempotencyKey: `booking-confirm-${booking.id}`,
+          templateData: {
+            customerName: params.customerName,
+            businessName: booking.business_id, // Will be resolved by the business name in the UI
+            bookingDate: new Date(params.bookingDate).toLocaleString('en-US', {
+              dateStyle: 'long',
+              timeStyle: 'short',
+            }),
+          },
+        },
       });
     } catch (error) {
-      console.error('Error sending confirmation emails:', error);
+      console.error('Error sending confirmation email:', error);
       // Don't throw - email failures shouldn't fail the booking
     }
   },
