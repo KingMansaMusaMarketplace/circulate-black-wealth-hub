@@ -212,6 +212,13 @@ export class RealtimeChat {
       if (isIOS) {
         console.log('[iOS] Applying iOS-specific safeguards...');
       }
+
+      // CRITICAL: On Capacitor iOS, force garbage collection pause before heavy work
+      // WKWebView has strict memory limits; give it time to settle
+      if (isCapacitorIOS) {
+        console.log('[iOS Native] Pre-initialization memory settle pause...');
+        await new Promise(r => setTimeout(r, 300));
+      }
       
       // Use pre-acquired stream if available (preserves user gesture chain)
       if (preAcquiredStream) {
