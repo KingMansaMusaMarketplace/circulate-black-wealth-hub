@@ -456,6 +456,12 @@ export class RealtimeChat {
         throw new Error('No audio track available from microphone');
       }
 
+      // CRITICAL: On Capacitor iOS, yield between heavy WebRTC operations
+      if (isCapacitorIOS) {
+        console.log('[iOS Native] Yielding after addTrack before data channel...');
+        await new Promise(r => setTimeout(r, 300));
+      }
+
       // Set up data channel
       console.log('Creating data channel...');
       this.dc = this.pc.createDataChannel("oai-events");
