@@ -254,8 +254,8 @@ export class RealtimeChat {
       // CRITICAL: On Capacitor iOS, yield to the run loop after getUserMedia
       // to prevent WKWebView from accumulating too much work in one frame
       if (isCapacitorIOS) {
-        console.log('[iOS Native] Yielding after mic acquisition...');
-        await new Promise(r => setTimeout(r, 100));
+        console.log('[iOS Native] Yielding after mic acquisition (longer pause)...');
+        await new Promise(r => setTimeout(r, 500));
       }
       
       // Create audio element AFTER microphone permission granted
