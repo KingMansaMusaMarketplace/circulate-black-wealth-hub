@@ -40,7 +40,13 @@ export const useDemoInteractions = ({
   }, []);
 
   const toggleAutoPlay = useCallback(() => {
-    setIsAutoPlaying(prev => !prev);
+    setIsAutoPlaying(prev => {
+      const next = !prev;
+      if (next) {
+        setIsPaused(false);
+      }
+      return next;
+    });
   }, []);
 
   // Auto-play logic
