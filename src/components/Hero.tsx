@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mic, MicOff, Loader2 } from 'lucide-react';
+import { ArrowRight, Mic, MicOff, Loader2, Users, Building2 } from 'lucide-react';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 
@@ -63,31 +63,40 @@ const Hero = () => {
             Discover businesses in your community. Support economic growth. Build generational wealth together.
           </motion.p>
 
-          {/* CTAs */}
+          {/* Dual-path CTAs */}
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex flex-col gap-6 items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <Link to="/directory">
-              <Button 
-                size="lg"
-                className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-14 px-8 rounded-xl shadow-xl text-lg w-full sm:w-auto"
-              >
-                Explore Businesses
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+              <Link to="/signup">
+                <Button 
+                  size="lg"
+                  className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-14 px-8 rounded-xl shadow-xl text-lg w-full sm:w-auto"
+                >
+                  <Users className="mr-2 w-5 h-5" />
+                  I'm a Consumer
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
 
-            <Link to="/how-it-works">
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-white/20 text-white hover:bg-white/10 font-semibold h-14 px-8 rounded-xl text-lg w-full sm:w-auto"
-              >
-                How It Works
-              </Button>
+              <Link to="/business-signup">
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 font-bold h-14 px-8 rounded-xl text-lg w-full sm:w-auto"
+                >
+                  <Building2 className="mr-2 w-5 h-5" />
+                  I'm a Business
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+            
+            <Link to="/directory" className="text-white/60 hover:text-mansagold text-sm font-medium transition-colors">
+              Or explore businesses in the directory →
             </Link>
           </motion.div>
 
