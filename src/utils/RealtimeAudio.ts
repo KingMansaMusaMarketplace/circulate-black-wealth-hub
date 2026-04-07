@@ -348,14 +348,15 @@ export class RealtimeChat {
 
       // On Capacitor iOS, add a longer pause before WebRTC init to let WKWebView settle
       if (isCapacitorIOS) {
-        console.log('[iOS Native] Adding delay before RTCPeerConnection to prevent WKWebView crash');
-        await new Promise(r => setTimeout(r, 500));
+        console.log('[iOS Native] Adding 1.5s delay before RTCPeerConnection to prevent WKWebView crash');
+        await new Promise(r => setTimeout(r, 1500));
       }
 
-      // Create peer connection with STUN servers for better connectivity
+      // Create peer connection
+      // On Capacitor iOS, skip STUN servers to reduce network overhead and memory pressure
       console.log('Creating RTCPeerConnection...');
       this.pc = new RTCPeerConnection({
-        iceServers: [
+        iceServers: isCapacitorIOS ? [] : [
           { urls: 'stun:stun.l.google.com:19302' },
           { urls: 'stun:stun1.l.google.com:19302' }
         ]
