@@ -241,14 +241,19 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
       await triggerHaptics('medium');
       setIsConnecting(true);
 
+      // Longer timeout on Capacitor iOS due to phased initialization delays
+      const isCapacitorIOS = !!(window as any).Capacitor?.isNativePlatform?.() &&
+        /iPhone|iPad|iPod/.test(navigator.userAgent);
+      const timeoutMs = isCapacitorIOS ? 35000 : 20000;
+
       const timeoutId = setTimeout(() => {
-        console.error('[Kayla] Connection timeout after 20 seconds');
+        console.error(`[Kayla] Connection timeout after ${timeoutMs / 1000} seconds`);
         setIsConnecting(false);
         micStream.getTracks().forEach(t => t.stop());
         toast.error('Connection Timeout', {
           description: 'Taking too long to connect. Please try again.',
         });
-      }, 20000);
+      }, timeoutMs);
 
       try {
         if (!window.isSecureContext) {

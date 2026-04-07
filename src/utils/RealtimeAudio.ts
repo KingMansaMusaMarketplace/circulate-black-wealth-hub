@@ -212,6 +212,13 @@ export class RealtimeChat {
       if (isIOS) {
         console.log('[iOS] Applying iOS-specific safeguards...');
       }
+
+      // CRITICAL: On Capacitor iOS, force garbage collection pause before heavy work
+      // WKWebView has strict memory limits; give it time to settle
+      if (isCapacitorIOS) {
+        console.log('[iOS Native] Pre-initialization memory settle pause...');
+        await new Promise(r => setTimeout(r, 300));
+      }
       
       // Use pre-acquired stream if available (preserves user gesture chain)
       if (preAcquiredStream) {
@@ -247,8 +254,8 @@ export class RealtimeChat {
       // CRITICAL: On Capacitor iOS, yield to the run loop after getUserMedia
       // to prevent WKWebView from accumulating too much work in one frame
       if (isCapacitorIOS) {
-        console.log('[iOS Native] Yielding after mic acquisition...');
-        await new Promise(r => setTimeout(r, 100));
+        console.log('[iOS Native] Yielding after mic acquisition (longer pause)...');
+        await new Promise(r => setTimeout(r, 500));
       }
       
       // Create audio element AFTER microphone permission granted
@@ -341,14 +348,15 @@ export class RealtimeChat {
 
       // On Capacitor iOS, add a longer pause before WebRTC init to let WKWebView settle
       if (isCapacitorIOS) {
-        console.log('[iOS Native] Adding delay before RTCPeerConnection to prevent WKWebView crash');
-        await new Promise(r => setTimeout(r, 500));
+        console.log('[iOS Native] Adding 1.5s delay before RTCPeerConnection to prevent WKWebView crash');
+        await new Promise(r => setTimeout(r, 1500));
       }
 
-      // Create peer connection with STUN servers for better connectivity
+      // Create peer connection
+      // On Capacitor iOS, skip STUN servers to reduce network overhead and memory pressure
       console.log('Creating RTCPeerConnection...');
       this.pc = new RTCPeerConnection({
-        iceServers: [
+        iceServers: isCapacitorIOS ? [] : [
           { urls: 'stun:stun.l.google.com:19302' },
           { urls: 'stun:stun1.l.google.com:19302' }
         ]
@@ -448,6 +456,12 @@ export class RealtimeChat {
         throw new Error('No audio track available from microphone');
       }
 
+      // CRITICAL: On Capacitor iOS, yield between heavy WebRTC operations
+      if (isCapacitorIOS) {
+        console.log('[iOS Native] Yielding after addTrack before data channel...');
+        await new Promise(r => setTimeout(r, 300));
+      }
+
       // Set up data channel
       console.log('Creating data channel...');
       this.dc = this.pc.createDataChannel("oai-events");
@@ -544,6 +558,12 @@ export class RealtimeChat {
       console.log('Creating offer...');
       const offer = await this.pc.createOffer();
       await this.pc.setLocalDescription(offer);
+
+      // On Capacitor iOS, pause before the network-heavy SDP exchange
+      if (isCapacitorIOS) {
+        console.log('[iOS Native] Yielding before SDP exchange...');
+        await new Promise(r => setTimeout(r, 500));
+      }
 
       // Connect to OpenAI's Realtime API
       const baseUrl = "https://api.openai.com/v1/realtime";
