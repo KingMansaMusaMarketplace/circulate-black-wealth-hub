@@ -559,6 +559,12 @@ export class RealtimeChat {
       const offer = await this.pc.createOffer();
       await this.pc.setLocalDescription(offer);
 
+      // On Capacitor iOS, pause before the network-heavy SDP exchange
+      if (isCapacitorIOS) {
+        console.log('[iOS Native] Yielding before SDP exchange...');
+        await new Promise(r => setTimeout(r, 500));
+      }
+
       // Connect to OpenAI's Realtime API
       const baseUrl = "https://api.openai.com/v1/realtime";
       const model = "gpt-4o-realtime-preview";
