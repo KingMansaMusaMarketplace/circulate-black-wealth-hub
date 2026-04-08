@@ -85,7 +85,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
       description: 'Your autonomous AI employee',
       features: [
         'Everything in Business Pro',
-        'Kayla AI Employee (20+ services)',
+        'Kayla AI Employee (28 services)',
         'AI review responses',
         'Tax prep & legal templates',
         'Investment readiness scoring',

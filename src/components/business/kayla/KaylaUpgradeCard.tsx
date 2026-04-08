@@ -45,7 +45,7 @@ const tiers: KaylaTier[] = [
     name: 'Pro',
     price: '$149/mo',
     priceId: KAYLA_STRIPE_TIERS.kayla_pro.price_id,
-    description: 'All 24+ Kayla services',
+    description: 'All 28 Kayla services',
     highlight: true,
     trialText: '14-day free trial',
     features: [

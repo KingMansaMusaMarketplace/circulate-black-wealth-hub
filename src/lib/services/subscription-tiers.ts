@@ -151,7 +151,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_pro: {
     displayName: 'Kayla AI Pro',
-    description: 'All 24+ Kayla services — replaces $1,650–$5,750/month in human labor',
+    description: 'All 28 Kayla services — replaces $1,650–$5,750/month in human labor',
     price: 149,
     interval: 'month',
     popular: true,
@@ -160,7 +160,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_pro_annual: {
     displayName: 'Kayla AI Pro (Annual)',
-    description: 'All 24+ Kayla services — replaces $1,650–$5,750/month in human labor, a 10–38x value multiplier',
+    description: 'All 28 Kayla services — replaces $1,650–$5,750/month in human labor, a 10–38x value multiplier',
     price: 1490,
     interval: 'year',
     savingsText: 'Save $298/year',
@@ -180,14 +180,14 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   // Legacy tiers — kept for existing subscribers
   business_pro_kayla: {
     displayName: 'Business Pro + Kayla AI (Legacy)',
-    description: 'Legacy tier — please upgrade to Kayla AI Pro for 24+ services',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 28 services',
     price: 99,
     interval: 'month',
     features: KAYLA_PRO_FEATURES,
   },
   business_pro_kayla_annual: {
     displayName: 'Business Pro + Kayla AI Annual (Legacy)',
-    description: 'Legacy tier — please upgrade to Kayla AI Pro for 24+ services',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 28 services',
     price: 990,
     interval: 'year',
     savingsText: 'Save $198/year',
@@ -203,7 +203,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_ai: {
     displayName: 'Kayla AI Employee (Legacy)',
-    description: 'Legacy tier — please upgrade to Kayla AI Pro for 24+ services',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 28 services',
     price: 100,
     interval: 'month',
     features: KAYLA_PRO_FEATURES,

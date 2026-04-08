@@ -11,7 +11,8 @@ import {
   Wallet, BarChart3, Shield, Star, Sparkles, MessageSquare, Gift, 
   Brain, Search, FileText, Handshake, Globe, Mic, 
   CreditCard, Target, Heart, Zap, Bot, Eye,
-  BookOpen, Megaphone, Scale, ChevronRight
+  BookOpen, Megaphone, Scale, ChevronRight,
+  Gavel, Share2, Mail, Package, Tags, LineChart, ShieldCheck, BadgeDollarSign
 } from 'lucide-react';
 
 const BusinessSignupPage: React.FC = () => {
@@ -293,6 +294,110 @@ const BusinessSignupPage: React.FC = () => {
       color: 'from-yellow-500 to-orange-500',
       badge: 'AI'
     },
+    {
+      icon: Receipt,
+      title: 'Tax Preparation',
+      description: 'AI-powered tax estimates, deduction tracking & filing prep',
+      details: [
+        'Quarterly tax estimates',
+        'Deduction category tracking',
+        'Tax document organization',
+        'CPA-ready financial summaries'
+      ],
+      color: 'from-lime-500 to-green-600',
+      badge: 'FINANCE'
+    },
+    {
+      icon: Gavel,
+      title: 'Legal Templates',
+      description: 'Generate contracts, NDAs, and business agreements instantly',
+      details: [
+        '10+ template categories',
+        'Auto-populated business info',
+        'Service agreements & NDAs',
+        'Independent contractor forms'
+      ],
+      color: 'from-stone-500 to-slate-600',
+      badge: 'OPERATIONS'
+    },
+    {
+      icon: Share2,
+      title: 'Social Media Content',
+      description: 'Kayla generates platform-ready posts for your brand',
+      details: [
+        'Instagram, Facebook, X & LinkedIn',
+        'Tone & hashtag optimization',
+        'Seasonal & trending topics',
+        'One-click copy & post'
+      ],
+      color: 'from-pink-400 to-fuchsia-500',
+      badge: 'MARKETING'
+    },
+    {
+      icon: Mail,
+      title: 'Email Campaigns',
+      description: 'Automated email marketing with AI-written copy',
+      details: [
+        'Customer segment targeting',
+        'AI-generated subject lines & body',
+        'Campaign performance tracking',
+        'Drip sequence automation'
+      ],
+      color: 'from-cyan-500 to-blue-600',
+      badge: 'MARKETING'
+    },
+    {
+      icon: Package,
+      title: 'Inventory Management',
+      description: 'Track stock levels, vendors & get reorder alerts',
+      details: [
+        'Real-time stock tracking',
+        'Low-stock alerts & reorder suggestions',
+        'Vendor recommendation engine',
+        'Cost & margin analysis'
+      ],
+      color: 'from-amber-600 to-orange-600',
+      badge: 'OPERATIONS'
+    },
+    {
+      icon: Tags,
+      title: 'Price Optimization',
+      description: 'AI analyzes demand & competition to suggest optimal pricing',
+      details: [
+        'Market-based price suggestions',
+        'Margin impact analysis',
+        'Seasonal pricing strategies',
+        'Competitor price benchmarking'
+      ],
+      color: 'from-rose-500 to-red-600',
+      badge: 'AI'
+    },
+    {
+      icon: BadgeDollarSign,
+      title: 'Investment Readiness',
+      description: 'Prepare your business for investors with AI-guided scoring',
+      details: [
+        'Investor readiness scorecard',
+        'Pitch deck data preparation',
+        'Financial ratio benchmarks',
+        'Growth trajectory analysis'
+      ],
+      color: 'from-emerald-600 to-teal-600',
+      badge: 'FINANCE'
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Compliance Monitoring',
+      description: 'Track licenses, permits & deadlines so nothing expires',
+      details: [
+        'License expiration alerts',
+        'Permit renewal reminders',
+        'Regulatory checklist tracking',
+        'Auto-generated compliance reports'
+      ],
+      color: 'from-blue-600 to-indigo-600',
+      badge: 'OPERATIONS'
+    },
   ];
 
   const badgeColors: Record<string, string> = {
@@ -310,7 +415,7 @@ const BusinessSignupPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative flex flex-col justify-center py-12">
       <Helmet>
         <title>Business Sign Up — Kayla AI Employee Included | 1325.AI</title>
-        <meta name="description" content="Sign up your business on 1325.AI and get Kayla, your AI employee — 24 autonomous services replacing $5,750+/mo in human labor. Included free." />
+        <meta name="description" content="Sign up your business on 1325.AI and get Kayla, your AI employee — 28 autonomous services replacing $5,750+/mo in human labor. Included free." />
       </Helmet>
 
       {/* Animated gradient orbs */}
@@ -348,13 +453,13 @@ const BusinessSignupPage: React.FC = () => {
                   Your AI Employee — Included Free
                 </p>
                 <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-                  24 autonomous services that replace <span className="text-mansagold font-bold">$1,650–$5,750/month</span> in human labor. 
+                  28 autonomous services that replace <span className="text-mansagold font-bold">$1,650–$5,750/month</span> in human labor. 
                   She manages your marketing, finances, operations, and community impact — so you can focus on what you do best.
                 </p>
                 
                 <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
                   <div className="text-center">
-                    <p className="text-3xl md:text-4xl font-extrabold text-mansagold">24</p>
+                    <p className="text-3xl md:text-4xl font-extrabold text-mansagold">28</p>
                     <p className="text-sm text-slate-400">AI Services</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
