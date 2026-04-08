@@ -51,7 +51,7 @@ const MeetKaylaSection: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <span className="section-label text-xl md:text-2xl tracking-widest">Agentic AI Concierge</span>
-          <h2 className="font-playfair text-6xl md:text-7xl lg:text-8xl font-bold text-foreground mb-3">
+          <h2 className="font-playfair text-6xl md:text-7xl lg:text-8xl font-bold mb-3 text-mansagold drop-shadow-[0_0_20px_rgba(184,134,11,0.7)] [text-shadow:0_0_30px_rgba(184,134,11,0.5),0_0_60px_rgba(184,134,11,0.3)]">
             Kayla
           </h2>
           <div className="mb-5">
