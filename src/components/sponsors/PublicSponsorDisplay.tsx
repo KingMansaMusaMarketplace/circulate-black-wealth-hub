@@ -39,25 +39,6 @@ const tierConfig: Record<string, { gradient: string; glow: string; label: string
 export const PublicSponsorDisplay = () => {
   const { data: sponsors, isLoading } = useCachedSponsors();
 
-  useEffect(() => {
-    if (displaySponsors && displaySponsors.length > 0 && sponsors && sponsors.length > 0) {
-      sponsors.forEach((sponsor) => {
-        supabase.rpc('increment_sponsor_impression', {
-          p_subscription_id: sponsor.id,
-        });
-      });
-    }
-  }, [displaySponsors, sponsors]);
-
-  const handleSponsorClick = async (sponsor: Sponsor) => {
-    await supabase.rpc('increment_sponsor_click', {
-      p_subscription_id: sponsor.id,
-    });
-    if (sponsor.website_url) {
-      window.open(sponsor.website_url, '_blank', 'noopener,noreferrer');
-    }
-  };
-
   // Fallback platinum sponsor when no DB sponsors are available
   const fallbackSponsors: Sponsor[] = [
     {
@@ -72,12 +53,32 @@ export const PublicSponsorDisplay = () => {
 
   const displaySponsors = sponsors && sponsors.length > 0 ? sponsors : fallbackSponsors;
 
+  useEffect(() => {
+    if (sponsors && sponsors.length > 0) {
+      sponsors.forEach((sponsor) => {
+        supabase.rpc('increment_sponsor_impression', {
+          p_subscription_id: sponsor.id,
+        });
+      });
+    }
+  }, [sponsors]);
+
+  const handleSponsorClick = async (sponsor: Sponsor) => {
+    if (sponsor.id.startsWith('miguel-wilson')) return; // skip RPC for fallback
+    await supabase.rpc('increment_sponsor_click', {
+      p_subscription_id: sponsor.id,
+    });
+    if (sponsor.website_url) {
+      window.open(sponsor.website_url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   if (isLoading) {
     return null;
   }
 
-  const platinumSponsors = sponsors.filter((s) => s.tier === 'platinum');
-  const otherSponsors = sponsors.filter((s) => s.tier !== 'platinum');
+  const platinumSponsors = displaySponsors.filter((s) => s.tier === 'platinum');
+  const otherSponsors = displaySponsors.filter((s) => s.tier !== 'platinum');
 
   const getSponsorLogo = (sponsor: Sponsor) => {
     if (sponsor.logo_url) return sponsor.logo_url;
