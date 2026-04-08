@@ -64,10 +64,11 @@ export const PublicSponsorDisplay = () => {
   }, [sponsors]);
 
   const handleSponsorClick = async (sponsor: Sponsor) => {
-    if (sponsor.id.startsWith('miguel-wilson')) return; // skip RPC for fallback
-    await supabase.rpc('increment_sponsor_click', {
-      p_subscription_id: sponsor.id,
-    });
+    if (!sponsor.id.startsWith('miguel-wilson')) {
+      await supabase.rpc('increment_sponsor_click', {
+        p_subscription_id: sponsor.id,
+      });
+    }
     if (sponsor.website_url) {
       window.open(sponsor.website_url, '_blank', 'noopener,noreferrer');
     }
