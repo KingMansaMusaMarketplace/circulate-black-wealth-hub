@@ -178,7 +178,7 @@ const DirectoryPage: React.FC = () => {
                </span>
              </h1>
              <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl">
-               {totalBusinesses ? `${totalBusinesses.toLocaleString()}+ verified businesses` : '12,000+ verified businesses'} — discover, support, and earn loyalty points
+               {totalBusinesses ? `${totalBusinesses.toLocaleString()}+ verified businesses` : '50,000+ verified businesses'} — discover, support, and earn loyalty points
             </p>
           </motion.div>
           

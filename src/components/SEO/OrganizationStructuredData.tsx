@@ -10,7 +10,7 @@ export const OrganizationStructuredData = () => {
     alternateName: [siteConfig.legacyName, '1325', 'Black-Owned Business Directory'],
     url: siteConfig.url,
     logo: `${siteConfig.url}/images/1325-logo.png`,
-    description: 'The largest verified Black-owned business directory with 12,000+ listings. Discover and support Black-owned businesses, earn rewards, and circulate community wealth.',
+    description: 'The largest verified Black-owned business directory with 50,000+ listings. Discover and support Black-owned businesses, earn rewards, and circulate community wealth.',
     foundingDate: siteConfig.foundingDate,
     slogan: 'The Largest Black-Owned Business Directory',
     sameAs: [
