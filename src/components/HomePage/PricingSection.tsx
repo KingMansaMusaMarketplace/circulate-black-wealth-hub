@@ -127,6 +127,7 @@ const PricingSection = () => {
         'Custom branding options',
       ],
       cta: 'Start Pro Trial',
+      footnote: 'Recommended for teams up to ~20 employees or a single location.',
     },
     {
       name: 'Enterprise',
