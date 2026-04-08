@@ -205,54 +205,57 @@ export const PublicSponsorDisplay = () => {
         {otherSponsors.length > 0 && (
           <>
             <div className="flex items-center gap-4 mb-10 max-w-3xl mx-auto">
-              <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-white/[0.06]" />
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.02]">
-                <Award className="h-3.5 w-3.5 text-mansagold/70" />
-                <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-white/30">
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-mansagold/20" />
+              <div className="flex items-center gap-2 px-5 py-2 rounded-full border border-mansagold/20 bg-mansagold/[0.06]">
+                <Award className="h-4 w-4 text-mansagold" />
+                <span className="text-xs font-bold tracking-[0.15em] uppercase text-mansagold">
                   Gold Partners
                 </span>
               </div>
-              <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-white/[0.06]" />
+              <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-mansagold/20" />
             </div>
 
             {/* Gold / Other Sponsors — Clean Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-4xl mx-auto">
               {otherSponsors.map((sponsor) => {
                 const config = tierConfig[sponsor.tier] || tierConfig.gold;
                 return (
                   <div
                     key={sponsor.id}
                     onClick={() => handleSponsorClick(sponsor)}
-                    className={`relative rounded-2xl cursor-pointer group transition-all duration-300 hover:-translate-y-1 bg-white/[0.02] border border-white/[0.06] hover:border-mansagold/20 hover:bg-white/[0.04] ${config.glow.replace(/shadow-\[.*?\]/, 'hover:$&')}`}
+                    className="relative rounded-2xl cursor-pointer group transition-all duration-300 hover:-translate-y-1 bg-white/[0.04] border border-mansagold/15 hover:border-mansagold/40 hover:bg-white/[0.07] shadow-lg shadow-black/20 hover:shadow-mansagold/10"
                   >
-                    <div className="p-6 flex flex-col items-center text-center">
-                      {/* Tier indicator */}
-                      <div className={`flex items-center gap-1.5 mb-4`}>
-                        <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${config.gradient}`} />
-                        <span className={`text-[9px] font-bold tracking-[0.2em] uppercase ${config.accentColor} opacity-60`}>
+                    {/* Top gold accent */}
+                    <div className="absolute top-0 left-4 right-4 h-[2px] bg-gradient-to-r from-transparent via-mansagold/40 to-transparent rounded-full" />
+                    
+                    <div className="p-7 flex flex-col items-center text-center">
+                      {/* Tier badge */}
+                      <div className="flex items-center gap-2 mb-5">
+                        <div className="w-2 h-2 rounded-full bg-mansagold shadow-sm shadow-mansagold/50" />
+                        <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-mansagold">
                           {config.label}
                         </span>
                       </div>
 
                       {/* Logo */}
-                      <div className="w-16 h-16 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center overflow-hidden mb-4 group-hover:border-white/[0.12] transition-colors">
+                      <div className="w-20 h-20 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center overflow-hidden mb-5 group-hover:border-mansagold/30 transition-colors">
                         <img
                           src={getSponsorLogo(sponsor)}
                           alt={sponsor.company_name}
-                          className="max-h-12 max-w-12 object-contain"
+                          className="max-h-14 max-w-14 object-contain"
                         />
                       </div>
 
                       {/* Name */}
-                      <h4 className="text-white/80 font-semibold text-sm group-hover:text-white transition-colors">
+                      <h4 className="text-white font-bold text-base group-hover:text-mansagold transition-colors">
                         {sponsor.company_name}
                       </h4>
 
                       {/* Website link */}
                       {sponsor.website_url && (
-                        <div className="mt-3 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <ExternalLink className="h-3 w-3 text-mansagold/60" />
-                          <span className="text-xs text-mansagold/60">Visit</span>
+                        <div className="mt-3 flex items-center gap-1.5 text-mansagold/70 group-hover:text-mansagold transition-colors">
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          <span className="text-xs font-medium">Visit Website</span>
                         </div>
                       )}
                     </div>
