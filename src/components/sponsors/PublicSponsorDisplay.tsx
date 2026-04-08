@@ -67,9 +67,18 @@ export const PublicSponsorDisplay = () => {
     status: 'active',
   };
 
+  const mansaKundaSponsor: Sponsor = {
+    id: 'mansa-kunda',
+    tier: 'gold',
+    company_name: 'Mansa Kunda',
+    logo_url: null,
+    website_url: null,
+    status: 'active',
+  };
+
   // Replace any DB platinum sponsors with Miguel Wilson, keep other tiers from DB
   const otherTierSponsors = sponsors ? sponsors.filter(s => s.tier !== 'platinum') : [];
-  const displaySponsors: Sponsor[] = [miguelWilsonSponsor, apparelRedefinedSponsor, ...otherTierSponsors];
+  const displaySponsors: Sponsor[] = [miguelWilsonSponsor, apparelRedefinedSponsor, mansaKundaSponsor, ...otherTierSponsors];
 
   useEffect(() => {
     if (sponsors && sponsors.length > 0) {
