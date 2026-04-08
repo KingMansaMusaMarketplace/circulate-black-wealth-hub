@@ -99,7 +99,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_essentials: {
     displayName: 'Kayla AI Essentials',
-    description: 'Get started with AI — directory listing, Kayla chat assistant & community marketplace',
+    description: 'Perfect for businesses just getting started with AI',
     price: 19,
     interval: 'month',
     features: ESSENTIALS_FEATURES,
@@ -107,7 +107,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_essentials_annual: {
     displayName: 'Kayla AI Essentials (Annual)',
-    description: 'Get started with AI — directory listing, Kayla chat assistant & community marketplace',
+    description: 'Perfect for businesses just getting started with AI',
     price: 190,
     interval: 'year',
     savingsText: 'Save $38/year',
@@ -133,7 +133,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_starter: {
     displayName: 'Kayla AI Starter',
-    description: 'Records Management only — document vault, OCR extraction, Ask Kayla chat & expiration alerts',
+    description: 'AI-powered records management & business tools',
     price: 49,
     interval: 'month',
     features: KAYLA_STARTER_FEATURES,
@@ -141,7 +141,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_starter_annual: {
     displayName: 'Kayla AI Starter (Annual)',
-    description: 'Records Management only — document vault, OCR extraction, Ask Kayla chat & expiration alerts',
+    description: 'AI-powered records management & business tools',
     price: 490,
     interval: 'year',
     savingsText: 'Save $98/year',
@@ -151,7 +151,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_pro: {
     displayName: 'Kayla AI Pro',
-    description: 'All 28 Kayla services — replaces $1,650–$5,750/month in human labor',
+    description: 'Full suite of 24+ AI-powered services',
     price: 149,
     interval: 'month',
     popular: true,
@@ -160,7 +160,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_pro_annual: {
     displayName: 'Kayla AI Pro (Annual)',
-    description: 'All 28 Kayla services — replaces $1,650–$5,750/month in human labor, a 10–38x value multiplier',
+    description: 'Full suite of 24+ AI-powered services',
     price: 1490,
     interval: 'year',
     savingsText: 'Save $298/year',
@@ -171,8 +171,8 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_enterprise: {
     displayName: 'Kayla AI Enterprise',
-    description: 'Multi-location support, white-label Kayla branding, HIPAA BAA, priority support & API access',
-    price: 599,
+    description: 'Multi-location support, white-labeling, and advanced integrations',
+    price: 420,
     interval: 'month',
     features: KAYLA_ENTERPRISE_FEATURES,
     trialDays: 14,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Bot, MessageSquare, TrendingUp, Handshake, Loader2, FileText, Shield, Building2, Star } from 'lucide-react';
+import { Sparkles, Bot, MessageSquare, TrendingUp, Handshake, Loader2, FileText, Shield, Building2, Star, QrCode, Mail, BarChart3, Palette, Users, Headphones, Zap, Award } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { KAYLA_STRIPE_TIERS } from '@/lib/services/subscription-tiers';
@@ -9,62 +9,87 @@ import { KAYLA_STRIPE_TIERS } from '@/lib/services/subscription-tiers';
 interface KaylaTier {
   name: string;
   price: string;
+  priceSubline?: string;
   priceId: string;
   description: string;
   features: { icon: React.ElementType; text: string }[];
   highlight?: boolean;
   trialText: string;
+  buttonText: string;
+  footnote?: string;
 }
 
 const tiers: KaylaTier[] = [
   {
     name: 'Essentials',
     price: '$19/mo',
+    priceSubline: '$190/year — save $38',
     priceId: KAYLA_STRIPE_TIERS.kayla_essentials.price_id,
-    description: 'AI chat & directory listing',
+    description: 'Perfect for businesses just getting started with AI',
     trialText: '30-day free trial',
+    buttonText: 'Start Free Trial',
     features: [
       { icon: Star, text: 'Enhanced directory listing' },
       { icon: MessageSquare, text: 'Kayla AI chat assistant' },
-      { icon: Bot, text: 'Community marketplace access' },
+      { icon: Handshake, text: 'Community marketplace access' },
+      { icon: QrCode, text: 'Up to 5 QR codes' },
+      { icon: Mail, text: 'Email support' },
     ],
   },
   {
     name: 'Starter',
     price: '$49/mo',
+    priceSubline: '$490/year — save $98',
     priceId: KAYLA_STRIPE_TIERS.kayla_starter.price_id,
-    description: 'Records Management only',
+    description: 'AI-powered records management & business tools',
     trialText: '30-day free trial',
+    buttonText: 'Get Started',
     features: [
+      { icon: Sparkles, text: 'Everything in Essentials' },
+      { icon: Bot, text: 'AI-powered records management' },
       { icon: FileText, text: 'Document vault & OCR extraction' },
-      { icon: MessageSquare, text: 'Ask Kayla chat assistant' },
-      { icon: Bot, text: 'Expiration alerts & reminders' },
+      { icon: Shield, text: 'Expiration alerts & reminders' },
+      { icon: QrCode, text: 'Up to 25 QR codes' },
+      { icon: BarChart3, text: 'Monthly impact reports' },
     ],
   },
   {
     name: 'Pro',
     price: '$149/mo',
+    priceSubline: '$1,490/year — save $298',
     priceId: KAYLA_STRIPE_TIERS.kayla_pro.price_id,
-    description: 'All 28 Kayla services',
+    description: 'Full suite of 24+ AI-powered services',
     highlight: true,
     trialText: '14-day free trial',
+    buttonText: 'Start Pro Trial',
+    footnote: 'Recommended for teams up to ~20 employees or a single location.',
     features: [
-      { icon: MessageSquare, text: 'AI Review Responses — drafted & sent automatically' },
-      { icon: TrendingUp, text: 'Churn Prediction — catch at-risk customers early' },
-      { icon: Handshake, text: 'B2B Matchmaking — find supply chain partners' },
-      { icon: Bot, text: 'Content Generation — social posts & promotions on autopilot' },
+      { icon: Sparkles, text: 'Everything in Starter' },
+      { icon: Bot, text: 'Full Kayla AI concierge suite' },
+      { icon: Handshake, text: 'B2B matchmaking & connections' },
+      { icon: TrendingUp, text: 'Advanced analytics dashboard' },
+      { icon: Headphones, text: 'Priority support' },
+      { icon: Zap, text: 'Marketing automation tools' },
+      { icon: Palette, text: 'Custom branding options' },
     ],
   },
   {
     name: 'Enterprise',
-    price: '$599/mo',
+    price: 'From $420/mo',
+    priceSubline: '+ $30 per user/month · Custom annual pricing available',
     priceId: KAYLA_STRIPE_TIERS.kayla_enterprise.price_id,
-    description: 'Multi-location & white-label',
+    description: 'Multi-location support, white-labeling, and advanced integrations',
     trialText: '14-day free trial',
+    buttonText: 'Contact Sales',
+    footnote: 'Example: 30 users ≈ $1,320/month (about $15,840/year).',
     features: [
-      { icon: Building2, text: 'Multi-location support & white-label branding' },
-      { icon: Shield, text: 'HIPAA BAA documentation & priority support' },
-      { icon: Bot, text: 'API access & all Pro features included' },
+      { icon: Sparkles, text: 'Everything in Pro' },
+      { icon: Building2, text: 'Multi-location management' },
+      { icon: Palette, text: 'White-label solutions' },
+      { icon: Users, text: 'Dedicated account manager' },
+      { icon: Zap, text: 'Custom API integrations' },
+      { icon: Award, text: 'Enterprise SLA guarantee' },
+      { icon: Handshake, text: 'Team collaboration tools' },
     ],
   },
 ];
@@ -112,7 +137,14 @@ export const KaylaUpgradeCard: React.FC = () => {
             }`}
           >
             {tier.highlight && (
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400" />
+              <>
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400" />
+                <div className="absolute top-2 right-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-yellow-400/20 text-yellow-400 px-2 py-0.5 rounded-full border border-yellow-400/30">
+                    Most Popular
+                  </span>
+                </div>
+              </>
             )}
             <CardContent className="p-5">
               <div className="space-y-3">
@@ -135,8 +167,15 @@ export const KaylaUpgradeCard: React.FC = () => {
                   ))}
                 </div>
 
+                {tier.footnote && (
+                  <p className="text-[11px] text-white/40 italic">{tier.footnote}</p>
+                )}
+
                 <div className="text-center pt-2">
                   <span className="text-2xl font-bold text-white">{tier.price}</span>
+                  {tier.priceSubline && (
+                    <p className="text-[11px] text-white/50 mt-0.5">{tier.priceSubline}</p>
+                  )}
                   <p className="text-xs text-emerald-400 mt-1">{tier.trialText}</p>
                 </div>
 
@@ -154,7 +193,7 @@ export const KaylaUpgradeCard: React.FC = () => {
                   ) : (
                     <>
                       <Sparkles className="h-4 w-4 mr-2" />
-                      Get {tier.name}
+                      {tier.buttonText}
                     </>
                   )}
                 </Button>
