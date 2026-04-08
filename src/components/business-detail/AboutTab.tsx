@@ -17,15 +17,7 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
           <h2 className="text-xl font-bold mb-4">About {business.name}</h2>
           <p className="text-muted-foreground mb-6 leading-relaxed">{business.description}</p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-semibold mb-3 flex items-center gap-2">
-                <Calendar size={18} className="text-primary" />
-                Established
-              </h3>
-              <p className="text-muted-foreground">2015</p>
-            </div>
-            
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">            
             <div>
               <h3 className="font-semibold mb-3 flex items-center gap-2">
                 <Users size={18} className="text-primary" />
@@ -74,25 +66,29 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
         <div className="bg-card rounded-xl border border-border shadow-sm p-6">
           <h3 className="font-bold mb-4">Contact Information</h3>
           <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <Phone size={18} className="text-primary mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-medium">Phone Number</p>
-                <a href={`tel:${business.phone}`} className="text-muted-foreground hover:text-primary">
-                  {business.phone}
-                </a>
+            {business.phone && (
+              <div className="flex items-start gap-3">
+                <Phone size={18} className="text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-medium">Phone Number</p>
+                  <a href={`tel:${business.phone}`} className="text-muted-foreground hover:text-primary">
+                    {business.phone}
+                  </a>
+                </div>
               </div>
-            </div>
+            )}
             
-            <div className="flex items-start gap-3">
-              <Globe size={18} className="text-primary mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-medium">Website</p>
-                <a href={business.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
-                  {business.website.replace('https://', '')}
-                </a>
+            {business.website && (
+              <div className="flex items-start gap-3">
+                <Globe size={18} className="text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-medium">Website</p>
+                  <a href={business.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
+                    {business.website.replace('https://', '')}
+                  </a>
+                </div>
               </div>
-            </div>
+            )}
             
             <div className="flex items-start gap-3">
               <MapPin size={18} className="text-primary mt-0.5 flex-shrink-0" />
