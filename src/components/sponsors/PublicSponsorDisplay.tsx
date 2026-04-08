@@ -39,19 +39,19 @@ const tierConfig: Record<string, { gradient: string; glow: string; label: string
 export const PublicSponsorDisplay = () => {
   const { data: sponsors, isLoading } = useCachedSponsors();
 
-  // Fallback platinum sponsor when no DB sponsors are available
-  const fallbackSponsors: Sponsor[] = [
-    {
-      id: 'miguel-wilson-collection',
-      tier: 'platinum',
-      company_name: 'Miguel Wilson Collection',
-      logo_url: null,
-      website_url: 'https://miguelwilson.com',
-      status: 'active',
-    },
-  ];
+  // Override: Miguel Wilson Collection as the Platinum Founding Sponsor
+  const miguelWilsonSponsor: Sponsor = {
+    id: 'miguel-wilson-collection',
+    tier: 'platinum',
+    company_name: 'Miguel Wilson Collection',
+    logo_url: null,
+    website_url: 'https://miguelwilson.com',
+    status: 'active',
+  };
 
-  const displaySponsors = sponsors && sponsors.length > 0 ? sponsors : fallbackSponsors;
+  // Replace any DB platinum sponsors with Miguel Wilson, keep other tiers from DB
+  const otherTierSponsors = sponsors ? sponsors.filter(s => s.tier !== 'platinum') : [];
+  const displaySponsors: Sponsor[] = [miguelWilsonSponsor, ...otherTierSponsors];
 
   useEffect(() => {
     if (sponsors && sponsors.length > 0) {
