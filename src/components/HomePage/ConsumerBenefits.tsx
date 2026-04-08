@@ -99,7 +99,7 @@ const ConsumerBenefits: React.FC = () => {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
-            <p className="text-white/40 text-sm mt-3">No credit card required. Always free for consumers.</p>
+            <p className="text-white/70 text-base mt-3 font-medium">No credit card required. Always free for consumers.</p>
           </div>
         </ScrollReveal>
       </div>
