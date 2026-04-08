@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import apparelRedefinedLogo from '@/assets/apparel-redefined-logo.png';
 import mansaKundaLogo from '@/assets/mansa-kunda-logo.png';
+import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
 
 interface Sponsor {
   id: string;
@@ -77,9 +78,18 @@ export const PublicSponsorDisplay = () => {
     status: 'active',
   };
 
+  const mansaMusaSponsor: Sponsor = {
+    id: 'mansa-musa-marketplace',
+    tier: 'gold',
+    company_name: 'Mansa Musa Marketplace',
+    logo_url: mansaMusaLogo,
+    website_url: null,
+    status: 'active',
+  };
+
   // Replace any DB platinum sponsors with Miguel Wilson, keep other tiers from DB
-  const otherTierSponsors = sponsors ? sponsors.filter(s => s.tier !== 'platinum') : [];
-  const displaySponsors: Sponsor[] = [miguelWilsonSponsor, apparelRedefinedSponsor, mansaKundaSponsor, ...otherTierSponsors];
+  const otherTierSponsors = sponsors ? sponsors.filter(s => s.tier !== 'platinum' && s.company_name !== 'Mansa Musa Marketplace') : [];
+  const displaySponsors: Sponsor[] = [miguelWilsonSponsor, apparelRedefinedSponsor, mansaKundaSponsor, mansaMusaSponsor, ...otherTierSponsors];
 
   useEffect(() => {
     if (sponsors && sponsors.length > 0) {
