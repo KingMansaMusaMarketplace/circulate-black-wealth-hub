@@ -137,9 +137,9 @@ const Hero = () => {
               </Button>
             )}
             {!isConnected && (
-               <div className="flex flex-col items-center gap-1 mt-4">
-                <span className="text-base md:text-lg font-playfair font-bold text-mansagold tracking-widest uppercase drop-shadow-[0_0_12px_rgba(184,134,11,0.5)]">Kayla</span>
-                <span className="text-2xl md:text-3xl font-semibold text-mansagold tracking-tight font-playfair drop-shadow-[0_0_8px_rgba(184,134,11,0.3)]">Agentic AI Concierge</span>
+               <div className="flex flex-col items-center gap-2 mt-4">
+                <span className="text-3xl md:text-4xl font-playfair font-bold text-mansagold tracking-widest uppercase drop-shadow-[0_0_20px_rgba(184,134,11,0.7)] [text-shadow:0_0_30px_rgba(184,134,11,0.5),0_0_60px_rgba(184,134,11,0.3)]">Kayla</span>
+                <span className="text-2xl md:text-3xl font-semibold text-mansagold tracking-tight font-playfair drop-shadow-[0_0_12px_rgba(184,134,11,0.4)]">Agentic AI Concierge</span>
                </div>
             )}
 
