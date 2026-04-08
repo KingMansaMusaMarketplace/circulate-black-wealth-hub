@@ -39,6 +39,20 @@ const tierConfig: Record<string, { gradient: string; glow: string; label: string
 export const PublicSponsorDisplay = () => {
   const { data: sponsors, isLoading } = useCachedSponsors();
 
+  // Fallback platinum sponsor when no DB sponsors are available
+  const fallbackSponsors: Sponsor[] = [
+    {
+      id: 'miguel-wilson-collection',
+      tier: 'platinum',
+      company_name: 'Miguel Wilson Collection',
+      logo_url: null,
+      website_url: 'https://miguelwilson.com',
+      status: 'active',
+    },
+  ];
+
+  const displaySponsors = sponsors && sponsors.length > 0 ? sponsors : fallbackSponsors;
+
   useEffect(() => {
     if (sponsors && sponsors.length > 0) {
       sponsors.forEach((sponsor) => {
@@ -50,20 +64,22 @@ export const PublicSponsorDisplay = () => {
   }, [sponsors]);
 
   const handleSponsorClick = async (sponsor: Sponsor) => {
-    await supabase.rpc('increment_sponsor_click', {
-      p_subscription_id: sponsor.id,
-    });
+    if (!sponsor.id.startsWith('miguel-wilson')) {
+      await supabase.rpc('increment_sponsor_click', {
+        p_subscription_id: sponsor.id,
+      });
+    }
     if (sponsor.website_url) {
       window.open(sponsor.website_url, '_blank', 'noopener,noreferrer');
     }
   };
 
-  if (isLoading || !sponsors || sponsors.length === 0) {
+  if (isLoading) {
     return null;
   }
 
-  const platinumSponsors = sponsors.filter((s) => s.tier === 'platinum');
-  const otherSponsors = sponsors.filter((s) => s.tier !== 'platinum');
+  const platinumSponsors = displaySponsors.filter((s) => s.tier === 'platinum');
+  const otherSponsors = displaySponsors.filter((s) => s.tier !== 'platinum');
 
   const getSponsorLogo = (sponsor: Sponsor) => {
     if (sponsor.logo_url) return sponsor.logo_url;
