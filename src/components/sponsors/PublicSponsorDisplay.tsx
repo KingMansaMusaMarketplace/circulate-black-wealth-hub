@@ -248,11 +248,11 @@ export const PublicSponsorDisplay = () => {
                       </div>
 
                       {/* Logo */}
-                      <div className="w-28 h-28 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center overflow-hidden mb-6 group-hover:border-mansagold/30 transition-colors">
+                      <div className="w-36 h-36 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center overflow-hidden mb-6 group-hover:border-mansagold/30 transition-colors">
                         <img
                           src={getSponsorLogo(sponsor)}
                           alt={sponsor.company_name}
-                          className="max-h-20 max-w-20 object-contain"
+                          className="max-h-28 max-w-28 object-contain"
                         />
                       </div>
 
