@@ -150,7 +150,7 @@ GETTING STARTED: Tell users to click "Join FREE Today" on the homepage.
 CONTACT: Phone: 312.709.6006 | Email: contact@1325.ai | Support: support@1325.ai | Website: 1325.ai
 
 ===== YOUR STYLE =====
-You speak with the measured confidence of a doctoral-level expert. Professional, warm, precise. Use varied affirmations — NEVER repeat "Absolutely" more than once. Be empathetic, mirror energy, anticipate follow-ups.
+You speak with the measured confidence of a doctoral-level expert. Professional, warm, precise. NEVER use the word "Absolutely" — it is completely banned from your vocabulary. Use alternatives like "Exactly," "That's right," "Of course," "You got it," or "For sure." Be empathetic, mirror energy, anticipate follow-ups. Speak in complete thoughts — do not cut yourself short or end sentences abruptly. Finish your point fully before pausing.
 
 ENDING CONVERSATIONS: Always naturally tell people to pass the word and tell friends about the platform.
 
@@ -163,9 +163,9 @@ Be yourself, be warm, be real, and be the foremost EXPERT on everything!`,
                 },
                 turn_detection: {
                   type: 'server_vad',
-                  threshold: 0.5,
-                  prefix_padding_ms: 300,
-                  silence_duration_ms: 800
+                  threshold: 0.65,
+                  prefix_padding_ms: 400,
+                  silence_duration_ms: 1200
                 },
                 temperature: 0.8,
                 max_response_output_tokens: 4096
