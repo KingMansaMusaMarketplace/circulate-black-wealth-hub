@@ -4,6 +4,7 @@ import { ExternalLink, Crown, Award, Diamond, ArrowRight } from 'lucide-react';
 import { useEffect } from 'react';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import apparelRedefinedLogo from '@/assets/apparel-redefined-logo.png';
+import mansaKundaLogo from '@/assets/mansa-kunda-logo.png';
 
 interface Sponsor {
   id: string;
@@ -71,8 +72,8 @@ export const PublicSponsorDisplay = () => {
     id: 'mansa-kunda',
     tier: 'gold',
     company_name: 'Mansa Kunda',
-    logo_url: null,
-    website_url: null,
+    logo_url: mansaKundaLogo,
+    website_url: 'https://mansakunda.com',
     status: 'active',
   };
 
