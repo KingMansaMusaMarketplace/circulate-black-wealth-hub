@@ -40,14 +40,14 @@ export const PublicSponsorDisplay = () => {
   const { data: sponsors, isLoading } = useCachedSponsors();
 
   useEffect(() => {
-    if (sponsors && sponsors.length > 0) {
+    if (displaySponsors && displaySponsors.length > 0 && sponsors && sponsors.length > 0) {
       sponsors.forEach((sponsor) => {
         supabase.rpc('increment_sponsor_impression', {
           p_subscription_id: sponsor.id,
         });
       });
     }
-  }, [sponsors]);
+  }, [displaySponsors, sponsors]);
 
   const handleSponsorClick = async (sponsor: Sponsor) => {
     await supabase.rpc('increment_sponsor_click', {
