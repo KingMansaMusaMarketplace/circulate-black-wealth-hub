@@ -20486,7 +20486,6 @@ export type Database = {
           city: string | null
           created_at: string | null
           description: string | null
-          email: string | null
           founding_joined_at: string | null
           founding_order: number | null
           id: string | null
@@ -20503,7 +20502,6 @@ export type Database = {
           onboarding_completed_at: string | null
           owner_id: string | null
           parent_business_id: string | null
-          phone: string | null
           qr_code_id: string | null
           qr_code_url: string | null
           review_count: number | null
@@ -20521,7 +20519,6 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
-          email?: string | null
           founding_joined_at?: string | null
           founding_order?: number | null
           id?: string | null
@@ -20538,7 +20535,6 @@ export type Database = {
           onboarding_completed_at?: string | null
           owner_id?: string | null
           parent_business_id?: string | null
-          phone?: string | null
           qr_code_id?: string | null
           qr_code_url?: string | null
           review_count?: number | null
@@ -20556,7 +20552,6 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
-          email?: string | null
           founding_joined_at?: string | null
           founding_order?: number | null
           id?: string | null
@@ -20573,7 +20568,6 @@ export type Database = {
           onboarding_completed_at?: string | null
           owner_id?: string | null
           parent_business_id?: string | null
-          phone?: string | null
           qr_code_id?: string | null
           qr_code_url?: string | null
           review_count?: number | null
