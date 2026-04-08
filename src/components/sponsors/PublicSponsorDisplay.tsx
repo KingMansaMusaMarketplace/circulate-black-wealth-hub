@@ -58,7 +58,21 @@ export const PublicSponsorDisplay = () => {
     }
   };
 
-  if (isLoading || !sponsors || sponsors.length === 0) {
+  // Fallback platinum sponsor when no DB sponsors are available
+  const fallbackSponsors: Sponsor[] = [
+    {
+      id: 'miguel-wilson-collection',
+      tier: 'platinum',
+      company_name: 'Miguel Wilson Collection',
+      logo_url: null,
+      website_url: 'https://miguelwilson.com',
+      status: 'active',
+    },
+  ];
+
+  const displaySponsors = sponsors && sponsors.length > 0 ? sponsors : fallbackSponsors;
+
+  if (isLoading) {
     return null;
   }
 
