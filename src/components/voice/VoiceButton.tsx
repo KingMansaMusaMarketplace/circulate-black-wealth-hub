@@ -1,6 +1,7 @@
 import React from 'react';
+import { useCapacitor } from '@/hooks/use-capacitor';
 import { Button } from '@/components/ui/button';
-import { Mic, MicOff, Loader2, Search } from 'lucide-react';
+import { Mic, MicOff, Loader2, Search, MessageSquareText } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VoiceWaveform } from './VoiceWaveform';
 
@@ -28,6 +29,9 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
   onStart,
   onEnd,
 }) => {
+  const { platform } = useCapacitor();
+  const isNativeIOS = platform === 'ios';
+
   return (
     <AnimatePresence mode="wait">
       {!isConnected ? (
@@ -89,6 +93,11 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
               <>
                 <Search className="mr-3 h-6 w-6 animate-pulse" />
                 <span className="font-medium">Looking up...</span>
+              </>
+            ) : isNativeIOS && isSpeaking ? (
+              <>
+                <MessageSquareText className="mr-3 h-6 w-6 animate-pulse" />
+                <span className="font-medium">Kayla Replying...</span>
               </>
             ) : (
               <>

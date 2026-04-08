@@ -68,6 +68,7 @@ export class RealtimeChat {
   private localStream: MediaStream | null = null;
   private audioContext: AudioContext | null = null;
   private onToolCall: ((toolName: string, args: any, callId: string) => Promise<any>) | null = null;
+  private isCapacitorIOS: boolean = false;
 
   constructor(private onMessage: (message: any) => void) {
     // Defer audio element creation to init() for better iOS compatibility
@@ -192,6 +193,7 @@ export class RealtimeChat {
       const isCapacitorIOS = isCapacitor && isIOS;
       
       console.log('Device is iOS:', isIOS, 'Device is iPad:', isIPad, 'Capacitor:', isCapacitor);
+      this.isCapacitorIOS = isCapacitorIOS;
       
       // CRITICAL: iPad early exit to prevent crashes (Apple rejection fix)
       if (isIPad) {
@@ -259,7 +261,7 @@ export class RealtimeChat {
       }
       
       // Create audio element AFTER microphone permission granted
-      // On Capacitor iOS, defer creation to ontrack to reduce early memory pressure
+      // On Capacitor iOS, skip entirely — Kayla replies via text transcript only (no audio output)
       if (!isCapacitorIOS) {
         try {
           this.createAudioElement();
@@ -362,77 +364,54 @@ export class RealtimeChat {
         ]
       });
 
-      // Detect Capacitor iOS for ontrack handler
-      const isCapacitorIOSForTrack = !!(window as any).Capacitor?.isNativePlatform?.() &&
-        /iPhone|iPad|iPod/.test(navigator.userAgent);
-
-      // Set up remote audio handler with enhanced playback
-      this.pc.ontrack = async (e) => {
-        try {
-          console.log('[Audio] Received remote audio track');
-          
-          // On Capacitor iOS, lazily create audio element here (deferred from init)
-          if (!this.audioEl) {
-            try {
-              this.createAudioElement();
-            } catch (elErr) {
-              console.warn('[Audio] Lazy audio element creation failed:', elErr);
-            }
-          }
-
-          if (this.audioEl && e.streams[0]) {
-            console.log('[Audio] Setting srcObject on audio element');
-            this.audioEl.srcObject = e.streams[0];
-            
-            // Ensure audio is unmuted and at full volume
-            this.audioEl.muted = false;
-            this.audioEl.volume = 1.0;
-            
-            // On non-Capacitor iOS, resume AudioContext if suspended
-            if (!isCapacitorIOSForTrack && this.audioContext && this.audioContext.state === 'suspended') {
-              try {
-                await this.audioContext.resume();
-                console.log('[Audio] AudioContext resumed for remote track');
-              } catch (e) {
-                console.warn('[Audio] AudioContext resume failed:', e);
+      // Set up remote audio handler
+      // On Capacitor iOS: completely skip audio playback to prevent WKWebView crash
+      // Kayla's responses are shown as text transcripts instead
+      if (isCapacitorIOS) {
+        this.pc.ontrack = () => {
+          console.log('[Audio] Remote track received but IGNORED on Capacitor iOS (text-only mode)');
+        };
+      } else {
+        this.pc.ontrack = async (e) => {
+          try {
+            console.log('[Audio] Received remote audio track');
+            if (!this.audioEl) {
+              try { this.createAudioElement(); } catch (elErr) {
+                console.warn('[Audio] Lazy audio element creation failed:', elErr);
               }
             }
-            
-            // Play attempts — fewer on Capacitor iOS to prevent WKWebView crash
-            const maxAttempts = isCapacitorIOSForTrack ? 2 : 5;
-            const attemptPlay = async (attempt: number = 1) => {
-              try {
-                console.log(`[Audio] Play attempt ${attempt}...`);
-                // On non-Capacitor iOS, briefly mute then unmute can help trigger playback
-                if (attempt > 1 && !isCapacitorIOSForTrack) {
-                  this.audioEl!.muted = true;
-                  await new Promise(r => setTimeout(r, 50));
-                  this.audioEl!.muted = false;
-                }
-                await this.audioEl!.play();
-                console.log('[Audio] Playback started successfully!');
-              } catch (err: any) {
-                console.warn(`[Audio] Play attempt ${attempt} failed:`, err.message);
-                if (attempt < maxAttempts) {
-                  await new Promise(resolve => setTimeout(resolve, 200 * attempt));
-                  return attemptPlay(attempt + 1);
-                }
-                console.error('[Audio] All play attempts failed - user interaction may be required');
-                this.onMessage({ type: 'audio_blocked', message: 'Please tap to enable audio' });
+            if (this.audioEl && e.streams[0]) {
+              this.audioEl.srcObject = e.streams[0];
+              this.audioEl.muted = false;
+              this.audioEl.volume = 1.0;
+              if (this.audioContext && this.audioContext.state === 'suspended') {
+                try { await this.audioContext.resume(); } catch {}
               }
-            };
-            
-            // On Capacitor iOS, add a small delay before first play to let WKWebView settle
-            if (isCapacitorIOSForTrack) {
-              await new Promise(r => setTimeout(r, 150));
+              const attemptPlay = async (attempt: number = 1) => {
+                try {
+                  if (attempt > 1) {
+                    this.audioEl!.muted = true;
+                    await new Promise(r => setTimeout(r, 50));
+                    this.audioEl!.muted = false;
+                  }
+                  await this.audioEl!.play();
+                  console.log('[Audio] Playback started successfully!');
+                } catch (err: any) {
+                  console.warn(`[Audio] Play attempt ${attempt} failed:`, err.message);
+                  if (attempt < 5) {
+                    await new Promise(resolve => setTimeout(resolve, 200 * attempt));
+                    return attemptPlay(attempt + 1);
+                  }
+                  this.onMessage({ type: 'audio_blocked', message: 'Please tap to enable audio' });
+                }
+              };
+              await attemptPlay();
             }
-            
-            await attemptPlay();
+          } catch (trackError) {
+            console.error('[Audio] ontrack handler error:', trackError);
           }
-        } catch (trackError) {
-          console.error('[Audio] ontrack handler error:', trackError);
-        }
-      };
+        };
+      }
       
       // Handle connection state changes
       this.pc.onconnectionstatechange = () => {
