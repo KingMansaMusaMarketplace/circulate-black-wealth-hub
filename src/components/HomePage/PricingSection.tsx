@@ -131,11 +131,14 @@ const PricingSection = () => {
     {
       name: 'Enterprise',
       icon: Building2,
-      monthlyPrice: 599,
+      monthlyPrice: 420,
       annualPrice: null,
-      description: 'Multi-location support & white-labeling',
+      description: 'Multi-location support, white-labeling, and advanced integrations',
       highlight: false,
       trialText: '14-day free trial',
+      pricePrefix: 'From ',
+      priceSuffix: '+ $30/user/mo',
+      footnote: 'Example: 30 users ≈ $1,320/month (about $15,840/year).',
       features: [
         'Everything in Pro',
         'Multi-location management',
