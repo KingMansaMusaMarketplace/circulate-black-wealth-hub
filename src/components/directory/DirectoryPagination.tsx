@@ -64,8 +64,8 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
           <PaginationPrevious 
             onClick={() => onPageChange(Math.max(1, currentPage - 1))}
             className={cn(
-              'cursor-pointer text-base font-medium px-4 py-2 h-auto',
-              currentPage === 1 ? 'pointer-events-none opacity-50' : 'hover:bg-accent'
+              'cursor-pointer text-base font-medium px-4 py-2 h-auto text-white/90 hover:text-white',
+              currentPage === 1 ? 'pointer-events-none opacity-40' : 'hover:bg-white/10'
             )}
             aria-disabled={currentPage === 1}
           />
@@ -75,7 +75,7 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
           if (page === 'ellipsis-start' || page === 'ellipsis-end') {
             return (
               <PaginationItem key={`ellipsis-${index}`}>
-                <PaginationEllipsis className="h-10 w-10 text-muted-foreground" />
+                <PaginationEllipsis className="h-10 w-10 text-white/60" />
               </PaginationItem>
             );
           }
@@ -89,8 +89,8 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
                 className={cn(
                   'cursor-pointer min-w-[2.75rem] h-10 text-base font-semibold rounded-lg',
                   currentPage === page
-                    ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:text-primary-foreground'
-                    : 'hover:bg-accent text-foreground'
+                    ? 'bg-mansagold text-black border-mansagold hover:bg-mansagold/90 hover:text-black'
+                    : 'hover:bg-white/10 text-white/90 hover:text-white'
                 )}
               >
                 {page}
@@ -103,8 +103,8 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
           <PaginationNext 
             onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
             className={cn(
-              'cursor-pointer text-base font-medium px-4 py-2 h-auto',
-              currentPage === totalPages ? 'pointer-events-none opacity-50' : 'hover:bg-accent'
+              'cursor-pointer text-base font-medium px-4 py-2 h-auto text-white/90 hover:text-white',
+              currentPage === totalPages ? 'pointer-events-none opacity-40' : 'hover:bg-white/10'
             )}
             aria-disabled={currentPage === totalPages}
           />
