@@ -237,8 +237,8 @@ export const KAYLA_STRIPE_TIERS = {
     price_id: 'price_1TGzgRAsptTW1mCmloHSfeKB',
   },
   kayla_enterprise: {
-    product_id: 'prod_UHjSMDtHuUy54o',
-    price_id: 'price_1TJ9zBAsptTW1mCmfyUQxqYc',
+    product_id: 'prod_UIUgpp70mjqcMg',
+    price_id: 'price_1TJtguAsptTW1mCmrS1wWoN7',
   },
 } as const;
 
