@@ -57,9 +57,21 @@ export const PublicSponsorDisplay = () => {
     status: 'active',
   };
 
+  const apparelRedefinedSponsor: Sponsor = {
+    id: 'apparel-redefined',
+    tier: 'gold',
+    company_name: 'Apparel Redefined',
+    logo_url: null,
+    website_url: null,
+    status: 'active',
+    is_visible: true,
+    logo_approved: true,
+    display_priority: 100,
+  };
+
   // Replace any DB platinum sponsors with Miguel Wilson, keep other tiers from DB
   const otherTierSponsors = sponsors ? sponsors.filter(s => s.tier !== 'platinum') : [];
-  const displaySponsors: Sponsor[] = [miguelWilsonSponsor, ...otherTierSponsors];
+  const displaySponsors: Sponsor[] = [miguelWilsonSponsor, apparelRedefinedSponsor, ...otherTierSponsors];
 
   useEffect(() => {
     if (sponsors && sponsors.length > 0) {
