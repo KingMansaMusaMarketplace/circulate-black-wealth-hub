@@ -123,7 +123,7 @@ When ending conversations, casually mention telling friends about the platform. 
                   prefix_padding_ms: 400,
                   silence_duration_ms: 1200
                 },
-                temperature: 0.8,
+                temperature: 0.9,
                 max_response_output_tokens: 4096
               }
             };
