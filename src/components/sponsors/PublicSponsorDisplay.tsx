@@ -64,9 +64,6 @@ export const PublicSponsorDisplay = () => {
     logo_url: null,
     website_url: null,
     status: 'active',
-    is_visible: true,
-    logo_approved: true,
-    display_priority: 100,
   };
 
   // Replace any DB platinum sponsors with Miguel Wilson, keep other tiers from DB
