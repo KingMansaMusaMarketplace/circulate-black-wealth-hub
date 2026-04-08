@@ -226,7 +226,7 @@ export const PublicSponsorDisplay = () => {
             </div>
 
             {/* Gold / Other Sponsors — Clean Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
               {otherSponsors.map((sponsor) => {
                 const config = tierConfig[sponsor.tier] || tierConfig.gold;
                 return (
@@ -236,36 +236,36 @@ export const PublicSponsorDisplay = () => {
                     className="relative rounded-2xl cursor-pointer group transition-all duration-300 hover:-translate-y-1 bg-white/[0.04] border border-mansagold/15 hover:border-mansagold/40 hover:bg-white/[0.07] shadow-lg shadow-black/20 hover:shadow-mansagold/10"
                   >
                     {/* Top gold accent */}
-                    <div className="absolute top-0 left-4 right-4 h-[2px] bg-gradient-to-r from-transparent via-mansagold/40 to-transparent rounded-full" />
+                    <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-mansagold/40 to-transparent rounded-full" />
                     
-                    <div className="p-7 flex flex-col items-center text-center">
+                    <div className="p-9 md:p-10 flex flex-col items-center text-center">
                       {/* Tier badge */}
-                      <div className="flex items-center gap-2 mb-5">
-                        <div className="w-2 h-2 rounded-full bg-mansagold shadow-sm shadow-mansagold/50" />
-                        <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-mansagold">
+                      <div className="flex items-center gap-2 mb-6">
+                        <div className="w-2.5 h-2.5 rounded-full bg-mansagold shadow-sm shadow-mansagold/50" />
+                        <span className="text-[11px] font-bold tracking-[0.15em] uppercase text-mansagold">
                           {config.label}
                         </span>
                       </div>
 
                       {/* Logo */}
-                      <div className="w-20 h-20 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center overflow-hidden mb-5 group-hover:border-mansagold/30 transition-colors">
+                      <div className="w-28 h-28 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center overflow-hidden mb-6 group-hover:border-mansagold/30 transition-colors">
                         <img
                           src={getSponsorLogo(sponsor)}
                           alt={sponsor.company_name}
-                          className="max-h-14 max-w-14 object-contain"
+                          className="max-h-20 max-w-20 object-contain"
                         />
                       </div>
 
                       {/* Name */}
-                      <h4 className="text-white font-bold text-base group-hover:text-mansagold transition-colors">
+                      <h4 className="text-white font-bold text-lg group-hover:text-mansagold transition-colors">
                         {sponsor.company_name}
                       </h4>
 
                       {/* Website link */}
                       {sponsor.website_url && (
-                        <div className="mt-3 flex items-center gap-1.5 text-mansagold/70 group-hover:text-mansagold transition-colors">
-                          <ExternalLink className="h-3.5 w-3.5" />
-                          <span className="text-xs font-medium">Visit Website</span>
+                        <div className="mt-4 flex items-center gap-1.5 text-mansagold/70 group-hover:text-mansagold transition-colors">
+                          <ExternalLink className="h-4 w-4" />
+                          <span className="text-sm font-medium">Visit Website</span>
                         </div>
                       )}
                     </div>
