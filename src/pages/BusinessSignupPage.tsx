@@ -583,12 +583,14 @@ const BusinessSignupPage: React.FC = () => {
                   Kayla replaces the need for a <span className="text-white font-semibold">marketing manager</span>, 
                   <span className="text-white font-semibold"> bookkeeper</span>, 
                   <span className="text-white font-semibold"> SEO specialist</span>, 
-                  <span className="text-white font-semibold"> reputation manager</span>, and 
+                  <span className="text-white font-semibold"> reputation manager</span>, 
+                  <span className="text-white font-semibold"> tax preparer</span>, 
+                  <span className="text-white font-semibold"> inventory clerk</span>, and 
                   <span className="text-white font-semibold"> business analyst</span> — all in one AI.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
                   <div>
-                    <p className="text-3xl font-bold text-mansagold">20+</p>
+                    <p className="text-3xl font-bold text-mansagold">28</p>
                     <p className="text-sm text-slate-400">AI Services</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
