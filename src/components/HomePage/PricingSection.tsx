@@ -127,15 +127,19 @@ const PricingSection = () => {
         'Custom branding options',
       ],
       cta: 'Start Pro Trial',
+      footnote: 'Recommended for teams up to ~20 employees or a single location.',
     },
     {
       name: 'Enterprise',
       icon: Building2,
-      monthlyPrice: 599,
+      monthlyPrice: 420,
       annualPrice: null,
-      description: 'Multi-location support & white-labeling',
+      description: 'Multi-location support, white-labeling, and advanced integrations',
       highlight: false,
       trialText: '14-day free trial',
+      pricePrefix: 'From ',
+      priceSuffix: '+ $30/user/mo',
+      footnote: 'Example: 30 users ≈ $1,320/month (about $15,840/year).',
       features: [
         'Everything in Pro',
         'Multi-location management',
@@ -241,11 +245,15 @@ const PricingSection = () => {
 
                   <div className="mb-5">
                     <div className="flex items-baseline gap-1">
+                      {tier.pricePrefix && <span className="text-sm text-white/50">{tier.pricePrefix}</span>}
                       <span className="text-3xl font-bold text-white">
                         ${tier.monthlyPrice}
                       </span>
                       <span className="text-white/50 text-sm">/mo</span>
                     </div>
+                    {tier.priceSuffix && (
+                      <p className="text-xs text-white/50 mt-0.5">{tier.priceSuffix}</p>
+                    )}
                     {isAnnual && tier.annualPrice && (
                       <p className="text-xs text-mansagold mt-1">
                         ${tier.annualPrice}/year — save ${tier.monthlyPrice * 12 - tier.annualPrice}
@@ -253,6 +261,9 @@ const PricingSection = () => {
                     )}
                     {tier.name === 'Enterprise' && (
                       <p className="text-xs text-white/40 mt-1">Custom annual pricing available</p>
+                    )}
+                    {tier.footnote && (
+                      <p className="text-[11px] text-white/40 mt-1 italic">{tier.footnote}</p>
                     )}
                     <p className="text-xs text-emerald-400 mt-1">{tier.trialText}</p>
                   </div>
