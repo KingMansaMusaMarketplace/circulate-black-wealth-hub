@@ -600,7 +600,7 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
-                    <p className="text-3xl font-bold text-blue-400">12,000+</p>
+                    <p className="text-3xl font-bold text-blue-400">50,000+</p>
                     <p className="text-sm text-slate-400">Verified Listings</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
