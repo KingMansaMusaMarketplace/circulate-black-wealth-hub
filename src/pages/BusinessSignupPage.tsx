@@ -245,7 +245,7 @@ const BusinessSignupPage: React.FC = () => {
     {
       icon: BarChart3,
       title: 'Business Profile & Directory',
-      description: 'Get discovered in our 12,000+ verified listings',
+      description: 'Get discovered in our 50,000+ verified listings',
       details: [
         'Public business listing',
         'Customer reviews & ratings',

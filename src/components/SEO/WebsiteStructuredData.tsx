@@ -7,7 +7,7 @@ export const WebsiteStructuredData = () => {
     '@type': 'WebSite',
     '@id': `${siteConfig.url}/#website`,
     name: siteConfig.name,
-    description: 'The largest verified Black-owned business directory with 12,000+ listings. Find Black-owned restaurants, shops, services and professionals near you.',
+    description: 'The largest verified Black-owned business directory with 50,000+ listings. Find Black-owned restaurants, shops, services and professionals near you.',
     publisher: {
       '@id': `${siteConfig.url}/#organization`,
     },
