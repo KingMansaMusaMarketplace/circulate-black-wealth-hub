@@ -109,7 +109,7 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
       description: 'Your AI employee on autopilot',
       features: [
         'Everything in Business Pro',
-        'Kayla AI (20+ services)',
+        'Kayla AI (28 services)',
         'Tax prep & legal templates',
         'Unlimited QR codes',
       ],

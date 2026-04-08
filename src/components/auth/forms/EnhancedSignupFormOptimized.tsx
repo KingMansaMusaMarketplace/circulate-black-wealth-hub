@@ -78,7 +78,7 @@ const EnhancedSignupForm: React.FC = memo(() => {
       tier: 'kayla_pro',
       price: '$149/month',
       features: [
-        'All 23+ Kayla AI services',
+        'All 28 Kayla AI services',
         'Replaces $1,650–$5,750/mo in human labor',
         'Tax prep, legal, B2B matching & more',
         'Unlimited QR codes'

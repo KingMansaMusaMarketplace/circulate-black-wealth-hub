@@ -246,7 +246,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
         description: 'Your autonomous AI employee — 20+ services on autopilot',
         features: [
           'Everything in Business Pro',
-          'Kayla AI Employee (20+ services)',
+          'Kayla AI Employee (28 services)',
           'AI review responses & social media',
           'Tax prep & legal templates',
           'Investment readiness scoring',
@@ -304,7 +304,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
         description: 'Your autonomous AI employee — 20+ services on autopilot',
         features: [
           'Everything in Business Pro',
-          'Kayla AI Employee (20+ services)',
+          'Kayla AI Employee (28 services)',
           'AI review responses & social media',
           'Tax prep & legal templates',
           'Investment readiness scoring',
