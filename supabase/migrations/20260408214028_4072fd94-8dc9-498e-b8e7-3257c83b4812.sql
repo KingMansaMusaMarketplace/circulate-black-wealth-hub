@@ -1,0 +1,33 @@
+INSERT INTO businesses (
+  owner_id,
+  business_name,
+  name,
+  description,
+  category,
+  address,
+  city,
+  state,
+  zip_code,
+  website,
+  latitude,
+  longitude,
+  is_verified,
+  listing_status,
+  logo_url
+) VALUES (
+  'f306ea7f-c02b-4829-a6d8-97d37d194aaa',
+  'Conetoe Family Life Center',
+  'Conetoe Family Life Center',
+  'Established in 2007, Conetoe Family Life Center improves the health of youth and the community by increasing access to healthy foods, physical activities, and health services. Their mission is to change the poverty cycle in families through education and opportunity, with programs focused on youth development and healthy living in Tarboro, NC.',
+  'Community Development Nonprofit',
+  'Conetoe, NC',
+  'Tarboro',
+  'NC',
+  '27886',
+  'https://conetoelife.org',
+  35.8268,
+  -77.4561,
+  true,
+  'live',
+  'https://conetoelife.org/wp-content/uploads/2022/02/ConetoeLifeLogo.png'
+);
