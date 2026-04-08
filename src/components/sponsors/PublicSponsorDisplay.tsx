@@ -52,7 +52,7 @@ export const PublicSponsorDisplay = () => {
     id: 'miguel-wilson-collection',
     tier: 'platinum',
     company_name: 'Miguel Wilson Collection',
-    logo_url: null,
+    logo_url: 'https://www.miguelwilson.com/wp-content/uploads/2022/02/miguelnew.jpg',
     website_url: 'https://miguelwilson.com',
     status: 'active',
   };
