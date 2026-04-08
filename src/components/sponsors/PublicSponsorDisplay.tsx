@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { ExternalLink, Crown, Award, Diamond, ArrowRight } from 'lucide-react';
 import { useEffect } from 'react';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
+import apparelRedefinedLogo from '@/assets/apparel-redefined-logo.png';
 
 interface Sponsor {
   id: string;
@@ -61,8 +62,8 @@ export const PublicSponsorDisplay = () => {
     id: 'apparel-redefined',
     tier: 'gold',
     company_name: 'Apparel Redefined',
-    logo_url: null,
-    website_url: null,
+    logo_url: apparelRedefinedLogo,
+    website_url: 'https://apparelredefined.com',
     status: 'active',
   };
 
