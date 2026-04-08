@@ -298,7 +298,7 @@ export const PublicSponsorDisplay = () => {
 
         {/* CTA */}
         <div className="text-center mt-20 md:mt-24">
-          <p className="text-white/30 text-sm uppercase tracking-[0.2em] mb-4">
+          <p className="text-white/70 text-sm uppercase tracking-[0.2em] mb-4">
             Join Our Partner Network
           </p>
           <a
