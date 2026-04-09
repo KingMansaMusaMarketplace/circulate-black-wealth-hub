@@ -212,9 +212,9 @@ export default function BookBusinessPage() {
                     <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Business Details</h3>
                   </div>
                   <div className="p-6 space-y-5">
-                    {displayImage && (
+                    {bannerImage && (
                       <div className="rounded-xl overflow-hidden border border-white/[0.08] aspect-video">
-                        <img src={displayImage} alt={bizName} className="w-full h-full object-cover" />
+                        <img src={bannerImage} alt={bizName} className="w-full h-full object-cover" />
                       </div>
                     )}
 
