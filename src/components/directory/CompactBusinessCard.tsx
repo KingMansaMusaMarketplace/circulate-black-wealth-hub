@@ -49,8 +49,6 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
           alt={business.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           fallbackSrc={generatePlaceholder(80, 80, business.name)}
-          businessId={business.id}
-          websiteUrl={business.website}
         />
         {business.isFeatured && (
           <div className="absolute top-1 left-1 bg-mansagold text-black text-[10px] font-bold px-1.5 py-0.5 rounded">
