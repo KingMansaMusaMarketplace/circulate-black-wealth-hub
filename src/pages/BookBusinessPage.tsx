@@ -125,15 +125,27 @@ export default function BookBusinessPage() {
               <div className="flex items-end gap-5">
                 {/* Logo */}
                 <div className="flex-shrink-0">
-                  {logoImage ? (
-                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-[#030712] shadow-xl bg-white">
-                      <img src={logoImage} alt={bizName} className="w-full h-full object-contain p-1" />
-                    </div>
-                  ) : (
-                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-4 border-[#030712] flex items-center justify-center shadow-xl">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-[#030712] shadow-xl bg-white flex items-center justify-center">
+                    {logoImage ? (
+                      <img
+                        src={logoImage}
+                        alt={bizName}
+                        className="w-full h-full object-contain p-1"
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          const img = e.target as HTMLImageElement;
+                          img.style.display = 'none';
+                          const parent = img.parentElement;
+                          if (parent) {
+                            parent.classList.add('bg-gradient-to-br', 'from-mansagold/20', 'to-mansagold/5');
+                            parent.innerHTML = `<span class="text-3xl font-bold text-mansagold">${bizName.charAt(0)}</span>`;
+                          }
+                        }}
+                      />
+                    ) : (
                       <span className="text-3xl font-bold text-mansagold">{bizName.charAt(0)}</span>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
 
                 {/* Name & Meta */}
