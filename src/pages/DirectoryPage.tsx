@@ -87,10 +87,11 @@ const DirectoryPage: React.FC = () => {
   }, [filteredBusinesses]);
 
   // Get non-featured businesses for the grid
+  // When searching, include all results (featured spotlight is hidden during search)
   const regularBusinesses = useMemo(() => {
-    if (!featuredBusiness) return filteredBusinesses || [];
+    if (searchTerm || !featuredBusiness) return filteredBusinesses || [];
     return filteredBusinesses?.filter(b => b.id !== featuredBusiness.id) || [];
-  }, [filteredBusinesses, featuredBusiness]);
+  }, [filteredBusinesses, featuredBusiness, searchTerm]);
 
   const handleSelectBusiness = useCallback((id: string) => {
     const business = filteredBusinesses.find(b => b.id === id);
