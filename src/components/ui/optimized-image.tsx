@@ -95,12 +95,16 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   const handleError = () => {
-    if (!hasError && fallbackSrc && currentSrc !== fallbackSrc) {
-      setCurrentSrc(fallbackSrc);
-      setHasError(false);
-    } else if (!hasError) {
-      setHasError(true);
+    if (fallbackIndex < allFallbacks.length) {
+      const nextFallback = allFallbacks[fallbackIndex];
+      if (nextFallback && currentSrc !== nextFallback) {
+        setCurrentSrc(nextFallback);
+        setFallbackIndex(prev => prev + 1);
+        return;
+      }
+      setFallbackIndex(prev => prev + 1);
     }
+    setHasError(true);
   };
 
   const qualityClass = {
