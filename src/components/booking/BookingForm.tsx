@@ -130,11 +130,22 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
       });
 
       if (result.success) {
-        toast({
-          title: 'Booking Created!',
-          description: 'Your booking has been confirmed. Payment pending.',
-        });
-        navigate('/customer/bookings');
+        // If Stripe checkout URL is available, redirect to payment
+        if (result.checkoutUrl) {
+          toast({
+            title: 'Booking Created!',
+            description: 'Redirecting to payment...',
+          });
+          window.open(result.checkoutUrl, '_blank');
+          navigate('/customer/bookings');
+        } else {
+          // No Stripe — booking confirmed, pay at location
+          toast({
+            title: 'Booking Confirmed!',
+            description: 'Your appointment has been booked. Payment will be collected at the business.',
+          });
+          navigate('/customer/bookings');
+        }
       } else {
         throw new Error(result.error || 'Failed to create booking');
       }
