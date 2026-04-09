@@ -113,6 +113,8 @@ const businessBannerFallbacks: Record<string, string> = {
   'd5afdc83-55b3-41bc-8b26-3aa1027b5d91': '/businesses/arthur-wylie-banner.png',
   // Marathon Burger - Gourmet burger restaurant on Melrose Ave, Los Angeles
   '9f6d51da-0645-4a68-a77b-dbbb3c9cce88': '/images/businesses/marathon-burger-banner.jpg',
+  // Juliana Afro Hair Aurora Denver - use the salon's real homepage hero image
+  'bcf5ace0-2b0c-40b0-9e9d-d220ffade4bf': 'https://julianaafrohairauroradenver.com/wp-content/uploads/2023/06/Group-21-1-768x500.png',
 };
 
 // Map of business IDs to card-specific images (used in directory cards only, not detail pages)
