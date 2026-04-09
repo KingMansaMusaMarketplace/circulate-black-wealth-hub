@@ -7,6 +7,8 @@ interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> 
   alt: string;
   className?: string;
   fallbackSrc?: string;
+  /** Additional fallback sources to try in order before giving up */
+  fallbackChain?: string[];
   lazy?: boolean;
   quality?: 'low' | 'medium' | 'high';
   sizes?: string;
@@ -17,6 +19,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   alt,
   className,
   fallbackSrc,
+  fallbackChain = [],
   lazy = true,
   quality = 'medium',
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
@@ -26,7 +29,16 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const [isVisible, setIsVisible] = useState(!lazy);
   const [currentSrc, setCurrentSrc] = useState<string>('');
   const [hasError, setHasError] = useState(false);
+  const [fallbackIndex, setFallbackIndex] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
+
+  // Build full fallback list: fallbackSrc first, then chain items
+  const allFallbacks = React.useMemo(() => {
+    const list: string[] = [];
+    if (fallbackSrc) list.push(fallbackSrc);
+    list.push(...fallbackChain.filter(f => f && f !== fallbackSrc));
+    return list;
+  }, [fallbackSrc, fallbackChain]);
 
   // Normalize src — no WebP conversion (external URLs don't support it,
   // causing failed requests and double-loading delays)
@@ -83,12 +95,16 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   const handleError = () => {
-    if (!hasError && fallbackSrc && currentSrc !== fallbackSrc) {
-      setCurrentSrc(fallbackSrc);
-      setHasError(false);
-    } else if (!hasError) {
-      setHasError(true);
+    if (fallbackIndex < allFallbacks.length) {
+      const nextFallback = allFallbacks[fallbackIndex];
+      if (nextFallback && currentSrc !== nextFallback) {
+        setCurrentSrc(nextFallback);
+        setFallbackIndex(prev => prev + 1);
+        return;
+      }
+      setFallbackIndex(prev => prev + 1);
     }
+    setHasError(true);
   };
 
   const qualityClass = {
