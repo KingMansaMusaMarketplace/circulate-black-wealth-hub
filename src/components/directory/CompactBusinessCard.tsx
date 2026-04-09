@@ -45,7 +45,7 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
       {/* Image */}
       <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
         <OptimizedImage
-          src={getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl || business.logoUrl || generatePlaceholder(80, 80, business.name)}
+          src={getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl || business.logoUrl || generatePlaceholder(80, 80, business.name)}
           alt={business.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           fallbackSrc={generatePlaceholder(80, 80, business.name)}
