@@ -21,10 +21,10 @@ export default function BookBusinessPage() {
         .eq('id', businessId)
         .maybeSingle();
       if (error) {
-        // Fallback to businesses table with safe fields
+      // Fallback to businesses table with safe fields
         const { data: fb } = await supabase
           .from('businesses')
-          .select('id,business_name,name,description,category,address,city,state,zip_code,website,logo_url,is_verified,phone,email')
+          .select('id,business_name,name,description,category,address,city,state,zip_code,website,logo_url,banner_url,is_verified,phone,email')
           .eq('id', businessId)
           .maybeSingle();
         return fb;
