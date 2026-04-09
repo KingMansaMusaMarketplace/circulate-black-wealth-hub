@@ -283,6 +283,103 @@ async function checkAndFixDataIntegrity(supabase: ReturnType<typeof createClient
         });
       }
 
+      // 5b. DEDUPLICATION: Detect and remove duplicate business listings
+      const { data: dupGroups } = await supabase.rpc('exec_sql', {
+        query: `SELECT business_name, COUNT(*) as cnt FROM businesses WHERE is_verified = true GROUP BY business_name HAVING COUNT(*) > 1 LIMIT 1`
+      }).maybeSingle();
+
+      // Use a direct query approach instead
+      const { count: totalBiz } = await supabase
+        .from("businesses")
+        .select("id", { count: "exact", head: true });
+
+      // Check for exact-name duplicates and remove them (keep best record)
+      const { data: sampleDups } = await supabase
+        .from("businesses")
+        .select("business_name")
+        .not("business_name", "is", null)
+        .limit(500);
+
+      if (sampleDups) {
+        const nameCounts: Record<string, number> = {};
+        for (const b of sampleDups) {
+          if (b.business_name) {
+            nameCounts[b.business_name] = (nameCounts[b.business_name] || 0) + 1;
+          }
+        }
+        const dupsFound = Object.entries(nameCounts).filter(([, c]) => c > 1);
+        if (dupsFound.length > 0) {
+          // For each duplicate group, keep the best and delete the rest
+          let deduped = 0;
+          for (const [name] of dupsFound.slice(0, 10)) {
+            const { data: copies } = await supabase
+              .from("businesses")
+              .select("id, is_verified, review_count, created_at")
+              .eq("business_name", name)
+              .order("is_verified", { ascending: false })
+              .order("review_count", { ascending: false, nullsFirst: false })
+              .order("created_at", { ascending: true });
+
+            if (copies && copies.length > 1) {
+              const idsToDelete = copies.slice(1).map(c => c.id);
+              const { error } = await supabase
+                .from("businesses")
+                .delete()
+                .in("id", idsToDelete);
+              if (!error) deduped += idsToDelete.length;
+            }
+          }
+          if (deduped > 0) {
+            fixedCount++;
+            remediations.push({
+              issue: `${dupsFound.length} duplicate business name groups detected`,
+              action: "Removed duplicate listings (kept best record per name)",
+              result: "fixed",
+              details: `Cleaned ${deduped} duplicate records this cycle`,
+            });
+          }
+        }
+      }
+
+      // 5c. GENERIC LOGO CLEANUP: Clear non-business-specific scraped logos
+      const GENERIC_LOGO_PATTERNS = [
+        'static.hugedomains.com',
+        'parastorage.com%images/error-pages',
+        'weddingwire.com/assets/img/footer',
+        'blackrestaurantweeks.com/wp-content/plugins/gdpr',
+        'theknot.com%meta-graphics/coast-ico',
+        'toast-logo-filled.svg',
+        'BBO_Logo_Mobile_Square.png',
+        'supportblackowned.com/images/unnamed.png',
+        'apple-mapkit.com',
+        'fonts.gstatic.com/s/i/productlogos',
+      ];
+
+      for (const pattern of GENERIC_LOGO_PATTERNS) {
+        const { data: badLogos } = await supabase
+          .from("businesses")
+          .select("id")
+          .ilike("logo_url", `%${pattern}%`)
+          .limit(50);
+
+        if (badLogos && badLogos.length > 0) {
+          const { error } = await supabase
+            .from("businesses")
+            .update({ logo_url: null, updated_at: new Date().toISOString() })
+            .in("id", badLogos.map(b => b.id));
+
+          if (!error) {
+            fixedCount++;
+            remediations.push({
+              issue: `${badLogos.length} businesses with generic scraped logo (${pattern.slice(0, 30)})`,
+              action: "Cleared generic logos to trigger website screenshot fallback",
+              result: "fixed",
+              details: `Removed ${badLogos.length} non-business-specific logo URLs`,
+            });
+          }
+        }
+      }
+
       // 6. BACKFILL: Enrich businesses missing addresses by scraping contact/about pages
       const firecrawlKey = Deno.env.get("FIRECRAWL_API_KEY");
       const mapboxToken = Deno.env.get("MAPBOX_PUBLIC_TOKEN");
