@@ -4,6 +4,9 @@ import { cn } from '@/lib/utils';
 import { Business } from '@/types/business';
 import { useNavigate } from 'react-router-dom';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
+import OptimizedImage from '@/components/ui/optimized-image';
+import { generatePlaceholder } from '@/utils/imageOptimizer';
+import { getBusinessCardImage } from '@/utils/businessBanners';
 
 interface CompactBusinessCardProps {
   business: Business;
