@@ -1,9 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft, Calendar, Clock, DollarSign, MapPin, Phone, Mail, Shield, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, Phone, Mail, Shield, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
-import { fetchSafeBusinessById } from '@/lib/api/directory/safe-business-query';
 import { BookingForm } from '@/components/booking/BookingForm';
 import { Helmet } from 'react-helmet-async';
 import Loading from '@/components/ui/loading';
@@ -15,16 +14,17 @@ export default function BookBusinessPage() {
   const { data: business, isLoading: businessLoading } = useQuery({
     queryKey: ['business-booking', businessId],
     queryFn: async () => {
+      // Try public safe view first
       const { data, error } = await supabase
         .from('businesses_public_safe')
         .select('*')
         .eq('id', businessId)
         .maybeSingle();
       if (error) {
-        // Fallback to businesses table
+        // Fallback to businesses table with safe fields
         const { data: fb } = await supabase
           .from('businesses')
-          .select('id,business_name,name,description,category,address,city,state,zip_code,website,logo_url,is_verified')
+          .select('id,business_name,name,description,category,address,city,state,zip_code,website,logo_url,is_verified,phone,email')
           .eq('id', businessId)
           .maybeSingle();
         return fb;
@@ -71,15 +71,16 @@ export default function BookBusinessPage() {
     );
   }
 
-  const displayImage = business.logoUrl || business.imageUrl || (business.website
+  const bizName = business.business_name || business.name || 'Business';
+  const displayImage = business.logo_url || (business.website
     ? `https://image.thum.io/get/width/600/crop/400/${business.website}`
     : null);
 
   return (
     <>
       <Helmet>
-        <title>Book {business.name} | 1325.AI</title>
-        <meta name="description" content={`Book an appointment with ${business.name}. ${business.description || ''}`} />
+        <title>Book {bizName} | 1325.AI</title>
+        <meta name="description" content={`Book an appointment with ${bizName}. ${business.description || ''}`} />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
@@ -102,7 +103,7 @@ export default function BookBusinessPage() {
                 <div className="hidden sm:block flex-shrink-0">
                   {displayImage ? (
                     <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-mansagold/30 shadow-lg shadow-mansagold/10">
-                      <img src={displayImage} alt={business.name} className="w-full h-full object-cover" />
+                      <img src={displayImage} alt={bizName} className="w-full h-full object-cover" />
                     </div>
                   ) : (
                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-2 border-mansagold/30 flex items-center justify-center">
@@ -114,9 +115,9 @@ export default function BookBusinessPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h1 className="text-2xl sm:text-3xl font-bold text-white truncate">
-                      {business.name}
+                      {bizName}
                     </h1>
-                    {business.isVerified && (
+                    {business.is_verified && (
                       <Shield className="w-5 h-5 text-mansagold flex-shrink-0" />
                     )}
                   </div>
@@ -170,7 +171,7 @@ export default function BookBusinessPage() {
                         </Button>
                       </div>
                     ) : (
-                      <BookingForm businessId={businessId!} businessName={business.name} services={services} />
+                      <BookingForm businessId={businessId!} businessName={bizName} services={services} />
                     )}
                   </div>
                 </div>
@@ -186,7 +187,7 @@ export default function BookBusinessPage() {
                   <div className="p-6 space-y-5">
                     {displayImage && (
                       <div className="rounded-xl overflow-hidden border border-white/[0.08] aspect-video">
-                        <img src={displayImage} alt={business.name} className="w-full h-full object-cover" />
+                        <img src={displayImage} alt={bizName} className="w-full h-full object-cover" />
                       </div>
                     )}
 
@@ -202,7 +203,7 @@ export default function BookBusinessPage() {
                           <MapPin className="w-4 h-4 text-mansagold mt-0.5 flex-shrink-0" />
                           <div className="text-sm text-white/60">
                             <p>{business.address}</p>
-                            <p>{business.city}, {business.state} {business.zipCode}</p>
+                            <p>{business.city}, {business.state} {business.zip_code}</p>
                           </div>
                         </div>
                       )}
