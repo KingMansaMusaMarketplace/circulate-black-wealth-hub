@@ -18,10 +18,12 @@ const MapView: React.FC<MapViewProps> = ({ businesses, isVisible = true, onSelec
   const [nearbyBusinesses, setNearbyBusinesses] = useState<BusinessLocation[]>([]);
   const mapRef = useRef<HTMLDivElement>(null);
 
+  // Show all businesses even before geolocation is obtained
+  const displayBusinesses = nearbyBusinesses.length > 0 ? nearbyBusinesses : businesses;
+
   // Scroll into view when map becomes visible
   useEffect(() => {
     if (isVisible && mapRef.current && !userLocation) {
-      // Wait a moment before scrolling to give the map time to render
       const timer = setTimeout(() => {
         mapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 500);
@@ -41,14 +43,14 @@ const MapView: React.FC<MapViewProps> = ({ businesses, isVisible = true, onSelec
         {({ loading, error, getUserLocation }) => (
           <MapContainer 
             userLocation={userLocation}
-            nearbyBusinesses={nearbyBusinesses}
+            nearbyBusinesses={displayBusinesses}
             loading={loading}
             error={error}
             onSelectBusiness={onSelectBusiness}
           >
-            <DistanceRanges nearbyBusinesses={nearbyBusinesses} />
+            <DistanceRanges nearbyBusinesses={displayBusinesses} />
             <BusinessList 
-              nearbyBusinesses={nearbyBusinesses} 
+              nearbyBusinesses={displayBusinesses} 
               onSelectBusiness={onSelectBusiness} 
             />
             
