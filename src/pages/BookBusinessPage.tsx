@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft, Calendar, Clock, DollarSign, MapPin, Phone, Mail, Star, Shield, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, DollarSign, MapPin, Phone, Mail, Shield, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { fetchSafeBusinessById } from '@/lib/api/directory/safe-business-query';
@@ -14,9 +14,7 @@ export default function BookBusinessPage() {
 
   const { data: business, isLoading: businessLoading } = useQuery({
     queryKey: ['business-booking', businessId],
-    queryFn: async () => {
-      return fetchSafeBusinessById(businessId!);
-    },
+    queryFn: () => fetchSafeBusinessById(businessId!),
     enabled: !!businessId,
   });
 
@@ -57,17 +55,15 @@ export default function BookBusinessPage() {
     );
   }
 
-  const heroImage = business.logo_url || business.cover_image_url;
-  const websiteScreenshot = business.website
+  const displayImage = business.logoUrl || business.imageUrl || (business.website
     ? `https://image.thum.io/get/width/600/crop/400/${business.website}`
-    : null;
-  const displayImage = heroImage || websiteScreenshot;
+    : null);
 
   return (
     <>
       <Helmet>
-        <title>Book {business.business_name} | 1325.AI</title>
-        <meta name="description" content={`Book an appointment with ${business.business_name}. ${business.description || ''}`} />
+        <title>Book {business.name} | 1325.AI</title>
+        <meta name="description" content={`Book an appointment with ${business.name}. ${business.description || ''}`} />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
@@ -78,7 +74,6 @@ export default function BookBusinessPage() {
         <div className="relative z-10 border-b border-white/5">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto pt-6 pb-8">
-              {/* Back button */}
               <button
                 onClick={() => navigate(`/business/${businessId}`)}
                 className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors mb-6 group"
@@ -87,17 +82,11 @@ export default function BookBusinessPage() {
                 Back to Business
               </button>
 
-              {/* Business header card */}
               <div className="flex items-start gap-6">
-                {/* Business avatar/image */}
                 <div className="hidden sm:block flex-shrink-0">
                   {displayImage ? (
                     <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-mansagold/30 shadow-lg shadow-mansagold/10">
-                      <img
-                        src={displayImage}
-                        alt={business.business_name}
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={displayImage} alt={business.name} className="w-full h-full object-cover" />
                     </div>
                   ) : (
                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-2 border-mansagold/30 flex items-center justify-center">
@@ -109,14 +98,14 @@ export default function BookBusinessPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h1 className="text-2xl sm:text-3xl font-bold text-white truncate">
-                      {business.business_name}
+                      {business.name}
                     </h1>
-                    {business.is_verified && (
+                    {business.isVerified && (
                       <Shield className="w-5 h-5 text-mansagold flex-shrink-0" />
                     )}
                   </div>
                   <p className="text-mansagold font-medium text-lg mb-2">Book an Appointment</p>
-                  {business.address && (
+                  {business.city && (
                     <div className="flex items-center gap-1.5 text-sm text-white/50">
                       <MapPin className="w-3.5 h-3.5" />
                       <span>{business.city}, {business.state}</span>
@@ -135,7 +124,6 @@ export default function BookBusinessPage() {
 
               {/* Left: Booking Form */}
               <div className="lg:col-span-2 space-y-6">
-                {/* Service Selection & Booking */}
                 <div className="rounded-2xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] overflow-hidden">
                   <div className="px-6 py-5 border-b border-white/[0.06] flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-mansagold/10 flex items-center justify-center">
@@ -166,7 +154,7 @@ export default function BookBusinessPage() {
                         </Button>
                       </div>
                     ) : (
-                      <BookingForm businessId={businessId!} businessName={business.business_name} services={services} />
+                      <BookingForm businessId={businessId!} businessName={business.name} services={services} />
                     )}
                   </div>
                 </div>
@@ -180,14 +168,9 @@ export default function BookBusinessPage() {
                     <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Business Details</h3>
                   </div>
                   <div className="p-6 space-y-5">
-                    {/* Logo/image in sidebar */}
                     {displayImage && (
                       <div className="rounded-xl overflow-hidden border border-white/[0.08] aspect-video">
-                        <img
-                          src={displayImage}
-                          alt={business.business_name}
-                          className="w-full h-full object-cover"
-                        />
+                        <img src={displayImage} alt={business.name} className="w-full h-full object-cover" />
                       </div>
                     )}
 
@@ -203,7 +186,7 @@ export default function BookBusinessPage() {
                           <MapPin className="w-4 h-4 text-mansagold mt-0.5 flex-shrink-0" />
                           <div className="text-sm text-white/60">
                             <p>{business.address}</p>
-                            <p>{business.city}, {business.state} {business.zip_code}</p>
+                            <p>{business.city}, {business.state} {business.zipCode}</p>
                           </div>
                         </div>
                       )}
