@@ -14,7 +14,23 @@ export default function BookBusinessPage() {
 
   const { data: business, isLoading: businessLoading } = useQuery({
     queryKey: ['business-booking', businessId],
-    queryFn: () => fetchSafeBusinessById(businessId!),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('businesses_public_safe')
+        .select('*')
+        .eq('id', businessId)
+        .maybeSingle();
+      if (error) {
+        // Fallback to businesses table
+        const { data: fb } = await supabase
+          .from('businesses')
+          .select('id,business_name,name,description,category,address,city,state,zip_code,website,logo_url,is_verified')
+          .eq('id', businessId)
+          .maybeSingle();
+        return fb;
+      }
+      return data;
+    },
     enabled: !!businessId,
   });
 
