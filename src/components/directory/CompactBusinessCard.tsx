@@ -44,10 +44,13 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
     >
       {/* Image */}
       <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
-        <img
-          src={business.imageUrl || business.logoUrl || '/placeholder.svg'}
+        <OptimizedImage
+          src={getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl || business.logoUrl || generatePlaceholder(80, 80, business.name)}
           alt={business.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          fallbackSrc={generatePlaceholder(80, 80, business.name)}
+          businessId={business.id}
+          websiteUrl={business.website}
         />
         {business.isFeatured && (
           <div className="absolute top-1 left-1 bg-mansagold text-black text-[10px] font-bold px-1.5 py-0.5 rounded">
