@@ -359,16 +359,30 @@ Object.assign(businessBannerFallbacks, {
  * Get banner URL for a business, with fallback support
  * @param businessId - The business UUID
  * @param bannerUrl - The stored banner URL (may be null)
+ * @param websiteUrl - The business website URL for screenshot fallback
  * @returns The banner URL to use, or undefined if no fallback exists
  */
-export function getBusinessBanner(businessId: string, bannerUrl: string | null | undefined): string | undefined {
+export function getBusinessBanner(businessId: string, bannerUrl: string | null | undefined, websiteUrl?: string | null): string | undefined {
   // If the business has an uploaded banner, use it
   if (bannerUrl) {
     return bannerUrl;
   }
   
-  // Check for a fallback banner
-  return businessBannerFallbacks[businessId];
+  // Check for a hardcoded fallback banner
+  if (businessBannerFallbacks[businessId]) {
+    return businessBannerFallbacks[businessId];
+  }
+
+  // Use website screenshot as final fallback
+  if (websiteUrl) {
+    try {
+      return `https://image.thum.io/get/width/1200/crop/630/noanimate/${websiteUrl}`;
+    } catch {
+      return undefined;
+    }
+  }
+
+  return undefined;
 }
 
 /**

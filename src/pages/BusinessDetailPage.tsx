@@ -348,7 +348,7 @@ const BusinessDetailPage = () => {
         <div className="relative z-10">
           {/* Banner Image */}
           {(() => {
-            const bannerUrl = getBusinessBanner(business.id, business.banner_url);
+            const bannerUrl = getBusinessBanner(business.id, business.banner_url, business.website);
             return bannerUrl ? (
               <div className="h-72 md:h-96 overflow-hidden">
                 <img 
