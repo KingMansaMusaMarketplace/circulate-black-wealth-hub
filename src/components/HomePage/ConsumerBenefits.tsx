@@ -92,11 +92,12 @@ const ConsumerBenefits: React.FC = () => {
             <Button
               asChild
               size="lg"
-              className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-extrabold h-14 px-10 rounded-xl shadow-xl text-xl"
+              className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-extrabold h-16 px-12 rounded-xl shadow-xl text-2xl"
+              style={{ textShadow: '0 0 12px rgba(212, 175, 55, 0.5)' }}
             >
               <Link to="/signup">
                 Join Free — It Takes 30 Seconds
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-3 w-6 h-6" />
               </Link>
             </Button>
             <p className="text-white/70 text-base mt-3 font-medium">No credit card required. Always free for consumers.</p>
