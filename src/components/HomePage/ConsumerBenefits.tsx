@@ -92,7 +92,7 @@ const ConsumerBenefits: React.FC = () => {
             <Button
               asChild
               size="lg"
-              className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-14 px-10 rounded-xl shadow-xl text-lg"
+              className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-extrabold h-14 px-10 rounded-xl shadow-xl text-xl"
             >
               <Link to="/signup">
                 Join Free — It Takes 30 Seconds
