@@ -4,6 +4,9 @@ import { cn } from '@/lib/utils';
 import { Business } from '@/types/business';
 import { useNavigate } from 'react-router-dom';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
+import OptimizedImage from '@/components/ui/optimized-image';
+import { generatePlaceholder } from '@/utils/imageOptimizer';
+import { getBusinessCardImage } from '@/utils/businessBanners';
 
 interface CompactBusinessCardProps {
   business: Business;
@@ -41,10 +44,11 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
     >
       {/* Image */}
       <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
-        <img
-          src={business.imageUrl || business.logoUrl || '/placeholder.svg'}
+        <OptimizedImage
+          src={getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl || business.logoUrl || generatePlaceholder(80, 80, business.name)}
           alt={business.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          fallbackSrc={generatePlaceholder(80, 80, business.name)}
         />
         {business.isFeatured && (
           <div className="absolute top-1 left-1 bg-mansagold text-black text-[10px] font-bold px-1.5 py-0.5 rounded">
