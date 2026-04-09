@@ -29,7 +29,16 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const [isVisible, setIsVisible] = useState(!lazy);
   const [currentSrc, setCurrentSrc] = useState<string>('');
   const [hasError, setHasError] = useState(false);
+  const [fallbackIndex, setFallbackIndex] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
+
+  // Build full fallback list: fallbackSrc first, then chain items
+  const allFallbacks = React.useMemo(() => {
+    const list: string[] = [];
+    if (fallbackSrc) list.push(fallbackSrc);
+    list.push(...fallbackChain.filter(f => f && f !== fallbackSrc));
+    return list;
+  }, [fallbackSrc, fallbackChain]);
 
   // Normalize src — no WebP conversion (external URLs don't support it,
   // causing failed requests and double-loading delays)
