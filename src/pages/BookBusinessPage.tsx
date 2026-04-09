@@ -1,8 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft, Calendar, Clock, DollarSign } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, DollarSign, MapPin, Phone, Mail, Star, Shield, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/lib/supabase';
 import { BookingForm } from '@/components/booking/BookingForm';
 import { Helmet } from 'react-helmet-async';
@@ -20,7 +19,6 @@ export default function BookBusinessPage() {
         .select('*')
         .eq('id', businessId)
         .single();
-
       if (error) throw error;
       return data;
     },
@@ -36,7 +34,6 @@ export default function BookBusinessPage() {
         .eq('business_id', businessId)
         .eq('is_active', true)
         .order('name');
-
       if (error) throw error;
       return data;
     },
@@ -45,38 +42,31 @@ export default function BookBusinessPage() {
 
   if (businessLoading || servicesLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-        
-        <div className="flex items-center justify-center min-h-screen relative z-10">
-          <Loading text="Loading booking details..." />
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center">
+        <Loading text="Loading booking details..." />
       </div>
     );
   }
 
   if (!business) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        
-        <div className="text-center py-12 relative z-10 flex flex-col items-center justify-center min-h-screen">
-          <h2 className="text-2xl font-bold mb-4 text-white">Business Not Found</h2>
-          <Button 
-            onClick={() => navigate('/directory')}
-            className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-semibold"
-          >
-            Explore Businesses
-          </Button>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex flex-col items-center justify-center gap-4">
+        <h2 className="text-2xl font-bold text-white">Business Not Found</h2>
+        <Button
+          onClick={() => navigate('/directory')}
+          className="bg-gradient-to-r from-mansagold to-yellow-600 text-slate-900 font-semibold"
+        >
+          Explore Businesses
+        </Button>
       </div>
     );
   }
+
+  const heroImage = business.logo_url || business.cover_image_url;
+  const websiteScreenshot = business.website
+    ? `https://image.thum.io/get/width/600/crop/400/${business.website}`
+    : null;
+  const displayImage = heroImage || websiteScreenshot;
 
   return (
     <>
@@ -86,122 +76,204 @@ export default function BookBusinessPage() {
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
+        {/* Subtle ambient glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-mansagold/5 rounded-full blur-[120px]" />
 
-        <div className="container mx-auto px-4 py-8 relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <Button
-              variant="ghost"
-              onClick={() => navigate(`/business/${businessId}`)}
-              className="mb-6 bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:bg-white/10 text-white hover:text-yellow-300"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Business
-            </Button>
+        {/* Hero Header */}
+        <div className="relative z-10 border-b border-white/5">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto pt-6 pb-8">
+              {/* Back button */}
+              <button
+                onClick={() => navigate(`/business/${businessId}`)}
+                className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors mb-6 group"
+              >
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                Back to Business
+              </button>
 
-            <div className="mb-8 text-center">
-              <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent">
-                Book Appointment
-              </h1>
-              <p className="text-xl text-blue-200">{business.business_name}</p>
+              {/* Business header card */}
+              <div className="flex items-start gap-6">
+                {/* Business avatar/image */}
+                <div className="hidden sm:block flex-shrink-0">
+                  {displayImage ? (
+                    <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-mansagold/30 shadow-lg shadow-mansagold/10">
+                      <img
+                        src={displayImage}
+                        alt={business.business_name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-2 border-mansagold/30 flex items-center justify-center">
+                      <Calendar className="w-8 h-8 text-mansagold" />
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-white truncate">
+                      {business.business_name}
+                    </h1>
+                    {business.is_verified && (
+                      <Shield className="w-5 h-5 text-mansagold flex-shrink-0" />
+                    )}
+                  </div>
+                  <p className="text-mansagold font-medium text-lg mb-2">Book an Appointment</p>
+                  {business.address && (
+                    <div className="flex items-center gap-1.5 text-sm text-white/50">
+                      <MapPin className="w-3.5 h-3.5" />
+                      <span>{business.city}, {business.state}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2">
-                <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
-                  <CardHeader className="border-b border-white/10">
-                    <CardTitle className="text-2xl font-bold text-white flex items-center gap-2">
-                      <Calendar className="w-6 h-6 text-yellow-400" />
-                      Select Service & Time
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-8 relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+              {/* Left: Booking Form */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Service Selection & Booking */}
+                <div className="rounded-2xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] overflow-hidden">
+                  <div className="px-6 py-5 border-b border-white/[0.06] flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-mansagold/10 flex items-center justify-center">
+                      <Calendar className="w-5 h-5 text-mansagold" />
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-semibold text-white">Select Service & Time</h2>
+                      <p className="text-sm text-white/40">Choose a service and pick your preferred time slot</p>
+                    </div>
+                  </div>
+                  <div className="p-6">
                     {services.length === 0 ? (
-                      <div className="text-center py-8">
-                        <p className="text-blue-200">
-                          This business has no bookable services at the moment.
+                      <div className="text-center py-16">
+                        <div className="w-16 h-16 rounded-2xl bg-white/[0.04] flex items-center justify-center mx-auto mb-4">
+                          <Calendar className="w-8 h-8 text-white/20" />
+                        </div>
+                        <p className="text-white/60 font-medium mb-1">No Services Available</p>
+                        <p className="text-sm text-white/30">
+                          This business hasn't added bookable services yet.
                         </p>
+                        <Button
+                          variant="ghost"
+                          onClick={() => navigate(`/business/${businessId}`)}
+                          className="mt-4 text-mansagold hover:text-mansagold/80 hover:bg-mansagold/5"
+                        >
+                          View Business Profile
+                          <ExternalLink className="w-4 h-4 ml-1" />
+                        </Button>
                       </div>
                     ) : (
                       <BookingForm businessId={businessId!} businessName={business.business_name} services={services} />
                     )}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </div>
 
-              <div className="space-y-4">
-                <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
-                  <CardHeader className="border-b border-white/10">
-                    <CardTitle className="text-lg font-bold text-white">Business Info</CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6 space-y-4">
-                    {business.logo_url && (
-                      <img
-                        src={business.logo_url}
-                        alt={business.business_name}
-                        className="w-full h-32 object-cover rounded-lg border border-white/20"
-                      />
+              {/* Right Sidebar */}
+              <div className="space-y-6">
+                {/* Business Info Card */}
+                <div className="rounded-2xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] overflow-hidden">
+                  <div className="px-6 py-4 border-b border-white/[0.06]">
+                    <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Business Details</h3>
+                  </div>
+                  <div className="p-6 space-y-5">
+                    {/* Logo/image in sidebar */}
+                    {displayImage && (
+                      <div className="rounded-xl overflow-hidden border border-white/[0.08] aspect-video">
+                        <img
+                          src={displayImage}
+                          alt={business.business_name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                     )}
-                    
-                    <div>
-                      <p className="text-sm font-medium mb-1 text-yellow-400">Location</p>
-                      <p className="text-sm text-blue-200">
-                        {business.address}<br />
-                        {business.city}, {business.state} {business.zip_code}
+
+                    {business.description && (
+                      <p className="text-sm text-white/50 leading-relaxed line-clamp-3">
+                        {business.description}
                       </p>
-                    </div>
-
-                    {business.phone && (
-                      <div>
-                        <p className="text-sm font-medium mb-1 text-yellow-400">Phone</p>
-                        <p className="text-sm text-blue-200">{business.phone}</p>
-                      </div>
                     )}
 
-                    {business.email && (
-                      <div>
-                        <p className="text-sm font-medium mb-1 text-yellow-400">Email</p>
-                        <p className="text-sm text-blue-200">{business.email}</p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-
-                {services.length > 0 && (
-                  <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
-                    <CardHeader className="border-b border-white/10">
-                      <CardTitle className="text-lg font-bold text-white">Available Services</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                      <div className="space-y-3">
-                        {services.map((service: any) => (
-                          <div key={service.id} className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border border-white/10">
-                            <div className="font-medium mb-1 text-white">{service.name}</div>
-                            {service.description && (
-                              <p className="text-sm text-blue-200/70 mb-2">
-                                {service.description}
-                              </p>
-                            )}
-                            <div className="flex items-center justify-between text-sm">
-                              <div className="flex items-center gap-1 text-blue-200/70">
-                                <Clock className="w-3 h-3" />
-                                {service.duration_minutes} min
-                              </div>
-                              <div className="flex items-center gap-1 font-semibold text-yellow-400">
-                                <DollarSign className="w-3 h-3" />
-                                {service.price.toFixed(2)}
-                              </div>
-                            </div>
+                    <div className="space-y-3">
+                      {business.address && (
+                        <div className="flex items-start gap-3">
+                          <MapPin className="w-4 h-4 text-mansagold mt-0.5 flex-shrink-0" />
+                          <div className="text-sm text-white/60">
+                            <p>{business.address}</p>
+                            <p>{business.city}, {business.state} {business.zip_code}</p>
                           </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                        </div>
+                      )}
+
+                      {business.phone && (
+                        <div className="flex items-center gap-3">
+                          <Phone className="w-4 h-4 text-mansagold flex-shrink-0" />
+                          <a href={`tel:${business.phone}`} className="text-sm text-white/60 hover:text-white transition-colors">
+                            {business.phone}
+                          </a>
+                        </div>
+                      )}
+
+                      {business.email && (
+                        <div className="flex items-center gap-3">
+                          <Mail className="w-4 h-4 text-mansagold flex-shrink-0" />
+                          <a href={`mailto:${business.email}`} className="text-sm text-white/60 hover:text-white transition-colors">
+                            {business.email}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Available Services Quick View */}
+                {services.length > 0 && (
+                  <div className="rounded-2xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] overflow-hidden">
+                    <div className="px-6 py-4 border-b border-white/[0.06]">
+                      <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Services & Pricing</h3>
+                    </div>
+                    <div className="divide-y divide-white/[0.04]">
+                      {services.map((service: any) => (
+                        <div key={service.id} className="px-6 py-4 hover:bg-white/[0.02] transition-colors">
+                          <div className="flex items-start justify-between gap-3 mb-1">
+                            <span className="font-medium text-sm text-white">{service.name}</span>
+                            <span className="text-mansagold font-semibold text-sm whitespace-nowrap">
+                              ${service.price.toFixed(2)}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs text-white/40">
+                            <Clock className="w-3 h-3" />
+                            {service.duration_minutes} min
+                          </div>
+                          {service.description && (
+                            <p className="text-xs text-white/30 mt-1 line-clamp-2">
+                              {service.description}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
+
+                {/* Trust badge */}
+                <div className="rounded-2xl bg-gradient-to-br from-mansagold/5 to-transparent border border-mansagold/10 p-5">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Shield className="w-5 h-5 text-mansagold" />
+                    <span className="text-sm font-medium text-white/80">Secure Booking</span>
+                  </div>
+                  <p className="text-xs text-white/40 leading-relaxed">
+                    Your information is encrypted and secure. You'll receive a confirmation after booking.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
