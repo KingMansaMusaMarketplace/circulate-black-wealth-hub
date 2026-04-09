@@ -63,50 +63,66 @@ serve(async (req) => {
       throw new Error("Service not found");
     }
 
-    // Get business payment account
-    const { data: paymentAccount, error: accountError } = await supabase
-      .from("business_payment_accounts")
-      .select("stripe_account_id, charges_enabled")
-      .eq("business_id", businessId)
-      .single();
-
-    if (accountError || !paymentAccount) {
-      console.error("Payment account error:", accountError);
-      throw new Error("This business hasn't set up payment processing yet. Please contact the business directly.");
-    }
-
-    if (!paymentAccount.charges_enabled) {
-      throw new Error("This business cannot accept payments yet. Payment setup is pending.");
-    }
-
     // Calculate fees with 7.5% commission
     const amount = Math.round(service.price * 100); // Convert to cents
     const commission = Math.round(amount * (COMMISSION_RATE / 100));
     const businessAmount = amount - commission;
 
-    // Initialize Stripe
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
-      apiVersion: "2023-10-16",
-    });
+    // Check if business has Stripe payment account
+    const { data: paymentAccount } = await supabase
+      .from("business_payment_accounts")
+      .select("stripe_account_id, charges_enabled")
+      .eq("business_id", businessId)
+      .maybeSingle();
 
-    // Create payment intent with 7.5% commission
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: "usd",
-      application_fee_amount: commission,
-      transfer_data: {
-        destination: paymentAccount.stripe_account_id,
-      },
-      metadata: {
-        businessId,
-        serviceId,
-        bookingDate,
-        customerId: user.id,
-        commissionRate: COMMISSION_RATE.toString(),
-      },
-      description: `Booking: ${service.name}`,
-      receipt_email: customerEmail,
-    });
+    const hasStripe = paymentAccount?.stripe_account_id && paymentAccount?.charges_enabled;
+    
+    let paymentIntent = null;
+    let checkoutUrl = null;
+
+    if (hasStripe) {
+      // Initialize Stripe and create payment
+      const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+        apiVersion: "2023-10-16",
+      });
+
+      // Create Stripe Checkout session for payment
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        customer_email: customerEmail,
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: service.name,
+                description: `Booking with ${customerName} on ${new Date(bookingDate).toLocaleDateString()}`,
+              },
+              unit_amount: amount,
+            },
+            quantity: 1,
+          },
+        ],
+        payment_intent_data: {
+          application_fee_amount: commission,
+          transfer_data: {
+            destination: paymentAccount.stripe_account_id,
+          },
+          metadata: {
+            businessId,
+            serviceId,
+            bookingDate,
+            customerId: user.id,
+            commissionRate: COMMISSION_RATE.toString(),
+          },
+        },
+        success_url: `${req.headers.get("origin")}/customer/bookings?payment=success`,
+        cancel_url: `${req.headers.get("origin")}/customer/bookings?payment=cancelled`,
+      });
+
+      checkoutUrl = session.url;
+      paymentIntent = { id: session.payment_intent as string };
+    }
 
     // Create booking record
     const { data: booking, error: bookingError } = await supabase
@@ -120,8 +136,8 @@ serve(async (req) => {
         amount: service.price,
         platform_fee: commission / 100,
         business_amount: businessAmount / 100,
-        status: "pending",
-        payment_intent_id: paymentIntent.id,
+        status: hasStripe ? "pending" : "confirmed",
+        payment_intent_id: paymentIntent?.id || null,
         customer_name: customerName,
         customer_email: customerEmail,
         customer_phone: customerPhone,
@@ -135,12 +151,12 @@ serve(async (req) => {
       throw bookingError;
     }
 
-    console.log("Booking created successfully:", booking.id);
+    console.log("Booking created successfully:", booking.id, hasStripe ? "with Stripe" : "without Stripe (pay at location)");
 
     // Record commission transaction
     try {
       const { error: commissionError } = await supabase.rpc('record_commission', {
-        p_transaction_id: null, // Will be populated when payment completes
+        p_transaction_id: null,
         p_booking_id: booking.id,
         p_business_id: businessId,
         p_amount: service.price,
@@ -149,21 +165,20 @@ serve(async (req) => {
 
       if (commissionError) {
         console.error("Commission recording error:", commissionError);
-        // Don't fail the booking, just log the error
       } else {
         console.log("Commission recorded for booking:", booking.id);
       }
     } catch (commError) {
       console.error("Failed to record commission:", commError);
-      // Continue with booking creation even if commission recording fails
     }
 
     return new Response(
       JSON.stringify({
         success: true,
         booking,
-        clientSecret: paymentIntent.client_secret,
-        paymentIntentId: paymentIntent.id,
+        checkoutUrl,
+        hasStripe,
+        paymentIntentId: paymentIntent?.id || null,
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
