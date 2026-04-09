@@ -38,14 +38,23 @@ const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ business }) => {
         <div className="grid md:grid-cols-2 gap-0">
           {/* Image Section */}
           <div className="relative h-64 md:h-80 overflow-hidden">
-            <OptimizedImage 
-              src={business.imageUrl || business.bannerUrl || generatePlaceholder(600, 400, business.name)} 
-              alt={business.name}
-              className="w-full h-full object-cover"
-              fallbackSrc={generatePlaceholder(600, 400, business.name)}
-              quality="high"
-              lazy={false}
-            />
+            {(() => {
+              const primarySrc = business.imageUrl || business.bannerUrl || '';
+              const websiteFallback = business.website 
+                ? `https://image.thum.io/get/width/1200/crop/630/noanimate/${business.website}` 
+                : '';
+              const placeholderSrc = generatePlaceholder(600, 400, business.name);
+              return (
+                <OptimizedImage 
+                  src={primarySrc || websiteFallback || placeholderSrc} 
+                  alt={business.name}
+                  className="w-full h-full object-cover"
+                  fallbackSrc={websiteFallback || placeholderSrc}
+                  quality="high"
+                  lazy={false}
+                />
+              );
+            })()}
             {/* Overlay gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-slate-900/90" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent md:hidden" />
