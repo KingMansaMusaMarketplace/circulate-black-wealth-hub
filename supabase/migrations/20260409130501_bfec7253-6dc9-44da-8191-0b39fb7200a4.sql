@@ -1,0 +1,36 @@
+
+INSERT INTO public.businesses (
+  owner_id,
+  business_name,
+  name,
+  description,
+  category,
+  address,
+  city,
+  state,
+  zip_code,
+  website,
+  is_verified,
+  listing_status,
+  latitude,
+  longitude,
+  created_at,
+  updated_at
+) VALUES (
+  'f306ea7f-c02b-4829-a6d8-97d37d194aaa',
+  'World of Girls & Boys Leadership',
+  'World of Girls & Boys Leadership',
+  'World of Girls & Boys Leadership offers leadership skills training classes and events that aid in discovering and refining gifts and talents. A 501(c)(3) nonprofit dedicated to cultivating generational leadership empowerment, building healthy communities, and lifelong family success through teaching and training strategies for personal growth and development.',
+  'Youth Development',
+  'Buffalo, NY',
+  'Buffalo',
+  'NY',
+  '14200',
+  'https://wogbeleadership.org',
+  true,
+  'live',
+  42.8864,
+  -78.8784,
+  now(),
+  now()
+);
