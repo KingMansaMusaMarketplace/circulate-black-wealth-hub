@@ -7,6 +7,8 @@ interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> 
   alt: string;
   className?: string;
   fallbackSrc?: string;
+  /** Additional fallback sources to try in order before giving up */
+  fallbackChain?: string[];
   lazy?: boolean;
   quality?: 'low' | 'medium' | 'high';
   sizes?: string;
