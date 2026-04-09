@@ -39,7 +39,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
       {/* Featured businesses get larger cards */}
       {featuredBusinesses.map((business, index) => {
-        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl;
+        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl;
         
         return (
           <div 
@@ -76,7 +76,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
       
       {/* Regular businesses */}
       {regularBusinesses.map((business, index) => {
-        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl;
+        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl;
         
         return (
           <React.Fragment key={business.id}>

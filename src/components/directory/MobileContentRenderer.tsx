@@ -28,7 +28,7 @@ const MobileContentRenderer: React.FC<MobileContentRendererProps> = ({
   const MobileBusinessList = () => (
     <div className="space-y-3 px-4">
       {businesses.map((business) => {
-        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl;
+        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl;
         return (
           <MobileBusinessCard
             key={business.id}
