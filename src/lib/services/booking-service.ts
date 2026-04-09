@@ -48,7 +48,8 @@ export interface CreateBookingParams {
 export interface CreateBookingResult {
   success: boolean;
   booking?: Booking;
-  clientSecret?: string;
+  checkoutUrl?: string;
+  hasStripe?: boolean;
   paymentIntentId?: string;
   error?: string;
 }
