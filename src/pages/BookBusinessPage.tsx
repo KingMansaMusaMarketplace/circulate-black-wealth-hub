@@ -21,10 +21,10 @@ export default function BookBusinessPage() {
         .eq('id', businessId)
         .maybeSingle();
       if (error) {
-        // Fallback to businesses table with safe fields
+      // Fallback to businesses table with safe fields
         const { data: fb } = await supabase
           .from('businesses')
-          .select('id,business_name,name,description,category,address,city,state,zip_code,website,logo_url,is_verified,phone,email')
+          .select('id,business_name,name,description,category,address,city,state,zip_code,website,logo_url,banner_url,is_verified,phone,email')
           .eq('id', businessId)
           .maybeSingle();
         return fb;
@@ -72,9 +72,10 @@ export default function BookBusinessPage() {
   }
 
   const bizName = business.business_name || business.name || 'Business';
-  const displayImage = business.logo_url || (business.website
-    ? `https://image.thum.io/get/width/600/crop/400/${business.website}`
+  const bannerImage = business.banner_url || (business.website
+    ? `https://image.thum.io/get/width/1200/crop/400/${business.website}`
     : null);
+  const logoImage = business.logo_url || null;
 
   return (
     <>
@@ -87,32 +88,56 @@ export default function BookBusinessPage() {
         {/* Subtle ambient glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-mansagold/5 rounded-full blur-[120px]" />
 
-        {/* Hero Header */}
-        <div className="relative z-10 border-b border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto pt-6 pb-8">
+        {/* Hero Header with Banner */}
+        <div className="relative z-10">
+          {/* Banner Image */}
+          <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
+            {bannerImage ? (
+              <>
+                <img
+                  src={bannerImage}
+                  alt={`${bizName} banner`}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/60 to-transparent" />
+              </>
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-mansagold/10 via-[#050a18] to-[#030712]" />
+            )}
+            {/* Back button over banner */}
+            <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
               <button
                 onClick={() => navigate(`/business/${businessId}`)}
-                className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors mb-6 group"
+                className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors bg-black/40 backdrop-blur-sm rounded-lg px-3 py-2 group"
               >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
                 Back to Business
               </button>
+            </div>
+          </div>
 
-              <div className="flex items-start gap-6">
-                <div className="hidden sm:block flex-shrink-0">
-                  {displayImage ? (
-                    <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-mansagold/30 shadow-lg shadow-mansagold/10">
-                      <img src={displayImage} alt={bizName} className="w-full h-full object-cover" />
+          {/* Business Info overlapping banner */}
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto -mt-16 relative z-20 pb-6">
+              <div className="flex items-end gap-5">
+                {/* Logo */}
+                <div className="flex-shrink-0">
+                  {logoImage ? (
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-[#030712] shadow-xl bg-white">
+                      <img src={logoImage} alt={bizName} className="w-full h-full object-contain p-1" />
                     </div>
                   ) : (
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-2 border-mansagold/30 flex items-center justify-center">
-                      <Calendar className="w-8 h-8 text-mansagold" />
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-4 border-[#030712] flex items-center justify-center shadow-xl">
+                      <span className="text-3xl font-bold text-mansagold">{bizName.charAt(0)}</span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex-1 min-w-0">
+                {/* Name & Meta */}
+                <div className="flex-1 min-w-0 pb-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h1 className="text-2xl sm:text-3xl font-bold text-white truncate">
                       {bizName}
@@ -121,7 +146,7 @@ export default function BookBusinessPage() {
                       <Shield className="w-5 h-5 text-mansagold flex-shrink-0" />
                     )}
                   </div>
-                  <p className="text-mansagold font-medium text-lg mb-2">Book an Appointment</p>
+                  <p className="text-mansagold font-medium text-lg mb-1">Book an Appointment</p>
                   {business.city && (
                     <div className="flex items-center gap-1.5 text-sm text-white/50">
                       <MapPin className="w-3.5 h-3.5" />
@@ -132,6 +157,8 @@ export default function BookBusinessPage() {
               </div>
             </div>
           </div>
+
+          <div className="border-b border-white/5" />
         </div>
 
         {/* Main Content */}
@@ -185,9 +212,9 @@ export default function BookBusinessPage() {
                     <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Business Details</h3>
                   </div>
                   <div className="p-6 space-y-5">
-                    {displayImage && (
+                    {bannerImage && (
                       <div className="rounded-xl overflow-hidden border border-white/[0.08] aspect-video">
-                        <img src={displayImage} alt={bizName} className="w-full h-full object-cover" />
+                        <img src={bannerImage} alt={bizName} className="w-full h-full object-cover" />
                       </div>
                     )}
 
