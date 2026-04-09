@@ -131,7 +131,7 @@ export default function BookBusinessPage() {
                         src={logoImage}
                         alt={bizName}
                         className="w-full h-full object-contain p-1"
-                        crossOrigin="anonymous"
+                        
                         onError={(e) => {
                           const img = e.target as HTMLImageElement;
                           img.style.display = 'none';
