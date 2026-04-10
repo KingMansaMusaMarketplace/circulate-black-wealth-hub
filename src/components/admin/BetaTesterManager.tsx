@@ -81,13 +81,17 @@ const BetaTesterManager: React.FC = () => {
       return;
     }
     setAdding(true);
-    const { error } = await supabase.from('beta_testers').insert({
-      full_name: newName.trim(),
-      email: newEmail.trim().toLowerCase(),
+    const trimmedName = newName.trim();
+    const trimmedEmail = newEmail.trim().toLowerCase();
+    const expDate = newExpiration || null;
+
+    const { data: insertedData, error } = await supabase.from('beta_testers').insert({
+      full_name: trimmedName,
+      email: trimmedEmail,
       notes: newNotes.trim() || null,
-      expiration_date: newExpiration || null,
+      expiration_date: expDate,
       invited_by: user?.id,
-    } as any);
+    } as any).select('id, beta_code').single();
 
     if (error) {
       if (error.code === '23505') {
@@ -96,7 +100,31 @@ const BetaTesterManager: React.FC = () => {
         toast.error(`Failed to add: ${error.message}`);
       }
     } else {
-      toast.success(`${newName} added as a beta tester!`);
+      // Auto-send welcome email with beta code
+      const betaCode = (insertedData as any)?.beta_code;
+      const formattedExpiration = expDate
+        ? new Date(expDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        : undefined;
+
+      try {
+        await supabase.functions.invoke('send-transactional-email', {
+          body: {
+            templateName: 'beta-tester-welcome',
+            recipientEmail: trimmedEmail,
+            idempotencyKey: `beta-welcome-${(insertedData as any)?.id}`,
+            templateData: {
+              name: trimmedName,
+              betaCode: betaCode,
+              expirationDate: formattedExpiration,
+            },
+          },
+        });
+        toast.success(`${trimmedName} added and welcome email sent with beta code!`);
+      } catch (emailErr) {
+        console.warn('Welcome email failed (non-blocking):', emailErr);
+        toast.success(`${trimmedName} added! Email couldn't be sent — you can copy the code manually.`);
+      }
+
       setNewName('');
       setNewEmail('');
       setNewNotes('');
