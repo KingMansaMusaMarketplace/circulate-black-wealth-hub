@@ -34,6 +34,21 @@ export const handleSignUp = async (
       return { error };
     }
 
+    // Check if the user is a beta tester and activate them
+    if (data.user) {
+      try {
+        const { data: isBeta } = await supabase.rpc('activate_beta_tester', {
+          p_email: email,
+          p_user_id: data.user.id,
+        });
+        if (isBeta) {
+          console.log('Beta tester activated — free business access granted');
+        }
+      } catch (betaErr) {
+        console.warn('Beta tester check failed (non-blocking):', betaErr);
+      }
+    }
+
     // If user signed up with a referral code, create the referral link
     if (data.user && (metadata as any)?.referral_code) {
       try {
