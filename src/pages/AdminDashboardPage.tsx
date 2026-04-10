@@ -124,6 +124,8 @@ const AdminDashboardPage: React.FC = () => {
         return <ValuationMetrics />;
       case 'archive':
         return <ArchiveRecovery />;
+      case 'beta-testers':
+        return <BetaTesterManager />;
       case 'setup':
         return (
           <div className="space-y-6">
