@@ -58,6 +58,7 @@ const menuGroups = [
     label: 'Users & Access',
     items: [
       { id: 'users', label: 'User Management', icon: UserCog },
+      { id: 'beta-testers', label: 'Beta Testers', icon: Flag },
       { id: 'roles', label: 'Admin Roles', icon: Lock },
       { id: 'impersonate', label: 'View As User', icon: Eye },
     ]
