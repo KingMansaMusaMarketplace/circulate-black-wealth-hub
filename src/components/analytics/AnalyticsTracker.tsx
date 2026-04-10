@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBetaTesterTracking } from '@/hooks/useBetaTesterTracking';
 
 /**
  * Component that automatically tracks route changes and user sessions
@@ -10,6 +11,9 @@ export const AnalyticsTracker: React.FC = () => {
   const location = useLocation();
   const { trackPageView, identifyUser, resetUser } = useAnalytics();
   const { user } = useAuth();
+
+  // Beta tester session tracking
+  useBetaTesterTracking();
 
   // Track user identity
   useEffect(() => {
