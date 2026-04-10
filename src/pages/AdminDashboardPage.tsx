@@ -36,6 +36,7 @@ import AdminDevelopers from '@/components/admin/AdminDevelopers';
 import ArchiveRecovery from '@/components/admin/ArchiveRecovery';
 import ValuationMetrics from '@/components/admin/ValuationMetrics';
 import DatabaseSetup from '@/components/admin/DatabaseSetup';
+import BetaTesterManager from '@/components/admin/BetaTesterManager';
 import SupabaseSetup from '@/components/admin/SupabaseSetup';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
