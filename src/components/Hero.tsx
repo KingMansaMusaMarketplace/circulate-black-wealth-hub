@@ -209,6 +209,7 @@ const Hero = () => {
               <p className="text-xs text-blue-200/60 animate-pulse">Listening... speak naturally</p>
             )}
           </motion.div>
+          )}
 
           {/* Scroll indicator */}
           <motion.div
