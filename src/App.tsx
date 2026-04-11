@@ -146,6 +146,7 @@ const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWork
 const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
 const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
 const LazyKaylaAnnouncementPage = lazy(() => import('@/pages/KaylaAnnouncementPage'));
+const LazyWhatKaylaDoesPage = lazy(() => import('@/pages/WhatKaylaDoesPage'));
 const LazyKaylaOnboardingSequencePage = lazy(() => import('@/pages/KaylaOnboardingSequencePage'));
 const LazyAIAssistantPage = lazy(() => import('@/pages/AIAssistantPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
@@ -572,6 +573,7 @@ function App() {
                               
                               {/* K - Kayla GTM */}
                               <Route path="/kayla-announcement" element={<LazyKaylaAnnouncementPage />} />
+                              <Route path="/what-kayla-does" element={<LazyWhatKaylaDoesPage />} />
                               <Route path="/kayla-onboarding-sequence" element={<LazyKaylaOnboardingSequencePage />} />
                               <Route path="/error" element={<LazyErrorPage />} />
                               
