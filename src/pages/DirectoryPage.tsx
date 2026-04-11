@@ -96,6 +96,23 @@ const DirectoryPage: React.FC = () => {
     return filteredBusinesses?.filter(b => !featuredIds.has(b.id)) || [];
   }, [filteredBusinesses, featuredBusinesses, searchTerm]);
 
+  // Alphabet jump index support
+  const activeLetters = useMemo(() => {
+    const letters = new Set<string>();
+    (regularBusinesses || []).forEach(b => {
+      const first = b.name.charAt(0).toUpperCase();
+      letters.add(/[A-Z]/.test(first) ? first : '#');
+    });
+    return letters;
+  }, [regularBusinesses]);
+
+  const handleJumpToLetter = useCallback((letter: string) => {
+    const target = document.querySelector(`[data-letter-group="${letter}"]`);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
+
   const handleSelectBusiness = useCallback((id: string) => {
     const business = filteredBusinesses.find(b => b.id === id);
     if (business) {
