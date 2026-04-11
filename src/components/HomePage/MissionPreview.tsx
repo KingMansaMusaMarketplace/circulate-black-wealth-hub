@@ -21,6 +21,13 @@ const MissionPreview: React.FC = () => {
           <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base mt-4 italic">
             One AI employee that handles reviews, marketing, and bookkeeping — so you can focus on the business.
           </p>
+          <a
+            href="/what-kayla-does"
+            className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full bg-mansagold/10 border border-mansagold/30 text-mansagold font-semibold text-sm hover:bg-mansagold/20 hover:border-mansagold/50 transition-all duration-300 group"
+          >
+            <span>What Kayla Does For Your Business</span>
+            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </a>
         </div>
       </div>
     </section>
