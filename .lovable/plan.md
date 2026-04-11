@@ -1,57 +1,60 @@
 
 
-## Redesign the Public Sponsor Display Section
+## Consolidated Homepage Messaging Fix
 
-The current sponsor section on the homepage shows plain white cards with just text names and small tier badges. It looks generic and doesn't communicate "these are our valued corporate sponsors" — it looks more like a placeholder list.
+All three AI reviews (OpenAI, Gemini, Perplexity) converge on the same core issues. Here's the unified plan:
 
-### What We'll Build
+### The Problem
+The homepage looks great but doesn't communicate **what happens when you join** within the first 5 seconds. Too many ideas hit at once (directory + AI + economic system + rideshare + vacation rentals).
 
-A premium, dark-themed sponsor showcase that:
-- Has a clear **"Our Corporate Sponsors"** heading with a gold accent line and subtitle
-- Generates **branded initials-based logo placeholders** (using the existing `generatePlaceholder` utility) when sponsors have no uploaded logo — so every card has a visual logo element
-- Uses **tier-specific gradient borders** (platinum = purple/pink glow, gold = amber glow, silver = slate shimmer, bronze = copper tone)
-- Shows the **company name below the logo** area instead of centered as the only content
-- Adds a **"Visit Website" CTA** on hover with smooth overlay
-- Platinum sponsors get a **larger, featured card** spanning full width with extra visual treatment
-- Adds a subtle **"Become a Sponsor"** CTA link at the bottom
+### Changes
 
-### Visual Design (Dark Theme)
+**1. Hero.tsx — Add mission tagline + sharpen subhead**
+- Add a small tag above "Mansa Musa Marketplace": `The Economic Operating System for Community Wealth`
+- Replace current subhead with outcome-driven copy: *"Find verified community businesses. Earn loyalty rewards. Track your economic impact — all in one free platform."*
+- Add a compact trust stat bar below CTAs showing live member/business counts (reusing existing `get_platform_stats` RPC)
 
-```text
-┌──────────────────────────────────────────────┐
-│         ✦ Our Corporate Sponsors ✦           │
-│    Powering the future of Black business     │
-│                                              │
-│  ┌─────────────────────────────────────────┐ │
-│  │  ⭐ PLATINUM FOUNDING SPONSOR           │ │
-│  │  ┌──────┐                               │ │
-│  │  │  BC  │  Black Excellence Capital     │ │
-│  │  └──────┘                               │ │
-│  └─────────────────────────────────────────┘ │
-│                                              │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐    │
-│  │  ┌────┐  │ │  ┌────┐  │ │  ┌────┐  │    │
-│  │  │ UT │  │ │  │ HF │  │ │  │ MM │  │    │
-│  │  └────┘  │ │  └────┘  │ │  └────┘  │    │
-│  │  Unity   │ │ Heritage │ │  Mansa   │    │
-│  │  GOLD    │ │  GOLD    │ │  GOLD    │    │
-│  └──────────┘ └──────────┘ └──────────┘    │
-│                                              │
-│     Interested in sponsoring? Learn more →   │
-└──────────────────────────────────────────────┘
-```
+**2. HomePageSections.tsx — Reorder + add sections**
+- Move `MissionPreview` to position #1 (immediately after Hero)
+- Add `CommunityWealthTicker` (already exists, just not on homepage) after ConsumerBenefits
+- Add new `QuickHowItWorks` section between ticker and FeaturedBusinesses
 
-### Technical Changes
+**3. New: QuickHowItWorks.tsx — 3-step visual**
+Compact section showing the user journey:
+1. **Discover** — Find verified businesses near you
+2. **Support** — Shop, scan QR codes, earn points
+3. **Circulate** — Watch your dollars build community wealth
 
-**1. Rewrite `src/components/sponsors/PublicSponsorDisplay.tsx`**
-- Import `generatePlaceholder` from `imageOptimizer.ts` to create branded SVG logos for sponsors missing `logo_url`
-- Platinum sponsors: full-width card with gradient border glow, larger logo area, "Founding Sponsor" label
-- Gold/Silver/Bronze: 3-column grid (1-col on mobile) with tier-colored gradient borders
-- Each card: dark `bg-slate-900/80` interior, logo/placeholder at top, company name below, tier badge
-- Hover: subtle scale + border glow intensifies + "Visit Website" overlay
-- Keep existing impression/click tracking logic unchanged
-- Section background: matches the premium dark theme (`from-[#000000] via-[#050a18]`)
-- Gold accent divider under the heading using `bg-mansagold`
+Styled to match existing dark theme, using the same card patterns as ConsumerBenefits.
 
-**2. No other files need changes** — the component is already imported and placed in `HomePage.tsx`.
+**4. MissionPreview.tsx — Increase prominence**
+Slightly larger heading text and add a one-line Kayla pitch beneath: *"One AI employee that handles reviews, marketing, and bookkeeping — so you can focus on the business."*
+
+### New Section Order
+1. MissionPreview (moved up)
+2. ConsumerBenefits
+3. CommunityWealthTicker (new to homepage)
+4. QuickHowItWorks (new component)
+5. FeaturedBusinesses
+6. CTA
+7. ThreePillars
+8. MeetKayla
+9. Pricing
+10. VacationRentalsCTA
+11. NoirRideCTA
+12. CirculationGap
+
+### Files
+| File | Action |
+|------|--------|
+| `src/components/Hero.tsx` | Add tagline, update subhead, add trust stats |
+| `src/components/HomePage/HomePageSections.tsx` | Reorder, add ticker + how-it-works |
+| `src/components/HomePage/QuickHowItWorks.tsx` | Create new |
+| `src/components/HomePage/MissionPreview.tsx` | Enlarge text, add Kayla pitch line |
+
+### What stays unchanged
+- Brand identity, colors, Kayla voice CTA — all validated by every review
+- Dual-path Consumer/Business buttons — Gemini praised this
+- CirculationGap section — Gemini called it a "compelling hook"
+- All downstream sections (pricing, rideshare, vacation rentals)
 
