@@ -82,10 +82,19 @@ const DirectoryPage: React.FC = () => {
     totalPages,
   } = useSupabaseDirectory();
 
-  // Get all featured businesses for carousel spotlight, sorted alphabetically
+  // Get top-rated businesses for carousel spotlight (top 10 by rating, min 4+ stars)
   const featuredBusinesses = useMemo(() => {
-    return (filteredBusinesses?.filter(b => b.isFeatured) || [])
-      .sort((a, b) => a.name.localeCompare(b.name));
+    const allBusinesses = filteredBusinesses || [];
+    // First try actual featured/founding sponsor businesses
+    const featured = allBusinesses.filter(b => b.isFeatured);
+    if (featured.length > 0) {
+      return featured.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    // Fallback: show top-rated businesses (4+ stars, sorted by rating desc)
+    return allBusinesses
+      .filter(b => b.averageRating >= 4 && b.reviewCount > 0)
+      .sort((a, b) => b.averageRating - a.averageRating || b.reviewCount - a.reviewCount)
+      .slice(0, 10);
   }, [filteredBusinesses]);
 
   // Get non-featured businesses for the grid

@@ -47,7 +47,7 @@ export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
     lng: supabaseRecord.longitude ? Number(supabaseRecord.longitude) : 0,
     imageUrl: normalizeImageUrl(supabaseRecord.banner_url) || logoUrl, // Prefer banner for card hero image, fall back to logo
     imageAlt: businessName,
-    isFeatured: supabaseRecord.is_verified || false,
+    isFeatured: supabaseRecord.is_founding_sponsor || false,
     isVerified: supabaseRecord.is_verified || false,
     ownerId: supabaseRecord.owner_id,
     createdAt: supabaseRecord.created_at,
