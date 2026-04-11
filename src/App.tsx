@@ -107,6 +107,7 @@ const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboard
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 const LazyListingSuccessPage = lazy(() => import('@/pages/ListingSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
+const LazyPricingPage = lazy(() => import('@/pages/PricingPage'));
 const LazySponsorDashboardPage = lazy(() => import('@/pages/SponsorDashboardPage'));
 
 const LazyFullAppTest = lazy(() => import('@/pages/FullAppTest'));
@@ -631,6 +632,7 @@ function App() {
                               <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                               <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                              <Route path="/pricing" element={<LazyPricingPage />} />
                               <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                               {/* /payment-test, /qr-test removed */}
                               <Route path="/qr-code-generator" element={<LazyQRCodeGeneratorPage />} />
@@ -920,6 +922,7 @@ function App() {
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                         <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                        <Route path="/pricing" element={<LazyPricingPage />} />
                         <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                         {/* /payment-test removed */}
                         <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
