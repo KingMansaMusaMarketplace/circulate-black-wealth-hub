@@ -412,6 +412,11 @@ const DirectoryPage: React.FC = () => {
         </div>
         
         <ScrollToTopButton />
+        
+        {/* Alphabet Jump Index - visible when not searching and businesses are loaded */}
+        {!isLoading && regularBusinesses.length > 0 && !searchTerm && (
+          <AlphabetJumpIndex activeLetters={activeLetters} onJumpToLetter={handleJumpToLetter} />
+        )}
       </div>
       
       {shouldShowTour && (
