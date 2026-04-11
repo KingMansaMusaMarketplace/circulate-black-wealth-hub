@@ -18,20 +18,28 @@ const BusinessListView: React.FC<BusinessListViewProps> = ({ businesses, onSelec
     );
   }
 
-  console.log('BusinessListView rendering businesses:', businesses.length);
-  console.log('Sample business with image:', businesses[0]);
+  // Group businesses by first letter for alphabet jump
+  let lastLetter = '';
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {businesses.map((business) => (
-        <div 
-          key={business.id} 
-          id={`business-${business.id}`} 
-          className="transition-all duration-300 h-full"
-        >
-          <BusinessCard {...business} />
-        </div>
-      ))}
+      {businesses.map((business) => {
+        const firstChar = business.name.charAt(0).toUpperCase();
+        const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+        const isNewLetter = letter !== lastLetter;
+        if (isNewLetter) lastLetter = letter;
+
+        return (
+          <div 
+            key={business.id} 
+            id={`business-${business.id}`} 
+            className="transition-all duration-300 h-full"
+            {...(isNewLetter ? { 'data-letter-group': letter } : {})}
+          >
+            <BusinessCard {...business} />
+          </div>
+        );
+      })}
     </div>
   );
 };

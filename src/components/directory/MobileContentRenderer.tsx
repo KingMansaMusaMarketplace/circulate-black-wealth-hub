@@ -25,21 +25,30 @@ const MobileContentRenderer: React.FC<MobileContentRendererProps> = ({
   onSelectBusiness,
   mapData
 }) => {
-  const MobileBusinessList = () => (
-    <div className="space-y-3 px-4">
-      {businesses.map((business) => {
-        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl;
-        return (
-          <MobileBusinessCard
-            key={business.id}
-            {...business}
-            imageUrl={cardImageUrl}
-            onSelect={() => onSelectBusiness(business.id)}
-          />
-        );
-      })}
-    </div>
-  );
+  const MobileBusinessList = () => {
+    let lastLetter = '';
+    return (
+      <div className="space-y-3 px-4">
+        {businesses.map((business) => {
+          const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl;
+          const firstChar = business.name.charAt(0).toUpperCase();
+          const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+          const isNewLetter = letter !== lastLetter;
+          if (isNewLetter) lastLetter = letter;
+
+          return (
+            <div key={business.id} {...(isNewLetter ? { 'data-letter-group': letter } : {})}>
+              <MobileBusinessCard
+                {...business}
+                imageUrl={cardImageUrl}
+                onSelect={() => onSelectBusiness(business.id)}
+              />
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-4">
