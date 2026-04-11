@@ -319,11 +319,11 @@ const AI_EMPLOYEES: AIEmployee[] = [
 const DEPARTMENTS = ['ALL', 'MARKETING', 'FINANCE', 'OPERATIONS', 'COMMUNITY', 'TOOLS'] as const;
 
 const departmentColors: Record<string, string> = {
-  MARKETING: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-  FINANCE: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-  OPERATIONS: 'bg-sky-500/20 text-sky-400 border-sky-500/30',
-  COMMUNITY: 'bg-red-500/20 text-red-400 border-red-500/30',
-  TOOLS: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  MARKETING: 'bg-mansagold/20 text-mansagold border-mansagold/30',
+  FINANCE: 'bg-mansablue-light/20 text-mansablue-light border-mansablue-light/30',
+  OPERATIONS: 'bg-mansagold-light/20 text-mansagold-light border-mansagold-light/30',
+  COMMUNITY: 'bg-mansagold-dark/20 text-mansagold border-mansagold-dark/30',
+  TOOLS: 'bg-mansablue/20 text-mansablue-light border-mansablue/30',
 };
 
 const departmentDescriptions: Record<string, string> = {
@@ -361,11 +361,11 @@ const WhatKaylaDoesPage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-mansablue-dark/40 to-background" />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-mansablue/20 to-blue-600/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute top-1/4 -right-32 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/15 to-amber-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] bg-gradient-to-tr from-blue-700/15 to-mansablue/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-mansablue/20 to-mansablue-light/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute top-1/4 -right-32 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/15 to-mansagold-light/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] bg-gradient-to-tr from-mansablue-dark/15 to-mansablue/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
       </div>
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
 
@@ -374,7 +374,7 @@ const WhatKaylaDoesPage: React.FC = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
         {/* Back link */}
-        <Link to="/" className="inline-flex items-center gap-2 text-white/60 hover:text-mansagold transition-colors mb-8 group">
+        <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-mansagold transition-colors mb-8 group">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           <span className="text-sm">Back to Home</span>
         </Link>
@@ -390,14 +390,14 @@ const WhatKaylaDoesPage: React.FC = () => {
             <span className="text-xs font-semibold text-mansagold uppercase tracking-wider">Your AI Workforce</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
             Meet <span className="text-mansagold" style={{ fontFamily: "'Playfair Display', serif" }}>Kayla</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-6">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6">
             {AI_EMPLOYEES.length} Agentic AI employees working 24/7 across {DEPARTMENTS.length - 1} departments — 
             replacing <span className="text-mansagold font-bold">${totalSavings.toLocaleString()}/mo</span> in operational costs.
           </p>
-          <p className="text-white/50 max-w-2xl mx-auto text-sm md:text-base">
+          <p className="text-muted-foreground/70 max-w-2xl mx-auto text-sm md:text-base">
             One AI employee that handles reviews, marketing, bookkeeping, compliance, and more — so you can focus on the business.
           </p>
         </motion.div>
@@ -415,10 +415,10 @@ const WhatKaylaDoesPage: React.FC = () => {
             { label: 'Monthly Savings', value: `$${totalSavings.toLocaleString()}`, icon: Wallet },
             { label: 'Annual ROI', value: `${Math.round((totalSavings * 12) / (149 * 12))}x`, icon: TrendingUp },
           ].map((stat, i) => (
-            <div key={i} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 text-center">
+            <div key={i} className="bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-4 md:p-6 text-center">
               <stat.icon className="w-5 h-5 text-mansagold mx-auto mb-2" />
-              <div className="text-2xl md:text-3xl font-bold text-white">{stat.value}</div>
-              <div className="text-xs text-white/50 mt-1">{stat.label}</div>
+              <div className="text-2xl md:text-3xl font-bold text-foreground">{stat.value}</div>
+              <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
             </div>
           ))}
         </motion.div>
@@ -441,14 +441,14 @@ const WhatKaylaDoesPage: React.FC = () => {
                   'flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all duration-200',
                   selectedDept === dept
                     ? 'bg-mansagold/20 text-mansagold border-mansagold/40 shadow-lg shadow-mansagold/10'
-                    : 'bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white'
+                    : 'bg-card/50 text-muted-foreground border-border hover:bg-accent hover:text-foreground'
                 )}
               >
                 {DeptIcon && <DeptIcon className="w-4 h-4" />}
                 <span>{dept === 'ALL' ? 'All Departments' : dept.charAt(0) + dept.slice(1).toLowerCase()}</span>
                 <span className={cn(
                   'text-[10px] px-1.5 py-0.5 rounded-full',
-                  selectedDept === dept ? 'bg-mansagold/30 text-mansagold' : 'bg-white/10 text-white/40'
+                  selectedDept === dept ? 'bg-mansagold/30 text-mansagold' : 'bg-muted text-muted-foreground'
                 )}>
                   {count}
                 </span>
@@ -462,7 +462,7 @@ const WhatKaylaDoesPage: React.FC = () => {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center text-white/50 text-sm mb-8"
+            className="text-center text-muted-foreground text-sm mb-8"
           >
             {departmentDescriptions[selectedDept]}
           </motion.p>
@@ -486,23 +486,23 @@ const WhatKaylaDoesPage: React.FC = () => {
                 >
                   <div
                     className={cn(
-                      'bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-5 md:p-6 cursor-pointer transition-all duration-300 group',
-                      'hover:border-mansagold/30 hover:bg-white/[0.05] hover:shadow-lg hover:shadow-mansagold/5',
-                      isExpanded && 'border-mansagold/40 ring-1 ring-mansagold/20 bg-white/[0.06]'
+                      'bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-5 md:p-6 cursor-pointer transition-all duration-300 group',
+                      'hover:border-mansagold/30 hover:bg-card/80 hover:shadow-lg hover:shadow-mansagold/5',
+                      isExpanded && 'border-mansagold/40 ring-1 ring-mansagold/20 bg-card/70'
                     )}
                     onClick={() => setExpandedId(isExpanded ? null : employee.id)}
                   >
                     {/* Header */}
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-mansagold/20 to-amber-500/10 flex items-center justify-center border border-mansagold/20 group-hover:shadow-lg group-hover:shadow-mansagold/10 transition-shadow">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-mansagold/20 to-mansagold-dark/10 flex items-center justify-center border border-mansagold/20 group-hover:shadow-lg group-hover:shadow-mansagold/10 transition-shadow">
                           <Icon className="w-6 h-6 text-mansagold" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-white group-hover:text-mansagold transition-colors">
+                          <h3 className="font-semibold text-foreground group-hover:text-mansagold transition-colors">
                             {employee.name}
                           </h3>
-                          <p className="text-xs text-white/50">{employee.role}</p>
+                          <p className="text-xs text-muted-foreground">{employee.role}</p>
                         </div>
                       </div>
                       <Badge variant="outline" className={cn('text-[10px] px-2 py-0.5', departmentColors[employee.department])}>
@@ -511,7 +511,7 @@ const WhatKaylaDoesPage: React.FC = () => {
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-white/60 mb-4 leading-relaxed">{employee.description}</p>
+                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{employee.description}</p>
 
                     {/* Footer */}
                     <div className="flex items-center justify-between">
@@ -521,7 +521,7 @@ const WhatKaylaDoesPage: React.FC = () => {
                           Saves {employee.savingsPerMonth}/mo
                         </span>
                       </div>
-                      <div className="flex items-center gap-1 text-white/40">
+                      <div className="flex items-center gap-1 text-muted-foreground">
                         <span className="text-xs">{isExpanded ? 'Less' : 'Details'}</span>
                         {isExpanded ? (
                           <ChevronUp className="w-4 h-4" />
@@ -541,11 +541,11 @@ const WhatKaylaDoesPage: React.FC = () => {
                           transition={{ duration: 0.25 }}
                           className="overflow-hidden"
                         >
-                          <div className="mt-4 pt-4 border-t border-white/10 space-y-2.5">
+                          <div className="mt-4 pt-4 border-t border-border space-y-2.5">
                             {employee.capabilities.map((cap, i) => (
                               <div key={i} className="flex items-start gap-2.5">
                                 <CheckCircle2 className="w-4 h-4 text-mansagold flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-white/70">{cap}</span>
+                                <span className="text-sm text-muted-foreground">{cap}</span>
                               </div>
                             ))}
                           </div>
@@ -567,22 +567,22 @@ const WhatKaylaDoesPage: React.FC = () => {
           className="text-center mt-16 md:mt-20"
         >
           <div className="bg-gradient-to-r from-mansagold/10 via-mansagold/5 to-mansagold/10 border border-mansagold/20 rounded-3xl p-8 md:p-12 max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
               Ready to Put Kayla to Work?
             </h2>
-            <p className="text-white/60 mb-6 max-w-xl mx-auto">
+            <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
               Start with the free tier and unlock your full AI workforce for just $149/month — 
               that's less than <span className="text-mansagold font-semibold">$6/day</span> for {AI_EMPLOYEES.length} employees.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/business-signup">
-                <Button className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold px-8 py-3 rounded-full text-base shadow-lg shadow-mansagold/20">
+                <Button className="bg-mansagold hover:bg-mansagold/90 text-text-on-gold font-semibold px-8 py-3 rounded-full text-base shadow-lg shadow-mansagold/20">
                   <Sparkles className="w-4 h-4 mr-2" />
                   Get Started Free
                 </Button>
               </Link>
               <Link to="/pricing">
-                <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 px-8 py-3 rounded-full text-base">
+                <Button variant="outline" className="border-border text-foreground hover:bg-accent px-8 py-3 rounded-full text-base">
                   View Pricing
                 </Button>
               </Link>
