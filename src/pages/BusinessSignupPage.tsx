@@ -415,7 +415,7 @@ const BusinessSignupPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative flex flex-col justify-center py-12">
       <Helmet>
         <title>Business Sign Up — Kayla AI Employee Included | 1325.AI</title>
-        <meta name="description" content="Sign up your business on 1325.AI and get Kayla, your AI employee — 28 autonomous services replacing $5,750+/mo in human labor. Included free." />
+        <meta name="description" content="Sign up your business on 1325.AI and get Kayla, your AI employee — 28 autonomous services replacing $12,100+/mo in human labor. Included free." />
       </Helmet>
 
       {/* Animated gradient orbs */}
@@ -453,7 +453,7 @@ const BusinessSignupPage: React.FC = () => {
                   Your AI Employee — Included Free
                 </p>
                 <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-                  28 autonomous services that replace <span className="text-mansagold font-bold">$1,650–$5,750/month</span> in human labor. 
+                  28 autonomous services that replace <span className="text-mansagold font-bold">$12,100+/month</span> in human labor. 
                   She manages your marketing, finances, operations, and community impact — so you can focus on what you do best.
                 </p>
                 
@@ -464,8 +464,8 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div className="text-center">
-                    <p className="text-3xl md:text-4xl font-extrabold text-green-400">$5,750+</p>
-                    <p className="text-sm text-slate-400">Value Per Month</p>
+                    <p className="text-3xl md:text-4xl font-extrabold text-green-400">$12,100+</p>
+                    <p className="text-sm text-slate-400">Savings Per Month</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div className="text-center">
@@ -595,8 +595,8 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
-                    <p className="text-3xl font-bold text-green-400">$5,750+</p>
-                    <p className="text-sm text-slate-400">Monthly Value</p>
+                    <p className="text-3xl font-bold text-green-400">$12,100+</p>
+                    <p className="text-sm text-slate-400">Savings Per Month</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
