@@ -475,7 +475,7 @@ const BusinessSignupPage: React.FC = () => {
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div className="text-center">
                     <p className="text-3xl md:text-4xl font-extrabold text-purple-400">$0</p>
-                    <p className="text-sm text-slate-400">Extra Cost</p>
+                    <p className="text-sm text-slate-400">Hidden Fees</p>
                   </div>
                 </div>
               </div>
