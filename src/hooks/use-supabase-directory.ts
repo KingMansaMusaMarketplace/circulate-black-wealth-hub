@@ -64,7 +64,7 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     lng: business.longitude || -84.388,
     imageUrl: cardImage,
     imageAlt: businessName,
-    isFeatured: business.is_verified || false,
+    isFeatured: false,
     isVerified: business.is_verified || false,
     ownerId: '',
     createdAt: business.created_at,
