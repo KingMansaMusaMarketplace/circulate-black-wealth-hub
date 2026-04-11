@@ -15,6 +15,7 @@ import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/
 import DirectoryStructuredData from '@/components/SEO/DirectoryStructuredData';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
+import { getBusinessBanner } from '@/utils/businessBanners';
 import { List, Map as MapIcon, Grid3X3, SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
