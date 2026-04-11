@@ -35,11 +35,19 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
   const featuredBusinesses = businesses.filter(b => b.isFeatured);
   const regularBusinesses = businesses.filter(b => !b.isFeatured);
 
+  // Track letters for alphabet jump
+  let lastLetterFeatured = '';
+  let lastLetterRegular = '';
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
       {/* Featured businesses get larger cards */}
       {featuredBusinesses.map((business, index) => {
         const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl;
+        const firstChar = business.name.charAt(0).toUpperCase();
+        const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+        const isNewLetter = letter !== lastLetterFeatured;
+        if (isNewLetter) lastLetterFeatured = letter;
         
         return (
           <div 
@@ -50,6 +58,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
               // First featured card spans 2 columns on larger screens
               index === 0 && "md:col-span-2 lg:col-span-2"
             )}
+            {...(isNewLetter ? { 'data-letter-group': letter } : {})}
           >
             <PremiumBusinessCard 
               id={business.id}
@@ -77,6 +86,10 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
       {/* Regular businesses */}
       {regularBusinesses.map((business, index) => {
         const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl;
+        const firstChar = business.name.charAt(0).toUpperCase();
+        const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+        const isNewLetter = letter !== lastLetterRegular;
+        if (isNewLetter) lastLetterRegular = letter;
         
         return (
           <React.Fragment key={business.id}>
@@ -89,6 +102,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
             <div 
               id={`business-${business.id}`} 
               className="h-full"
+              {...(isNewLetter ? { 'data-letter-group': letter } : {})}
             >
               <PremiumBusinessCard 
                 id={business.id}

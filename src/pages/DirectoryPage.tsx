@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from '@/hooks/location/useLocation';
 import { useSupabaseDirectory } from '@/hooks/use-supabase-directory';
@@ -32,6 +32,7 @@ import DirectoryPagination from '@/components/directory/DirectoryPagination';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { useIsMobile } from '@/hooks/use-mobile';
 import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
+import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -94,6 +95,23 @@ const DirectoryPage: React.FC = () => {
     const featuredIds = new Set(featuredBusinesses.map(b => b.id));
     return filteredBusinesses?.filter(b => !featuredIds.has(b.id)) || [];
   }, [filteredBusinesses, featuredBusinesses, searchTerm]);
+
+  // Alphabet jump index support
+  const activeLetters = useMemo(() => {
+    const letters = new Set<string>();
+    (regularBusinesses || []).forEach(b => {
+      const first = b.name.charAt(0).toUpperCase();
+      letters.add(/[A-Z]/.test(first) ? first : '#');
+    });
+    return letters;
+  }, [regularBusinesses]);
+
+  const handleJumpToLetter = useCallback((letter: string) => {
+    const target = document.querySelector(`[data-letter-group="${letter}"]`);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
 
   const handleSelectBusiness = useCallback((id: string) => {
     const business = filteredBusinesses.find(b => b.id === id);
@@ -394,6 +412,11 @@ const DirectoryPage: React.FC = () => {
         </div>
         
         <ScrollToTopButton />
+        
+        {/* Alphabet Jump Index - visible when not searching and businesses are loaded */}
+        {!isLoading && regularBusinesses.length > 0 && !searchTerm && (
+          <AlphabetJumpIndex activeLetters={activeLetters} onJumpToLetter={handleJumpToLetter} />
+        )}
       </div>
       
       {shouldShowTour && (
