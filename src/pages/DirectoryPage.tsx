@@ -83,28 +83,60 @@ const DirectoryPage: React.FC = () => {
     totalPages,
   } = useSupabaseDirectory();
 
-  // Get top-rated businesses for carousel spotlight (top 10 by rating, min 4+ stars)
-  const featuredBusinesses = useMemo(() => {
-    const allBusinesses = filteredBusinesses || [];
-    // First try actual featured/founding sponsor businesses
-    const featured = allBusinesses.filter(b => b.isFeatured);
-    if (featured.length > 0) {
-      return featured.sort((a, b) => a.name.localeCompare(b.name));
-    }
-    // Fallback: show top-rated businesses (4+ stars, sorted by rating desc)
-    return allBusinesses
-      .filter(b => b.averageRating >= 4 && b.reviewCount > 0)
-      .sort((a, b) => b.averageRating - a.averageRating || b.reviewCount - a.reviewCount)
-      .slice(0, 10);
-  }, [filteredBusinesses]);
+  // Fetch top-rated businesses for Featured Spotlight (separate from paginated results)
+  const { data: featuredBusinesses = [] } = useQuery({
+    queryKey: ['featured-spotlight-businesses'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('businesses')
+        .select('id, name, business_name, description, category, address, city, state, zip_code, website, logo_url, banner_url, average_rating, review_count, is_verified, latitude, longitude, created_at, updated_at')
+        .eq('is_verified', true)
+        .gte('average_rating', 4)
+        .gt('review_count', 0)
+        .order('average_rating', { ascending: false })
+        .order('review_count', { ascending: false })
+        .limit(10);
+      
+      if (error) throw error;
+      
+      return (data || []).map((b: any) => ({
+        id: b.id,
+        name: b.name || b.business_name || 'Unnamed Business',
+        description: b.description || '',
+        category: b.category || 'Other',
+        address: b.address || '',
+        city: b.city || '',
+        state: b.state || '',
+        zipCode: b.zip_code || '',
+        phone: '',
+        email: '',
+        website: b.website || '',
+        logoUrl: b.logo_url || '',
+        bannerUrl: b.banner_url || '',
+        averageRating: Number(b.average_rating) || 0,
+        reviewCount: b.review_count || 0,
+        rating: Number(b.average_rating) || 0,
+        discount: '',
+        discountValue: 0,
+        distance: '',
+        distanceValue: 0,
+        lat: b.latitude || 0,
+        lng: b.longitude || 0,
+        imageUrl: b.banner_url || b.logo_url || '',
+        imageAlt: b.name || b.business_name || '',
+        isFeatured: true,
+        isVerified: b.is_verified || false,
+        isSample: false,
+        ownerId: '',
+        createdAt: b.created_at,
+        updatedAt: b.updated_at,
+      })) as Business[];
+    },
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
 
-  // Get non-featured businesses for the grid
-  // When searching, include all results (featured spotlight is hidden during search)
-  const regularBusinesses = useMemo(() => {
-    if (searchTerm || featuredBusinesses.length === 0) return filteredBusinesses || [];
-    const featuredIds = new Set(featuredBusinesses.map(b => b.id));
-    return filteredBusinesses?.filter(b => !featuredIds.has(b.id)) || [];
-  }, [filteredBusinesses, featuredBusinesses, searchTerm]);
+  // All paginated businesses go to the grid (featured spotlight is separate)
+  const regularBusinesses = filteredBusinesses || [];
 
   // Alphabet jump index support
   const activeLetters = useMemo(() => {
