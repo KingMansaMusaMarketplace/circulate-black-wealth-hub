@@ -11,6 +11,9 @@ import { VoiceTranscript } from '@/components/voice';
 import { useCapacitor } from '@/hooks/use-capacitor';
 
 const Hero = () => {
+  const { platform } = useCapacitor();
+  const isIOS = platform === 'ios';
+
   const {
     isConnected,
     isConnecting,
@@ -156,7 +159,8 @@ const Hero = () => {
             )}
           </motion.div>
 
-          {/* Talk to Kayla CTA */}
+          {/* Talk to Kayla CTA - hidden on iOS to prevent WKWebView crashes */}
+          {!isIOS && (
           <motion.div
             className="mt-5 flex flex-col items-center gap-2"
             initial={{ opacity: 0, y: 20 }}
