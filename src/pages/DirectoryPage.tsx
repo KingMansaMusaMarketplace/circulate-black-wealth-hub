@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Business } from '@/types/business';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from '@/hooks/location/useLocation';
 import { useSupabaseDirectory } from '@/hooks/use-supabase-directory';
