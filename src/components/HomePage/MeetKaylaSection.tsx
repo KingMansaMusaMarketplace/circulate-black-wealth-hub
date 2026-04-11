@@ -22,6 +22,9 @@ const differentiators = [
 ];
 
 const MeetKaylaSection: React.FC = () => {
+  const { platform } = useCapacitor();
+  const isIOS = platform === 'ios';
+
   const {
     isConnected,
     isConnecting,
