@@ -81,17 +81,18 @@ const DirectoryPage: React.FC = () => {
     totalPages,
   } = useSupabaseDirectory();
 
-  // Get featured business for spotlight
-  const featuredBusiness = useMemo(() => {
-    return filteredBusinesses?.find(b => b.isFeatured);
+  // Get all featured businesses for carousel spotlight
+  const featuredBusinesses = useMemo(() => {
+    return filteredBusinesses?.filter(b => b.isFeatured) || [];
   }, [filteredBusinesses]);
 
   // Get non-featured businesses for the grid
   // When searching, include all results (featured spotlight is hidden during search)
   const regularBusinesses = useMemo(() => {
-    if (searchTerm || !featuredBusiness) return filteredBusinesses || [];
-    return filteredBusinesses?.filter(b => b.id !== featuredBusiness.id) || [];
-  }, [filteredBusinesses, featuredBusiness, searchTerm]);
+    if (searchTerm || featuredBusinesses.length === 0) return filteredBusinesses || [];
+    const featuredIds = new Set(featuredBusinesses.map(b => b.id));
+    return filteredBusinesses?.filter(b => !featuredIds.has(b.id)) || [];
+  }, [filteredBusinesses, featuredBusinesses, searchTerm]);
 
   const handleSelectBusiness = useCallback((id: string) => {
     const business = filteredBusinesses.find(b => b.id === id);
@@ -220,9 +221,9 @@ const DirectoryPage: React.FC = () => {
             </motion.div>
           )}
           
-          {/* Featured Spotlight */}
-          {featuredBusiness && !searchTerm && !isLoading && (
-            <FeaturedSpotlight business={featuredBusiness} />
+          {/* Featured Spotlight Carousel */}
+          {featuredBusinesses.length > 0 && !searchTerm && !isLoading && (
+            <FeaturedSpotlight businesses={featuredBusinesses} />
           )}
           
           {/* Results count with view mode toggles - consolidated for easy access */}
