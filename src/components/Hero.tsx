@@ -2,7 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mic, MicOff, Loader2, Users, Building2 } from 'lucide-react';
+import { ArrowRight, Mic, MicOff, Loader2, Users, Building2, TrendingUp } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import CountUpNumber from '@/components/animations/CountUpNumber';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 
