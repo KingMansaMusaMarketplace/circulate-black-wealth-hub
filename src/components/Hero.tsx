@@ -37,7 +37,7 @@ const Hero = () => {
   });
 
   return (
-    <section className="relative min-h-[auto] md:min-h-[80vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[auto] md:min-h-[auto] flex items-center overflow-hidden">
 
       {/* Premium gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
@@ -51,7 +51,7 @@ const Hero = () => {
       {/* Bottom gold edge transition */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-mansagold/5 to-transparent" />
 
-      <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+      <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
         <div className="max-w-3xl lg:max-w-5xl mx-auto text-center">
           {/* Mission tagline */}
           <motion.p
@@ -65,7 +65,7 @@ const Hero = () => {
 
           {/* Headline */}
           <motion.h1 
-            className="font-playfair text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[1.05] mb-8"
+            className="font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
@@ -77,7 +77,7 @@ const Hero = () => {
           
           {/* Subhead — outcome-driven */}
           <motion.p 
-            className="text-lg md:text-xl lg:text-2xl text-blue-100/80 mb-10 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg lg:text-xl text-blue-100/80 mb-6 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -144,7 +144,7 @@ const Hero = () => {
 
           {/* Talk to Kayla CTA */}
           <motion.div
-            className="mt-12 flex flex-col items-center gap-4"
+            className="mt-6 flex flex-col items-center gap-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
