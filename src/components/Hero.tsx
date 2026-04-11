@@ -2,7 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mic, MicOff, Loader2, Users, Building2 } from 'lucide-react';
+import { ArrowRight, Mic, MicOff, Loader2, Users, Building2, TrendingUp } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import CountUpNumber from '@/components/animations/CountUpNumber';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 
@@ -24,6 +27,15 @@ const Hero = () => {
     }
   };
 
+  const { data: stats } = useQuery({
+    queryKey: ['platform-stats-hero'],
+    queryFn: async () => {
+      const { data } = await supabase.rpc('get_platform_stats');
+      return data as { total_members: number; total_businesses: number } | null;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
   return (
     <section className="relative min-h-[auto] md:min-h-[80vh] flex items-center overflow-hidden">
 
@@ -41,26 +53,36 @@ const Hero = () => {
 
       <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-24">
         <div className="max-w-3xl lg:max-w-5xl mx-auto text-center">
+          {/* Mission tagline */}
+          <motion.p
+            className="text-sm md:text-base font-semibold text-mansagold uppercase tracking-widest mb-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            The Economic Operating System for Community Wealth
+          </motion.p>
+
           {/* Headline */}
           <motion.h1 
             className="font-playfair text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[1.05] mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
             <span className="text-gradient-gold">Mansa Musa</span>
             <br />
             <span className="text-gradient-gold">Marketplace</span>
           </motion.h1>
           
-          {/* Subhead */}
+          {/* Subhead — outcome-driven */}
           <motion.p 
             className="text-lg md:text-xl lg:text-2xl text-blue-100/80 mb-10 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Discover businesses in your community. Support economic growth. Build generational wealth together.
+            Find verified community businesses. Earn loyalty rewards. Track your economic impact — all in one free platform.
           </motion.p>
 
           {/* Dual-path CTAs */}
@@ -98,6 +120,26 @@ const Hero = () => {
             <Link to="/directory" className="text-white/60 hover:text-mansagold text-sm font-medium transition-colors">
               Or explore businesses in the directory →
             </Link>
+
+            {/* Trust stat bar */}
+            {stats && (
+              <div className="flex items-center gap-6 mt-4 text-sm text-white/70">
+                <div className="flex items-center gap-1.5">
+                  <Users className="w-4 h-4 text-mansagold" />
+                  <CountUpNumber end={stats.total_members || 0} suffix="+ Members" className="font-semibold" />
+                </div>
+                <div className="w-px h-4 bg-white/20" />
+                <div className="flex items-center gap-1.5">
+                  <Building2 className="w-4 h-4 text-mansagold" />
+                  <CountUpNumber end={stats.total_businesses || 0} suffix="+ Businesses" className="font-semibold" />
+                </div>
+                <div className="w-px h-4 bg-white/20" />
+                <div className="flex items-center gap-1.5">
+                  <TrendingUp className="w-4 h-4 text-mansagold" />
+                  <span className="font-semibold">Free to Join</span>
+                </div>
+              </div>
+            )}
           </motion.div>
 
           {/* Talk to Kayla CTA */}
