@@ -81,9 +81,10 @@ const DirectoryPage: React.FC = () => {
     totalPages,
   } = useSupabaseDirectory();
 
-  // Get all featured businesses for carousel spotlight
+  // Get all featured businesses for carousel spotlight, sorted alphabetically
   const featuredBusinesses = useMemo(() => {
-    return filteredBusinesses?.filter(b => b.isFeatured) || [];
+    return (filteredBusinesses?.filter(b => b.isFeatured) || [])
+      .sort((a, b) => a.name.localeCompare(b.name));
   }, [filteredBusinesses]);
 
   // Get non-featured businesses for the grid
