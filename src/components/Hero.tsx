@@ -36,6 +36,15 @@ const Hero = () => {
     staleTime: 5 * 60 * 1000,
   });
 
+  const shouldShowMemberCount = (stats?.total_members ?? 0) >= 1000;
+
+  const handleScrollToNextSection = () => {
+    document.getElementById('mission-preview')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
+
   return (
     <section className="relative min-h-[auto] md:min-h-[auto] flex items-center overflow-hidden">
 
@@ -49,9 +58,9 @@ const Hero = () => {
       </div>
 
       {/* Bottom gold edge transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-mansagold/5 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-mansagold/5 to-transparent" />
 
-      <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+      <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2 md:pt-8 md:pb-3">
         <div className="max-w-3xl lg:max-w-5xl mx-auto text-center">
           {/* Mission tagline */}
           <motion.p
@@ -123,17 +132,21 @@ const Hero = () => {
 
             {/* Trust stat bar */}
             {stats && (
-              <div className="flex items-center gap-6 mt-4 text-sm text-white/70">
-                <div className="flex items-center gap-1.5">
-                  <Users className="w-4 h-4 text-mansagold" />
-                  <CountUpNumber end={stats.total_members || 0} suffix="+ Members" className="font-semibold" />
-                </div>
-                <div className="w-px h-4 bg-white/20" />
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-sm text-white/70">
+                {shouldShowMemberCount && (
+                  <>
+                    <div className="flex items-center gap-1.5">
+                      <Users className="w-4 h-4 text-mansagold" />
+                      <CountUpNumber end={stats.total_members || 0} suffix="+ Members" className="font-semibold" />
+                    </div>
+                    <div className="hidden sm:block w-px h-4 bg-white/20" />
+                  </>
+                )}
                 <div className="flex items-center gap-1.5">
                   <Building2 className="w-4 h-4 text-mansagold" />
                   <CountUpNumber end={stats.total_businesses || 0} suffix="+ Businesses" className="font-semibold" />
                 </div>
-                <div className="w-px h-4 bg-white/20" />
+                <div className="hidden sm:block w-px h-4 bg-white/20" />
                 <div className="flex items-center gap-1.5">
                   <TrendingUp className="w-4 h-4 text-mansagold" />
                   <span className="font-semibold">Free to Join</span>
@@ -144,7 +157,7 @@ const Hero = () => {
 
           {/* Talk to Kayla CTA */}
           <motion.div
-            className="mt-6 flex flex-col items-center gap-3"
+            className="mt-5 flex flex-col items-center gap-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
@@ -179,7 +192,7 @@ const Hero = () => {
               </Button>
             )}
             {!isConnected && (
-               <div className="flex flex-col items-center gap-2 mt-4">
+               <div className="flex flex-col items-center gap-1 mt-3">
                 <span className="text-3xl md:text-4xl font-playfair font-bold text-mansagold tracking-widest uppercase drop-shadow-[0_0_20px_rgba(184,134,11,0.7)] [text-shadow:0_0_30px_rgba(184,134,11,0.5),0_0_60px_rgba(184,134,11,0.3)]">Kayla</span>
                 <span className="text-2xl md:text-3xl font-semibold text-mansagold tracking-tight font-playfair drop-shadow-[0_0_12px_rgba(184,134,11,0.4)]">Agentic AI Concierge</span>
                </div>
@@ -194,17 +207,24 @@ const Hero = () => {
 
           {/* Scroll indicator */}
           <motion.div
-            className="flex flex-col items-center mt-2 text-white cursor-pointer hover:text-mansagold transition-colors"
+            className="flex flex-col items-center mt-1 text-white cursor-pointer hover:text-mansagold transition-colors"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            onClick={handleScrollToNextSection}
           >
-            <span className="text-xs tracking-widest uppercase mb-2">Scroll to explore</span>
+            <span className="text-xs tracking-widest uppercase mb-1">Scroll to explore</span>
             <motion.div
               animate={{ y: [0, 6, 0] }}
               transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
             >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
