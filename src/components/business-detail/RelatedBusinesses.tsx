@@ -60,9 +60,12 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
   const [businesses, setBusinesses] = useState<RelatedBusiness[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [isFallback, setIsFallback] = useState(false);
+
   useEffect(() => {
     const fetchRelatedBusinesses = async () => {
       try {
+        // First try same category
         const { data, error } = await supabase
           .from('businesses')
           .select('id, business_name, category, city, state, logo_url, average_rating, is_verified')
@@ -71,7 +74,23 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
           .limit(limit);
 
         if (error) throw error;
-        setBusinesses(data || []);
+
+        if (data && data.length > 0) {
+          setBusinesses(data);
+          setIsFallback(false);
+        } else {
+          // Fallback: show businesses from any category
+          const { data: fallbackData, error: fallbackError } = await supabase
+            .from('businesses')
+            .select('id, business_name, category, city, state, logo_url, average_rating, is_verified')
+            .neq('id', currentBusinessId)
+            .order('average_rating', { ascending: false })
+            .limit(limit);
+
+          if (fallbackError) throw fallbackError;
+          setBusinesses(fallbackData || []);
+          setIsFallback(true);
+        }
       } catch (err) {
         console.error('Error fetching related businesses:', err);
       } finally {
@@ -107,8 +126,8 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
     <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
       <CardHeader>
         <CardTitle className="text-white flex items-center gap-2">
-          {getCategoryIcon(category)}
-          {getCategoryTitle(category)}
+          {isFallback ? <Building2 className="h-5 w-5" /> : getCategoryIcon(category)}
+          {isFallback ? 'Discover Other Businesses' : getCategoryTitle(category)}
         </CardTitle>
       </CardHeader>
       <CardContent>
