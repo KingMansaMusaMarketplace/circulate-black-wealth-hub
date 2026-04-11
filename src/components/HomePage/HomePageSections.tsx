@@ -15,6 +15,8 @@ const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 const CirculationGap = lazy(() => import('./CirculationGap'));
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
+const QuickHowItWorks = lazy(() => import('./QuickHowItWorks'));
+const CommunityWealthTicker = lazy(() => import('@/components/wealth-ticker/CommunityWealthTicker'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (

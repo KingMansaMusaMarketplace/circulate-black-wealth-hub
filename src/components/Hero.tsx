@@ -120,6 +120,26 @@ const Hero = () => {
             <Link to="/directory" className="text-white/60 hover:text-mansagold text-sm font-medium transition-colors">
               Or explore businesses in the directory →
             </Link>
+
+            {/* Trust stat bar */}
+            {stats && (
+              <div className="flex items-center gap-6 mt-4 text-sm text-white/70">
+                <div className="flex items-center gap-1.5">
+                  <Users className="w-4 h-4 text-mansagold" />
+                  <CountUpNumber end={stats.total_members || 0} suffix="+ Members" className="font-semibold" />
+                </div>
+                <div className="w-px h-4 bg-white/20" />
+                <div className="flex items-center gap-1.5">
+                  <Building2 className="w-4 h-4 text-mansagold" />
+                  <CountUpNumber end={stats.total_businesses || 0} suffix="+ Businesses" className="font-semibold" />
+                </div>
+                <div className="w-px h-4 bg-white/20" />
+                <div className="flex items-center gap-1.5">
+                  <TrendingUp className="w-4 h-4 text-mansagold" />
+                  <span className="font-semibold">Free to Join</span>
+                </div>
+              </div>
+            )}
           </motion.div>
 
           {/* Talk to Kayla CTA */}
