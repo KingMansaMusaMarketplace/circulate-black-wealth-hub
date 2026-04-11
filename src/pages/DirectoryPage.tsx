@@ -101,35 +101,44 @@ const DirectoryPage: React.FC = () => {
       
       if (error) throw error;
       
-      return (data || []).map((b: any) => ({
-        id: b.id,
-        name: b.name || b.business_name || 'Unnamed Business',
-        description: b.description || '',
-        category: b.category || 'Other',
-        address: b.address || '',
-        city: b.city || '',
-        state: b.state || '',
-        zipCode: b.zip_code || '',
-        phone: '',
-        email: '',
-        website: b.website || '',
+      return (data || []).map((b: any) => {
         const bannerUrl = getBusinessBanner(b.id, b.banner_url, b.website) || '';
         const logoUrl = b.logo_url || '';
         const cardImage = bannerUrl || logoUrl;
         const businessName = b.name || b.business_name || 'Unnamed Business';
         return {
-          ...acc,
+          id: b.id,
+          name: businessName,
+          description: b.description || '',
+          category: b.category || 'Other',
+          address: b.address || '',
+          city: b.city || '',
+          state: b.state || '',
+          zipCode: b.zip_code || '',
+          phone: '',
+          email: '',
+          website: b.website || '',
           logoUrl,
           bannerUrl,
+          averageRating: Number(b.average_rating) || 0,
+          reviewCount: b.review_count || 0,
+          rating: Number(b.average_rating) || 0,
+          discount: '',
+          discountValue: 0,
+          distance: '',
+          distanceValue: 0,
+          lat: b.latitude || 0,
+          lng: b.longitude || 0,
           imageUrl: cardImage,
           imageAlt: businessName,
           isFeatured: true,
           isVerified: b.is_verified || false,
           isSample: false,
-        ownerId: '',
-        createdAt: b.created_at,
-        updatedAt: b.updated_at,
-      })) as Business[];
+          ownerId: '',
+          createdAt: b.created_at,
+          updatedAt: b.updated_at,
+        };
+      }) as Business[];
     },
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
