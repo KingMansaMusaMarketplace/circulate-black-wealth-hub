@@ -49,9 +49,9 @@ const Hero = () => {
       </div>
 
       {/* Bottom gold edge transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-mansagold/5 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-mansagold/5 to-transparent" />
 
-      <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+      <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
         <div className="max-w-3xl lg:max-w-5xl mx-auto text-center">
           {/* Mission tagline */}
           <motion.p
@@ -194,7 +194,7 @@ const Hero = () => {
 
           {/* Scroll indicator */}
           <motion.div
-            className="flex flex-col items-center mt-4 text-white cursor-pointer hover:text-mansagold transition-colors"
+            className="flex flex-col items-center mt-2 text-white cursor-pointer hover:text-mansagold transition-colors"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.8 }}
