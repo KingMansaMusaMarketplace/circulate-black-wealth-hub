@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import CountUpNumber from '@/components/animations/CountUpNumber';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 const Hero = () => {
   const {

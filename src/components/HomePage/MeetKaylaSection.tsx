@@ -4,6 +4,7 @@ import { Mic, Search, Home, Star, Calendar, TrendingUp, ShieldAlert, Database, Z
 import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 const capabilities = [
   { icon: Search, title: 'Live Directory Search', description: 'Ask for a restaurant nearby — she queries the real database and reads back results.' },
