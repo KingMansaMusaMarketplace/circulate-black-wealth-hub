@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from '@/hooks/location/useLocation';
 import { useSupabaseDirectory } from '@/hooks/use-supabase-directory';
@@ -32,6 +32,7 @@ import DirectoryPagination from '@/components/directory/DirectoryPagination';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { useIsMobile } from '@/hooks/use-mobile';
 import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
+import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
