@@ -126,8 +126,8 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
     <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
       <CardHeader>
         <CardTitle className="text-white flex items-center gap-2">
-          {getCategoryIcon(category)}
-          {getCategoryTitle(category)}
+          {isFallback ? <Building2 className="h-5 w-5" /> : getCategoryIcon(category)}
+          {isFallback ? 'Discover Other Businesses' : getCategoryTitle(category)}
         </CardTitle>
       </CardHeader>
       <CardContent>
