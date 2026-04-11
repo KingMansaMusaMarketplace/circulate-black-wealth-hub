@@ -2,7 +2,7 @@ import React from 'react';
 
 const MissionPreview: React.FC = () => {
   return (
-    <section className="py-2 md:py-4 bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
+    <section className="py-0 bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mansagold/10 border border-mansagold/30 mb-3">
