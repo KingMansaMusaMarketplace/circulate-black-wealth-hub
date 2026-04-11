@@ -5,6 +5,7 @@ import { useCapacitor } from '@/hooks/use-capacitor';
 import Navbar from './navbar/Navbar';
 import Footer from './Footer';
 import BottomTabBar from './mobile/BottomTabBar';
+import BackToButton from './ui/BackToButton';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -67,6 +68,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             variants={pageVariants}
             transition={pageTransition}
           >
+            <div className="max-w-7xl mx-auto px-4 pt-4">
+              <BackToButton />
+            </div>
             {children}
           </motion.div>
         </AnimatePresence>
