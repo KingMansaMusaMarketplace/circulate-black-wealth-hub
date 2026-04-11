@@ -22,7 +22,7 @@ const MissionPreview: React.FC = () => {
             One AI employee that handles reviews, marketing, and bookkeeping — so you can focus on the business.
           </p>
           <a
-            href="/what-kayla-does"
+            href="/business-signup"
             className="inline-flex items-center gap-3 mt-6 px-8 py-4 rounded-full bg-mansagold/10 border border-mansagold/30 text-mansagold font-bold text-xl hover:bg-mansagold/20 hover:border-mansagold/50 transition-all duration-300 group"
           >
             <span>28 Agentic AI Employees. $149/mo.</span>
