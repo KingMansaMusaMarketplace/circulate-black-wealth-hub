@@ -28,9 +28,13 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     }
   };
 
+  // Completely hide voice interface on iOS to prevent WKWebView crashes
+  if (isNative && typeof window !== 'undefined' && window.Capacitor?.getPlatform?.() === 'ios') {
+    return null;
+  }
+
   return (
     <>
-
       <div
         className="fixed left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-4"
         style={{
