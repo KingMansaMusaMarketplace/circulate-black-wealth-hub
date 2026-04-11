@@ -25,7 +25,7 @@ const MissionPreview: React.FC = () => {
             href="/what-kayla-does"
             className="inline-flex items-center gap-3 mt-6 px-8 py-4 rounded-full bg-mansagold/10 border border-mansagold/30 text-mansagold font-bold text-xl hover:bg-mansagold/20 hover:border-mansagold/50 transition-all duration-300 group"
           >
-            <span>28 AI Employees. $149/mo.</span>
+            <span>28 AGENTIC AI Employees. $149/mo.</span>
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </a>
         </div>
