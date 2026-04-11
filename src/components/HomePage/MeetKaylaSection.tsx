@@ -123,38 +123,42 @@ const MeetKaylaSection: React.FC = () => {
             ))}
           </div>
 
-          {!isConnected ? (
-            <Button
-              onClick={handleStart}
-              disabled={isConnecting}
-              size="lg"
-              className="kayla-button-idle hover:opacity-90 text-white font-bold h-16 px-10 rounded-2xl shadow-2xl text-lg kayla-hero-glow"
-            >
-              {isConnecting ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Connecting...
-                </>
+          {!isIOS && (
+            <>
+              {!isConnected ? (
+                <Button
+                  onClick={handleStart}
+                  disabled={isConnecting}
+                  size="lg"
+                  className="kayla-button-idle hover:opacity-90 text-white font-bold h-16 px-10 rounded-2xl shadow-2xl text-lg kayla-hero-glow"
+                >
+                  {isConnecting ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Connecting...
+                    </>
+                  ) : (
+                    <>
+                      <Mic className="mr-2 h-5 w-5 kayla-mic-pulse" />
+                      Try it now — Talk to Kayla
+                    </>
+                  )}
+                </Button>
               ) : (
-                <>
-                  <Mic className="mr-2 h-5 w-5 kayla-mic-pulse" />
-                  Try it now — Talk to Kayla
-                </>
+                <Button
+                  onClick={endConversation}
+                  size="lg"
+                  className={`${isSpeaking ? 'kayla-button-active' : 'bg-red-500 hover:bg-red-600'} text-white font-bold h-16 px-10 rounded-2xl shadow-2xl text-lg`}
+                >
+                  {isSpeaking ? 'Kayla Speaking...' : 'End Chat'}
+                </Button>
               )}
-            </Button>
-          ) : (
-            <Button
-              onClick={endConversation}
-              size="lg"
-              className={`${isSpeaking ? 'kayla-button-active' : 'bg-red-500 hover:bg-red-600'} text-white font-bold h-16 px-10 rounded-2xl shadow-2xl text-lg`}
-            >
-              {isSpeaking ? 'Kayla Speaking...' : 'End Chat'}
-            </Button>
-          )}
 
-          {isConnected && <VoiceTranscript transcript={transcript} />}
-          {isConnected && !isSpeaking && (
-            <p className="text-xs text-blue-200/60 animate-pulse">Listening... speak naturally</p>
+              {isConnected && <VoiceTranscript transcript={transcript} />}
+              {isConnected && !isSpeaking && (
+                <p className="text-xs text-blue-200/60 animate-pulse">Listening... speak naturally</p>
+              )}
+            </>
           )}
         </motion.div>
       </div>
