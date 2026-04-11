@@ -68,9 +68,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             variants={pageVariants}
             transition={pageTransition}
           >
-            <div className="max-w-7xl mx-auto px-4 pt-4">
-              <BackToButton />
-            </div>
+            <BackToButton />
             {children}
           </motion.div>
         </AnimatePresence>
