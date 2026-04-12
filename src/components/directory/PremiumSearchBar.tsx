@@ -32,13 +32,15 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [userIsTyping, setUserIsTyping] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   
   const isNaturalLanguage = debouncedSearchTerm.trim().split(/\s+/).length > 2;
 
+  // Only show dropdown when the user is actively typing, not on initial load
   useEffect(() => {
     const performSearch = async () => {
-      if (debouncedSearchTerm.length >= 2) {
+      if (debouncedSearchTerm.length >= 2 && userIsTyping) {
         setIsSearching(true);
         try {
           const results = await searchBusinesses(debouncedSearchTerm);
@@ -55,7 +57,7 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
     };
     
     performSearch();
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, userIsTyping]);
 
   const handleClearSearch = () => {
     onSearchChange('');
