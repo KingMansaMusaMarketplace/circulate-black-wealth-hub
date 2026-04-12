@@ -25,7 +25,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import logo1325 from '@/assets/1325-ai-logo.png';
+import logo1325 from '@/assets/1325-ai-logo.webp';
 import {
   generateBrandAssets,
   generateMediaKit,

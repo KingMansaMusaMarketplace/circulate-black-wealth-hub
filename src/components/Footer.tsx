@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
-import logo1325 from '@/assets/1325-ai-logo.png';
+import logo1325 from '@/assets/1325-ai-logo.webp';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { SponsorLogoGrid } from '@/components/sponsors/SponsorLogoGrid';
 import { siteConfig } from '@/config/site';

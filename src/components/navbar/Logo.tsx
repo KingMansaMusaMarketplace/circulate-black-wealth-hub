@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Capacitor } from '@capacitor/core';
-import logo1325 from '@/assets/1325-ai-logo.png';
+import logo1325 from '@/assets/1325-ai-logo.webp';
 import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
 import {
   Dialog,
