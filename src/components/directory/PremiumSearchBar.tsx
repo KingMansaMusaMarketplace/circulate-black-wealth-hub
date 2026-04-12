@@ -32,13 +32,15 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [userIsTyping, setUserIsTyping] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   
   const isNaturalLanguage = debouncedSearchTerm.trim().split(/\s+/).length > 2;
 
+  // Only show dropdown when the user is actively typing, not on initial load
   useEffect(() => {
     const performSearch = async () => {
-      if (debouncedSearchTerm.length >= 2) {
+      if (debouncedSearchTerm.length >= 2 && userIsTyping) {
         setIsSearching(true);
         try {
           const results = await searchBusinesses(debouncedSearchTerm);
@@ -55,11 +57,12 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
     };
     
     performSearch();
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, userIsTyping]);
 
   const handleClearSearch = () => {
     onSearchChange('');
     setShowResults(false);
+    setUserIsTyping(false);
   };
 
   const handleSelectBusiness = (business: Business) => {
@@ -99,7 +102,7 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
               type="text"
               placeholder="Search businesses, categories, or try 'best restaurants near me'..."
               value={searchTerm}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e) => { setUserIsTyping(true); onSearchChange(e.target.value); }}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               className="pl-12 pr-24 h-12 text-base bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
