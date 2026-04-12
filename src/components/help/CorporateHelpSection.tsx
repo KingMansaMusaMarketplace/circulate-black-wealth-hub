@@ -40,11 +40,8 @@ export const CorporateHelpSection: React.FC = () => {
   };
 
   const handleStartTutorial = () => {
-    resetOnboarding();
-    // Small delay to ensure state is reset before starting
-    setTimeout(() => {
-      window.location.href = '/corporate-sponsorship';
-    }, 100);
+    localStorage.removeItem('onboarding_completed');
+    window.location.href = '/corporate-sponsorship';
   };
 
   const getSectionIcon = (title: string) => {
