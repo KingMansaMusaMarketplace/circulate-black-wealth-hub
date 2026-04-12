@@ -4,7 +4,7 @@ import VideoPlayer from '@/components/VideoPlayer';
 
 const MansaMusaVideoSection = () => {
   return (
-    <section className="relative py-16 bg-gradient-to-br from-mansagold via-amber-600 to-yellow-600 overflow-hidden">
+    <section className="relative z-20 py-16 bg-gradient-to-br from-mansagold via-amber-600 to-yellow-600 overflow-hidden">
       {/* Animated decorative elements */}
       <div className="absolute top-20 left-10 w-64 h-64 bg-yellow-300/30 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
