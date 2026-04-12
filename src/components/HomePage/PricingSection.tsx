@@ -174,7 +174,7 @@ const PricingSection = () => {
               Power Your Business with <span className="text-mansagold">Kayla AI</span>
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
-              Replace $1,650–$5,750/month in labor costs with an autonomous AI employee. 
+              Replace ~$12,100/mo in overhead with Kayla's 28 AI employees covering ~4 roles. 
               Choose the plan that fits your growth stage.
             </p>
 
