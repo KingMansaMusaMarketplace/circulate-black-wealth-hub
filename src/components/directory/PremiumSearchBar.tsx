@@ -153,7 +153,7 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute z-50 mt-2 w-full bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+              className="absolute z-[100] mt-2 w-full bg-slate-900/98 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
             >
               {searchResults.map((business, index) => (
                 <motion.div
