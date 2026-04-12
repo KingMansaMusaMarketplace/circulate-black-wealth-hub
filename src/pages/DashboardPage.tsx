@@ -1,7 +1,7 @@
 
 import React from 'react';
 import DashboardLayout from '@/components/dashboard/layout/DashboardLayout';
-import WelcomeGuide from '@/components/dashboard/WelcomeGuide';
+
 import CirculationImpact from '@/components/dashboard/CirculationImpact';
 import RecentActivity from '@/components/dashboard/RecentActivity';
 import NearbyBusinesses from '@/components/dashboard/NearbyBusinesses';
@@ -261,9 +261,6 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
-            <ScrollReveal delay={0.4}>
-              <WelcomeGuide userType={validUserType} />
-            </ScrollReveal>
             <ScrollReveal delay={0.5}>
               <CirculationImpact metrics={impactMetrics} />
             </ScrollReveal>
