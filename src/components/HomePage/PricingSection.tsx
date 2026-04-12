@@ -113,7 +113,7 @@ const PricingSection = () => {
       icon: Crown,
       monthlyPrice: 149,
       annualPrice: 1490,
-      description: 'Full suite of 24+ AI-powered services',
+      description: 'Full suite of 28 AI-powered services',
       highlight: true,
       badge: 'Most Popular',
       trialText: '14-day free trial',

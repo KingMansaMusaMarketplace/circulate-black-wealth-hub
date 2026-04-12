@@ -58,7 +58,7 @@ const tiers: KaylaTier[] = [
     price: '$149/mo',
     priceSubline: '$1,490/year — save $298',
     priceId: KAYLA_STRIPE_TIERS.kayla_pro.price_id,
-    description: 'Full suite of 24+ AI-powered services',
+    description: 'Full suite of 28 AI-powered services',
     highlight: true,
     trialText: '14-day free trial',
     buttonText: 'Start Pro Trial',
