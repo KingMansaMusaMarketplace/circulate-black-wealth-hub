@@ -158,12 +158,12 @@ const PricingSection = () => {
       <div className="max-w-7xl mx-auto px-4">
         <ScrollReveal>
           <div className="flex justify-center mb-8">
-            <a
-              href="/business-signup"
-              className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-mansagold text-black font-bold text-base md:text-lg shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30 hover:scale-105 transition-all duration-300"
+            <button
+              onClick={() => navigate('/business-signup')}
+              className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-mansagold text-black font-bold text-base md:text-lg shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30 hover:scale-105 transition-all duration-300 cursor-pointer"
             >
               Press to See How Kayla Saves You Money
-            </a>
+            </button>
           </div>
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mansagold/10 border border-mansagold/30 mb-6">
