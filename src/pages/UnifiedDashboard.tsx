@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift, Share2, Lightbulb } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCommunityInvestments, useSavingsCircles } from '@/hooks/use-community-finance';
-import { BusinessFeaturesTour } from '@/components/onboarding/BusinessFeaturesTour';
+
 
 const UnifiedDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -35,7 +35,7 @@ const UnifiedDashboard: React.FC = () => {
       {/* Grid overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
 
-      <BusinessFeaturesTour />
+      
       <div className="container mx-auto px-4 py-8 space-y-8 relative z-10">
         {/* Welcome Header */}
         <div className="flex flex-col md:flex-row items-start justify-between gap-4">

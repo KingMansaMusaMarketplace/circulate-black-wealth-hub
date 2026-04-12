@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useSalesAgentOnboarding } from '@/hooks/useSalesAgentOnboarding';
+
 import { Target, Users, DollarSign, BarChart3, FileText, HelpCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SalesAgentHelpSection: React.FC = () => {
-  const { resetOnboarding } = useSalesAgentOnboarding();
+  
 
   const helpTopics = [
     {

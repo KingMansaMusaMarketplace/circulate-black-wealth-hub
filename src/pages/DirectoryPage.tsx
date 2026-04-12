@@ -5,8 +5,6 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from '@/hooks/location/useLocation';
 import { useSupabaseDirectory } from '@/hooks/use-supabase-directory';
 import MultiCityStats from '@/components/directory/MultiCityStats';
-import { useOnboardingTour } from '@/hooks/useOnboardingTour';
-import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { useGuest } from '@/contexts/GuestContext';
 import { useAuth } from '@/contexts/AuthContext';
 import SignupPromptModal from '@/components/auth/SignupPromptModal';
@@ -38,7 +36,7 @@ import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
 import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 
 const DirectoryPage: React.FC = () => {
-  const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
+  
   const { user } = useAuth();
   const { recordBusinessView, recordAttemptedAction, showSignupPrompt, setShowSignupPrompt, lastAttemptedAction } = useGuest();
   const isMobile = useIsMobile();
@@ -469,14 +467,6 @@ const DirectoryPage: React.FC = () => {
         )}
       </div>
       
-      {shouldShowTour && (
-        <OnboardingTour
-          steps={tourSteps}
-          tourKey={tourKey}
-          onComplete={completeTour}
-          onSkip={skipTour}
-        />
-      )}
       
       {/* Signup Prompt Modal for Guests */}
       <SignupPromptModal 

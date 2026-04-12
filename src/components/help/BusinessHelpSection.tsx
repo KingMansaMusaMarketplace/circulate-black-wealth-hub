@@ -15,12 +15,12 @@ import {
 } from 'lucide-react';
 import { BusinessFAQSection } from './BusinessFAQSection';
 import { BUSINESS_HELP_SECTIONS } from '@/lib/business-onboarding-constants';
-import { useBusinessOnboarding } from '@/hooks/useBusinessOnboarding';
+
 
 export const BusinessHelpSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState('getting-started');
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
-  const { resetOnboarding } = useBusinessOnboarding();
+  
 
   const toggleExpanded = (sectionIndex: number, itemIndex: number) => {
     const key = `${sectionIndex}-${itemIndex}`;
