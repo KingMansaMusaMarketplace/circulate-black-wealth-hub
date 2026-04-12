@@ -62,6 +62,7 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
   const handleClearSearch = () => {
     onSearchChange('');
     setShowResults(false);
+    setUserIsTyping(false);
   };
 
   const handleSelectBusiness = (business: Business) => {
