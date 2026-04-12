@@ -78,7 +78,14 @@ export const useSupabaseDirectory = () => {
   const queryClient = useQueryClient();
   const insertCountRef = useRef(0);
   const [selectedCity, setSelectedCity] = useState<string>('all');
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  
+  // Read initial search term from URL query params (e.g. /directory?search=restaurants)
+  const initialSearch = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('search') || '';
+  }, []);
+  
+  const [searchTerm, setSearchTerm] = useState<string>(initialSearch);
   const [page, setPage] = useState(1);
   const [filterOptions, setFilterOptions] = useState<BusinessFilters>({
     category: undefined,
