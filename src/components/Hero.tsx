@@ -1,35 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mic, MicOff, Loader2, Users, Building2, TrendingUp } from 'lucide-react';
+import { ArrowRight, Users, Building2, TrendingUp, Search } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import CountUpNumber from '@/components/animations/CountUpNumber';
-import { useVoiceConnection } from '@/components/voice';
-import { VoiceTranscript } from '@/components/voice';
-import { useCapacitor } from '@/hooks/use-capacitor';
 
 const Hero = () => {
-  const { platform } = useCapacitor();
-  const isIOS = platform === 'ios';
-
-  const {
-    isConnected,
-    isConnecting,
-    isSpeaking,
-    transcript,
-    startConversation,
-    endConversation,
-  } = useVoiceConnection({});
-
-  const handleTalkToKayla = async () => {
-    try {
-      await startConversation();
-    } catch (error) {
-      console.error('[Hero] Error starting Kayla:', error);
-    }
-  };
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { data: stats } = useQuery({
     queryKey: ['platform-stats-hero'],
@@ -41,6 +21,15 @@ const Hero = () => {
   });
 
   const shouldShowMemberCount = (stats?.total_members ?? 0) >= 1000;
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/directory?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate('/directory');
+    }
+  };
 
   const handleScrollToNextSection = () => {
     document.getElementById('mission-preview')?.scrollIntoView({
@@ -88,55 +77,83 @@ const Hero = () => {
             <span className="text-gradient-gold">Marketplace</span>
           </motion.h1>
           
-          {/* Subhead — outcome-driven */}
+          {/* Subhead — tightened for 3-second clarity */}
           <motion.p 
-            className="text-base md:text-lg lg:text-xl text-blue-100/80 mb-6 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg lg:text-xl text-blue-100/80 mb-5 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Find verified community businesses. Earn loyalty rewards. Track your economic impact — all in one free platform.
+            12,000+ verified businesses. Loyalty rewards on every purchase. Always free for consumers.
           </motion.p>
 
-          {/* Dual-path CTAs */}
+          {/* Search bar — immediate action for any visitor */}
+          <motion.form
+            onSubmit={handleSearch}
+            className="max-w-xl mx-auto mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+          >
+            <div className="relative flex items-center">
+              <Search className="absolute left-4 w-5 h-5 text-white/40 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search businesses: restaurants, barbers, catering..."
+                className="w-full h-13 pl-12 pr-28 rounded-full bg-white/8 border border-white/15 text-white placeholder:text-white/40 text-base focus:outline-none focus:ring-2 focus:ring-mansagold/50 focus:border-mansagold/40 transition-all duration-300"
+              />
+              <button
+                type="submit"
+                className="absolute right-2 px-5 py-2 rounded-full bg-mansagold text-mansablue-dark font-semibold text-sm hover:bg-mansagold-dark transition-colors"
+              >
+                Search
+              </button>
+            </div>
+          </motion.form>
+
+          {/* Dual-path CTAs with micro-descriptions */}
           <motion.div 
-            className="flex flex-col gap-6 items-center"
+            className="flex flex-col gap-5 items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
-              <Link to="/signup">
+              <Link to="/signup" className="w-full sm:w-auto">
                 <Button 
                   size="lg"
-                  className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-14 px-8 rounded-xl shadow-xl text-lg w-full sm:w-auto"
+                  className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-auto py-3 px-8 rounded-xl shadow-xl text-lg w-full sm:w-auto flex flex-col items-center gap-0"
                 >
-                  <Users className="mr-2 w-5 h-5" />
-                  I'm a Consumer
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <span className="flex items-center gap-2">
+                    <Users className="w-5 h-5" />
+                    I'm a Consumer
+                    <ArrowRight className="w-5 h-5" />
+                  </span>
+                  <span className="text-xs font-medium opacity-80">Free forever · Earn rewards</span>
                 </Button>
               </Link>
 
-              <Link to="/business-signup">
+              <Link to="/business-signup" className="w-full sm:w-auto">
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 font-bold h-14 px-8 rounded-xl text-lg w-full sm:w-auto"
+                  className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 font-bold h-auto py-3 px-8 rounded-xl text-lg w-full sm:w-auto flex flex-col items-center gap-0"
                 >
-                  <Building2 className="mr-2 w-5 h-5" />
-                  I'm a Business
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <span className="flex items-center gap-2">
+                    <Building2 className="w-5 h-5" />
+                    I'm a Business
+                    <ArrowRight className="w-5 h-5" />
+                  </span>
+                  <span className="text-xs font-medium opacity-70">28 AI employees · From $19/mo</span>
                 </Button>
               </Link>
             </div>
-            
-            <Link to="/directory" className="text-white/60 hover:text-mansagold text-sm font-medium transition-colors">
-              Or explore businesses in the directory →
-            </Link>
 
             {/* Trust stat bar */}
             {stats && (
-              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-sm text-white/70">
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-2 text-sm text-white/70">
                 {shouldShowMemberCount && (
                   <>
                     <div className="flex items-center gap-1.5">
@@ -159,64 +176,22 @@ const Hero = () => {
             )}
           </motion.div>
 
-          {/* Talk to Kayla CTA - hidden on iOS to prevent WKWebView crashes */}
-          {!isIOS && (
-          <motion.div
-            className="mt-5 flex flex-col items-center gap-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
+          {/* No credit card disclaimer */}
+          <motion.p
+            className="mt-4 text-white/70 text-base"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
-            {!isConnected ? (
-              <Button
-                onClick={handleTalkToKayla}
-                disabled={isConnecting}
-                size="lg"
-                className="kayla-button-idle hover:opacity-90 text-white font-bold h-14 px-8 rounded-xl shadow-xl text-lg kayla-hero-glow"
-              >
-                {isConnecting ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Connecting...
-                  </>
-                ) : (
-                  <>
-                    <Mic className="mr-2 h-5 w-5 kayla-mic-pulse" />
-                    Talk to Kayla
-                  </>
-                )}
-              </Button>
-            ) : (
-              <Button
-                onClick={endConversation}
-                size="lg"
-                className={`${isSpeaking ? 'kayla-button-active' : 'bg-red-500 hover:bg-red-600'} text-white font-bold h-14 px-8 rounded-xl shadow-xl text-lg`}
-              >
-                <MicOff className={`mr-2 h-5 w-5 ${isSpeaking && 'kayla-mic-icon'}`} />
-                {isSpeaking ? 'Kayla Speaking...' : 'End Chat'}
-              </Button>
-            )}
-            {!isConnected && (
-               <div className="flex flex-col items-center gap-1 mt-3">
-                <span className="text-3xl md:text-4xl font-playfair font-bold text-mansagold tracking-widest uppercase drop-shadow-[0_0_20px_rgba(184,134,11,0.7)] [text-shadow:0_0_30px_rgba(184,134,11,0.5),0_0_60px_rgba(184,134,11,0.3)]">Kayla</span>
-                <span className="text-2xl md:text-3xl font-semibold text-mansagold tracking-tight font-playfair drop-shadow-[0_0_12px_rgba(184,134,11,0.4)]">Agentic AI Concierge</span>
-               </div>
-            )}
-
-            {/* Inline transcript when connected */}
-            {isConnected && <VoiceTranscript transcript={transcript} />}
-            {isConnected && !isSpeaking && (
-              <p className="text-xs text-blue-200/60 animate-pulse">Listening... speak naturally</p>
-            )}
-          </motion.div>
-          )}
+            No credit card required. Always free for consumers.
+          </motion.p>
 
           {/* Scroll indicator */}
           <motion.div
-            className="flex flex-col items-center mt-1 text-white cursor-pointer hover:text-mansagold transition-colors"
+            className="flex flex-col items-center mt-3 text-white cursor-pointer hover:text-mansagold transition-colors"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             onClick={handleScrollToNextSection}
           >
             <span className="text-xs tracking-widest uppercase mb-1">Scroll to explore</span>
