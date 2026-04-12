@@ -1,58 +1,65 @@
 
 
-# Hero Clarity Update — Keep Both Paths, Tighten for 3-Second Comprehension
+## Onboarding Clarity Improvement Plan
 
-## Problem
-All three AI reviewers agree: strong vision, but a first-time visitor can't tell what to **do** within 3 seconds. The hero currently shows a tagline, brand name, subhead, dual CTAs, a directory link, stats, Kayla branding, and a scroll indicator — too many elements competing for attention.
+### Problem
+The app has **4 separate onboarding systems** (WelcomeFlow, OnboardingFlow, BusinessOnboardingFlow, OnboardingTour) that are text-heavy, redundant, and overwhelming. A first-time visitor sees walls of bullet points instead of a clear path to value.
 
-## Changes
+### What Changes
 
-### 1. Hero.tsx — Restructure for instant clarity
+**1. Redesign WelcomeFlow as a 3-step visual wizard (not 4 text-heavy slides)**
 
-**A. Add a search input directly in the hero** (the single biggest improvement all three recommended)
-- Search bar with placeholder: `"Search businesses: restaurants, barbers, catering..."` 
-- On submit → navigates to `/directory?search=...`
-- Positioned between the subhead and the dual CTAs
-- This gives visitors an **immediate action** regardless of which audience they are
+Replace the current 4-step walls-of-text with 3 concise, visually-driven steps:
+- **Step 1 — "Welcome"**: Animated hero with the value prop in one sentence + user type selector (Customer / Business Owner)
+- **Step 2 — "Here's how it works"**: 3 icon cards showing the core loop (Discover → Scan → Earn for customers; Profile → QR Codes → Grow for business)
+- **Step 3 — "Your first action"**: Single primary CTA button that routes to the most valuable first action (Directory for customers, Profile setup for business)
 
-**B. Tighten the subhead** to be more outcome-specific:
-- Current: "Find verified community businesses. Earn loyalty rewards. Track your economic impact — all in one free platform."
-- New: "12,000+ verified businesses. Loyalty rewards on every purchase. Always free for consumers."
+Each step: max 2 sentences of copy, large icons/illustrations, smooth slide transitions.
 
-**C. Move Kayla block below the fold**
-- Remove the large "Kayla / Agentic AI Concierge" branding and "Talk to Kayla" button from the hero
-- Move it to a new small section between hero and MissionPreview (or into MissionPreview itself)
-- First-time visitors don't know who Kayla is — seeing her name before understanding the platform creates confusion
+**2. Replace the OnboardingTour with contextual tooltips**
 
-**D. Tighten the dual CTAs with micro-descriptions**
-- "I'm a Consumer" → add subtitle: "Free forever · Earn rewards"
-- "I'm a Business" → add subtitle: "28 AI employees · From $19/mo"
-- This addresses the "what do I get?" question instantly for both paths
+Instead of a sequential spotlight tour that fires on the homepage (where most targets don't exist), show **single contextual tooltips** when users first visit specific pages:
+- Directory page: "Search or filter to find businesses near you"
+- Scanner page: "Point your camera at a business QR code to earn points"
+- Dashboard: "Track your impact and loyalty points here"
 
-**E. Remove the "Or explore businesses in the directory →" link** — the search bar replaces it
+These appear once per page (localStorage flag), dismiss on click, and don't block interaction.
 
-### 2. MissionPreview.tsx — Add brand context + concrete outcome
+**3. Consolidate and remove redundancy**
 
-- Add a one-liner explaining "1325": something like *"1325 — named for Mansa Musa's 1325 pilgrimage, the greatest act of wealth circulation in history."* (or the founder's actual origin story)
-- Add one concrete proof point: e.g., *"Businesses using Kayla see 3x more repeat customers"*
+- Remove `OnboardingFlow.tsx`, `BusinessOnboardingFlow.tsx`, `SalesAgentOnboardingFlow.tsx`, `CorporateOnboardingFlow.tsx` — all duplicates of WelcomeFlow logic
+- Remove `useOnboarding.ts` (the one in components/onboarding) and the Supabase `user_onboarding` table dependency — use localStorage like WelcomeFlow already does
+- Keep `OnboardingTour.tsx` component but repurpose it for single-tooltip usage
+- Remove `WelcomeGuide.tsx` dashboard card (replaced by contextual tooltips)
 
-### 3. index.html — SEO fallback content
+**4. Add progress persistence**
 
-- Add a `<noscript>` block in `<body>` with static text describing the platform for crawlers
-- Ensure `<meta name="description">` is set with the core value prop
+Store onboarding completion per user ID in localStorage (already partially done) so returning users on new devices still skip it. The Supabase `user_onboarding` table remains as a backup for cross-device sync.
 
-## Files Changed
+### Files Modified
+- `src/components/onboarding/WelcomeFlow.tsx` — full redesign (3 steps, visual, concise)
+- `src/hooks/useOnboardingFlow.ts` — simplify trigger logic
+- `src/components/onboarding/OnboardingTour.tsx` — refactor to single-tooltip mode
+- `src/hooks/useOnboardingTour.ts` — simplify to page-level contextual tips
+- `src/components/layout/MainLayout.tsx` — no changes needed (already renders WelcomeFlow)
+- `src/pages/HomePage.tsx` — remove OnboardingTour rendering
+- Add contextual tooltip triggers to Directory, Scanner, and Dashboard pages
 
-| File | What |
-|---|---|
-| `src/components/Hero.tsx` | Add search input, tighten subhead, move Kayla below fold, add CTA micro-descriptions |
-| `src/components/HomePage/MissionPreview.tsx` | Brand origin line + concrete outcome stat |
-| `src/components/HomePage/HomePageSections.tsx` | Add Kayla CTA section between hero and mission (if needed) |
-| `index.html` | Add noscript fallback + verify meta description |
+### Files Removed
+- `src/components/onboarding/OnboardingFlow.tsx`
+- `src/components/onboarding/BusinessOnboardingFlow.tsx`
+- `src/components/onboarding/SalesAgentOnboardingFlow.tsx`
+- `src/components/onboarding/CorporateOnboardingFlow.tsx`
+- `src/components/onboarding/BusinessFeaturesTour.tsx`
+- `src/components/onboarding/OnboardingStep.tsx`
+- `src/components/dashboard/WelcomeGuide.tsx`
+- `src/components/onboarding/tours/customerTour.ts`
+- `src/components/onboarding/tours/businessOwnerTour.ts`
+- `src/components/onboarding/tours/salesAgentTour.ts`
+- Related unused hooks (`useBusinessOnboarding`, `useSalesAgentOnboarding`, `useCorporateOnboarding`)
 
-## What stays the same
-- Dual-path Consumer/Business strategy (both equal)
-- Design system, colors, typography
-- Pricing, Kayla capabilities, all other sections
-- "Economic Operating System" positioning
+### Result
+- First-time onboarding drops from ~16 screens of text to **3 visual steps** taking under 30 seconds
+- Contextual help appears where and when users need it, not all at once
+- Codebase loses ~15 redundant files
 
