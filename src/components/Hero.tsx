@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
@@ -7,9 +7,30 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import CountUpNumber from '@/components/animations/CountUpNumber';
 
+const SUGGESTION_TERMS = [
+  'Restaurant', 'Barber', 'Barbershop', 'Beauty Salon', 'Hair Salon',
+  'Catering', 'Bakery', 'Coffee Shop', 'Food Truck', 'Grocery',
+  'Clothing', 'Boutique', 'Retail', 'Jewelry',
+  'Auto Repair', 'Car Wash', 'Automotive',
+  'Fitness', 'Gym', 'Yoga', 'Personal Trainer',
+  'Dentist', 'Doctor', 'Health', 'Pharmacy', 'Wellness', 'Spa', 'Massage',
+  'Accounting', 'Tax', 'Legal', 'Lawyer', 'Attorney', 'Insurance',
+  'Real Estate', 'Photography', 'Graphic Design', 'Web Design',
+  'Plumber', 'Electrician', 'Landscaping', 'Cleaning', 'Home Services',
+  'Daycare', 'Tutoring', 'Education',
+  'Church', 'Nonprofit', 'Community',
+  'Music', 'Entertainment', 'Event Planning',
+  'Technology', 'IT Services', 'Marketing',
+  'Pet Grooming', 'Veterinarian',
+  'Nail Salon', 'Skincare', 'Braids', 'Locs',
+];
+
 const Hero = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const { data: stats } = useQuery({
     queryKey: ['platform-stats-hero'],
@@ -22,12 +43,64 @@ const Hero = () => {
 
   const shouldShowMemberCount = (stats?.total_members ?? 0) >= 1000;
 
+  const suggestions = useMemo(() => {
+    if (!searchQuery.trim() || searchQuery.trim().length < 1) return [];
+    const q = searchQuery.toLowerCase();
+    return SUGGESTION_TERMS
+      .filter(term => term.toLowerCase().includes(q))
+      .sort((a, b) => {
+        const aStarts = a.toLowerCase().startsWith(q) ? 0 : 1;
+        const bStarts = b.toLowerCase().startsWith(q) ? 0 : 1;
+        return aStarts - bStarts || a.localeCompare(b);
+      })
+      .slice(0, 6);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setSelectedIndex(-1);
+    setShowSuggestions(suggestions.length > 0);
+  }, [suggestions]);
+
+  // Close suggestions on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowSuggestions(false);
     if (searchQuery.trim()) {
       navigate(`/directory?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
       navigate('/directory');
+    }
+  };
+
+  const handleSelectSuggestion = (term: string) => {
+    setSearchQuery(term);
+    setShowSuggestions(false);
+    navigate(`/directory?search=${encodeURIComponent(term)}`);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!showSuggestions || suggestions.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex(prev => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex(prev => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      handleSelectSuggestion(suggestions[selectedIndex]);
+    } else if (e.key === 'Escape') {
+      setShowSuggestions(false);
     }
   };
 
@@ -87,7 +160,7 @@ const Hero = () => {
             36,000+ verified businesses. Loyalty rewards on every purchase. Always free for consumers.
           </motion.p>
 
-          {/* Search bar — immediate action for any visitor */}
+          {/* Search bar with autocomplete */}
           <motion.form
             onSubmit={handleSearch}
             className="max-w-xl mx-auto mb-6"
@@ -95,21 +168,59 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
           >
-            <div className="relative flex items-center">
-              <Search className="absolute left-4 w-5 h-5 text-white/40 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search businesses: restaurants, barbers, catering..."
-                className="w-full h-13 pl-12 pr-28 rounded-full bg-white/8 border border-white/15 text-white placeholder:text-white/40 text-base focus:outline-none focus:ring-2 focus:ring-mansagold/50 focus:border-mansagold/40 transition-all duration-300"
-              />
-              <button
-                type="submit"
-                className="absolute right-2 px-5 py-2 rounded-full bg-mansagold text-mansablue-dark font-semibold text-sm hover:bg-mansagold-dark transition-colors"
-              >
-                Search
-              </button>
+            <div className="relative" ref={wrapperRef}>
+              <div className="relative flex items-center">
+                <Search className="absolute left-4 w-5 h-5 text-white/40 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Search businesses: restaurants, barbers, catering..."
+                  className="w-full h-13 pl-12 pr-28 rounded-full bg-white/8 border border-white/15 text-white placeholder:text-white/40 text-base focus:outline-none focus:ring-2 focus:ring-mansagold/50 focus:border-mansagold/40 transition-all duration-300"
+                  autoComplete="off"
+                />
+                <button
+                  type="submit"
+                  className="absolute right-2 px-5 py-2 rounded-full bg-mansagold text-mansablue-dark font-semibold text-sm hover:bg-mansagold-dark transition-colors"
+                >
+                  Search
+                </button>
+              </div>
+
+              {/* Autocomplete dropdown */}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute z-50 top-full mt-2 w-full rounded-xl bg-[#0d1117] border border-white/15 shadow-2xl overflow-hidden">
+                  {suggestions.map((term, i) => {
+                    const q = searchQuery.toLowerCase();
+                    const idx = term.toLowerCase().indexOf(q);
+                    const before = term.slice(0, idx);
+                    const match = term.slice(idx, idx + searchQuery.length);
+                    const after = term.slice(idx + searchQuery.length);
+
+                    return (
+                      <button
+                        key={term}
+                        type="button"
+                        onClick={() => handleSelectSuggestion(term)}
+                        className={`w-full text-left px-4 py-3 flex items-center gap-3 transition-colors ${
+                          i === selectedIndex
+                            ? 'bg-mansagold/15 text-white'
+                            : 'text-white/80 hover:bg-white/5'
+                        }`}
+                      >
+                        <Search className="w-4 h-4 text-white/30 shrink-0" />
+                        <span className="text-sm">
+                          {before}
+                          <span className="text-mansagold font-semibold">{match}</span>
+                          {after}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </motion.form>
 
