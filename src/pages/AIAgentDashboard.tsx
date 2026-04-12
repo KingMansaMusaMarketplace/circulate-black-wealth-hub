@@ -25,7 +25,7 @@ import {
   reviewAgentAction
 } from '@/lib/api/ai-agent-api';
 import AgentRulesManager from '@/components/ai-agent/AgentRulesManager';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const AIAgentDashboard: React.FC = () => {
   const { user } = useAuth();

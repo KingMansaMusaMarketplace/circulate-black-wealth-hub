@@ -30,8 +30,6 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         capture_pageview: true,
         capture_pageleave: true,
       });
-    } else if (import.meta.env.DEV) {
-      console.warn('[Analytics] PostHog key not found. Analytics disabled.');
     }
   }, []);
 

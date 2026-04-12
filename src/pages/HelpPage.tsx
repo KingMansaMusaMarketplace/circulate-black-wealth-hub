@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { HelpSection } from '@/components/help/HelpSection';
 import { BusinessHelpSection } from '@/components/help/BusinessHelpSection';
 import { CorporateHelpSection } from '@/components/help/CorporateHelpSection';

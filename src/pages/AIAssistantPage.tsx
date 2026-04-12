@@ -1,5 +1,5 @@
 import { AIAssistant } from '@/components/ai/AIAssistant';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export default function AIAssistantPage() {
   return (

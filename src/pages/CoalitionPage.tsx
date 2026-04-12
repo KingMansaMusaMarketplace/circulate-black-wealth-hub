@@ -4,7 +4,7 @@ import { CoalitionJoinCTA } from '@/components/coalition/CoalitionJoinCTA';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export default function CoalitionPage() {
   const { user } = useAuth();
