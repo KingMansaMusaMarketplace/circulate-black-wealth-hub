@@ -109,18 +109,18 @@ export const updateMetaTags = (data: {
 // Pre-defined SEO configurations for common pages
 export const pageSEO = {
   home: {
-    title: 'Black-Owned Business Directory | 12,000+ Verified Businesses | 1325.AI',
-    description: 'The largest verified Black-owned business directory with 12,000+ listings. Find Black-owned restaurants, shops, services & professionals near you. Powered by 1325.AI.',
+    title: 'Black-Owned Business Directory | 36,000+ Verified Businesses | 1325.AI',
+    description: 'The largest verified Black-owned business directory with 36,000+ listings. Find Black-owned restaurants, shops, services & professionals near you. Powered by 1325.AI.',
     keywords: ['Black-owned business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
   },
   directory: {
-    title: 'Black-Owned Business Directory | Search 12,000+ Verified Listings | 1325.AI',
-    description: 'Search the largest Black-owned business directory. 12,000+ verified Black-owned restaurants, services, shops & professionals across all cities.',
+    title: 'Black-Owned Business Directory | Search 36,000+ Verified Listings | 1325.AI',
+    description: 'Search the largest Black-owned business directory. 36,000+ verified Black-owned restaurants, services, shops & professionals across all cities.',
     keywords: ['Black-owned business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
   about: {
     title: 'About 1325.AI | Black-Owned Business Discovery Platform',
-    description: '1325.AI is the largest Black-owned business directory — circulating Black dollars intentionally through 12,000+ verified businesses nationwide.',
+    description: '1325.AI is the largest Black-owned business directory — circulating Black dollars intentionally through 36,000+ verified businesses nationwide.',
     keywords: ['about 1325.AI', 'Black-owned business platform', 'Black economic empowerment', 'Black dollar circulation', 'support Black businesses'],
   },
   howItWorks: {
