@@ -84,7 +84,7 @@ const SalesAgentHelpSection: React.FC = () => {
         <p className="text-gray-600 mb-6">
           Everything you need to know about being a successful 1325.AI sales agent
         </p>
-        <Button onClick={resetOnboarding} variant="outline" className="mb-8">
+        <Button onClick={() => { localStorage.removeItem('onboarding_completed'); window.location.reload(); }} variant="outline" className="mb-8">
           Restart Onboarding Tour
         </Button>
       </div>

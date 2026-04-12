@@ -40,11 +40,8 @@ export const BusinessHelpSection: React.FC = () => {
   };
 
   const handleStartTutorial = () => {
-    resetOnboarding();
-    // Small delay to ensure state is reset before starting
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 100);
+    localStorage.removeItem('onboarding_completed');
+    window.location.href = '/dashboard';
   };
 
   const getSectionIcon = (title: string) => {
