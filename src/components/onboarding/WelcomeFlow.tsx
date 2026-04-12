@@ -1,208 +1,21 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { 
   Users, 
   Building, 
   QrCode, 
-  Gift, 
+  Trophy, 
   TrendingUp, 
-  CheckCircle, 
   ArrowRight,
-  Star,
-  Phone
+  Search,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
-interface OnboardingStep {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ComponentType<{ className?: string }>;
-  content: {
-    title: string;
-    description: string;
-    features: string[];
-    tips?: string[];
-  };
-}
-
-const customerSteps: OnboardingStep[] = [
-  {
-    id: 'welcome',
-    title: 'Welcome to the Movement',
-    description: 'Join the community supporting great local businesses',
-    icon: Users,
-    content: {
-      title: 'Welcome to 1325.AI!',
-      description: 'You\'re now part of a movement to circulate wealth within our community. Every purchase you make helps strengthen our economic ecosystem.',
-      features: [
-        'Discover thousands of verified businesses nationwide',
-        'Earn loyalty points and rewards for your support',
-        'Track your community impact and economic contribution',
-        'Connect with like-minded supporters and business owners'
-      ],
-      tips: [
-        'Start by exploring businesses in your area',
-        'Follow your favorite businesses for updates',
-        'Share businesses with friends to expand the community'
-      ]
-    }
-  },
-  {
-    id: 'discover',
-    title: 'Discover Businesses',
-    description: 'Find community businesses near you',
-    icon: Building,
-    content: {
-      title: 'Explore the Business Directory',
-      description: 'Our comprehensive directory features verified community businesses across all categories and locations.',
-      features: [
-        'Search by location, category, or business name',
-        'View detailed business profiles with photos and reviews',
-        'Get directions and contact information',
-        'See business hours and special offers'
-      ],
-      tips: [
-        'Use filters to find exactly what you\'re looking for',
-        'Read reviews from other community members',
-        'Call ahead to confirm hours and availability'
-      ]
-    }
-  },
-  {
-    id: 'qr-codes',
-    title: 'QR Code System',
-    description: 'Scan QR codes to support businesses and earn rewards',
-    icon: QrCode,
-    content: {
-      title: 'Scan & Support with QR Codes',
-      description: 'Our unique QR code system makes it easy to support businesses and track your impact in real-time.',
-      features: [
-        'Scan QR codes at participating businesses',
-        'Earn loyalty points with every scan',
-        'Get exclusive discounts and offers',
-        'Track your visits and spending automatically'
-      ],
-      tips: [
-        'Look for QR codes at checkout counters',
-        'Scan codes even for small purchases',
-        'Ask businesses if they have QR codes available'
-      ]
-    }
-  },
-  {
-    id: 'rewards',
-    title: 'Earn Rewards',
-    description: 'Get rewarded for supporting community businesses',
-    icon: Gift,
-    content: {
-      title: 'Loyalty Points & Rewards',
-      description: 'The more you support community businesses, the more rewards you earn. It\'s our way of saying thank you!',
-      features: [
-        'Earn points for QR code scans and purchases',
-        'Redeem points for discounts and special offers on products and services',
-        'Get exclusive access to member-only deals',
-        'Receive premium rewards and benefits as you reach higher tiers'
-      ],
-      tips: [
-        'Check your points balance regularly',
-        'Look for bonus point opportunities',
-        'Redeem rewards before they expire'
-      ]
-    }
-  }
-];
-
-const businessSteps: OnboardingStep[] = [
-  {
-    id: 'business-welcome',
-    title: 'Welcome Business Owner',
-    description: 'Join thousands of Black-owned businesses',
-    icon: Building,
-    content: {
-      title: 'Welcome to Your Business Growth Platform!',
-      description: 'You\'re joining a powerful network of Black-owned businesses and supportive customers. Let\'s help you grow your business and strengthen our community.',
-      features: [
-        'Create a compelling business profile with photos',
-        'Generate QR codes to track customer engagement',
-        'Access detailed analytics and insights',
-        'Connect with a community of loyal customers'
-      ],
-      tips: [
-        'Complete your profile with high-quality photos',
-        'Add detailed business information and hours',
-        'Respond to customer reviews promptly'
-      ]
-    }
-  },
-  {
-    id: 'profile-setup',
-    title: 'Complete Your Profile',
-    description: 'Create an attractive business listing',
-    icon: Star,
-    content: {
-      title: 'Stand Out with a Great Profile',
-      description: 'Your business profile is your digital storefront. Make it compelling to attract more customers.',
-      features: [
-        'Upload high-quality photos of your business',
-        'Write compelling descriptions of your products/services',
-        'Add your location, hours, and contact information',
-        'Showcase customer testimonials and reviews'
-      ],
-      tips: [
-        'Use professional photos that show your products clearly',
-        'Keep your business hours updated',
-        'Highlight what makes your business unique'
-      ]
-    }
-  },
-  {
-    id: 'qr-generation',
-    title: 'Generate QR Codes',
-    description: 'Create QR codes for customer engagement',
-    icon: QrCode,
-    content: {
-      title: 'Engage Customers with QR Codes',
-      description: 'QR codes help you track customer visits, build loyalty, and offer rewards that keep customers coming back.',
-      features: [
-        'Generate unlimited QR codes for your business',
-        'Track scans and customer engagement in real-time',
-        'Offer points and rewards to repeat customers',
-        'Display QR codes at checkout or on receipts'
-      ],
-      tips: [
-        'Place QR codes where customers can easily see them',
-        'Train staff to encourage QR code scanning',
-        'Offer incentives for first-time scanners'
-      ]
-    }
-  },
-  {
-    id: 'analytics',
-    title: 'Track Your Growth',
-    description: 'Monitor your business performance',
-    icon: TrendingUp,
-    content: {
-      title: 'Data-Driven Business Growth',
-      description: 'Use our analytics dashboard to understand your customers better and make informed business decisions.',
-      features: [
-        'View detailed customer engagement metrics',
-        'Track QR code scan patterns and trends',
-        'Monitor your business growth over time',
-        'See your impact on the community economy'
-      ],
-      tips: [
-        'Check your analytics weekly to spot trends',
-        'Use customer data to improve your offerings',
-        'Set goals and track your progress'
-      ]
-    }
-  }
-];
+type UserSelection = 'customer' | 'business' | null;
 
 interface WelcomeFlowProps {
   isOpen: boolean;
@@ -211,25 +24,17 @@ interface WelcomeFlowProps {
 
 const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
   const { user } = useAuth();
-  const [currentStep, setCurrentStep] = useState(0);
-  
-  const userType = user?.user_metadata?.user_type || 'customer';
-  const steps = userType === 'business' ? businessSteps : customerSteps;
-  const progress = ((currentStep + 1) / steps.length) * 100;
+  const navigate = useNavigate();
+  const [step, setStep] = useState(0);
+  const [selectedType, setSelectedType] = useState<UserSelection>(
+    user?.user_metadata?.user_type === 'business' ? 'business' : null
+  );
 
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      // Mark onboarding as complete and close
-      localStorage.setItem('onboarding_completed', 'true');
-      onClose();
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
+  const handleComplete = (route?: string) => {
+    localStorage.setItem('onboarding_completed', 'true');
+    onClose();
+    if (route) {
+      navigate(route);
     }
   };
 
@@ -238,124 +43,220 @@ const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const currentStepData = steps[currentStep];
-  const IconComponent = currentStepData.icon;
+  const totalSteps = 3;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
-        <div className="relative">
-          {/* Progress Header */}
-          <div className="bg-gradient-to-r from-mansablue to-mansagold p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                  <IconComponent className="h-6 w-6" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold">{currentStepData.title}</h2>
-                  <p className="text-blue-100">{currentStepData.description}</p>
-                </div>
-              </div>
-              <Badge variant="secondary" className="bg-white/20 text-white">
-                {currentStep + 1} of {steps.length}
-              </Badge>
+    <Dialog open={isOpen} onOpenChange={handleSkip}>
+      <DialogContent className="max-w-lg p-0 overflow-hidden border-white/10 bg-gradient-to-b from-slate-900 to-slate-950">
+        {/* Progress dots */}
+        <div className="flex justify-center gap-2 pt-6">
+          {Array.from({ length: totalSteps }).map((_, i) => (
+            <div
+              key={i}
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-300",
+                i === step ? "w-8 bg-mansagold" : "w-1.5 bg-white/20"
+              )}
+            />
+          ))}
+        </div>
+
+        {/* Step 1: Welcome + User Type */}
+        {step === 0 && (
+          <div className="px-8 pb-8 pt-4 text-center space-y-6">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-mansablue to-mansagold flex items-center justify-center">
+              <Sparkles className="h-8 w-8 text-white" />
             </div>
-            <Progress value={progress} className="bg-white/20" />
-          </div>
-
-          {/* Content */}
-          <div className="p-8">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl text-mansablue">
-                  {currentStepData.content.title}
-                </CardTitle>
-                <CardDescription className="text-lg">
-                  {currentStepData.content.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Features */}
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">Key Features:</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {currentStepData.content.features.map((feature, index) => (
-                      <div key={index} className="flex items-start space-x-2">
-                        <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-700">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tips */}
-                {currentStepData.content.tips && (
-                  <div className="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
-                    <h3 className="font-semibold text-yellow-800 mb-2 flex items-center">
-                      <Star className="h-4 w-4 mr-2" />
-                      Pro Tips:
-                    </h3>
-                    <ul className="space-y-1">
-                      {currentStepData.content.tips.map((tip, index) => (
-                        <li key={index} className="text-sm text-yellow-700">
-                          • {tip}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* CTA for final step */}
-                {currentStep === steps.length - 1 && (
-                  <div className="bg-gradient-to-r from-mansablue/10 to-mansagold/10 p-6 rounded-lg text-center">
-                    <h3 className="font-semibold text-mansablue mb-2">Ready to get started?</h3>
-                    <p className="text-gray-600 mb-4">
-                      {userType === 'business' 
-                        ? 'Complete your business profile and start connecting with customers!'
-                        : 'Start exploring Black-owned businesses and making an impact!'}
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Navigation */}
-          <div className="border-t bg-gray-50 px-8 py-4 flex items-center justify-between">
             <div>
+              <h2 className="text-2xl font-bold text-white mb-2">Welcome to 1325.AI</h2>
+              <p className="text-white/60">
+                The economic operating system for the African Diaspora.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-sm text-white/40 uppercase tracking-wider font-medium">I am a...</p>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => setSelectedType('customer')}
+                  className={cn(
+                    "p-4 rounded-xl border-2 transition-all text-left",
+                    selectedType === 'customer'
+                      ? "border-mansagold bg-mansagold/10"
+                      : "border-white/10 hover:border-white/20 bg-white/5"
+                  )}
+                >
+                  <Users className="h-6 w-6 text-mansagold mb-2" />
+                  <p className="font-semibold text-white text-sm">Community Member</p>
+                  <p className="text-xs text-white/50 mt-1">Discover & support businesses</p>
+                </button>
+                <button
+                  onClick={() => setSelectedType('business')}
+                  className={cn(
+                    "p-4 rounded-xl border-2 transition-all text-left",
+                    selectedType === 'business'
+                      ? "border-mansagold bg-mansagold/10"
+                      : "border-white/10 hover:border-white/20 bg-white/5"
+                  )}
+                >
+                  <Building className="h-6 w-6 text-mansablue mb-2" />
+                  <p className="font-semibold text-white text-sm">Business Owner</p>
+                  <p className="text-xs text-white/50 mt-1">Grow & connect with customers</p>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
+              <Button variant="ghost" onClick={handleSkip} className="text-white/40 hover:text-white/60">
+                Skip
+              </Button>
+              <Button
+                onClick={() => selectedType && setStep(1)}
+                disabled={!selectedType}
+                className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
+              >
+                Continue <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: How it works (role-specific) */}
+        {step === 1 && (
+          <div className="px-8 pb-8 pt-4 space-y-6">
+            <div className="text-center">
+              <h2 className="text-xl font-bold text-white mb-1">Here's how it works</h2>
+              <p className="text-white/50 text-sm">
+                {selectedType === 'customer' ? 'Three steps to impact' : 'Three steps to growth'}
+              </p>
+            </div>
+
+            {selectedType === 'customer' ? (
+              <div className="space-y-4">
+                <FlowCard
+                  icon={<Search className="h-5 w-5" />}
+                  number={1}
+                  title="Discover"
+                  description="Find verified businesses in our directory"
+                  color="from-mansablue to-blue-600"
+                />
+                <FlowCard
+                  icon={<QrCode className="h-5 w-5" />}
+                  number={2}
+                  title="Scan"
+                  description="Scan QR codes when you visit to earn points"
+                  color="from-purple-500 to-purple-700"
+                />
+                <FlowCard
+                  icon={<Trophy className="h-5 w-5" />}
+                  number={3}
+                  title="Earn"
+                  description="Redeem loyalty points for rewards & discounts"
+                  color="from-mansagold to-amber-600"
+                />
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <FlowCard
+                  icon={<Building className="h-5 w-5" />}
+                  number={1}
+                  title="Profile"
+                  description="Create your business listing with photos & details"
+                  color="from-mansablue to-blue-600"
+                />
+                <FlowCard
+                  icon={<QrCode className="h-5 w-5" />}
+                  number={2}
+                  title="QR Codes"
+                  description="Generate loyalty codes for customer engagement"
+                  color="from-purple-500 to-purple-700"
+                />
+                <FlowCard
+                  icon={<TrendingUp className="h-5 w-5" />}
+                  number={3}
+                  title="Grow"
+                  description="Track analytics and build your customer base"
+                  color="from-mansagold to-amber-600"
+                />
+              </div>
+            )}
+
+            <div className="flex items-center justify-between pt-2">
+              <Button variant="ghost" onClick={() => setStep(0)} className="text-white/40 hover:text-white/60">
+                Back
+              </Button>
+              <Button
+                onClick={() => setStep(2)}
+                className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
+              >
+                Continue <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 3: First Action CTA */}
+        {step === 2 && (
+          <div className="px-8 pb-8 pt-4 text-center space-y-6">
+            <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-mansagold/20 to-mansablue/20 flex items-center justify-center">
+              {selectedType === 'customer' ? (
+                <Search className="h-10 w-10 text-mansagold" />
+              ) : (
+                <Building className="h-10 w-10 text-mansablue" />
+              )}
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-2">
+                {selectedType === 'customer' ? "Let's find your first business" : "Let's set up your profile"}
+              </h2>
+              <p className="text-white/50 text-sm">
+                {selectedType === 'customer'
+                  ? "Explore the directory and discover businesses in your area."
+                  : "Complete your profile so customers can find and support you."}
+              </p>
+            </div>
+
+            <div className="space-y-3 pt-2">
+              <Button
+                onClick={() => handleComplete(selectedType === 'customer' ? '/directory' : '/business/profile')}
+                className="w-full bg-gradient-to-r from-mansagold to-amber-500 hover:from-mansagold/90 hover:to-amber-500/90 text-black font-semibold h-12 text-base"
+              >
+                {selectedType === 'customer' ? 'Explore Directory' : 'Set Up Profile'}
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Button>
               <Button
                 variant="ghost"
-                onClick={handleSkip}
-                className="text-gray-500"
+                onClick={() => handleComplete()}
+                className="w-full text-white/40 hover:text-white/60"
               >
-                Skip Tutorial
-              </Button>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              {currentStep > 0 && (
-                <Button variant="outline" onClick={handlePrevious}>
-                  Previous
-                </Button>
-              )}
-              
-              <Button onClick={handleNext} className="bg-mansablue hover:bg-mansablue/90">
-                {currentStep === steps.length - 1 ? (
-                  'Get Started!'
-                ) : (
-                  <>
-                    Next
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </>
-                )}
+                I'll explore on my own
               </Button>
             </div>
           </div>
-        </div>
+        )}
       </DialogContent>
     </Dialog>
   );
 };
+
+const FlowCard: React.FC<{
+  icon: React.ReactNode;
+  number: number;
+  title: string;
+  description: string;
+  color: string;
+}> = ({ icon, number, title, description, color }) => (
+  <div className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5">
+    <div className={cn("w-10 h-10 rounded-lg bg-gradient-to-br flex items-center justify-center text-white shrink-0", color)}>
+      {icon}
+    </div>
+    <div className="flex-1 min-w-0">
+      <p className="font-semibold text-white text-sm">{title}</p>
+      <p className="text-xs text-white/50">{description}</p>
+    </div>
+    <span className="text-xs font-bold text-white/20">{number}</span>
+  </div>
+);
 
 export default WelcomeFlow;
