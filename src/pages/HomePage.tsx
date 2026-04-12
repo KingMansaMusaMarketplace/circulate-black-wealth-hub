@@ -80,7 +80,7 @@ const HomePage = () => {
         </div>
       )}
 
-      <div className="min-h-screen relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden" style={{ contain: 'layout' }}>
         {/* Modern dark gradient mesh background - matching directory page */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
         
