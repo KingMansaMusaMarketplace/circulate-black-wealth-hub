@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { QRCodeTabs } from '@/components/business/qr-code';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { useQRCode } from '@/hooks/qr-code';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { BenefitsSection } from '@/components/HowItWorks/Benefits';
 import { NativeFeaturesPromo } from '@/components/NativeFeaturesPromo';
 import { motion } from 'framer-motion';

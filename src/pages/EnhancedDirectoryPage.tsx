@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import CategoryExploration from '@/components/directory/CategoryExploration';
 import MobileCategoryCarousel from '@/components/directory/MobileCategoryCarousel';
 import SmartFiltering from '@/components/directory/SmartFiltering';

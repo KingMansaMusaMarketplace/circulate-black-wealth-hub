@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSalesAgent } from '@/hooks/use-sales-agent';

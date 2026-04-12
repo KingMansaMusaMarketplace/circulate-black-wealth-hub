@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import StripeTestComponent from '@/components/subscription/StripeTestComponent';
 

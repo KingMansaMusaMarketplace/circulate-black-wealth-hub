@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from '@/contexts/AuthContext';
 import CustomerSignupTab from '@/components/auth/forms/CustomerSignupTab';
 import { Users } from 'lucide-react';

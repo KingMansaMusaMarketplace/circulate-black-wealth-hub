@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import SponsorshipMediaKit from '@/components/sponsorship/SponsorshipMediaKit';
 import SponsorshipHeroSection from '@/components/sponsorship/SponsorshipHeroSection';
 import SponsorshipImpactSection from '@/components/sponsorship/SponsorshipImpactSection';

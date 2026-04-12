@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import PermissionsChecker from '@/components/mobile/PermissionsChecker';
 import { useDeviceDetection } from '@/hooks/use-device-detection';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

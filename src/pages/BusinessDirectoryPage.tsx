@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import BusinessGridView from '@/components/directory/BusinessGridView';

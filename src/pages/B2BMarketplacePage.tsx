@@ -2,7 +2,7 @@ import { B2BMarketplace } from '@/components/b2b/B2BMarketplace';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 
