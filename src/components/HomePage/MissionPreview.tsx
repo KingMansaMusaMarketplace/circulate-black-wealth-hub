@@ -1,4 +1,5 @@
 import React from 'react';
+import { Mic } from 'lucide-react';
 
 const MissionPreview: React.FC = () => {
   return (
@@ -18,9 +19,27 @@ const MissionPreview: React.FC = () => {
             <span className="text-mansagold font-mono tracking-wider">1325.AI</span> is the intelligence layer powering economic circulation—connecting consumers, 
             businesses, and capital in one unified ecosystem.
           </p>
-          <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base mt-4 italic">
-            One AI employee that handles reviews, marketing, and bookkeeping — so you can focus on the business.
+
+          {/* Brand origin context */}
+          <p className="text-white/50 max-w-xl mx-auto text-sm mt-3 italic">
+            Named for Mansa Musa's 1325 pilgrimage — the greatest act of wealth circulation in history.
           </p>
+
+          {/* Kayla intro — moved from Hero for better context */}
+          <div className="mt-8 flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-3xl md:text-4xl font-playfair font-bold text-mansagold tracking-widest uppercase drop-shadow-[0_0_20px_rgba(184,134,11,0.7)] [text-shadow:0_0_30px_rgba(184,134,11,0.5),0_0_60px_rgba(184,134,11,0.3)]">Kayla</span>
+              <span className="text-xl md:text-2xl font-semibold text-mansagold tracking-tight font-playfair drop-shadow-[0_0_12px_rgba(184,134,11,0.4)]">Agentic AI Concierge</span>
+            </div>
+            <p className="text-gray-400 max-w-lg mx-auto text-sm md:text-base mt-1">
+              One AI employee that handles reviews, marketing, and bookkeeping — so you can focus on the business.
+            </p>
+            {/* Concrete proof point */}
+            <p className="text-mansagold/80 text-sm font-semibold mt-1">
+              Businesses using Kayla see 3x more repeat customers
+            </p>
+          </div>
+
           <a
             href="/business-signup"
             className="inline-flex items-center gap-3 mt-6 px-8 py-4 rounded-full bg-mansagold/10 border border-mansagold/30 text-mansagold font-bold text-xl hover:bg-mansagold/20 hover:border-mansagold/50 transition-all duration-300 group"
