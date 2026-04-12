@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
 import { SystemHealthWidget } from './SystemHealthWidget';
-import WelcomeGuide from './WelcomeGuide';
+
 import NearbyBusinesses from './NearbyBusinesses';
 import RecentActivity from './RecentActivity';
 import ActivityFeed from '@/components/community/ActivityFeed';
@@ -55,8 +55,6 @@ const Dashboard: React.FC = () => {
     }
   ];
 
-  // Ensure userType is properly typed for WelcomeGuide
-  const validUserType: 'customer' | 'business' = userType === 'business' ? 'business' : 'customer';
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
@@ -142,7 +140,7 @@ const Dashboard: React.FC = () => {
         
         {/* Left Column - Main Content */}
         <div className="lg:col-span-2 space-y-6">
-          <WelcomeGuide userType={validUserType} />
+          
           <CommunityImpactDashboard />
           <NearbyBusinesses businesses={sampleBusinesses} />
         </div>

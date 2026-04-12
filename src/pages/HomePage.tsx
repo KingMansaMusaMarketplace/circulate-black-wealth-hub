@@ -9,8 +9,6 @@ const PublicSponsorDisplay = lazy(() => import('@/components/sponsors/PublicSpon
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
 import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
-import { useOnboardingTour } from '@/hooks/useOnboardingTour';
-import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import VoiceInterface from '@/components/VoiceInterface';
 import { useQueryClient } from '@tanstack/react-query';
@@ -19,7 +17,7 @@ import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructu
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 
 const HomePage = () => {
-  const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
+  
   const queryClient = useQueryClient();
   const [showRefreshBar, setShowRefreshBar] = useState(true);
   const [animationKey] = useState(() => Date.now());
@@ -121,16 +119,6 @@ const HomePage = () => {
         </SectionErrorBoundary>
       </div>
       
-      {shouldShowTour && (
-        <SectionErrorBoundary sectionName="Onboarding Tour">
-          <OnboardingTour
-            steps={tourSteps}
-            tourKey={tourKey}
-            onComplete={completeTour}
-            onSkip={skipTour}
-          />
-        </SectionErrorBoundary>
-      )}
       
     </>
   );

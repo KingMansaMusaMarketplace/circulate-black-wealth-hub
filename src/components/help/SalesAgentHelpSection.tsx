@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useSalesAgentOnboarding } from '@/hooks/useSalesAgentOnboarding';
+
 import { Target, Users, DollarSign, BarChart3, FileText, HelpCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SalesAgentHelpSection: React.FC = () => {
-  const { resetOnboarding } = useSalesAgentOnboarding();
+  
 
   const helpTopics = [
     {
@@ -84,7 +84,7 @@ const SalesAgentHelpSection: React.FC = () => {
         <p className="text-gray-600 mb-6">
           Everything you need to know about being a successful 1325.AI sales agent
         </p>
-        <Button onClick={resetOnboarding} variant="outline" className="mb-8">
+        <Button onClick={() => { localStorage.removeItem('onboarding_completed'); window.location.reload(); }} variant="outline" className="mb-8">
           Restart Onboarding Tour
         </Button>
       </div>

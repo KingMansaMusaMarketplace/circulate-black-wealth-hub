@@ -15,12 +15,12 @@ import {
 } from 'lucide-react';
 import { BusinessFAQSection } from './BusinessFAQSection';
 import { BUSINESS_HELP_SECTIONS } from '@/lib/business-onboarding-constants';
-import { useBusinessOnboarding } from '@/hooks/useBusinessOnboarding';
+
 
 export const BusinessHelpSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState('getting-started');
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
-  const { resetOnboarding } = useBusinessOnboarding();
+  
 
   const toggleExpanded = (sectionIndex: number, itemIndex: number) => {
     const key = `${sectionIndex}-${itemIndex}`;
@@ -40,11 +40,8 @@ export const BusinessHelpSection: React.FC = () => {
   };
 
   const handleStartTutorial = () => {
-    resetOnboarding();
-    // Small delay to ensure state is reset before starting
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 100);
+    localStorage.removeItem('onboarding_completed');
+    window.location.href = '/dashboard';
   };
 
   const getSectionIcon = (title: string) => {

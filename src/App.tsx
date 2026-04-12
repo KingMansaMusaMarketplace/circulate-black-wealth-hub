@@ -18,9 +18,6 @@ import { AIChatWidget } from "@/components/ai-chat/AIChatWidget";
 import { HelmetProvider } from 'react-helmet-async';
 // initializeCapacitorPlugins is dynamically imported below to avoid dual static+dynamic import
 const CookieConsentBanner = lazy(() => import("@/components/legal/CookieConsentBanner"));
-import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
-import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
-import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboardingFlow";
 import Layout from "@/components/Layout";
 import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
 import { RouteErrorBoundary } from "@/components/error-boundary/RouteErrorBoundary";
@@ -729,9 +726,6 @@ function App() {
                         </Suspense>
                       </div>
                     </div>
-                    <OnboardingFlow />
-                    <BusinessOnboardingFlow />
-                    <CorporateOnboardingFlow />
                     <NativeFeaturesOnboarding />
                     <AIChatWidget />
                     <Toaster />
@@ -1048,9 +1042,6 @@ function App() {
                     </Suspense>
                   </div>
                 </div>
-                <OnboardingFlow />
-                <BusinessOnboardingFlow />
-                <CorporateOnboardingFlow />
                 <NativeFeaturesOnboarding />
                 <AIChatWidget />
                 <Toaster />

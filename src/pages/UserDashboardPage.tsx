@@ -21,8 +21,6 @@ import {
 import { Link } from 'react-router-dom';
 import LiveActivityWidget from '@/components/realtime/LiveActivityWidget';
 import ActivityFeed from '@/components/realtime/ActivityFeed';
-import { useOnboardingTour } from '@/hooks/useOnboardingTour';
-import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 
 interface DashboardStats {
   totalPoints: number;
@@ -65,7 +63,7 @@ export default function UserDashboardPage() {
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
   const [favoriteBusinesses, setFavoriteBusinesses] = useState<FavoriteBusiness[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
+  
 
   useEffect(() => {
     if (authLoading) return; // Wait for auth to finish loading
@@ -478,14 +476,6 @@ export default function UserDashboardPage() {
     </div>
     </div>
     
-    {shouldShowTour && (
-      <OnboardingTour
-        steps={tourSteps}
-        tourKey={tourKey}
-        onComplete={completeTour}
-        onSkip={skipTour}
-      />
-    )}
     </>
   );
 }
