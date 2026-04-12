@@ -101,7 +101,7 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
               type="text"
               placeholder="Search businesses, categories, or try 'best restaurants near me'..."
               value={searchTerm}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e) => { setUserIsTyping(true); onSearchChange(e.target.value); }}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               className="pl-12 pr-24 h-12 text-base bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
