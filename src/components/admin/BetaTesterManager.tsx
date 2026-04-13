@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { UserPlus, Trash2, Copy, Users, Clock, Calendar, Activity, RefreshCw, Search } from 'lucide-react';
+import { UserPlus, Trash2, Copy, Users, Clock, Calendar, Activity, RefreshCw, Search, Send } from 'lucide-react';
 
 interface BetaTester {
   id: string;
@@ -56,6 +56,46 @@ const BetaTesterManager: React.FC = () => {
   const [newNotes, setNewNotes] = useState('');
   const [newExpiration, setNewExpiration] = useState('');
   const [adding, setAdding] = useState(false);
+  const [resendingAll, setResendingAll] = useState(false);
+
+  const handleResendAllEmails = async () => {
+    const invitedTesters = testers.filter(t => t.status === 'invited');
+    if (invitedTesters.length === 0) {
+      toast.info('No invited testers to send emails to');
+      return;
+    }
+    setResendingAll(true);
+    let sent = 0;
+    let failed = 0;
+    for (const tester of invitedTesters) {
+      try {
+        const formattedExpiration = tester.expiration_date
+          ? new Date(tester.expiration_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+          : undefined;
+        await supabase.functions.invoke('send-transactional-email', {
+          body: {
+            templateName: 'beta-tester-welcome',
+            recipientEmail: tester.email,
+            idempotencyKey: `beta-resend-${tester.id}-${Date.now()}`,
+            templateData: {
+              name: tester.full_name,
+              betaCode: tester.beta_code,
+              expirationDate: formattedExpiration,
+            },
+          },
+        });
+        sent++;
+      } catch {
+        failed++;
+      }
+    }
+    setResendingAll(false);
+    if (failed === 0) {
+      toast.success(`Welcome emails sent to all ${sent} invited beta testers!`);
+    } else {
+      toast.warning(`Sent ${sent} emails, ${failed} failed`);
+    }
+  };
 
   const fetchTesters = useCallback(async () => {
     setLoading(true);
@@ -195,6 +235,15 @@ const BetaTesterManager: React.FC = () => {
           </p>
         </div>
         <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleResendAllEmails}
+            disabled={resendingAll || stats.invited === 0}
+          >
+            <Send className={`h-4 w-4 mr-1 ${resendingAll ? 'animate-pulse' : ''}`} />
+            {resendingAll ? 'Sending...' : `Resend All Emails (${stats.invited})`}
+          </Button>
           <Button variant="outline" size="sm" onClick={fetchTesters} disabled={loading}>
             <RefreshCw className={`h-4 w-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
             Refresh

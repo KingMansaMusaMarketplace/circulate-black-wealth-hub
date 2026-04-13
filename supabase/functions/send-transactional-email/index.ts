@@ -1,7 +1,6 @@
 import * as React from 'npm:react@18.3.1'
 import { renderAsync } from 'npm:@react-email/components@0.0.22'
 import { createClient } from 'npm:@supabase/supabase-js@2'
-import { Resend } from 'npm:resend@2.0.0'
 import { TEMPLATES } from '../_shared/transactional-email-templates/registry.ts'
 
 // Configuration baked in at scaffold time — do NOT change these manually.
@@ -298,24 +297,10 @@ Deno.serve(async (req) => {
       ? template.subject(templateData)
       : template.subject
 
-  // 5. Send directly via Resend
-  const resendApiKey = Deno.env.get('RESEND_API_KEY')
-  if (!resendApiKey) {
-    console.error('RESEND_API_KEY not configured')
-    await supabase.from('email_send_log').insert({
-      message_id: messageId,
-      template_name: templateName,
-      recipient_email: effectiveRecipient,
-      status: 'failed',
-      error_message: 'RESEND_API_KEY not configured',
-    })
-    return new Response(JSON.stringify({ error: 'Email service not configured' }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    })
-  }
+  // 5. Enqueue the pre-rendered email for async processing by the dispatcher.
+  // The dispatcher (process-email-queue) handles sending, retries, and rate-limit backoff.
 
-  // Log pending
+  // Log pending BEFORE enqueue so we have a record even if enqueue crashes
   await supabase.from('email_send_log').insert({
     message_id: messageId,
     template_name: templateName,
@@ -323,58 +308,52 @@ Deno.serve(async (req) => {
     status: 'pending',
   })
 
-  try {
-    const resend = new Resend(resendApiKey)
-    const { data: sendResult, error: sendError } = await resend.emails.send({
-      from: `1325.AI <onboarding@resend.dev>`,
-      to: [effectiveRecipient],
+  const { error: enqueueError } = await supabase.rpc('enqueue_email', {
+    queue_name: 'transactional_emails',
+    payload: {
+      message_id: messageId,
+      to: effectiveRecipient,
+      from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+      sender_domain: SENDER_DOMAIN,
       subject: resolvedSubject,
       html,
       text: plainText,
+      purpose: 'transactional',
+      label: templateName,
+      idempotency_key: idempotencyKey,
+      unsubscribe_token: unsubscribeToken,
+      queued_at: new Date().toISOString(),
+    },
+  })
+
+  if (enqueueError) {
+    console.error('Failed to enqueue email', {
+      error: enqueueError,
+      templateName,
+      effectiveRecipient,
     })
 
-    if (sendError) {
-      console.error('Resend send error', { error: sendError, templateName, effectiveRecipient })
-      await supabase.from('email_send_log').insert({
-        message_id: messageId,
-        template_name: templateName,
-        recipient_email: effectiveRecipient,
-        status: 'failed',
-        error_message: JSON.stringify(sendError),
-      })
-      return new Response(JSON.stringify({ error: 'Failed to send email', details: sendError }), {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
-    }
-
-    console.log('Transactional email sent successfully', { templateName, effectiveRecipient, resendId: sendResult?.id })
-    await supabase.from('email_send_log').insert({
-      message_id: messageId,
-      template_name: templateName,
-      recipient_email: effectiveRecipient,
-      status: 'sent',
-    })
-
-    return new Response(
-      JSON.stringify({ success: true, sent: true }),
-      {
-        status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    )
-  } catch (sendErr: any) {
-    console.error('Email send exception', { error: sendErr.message, templateName, effectiveRecipient })
     await supabase.from('email_send_log').insert({
       message_id: messageId,
       template_name: templateName,
       recipient_email: effectiveRecipient,
       status: 'failed',
-      error_message: sendErr.message,
+      error_message: 'Failed to enqueue email',
     })
-    return new Response(JSON.stringify({ error: 'Failed to send email' }), {
+
+    return new Response(JSON.stringify({ error: 'Failed to enqueue email' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }
+
+  console.log('Transactional email enqueued', { templateName, effectiveRecipient })
+
+  return new Response(
+    JSON.stringify({ success: true, queued: true }),
+    {
+      status: 200,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    }
+  )
 })
