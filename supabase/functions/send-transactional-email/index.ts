@@ -326,7 +326,7 @@ Deno.serve(async (req) => {
   try {
     const resend = new Resend(resendApiKey)
     const { data: sendResult, error: sendError } = await resend.emails.send({
-      from: `1325.AI <noreply@${FROM_DOMAIN}>`,
+      from: `1325.AI <onboarding@resend.dev>`,
       to: [effectiveRecipient],
       subject: resolvedSubject,
       html,
