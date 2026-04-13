@@ -56,6 +56,46 @@ const BetaTesterManager: React.FC = () => {
   const [newNotes, setNewNotes] = useState('');
   const [newExpiration, setNewExpiration] = useState('');
   const [adding, setAdding] = useState(false);
+  const [resendingAll, setResendingAll] = useState(false);
+
+  const handleResendAllEmails = async () => {
+    const invitedTesters = testers.filter(t => t.status === 'invited');
+    if (invitedTesters.length === 0) {
+      toast.info('No invited testers to send emails to');
+      return;
+    }
+    setResendingAll(true);
+    let sent = 0;
+    let failed = 0;
+    for (const tester of invitedTesters) {
+      try {
+        const formattedExpiration = tester.expiration_date
+          ? new Date(tester.expiration_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+          : undefined;
+        await supabase.functions.invoke('send-transactional-email', {
+          body: {
+            templateName: 'beta-tester-welcome',
+            recipientEmail: tester.email,
+            idempotencyKey: `beta-resend-${tester.id}-${Date.now()}`,
+            templateData: {
+              name: tester.full_name,
+              betaCode: tester.beta_code,
+              expirationDate: formattedExpiration,
+            },
+          },
+        });
+        sent++;
+      } catch {
+        failed++;
+      }
+    }
+    setResendingAll(false);
+    if (failed === 0) {
+      toast.success(`Welcome emails sent to all ${sent} invited beta testers!`);
+    } else {
+      toast.warning(`Sent ${sent} emails, ${failed} failed`);
+    }
+  };
 
   const fetchTesters = useCallback(async () => {
     setLoading(true);
