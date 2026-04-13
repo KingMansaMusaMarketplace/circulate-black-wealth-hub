@@ -1,65 +1,49 @@
 
 
-## Onboarding Clarity Improvement Plan
+# Revised Pitch Deck Update Plan
 
-### Problem
-The app has **4 separate onboarding systems** (WelcomeFlow, OnboardingFlow, BusinessOnboardingFlow, OnboardingTour) that are text-heavy, redundant, and overwhelming. A first-time visitor sees walls of bullet points instead of a clear path to value.
+All previously agreed changes remain. Here is the addition for the Competitive Landscape Analysis findings:
 
-### What Changes
+## New Addition: Competitive Landscape Data (Slide 8)
 
-**1. Redesign WelcomeFlow as a 3-step visual wizard (not 4 text-heavy slides)**
+The current Slide 8 compares against generic CRMs (Zoho, Salesforce, HubSpot, Gusto, Alignable). The uploaded Competitive Landscape Analysis v5 provides a much stronger, research-backed comparison against 30+ platforms across 8 core capabilities. The slide will be restructured to reflect this.
 
-Replace the current 4-step walls-of-text with 3 concise, visually-driven steps:
-- **Step 1 — "Welcome"**: Animated hero with the value prop in one sentence + user type selector (Customer / Business Owner)
-- **Step 2 — "Here's how it works"**: 3 icon cards showing the core loop (Discover → Scan → Earn for customers; Profile → QR Codes → Grow for business)
-- **Step 3 — "Your first action"**: Single primary CTA button that routes to the most valuable first action (Directory for customers, Profile setup for business)
+### Changes to Slide 8 (PitchSlide8Competitive.tsx):
 
-Each step: max 2 sentences of copy, large icons/illustrations, smooth slide transitions.
+1. **Replace competitor set** — swap out CRM-focused competitors for the report's validated set: Yelp (1.5/8), Official Black Wall Street (1/8), WeBuyBlack (1.5/8), Salesforce Agentforce (2.5/8), Amazon (3.5/8), Alibaba (3/8), and 1325.AI (8/8)
+2. **Replace feature columns** with the report's 8 core capabilities: AI Directory, Agentic AI, B2B Match, Loyalty & Rewards, CMAL Protocol, Fraud Detection, Patent IP, and an overall Score column
+3. **Update header** — change "Perplexity AI Validated" to "Independent Market Intelligence — 30+ Platforms Analyzed"
+4. **Update subtitle quote** to the report's key finding: "No platform scores above 3.5/8 against 1325.AI's full stack"
+5. **Update bottom cards**:
+   - "Category You Own" → "8/8 Capabilities — Only platform with full stack"
+   - "Permanent Moat" → "$15–20M and 3–4 years to replicate" (from the report's replication challenge)
+   - "Price Advantage" → "0 Direct Competitors Found across 30+ platforms analyzed"
+6. **Update pricing** from "$149/mo flat" to "$19–420+/mo" tiered model
 
-**2. Replace the OnboardingTour with contextual tooltips**
+### New Slide or Section: Defensibility (integrate into Slide 7 or Slide 8 footer)
 
-Instead of a sequential spotlight tour that fires on the homepage (where most targets don't exist), show **single contextual tooltips** when users first visit specific pages:
-- Directory page: "Search or filter to find businesses near you"
-- Scanner page: "Point your camera at a business QR code to earn points"
-- Dashboard: "Track your impact and loyalty points here"
+The report's 4-moat framework (IP: Very High, Data Network Effects: Very High, Switching Costs: High, Mission Alignment: High) will be referenced in the bottom cards of Slide 8 to reinforce the competitive position.
 
-These appear once per page (localStorage flag), dismiss on click, and don't block interaction.
+## Recap: All Changes Across the Deck (13 files)
 
-**3. Consolidate and remove redundancy**
+| Slide | File | Key Changes |
+|-------|------|-------------|
+| 1 | PitchSlide1Cover.tsx | Q2 2026, 8 revenue streams |
+| 3 | PitchSlide3Solution.tsx | Add Kayla AI + White-Label cards |
+| 4 | PitchSlide4Technology.tsx | 27 patent claims, 6 tech cards, claim breakdown |
+| 5 | PitchSlide5Platform.tsx | 200+ pages, 294+ tables, 100+ Edge Functions, White-Label engine |
+| 6 | PitchSlide6BusinessModel.tsx | Enterprise $420/mo, White-Label licensing, 8 streams |
+| 8 | PitchSlide8Competitive.tsx | Full rewrite with v5 report data (30+ platforms, 8 capabilities, scores) |
+| 9 | PitchSlide9Traction.tsx | Refreshed milestones and stats |
+| 10 | PitchSlide10Market.tsx | Add market context from report (AI Workforce $126B, B2B $7.9T, Loyalty $24B) |
+| 11 | PitchSlide11Vision.tsx | 1325 branding for products |
+| 13 | PitchSlide13Ask.tsx | Aligned with $1.82B valuation |
+| 14 | PitchSlide14Why776.tsx | Replace with "Why Invest Now" (patent moat, market timing, $15-20M replication cost) |
+| 15 | PitchSlide15SequoiaAlignment.tsx | Replace with "Contact / Thank You" |
+| — | PitchDeckPage.tsx | Updated titles and metadata |
 
-- Remove `OnboardingFlow.tsx`, `BusinessOnboardingFlow.tsx`, `SalesAgentOnboardingFlow.tsx`, `CorporateOnboardingFlow.tsx` — all duplicates of WelcomeFlow logic
-- Remove `useOnboarding.ts` (the one in components/onboarding) and the Supabase `user_onboarding` table dependency — use localStorage like WelcomeFlow already does
-- Keep `OnboardingTour.tsx` component but repurpose it for single-tooltip usage
-- Remove `WelcomeGuide.tsx` dashboard card (replaced by contextual tooltips)
-
-**4. Add progress persistence**
-
-Store onboarding completion per user ID in localStorage (already partially done) so returning users on new devices still skip it. The Supabase `user_onboarding` table remains as a backup for cross-device sync.
-
-### Files Modified
-- `src/components/onboarding/WelcomeFlow.tsx` — full redesign (3 steps, visual, concise)
-- `src/hooks/useOnboardingFlow.ts` — simplify trigger logic
-- `src/components/onboarding/OnboardingTour.tsx` — refactor to single-tooltip mode
-- `src/hooks/useOnboardingTour.ts` — simplify to page-level contextual tips
-- `src/components/layout/MainLayout.tsx` — no changes needed (already renders WelcomeFlow)
-- `src/pages/HomePage.tsx` — remove OnboardingTour rendering
-- Add contextual tooltip triggers to Directory, Scanner, and Dashboard pages
-
-### Files Removed
-- `src/components/onboarding/OnboardingFlow.tsx`
-- `src/components/onboarding/BusinessOnboardingFlow.tsx`
-- `src/components/onboarding/SalesAgentOnboardingFlow.tsx`
-- `src/components/onboarding/CorporateOnboardingFlow.tsx`
-- `src/components/onboarding/BusinessFeaturesTour.tsx`
-- `src/components/onboarding/OnboardingStep.tsx`
-- `src/components/dashboard/WelcomeGuide.tsx`
-- `src/components/onboarding/tours/customerTour.ts`
-- `src/components/onboarding/tours/businessOwnerTour.ts`
-- `src/components/onboarding/tours/salesAgentTour.ts`
-- Related unused hooks (`useBusinessOnboarding`, `useSalesAgentOnboarding`, `useCorporateOnboarding`)
-
-### Result
-- First-time onboarding drops from ~16 screens of text to **3 visual steps** taking under 30 seconds
-- Contextual help appears where and when users need it, not all at once
-- Codebase loses ~15 redundant files
+### Technical Notes
+- Slide 8 competitor data structure will change from 6-column CRM comparison to 8-column capability matrix matching the PDF report
+- Slide 10 market data will add the three additional market segments from the report (AI Workforce $126B/44% CAGR, B2B Marketplace $7.9T/18% CAGR, Loyalty $24B/12% CAGR)
+- The "Why Now?" thesis from the report (AI maturity, economic awareness, infrastructure gap, regulatory tailwinds) will be incorporated into the new Slide 14 "Why Invest Now"
 
