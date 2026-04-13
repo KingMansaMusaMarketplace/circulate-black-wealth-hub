@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { UserPlus, Trash2, Copy, Users, Clock, Calendar, Activity, RefreshCw, Search } from 'lucide-react';
+import { UserPlus, Trash2, Copy, Users, Clock, Calendar, Activity, RefreshCw, Search, Send } from 'lucide-react';
 
 interface BetaTester {
   id: string;
