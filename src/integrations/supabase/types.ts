@@ -6902,6 +6902,39 @@ export type Database = {
           },
         ]
       }
+      email_send_log: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          message_id: string | null
+          metadata: Json | null
+          recipient_email: string | null
+          status: string
+          template_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message_id?: string | null
+          metadata?: Json | null
+          recipient_email?: string | null
+          status?: string
+          template_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message_id?: string | null
+          metadata?: Json | null
+          recipient_email?: string | null
+          status?: string
+          template_name?: string | null
+        }
+        Relationships: []
+      }
       email_subscriptions: {
         Row: {
           created_at: string | null
@@ -6932,6 +6965,30 @@ export type Database = {
           subscribed_at?: string
           unsubscribed_at?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      email_unsubscribe_tokens: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          token: string
+          used_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          token: string
+          used_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          token?: string
+          used_at?: string | null
         }
         Relationships: []
       }
@@ -18506,6 +18563,27 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      suppressed_emails: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          reason: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          reason?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          reason?: string | null
+        }
+        Relationships: []
       }
       susu_circles: {
         Row: {
