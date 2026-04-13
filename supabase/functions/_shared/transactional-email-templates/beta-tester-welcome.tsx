@@ -98,7 +98,7 @@ const BetaTesterWelcomeEmail = ({ name, betaCode, expirationDate }: BetaTesterWe
             Ready to dive in? Here's how to get started:
           </Text>
           <Text style={listItem}>
-            1. Visit <strong>mansamusamarketplace.com</strong>
+            1. Visit <strong>1325.ai</strong>
           </Text>
           <Text style={listItem}>
             2. Click <strong>"Sign Up"</strong> and select <strong>"Business Owner"</strong>
@@ -111,7 +111,7 @@ const BetaTesterWelcomeEmail = ({ name, betaCode, expirationDate }: BetaTesterWe
           </Text>
 
           <Section style={ctaSection}>
-            <Button href="https://www.mansamusamarketplace.com/auth" style={ctaButton}>
+            <Button href="https://1325.ai/auth" style={ctaButton}>
               Sign Up Now — It's Free!
             </Button>
           </Section>
