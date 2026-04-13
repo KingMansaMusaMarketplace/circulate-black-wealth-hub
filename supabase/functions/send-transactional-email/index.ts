@@ -6,8 +6,7 @@ import { TEMPLATES } from '../_shared/transactional-email-templates/registry.ts'
 const SITE_NAME = "circulate-black-wealth-hub"
 const SENDER_DOMAIN = "notify.1325.ai"
 const FROM_DOMAIN = "1325.ai"
-// Use Resend's default sender until custom domain is verified in Resend
-const RESEND_FROM = `1325.AI <onboarding@resend.dev>`
+const RESEND_FROM = `1325.AI <noreply@1325.ai>`
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
