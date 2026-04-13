@@ -28,8 +28,8 @@ import PitchSlide10Market from '@/components/pitch-deck/PitchSlide10Market';
 import PitchSlide11Vision from '@/components/pitch-deck/PitchSlide11Vision';
 import PitchSlide12Team from '@/components/pitch-deck/PitchSlide12Team';
 import PitchSlide13Ask from '@/components/pitch-deck/PitchSlide13Ask';
-import PitchSlide14Why776 from '@/components/pitch-deck/PitchSlide14Why776';
-import PitchSlide15SequoiaAlignment from '@/components/pitch-deck/PitchSlide15SequoiaAlignment';
+import PitchSlide14WhyInvest from '@/components/pitch-deck/PitchSlide14Why776';
+import PitchSlide15Contact from '@/components/pitch-deck/PitchSlide15SequoiaAlignment';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { exportPitchDeckToPDF } from '@/lib/utils/pitch-deck-export';
@@ -38,18 +38,18 @@ const SLIDES = [
   { id: 1, title: 'Cover', component: PitchSlide1Cover },
   { id: 2, title: 'The Problem', component: PitchSlide2Problem },
   { id: 3, title: 'The Solution', component: PitchSlide3Solution },
-  { id: 4, title: 'Patent-Pending Tech', component: PitchSlide4Technology },
+  { id: 4, title: '27 Patent Claims', component: PitchSlide4Technology },
   { id: 5, title: 'Platform Demo', component: PitchSlide5Platform },
-  { id: 6, title: 'Business Model', component: PitchSlide6BusinessModel },
+  { id: 6, title: '8 Revenue Streams', component: PitchSlide6BusinessModel },
   { id: 7, title: 'The Data Moat', component: PitchSlide7DataMoat },
-  { id: 8, title: 'Competitive Edge', component: PitchSlide8Competitive },
+  { id: 8, title: 'Competitive Landscape', component: PitchSlide8Competitive },
   { id: 9, title: 'Traction & Metrics', component: PitchSlide9Traction },
   { id: 10, title: 'Market Opportunity', component: PitchSlide10Market },
   { id: 11, title: 'Vision 2030', component: PitchSlide11Vision },
   { id: 12, title: 'The Team', component: PitchSlide12Team },
   { id: 13, title: 'The Ask', component: PitchSlide13Ask },
-  { id: 14, title: 'Why 776?', component: PitchSlide14Why776 },
-  { id: 15, title: 'Sequoia Alignment', component: PitchSlide15SequoiaAlignment },
+  { id: 14, title: 'Why Invest Now', component: PitchSlide14WhyInvest },
+  { id: 15, title: 'Contact', component: PitchSlide15Contact },
 ];
 
 const PitchDeckPage: React.FC = () => {
@@ -83,7 +83,6 @@ const PitchDeckPage: React.FC = () => {
     }
   }, []);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === ' ') {
@@ -109,13 +108,11 @@ const PitchDeckPage: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [goToNextSlide, goToPrevSlide, toggleFullscreen, isFullscreen]);
 
-  // Hide keyboard hint after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => setShowKeyboardHint(false), 5000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Listen for fullscreen changes
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
@@ -130,8 +127,8 @@ const PitchDeckPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-[hsl(210,100%,12%)] to-[hsl(210,100%,8%)] flex flex-col">
       <Helmet>
-        <title>Investor Pitch Deck - 1325.AI | 776 Presentation</title>
-        <meta name="description" content="1325.AI investor pitch deck. The economic operating system for the community business economy." />
+        <title>Investor Pitch Deck - 1325.AI | Q2 2026</title>
+        <meta name="description" content="1325.AI investor pitch deck — the economic operating system for the Black economy. 27 patent claims, 8 revenue streams, $1.6T market." />
       </Helmet>
 
       {/* Top Navigation Bar */}
@@ -149,7 +146,7 @@ const PitchDeckPage: React.FC = () => {
           <div className="h-4 w-px bg-white/20" />
           <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">
             <Presentation className="w-3 h-3 mr-1" />
-            Investor Pitch Deck
+            Investor Pitch Deck — Q2 2026
           </Badge>
         </div>
 

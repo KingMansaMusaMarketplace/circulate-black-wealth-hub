@@ -21,22 +21,22 @@ const PitchSlide11Vision: React.FC = () => {
 
   const futureProducts = [
     {
-      name: 'Mansa Credit',
+      name: '1325 Credit',
       description: 'Business credit scores built on platform data',
       status: 'In Development'
     },
     {
-      name: 'Mansa Capital',
+      name: '1325 Capital',
       description: 'Micro-lending using transaction history as underwriting',
       status: 'Planned 2026'
     },
     {
-      name: 'Mansa Card',
+      name: '1325 Card',
       description: 'Branded debit card with automatic community rewards',
       status: 'Planned 2027'
     },
     {
-      name: 'Mansa Pay',
+      name: '1325 Pay',
       description: 'P2P payments within the ecosystem',
       status: 'Roadmap'
     },

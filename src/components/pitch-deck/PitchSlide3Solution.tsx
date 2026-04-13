@@ -8,7 +8,9 @@ import {
   Heart, 
   Wallet,
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  Bot,
+  Layers
 } from 'lucide-react';
 
 const PitchSlide3Solution: React.FC = () => {
@@ -18,6 +20,8 @@ const PitchSlide3Solution: React.FC = () => {
     { icon: Network, title: 'B2B Marketplace', description: 'Connect businesses for wholesale supply chain' },
     { icon: Heart, title: 'Loyalty Program', description: 'Cross-business rewards keeping dollars in community' },
     { icon: Wallet, title: 'Community Finance', description: 'Micro-lending pools and group savings' },
+    { icon: Bot, title: 'Kayla AI Workforce', description: '28 agentic AI employees replacing $12K+/mo in overhead' },
+    { icon: Layers, title: 'White-Label & Enterprise', description: 'Multi-tenant platform with custom domains & branding' },
   ];
 
   return (
@@ -40,19 +44,38 @@ const PitchSlide3Solution: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-5 gap-4">
-          {solutions.map((solution, index) => (
+        <div className="grid md:grid-cols-4 gap-4">
+          {solutions.slice(0, 4).map((solution, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-6 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full text-center group">
-                <div className="w-14 h-14 bg-mansagold/30 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-mansagold/40 transition-colors">
-                  <solution.icon className="w-7 h-7 text-mansagold" />
+              <Card className="p-5 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full text-center group">
+                <div className="w-12 h-12 bg-mansagold/30 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-mansagold/40 transition-colors">
+                  <solution.icon className="w-6 h-6 text-mansagold" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">{solution.title}</h3>
+                <h3 className="text-base font-bold text-white mb-1">{solution.title}</h3>
+                <p className="text-white/80 text-sm">{solution.description}</p>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-4 mt-4">
+          {solutions.slice(4).map((solution, index) => (
+            <motion.div
+              key={index + 4}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: (index + 4) * 0.1 }}
+            >
+              <Card className="p-5 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full text-center group">
+                <div className="w-12 h-12 bg-mansagold/30 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-mansagold/40 transition-colors">
+                  <solution.icon className="w-6 h-6 text-mansagold" />
+                </div>
+                <h3 className="text-base font-bold text-white mb-1">{solution.title}</h3>
                 <p className="text-white/80 text-sm">{solution.description}</p>
               </Card>
             </motion.div>
@@ -63,9 +86,9 @@ const PitchSlide3Solution: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-12"
+          className="mt-8"
         >
-          <Card className="p-8 bg-black/80 border-2 border-mansagold">
+          <Card className="p-6 bg-black/80 border-2 border-mansagold">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex-1">
                 <h3 className="text-2xl font-bold text-white mb-2">The Key Insight</h3>

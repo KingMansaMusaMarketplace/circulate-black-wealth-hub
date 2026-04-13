@@ -9,14 +9,16 @@ import {
   Smartphone,
   Globe,
   Zap,
-  BarChart3
+  BarChart3,
+  Bot
 } from 'lucide-react';
 
 const PitchSlide5Platform: React.FC = () => {
   const platformStats = [
-    { icon: FileCode2, value: '130+', label: 'Pages Built', color: 'mansagold' },
-    { icon: Database, value: '110+', label: 'Database Tables', color: 'blue' },
-    { icon: Cloud, value: '67+', label: 'Edge Functions', color: 'purple' },
+    { icon: FileCode2, value: '200+', label: 'Pages Built', color: 'mansagold' },
+    { icon: Database, value: '294+', label: 'Database Tables', color: 'blue' },
+    { icon: Cloud, value: '100+', label: 'Edge Functions', color: 'purple' },
+    { icon: Bot, value: '28', label: 'Agentic AI Services', color: 'orange' },
     { icon: Smartphone, value: 'iOS + Android', label: 'Native Apps', color: 'green' },
   ];
 
@@ -28,7 +30,9 @@ const PitchSlide5Platform: React.FC = () => {
     'Corporate sponsorship management',
     'Sales agent referral network',
     'Community impact analytics',
-    'Multi-location business support'
+    'Multi-location business support',
+    'White-label multi-tenant engine',
+    'Custom domains & subdomain routing',
   ];
 
   return (
@@ -52,7 +56,7 @@ const PitchSlide5Platform: React.FC = () => {
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
           {platformStats.map((stat, index) => (
             <motion.div
               key={index}
@@ -60,10 +64,10 @@ const PitchSlide5Platform: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-6 bg-black/80 border-2 border-mansagold/50 text-center hover:border-mansagold transition-all">
-                <stat.icon className="w-8 h-8 text-mansagold mx-auto mb-3" />
-                <div className="text-3xl font-black text-mansagold mb-1">{stat.value}</div>
-                <div className="text-sm text-white font-semibold">{stat.label}</div>
+              <Card className="p-5 bg-black/80 border-2 border-mansagold/50 text-center hover:border-mansagold transition-all">
+                <stat.icon className="w-7 h-7 text-mansagold mx-auto mb-2" />
+                <div className="text-2xl font-black text-mansagold mb-1">{stat.value}</div>
+                <div className="text-xs text-white font-semibold">{stat.label}</div>
               </Card>
             </motion.div>
           ))}

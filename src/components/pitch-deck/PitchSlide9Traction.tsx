@@ -13,18 +13,18 @@ import {
 
 const PitchSlide9Traction: React.FC = () => {
   const goals2026 = [
-    { icon: DollarSign, value: '$2.4M', label: 'Circulated Through Platform', color: 'mansagold' },
-    { icon: Building2, value: '175+', label: 'Registered Businesses', color: 'blue' },
-    { icon: Users, value: '5,000+', label: 'Active Users', color: 'green' },
+    { icon: DollarSign, value: '$2.4M', label: 'Target ARR', color: 'mansagold' },
+    { icon: Building2, value: '500+', label: 'Registered Businesses', color: 'blue' },
+    { icon: Users, value: '10,000+', label: 'Active Users', color: 'green' },
     { icon: Target, value: '72hrs', label: 'Target Circulation Time', color: 'purple' },
   ];
 
   const milestones = [
     { phase: 'Q1 2025', milestone: 'Platform Launch', status: 'completed' },
-    { phase: 'Q2 2025', milestone: 'First 50 Businesses', status: 'in-progress' },
-    { phase: 'Q3 2025', milestone: 'Corporate Sponsor Partnership', status: 'upcoming' },
-    { phase: 'Q4 2025', milestone: '100 Businesses + B2B Launch', status: 'upcoming' },
-    { phase: 'Q1 2026', milestone: 'Series A Readiness', status: 'upcoming' },
+    { phase: 'Q3 2025', milestone: 'First 50 Businesses', status: 'completed' },
+    { phase: 'Q1 2026', milestone: 'Kayla AI Workforce Launch', status: 'completed' },
+    { phase: 'Q2 2026', milestone: 'Enterprise & White-Label', status: 'in-progress' },
+    { phase: 'Q4 2026', milestone: 'Series A Readiness', status: 'upcoming' },
   ];
 
   return (
@@ -96,7 +96,7 @@ const PitchSlide9Traction: React.FC = () => {
               <motion.div 
                 className="h-full bg-gradient-to-r from-green-500 via-mansagold to-mansagold/30 rounded-full"
                 initial={{ width: 0 }}
-                animate={{ width: '25%' }}
+                animate={{ width: '65%' }}
                 transition={{ delay: 0.6, duration: 0.8 }}
               />
             </div>
@@ -111,11 +111,11 @@ const PitchSlide9Traction: React.FC = () => {
         >
           <Card className="p-4 bg-black/80 border-2 border-green-500">
             <p className="text-green-400 font-bold">Current: Platform Live</p>
-            <p className="text-white font-medium text-sm">130+ pages, 110+ tables, native apps ready</p>
+            <p className="text-white font-medium text-sm">200+ pages, 294+ tables, 28 AI services, native apps ready</p>
           </Card>
           <Card className="p-4 bg-black/80 border-2 border-mansagold">
-            <p className="text-mansagold font-bold">Next: Business Acquisition</p>
-            <p className="text-white font-medium text-sm">Sales agent network activation underway</p>
+            <p className="text-mansagold font-bold">Next: Enterprise Expansion</p>
+            <p className="text-white font-medium text-sm">White-label deployments & corporate partnerships underway</p>
           </Card>
         </motion.div>
       </div>
