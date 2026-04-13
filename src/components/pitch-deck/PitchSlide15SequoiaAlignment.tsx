@@ -1,131 +1,115 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { 
-  Target, 
-  Database, 
-  Bot, 
-  Building2, 
-  Heart, 
-  Zap,
-  CheckCircle,
-  ExternalLink
+  Mail, 
+  Globe, 
+  Phone,
+  ArrowRight,
+  Sparkles,
+  CheckCircle
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import neuralBrainLogo from '@/assets/1325-neural-brain-logo.jpeg';
 
-const PitchSlide15SequoiaAlignment: React.FC = () => {
-  const alignmentPoints = [
-    {
-      sequoiaInsight: '"A data flywheel tied to a metric is one of the best moats you can build."',
-      ourAlignment: 'CMAL 2.3x Multiplier & Economic Karma',
-      description: 'Our flywheel is tied to quantifiable wealth circulation metrics that improve with every transaction.',
-      icon: Database,
-      color: 'mansagold'
-    },
-    {
-      sequoiaInsight: '"The Agent Economy... agents that can transfer resources, make transactions, understand trust."',
-      ourAlignment: 'Kayla AI + Susu Escrow + B2B Matching',
-      description: 'Already building toward the agent economy with voice AI, automated financial transactions, and trust-based matching.',
-      icon: Bot,
-      color: 'mansablue'
-    },
-    {
-      sequoiaInsight: '"Go vertical-specific, function-specific. Build moats across the entire value chain."',
-      ourAlignment: 'Only PaaS for Community Commerce',
-      description: '27 patents covering consumer → business → B2B → developer APIs. Full value chain ownership.',
-      icon: Building2,
-      color: 'green-500'
-    },
-    {
-      sequoiaInsight: '"Customer trust is more important than your product at this point in time."',
-      ourAlignment: 'Founder\'s Community Roots + Founding Member Status',
-      description: 'Thomas D. Bowling\'s authentic connection plus scarcity-driven trust model builds unassailable community moat.',
-      icon: Heart,
-      color: 'red-500'
-    },
-    {
-      sequoiaInsight: '"Go at maximum velocity. All of the time. Nature hates a vacuum."',
-      ourAlignment: 'Sept 2026 Deadline + 100K Business Target',
-      description: 'Built-in urgency with Founding Member cutoff driving accelerated adoption and viral growth.',
-      icon: Zap,
-      color: 'yellow-500'
-    },
-  ];
-
+const PitchSlide15Contact: React.FC = () => {
   return (
     <div className="h-full flex items-center justify-center px-8 py-12">
-      <div className="max-w-6xl mx-auto w-full">
+      <div className="max-w-4xl mx-auto w-full text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
         >
-          <Badge className="bg-red-500/20 text-red-400 border-red-500/30 mb-4">
-            <Target className="w-3 h-3 mr-1" />
-            Sequoia AI Ascent 2025
-          </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            Aligned with the <span className="text-mansagold">Trillion-Dollar Thesis</span>
+          {/* Logo */}
+          <motion.div 
+            className="w-24 h-24 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <img 
+              src={neuralBrainLogo} 
+              alt="1325.AI Neural Brain Logo" 
+              className="w-full h-full object-contain"
+            />
+          </motion.div>
+
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
+            Let's Build the <span className="text-mansagold">Future</span>
           </h2>
-          <p className="text-lg text-white/70 max-w-3xl mx-auto">
-            Our platform directly validates Sequoia Capital's framework for the next wave of AI infrastructure winners
+          <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
+            The economic operating system for the Black economy is live, patented, and ready to scale.
           </p>
-        </motion.div>
 
-        <div className="space-y-4">
-          {alignmentPoints.map((point, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Card className="p-4 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all">
-                <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-${point.color}/30`}>
-                    <point.icon className={`w-6 h-6 text-${point.color}`} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start gap-2 mb-2">
-                      <p className="text-white/80 text-sm italic font-medium flex-1">
-                        {point.sequoiaInsight}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <h4 className="text-white font-bold">{point.ourAlignment}</h4>
-                    </div>
-                    <p className="text-white/70 text-sm font-medium">{point.description}</p>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+          {/* Key Highlights */}
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            {[
+              '$1.6T market',
+              '27 patent claims',
+              '8 revenue streams',
+              '0 direct competitors',
+              'Live production platform',
+            ].map((item, i) => (
+              <Badge 
+                key={i}
+                className="bg-white/10 text-white border-white/20 text-sm py-2 px-4"
+              >
+                <CheckCircle className="w-3 h-3 mr-1.5 text-green-400" />
+                {item}
+              </Badge>
+            ))}
+          </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-8 text-center"
-        >
-          <Card className="inline-flex items-center gap-3 px-6 py-3 bg-black/80 border-2 border-mansagold">
-            <span className="text-white font-bold">Source:</span>
-            <a 
-              href="https://youtu.be/v9JBMnxuPX8" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-mansagold hover:text-mansagold-light flex items-center gap-1 font-semibold"
-            >
-              Sequoia AI Ascent 2025 Keynote
-              <ExternalLink className="w-4 h-4" />
-            </a>
-            <span className="text-white font-medium text-sm">| May 2025 | 450K+ views</span>
-          </Card>
+          {/* Contact Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <Card className="p-8 bg-black/80 border-2 border-mansagold inline-block">
+              <h3 className="text-2xl font-bold text-white mb-6">Thomas D. Bowling</h3>
+              <p className="text-mansagold font-semibold mb-6">Founder & CEO, 1325.AI</p>
+              
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+                <a 
+                  href="mailto:Thomas@1325.AI"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-mansagold to-mansagold-light text-mansablue-dark font-bold px-8 py-4 rounded-xl hover:shadow-xl hover:shadow-mansagold/30 transition-all"
+                >
+                  <Mail className="w-5 h-5" />
+                  Thomas@1325.AI
+                  <ArrowRight className="w-5 h-5" />
+                </a>
+                <a 
+                  href="tel:3127096006"
+                  className="inline-flex items-center gap-2 border-2 border-white/30 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/10 transition-all"
+                >
+                  <Phone className="w-5 h-5" />
+                  312.709.6006
+                </a>
+              </div>
+
+              <div className="flex items-center justify-center gap-4 text-white/50">
+                <a href="https://1325.ai" className="flex items-center gap-1 hover:text-mansagold transition-colors">
+                  <Globe className="w-4 h-4" />
+                  <span className="font-mono">1325.AI</span>
+                </a>
+              </div>
+            </Card>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="mt-8 text-white/40 text-sm flex items-center justify-center gap-2"
+          >
+            <Sparkles className="w-4 h-4" />
+            Confidential — For Investor Use Only
+          </motion.p>
         </motion.div>
       </div>
     </div>
   );
 };
 
-export default PitchSlide15SequoiaAlignment;
+export default PitchSlide15Contact;

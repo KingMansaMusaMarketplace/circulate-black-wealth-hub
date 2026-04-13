@@ -7,7 +7,9 @@ import {
   DollarSign, 
   Target,
   Megaphone,
-  UserPlus
+  UserPlus,
+  Bot,
+  Layers
 } from 'lucide-react';
 
 const PitchSlide6BusinessModel: React.FC = () => {
@@ -15,9 +17,16 @@ const PitchSlide6BusinessModel: React.FC = () => {
     {
       icon: Building2,
       name: 'Business Subscriptions',
-      description: 'Tiered SaaS model (Basic $0, Premium $29/mo, Enterprise custom)',
-      revenue: '$174K ARR @ 500 businesses',
+      description: 'Essentials $19/mo · Starter $49/mo · Pro $149/mo · Enterprise $420/mo + $30/user',
+      revenue: '$225 Blended ARPU',
       color: 'mansagold'
+    },
+    {
+      icon: Bot,
+      name: 'Kayla AI Subscriptions',
+      description: '28 agentic AI employees replacing $12K+/mo overhead per business',
+      revenue: 'Embedded in tiers',
+      color: 'cyan'
     },
     {
       icon: Users,
@@ -48,11 +57,18 @@ const PitchSlide6BusinessModel: React.FC = () => {
       color: 'orange'
     },
     {
+      icon: Layers,
+      name: 'White-Label Licensing',
+      description: 'Full tenant-branded deployments with custom domains, subdomain routing, branded CSS & APIs',
+      revenue: 'High-margin B2B licensing',
+      color: 'pink'
+    },
+    {
       icon: Megaphone,
       name: 'Premium Features',
-      description: 'Advanced analytics, API access, white-label',
+      description: 'Advanced analytics, API access, developer platform',
       revenue: 'High-margin upsells',
-      color: 'pink'
+      color: 'yellow'
     },
   ];
 
@@ -64,27 +80,29 @@ const PitchSlide6BusinessModel: React.FC = () => {
       case 'purple': return 'bg-purple-500/20 text-purple-400';
       case 'orange': return 'bg-orange-500/20 text-orange-400';
       case 'pink': return 'bg-pink-500/20 text-pink-400';
+      case 'cyan': return 'bg-cyan-500/20 text-cyan-400';
+      case 'yellow': return 'bg-yellow-500/20 text-yellow-400';
       default: return 'bg-white/20 text-white';
     }
   };
 
   return (
-    <div className="h-full flex items-center justify-center px-8 py-12">
+    <div className="h-full flex items-center justify-center px-8 py-8">
       <div className="max-w-6xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10"
+          className="text-center mb-6"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            <span className="text-mansagold">6</span> Revenue Streams
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-3">
+            <span className="text-mansagold">8</span> Revenue Streams
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Diversified revenue model creates predictable, sustainable growth with multiple paths to monetization
+          <p className="text-lg text-white/70 max-w-3xl mx-auto">
+            Diversified revenue model with enterprise pricing & white-label licensing
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
           {revenueStreams.map((stream, index) => {
             const colorClasses = getColorClasses(stream.color);
             return (
@@ -92,15 +110,15 @@ const PitchSlide6BusinessModel: React.FC = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.06 }}
               >
-                <Card className="p-5 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full">
-                  <div className={`w-12 h-12 ${colorClasses.split(' ')[0]} rounded-xl flex items-center justify-center mb-4`}>
-                    <stream.icon className={`w-6 h-6 ${colorClasses.split(' ')[1]}`} />
+                <Card className="p-4 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full">
+                  <div className={`w-10 h-10 ${colorClasses.split(' ')[0]} rounded-lg flex items-center justify-center mb-3`}>
+                    <stream.icon className={`w-5 h-5 ${colorClasses.split(' ')[1]}`} />
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2">{stream.name}</h3>
-                  <p className="text-white/80 text-sm font-medium mb-3">{stream.description}</p>
-                  <div className={`text-sm font-bold ${colorClasses.split(' ')[1]}`}>
+                  <h3 className="text-sm font-bold text-white mb-1">{stream.name}</h3>
+                  <p className="text-white/70 text-xs font-medium mb-2">{stream.description}</p>
+                  <div className={`text-xs font-bold ${colorClasses.split(' ')[1]}`}>
                     {stream.revenue}
                   </div>
                 </Card>
@@ -112,18 +130,24 @@ const PitchSlide6BusinessModel: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="mt-8"
+          transition={{ delay: 0.6 }}
+          className="mt-4"
         >
-          <Card className="p-6 bg-black/80 border-2 border-mansagold">
+          <Card className="p-4 bg-black/80 border-2 border-mansagold">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div>
-                <h3 className="text-xl font-bold text-white mb-1">Revenue Diversification = Resilience</h3>
-                <p className="text-white font-medium">No single revenue stream accounts for more than 40% of projected revenue</p>
+                <h3 className="text-lg font-bold text-white mb-1">Revenue Diversification = Resilience</h3>
+                <p className="text-white/80 font-medium text-sm">86% Gross Margin · 142% NRR · 2.8-month CAC Payback</p>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-black text-mansagold">$2.4M</div>
-                <div className="text-sm text-white font-semibold">2026 Target ARR</div>
+              <div className="flex items-center gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-black text-mansagold">$2.4M</div>
+                  <div className="text-xs text-white font-semibold">2026 Target ARR</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-black text-white">$225</div>
+                  <div className="text-xs text-white/60 font-semibold">Blended ARPU</div>
+                </div>
               </div>
             </div>
           </Card>

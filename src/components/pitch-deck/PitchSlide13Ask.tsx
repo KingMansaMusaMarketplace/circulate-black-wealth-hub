@@ -8,7 +8,8 @@ import {
   Users, 
   Rocket,
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  TrendingUp
 } from 'lucide-react';
 
 const PitchSlide13Ask: React.FC = () => {
@@ -20,8 +21,8 @@ const PitchSlide13Ask: React.FC = () => {
   ];
 
   const milestones = [
-    { month: '6 months', milestone: '100 paying businesses', metric: '$50K MRR' },
-    { month: '12 months', milestone: '500 businesses, 3 cities', metric: '$200K MRR' },
+    { month: '6 months', milestone: '250 paying businesses', metric: '$56K MRR' },
+    { month: '12 months', milestone: '750 businesses, 5 cities', metric: '$169K MRR' },
     { month: '18 months', milestone: 'Series A ready', metric: '$500K MRR' },
   ];
 
@@ -46,13 +47,17 @@ const PitchSlide13Ask: React.FC = () => {
             transition={{ delay: 0.2 }}
           >
             <Card className="p-8 bg-black/80 border-2 border-mansagold h-full">
-              <div className="text-center mb-8">
+              <div className="text-center mb-6">
                 <Badge className="mb-4 bg-mansagold/30 text-mansagold border-mansagold font-bold text-lg px-6 py-2">
                   <DollarSign className="w-4 h-4 mr-2" />
                   Seed Round
                 </Badge>
                 <div className="text-6xl font-black text-mansagold mb-2">$500K</div>
                 <p className="text-white font-semibold">Pre-seed / Seed Investment</p>
+                <div className="mt-3 flex items-center justify-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-white/60" />
+                  <span className="text-white/60 text-sm">$1.82B Implied Valuation</span>
+                </div>
               </div>
 
               <div className="space-y-4">

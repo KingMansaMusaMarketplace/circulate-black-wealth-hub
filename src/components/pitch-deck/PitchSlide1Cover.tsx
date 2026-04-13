@@ -45,7 +45,7 @@ const PitchSlide1Cover: React.FC = () => {
 
           <Badge className="mb-6 bg-mansagold/20 text-mansagold border-mansagold/30 text-lg px-6 py-2">
             <Database className="w-4 h-4 mr-2" />
-            Investor Presentation 2026
+            Investor Presentation — Q2 2026
           </Badge>
 
           <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
@@ -87,12 +87,12 @@ const PitchSlide1Cover: React.FC = () => {
             </div>
             <div className="h-10 w-px bg-white/20" />
             <div className="text-center">
-              <div className="text-3xl font-bold text-white">Patent</div>
-              <div className="text-sm">Pending Tech</div>
+              <div className="text-3xl font-bold text-white">27 Claims</div>
+              <div className="text-sm">Patent Pending</div>
             </div>
             <div className="h-10 w-px bg-white/20" />
             <div className="text-center">
-              <div className="text-3xl font-bold text-mansagold">6</div>
+              <div className="text-3xl font-bold text-mansagold">8</div>
               <div className="text-sm">Revenue Streams</div>
             </div>
           </motion.div>
