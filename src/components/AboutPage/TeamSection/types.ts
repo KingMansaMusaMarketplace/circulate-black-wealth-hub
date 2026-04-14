@@ -8,6 +8,8 @@ export interface TeamMember {
   extendedBio?: string;
   experience?: string[];
   education?: string;
+  isAI?: boolean;
+  capabilities?: string[];
   socials: {
     linkedin?: string;
     twitter?: string;

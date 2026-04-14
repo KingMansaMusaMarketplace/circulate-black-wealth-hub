@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Bot } from 'lucide-react';
 import { teamMembers } from './TeamSection/teamData';
 import { TeamMember } from './TeamSection/types';
 import TeamMemberCard from './TeamSection/TeamMemberCard';
@@ -10,6 +11,9 @@ import { handleSocialClick, handleSendEmail } from './TeamSection/utils';
 const TeamSection = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const humanMembers = teamMembers.filter(m => !m.isAI);
+  const aiMembers = teamMembers.filter(m => m.isAI);
 
   const openMemberDialog = (member: TeamMember) => {
     setSelectedMember(member);
@@ -42,7 +46,8 @@ const TeamSection = () => {
             The visionaries building the infrastructure for economic sovereignty.
           </p>
         </div>
-        
+
+        {/* Leadership Team */}
         <motion.div 
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           variants={containerVariants}
@@ -50,7 +55,35 @@ const TeamSection = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {teamMembers.map((member, index) => (
+          {humanMembers.map((member, index) => (
+            <TeamMemberCard
+              key={index}
+              member={member}
+              onViewProfile={openMemberDialog}
+              onSocialClick={handleSocialClick}
+            />
+          ))}
+        </motion.div>
+
+        {/* AI Workforce Divider */}
+        <div className="flex items-center gap-4 my-14">
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent"></div>
+          <div className="flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 px-5 py-2 rounded-full">
+            <Bot className="w-5 h-5 text-purple-400" />
+            <span className="text-purple-300 font-bold text-sm tracking-wide">Powered by Kayla — AI Workforce</span>
+          </div>
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent"></div>
+        </div>
+
+        {/* AI Team */}
+        <motion.div 
+          className="grid md:grid-cols-3 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          {aiMembers.map((member, index) => (
             <TeamMemberCard
               key={index}
               member={member}
