@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, AlertCircle, CheckCircle, Building2, Sparkles } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle, Building2, Sparkles, Gift } from 'lucide-react';
 import { secureSignUp } from '@/lib/security/auth-security';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -26,6 +26,7 @@ const businessSignupSchema = z.object({
   confirmPassword: z.string(),
   businessName: z.string().min(2, 'Business name must be at least 2 characters'),
   cityZip: z.string().min(2, 'Please enter your city or ZIP code'),
+  betaCode: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -113,6 +114,26 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       }
 
       if (result.data?.user) {
+        // Activate beta tester if code provided (non-blocking)
+        if (data.betaCode?.trim()) {
+          try {
+            const { data: isBeta } = await supabase.rpc('activate_beta_tester', {
+              p_email: data.email,
+              p_user_id: result.data.user.id,
+              p_beta_code: data.betaCode.trim(),
+            });
+            if (isBeta) {
+              console.log('[BUSINESS SIGNUP] Beta tester activated with code');
+              toast.success('Beta code accepted! 🎉 Free business access granted.');
+            } else {
+              console.warn('[BUSINESS SIGNUP] Beta code did not match');
+              toast.warning('Beta code not recognized, but your account was created.');
+            }
+          } catch (betaErr) {
+            console.warn('[BUSINESS SIGNUP] Beta activation failed (non-blocking):', betaErr);
+          }
+        }
+
         // Create business record with retry logic for race condition
         const businessResult = await createBusinessWithRetry({
           name: data.businessName,
@@ -237,6 +258,24 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                 {errors.cityZip && (
                   <p className="text-sm text-red-600">{errors.cityZip.message}</p>
                 )}
+              </div>
+
+              {/* Beta Code Field */}
+              <div className="space-y-2">
+                <Label htmlFor="betaCode" className="text-gray-900 font-semibold flex items-center gap-2">
+                  <Gift className="w-4 h-4 text-mansagold" />
+                  Beta Code <span className="text-xs font-normal text-gray-500">(optional)</span>
+                </Label>
+                <Input
+                  id="betaCode"
+                  {...register('betaCode')}
+                  disabled={isLoading}
+                  placeholder="Enter your beta code if you have one"
+                  className="border-2 focus:border-mansagold border-dashed"
+                />
+                <p className="text-xs text-gray-500">
+                  Beta testers: enter the code from your invitation email to unlock free access.
+                </p>
               </div>
 
               <div className="space-y-2">
