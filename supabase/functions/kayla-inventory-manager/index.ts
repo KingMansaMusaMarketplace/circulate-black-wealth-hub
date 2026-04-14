@@ -6,6 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -16,6 +18,13 @@ serve(async (req) => {
 
     const { business_id, action } = await req.json();
     if (!business_id) throw new Error("business_id required");
+
+    // AUTH: Require business owner or admin
+    const authResult = await requireBusinessOwner(req, business_id, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
 
     if (action === "analyze") {
       // Get existing inventory

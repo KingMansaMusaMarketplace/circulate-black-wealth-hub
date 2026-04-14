@@ -14,12 +14,20 @@ interface UpdateMetricsRequest {
   economic_impact?: number;
 }
 
+import { requireAdmin, authErrorResponse } from "../_shared/auth-guard.ts";
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // AUTH: Require admin
+    const authResult = await requireAdmin(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
     const { 
       subscription_id, 
       businesses_supported, 

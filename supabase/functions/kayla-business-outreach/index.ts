@@ -7,17 +7,24 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+import { requireAdmin, authErrorResponse } from "../_shared/auth-guard.ts";
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-  const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-  const supabase = createClient(supabaseUrl, supabaseKey);
-  const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-
   try {
+    // AUTH: Require admin
+    const authResult = await requireAdmin(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const body = await req.json().catch(() => ({}));
     const batchSize = body.batch_size || 25;
 

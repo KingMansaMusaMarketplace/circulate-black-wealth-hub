@@ -826,6 +826,8 @@ async function geocodeAddress(address: string, city: string, state: string, zipC
   return result;
 }
 
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -834,6 +836,12 @@ serve(async (req) => {
   const startTime = Date.now();
 
   try {
+    // AUTH: Require admin or cron secret
+    const authResult = await requireAdminOrCron(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
     const perplexityKey = Deno.env.get("PERPLEXITY_API_KEY");
     const firecrawlKey = Deno.env.get("FIRECRAWL_API_KEY");
     const mapboxToken = Deno.env.get("MAPBOX_PUBLIC_TOKEN");

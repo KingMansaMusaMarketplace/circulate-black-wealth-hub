@@ -103,12 +103,20 @@ function calculateDataQualityScore(lead: any, websiteValid: boolean, emailValid:
   return fields > 0 ? Math.round(score / fields * (fields / 5) * 100) / 100 : 0;
 }
 
+import { requireAdmin, authErrorResponse } from "../_shared/auth-guard.ts";
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // AUTH: Require admin
+    const authResult = await requireAdmin(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
     const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 

@@ -6,6 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -16,6 +18,14 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
     const { business_id } = await req.json();
+    if (!business_id) throw new Error("business_id is required");
+
+    // AUTH: Require business owner or admin
+    const authResult = await requireBusinessOwner(req, business_id, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
     if (!business_id) throw new Error("business_id required");
 
     const { data: business } = await supabase
