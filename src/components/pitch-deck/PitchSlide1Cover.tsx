@@ -61,7 +61,7 @@ const PitchSlide1Cover: React.FC = () => {
           </p>
 
           <motion.div 
-            className="mt-10 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 max-w-2xl mx-auto"
+            className="mt-10 p-6 rounded-2xl bg-white/10 border border-white/10 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}

@@ -86,7 +86,7 @@ const PitchSlide11Vision: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+          <Card className="p-6 bg-black/60 border-white/10">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <CreditCard className="w-5 h-5 text-mansagold" />
               Future Product Roadmap
