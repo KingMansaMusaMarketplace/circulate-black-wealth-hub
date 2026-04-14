@@ -27,6 +27,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   const map = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const [mapLoading, setMapLoading] = useState(true);
+  const [mapReady, setMapReady] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
   // Initialize map
