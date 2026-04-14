@@ -142,6 +142,19 @@ export const secureSignUp = async (email: string, password: string, userData?: a
       } catch (logErr) {
         console.warn('Could not log signup activity:', logErr);
       }
+
+      // Activate beta tester if applicable (non-blocking)
+      try {
+        const { data: isBeta } = await supabase.rpc('activate_beta_tester', {
+          p_email: email,
+          p_user_id: data.user.id,
+        });
+        if (isBeta) {
+          console.log('[SECURE SIGNUP] Beta tester activated — free access granted');
+        }
+      } catch (betaErr) {
+        console.warn('[SECURE SIGNUP] Beta tester check failed (non-blocking):', betaErr);
+      }
     }
 
     return { success: true, data };

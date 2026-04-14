@@ -95,6 +95,19 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
       if (authData.user) {
         console.log('[CUSTOMER SIGNUP] User created successfully:', authData.user.id);
         
+        // Activate beta tester if applicable (non-blocking)
+        try {
+          const { data: isBeta } = await supabase.rpc('activate_beta_tester', {
+            p_email: data.email,
+            p_user_id: authData.user.id,
+          });
+          if (isBeta) {
+            console.log('[CUSTOMER SIGNUP] Beta tester activated — free access granted');
+          }
+        } catch (betaErr) {
+          console.warn('[CUSTOMER SIGNUP] Beta tester check failed (non-blocking):', betaErr);
+        }
+        
         const pendingSubscription = sessionStorage.getItem('pendingSubscription');
         
         setSuccess(true);
