@@ -66,28 +66,44 @@ const PitchSlide15Contact: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="p-8 bg-black/80 border-2 border-mansagold inline-block">
-              <h3 className="text-2xl font-bold text-white mb-6">Thomas D. Bowling</h3>
-              <p className="text-mansagold font-semibold mb-6">Founder & CEO, 1325.AI</p>
+            <div 
+              style={{ 
+                padding: '32px', 
+                backgroundColor: '#000814', 
+                border: '2px solid #FFB300', 
+                borderRadius: '12px', 
+                display: 'inline-block' 
+              }}
+            >
+              <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#FFFFFF', marginBottom: '24px' }}>Thomas D. Bowling</h3>
+              <p style={{ color: '#FFB300', fontWeight: '600', marginBottom: '24px', fontSize: '16px' }}>Founder & CEO, 1325.AI</p>
               
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px' }}>
                 <a 
                   href="mailto:Thomas@1325.AI"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-mansagold to-mansagold-light text-mansablue-dark font-bold px-8 py-4 rounded-xl hover:shadow-xl hover:shadow-mansagold/30 transition-all"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    backgroundColor: '#FFB300',
+                    color: '#001a33',
+                    fontWeight: 'bold',
+                    padding: '16px 32px',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    fontSize: '16px',
+                  }}
                 >
-                  <Mail className="w-5 h-5" />
+                  <span>✉</span>
                   Thomas@1325.AI
-                  <ArrowRight className="w-5 h-5" />
+                  <span>→</span>
                 </a>
               </div>
 
-              <div className="flex items-center justify-center gap-4 text-white/50">
-                <a href="https://1325.ai" className="flex items-center gap-1 hover:text-mansagold transition-colors">
-                  <Globe className="w-4 h-4" />
-                  <span className="font-mono">1325.AI</span>
-                </a>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', alignItems: 'center' }}>
+                <span style={{ color: '#FFFFFF', opacity: 0.7, fontSize: '14px', fontFamily: 'monospace' }}>🌐 1325.AI</span>
               </div>
-            </Card>
+            </div>
           </motion.div>
 
           <motion.p
