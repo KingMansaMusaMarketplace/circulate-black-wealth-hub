@@ -451,19 +451,77 @@ const AIWorkforceDashboard: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* ============ FULL AGENTIC WORKFORCE ============ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-8"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Bot className="w-6 h-6 text-purple-400" />
+              <div>
+                <h2 className="text-xl font-bold text-white">Full Agentic Workforce</h2>
+                <p className="text-white/50 text-xs">{AGENTIC_EMPLOYEES.length} AI employees across 5 departments — auto-refreshing every 60s</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-green-400 text-xs font-medium">{AGENTIC_EMPLOYEES.length}/{AGENTIC_EMPLOYEES.length} Active</span>
+            </div>
+          </div>
+
+          {['MARKETING', 'FINANCE', 'OPERATIONS', 'COMMUNITY', 'TOOLS'].map((dept) => {
+            const deptEmployees = AGENTIC_EMPLOYEES.filter(e => e.department === dept);
+            const colors = DEPT_COLORS[dept];
+            const DeptIcon = DEPT_ICONS[dept];
+            return (
+              <div key={dept} className="mb-4">
+                <div className={`flex items-center gap-2 mb-2 px-1`}>
+                  <DeptIcon className={`w-4 h-4 ${colors.text}`} />
+                  <span className={`text-xs font-bold uppercase tracking-wider ${colors.text}`}>{dept}</span>
+                  <span className="text-white/30 text-xs">({deptEmployees.length})</span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {deptEmployees.map((emp) => (
+                    <Card key={emp.id} className={`p-3 bg-black/40 border ${colors.border} hover:bg-white/5 transition-colors`}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className={`w-7 h-7 rounded-md ${colors.bg} flex items-center justify-center flex-shrink-0`}>
+                            <emp.icon className={`w-3.5 h-3.5 ${colors.text}`} />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-white text-xs font-medium truncate">{emp.name}</div>
+                            <div className="text-white/40 text-[10px]">{emp.savings}/mo saved</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                          <span className="text-green-400 text-[10px] font-medium">Active</span>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </motion.div>
+
         {/* Bottom Summary */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-8"
+          transition={{ delay: 0.7 }}
+          className="mt-6"
         >
           <Card className="p-5 bg-purple-500/5 border border-purple-500/20">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Bot className="w-6 h-6 text-purple-400" />
                 <div>
-                  <div className="text-white font-bold text-sm">Kayla AI Workforce — 28 Agentic Employees + 3 Strategic Agents</div>
+                  <div className="text-white font-bold text-sm">Kayla AI Workforce — {AGENTIC_EMPLOYEES.length} Agentic Employees + 3 Strategic Agents</div>
                   <div className="text-white/50 text-xs">Replacing ~$12,100/mo in human overhead • 52x ROI at Pro tier</div>
                 </div>
               </div>
