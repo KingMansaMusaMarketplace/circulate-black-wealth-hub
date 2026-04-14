@@ -26,6 +26,7 @@ const businessSignupSchema = z.object({
   confirmPassword: z.string(),
   businessName: z.string().min(2, 'Business name must be at least 2 characters'),
   cityZip: z.string().min(2, 'Please enter your city or ZIP code'),
+  betaCode: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
