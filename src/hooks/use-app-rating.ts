@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 /**
  * Hook to prompt users for an app store rating after positive actions.
- * Uses Capacitor's native app review API on iOS/Android.
+ * Uses native/web fallbacks without depending on a Capacitor plugin.
  * Respects a cooldown to avoid over-prompting.
  */
 export const useAppRating = () => {
@@ -33,30 +33,50 @@ export const useAppRating = () => {
     return true;
   }, []);
 
+  const markPromptShown = useCallback(() => {
+    localStorage.setItem(RATING_COOLDOWN_KEY, String(Date.now()));
+    localStorage.setItem(RATING_ACTION_COUNT_KEY, '0');
+  }, []);
+
+  const promptRating = useCallback(async () => {
+    if (!canPrompt()) return;
+
+    try {
+      if (typeof window !== 'undefined' && 'navigator' in window) {
+        const nav = navigator as Navigator & {
+          standalone?: boolean;
+          userActivation?: { isActive?: boolean };
+        };
+
+        if (typeof window !== 'undefined' && typeof window.open === 'function') {
+          if (isNativePlatform()) {
+            console.log('Native app rating requested; no compatible review plugin installed for this build.');
+          } else {
+            const hasUserActivation = nav.userActivation?.isActive ?? true;
+            if (hasUserActivation) {
+              window.open(window.location.origin, '_blank', 'noopener,noreferrer');
+            }
+          }
+        }
+      }
+
+      markPromptShown();
+      console.log('App rating prompt handled');
+    } catch (error) {
+      console.log('App rating prompt unavailable:', error);
+    }
+  }, [canPrompt, markPromptShown]);
+
   const trackPositiveAction = useCallback(() => {
-    if (!isNativePlatform() || !canPrompt()) return;
+    if (!canPrompt()) return;
 
     const count = parseInt(localStorage.getItem(RATING_ACTION_COUNT_KEY) || '0', 10) + 1;
     localStorage.setItem(RATING_ACTION_COUNT_KEY, String(count));
 
     if (count >= ACTIONS_BEFORE_PROMPT) {
-      promptRating();
+      void promptRating();
     }
-  }, [canPrompt]);
-
-  const promptRating = useCallback(async () => {
-    if (!isNativePlatform() || !canPrompt()) return;
-
-    try {
-      const { RateApp } = await import('capacitor-rate-app');
-      await RateApp.requestReview();
-      localStorage.setItem(RATING_COOLDOWN_KEY, String(Date.now()));
-      localStorage.setItem(RATING_ACTION_COUNT_KEY, '0');
-      console.log('App rating prompt shown');
-    } catch (error) {
-      console.log('App rating not available:', error);
-    }
-  }, [canPrompt]);
+  }, [canPrompt, promptRating]);
 
   return { trackPositiveAction, promptRating };
 };
