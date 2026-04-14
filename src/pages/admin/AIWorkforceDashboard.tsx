@@ -153,19 +153,11 @@ const AIWorkforceDashboard: React.FC = () => {
   }, []);
 
   const agentStatus = (isActive: boolean) => (
-    <div
-      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${
-        isActive
-          ? 'border-primary/30 bg-primary/10 text-primary'
-          : 'border-border bg-muted text-muted-foreground'
-      }`}
-    >
-      <div
-        className={`h-2.5 w-2.5 rounded-full ${
-          isActive ? 'bg-primary animate-pulse' : 'bg-muted-foreground/60'
-        }`}
-      />
-      <span>{isActive ? 'Active' : 'Offline'}</span>
+    <div className="flex items-center gap-2">
+      <div className={`h-2.5 w-2.5 rounded-full ${isActive ? 'bg-green-400 animate-pulse' : 'bg-gray-500'}`} />
+      <span className={`text-xs font-semibold ${isActive ? 'text-green-400' : 'text-gray-500'}`}>
+        {isActive ? 'Active' : 'Offline'}
+      </span>
     </div>
   );
 
@@ -182,8 +174,8 @@ const AIWorkforceDashboard: React.FC = () => {
             </Link>
             <div>
               <div className="flex items-center gap-3">
-                <Bot className="w-8 h-8 text-purple-400" />
-                <h1 className="text-3xl font-bold">AI Workforce Dashboard</h1>
+                <Bot className="w-8 h-8 text-[#FFB300]" />
+                <h1 className="text-3xl font-bold text-white">AI Workforce Dashboard</h1>
               </div>
               <p className="text-white/50 mt-1 ml-11">Powered by Kayla — Real-time agent monitoring</p>
             </div>
@@ -195,7 +187,7 @@ const AIWorkforceDashboard: React.FC = () => {
             <Button 
               variant="outline" 
               size="sm" 
-              className="border-purple-500/30 text-purple-400 hover:bg-purple-500/10"
+              className="border-[#FFB300]/30 text-[#FFB300] hover:bg-[#FFB300]/10"
               onClick={fetchMetrics}
               disabled={loading}
             >
@@ -208,9 +200,9 @@ const AIWorkforceDashboard: React.FC = () => {
         {/* Agent Status Bar */}
         <div className="grid gap-4 mb-8 md:grid-cols-3">
           {[
-            { name: 'Kayla CRO', icon: TrendingUp },
-            { name: 'Kayla IP Shield', icon: Shield },
-            { name: 'Kayla IR', icon: BarChart3 },
+            { name: 'Kayla CRO', icon: TrendingUp, accent: '#FFB300' },
+            { name: 'Kayla IP Shield', icon: Shield, accent: '#003366' },
+            { name: 'Kayla IR', icon: BarChart3, accent: '#FFB300' },
           ].map((agent, i) => (
             <motion.div
               key={agent.name}
@@ -218,15 +210,27 @@ const AIWorkforceDashboard: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className="border-border/70 bg-card/95 p-5 shadow-lg backdrop-blur-sm">
+              <Card
+                className="p-5 backdrop-blur-sm shadow-lg"
+                style={{
+                  background: 'rgba(0,0,0,0.6)',
+                  border: `1px solid ${agent.accent}44`,
+                }}
+              >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
-                      <agent.icon className="h-5 w-5" />
+                    <div
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                      style={{ background: `${agent.accent}1A`, border: `1px solid ${agent.accent}33` }}
+                    >
+                      <agent.icon className="h-5 w-5" style={{ color: agent.accent }} />
                     </div>
                     <div className="min-w-0">
-                      <div className="truncate text-base font-bold text-foreground">{agent.name}</div>
-                      <div className="mt-2 inline-flex rounded-full border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">
+                      <div className="truncate text-base font-bold text-white">{agent.name}</div>
+                      <div
+                        className="mt-1.5 inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium"
+                        style={{ background: `${agent.accent}1A`, color: `${agent.accent}CC`, border: `1px solid ${agent.accent}33` }}
+                      >
                         Monitoring
                       </div>
                     </div>
