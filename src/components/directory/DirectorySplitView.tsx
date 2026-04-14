@@ -30,6 +30,15 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
   mapApiKey = '',
 }) => {
   const isMobile = useIsMobile();
+  // Treat iPads / tablets (≤1024px) as mobile for split-view purposes
+  const [isTablet, setIsTablet] = useState(false);
+  React.useEffect(() => {
+    const check = () => setIsTablet(window.innerWidth <= 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  const usesMobileLayout = isMobile || isTablet;
   const navigate = useNavigate();
   const [highlightedBusinessId, setHighlightedBusinessId] = useState<string | null>(null);
   const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(null);
