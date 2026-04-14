@@ -79,13 +79,6 @@ const PitchSlide15Contact: React.FC = () => {
                   Thomas@1325.AI
                   <ArrowRight className="w-5 h-5" />
                 </a>
-                <a 
-                  href="tel:3127096006"
-                  className="inline-flex items-center gap-2 border-2 border-white/30 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/10 transition-all"
-                >
-                  <Phone className="w-5 h-5" />
-                  312.709.6006
-                </a>
               </div>
 
               <div className="flex items-center justify-center gap-4 text-white/50">
