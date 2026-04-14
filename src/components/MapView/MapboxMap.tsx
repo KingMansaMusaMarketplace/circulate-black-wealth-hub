@@ -130,9 +130,9 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   // Track if we've done initial bounds fit
   const hasInitialFit = useRef(false);
 
-  // Add/update markers when businesses change
+  // Add/update markers when businesses change or map becomes ready
   useEffect(() => {
-    if (!map.current) return;
+    if (!map.current || !mapReady) return;
 
     // Clear existing markers
     markersRef.current.forEach(marker => marker.remove());
@@ -236,7 +236,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       
       hasInitialFit.current = true;
     }
-  }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover]);
+  }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover, mapReady]);
 
   if (mapError) {
     return (
