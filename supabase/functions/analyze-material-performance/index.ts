@@ -5,12 +5,20 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+import { requireAdmin, authErrorResponse } from "../_shared/auth-guard.ts";
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // AUTH: Require admin
+    const authResult = await requireAdmin(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
     const { dateRange = 30 } = await req.json();
     
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
