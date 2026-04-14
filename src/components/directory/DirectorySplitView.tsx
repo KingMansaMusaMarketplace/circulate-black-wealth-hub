@@ -102,15 +102,25 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
       <>
         {/* Business list */}
         <div className="space-y-3">
-          {businesses.map((business) => (
-            <CompactBusinessCard
-              key={business.id}
-              business={business}
-              isHighlighted={highlightedBusinessId === business.id}
-              onHover={handleCardHover}
-              onClick={handleCardClick}
-            />
-          ))}
+          {businesses.map((business, index) => {
+            const firstChar = business.name.charAt(0).toUpperCase();
+            const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+            const isNewLetter = index === 0 || (() => {
+              const prevChar = businesses[index - 1].name.charAt(0).toUpperCase();
+              const prevLetter = /[A-Z]/.test(prevChar) ? prevChar : '#';
+              return prevLetter !== letter;
+            })();
+            return (
+              <div key={business.id} {...(isNewLetter ? { 'data-letter-group': letter } : {})}>
+                <CompactBusinessCard
+                  business={business}
+                  isHighlighted={highlightedBusinessId === business.id}
+                  onHover={handleCardHover}
+                  onClick={handleCardClick}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {/* Floating Map Button */}
@@ -183,15 +193,25 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
                   </h3>
                 </div>
                 
-                {businesses.map((business) => (
-                  <CompactBusinessCard
-                    key={business.id}
-                    business={business}
-                    isHighlighted={highlightedBusinessId === business.id}
-                    onHover={handleCardHover}
-                    onClick={handleCardClick}
-                  />
-                ))}
+                {businesses.map((business, index) => {
+                  const firstChar = business.name.charAt(0).toUpperCase();
+                  const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
+                  const isNewLetter = index === 0 || (() => {
+                    const prevChar = businesses[index - 1].name.charAt(0).toUpperCase();
+                    const prevLetter = /[A-Z]/.test(prevChar) ? prevChar : '#';
+                    return prevLetter !== letter;
+                  })();
+                  return (
+                    <div key={business.id} {...(isNewLetter ? { 'data-letter-group': letter } : {})}>
+                      <CompactBusinessCard
+                        business={business}
+                        isHighlighted={highlightedBusinessId === business.id}
+                        onHover={handleCardHover}
+                        onClick={handleCardClick}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollArea>
           </div>

@@ -156,8 +156,18 @@ const DirectoryPage: React.FC = () => {
 
   const handleJumpToLetter = useCallback((letter: string) => {
     const target = document.querySelector(`[data-letter-group="${letter}"]`);
-    if (target) {
-      // Offset scroll to account for sticky headers (~160px)
+    if (!target) return;
+
+    // Check if target is inside a ScrollArea (Radix scroll container)
+    const scrollContainer = target.closest('[data-radix-scroll-area-viewport]');
+    if (scrollContainer) {
+      // Scroll within the ScrollArea container
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const offsetTop = targetRect.top - containerRect.top + scrollContainer.scrollTop;
+      scrollContainer.scrollTo({ top: Math.max(0, offsetTop - 60), behavior: 'smooth' });
+    } else {
+      // Scroll the main window with offset for sticky headers
       const y = target.getBoundingClientRect().top + window.pageYOffset - 160;
       window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
     }
