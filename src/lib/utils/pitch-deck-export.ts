@@ -93,7 +93,7 @@ export async function exportPitchDeckToPDF(
       root.render(React.createElement(SlideComponent));
 
       // Wait for render and animations to settle
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Capture the slide
       const canvas = await html2canvas(slideWrapper, {
