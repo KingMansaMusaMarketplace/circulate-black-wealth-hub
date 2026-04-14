@@ -67,13 +67,29 @@ const BetaTesterManager: React.FC = () => {
     setResendingAll(true);
     let sent = 0;
     let failed = 0;
+    
     for (const tester of invitedTesters) {
       try {
         const formattedExpiration = tester.expiration_date
           ? new Date(tester.expiration_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
           : undefined;
-        const { error } = await supabase.functions.invoke('send-transactional-email', {
-          body: {
+        
+        // Use fetch directly with a longer timeout to avoid the 15s client timeout
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+        const session = (await supabase.auth.getSession()).data.session;
+        const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+        
+        const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.access_token || anonKey}`,
+            'apikey': anonKey,
+          },
+          body: JSON.stringify({
             templateName: 'beta-tester-welcome',
             recipientEmail: tester.email,
             idempotencyKey: `beta-resend-${tester.id}-${Date.now()}`,
@@ -82,10 +98,15 @@ const BetaTesterManager: React.FC = () => {
               betaCode: tester.beta_code,
               expirationDate: formattedExpiration,
             },
-          },
+          }),
+          signal: controller.signal,
         });
-        if (error) {
-          console.error(`Failed to send to ${tester.email}:`, error);
+        
+        clearTimeout(timeoutId);
+        const result = await response.json();
+        
+        if (!response.ok || result.error) {
+          console.error(`Failed to send to ${tester.email}:`, result);
           failed++;
         } else {
           sent++;
@@ -95,8 +116,8 @@ const BetaTesterManager: React.FC = () => {
         console.error(`Failed to send to ${tester.email}:`, err);
         failed++;
       }
-      // Small delay between sends to avoid overwhelming the edge function
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // 3s delay between sends to let the edge function fully complete
+      await new Promise(resolve => setTimeout(resolve, 3000));
     }
     setResendingAll(false);
     if (failed === 0) {
