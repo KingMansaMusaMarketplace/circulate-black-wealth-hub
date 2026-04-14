@@ -34,12 +34,20 @@ const corsHeaders = {
 const KARMA_DECAY_RATE = 0.05;
 const KARMA_MINIMUM_FLOOR = 10.0;
 
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // AUTH: Require admin JWT or CRON_SECRET
+    const authResult = await requireAdminOrCron(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
