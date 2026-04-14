@@ -153,11 +153,19 @@ const AIWorkforceDashboard: React.FC = () => {
   }, []);
 
   const agentStatus = (isActive: boolean) => (
-    <div className="flex items-center gap-1.5">
-      <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-400 animate-pulse' : 'bg-gray-500'}`} />
-      <span className={`text-xs font-medium ${isActive ? 'text-green-400' : 'text-gray-500'}`}>
-        {isActive ? 'Active' : 'Offline'}
-      </span>
+    <div
+      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${
+        isActive
+          ? 'border-primary/30 bg-primary/10 text-primary'
+          : 'border-border bg-muted text-muted-foreground'
+      }`}
+    >
+      <div
+        className={`h-2.5 w-2.5 rounded-full ${
+          isActive ? 'bg-primary animate-pulse' : 'bg-muted-foreground/60'
+        }`}
+      />
+      <span>{isActive ? 'Active' : 'Offline'}</span>
     </div>
   );
 
@@ -198,27 +206,29 @@ const AIWorkforceDashboard: React.FC = () => {
         </div>
 
         {/* Agent Status Bar */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid gap-4 mb-8 md:grid-cols-3">
           {[
-            { name: 'Kayla CRO', icon: TrendingUp, color: 'from-emerald-500/20 to-green-600/20', borderColor: 'border-emerald-500/30' },
-            { name: 'Kayla IP Shield', icon: Shield, color: 'from-blue-500/20 to-cyan-600/20', borderColor: 'border-blue-500/30' },
-            { name: 'Kayla IR', icon: BarChart3, color: 'from-amber-500/20 to-orange-600/20', borderColor: 'border-amber-500/30' },
+            { name: 'Kayla CRO', icon: TrendingUp },
+            { name: 'Kayla IP Shield', icon: Shield },
+            { name: 'Kayla IR', icon: BarChart3 },
           ].map((agent, i) => (
             <motion.div
-              key={i}
+              key={agent.name}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className={`p-4 bg-gradient-to-r ${agent.color} border ${agent.borderColor} backdrop-blur-sm`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                      <agent.icon className="w-5 h-5 text-white" />
+              <Card className="border-border/70 bg-card/95 p-5 shadow-lg backdrop-blur-sm">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+                      <agent.icon className="h-5 w-5" />
                     </div>
-                    <div>
-                      <div className="text-white font-bold text-sm">{agent.name}</div>
-                      <div className="text-white/50 text-xs">Monitoring</div>
+                    <div className="min-w-0">
+                      <div className="truncate text-base font-bold text-foreground">{agent.name}</div>
+                      <div className="mt-2 inline-flex rounded-full border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">
+                        Monitoring
+                      </div>
                     </div>
                   </div>
                   {agentStatus(true)}
