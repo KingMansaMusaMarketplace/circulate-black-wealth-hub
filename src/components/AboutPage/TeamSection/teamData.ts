@@ -78,5 +78,71 @@ export const teamMembers: TeamMember[] = [
       website: "#",
       email: "devon@1325.ai"
     }
+  },
+  {
+    name: "Kayla CRO",
+    role: "AI Chief Revenue Officer",
+    bio: "Models ARR forecasting across 8 revenue streams, optimizes pricing tiers, and tracks MRR/churn/NRR metrics in real-time.",
+    extendedBio: "Kayla CRO is an agentic AI employee powered by the Kayla infrastructure. She continuously models revenue scenarios across all 8 revenue streams — Marketplace, SaaS, Loyalty, B2B, API, Advertising, Data Licensing, and White-Label — providing real-time ARR forecasting and pricing optimization recommendations.",
+    experience: [
+      "Real-time ARR modeling across 8 revenue streams",
+      "Dynamic pricing tier optimization with A/B testing",
+      "MRR, churn rate, and NRR tracking dashboards",
+      "Revenue attribution across acquisition channels"
+    ],
+    isAI: true,
+    capabilities: [
+      "ARR Forecasting",
+      "Pricing Optimization",
+      "Churn Analysis",
+      "Revenue Attribution"
+    ],
+    image: "CRO",
+    avatarImage: "",
+    socials: {}
+  },
+  {
+    name: "Kayla IP Shield",
+    role: "AI Patent & IP Strategist",
+    bio: "Monitors 27 patent claims under USPTO 63/969,202, tracks competitive filings, and manages claim amendments.",
+    extendedBio: "Kayla IP Shield is an agentic AI employee that provides continuous intellectual property protection. She monitors all 27 patent claims filed under USPTO Provisional Application 63/969,202, tracks competitive patent filings across the AI workforce and marketplace sectors, and proactively recommends claim amendments.",
+    experience: [
+      "Monitoring 27 patent claims under USPTO 63/969,202",
+      "Competitive patent filing surveillance",
+      "Claim amendment recommendations",
+      "IP portfolio valuation modeling"
+    ],
+    isAI: true,
+    capabilities: [
+      "Patent Monitoring",
+      "Competitive Filing Tracking",
+      "Claim Amendments",
+      "IP Valuation"
+    ],
+    image: "IPS",
+    avatarImage: "",
+    socials: {}
+  },
+  {
+    name: "Kayla IR",
+    role: "AI Investor Relations Manager",
+    bio: "Automates financial reporting, manages VC pipeline, and generates investor-ready materials for fundraising.",
+    extendedBio: "Kayla IR is an agentic AI employee that streamlines the entire investor relations workflow. She automates financial reporting and KPI dashboards, manages the VC outreach pipeline, generates investor-ready pitch materials, and tracks follow-up cadences with potential investors.",
+    experience: [
+      "Automated financial reporting and KPI dashboards",
+      "VC pipeline management and outreach tracking",
+      "Investor-ready material generation",
+      "Due diligence document preparation"
+    ],
+    isAI: true,
+    capabilities: [
+      "Financial Reporting",
+      "VC Pipeline Management",
+      "Pitch Materials",
+      "Due Diligence Prep"
+    ],
+    image: "IR",
+    avatarImage: "",
+    socials: {}
   }
 ];
