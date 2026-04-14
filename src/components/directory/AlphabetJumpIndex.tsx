@@ -67,7 +67,7 @@ const AlphabetJumpIndex: React.FC<AlphabetJumpIndexProps> = ({ activeLetters, on
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="bg-slate-900/80 backdrop-blur-sm rounded-full py-1 px-0.5 border border-mansagold/20">
+        <div className="bg-slate-900/90 backdrop-blur-sm rounded-full py-1 px-0.5 border border-mansagold/30">
           {ALPHABET.map((letter) => {
             const isActive = activeLetters.has(letter);
             const isCurrent = letter === activeLetter;
@@ -81,11 +81,12 @@ const AlphabetJumpIndex: React.FC<AlphabetJumpIndexProps> = ({ activeLetters, on
                     setTimeout(() => setActiveLetter(null), 600);
                   }
                 }}
-                className={`block w-5 text-center text-[10px] leading-[14px] font-semibold transition-all duration-150 rounded-full
+                className={`block w-6 text-center text-[10px] leading-[15px] font-bold transition-all duration-150 rounded-full
                   ${isCurrent ? 'bg-mansagold text-slate-900 scale-150 -translate-x-2' : ''}
                   ${isActive && !isCurrent ? 'text-mansagold' : ''}
-                  ${!isActive ? 'text-gray-600' : ''}
+                  ${!isActive ? 'text-gray-600/40' : ''}
                 `}
+                disabled={!isActive}
                 aria-label={`Jump to ${letter}`}
               >
                 {letter}

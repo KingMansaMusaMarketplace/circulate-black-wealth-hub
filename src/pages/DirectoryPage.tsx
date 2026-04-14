@@ -157,7 +157,9 @@ const DirectoryPage: React.FC = () => {
   const handleJumpToLetter = useCallback((letter: string) => {
     const target = document.querySelector(`[data-letter-group="${letter}"]`);
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Offset scroll to account for sticky headers (~160px)
+      const y = target.getBoundingClientRect().top + window.pageYOffset - 160;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
     }
   }, []);
 
