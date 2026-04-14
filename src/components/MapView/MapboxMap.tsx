@@ -97,6 +97,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
       map.current.on('load', () => {
         setMapLoading(false);
+        setMapReady(true);
         setMapError(null);
       });
 
@@ -114,6 +115,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
     return () => {
       map.current?.remove();
+      setMapReady(false);
     };
   }, [apiKey]);
 
