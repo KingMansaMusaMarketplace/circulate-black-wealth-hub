@@ -13,6 +13,21 @@ const AlphabetJumpIndex: React.FC<AlphabetJumpIndexProps> = ({ activeLetters, on
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
+  const triggerLetter = useCallback((letter: string | null) => {
+    if (!letter || !activeLetters.has(letter)) return;
+    setActiveLetter((current) => {
+      if (current !== letter) {
+        onJumpToLetter(letter);
+      }
+      return letter;
+    });
+  }, [activeLetters, onJumpToLetter]);
+
+  const getLetterFromPoint = useCallback((clientX: number, clientY: number) => {
+    const hit = document.elementFromPoint(clientX, clientY)?.closest<HTMLButtonElement>('button[data-letter]');
+    return hit?.dataset.letter ?? null;
+  }, []);
+
   const getLetterFromY = useCallback((clientY: number) => {
     if (!containerRef.current) return null;
     const rect = containerRef.current.getBoundingClientRect();
@@ -27,25 +42,26 @@ const AlphabetJumpIndex: React.FC<AlphabetJumpIndexProps> = ({ activeLetters, on
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     e.preventDefault();
     setIsDragging(true);
-    const letter = getLetterFromY(e.touches[0].clientY);
-    if (letter && activeLetters.has(letter)) {
-      setActiveLetter(letter);
-      onJumpToLetter(letter);
-    }
-  }, [getLetterFromY, activeLetters, onJumpToLetter]);
+    const touch = e.touches[0];
+    const letter = getLetterFromPoint(touch.clientX, touch.clientY) ?? getLetterFromY(touch.clientY);
+    triggerLetter(letter);
+  }, [getLetterFromPoint, getLetterFromY, triggerLetter]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     e.preventDefault();
-    const letter = getLetterFromY(e.touches[0].clientY);
-    if (letter && letter !== activeLetter && activeLetters.has(letter)) {
-      setActiveLetter(letter);
-      onJumpToLetter(letter);
-    }
-  }, [getLetterFromY, activeLetter, activeLetters, onJumpToLetter]);
+    const touch = e.touches[0];
+    const letter = getLetterFromPoint(touch.clientX, touch.clientY) ?? getLetterFromY(touch.clientY);
+    triggerLetter(letter);
+  }, [getLetterFromPoint, getLetterFromY, triggerLetter]);
 
   const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
     setTimeout(() => setActiveLetter(null), 600);
+  }, []);
+
+  const handleTouchCancel = useCallback(() => {
+    setIsDragging(false);
+    setActiveLetter(null);
   }, []);
 
   return (
@@ -66,6 +82,7 @@ const AlphabetJumpIndex: React.FC<AlphabetJumpIndexProps> = ({ activeLetters, on
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchCancel}
       >
         <div className="bg-slate-900/90 backdrop-blur-sm rounded-full py-1 px-0.5 border border-mansagold/30">
           {ALPHABET.map((letter) => {
@@ -74,6 +91,8 @@ const AlphabetJumpIndex: React.FC<AlphabetJumpIndexProps> = ({ activeLetters, on
             return (
               <button
                 key={letter}
+                type="button"
+                data-letter={letter}
                 onClick={() => {
                   if (isActive) {
                     setActiveLetter(letter);
