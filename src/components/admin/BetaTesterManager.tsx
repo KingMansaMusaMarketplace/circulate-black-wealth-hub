@@ -72,7 +72,7 @@ const BetaTesterManager: React.FC = () => {
         const formattedExpiration = tester.expiration_date
           ? new Date(tester.expiration_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
           : undefined;
-        await supabase.functions.invoke('send-transactional-email', {
+        const { error } = await supabase.functions.invoke('send-transactional-email', {
           body: {
             templateName: 'beta-tester-welcome',
             recipientEmail: tester.email,
@@ -84,10 +84,19 @@ const BetaTesterManager: React.FC = () => {
             },
           },
         });
-        sent++;
-      } catch {
+        if (error) {
+          console.error(`Failed to send to ${tester.email}:`, error);
+          failed++;
+        } else {
+          sent++;
+          console.log(`Sent ${sent}/${invitedTesters.length} to ${tester.email}`);
+        }
+      } catch (err) {
+        console.error(`Failed to send to ${tester.email}:`, err);
         failed++;
       }
+      // Small delay between sends to avoid overwhelming the edge function
+      await new Promise(resolve => setTimeout(resolve, 1500));
     }
     setResendingAll(false);
     if (failed === 0) {
