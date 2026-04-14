@@ -18,6 +18,8 @@ interface MentionResult {
   drafted_response: string;
 }
 
+import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -32,6 +34,13 @@ Deno.serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // AUTH: Require business owner or admin
+    const authResult = await requireBusinessOwner(req, business_id, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+
 
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) {
