@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { 
   Mail, 
   Globe, 
-  Phone,
+  
   ArrowRight,
   Sparkles,
   CheckCircle
