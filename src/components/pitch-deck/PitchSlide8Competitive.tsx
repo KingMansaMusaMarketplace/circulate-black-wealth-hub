@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { CheckCircle, X, Shield } from 'lucide-react';
 
@@ -41,11 +40,7 @@ const PitchSlide8Competitive: React.FC = () => {
   return (
     <div className="h-full flex items-center justify-center px-4 py-8">
       <div className="max-w-7xl mx-auto w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-5"
-        >
+        <div className="text-center mb-5">
           <p className="text-xs uppercase tracking-[0.3em] text-mansagold/80 mb-2">Independent Market Intelligence — 30+ Platforms Analyzed</p>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
             Competitive <span className="text-mansagold">Landscape</span>
@@ -53,13 +48,9 @@ const PitchSlide8Competitive: React.FC = () => {
           <p className="text-base text-white/60 max-w-3xl mx-auto">
             "No platform scores above 3.5/8 against 1325.AI's full stack"
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+        <div>
           <Card className="overflow-hidden bg-black/80 border border-mansagold/30">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -75,12 +66,9 @@ const PitchSlide8Competitive: React.FC = () => {
                 </thead>
                 <tbody>
                   {competitors.map((comp, i) => (
-                    <motion.tr
+                    <tr
                       key={i}
-                      className={`border-b border-white/5 ${comp.highlight ? 'bg-mansagold/10' : 'hover:bg-white/5'}`}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 + i * 0.05 }}
+                      className={`border-b border-white/5 ${comp.highlight ? 'bg-mansagold/10' : ''}`}
                     >
                       <td className={`p-2.5 font-medium text-xs ${comp.highlight ? 'text-mansagold font-bold' : 'text-white'}`}>
                         <div>{comp.name}</div>
@@ -91,21 +79,16 @@ const PitchSlide8Competitive: React.FC = () => {
                           {renderCell(score)}
                         </td>
                       ))}
-                    </motion.tr>
+                    </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </Card>
-        </motion.div>
+        </div>
 
         {/* Moat Framework */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3"
-        >
+        <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
           {moats.map((moat, i) => (
             <Card key={i} className="p-3 bg-black/60 border border-mansagold/30 text-center">
               <p className="text-xs text-white/50 uppercase tracking-wider mb-1">{moat.label}</p>
@@ -115,14 +98,9 @@ const PitchSlide8Competitive: React.FC = () => {
               </p>
             </Card>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3"
-        >
+        <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
           <Card className="p-3 bg-black/60 border border-white/10">
             <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Full Stack</p>
             <p className="text-sm text-white font-semibold">
@@ -141,7 +119,7 @@ const PitchSlide8Competitive: React.FC = () => {
               0 direct competitors across 30+ platforms analyzed
             </p>
           </Card>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
