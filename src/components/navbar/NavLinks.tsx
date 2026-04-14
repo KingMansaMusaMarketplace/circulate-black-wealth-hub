@@ -4,6 +4,7 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
@@ -28,21 +29,27 @@ const NavLinks: React.FC = () => {
       <NavigationMenuList className="flex gap-0.5">
         {/* Primary Links - Always Gold */}
         <NavigationMenuItem>
-          <Link to="/" className={goldLinkClassName}>
-            Home
-          </Link>
+          <NavigationMenuLink asChild>
+            <Link to="/" className={goldLinkClassName}>
+              Home
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/directory" className={goldLinkClassName}>
-            Directory
-          </Link>
+          <NavigationMenuLink asChild>
+            <Link to="/directory" className={goldLinkClassName}>
+              Directory
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/stays" className={goldLinkClassName}>
-            Stays
-          </Link>
+          <NavigationMenuLink asChild>
+            <Link to="/stays" className={goldLinkClassName}>
+              Stays
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
 
         {/* About & Learn Dropdown */}
