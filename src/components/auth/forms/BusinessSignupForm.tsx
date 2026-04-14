@@ -278,7 +278,8 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                 </p>
               </div>
 
-
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-gray-900 font-semibold flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500"></span>
                   Business Email
                 </Label>
