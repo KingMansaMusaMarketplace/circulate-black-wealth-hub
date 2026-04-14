@@ -34,7 +34,7 @@ const PitchSlide8Competitive: React.FC = () => {
   const renderCell = (value: boolean | string) => {
     if (value === true) {
       return (
-        <span className="mx-auto inline-flex h-5 w-5 items-center justify-center rounded-full border border-mansagold/50 bg-mansagold/10 text-[11px] font-bold leading-none text-mansagold">
+        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '20px', height: '20px', borderRadius: '50%', border: '1px solid rgba(255,179,0,0.5)', background: 'rgba(255,179,0,0.1)', color: '#FFB300', fontSize: '12px', fontWeight: 700, lineHeight: 1, textAlign: 'center' as const, verticalAlign: 'middle', paddingTop: '1px' }}>
           ✓
         </span>
       );
@@ -45,7 +45,7 @@ const PitchSlide8Competitive: React.FC = () => {
     }
 
     return (
-      <span className="mx-auto inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[11px] font-bold leading-none text-white/40">
+      <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '20px', height: '20px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 700, lineHeight: 1, textAlign: 'center' as const, verticalAlign: 'middle', paddingTop: '1px' }}>
         ✕
       </span>
     );
