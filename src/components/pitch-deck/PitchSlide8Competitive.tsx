@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
-import { CheckCircle, X, Shield } from 'lucide-react';
+import { Shield } from 'lucide-react';
 
 const PitchSlide8Competitive: React.FC = () => {
   const capabilities = [
@@ -32,9 +32,23 @@ const PitchSlide8Competitive: React.FC = () => {
   ];
 
   const renderCell = (value: boolean | string) => {
-    if (value === true) return <CheckCircle className="w-4 h-4 text-green-500 mx-auto" />;
-    if (typeof value === 'string') return <span className="text-mansagold font-bold text-xs">{value}</span>;
-    return <X className="w-4 h-4 text-red-400/40 mx-auto" />;
+    if (value === true) {
+      return (
+        <span className="mx-auto inline-flex h-5 w-5 items-center justify-center rounded-full border border-mansagold/50 bg-mansagold/10 text-[11px] font-bold leading-none text-mansagold">
+          ✓
+        </span>
+      );
+    }
+
+    if (typeof value === 'string') {
+      return <span className="text-mansagold font-bold text-xs">{value}</span>;
+    }
+
+    return (
+      <span className="mx-auto inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[11px] font-bold leading-none text-white/40">
+        ✕
+      </span>
+    );
   };
 
   return (
