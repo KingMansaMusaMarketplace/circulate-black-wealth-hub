@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, AlertCircle, CheckCircle, Building2, Sparkles } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle, Building2, Sparkles, Gift } from 'lucide-react';
 import { secureSignUp } from '@/lib/security/auth-security';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -114,6 +114,26 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       }
 
       if (result.data?.user) {
+        // Activate beta tester if code provided (non-blocking)
+        if (data.betaCode?.trim()) {
+          try {
+            const { data: isBeta } = await supabase.rpc('activate_beta_tester', {
+              p_email: data.email,
+              p_user_id: result.data.user.id,
+              p_beta_code: data.betaCode.trim(),
+            });
+            if (isBeta) {
+              console.log('[BUSINESS SIGNUP] Beta tester activated with code');
+              toast.success('Beta code accepted! 🎉 Free business access granted.');
+            } else {
+              console.warn('[BUSINESS SIGNUP] Beta code did not match');
+              toast.warning('Beta code not recognized, but your account was created.');
+            }
+          } catch (betaErr) {
+            console.warn('[BUSINESS SIGNUP] Beta activation failed (non-blocking):', betaErr);
+          }
+        }
+
         // Create business record with retry logic for race condition
         const businessResult = await createBusinessWithRetry({
           name: data.businessName,
