@@ -21185,10 +21185,12 @@ export type Database = {
         }
         Returns: Json
       }
-      activate_beta_tester: {
-        Args: { p_email: string; p_user_id: string }
-        Returns: boolean
-      }
+      activate_beta_tester:
+        | {
+            Args: { p_beta_code?: string; p_email: string; p_user_id: string }
+            Returns: boolean
+          }
+        | { Args: { p_email: string; p_user_id: string }; Returns: boolean }
       admin_approve_business_verification: {
         Args: { verification_id: string }
         Returns: undefined
