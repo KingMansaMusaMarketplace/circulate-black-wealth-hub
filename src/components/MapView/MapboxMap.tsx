@@ -27,6 +27,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   const map = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const [mapLoading, setMapLoading] = useState(true);
+  const [mapReady, setMapReady] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
   // Initialize map
@@ -96,6 +97,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
       map.current.on('load', () => {
         setMapLoading(false);
+        setMapReady(true);
         setMapError(null);
       });
 
@@ -113,6 +115,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
     return () => {
       map.current?.remove();
+      setMapReady(false);
     };
   }, [apiKey]);
 
@@ -127,9 +130,9 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   // Track if we've done initial bounds fit
   const hasInitialFit = useRef(false);
 
-  // Add/update markers when businesses change
+  // Add/update markers when businesses change or map becomes ready
   useEffect(() => {
-    if (!map.current) return;
+    if (!map.current || !mapReady) return;
 
     // Clear existing markers
     markersRef.current.forEach(marker => marker.remove());
@@ -233,7 +236,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       
       hasInitialFit.current = true;
     }
-  }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover]);
+  }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover, mapReady]);
 
   if (mapError) {
     return (
