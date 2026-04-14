@@ -105,8 +105,8 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
     navigate(`/business/${businessId}`);
   }, [navigate]);
 
-  // Mobile view with floating map button
-  if (isMobile) {
+  // Mobile / tablet view with floating map button
+  if (usesMobileLayout) {
     return (
       <>
         {/* Business list */}
