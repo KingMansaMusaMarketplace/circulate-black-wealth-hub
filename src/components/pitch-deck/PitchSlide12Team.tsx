@@ -102,7 +102,7 @@ const PitchSlide12Team: React.FC = () => {
             className="space-y-6"
           >
             {/* Core Capabilities */}
-            <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+            <Card className="p-6 bg-black/60 border-white/10">
               <h3 className="text-lg font-bold text-white mb-4">Core Capabilities</h3>
               <div className="space-y-3">
                 {capabilities.map((cap, i) => (
@@ -120,7 +120,7 @@ const PitchSlide12Team: React.FC = () => {
             </Card>
 
             {/* Advisory Network */}
-            <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+            <Card className="p-6 bg-black/60 border-white/10">
               <h3 className="text-lg font-bold text-white mb-4">Advisory Network</h3>
               <div className="space-y-3">
                 {advisors.map((advisor, i) => (
