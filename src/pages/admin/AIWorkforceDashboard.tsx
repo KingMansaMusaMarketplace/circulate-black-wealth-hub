@@ -201,7 +201,7 @@ const AIWorkforceDashboard: React.FC = () => {
         <div className="grid gap-4 mb-8 md:grid-cols-3">
           {[
             { name: 'Kayla CRO', icon: TrendingUp, accent: '#FFB300' },
-            { name: 'Kayla IP Shield', icon: Shield, accent: '#003366' },
+            { name: 'Kayla IP Shield', icon: Shield, accent: '#FFB300' },
             { name: 'Kayla IR', icon: BarChart3, accent: '#FFB300' },
           ].map((agent, i) => (
             <motion.div
