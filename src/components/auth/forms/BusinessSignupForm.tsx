@@ -260,8 +260,25 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                 )}
               </div>
 
+              {/* Beta Code Field */}
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-900 font-semibold flex items-center gap-2">
+                <Label htmlFor="betaCode" className="text-gray-900 font-semibold flex items-center gap-2">
+                  <Gift className="w-4 h-4 text-mansagold" />
+                  Beta Code <span className="text-xs font-normal text-gray-500">(optional)</span>
+                </Label>
+                <Input
+                  id="betaCode"
+                  {...register('betaCode')}
+                  disabled={isLoading}
+                  placeholder="Enter your beta code if you have one"
+                  className="border-2 focus:border-mansagold border-dashed"
+                />
+                <p className="text-xs text-gray-500">
+                  Beta testers: enter the code from your invitation email to unlock free access.
+                </p>
+              </div>
+
+
                   <span className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500"></span>
                   Business Email
                 </Label>
