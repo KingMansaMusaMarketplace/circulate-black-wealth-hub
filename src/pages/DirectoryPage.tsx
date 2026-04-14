@@ -142,7 +142,10 @@ const DirectoryPage: React.FC = () => {
   });
 
   // All paginated businesses go to the grid (featured spotlight is separate)
-  const regularBusinesses = filteredBusinesses || [];
+  const regularBusinesses = useMemo(
+    () => [...(filteredBusinesses || [])].sort((a, b) => a.name.localeCompare(b.name)),
+    [filteredBusinesses]
+  );
 
   // Alphabet jump index support
   const activeLetters = useMemo(() => {
@@ -155,22 +158,20 @@ const DirectoryPage: React.FC = () => {
   }, [regularBusinesses]);
 
   const handleJumpToLetter = useCallback((letter: string) => {
-    const target = document.querySelector(`[data-letter-group="${letter}"]`);
+    const target = document.querySelector(`[data-letter-group="${letter}"]`) as HTMLElement | null;
     if (!target) return;
 
-    // Check if target is inside a ScrollArea (Radix scroll container)
-    const scrollContainer = target.closest('[data-radix-scroll-area-viewport]');
+    const scrollContainer = target.closest('[data-radix-scroll-area-viewport]') as HTMLElement | null;
     if (scrollContainer) {
-      // Scroll within the ScrollArea container
-      const containerRect = scrollContainer.getBoundingClientRect();
-      const targetRect = target.getBoundingClientRect();
-      const offsetTop = targetRect.top - containerRect.top + scrollContainer.scrollTop;
-      scrollContainer.scrollTo({ top: Math.max(0, offsetTop - 60), behavior: 'smooth' });
-    } else {
-      // Scroll the main window with offset for sticky headers
-      const y = target.getBoundingClientRect().top + window.pageYOffset - 160;
-      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      target.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      requestAnimationFrame(() => {
+        scrollContainer.scrollBy({ top: -56, behavior: 'instant' as ScrollBehavior });
+      });
+      return;
     }
+
+    const y = target.getBoundingClientRect().top + window.pageYOffset - 160;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
   }, []);
 
   const handleSelectBusiness = useCallback((id: string) => {
