@@ -8,10 +8,66 @@ import {
   Bot, TrendingUp, Shield, BarChart3, ArrowLeft, 
   Activity, DollarSign, FileText, Users, Building2,
   AlertTriangle, CheckCircle2, Clock, Zap, Brain,
-  RefreshCw
+  RefreshCw, MessageSquare, Search, Eye, Megaphone, UserPlus,
+  Globe, Receipt, CreditCard, Scale, Calculator, LineChart,
+  Target, Gift, Handshake, Calendar, Package, BookOpen,
+  ShieldCheck, QrCode, Heart, Mic, PieChart, Lightbulb,
+  Briefcase
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+
+const AGENTIC_EMPLOYEES = [
+  // MARKETING
+  { id: 'review-manager', icon: MessageSquare, name: 'Review Manager', department: 'MARKETING', savings: '$400' },
+  { id: 'seo-specialist', icon: Search, name: 'SEO Specialist', department: 'MARKETING', savings: '$300' },
+  { id: 'brand-monitor', icon: Eye, name: 'Brand Monitor', department: 'MARKETING', savings: '$350' },
+  { id: 'content-creator', icon: Megaphone, name: 'Content Creator', department: 'MARKETING', savings: '$500' },
+  { id: 'b2b-scout', icon: UserPlus, name: 'B2B Partnership Scout', department: 'MARKETING', savings: '$1,850' },
+  { id: 'email-campaigns', icon: Globe, name: 'Email Campaign Manager', department: 'MARKETING', savings: '$450' },
+  // FINANCE
+  { id: 'bookkeeper', icon: Receipt, name: 'Bookkeeper', department: 'FINANCE', savings: '$600' },
+  { id: 'cash-flow', icon: DollarSign, name: 'Cash Flow Analyst', department: 'FINANCE', savings: '$400' },
+  { id: 'grant-researcher', icon: CreditCard, name: 'Grant Researcher', department: 'FINANCE', savings: '$300' },
+  { id: 'credit-advisor', icon: Scale, name: 'Credit Advisor', department: 'FINANCE', savings: '$250' },
+  { id: 'tax-preparer', icon: Calculator, name: 'Tax Preparer', department: 'FINANCE', savings: '$400' },
+  { id: 'investment-readiness', icon: LineChart, name: 'Investment Readiness Coach', department: 'FINANCE', savings: '$500' },
+  { id: 'price-optimizer', icon: Target, name: 'Price Optimizer', department: 'FINANCE', savings: '$350' },
+  // OPERATIONS
+  { id: 'records-clerk', icon: FileText, name: 'Records Clerk', department: 'OPERATIONS', savings: '$300' },
+  { id: 'loyalty-manager', icon: Gift, name: 'Loyalty Manager', department: 'OPERATIONS', savings: '$350' },
+  { id: 'supply-chain', icon: Handshake, name: 'Supply Chain Lead', department: 'OPERATIONS', savings: '$250' },
+  { id: 'scheduler', icon: Calendar, name: 'Scheduler', department: 'OPERATIONS', savings: '$300' },
+  { id: 'inventory-manager', icon: Package, name: 'Inventory Manager', department: 'OPERATIONS', savings: '$400' },
+  { id: 'legal-templates', icon: BookOpen, name: 'Legal Template Assistant', department: 'OPERATIONS', savings: '$350' },
+  { id: 'compliance-monitor', icon: ShieldCheck, name: 'Compliance Monitor', department: 'OPERATIONS', savings: '$500' },
+  { id: 'qr-engagement', icon: QrCode, name: 'QR Engagement Specialist', department: 'OPERATIONS', savings: '$200' },
+  // COMMUNITY
+  { id: 'impact-analyst', icon: Heart, name: 'Impact Analyst', department: 'COMMUNITY', savings: '$200' },
+  { id: 'diversity-compliance', icon: Scale, name: 'Diversity Compliance Officer', department: 'COMMUNITY', savings: '$1,200' },
+  { id: 'community-engagement', icon: Mic, name: 'Community Engagement Lead', department: 'COMMUNITY', savings: '$300' },
+  // TOOLS
+  { id: 'analytics-dashboard', icon: PieChart, name: 'Analytics Dashboard', department: 'TOOLS', savings: '$300' },
+  { id: 'voice-assistant', icon: Mic, name: 'Voice Assistant', department: 'TOOLS', savings: '$150' },
+  { id: 'daily-briefing', icon: Lightbulb, name: 'Daily Briefing', department: 'TOOLS', savings: '$200' },
+  { id: 'business-analyst', icon: TrendingUp, name: 'Business Analyst', department: 'TOOLS', savings: '$450' },
+];
+
+const DEPT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+  MARKETING: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
+  FINANCE: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
+  OPERATIONS: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
+  COMMUNITY: { bg: 'bg-pink-500/10', text: 'text-pink-400', border: 'border-pink-500/20' },
+  TOOLS: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
+};
+
+const DEPT_ICONS: Record<string, React.ElementType> = {
+  MARKETING: Megaphone,
+  FINANCE: DollarSign,
+  OPERATIONS: Briefcase,
+  COMMUNITY: Heart,
+  TOOLS: Zap,
+};
 
 interface AgentMetrics {
   cro: {
@@ -395,19 +451,77 @@ const AIWorkforceDashboard: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* ============ FULL AGENTIC WORKFORCE ============ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-8"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Bot className="w-6 h-6 text-purple-400" />
+              <div>
+                <h2 className="text-xl font-bold text-white">Full Agentic Workforce</h2>
+                <p className="text-white/50 text-xs">{AGENTIC_EMPLOYEES.length} AI employees across 5 departments — auto-refreshing every 60s</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-green-400 text-xs font-medium">{AGENTIC_EMPLOYEES.length}/{AGENTIC_EMPLOYEES.length} Active</span>
+            </div>
+          </div>
+
+          {['MARKETING', 'FINANCE', 'OPERATIONS', 'COMMUNITY', 'TOOLS'].map((dept) => {
+            const deptEmployees = AGENTIC_EMPLOYEES.filter(e => e.department === dept);
+            const colors = DEPT_COLORS[dept];
+            const DeptIcon = DEPT_ICONS[dept];
+            return (
+              <div key={dept} className="mb-4">
+                <div className={`flex items-center gap-2 mb-2 px-1`}>
+                  <DeptIcon className={`w-4 h-4 ${colors.text}`} />
+                  <span className={`text-xs font-bold uppercase tracking-wider ${colors.text}`}>{dept}</span>
+                  <span className="text-white/30 text-xs">({deptEmployees.length})</span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {deptEmployees.map((emp) => (
+                    <Card key={emp.id} className={`p-3 bg-black/40 border ${colors.border} hover:bg-white/5 transition-colors`}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className={`w-7 h-7 rounded-md ${colors.bg} flex items-center justify-center flex-shrink-0`}>
+                            <emp.icon className={`w-3.5 h-3.5 ${colors.text}`} />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-white text-xs font-medium truncate">{emp.name}</div>
+                            <div className="text-white/40 text-[10px]">{emp.savings}/mo saved</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                          <span className="text-green-400 text-[10px] font-medium">Active</span>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </motion.div>
+
         {/* Bottom Summary */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-8"
+          transition={{ delay: 0.7 }}
+          className="mt-6"
         >
           <Card className="p-5 bg-purple-500/5 border border-purple-500/20">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Bot className="w-6 h-6 text-purple-400" />
                 <div>
-                  <div className="text-white font-bold text-sm">Kayla AI Workforce — 28 Agentic Employees + 3 Strategic Agents</div>
+                  <div className="text-white font-bold text-sm">Kayla AI Workforce — {AGENTIC_EMPLOYEES.length} Agentic Employees + 3 Strategic Agents</div>
                   <div className="text-white/50 text-xs">Replacing ~$12,100/mo in human overhead • 52x ROI at Pro tier</div>
                 </div>
               </div>
