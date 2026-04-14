@@ -153,6 +153,7 @@ const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
 const LazyLoyaltyProgramGuidePage = lazy(() => import('@/pages/LoyaltyProgramGuidePage'));
 const LazyAdminPage = lazy(() => import('@/pages/AdminPage'));
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
+const LazyAIWorkforceDashboard = lazy(() => import('@/pages/admin/AIWorkforceDashboard'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
 const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
@@ -477,6 +478,7 @@ function App() {
                               <Route path="/admin/verification" element={<RequireAdmin><LazyAdminVerificationPage /></RequireAdmin>} />
                               <Route path="/admin/business-import" element={<RequireAdmin><LazyAdminBusinessImport /></RequireAdmin>} />
                               <Route path="/admin/sponsor-crm" element={<RequireAdmin><LazyAdminSponsorCRM /></RequireAdmin>} />
+                              <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                               <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                               <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                               {/* Test routes removed from production */}
@@ -770,6 +772,7 @@ function App() {
                         <Route path="/admin/verification" element={<RequireAdmin><LazyAdminVerificationPage /></RequireAdmin>} />
                         <Route path="/admin/business-import" element={<RequireAdmin><LazyAdminBusinessImport /></RequireAdmin>} />
                         <Route path="/admin/sponsor-crm" element={<RequireAdmin><LazyAdminSponsorCRM /></RequireAdmin>} />
+                        <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                         <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
