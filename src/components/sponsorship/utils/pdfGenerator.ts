@@ -463,10 +463,15 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     link.href = url;
     link.download = filename;
     link.type = 'application/pdf';
+    link.style.display = 'none';
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    
+    // Delay cleanup so the browser has time to initiate the download
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 5000);
     
     // Trigger success haptic feedback on native platforms
     if (Capacitor.isNativePlatform()) {
