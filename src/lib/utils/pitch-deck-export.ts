@@ -50,6 +50,34 @@ interface ExportProgress {
 export async function exportPitchDeckToPDF(
   onProgress?: (progress: ExportProgress) => void
 ): Promise<void> {
+  const waitForSlideAssets = async (slideElement: HTMLElement) => {
+    if ('fonts' in document) {
+      await (document as Document & { fonts?: { ready?: Promise<unknown> } }).fonts?.ready;
+    }
+
+    const images = Array.from(slideElement.querySelectorAll('img'));
+    await Promise.all(
+      images.map(
+        (img) =>
+          new Promise<void>((resolve) => {
+            if (img.complete) {
+              resolve();
+              return;
+            }
+
+            img.addEventListener('load', () => resolve(), { once: true });
+            img.addEventListener('error', () => resolve(), { once: true });
+          })
+      )
+    );
+
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => resolve());
+      });
+    });
+  };
+
   // Create PDF in landscape orientation
   const pdf = new jsPDF({
     orientation: 'landscape',
@@ -91,6 +119,8 @@ export async function exportPitchDeckToPDF(
       // Render the React component
       const root = createRoot(slideWrapper);
       root.render(React.createElement(SlideComponent));
+
+      await waitForSlideAssets(slideWrapper);
 
       // Wait for render and animations to settle
       await new Promise(resolve => setTimeout(resolve, 2000));

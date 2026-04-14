@@ -1,121 +1,198 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Card } from '@/components/ui/card';
-import { 
-  Mail, 
-  Globe, 
-  
-  ArrowRight,
-  Sparkles,
-  CheckCircle
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import neuralBrainLogo from '@/assets/1325-neural-brain-logo.jpeg';
 
 const PitchSlide15Contact: React.FC = () => {
+  const highlights = [
+    '$1.6T market',
+    '27 patent claims',
+    '8 revenue streams',
+    '0 direct competitors',
+    'Live production platform',
+  ];
+
   return (
-    <div className="h-full flex items-center justify-center px-8 py-12">
-      <div className="max-w-4xl mx-auto w-full text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+    <div
+      style={{
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '48px 64px',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '1320px',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          style={{
+            width: '104px',
+            height: '104px',
+            borderRadius: '24px',
+            overflow: 'hidden',
+            boxShadow: '0 18px 40px hsla(43, 100%, 50%, 0.18)',
+            marginBottom: '28px',
+          }}
         >
-          {/* Logo */}
-          <motion.div 
-            className="w-24 h-24 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <img 
-              src={neuralBrainLogo} 
-              alt="1325.AI Neural Brain Logo" 
-              className="w-full h-full object-contain"
-            />
-          </motion.div>
+          <img
+            src={neuralBrainLogo}
+            alt="1325.AI Neural Brain Logo"
+            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+          />
+        </div>
 
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
-            Let's Build the <span className="text-mansagold">Future</span>
-          </h2>
-          <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
-            The economic operating system for the Black economy is live, patented, and ready to scale.
-          </p>
+        <h2
+          style={{
+            fontSize: '76px',
+            lineHeight: 1.02,
+            fontWeight: 900,
+            color: 'hsl(0 0% 100%)',
+            margin: '0 0 20px 0',
+          }}
+        >
+          Let's Build the <span style={{ color: 'hsl(43 100% 50%)' }}>Future</span>
+        </h2>
 
-          {/* Key Highlights */}
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
-            {[
-              '$1.6T market',
-              '27 patent claims',
-              '8 revenue streams',
-              '0 direct competitors',
-              'Live production platform',
-            ].map((item, i) => (
-              <Badge 
-                key={i}
-                className="bg-white/10 text-white border-white/20 text-sm py-2 px-4"
-              >
-                <CheckCircle className="w-3 h-3 mr-1.5 text-green-400" />
-                {item}
-              </Badge>
-            ))}
-          </div>
+        <p
+          style={{
+            fontSize: '29px',
+            lineHeight: 1.4,
+            color: 'hsl(0 0% 100% / 0.76)',
+            margin: '0 0 34px 0',
+            maxWidth: '1020px',
+          }}
+        >
+          The economic operating system for the Black economy is live, patented, and ready to scale.
+        </p>
 
-          {/* Contact Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <div 
-              style={{ 
-                padding: '32px', 
-                backgroundColor: '#000814', 
-                border: '2px solid #FFB300', 
-                borderRadius: '12px', 
-                display: 'inline-block' 
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '14px',
+            marginBottom: '40px',
+            maxWidth: '1160px',
+          }}
+        >
+          {highlights.map((item) => (
+            <div
+              key={item}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                padding: '14px 22px',
+                borderRadius: '999px',
+                backgroundColor: 'hsl(210 31% 28% / 0.95)',
+                border: '1px solid hsl(0 0% 100% / 0.14)',
+                color: 'hsl(0 0% 100%)',
+                fontSize: '18px',
+                fontWeight: 700,
+                lineHeight: 1,
               }}
             >
-              <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#FFFFFF', marginBottom: '24px' }}>Thomas D. Bowling</h3>
-              <p style={{ color: '#FFB300', fontWeight: '600', marginBottom: '24px', fontSize: '16px' }}>Founder & CEO, 1325.AI</p>
-              
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px' }}>
-                <a 
-                  href="mailto:Thomas@1325.AI"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    backgroundColor: '#FFB300',
-                    color: '#001a33',
-                    fontWeight: 'bold',
-                    padding: '16px 32px',
-                    borderRadius: '12px',
-                    textDecoration: 'none',
-                    fontSize: '16px',
-                  }}
-                >
-                  <span>✉</span>
-                  Thomas@1325.AI
-                  <span>→</span>
-                </a>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', alignItems: 'center' }}>
-                <span style={{ color: '#FFFFFF', opacity: 0.7, fontSize: '14px', fontFamily: 'monospace' }}>🌐 1325.AI</span>
-              </div>
+              <span style={{ color: 'hsl(146 45% 56%)', fontSize: '20px', lineHeight: 1 }}>✓</span>
+              <span>{item}</span>
             </div>
-          </motion.div>
+          ))}
+        </div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mt-8 text-white/40 text-sm flex items-center justify-center gap-2"
+        <div
+          style={{
+            width: '620px',
+            padding: '36px 34px 28px',
+            borderRadius: '18px',
+            border: '2px solid hsl(43 100% 50%)',
+            backgroundColor: 'hsl(223 100% 3% / 0.98)',
+            boxShadow: '0 24px 60px hsla(223, 100%, 3%, 0.55)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '34px',
+              fontWeight: 800,
+              lineHeight: 1.2,
+              color: 'hsl(0 0% 100%)',
+              marginBottom: '12px',
+            }}
           >
-            <Sparkles className="w-4 h-4" />
-            Confidential — For Investor Use Only
-          </motion.p>
-        </motion.div>
+            Thomas D. Bowling
+          </div>
+
+          <div
+            style={{
+              fontSize: '20px',
+              fontWeight: 700,
+              letterSpacing: '0.02em',
+              color: 'hsl(43 100% 50%)',
+              marginBottom: '26px',
+            }}
+          >
+            Founder &amp; CEO, 1325.AI
+          </div>
+
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px',
+              backgroundColor: 'hsl(43 100% 50%)',
+              color: 'hsl(210 100% 13%)',
+              fontWeight: 900,
+              fontSize: '22px',
+              lineHeight: 1,
+              padding: '18px 28px',
+              borderRadius: '14px',
+              marginBottom: '22px',
+              minWidth: '360px',
+            }}
+          >
+            <span style={{ fontSize: '22px', lineHeight: 1 }}>✉</span>
+            <span>Thomas@1325.AI</span>
+            <span style={{ fontSize: '22px', lineHeight: 1 }}>→</span>
+          </div>
+
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '18px',
+              fontWeight: 600,
+              color: 'hsl(0 0% 100% / 0.78)',
+            }}
+          >
+            <span style={{ lineHeight: 1 }}>🌐</span>
+            <span>1325.AI</span>
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: '28px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '10px',
+            color: 'hsl(0 0% 100% / 0.42)',
+            fontSize: '18px',
+            fontWeight: 500,
+          }}
+        >
+          <span style={{ lineHeight: 1 }}>✦</span>
+          <span>Confidential — For Investor Use Only</span>
+        </div>
       </div>
     </div>
   );
