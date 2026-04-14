@@ -8,10 +8,66 @@ import {
   Bot, TrendingUp, Shield, BarChart3, ArrowLeft, 
   Activity, DollarSign, FileText, Users, Building2,
   AlertTriangle, CheckCircle2, Clock, Zap, Brain,
-  RefreshCw
+  RefreshCw, MessageSquare, Search, Eye, Megaphone, UserPlus,
+  Globe, Receipt, CreditCard, Scale, Calculator, LineChart,
+  Target, Gift, Handshake, Calendar, Package, BookOpen,
+  ShieldCheck, QrCode, Heart, Mic, PieChart, Lightbulb,
+  Briefcase
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+
+const AGENTIC_EMPLOYEES = [
+  // MARKETING
+  { id: 'review-manager', icon: MessageSquare, name: 'Review Manager', department: 'MARKETING', savings: '$400' },
+  { id: 'seo-specialist', icon: Search, name: 'SEO Specialist', department: 'MARKETING', savings: '$300' },
+  { id: 'brand-monitor', icon: Eye, name: 'Brand Monitor', department: 'MARKETING', savings: '$350' },
+  { id: 'content-creator', icon: Megaphone, name: 'Content Creator', department: 'MARKETING', savings: '$500' },
+  { id: 'b2b-scout', icon: UserPlus, name: 'B2B Partnership Scout', department: 'MARKETING', savings: '$1,850' },
+  { id: 'email-campaigns', icon: Globe, name: 'Email Campaign Manager', department: 'MARKETING', savings: '$450' },
+  // FINANCE
+  { id: 'bookkeeper', icon: Receipt, name: 'Bookkeeper', department: 'FINANCE', savings: '$600' },
+  { id: 'cash-flow', icon: DollarSign, name: 'Cash Flow Analyst', department: 'FINANCE', savings: '$400' },
+  { id: 'grant-researcher', icon: CreditCard, name: 'Grant Researcher', department: 'FINANCE', savings: '$300' },
+  { id: 'credit-advisor', icon: Scale, name: 'Credit Advisor', department: 'FINANCE', savings: '$250' },
+  { id: 'tax-preparer', icon: Calculator, name: 'Tax Preparer', department: 'FINANCE', savings: '$400' },
+  { id: 'investment-readiness', icon: LineChart, name: 'Investment Readiness Coach', department: 'FINANCE', savings: '$500' },
+  { id: 'price-optimizer', icon: Target, name: 'Price Optimizer', department: 'FINANCE', savings: '$350' },
+  // OPERATIONS
+  { id: 'records-clerk', icon: FileText, name: 'Records Clerk', department: 'OPERATIONS', savings: '$300' },
+  { id: 'loyalty-manager', icon: Gift, name: 'Loyalty Manager', department: 'OPERATIONS', savings: '$350' },
+  { id: 'supply-chain', icon: Handshake, name: 'Supply Chain Lead', department: 'OPERATIONS', savings: '$250' },
+  { id: 'scheduler', icon: Calendar, name: 'Scheduler', department: 'OPERATIONS', savings: '$300' },
+  { id: 'inventory-manager', icon: Package, name: 'Inventory Manager', department: 'OPERATIONS', savings: '$400' },
+  { id: 'legal-templates', icon: BookOpen, name: 'Legal Template Assistant', department: 'OPERATIONS', savings: '$350' },
+  { id: 'compliance-monitor', icon: ShieldCheck, name: 'Compliance Monitor', department: 'OPERATIONS', savings: '$500' },
+  { id: 'qr-engagement', icon: QrCode, name: 'QR Engagement Specialist', department: 'OPERATIONS', savings: '$200' },
+  // COMMUNITY
+  { id: 'impact-analyst', icon: Heart, name: 'Impact Analyst', department: 'COMMUNITY', savings: '$200' },
+  { id: 'diversity-compliance', icon: Scale, name: 'Diversity Compliance Officer', department: 'COMMUNITY', savings: '$1,200' },
+  { id: 'community-engagement', icon: Mic, name: 'Community Engagement Lead', department: 'COMMUNITY', savings: '$300' },
+  // TOOLS
+  { id: 'analytics-dashboard', icon: PieChart, name: 'Analytics Dashboard', department: 'TOOLS', savings: '$300' },
+  { id: 'voice-assistant', icon: Mic, name: 'Voice Assistant', department: 'TOOLS', savings: '$150' },
+  { id: 'daily-briefing', icon: Lightbulb, name: 'Daily Briefing', department: 'TOOLS', savings: '$200' },
+  { id: 'business-analyst', icon: TrendingUp, name: 'Business Analyst', department: 'TOOLS', savings: '$450' },
+];
+
+const DEPT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+  MARKETING: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
+  FINANCE: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
+  OPERATIONS: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
+  COMMUNITY: { bg: 'bg-pink-500/10', text: 'text-pink-400', border: 'border-pink-500/20' },
+  TOOLS: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
+};
+
+const DEPT_ICONS: Record<string, React.ElementType> = {
+  MARKETING: Megaphone,
+  FINANCE: DollarSign,
+  OPERATIONS: Briefcase,
+  COMMUNITY: Heart,
+  TOOLS: Zap,
+};
 
 interface AgentMetrics {
   cro: {
