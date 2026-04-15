@@ -107,7 +107,7 @@ Deno.serve(async (req) => {
               .maybeSingle();
 
             const text = buildBusinessText(biz);
-            const embedding = await generateEmbedding(text, LOVABLE_API_KEY);
+            const embedding = await generateEmbedding(text, OPENAI_API_KEY);
 
             const record = {
               content_type: 'business',
@@ -159,7 +159,7 @@ Deno.serve(async (req) => {
               .maybeSingle();
 
             const text = buildReviewText(review, nameMap.get(review.business_id));
-            const embedding = await generateEmbedding(text, LOVABLE_API_KEY);
+            const embedding = await generateEmbedding(text, OPENAI_API_KEY);
 
             const record = {
               content_type: 'review',
@@ -201,7 +201,7 @@ Deno.serve(async (req) => {
               .maybeSingle();
 
             const text = buildEventText(event);
-            const embedding = await generateEmbedding(text, LOVABLE_API_KEY);
+            const embedding = await generateEmbedding(text, OPENAI_API_KEY);
 
             const record = {
               content_type: 'event',
