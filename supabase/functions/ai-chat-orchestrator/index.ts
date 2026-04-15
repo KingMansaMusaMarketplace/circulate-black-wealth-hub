@@ -96,12 +96,55 @@ function sanitizeForPrompt(input: string): string {
   return input.replace(/[\x00-\x1F\x7F]/g, '').substring(0, 10000).replace(/\{\{|\}\}/g, '').trim();
 }
 
-function sanitizeMessages(messages: any[]): { role: string; content: string }[] {
+function sanitizeMessages(messages: any[]): any[] {
   if (!Array.isArray(messages)) return [];
   return messages
     .filter(msg => msg && typeof msg === 'object' && msg.role && msg.content)
     .slice(0, 50)
-    .map(msg => ({ role: String(msg.role).substring(0, 20), content: sanitizeForPrompt(String(msg.content)) }));
+    .map(msg => {
+      const role = String(msg.role).substring(0, 20);
+      
+      // Handle multimodal content (array of text + image_url)
+      if (Array.isArray(msg.content)) {
+        const sanitizedContent = msg.content
+          .filter((part: any) => part && (part.type === 'text' || part.type === 'image_url'))
+          .map((part: any) => {
+            if (part.type === 'text') {
+              return { type: 'text', text: sanitizeForPrompt(String(part.text || '')) };
+            }
+            if (part.type === 'image_url' && part.image_url?.url) {
+              // Validate it's a data URL (base64)
+              const url = String(part.image_url.url);
+              if (url.startsWith('data:image/')) {
+                return { type: 'image_url', image_url: { url } };
+              }
+            }
+            return null;
+          })
+          .filter(Boolean);
+        
+        return { role, content: sanitizedContent };
+      }
+      
+      return { role, content: sanitizeForPrompt(String(msg.content)) };
+    });
+}
+
+// Extract text from a message (handles both string and multimodal content)
+function getMessageText(content: any): string {
+  if (typeof content === 'string') return content;
+  if (Array.isArray(content)) {
+    return content.filter((p: any) => p.type === 'text').map((p: any) => p.text || '').join(' ');
+  }
+  return '';
+}
+
+// Check if a message contains an image
+function hasImage(content: any): boolean {
+  if (Array.isArray(content)) {
+    return content.some((p: any) => p.type === 'image_url');
+  }
+  return false;
 }
 
 type QueryCategory = 'simple' | 'complex' | 'search' | 'critical';
@@ -175,11 +218,42 @@ async function callGemini(messages: any[], systemPrompt: string, lovableApiKey: 
 
 // Call Claude via Anthropic API (streaming, convert to OpenAI SSE format)
 async function callClaude(messages: any[], systemPrompt: string, anthropicApiKey: string): Promise<Response> {
-  // Convert messages: separate system prompt for Anthropic format
-  const anthropicMessages = messages.map(m => ({
-    role: m.role === 'system' ? 'user' : m.role,
-    content: m.content,
-  })).filter(m => m.role === 'user' || m.role === 'assistant');
+  // Convert messages to Anthropic format, handling multimodal content
+  const anthropicMessages = messages
+    .map(m => {
+      const role = m.role === 'system' ? 'user' : m.role;
+      if (role !== 'user' && role !== 'assistant') return null;
+
+      // Handle multimodal content (array format)
+      if (Array.isArray(m.content)) {
+        const anthropicContent = m.content.map((part: any) => {
+          if (part.type === 'text') {
+            return { type: 'text', text: part.text };
+          }
+          if (part.type === 'image_url' && part.image_url?.url) {
+            // Convert data URL to Anthropic's base64 format
+            const dataUrl = part.image_url.url;
+            const match = dataUrl.match(/^data:(image\/\w+);base64,(.+)$/);
+            if (match) {
+              return {
+                type: 'image',
+                source: {
+                  type: 'base64',
+                  media_type: match[1],
+                  data: match[2],
+                },
+              };
+            }
+          }
+          return null;
+        }).filter(Boolean);
+
+        return { role, content: anthropicContent };
+      }
+
+      return { role, content: m.content };
+    })
+    .filter(Boolean);
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -557,14 +631,22 @@ Deno.serve(async (req) => {
     } catch { /* not admin */ }
 
     let systemPrompt = buildSystemPrompt(isAdmin);
-    const lastUserMessage = messages[messages.length - 1]?.content || '';
+    const lastMessage = messages[messages.length - 1];
+    const lastUserMessage = getMessageText(lastMessage?.content || '');
+    const messageHasImage = hasImage(lastMessage?.content);
 
     // ========== CLASSIFY QUERY ==========
-    const category = await classifyQuery(lastUserMessage, LOVABLE_API_KEY);
-    console.log(`Routing to: ${category} | Message: "${lastUserMessage.substring(0, 80)}..."`);
+    // If message has an image, route to Claude (vision) by default
+    let category: QueryCategory;
+    if (messageHasImage) {
+      category = 'complex'; // Claude handles vision
+      console.log(`Image detected, routing to Claude vision`);
+    } else {
+      category = await classifyQuery(lastUserMessage, LOVABLE_API_KEY);
+    }
+    console.log(`Routing to: ${category} | Message: "${lastUserMessage.substring(0, 80)}..." | Image: ${messageHasImage}`);
 
     // ========== RAG CONTEXT RETRIEVAL ==========
-    // For all categories except simple greetings, retrieve platform knowledge
     if (category !== 'simple' || lastUserMessage.toLowerCase().match(/business|restaurant|shop|store|find|near|recommend|review|event/)) {
       const ragContext = await retrieveRAGContext(lastUserMessage, OPENAI_API_KEY || '', supabaseUrl, supabaseServiceKey);
       if (ragContext) {
