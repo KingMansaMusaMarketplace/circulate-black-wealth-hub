@@ -226,7 +226,7 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
         const now = Date.now();
         
         // Filter out expired items
-        const validItems = items.filter((item: any) => 
+        const validItems = items.filter((item: ScanHistoryItem & { expiresAt?: number }) => 
           !item.expiresAt || item.expiresAt > now
         );
         
