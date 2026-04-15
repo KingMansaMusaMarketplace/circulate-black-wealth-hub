@@ -1,37 +1,50 @@
 
 
-# Add 3 AI Team Members: CRO, Patent Strategist, Investor Relations Manager
+# Plan: Triple-Model AI Orchestration with Claude
 
-## What We're Building
+## Prerequisites
+You'll add your **Anthropic API key** as a Supabase secret — I'll prompt you for it in the first step.
 
-Adding three new AI-powered team members to the About page team section and updating the pitch deck team slide to showcase the AI workforce alongside human leadership. These three roles fill the critical gaps for fundraising: revenue optimization, IP protection, and investor readiness.
+## Steps
 
-### New AI Team Members
+### 1. Store the Anthropic API Key
+Add `ANTHROPIC_API_KEY` as a Supabase secret so the orchestrator edge function can use it.
 
-1. **Kayla CRO (AI Chief Revenue Officer)** -- Models ARR forecasting across 8 revenue streams, optimizes pricing tiers, tracks MRR/churn/NRR metrics
-2. **Kayla IP Shield (AI Patent & IP Strategist)** -- Monitors 27 patent claims under USPTO 63/969,202, tracks competitive filings, manages claim amendments
-3. **Kayla IR (AI Investor Relations Manager)** -- Automates financial reporting, manages VC pipeline, generates investor-ready materials
+### 2. Create Edge Function: `ai-chat-orchestrator`
+A new function at `supabase/functions/ai-chat-orchestrator/index.ts` that:
 
-### Technical Details
+- **Classifies** each query using a fast, cheap model (Gemini Flash Lite via Lovable AI Gateway) into one of four categories:
+  - `simple` → **Gemini** (fast FAQs, greetings, navigation)
+  - `complex` → **Claude** (strategy, reasoning, multi-step analysis)
+  - `search` → **Perplexity** (real-time web data, trending info, citations)
+  - `critical` → **Claude + Perplexity** in parallel (high-stakes decisions needing both reasoning and real data)
 
-**Files to modify:**
+- **Calls the right provider(s)**:
+  - Gemini via Lovable AI Gateway (`LOVABLE_API_KEY`)
+  - Claude via Anthropic Messages API (`ANTHROPIC_API_KEY`)
+  - Perplexity via its API (`PERPLEXITY_API_KEY` — already configured)
 
-1. **`src/components/AboutPage/TeamSection/types.ts`** -- Add an optional `isAI?: boolean` field to distinguish AI team members from human ones
+- **Uses the same Kayla system prompt** from the existing `ai-chat` function
+- **Streams the response** in OpenAI-compatible SSE format (same as current frontend expects)
+- **Automatic failover**: if any provider is down, routes to the next available one
 
-2. **`src/components/AboutPage/TeamSection/teamData.ts`** -- Add 3 new entries with `isAI: true`, professional bios referencing Kayla's agentic infrastructure, and robot/AI-themed avatar images from Unsplash
+### 3. Update AI Assistant UI (`AIAssistant.tsx`)
+- Change the fetch URL from `/functions/v1/ai-chat` to `/functions/v1/ai-chat-orchestrator`
+- Add a small badge below each response showing which model(s) powered it (e.g., "⚡ Gemini", "🧠 Claude", "🔍 Perplexity + Claude")
+- Show "Kayla+" label when multi-model consensus is used
+- Render responses with `react-markdown` for proper formatting
 
-3. **`src/components/AboutPage/TeamSection/TeamMemberCard.tsx`** -- Add a subtle "AI Agent" badge/indicator on AI team member cards (e.g., a small glowing badge with a Bot icon) to differentiate them visually from human members
+### 4. Keep Existing `ai-chat` as Fallback
+The current function stays untouched — if the orchestrator ever fails entirely, the frontend can fall back to it.
 
-4. **`src/components/AboutPage/TeamSection/TeamMemberDialog.tsx`** -- Show AI-specific details in the dialog (e.g., "Powered by Kayla" label, capabilities list instead of education)
+### 5. Deploy & Test
+Deploy the new edge function and verify all routing paths work.
 
-5. **`src/components/AboutPage/TeamSection.tsx`** -- Update the grid layout: keep `lg:grid-cols-4` but add a section header distinguishing "Leadership Team" from "AI Workforce" with a divider between the two groups
+## Technical Details
 
-6. **`src/components/pitch-deck/PitchSlide12Team.tsx`** -- Add an "AI Workforce" section below the advisors card showing the 3 AI roles with brief capability descriptions, reinforcing the "human + AI" team narrative for investors
-
-### Design Approach
-
-- AI team member cards will use the same card design but with a distinguishing gradient (blue-to-purple instead of blue-to-blue) and a small "AI" chip
-- Avatar fallbacks will use Bot/Brain icons instead of initials
-- The About page will show human team first, then a "Powered by Kayla" divider, then AI team members
-- Pitch deck slide keeps existing founder + advisors layout, adds a compact AI workforce row
+- **Classifier call**: ~50ms using `google/gemini-2.5-flash-lite` — adds minimal latency
+- **Claude model**: `claude-sonnet-4-20250514` via `https://api.anthropic.com/v1/messages`
+- **Perplexity**: Uses existing `PERPLEXITY_API_KEY` connector
+- **Cost impact**: Most queries (simple) stay on Gemini (cheapest). Only complex/critical queries hit Claude (~$3/$15 per million tokens). Perplexity only for search queries.
+- **Circuit breaker**: Leverages existing `retry.ts` pattern for resilience
 
