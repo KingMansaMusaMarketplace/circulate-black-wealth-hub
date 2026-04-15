@@ -200,7 +200,7 @@ export const AIAssistant = () => {
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+      <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
           {messages.map((msg, idx) => (
             <div
@@ -250,6 +250,7 @@ export const AIAssistant = () => {
               </div>
             </div>
           )}
+          <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
 
