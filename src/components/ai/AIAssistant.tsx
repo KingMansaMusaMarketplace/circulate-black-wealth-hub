@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Loader2, Send, Bot, User, Sparkles, Zap, Brain, Search, ImagePlus, X } from 'lucide-react';
+import { Loader2, Send, Bot, User, Sparkles, Zap, Brain, Search, ImagePlus, Camera, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import ReactMarkdown from 'react-markdown';
+import { Capacitor } from '@capacitor/core';
 
 interface MessageContent {
   type: 'text' | 'image_url';
