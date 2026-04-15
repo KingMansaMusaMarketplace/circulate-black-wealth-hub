@@ -40,6 +40,13 @@ export const AIAssistant = () => {
   }, [messages]);
 
   const streamChat = async (userMessage: string) => {
+    // Abort any in-flight request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     const userMsg: Message = { role: 'user', content: userMessage };
     setMessages(prev => [...prev, userMsg]);
     setIsLoading(true);
@@ -65,6 +72,7 @@ export const AIAssistant = () => {
             Authorization: `Bearer ${session.access_token}`,
           },
           body: JSON.stringify({ messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })) }),
+          signal: controller.signal,
         }
       );
 
