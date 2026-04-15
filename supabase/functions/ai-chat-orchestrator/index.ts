@@ -96,12 +96,55 @@ function sanitizeForPrompt(input: string): string {
   return input.replace(/[\x00-\x1F\x7F]/g, '').substring(0, 10000).replace(/\{\{|\}\}/g, '').trim();
 }
 
-function sanitizeMessages(messages: any[]): { role: string; content: string }[] {
+function sanitizeMessages(messages: any[]): any[] {
   if (!Array.isArray(messages)) return [];
   return messages
     .filter(msg => msg && typeof msg === 'object' && msg.role && msg.content)
     .slice(0, 50)
-    .map(msg => ({ role: String(msg.role).substring(0, 20), content: sanitizeForPrompt(String(msg.content)) }));
+    .map(msg => {
+      const role = String(msg.role).substring(0, 20);
+      
+      // Handle multimodal content (array of text + image_url)
+      if (Array.isArray(msg.content)) {
+        const sanitizedContent = msg.content
+          .filter((part: any) => part && (part.type === 'text' || part.type === 'image_url'))
+          .map((part: any) => {
+            if (part.type === 'text') {
+              return { type: 'text', text: sanitizeForPrompt(String(part.text || '')) };
+            }
+            if (part.type === 'image_url' && part.image_url?.url) {
+              // Validate it's a data URL (base64)
+              const url = String(part.image_url.url);
+              if (url.startsWith('data:image/')) {
+                return { type: 'image_url', image_url: { url } };
+              }
+            }
+            return null;
+          })
+          .filter(Boolean);
+        
+        return { role, content: sanitizedContent };
+      }
+      
+      return { role, content: sanitizeForPrompt(String(msg.content)) };
+    });
+}
+
+// Extract text from a message (handles both string and multimodal content)
+function getMessageText(content: any): string {
+  if (typeof content === 'string') return content;
+  if (Array.isArray(content)) {
+    return content.filter((p: any) => p.type === 'text').map((p: any) => p.text || '').join(' ');
+  }
+  return '';
+}
+
+// Check if a message contains an image
+function hasImage(content: any): boolean {
+  if (Array.isArray(content)) {
+    return content.some((p: any) => p.type === 'image_url');
+  }
+  return false;
 }
 
 type QueryCategory = 'simple' | 'complex' | 'search' | 'critical';
