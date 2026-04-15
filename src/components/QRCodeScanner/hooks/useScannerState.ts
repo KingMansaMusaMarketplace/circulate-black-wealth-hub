@@ -74,7 +74,7 @@ export function useScannerState() {
 
     loadScanHistory();
     checkCameraAvailability();
-  }, [user]);
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const checkCameraAvailability = async () => {
     try {

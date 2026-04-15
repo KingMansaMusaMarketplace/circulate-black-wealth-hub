@@ -236,7 +236,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       
       hasInitialFit.current = true;
     }
-  }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover, mapReady]);
+  }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover, mapReady, flyToOnClick]);
 
   if (mapError) {
     return (

@@ -18,7 +18,8 @@ const MobileReadinessChecker: React.FC = () => {
 
   useEffect(() => {
     const updateConnectivity = () => {
-      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
+      const nav = navigator as unknown as Record<string, { type?: string; effectiveType?: string }>;
+      const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
       setConnectivity({
         online: navigator.onLine,
         connectionType: connection?.type || 'unknown',

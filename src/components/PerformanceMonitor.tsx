@@ -19,7 +19,7 @@ const PerformanceMonitor = () => {
     
     // Monitor memory usage (if available)
     if ('memory' in performance) {
-      const memoryInfo = (performance as any).memory;
+      const memoryInfo = (performance as unknown as { memory: { usedJSHeapSize: number; totalJSHeapSize: number; jsHeapSizeLimit: number } }).memory;
       console.log('[Memory] Used:', Math.round(memoryInfo.usedJSHeapSize / 1048576), 'MB');
       console.log('[Memory] Total:', Math.round(memoryInfo.totalJSHeapSize / 1048576), 'MB');
       console.log('[Memory] Limit:', Math.round(memoryInfo.jsHeapSizeLimit / 1048576), 'MB');

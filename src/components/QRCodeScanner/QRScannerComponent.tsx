@@ -14,10 +14,17 @@ interface ScanHistoryItem {
   timestamp: string;
 }
 
+interface ScanResultData {
+  success: boolean;
+  businessName?: string;
+  pointsEarned?: number;
+  discountApplied?: number;
+}
+
 interface QRScannerComponentProps {
   onScan: (data: string) => void;
   loading?: boolean;
-  scanResult?: any;
+  scanResult?: ScanResultData | null;
 }
 
 const QRScannerComponent: React.FC<QRScannerComponentProps> = ({ 
@@ -219,7 +226,7 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
         const now = Date.now();
         
         // Filter out expired items
-        const validItems = items.filter((item: any) => 
+        const validItems = items.filter((item: ScanHistoryItem & { expiresAt?: number }) => 
           !item.expiresAt || item.expiresAt > now
         );
         
