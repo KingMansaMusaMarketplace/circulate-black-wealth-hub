@@ -5,16 +5,16 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Generate embedding via Lovable AI Gateway (using Gemini embedding)
-async function generateEmbedding(text: string, lovableApiKey: string): Promise<number[]> {
-  const response = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+// Generate embedding via OpenAI API
+async function generateEmbedding(text: string, openaiApiKey: string): Promise<number[]> {
+  const response = await fetch("https://api.openai.com/v1/embeddings", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${lovableApiKey}`,
+      Authorization: `Bearer ${openaiApiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      input: text.substring(0, 8000), // Limit input length
+      input: text.substring(0, 8000),
       model: "text-embedding-3-small",
       dimensions: 768,
     }),

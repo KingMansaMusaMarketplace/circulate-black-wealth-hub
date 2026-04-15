@@ -1,13 +1,13 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
-// Generate embedding for a query
-async function getQueryEmbedding(text: string, lovableApiKey: string): Promise<number[] | null> {
+// Generate embedding for a query via OpenAI
+async function getQueryEmbedding(text: string, openaiApiKey: string): Promise<number[] | null> {
   try {
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+    const response = await fetch("https://api.openai.com/v1/embeddings", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${lovableApiKey}`,
+        Authorization: `Bearer ${openaiApiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
