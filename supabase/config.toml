@@ -57,6 +57,8 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.delete-account]
     verify_jwt = true
+  [functions.generate-embeddings]
+    verify_jwt = false
   [functions.detect-fraud]
     verify_jwt = true
   [functions.elevenlabs-music]
