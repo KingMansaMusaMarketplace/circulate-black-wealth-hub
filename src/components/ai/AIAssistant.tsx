@@ -15,10 +15,10 @@ interface Message {
 }
 
 const MODEL_BADGES: Record<string, { label: string; icon: typeof Zap; className: string }> = {
-  gemini: { label: 'Gemini', icon: Zap, className: 'text-yellow-400 bg-yellow-400/10' },
-  claude: { label: 'Claude', icon: Brain, className: 'text-purple-400 bg-purple-400/10' },
-  perplexity: { label: 'Perplexity', icon: Search, className: 'text-blue-400 bg-blue-400/10' },
-  'claude+perplexity': { label: 'Kayla+', icon: Sparkles, className: 'text-mansagold bg-mansagold/10' },
+  gemini: { label: 'Gemini', icon: Zap, className: 'text-mansagold bg-mansagold/10 border-mansagold/20' },
+  claude: { label: 'Claude', icon: Brain, className: 'text-mansablue-light bg-mansablue/10 border-mansablue/20' },
+  perplexity: { label: 'Perplexity', icon: Search, className: 'text-mansagold-light bg-mansagold/10 border-mansagold/20' },
+  'claude+perplexity': { label: 'Kayla+', icon: Sparkles, className: 'text-mansagold bg-mansagold/15 border-mansagold/30' },
 };
 
 export const AIAssistant = () => {
@@ -108,7 +108,6 @@ export const AIAssistant = () => {
           try {
             const parsed = JSON.parse(jsonStr);
             
-            // Check for model info event
             if (parsed.model_used && !parsed.choices) {
               modelUsed = parsed.model_used;
               continue;
@@ -136,7 +135,6 @@ export const AIAssistant = () => {
         }
       }
 
-      // Final update with model info
       if (modelUsed) {
         setMessages(prev => prev.map((m, i) => 
           i === prev.length - 1 && m.role === 'assistant' ? { ...m, modelUsed } : m
@@ -171,7 +169,7 @@ export const AIAssistant = () => {
     if (!badge) return null;
     const Icon = badge.icon;
     return (
-      <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium mt-1 ${badge.className}`}>
+      <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium mt-1 border ${badge.className}`}>
         <Icon className="w-3 h-3" />
         {badge.label}
       </div>
@@ -179,19 +177,21 @@ export const AIAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[600px] w-full max-w-2xl mx-auto backdrop-blur-xl bg-white/10 border-white/20">
-      <div className="p-4 border-b border-white/20 bg-gradient-to-r from-mansagold/20 to-white/5">
+    <Card className="flex flex-col h-[600px] w-full max-w-2xl mx-auto card-premium-gold overflow-hidden">
+      {/* Header */}
+      <div className="p-4 border-b border-mansagold/20 bg-gradient-to-r from-mansagold/10 via-mansablue/5 to-transparent">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-mansagold rounded-lg">
-            <Sparkles className="w-5 h-5 text-mansablue" />
+          <div className="p-2 bg-mansagold rounded-lg shadow-lg shadow-mansagold/20">
+            <Sparkles className="w-5 h-5 text-mansablue-dark" />
           </div>
           <div>
-            <h3 className="font-semibold text-lg text-white">Kayla, Ph.D.</h3>
-            <p className="text-sm text-white/60">Triple-Model AI • Gemini + Claude + Perplexity</p>
+            <h3 className="font-semibold text-lg text-foreground">Kayla, Ph.D.</h3>
+            <p className="text-sm text-muted-foreground">Triple-Model AI • Gemini + Claude + Perplexity</p>
           </div>
         </div>
       </div>
 
+      {/* Messages */}
       <ScrollArea className="flex-1 p-4" ref={scrollRef}>
         <div className="space-y-4">
           {messages.map((msg, idx) => (
@@ -200,7 +200,7 @@ export const AIAssistant = () => {
               className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {msg.role === 'assistant' && (
-                <div className="w-8 h-8 rounded-full bg-mansagold/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-mansagold/20 border border-mansagold/30 flex items-center justify-center flex-shrink-0">
                   <Bot className="w-4 h-4 text-mansagold" />
                 </div>
               )}
@@ -209,12 +209,12 @@ export const AIAssistant = () => {
                 <div
                   className={`rounded-lg px-4 py-2 ${
                     msg.role === 'user'
-                      ? 'bg-mansagold text-mansablue'
-                      : 'bg-white/10 backdrop-blur-sm border border-white/20 text-white'
+                      ? 'bg-mansagold text-mansablue-dark font-medium'
+                      : 'bg-card/50 backdrop-blur-sm border border-border text-foreground'
                   }`}
                 >
                   {msg.role === 'assistant' ? (
-                    <div className="text-sm prose prose-sm prose-invert max-w-none [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1 [&_li]:my-0.5 [&_h1]:text-base [&_h2]:text-sm [&_h3]:text-sm [&_a]:text-mansagold">
+                    <div className="text-sm prose prose-sm prose-invert max-w-none [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1 [&_li]:my-0.5 [&_h1]:text-base [&_h2]:text-sm [&_h3]:text-sm [&_a]:text-mansagold [&_strong]:text-mansagold">
                       <ReactMarkdown>{msg.content}</ReactMarkdown>
                     </div>
                   ) : (
@@ -225,8 +225,8 @@ export const AIAssistant = () => {
               </div>
 
               {msg.role === 'user' && (
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                  <User className="w-4 h-4 text-white/70" />
+                <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 text-muted-foreground" />
                 </div>
               )}
             </div>
@@ -234,10 +234,10 @@ export const AIAssistant = () => {
           
           {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
             <div className="flex gap-3 justify-start">
-              <div className="w-8 h-8 rounded-full bg-mansagold/20 flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-mansagold/20 border border-mansagold/30 flex items-center justify-center flex-shrink-0">
                 <Bot className="w-4 h-4 text-mansagold" />
               </div>
-              <div className="rounded-lg px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20">
+              <div className="rounded-lg px-4 py-2 bg-card/50 backdrop-blur-sm border border-border">
                 <Loader2 className="w-4 h-4 animate-spin text-mansagold" />
               </div>
             </div>
@@ -245,7 +245,8 @@ export const AIAssistant = () => {
         </div>
       </ScrollArea>
 
-      <div className="p-4 border-t border-white/20">
+      {/* Input */}
+      <div className="p-4 border-t border-mansagold/20 bg-gradient-to-r from-mansagold/5 via-transparent to-mansablue/5">
         <div className="flex gap-2">
           <Input
             value={input}
@@ -253,12 +254,12 @@ export const AIAssistant = () => {
             onKeyPress={handleKeyPress}
             placeholder="Ask Kayla anything about 1325.AI..."
             disabled={isLoading}
-            className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-mansagold"
+            className="flex-1 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground focus:border-mansagold focus:ring-mansagold/20"
           />
           <Button 
             onClick={handleSend} 
             disabled={isLoading || !input.trim()}
-            className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
+            className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold shadow-lg shadow-mansagold/20 hover:shadow-mansagold/30 transition-all"
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
