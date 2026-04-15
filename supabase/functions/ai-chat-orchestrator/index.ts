@@ -566,7 +566,7 @@ Deno.serve(async (req) => {
     // ========== RAG CONTEXT RETRIEVAL ==========
     // For all categories except simple greetings, retrieve platform knowledge
     if (category !== 'simple' || lastUserMessage.toLowerCase().match(/business|restaurant|shop|store|find|near|recommend|review|event/)) {
-      const ragContext = await retrieveRAGContext(lastUserMessage, LOVABLE_API_KEY, supabaseUrl, supabaseServiceKey);
+      const ragContext = await retrieveRAGContext(lastUserMessage, OPENAI_API_KEY || '', supabaseUrl, supabaseServiceKey);
       if (ragContext) {
         systemPrompt += ragContext;
         console.log("RAG context injected into system prompt");
