@@ -107,11 +107,12 @@ const LocationProvider: React.FC<LocationProviderProps> = ({
           duration: 5000
         });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Error getting location';
       console.error('Error in getUserLocation:', err);
-      setError(err.message || 'Error getting location');
+      setError(message);
       toast.error("Location error", {
-        description: err.message || 'Could not determine your location',
+        description: message || 'Could not determine your location',
         duration: 5000
       });
     } finally {

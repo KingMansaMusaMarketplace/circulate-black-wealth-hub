@@ -17,7 +17,7 @@ interface ScanHistoryItem {
 interface QRScannerComponentProps {
   onScan: (data: string) => void;
   loading?: boolean;
-  scanResult?: any;
+  scanResult?: Record<string, unknown> | null;
 }
 
 const QRScannerComponent: React.FC<QRScannerComponentProps> = ({ 

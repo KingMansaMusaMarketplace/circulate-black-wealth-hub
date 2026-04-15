@@ -128,7 +128,7 @@ export const ImpactDashboard = () => {
 
   if (!report) return null;
 
-  const StatCard = ({ icon: Icon, label, value, trend }: any) => (
+  const StatCard = ({ icon: Icon, label, value, trend }: { icon: React.ElementType; label: string; value: string | number; trend?: string }) => (
     <Card className="group relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:shadow-[0_8px_30px_rgba(59,130,246,0.3)] transition-all duration-500 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-mansablue/5 to-mansagold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       <CardContent className="pt-6 relative z-10">
@@ -177,7 +177,7 @@ export const ImpactDashboard = () => {
       </div>
 
       {/* Period Selector */}
-      <Tabs value={period} onValueChange={(v) => setPeriod(v as any)} className="w-full">
+      <Tabs value={period} onValueChange={(v) => setPeriod(v as 'week' | 'month' | 'year')} className="w-full">
         <TabsList className="grid w-full max-w-md grid-cols-3 bg-slate-800/50 border border-white/10 backdrop-blur-sm">
           <TabsTrigger value="week" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white text-slate-300">This Week</TabsTrigger>
           <TabsTrigger value="month" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white text-slate-300">This Month</TabsTrigger>

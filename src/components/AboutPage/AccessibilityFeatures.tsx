@@ -30,7 +30,7 @@ const AccessibilityFeatures = () => {
     language: "english"
   });
   
-  const handleSettingChange = (setting: string, value: any) => {
+  const handleSettingChange = (setting: string, value: boolean | string | number) => {
     setSettings(prev => ({
       ...prev,
       [setting]: value

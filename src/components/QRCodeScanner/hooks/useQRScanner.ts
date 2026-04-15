@@ -34,7 +34,7 @@ export const useQRScanner = ({ onScan, isMobile }: UseQRScannerProps) => {
         });
       }
     };
-  }, [html5QrCode, qrReaderRef.current]);
+  }, [html5QrCode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Start scanning function
   const startScanning = async () => {

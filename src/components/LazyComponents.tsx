@@ -1,6 +1,7 @@
 import React, { lazy, ComponentType } from 'react';
 
 // Retry wrapper for lazy imports to handle chunk load failures on mobile/slow networks
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function lazyWithRetry<T extends ComponentType<any>>(
   factory: () => Promise<{ default: T }>,
   retries = 3

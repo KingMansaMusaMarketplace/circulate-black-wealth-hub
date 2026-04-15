@@ -36,6 +36,7 @@ export const BreadcrumbStructuredData = ({ items }: BreadcrumbStructuredDataProp
 };
 
 // Helper to generate common breadcrumb paths
+// eslint-disable-next-line react-refresh/only-export-components
 export const generateBreadcrumbs = {
   home: (): BreadcrumbItem[] => [
     { name: 'Home', url: '/' },
