@@ -3,19 +3,29 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Loader2, Send, Bot, User, Sparkles } from 'lucide-react';
+import { Loader2, Send, Bot, User, Sparkles, Zap, Brain, Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import ReactMarkdown from 'react-markdown';
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  modelUsed?: string;
 }
+
+const MODEL_BADGES: Record<string, { label: string; icon: typeof Zap; className: string }> = {
+  gemini: { label: 'Gemini', icon: Zap, className: 'text-yellow-400 bg-yellow-400/10' },
+  claude: { label: 'Claude', icon: Brain, className: 'text-purple-400 bg-purple-400/10' },
+  perplexity: { label: 'Perplexity', icon: Search, className: 'text-blue-400 bg-blue-400/10' },
+  'claude+perplexity': { label: 'Kayla+', icon: Sparkles, className: 'text-mansagold bg-mansagold/10' },
+};
 
 export const AIAssistant = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Hi! I\'m your AI assistant for 1325.AI. Ask me anything about our loyalty program, rewards, or how to use the platform!'
+      content: "Hi! I'm **Kayla, Ph.D.** — your AI concierge for 1325.AI. Ask me anything about our loyalty program, rewards, or how to use the platform!",
     }
   ]);
   const [input, setInput] = useState('');
@@ -34,9 +44,9 @@ export const AIAssistant = () => {
     setIsLoading(true);
 
     let assistantContent = '';
+    let modelUsed = '';
 
     try {
-      // Get the user's session token for authentication
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session?.access_token) {
@@ -46,14 +56,14 @@ export const AIAssistant = () => {
       }
 
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat-orchestrator`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${session.access_token}`,
           },
-          body: JSON.stringify({ messages: [...messages, userMsg] }),
+          body: JSON.stringify({ messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })) }),
         }
       );
 
@@ -97,6 +107,13 @@ export const AIAssistant = () => {
 
           try {
             const parsed = JSON.parse(jsonStr);
+            
+            // Check for model info event
+            if (parsed.model_used && !parsed.choices) {
+              modelUsed = parsed.model_used;
+              continue;
+            }
+
             const content = parsed.choices?.[0]?.delta?.content as string | undefined;
             
             if (content) {
@@ -104,12 +121,12 @@ export const AIAssistant = () => {
               
               setMessages(prev => {
                 const last = prev[prev.length - 1];
-                if (last?.role === 'assistant') {
+                if (last?.role === 'assistant' && !last.content.startsWith("Hi! I'm")) {
                   return prev.map((m, i) => 
-                    i === prev.length - 1 ? { ...m, content: assistantContent } : m
+                    i === prev.length - 1 ? { ...m, content: assistantContent, modelUsed } : m
                   );
                 }
-                return [...prev, { role: 'assistant', content: assistantContent }];
+                return [...prev, { role: 'assistant', content: assistantContent, modelUsed }];
               });
             }
           } catch {
@@ -117,6 +134,13 @@ export const AIAssistant = () => {
             break;
           }
         }
+      }
+
+      // Final update with model info
+      if (modelUsed) {
+        setMessages(prev => prev.map((m, i) => 
+          i === prev.length - 1 && m.role === 'assistant' ? { ...m, modelUsed } : m
+        ));
       }
 
       setIsLoading(false);
@@ -129,7 +153,6 @@ export const AIAssistant = () => {
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
-    
     const message = input.trim();
     setInput('');
     await streamChat(message);
@@ -142,6 +165,19 @@ export const AIAssistant = () => {
     }
   };
 
+  const renderModelBadge = (modelUsed?: string) => {
+    if (!modelUsed) return null;
+    const badge = MODEL_BADGES[modelUsed];
+    if (!badge) return null;
+    const Icon = badge.icon;
+    return (
+      <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium mt-1 ${badge.className}`}>
+        <Icon className="w-3 h-3" />
+        {badge.label}
+      </div>
+    );
+  };
+
   return (
     <Card className="flex flex-col h-[600px] w-full max-w-2xl mx-auto backdrop-blur-xl bg-white/10 border-white/20">
       <div className="p-4 border-b border-white/20 bg-gradient-to-r from-mansagold/20 to-white/5">
@@ -150,8 +186,8 @@ export const AIAssistant = () => {
             <Sparkles className="w-5 h-5 text-mansablue" />
           </div>
           <div>
-            <h3 className="font-semibold text-lg text-white">AI Assistant</h3>
-            <p className="text-sm text-white/60">Powered by Lovable AI</p>
+            <h3 className="font-semibold text-lg text-white">Kayla, Ph.D.</h3>
+            <p className="text-sm text-white/60">Triple-Model AI • Gemini + Claude + Perplexity</p>
           </div>
         </div>
       </div>
@@ -169,14 +205,23 @@ export const AIAssistant = () => {
                 </div>
               )}
               
-              <div
-                className={`rounded-lg px-4 py-2 max-w-[80%] ${
-                  msg.role === 'user'
-                    ? 'bg-mansagold text-mansablue'
-                    : 'bg-white/10 backdrop-blur-sm border border-white/20 text-white'
-                }`}
-              >
-                <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+              <div className="flex flex-col max-w-[80%]">
+                <div
+                  className={`rounded-lg px-4 py-2 ${
+                    msg.role === 'user'
+                      ? 'bg-mansagold text-mansablue'
+                      : 'bg-white/10 backdrop-blur-sm border border-white/20 text-white'
+                  }`}
+                >
+                  {msg.role === 'assistant' ? (
+                    <div className="text-sm prose prose-sm prose-invert max-w-none [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1 [&_li]:my-0.5 [&_h1]:text-base [&_h2]:text-sm [&_h3]:text-sm [&_a]:text-mansagold">
+                      <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    </div>
+                  ) : (
+                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                  )}
+                </div>
+                {msg.role === 'assistant' && renderModelBadge(msg.modelUsed)}
               </div>
 
               {msg.role === 'user' && (
@@ -187,7 +232,7 @@ export const AIAssistant = () => {
             </div>
           ))}
           
-          {isLoading && (
+          {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
             <div className="flex gap-3 justify-start">
               <div className="w-8 h-8 rounded-full bg-mansagold/20 flex items-center justify-center flex-shrink-0">
                 <Bot className="w-4 h-4 text-mansagold" />
@@ -206,7 +251,7 @@ export const AIAssistant = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Ask me anything about Mansa Musa..."
+            placeholder="Ask Kayla anything about 1325.AI..."
             disabled={isLoading}
             className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-mansagold"
           />
