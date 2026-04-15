@@ -16,7 +16,7 @@ interface Message {
 
 const MODEL_BADGES: Record<string, { label: string; icon: typeof Zap; className: string }> = {
   gemini: { label: 'Gemini', icon: Zap, className: 'text-mansagold bg-mansagold/10 border-mansagold/20' },
-  claude: { label: 'Claude', icon: Brain, className: 'text-mansablue-light bg-mansablue/10 border-mansablue/20' },
+  claude: { label: 'Claude', icon: Brain, className: 'text-mansablue-light bg-mansablue/20 border-mansablue/30' },
   perplexity: { label: 'Perplexity', icon: Search, className: 'text-mansagold-light bg-mansagold/10 border-mansagold/20' },
   'claude+perplexity': { label: 'Kayla+', icon: Sparkles, className: 'text-mansagold bg-mansagold/15 border-mansagold/30' },
 };
@@ -177,16 +177,16 @@ export const AIAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[600px] w-full max-w-2xl mx-auto card-premium-gold overflow-hidden">
+    <Card className="flex flex-col h-[600px] w-full max-w-2xl mx-auto backdrop-blur-xl bg-mansablue/40 border border-mansagold/20 rounded-2xl shadow-2xl shadow-mansagold/5 overflow-hidden">
       {/* Header */}
-      <div className="p-4 border-b border-mansagold/20 bg-gradient-to-r from-mansagold/10 via-mansablue/5 to-transparent">
+      <div className="p-4 border-b border-mansagold/20 bg-gradient-to-r from-mansagold/15 via-mansablue/20 to-transparent">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-mansagold rounded-lg shadow-lg shadow-mansagold/20">
+          <div className="p-2 bg-mansagold rounded-lg shadow-lg shadow-mansagold/30">
             <Sparkles className="w-5 h-5 text-mansablue-dark" />
           </div>
           <div>
-            <h3 className="font-semibold text-lg text-foreground">Kayla, Ph.D.</h3>
-            <p className="text-sm text-muted-foreground">Triple-Model AI • Gemini + Claude + Perplexity</p>
+            <h3 className="font-semibold text-lg text-white">Kayla, Ph.D.</h3>
+            <p className="text-sm text-white/60">Triple-Model AI • Gemini + Claude + Perplexity</p>
           </div>
         </div>
       </div>
@@ -210,7 +210,7 @@ export const AIAssistant = () => {
                   className={`rounded-lg px-4 py-2 ${
                     msg.role === 'user'
                       ? 'bg-mansagold text-mansablue-dark font-medium'
-                      : 'bg-card/50 backdrop-blur-sm border border-border text-foreground'
+                      : 'bg-white/10 backdrop-blur-sm border border-white/15 text-white'
                   }`}
                 >
                   {msg.role === 'assistant' ? (
@@ -225,8 +225,8 @@ export const AIAssistant = () => {
               </div>
 
               {msg.role === 'user' && (
-                <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center flex-shrink-0">
-                  <User className="w-4 h-4 text-muted-foreground" />
+                <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 text-white/70" />
                 </div>
               )}
             </div>
@@ -237,7 +237,7 @@ export const AIAssistant = () => {
               <div className="w-8 h-8 rounded-full bg-mansagold/20 border border-mansagold/30 flex items-center justify-center flex-shrink-0">
                 <Bot className="w-4 h-4 text-mansagold" />
               </div>
-              <div className="rounded-lg px-4 py-2 bg-card/50 backdrop-blur-sm border border-border">
+              <div className="rounded-lg px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/15">
                 <Loader2 className="w-4 h-4 animate-spin text-mansagold" />
               </div>
             </div>
@@ -246,7 +246,7 @@ export const AIAssistant = () => {
       </ScrollArea>
 
       {/* Input */}
-      <div className="p-4 border-t border-mansagold/20 bg-gradient-to-r from-mansagold/5 via-transparent to-mansablue/5">
+      <div className="p-4 border-t border-mansagold/20 bg-mansablue/30">
         <div className="flex gap-2">
           <Input
             value={input}
@@ -254,12 +254,12 @@ export const AIAssistant = () => {
             onKeyPress={handleKeyPress}
             placeholder="Ask Kayla anything about 1325.AI..."
             disabled={isLoading}
-            className="flex-1 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground focus:border-mansagold focus:ring-mansagold/20"
+            className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-mansagold focus:ring-mansagold/20"
           />
           <Button 
             onClick={handleSend} 
             disabled={isLoading || !input.trim()}
-            className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold shadow-lg shadow-mansagold/20 hover:shadow-mansagold/30 transition-all"
+            className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold shadow-lg shadow-mansagold/30 hover:shadow-mansagold/40 transition-all hover-glow-gold"
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
