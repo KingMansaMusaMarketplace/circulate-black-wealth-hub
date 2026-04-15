@@ -218,11 +218,42 @@ async function callGemini(messages: any[], systemPrompt: string, lovableApiKey: 
 
 // Call Claude via Anthropic API (streaming, convert to OpenAI SSE format)
 async function callClaude(messages: any[], systemPrompt: string, anthropicApiKey: string): Promise<Response> {
-  // Convert messages: separate system prompt for Anthropic format
-  const anthropicMessages = messages.map(m => ({
-    role: m.role === 'system' ? 'user' : m.role,
-    content: m.content,
-  })).filter(m => m.role === 'user' || m.role === 'assistant');
+  // Convert messages to Anthropic format, handling multimodal content
+  const anthropicMessages = messages
+    .map(m => {
+      const role = m.role === 'system' ? 'user' : m.role;
+      if (role !== 'user' && role !== 'assistant') return null;
+
+      // Handle multimodal content (array format)
+      if (Array.isArray(m.content)) {
+        const anthropicContent = m.content.map((part: any) => {
+          if (part.type === 'text') {
+            return { type: 'text', text: part.text };
+          }
+          if (part.type === 'image_url' && part.image_url?.url) {
+            // Convert data URL to Anthropic's base64 format
+            const dataUrl = part.image_url.url;
+            const match = dataUrl.match(/^data:(image\/\w+);base64,(.+)$/);
+            if (match) {
+              return {
+                type: 'image',
+                source: {
+                  type: 'base64',
+                  media_type: match[1],
+                  data: match[2],
+                },
+              };
+            }
+          }
+          return null;
+        }).filter(Boolean);
+
+        return { role, content: anthropicContent };
+      }
+
+      return { role, content: m.content };
+    })
+    .filter(Boolean);
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
