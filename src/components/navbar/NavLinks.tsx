@@ -52,6 +52,15 @@ const NavLinks: React.FC = () => {
           </NavigationMenuLink>
         </NavigationMenuItem>
 
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link to="/ai-assistant" className={`${goldLinkClassName} flex items-center gap-1.5`}>
+              <Bot className="w-4 h-4" />
+              Kayla AI
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
         {/* About & Learn Dropdown */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className={triggerClassName}>About & Learn</NavigationMenuTrigger>
