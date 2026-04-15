@@ -600,14 +600,22 @@ Deno.serve(async (req) => {
     } catch { /* not admin */ }
 
     let systemPrompt = buildSystemPrompt(isAdmin);
-    const lastUserMessage = messages[messages.length - 1]?.content || '';
+    const lastMessage = messages[messages.length - 1];
+    const lastUserMessage = getMessageText(lastMessage?.content || '');
+    const messageHasImage = hasImage(lastMessage?.content);
 
     // ========== CLASSIFY QUERY ==========
-    const category = await classifyQuery(lastUserMessage, LOVABLE_API_KEY);
-    console.log(`Routing to: ${category} | Message: "${lastUserMessage.substring(0, 80)}..."`);
+    // If message has an image, route to Claude (vision) by default
+    let category: QueryCategory;
+    if (messageHasImage) {
+      category = 'complex'; // Claude handles vision
+      console.log(`Image detected, routing to Claude vision`);
+    } else {
+      category = await classifyQuery(lastUserMessage, LOVABLE_API_KEY);
+    }
+    console.log(`Routing to: ${category} | Message: "${lastUserMessage.substring(0, 80)}..." | Image: ${messageHasImage}`);
 
     // ========== RAG CONTEXT RETRIEVAL ==========
-    // For all categories except simple greetings, retrieve platform knowledge
     if (category !== 'simple' || lastUserMessage.toLowerCase().match(/business|restaurant|shop|store|find|near|recommend|review|event/)) {
       const ragContext = await retrieveRAGContext(lastUserMessage, OPENAI_API_KEY || '', supabaseUrl, supabaseServiceKey);
       if (ragContext) {
