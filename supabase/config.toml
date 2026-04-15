@@ -9,6 +9,8 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = true
   [functions.ai-chat]
     verify_jwt = true
+  [functions.ai-chat-orchestrator]
+    verify_jwt = false
   [functions.ai-recommendations]
     verify_jwt = false
   [functions.analyze-material-performance]
