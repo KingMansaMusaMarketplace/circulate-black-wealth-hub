@@ -152,6 +152,7 @@ export const AIAssistant = () => {
 
       setIsLoading(false);
     } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
       console.error('Chat error:', error);
       toast.error('Connection error. Please try again.');
       setIsLoading(false);
