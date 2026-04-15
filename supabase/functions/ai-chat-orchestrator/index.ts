@@ -28,12 +28,12 @@ async function getQueryEmbedding(text: string, openaiApiKey: string): Promise<nu
 // Retrieve relevant context from RAG embeddings
 async function retrieveRAGContext(
   userMessage: string,
-  lovableApiKey: string,
+  openaiApiKey: string,
   supabaseUrl: string,
   supabaseServiceKey: string
 ): Promise<string> {
   try {
-    const embedding = await getQueryEmbedding(userMessage, lovableApiKey);
+    const embedding = await getQueryEmbedding(userMessage, openaiApiKey);
     if (!embedding) return '';
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
