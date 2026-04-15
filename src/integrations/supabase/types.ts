@@ -14181,6 +14181,39 @@ export type Database = {
           },
         ]
       }
+      rag_embeddings: {
+        Row: {
+          content_id: string
+          content_text: string
+          content_type: string
+          created_at: string
+          embedding: string | null
+          id: string
+          metadata: Json | null
+          updated_at: string
+        }
+        Insert: {
+          content_id: string
+          content_text: string
+          content_type: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          content_id?: string
+          content_text?: string
+          content_type?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       rate_limit_log: {
         Row: {
           attempt_count: number | null
@@ -22284,6 +22317,22 @@ export type Database = {
           chunk_text: string
           document_id: string
           id: string
+          similarity: number
+        }[]
+      }
+      match_embeddings: {
+        Args: {
+          filter_type?: string
+          match_count?: number
+          match_threshold?: number
+          query_embedding: string
+        }
+        Returns: {
+          content_id: string
+          content_text: string
+          content_type: string
+          id: string
+          metadata: Json
           similarity: number
         }[]
       }
