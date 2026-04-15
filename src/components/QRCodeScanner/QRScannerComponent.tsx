@@ -14,10 +14,17 @@ interface ScanHistoryItem {
   timestamp: string;
 }
 
+interface ScanResultData {
+  success: boolean;
+  businessName?: string;
+  pointsEarned?: number;
+  discountApplied?: number;
+}
+
 interface QRScannerComponentProps {
   onScan: (data: string) => void;
   loading?: boolean;
-  scanResult?: Record<string, unknown> | null;
+  scanResult?: ScanResultData | null;
 }
 
 const QRScannerComponent: React.FC<QRScannerComponentProps> = ({ 
