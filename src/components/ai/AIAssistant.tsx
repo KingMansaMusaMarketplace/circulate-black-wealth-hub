@@ -31,6 +31,7 @@ export const AIAssistant = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -39,6 +40,13 @@ export const AIAssistant = () => {
   }, [messages]);
 
   const streamChat = async (userMessage: string) => {
+    // Abort any in-flight request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     const userMsg: Message = { role: 'user', content: userMessage };
     setMessages(prev => [...prev, userMsg]);
     setIsLoading(true);
@@ -64,6 +72,7 @@ export const AIAssistant = () => {
             Authorization: `Bearer ${session.access_token}`,
           },
           body: JSON.stringify({ messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })) }),
+          signal: controller.signal,
         }
       );
 
@@ -143,6 +152,7 @@ export const AIAssistant = () => {
 
       setIsLoading(false);
     } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
       console.error('Chat error:', error);
       toast.error('Connection error. Please try again.');
       setIsLoading(false);
