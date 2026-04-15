@@ -1,6 +1,76 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
+// Generate embedding for a query
+async function getQueryEmbedding(text: string, lovableApiKey: string): Promise<number[] | null> {
+  try {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${lovableApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        input: text.substring(0, 2000),
+        model: "text-embedding-3-small",
+        dimensions: 768,
+      }),
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.data?.[0]?.embedding || null;
+  } catch (e) {
+    console.error("Embedding generation failed:", e);
+    return null;
+  }
+}
+
+// Retrieve relevant context from RAG embeddings
+async function retrieveRAGContext(
+  userMessage: string,
+  lovableApiKey: string,
+  supabaseUrl: string,
+  supabaseServiceKey: string
+): Promise<string> {
+  try {
+    const embedding = await getQueryEmbedding(userMessage, lovableApiKey);
+    if (!embedding) return '';
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const { data, error } = await supabase.rpc('match_embeddings', {
+      query_embedding: `[${embedding.join(',')}]`,
+      match_threshold: 0.4,
+      match_count: 8,
+    });
+
+    if (error || !data || data.length === 0) {
+      console.log("No RAG context found");
+      return '';
+    }
+
+    console.log(`RAG: Found ${data.length} relevant results`);
+
+    const contextParts = data.map((item: any) => {
+      const type = item.content_type;
+      const meta = item.metadata || {};
+      const sim = (item.similarity * 100).toFixed(0);
+      if (type === 'business') {
+        return `[Business: ${meta.business_name || 'Unknown'} | ${meta.category || ''} | ${meta.city || ''}, ${meta.state || ''} | Relevance: ${sim}%]\n${item.content_text}`;
+      } else if (type === 'review') {
+        return `[Review for ${meta.business_name || 'Unknown'} | Rating: ${meta.rating}/5 | Relevance: ${sim}%]\n${item.content_text}`;
+      } else if (type === 'event') {
+        return `[Event: ${meta.title || 'Unknown'} | ${meta.location || ''} | Relevance: ${sim}%]\n${item.content_text}`;
+      }
+      return item.content_text;
+    });
+
+    return '\n\n[PLATFORM KNOWLEDGE - Use this to answer accurately about businesses, reviews, and events on the platform]:\n' + contextParts.join('\n\n');
+  } catch (e) {
+    console.error("RAG retrieval error:", e);
+    return '';
+  }
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
