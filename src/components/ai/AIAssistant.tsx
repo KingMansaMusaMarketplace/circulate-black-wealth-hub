@@ -364,16 +364,78 @@ export const AIAssistant = () => {
             onChange={handleImageSelect}
             className="hidden"
           />
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isLoading}
-            className="border-white/20 bg-white/5 hover:bg-white/10 text-white/70 hover:text-mansagold shrink-0"
-            title="Upload image"
-          >
-            <ImagePlus className="w-4 h-4" />
-          </Button>
+          {Capacitor.isNativePlatform() ? (
+            <>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={async () => {
+                  try {
+                    const { Camera: CapCamera, CameraResultType, CameraSource } = await import('@capacitor/camera');
+                    const photo = await CapCamera.getPhoto({
+                      quality: 90,
+                      allowEditing: false,
+                      resultType: CameraResultType.Base64,
+                      source: CameraSource.Camera,
+                      correctOrientation: true,
+                    });
+                    if (photo.base64String) {
+                      const mimeType = photo.format === 'png' ? 'image/png' : 'image/jpeg';
+                      setPendingImage({ base64: `data:${mimeType};base64,${photo.base64String}`, name: `photo.${photo.format}` });
+                    }
+                  } catch (err: any) {
+                    if (!err?.message?.includes('cancel')) {
+                      toast.error('Camera error: ' + (err?.message || 'Failed'));
+                    }
+                  }
+                }}
+                disabled={isLoading}
+                className="border-white/20 bg-white/5 hover:bg-white/10 text-white/70 hover:text-mansagold shrink-0"
+                title="Take photo"
+              >
+                <Camera className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={async () => {
+                  try {
+                    const { Camera: CapCamera, CameraResultType, CameraSource } = await import('@capacitor/camera');
+                    const photo = await CapCamera.getPhoto({
+                      quality: 90,
+                      allowEditing: false,
+                      resultType: CameraResultType.Base64,
+                      source: CameraSource.Photos,
+                    });
+                    if (photo.base64String) {
+                      const mimeType = photo.format === 'png' ? 'image/png' : 'image/jpeg';
+                      setPendingImage({ base64: `data:${mimeType};base64,${photo.base64String}`, name: `photo.${photo.format}` });
+                    }
+                  } catch (err: any) {
+                    if (!err?.message?.includes('cancel')) {
+                      toast.error('Gallery error: ' + (err?.message || 'Failed'));
+                    }
+                  }
+                }}
+                disabled={isLoading}
+                className="border-white/20 bg-white/5 hover:bg-white/10 text-white/70 hover:text-mansagold shrink-0"
+                title="Pick from gallery"
+              >
+                <ImagePlus className="w-4 h-4" />
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isLoading}
+              className="border-white/20 bg-white/5 hover:bg-white/10 text-white/70 hover:text-mansagold shrink-0"
+              title="Upload image"
+            >
+              <ImagePlus className="w-4 h-4" />
+            </Button>
+          )}
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
