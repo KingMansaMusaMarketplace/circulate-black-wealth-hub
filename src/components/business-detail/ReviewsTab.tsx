@@ -115,6 +115,7 @@ const ReviewsTab: React.FC<ReviewsTabProps> = ({ business }) => {
 
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
+      <AIReviewSummary businessId={business.id} />
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-xl font-bold">Customer Reviews</h2>
