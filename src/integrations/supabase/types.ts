@@ -1149,6 +1149,81 @@ export type Database = {
           },
         ]
       }
+      answering_call_logs: {
+        Row: {
+          action_taken: Database["public"]["Enums"]["answering_action"]
+          business_id: string
+          call_duration: number | null
+          caller_number: string
+          channel: string
+          created_at: string
+          id: string
+          sentiment: string | null
+          summary: string | null
+          transcript: string | null
+        }
+        Insert: {
+          action_taken?: Database["public"]["Enums"]["answering_action"]
+          business_id: string
+          call_duration?: number | null
+          caller_number: string
+          channel?: string
+          created_at?: string
+          id?: string
+          sentiment?: string | null
+          summary?: string | null
+          transcript?: string | null
+        }
+        Update: {
+          action_taken?: Database["public"]["Enums"]["answering_action"]
+          business_id?: string
+          call_duration?: number | null
+          caller_number?: string
+          channel?: string
+          created_at?: string
+          id?: string
+          sentiment?: string | null
+          summary?: string | null
+          transcript?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "answering_call_logs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "answering_call_logs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "answering_call_logs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "answering_call_logs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "answering_call_logs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -3110,6 +3185,97 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_answering_config: {
+        Row: {
+          business_hours: Json
+          business_id: string
+          created_at: string
+          faq_entries: Json
+          forwarding_number: string | null
+          greeting_message: string
+          id: string
+          is_active: boolean
+          max_call_duration_seconds: number
+          owner_id: string
+          twilio_phone_number: string | null
+          updated_at: string
+          voice_id: string | null
+        }
+        Insert: {
+          business_hours?: Json
+          business_id: string
+          created_at?: string
+          faq_entries?: Json
+          forwarding_number?: string | null
+          greeting_message?: string
+          id?: string
+          is_active?: boolean
+          max_call_duration_seconds?: number
+          owner_id: string
+          twilio_phone_number?: string | null
+          updated_at?: string
+          voice_id?: string | null
+        }
+        Update: {
+          business_hours?: Json
+          business_id?: string
+          created_at?: string
+          faq_entries?: Json
+          forwarding_number?: string | null
+          greeting_message?: string
+          id?: string
+          is_active?: boolean
+          max_call_duration_seconds?: number
+          owner_id?: string
+          twilio_phone_number?: string | null
+          updated_at?: string
+          voice_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_answering_config_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_answering_config_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_answering_config_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_answering_config_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_answering_config_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_answering_config_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -22602,6 +22768,7 @@ export type Database = {
       validate_uuid_input: { Args: { input_uuid: string }; Returns: boolean }
     }
     Enums: {
+      answering_action: "answered_faq" | "took_message" | "forwarded"
       api_key_environment: "test" | "live"
       app_role: "admin" | "customer" | "business" | "sales_agent"
       badge_category: "referrals" | "earnings" | "recruitment" | "special"
@@ -22796,6 +22963,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      answering_action: ["answered_faq", "took_message", "forwarded"],
       api_key_environment: ["test", "live"],
       app_role: ["admin", "customer", "business", "sales_agent"],
       badge_category: ["referrals", "earnings", "recruitment", "special"],
