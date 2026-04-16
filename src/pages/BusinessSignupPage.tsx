@@ -615,6 +615,16 @@ const BusinessSignupPage: React.FC = () => {
           </div>
         </div>
         
+        {/* Beta Mode Banner */}
+        {betaMode && (
+          <div className="animate-fade-in mb-4 p-4 rounded-xl border border-mansagold/30 bg-mansagold/10 text-center">
+            <p className="text-mansagold font-semibold text-lg">🎉 Welcome, Beta Tester!</p>
+            <p className="text-sm text-slate-300 mt-1">
+              Enter your beta code below along with your details to create your free business account.
+            </p>
+          </div>
+        )}
+
         {/* Form Container */}
         <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <BusinessSignupForm 
