@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar, Clock, CreditCard, Eye, Scale, Star } from 'lucide-react';
+import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar, Clock, CreditCard, Eye, Scale, Star, Phone } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +17,8 @@ import { BusinessCalendarView } from './BusinessCalendarView';
 import BusinessDashboard from './BusinessDashboard';
 import KaylaReputationMonitor from './kayla/KaylaReputationMonitor';
 import KaylaSupplierDiversity from './kayla/KaylaSupplierDiversity';
+import { lazy, Suspense } from 'react';
+const AnsweringServiceTab = lazy(() => import('./answering-service/AnsweringServiceTab'));
 import KaylaLoyaltyEngine from './kayla/KaylaLoyaltyEngine';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { saveBusinessProfile } from '@/lib/api/business-api';
