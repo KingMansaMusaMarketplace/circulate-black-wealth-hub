@@ -85,7 +85,7 @@ const AgenticProtocolSection: React.FC = () => {
                   <div className={`w-12 h-12 rounded-xl bg-black/40 border ${level.border} flex items-center justify-center`}>
                     <Icon className={`w-6 h-6 ${level.text}`} />
                   </div>
-                  <span className={`text-4xl md:text-5xl font-bold ${level.text} opacity-40`}>
+                  <span className={`text-4xl md:text-5xl font-bold ${level.text} opacity-100 drop-shadow-[0_0_12px_currentColor]`}>
                     {level.num}
                   </span>
                 </div>
