@@ -12,15 +12,22 @@ export const siteConfig = {
   tagline: 'Building the Future of Digital Commerce | AI',
   description: 'AI-powered protocol connecting consumers with verified community businesses, enabling wealth circulation and economic empowerment through intelligent discovery and rewards.',
   
-  // Infrastructure positioning (IaaS)
-  infrastructureTagline: 'The Economic Rails for Community Wealth Circulation',
-  investorDescription: '1325.AI is not a directory app — it\'s the economic infrastructure layer for an underserved $1.6T market. We own the data rails: the transaction ledger, the supply chain graph, and the AI intelligence layer.',
-  
-  // IaaS Architecture Pillars
+  // Infrastructure positioning (Agentic Commerce Protocol)
+  infrastructureTagline: 'The Agentic Commerce Protocol for Community Wealth',
+  investorDescription: '1325.AI is the agentic commerce protocol — the infrastructure layer where autonomous AI organizations discover, transact, and circulate wealth across an underserved $1.6T market. While 99% of AI companies build assistants, we built the rails AI agents transact on. We own the transaction ledger, the supply chain graph, and the orchestration layer that powers Level 3 AI organizations for every business on the network.',
+
+  // Agentic AI Maturity (Dan Martell's 3 Levels framework)
+  agenticMaturity: {
+    level1: 'Assistants — single-prompt AI tools (ChatGPT, Claude). 99% of users.',
+    level2: 'Agent Operators — autonomous task completion (Manus, Claude Code). 0.3% of users.',
+    level3: 'AI Organizations — orchestrated agent teams running entire operations. 0.05% of users. This is where 1325.AI lives.',
+  },
+
+  // Architecture Pillars (Protocol stack)
   iaasPillars: {
-    infrastructure: ['Economic Rails', 'Circulation Protocol', 'Patent-Protected Systems'],
-    dataPlatform: ['Transaction Ledger', 'Supply Chain Graph', 'Behavioral Intelligence'],
-    applications: ['Business Dashboards', 'Consumer App', 'Agent Portal'],
+    infrastructure: ['Agentic Commerce Rails', 'Circulation Protocol', 'Patent-Protected Orchestration'],
+    dataPlatform: ['Transaction Ledger', 'Supply Chain Graph', 'Behavioral Intelligence Engine'],
+    applications: ['Business AI Org (Kayla + sub-agents)', 'Consumer Discovery Agent', 'Developer Agent Portal'],
   },
   
   // Patent portfolio
