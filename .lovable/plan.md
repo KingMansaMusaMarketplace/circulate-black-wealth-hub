@@ -1,48 +1,47 @@
 
 
-# Plan: AI Answering Service for Business Owners
+# AI Tools Expansion — 3 High-ROI Features
 
 ## Overview
-Build a "Kayla for Your Business" AI answering service where business owners configure an AI agent that handles customer calls/texts — answers FAQs, takes messages, and notifies the owner.
+Add three AI-powered features using existing infrastructure (Supabase Edge Functions → Lovable AI Gateway).
 
-## Steps
+---
 
-### 1. Create Database Tables (Migration)
-- **`business_answering_config`**: `id`, `business_id`, `owner_id`, `greeting_message`, `business_hours` (jsonb), `faq_entries` (jsonb array), `forwarding_number`, `is_active`, `voice_id`, `max_call_duration_seconds`, `twilio_phone_number`, timestamps
-- **`answering_call_logs`**: `id`, `business_id`, `caller_number`, `call_duration`, `transcript`, `summary`, `action_taken` (enum: answered_faq, took_message, forwarded), `sentiment`, `created_at`
-- RLS policies: owners can only read/write their own config and logs
+## Feature 1: AI Shopping Assistant Chat (Consumer)
+A conversational chatbot on the directory/consumer side that helps users find businesses naturally.
 
-### 2. Connect Twilio via Connector
-- Use `standard_connectors--connect` with `twilio` connector
-- Verify `TWILIO_API_KEY` and `LOVABLE_API_KEY` secrets are available
+- **Edge Function**: `ai-shopping-assistant` — accepts user messages + conversation history, queries the `businesses` table for context, calls Lovable AI Gateway with SSE streaming
+- **UI Component**: `src/components/ai/ShoppingAssistantChat.tsx` — floating chat bubble on directory pages, renders markdown responses, streams tokens in real-time
+- **DB Table**: `ai_chat_sessions` (id, user_id nullable, messages jsonb, created_at) with RLS
+- System prompt includes knowledge of the marketplace, Black-owned business directory, and can reference live business data
 
-### 3. Create Edge Function: `answering-service-config`
-- CRUD API for business owners to manage their answering config (greeting, FAQs, hours)
-- Authenticated — validates user owns the business
-- Supports GET (fetch config) and POST/PUT (update config)
+## Feature 2: Smart Review Summaries (Consumer)
+Auto-generated summary of all reviews for a business displayed on the business detail page.
 
-### 4. Create Edge Function: `kayla-answering-service`
-- Receives inbound Twilio webhook (SMS initially, voice later)
-- Looks up business by Twilio phone number
-- Loads business FAQ entries and context from `business_answering_config`
-- Calls Lovable AI Gateway with a business-specific system prompt built from the owner's FAQs, hours, greeting, and category
-- Returns response via Twilio SMS
-- Logs interaction to `answering_call_logs`
+- **Edge Function**: `ai-review-summary` — takes business_id, fetches all reviews, calls AI to generate a 2-3 sentence summary highlighting strengths and areas for improvement
+- **UI Component**: `src/components/business/AIReviewSummary.tsx` — card shown on business detail page above individual reviews
+- **DB Table**: `ai_review_summaries` (id, business_id, summary text, review_count, generated_at) — cached, regenerated when new reviews are added
+- Non-streaming invoke call since it's a one-shot generation
 
-### 5. Build Dashboard UI: Answering Service Tab
-New tab in the Business Dashboard with:
-- **Setup wizard**: greeting message editor, business hours picker, FAQ builder (question + answer pairs)
-- **Toggle**: enable/disable the service
-- **Call/message log viewer**: list of handled interactions with transcripts and sentiment
-- **Simple analytics**: messages handled, top questions, sentiment breakdown
+## Feature 3: AI FAQ Generator (Business Owner)
+Auto-generate FAQ entries from reviews, business details, and messages — feeds into the Kayla Answering Service.
 
-### 6. SMS Test Flow
-- Add a "Send Test Message" button that simulates a customer text to verify the AI responds correctly using the owner's configured FAQs
+- **Edge Function**: `ai-faq-generator` — takes business_id, pulls reviews + business description + category, generates 5-10 FAQ Q&A pairs
+- **UI Component**: `src/components/business/AIFAQGenerator.tsx` — button in business dashboard that generates and lets owner edit/approve FAQs before saving
+- **Storage**: FAQ entries saved to existing `answering_config` table's `faq_entries` field (already exists from the Kayla Answering Service plan)
+- Non-streaming invoke call
 
-## Technical Details
-- **AI Model**: Lovable AI Gateway (`google/gemini-3-flash-preview`) — fast and cost-effective for FAQ-style responses
-- **Start with SMS**: Lower complexity than voice; voice can be added later with ElevenLabs TTS
-- **Twilio gateway**: All calls go through `connector-gateway.lovable.dev/twilio`
-- **System prompt**: Dynamically built per-business using their name, category, FAQs, hours, and address
-- **Subscription gating**: Feature gated behind Premium/Enterprise tier via existing `FeatureGate` component
+---
+
+## Technical Approach
+- All edge functions use `LOVABLE_API_KEY` (already provisioned) → `google/gemini-3-flash-preview`
+- CORS headers follow existing pattern with CSRF token support
+- Input validation with Zod in each edge function
+- 429/402 error handling surfaced as toasts to users
+- Shopping Assistant uses SSE streaming; other two use standard invoke
+
+## Implementation Order
+1. AI Shopping Assistant Chat (largest, most visible)
+2. Smart Review Summaries (small, high impact)
+3. AI FAQ Generator (extends existing answering service)
 
