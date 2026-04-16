@@ -8,7 +8,17 @@ import { Badge } from '@/components/ui/badge';
 import { Star, TrendingUp, Users, Award } from 'lucide-react';
 
 // Real testimonials will be loaded from the database
-const testimonials: any[] = [];
+interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  content: string;
+  rating: number;
+  avatar?: string;
+}
+
+// Real testimonials will be loaded from the database
+const testimonials: Testimonial[] = [];
 
 const TestimonialsSection = () => {
   return (

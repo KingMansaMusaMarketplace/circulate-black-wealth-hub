@@ -123,9 +123,10 @@ export const SmartRecommendations = () => {
         if (error) throw error;
 
         setRecommendations(data.recommendations || []);
-      } catch (error: any) {
+    } catch (error: unknown) {
         // Ignore abort errors - they're expected during navigation
-        if (error?.name === 'AbortError' || abortController.signal.aborted) return;
+        const err = error instanceof Error ? error : null;
+        if (err?.name === 'AbortError' || abortController.signal.aborted) return;
         console.error('Error loading recommendations:', error);
         // Don't show toast for abort errors
       } finally {

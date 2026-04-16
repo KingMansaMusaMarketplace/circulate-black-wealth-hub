@@ -60,7 +60,7 @@ export function useScannerState() {
         if (error) throw error;
 
         const history: ScanResult[] = (data || []).map(scan => ({
-          businessName: (scan.businesses as any)?.business_name || 'Unknown Business',
+          businessName: (scan.businesses as Record<string, unknown>)?.business_name as string || 'Unknown Business',
           businessId: scan.business_id,
           pointsEarned: scan.points_earned || 0,
           timestamp: scan.scanned_at
@@ -172,8 +172,9 @@ export function useScannerState() {
       }
 
       const pointsEarned = qrCodeData.points_value || 10;
-      const businessName = (qrCodeData.businesses as any)?.business_name || 'Business';
-      const actualBusinessId = qrCodeData.business_id || (qrCodeData.businesses as any)?.id;
+      const biz = qrCodeData.businesses as Record<string, unknown> | null;
+      const businessName = (biz?.business_name as string) || 'Business';
+      const actualBusinessId = qrCodeData.business_id || (biz?.id as string);
 
       // Record the scan if user is authenticated
       if (user && actualBusinessId) {
@@ -221,7 +222,7 @@ export function useScannerState() {
         pointsEarned,
         timestamp: new Date().toISOString()
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error processing QR code:', error);
       throw error;
     }
@@ -268,10 +269,10 @@ export function useScannerState() {
         // The actual QR data will be passed when a code is detected
         setIsScanning(true);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error scanning QR code:', error);
       setIsScanning(false);
-      toast.error(error.message || 'Failed to scan QR code');
+      toast.error(error instanceof Error ? error.message : 'Failed to scan QR code');
     }
   };
 

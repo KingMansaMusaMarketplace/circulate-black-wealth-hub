@@ -163,12 +163,13 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
 
       console.log('QR scanner started successfully');
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Camera error:', error);
       setScanning(false);
       
+      const err = error instanceof Error ? error : new Error('Unknown error');
       // Provide clear, user-friendly error messages
-      if (error.name === 'NotAllowedError' || error.message.includes('Permission denied')) {
+      if (err.name === 'NotAllowedError' || err.message.includes('Permission denied')) {
         setCameraError('Camera Access Required: Please allow camera access in your browser/device settings to scan QR codes.');
         toast.error('Camera Access Denied', {
           description: 'Please allow camera access in your browser settings and refresh the page.'

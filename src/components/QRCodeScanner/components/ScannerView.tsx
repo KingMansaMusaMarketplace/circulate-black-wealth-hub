@@ -9,7 +9,7 @@ interface ScannerViewProps {
   hasCamera: boolean;
   permissionStatus: 'granted' | 'denied' | 'prompt';
   videoRef: React.RefObject<HTMLVideoElement>;
-  scanResult: any;
+  scanResult: { businessName: string; pointsEarned: number; businessId?: string; timestamp: string } | null;
   requestCameraPermission: () => Promise<void>;
   handleScan: () => void;
 }
