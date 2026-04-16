@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import AIReviewSummary from '@/components/business/AIReviewSummary';
 import { Button } from '@/components/ui/button';
 import { Star, Loader2 } from 'lucide-react';
 import { Business } from '@/types/business';
