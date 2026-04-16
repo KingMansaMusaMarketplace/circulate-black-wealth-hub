@@ -73,7 +73,8 @@ const createBusinessWithRetry = async (
 
 const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({ 
   referralCode = '', 
-  onSuccess 
+  onSuccess,
+  betaMode = false,
 }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
