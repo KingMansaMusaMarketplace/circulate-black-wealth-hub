@@ -563,6 +563,14 @@ const BusinessProfileManager = () => {
         <TabsContent value="supplier-diversity" className="mt-6">
           {profile?.id && <KaylaSupplierDiversity businessId={profile.id} />}
         </TabsContent>
+
+        <TabsContent value="answering-service" className="mt-6">
+          {profile?.id && (
+            <Suspense fallback={<div className="flex items-center justify-center py-12"><Loader2 className="h-6 w-6 animate-spin" /></div>}>
+              <AnsweringServiceTab businessId={profile.id} />
+            </Suspense>
+          )}
+        </TabsContent>
       </Tabs>
     </div>
   );
