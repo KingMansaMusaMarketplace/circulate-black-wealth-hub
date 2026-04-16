@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar, Clock, CreditCard, Eye, Scale, Star } from 'lucide-react';
+import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar, Clock, CreditCard, Eye, Scale, Star, Phone } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +17,8 @@ import { BusinessCalendarView } from './BusinessCalendarView';
 import BusinessDashboard from './BusinessDashboard';
 import KaylaReputationMonitor from './kayla/KaylaReputationMonitor';
 import KaylaSupplierDiversity from './kayla/KaylaSupplierDiversity';
+import { lazy, Suspense } from 'react';
+const AnsweringServiceTab = lazy(() => import('./answering-service/AnsweringServiceTab'));
 import KaylaLoyaltyEngine from './kayla/KaylaLoyaltyEngine';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { saveBusinessProfile } from '@/lib/api/business-api';
@@ -196,6 +198,10 @@ const BusinessProfileManager = () => {
           <TabsTrigger value="supplier-diversity" className="flex items-center gap-2">
             <Scale size={16} />
             Supplier Diversity
+          </TabsTrigger>
+          <TabsTrigger value="answering-service" className="flex items-center gap-2">
+            <Phone size={16} />
+            AI Answering
           </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings size={16} />
@@ -556,6 +562,14 @@ const BusinessProfileManager = () => {
 
         <TabsContent value="supplier-diversity" className="mt-6">
           {profile?.id && <KaylaSupplierDiversity businessId={profile.id} />}
+        </TabsContent>
+
+        <TabsContent value="answering-service" className="mt-6">
+          {profile?.id && (
+            <Suspense fallback={<div className="flex items-center justify-center py-12"><Loader2 className="h-6 w-6 animate-spin" /></div>}>
+              <AnsweringServiceTab businessId={profile.id} />
+            </Suspense>
+          )}
         </TabsContent>
       </Tabs>
     </div>
