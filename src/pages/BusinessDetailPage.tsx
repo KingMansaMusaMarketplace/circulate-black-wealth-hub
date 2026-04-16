@@ -30,6 +30,7 @@ import { BookingForm } from '@/components/booking/BookingForm';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ReviewForm } from '@/components/reviews/ReviewForm';
 import { ReviewsList } from '@/components/reviews/ReviewsList';
+import AIReviewSummary from '@/components/business/AIReviewSummary';
 import { useNavigate } from 'react-router-dom';
 // Sample business data removed - all data comes from Supabase
 import { getBusinessBanner } from '@/utils/businessBanners';
@@ -523,6 +524,8 @@ const BusinessDetailPage = () => {
                       />
                     </div>
                   )}
+                  
+                  <AIReviewSummary businessId={business.id} />
                   
                   <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
                     <ReviewsList businessId={business.id} />

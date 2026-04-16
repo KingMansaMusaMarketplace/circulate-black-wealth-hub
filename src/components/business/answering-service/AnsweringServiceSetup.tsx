@@ -9,6 +9,7 @@ import { Switch } from '@/components/ui/switch';
 import { Plus, Trash2, Save, Power, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { FaqEntry, BusinessHours } from '@/hooks/use-answering-config';
+import AIFAQGenerator from '@/components/business/AIFAQGenerator';
 
 interface AnsweringServiceSetupProps {
   businessId: string;
@@ -170,6 +171,21 @@ export function AnsweringServiceSetup({ businessId, config }: AnsweringServiceSe
               </div>
             ))}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* AI FAQ Generator */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">AI-Powered FAQ Generator</CardTitle>
+          <CardDescription>Let AI generate FAQ entries from your business info and customer reviews</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <AIFAQGenerator
+            businessId={businessId}
+            existingFaqs={faqs.filter(f => f.question.trim() || f.answer.trim())}
+            onSave={(newFaqs) => setFaqs(newFaqs)}
+          />
         </CardContent>
       </Card>
 
