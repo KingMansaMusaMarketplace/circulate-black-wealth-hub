@@ -15,6 +15,7 @@ import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnboarding";
 import RequireAdmin from '@/components/auth/RequireAdmin';
 import { AIChatWidget } from "@/components/ai-chat/AIChatWidget";
+const ShoppingAssistantChat = lazy(() => import("@/components/ai/ShoppingAssistantChat"));
 import { HelmetProvider } from 'react-helmet-async';
 // initializeCapacitorPlugins is dynamically imported below to avoid dual static+dynamic import
 const CookieConsentBanner = lazy(() => import("@/components/legal/CookieConsentBanner"));
@@ -730,6 +731,7 @@ function App() {
                     </div>
                     <NativeFeaturesOnboarding />
                     <AIChatWidget />
+                    <Suspense fallback={null}><ShoppingAssistantChat /></Suspense>
                     <Toaster />
                     <Sonner />
                   </TooltipProvider>
@@ -1048,6 +1050,7 @@ function App() {
                 </div>
                 <NativeFeaturesOnboarding />
                 <AIChatWidget />
+                <Suspense fallback={null}><ShoppingAssistantChat /></Suspense>
                 <Toaster />
                 <Sonner />
                 <Suspense fallback={null}><CookieConsentBanner /></Suspense>

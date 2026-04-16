@@ -240,3 +240,9 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.handle-email-suppression]
     verify_jwt = false
+  [functions.ai-shopping-assistant]
+    verify_jwt = false
+  [functions.ai-review-summary]
+    verify_jwt = false
+  [functions.ai-faq-generator]
+    verify_jwt = false
