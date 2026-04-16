@@ -3,9 +3,7 @@
  * Covers: BetaTesterManager UI, useBetaTesterTracking hook, helper functions, RLS expectations
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
 
 // ─── Helper function unit tests (extracted logic) ───
 
@@ -443,7 +441,7 @@ describe('Beta Tester Duplicate Handling', () => {
   });
 
   it('other error codes are not duplicates', () => {
-    const errorCode = '42501';
+    const errorCode: string = '42501';
     const isDuplicate = errorCode === '23505';
     expect(isDuplicate).toBe(false);
   });
