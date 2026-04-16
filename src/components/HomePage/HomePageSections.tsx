@@ -17,6 +17,7 @@ const CirculationGap = lazy(() => import('./CirculationGap'));
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
 const QuickHowItWorks = lazy(() => import('./QuickHowItWorks'));
 const CommunityWealthTicker = lazy(() => import('@/components/wealth-ticker/CommunityWealthTicker'));
+const AgenticProtocolSection = lazy(() => import('./AgenticProtocolSection'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (
@@ -53,6 +54,13 @@ const HomePageSections: React.FC = () => {
         <Suspense fallback={<SectionSkeleton height="h-24" />}>
           <MissionPreview />
         </Suspense>
+      </SectionErrorBoundary>
+
+      {/* 1.5 Agentic Commerce Protocol — Level 1/2/3 framework */}
+      <SectionErrorBoundary sectionName="Agentic Protocol">
+        <LazySection fallback={<SectionSkeleton height="h-96" />} minHeight="min-h-[400px]">
+          <AgenticProtocolSection />
+        </LazySection>
       </SectionErrorBoundary>
 
       {/* 2. Consumer Benefits */}
