@@ -48,88 +48,43 @@ export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
     }
     
     try {
-      const { data: qrCode, error: qrError } = await supabase
-        .from('qr_codes')
-        .select('*, businesses(business_name)')
-        .eq('id', qrCodeId)
-        .maybeSingle();
+      // Atomic, secure RPC handles validation, scan recording, counter increment, and loyalty award
+      const { data: rpcRes, error: rpcErr } = await supabase.rpc('award_qr_scan', {
+        p_qr_code_id: qrCodeId,
+      });
 
-      if (qrError || !qrCode) {
-        toast.error('Invalid QR code');
-        return { success: false, error: 'Invalid QR code' };
-      }
-
-      if (!qrCode.is_active) {
-        toast.error('This QR code is no longer active');
-        return { success: false, error: 'QR code is inactive' };
-      }
-
-      if (qrCode.scan_limit && qrCode.current_scans >= qrCode.scan_limit) {
-        toast.error('This QR code has reached its scan limit');
-        return { success: false, error: 'Scan limit reached' };
-      }
-
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error('You must be logged in to scan QR codes');
-        return { success: false, error: 'Authentication required' };
-      }
-
-      const scanData = {
-        qr_code_id: qrCodeId,
-        customer_id: user.id,
-        business_id: qrCode.business_id,
-        points_awarded: qrCode.points_value || 0,
-        discount_applied: qrCode.discount_percentage || 0
-      };
-
-      const { error: scanError } = await supabase
-        .from('qr_scans')
-        .insert(scanData);
-
-      if (scanError) {
-        console.error('Error recording scan:', scanError);
+      if (rpcErr) {
+        console.error('award_qr_scan RPC error:', rpcErr);
         toast.error('Failed to record scan');
-        return { success: false, error: 'Failed to record scan' };
+        return { success: false, error: rpcErr.message };
       }
 
-      await supabase
-        .from('qr_codes')
-        .update({ current_scans: qrCode.current_scans + 1 })
-        .eq('id', qrCodeId);
+      const res = rpcRes as {
+        success: boolean;
+        error?: string;
+        business_name?: string;
+        points_earned?: number;
+        discount_applied?: number;
+      } | null;
 
-      if (qrCode.points_value > 0) {
-        // First check if the user already has points with this business
-        const { data: existingPoints } = await supabase
-          .from('loyalty_points')
-          .select('*')
-          .eq('customer_id', user.id)
-          .eq('business_id', qrCode.business_id)
-          .single();
-
-        if (existingPoints) {
-          // Update existing points
-          await supabase
-            .from('loyalty_points')
-            .update({ points: existingPoints.points + qrCode.points_value })
-            .eq('id', existingPoints.id);
-        } else {
-          // Create new points record
-          await supabase
-            .from('loyalty_points')
-            .insert({
-              customer_id: user.id,
-              business_id: qrCode.business_id,
-              points: qrCode.points_value
-            });
-        }
+      if (!res?.success) {
+        const code = res?.error || 'unknown_error';
+        const msg =
+          code === 'auth_required' ? 'You must be logged in to scan QR codes' :
+          code === 'qr_not_found' ? 'Invalid QR code' :
+          code === 'qr_inactive' ? 'This QR code is no longer active' :
+          code === 'qr_expired' ? 'This QR code has expired' :
+          code === 'scan_limit_reached' ? 'This QR code has reached its scan limit' :
+          'Failed to record scan';
+        toast.error(msg);
+        return { success: false, error: code };
       }
 
       const result = {
         success: true,
-        businessName: qrCode.businesses?.business_name || 'Business',
-        pointsEarned: qrCode.points_value || 0,
-        discountApplied: qrCode.discount_percentage || 0
+        businessName: res.business_name || 'Business',
+        pointsEarned: res.points_earned || 0,
+        discountApplied: res.discount_applied || 0,
       };
 
       toast.success(`Scanned successfully! Earned ${result.pointsEarned} points`);

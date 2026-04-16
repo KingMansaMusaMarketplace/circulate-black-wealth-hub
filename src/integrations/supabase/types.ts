@@ -21531,6 +21531,7 @@ export type Database = {
         }
         Returns: Json
       }
+      award_qr_scan: { Args: { p_qr_code_id: string }; Returns: Json }
       award_review_points_secure: {
         Args: {
           p_business_id: string

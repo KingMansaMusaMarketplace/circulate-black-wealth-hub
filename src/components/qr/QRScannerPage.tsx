@@ -92,111 +92,69 @@ const QRScannerPage = () => {
   const processQRCode = useCallback(async (qrCodeData: string) => {
     if (processing) return;
     setProcessing(true);
-    
+
     try {
       haptics.light();
-      
-      // Parse QR code data - expect format like "mansa://qr/{qrCodeId}" or just the ID
-      let qrCodeId = qrCodeData;
-      if (qrCodeData.includes('mansa://qr/')) {
-        qrCodeId = qrCodeData.split('mansa://qr/')[1];
-      } else if (qrCodeData.includes('/qr/')) {
-        qrCodeId = qrCodeData.split('/qr/')[1];
+
+      // Parse QR code data - expect "mansa://qr/{id}", a URL with /qr/{id}, or a bare UUID
+      let qrCodeId = qrCodeData.trim();
+      if (qrCodeId.includes('mansa://qr/')) {
+        qrCodeId = qrCodeId.split('mansa://qr/')[1];
+      } else if (qrCodeId.includes('/qr/')) {
+        qrCodeId = qrCodeId.split('/qr/')[1];
       }
-      
+      qrCodeId = qrCodeId.split(/[?#]/)[0];
+
       console.log('Processing QR code ID:', qrCodeId);
-      
-      // Fetch QR code from database
-      const { data: qrCode, error: qrError } = await supabase
-        .from('qr_codes')
-        .select('*, businesses(business_name)')
-        .eq('id', qrCodeId)
-        .single();
 
-      if (qrError || !qrCode) {
-        toast.error('Invalid QR code');
+      // Atomic, secure server-side validation + scan + loyalty award
+      const { data: rpcRes, error: rpcErr } = await supabase.rpc('award_qr_scan', {
+        p_qr_code_id: qrCodeId,
+      });
+
+      if (rpcErr) {
+        console.error('award_qr_scan RPC error:', rpcErr);
+        toast.error('Failed to process QR code');
         setProcessing(false);
         return;
       }
 
-      if (!qrCode.is_active) {
-        toast.error('This QR code is no longer active');
+      const res = rpcRes as {
+        success: boolean;
+        error?: string;
+        business_id?: string;
+        business_name?: string;
+        points_earned?: number;
+        discount_applied?: number;
+      } | null;
+
+      if (!res?.success) {
+        const code = res?.error || 'unknown_error';
+        const msg =
+          code === 'auth_required' ? 'You must be logged in to scan QR codes' :
+          code === 'qr_not_found' ? 'Invalid QR code' :
+          code === 'qr_inactive' ? 'This QR code is no longer active' :
+          code === 'qr_expired' ? 'This QR code has expired' :
+          code === 'scan_limit_reached' ? 'This QR code has reached its scan limit' :
+          'Failed to process QR code';
+        toast.error(msg);
         setProcessing(false);
         return;
-      }
-
-      if (qrCode.scan_limit && qrCode.current_scans >= qrCode.scan_limit) {
-        toast.error('This QR code has reached its scan limit');
-        setProcessing(false);
-        return;
-      }
-
-      // Record the scan
-      const scanData = {
-        qr_code_id: qrCodeId,
-        customer_id: user?.id,
-        business_id: qrCode.business_id,
-        points_awarded: qrCode.points_value || 0,
-        discount_applied: qrCode.discount_percentage || 0
-      };
-
-      const { error: scanError } = await supabase
-        .from('qr_scans')
-        .insert(scanData);
-
-      if (scanError) {
-        console.error('Error recording scan:', scanError);
-        toast.error('Failed to record scan');
-        setProcessing(false);
-        return;
-      }
-
-      // Update scan count
-      await supabase
-        .from('qr_codes')
-        .update({ current_scans: (qrCode.current_scans || 0) + 1 })
-        .eq('id', qrCodeId);
-
-      // Update loyalty points
-      if (qrCode.points_value > 0 && user) {
-        const { data: existingPoints } = await supabase
-          .from('loyalty_points')
-          .select('*')
-          .eq('customer_id', user.id)
-          .eq('business_id', qrCode.business_id)
-          .single();
-
-        if (existingPoints) {
-          await supabase
-            .from('loyalty_points')
-            .update({ points: existingPoints.points + qrCode.points_value })
-            .eq('id', existingPoints.id);
-        } else {
-          await supabase
-            .from('loyalty_points')
-            .insert({
-              customer_id: user.id,
-              business_id: qrCode.business_id,
-              points: qrCode.points_value
-            });
-        }
       }
 
       // Stop scanning before showing result
       await stopScanner();
-      
-      // Set result
+
       const result: ScanResult = {
-        businessName: qrCode.businesses?.business_name || 'Business',
-        pointsEarned: qrCode.points_value || 0,
-        discount: qrCode.discount_percentage || undefined,
-        businessId: qrCode.business_id
+        businessName: res.business_name || 'Business',
+        pointsEarned: res.points_earned || 0,
+        discount: res.discount_applied || undefined,
+        businessId: res.business_id || '',
       };
-      
+
       setScanResult(result);
       haptics.success();
       toast.success(`Earned ${result.pointsEarned} points!`);
-      
     } catch (error: any) {
       console.error('Error processing QR code:', error);
       toast.error('Failed to process QR code');
