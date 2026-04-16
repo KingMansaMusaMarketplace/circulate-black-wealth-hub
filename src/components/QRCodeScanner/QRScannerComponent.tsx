@@ -174,15 +174,15 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
         toast.error('Camera Access Denied', {
           description: 'Please allow camera access in your browser settings and refresh the page.'
         });
-      } else if (error.name === 'NotFoundError' || error.message.includes('not found')) {
+      } else if (err.name === 'NotFoundError' || err.message.includes('not found')) {
         setCameraError('No Camera Found: This device doesn\'t have a camera or it\'s not available.');
         toast.error('No Camera Available', {
           description: 'Please use a device with a camera to scan QR codes.'
         });
       } else {
-        setCameraError(`Camera Error: ${error.message || 'Unable to access camera. Please check your device settings.'}`);
+        setCameraError(`Camera Error: ${err.message || 'Unable to access camera. Please check your device settings.'}`);
         toast.error('Camera Error', {
-          description: error.message || 'Unable to access camera'
+          description: err.message || 'Unable to access camera'
         });
       }
     }

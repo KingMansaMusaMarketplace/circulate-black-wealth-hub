@@ -60,7 +60,7 @@ export function useScannerState() {
         if (error) throw error;
 
         const history: ScanResult[] = (data || []).map(scan => ({
-          businessName: (scan.businesses as Record<string, unknown>)?.business_name as string || 'Unknown Business',
+          businessName: ((scan.businesses as unknown) as Record<string, unknown>)?.business_name as string || 'Unknown Business',
           businessId: scan.business_id,
           pointsEarned: scan.points_earned || 0,
           timestamp: scan.scanned_at
