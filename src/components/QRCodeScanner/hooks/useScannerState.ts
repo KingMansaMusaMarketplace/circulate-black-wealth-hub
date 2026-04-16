@@ -46,15 +46,15 @@ export function useScannerState() {
           .from('qr_scans')
           .select(`
             id,
-            scanned_at,
-            points_earned,
+            scan_date,
+            points_awarded,
             business_id,
             businesses (
               business_name
             )
           `)
           .eq('customer_id', user.id)
-          .order('scanned_at', { ascending: false })
+          .order('scan_date', { ascending: false })
           .limit(10);
 
         if (error) throw error;
@@ -62,8 +62,8 @@ export function useScannerState() {
         const history: ScanResult[] = (data || []).map(scan => ({
           businessName: ((scan.businesses as unknown) as Record<string, unknown>)?.business_name as string || 'Unknown Business',
           businessId: scan.business_id,
-          pointsEarned: scan.points_earned || 0,
-          timestamp: scan.scanned_at
+          pointsEarned: scan.points_awarded || 0,
+          timestamp: scan.scan_date
         }));
 
         setRecentScans(history);
@@ -176,43 +176,18 @@ export function useScannerState() {
       const businessName = (biz?.business_name as string) || 'Business';
       const actualBusinessId = qrCodeData.business_id || (biz?.id as string);
 
-      // Record the scan if user is authenticated
-      if (user && actualBusinessId) {
-        // Insert scan record
-        await supabase
-          .from('qr_scans')
-          .insert({
-            customer_id: user.id,
-            business_id: actualBusinessId,
-            qr_code_id: qrCodeId,
-            points_earned: pointsEarned,
-            scanned_at: new Date().toISOString()
-          });
-
-        // Update loyalty points
-        const { data: existingPoints } = await supabase
-          .from('loyalty_points')
-          .select('id, points')
-          .eq('customer_id', user.id)
-          .eq('business_id', actualBusinessId)
-          .single();
-
-        if (existingPoints) {
-          await supabase
-            .from('loyalty_points')
-            .update({ 
-              points: existingPoints.points + pointsEarned,
-              updated_at: new Date().toISOString()
-            })
-            .eq('id', existingPoints.id);
-        } else {
-          await supabase
-            .from('loyalty_points')
-            .insert({
-              customer_id: user.id,
-              business_id: actualBusinessId,
-              points: pointsEarned
-            });
+      // Record the scan + award loyalty atomically via secure RPC (only when we have a real qrCodeId)
+      if (user && qrCodeId) {
+        const { data: rpcRes, error: rpcErr } = await supabase.rpc('award_qr_scan', {
+          p_qr_code_id: qrCodeId,
+        });
+        if (rpcErr) {
+          console.error('award_qr_scan RPC error:', rpcErr);
+          throw new Error(rpcErr.message || 'Failed to record scan');
+        }
+        const res = rpcRes as { success: boolean; error?: string; points_earned?: number; business_name?: string; business_id?: string } | null;
+        if (!res?.success) {
+          throw new Error(res?.error || 'Failed to record scan');
         }
       }
 
