@@ -5,12 +5,27 @@ import { motion } from 'framer-motion';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import PasswordResetForm from '@/components/auth/forms/PasswordResetForm';
+import { Gift } from 'lucide-react';
 
 export const FooterSection: React.FC = () => {
   const [showResetDialog, setShowResetDialog] = useState(false);
 
   return (
     <>
+      {/* Beta Code CTA */}
+      <Link
+        to="/business-signup?beta=true"
+        className="flex items-center gap-3 p-3 rounded-lg border border-dashed border-mansagold/40 bg-mansagold/5 hover:bg-mansagold/10 transition-colors duration-300 group"
+      >
+        <div className="flex-shrink-0 w-9 h-9 rounded-full bg-mansagold/20 flex items-center justify-center group-hover:bg-mansagold/30 transition-colors">
+          <Gift className="w-4 h-4 text-mansagold" />
+        </div>
+        <div className="text-left">
+          <p className="text-sm font-semibold text-mansagold">Have a beta code?</p>
+          <p className="text-xs text-slate-400">Create your free business account in under 2 minutes</p>
+        </div>
+      </Link>
+
       <Separator className="my-4 bg-white/10" />
       
       <motion.div 

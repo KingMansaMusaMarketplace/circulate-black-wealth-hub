@@ -39,6 +39,7 @@ interface BusinessSignupFormProps {
   referringAgent?: any;
   onCheckReferralCode?: (code: string) => Promise<any>;
   onSuccess?: () => void;
+  betaMode?: boolean;
 }
 
 // Retry helper for business record creation (handles race condition with handle_new_user trigger)
@@ -72,7 +73,8 @@ const createBusinessWithRetry = async (
 
 const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({ 
   referralCode = '', 
-  onSuccess 
+  onSuccess,
+  betaMode = false,
 }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -264,14 +266,15 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
               <div className="space-y-2">
                 <Label htmlFor="betaCode" className="text-gray-900 font-semibold flex items-center gap-2">
                   <Gift className="w-4 h-4 text-mansagold" />
-                  Beta Code <span className="text-xs font-normal text-gray-500">(optional)</span>
+                  Beta Code {!betaMode && <span className="text-xs font-normal text-gray-500">(optional)</span>}
                 </Label>
                 <Input
                   id="betaCode"
                   {...register('betaCode')}
                   disabled={isLoading}
+                  autoFocus={betaMode}
                   placeholder="Enter your beta code if you have one"
-                  className="border-2 focus:border-mansagold border-dashed"
+                  className={`border-2 focus:border-mansagold ${betaMode ? 'border-mansagold bg-mansagold/5' : 'border-dashed'}`}
                 />
                 <p className="text-xs text-gray-500">
                   Beta testers: enter the code from your invitation email to unlock free access.
