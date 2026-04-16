@@ -199,6 +199,10 @@ const BusinessProfileManager = () => {
             <Scale size={16} />
             Supplier Diversity
           </TabsTrigger>
+          <TabsTrigger value="answering-service" className="flex items-center gap-2">
+            <Phone size={16} />
+            AI Answering
+          </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings size={16} />
             Settings
