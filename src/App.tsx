@@ -731,6 +731,7 @@ function App() {
                     </div>
                     <NativeFeaturesOnboarding />
                     <AIChatWidget />
+                    <Suspense fallback={null}><ShoppingAssistantChat /></Suspense>
                     <Toaster />
                     <Sonner />
                   </TooltipProvider>
@@ -1049,6 +1050,7 @@ function App() {
                 </div>
                 <NativeFeaturesOnboarding />
                 <AIChatWidget />
+                <Suspense fallback={null}><ShoppingAssistantChat /></Suspense>
                 <Toaster />
                 <Sonner />
                 <Suspense fallback={null}><CookieConsentBanner /></Suspense>
