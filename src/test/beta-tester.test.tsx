@@ -1,3 +1,4 @@
+// @vitest-environment node
 /**
  * Beta Tester Management System — Comprehensive Tests
  * Covers: BetaTesterManager UI, useBetaTesterTracking hook, helper functions, RLS expectations
