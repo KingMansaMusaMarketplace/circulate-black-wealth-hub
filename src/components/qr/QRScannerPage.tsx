@@ -152,6 +152,7 @@ const QRScannerPage = () => {
         pointsEarned: res.points_earned || 0,
         discount: res.discount_applied || undefined,
         businessId: res.business_id || '',
+        qrCodeId,
       };
 
       setScanResult(result);
@@ -308,45 +309,47 @@ const QRScannerPage = () => {
     return (
       <>
         <Helmet>
-          <title>Scan Successful | 1325.AI</title>
+          <title>Pay Your Bill | 1325.AI</title>
         </Helmet>
-        
+
         <div className="min-h-screen bg-background flex items-center justify-center p-4">
-          <Card className="max-w-md w-full">
-            <CardHeader className="text-center">
-              <div className="flex justify-center mb-4">
-                <CheckCircle className="h-16 w-16 text-green-500" />
-              </div>
-              <CardTitle>Scan Successful!</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-center">
-                <h3 className="text-xl font-semibold mb-2">{scanResult.businessName}</h3>
-                <div className="space-y-2">
-                  <Badge className="bg-green-100 text-green-800 text-lg px-4 py-2">
-                    +{scanResult.pointsEarned} Points Earned
-                  </Badge>
-                  {scanResult.discount && (
-                    <Badge variant="secondary" className="text-lg px-4 py-2">
-                      {scanResult.discount}% Discount Applied
-                    </Badge>
-                  )}
+          <div className="w-full max-w-md space-y-4">
+            <Card>
+              <CardHeader className="text-center pb-3">
+                <div className="flex justify-center mb-2">
+                  <CheckCircle className="h-12 w-12 text-green-500" />
                 </div>
-              </div>
-              
-              <div className="space-y-2">
-                <Button onClick={navigateToBusiness} className="w-full">
-                  View Business Details
-                </Button>
-                <Button variant="outline" onClick={resetScanner} className="w-full">
-                  Scan Another QR Code
-                </Button>
-                <Button variant="ghost" onClick={() => navigate('/loyalty')} className="w-full">
-                  View My Rewards
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                <CardTitle>Scan Successful</CardTitle>
+                <p className="text-sm text-muted-foreground">{scanResult.businessName}</p>
+              </CardHeader>
+              <CardContent className="flex justify-center gap-2 pb-4">
+                <Badge className="bg-green-100 text-green-800">
+                  +{scanResult.pointsEarned} pts
+                </Badge>
+                {scanResult.discount ? (
+                  <Badge variant="secondary">{scanResult.discount}% off your bill</Badge>
+                ) : null}
+              </CardContent>
+            </Card>
+
+            <QRPayBill
+              businessId={scanResult.businessId}
+              businessName={scanResult.businessName}
+              qrCodeId={scanResult.qrCodeId}
+              pointsEarned={scanResult.pointsEarned}
+              discountPercentage={scanResult.discount || 0}
+              onCancel={resetScanner}
+            />
+
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={navigateToBusiness} className="flex-1">
+                View Business
+              </Button>
+              <Button variant="ghost" onClick={resetScanner} className="flex-1">
+                Scan Again
+              </Button>
+            </div>
+          </div>
         </div>
       </>
     );
