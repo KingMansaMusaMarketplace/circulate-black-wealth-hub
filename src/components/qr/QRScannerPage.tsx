@@ -13,12 +13,14 @@ import { useNativeCamera } from '@/hooks/use-native-camera';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { Html5Qrcode } from 'html5-qrcode';
+import QRPayBill from './QRPayBill';
 
 interface ScanResult {
   businessName: string;
   pointsEarned: number;
   discount?: number;
   businessId: string;
+  qrCodeId?: string;
 }
 
 const QRScannerPage = () => {
