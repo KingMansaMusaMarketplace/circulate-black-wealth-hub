@@ -911,6 +911,41 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_chat_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          messages: Json
+          title: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          messages?: Json
+          title?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          messages?: Json
+          title?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_chat_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       ai_recommendations: {
         Row: {
           business_id: string
@@ -993,6 +1028,69 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "consumer_emails"
             referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      ai_review_summaries: {
+        Row: {
+          business_id: string
+          generated_at: string
+          id: string
+          review_count: number
+          review_hash: string | null
+          summary: string
+        }
+        Insert: {
+          business_id: string
+          generated_at?: string
+          id?: string
+          review_count?: number
+          review_hash?: string | null
+          summary: string
+        }
+        Update: {
+          business_id?: string
+          generated_at?: string
+          id?: string
+          review_count?: number
+          review_hash?: string | null
+          summary?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_review_summaries_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_review_summaries_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_review_summaries_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_review_summaries_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_review_summaries_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
           },
         ]
       }
