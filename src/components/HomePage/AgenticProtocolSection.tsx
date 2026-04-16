@@ -23,7 +23,7 @@ const levels = [
     desc: 'Manus, Claude Code, Devin. Multi-step execution without hand-holding.',
     accent: 'from-mansablue/20 to-blue-600/10',
     border: 'border-mansablue/30',
-    text: 'text-mansablue',
+    text: 'text-blue-300',
   },
   {
     num: '03',
