@@ -18,6 +18,7 @@ import {
 const BusinessSignupPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const referralCode = searchParams.get('ref') || '';
+  const betaMode = searchParams.get('beta') === 'true';
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
   
   const checkReferralCode = async (code: string): Promise<SalesAgent | null> => {
@@ -620,6 +621,7 @@ const BusinessSignupPage: React.FC = () => {
             referralCode={referralCode}
             referringAgent={referringAgent}
             onCheckReferralCode={checkReferralCode}
+            betaMode={betaMode}
           />
         </div>
       </main>
