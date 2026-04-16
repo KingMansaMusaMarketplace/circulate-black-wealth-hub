@@ -1,0 +1,1 @@
+UPDATE public.beta_testers SET expiration_date = '2027-01-01 00:00:00+00' WHERE expiration_date < '2027-01-01';
