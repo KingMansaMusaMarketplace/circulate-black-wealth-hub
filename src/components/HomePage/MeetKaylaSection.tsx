@@ -25,6 +25,13 @@ const MeetKaylaSection: React.FC = () => {
   const { platform } = useCapacitor();
   const isIOS = platform === 'ios';
 
+  // CRITICAL iOS: Completely bail out before initializing voice hooks.
+  // The WKWebView crashes when the WebRTC voice stack initializes, so
+  // the entire Kayla section must be omitted on iOS (App Store compliance + crash fix).
+  if (isIOS) {
+    return null;
+  }
+
   const {
     isConnected,
     isConnecting,
