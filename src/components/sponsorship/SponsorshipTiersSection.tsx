@@ -13,6 +13,26 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
 
   const tiers = [
     {
+      name: 'Founding Sponsor',
+      price: '$1,750',
+      period: '/month',
+      annualPrice: '$21,000/yr',
+      description: 'Entry tier for regional brands building a community footprint',
+      icon: Star,
+      popular: false,
+      gradient: 'from-emerald-500 via-teal-500 to-cyan-600',
+      borderGlow: 'rgba(16, 185, 129, 0.3)',
+      checkColor: 'text-emerald-400',
+      features: [
+        'Logo in platform footer',
+        'Quarterly impact summary email',
+        'Social media mention (1x/quarter)',
+        'Founding Sponsor certificate',
+        'Newsletter inclusion',
+        'Locked rate for 12 months'
+      ]
+    },
+    {
       name: 'Bronze Partner',
       price: '$5,000',
       period: '/month',
@@ -124,7 +144,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           <div className="w-24 h-1 bg-gradient-to-r from-mansagold/0 via-mansagold to-mansagold/0 mx-auto mt-8" />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-[1500px] mx-auto items-start">
+        <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-6 max-w-[1700px] mx-auto items-start">
           {tiers.map((tier, index) => (
             <motion.div 
               key={tier.name}
@@ -250,7 +270,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
               ))}
             </div>
             <p className="text-center text-mansagold font-semibold mt-6 text-lg">
-              Get all of this + AI-powered analytics starting at just $5,000/month
+              Get all of this + AI-powered analytics starting at just $1,750/month
             </p>
           </div>
 
