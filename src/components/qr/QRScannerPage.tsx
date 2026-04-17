@@ -472,4 +472,34 @@ const QRScannerPage = () => {
   );
 };
 
+interface ScannerResultActionsProps {
+  businessId: string;
+  businessName: string;
+  qrCodeId?: string;
+  pointsEarned: number;
+  discountPercentage: number;
+  onCancel: () => void;
+}
+
+const ScannerResultActions: React.FC<ScannerResultActionsProps> = (props) => {
+  const stripe = useBusinessStripeStatus(props.businessId);
+
+  if (stripe.loading) {
+    return (
+      <Card className="max-w-md w-full">
+        <CardContent className="py-8 flex justify-center">
+          <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // If business is fully Stripe-connected, offer in-app bill pay; otherwise track-only.
+  if (stripe.connected && stripe.chargesEnabled) {
+    return <QRPayBill {...props} />;
+  }
+
+  return <QRTrackVisit {...props} onDone={props.onCancel} />;
+};
+
 export default QRScannerPage;
