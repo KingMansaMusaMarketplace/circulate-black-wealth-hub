@@ -1,5 +1,6 @@
 import { CommissionDashboard } from '@/components/admin/CommissionDashboard';
 import CommissionReportTrigger from '@/components/admin/CommissionReportTrigger';
+import PricingImpactWidget from '@/components/admin/PricingImpactWidget';
 import { Helmet } from 'react-helmet-async';
 import { DollarSign } from 'lucide-react';
 
@@ -33,6 +34,11 @@ const CommissionsPage = () => {
               <p className="text-white/70">Track commission earnings and transaction revenue</p>
             </div>
           </div>
+        </div>
+
+        {/* Pricing Impact Widget */}
+        <div className="animate-fade-in" style={{ animationDelay: '0.05s' }}>
+          <PricingImpactWidget />
         </div>
 
         {/* Commission Dashboard */}
