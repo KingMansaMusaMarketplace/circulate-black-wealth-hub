@@ -7,6 +7,7 @@ import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Business } from '@/types/business';
+import { getBusinessBanner } from '@/utils/businessBanners';
 
 interface FeaturedSpotlightProps {
   business?: Business;
@@ -14,7 +15,8 @@ interface FeaturedSpotlightProps {
 }
 
 const FeaturedSpotlightCard: React.FC<{ business: Business }> = ({ business }) => {
-  const primarySrc = business.imageUrl || business.bannerUrl || '';
+  const resolvedBanner = getBusinessBanner(business.id, business.bannerUrl, business.website);
+  const primarySrc = resolvedBanner || business.imageUrl || business.bannerUrl || '';
   const websiteFallback = business.website 
     ? `https://image.thum.io/get/width/1200/crop/630/noanimate/${business.website}` 
     : '';
