@@ -87,16 +87,36 @@ const DirectoryPage: React.FC = () => {
   const { data: featuredBusinesses = [] } = useQuery({
     queryKey: ['featured-spotlight-businesses'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('businesses')
-        .select('id, name, business_name, description, category, address, city, state, zip_code, website, logo_url, banner_url, average_rating, review_count, is_verified, latitude, longitude, created_at, updated_at')
-        .eq('is_verified', true)
-        .gte('average_rating', 4)
-        .gt('review_count', 0)
-        .not('id', 'in', '(ac39bb6d-7669-4972-9ad7-ebd0d42b86d3)') // Exclude Dakar NOLA from Featured Spotlight
-        .order('average_rating', { ascending: false })
-        .order('review_count', { ascending: false })
-        .limit(10);
+      // Pinned business to always include in Featured Spotlight (e.g., Blavity.org)
+      const PINNED_FEATURED_IDS = ['56eea0b6-d1ec-4c68-af4a-191fc91d30a7']; // Blavity.org
+      // Businesses to exclude from Featured Spotlight
+      const EXCLUDED_FEATURED_IDS = [
+        'ac39bb6d-7669-4972-9ad7-ebd0d42b86d3', // Dakar NOLA
+        'eadad328-0eb1-4a18-b54e-a5ff24540a6d', // Fixins Soul Kitchen
+      ];
+
+      const selectCols = 'id, name, business_name, description, category, address, city, state, zip_code, website, logo_url, banner_url, average_rating, review_count, is_verified, latitude, longitude, created_at, updated_at';
+
+      const [topRatedRes, pinnedRes] = await Promise.all([
+        supabase
+          .from('businesses')
+          .select(selectCols)
+          .eq('is_verified', true)
+          .gte('average_rating', 4)
+          .gt('review_count', 0)
+          .not('id', 'in', `(${[...EXCLUDED_FEATURED_IDS, ...PINNED_FEATURED_IDS].join(',')})`)
+          .order('average_rating', { ascending: false })
+          .order('review_count', { ascending: false })
+          .limit(9),
+        supabase
+          .from('businesses')
+          .select(selectCols)
+          .in('id', PINNED_FEATURED_IDS),
+      ]);
+
+      const error = topRatedRes.error || pinnedRes.error;
+      // Pinned businesses appear first in the spotlight
+      const data = [...(pinnedRes.data || []), ...(topRatedRes.data || [])];
       
       if (error) throw error;
       
