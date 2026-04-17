@@ -9,7 +9,7 @@ import { Slider } from '@/components/ui/slider';
 
 const ROICalculator = () => {
   const [monthlySpend, setMonthlySpend] = useState([2500]);
-  const kaylaProCost = 149;
+  const kaylaProCost = 299;
   const savings = monthlySpend[0] - kaylaProCost;
   const annualSavings = savings * 12;
   const multiplier = (monthlySpend[0] / kaylaProCost).toFixed(1);
@@ -93,8 +93,8 @@ const PricingSection = () => {
     {
       name: 'Starter',
       icon: Zap,
-      monthlyPrice: 49,
-      annualPrice: 490,
+      monthlyPrice: 79,
+      annualPrice: 790,
       description: 'AI-powered records management & business tools',
       highlight: false,
       trialText: '30-day free trial',
@@ -111,9 +111,9 @@ const PricingSection = () => {
     {
       name: 'Pro',
       icon: Crown,
-      monthlyPrice: 149,
-      annualPrice: 1490,
-      description: 'Full suite of 28 AI-powered services',
+      monthlyPrice: 299,
+      annualPrice: 2990,
+      description: 'Full suite of 28 AI-powered services — replaces ~$560/mo of single-purpose tools',
       highlight: true,
       badge: 'Most Popular',
       trialText: '14-day free trial',
@@ -127,19 +127,19 @@ const PricingSection = () => {
         'Custom branding options',
       ],
       cta: 'Start Pro Trial',
-      footnote: 'Recommended for teams up to ~20 employees or a single location.',
+      footnote: "Founders' Lock: first 100 businesses keep $149/mo for life.",
     },
     {
       name: 'Enterprise',
       icon: Building2,
-      monthlyPrice: 420,
+      monthlyPrice: 899,
       annualPrice: null,
       description: 'Multi-location support, white-labeling, and advanced integrations',
       highlight: false,
       trialText: '14-day free trial',
       pricePrefix: 'From ',
-      priceSuffix: '+ $30/user/mo',
-      footnote: 'Example: 30 users ≈ $1,320/month (about $15,840/year).',
+      priceSuffix: '+ $50/user/mo',
+      footnote: 'Example: 30 users ≈ $2,399/month (about $28,788/year).',
       features: [
         'Everything in Pro',
         'Multi-location management',

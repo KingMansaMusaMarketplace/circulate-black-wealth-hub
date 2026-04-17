@@ -121,7 +121,7 @@ export const BusinessSubscriptionBenefits: React.FC = () => {
         <div className="mt-8 p-6 bg-gradient-to-r from-mansablue/10 to-mansagold/10 rounded-lg border">
           <div className="flex items-center gap-3 mb-3">
             <Trophy className="h-6 w-6 text-mansagold" />
-            <h4 className="font-semibold text-lg">Kayla AI Plans: Essentials $19/mo · Starter $49/mo · Pro $149/mo · Enterprise from $420/mo</h4>
+            <h4 className="font-semibold text-lg">Kayla AI Plans: Essentials $19/mo · Starter $79/mo · Pro $299/mo · Enterprise from $899/mo</h4>
           </div>
           <p className="text-sm text-muted-foreground">
             Your subscription supports the growth of community businesses and strengthens economic empowerment 

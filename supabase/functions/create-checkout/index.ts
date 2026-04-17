@@ -152,15 +152,19 @@ serve(async (req) => {
     // Set price based on user type and tier
     let priceId;
 
-    // Kayla AI tier price IDs (hardcoded for reliability)
+    // Kayla AI tier price IDs (hardcoded for reliability — updated 2026-04-17)
     const KAYLA_PRICE_IDS: Record<string, string> = {
       'kayla_essentials': 'price_1TJ9yKAsptTW1mCmr8SJRK2g',
       'kayla_essentials_annual': 'price_1TJ9yjAsptTW1mCmJ8pWHUqs',
-      'kayla_starter': 'price_1TGzeOAsptTW1mCmJCGRE0mL',
-      'kayla_starter_annual': 'price_1TGzg6AsptTW1mCmbkF4gffD',
-      'kayla_pro': 'price_1TGzewAsptTW1mCmYKjYk0Fn',
-      'kayla_pro_annual': 'price_1TGzgRAsptTW1mCmloHSfeKB',
-      'kayla_enterprise': 'price_1TJ9zBAsptTW1mCmfyUQxqYc',
+      'kayla_starter': 'price_1TNLRpAsptTW1mCm5QvipN9l',           // $79/mo
+      'kayla_starter_annual': 'price_1TNLWEAsptTW1mCm2jha0NfY',    // $790/yr
+      'kayla_pro': 'price_1TNLSUAsptTW1mCmMW1G6Jfv',               // $299/mo
+      'kayla_pro_annual': 'price_1TNLXeAsptTW1mCmb6dsvL2y',        // $2,990/yr
+      'kayla_pro_founders': 'price_1TGzewAsptTW1mCmYKjYk0Fn',      // $149/mo Founders' Lock
+      'kayla_enterprise': 'price_1TNLTCAsptTW1mCmVEccEd1D',        // $899/mo base
+      'business_pro': 'price_1TNLRBAsptTW1mCmCpwvkqrV',             // $39/mo
+      'business_pro_annual': 'price_1TNLVlAsptTW1mCmedqECEFO',     // $390/yr
+      'sponsor_founding': 'price_1TNLUlAsptTW1mCm7rLwOuCq',         // $1,750/mo
     };
 
     // Check Kayla AI tiers first (works for both customer and business userTypes)

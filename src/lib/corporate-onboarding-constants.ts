@@ -31,6 +31,7 @@ export const CORPORATE_ONBOARDING_STEPS: CorporateOnboardingStep[] = [
     description: 'Select the sponsorship tier that aligns with your company\'s goals and budget. Each tier offers unique benefits and visibility.',
     illustration: Award,
     features: [
+      'Founding Sponsor: Entry tier for regional brands ($1,750/month)',
       'Bronze Tier: Essential community support ($5,000/month)',
       'Silver Tier: Enhanced visibility and reporting ($15,000/month)',
       'Gold Tier: Premium partnership benefits ($25,000/month)',
@@ -94,7 +95,7 @@ export const CORPORATE_ONBOARDING_STEPS: CorporateOnboardingStep[] = [
 export const CORPORATE_FAQ_ITEMS = [
   {
     question: 'What are the different sponsorship tiers and their benefits?',
-    answer: 'We offer Bronze ($5,000/mo), Silver ($15,000/mo), Gold ($25,000/mo), and Platinum ($50,000+/mo) tiers. Each includes increasing levels of brand visibility, impact reporting, networking opportunities, and exclusive partnership benefits. Higher tiers receive premium placement and co-marketing opportunities.'
+    answer: 'We offer Founding Sponsor ($1,750/mo entry tier), Bronze ($5,000/mo), Silver ($15,000/mo), Gold ($25,000/mo), and Platinum ($50,000+/mo) tiers. Each includes increasing levels of brand visibility, impact reporting, networking opportunities, and exclusive partnership benefits. Higher tiers receive premium placement and co-marketing opportunities.'
   },
   {
     question: 'How do you measure and report on community impact?',
