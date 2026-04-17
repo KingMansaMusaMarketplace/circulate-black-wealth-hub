@@ -120,6 +120,8 @@ const businessBannerFallbacks: Record<string, string> = {
 const businessBannerOverrides: Record<string, string> = {
   // Heritage restaurant - force local square brand image in featured spotlight instead of stale external DB URL
   '43d56453-75d7-4915-94e9-3dc619bbff8f': '/images/featured/heritage-banner.jpg',
+  // MaC Venture Capital - force v2 banner with extra top safe area so the featured label never covers text
+  '51832a8d-b63a-4910-b64c-77579d9bcb69': '/images/featured/mac-venture-banner-v2.jpg',
   // Harriet's Cheesecakes Unlimited - DB banner is just a stretched logo; use appetizing food photo
   'e4117c53-1d41-49eb-9f31-9365abae0116': '/businesses/harriets-cheesecakes-card.jpg',
 };
