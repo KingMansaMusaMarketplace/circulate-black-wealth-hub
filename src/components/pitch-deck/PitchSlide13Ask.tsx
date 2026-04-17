@@ -14,16 +14,16 @@ import {
 
 const PitchSlide13Ask: React.FC = () => {
   const useOfFunds = [
-    { category: 'Engineering', percentage: 40, description: 'Platform scaling, mobile apps, API' },
-    { category: 'Sales & Marketing', percentage: 30, description: 'Agent network, business acquisition' },
-    { category: 'Operations', percentage: 20, description: 'Customer success, compliance' },
-    { category: 'Reserve', percentage: 10, description: 'Runway extension, opportunities' },
+    { category: 'AI & Protocol Engineering', percentage: 45, description: 'Agentic commerce protocol, A2A infrastructure, patent execution' },
+    { category: 'Go-to-Market', percentage: 25, description: 'Mansa Musa pilot expansion, enterprise design partners' },
+    { category: 'Operations & Compliance', percentage: 20, description: 'Customer success, fintech & data compliance' },
+    { category: 'Reserve', percentage: 10, description: 'Runway extension, strategic opportunities' },
   ];
 
   const milestones = [
-    { month: '6 months', milestone: '250 paying businesses', metric: '$56K MRR' },
-    { month: '12 months', milestone: '750 businesses, 5 cities', metric: '$169K MRR' },
-    { month: '18 months', milestone: 'Series A ready', metric: '$500K MRR' },
+    { month: '6 months', milestone: '500 verified businesses on protocol', metric: '$75K MRR' },
+    { month: '12 months', milestone: '2,000 businesses, 3 enterprise design partners', metric: '$250K MRR' },
+    { month: '18 months', milestone: 'Series A ready — protocol category leader', metric: '$750K MRR' },
   ];
 
   return (
@@ -37,6 +37,9 @@ const PitchSlide13Ask: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             The <span className="text-mansagold">Ask</span>
           </h2>
+          <p className="text-white/70 text-lg max-w-3xl mx-auto">
+            Funding the world's first <span className="text-mansagold font-semibold">Economic Operating System</span> — agentic commerce infrastructure with no direct competitor.
+          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -52,11 +55,12 @@ const PitchSlide13Ask: React.FC = () => {
                   <DollarSign className="w-4 h-4 mr-2" />
                   Seed Round
                 </Badge>
-                <div className="text-6xl font-black text-mansagold mb-2">$500K</div>
-                <p className="text-white font-semibold">Pre-seed / Seed Investment</p>
+                <div className="text-6xl font-black text-mansagold mb-2">$3M</div>
+                <p className="text-white font-semibold">Seed @ $30M post-money</p>
+                <p className="text-white/60 text-sm mt-1">10% dilution · 18-month runway</p>
                 <div className="mt-3 flex items-center justify-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-white/60" />
-                  <span className="text-white/60 text-sm">$1.82B Implied Valuation</span>
+                  <TrendingUp className="w-4 h-4 text-mansagold/80" />
+                  <span className="text-white/70 text-sm">$1.82B long-term TAM (see appendix)</span>
                 </div>
               </div>
 
