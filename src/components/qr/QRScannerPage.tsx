@@ -14,6 +14,8 @@ import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { Html5Qrcode } from 'html5-qrcode';
 import QRPayBill from './QRPayBill';
+import QRTrackVisit from './QRTrackVisit';
+import { useBusinessStripeStatus } from '@/hooks/use-business-stripe-status';
 
 interface ScanResult {
   businessName: string;
@@ -332,7 +334,7 @@ const QRScannerPage = () => {
               </CardContent>
             </Card>
 
-            <QRPayBill
+            <ScannerResultActions
               businessId={scanResult.businessId}
               businessName={scanResult.businessName}
               qrCodeId={scanResult.qrCodeId}
