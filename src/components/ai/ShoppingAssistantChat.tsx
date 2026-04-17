@@ -5,12 +5,20 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import ReactMarkdown from 'react-markdown';
 import { useToast } from '@/hooks/use-toast';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 type Message = { role: 'user' | 'assistant'; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-shopping-assistant`;
 
 const ShoppingAssistantChat: React.FC = () => {
+  const { platform } = useCapacitor();
+  // CRITICAL iOS: Hide floating "Ask Kayla" widget on iOS to prevent crashes & App Store rejection.
+  if (platform === 'ios') return null;
+  return <ShoppingAssistantChatInner />;
+};
+
+const ShoppingAssistantChatInner: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
