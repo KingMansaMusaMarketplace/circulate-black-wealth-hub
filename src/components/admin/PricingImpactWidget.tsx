@@ -104,11 +104,11 @@ export const PricingImpactWidget = () => {
               <div className="text-xs text-muted-foreground mt-1">at current prices</div>
             </div>
 
-            <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-              <div className="flex items-center gap-2 text-emerald-500 text-xs uppercase tracking-wide mb-1">
+            <div className="p-4 rounded-lg bg-success/10 border border-success/30">
+              <div className="flex items-center gap-2 text-success text-xs uppercase tracking-wide mb-1">
                 <TrendingUp className="h-3 w-3" /> Monthly Uplift
               </div>
-              <div className="text-2xl font-bold text-emerald-500">
+              <div className="text-2xl font-bold text-success">
                 +{fmt(data.monthlyUplift)}
               </div>
               <div className="text-xs text-muted-foreground mt-1">
@@ -167,7 +167,7 @@ export const PricingImpactWidget = () => {
                             </td>
                             <td className="py-2 text-right">
                               {delta > 0 ? (
-                                <Badge className="bg-emerald-500/20 text-emerald-500 border-emerald-500/30">
+                                <Badge className="bg-success/20 text-success border-success/30">
                                   +{fmt(delta)}
                                 </Badge>
                               ) : (
