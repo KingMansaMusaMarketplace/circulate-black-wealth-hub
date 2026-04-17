@@ -1,47 +1,48 @@
 
+The user wants me to read the MaC Venture Capital article (same TechCrunch piece, republished on MaC's site) before proceeding with any fundraising work. This is a research/exploration request — I should fetch the article, analyze what MaC themselves are signaling (since this is on their own site, it tells us what they want founders to know), and report back with implications for 1325.AI.
 
-# AI Tools Expansion — 3 High-ROI Features
+Plan:
+1. Fetch the MaC article page.
+2. Extract MaC's framing — what they emphasize, which partner is quoted, what signals they're sending to founders.
+3. Cross-reference with 1325.AI's current positioning (Slide 13 Ask: $500K at $1.82B valuation — mathematically inconsistent with seed market).
+4. Deliver a focused brief: what MaC is telegraphing, what it means for our outreach, and 2–3 concrete next steps.
 
-## Overview
-Add three AI-powered features using existing infrastructure (Supabase Edge Functions → Lovable AI Gateway).
-
----
-
-## Feature 1: AI Shopping Assistant Chat (Consumer)
-A conversational chatbot on the directory/consumer side that helps users find businesses naturally.
-
-- **Edge Function**: `ai-shopping-assistant` — accepts user messages + conversation history, queries the `businesses` table for context, calls Lovable AI Gateway with SSE streaming
-- **UI Component**: `src/components/ai/ShoppingAssistantChat.tsx` — floating chat bubble on directory pages, renders markdown responses, streams tokens in real-time
-- **DB Table**: `ai_chat_sessions` (id, user_id nullable, messages jsonb, created_at) with RLS
-- System prompt includes knowledge of the marketplace, Black-owned business directory, and can reference live business data
-
-## Feature 2: Smart Review Summaries (Consumer)
-Auto-generated summary of all reviews for a business displayed on the business detail page.
-
-- **Edge Function**: `ai-review-summary` — takes business_id, fetches all reviews, calls AI to generate a 2-3 sentence summary highlighting strengths and areas for improvement
-- **UI Component**: `src/components/business/AIReviewSummary.tsx` — card shown on business detail page above individual reviews
-- **DB Table**: `ai_review_summaries` (id, business_id, summary text, review_count, generated_at) — cached, regenerated when new reviews are added
-- Non-streaming invoke call since it's a one-shot generation
-
-## Feature 3: AI FAQ Generator (Business Owner)
-Auto-generate FAQ entries from reviews, business details, and messages — feeds into the Kayla Answering Service.
-
-- **Edge Function**: `ai-faq-generator` — takes business_id, pulls reviews + business description + category, generates 5-10 FAQ Q&A pairs
-- **UI Component**: `src/components/business/AIFAQGenerator.tsx` — button in business dashboard that generates and lets owner edit/approve FAQs before saving
-- **Storage**: FAQ entries saved to existing `answering_config` table's `faq_entries` field (already exists from the Kayla Answering Service plan)
-- Non-streaming invoke call
+No code changes. No file edits. Pure strategic read-out after fetching the article.
 
 ---
 
-## Technical Approach
-- All edge functions use `LOVABLE_API_KEY` (already provisioned) → `google/gemini-3-flash-preview`
-- CORS headers follow existing pattern with CSRF token support
-- Input validation with Zod in each edge function
-- 429/402 error handling surfaced as toasts to users
-- Shopping Assistant uses SSE streaming; other two use standard invoke
+## What I'll do
 
-## Implementation Order
-1. AI Shopping Assistant Chat (largest, most visible)
-2. Smart Review Summaries (small, high impact)
-3. AI FAQ Generator (extends existing answering service)
+**Step 1 — Fetch & read the MaC article**
+Use `code--fetch_website` on `https://macventurecapital.com/its-not-your-imagination-ai-seed-startups-are-commanding-higher-valuations/` and read the full content (markdown).
 
+**Step 2 — Extract MaC's signals**
+Identify:
+- Which MaC partner is quoted (likely Marlon Nichols) and exact language used
+- What traction/proof MaC explicitly says they want at seed
+- What valuation ranges they consider reasonable vs. frothy
+- Any thesis cues (AI infrastructure, agentic, commerce, underserved markets)
+- Whether they reference deals/check sizes that map to our raise
+
+**Step 3 — Map to 1325.AI**
+Compare MaC's stated bar against our current pitch:
+- Our Ask: $500K seed at $1.82B implied valuation → flag the math problem
+- Our proof points: 27 patent claims, Mansa Musa Marketplace as live pilot, 8 revenue streams
+- Gaps: revenue/GMV traction numbers, named pilot customers, ARR
+
+**Step 4 — Deliver a 1-page brief in chat** covering:
+- What MaC is really saying (3–5 bullets)
+- How 1325.AI matches and where we're exposed
+- Recommended re-pricing range for the Ask slide
+- 2–3 concrete next moves (warm intro path, deck edits, outreach angle)
+
+**Step 5 — Offer next actions**
+After the brief, offer (do not auto-execute):
+a) Edit `PitchSlide13Ask.tsx` to reprice the round
+b) Draft the Marlon Nichols outreach email citing his own article
+c) Add a "Traction" proof slide between Slide 9 and Slide 13
+
+## What I will NOT do in this step
+- No code edits
+- No file writes
+- No assumed valuation changes until you approve the new number
