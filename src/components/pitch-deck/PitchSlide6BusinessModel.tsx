@@ -17,8 +17,8 @@ const PitchSlide6BusinessModel: React.FC = () => {
     {
       icon: Building2,
       name: 'Business Subscriptions',
-      description: 'Essentials $19/mo · Starter $49/mo · Pro $149/mo · Enterprise $420/mo + $30/user',
-      revenue: '$225 Blended ARPU',
+      description: 'Essentials $19/mo · Starter $79/mo · Pro $299/mo · Enterprise $899/mo + $50/user',
+      revenue: '$355 Blended ARPU',
       color: 'mansagold'
     },
     {
