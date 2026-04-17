@@ -218,7 +218,7 @@ const BusinessROIDashboard: React.FC<BusinessROIDashboardProps> = ({ businessId 
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           {v.status === "confirmed" ? (
-                            <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0" />
+                            <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
                           ) : v.status === "disputed" ? (
                             <ShieldAlert className="h-4 w-4 text-destructive shrink-0" />
                           ) : (
