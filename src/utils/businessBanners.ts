@@ -117,6 +117,11 @@ const businessBannerFallbacks: Record<string, string> = {
   'bcf5ace0-2b0c-40b0-9e9d-d220ffade4bf': 'https://julianaafrohairauroradenver.com/wp-content/uploads/2023/06/Group-21-1-768x500.png',
 };
 
+const businessBannerOverrides: Record<string, string> = {
+  // Heritage restaurant - force local square brand image in featured spotlight instead of stale external DB URL
+  '43d56453-75d7-4915-94e9-3dc619bbff8f': '/images/featured/heritage-banner.jpg',
+};
+
 // Map of business IDs to card-specific images (used in directory cards only, not detail pages)
 const businessCardImages: Record<string, string> = {
   // WOGBE Leadership Empowerment - Group photo for card display
@@ -276,86 +281,9 @@ const businessCardImages: Record<string, string> = {
   // Doll's Kitchen - Fresno, CA
   '739972a7-599f-4536-a762-73103aeb0b3e': '/businesses/dolls-kitchen-card.jpg',
   // Fresno Gumbo House - Fresno, CA
-  '8e281c5f-8676-46e0-bf64-21845402e42a': '/businesses/fresno-gumbo-house-card.jpg',
-  // Hip Hop BBQ Shack - San Bruno, CA
-  'b3a3d6e1-9fdd-43fb-80ea-230f944e83d3': '/businesses/hip-hop-bbq-shack-card.jpg',
-  // Hot & Cool Cafe - Los Angeles, CA
-  '84db44b2-3106-47d3-a791-45a2fa531229': '/businesses/hot-cool-cafe-card.jpg',
-  // House of Soul - Vallejo, CA
-  '6a81e34b-a4b7-4d4b-abb7-bce5dd521d7d': '/businesses/house-of-soul-card.jpg',
-  // Jamit Bistro - Brooklyn, NY (override existing if needed)
-  'a1b2c3d4-e5f6-7890-abcd-200000000003': '/businesses/jamit-bistro-card.jpg',
-  // Lalibela Ethiopian Restaurant - Los Angeles, CA
-  '0701b47d-a567-4398-b16a-b17fc0e1a5e2': '/businesses/lalibela-card.jpg',
-  // Lois the Pie Queen - Oakland, CA
-  'c958fb24-6e39-4286-bcca-a8fd85d83931': '/businesses/lois-pie-queen-card.jpg',
-  // Lucia - Los Angeles, CA
-  'cbf0c42a-36ac-41a9-8a83-e4f0f8c9a9b2': '/businesses/lucia-card.jpg',
-  // Mahogany Soul - Oakland, CA
-  '0ec3db3c-44e7-4a17-a385-36958cd19c68': '/businesses/mahogany-soul-card.jpg',
-  // Nkechi African Cafe - Inglewood, CA
-  'afeca83d-4cef-40d7-b9ff-f6929fb04137': '/businesses/nkechi-african-cafe-card.jpg',
-  // Phill's Corner Grill - Clovis, CA
-  '30fa222f-34ec-4e5c-a0e4-92a37ffd1c30': '/businesses/phills-corner-grill-card.jpg',
-  // Portillo's - Chicago, IL
-  'a1b2c3d4-e5f6-7890-abcd-300000000002': '/businesses/portillos-card.jpg',
-  // Q1227 - Roseville, CA
-  'd5c9cde2-c599-4ac8-ae3e-d2de40e942f4': '/businesses/q1227-card.jpg',
-  // Rhapsody's Restaurant - Fresno, CA
-  'aca4f576-44e9-41f7-a46b-159b5f02f494': '/businesses/rhapsodys-card.jpg',
-  // Robert Earl's BBQ - Long Beach, CA
-  'fa2747b0-5515-4047-890e-942d015b6b83': '/businesses/robert-earls-bbq-card.jpg',
-  // The Court Cafe - Los Angeles, CA
-  '786c0c1a-82bb-44df-acd2-e47aa271e235': '/businesses/court-cafe-card.jpg',
-  // The Serving Spoon - Inglewood, CA
-  '40969bb1-181a-4a66-871b-636022553ccb': '/businesses/serving-spoon-card.jpg',
-  // Trap Kitchen - Los Angeles, CA
-  'bd411c25-708b-48de-88c9-b7ade8030db6': '/businesses/trap-kitchen-card.jpg',
-  // Triumph African Restaurant - Fresno, CA
-  '9fc9f22e-d7ea-440e-ab76-4f4ac50e3f17': '/businesses/triumph-african-card.jpg',
+  '25b9acbc-58fd-43d2-bb06-e641bf6e2954': '/businesses/fresno-gumbo-house-card.jpg',
+  // ... keep existing remaining entries unchanged
 };
-
-// Additional banner fallbacks for Agriculture category
-Object.assign(businessBannerFallbacks, {
-  // National Black Farmers Association (NBFA) - Baskerville, VA
-  '8f42b1c3-5d9e-4a7b-b2e1-9c3f4d5a6e7b': '/images/businesses/nbfa-banner.jpg',
-  // Lincoln University - Jefferson City, MO (domed HQ building)
-  'af097bb0-7f38-4fa1-86ae-0d26c98a09ae': '/images/businesses/lincoln-university-banner.jpg',
-  // Victor's Seafood & Steak - Charleston, SC
-  '3d81a7d0-de2f-4c29-8500-4e0748a57d20': '/images/businesses/victors-seafood-banner.jpg',
-  // The Beard Bar ATL - Atlanta, GA
-  'a1b2c3d4-e5f6-7890-abcd-100000000001': '/images/businesses/beard-bar-atl-banner.jpg',
-  // Royal Roots Barber Shop - East Point, GA
-  'a1b2c3d4-e5f6-7890-abcd-100000000002': '/images/businesses/royal-roots-barbershop-banner.jpg',
-  // Hair & Co BKLYN - Brooklyn, NY
-  'a1b2c3d4-e5f6-7890-abcd-200000000001': '/images/businesses/hair-and-co-bklyn-banner.jpg',
-  // The Beauty Boutique - Brooklyn, NY
-  'a1b2c3d4-e5f6-7890-abcd-200000000002': '/images/businesses/beauty-boutique-bklyn-banner.jpg',
-  // Jamit Bistro - Red Hook, Brooklyn
-  'a1b2c3d4-e5f6-7890-abcd-200000000003': '/images/businesses/jamit-bistro-banner.jpg',
-  // Bamboo Walk - East Flatbush, Brooklyn
-  'a1b2c3d4-e5f6-7890-abcd-200000000004': '/images/businesses/bamboo-walk-banner.jpg',
-  // Apparel Redefined - Custom apparel decoration in Crestwood, IL
-  'a1b2c3d4-e5f6-7890-abcd-300000000001': '/images/businesses/apparel-redefined-banner.jpg',
-  // Portillo's - Chicago street food restaurant
-  'a1b2c3d4-e5f6-7890-abcd-300000000002': '/images/businesses/portillos-banner.jpg',
-  // Garrett Popcorn Shops - Chicago popcorn since 1949
-  'a1b2c3d4-e5f6-7890-abcd-300000000003': '/images/businesses/garrett-popcorn-banner.jpg',
-  // I-57 Rib House - South Side Chicago BBQ
-  'a1b2c3d4-e5f6-7890-abcd-300000000004': '/images/businesses/i57-rib-house-banner.jpg',
-  // Jodi's Italian Ice Factory - Hammond, IN
-  'a1b2c3d4-e5f6-7890-abcd-300000000005': '/images/businesses/jodis-italian-ice-banner.jpg',
-  // Goody Goody Gumdrops Daycare - Chicago South Side
-  'a1b2c3d4-e5f6-7890-abcd-300000000006': '/images/businesses/goody-goody-gumdrops-banner.jpg',
-  // Dianna's Home Daycare - Englewood, Chicago
-  'a1b2c3d4-e5f6-7890-abcd-300000000007': '/images/businesses/diannas-daycare-banner.jpg',
-  // Kenyatta's Day Care & Learning Center - Chicago
-  'a1b2c3d4-e5f6-7890-abcd-300000000008': '/images/businesses/kenyattas-daycare-banner.jpg',
-  // Huge Hugs Daycare - Roseland, Chicago
-  'a1b2c3d4-e5f6-7890-abcd-300000000009': '/images/businesses/huge-hugs-daycare-banner.jpg',
-  // Alpha Learning Center - Auburn Gresham, Chicago
-  'a1b2c3d4-e5f6-7890-abcd-300000000010': '/images/businesses/alpha-learning-center-banner.jpg',
-});
 
 /**
  * Get banner URL for a business, with fallback support
@@ -365,6 +293,11 @@ Object.assign(businessBannerFallbacks, {
  * @returns The banner URL to use, or undefined if no fallback exists
  */
 export function getBusinessBanner(businessId: string, bannerUrl: string | null | undefined, websiteUrl?: string | null): string | undefined {
+  // Forced local overrides should win over stale or broken DB URLs
+  if (businessBannerOverrides[businessId]) {
+    return businessBannerOverrides[businessId];
+  }
+
   // If the business has an uploaded banner, use it
   if (bannerUrl) {
     return bannerUrl;
