@@ -120,6 +120,8 @@ const businessBannerFallbacks: Record<string, string> = {
 const businessBannerOverrides: Record<string, string> = {
   // Heritage restaurant - force local square brand image in featured spotlight instead of stale external DB URL
   '43d56453-75d7-4915-94e9-3dc619bbff8f': '/images/featured/heritage-banner.jpg',
+  // Harriet's Cheesecakes Unlimited - DB banner is just a stretched logo; use appetizing food photo
+  'e4117c53-1d41-49eb-9f31-9365abae0116': '/businesses/harriets-cheesecakes-card.jpg',
 };
 
 // Map of business IDs to card-specific images (used in directory cards only, not detail pages)
@@ -282,6 +284,8 @@ const businessCardImages: Record<string, string> = {
   '739972a7-599f-4536-a762-73103aeb0b3e': '/businesses/dolls-kitchen-card.jpg',
   // Fresno Gumbo House - Fresno, CA
   '25b9acbc-58fd-43d2-bb06-e641bf6e2954': '/businesses/fresno-gumbo-house-card.jpg',
+  // Harriet's Cheesecakes Unlimited - appetizing cheesecake hero
+  'e4117c53-1d41-49eb-9f31-9365abae0116': '/businesses/harriets-cheesecakes-card.jpg',
   // ... keep existing remaining entries unchanged
 };
 
