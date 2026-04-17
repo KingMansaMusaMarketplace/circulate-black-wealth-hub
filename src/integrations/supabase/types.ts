@@ -3542,6 +3542,63 @@ export type Database = {
           },
         ]
       }
+      business_cashier_pins: {
+        Row: {
+          business_id: string
+          pin_hash: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          business_id: string
+          pin_hash: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          business_id?: string
+          pin_hash?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_cashier_pins_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_cashier_pins_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_cashier_pins_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_cashier_pins_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_cashier_pins_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_contact_requests: {
         Row: {
           business_id: string
@@ -19406,6 +19463,90 @@ export type Database = {
           },
         ]
       }
+      tracked_visits: {
+        Row: {
+          business_id: string
+          confirmed_at: string | null
+          confirmed_by_method: string | null
+          created_at: string
+          customer_id: string
+          discount_percentage: number
+          id: string
+          notes: string | null
+          qr_code_id: string | null
+          qr_scan_id: string | null
+          reported_amount: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          confirmed_at?: string | null
+          confirmed_by_method?: string | null
+          created_at?: string
+          customer_id: string
+          discount_percentage?: number
+          id?: string
+          notes?: string | null
+          qr_code_id?: string | null
+          qr_scan_id?: string | null
+          reported_amount: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          confirmed_at?: string | null
+          confirmed_by_method?: string | null
+          created_at?: string
+          customer_id?: string
+          discount_percentage?: number
+          id?: string
+          notes?: string | null
+          qr_code_id?: string | null
+          qr_scan_id?: string | null
+          reported_amount?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tracked_visits_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracked_visits_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracked_visits_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracked_visits_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracked_visits_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           amount: number | null
@@ -22811,6 +22952,10 @@ export type Database = {
         }
         Returns: Json
       }
+      set_cashier_pin: {
+        Args: { p_business_id: string; p_pin: string }
+        Returns: undefined
+      }
       track_material_download: {
         Args: { p_material_id: string; p_user_id: string }
         Returns: undefined
@@ -22865,6 +23010,10 @@ export type Database = {
       }
       validate_test_answers: { Args: { answer_data: Json }; Returns: Json }
       validate_uuid_input: { Args: { input_uuid: string }; Returns: boolean }
+      verify_cashier_pin: {
+        Args: { p_business_id: string; p_pin: string }
+        Returns: boolean
+      }
     }
     Enums: {
       answering_action: "answered_faq" | "took_message" | "forwarded"

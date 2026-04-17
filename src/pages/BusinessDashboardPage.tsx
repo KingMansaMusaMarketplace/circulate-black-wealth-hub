@@ -19,6 +19,7 @@ import KaylaWelcomeOnboarding from '@/components/onboarding/KaylaWelcomeOnboardi
 import KaylaProactiveAlerts from '@/components/dashboard/KaylaProactiveAlerts';
 import { KaylaAITeam } from '@/components/business/kayla/KaylaAITeam';
 import { KaylaOrchestrationDashboard } from '@/components/business/kayla/KaylaOrchestrationDashboard';
+import BusinessROIDashboard from '@/components/business/roi/BusinessROIDashboard';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -118,7 +119,10 @@ const BusinessDashboardPage = () => {
             </TabsContent>
 
             <TabsContent value="value">
-              <ValueTracker />
+              <BusinessROIDashboard businessId={profile.id} />
+              <div className="mt-6">
+                <ValueTracker />
+              </div>
             </TabsContent>
           
             <TabsContent value="financials">
