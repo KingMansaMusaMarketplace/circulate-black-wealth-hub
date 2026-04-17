@@ -8,6 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -15,6 +16,13 @@ interface Message {
 }
 
 export const AIChatWidget: React.FC = () => {
+  const { platform } = useCapacitor();
+  // CRITICAL iOS: Hide chat widget entirely to prevent WKWebView crashes & App Store issues.
+  if (platform === 'ios') return null;
+  return <AIChatWidgetInner />;
+};
+
+const AIChatWidgetInner: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {

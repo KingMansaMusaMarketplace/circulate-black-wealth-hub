@@ -21,9 +21,17 @@ const differentiators = [
   { icon: Zap, label: 'Takes Action' },
 ];
 
+// CRITICAL iOS: Completely skip mounting Kayla on iOS.
+// The WKWebView crashes when the WebRTC voice stack initializes,
+// so the entire section is omitted on iOS (also satisfies App Store review).
 const MeetKaylaSection: React.FC = () => {
   const { platform } = useCapacitor();
-  const isIOS = platform === 'ios';
+  if (platform === 'ios') return null;
+  return <MeetKaylaSectionInner />;
+};
+
+const MeetKaylaSectionInner: React.FC = () => {
+  const isIOS = false;
 
   const {
     isConnected,
