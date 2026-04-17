@@ -93,6 +93,7 @@ const DirectoryPage: React.FC = () => {
         .eq('is_verified', true)
         .gte('average_rating', 4)
         .gt('review_count', 0)
+        .not('id', 'in', '(ac39bb6d-7669-4972-9ad7-ebd0d42b86d3)') // Exclude Dakar NOLA from Featured Spotlight
         .order('average_rating', { ascending: false })
         .order('review_count', { ascending: false })
         .limit(10);
