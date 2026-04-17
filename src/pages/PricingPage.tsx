@@ -18,7 +18,7 @@ const PricingPage: React.FC = () => {
       <div className="relative z-10 pt-20">
         <Helmet>
           <title>Pricing | Kayla AI - Plans for Every Business</title>
-          <meta name="description" content="Choose the right Kayla AI plan for your business. From Essentials at $19/mo to Enterprise with multi-location support. Save ~$12,100/mo by replacing ~4 roles with Kayla AI." />
+          <meta name="description" content="Choose the right Kayla AI plan for your business. From Essentials at $19/mo to Enterprise with multi-location support. Founders' Lock: first 100 businesses keep Kayla AI Pro at $149/mo for life." />
         </Helmet>
 
         <PricingSection />
