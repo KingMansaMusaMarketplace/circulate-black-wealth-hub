@@ -14,16 +14,16 @@ import {
 
 const PitchSlide13Ask: React.FC = () => {
   const useOfFunds = [
-    { category: 'Engineering', percentage: 40, description: 'Platform scaling, mobile apps, API' },
-    { category: 'Sales & Marketing', percentage: 30, description: 'Agent network, business acquisition' },
-    { category: 'Operations', percentage: 20, description: 'Customer success, compliance' },
-    { category: 'Reserve', percentage: 10, description: 'Runway extension, opportunities' },
+    { category: 'AI & Protocol Engineering', percentage: 45, description: 'Agentic commerce protocol, A2A infrastructure, patent execution' },
+    { category: 'Go-to-Market', percentage: 25, description: 'Mansa Musa pilot expansion, enterprise design partners' },
+    { category: 'Operations & Compliance', percentage: 20, description: 'Customer success, fintech & data compliance' },
+    { category: 'Reserve', percentage: 10, description: 'Runway extension, strategic opportunities' },
   ];
 
   const milestones = [
-    { month: '6 months', milestone: '250 paying businesses', metric: '$56K MRR' },
-    { month: '12 months', milestone: '750 businesses, 5 cities', metric: '$169K MRR' },
-    { month: '18 months', milestone: 'Series A ready', metric: '$500K MRR' },
+    { month: '6 months', milestone: '500 verified businesses on protocol', metric: '$75K MRR' },
+    { month: '12 months', milestone: '2,000 businesses, 3 enterprise design partners', metric: '$250K MRR' },
+    { month: '18 months', milestone: 'Series A ready — protocol category leader', metric: '$750K MRR' },
   ];
 
   return (
