@@ -15,6 +15,12 @@ import { mapSupabaseBusinessToBusiness } from '@/lib/api/directory/mappers';
 // Prioritized business IDs for Featured Partners (order matters)
 const FEATURED_PARTNER_IDS = [
   'a1b2c3d4-e5f6-7890-abcd-300000000001', // Apparel Redefined
+  'b09811d2-336f-4a99-a73f-4d2d4e2cd4f1', // Miguel Wilson Collection
+];
+
+// Business IDs to exclude from auto-fill top-rated featured slots
+const FEATURED_PARTNER_EXCLUDE_IDS = [
+  'ac39bb6d-7669-4972-9ad7-ebd0d42b86d3', // Dakar NOLA - replaced by Miguel Wilson Collection
 ];
 
 const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
@@ -29,11 +35,12 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
         .eq('is_verified', true);
 
       // Then fetch top-rated to fill remaining slots
+      const excludeIds = [...FEATURED_PARTNER_IDS, ...FEATURED_PARTNER_EXCLUDE_IDS];
       const { data: topRated, error } = await supabase
         .from('business_directory')
         .select('*')
         .eq('is_verified', true)
-        .not('id', 'in', `(${FEATURED_PARTNER_IDS.join(',')})`)
+        .not('id', 'in', `(${excludeIds.join(',')})`)
         .order('average_rating', { ascending: false })
         .limit(limit);
 
