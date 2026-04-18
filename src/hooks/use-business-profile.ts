@@ -4,7 +4,8 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { isValidUUID } from '@/lib/validation/uuid-guard';
-import { showDatabaseError } from '@/lib/error-toast';
+// Note: removed showDatabaseError import — this hook now fails silently
+// because many users legitimately have no business profile.
 
 export interface BusinessProfile {
   id: string;
