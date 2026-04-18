@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, ExternalLink, Youtube, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Play, Youtube, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { siteConfig } from '@/config/site';
 import { Button } from '@/components/ui/button';
@@ -17,8 +17,7 @@ interface YouTubeVideo {
 const VideoThumbnail: React.FC<{
   video: YouTubeVideo;
   index: number;
-  onPlay: (id: string) => void;
-}> = ({ video, index, onPlay }) => {
+}> = ({ video, index }) => {
   const [imgError, setImgError] = useState(false);
   const fallbackThumb = `https://img.youtube.com/vi/${video.videoId}/sddefault.jpg`;
   const thumbnailUrl = imgError ? fallbackThumb : video.thumbnail;
@@ -27,9 +26,10 @@ const VideoThumbnail: React.FC<{
   const hoverBorder = isAccent ? 'hover:border-yellow-400/50' : 'hover:border-blue-400/50';
 
   return (
-    <motion.button
-      type="button"
-      onClick={() => onPlay(video.videoId)}
+    <motion.a
+      href={video.url}
+      target="_blank"
+      rel="noopener noreferrer"
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
@@ -60,12 +60,11 @@ const VideoThumbnail: React.FC<{
           })}
         </p>
       </div>
-    </motion.button>
+    </motion.a>
   );
 };
 
 const SponsorshipVideoSection = () => {
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -88,20 +87,6 @@ const SponsorshipVideoSection = () => {
       cancelled = true;
     };
   }, []);
-
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setActiveVideo(null);
-    };
-    if (activeVideo) {
-      document.addEventListener('keydown', handleEsc);
-      document.body.style.overflow = 'hidden';
-    }
-    return () => {
-      document.removeEventListener('keydown', handleEsc);
-      document.body.style.overflow = '';
-    };
-  }, [activeVideo]);
 
   // Hide entirely if no videos load (e.g. API key not configured)
   if (!loading && videos.length === 0) {
@@ -147,7 +132,6 @@ const SponsorshipVideoSection = () => {
                   key={video.videoId}
                   video={video}
                   index={index}
-                  onPlay={setActiveVideo}
                 />
               ))}
             </div>
@@ -163,57 +147,6 @@ const SponsorshipVideoSection = () => {
           </>
         )}
       </div>
-
-      {/* Video lightbox modal */}
-      <AnimatePresence>
-        {activeVideo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActiveVideo(null)}
-            className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-5xl"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <a
-                  href={`https://www.youtube.com/watch?v=${activeVideo}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  Open on YouTube
-                </a>
-                <button
-                  type="button"
-                  onClick={() => setActiveVideo(null)}
-                  aria-label="Close video"
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                >
-                  <X className="w-5 h-5 text-white" />
-                </button>
-              </div>
-              <div className="relative aspect-video w-full rounded-xl overflow-hidden shadow-2xl bg-black">
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${activeVideo}?autoplay=1&rel=0`}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  className="absolute inset-0 w-full h-full border-0"
-                />
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 };
