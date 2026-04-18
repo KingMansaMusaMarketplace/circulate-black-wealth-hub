@@ -413,7 +413,7 @@ const WhatKaylaDoesPage: React.FC = () => {
             { label: 'AI Employees', value: AI_EMPLOYEES.length.toString(), icon: Bot },
             { label: 'Departments', value: (DEPARTMENTS.length - 1).toString(), icon: Layers },
             { label: 'Monthly Savings', value: `$${totalSavings.toLocaleString()}`, icon: Wallet },
-            { label: 'Annual ROI', value: `${Math.round((totalSavings * 12) / (149 * 12))}x`, icon: TrendingUp },
+            { label: 'Annual ROI', value: `${Math.round((totalSavings * 12) / (299 * 12))}x`, icon: TrendingUp },
           ].map((stat, i) => (
             <div key={i} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 text-center">
               <stat.icon className="w-5 h-5 text-mansagold mx-auto mb-2" />
@@ -571,8 +571,10 @@ const WhatKaylaDoesPage: React.FC = () => {
               Ready to Put Kayla to Work?
             </h2>
             <p className="text-white/60 mb-6 max-w-xl mx-auto">
-              Start with the free tier and unlock your full AI workforce for just $149/month — 
-              that's less than <span className="text-mansagold font-semibold">$6/day</span> for {AI_EMPLOYEES.length} employees.
+              Start at $19/month with Essentials, or unlock your full AI workforce with Pro at $299/month — 
+              that's less than <span className="text-mansagold font-semibold">$10/day</span> for {AI_EMPLOYEES.length} employees.
+              <br />
+              <span className="text-mansagold/80 text-xs">Founders' Lock: first 100 businesses keep Pro at $149/mo for life.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/business-signup">

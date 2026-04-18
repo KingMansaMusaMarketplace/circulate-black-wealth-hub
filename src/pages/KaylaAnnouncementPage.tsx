@@ -25,7 +25,7 @@ Starting today, Kayla can handle:
 The "Mansa Musa" Multiplier:
 Every dollar processed through Kayla is tracked by our Verified Wealth Ticker, proving the 6.0x economic impact we are making together.
 
-Activate your AI Employee starting at just $49/mo (Starter) or $149/mo (Pro — all 23+ services). No interviews, no payroll tax, and no days off.
+Activate your AI Employee starting at just $19/mo (Essentials), $79/mo (Starter), or $299/mo (Pro — all 28 services). No interviews, no payroll tax, and no days off.
 
 → Activate Kayla Now: https://1325.ai/subscription?tier=kayla_pro
 
@@ -48,7 +48,7 @@ What she does:
 
 The "Mansa Musa" Multiplier: Every dollar through Kayla is tracked by our Verified Wealth Ticker — proving the 6.0x economic impact we're making together.
 
-Starting at $49/mo (Starter) or $149/mo (Pro — full AI operating system). No interviews. No payroll tax. No days off.
+Starting at $19/mo (Essentials), $79/mo (Starter), or $299/mo (Pro — full AI operating system). No interviews. No payroll tax. No days off.
 
 Activate your AI Employee → https://1325.ai/subscription?tier=kayla_pro
 

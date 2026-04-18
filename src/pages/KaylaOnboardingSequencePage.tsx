@@ -84,9 +84,9 @@ Churn Alerts:              3 at-risk customers flagged
 Content Created:           5 social posts generated
 Estimated Hours Saved:    12 hours of manual work
 
-💰 YOUR INVESTMENT:        $149/mo (Pro plan)
+💰 YOUR INVESTMENT:        $299/mo (Pro plan)
 ⏱️ HOURS SAVED:            12 hours
-📈 EFFECTIVE RATE:          $3.10/hour
+📈 EFFECTIVE RATE:          $6.23/hour
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -189,7 +189,7 @@ const KaylaOnboardingSequencePage = () => {
 
         <div className="mt-6 text-center">
           <p className="text-base font-medium text-white/50">
-            💡 These 3 emails are sent automatically after a business activates Kayla (Starter $49/mo · Pro $149/mo)
+            💡 These 3 emails are sent automatically after a business activates Kayla (Essentials $19/mo · Starter $79/mo · Pro $299/mo)
           </p>
         </div>
       </div>
