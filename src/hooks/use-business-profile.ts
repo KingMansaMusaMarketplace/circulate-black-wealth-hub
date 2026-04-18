@@ -4,7 +4,8 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { isValidUUID } from '@/lib/validation/uuid-guard';
-import { showDatabaseError } from '@/lib/error-toast';
+// Note: removed showDatabaseError import — this hook now fails silently
+// because many users legitimately have no business profile.
 
 export interface BusinessProfile {
   id: string;
@@ -34,7 +35,8 @@ export const useBusinessProfile = () => {
 
   const loadBusinessProfile = useCallback(async () => {
     if (!user) {
-      setError('User not authenticated');
+      setProfile(null);
+      setError(null);
       return;
     }
 
@@ -42,7 +44,6 @@ export const useBusinessProfile = () => {
     if (!isValidUUID(user.id)) {
       console.error('Invalid user ID format:', user.id);
       setError('Invalid session. Please log in again.');
-      showDatabaseError('Invalid user ID', 'business profile');
       return;
     }
 
@@ -65,10 +66,12 @@ export const useBusinessProfile = () => {
       // Get the first (most recent) business
       setProfile(data && data.length > 0 ? data[0] : null);
     } catch (err: any) {
-      console.error('Error loading business profile:', err);
-      const message = err.message || 'Failed to load business profile';
-      setError(message);
-      showDatabaseError(message, 'business profile');
+      // Silently log: many users (consumers, visitors, agents) have no business profile.
+      // Showing a toast on every page load is wrong — only consumers of this hook that
+      // actually need a profile should surface that to the user.
+      console.warn('[useBusinessProfile] could not load profile:', err?.message || err);
+      setError(err?.message || 'Failed to load business profile');
+      setProfile(null);
     } finally {
       setLoading(false);
     }

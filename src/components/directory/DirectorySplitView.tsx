@@ -260,13 +260,28 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
                     </button>
 
                     <div className="flex gap-4">
-                      {/* Image */}
-                      <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                        <img
-                          src={selectedBusiness.imageUrl || selectedBusiness.logoUrl || '/placeholder.svg'}
-                          alt={selectedBusiness.name}
-                          className="w-full h-full object-cover"
-                        />
+                      {/* Image / initials fallback */}
+                      <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gradient-to-br from-mansagold/30 to-mansablue/30 border border-white/10 flex items-center justify-center">
+                        {(selectedBusiness.imageUrl || selectedBusiness.logoUrl) ? (
+                          <img
+                            src={selectedBusiness.imageUrl || selectedBusiness.logoUrl}
+                            alt={selectedBusiness.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              // Hide broken image so the initials fallback shows
+                              (e.currentTarget as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <span className="text-mansagold text-xl font-bold">
+                            {selectedBusiness.name
+                              ?.split(' ')
+                              .filter(Boolean)
+                              .slice(0, 2)
+                              .map((w) => w[0]?.toUpperCase())
+                              .join('') || '•'}
+                          </span>
+                        )}
                       </div>
 
                       {/* Info */}
