@@ -161,7 +161,7 @@ const Hero = () => {
             >
               <div className="relative inline-flex items-center justify-center">
                 <div
-                  className="absolute inset-0 rounded-full bg-mansagold/30 blur-3xl animate-pulse"
+                  className="absolute inset-0 rounded-full bg-mansagold/60 blur-3xl animate-pulse"
                   style={{ animationDuration: '3s' }}
                   aria-hidden="true"
                 />
