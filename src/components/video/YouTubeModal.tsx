@@ -8,11 +8,16 @@ interface YouTubeModalProps {
 }
 
 const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) => {
-  const [iframeBlocked, setIframeBlocked] = useState(false);
+  // Detect Lovable preview/sandbox domains where YouTube blocks embeds
+  const isPreviewDomain = typeof window !== 'undefined' &&
+    (window.location.hostname.includes('lovable.app') ||
+     window.location.hostname.includes('lovableproject.com'));
+
+  const [iframeBlocked, setIframeBlocked] = useState(isPreviewDomain);
 
   useEffect(() => {
-    if (videoId) setIframeBlocked(false);
-  }, [videoId]);
+    if (videoId) setIframeBlocked(isPreviewDomain);
+  }, [videoId, isPreviewDomain]);
 
   useEffect(() => {
     if (!videoId) return;
