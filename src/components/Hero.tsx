@@ -140,17 +140,32 @@ const Hero = () => {
             The Economic Operating System for Community Wealth
           </motion.p>
 
-          {/* Headline */}
-          <motion.h1 
-            className="font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <span className="text-gradient-gold">Mansa Musa</span>
-            <br />
-            <span className="text-gradient-gold">Marketplace</span>
-          </motion.h1>
+          {/* Brand mark — 1325.AI logo on web, Mansa Musa text on iOS App Store build */}
+          {Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios' ? (
+            <motion.h1
+              className="font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <span className="text-gradient-gold">Mansa Musa</span>
+              <br />
+              <span className="text-gradient-gold">Marketplace</span>
+            </motion.h1>
+          ) : (
+            <motion.div
+              className="flex justify-center mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <img
+                src={logo1325}
+                alt="1325.AI"
+                className="h-24 sm:h-32 md:h-40 lg:h-48 w-auto object-contain drop-shadow-[0_0_24px_hsl(var(--mansagold)/0.5)]"
+              />
+            </motion.div>
+          )}
           
           {/* Subhead — tightened for 3-second clarity */}
           <motion.p 
