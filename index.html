@@ -21,12 +21,12 @@
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://cdn.jsdelivr.net;
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com;
       font-src 'self' https://fonts.gstatic.com data:;
       img-src 'self' data: blob: https: http:;
-      connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.mapbox.com https://*.posthog.com https://app.posthog.com https://api.stripe.com https://*.googleapis.com https://*.perplexity.ai https://generativelanguage.googleapis.com https://api.openai.com;
-      frame-src 'self' https://js.stripe.com https://*.stripe.com;
+      connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.mapbox.com https://*.posthog.com https://app.posthog.com https://api.stripe.com https://*.googleapis.com https://*.perplexity.ai https://generativelanguage.googleapis.com https://api.openai.com https://www.youtube.com https://www.youtube-nocookie.com;
+      frame-src 'self' https://js.stripe.com https://*.stripe.com https://www.youtube.com https://www.youtube-nocookie.com https://youtube.com;
       media-src 'self' blob: https:;
       worker-src 'self' blob:;
       object-src 'none';
