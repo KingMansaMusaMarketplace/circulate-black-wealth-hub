@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ImpactDashboard } from '@/components/ImpactDashboard';
+import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
 import { updateMetaTags } from '@/utils/seoUtils';
-import { useEffect } from 'react';
 
 const ImpactPage = () => {
   useEffect(() => {
