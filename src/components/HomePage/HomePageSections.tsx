@@ -71,11 +71,11 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* 3. See The Impact — video showcase */}
+      {/* 3. See The Impact — latest 1325AI YouTube videos */}
       <SectionErrorBoundary sectionName="See The Impact">
-        <LazySection fallback={<SectionSkeleton height="h-96" />} minHeight="min-h-[400px]">
+        <Suspense fallback={<SectionSkeleton height="h-96" />}>
           <SponsorshipVideoSection />
-        </LazySection>
+        </Suspense>
       </SectionErrorBoundary>
 
       {/* 4. Quick How It Works — 3-step onboarding flow */}
