@@ -92,6 +92,13 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
+      {/* 5.5 Latest from 1325AI YouTube */}
+      <SectionErrorBoundary sectionName="Latest YouTube">
+        <LazySection fallback={<SectionSkeleton height="h-64" />} minHeight="min-h-[300px]">
+          <LatestFromYouTube />
+        </LazySection>
+      </SectionErrorBoundary>
+
       {/* 6. CTA — dual sign-up options */}
       <SectionErrorBoundary sectionName="Call to Action">
         <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
