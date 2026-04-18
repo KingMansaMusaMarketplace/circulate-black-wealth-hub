@@ -1,37 +1,34 @@
 
-Got it — keep playback **on the homepage**, no new tabs, no full-screen modal failures. Here's the revised approach.
+## Replace "Mansa Musa Marketplace" text with 1325.AI logo on Home Hero
 
-## The fix: inline player that swaps in place
+### Recommendation
+Yes — swapping the "Mansa Musa Marketplace" text below the headline for the **1325.AI logo** is the right call for the web home page. Reasons:
 
-When a user clicks a thumbnail, the thumbnail itself transforms into the playing video — right inside its card on the homepage. No modal, no tab switch, no `youtube-nocookie`, no oversized iframe origin checks.
+1. **Domain match** — visitors are on `1325.ai`, so the logo reinforces where they are.
+2. **Visual upgrade** — a logo (gold neural-brain mark) is more memorable and premium than plain text.
+3. **Tech/investor positioning** — signals AI infrastructure, not just a directory.
+4. **Consistent with existing dual-brand strategy** — Mansa Musa stays on iOS App Store; 1325.AI owns the web.
 
-## Why this works where the modal failed
+### What I'll change
 
-The "Content blocked" issue hits the **modal iframe** because it loads at full viewport size with autoplay against a flagged origin. An inline iframe inside the existing card (smaller, user-initiated click, standard `youtube.com/embed` URL with the proper `origin` param) is treated as a normal embed — the same way every blog and news site embeds YouTube successfully.
+**File: `src/components/Hero.tsx`** (need to read first to confirm exact location)
+- Find the "Mansa Musa Marketplace" text block sitting directly below the headline *"The Economic Operating System for Community Wealth"*.
+- Replace it with the 1325.AI logo image (`src/assets/1325-ai-logo.webp` — already in the project, used in the navbar).
+- Size it appropriately for the hero (roughly `h-16 md:h-20` so it's prominent but not overwhelming).
+- Keep it centered, with the existing gold glow/drop-shadow treatment used elsewhere for brand consistency.
+- Add proper `alt="1325.AI"` for SEO/accessibility.
 
-If for any reason a single video still gets blocked, we show an inline "Watch on YouTube" fallback **inside that same card** (not a new tab) so the layout never breaks.
+**iOS conditional (important):**
+- On iOS native app, keep showing "Mansa Musa Marketplace" text (App Store compliance — the app is listed under that name).
+- Use the same `Capacitor.isNativePlatform() && getPlatform() === 'ios'` check already used in `src/components/navbar/Logo.tsx`.
 
-## What changes (2 files)
+### Result
+- **Web (1325.ai):** Headline → 1325.AI logo → rest of hero
+- **iOS app:** Headline → "Mansa Musa Marketplace" text → rest of hero (unchanged)
 
-**1. New component: `src/components/video/InlineYouTubePlayer.tsx`**
-- Renders the thumbnail with the red play button (current look).
-- On click: swaps to a same-sized `<iframe>` of `https://www.youtube.com/embed/{id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin={window.location.origin}`.
-- Tracks `iframeBlocked` via `onError` + a 4s timeout. If blocked, shows a compact in-card fallback: "This video is blocked in this view" + a small "Watch on YouTube" button (still on-page, just a link).
+### Out of scope
+- No navbar changes (already correct).
+- No changes to footer, About page, or other branding mentions of Mansa Musa.
+- No domain/SEO config changes.
 
-**2. `src/components/HomePage/LatestFromYouTube.tsx`**
-- Remove `YouTubeModal` + `activeVideo` state.
-- Replace each thumbnail button with `<InlineYouTubePlayer video={video} />`.
-
-**3. `src/components/HowItWorks/SponsorshipVideoSection.tsx`**
-- Same swap: remove modal, render `<InlineYouTubePlayer />` inside each card.
-- Keep the existing motion/animation wrappers and styling.
-
-`YouTubeModal.tsx` stays untouched (used elsewhere).
-
-## Result
-
-- User stays on the homepage ✅
-- Video plays inside the card it was clicked ✅
-- No full-screen modal that YouTube's anti-bot flags ✅
-- Graceful in-card fallback if a specific video ever fails ✅
-- Same visual design — thumbnails, titles, dates, gold accents preserved ✅
+Approve and I'll make the edit.
