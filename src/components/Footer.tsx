@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import logo1325 from '@/assets/1325-ai-logo.webp';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { SponsorLogoGrid } from '@/components/sponsors/SponsorLogoGrid';
@@ -279,6 +279,13 @@ const Footer = () => {
               aria-label="Visit us on LinkedIn"
             >
               <Linkedin className="h-5 w-5 text-white" />
+            </button>
+            <button 
+              onClick={() => window.open(siteConfig.social.youtube, '_blank')}
+              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl border border-white/10"
+              aria-label="Visit our YouTube channel"
+            >
+              <Youtube className="h-5 w-5 text-white" />
             </button>
           </div>
           <div className="text-white text-sm text-center md:text-right">

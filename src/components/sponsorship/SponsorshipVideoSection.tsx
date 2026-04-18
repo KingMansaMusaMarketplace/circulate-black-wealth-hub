@@ -10,9 +10,10 @@ const SponsorshipVideoSection = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   
-  // Use the full YouTube URL for better compatibility
-  const youtubeUrl = "https://www.youtube.com/embed/CnYbGeS5Osc";
-  const videoId = "CnYbGeS5Osc"; // Keep for thumbnail and direct YouTube link
+  // 1325AI channel — featured video on the business case for community wealth
+  const youtubeUrl = "https://www.youtube.com/embed/CnYbGeS5Osc?list=UU1325AI";
+  const videoId = "CnYbGeS5Osc";
+  const channelUrl = "https://youtube.com/@1325AI";
 
   // Open video directly in YouTube
   const openYouTubeVideo = () => {
@@ -135,12 +136,19 @@ const SponsorshipVideoSection = () => {
             <p className="mb-6 text-gray-700 text-center max-w-2xl">
               Corporate partnerships with community businesses and marketplaces like 1325.AI create mutual value while driving economic equity.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
+            <div className="flex flex-wrap gap-4 justify-center items-center">
               <Button 
                 onClick={() => document.getElementById('sponsorship-form')?.scrollIntoView({behavior: 'smooth'})}
                 className="bg-mansablue hover:bg-mansablue-dark text-white gap-2"
               >
                 Become a Partner <ArrowRight className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => window.open(channelUrl, '_blank', 'noopener,noreferrer')}
+                className="border-red-600 text-red-600 hover:bg-red-50 gap-2"
+              >
+                <Play className="h-4 w-4" /> More on @1325AI
               </Button>
               
               <div className="mt-2">

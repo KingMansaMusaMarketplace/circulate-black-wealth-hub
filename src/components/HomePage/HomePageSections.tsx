@@ -18,6 +18,7 @@ const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
 const QuickHowItWorks = lazy(() => import('./QuickHowItWorks'));
 const CommunityWealthTicker = lazy(() => import('@/components/wealth-ticker/CommunityWealthTicker'));
 const AgenticProtocolSection = lazy(() => import('./AgenticProtocolSection'));
+const LatestFromYouTube = lazy(() => import('./LatestFromYouTube'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (
@@ -88,6 +89,13 @@ const HomePageSections: React.FC = () => {
       <SectionErrorBoundary sectionName="Featured Businesses">
         <LazySection fallback={<BusinessSkeleton />} minHeight="min-h-[200px]">
           <FeaturedBusinesses limit={3} />
+        </LazySection>
+      </SectionErrorBoundary>
+
+      {/* 5.5 Latest from 1325AI YouTube */}
+      <SectionErrorBoundary sectionName="Latest YouTube">
+        <LazySection fallback={<SectionSkeleton height="h-64" />} minHeight="min-h-[300px]">
+          <LatestFromYouTube />
         </LazySection>
       </SectionErrorBoundary>
 
