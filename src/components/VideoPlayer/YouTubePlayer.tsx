@@ -37,8 +37,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     return <YouTubeErrorState />;
   }
   
-  // Create YouTube embed URL - using youtube-nocookie for better compatibility
-  // Note: origin param removed as it causes issues in iOS WebViews
+  // Create YouTube embed URL - using standard youtube.com domain for max compatibility
   const embedParams = [
     'playsinline=1',
     'modestbranding=1',
@@ -46,9 +45,10 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     'iv_load_policy=3',
     'fs=1',
     'controls=1',
+    'enablejsapi=1',
   ].join('&');
   
-  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?${embedParams}`;
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?${embedParams}`;
   const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
   const youtubeAppUrl = `youtube://watch?v=${videoId}`;
   const thumbnailUrl = thumbnailError 
