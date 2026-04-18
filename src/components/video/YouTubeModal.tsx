@@ -30,8 +30,6 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
 
   if (!videoId) return null;
 
-  // youtube-nocookie has the most permissive embed policy across domains.
-  // Omit `origin` param — passing a domain the video owner hasn't allowlisted causes "Video unavailable".
   const src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
@@ -54,30 +52,30 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
         className="relative w-full max-w-5xl aspect-video"
         onClick={(e) => e.stopPropagation()}
       >
-        <>
-          <iframe
-            src={src}
-            title={title || 'YouTube video'}
-            className="w-full h-full rounded-xl shadow-2xl"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-            onError={() => setIframeBlocked(true)}
-          />
-          <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
-            <a
-              href={watchUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-full transition-colors shadow-lg"
-            >
-              <ExternalLink className="h-4 w-4" />
-              Watch on YouTube
-            </a>
-            <p className="text-xs text-white/50">If the video shows "Content blocked", click above.</p>
-          </div>
-        </>}
+        <iframe
+          src={src}
+          title={title || 'YouTube video'}
+          className="w-full h-full rounded-xl shadow-2xl"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          onError={() => setIframeBlocked(true)}
+        />
+        <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 w-full">
+          <a
+            href={watchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-full transition-colors shadow-lg"
+          >
+            <ExternalLink className="h-4 w-4" />
+            Watch on YouTube
+          </a>
+          <p className="text-xs text-white/60 text-center px-2">
+            If the player shows "Content blocked", click above to watch on YouTube.
+          </p>
+        </div>
         {iframeBlocked && (
           <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-mansablue to-black flex flex-col items-center justify-center p-8 text-center border border-white/10">
             <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center mb-6 shadow-2xl">
