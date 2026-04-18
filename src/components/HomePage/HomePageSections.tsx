@@ -16,7 +16,7 @@ const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 const CirculationGap = lazy(() => import('./CirculationGap'));
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
 const QuickHowItWorks = lazy(() => import('./QuickHowItWorks'));
-const CommunityWealthTicker = lazy(() => import('@/components/wealth-ticker/CommunityWealthTicker'));
+const SponsorshipVideoSection = lazy(() => import('@/components/HowItWorks/SponsorshipVideoSection'));
 const AgenticProtocolSection = lazy(() => import('./AgenticProtocolSection'));
 const LatestFromYouTube = lazy(() => import('./LatestFromYouTube'));
 
@@ -71,10 +71,10 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* 3. Community Wealth Ticker — live economic impact */}
-      <SectionErrorBoundary sectionName="Community Wealth Ticker">
-        <LazySection fallback={<SectionSkeleton height="h-24" />} minHeight="min-h-[80px]">
-          <CommunityWealthTicker />
+      {/* 3. See The Impact — video showcase */}
+      <SectionErrorBoundary sectionName="See The Impact">
+        <LazySection fallback={<SectionSkeleton height="h-96" />} minHeight="min-h-[400px]">
+          <SponsorshipVideoSection />
         </LazySection>
       </SectionErrorBoundary>
 
