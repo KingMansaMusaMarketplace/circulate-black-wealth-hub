@@ -31,6 +31,10 @@ const ImpactPage = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 relative z-10">
         <ImpactDashboard />
       </div>
+
+      <div className="relative z-10">
+        <SponsorshipVideoSection />
+      </div>
     </div>
   );
 };
