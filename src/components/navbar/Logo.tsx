@@ -46,7 +46,7 @@ const Logo: React.FC = () => {
             <img 
               src={logoSrc} 
               alt={brandName} 
-              className="h-10 sm:h-14 w-auto object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] cursor-pointer"
+              className="h-12 sm:h-20 w-auto object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] cursor-pointer"
             />
           </button>
         </DialogTrigger>
