@@ -54,17 +54,38 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
         className="relative w-full max-w-5xl aspect-video"
         onClick={(e) => e.stopPropagation()}
       >
-        {iframeBlocked ? (
-          <div className="w-full h-full rounded-xl shadow-2xl bg-gradient-to-br from-mansablue to-black flex flex-col items-center justify-center p-8 text-center border border-white/10">
+        <>
+          <iframe
+            src={src}
+            title={title || 'YouTube video'}
+            className="w-full h-full rounded-xl shadow-2xl"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            onError={() => setIframeBlocked(true)}
+          />
+          <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
+            <a
+              href={watchUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-full transition-colors shadow-lg"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Watch on YouTube
+            </a>
+            <p className="text-xs text-white/50">If the video shows "Content blocked", click above.</p>
+          </div>
+        </>}
+        {iframeBlocked && (
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-mansablue to-black flex flex-col items-center justify-center p-8 text-center border border-white/10">
             <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center mb-6 shadow-2xl">
               <Play className="h-10 w-10 text-white ml-1" fill="currentColor" />
             </div>
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 max-w-2xl">
               {title || 'Watch on YouTube'}
             </h3>
-            <p className="text-white/70 mb-6 max-w-md">
-              YouTube embeds are blocked on this preview domain. Click below to watch the video on YouTube.
-            </p>
             <a
               href={watchUrl}
               target="_blank"
@@ -75,31 +96,7 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
               <ExternalLink className="h-5 w-5" />
               Watch on YouTube
             </a>
-            <p className="text-xs text-white/40 mt-6">
-              Note: Embedded playback works on your live site (1325.ai).
-            </p>
           </div>
-        ) : (
-          <>
-            <iframe
-              src={src}
-              title={title || 'YouTube video'}
-              className="w-full h-full rounded-xl shadow-2xl"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              onError={() => setIframeBlocked(true)}
-            />
-            <a
-              href={watchUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-sm text-white/80 hover:text-white underline underline-offset-4"
-            >
-              Having trouble? Watch on YouTube →
-            </a>
-          </>
         )}
       </div>
     </div>
