@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ArrowRight, Users, Building2, TrendingUp, Search } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { Capacitor } from '@capacitor/core';
 import { supabase } from '@/integrations/supabase/client';
 import CountUpNumber from '@/components/animations/CountUpNumber';
+import logo1325 from '@/assets/1325-ai-logo.webp';
 
 const SUGGESTION_TERMS = [
   'Restaurant', 'Barber', 'Barbershop', 'Beauty Salon', 'Hair Salon',
