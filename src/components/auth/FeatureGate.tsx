@@ -10,7 +10,20 @@ import { subscriptionService } from '@/lib/services/subscription-service';
 import { Link } from 'react-router-dom';
 
 interface FeatureGateProps {
-  feature: 'canScanQR' | 'canEarnPoints' | 'canRedeemRewards' | 'canAccessExclusiveDeals' | 'canCreateBusiness' | 'canVerifyBusiness' | 'canAccessAnalytics' | 'canCreateEvents' | 'canAccessPremiumSupport' | 'canAccessMentorship' | 'canAccessNetworking';
+  feature:
+    | 'canScanQR'
+    | 'canEarnPoints'
+    | 'canRedeemRewards'
+    | 'canAccessExclusiveDeals'
+    | 'canCreateBusiness'
+    | 'canVerifyBusiness'
+    | 'canAccessAnalytics'
+    | 'canCreateEvents'
+    | 'canAccessPremiumSupport'
+    | 'canAccessMentorship'
+    | 'canAccessNetworking'
+    | 'canAccessKaylaAI'
+    | 'canAccessRecordsManagement';
   children: React.ReactNode;
   fallback?: React.ReactNode;
   requiredTier?: SubscriptionTier;

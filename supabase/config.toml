@@ -71,6 +71,8 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.fraud-consensus-review]
     verify_jwt = false
+  [functions.founders-count]
+    verify_jwt = false
   [functions.generate-ai-business-insights]
     verify_jwt = true
   [functions.generate-ai-recommendations]
