@@ -23,23 +23,32 @@ const InlineYouTubePlayer: React.FC<InlineYouTubePlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [iframeBlocked, setIframeBlocked] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [useNoCookieFallback, setUseNoCookieFallback] = useState(false);
   const blockTimer = useRef<number | null>(null);
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   const fallbackThumb = `https://img.youtube.com/vi/${videoId}/sddefault.jpg`;
   const thumbnailUrl = imgError ? fallbackThumb : thumbnail;
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
+  // First try youtube-nocookie (more permissive for embeds), fall back to standard
+  const host = useNoCookieFallback ? 'www.youtube.com' : 'www.youtube-nocookie.com';
+  const embedSrc = `https://${host}/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+
   useEffect(() => {
     if (!isPlaying) return;
-    // If the iframe never loads in 4s, treat as blocked
+    // If the iframe doesn't signal load within 5s, try the fallback host once,
+    // then mark as blocked.
     blockTimer.current = window.setTimeout(() => {
-      setIframeBlocked(true);
-    }, 4000);
+      if (!useNoCookieFallback) {
+        setUseNoCookieFallback(true);
+      } else {
+        setIframeBlocked(true);
+      }
+    }, 5000);
     return () => {
       if (blockTimer.current) window.clearTimeout(blockTimer.current);
     };
-  }, [isPlaying]);
+  }, [isPlaying, useNoCookieFallback]);
 
   const handleIframeLoad = () => {
     if (blockTimer.current) {
@@ -48,18 +57,22 @@ const InlineYouTubePlayer: React.FC<InlineYouTubePlayerProps> = ({
     }
   };
 
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(origin)}`;
-
   return (
     <div
       className={`group rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 ${cardClassName} ${hoverBorderClassName}`}
     >
       <div className="relative aspect-video overflow-hidden bg-black">
         {!isPlaying ? (
-          <button
-            type="button"
-            onClick={() => setIsPlaying(true)}
+          <a
+            href={watchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              // Try inline embed first; if user cmd/ctrl-clicks, let new tab open naturally
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+              e.preventDefault();
+              setIsPlaying(true);
+            }}
             className="block w-full h-full text-left"
             aria-label={`Play ${title}`}
           >
@@ -75,11 +88,11 @@ const InlineYouTubePlayer: React.FC<InlineYouTubePlayerProps> = ({
                 <Play className="h-6 w-6 text-white ml-1" fill="currentColor" />
               </div>
             </div>
-          </button>
+          </a>
         ) : iframeBlocked ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 bg-black">
             <p className="text-white/80 text-sm mb-3">
-              This video can't play in this view.
+              YouTube blocked inline playback for this video.
             </p>
             <a
               href={watchUrl}
@@ -93,12 +106,13 @@ const InlineYouTubePlayer: React.FC<InlineYouTubePlayerProps> = ({
           </div>
         ) : (
           <iframe
-            ref={iframeRef}
+            key={host}
             src={embedSrc}
             title={title}
             loading="lazy"
             onLoad={handleIframeLoad}
             onError={() => setIframeBlocked(true)}
+            referrerPolicy="origin"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             className="absolute inset-0 w-full h-full border-0"
