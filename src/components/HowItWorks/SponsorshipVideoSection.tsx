@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Youtube, ArrowRight } from 'lucide-react';
+import { Youtube, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { siteConfig } from '@/config/site';
 import { Button } from '@/components/ui/button';
-import YouTubeModal from '@/components/video/YouTubeModal';
+import InlineYouTubePlayer from '@/components/video/InlineYouTubePlayer';
 
 interface YouTubeVideo {
   videoId: string;
@@ -15,60 +15,9 @@ interface YouTubeVideo {
   url: string;
 }
 
-const VideoThumbnail: React.FC<{
-  video: YouTubeVideo;
-  index: number;
-  onPlay: (video: YouTubeVideo) => void;
-}> = ({ video, index, onPlay }) => {
-  const [imgError, setImgError] = useState(false);
-  const fallbackThumb = `https://img.youtube.com/vi/${video.videoId}/sddefault.jpg`;
-  const thumbnailUrl = imgError ? fallbackThumb : video.thumbnail;
-  const isAccent = index === 2;
-  const titleColor = isAccent ? 'text-yellow-400' : 'text-blue-300';
-  const hoverBorder = isAccent ? 'hover:border-yellow-400/50' : 'hover:border-blue-400/50';
-
-  return (
-    <motion.button
-      type="button"
-      onClick={() => onPlay(video)}
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
-      viewport={{ once: true }}
-      className={`group block w-full text-left shadow-xl rounded-2xl overflow-hidden border-2 border-white/20 ${hoverBorder} hover:shadow-2xl transition-all duration-300 hover:scale-105 backdrop-blur-xl bg-white/10`}
-    >
-      <div className="relative aspect-video overflow-hidden bg-black">
-        <img
-          src={thumbnailUrl}
-          alt={video.title}
-          loading="lazy"
-          onError={() => setImgError(true)}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
-          <div className="w-16 h-16 rounded-full bg-red-600/90 flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xl">
-            <Play className="h-7 w-7 text-white ml-1" fill="currentColor" />
-          </div>
-        </div>
-      </div>
-      <div className="p-6">
-        <h3 className={`font-bold text-lg mb-2 line-clamp-2 ${titleColor}`}>{video.title}</h3>
-        <p className="text-white/70 text-xs">
-          {new Date(video.publishedAt).toLocaleDateString(undefined, {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-          })}
-        </p>
-      </div>
-    </motion.button>
-  );
-};
-
 const SponsorshipVideoSection = () => {
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeVideo, setActiveVideo] = useState<YouTubeVideo | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -129,14 +78,34 @@ const SponsorshipVideoSection = () => {
         ) : (
           <>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {videos.map((video, index) => (
-                <VideoThumbnail
-                  key={video.videoId}
-                  video={video}
-                  index={index}
-                  onPlay={setActiveVideo}
-                />
-              ))}
+              {videos.map((video, index) => {
+                const isAccent = index === 2;
+                const titleClass = isAccent
+                  ? 'text-yellow-400'
+                  : 'text-blue-300';
+                const hoverBorder = isAccent
+                  ? 'hover:border-yellow-400/50'
+                  : 'hover:border-blue-400/50';
+                return (
+                  <motion.div
+                    key={video.videoId}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
+                    viewport={{ once: true }}
+                  >
+                    <InlineYouTubePlayer
+                      videoId={video.videoId}
+                      title={video.title}
+                      thumbnail={video.thumbnail}
+                      publishedAt={video.publishedAt}
+                      titleClassName={`${titleClass} text-lg`}
+                      cardClassName="shadow-xl border-2 border-white/20 backdrop-blur-xl bg-white/10"
+                      hoverBorderClassName={hoverBorder}
+                    />
+                  </motion.div>
+                );
+              })}
             </div>
             <div className="mt-10 flex justify-center">
               <Button
@@ -150,11 +119,6 @@ const SponsorshipVideoSection = () => {
           </>
         )}
       </div>
-      <YouTubeModal
-        videoId={activeVideo?.videoId ?? null}
-        title={activeVideo?.title}
-        onClose={() => setActiveVideo(null)}
-      />
     </section>
   );
 };

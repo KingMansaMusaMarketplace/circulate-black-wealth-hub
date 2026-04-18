@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Play, Youtube, ArrowRight } from 'lucide-react';
+import { Youtube, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { siteConfig } from '@/config/site';
 import { Button } from '@/components/ui/button';
-import YouTubeModal from '@/components/video/YouTubeModal';
+import InlineYouTubePlayer from '@/components/video/InlineYouTubePlayer';
 
 interface YouTubeVideo {
   videoId: string;
@@ -18,7 +18,6 @@ const LatestFromYouTube: React.FC = () => {
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeVideo, setActiveVideo] = useState<YouTubeVideo | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -82,47 +81,17 @@ const LatestFromYouTube: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {videos.slice(0, 6).map((video) => (
-              <button
+              <InlineYouTubePlayer
                 key={video.videoId}
-                type="button"
-                onClick={() => setActiveVideo(video)}
-                className="group block text-left w-full rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-mansagold/40 transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="relative aspect-video overflow-hidden bg-black">
-                  <img
-                    src={video.thumbnail}
-                    alt={video.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
-                    <div className="w-14 h-14 rounded-full bg-red-600/90 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                      <Play className="h-6 w-6 text-white ml-1" fill="currentColor" />
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-white line-clamp-2 group-hover:text-mansagold transition-colors">
-                    {video.title}
-                  </h3>
-                  <p className="text-xs text-white/50 mt-2">
-                    {new Date(video.publishedAt).toLocaleDateString(undefined, {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </p>
-                </div>
-              </button>
+                videoId={video.videoId}
+                title={video.title}
+                thumbnail={video.thumbnail}
+                publishedAt={video.publishedAt}
+              />
             ))}
           </div>
         )}
       </div>
-      <YouTubeModal
-        videoId={activeVideo?.videoId ?? null}
-        title={activeVideo?.title}
-        onClose={() => setActiveVideo(null)}
-      />
     </section>
   );
 };
