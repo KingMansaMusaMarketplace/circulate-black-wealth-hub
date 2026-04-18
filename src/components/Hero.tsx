@@ -162,7 +162,7 @@ const Hero = () => {
               <img
                 src={logo1325}
                 alt="1325.AI"
-                className="h-24 sm:h-32 md:h-40 lg:h-48 w-auto object-contain drop-shadow-[0_0_24px_hsl(var(--mansagold)/0.5)]"
+                className="h-32 sm:h-40 md:h-52 lg:h-64 w-auto object-contain drop-shadow-[0_0_24px_hsl(var(--mansagold)/0.5)]"
               />
             </motion.div>
           )}
