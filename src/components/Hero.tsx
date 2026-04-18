@@ -159,11 +159,18 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <img
-                src={logo1325}
-                alt="1325.AI"
-                className="h-32 sm:h-40 md:h-52 lg:h-64 w-auto object-contain drop-shadow-[0_0_24px_hsl(var(--mansagold)/0.5)]"
-              />
+              <div className="relative inline-flex items-center justify-center">
+                <div
+                  className="absolute inset-0 rounded-full bg-mansagold/30 blur-3xl animate-pulse"
+                  style={{ animationDuration: '3s' }}
+                  aria-hidden="true"
+                />
+                <img
+                  src={logo1325}
+                  alt="1325.AI"
+                  className="relative h-32 sm:h-40 md:h-52 lg:h-64 w-auto object-contain drop-shadow-[0_0_24px_hsl(var(--mansagold)/0.5)]"
+                />
+              </div>
             </motion.div>
           )}
           
