@@ -22262,6 +22262,17 @@ export type Database = {
         }[]
       }
       get_impact_leaderboard: { Args: { p_limit?: number }; Returns: Json }
+      get_invitation_by_token: {
+        Args: { p_token: string }
+        Returns: {
+          created_at: string
+          expires_at: string
+          id: string
+          invitee_business_name: string
+          message: string
+          status: string
+        }[]
+      }
       get_material_analytics: {
         Args: { p_end_date?: string; p_start_date?: string }
         Returns: {
