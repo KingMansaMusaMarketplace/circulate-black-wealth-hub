@@ -4,6 +4,7 @@ import { Play, Youtube, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { siteConfig } from '@/config/site';
 import { Button } from '@/components/ui/button';
+import YouTubeModal from '@/components/video/YouTubeModal';
 
 interface YouTubeVideo {
   videoId: string;
@@ -17,7 +18,8 @@ interface YouTubeVideo {
 const VideoThumbnail: React.FC<{
   video: YouTubeVideo;
   index: number;
-}> = ({ video, index }) => {
+  onPlay: (video: YouTubeVideo) => void;
+}> = ({ video, index, onPlay }) => {
   const [imgError, setImgError] = useState(false);
   const fallbackThumb = `https://img.youtube.com/vi/${video.videoId}/sddefault.jpg`;
   const thumbnailUrl = imgError ? fallbackThumb : video.thumbnail;
@@ -26,10 +28,9 @@ const VideoThumbnail: React.FC<{
   const hoverBorder = isAccent ? 'hover:border-yellow-400/50' : 'hover:border-blue-400/50';
 
   return (
-    <motion.a
-      href={video.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <motion.button
+      type="button"
+      onClick={() => onPlay(video)}
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
@@ -60,13 +61,14 @@ const VideoThumbnail: React.FC<{
           })}
         </p>
       </div>
-    </motion.a>
+    </motion.button>
   );
 };
 
 const SponsorshipVideoSection = () => {
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeVideo, setActiveVideo] = useState<YouTubeVideo | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -132,6 +134,7 @@ const SponsorshipVideoSection = () => {
                   key={video.videoId}
                   video={video}
                   index={index}
+                  onPlay={setActiveVideo}
                 />
               ))}
             </div>
@@ -147,6 +150,11 @@ const SponsorshipVideoSection = () => {
           </>
         )}
       </div>
+      <YouTubeModal
+        videoId={activeVideo?.videoId ?? null}
+        title={activeVideo?.title}
+        onClose={() => setActiveVideo(null)}
+      />
     </section>
   );
 };

@@ -3,6 +3,7 @@ import { Play, Youtube, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { siteConfig } from '@/config/site';
 import { Button } from '@/components/ui/button';
+import YouTubeModal from '@/components/video/YouTubeModal';
 
 interface YouTubeVideo {
   videoId: string;
@@ -17,6 +18,7 @@ const LatestFromYouTube: React.FC = () => {
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeVideo, setActiveVideo] = useState<YouTubeVideo | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -80,12 +82,11 @@ const LatestFromYouTube: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {videos.slice(0, 6).map((video) => (
-              <a
+              <button
                 key={video.videoId}
-                href={video.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-mansagold/40 transition-all duration-300 hover:-translate-y-1"
+                type="button"
+                onClick={() => setActiveVideo(video)}
+                className="group block text-left w-full rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-mansagold/40 transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="relative aspect-video overflow-hidden bg-black">
                   <img
@@ -112,11 +113,16 @@ const LatestFromYouTube: React.FC = () => {
                     })}
                   </p>
                 </div>
-              </a>
+              </button>
             ))}
           </div>
         )}
       </div>
+      <YouTubeModal
+        videoId={activeVideo?.videoId ?? null}
+        title={activeVideo?.title}
+        onClose={() => setActiveVideo(null)}
+      />
     </section>
   );
 };
