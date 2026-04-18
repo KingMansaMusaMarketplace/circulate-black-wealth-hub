@@ -24,8 +24,11 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
 
   if (!videoId) return null;
 
-  // rel=0 limits suggested videos to the same channel; modestbranding hides YT logo
-  const src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+  // Use standard youtube.com domain (broader embed permissions than youtube-nocookie)
+  // Pass origin for referrer-based embed allowlists
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(origin)}`;
+  const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
   return (
     <div
@@ -54,6 +57,15 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
         />
+        <a
+          href={watchUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-sm text-white/80 hover:text-white underline underline-offset-4"
+        >
+          Having trouble? Watch on YouTube →
+        </a>
       </div>
     </div>
   );
