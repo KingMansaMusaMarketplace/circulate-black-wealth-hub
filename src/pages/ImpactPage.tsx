@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ImpactDashboard } from '@/components/ImpactDashboard';
+import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
 import { updateMetaTags } from '@/utils/seoUtils';
-import { useEffect } from 'react';
 
 const ImpactPage = () => {
   useEffect(() => {
@@ -30,6 +30,10 @@ const ImpactPage = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 relative z-10">
         <ImpactDashboard />
+      </div>
+
+      <div className="relative z-10">
+        <SponsorshipVideoSection />
       </div>
     </div>
   );
