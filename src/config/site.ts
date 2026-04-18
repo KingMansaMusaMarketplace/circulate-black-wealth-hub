@@ -53,6 +53,15 @@ export const siteConfig = {
     twitter: 'https://twitter.com/1325ai',
     instagram: 'https://instagram.com/1325ai',
     linkedin: 'https://linkedin.com/company/1325ai',
+    youtube: 'https://youtube.com/@1325AI',
+  },
+
+  // YouTube channel
+  youtube: {
+    channelHandle: '@1325AI',
+    channelUrl: 'https://youtube.com/@1325AI',
+    // Channel ID — resolved at runtime via API key, used by edge function
+    channelId: '', // populated when API key is added
   },
   
   // SEO
