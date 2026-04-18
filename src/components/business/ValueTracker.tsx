@@ -79,7 +79,7 @@ const ValueTracker: React.FC = () => {
           (inquiries * leadValuePerInquiry) +
           (reviewCount * reviewValue);
 
-        const platformCost = 149; // $149/month Kayla AI Pro subscription
+        const platformCost = 299; // $299/month Kayla AI Pro subscription
         const roi = platformCost > 0 ? Math.round((monthlyValue / platformCost) * 100) / 100 : 0;
 
         setMetrics({
@@ -316,7 +316,7 @@ const ValueTracker: React.FC = () => {
             7x ROI Target Progress
           </CardTitle>
           <CardDescription className="text-slate-400">
-            We promise $1,650+/month value for your $149/month investment — a 10–38x multiplier
+            We promise $1,650+/month value for your $299/month investment — a 5–19x multiplier
           </CardDescription>
         </CardHeader>
         <CardContent>

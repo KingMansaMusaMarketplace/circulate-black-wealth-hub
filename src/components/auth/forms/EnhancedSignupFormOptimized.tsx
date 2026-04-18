@@ -56,32 +56,34 @@ const EnhancedSignupForm: React.FC = memo(() => {
 
   const businessPlans = React.useMemo<PlanConfig[]>(() => [
     {
-      tier: 'business_pro',
-      price: '$29/month',
+      tier: 'kayla_essentials',
+      price: '$19/month',
       features: [
-        'Business profile & analytics',
-        'Booking system & reviews',
-        'QR codes (up to 25)',
-        'Priority support'
+        'Enhanced directory listing',
+        'Kayla AI chat assistant',
+        'Community marketplace access',
+        'Up to 5 QR codes',
+        'Email support'
       ]
     },
     {
       tier: 'kayla_starter',
-      price: '$49/month',
+      price: '$79/month',
       features: [
-        'Records Management & document vault',
-        'OCR extraction & Ask Kayla chat',
-        'Expiration alerts & reminders'
+        'Everything in Essentials',
+        'AI-powered records management',
+        'Document vault & OCR extraction',
+        'Up to 25 QR codes'
       ]
     },
     {
       tier: 'kayla_pro',
-      price: '$149/month',
+      price: '$299/month',
       features: [
         'All 28 Kayla AI services',
         'Replaces $1,650–$5,750/mo in human labor',
         'Tax prep, legal, B2B matching & more',
-        'Unlimited QR codes'
+        "Founders' Lock: first 100 keep $149/mo for life"
       ]
     }
   ], []);
