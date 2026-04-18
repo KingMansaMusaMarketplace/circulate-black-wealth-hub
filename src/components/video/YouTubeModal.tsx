@@ -10,14 +10,9 @@ interface YouTubeModalProps {
 const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) => {
   const [iframeBlocked, setIframeBlocked] = useState(false);
 
-  // Detect Lovable preview/sandbox domains where YouTube embeds are blocked
-  const isPreviewDomain = typeof window !== 'undefined' &&
-    (window.location.hostname.includes('lovable.app') ||
-     window.location.hostname.includes('lovableproject.com'));
-
   useEffect(() => {
-    if (videoId) setIframeBlocked(isPreviewDomain);
-  }, [videoId, isPreviewDomain]);
+    if (videoId) setIframeBlocked(false);
+  }, [videoId]);
 
   useEffect(() => {
     if (!videoId) return;
@@ -35,10 +30,9 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
 
   if (!videoId) return null;
 
-  // Use standard youtube.com domain (broader embed permissions than youtube-nocookie)
-  // Pass origin for referrer-based embed allowlists
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(origin)}`;
+  // youtube-nocookie has the most permissive embed policy across domains.
+  // Omit `origin` param — passing a domain the video owner hasn't allowlisted causes "Video unavailable".
+  const src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
   return (
