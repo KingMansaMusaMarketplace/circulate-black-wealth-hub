@@ -30,7 +30,8 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
 
   if (!videoId) return null;
 
-  const src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(origin)}`;
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
   return (
