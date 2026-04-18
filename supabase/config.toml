@@ -248,3 +248,6 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.ai-faq-generator]
     verify_jwt = false
+
+  [functions.youtube-latest-videos]
+    verify_jwt = false

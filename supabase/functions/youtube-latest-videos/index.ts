@@ -1,8 +1,12 @@
-import { corsHeaders } from '@supabase/supabase-js/cors';
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
 
 const CHANNEL_HANDLE = '1325AI';
 const MAX_RESULTS = 6;
 const CACHE_TTL_SECONDS = 3600; // 1 hour
+// deploy trigger
 
 interface YouTubeVideo {
   videoId: string;
