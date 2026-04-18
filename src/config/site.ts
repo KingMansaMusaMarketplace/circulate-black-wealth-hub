@@ -59,7 +59,7 @@ export const siteConfig = {
   // YouTube channel
   youtube: {
     channelHandle: '@1325AI',
-    channelUrl: 'https://youtube.com/@1325AI',
+    channelUrl: 'https://www.youtube.com/@1325AI',
     // Channel ID — resolved at runtime via API key, used by edge function
     channelId: '', // populated when API key is added
   },
