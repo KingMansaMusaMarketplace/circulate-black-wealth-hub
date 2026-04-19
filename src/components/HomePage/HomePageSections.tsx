@@ -17,7 +17,6 @@ const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
 
 const SponsorshipVideoSection = lazy(() => import('@/components/HowItWorks/SponsorshipVideoSection'));
-const AgenticProtocolSection = lazy(() => import('./AgenticProtocolSection'));
 const LatestFromYouTube = lazy(() => import('./LatestFromYouTube'));
 
 // Skeleton fallback for sections
@@ -55,13 +54,6 @@ const HomePageSections: React.FC = () => {
         <Suspense fallback={<SectionSkeleton height="h-24" />}>
           <MissionPreview />
         </Suspense>
-      </SectionErrorBoundary>
-
-      {/* 1.5 Agentic Commerce Protocol — Level 1/2/3 framework */}
-      <SectionErrorBoundary sectionName="Agentic Protocol">
-        <LazySection fallback={<SectionSkeleton height="h-96" />} minHeight="min-h-[400px]">
-          <AgenticProtocolSection />
-        </LazySection>
       </SectionErrorBoundary>
 
       {/* 2. Consumer Benefits */}
