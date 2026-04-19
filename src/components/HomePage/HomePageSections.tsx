@@ -13,7 +13,7 @@ const PricingSection = lazy(() => import('./PricingSection'));
 const ThreePillars = lazy(() => import('./ThreePillars'));
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
-const CirculationGap = lazy(() => import('./CirculationGap'));
+
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
 
 const SponsorshipVideoSection = lazy(() => import('@/components/HowItWorks/SponsorshipVideoSection'));
