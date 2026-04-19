@@ -13,7 +13,7 @@ const PricingSection = lazy(() => import('./PricingSection'));
 const ThreePillars = lazy(() => import('./ThreePillars'));
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
-const CirculationGap = lazy(() => import('./CirculationGap'));
+
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
 
 const SponsorshipVideoSection = lazy(() => import('@/components/HowItWorks/SponsorshipVideoSection'));
@@ -128,13 +128,6 @@ const HomePageSections: React.FC = () => {
       <SectionErrorBoundary sectionName="Noir Ride CTA">
         <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
           <NoirRideCTA />
-        </LazySection>
-      </SectionErrorBoundary>
-
-      {/* 12. Circulation Gap */}
-      <SectionErrorBoundary sectionName="Circulation Gap">
-        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
-          <CirculationGap />
         </LazySection>
       </SectionErrorBoundary>
     </>
