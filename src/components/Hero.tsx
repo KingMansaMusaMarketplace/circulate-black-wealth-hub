@@ -162,7 +162,12 @@ const Hero = () => {
               <div className="relative inline-flex items-center justify-center">
                 <div
                   className="absolute inset-0 rounded-full bg-mansagold/60 blur-3xl animate-pulse"
-                  style={{ animationDuration: '3s' }}
+                  style={{ animationDuration: '4s' }}
+                  aria-hidden="true"
+                />
+                <div
+                  className="absolute inset-0 rounded-full bg-mansagold/80 blur-2xl scale-75 animate-pulse"
+                  style={{ animationDuration: '4s' }}
                   aria-hidden="true"
                 />
                 <img
