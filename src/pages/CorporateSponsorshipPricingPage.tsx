@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Check, Crown, Sparkles, Star, Zap, Loader2, Share2, ArrowRight } from 'lucide-react';
+import { Check, Crown, Sparkles, Star, Zap, Loader2, Share2, ArrowRight, Award } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cn } from '@/lib/utils';
 import { useCorporateCheckout } from '@/hooks/useCorporateCheckout';
@@ -20,7 +20,7 @@ import SponsorROISection from '@/components/sponsors/SponsorROISection';
 
 interface PricingTier {
   name: string;
-  tier: 'bronze' | 'silver' | 'gold' | 'platinum';
+  tier: 'founding' | 'bronze' | 'silver' | 'gold' | 'platinum';
   price: string;
   description: string;
   icon: React.ReactNode;
@@ -43,11 +43,29 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
 
   const tiers: PricingTier[] = [
     {
+      name: 'Founding Sponsor',
+      tier: 'founding',
+      price: '$1,750',
+      description: 'Entry tier for regional brands building a community footprint',
+      icon: <Star className="h-6 w-6 text-white" />,
+      gradient: 'from-emerald-500 via-teal-500 to-cyan-600',
+      bgGlow: 'rgba(16, 185, 129, 0.15)',
+      features: [
+        'Logo in platform footer',
+        'Quarterly impact summary email',
+        'Social media mention (1x/quarter)',
+        'Founding Sponsor certificate',
+        'Newsletter inclusion',
+        'Locked rate for 12 months',
+      ],
+      cta: 'Become a Founding Sponsor',
+    },
+    {
       name: 'Bronze Partner',
       tier: 'bronze',
       price: '$5,000',
       description: 'Foundation-level support for community impact',
-      icon: <Star className="h-6 w-6 text-white" />,
+      icon: <Award className="h-6 w-6 text-white" />,
       gradient: 'from-amber-600 to-amber-700',
       bgGlow: 'rgba(217, 119, 6, 0.15)',
       features: [
@@ -144,7 +162,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
   const handleShare = async () => {
     const url = window.location.href;
     const title = 'Support Community Businesses - Corporate Sponsorship';
-    const text = 'Partner with us to create real impact! Choose from Bronze, Silver, Gold, or Platinum sponsorship tiers and support economic empowerment.';
+    const text = 'Partner with us to create real impact! Choose from Founding, Bronze, Silver, Gold, or Platinum sponsorship tiers and support economic empowerment.';
     
     await shareUrl(url, text, title);
   };
@@ -155,7 +173,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         <title>Corporate Sponsorship - Support Community Businesses</title>
         <meta
           name="description"
-          content="Become a corporate sponsor and make a real impact. Choose from Bronze, Silver, Gold, or Platinum partnership tiers. Get visibility while supporting economic empowerment."
+          content="Become a corporate sponsor and make a real impact. Choose from Founding, Bronze, Silver, Gold, or Platinum partnership tiers. Get visibility while supporting economic empowerment."
         />
         <meta
           name="keywords"
@@ -314,7 +332,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5 lg:gap-6 max-w-[1400px] mx-auto items-start">
             {tiers.map((tier, idx) => (
               <motion.div
                 key={tier.tier}
