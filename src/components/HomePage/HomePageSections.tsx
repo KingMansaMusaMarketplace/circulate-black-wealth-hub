@@ -96,13 +96,6 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* 7. Three Pillars */}
-      <SectionErrorBoundary sectionName="Three Pillars">
-        <LazySection fallback={<SectionSkeleton />} minHeight="min-h-[150px]">
-          <ThreePillars />
-        </LazySection>
-      </SectionErrorBoundary>
-
       {/* 8. Meet Kayla — AI intro */}
       <SectionErrorBoundary sectionName="Meet Kayla">
         <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
