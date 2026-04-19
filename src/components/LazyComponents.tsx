@@ -30,7 +30,6 @@ function lazyWithRetry<T extends ComponentType<any>>(
 // Lazy load all page components with retry for resilience
 export const LazyAboutPage = lazyWithRetry(() => import('@/pages/AboutPage'));
 export const LazyDirectoryPage = lazyWithRetry(() => import('@/pages/DirectoryPage'));
-export const LazyDashboardPage = lazyWithRetry(() => import('@/pages/DashboardPage'));
 export const LazyLoyaltyPage = lazyWithRetry(() => import('@/pages/LoyaltyPage'));
 export const LazyCommunityImpactPage = lazyWithRetry(() => import('@/pages/CommunityImpactPage'));
 export const LazyCorporateSponsorshipPage = lazyWithRetry(() => import('@/pages/CorporateSponsorshipPage'));
@@ -38,7 +37,6 @@ export const LazyQRScannerPage = lazyWithRetry(() => import('@/pages/QRScannerPa
 export const LazyBusinessDetailPage = lazyWithRetry(() => import('@/pages/BusinessDetailPage'));
 export const LazySubscriptionPage = lazyWithRetry(() => import('@/pages/SubscriptionPage'));
 export const LazyStripeTestPage = lazyWithRetry(() => import('@/pages/StripeTestPage'));
-export const LazyProfilePage = lazyWithRetry(() => import('@/pages/ProfilePage'));
 export const LazyMobileReadinessTestPage = lazyWithRetry(() => import('@/pages/MobileReadinessTestPage'));
 export const LazyFullAppTestPage = lazyWithRetry(() => import('@/pages/FullAppTestPage'));
 export const LazyCommunityImpactTestPage = lazyWithRetry(() => import('@/pages/CommunityImpactTestPage'));
@@ -49,7 +47,7 @@ export const LazyBusinessFormPage = lazyWithRetry(() => import('@/pages/Business
 export const LazyLoginPage = lazyWithRetry(() => import('@/pages/LoginPage'));
 export const LazySignupPage = lazyWithRetry(() => import('@/pages/SignupPage'));
 export const LazyPasswordResetRequestPage = lazyWithRetry(() => import('@/pages/PasswordResetRequestPage'));
-export const LazyResetPasswordPage = lazyWithRetry(() => import('@/pages/ResetPassword'));
+export const LazyResetPasswordPage = lazyWithRetry(() => import('@/pages/ResetPasswordPage'));
 export const LazyHowItWorksPage = lazyWithRetry(() => import('@/pages/HowItWorksPage'));
 export const LazySystemTestPage = lazyWithRetry(() => import('@/pages/SystemTestPage'));
 export const LazyFullSystemTestPage = lazyWithRetry(() => import('@/pages/FullSystemTestPage'));
@@ -60,7 +58,6 @@ export const LazyFeatureGuidePage = lazyWithRetry(() => import('@/pages/FeatureG
 
 // Additional lazy loaded pages
 export const LazyRewardsPage = lazyWithRetry(() => import('@/pages/RewardsPage'));
-export const LazyBusinessDiscoveryPage = lazyWithRetry(() => import('@/pages/BusinessDiscoveryPage'));
 export const LazySalesAgentSignupPage = lazyWithRetry(() => import('@/pages/SalesAgentSignupPage'));
 export const LazySalesAgentGuidePage = lazyWithRetry(() => import('@/pages/SalesAgentGuidePage'));
 export const LazySalesAgentDashboardPage = lazyWithRetry(() => import('@/pages/SalesAgentDashboardPage'));
