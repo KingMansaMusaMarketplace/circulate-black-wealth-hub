@@ -381,11 +381,11 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                     {/* Pricing */}
                     {!isScreenshotMode && (
                       <div className="mb-8">
-                        <div className="flex items-baseline gap-1">
-                          <span className={`text-4xl font-bold font-playfair bg-gradient-to-r ${tier.gradient} bg-clip-text text-transparent`}>
+                        <div className="flex items-baseline gap-1 flex-wrap">
+                          <span className={`text-3xl xl:text-[28px] 2xl:text-3xl font-bold font-playfair bg-gradient-to-r ${tier.gradient} bg-clip-text text-transparent whitespace-nowrap`}>
                             {tier.price}
                           </span>
-                          <span className="text-blue-200/60 text-lg font-medium font-playfair">/month</span>
+                          <span className="text-blue-200/60 text-base font-medium font-playfair whitespace-nowrap">/month</span>
                         </div>
                       </div>
                     )}
