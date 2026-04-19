@@ -65,6 +65,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { SponsorCertificateGenerator } from '@/components/sponsors/SponsorCertificateGenerator';
+import SponsorDeliverablesTab from '@/components/sponsors/SponsorDeliverablesTab';
 
 const tierPrices = {
   platinum: 50000,
@@ -556,10 +557,15 @@ export default function AdminSponsorDetailPage() {
       <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>
           <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="deliverables">Deliverables</TabsTrigger>
           <TabsTrigger value="communications">Communications ({communications?.length || 0})</TabsTrigger>
           <TabsTrigger value="reminders">Reminders ({reminders?.filter(r => !r.is_completed).length || 0})</TabsTrigger>
           <TabsTrigger value="activity">Activity Log</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="deliverables">
+          <SponsorDeliverablesTab sponsorId={sponsor.id} tier={sponsor.tier} />
+        </TabsContent>
 
         {/* Profile Tab */}
         <TabsContent value="profile" className="space-y-4">
