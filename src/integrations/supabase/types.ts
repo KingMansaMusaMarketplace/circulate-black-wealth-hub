@@ -17032,6 +17032,81 @@ export type Database = {
           },
         ]
       }
+      sponsor_deliverables: {
+        Row: {
+          assigned_to: string | null
+          category: string
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          description: string | null
+          due_date: string | null
+          id: string
+          is_recurring: boolean | null
+          notes: string | null
+          recurrence_interval: string | null
+          sort_order: number | null
+          sponsor_id: string
+          status: string
+          tier: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          category: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          is_recurring?: boolean | null
+          notes?: string | null
+          recurrence_interval?: string | null
+          sort_order?: number | null
+          sponsor_id: string
+          status?: string
+          tier: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          category?: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          is_recurring?: boolean | null
+          notes?: string | null
+          recurrence_interval?: string | null
+          sort_order?: number | null
+          sponsor_id?: string
+          status?: string
+          tier?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_deliverables_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_deliverables_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sponsor_documents: {
         Row: {
           created_at: string | null
