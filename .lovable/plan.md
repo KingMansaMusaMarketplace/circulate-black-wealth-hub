@@ -1,87 +1,56 @@
 
-## Redundant Pages Audit
 
-I scanned all **170+ page files** in `src/pages/` and the routes in `src/App.tsx`. Here are the redundancies grouped by category. Most are leftovers from iteration — same purpose, different names.
+## Consolidate the 4 Impact Pages (Homepage Untouched)
 
-### 1. Sponsor / Corporate Sponsorship (6 overlapping)
-| File | Status |
-|---|---|
-| `SponsorshipPage.tsx` (36 lines) | Stub — likely redirect |
-| `CorporateSponsorshipPage.tsx` (85 lines) | Marketing landing |
-| `CorporateSponsorshipPricingPage.tsx` (641 lines) | **KEEP** — main pricing |
-| `SponsorLandingPage.tsx` (186 lines) | Another landing |
-| `SponsorDashboard.tsx` (269 lines) | Dashboard v1 |
-| `SponsorDashboardPage.tsx` (249 lines) | Dashboard v2 |
-| `CorporateDashboardPage.tsx` (212 lines) | Dashboard v3 |
+### Current state
+Four impact-related pages exist:
+| File | Route | Purpose |
+|---|---|---|
+| `ImpactPage.tsx` | `/impact` | "My Impact" — personal dashboard wrapped in dark gradient layout, uses `<ImpactDashboard />` |
+| `CommunityImpactPage.tsx` | `/community-impact` | Wraps `CommunityImpactDashboard` (full hero + leaderboard + CTAs) inside `DashboardLayout` |
+| `EconomicImpactPage.tsx` | `/economic-impact` | Wraps `EconomicImpactDashboard` inside `DashboardLayout` |
+| `ShareImpactPage.tsx` | `/share-impact` | Social-share focused page |
 
-**Recommend:** Keep `CorporateSponsorshipPricingPage` + ONE dashboard. Merge or delete the rest.
+These overlap heavily — all show the same wealth-circulation story, just sliced differently.
 
-### 2. Admin Dashboards (3 overlapping)
-- `AdminPage.tsx` (164) · `AdminDashboard.tsx` (381) · `AdminDashboardPage.tsx` (313) — both `/admin` and `/admin-dashboard` already point to `AdminDashboardPage`. **KEEP that one, delete the other two.**
+### Canonical choice
+Keep **`ImpactPage.tsx`** at `/impact` as the single hub. It already has the strongest visual treatment (dark gradient mesh, animated orbs) matching the brand. Refactor it to render a tabbed interface combining all three dashboards.
 
-### 3. Directory / Businesses (4 overlapping)
-- `DirectoryPage.tsx` (520) ← **KEEP** (active route)
-- `EnhancedDirectoryPage.tsx` (268) · `BusinessDirectoryPage.tsx` (227) · `BusinessesPage.tsx` (243) — unused variants
+### Plan
 
-### 4. User Dashboard (3 overlapping)
-- `UnifiedDashboard.tsx` (213) ← **KEEP** (`/dashboard` uses this)
-- `DashboardPage.tsx` (362) · `UserDashboardPage.tsx` (481) — old versions
+**1. Refactor `ImpactPage.tsx`** to hold three tabs (using existing `Tabs` component):
+   - **My Impact** — current `<ImpactDashboard />` content
+   - **Community** — `<CommunityImpactDashboard />` (extracted from `CommunityImpactPage`)
+   - **Economic** — `<EconomicImpactDashboard />` (extracted from `EconomicImpactPage`)
+   
+   Default tab = "My Impact". Keep the existing dark gradient background and `SponsorshipVideoSection` footer.
 
-### 5. Auth / Login / Signup (4 overlapping)
-- `LoginPage.tsx` ← KEEP · `SignupPage.tsx` ← KEEP
-- `AuthPage.tsx` (434) — combined version, likely unused
-- `CustomerSignupPage.tsx` (78) — redundant with SignupPage
+**2. Update `App.tsx` routes** so all three legacy paths resolve to the same page:
+   - `/impact` → `ImpactPage` (default tab: My Impact)
+   - `/community-impact` → `ImpactPage` (default tab: Community)
+   - `/economic-impact` → `ImpactPage` (default tab: Economic)
+   - `/share-impact` → keep as-is OR redirect to `/impact` (it serves a distinct social-share purpose; will confirm below)
+   
+   Pass an optional `defaultTab` prop (or read from URL) so deep links land on the right tab.
 
-### 6. Password Reset (3 overlapping)
-- `PasswordResetRequestPage.tsx` ← KEEP (request flow)
-- `ResetPassword.tsx` (7 lines — stub) · `ResetPasswordPage.tsx` (120) · `NewPasswordPage.tsx` (149) — pick ONE for setting new password
+**3. Delete redundant page files**:
+   - `src/pages/CommunityImpactPage.tsx`
+   - `src/pages/EconomicImpactPage.tsx`
+   - (Keep dashboard *components* — they're reused inside the tabs)
 
-### 7. Profile (2 overlapping)
-- `ProfilePage.tsx` (82) vs `UserProfilePage.tsx` (430) — keep `UserProfilePage`
+**4. Clean up `LazyComponents.tsx`** — remove the now-unused lazy exports for the deleted pages.
 
-### 8. Settings (2 overlapping)
-- `SettingsPage.tsx` (140) vs `UserSettingsPage.tsx` (267) — keep `UserSettingsPage`
+### What will NOT be touched
+- **Homepage impact section** (`HomePageSections.tsx`, `TrustStatStrip`, `MissionPreview`, any `<ImpactDashboard />` or counter widgets shown on `/`) — completely untouched.
+- All underlying dashboard components (`ImpactDashboard`, `CommunityImpactDashboard`, `EconomicImpactDashboard`) — preserved intact, just rendered inside tabs.
+- Any nav links that point to these routes — they'll keep working since URLs are preserved.
 
-### 9. Business Detail (3 overlapping)
-- `BusinessDetailPage.tsx` (652) ← **KEEP** (active)
-- `BusinessPage.tsx` (172) · `BusinessProfilePage.tsx` (46 stub) — remove
+### Net result
+- 4 routes → 1 unified page with 3 tabs (or 4 if we keep `/share-impact`)
+- 2 page files deleted
+- Homepage untouched
+- All existing deep links continue to work
 
-### 10. Help / Support (4 overlapping)
-- `HelpPage.tsx` (74) · `HelpCenterPage.tsx` (127) · `SupportPage.tsx` (322) · `FAQPage.tsx` (167) — consolidate into Support + FAQ
+### Question on `/share-impact`
+Should `ShareImpactPage` also fold into the tabs, or stay as its own focused share-flow page?
 
-### 11. About (2 overlapping)
-- `AboutPage.tsx` (95) ← KEEP · `AboutUsPage.tsx` (31 stub) — delete
-
-### 12. Loyalty / Rewards (2 overlapping)
-- `LoyaltyPage.tsx` and `RewardsPage.tsx` are mapped to **different routes** but represent the same feature. Consider merging.
-
-### 13. Test Pages (12+ overlapping)
-`AppTestPage`, `FullAppTest`, `FullAppTestPage`, `FullSystemTestPage`, `SystemTestPage`, `ComprehensiveTestPage`, `MobileReadinessTestPage`, `MobileTestPage`, `CapacitorTestPage`, `QRTestPage`, `ButtonTestPage`, `SignupTestPage`, `RegistrationTestPage`, `PaymentTestPage`, `StripeTestPage`, `HBCUTestPage`, `CommunityImpactTestPage`, `MasterAppleReviewTestPage`, `AppleComplianceTestPage`, `TestPage`, `TestingHub`, `UnifiedTestDashboard`
-
-`UnifiedTestDashboard` already exists to consolidate these. **Delete the rest** (or move to `pages/_dev/`).
-
-### 14. Other small duplicates
-- `Index.tsx` — redirects to `/`, kept "for compatibility" but unused
-- `KaylaAnnouncementPage` + `WhatKaylaDoesPage` + `KaylaOnboardingSequencePage` — overlapping Kayla content
-- `EconomicImpactPage` + `CommunityImpactPage` + `ImpactPage` + `ShareImpactPage` — 4 impact pages
-- `ReferralPage` + `ReferralDashboard`
-- `MerchStorePage` + `ProductDetailPage` — already commented out as hidden
-
----
-
-### Summary count
-**~50 pages** are redundant or unused. Largest wins from cleanup:
-1. Sponsor pages (5 deletions)
-2. Test pages (~18 deletions → keep `UnifiedTestDashboard`)
-3. Auth duplicates (3 deletions)
-4. Dashboards (4 deletions across admin/user/sponsor)
-5. Directory variants (3 deletions)
-
-### Proposed cleanup approach
-**Phase 1 — Safe deletions (no route changes):** Delete files NOT referenced in `App.tsx` routes (~30 files). Zero risk.
-
-**Phase 2 — Consolidations (route updates):** Pick the canonical page per group, redirect old routes to it, delete duplicates.
-
-**Phase 3 — Test page cleanup:** Move all dev/test pages under one `/dev/*` namespace gated behind admin or remove entirely from production.
-
-Want me to proceed with **Phase 1 (safe deletions only)** first so we can verify nothing breaks before consolidating?
