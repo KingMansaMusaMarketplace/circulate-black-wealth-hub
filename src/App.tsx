@@ -39,7 +39,6 @@ import NotFound from './pages/NotFound';
 import {
   LazyAboutPage,
   LazyDirectoryPage,
-  LazyDashboardPage,
   LazyLoyaltyPage,
   LazyCommunityImpactPage,
   LazyCorporateSponsorshipPage,
@@ -47,7 +46,6 @@ import {
   LazyBusinessDetailPage,
   LazySubscriptionPage,
   LazyStripeTestPage,
-  LazyProfilePage,
   LazyMobileReadinessTestPage,
   LazyFullAppTestPage,
   LazyCommunityImpactTestPage,
