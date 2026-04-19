@@ -1,3 +1,5 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
@@ -7,8 +9,9 @@ const corsHeaders = {
 
 const CHANNEL_HANDLE = '1325AI';
 const MAX_RESULTS = 6;
-const CACHE_TTL_SECONDS = 3600; // 1 hour
-// deploy trigger
+const CACHE_KEY = `channel:${CHANNEL_HANDLE}`;
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+const STALE_GRACE_MS = 7 * 24 * 60 * 60 * 1000; // serve up to 7 days stale if API fails
 
 interface YouTubeVideo {
   videoId: string;
@@ -19,10 +22,45 @@ interface YouTubeVideo {
   url: string;
 }
 
-let cache: { data: YouTubeVideo[]; expiresAt: number } | null = null;
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+async function readCache(): Promise<{ videos: YouTubeVideo[]; channelId: string | null; expiresAt: Date; fetchedAt: Date } | null> {
+  const { data, error } = await supabase
+    .from('youtube_video_cache')
+    .select('videos, channel_id, expires_at, fetched_at')
+    .eq('cache_key', CACHE_KEY)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  return {
+    videos: data.videos as YouTubeVideo[],
+    channelId: data.channel_id,
+    expiresAt: new Date(data.expires_at),
+    fetchedAt: new Date(data.fetched_at),
+  };
+}
+
+async function writeCache(videos: YouTubeVideo[], channelId: string | null) {
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + CACHE_TTL_MS);
+  const { error } = await supabase
+    .from('youtube_video_cache')
+    .upsert(
+      {
+        cache_key: CACHE_KEY,
+        videos,
+        channel_id: channelId,
+        fetched_at: now.toISOString(),
+        expires_at: expiresAt.toISOString(),
+      },
+      { onConflict: 'cache_key' }
+    );
+  if (error) console.error('Cache write failed:', error);
+}
 
 async function resolveChannelId(apiKey: string): Promise<string | null> {
-  // Try handle-based lookup first
   const url = `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=@${CHANNEL_HANDLE}&key=${apiKey}`;
   const res = await fetch(url);
   if (!res.ok) {
@@ -67,30 +105,58 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Serve from cache if fresh
     const now = Date.now();
-    if (cache && cache.expiresAt > now) {
-      return new Response(JSON.stringify({ videos: cache.data, cached: true }), {
+    const cached = await readCache();
+
+    // Serve fresh cache
+    if (cached && cached.expiresAt.getTime() > now && cached.videos.length > 0) {
+      return new Response(JSON.stringify({ videos: cached.videos, cached: true }), {
         status: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    const channelId = await resolveChannelId(apiKey);
-    if (!channelId) {
-      return new Response(
-        JSON.stringify({ error: `Could not resolve channel @${CHANNEL_HANDLE}`, videos: [] }),
-        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    // Try to refresh from YouTube API
+    try {
+      const channelId = cached?.channelId ?? (await resolveChannelId(apiKey));
+      if (!channelId) {
+        // Channel resolve failed — fall back to stale cache if available
+        if (cached && cached.videos.length > 0) {
+          return new Response(JSON.stringify({ videos: cached.videos, cached: true, stale: true }), {
+            status: 200,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        return new Response(
+          JSON.stringify({ error: `Could not resolve channel @${CHANNEL_HANDLE}`, videos: [] }),
+          { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      const videos = await fetchLatestVideos(apiKey, channelId);
+      await writeCache(videos, channelId);
+
+      return new Response(JSON.stringify({ videos, cached: false }), {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    } catch (apiError) {
+      // API failed (likely quota) — serve stale cache within grace window
+      const message = apiError instanceof Error ? apiError.message : 'API error';
+      console.error('YouTube API failed, attempting stale cache:', message);
+
+      if (
+        cached &&
+        cached.videos.length > 0 &&
+        now - cached.fetchedAt.getTime() < STALE_GRACE_MS
+      ) {
+        return new Response(
+          JSON.stringify({ videos: cached.videos, cached: true, stale: true }),
+          { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      throw apiError;
     }
-
-    const videos = await fetchLatestVideos(apiKey, channelId);
-    cache = { data: videos, expiresAt: now + CACHE_TTL_SECONDS * 1000 };
-
-    return new Response(JSON.stringify({ videos, cached: false }), {
-      status: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('youtube-latest-videos error:', message);
