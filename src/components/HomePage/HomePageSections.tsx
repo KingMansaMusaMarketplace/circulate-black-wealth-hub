@@ -130,13 +130,6 @@ const HomePageSections: React.FC = () => {
           <NoirRideCTA />
         </LazySection>
       </SectionErrorBoundary>
-
-      {/* 12. Circulation Gap */}
-      <SectionErrorBoundary sectionName="Circulation Gap">
-        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
-          <CirculationGap />
-        </LazySection>
-      </SectionErrorBoundary>
     </>
   );
 };
