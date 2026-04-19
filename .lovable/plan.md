@@ -1,56 +1,40 @@
 
 
-## Consolidate the 4 Impact Pages (Homepage Untouched)
+## Clean Up the 3 Kayla Pages
 
 ### Current state
-Four impact-related pages exist:
-| File | Route | Purpose |
-|---|---|---|
-| `ImpactPage.tsx` | `/impact` | "My Impact" — personal dashboard wrapped in dark gradient layout, uses `<ImpactDashboard />` |
-| `CommunityImpactPage.tsx` | `/community-impact` | Wraps `CommunityImpactDashboard` (full hero + leaderboard + CTAs) inside `DashboardLayout` |
-| `EconomicImpactPage.tsx` | `/economic-impact` | Wraps `EconomicImpactDashboard` inside `DashboardLayout` |
-| `ShareImpactPage.tsx` | `/share-impact` | Social-share focused page |
+| File | Route | Purpose | Linked from nav? |
+|---|---|---|---|
+| `AIAssistantPage.tsx` | `/ai-assistant` | **Live Kayla chat** (the actual product) | ✅ Yes — navbar, mobile menu, FAB, command palette |
+| `KaylaAnnouncementPage.tsx` | `/kayla-announcement` | GTM copy: founder email + LinkedIn post (tabs) | ❌ No |
+| `KaylaOnboardingSequencePage.tsx` | `/kayla-onboarding-sequence` | GTM copy: Day 0 / Day 3 / Day 7 email drip (tabs) | ❌ No |
+| `WhatKaylaDoesPage.tsx` (602 lines) | `/what-kayla-does` | Marketing page listing 28 AI employees with savings | ❌ No |
 
-These overlap heavily — all show the same wealth-circulation story, just sliced differently.
-
-### Canonical choice
-Keep **`ImpactPage.tsx`** at `/impact` as the single hub. It already has the strongest visual treatment (dark gradient mesh, animated orbs) matching the brand. Refactor it to render a tabbed interface combining all three dashboards.
+### Analysis
+- `AIAssistantPage` is **not redundant** — it's the actual Kayla product surface.
+- The other three are all **GTM/marketing artifacts** with no nav entry points. `KaylaAnnouncement` and `KaylaOnboardingSequence` are essentially copy-paste reference pages (email templates) — these belong in a single internal "GTM Kit" page, not three separate routes.
+- `WhatKaylaDoesPage` is a substantial 602-line marketing/sales page that *could* be valuable but is currently orphaned (nothing links to it).
 
 ### Plan
 
-**1. Refactor `ImpactPage.tsx`** to hold three tabs (using existing `Tabs` component):
-   - **My Impact** — current `<ImpactDashboard />` content
-   - **Community** — `<CommunityImpactDashboard />` (extracted from `CommunityImpactPage`)
-   - **Economic** — `<EconomicImpactDashboard />` (extracted from `EconomicImpactPage`)
-   
-   Default tab = "My Impact". Keep the existing dark gradient background and `SponsorshipVideoSection` footer.
+**1. Merge the 2 email-copy pages into one `KaylaGTMKitPage.tsx`**
+   - Combine `KaylaAnnouncementPage` (announcement email + LinkedIn) and `KaylaOnboardingSequencePage` (drip emails) into a single tabbed page.
+   - New tab structure: `Announcement | LinkedIn | Day 0 | Day 3 | Day 7`
+   - Mount at `/kayla-gtm-kit`. Keep `/kayla-announcement` and `/kayla-onboarding-sequence` as redirects to the new route (so any external/founder links still work).
 
-**2. Update `App.tsx` routes** so all three legacy paths resolve to the same page:
-   - `/impact` → `ImpactPage` (default tab: My Impact)
-   - `/community-impact` → `ImpactPage` (default tab: Community)
-   - `/economic-impact` → `ImpactPage` (default tab: Economic)
-   - `/share-impact` → keep as-is OR redirect to `/impact` (it serves a distinct social-share purpose; will confirm below)
-   
-   Pass an optional `defaultTab` prop (or read from URL) so deep links land on the right tab.
+**2. Keep `WhatKaylaDoesPage.tsx` as-is**
+   - It's a real marketing page worth preserving. Add a link to it from the `MeetKaylaSection` on the homepage so it's actually reachable (small follow-up improvement).
+   - Route stays `/what-kayla-does`.
 
-**3. Delete redundant page files**:
-   - `src/pages/CommunityImpactPage.tsx`
-   - `src/pages/EconomicImpactPage.tsx`
-   - (Keep dashboard *components* — they're reused inside the tabs)
+**3. Leave `AIAssistantPage.tsx` untouched** — it's the product.
 
-**4. Clean up `LazyComponents.tsx`** — remove the now-unused lazy exports for the deleted pages.
-
-### What will NOT be touched
-- **Homepage impact section** (`HomePageSections.tsx`, `TrustStatStrip`, `MissionPreview`, any `<ImpactDashboard />` or counter widgets shown on `/`) — completely untouched.
-- All underlying dashboard components (`ImpactDashboard`, `CommunityImpactDashboard`, `EconomicImpactDashboard`) — preserved intact, just rendered inside tabs.
-- Any nav links that point to these routes — they'll keep working since URLs are preserved.
+**4. Cleanup**
+   - Delete `KaylaAnnouncementPage.tsx` and `KaylaOnboardingSequencePage.tsx`.
+   - Update `App.tsx` (web + native route blocks) and `LazyComponents.tsx` to reference the new page.
 
 ### Net result
-- 4 routes → 1 unified page with 3 tabs (or 4 if we keep `/share-impact`)
-- 2 page files deleted
-- Homepage untouched
-- All existing deep links continue to work
-
-### Question on `/share-impact`
-Should `ShareImpactPage` also fold into the tabs, or stay as its own focused share-flow page?
+- 3 GTM/Kayla routes → 1 consolidated GTM kit page (+ 2 redirects)
+- 2 page files deleted, 1 created
+- `AIAssistantPage` and `WhatKaylaDoesPage` preserved
+- All existing links continue to work
 
