@@ -36,11 +36,6 @@ export const LazyCorporateSponsorshipPage = lazyWithRetry(() => import('@/pages/
 export const LazyQRScannerPage = lazyWithRetry(() => import('@/pages/QRScannerPage'));
 export const LazyBusinessDetailPage = lazyWithRetry(() => import('@/pages/BusinessDetailPage'));
 export const LazySubscriptionPage = lazyWithRetry(() => import('@/pages/SubscriptionPage'));
-export const LazyStripeTestPage = lazyWithRetry(() => import('@/pages/StripeTestPage'));
-export const LazyMobileReadinessTestPage = lazyWithRetry(() => import('@/pages/MobileReadinessTestPage'));
-export const LazyFullAppTestPage = lazyWithRetry(() => import('@/pages/FullAppTestPage'));
-export const LazyCommunityImpactTestPage = lazyWithRetry(() => import('@/pages/CommunityImpactTestPage'));
-export const LazySignupTestPage = lazyWithRetry(() => import('@/pages/SignupTestPage'));
 export const LazyBusinessSignupPage = lazyWithRetry(() => import('@/pages/BusinessSignupPage'));
 export const LazyIOSBlockedPage = lazyWithRetry(() => import('@/pages/IOSBlockedPage'));
 export const LazyBusinessFormPage = lazyWithRetry(() => import('@/pages/BusinessFormPage'));
@@ -49,11 +44,7 @@ export const LazySignupPage = lazyWithRetry(() => import('@/pages/SignupPage'));
 export const LazyPasswordResetRequestPage = lazyWithRetry(() => import('@/pages/PasswordResetRequestPage'));
 export const LazyResetPasswordPage = lazyWithRetry(() => import('@/pages/ResetPasswordPage'));
 export const LazyHowItWorksPage = lazyWithRetry(() => import('@/pages/HowItWorksPage'));
-export const LazySystemTestPage = lazyWithRetry(() => import('@/pages/SystemTestPage'));
-export const LazyFullSystemTestPage = lazyWithRetry(() => import('@/pages/FullSystemTestPage'));
 export const LazyAccessibilityPage = lazyWithRetry(() => import('@/pages/AccessibilityPage'));
-export const LazyCapacitorTestPage = lazyWithRetry(() => import('@/pages/CapacitorTestPage'));
-export const LazyComprehensiveTestPage = lazyWithRetry(() => import('@/pages/ComprehensiveTestPage'));
 export const LazyFeatureGuidePage = lazyWithRetry(() => import('@/pages/FeatureGuidePage'));
 
 // Additional lazy loaded pages

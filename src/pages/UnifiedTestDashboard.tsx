@@ -53,18 +53,10 @@ const UnifiedTestDashboard: React.FC = () => {
     );
   };
 
-  // Consolidated test page links
+  // Consolidated test page links (only routes that still exist)
   const testPageLinks = [
-    { name: 'Apple Compliance Test', path: '/apple-compliance-test', icon: Apple, category: 'Compliance' },
-    { name: 'Master Apple Review', path: '/master-apple-review-test', icon: FileCheck, category: 'Compliance' },
     { name: 'Pre-Submission Checklist', path: '/pre-submission-checklist', icon: CheckCircle, category: 'Compliance' },
-    { name: 'Capacitor Test', path: '/capacitor-test', icon: Smartphone, category: 'Mobile' },
     { name: 'Native Features Demo', path: '/native-features-demo', icon: Settings, category: 'Mobile' },
-    { name: 'Payment Test', path: '/payment-test', icon: CreditCard, category: 'Features' },
-    { name: 'QR Test', path: '/qr-test', icon: QrCode, category: 'Features' },
-    { name: 'Signup Test', path: '/signup-test', icon: UserPlus, category: 'Auth' },
-    { name: 'Button Test', path: '/button-test', icon: Play, category: 'UI' },
-    { name: 'Stripe Test', path: '/stripe-test', icon: CreditCard, category: 'Features' },
   ];
 
   return (

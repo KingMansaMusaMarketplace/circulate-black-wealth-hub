@@ -45,11 +45,6 @@ import {
   LazyQRScannerPage,
   LazyBusinessDetailPage,
   LazySubscriptionPage,
-  LazyStripeTestPage,
-  LazyMobileReadinessTestPage,
-  LazyFullAppTestPage,
-  LazyCommunityImpactTestPage,
-  LazySignupTestPage,
   LazyBusinessSignupPage,
   LazyBusinessFormPage,
   LazyLoginPage,
@@ -57,11 +52,7 @@ import {
   LazyPasswordResetRequestPage,
   LazyResetPasswordPage,
   LazyHowItWorksPage,
-  LazySystemTestPage,
-  LazyFullSystemTestPage,
   LazyAccessibilityPage,
-  LazyCapacitorTestPage,
-  LazyComprehensiveTestPage
 } from './components/LazyComponents';
 
 // Media Kit page
@@ -93,9 +84,7 @@ const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
 const LazyUnsubscribePage = lazy(() => import('@/pages/UnsubscribePage'));
-const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
-const LazyAppTestPage = lazy(() => import('@/pages/AppTestPage'));
 const LazyErrorPage = lazy(() => import('@/pages/ErrorPage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
@@ -103,8 +92,6 @@ const LazyListingSuccessPage = lazy(() => import('@/pages/ListingSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
 const LazyPricingPage = lazy(() => import('@/pages/PricingPage'));
 
-const LazyFullAppTest = lazy(() => import('@/pages/FullAppTest'));
-const LazyTestingHub = lazy(() => import('@/pages/TestingHub'));
 const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyAdminSponsorDetailPage = lazy(() => import('@/pages/AdminSponsorDetailPage'));
@@ -114,9 +101,7 @@ const LazyFeatureDiscoveryPage = lazy(() => import('@/components/onboarding/Feat
 const LazyCustomersPage = lazy(() => import('@/pages/CustomersPage'));
 const LazyCustomerDetailPage = lazy(() => import('@/pages/CustomerDetailPage'));
 const LazyNewCustomerPage = lazy(() => import('@/pages/NewCustomerPage'));
-const LazyAppleComplianceTestPage = lazy(() => import('@/pages/AppleComplianceTestPage'));
 const LazyPreSubmissionChecklistPage = lazy(() => import('@/pages/PreSubmissionChecklistPage'));
-const LazyMasterAppleReviewTestPage = lazy(() => import('@/pages/MasterAppleReviewTestPage'));
 const LazyNativeFeaturesDemo = lazy(() => import('@/pages/NativeFeaturesDemo'));
 const LazyNativeFeaturesShowcase = lazy(() => import('@/pages/NativeFeaturesShowcase'));
 const LazyRecommendationsPage = lazy(() => import('@/pages/RecommendationsPage'));
@@ -136,7 +121,6 @@ const LazyImpactPage = lazy(() => import('@/pages/ImpactPage'));
 const LazyCommissionsPage = lazy(() => import('@/pages/admin/CommissionsPage'));
 const LazyCommissionReportsPage = lazy(() => import('@/pages/business/CommissionReportsPage'));
 const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWorksPage'));
-const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
 const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
 const LazyKaylaAnnouncementPage = lazy(() => import('@/pages/KaylaAnnouncementPage'));
 const LazyWhatKaylaDoesPage = lazy(() => import('@/pages/WhatKaylaDoesPage'));
@@ -152,7 +136,6 @@ const LazyAIWorkforceDashboard = lazy(() => import('@/pages/admin/AIWorkforceDas
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
 const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
-const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
 const LazyQRCodeGeneratorPage = lazy(() => import('@/pages/QRCodeGeneratorPage'));
 const LazyQRCodeManagementPage = lazy(() => import('@/pages/QRCodeManagementPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
@@ -1002,6 +985,9 @@ function App() {
                         {/* W */}
                         <Route path="/welcome" element={<LazyWelcomePage />} />
                         <Route path="/workflow-builder" element={<LazyWorkflowBuilderPage />} />
+
+                        {/* Dev / Test (single consolidated dashboard) */}
+                        <Route path="/dev/test" element={<LazyUnifiedTestDashboard />} />
                         
                         {/* AI Agent */}
                         <Route path="/ai-agent" element={<LazyAIAgentDashboard />} />
