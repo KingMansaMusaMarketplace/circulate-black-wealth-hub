@@ -39,9 +39,41 @@ const SponsorshipVideoSection = () => {
     };
   }, []);
 
-  // Hide entirely if no videos load (e.g. API key not configured)
+  // Fallback: when no videos load (API quota, missing key, etc.), show a slim
+  // "Visit Channel" CTA instead of silently hiding the slot.
   if (!loading && videos.length === 0) {
-    return null;
+    return (
+      <section className="py-12 relative overflow-hidden backdrop-blur-xl bg-white/5">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto text-center rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-xl p-8"
+          >
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Youtube className="h-5 w-5 text-red-500" />
+              <span className="text-sm font-semibold uppercase tracking-wider text-mansagold">
+                {siteConfig.youtube.channelHandle}
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold mb-3 text-white">
+              See The Impact on YouTube
+            </h2>
+            <p className="text-white/80 mb-6">
+              Watch how circulating wealth in our communities transforms economic empowerment.
+            </p>
+            <Button
+              onClick={() => window.open(siteConfig.youtube.channelUrl, '_blank', 'noopener,noreferrer')}
+              className="bg-mansagold text-slate-900 hover:bg-mansagold/90"
+            >
+              Visit 1325AI Channel <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+    );
   }
 
   return (
