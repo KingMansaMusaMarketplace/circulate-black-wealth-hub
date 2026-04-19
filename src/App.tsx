@@ -985,6 +985,9 @@ function App() {
                         {/* W */}
                         <Route path="/welcome" element={<LazyWelcomePage />} />
                         <Route path="/workflow-builder" element={<LazyWorkflowBuilderPage />} />
+
+                        {/* Dev / Test (single consolidated dashboard) */}
+                        <Route path="/dev/test" element={<LazyUnifiedTestDashboard />} />
                         
                         {/* AI Agent */}
                         <Route path="/ai-agent" element={<LazyAIAgentDashboard />} />
