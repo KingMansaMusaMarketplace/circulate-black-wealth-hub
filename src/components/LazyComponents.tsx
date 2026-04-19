@@ -31,7 +31,6 @@ function lazyWithRetry<T extends ComponentType<any>>(
 export const LazyAboutPage = lazyWithRetry(() => import('@/pages/AboutPage'));
 export const LazyDirectoryPage = lazyWithRetry(() => import('@/pages/DirectoryPage'));
 
-export const LazyCommunityImpactPage = lazyWithRetry(() => import('@/pages/CommunityImpactPage'));
 export const LazyCorporateSponsorshipPage = lazyWithRetry(() => import('@/pages/CorporateSponsorshipPage'));
 export const LazyQRScannerPage = lazyWithRetry(() => import('@/pages/QRScannerPage'));
 export const LazyBusinessDetailPage = lazyWithRetry(() => import('@/pages/BusinessDetailPage'));
