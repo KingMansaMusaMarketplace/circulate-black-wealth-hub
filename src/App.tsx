@@ -90,8 +90,6 @@ const LazyHelpPage = lazy(() => import('@/pages/HelpPage'));
 const LazyUserGuidePage = lazy(() => import('@/pages/UserGuidePage'));
 const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
 
-// Auth page (new) - import directly since it's not in LazyComponents yet
-const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
 const LazyUnsubscribePage = lazy(() => import('@/pages/UnsubscribePage'));
@@ -104,11 +102,9 @@ const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 const LazyListingSuccessPage = lazy(() => import('@/pages/ListingSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
 const LazyPricingPage = lazy(() => import('@/pages/PricingPage'));
-const LazySponsorDashboardPage = lazy(() => import('@/pages/SponsorDashboardPage'));
 
 const LazyFullAppTest = lazy(() => import('@/pages/FullAppTest'));
 const LazyTestingHub = lazy(() => import('@/pages/TestingHub'));
-const LazySponsorDashboard = lazy(() => import('@/pages/SponsorDashboard'));
 const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyAdminSponsorDetailPage = lazy(() => import('@/pages/AdminSponsorDetailPage'));
