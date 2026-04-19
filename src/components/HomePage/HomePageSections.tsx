@@ -5,6 +5,7 @@ import LazySection from './LazySection';
 
 // Lazy load all non-critical sections
 const ConsumerBenefits = lazy(() => import('./ConsumerBenefits'));
+const TrustStatStrip = lazy(() => import('./TrustStatStrip'));
 const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
 const CTASection = lazy(() => import('@/components/CTASection'));
 
@@ -63,7 +64,14 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* 3. Featured Businesses — strongest social proof, leads into CTA */}
+      {/* 3. Trust Stat Strip — credibility beat for cold traffic before social proof */}
+      <SectionErrorBoundary sectionName="Trust Stat Strip">
+        <Suspense fallback={<SectionSkeleton height="h-24" />}>
+          <TrustStatStrip />
+        </Suspense>
+      </SectionErrorBoundary>
+
+      {/* 4. Featured Businesses — strongest social proof, leads into CTA */}
       <SectionErrorBoundary sectionName="Featured Businesses">
         <LazySection fallback={<BusinessSkeleton />} minHeight="min-h-[200px]">
           <FeaturedBusinesses limit={3} />
