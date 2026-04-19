@@ -5,7 +5,7 @@ const stats = [
   { value: '$12,100+/mo', label: 'Avg. business savings with Kayla' },
   { value: '~4 Roles Covered', label: 'Sales, marketing, support, ops' },
   { value: '24/7', label: 'AI employee uptime' },
-  { value: '100%', label: 'Black-owned & verified' },
+  { value: '100%', label: 'Verified Community Businesses' },
 ];
 
 const TrustStatStrip: React.FC = () => {
