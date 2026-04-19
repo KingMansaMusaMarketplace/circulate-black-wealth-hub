@@ -39,7 +39,6 @@ import NotFound from './pages/NotFound';
 import {
   LazyAboutPage,
   LazyDirectoryPage,
-  LazyDashboardPage,
   LazyLoyaltyPage,
   LazyCommunityImpactPage,
   LazyCorporateSponsorshipPage,
@@ -47,7 +46,6 @@ import {
   LazyBusinessDetailPage,
   LazySubscriptionPage,
   LazyStripeTestPage,
-  LazyProfilePage,
   LazyMobileReadinessTestPage,
   LazyFullAppTestPage,
   LazyCommunityImpactTestPage,
@@ -92,8 +90,6 @@ const LazyHelpPage = lazy(() => import('@/pages/HelpPage'));
 const LazyUserGuidePage = lazy(() => import('@/pages/UserGuidePage'));
 const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
 
-// Auth page (new) - import directly since it's not in LazyComponents yet
-const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
 const LazyUnsubscribePage = lazy(() => import('@/pages/UnsubscribePage'));
@@ -106,11 +102,9 @@ const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 const LazyListingSuccessPage = lazy(() => import('@/pages/ListingSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
 const LazyPricingPage = lazy(() => import('@/pages/PricingPage'));
-const LazySponsorDashboardPage = lazy(() => import('@/pages/SponsorDashboardPage'));
 
 const LazyFullAppTest = lazy(() => import('@/pages/FullAppTest'));
 const LazyTestingHub = lazy(() => import('@/pages/TestingHub'));
-const LazySponsorDashboard = lazy(() => import('@/pages/SponsorDashboard'));
 const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyAdminSponsorDetailPage = lazy(() => import('@/pages/AdminSponsorDetailPage'));
@@ -135,7 +129,7 @@ const LazyShareImpactPage = lazy(() => import('@/pages/ShareImpactPage'));
 const LazySocialProofPage = lazy(() => import('@/pages/SocialProofPage'));
 const LazyFeaturesPage = lazy(() => import('@/pages/FeaturesPage'));
 const LazyFAQPage = lazy(() => import('@/pages/FAQPage'));
-const LazyCustomerSignupPage = lazy(() => import('@/pages/CustomerSignupPage'));
+
 const LazyNetworkPage = lazy(() => import('@/pages/NetworkPage'));
 const LazyLeaderboardPage = lazy(() => import('@/pages/LeaderboardPage'));
 const LazyImpactPage = lazy(() => import('@/pages/ImpactPage'));
@@ -152,7 +146,7 @@ const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetecti
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
 const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
 const LazyLoyaltyProgramGuidePage = lazy(() => import('@/pages/LoyaltyProgramGuidePage'));
-const LazyAdminPage = lazy(() => import('@/pages/AdminPage'));
+
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAIWorkforceDashboard = lazy(() => import('@/pages/admin/AIWorkforceDashboard'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
@@ -210,7 +204,7 @@ const LazyAmbassadorResourcesPage = lazy(() => import('@/pages/AmbassadorResourc
 const LazySalesAgentCodeOfConductPage = lazy(() => import('@/pages/SalesAgentCodeOfConductPage'));
 
 // User profile pages
-const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
+
 const LazyUserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
 const LazyUserSettingsPage = lazy(() => import('@/pages/UserSettingsPage'));
 const LazyBusinessAnalyticsPage = lazy(() => import('@/components/analytics/BusinessAnalyticsDashboard'));
@@ -483,7 +477,7 @@ function App() {
                               <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                               <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                               {/* Test routes removed from production */}
-                              <Route path="/auth" element={<LazyAuthPage />} />
+                              <Route path="/auth" element={<LazyLoginPage />} />
                               
                               {/* B */}
                               <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
@@ -496,7 +490,7 @@ function App() {
                               } />
                               <Route path="/business-dashboard" element={
                                 <IOSProtectedRoute>
-                                  <LazyDashboardPage />
+                                  <LazyUnifiedDashboard />
                                 </IOSProtectedRoute>
                               } />
                               <Route path="/business-finances" element={
@@ -639,7 +633,7 @@ function App() {
                               <Route path="/qr-code-management" element={<LazyQRCodeGeneratorPage />} />
                               <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
                               <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
-                              <Route path="/profile" element={<LazyProfilePage />} />
+                              <Route path="/profile" element={<LazyUserProfilePage />} />
                               
                               {/* R */}
                               <Route path="/recommendations" element={<LazyRecommendationsPage />} />
@@ -684,7 +678,7 @@ function App() {
                               } />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
                               <Route path="/submit-ticket" element={<LazySubmitTicketPage />} />
-                              <Route path="/sponsor-dashboard" element={<LazySponsorDashboardPage />} />
+                              <Route path="/sponsor-dashboard" element={<LazyCorporateDashboardPage />} />
                               <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
                               <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
                               <Route path="/sponsor/:slug" element={<LazySponsorLandingPage />} />
@@ -703,7 +697,7 @@ function App() {
                               <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
                               
                               {/* U */}
-                              <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                              <Route path="/user-dashboard" element={<LazyUnifiedDashboard />} />
                               <Route path="/user-profile" element={<LazyUserProfilePage />} />
                               <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                               <Route path="/unsubscribe" element={<LazyUnsubscribePage />} />
@@ -761,7 +755,7 @@ function App() {
                         {/* A */}
                         <Route path="/about" element={<LazyAboutPage />} />
                         <Route path="/accessibility" element={<LazyAccessibilityPage />} />
-                        <Route path="/admin" element={<RequireAdmin><LazyAdminPage /></RequireAdmin>} />
+                        <Route path="/admin" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
                         <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
@@ -779,7 +773,7 @@ function App() {
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         {/* Test routes removed from production — use /all-pages (admin only) */}
-                        <Route path="/auth" element={<LazyAuthPage />} />
+                        <Route path="/auth" element={<LazyLoginPage />} />
                         
                         {/* B */}
                         <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
@@ -792,7 +786,7 @@ function App() {
                         } />
                         <Route path="/business-dashboard" element={
                           <IOSProtectedRoute>
-                            <LazyDashboardPage />
+                            <LazyUnifiedDashboard />
                           </IOSProtectedRoute>
                         } />
                         <Route path="/business-finances" element={
@@ -927,7 +921,7 @@ function App() {
                         <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
                         <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
                         <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
-                        <Route path="/profile" element={<LazyProfilePage />} />
+                        <Route path="/profile" element={<LazyUserProfilePage />} />
                         
                         {/* Q */}
                         {/* /qr-test removed */}
@@ -969,12 +963,12 @@ function App() {
                             <LazyBusinessSignupPage />
                           </IOSProtectedRoute>
                         } />
-                        <Route path="/signup/customer" element={<LazyCustomerSignupPage />} />
+                        <Route path="/signup/customer" element={<LazySignupPage />} />
                         <Route path="/social-proof" element={<LazySocialProofPage />} />
                         <Route path="/submit-ticket" element={<LazySubmitTicketPage />} />
                         <Route path="/sponsor-dashboard" element={
                           <IOSProtectedRoute>
-                            <LazySponsorDashboardPage />
+                            <LazyCorporateDashboardPage />
                           </IOSProtectedRoute>
                         } />
                         <Route path="/sponsor-pricing" element={
@@ -996,7 +990,7 @@ function App() {
                         <Route path="/terms" element={<LazyTermsOfServicePage />} />
                         
                         {/* U */}
-                        <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                        <Route path="/user-dashboard" element={<LazyUnifiedDashboard />} />
                         <Route path="/user-guide" element={<LazyUserGuidePage />} />
                         <Route path="/user-profile" element={<LazyUserProfilePage />} />
                         <Route path="/user-settings" element={<LazyUserSettingsPage />} />
@@ -1023,7 +1017,7 @@ function App() {
                         <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
                         
                         {/* Admin routes */}
-                        <Route path="/admin" element={<RequireAdmin><LazyAdminPage /></RequireAdmin>} />
+                        <Route path="/admin" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
                         <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
