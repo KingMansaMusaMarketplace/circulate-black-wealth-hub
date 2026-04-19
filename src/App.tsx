@@ -146,7 +146,7 @@ const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetecti
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
 const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
 const LazyLoyaltyProgramGuidePage = lazy(() => import('@/pages/LoyaltyProgramGuidePage'));
-const LazyAdminPage = lazy(() => import('@/pages/AdminPage'));
+
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAIWorkforceDashboard = lazy(() => import('@/pages/admin/AIWorkforceDashboard'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));

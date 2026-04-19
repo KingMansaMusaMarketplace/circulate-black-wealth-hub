@@ -63,7 +63,7 @@ export const progressiveLoad = {
   
   // Load on interaction
   loadOnDemand: {
-    dashboard: () => import('@/pages/DashboardPage'),
+    dashboard: () => import('@/pages/UnifiedDashboard'),
     directory: () => import('@/pages/DirectoryPage'),
     qrScanner: () => import('@/pages/QRScannerPage'),
   }
