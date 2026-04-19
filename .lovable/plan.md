@@ -1,53 +1,45 @@
 
-## Plan: Add Trust/Credibility Stat Strip
+## Plan: Fix the "See The Impact" YouTube Section
 
-Insert a compact stat strip between **Consumer Benefits (#2)** and **Featured Businesses (#3)** to give cold traffic a quick credibility hit before the social proof carousel.
+The section is hidden because the `youtube-latest-videos` edge function is returning 0 videos (or erroring). I need to investigate which of the four likely causes is the actual culprit before fixing.
 
-### What to build
+### Investigation steps (in default mode)
+1. **Check secrets** — confirm whether `YOUTUBE_API_KEY` exists in Supabase secrets.
+2. **Read the edge function** — open `supabase/functions/youtube-latest-videos/index.ts` to understand how it resolves the channel ID and what it returns on error.
+3. **Curl the function** — call it directly to see the live response (videos, error, or empty).
+4. **Check edge function logs** — confirm what's happening on invocation.
+5. **Verify `siteConfig.youtube.channelHandle`** is `@1325AI` (already confirmed) and whether `channelId` needs to be hardcoded.
 
-A new lightweight section component: `src/components/HomePage/TrustStatStrip.tsx`
+### Likely fixes (one of these, based on findings)
 
-**Content (4 stats, horizontal strip):**
-1. **$12,100+/mo** — Avg. business savings with Kayla
-2. **~4 Roles Covered** — Sales, marketing, support, ops
-3. **24/7** — AI employee uptime
-4. **100%** — Black-owned & verified
+**Case A — `YOUTUBE_API_KEY` is missing:**
+- Request the secret via `add_secret` with instructions on how to generate a YouTube Data API v3 key in Google Cloud Console.
+- Once added, the function will start returning videos automatically.
 
-(Stats #1 and #2 are required by Core memory rule. Stats #3 and #4 round out the strip with platform credibility.)
+**Case B — API key exists but channel handle isn't resolving:**
+- Update the edge function to hardcode the channel ID for `@1325AI` (resolve once via `channels?forHandle=@1325AI`, cache the ID), OR
+- Update `siteConfig.youtube.channelId` with the resolved ID and have the function prefer it.
 
-### Design
+**Case C — Function errors out (quota, bad request, deploy issue):**
+- Patch the function (fix request, add better error handling, add fallback to cached video IDs).
+- Redeploy.
 
-- Single-row strip on desktop (4 columns), 2x2 grid on mobile
-- Dark glass treatment matching existing sections: `bg-slate-900/40 backdrop-blur-xl border-y border-white/10`
-- MansaGold (#FFB300) for the stat numbers, white for labels
-- Compact vertical padding (`py-8 md:py-10`) — meant as a *beat*, not a full section
-- Subtle fade-in via `framer-motion` (matches `LiveImpactCounter` pattern already in codebase)
-- No icons (keeps it lean — icons would make it compete with Consumer Benefits visually)
-- No CTA, no card chrome — just numbers + labels on the page background
+**Case D — Channel genuinely has no public videos:**
+- Tell the user, no code fix possible — they need to publish on the channel.
 
-### Integration
+### Fallback UX improvement (regardless of root cause)
+Since you noticed it's missing, the silent-hide behavior is a footgun. I'll add a minimal fallback in `SponsorshipVideoSection.tsx`:
+- If videos load → current behavior.
+- If empty/error → render a slim "Visit our YouTube channel" card with the channel link instead of returning `null`.
 
-Edit `src/components/HomePage/HomePageSections.tsx`:
-- Add `lazy` import for `TrustStatStrip`
-- Insert between `ConsumerBenefits` block and `FeaturedBusinesses` block
-- Wrap in `SectionErrorBoundary` + `Suspense` with a thin skeleton (`h-24`)
+This way, even if the API hiccups, slot #5 still serves its purpose (drive traffic to YouTube) instead of silently disappearing.
 
-### New homepage flow
-1. Mission Preview
-2. Consumer Benefits
-3. **Trust Stat Strip** ← new
-4. Featured Businesses
-5. CTA
-6. See The Impact
-7. Pricing
-8. Meet Kayla
-9. Vacation Rentals CTA
-10. Noir Ride CTA
+### Files likely touched
+- `supabase/functions/youtube-latest-videos/index.ts` (read, possibly edit)
+- `src/config/site.ts` (possibly add `channelId`)
+- `src/components/HowItWorks/SponsorshipVideoSection.tsx` (add fallback UI)
+- `src/components/HomePage/LatestFromYouTube.tsx` (may apply same fallback for consistency — though it isn't currently in the lineup)
+- Add `YOUTUBE_API_KEY` secret if missing
 
-### Files
-- **Create:** `src/components/HomePage/TrustStatStrip.tsx`
-- **Edit:** `src/components/HomePage/HomePageSections.tsx`
-
-### Notes
-- Numbers are static (no DB hookup) — matches the "marketing claim" intent. If you later want live data, we can wire it to `useCommunityImpact`.
-- Honors Core memory: uses "~4 Roles Covered" (not "FTEs Replaced") and the $12,100+/mo figure.
+### What you'll see when I'm done
+Either real videos in slot #5, OR a clean "Visit Channel" fallback card. No more silent disappearance.
