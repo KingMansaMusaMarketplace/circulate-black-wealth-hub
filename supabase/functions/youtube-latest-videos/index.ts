@@ -60,35 +60,48 @@ async function writeCache(videos: YouTubeVideo[], channelId: string | null) {
   if (error) console.error('Cache write failed:', error);
 }
 
-async function resolveChannelId(apiKey: string): Promise<string | null> {
-  const url = `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=@${CHANNEL_HANDLE}&key=${apiKey}`;
+// Resolves channel id AND uploads playlist id in a single 1-unit call.
+// channels.list with part=contentDetails costs 1 quota unit (vs search.list = 100).
+async function resolveChannelMeta(
+  apiKey: string
+): Promise<{ channelId: string; uploadsPlaylistId: string } | null> {
+  const url = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails,id&forHandle=@${CHANNEL_HANDLE}&key=${apiKey}`;
   const res = await fetch(url);
   if (!res.ok) {
     console.error('Channel lookup failed:', res.status, await res.text());
     return null;
   }
   const data = await res.json();
-  return data?.items?.[0]?.id ?? null;
+  const item = data?.items?.[0];
+  const channelId = item?.id;
+  const uploadsPlaylistId = item?.contentDetails?.relatedPlaylists?.uploads;
+  if (!channelId || !uploadsPlaylistId) return null;
+  return { channelId, uploadsPlaylistId };
 }
 
-async function fetchLatestVideos(apiKey: string, channelId: string): Promise<YouTubeVideo[]> {
-  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=${MAX_RESULTS}&order=date&type=video&key=${apiKey}`;
+// playlistItems.list costs 1 quota unit (vs search.list = 100).
+// 100x quota reduction — the "search.list for latest uploads" pattern is a known anti-pattern.
+async function fetchLatestVideos(apiKey: string, uploadsPlaylistId: string): Promise<YouTubeVideo[]> {
+  const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${uploadsPlaylistId}&maxResults=${MAX_RESULTS}&key=${apiKey}`;
   const res = await fetch(url);
   if (!res.ok) {
-    throw new Error(`YouTube search failed [${res.status}]: ${await res.text()}`);
+    throw new Error(`YouTube playlistItems failed [${res.status}]: ${await res.text()}`);
   }
   const data = await res.json();
-  return (data.items ?? []).map((item: any) => ({
-    videoId: item.id.videoId,
-    title: item.snippet.title,
-    description: item.snippet.description,
-    thumbnail:
-      item.snippet.thumbnails?.maxres?.url ??
-      item.snippet.thumbnails?.high?.url ??
-      item.snippet.thumbnails?.medium?.url,
-    publishedAt: item.snippet.publishedAt,
-    url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-  }));
+  return (data.items ?? []).map((item: any) => {
+    const videoId = item.contentDetails?.videoId ?? item.snippet?.resourceId?.videoId;
+    return {
+      videoId,
+      title: item.snippet.title,
+      description: item.snippet.description,
+      thumbnail:
+        item.snippet.thumbnails?.maxres?.url ??
+        item.snippet.thumbnails?.high?.url ??
+        item.snippet.thumbnails?.medium?.url,
+      publishedAt: item.snippet.publishedAt,
+      url: `https://www.youtube.com/watch?v=${videoId}`,
+    };
+  });
 }
 
 Deno.serve(async (req) => {
@@ -118,8 +131,10 @@ Deno.serve(async (req) => {
 
     // Try to refresh from YouTube API
     try {
-      const channelId = cached?.channelId ?? (await resolveChannelId(apiKey));
-      if (!channelId) {
+      // Channel id alone isn't enough now — we need the uploads playlist id too.
+      // Re-resolve when cache is missing the channel id (older cache entries).
+      const meta = await resolveChannelMeta(apiKey);
+      if (!meta) {
         // Channel resolve failed — fall back to stale cache if available
         if (cached && cached.videos.length > 0) {
           return new Response(JSON.stringify({ videos: cached.videos, cached: true, stale: true }), {
@@ -133,8 +148,8 @@ Deno.serve(async (req) => {
         );
       }
 
-      const videos = await fetchLatestVideos(apiKey, channelId);
-      await writeCache(videos, channelId);
+      const videos = await fetchLatestVideos(apiKey, meta.uploadsPlaylistId);
+      await writeCache(videos, meta.channelId);
 
       return new Response(JSON.stringify({ videos, cached: false }), {
         status: 200,
