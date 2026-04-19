@@ -15,7 +15,7 @@ const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 const CirculationGap = lazy(() => import('./CirculationGap'));
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
-const QuickHowItWorks = lazy(() => import('./QuickHowItWorks'));
+
 const SponsorshipVideoSection = lazy(() => import('@/components/HowItWorks/SponsorshipVideoSection'));
 const AgenticProtocolSection = lazy(() => import('./AgenticProtocolSection'));
 const LatestFromYouTube = lazy(() => import('./LatestFromYouTube'));
