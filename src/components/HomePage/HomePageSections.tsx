@@ -15,7 +15,7 @@ const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 const CirculationGap = lazy(() => import('./CirculationGap'));
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
-const QuickHowItWorks = lazy(() => import('./QuickHowItWorks'));
+
 const SponsorshipVideoSection = lazy(() => import('@/components/HowItWorks/SponsorshipVideoSection'));
 const AgenticProtocolSection = lazy(() => import('./AgenticProtocolSection'));
 const LatestFromYouTube = lazy(() => import('./LatestFromYouTube'));
@@ -76,13 +76,6 @@ const HomePageSections: React.FC = () => {
         <Suspense fallback={<SectionSkeleton height="h-96" />}>
           <SponsorshipVideoSection />
         </Suspense>
-      </SectionErrorBoundary>
-
-      {/* 4. Quick How It Works — 3-step onboarding flow */}
-      <SectionErrorBoundary sectionName="How It Works">
-        <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
-          <QuickHowItWorks />
-        </LazySection>
       </SectionErrorBoundary>
 
       {/* 5. Featured Businesses — social proof */}
