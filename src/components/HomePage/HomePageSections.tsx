@@ -63,23 +63,14 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* 3. See The Impact — latest 1325AI YouTube videos */}
-      <SectionErrorBoundary sectionName="See The Impact">
-        <Suspense fallback={<SectionSkeleton height="h-96" />}>
-          <SponsorshipVideoSection />
-        </Suspense>
-      </SectionErrorBoundary>
-
-      {/* 5. Featured Businesses — social proof */}
+      {/* 3. Featured Businesses — strongest social proof, leads into CTA */}
       <SectionErrorBoundary sectionName="Featured Businesses">
         <LazySection fallback={<BusinessSkeleton />} minHeight="min-h-[200px]">
           <FeaturedBusinesses limit={3} />
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* (Latest YouTube section removed — now featured in "See The Impact" above) */}
-
-      {/* 6. CTA — dual sign-up options */}
+      {/* 4. CTA — hit while intent is hot */}
       <SectionErrorBoundary sectionName="Call to Action">
         <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
           <section id="cta-section">
@@ -88,18 +79,25 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* 8. Meet Kayla — AI intro */}
-      <SectionErrorBoundary sectionName="Meet Kayla">
-        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
-          <MeetKaylaSection />
-        </LazySection>
+      {/* 5. See The Impact — post-CTA enrichment for scrollers */}
+      <SectionErrorBoundary sectionName="See The Impact">
+        <Suspense fallback={<SectionSkeleton height="h-96" />}>
+          <SponsorshipVideoSection />
+        </Suspense>
       </SectionErrorBoundary>
 
-      {/* 9. Business Pricing */}
+      {/* 6. Pricing — answers the cost objection first */}
       <SectionErrorBoundary sectionName="Pricing">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
           <PricingSection />
         </Suspense>
+      </SectionErrorBoundary>
+
+      {/* 7. Meet Kayla — justifies the price with the feature deep-dive */}
+      <SectionErrorBoundary sectionName="Meet Kayla">
+        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
+          <MeetKaylaSection />
+        </LazySection>
       </SectionErrorBoundary>
 
       {/* 10. Vacation Rentals CTA */}
