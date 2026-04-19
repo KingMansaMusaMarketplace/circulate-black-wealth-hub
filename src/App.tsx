@@ -1017,7 +1017,7 @@ function App() {
                         <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
                         
                         {/* Admin routes */}
-                        <Route path="/admin" element={<RequireAdmin><LazyAdminPage /></RequireAdmin>} />
+                        <Route path="/admin" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
                         <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
