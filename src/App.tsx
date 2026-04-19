@@ -548,9 +548,10 @@ function App() {
                               <Route path="/email-verified" element={<LazyEmailVerified />} />
                               
                               {/* K - Kayla GTM */}
-                              <Route path="/kayla-announcement" element={<LazyKaylaAnnouncementPage />} />
+                              <Route path="/kayla-gtm-kit" element={<LazyKaylaGTMKitPage />} />
+                              <Route path="/kayla-announcement" element={<LazyKaylaGTMKitPage />} />
+                              <Route path="/kayla-onboarding-sequence" element={<LazyKaylaGTMKitPage />} />
                               <Route path="/what-kayla-does" element={<LazyWhatKaylaDoesPage />} />
-                              <Route path="/kayla-onboarding-sequence" element={<LazyKaylaOnboardingSequencePage />} />
                               <Route path="/error" element={<LazyErrorPage />} />
                               
                               {/* F */}
@@ -842,9 +843,10 @@ function App() {
                         <Route path="/education" element={<LazyEducationPage />} />
                         <Route path="/email-copy" element={<LazyEmailCopyPage />} />
                         <Route path="/email-verified" element={<LazyEmailVerified />} />
-                        <Route path="/kayla-announcement" element={<LazyKaylaAnnouncementPage />} />
+                        <Route path="/kayla-gtm-kit" element={<LazyKaylaGTMKitPage />} />
+                        <Route path="/kayla-announcement" element={<LazyKaylaGTMKitPage />} />
+                        <Route path="/kayla-onboarding-sequence" element={<LazyKaylaGTMKitPage />} />
                         <Route path="/what-kayla-does" element={<LazyWhatKaylaDoesPage />} />
-                        <Route path="/kayla-onboarding-sequence" element={<LazyKaylaOnboardingSequencePage />} />
                         <Route path="/error" element={<LazyErrorPage />} />
                         
                         {/* F */}
