@@ -10,7 +10,7 @@ const CTASection = lazy(() => import('@/components/CTASection'));
 
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const PricingSection = lazy(() => import('./PricingSection'));
-const ThreePillars = lazy(() => import('./ThreePillars'));
+
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 
@@ -93,13 +93,6 @@ const HomePageSections: React.FC = () => {
           <section id="cta-section">
             <CTASection />
           </section>
-        </LazySection>
-      </SectionErrorBoundary>
-
-      {/* 7. Three Pillars */}
-      <SectionErrorBoundary sectionName="Three Pillars">
-        <LazySection fallback={<SectionSkeleton />} minHeight="min-h-[150px]">
-          <ThreePillars />
         </LazySection>
       </SectionErrorBoundary>
 
