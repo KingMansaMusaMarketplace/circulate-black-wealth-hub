@@ -20853,6 +20853,39 @@ export type Database = {
           },
         ]
       }
+      youtube_video_cache: {
+        Row: {
+          cache_key: string
+          channel_id: string | null
+          created_at: string
+          expires_at: string
+          fetched_at: string
+          id: string
+          updated_at: string
+          videos: Json
+        }
+        Insert: {
+          cache_key: string
+          channel_id?: string | null
+          created_at?: string
+          expires_at: string
+          fetched_at?: string
+          id?: string
+          updated_at?: string
+          videos: Json
+        }
+        Update: {
+          cache_key?: string
+          channel_id?: string | null
+          created_at?: string
+          expires_at?: string
+          fetched_at?: string
+          id?: string
+          updated_at?: string
+          videos?: Json
+        }
+        Relationships: []
+      }
     }
     Views: {
       activity_log_safe: {
