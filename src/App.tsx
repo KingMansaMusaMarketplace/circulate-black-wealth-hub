@@ -39,7 +39,6 @@ import NotFound from './pages/NotFound';
 import {
   LazyAboutPage,
   LazyDirectoryPage,
-  LazyCommunityImpactPage,
   LazyCorporateSponsorshipPage,
   LazyQRScannerPage,
   LazyBusinessDetailPage,
@@ -521,7 +520,8 @@ function App() {
                               <Route path="/community" element={<LazyCommunityPage />} />
                               <Route path="/community" element={<LazyCommunityPage />} />
                               <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
-                              <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
+                              <Route path="/community-impact" element={<LazyImpactPage />} />
+                              <Route path="/economic-impact" element={<LazyImpactPage />} />
                               {/* test routes removed */}
                               <Route path="/contact" element={<LazyContactPage />} />
                               <Route path="/cookies" element={<LazyCookiePolicyPage />} />
@@ -812,7 +812,8 @@ function App() {
                         <Route path="/coalition" element={<LazyCoalitionPage />} />
                         <Route path="/community" element={<LazyCommunityPage />} />
                         <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
-                        <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
+                        <Route path="/community-impact" element={<LazyImpactPage />} />
+                        <Route path="/economic-impact" element={<LazyImpactPage />} />
                         {/* /community-impact-test, /comprehensive-test removed */}
                         <Route path="/contact" element={<LazyContactPage />} />
                         <Route path="/cookies" element={<LazyCookiePolicyPage />} />
