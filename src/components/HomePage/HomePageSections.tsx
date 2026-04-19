@@ -78,13 +78,6 @@ const HomePageSections: React.FC = () => {
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* 4. Quick How It Works — 3-step onboarding flow */}
-      <SectionErrorBoundary sectionName="How It Works">
-        <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
-          <QuickHowItWorks />
-        </LazySection>
-      </SectionErrorBoundary>
-
       {/* 5. Featured Businesses — social proof */}
       <SectionErrorBoundary sectionName="Featured Businesses">
         <LazySection fallback={<BusinessSkeleton />} minHeight="min-h-[200px]">
