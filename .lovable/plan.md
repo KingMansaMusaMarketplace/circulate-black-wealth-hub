@@ -1,105 +1,57 @@
 
-Goal: deliver three coordinated pieces in the next build pass:
-1. a watermarked v12 Platform Manual PDF,
-2. a polished investor NDA PDF,
-3. a private investor portal with passcode + identity capture and NDA-first access.
+## Memory Audit — 1325.AI Project
 
-What I found
-- There is already public investor-facing content (`InvestorPage`, `PitchDeckPage`) and a legal letter component (`NDACoverLetter`) we can reuse stylistically.
-- Routing is centralized in `src/App.tsx`, so the investor portal should be added there as a new hidden route.
-- The app already uses secure admin checks, Supabase edge functions, CSRF headers, and signed-file/storage patterns we can follow.
-- Brand memory confirms the dark MansaBlue/MansaGold look, and document memory says NDAs/cover letters should keep a clean serif legal aesthetic.
+I read all 9 memory files plus the index. Overall the memory is in good shape: well-organized, no major contradictions, correctly using a separate file per topic. Here's what I found and what I recommend cleaning up.
 
-Approved requirements from you
-- Investor portal unlock: passcode + details
-- Watermark: both generic confidential + named recipient
-- NDA flow: NDA first
+### Health summary
+- **Index**: Accurate, all referenced files exist.
+- **Total size**: ~2.5 KB across files. Well under any limits.
+- **No user preferences file** (`mem://~user`) exists — that's a gap, not a bug.
+- **No duplicate or contradictory rules** detected.
 
-Implementation plan
+### Issues found
 
-1. Build v12 watermarked Platform Manual
-- Regenerate the current manual as `1325AI_Complete_Platform_Manual_v12.pdf`
-- Add a page-level watermark on every page:
-  - diagonal “CONFIDENTIAL — DO NOT DISTRIBUTE”
-  - recipient watermark such as “Prepared for [Name] — [Firm]”
-- Keep all current page corrections, layout fixes, TOC, and numbering intact
-- Run full-page visual QA for overlap, clipping, alignment, and watermark readability
+**1. Stale-dated content (likely outdated)**
+- `pricing-model` says "Active Stripe price IDs (2026-04-17)" — that timestamp is 3 days old and fine, but the file mixes a Founders' Lock price ID (`price_1TGzewAsptTW1mCm...`) with a separate "Active Stripe price IDs" block listing a *different* "Business Pro $39" tier that isn't in the tier list above it. That's confusing.
+- "Legacy $599 products exist but are disconnected" — vague; either name them or drop the line.
 
-2. Create investor NDA PDF
-- Produce a new investor-facing NDA PDF, separate from the internal team NDA letter
-- Keep it concise and high-trust:
-  - parties
-  - confidential information definition
-  - non-use / non-disclosure obligations
-  - exclusions
-  - term
-  - Illinois governing law
-  - signature blocks
-  - patent-reference language for 1325.AI materials
-- Use the existing legal styling cues from `NDACoverLetter.tsx`, but tailor copy for investors
-- Export as a downloadable artifact for both portal use and direct sharing
+**2. Core section is slightly bloated**
+The Core section should only hold rules that apply to *every* action. Two lines are borderline:
+- `legacy-peer-deps=true required for package management` — only relevant when installing packages, not every action. Could move to a `technical-and-security` note.
+- `Archived routes (/developers/*, /b2b-marketplace) are frozen` — already covered in `archived-features` file. Duplicated in Core.
 
-3. Add secure investor portal route
-- Add a new hidden route like `/investor-portal`
-- Do not place it in the public nav
-- Build a branded landing/gate screen that collects:
-  - full name
-  - email
-  - firm
-  - passcode
-- After successful verification, show a protected investor dashboard with:
-  - NDA as the first required action
-  - access to v12 manual only after NDA acknowledgment step
-  - optional links/cards for pitch deck and related investor materials
+**3. Missing memories that should exist now**
+After today's investor-suite build, no memory captures:
+- Investor portal exists at hidden `/investor-portal` route, NDA-first flow, passcode-gated
+- Private `investor-materials` Supabase bucket with restrictive RLS
+- v12 manual is the current canonical platform manual (supersedes v10/v11)
+- USPTO Provisional **63/969,202** is the patent reference used in legal docs
+- Illinois governing law for NDAs/agreements
 
-4. Add backend verification and access logging
-- Create a Supabase table for investor access logging, storing:
-  - name
-  - email
-  - firm
-  - timestamp
-  - action type
-  - requested file
-  - any useful request metadata allowed by the edge function layer
-- Add RLS so only admins can review logs
-- Add private storage support for investor documents
-- Use signed URLs for downloads instead of public file links
+**4. Minor inconsistencies**
+- `archived-features` lists `/leads-dashboard` but Core only mentions `/developers/*` and `/b2b-marketplace`. Core is incomplete vs. detail file.
+- `brand-identity` says theme is "True Black gradient" but Core says "Dark, Apple-like minimal" — not contradictory but should align wording.
 
-5. Add edge functions for gated access
-- Create an edge function to validate the passcode and record investor identity/access attempts
-- Create an edge function to issue signed download URLs for investor-only files
-- Follow the project’s CSRF and Supabase auth conventions already in use
-- Keep the passcode in a secret, not in frontend code
+**5. No `mem://~user` file**
+You're non-technical and prefer plain-English explanations (based on past corrections). That should live in user preferences so it carries across projects.
 
-6. Define the NDA-first portal behavior
-- The dashboard opens with the NDA step first
-- Investor must explicitly acknowledge/download the NDA before the manual download section is enabled
-- Since full signature capture is more complex, the first version will enforce an NDA-first workflow at the portal level rather than full e-signature
-- The structure will still leave room for a later DocuSign or signature integration if you want it next
+---
 
-7. Keep materials private and investor-specific
-- Store the manual and NDA in private Supabase Storage
-- Personalize the v12 watermark using the name/firm collected at portal entry
-- If dynamic per-investor PDF generation is too heavy for the first pass, I’ll implement a strong first version that:
-  - logs identity,
-  - shows named recipient on the portal,
-  - and prepares the PDF pipeline so true per-investor rendered copies can be added next
+### Proposed cleanup actions
 
-Technical details
-- Files likely touched:
-  - `src/App.tsx`
-  - new investor portal page/components under `src/pages` and `src/components`
-  - Supabase migration for access log + storage policies
-  - new edge functions for verify/access/download
-- Reuse patterns from:
-  - `RequireAdmin`
-  - `PartnerPortal`
-  - `useServerAdminVerification`
-  - existing Supabase function invocation and CSRF setup
-- Outputs:
-  - `v12` watermarked manual artifact
-  - investor NDA artifact
-  - private investor portal UI
+When you approve, I'll do the following in default mode:
 
-One thing I’ll need during implementation
-- A final investor portal passcode to store as a secret, unless you want me to generate a strong one for you automatically during the build pass.
+1. **Tighten the Core section** — remove the duplicated archived-routes line and the package-manager line; align "True Black, Apple-like minimal" wording.
+2. **Update `pricing-model`** — clarify the Founders' Lock vs. Business Pro $39 tier relationship, drop or specify the vague "legacy $599" line.
+3. **Add `mem://features/investor-portal`** — captures: hidden `/investor-portal` route, passcode in `INVESTOR_PORTAL_PASSCODE` secret, NDA-first flow, private `investor-materials` bucket, current canonical files (v12 manual + NDA v3), USPTO 63/969,202, Illinois governing law.
+4. **Sync `archived-features` reference in Core** — either list all three archived routes in Core or drop them entirely from Core and rely on the detail file (recommended: drop from Core).
+5. **Create `mem://~user`** — short file noting: prefers plain-English explanations, non-technical, wants confirmation before large changes. (Optional — only if you confirm.)
+6. **Update the index** to reflect the new investor-portal memory and trimmed Core.
+
+### Files I'll touch
+- `mem://index.md` (rewrite Core + add new entry)
+- `mem://features/pricing-model` (clarify)
+- `mem://features/investor-portal` (new)
+- `mem://~user` (new, optional)
+
+No code files affected — this is a memory-only cleanup.
