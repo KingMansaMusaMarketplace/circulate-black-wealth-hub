@@ -1,21 +1,29 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
-import { loadFont } from "@remotion/google-fonts/PlayfairDisplay";
+import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring, Img, staticFile } from "remotion";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 
-const { fontFamily: playfair } = loadFont("normal", { weights: ["700", "900"], subsets: ["latin"] });
 const { fontFamily: inter } = loadInter("normal", { weights: ["300", "500", "700"], subsets: ["latin"] });
 
 export const ClosingCTAVertical = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const sp = spring({ frame, fps, config: { damping: 18, stiffness: 80 } });
-  const scale = interpolate(sp, [0, 1], [0.85, 1]);
-  const op = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const lineW = interpolate(frame, [10, 35], [0, 500], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
-  const ctaOp = interpolate(frame, [22, 42], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
-  const ctaY = interpolate(frame, [22, 42], [20, 0], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
-  const tagOp = interpolate(frame, [60, 90], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+  // Logo hero reveal (faster for reel)
+  const logoSpring = spring({ frame, fps, config: { damping: 13, stiffness: 100 } });
+  const logoScale = interpolate(logoSpring, [0, 1], [0.65, 1]);
+  const logoOp = interpolate(frame, [0, 16], [0, 1], { extrapolateRight: "clamp" });
+
+  // Glow pulse
+  const glow = interpolate(frame % 50, [0, 25, 50], [0.35, 0.6, 0.35]);
+
+  // Divider
+  const lineW = interpolate(frame, [40, 65], [0, 500], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+
+  // CTA text
+  const ctaOp = interpolate(frame, [50, 75], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+  const ctaY = interpolate(frame, [50, 75], [20, 0], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+
+  // Tagline
+  const tagOp = interpolate(frame, [80, 110], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
 
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", padding: 60 }}>
@@ -27,27 +35,26 @@ export const ClosingCTAVertical = () => {
           color: "#FFB300",
           letterSpacing: 10,
           textTransform: "uppercase",
-          opacity: op,
-          marginBottom: 40,
+          opacity: logoOp,
+          marginBottom: 30,
         }}
       >
         Join The Movement
       </div>
 
+      {/* Logo */}
       <div
         style={{
-          fontFamily: playfair,
-          fontWeight: 900,
-          fontSize: 280,
-          color: "#FFFFFF",
-          letterSpacing: -6,
-          opacity: op,
-          transform: `scale(${scale})`,
-          textShadow: "0 0 60px rgba(255,179,0,0.3)",
-          lineHeight: 1,
+          width: 820,
+          height: 820,
+          opacity: logoOp,
+          transform: `scale(${logoScale})`,
+          WebkitMaskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 52%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0) 90%)",
+          maskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 52%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0) 90%)",
+          filter: `drop-shadow(0 0 100px rgba(255,179,0,${glow}))`,
         }}
       >
-        1325<span style={{ color: "#FFB300" }}>.AI</span>
+        <Img src={staticFile("images/logo-1325ai.png")} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
       </div>
 
       <div
@@ -55,8 +62,8 @@ export const ClosingCTAVertical = () => {
           height: 2,
           width: lineW,
           background: "linear-gradient(90deg, transparent, #FFB300, transparent)",
-          marginTop: 24,
-          marginBottom: 60,
+          marginTop: -40,
+          marginBottom: 40,
         }}
       />
 
@@ -77,7 +84,7 @@ export const ClosingCTAVertical = () => {
 
       <div
         style={{
-          marginTop: 60,
+          marginTop: 40,
           fontFamily: inter,
           fontWeight: 500,
           fontSize: 22,

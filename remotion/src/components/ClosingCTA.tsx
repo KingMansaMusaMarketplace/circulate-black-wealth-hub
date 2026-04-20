@@ -1,4 +1,4 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
+import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring, Img, staticFile } from "remotion";
 import { loadFont } from "@remotion/google-fonts/PlayfairDisplay";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 
@@ -9,28 +9,40 @@ export const ClosingCTA = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const sp = spring({ frame, fps, config: { damping: 18, stiffness: 80 } });
-  const scale = interpolate(sp, [0, 1], [0.92, 1]);
-  const op = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const lineW = interpolate(frame, [10, 35], [0, 600], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
-  const ctaOp = interpolate(frame, [22, 40], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
-  const ctaY = interpolate(frame, [22, 40], [16, 0], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+  // Logo hero reveal (frames 0-50)
+  const logoSpring = spring({ frame, fps, config: { damping: 14, stiffness: 90 } });
+  const logoScale = interpolate(logoSpring, [0, 1], [0.7, 1]);
+  const logoOp = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" });
+
+  // Logo settles up after frame 50
+  const logoShiftY = interpolate(frame, [45, 70], [0, -60], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const logoSettleScale = interpolate(frame, [45, 70], [1, 0.78], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
+  // Glow pulse
+  const glow = interpolate(frame % 60, [0, 30, 60], [0.3, 0.55, 0.3]);
+
+  // Divider line
+  const lineW = interpolate(frame, [55, 80], [0, 600], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+
+  // Text CTA fade in after logo settles
+  const ctaOp = interpolate(frame, [65, 90], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+  const ctaY = interpolate(frame, [65, 90], [16, 0], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
 
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+      {/* Logo with radial mask to blend into cinematic bg */}
       <div
         style={{
-          fontFamily: playfair,
-          fontWeight: 900,
-          fontSize: 220,
-          color: "#FFFFFF",
-          letterSpacing: -6,
-          opacity: op,
-          transform: `scale(${scale})`,
-          textShadow: "0 0 60px rgba(255,179,0,0.25)",
+          width: 520,
+          height: 520,
+          opacity: logoOp,
+          transform: `translateY(${logoShiftY}px) scale(${logoScale * logoSettleScale})`,
+          WebkitMaskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 88%)",
+          maskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 88%)",
+          filter: `drop-shadow(0 0 80px rgba(255,179,0,${glow}))`,
         }}
       >
-        1325<span style={{ color: "#FFB300" }}>.AI</span>
+        <Img src={staticFile("images/logo-1325ai.png")} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
       </div>
 
       <div
@@ -38,8 +50,8 @@ export const ClosingCTA = () => {
           height: 2,
           width: lineW,
           background: "linear-gradient(90deg, transparent, #FFB300, transparent)",
-          marginTop: 16,
-          marginBottom: 36,
+          marginTop: -20,
+          marginBottom: 28,
         }}
       />
 
@@ -47,7 +59,7 @@ export const ClosingCTA = () => {
         style={{
           fontFamily: inter,
           fontWeight: 300,
-          fontSize: 32,
+          fontSize: 30,
           color: "rgba(255,255,255,0.92)",
           letterSpacing: 4,
           opacity: ctaOp,
@@ -60,15 +72,16 @@ export const ClosingCTA = () => {
 
       <div
         style={{
-          marginTop: 28,
+          marginTop: 22,
           fontFamily: inter,
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 17,
           color: "rgba(255,255,255,0.55)",
           letterSpacing: 6,
           textTransform: "uppercase",
           opacity: ctaOp,
           transform: `translateY(${ctaY}px)`,
+          textAlign: "center",
         }}
       >
         Plans from $19/mo · 30-Day Free Trial
