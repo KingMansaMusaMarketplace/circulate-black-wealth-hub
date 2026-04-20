@@ -42,16 +42,18 @@ export const ClosingCTAVertical = () => {
         Join The Movement
       </div>
 
-      {/* Logo */}
+      {/* Logo - oversized for vertical reel readability */}
       <div
         style={{
-          width: 820,
-          height: 820,
+          width: 1040,
+          height: 1040,
           opacity: logoOp,
           transform: `scale(${logoScale})`,
-          WebkitMaskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 52%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0) 90%)",
-          maskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 52%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0) 90%)",
-          filter: `drop-shadow(0 0 100px rgba(255,179,0,${glow}))`,
+          WebkitMaskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 58%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0) 92%)",
+          maskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 58%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0) 92%)",
+          filter: `drop-shadow(0 0 120px rgba(255,179,0,${glow}))`,
+          marginTop: -40,
+          marginBottom: -60,
         }}
       >
         <Img src={staticFile("images/logo-1325ai.png")} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
