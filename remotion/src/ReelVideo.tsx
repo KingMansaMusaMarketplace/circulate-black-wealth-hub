@@ -67,6 +67,8 @@ export const ReelVideo = () => {
       <Sequence from={330} durationInFrames={180}>
         <ClosingCTAVertical />
       </Sequence>
+        </AbsoluteFill>
+      </Sequence>
     </AbsoluteFill>
   );
 };
