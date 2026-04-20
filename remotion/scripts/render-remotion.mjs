@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const COMPOSITIONS = [
-  { id: "reel", out: "/mnt/documents/1325AI-reel-15s-v4.mp4", vo: "remotion/public/audio/vo-15.mp3" },
+  { id: "main", out: "/mnt/documents/1325AI-cinematic-30s-v4.mp4", vo: "remotion/public/audio/vo-30.mp3" },
 ];
 
 console.log("Bundling...");
