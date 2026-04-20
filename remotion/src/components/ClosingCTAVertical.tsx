@@ -86,21 +86,21 @@ export const ClosingCTAVertical = () => {
 
       <div
         style={{
-          marginTop: 40,
+          marginTop: 50,
           fontFamily: inter,
-          fontWeight: 500,
-          fontSize: 22,
-          color: "rgba(255,255,255,0.7)",
-          letterSpacing: 4,
+          fontWeight: 700,
+          fontSize: 38,
+          color: "#FFFFFF",
+          letterSpacing: 6,
           textAlign: "center",
           opacity: tagOp,
-          maxWidth: 800,
-          lineHeight: 1.6,
+          maxWidth: 900,
+          lineHeight: 1.5,
         }}
       >
         PLANS FROM $19/MO
         <br />
-        30-DAY FREE TRIAL
+        <span style={{ color: "#FFB300" }}>30-DAY FREE TRIAL</span>
       </div>
     </AbsoluteFill>
   );
