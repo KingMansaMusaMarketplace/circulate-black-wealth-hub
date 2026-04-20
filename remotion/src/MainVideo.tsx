@@ -140,6 +140,8 @@ export const MainVideo = () => {
       <Sequence from={720} durationInFrames={180}>
         <ClosingCTA />
       </Sequence>
+        </AbsoluteFill>
+      </Sequence>
     </AbsoluteFill>
   );
 };
