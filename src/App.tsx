@@ -1024,6 +1024,7 @@ function App() {
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
+                        <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
                         
                         {/* 404 */}
                         <Route path="*" element={<NotFound />} />
