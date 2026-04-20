@@ -40,7 +40,10 @@ for (const comp of COMPOSITIONS) {
     concurrency: 1,
   });
   console.log(`Muxing audio with system ffmpeg -> ${comp.out}`);
-  execSync(`ffmpeg -y -i "${silent}" -i "${path.resolve(__dirname, "..", "..", comp.vo)}" -c:v copy -c:a aac -b:a 192k -af "apad" -t ${composition.durationInFrames / composition.fps} "${comp.out}"`, { stdio: "inherit" });
+  const introDelayMs = Math.round((INTRO_FRAMES / composition.fps) * 1000);
+  const totalSec = composition.durationInFrames / composition.fps;
+  // Delay VO by intro length so it lines up with Scene 1 (post-bumper); pad with silence to full length.
+  execSync(`ffmpeg -y -i "${silent}" -i "${path.resolve(__dirname, "..", "..", comp.vo)}" -c:v copy -c:a aac -b:a 192k -af "adelay=${introDelayMs}|${introDelayMs},apad" -t ${totalSec} "${comp.out}"`, { stdio: "inherit" });
   console.log(`Done: ${comp.out}`);
 }
 
