@@ -5,6 +5,11 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const COMPOSITIONS = [
+  { id: "main", out: "/mnt/documents/1325AI-cinematic-30s.mp4" },
+  { id: "reel", out: "/mnt/documents/1325AI-reel-15s.mp4" },
+];
+
 console.log("Bundling...");
 const bundled = await bundle({
   entryPoint: path.resolve(__dirname, "../src/index.ts"),
@@ -20,24 +25,26 @@ const browser = await openBrowser("chrome", {
   chromeMode: "chrome-for-testing",
 });
 
-console.log("Selecting composition...");
-const composition = await selectComposition({
-  serveUrl: bundled,
-  id: "main",
-  puppeteerInstance: browser,
-});
+for (const comp of COMPOSITIONS) {
+  console.log(`\n=== Selecting composition: ${comp.id} ===`);
+  const composition = await selectComposition({
+    serveUrl: bundled,
+    id: comp.id,
+    puppeteerInstance: browser,
+  });
 
-console.log(`Rendering ${composition.durationInFrames} frames at ${composition.fps}fps...`);
-await renderMedia({
-  composition,
-  serveUrl: bundled,
-  codec: "h264",
-  outputLocation: "/mnt/documents/1325AI-promo.mp4",
-  puppeteerInstance: browser,
-  muted: true,
-  concurrency: 1,
-});
+  console.log(`Rendering ${composition.durationInFrames} frames @ ${composition.fps}fps (${composition.width}x${composition.height}) -> ${comp.out}`);
+  await renderMedia({
+    composition,
+    serveUrl: bundled,
+    codec: "h264",
+    outputLocation: comp.out,
+    puppeteerInstance: browser,
+    concurrency: 1,
+  });
+  console.log(`Done: ${comp.out}`);
+}
 
-console.log("Done! Closing browser...");
+console.log("\nClosing browser...");
 await browser.close({ silent: false });
-console.log("Video saved to /mnt/documents/1325AI-promo.mp4");
+console.log("All renders complete.");
