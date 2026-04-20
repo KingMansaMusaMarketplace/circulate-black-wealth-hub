@@ -7,8 +7,8 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const COMPOSITIONS = [
-  { id: "main", out: "/mnt/documents/1325AI-cinematic-30s-v2.mp4", vo: "remotion/public/audio/vo-30.mp3" },
-  { id: "reel", out: "/mnt/documents/1325AI-reel-15s-v2.mp4", vo: "remotion/public/audio/vo-15.mp3" },
+  { id: "main", out: "/mnt/documents/1325AI-cinematic-30s-v3.mp4", vo: "remotion/public/audio/vo-30.mp3" },
+  { id: "reel", out: "/mnt/documents/1325AI-reel-15s-v3.mp4", vo: "remotion/public/audio/vo-15.mp3" },
 ];
 
 console.log("Bundling...");
@@ -39,7 +39,7 @@ for (const comp of COMPOSITIONS) {
     concurrency: 1,
   });
   console.log(`Muxing audio with system ffmpeg -> ${comp.out}`);
-  execSync(`ffmpeg -y -i "${silent}" -i "${path.resolve(__dirname, "..", "..", comp.vo)}" -c:v copy -c:a aac -b:a 192k -shortest "${comp.out}"`, { stdio: "inherit" });
+  execSync(`ffmpeg -y -i "${silent}" -i "${path.resolve(__dirname, "..", "..", comp.vo)}" -c:v copy -c:a aac -b:a 192k -af "apad" -t ${composition.durationInFrames / composition.fps} "${comp.out}"`, { stdio: "inherit" });
   console.log(`Done: ${comp.out}`);
 }
 

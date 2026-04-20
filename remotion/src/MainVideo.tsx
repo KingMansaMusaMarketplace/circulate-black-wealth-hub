@@ -12,7 +12,7 @@ import { ClosingCTA } from "./components/ClosingCTA";
 export const MainVideo = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={780} />
+      <CinematicBg totalFrames={900} />
 
       {/* Voiceover plays for the entire video */}
       <Audio src={staticFile("audio/vo-30.mp3")} volume={1} />
@@ -125,8 +125,8 @@ export const MainVideo = () => {
         </AbsoluteFill>
       </Sequence>
 
-      {/* SCENE 7 — CTA: "Join the movement at 1325.ai." (24–26s, 720–780) */}
-      <Sequence from={720} durationInFrames={60}>
+      {/* SCENE 7 — CTA: Logo + "Join the movement at 1325.ai." (24–30s, 720–900) */}
+      <Sequence from={720} durationInFrames={180}>
         <ClosingCTA />
       </Sequence>
     </AbsoluteFill>
