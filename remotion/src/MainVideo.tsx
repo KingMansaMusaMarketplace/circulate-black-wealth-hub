@@ -5,20 +5,31 @@ import { KineticTitle } from "./components/KineticTitle";
 import { LowerThird } from "./components/LowerThird";
 import { GoldDivider } from "./components/GoldDivider";
 import { ClosingCTA } from "./components/ClosingCTA";
+import { LogoBumper } from "./components/LogoBumper";
 
-// 30s @ 30fps = 900 frames; VO is ~23.7s = 711 frames. We use 780 frames (26s) total.
-// Scenes are aligned to VO rhythm; audio plays globally.
+// 30s @ 30fps = 900 frames + 36-frame logo intro = 936 total.
+// VO starts after the logo bumper so the spoken intro lands on Scene 1.
+
+const INTRO = 36;
 
 export const MainVideo = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={900} />
+      {/* Logo bumper — first 36 frames (~1.2s) */}
+      <Sequence from={0} durationInFrames={INTRO}>
+        <LogoBumper size={820} />
+      </Sequence>
 
-      {/* Voiceover plays for the entire video */}
-      <Audio src={staticFile("audio/vo-30.mp3")} volume={1} />
+      {/* Main video starts after the bumper */}
+      <Sequence from={INTRO}>
+        <AbsoluteFill style={{ backgroundColor: "#000814" }}>
+          <CinematicBg totalFrames={900} />
 
-      {/* SCENE 1 — "Every dollar you spend... is a vote." (0–4.0s, 0–120) */}
-      <Sequence from={0} durationInFrames={130}>
+          {/* Voiceover plays for the main video */}
+          <Audio src={staticFile("audio/vo-30.mp3")} volume={1} />
+
+          {/* SCENE 1 — "Every dollar you spend... is a vote." (0–4.0s, 0–120) */}
+          <Sequence from={0} durationInFrames={130}>
         <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
           <KineticTitle text="Every dollar" size={150} delay={6} />
           <div style={{ height: 30 }} />
@@ -128,6 +139,8 @@ export const MainVideo = () => {
       {/* SCENE 7 — CTA: Logo + "Join the movement at 1325.ai." (24–30s, 720–900) */}
       <Sequence from={720} durationInFrames={180}>
         <ClosingCTA />
+      </Sequence>
+        </AbsoluteFill>
       </Sequence>
     </AbsoluteFill>
   );

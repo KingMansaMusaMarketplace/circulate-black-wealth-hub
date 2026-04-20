@@ -3,17 +3,26 @@ import { CinematicBg } from "./components/CinematicBg";
 import { CinematicImage } from "./components/CinematicImage";
 import { KineticTitle } from "./components/KineticTitle";
 import { ClosingCTAVertical } from "./components/ClosingCTAVertical";
+import { LogoBumper } from "./components/LogoBumper";
 
-// 16s @ 30fps = 480 frames; VO is ~15.6s = 467 frames. We use 510 frames to give CTA room.
+// 17s @ 30fps = 510 frames + 36-frame logo intro = 546 total.
+
+const INTRO = 36;
 
 export const ReelVideo = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={510} />
-      <Audio src={staticFile("audio/vo-15.mp3")} volume={1} />
+      <Sequence from={0} durationInFrames={INTRO}>
+        <LogoBumper size={920} vertical />
+      </Sequence>
 
-      {/* SCENE 1 — "Every dollar... is a vote." (0–3s, 0–90) */}
-      <Sequence from={0} durationInFrames={100}>
+      <Sequence from={INTRO}>
+        <AbsoluteFill style={{ backgroundColor: "#000814" }}>
+          <CinematicBg totalFrames={510} />
+          <Audio src={staticFile("audio/vo-15.mp3")} volume={1} />
+
+          {/* SCENE 1 — "Every dollar... is a vote." (0–3s, 0–90) */}
+          <Sequence from={0} durationInFrames={100}>
         <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", padding: 80, flexDirection: "column" }}>
           <KineticTitle text="Every dollar" size={130} delay={5} />
           <div style={{ height: 24 }} />
@@ -57,6 +66,8 @@ export const ReelVideo = () => {
       {/* SCENE 4 — CTA (11–17s, 330–510) */}
       <Sequence from={330} durationInFrames={180}>
         <ClosingCTAVertical />
+      </Sequence>
+        </AbsoluteFill>
       </Sequence>
     </AbsoluteFill>
   );
