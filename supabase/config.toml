@@ -256,3 +256,5 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.get-investor-document-url]
     verify_jwt = false
+  [functions.admin-upload-investor-doc]
+    verify_jwt = false
