@@ -153,6 +153,7 @@ const LazyAdminSponsorCRM = lazy(() => import('@/pages/AdminSponsorCRM'));
 
 // Investor & Ambassador pages
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
+const LazyInvestorPortalPage = lazy(() => import('@/pages/InvestorPortalPage'));
 const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
 const LazyPitchDeckPage = lazy(() => import('@/pages/PitchDeckPage'));
 const LazyPartnershipFrameworkPage = lazy(() => import('@/pages/PartnershipFrameworkPage'));
@@ -571,6 +572,7 @@ function App() {
                               <Route path="/impact" element={<LazyImpactPage />} />
                               <Route path="/install" element={<LazyInstallPage />} />
                               <Route path="/investors" element={<LazyInvestorPage />} />
+                              <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
                               <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                               
                               {/* P - New Pitch & Partnership routes */}
@@ -864,6 +866,7 @@ function App() {
                         <Route path="/impact" element={<LazyImpactPage />} />
                         <Route path="/install" element={<LazyInstallPage />} />
                         <Route path="/investors" element={<LazyInvestorPage />} />
+                        <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
                         <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                         
                         {/* K */}
@@ -1021,6 +1024,7 @@ function App() {
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
+                        <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
                         
                         {/* 404 */}
                         <Route path="*" element={<NotFound />} />

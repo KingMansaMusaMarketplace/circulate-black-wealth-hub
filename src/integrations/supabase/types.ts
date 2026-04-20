@@ -8510,6 +8510,45 @@ export type Database = {
           },
         ]
       }
+      investor_access_log: {
+        Row: {
+          action_type: string
+          created_at: string
+          document_requested: string | null
+          id: string
+          investor_email: string
+          investor_firm: string | null
+          investor_name: string
+          ip_address: string | null
+          metadata: Json | null
+          user_agent: string | null
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          document_requested?: string | null
+          id?: string
+          investor_email: string
+          investor_firm?: string | null
+          investor_name: string
+          ip_address?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          document_requested?: string | null
+          id?: string
+          investor_email?: string
+          investor_firm?: string | null
+          investor_name?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       invitation_templates: {
         Row: {
           body: string

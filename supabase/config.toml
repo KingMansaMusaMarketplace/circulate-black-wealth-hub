@@ -251,3 +251,10 @@ project_id = "agoclnqfyinwjxdmjnns"
 
   [functions.youtube-latest-videos]
     verify_jwt = false
+
+  [functions.verify-investor-passcode]
+    verify_jwt = false
+  [functions.get-investor-document-url]
+    verify_jwt = false
+  [functions.admin-upload-investor-doc]
+    verify_jwt = false
