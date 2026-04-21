@@ -12,6 +12,8 @@ import { pageSEO } from '@/utils/seoUtils';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
 import DirectoryStructuredData from '@/components/SEO/DirectoryStructuredData';
 import { motion } from 'framer-motion';
+import { useLocation as useRouterLocation } from 'react-router-dom';
+import { rememberDirectoryUrl } from '@/utils/directoryReturn';
 import { supabase } from '@/integrations/supabase/client';
 import { getBusinessBanner } from '@/utils/businessBanners';
 import { List, Map as MapIcon, Grid3X3, SlidersHorizontal } from 'lucide-react';
