@@ -37,6 +37,7 @@ import { getBusinessBanner } from '@/utils/businessBanners';
 import BusinessLocationMap from '@/components/business-detail/BusinessLocationMap';
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
 import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
+import { getRememberedDirectoryUrl } from '@/utils/directoryReturn';
 
 // Memoized background orbs to prevent re-render on typing
 const BackgroundOrbs = memo(() => (
@@ -84,6 +85,25 @@ interface Review {
   customer_name?: string;
 }
 
+const BUSINESS_CACHE_PREFIX = 'mm:business-detail:';
+
+const getCachedBusiness = (id: string): Business | null => {
+  try {
+    const cached = sessionStorage.getItem(`${BUSINESS_CACHE_PREFIX}${id}`);
+    return cached ? JSON.parse(cached) as Business : null;
+  } catch {
+    return null;
+  }
+};
+
+const cacheBusiness = (business: Business) => {
+  try {
+    sessionStorage.setItem(`${BUSINESS_CACHE_PREFIX}${business.id}`, JSON.stringify(business));
+  } catch {
+    // sessionStorage can fail in private browsing — safe to ignore.
+  }
+};
+
 const BusinessDetailPage = () => {
   const { businessId } = useParams<{ businessId: string }>();
   const { user } = useAuth();
@@ -98,28 +118,44 @@ const BusinessDetailPage = () => {
   const [retryCount, setRetryCount] = useState(0);
 
   const loadBusiness = async () => {
-    if (!businessId) return;
+    if (!businessId) {
+      setBusiness(null);
+      setError('Business not found');
+      setLoading(false);
+      return;
+    }
+
+    const cachedBusiness = getCachedBusiness(businessId);
 
     try {
-      setLoading(true);
+      setLoading(!cachedBusiness);
       setError(null);
       setIsSampleBusiness(false);
+
+      if (cachedBusiness) {
+        setBusiness(cachedBusiness);
+      } else {
+        setBusiness(null);
+      }
 
       // Check if this is a valid UUID (real database business)
       if (isValidUUID(businessId)) {
         // Use SECURITY DEFINER RPC to bypass RLS and fetch public business data
-        const { data, error } = await supabase
-          .rpc('get_directory_business_by_id', { p_business_id: businessId });
+        const { data, error } = await supabase.rpc('get_directory_business_by_id', {
+          p_business_id: businessId,
+        });
 
         if (error) throw error;
         
         const row = Array.isArray(data) ? data[0] : data;
         if (!row) {
-          setError('Business not found');
+          if (!cachedBusiness) {
+            setError('Business not found');
+          }
           return;
         }
-        
-        setBusiness({
+
+        const nextBusiness = {
           id: row.id,
           business_name: row.business_name || row.name || '',
           description: row.description || '',
@@ -140,17 +176,25 @@ const BusinessDetailPage = () => {
           created_at: row.created_at || new Date().toISOString(),
           latitude: row.latitude,
           longitude: row.longitude
-        });
+        };
+
+        setBusiness(nextBusiness);
+        cacheBusiness(nextBusiness);
       } else {
         // Non-UUID ID - no longer supported (sample data removed)
-        setError('Business not found');
+        if (!cachedBusiness) {
+          setError('Business not found');
+        }
       }
     } catch (error: any) {
       console.error('Error loading business:', error);
-      const isTimeout = error?.name === 'AbortError' || error?.message?.includes('abort');
-      setError(isTimeout 
-        ? 'Connection timed out. Please check your internet and try again.' 
-        : (error.message || 'Failed to load business details'));
+      if (!cachedBusiness) {
+        const message = String(error?.message || '').toLowerCase();
+        const isTimeout = error?.name === 'AbortError' || message.includes('abort') || message.includes('timed out');
+        setError(isTimeout 
+          ? 'Connection timed out. Please check your internet and try again.' 
+          : (error.message || 'Failed to load business details'));
+      }
     } finally {
       setLoading(false);
     }
@@ -328,9 +372,7 @@ const BusinessDetailPage = () => {
                 onClick={() => {
                   // Prefer returning to the exact directory listing the user was browsing
                   // (e.g. /directory?category=Acupuncture%20Clinic).
-                  const remembered = (() => {
-                    try { return sessionStorage.getItem('mm:lastDirectoryUrl'); } catch { return null; }
-                  })();
+                  const remembered = getRememberedDirectoryUrl();
                   if (remembered) {
                     navigate(remembered);
                   } else if (
