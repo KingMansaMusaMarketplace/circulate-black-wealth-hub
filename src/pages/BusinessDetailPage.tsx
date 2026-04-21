@@ -86,24 +86,6 @@ interface Review {
 }
 
 const BUSINESS_CACHE_PREFIX = 'mm:business-detail:';
-const BUSINESS_REQUEST_TIMEOUT_MS = 12000;
-
-const withTimeout = async <T,>(promise: Promise<T>, timeoutMs = BUSINESS_REQUEST_TIMEOUT_MS): Promise<T> => {
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-  try {
-    return await Promise.race([
-      promise,
-      new Promise<T>((_, reject) => {
-        timeoutId = setTimeout(() => reject(new Error('Request timed out')), timeoutMs);
-      }),
-    ]);
-  } finally {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-  }
-};
 
 const getCachedBusiness = (id: string): Business | null => {
   try {
@@ -159,9 +141,9 @@ const BusinessDetailPage = () => {
       // Check if this is a valid UUID (real database business)
       if (isValidUUID(businessId)) {
         // Use SECURITY DEFINER RPC to bypass RLS and fetch public business data
-        const { data, error } = await withTimeout(
-          supabase.rpc('get_directory_business_by_id', { p_business_id: businessId })
-        );
+        const { data, error } = await supabase.rpc('get_directory_business_by_id', {
+          p_business_id: businessId,
+        });
 
         if (error) throw error;
         
