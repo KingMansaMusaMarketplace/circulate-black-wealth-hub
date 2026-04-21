@@ -42,7 +42,17 @@ const DirectoryPage: React.FC = () => {
   const { user } = useAuth();
   const { recordBusinessView, recordAttemptedAction, showSignupPrompt, setShowSignupPrompt, lastAttemptedAction } = useGuest();
   const isMobile = useIsMobile();
-  
+  const routerLocation = useRouterLocation();
+
+  // Remember this directory URL (path + query + hash) so the
+  // "Back" button on a business detail page returns the user to
+  // the same filtered listing they were browsing.
+  useEffect(() => {
+    rememberDirectoryUrl(
+      `${routerLocation.pathname}${routerLocation.search}${routerLocation.hash}`
+    );
+  }, [routerLocation.pathname, routerLocation.search, routerLocation.hash]);
+
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'split'>('split');
   const [showFilters, setShowFilters] = useState(false);
   const [mapApiKey, setMapApiKey] = useState<string>('');
