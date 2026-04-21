@@ -326,9 +326,18 @@ const BusinessDetailPage = () => {
               <button
                 type="button"
                 onClick={() => {
-                  // Return to the previous listing (e.g., filtered category) if we came from within the app.
-                  // Fall back to the directory if there's no in-app history.
-                  if (window.history.length > 1 && document.referrer && document.referrer.includes(window.location.host)) {
+                  // Prefer returning to the exact directory listing the user was browsing
+                  // (e.g. /directory?category=Acupuncture%20Clinic).
+                  const remembered = (() => {
+                    try { return sessionStorage.getItem('mm:lastDirectoryUrl'); } catch { return null; }
+                  })();
+                  if (remembered) {
+                    navigate(remembered);
+                  } else if (
+                    window.history.length > 1 &&
+                    document.referrer &&
+                    document.referrer.includes(window.location.host)
+                  ) {
                     navigate(-1);
                   } else {
                     navigate('/directory');

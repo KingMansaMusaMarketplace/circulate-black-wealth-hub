@@ -12,6 +12,8 @@ import { pageSEO } from '@/utils/seoUtils';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
 import DirectoryStructuredData from '@/components/SEO/DirectoryStructuredData';
 import { motion } from 'framer-motion';
+import { useLocation as useRouterLocation } from 'react-router-dom';
+import { rememberDirectoryUrl } from '@/utils/directoryReturn';
 import { supabase } from '@/integrations/supabase/client';
 import { getBusinessBanner } from '@/utils/businessBanners';
 import { List, Map as MapIcon, Grid3X3, SlidersHorizontal } from 'lucide-react';
@@ -40,7 +42,17 @@ const DirectoryPage: React.FC = () => {
   const { user } = useAuth();
   const { recordBusinessView, recordAttemptedAction, showSignupPrompt, setShowSignupPrompt, lastAttemptedAction } = useGuest();
   const isMobile = useIsMobile();
-  
+  const routerLocation = useRouterLocation();
+
+  // Remember this directory URL (path + query + hash) so the
+  // "Back" button on a business detail page returns the user to
+  // the same filtered listing they were browsing.
+  useEffect(() => {
+    rememberDirectoryUrl(
+      `${routerLocation.pathname}${routerLocation.search}${routerLocation.hash}`
+    );
+  }, [routerLocation.pathname, routerLocation.search, routerLocation.hash]);
+
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'split'>('split');
   const [showFilters, setShowFilters] = useState(false);
   const [mapApiKey, setMapApiKey] = useState<string>('');

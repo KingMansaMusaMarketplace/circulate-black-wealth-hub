@@ -35,7 +35,16 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
           variant="ghost"
           size="sm"
           onClick={() => {
-            if (window.history.length > 1 && document.referrer && document.referrer.includes(window.location.host)) {
+            const remembered = (() => {
+              try { return sessionStorage.getItem('mm:lastDirectoryUrl'); } catch { return null; }
+            })();
+            if (remembered) {
+              navigate(remembered);
+            } else if (
+              window.history.length > 1 &&
+              document.referrer &&
+              document.referrer.includes(window.location.host)
+            ) {
               navigate(-1);
             } else {
               navigate('/directory');
