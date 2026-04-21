@@ -323,10 +323,22 @@ const BusinessDetailPage = () => {
         <div className="border-b border-white/10 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-50">
           <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
-              <Link to="/directory" className="flex items-center gap-2 text-blue-200 hover:text-yellow-400 transition-colors">
+              <button
+                type="button"
+                onClick={() => {
+                  // Return to the previous listing (e.g., filtered category) if we came from within the app.
+                  // Fall back to the directory if there's no in-app history.
+                  if (window.history.length > 1 && document.referrer && document.referrer.includes(window.location.host)) {
+                    navigate(-1);
+                  } else {
+                    navigate('/directory');
+                  }
+                }}
+                className="flex items-center gap-2 text-blue-200 hover:text-yellow-400 transition-colors"
+              >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Directory
-              </Link>
+              </button>
               
               <div className="flex items-center gap-2">
                 <Button 
