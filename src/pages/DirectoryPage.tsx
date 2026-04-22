@@ -101,6 +101,7 @@ const DirectoryPage: React.FC = () => {
     queryFn: async () => {
       // Pinned businesses to always include in Featured Spotlight
       const PINNED_FEATURED_IDS = [
+        'c188b47b-9d41-4e97-ba06-043e0b4c9b92', // Channing Capital Management (replaces Heritage)
         '56eea0b6-d1ec-4c68-af4a-191fc91d30a7', // Blavity.org
       ];
       // Businesses to exclude from Featured Spotlight
