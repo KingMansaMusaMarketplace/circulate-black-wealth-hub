@@ -13,7 +13,7 @@ const TOTAL_FRAMES = 3060;
 const FPS = 30;
 const INTRO = 36;
 const VO_PATH = path.resolve(PROJ, "public/audio/vo-90.mp3");
-const FINAL = "/mnt/documents/1325AI-agentic-90s-v1.mp4";
+const FINAL = "/mnt/documents/1325AI-agentic-90s-v3.mp4";
 
 // Chunk plan: 4 segments of 765 frames each (25.5s each) -> well under 10min budget per chunk
 const CHUNKS = [
