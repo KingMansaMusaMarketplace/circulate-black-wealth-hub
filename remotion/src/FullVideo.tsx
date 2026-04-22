@@ -152,11 +152,11 @@ const SceneSignup = () => {
         Join in
       </div>
       <div style={{
-        fontFamily: playfair, fontWeight: 900, fontSize: 320, color: "#FFB300",
-        lineHeight: 1, letterSpacing: -10, opacity: op, transform: `scale(${scale})`,
+        fontFamily: playfair, fontWeight: 900, fontSize: 200, color: "#FFB300",
+        lineHeight: 1, letterSpacing: -6, opacity: op, transform: `scale(${scale})`,
         textShadow: "0 0 100px rgba(255,179,0,0.35)",
       }}>
-        30s
+        30-seconds
       </div>
       <div style={{ marginTop: 20 }}>
         <GoldDivider delay={50} width={520} />
@@ -191,7 +191,7 @@ const SceneFlywheelIntro = () => {
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
       <div style={{
         fontFamily: inter, fontWeight: 500, fontSize: 22, color: "#FFB300",
-        letterSpacing: 10, textTransform: "uppercase", marginBottom: 40, opacity: op,
+        letterSpacing: 10, textTransform: "uppercase", marginBottom: 90, opacity: op,
       }}>
         ─── The CMAL Flywheel
       </div>
@@ -212,7 +212,7 @@ const SceneFlywheelIntro = () => {
         {/* Quadrant labels */}
         {labels.map((label, i) => {
           const angle = (i * 90 - 90) * (Math.PI / 180);
-          const r = 320;
+          const r = 240;
           const x = Math.cos(angle) * r;
           const y = Math.sin(angle) * r;
           const lop = interpolate(frame, [30 + i * 12, 50 + i * 12], [0, 1], { extrapolateRight: "clamp" });
