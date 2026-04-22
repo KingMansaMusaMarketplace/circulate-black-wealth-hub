@@ -99,12 +99,16 @@ const DirectoryPage: React.FC = () => {
   const { data: featuredBusinesses = [] } = useQuery({
     queryKey: ['featured-spotlight-businesses'],
     queryFn: async () => {
-      // Pinned business to always include in Featured Spotlight (e.g., Blavity.org)
-      const PINNED_FEATURED_IDS = ['56eea0b6-d1ec-4c68-af4a-191fc91d30a7']; // Blavity.org
+      // Pinned businesses to always include in Featured Spotlight
+      const PINNED_FEATURED_IDS = [
+        'c188b47b-9d41-4e97-ba06-043e0b4c9b92', // Channing Capital Management (replaces Heritage)
+        '56eea0b6-d1ec-4c68-af4a-191fc91d30a7', // Blavity.org
+      ];
       // Businesses to exclude from Featured Spotlight
       const EXCLUDED_FEATURED_IDS = [
         'ac39bb6d-7669-4972-9ad7-ebd0d42b86d3', // Dakar NOLA
         'eadad328-0eb1-4a18-b54e-a5ff24540a6d', // Fixins Soul Kitchen
+        '43d56453-75d7-4915-94e9-3dc619bbff8f', // Heritage (Long Beach) — replaced by Channing Capital
       ];
 
       const selectCols = 'id, name, business_name, description, category, address, city, state, zip_code, website, logo_url, banner_url, average_rating, review_count, is_verified, latitude, longitude, created_at, updated_at';
