@@ -220,7 +220,7 @@ const SceneFlywheelIntro = () => {
             <div key={label} style={{
               position: "absolute", left: "50%", top: "50%",
               transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`,
-              fontFamily: playfair, fontWeight: 700, fontSize: 42, color: "#FFFFFF",
+              fontFamily: playfair, fontWeight: 700, fontSize: 36, color: "#FFFFFF",
               letterSpacing: 3, opacity: lop, whiteSpace: "nowrap",
               textShadow: "0 0 30px rgba(0,0,0,0.8)",
             }}>
