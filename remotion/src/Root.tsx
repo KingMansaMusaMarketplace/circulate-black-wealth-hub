@@ -1,6 +1,7 @@
 import { Composition } from "remotion";
 import { MainVideo } from "./MainVideo";
 import { ReelVideo } from "./ReelVideo";
+import { FullVideo } from "./FullVideo";
 
 export const RemotionRoot = () => (
   <>
@@ -19,6 +20,14 @@ export const RemotionRoot = () => (
       fps={30}
       width={1080}
       height={1920}
+    />
+    <Composition
+      id="full"
+      component={FullVideo}
+      durationInFrames={3060}
+      fps={30}
+      width={1920}
+      height={1080}
     />
   </>
 );
