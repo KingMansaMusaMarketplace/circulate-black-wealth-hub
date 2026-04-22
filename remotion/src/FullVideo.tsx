@@ -212,7 +212,7 @@ const SceneFlywheelIntro = () => {
         {/* Quadrant labels */}
         {labels.map((label, i) => {
           const angle = (i * 90 - 90) * (Math.PI / 180);
-          const r = 240;
+          const r = 330;
           const x = Math.cos(angle) * r;
           const y = Math.sin(angle) * r;
           const lop = interpolate(frame, [30 + i * 12, 50 + i * 12], [0, 1], { extrapolateRight: "clamp" });
