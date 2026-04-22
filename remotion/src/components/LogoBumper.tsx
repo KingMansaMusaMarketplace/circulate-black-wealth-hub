@@ -15,10 +15,8 @@ export const LogoBumper = ({ size = 760, vertical = false }: Props) => {
   const sp = spring({ frame, fps, config: { damping: 13, stiffness: 110 } });
   const scale = interpolate(sp, [0, 1], [0.78, 1]);
 
-  // Fade in fast, hold, fade out
-  const opIn = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: "clamp" });
-  const opOut = interpolate(frame, [28, 36], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const opacity = Math.min(opIn, opOut);
+  // Visible immediately at frame 0; hold; fade out at the end
+  const opacity = interpolate(frame, [28, 36], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   // Glow pulse
   const glow = interpolate(frame, [0, 18, 36], [0.3, 0.6, 0.3]);
