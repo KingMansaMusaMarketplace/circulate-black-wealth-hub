@@ -1,4 +1,4 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
+import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
 import { loadFont } from "@remotion/google-fonts/PlayfairDisplay";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 
@@ -24,8 +24,39 @@ export const TitleCard = ({ eyebrow, title, subtitle, accent = "#FFB300" }: Prop
   const subOp = 1;
   const lineW = interpolate(frame, [0, 30], [500, 500], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
 
+  // Pulsing glow behind the logo (matches home page treatment)
+  const glowPulse = interpolate(frame % 90, [0, 45, 90], [0.55, 0.95, 0.55]);
+  const logoSp = spring({ frame: frame + 4, fps, config: { damping: 18, stiffness: 90 } });
+  const logoScale = interpolate(logoSp, [0, 1], [0.92, 1]);
+
   return (
     <AbsoluteFill style={{ background: "radial-gradient(circle at center, #001028 0%, #000814 70%)", alignItems: "center", justifyContent: "center", textAlign: "center", padding: 80 }}>
+      {eyebrow && (
+        <div style={{ position: "relative", width: 320, height: 320, marginBottom: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          {/* Glow aura */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: "50%",
+              background: `radial-gradient(circle at center, ${accent} 0%, rgba(255,179,0,0.45) 28%, rgba(255,179,0,0) 65%)`,
+              opacity: glowPulse,
+              filter: "blur(20px)",
+            }}
+          />
+          <Img
+            src={staticFile("images/logo-1325ai.png")}
+            style={{
+              position: "relative",
+              width: 280,
+              height: 280,
+              objectFit: "contain",
+              transform: `scale(${logoScale})`,
+              filter: `drop-shadow(0 0 40px rgba(255,179,0,${glowPulse * 0.8}))`,
+            }}
+          />
+        </div>
+      )}
       {eyebrow && (
         <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 28, color: accent, letterSpacing: 14, textTransform: "uppercase", opacity: eyeOp, marginBottom: 32 }}>
           {eyebrow}
