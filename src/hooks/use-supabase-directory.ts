@@ -1,6 +1,7 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLocation as useRouterLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Business } from '@/types/business';
 import { BusinessFilters } from '@/lib/api/directory/types';
@@ -78,22 +79,43 @@ export const useSupabaseDirectory = () => {
   const queryClient = useQueryClient();
   const insertCountRef = useRef(0);
   const [selectedCity, setSelectedCity] = useState<string>('all');
-  
-  // Read initial search term from URL query params (e.g. /directory?search=restaurants)
+  const routerLocation = useRouterLocation();
+
+  // Read initial search term + category from URL query params
+  // (e.g. /directory?search=restaurants or /directory?category=Acupuncture%20Practice)
   const initialSearch = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get('search') || '';
   }, []);
-  
+
+  const initialCategory = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('category') || undefined;
+  }, []);
+
   const [searchTerm, setSearchTerm] = useState<string>(initialSearch);
   const [page, setPage] = useState(1);
   const [filterOptions, setFilterOptions] = useState<BusinessFilters>({
-    category: undefined,
+    category: initialCategory,
     minRating: 0,
     minDiscount: 0,
     featured: false,
     distance: 0,
   });
+
+  // Keep filters in sync if the user navigates between filtered directory URLs
+  // (e.g. /directory?category=A → /directory?category=B) without remount.
+  useEffect(() => {
+    const params = new URLSearchParams(routerLocation.search);
+    const urlCategory = params.get('category') || undefined;
+    const urlSearch = params.get('search') || '';
+
+    setFilterOptions(prev =>
+      prev.category === urlCategory ? prev : { ...prev, category: urlCategory }
+    );
+    setSearchTerm(prev => (prev === urlSearch ? prev : urlSearch));
+    setPage(1);
+  }, [routerLocation.search]);
 
   // Realtime subscription: auto-refresh directory every 15 new inserts from Kayla
   useEffect(() => {
