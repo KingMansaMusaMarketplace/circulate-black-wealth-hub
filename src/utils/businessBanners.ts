@@ -124,6 +124,8 @@ const businessBannerOverrides: Record<string, string> = {
   '51832a8d-b63a-4910-b64c-77579d9bcb69': '/images/featured/mac-venture-banner-v2.jpg',
   // Harriet's Cheesecakes Unlimited - DB banner is just a stretched logo; use appetizing food photo
   'e4117c53-1d41-49eb-9f31-9365abae0116': '/businesses/harriets-cheesecakes-card.jpg',
+  // Channing Capital Management - no banner in DB; use Chicago skyline banner
+  'c188b47b-9d41-4e97-ba06-043e0b4c9b92': '/businesses/channing-capital-banner.jpg',
 };
 
 // Map of business IDs to card-specific images (used in directory cards only, not detail pages)
