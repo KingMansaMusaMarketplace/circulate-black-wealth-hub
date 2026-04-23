@@ -152,7 +152,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_pro: {
     displayName: 'Kayla AI Pro',
-    description: 'Full suite of 28 AI-powered services — replaces ~$560/mo of single-purpose tools',
+    description: 'Full suite of 33 AI-powered services — replaces ~$560/mo of single-purpose tools',
     price: 299,
     interval: 'month',
     popular: true,
@@ -161,7 +161,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_pro_annual: {
     displayName: 'Kayla AI Pro (Annual)',
-    description: 'Full suite of 28 AI-powered services — replaces ~$560/mo of single-purpose tools',
+    description: 'Full suite of 33 AI-powered services — replaces ~$560/mo of single-purpose tools',
     price: 2990,
     interval: 'year',
     savingsText: 'Save $598/year',
@@ -190,14 +190,14 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   // Legacy tiers — kept for existing subscribers
   business_pro_kayla: {
     displayName: 'Business Pro + Kayla AI (Legacy)',
-    description: 'Legacy tier — please upgrade to Kayla AI Pro for 28 services',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 33 services',
     price: 99,
     interval: 'month',
     features: KAYLA_PRO_FEATURES,
   },
   business_pro_kayla_annual: {
     displayName: 'Business Pro + Kayla AI Annual (Legacy)',
-    description: 'Legacy tier — please upgrade to Kayla AI Pro for 28 services',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 33 services',
     price: 990,
     interval: 'year',
     savingsText: 'Save $198/year',
@@ -213,7 +213,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_ai: {
     displayName: 'Kayla AI Employee (Legacy)',
-    description: 'Legacy tier — please upgrade to Kayla AI Pro for 28 services',
+    description: 'Legacy tier — please upgrade to Kayla AI Pro for 33 services',
     price: 100,
     interval: 'month',
     features: KAYLA_PRO_FEATURES,

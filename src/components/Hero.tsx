@@ -286,7 +286,7 @@ const Hero = () => {
                     I'm a Business
                     <ArrowRight className="w-5 h-5" />
                   </span>
-                  <span className="text-xs font-medium opacity-70">28 AI employees · From $19/mo</span>
+                  <span className="text-xs font-medium opacity-70">33 AI employees · From $19/mo</span>
                 </Button>
               </Link>
             </div>

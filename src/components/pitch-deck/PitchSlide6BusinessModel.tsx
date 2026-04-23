@@ -24,7 +24,7 @@ const PitchSlide6BusinessModel: React.FC = () => {
     {
       icon: Bot,
       name: 'Kayla AI Subscriptions',
-      description: '28 agentic AI employees replacing $12K+/mo overhead per business',
+      description: '33 agentic AI employees replacing $12K+/mo overhead per business',
       revenue: 'Embedded in tiers',
       color: 'cyan'
     },

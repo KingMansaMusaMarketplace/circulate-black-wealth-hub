@@ -173,7 +173,7 @@ const PitchSlide12Team: React.FC = () => {
             <div className="flex items-center gap-2 mb-4">
               <Bot className="w-5 h-5 text-purple-400" />
               <h3 className="text-sm font-bold text-white">AI Workforce</h3>
-              <span className="text-purple-400/70 text-xs font-medium ml-1">Powered by Kayla — 28 Agentic AI Employees</span>
+              <span className="text-purple-400/70 text-xs font-medium ml-1">Powered by Kayla — 33 Agentic AI Employees</span>
             </div>
             <div className="grid md:grid-cols-3 gap-3">
               {aiWorkforce.map((agent, i) => (
