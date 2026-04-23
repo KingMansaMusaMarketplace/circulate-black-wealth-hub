@@ -16,13 +16,13 @@ export const TitleCard = ({ eyebrow, title, subtitle, accent = "#FFB300" }: Prop
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const sp = spring({ frame, fps, config: { damping: 18, stiffness: 70 } });
-  const titleY = interpolate(sp, [0, 1], [80, 0]);
-  const titleOp = interpolate(frame, [0, 25], [0, 1], { extrapolateRight: "clamp" });
-
-  const eyeOp = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" });
-  const subOp = interpolate(frame, [25, 50], [0, 1], { extrapolateRight: "clamp" });
-  const lineW = interpolate(frame, [20, 50], [0, 500], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+  // Subtle settle motion only — content is visible from frame 0 so the poster frame isn't black
+  const sp = spring({ frame: frame + 8, fps, config: { damping: 22, stiffness: 80 } });
+  const titleY = interpolate(sp, [0, 1], [20, 0]);
+  const titleOp = 1;
+  const eyeOp = 1;
+  const subOp = 1;
+  const lineW = interpolate(frame, [0, 30], [500, 500], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
 
   return (
     <AbsoluteFill style={{ background: "radial-gradient(circle at center, #001028 0%, #000814 70%)", alignItems: "center", justifyContent: "center", textAlign: "center", padding: 80 }}>
