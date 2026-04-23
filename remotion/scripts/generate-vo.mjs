@@ -21,25 +21,26 @@ const MODEL = "eleven_multilingual_v2";
 // Each segment: { dur (sec, must match the AgenticVideo timeline), text }
 // The text is shorter than the duration so there's natural breathing room, but
 // the trailing silence is small (≤0.5s) so it never feels like a long wait.
+// Durations now sized to actual VO + ~0.6s breath, matching AgenticVideo.tsx.
 const segments = [
-  { dur: 8.5,  text: "Thirteen twenty-five A-I presents… meet your A-I C-Suite. Thirty-three agentic employees. One subscription. Zero excuses." },
-  { dur: 16.5, text: "First up — meet Kayla, your Chief Executive Officer! She leads the entire A-I workforce, sets strategy, allocates resources, and makes sure every agent works in concert to grow your business." },
-  { dur: 13.5, text: "Number two — Kayla Ops, your Chief Operating Officer. She runs day-to-day operations, manages workflows, automates routine tasks, and keeps your business humming twenty-four seven." },
-  { dur: 13.5, text: "Number three — Kayla Finance, your Chief Financial Officer. She owns your numbers, tracks revenue, manages cash flow, and forecasts growth in real time." },
-  { dur: 13.5, text: "Number four — Kayla Marketing, your Chief Marketing Officer. She builds your brand, crafts campaigns, writes content, and turns audiences into loyal customers." },
-  { dur: 13.5, text: "Number five — Kayla Revenue, your Chief Revenue Officer. She closes the deals, qualifies leads, runs sales sequences, and drives top-line growth." },
-  { dur: 13.5, text: "Number six — Kayla Tech, your Chief Technology Officer. She powers your stack, integrates tools, monitors uptime, and keeps your infrastructure rock solid." },
-  { dur: 13.5, text: "Number seven — Kayla Growth, your Chief Growth Officer. She finds the next wave, tests new channels, and unlocks compounding growth loops." },
-  { dur: 13.5, text: "Number eight — Kayla Legal, your Chief Legal Officer. She protects your business, drafts contracts, monitors compliance, and flags risk before it becomes a problem." },
-  { dur: 13.5, text: "Number nine — Kayla I-R, your Chief Investor Relations Officer. She speaks to capital, manages investor updates, and keeps your stakeholders confident." },
-  { dur: 5.5,  text: "And behind them? Twenty-four specialists working in five elite departments — every hour, every day." },
-  { dur: 26.5, text: "Finance department. Bookkeeper. Tax strategist. Invoice manager. Collections agent. Budget analyst. Five agents keeping your money working for you." },
-  { dur: 26.5, text: "Marketing department. Content writer. Social manager. S-E-O specialist. Email strategist. Brand designer. Five agents amplifying your voice." },
-  { dur: 26.5, text: "Operations department. Customer support. Scheduler. Vendor liaison. Quality auditor. H-R coordinator. Five agents keeping everything running." },
-  { dur: 26.5, text: "Growth department. Lead researcher. Outbound S-D-R. Funnel optimizer. Partnership scout. Four agents fueling your pipeline." },
-  { dur: 26.5, text: "Community department. Reviews manager. P-R liaison. Event coordinator. Loyalty programs. Ambassador lead. Five agents building your tribe." },
-  { dur: 8.5,  text: "Now do the math. A two-million-dollar team for two ninety-nine a month. You're replacing what used to take a thirty-three-person workforce." },
-  { dur: 70,   text: "This is the future of business — and it's already here. Visit thirteen twenty-five dot A-I and meet your new team today. Thirteen twenty-five A-I. Your entire C-Suite. One subscription." },
+  { dur: 13.2, text: "Thirteen twenty-five A-I presents… meet your A-I C-Suite. Thirty-three agentic employees. One subscription. Zero excuses." },
+  { dur: 14.5, text: "First up — meet Kayla, your Chief Executive Officer! She leads the entire A-I workforce, sets strategy, allocates resources, and makes sure every agent works in concert to grow your business." },
+  { dur: 12.4, text: "Number two — Kayla Ops, your Chief Operating Officer. She runs day-to-day operations, manages workflows, automates routine tasks, and keeps your business humming twenty-four seven." },
+  { dur: 10.6, text: "Number three — Kayla Finance, your Chief Financial Officer. She owns your numbers, tracks revenue, manages cash flow, and forecasts growth in real time." },
+  { dur: 10.3, text: "Number four — Kayla Marketing, your Chief Marketing Officer. She builds your brand, crafts campaigns, writes content, and turns audiences into loyal customers." },
+  { dur: 11.2, text: "Number five — Kayla Revenue, your Chief Revenue Officer. She closes the deals, qualifies leads, runs sales sequences, and drives top-line growth." },
+  { dur: 11.4, text: "Number six — Kayla Tech, your Chief Technology Officer. She powers your stack, integrates tools, monitors uptime, and keeps your infrastructure rock solid." },
+  { dur: 10.4, text: "Number seven — Kayla Growth, your Chief Growth Officer. She finds the next wave, tests new channels, and unlocks compounding growth loops." },
+  { dur: 10.7, text: "Number eight — Kayla Legal, your Chief Legal Officer. She protects your business, drafts contracts, monitors compliance, and flags risk before it becomes a problem." },
+  { dur: 11.6, text: "Number nine — Kayla I-R, your Chief Investor Relations Officer. She speaks to capital, manages investor updates, and keeps your stakeholders confident." },
+  { dur: 8.0,  text: "And behind them? Twenty-four specialists working in five elite departments — every hour, every day." },
+  { dur: 13.3, text: "Finance department. Bookkeeper. Tax strategist. Invoice manager. Collections agent. Budget analyst. Five agents keeping your money working for you." },
+  { dur: 12.0, text: "Marketing department. Content writer. Social manager. S-E-O specialist. Email strategist. Brand designer. Five agents amplifying your voice." },
+  { dur: 13.2, text: "Operations department. Customer support. Scheduler. Vendor liaison. Quality auditor. H-R coordinator. Five agents keeping everything running." },
+  { dur: 10.0, text: "Growth department. Lead researcher. Outbound S-D-R. Funnel optimizer. Partnership scout. Four agents fueling your pipeline." },
+  { dur: 11.3, text: "Community department. Reviews manager. P-R liaison. Event coordinator. Loyalty programs. Ambassador lead. Five agents building your tribe." },
+  { dur: 9.0,  text: "Now do the math. A two-million-dollar team for two ninety-nine a month. You're replacing what used to take a thirty-three-person workforce." },
+  { dur: 16.0, text: "This is the future of business — and it's already here. Visit thirteen twenty-five dot A-I and meet your new team today. Thirteen twenty-five A-I. Your entire C-Suite. One subscription." },
 ];
 
 async function tts(text, prevText, nextText, outFile) {
