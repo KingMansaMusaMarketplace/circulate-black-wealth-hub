@@ -9,14 +9,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJ = path.resolve(__dirname, "..");
 
 const COMP_ID = "agentic";
-const TOTAL_FRAMES = 11250;
+const TOTAL_FRAMES = 10485;
 const FPS = 30;
 const VO_PATH = path.resolve(PROJ, "public/audio/vo-agentic.mp3");
 const FINAL = "/mnt/documents/1325AI-Kayla-AI-Suite-6min.mp4";
 
-// 6 chunks of 1875 frames (62.5s) each
-const CHUNK_SIZE = 1875;
-const NUM_CHUNKS = 6;
+// 6 chunks (~1748 frames each = ~58s)
+const CHUNK_SIZE = 1748;
+const NUM_CHUNKS = Math.ceil(TOTAL_FRAMES / CHUNK_SIZE);
 const CHUNKS = Array.from({ length: NUM_CHUNKS }, (_, i) => ({
   from: i * CHUNK_SIZE,
   to: Math.min((i + 1) * CHUNK_SIZE, TOTAL_FRAMES),
@@ -43,7 +43,7 @@ const onlyChunk = process.env.CHUNK ? parseInt(process.env.CHUNK, 10) : null;
 const chunkFiles = [];
 for (let i = 0; i < CHUNKS.length; i++) {
   const c = CHUNKS[i];
-  const out = `/tmp/agentic-v2-chunk-${i}.mp4`;
+  const out = `/tmp/agentic-v3-chunk-${i}.mp4`;
   chunkFiles.push(out);
   if (onlyChunk !== null && onlyChunk !== i) {
     console.log(`Skipping chunk ${i} (CHUNK=${onlyChunk})`);
