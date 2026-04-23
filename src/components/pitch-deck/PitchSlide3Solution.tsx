@@ -20,7 +20,7 @@ const PitchSlide3Solution: React.FC = () => {
     { icon: Network, title: 'B2B Marketplace', description: 'Connect businesses for wholesale supply chain' },
     { icon: Heart, title: 'Loyalty Program', description: 'Cross-business rewards keeping dollars in community' },
     { icon: Wallet, title: 'Community Finance', description: 'Micro-lending pools and group savings' },
-    { icon: Bot, title: 'Kayla AI Workforce', description: '28 agentic AI employees replacing $12K+/mo in overhead' },
+    { icon: Bot, title: 'Kayla AI Workforce', description: '33 agentic AI employees replacing $12K+/mo in overhead' },
     { icon: Layers, title: 'White-Label & Enterprise', description: 'Multi-tenant platform with custom domains & branding' },
   ];
 
