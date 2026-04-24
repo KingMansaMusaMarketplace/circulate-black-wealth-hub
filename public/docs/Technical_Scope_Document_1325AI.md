@@ -196,7 +196,7 @@ This platform contains **27 patent claims** filed under USPTO 63/969,202. All de
 
 ## 11. SECURITY & COMPLIANCE
 
-The platform is built on SOC 2-compliant infrastructure providers and follows industry security best practices. Formal certifications are on the roadmap pending enterprise customer demand.
+1325.AI is built end-to-end on a **SOC 2 Type II certified technology stack** — from the development platform (Lovable) through the database (Supabase), payments (Stripe), and underlying cloud (AWS). The platform inherits enterprise-grade security controls at every layer and follows industry security best practices. Independent SOC 2 / ISO 27001 certification of 1325.AI itself is on the roadmap, pending enterprise customer demand.
 
 ### Current Security Posture
 
@@ -213,12 +213,15 @@ The platform is built on SOC 2-compliant infrastructure providers and follows in
 
 ### Inherited Compliance (via infrastructure providers)
 
-| Provider | Certifications |
-|---|---|
-| **Supabase** (Database, Auth, Storage) | SOC 2 Type II, HIPAA-eligible (Enterprise tier) |
-| **Stripe** (Payments) | PCI-DSS Level 1, SOC 1/2, ISO 27001 |
-| **AWS** (underlying cloud) | SOC 1/2/3, ISO 27001, HIPAA, FedRAMP |
-| **Apple / Google** (Mobile) | App Store + Play Store security review |
+| Provider | Layer | Certifications |
+|---|---|---|
+| **Lovable** (Build & Hosting Platform) | Application delivery | SOC 2 Type II, GDPR, Vanta-monitored |
+| **Supabase** (Database, Auth, Storage) | Backend & data | SOC 2 Type II, HIPAA-eligible (Enterprise tier) |
+| **Stripe** (Payments) | Payment processing | PCI-DSS Level 1, SOC 1/2, ISO 27001 |
+| **AWS** (underlying cloud) | Infrastructure | SOC 1/2/3, ISO 27001, HIPAA, FedRAMP |
+| **Apple / Google** (Mobile) | Distribution | App Store + Play Store security review |
+
+**Reference:** Lovable platform security disclosures — https://lovable.dev/security
 
 ### Certification Roadmap
 
