@@ -194,7 +194,7 @@ This platform contains **27 patent claims** filed under USPTO 63/969,202. All de
 
 ---
 
-## 12. SECURITY & COMPLIANCE
+## 11. SECURITY & COMPLIANCE
 
 The platform is built on SOC 2-compliant infrastructure providers and follows industry security best practices. Formal certifications are on the roadmap pending enterprise customer demand.
 
@@ -241,7 +241,7 @@ The platform is built on SOC 2-compliant infrastructure providers and follows in
 
 ---
 
-## 11. HOW TO RESPOND
+## 12. HOW TO RESPOND
 
 Agencies/developers interested in this engagement should provide:
 
