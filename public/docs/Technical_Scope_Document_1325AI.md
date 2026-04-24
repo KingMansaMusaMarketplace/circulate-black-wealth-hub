@@ -194,6 +194,53 @@ This platform contains **27 patent claims** filed under USPTO 63/969,202. All de
 
 ---
 
+## 12. SECURITY & COMPLIANCE
+
+The platform is built on SOC 2-compliant infrastructure providers and follows industry security best practices. Formal certifications are on the roadmap pending enterprise customer demand.
+
+### Current Security Posture
+
+| Control | Status | Notes |
+|---|---|---|
+| **Row Level Security (RLS)** | ✅ Active | Enforced across 250+ PostgreSQL tables |
+| **Encrypted Secrets Management** | ✅ Active | Supabase Vault + environment-scoped keys |
+| **JWT Authentication** | ✅ Active | Supabase Auth with refresh token rotation |
+| **Security-Definer Functions** | ✅ Active | Role-based access control (RBAC) |
+| **Audit Logging** | ✅ Active | Activity log + auth attempt tracking |
+| **Rate Limiting** | ✅ Active | Per-endpoint and per-API-key throttling |
+| **Fraud Detection** | ✅ Active | Geospatial + behavioral anomaly detection |
+| **HTTPS/TLS** | ✅ Enforced | All traffic encrypted in transit |
+
+### Inherited Compliance (via infrastructure providers)
+
+| Provider | Certifications |
+|---|---|
+| **Supabase** (Database, Auth, Storage) | SOC 2 Type II, HIPAA-eligible (Enterprise tier) |
+| **Stripe** (Payments) | PCI-DSS Level 1, SOC 1/2, ISO 27001 |
+| **AWS** (underlying cloud) | SOC 1/2/3, ISO 27001, HIPAA, FedRAMP |
+| **Apple / Google** (Mobile) | App Store + Play Store security review |
+
+### Certification Roadmap
+
+| Framework | Current Status | Target Timeline | Estimated Investment |
+|---|---|---|---|
+| **SOC 2 Type I** | Not started | 3-6 months post-engagement | $30K – $50K |
+| **SOC 2 Type II** | Not started | 12-18 months (after Type I) | $50K – $100K |
+| **ISO 27001** | Not started | 12 months (parallel track) | $25K – $80K |
+| **HIPAA Compliance** | N/A — no PHI stored | On-demand for healthcare clients | Requires Supabase Enterprise BAA |
+
+**Note:** No Protected Health Information (PHI) is currently stored or processed. HIPAA compliance would only be pursued if expanding into healthcare verticals requiring a Business Associate Agreement (BAA).
+
+### Agency Responsibilities (Security)
+
+- Quarterly security audits and penetration testing
+- Dependency vulnerability scanning (npm audit, Snyk)
+- RLS policy review on schema changes
+- Incident response plan maintenance
+- Pre-certification readiness assessment (when initiated)
+
+---
+
 ## 11. HOW TO RESPOND
 
 Agencies/developers interested in this engagement should provide:
