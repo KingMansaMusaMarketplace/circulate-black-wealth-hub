@@ -142,12 +142,12 @@ Deno.serve(async (req) => {
 
       if (reviews) {
         // Get business names for context
-        const bizIds = [...new Set(reviews.map(r => r.business_id))];
+        const bizIds = [...new Set(reviews.map((r: any) => r.business_id))];
         const { data: bizNames } = await supabase
           .from('businesses')
           .select('id, business_name')
           .in('id', bizIds);
-        const nameMap = new Map((bizNames || []).map(b => [b.id, b.business_name]));
+        const nameMap = new Map((bizNames || []).map((b: any) => [b.id, b.business_name as string]));
 
         for (const review of reviews) {
           try {
@@ -158,7 +158,7 @@ Deno.serve(async (req) => {
               .eq('content_id', review.id)
               .maybeSingle();
 
-            const text = buildReviewText(review, nameMap.get(review.business_id));
+            const text = buildReviewText(review, nameMap.get(review.business_id) as string | undefined);
             const embedding = await generateEmbedding(text, OPENAI_API_KEY);
 
             const record = {

@@ -158,13 +158,13 @@ Deno.serve(async (req) => {
       },
       reviews: {
         total: reviews?.length || 0,
-        avgRating: reviews?.length ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0,
-        recent: reviews?.slice(0, 5).map(r => ({ rating: r.rating, text: r.review_text?.substring(0, 100) })) || []
+        avgRating: reviews?.length ? reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / reviews.length : 0,
+        recent: reviews?.slice(0, 5).map((r: any) => ({ rating: r.rating, text: r.review_text?.substring(0, 100) })) || []
       },
       products: {
         total: products?.length || 0,
-        active: products?.filter(p => p.is_active).length || 0,
-        categories: [...new Set(products?.map(p => p.category).filter(Boolean))].length || 0
+        active: products?.filter((p: any) => p.is_active).length || 0,
+        categories: [...new Set(products?.map((p: any) => p.category).filter(Boolean))].length || 0
       }
     };
 
@@ -321,7 +321,7 @@ Be specific, actionable, and positive while being honest about areas needing imp
         dataPoints: {
           scansPeriod: qrScans?.length || 0,
           reviewsPeriod: reviews?.length || 0,
-          qrCodesActive: qrCodes?.filter(q => q.is_active).length || 0
+          qrCodesActive: qrCodes?.filter((q: any) => q.is_active).length || 0
         }
       }
     };

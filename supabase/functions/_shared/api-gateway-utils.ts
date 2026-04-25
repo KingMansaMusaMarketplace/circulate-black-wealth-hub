@@ -82,8 +82,8 @@ export async function validateApiKey(
   
   const keyHash = await hashApiKey(apiKey);
   
-  const { data: validationResult, error: validationError } = await supabase
-    .rpc("validate_api_key", { p_key_hash: keyHash });
+  const { data: validationResult, error: validationError } = await (supabase as any)
+    .rpc("validate_api_key", { p_key_hash: keyHash }) as { data: any[] | null; error: any };
   
   if (validationError || !validationResult || validationResult.length === 0) {
     return { valid: false, error: "Invalid or revoked API key", statusCode: 401 };
@@ -100,7 +100,7 @@ export async function validateApiKey(
   }
   
   // Check rate limit
-  const { data: rateLimitOk } = await supabase.rpc("check_api_rate_limit", {
+  const { data: rateLimitOk } = await (supabase as any).rpc("check_api_rate_limit", {
     p_api_key_id: developer.api_key_id,
     p_limit_per_minute: developer.rate_limit_per_minute,
   });
@@ -132,7 +132,7 @@ export async function logApiUsage(
   const ipAddress = req.headers.get("x-forwarded-for")?.split(",")[0] || null;
   const userAgent = req.headers.get("user-agent") || null;
   
-  await supabase.rpc("log_api_usage", {
+  await (supabase as any).rpc("log_api_usage", {
     p_api_key_id: developer.api_key_id,
     p_developer_id: developer.developer_id,
     p_endpoint: endpoint,
