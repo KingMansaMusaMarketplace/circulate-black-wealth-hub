@@ -142,7 +142,7 @@ Deno.serve(async (req) => {
     }
 
     // Build context for AI
-    const businessList = businesses.map((b, idx) => 
+    const businessList = businesses.map((b: any, idx: number) => 
       `${idx + 1}. ${b.business_name} - ${b.category || 'General'} (${b.city}, ${b.state}) - Rating: ${b.average_rating || 'N/A'}\n   Description: ${b.description || 'No description'}`
     ).join('\n\n');
 

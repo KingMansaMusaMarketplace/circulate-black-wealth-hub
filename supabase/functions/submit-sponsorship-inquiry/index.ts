@@ -117,7 +117,7 @@ serve(async (req) => {
       await resend.emails.send({
         from: "Partnerships <partnerships@1325.ai>",
         to: [adminEmail],
-        replyTo: payload.email,
+        reply_to: payload.email,
         subject: `New Partnership Inquiry — ${payload.companyName} (${TIER_LABELS[payload.sponsorshipTier] ?? payload.sponsorshipTier})`,
         html: `
           <div style="font-family: -apple-system, sans-serif; max-width: 640px;">
