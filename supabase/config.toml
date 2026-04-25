@@ -258,3 +258,6 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.admin-upload-investor-doc]
     verify_jwt = false
+
+  [functions.submit-sponsorship-inquiry]
+    verify_jwt = false
