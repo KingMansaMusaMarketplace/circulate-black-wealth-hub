@@ -68,12 +68,12 @@ const EngagementProcessSection: React.FC = () => {
                 className="relative text-center px-3"
               >
                 <div className="relative inline-flex items-center justify-center w-24 h-24 mb-5">
-                  <div className="absolute inset-0 rounded-full bg-black border border-mansagold/40" />
+                  <div className="absolute inset-0 rounded-full bg-black border-2 border-mansagold/70" />
                   <step.icon className="relative w-7 h-7 text-mansagold" />
                 </div>
-                <p className="font-playfair text-mansagold/70 text-sm tracking-widest mb-2">{step.n}</p>
+                <p className="font-playfair text-mansagold text-sm tracking-widest mb-2">{step.n}</p>
                 <h3 className="font-playfair text-lg font-semibold text-white mb-3">{step.title}</h3>
-                <p className="text-sm text-white/55 leading-relaxed">{step.detail}</p>
+                <p className="text-sm text-white/85 leading-relaxed">{step.detail}</p>
               </motion.div>
             ))}
           </div>

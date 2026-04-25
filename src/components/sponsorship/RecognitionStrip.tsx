@@ -13,9 +13,9 @@ const marks = [
 
 const RecognitionStrip: React.FC = () => {
   return (
-    <section className="relative z-10 py-10 border-y border-white/5 bg-black/40 backdrop-blur-sm">
+    <section className="relative z-10 py-10 border-y border-mansagold/25 bg-black/60 backdrop-blur-sm">
       <div className="container mx-auto px-4">
-        <p className="text-center text-[10px] md:text-xs text-white/35 tracking-[0.3em] uppercase mb-6">
+        <p className="text-center text-[10px] md:text-xs text-mansagold tracking-[0.3em] uppercase mb-6">
           Built on verified, defensible infrastructure
         </p>
         <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4">
@@ -26,9 +26,9 @@ const RecognitionStrip: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors"
+              className="flex items-center gap-2 text-white/85 hover:text-white transition-colors"
             >
-              <mark.icon className="w-4 h-4 text-mansagold/70" />
+              <mark.icon className="w-4 h-4 text-mansagold" />
               <span className="text-xs md:text-sm font-medium tracking-wide">{mark.label}</span>
             </motion.div>
           ))}

@@ -127,7 +127,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           <h2 className="font-playfair text-3xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight">
             Choose your level of commitment.
           </h2>
-          <p className="text-white/55 mt-6 max-w-2xl mx-auto">
+          <p className="text-white/85 mt-6 max-w-2xl mx-auto">
             Annual commitments below. Monthly equivalents shown for budgeting reference.
             Every tier includes verified ROI dashboards.
           </p>
@@ -148,10 +148,10 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
                 className="relative"
               >
                 <div
-                  className={`relative h-full bg-black rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col ${
+                  className={`relative h-full bg-black rounded-2xl overflow-hidden border-2 transition-all duration-300 flex flex-col ${
                     isRecommended
                       ? 'border-mansagold shadow-[0_0_50px_-15px_rgba(212,175,55,0.4)]'
-                      : 'border-white/10 hover:border-white/25'
+                      : 'border-mansagold/25 hover:border-mansagold/60'
                   }`}
                 >
                   {isRecommended && (
@@ -162,24 +162,24 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
                     {/* Mark + Name */}
                     <div className="flex items-baseline justify-between mb-6">
                       <h3 className="font-playfair text-2xl font-semibold text-white">{tier.name}</h3>
-                      <span className="font-playfair text-mansagold/50 text-sm tracking-widest">
+                      <span className="font-playfair text-mansagold text-sm tracking-widest">
                         {tier.mark}
                       </span>
                     </div>
 
-                    <p className={`text-sm mb-8 ${isRecommended ? 'text-mansagold' : 'text-white/50'}`}>
+                    <p className={`text-sm mb-8 ${isRecommended ? 'text-mansagold' : 'text-white/85'}`}>
                       {tier.description}
                     </p>
 
                     {/* Pricing */}
-                    <div className="mb-8 pb-8 border-b border-white/10">
-                      <p className="text-[10px] text-white/40 tracking-[0.25em] uppercase mb-2">
+                    <div className="mb-8 pb-8 border-b border-mansagold/20">
+                      <p className="text-[10px] text-mansagold tracking-[0.25em] uppercase mb-2">
                         {isInvitation ? 'Engagement' : 'Annual commitment'}
                       </p>
                       <div className="font-playfair text-3xl md:text-4xl font-semibold text-white">
                         {tier.annual}
                       </div>
-                      <p className="text-white/40 text-sm mt-2">{tier.monthly}</p>
+                      <p className="text-white/75 text-sm mt-2">{tier.monthly}</p>
                     </div>
 
                     {/* Features */}
@@ -187,7 +187,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
                       {tier.features.map((feature, i) => (
                         <li key={i} className="flex items-start gap-3">
                           <Check className="w-4 h-4 text-mansagold flex-shrink-0 mt-0.5" strokeWidth={2.5} />
-                          <span className="text-white/70 text-sm leading-relaxed">{feature}</span>
+                          <span className="text-white/90 text-sm leading-relaxed">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -197,7 +197,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
                       className={`w-full group rounded-md py-5 font-medium transition-all ${
                         isRecommended
                           ? 'bg-mansagold hover:bg-mansagold/90 text-slate-900'
-                          : 'bg-white/[0.03] hover:bg-white/[0.08] text-white border border-white/15 hover:border-white/30'
+                          : 'bg-white/[0.05] hover:bg-mansagold/15 text-white border border-mansagold/30 hover:border-mansagold/60'
                       }`}
                       onClick={() => onLearnMore(tier.name)}
                     >
@@ -218,13 +218,13 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="bg-black border border-white/10 rounded-2xl p-8 md:p-10">
+          <div className="bg-black border-2 border-mansagold/30 rounded-2xl p-8 md:p-10">
             <p className="text-[11px] text-mansagold tracking-[0.3em] uppercase mb-4 text-center">
               Investment context
             </p>
-            <p className="text-white/70 text-center text-base md:text-lg leading-relaxed">
+            <p className="text-white/90 text-center text-base md:text-lg leading-relaxed">
               Comparable corporate community-impact programs typically range from
-              <span className="text-white font-semibold"> $50K to $200K per month</span> with limited
+              <span className="text-mansagold font-semibold"> $50K to $200K per month</span> with limited
               measurement. Our tiers begin at $1,750 per month — with verified circulation tracking,
               executive reporting, and patent-pending infrastructure built in.
             </p>

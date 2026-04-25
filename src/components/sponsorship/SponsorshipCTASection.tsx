@@ -24,7 +24,7 @@ const SponsorshipCTASection: React.FC<SponsorshipCTASectionProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="relative bg-black border border-mansagold/30 rounded-2xl overflow-hidden">
+          <div className="relative bg-black border-2 border-mansagold/50 rounded-2xl overflow-hidden shadow-[0_0_60px_-15px_rgba(212,175,55,0.3)]">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-mansagold to-transparent" />
 
             <div className="relative p-12 md:p-16 text-center">
@@ -36,7 +36,7 @@ const SponsorshipCTASection: React.FC<SponsorshipCTASectionProps> = ({
                 Begin a conversation.
               </h2>
 
-              <p className="text-white/60 mb-12 max-w-xl mx-auto leading-relaxed">
+              <p className="text-white/85 mb-12 max-w-xl mx-auto leading-relaxed">
                 Our partnerships team will respond within one business day to schedule
                 an introductory call.
               </p>
