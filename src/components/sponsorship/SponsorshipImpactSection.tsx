@@ -1,193 +1,95 @@
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, TrendingUp, DollarSign, Building2, Briefcase, Heart, Target } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 
-const formatNumber = (num: number) => {
-  if (num >= 1000000000) return (num / 1000000000).toFixed(1) + 'B';
-  if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-  if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-  return num.toLocaleString();
-};
+const metrics = [
+  { value: '33', unit: 'AI Agents', detail: 'Autonomous workforce led by Kayla, our CEO agent.' },
+  { value: '8', unit: 'Revenue Streams', detail: 'Subscriptions, sponsorships, B2B, stays, rideshare and more.' },
+  { value: '$12,100+', unit: '/mo Saved', detail: 'Operator savings vs. traditional staffing for an SMB.' },
+  { value: '$1.8T', unit: 'Addressable', detail: 'Black-owned business economy we are building rails for.' },
+];
+
+const pillars = [
+  {
+    title: 'Economic Circulation',
+    body: 'Direct, measured investment in verified Black-owned businesses — with dashboards that track every dollar of community impact.',
+  },
+  {
+    title: 'Brand Alignment',
+    body: 'Authentic association with a purpose-driven, growing audience that prioritizes brands they believe in.',
+  },
+  {
+    title: 'Generational Infrastructure',
+    body: 'Patent-pending technology, an HBCU pipeline, and a 33-agent AI workforce building durable wealth — not short-term campaigns.',
+  },
+];
 
 const SponsorshipImpactSection: React.FC = () => {
-  const [currentStats, setCurrentStats] = useState({
-    businesses: 0,
-    members: 0,
-    totalValue: 0
-  });
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const { data, error } = await supabase.rpc('get_platform_stats');
-        if (!error && data) {
-          setCurrentStats({
-            businesses: data.total_businesses || 0,
-            members: data.total_members || 0,
-            totalValue: data.total_value || 0
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-      }
-    };
-    fetchStats();
-  }, []);
-
-  const visionMetrics = [
-    { 
-      icon: Building2, 
-      currentValue: currentStats.businesses,
-      goalValue: 100000, 
-      label: 'Businesses',
-      sublabel: 'Goal: 100K by 2030',
-      color: 'from-amber-400 to-orange-500'
-    },
-    { 
-      icon: DollarSign, 
-      currentValue: currentStats.totalValue,
-      goalValue: 1000000000,
-      prefix: '$',
-      label: 'Wealth Circulated',
-      sublabel: 'Goal: $1B by 2030',
-      color: 'from-emerald-400 to-teal-500'
-    },
-    { 
-      icon: Users, 
-      currentValue: currentStats.members,
-      goalValue: 1000000, 
-      label: 'Community Members',
-      sublabel: 'Goal: 1M by 2030',
-      color: 'from-blue-400 to-indigo-500'
-    },
-    { 
-      icon: Briefcase, 
-      currentValue: 0,
-      goalValue: 50000, 
-      label: 'Jobs to Create',
-      sublabel: 'Goal: 50K by 2030',
-      color: 'from-purple-400 to-pink-500'
-    },
-  ];
-
-  const impactAreas = [
-    {
-      icon: TrendingUp,
-      title: 'Economic Growth',
-      description: 'Direct investment in community businesses creates ripple effects across entire communities, generating sustainable wealth.',
-    },
-    {
-      icon: Heart,
-      title: 'Community Connection',
-      description: 'Your partnership builds authentic relationships with engaged consumers who prioritize purpose-driven brands.',
-    },
-    {
-      icon: Users,
-      title: 'Generational Impact',
-      description: 'Help break economic barriers and create pathways for the next generation of community entrepreneurs.',
-    },
-  ];
-
   return (
-    <section className="py-20 relative z-10">
+    <section className="py-24 relative z-10">
       <div className="container mx-auto px-4">
-        {/* Section header */}
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mansagold/20 border border-mansagold/30 mb-4">
-            <Target className="w-4 h-4 text-mansagold" />
-            <span className="text-sm font-semibold text-mansagold">Our Vision 2030</span>
-          </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Where We Are & Where We're Going</h2>
-          <p className="text-blue-200/70 max-w-2xl mx-auto">
-            We just launched! Here's our current progress and ambitious goals. Your sponsorship helps us get there.
-          </p>
+          <p className="text-[11px] text-mansagold tracking-[0.3em] uppercase mb-4">By the numbers</p>
+          <h2 className="font-playfair text-3xl md:text-5xl font-semibold text-white tracking-tight">
+            A measurable institution, not a campaign.
+          </h2>
+          <div className="w-16 h-px bg-mansagold/60 mx-auto mt-8" />
         </motion.div>
 
-        {/* Vision metrics */}
-        <motion.div 
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-20"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {visionMetrics.map((metric, index) => (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-2xl overflow-hidden mb-24 max-w-6xl mx-auto">
+          {metrics.map((m, i) => (
             <motion.div
-              key={metric.label}
-              className="relative group"
-              initial={{ opacity: 0, y: 20 }}
+              key={m.unit}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              className="bg-black p-8 md:p-10 text-center"
             >
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 text-center group-hover:border-white/20 group-hover:bg-slate-800/70 transition-all duration-300">
-                <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${metric.color} mb-4`}>
-                  <metric.icon className="w-7 h-7 text-white" />
-                </div>
-                <div className="text-3xl md:text-4xl font-bold text-white mb-1 font-playfair">
-                  {metric.prefix || ''}{formatNumber(metric.currentValue)}
-                </div>
-                <p className="text-blue-200/80 text-sm md:text-base font-medium mb-2">{metric.label}</p>
-                <p className="text-xs text-mansagold/80 font-medium">{metric.sublabel}</p>
+              <div className="font-playfair text-4xl md:text-5xl font-semibold text-white mb-2">
+                {m.value}
               </div>
+              <p className="text-mansagold text-xs md:text-sm tracking-widest uppercase mb-4">
+                {m.unit}
+              </p>
+              <p className="text-white/50 text-xs md:text-sm leading-relaxed">{m.detail}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Impact explanation */}
-        <motion.div 
-          className="relative"
-          initial={{ opacity: 0, y: 40 }}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-6xl mx-auto"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-mansagold/5 via-transparent to-mansagold/5 rounded-3xl" />
-          <div className="bg-slate-900/60 backdrop-blur-2xl rounded-3xl border border-white/10 p-8 md:p-12 lg:p-16">
-            <div className="text-center mb-12">
-              <motion.span 
-                className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+          <div className="text-center mb-12">
+            <p className="text-[11px] text-mansagold tracking-[0.3em] uppercase mb-4">Why partner</p>
+            <h3 className="font-playfair text-2xl md:text-4xl font-semibold text-white tracking-tight">
+              Three pillars of measurable impact.
+            </h3>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-px bg-white/10 rounded-2xl overflow-hidden">
+            {pillars.map((p, i) => (
+              <motion.div
+                key={p.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="bg-black p-10"
               >
-                Why Partner With Us
-              </motion.span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-playfair mb-6">
-                <span className="text-white">Transform Communities, </span>
-                <span className="text-gradient-gold">Elevate Your Brand</span>
-              </h2>
-              <p className="text-xl text-blue-200/80 max-w-3xl mx-auto">
-                Your investment creates measurable change while connecting your brand 
-                with a purpose-driven, growing community of engaged members.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              {impactAreas.map((area, index) => (
-                <motion.div 
-                  key={area.title}
-                  className="text-center group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
-                >
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-mansagold/10 border border-mansagold/20 mb-6 group-hover:bg-mansagold/20 group-hover:border-mansagold/40 group-hover:scale-110 transition-all duration-300">
-                    <area.icon className="w-8 h-8 text-mansagold" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 font-playfair">{area.title}</h3>
-                  <p className="text-blue-200/70 leading-relaxed">{area.description}</p>
-                </motion.div>
-              ))}
-            </div>
+                <p className="font-playfair text-mansagold/60 text-sm mb-3">0{i + 1}</p>
+                <h4 className="font-playfair text-xl font-semibold text-white mb-4">{p.title}</h4>
+                <p className="text-white/55 text-sm leading-relaxed">{p.body}</p>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
