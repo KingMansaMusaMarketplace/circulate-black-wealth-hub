@@ -7,23 +7,31 @@ export const useSponsorshipActions = () => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const handleLearnMore = (tierName: string) => {
-    // Scroll to the sponsorship form and pre-select the tier
+    const name = tierName.toLowerCase();
+
+    // "Founding Partner" (tier VI) is invitation-only — route to leadership contact
+    if (name.includes('founding partner')) {
+      handleContactPartnership();
+      return;
+    }
+
+    // Map tier display names → form values
+    let tierValue: 'founding' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'recommend' = 'recommend';
+    if (name.includes('founding sponsor')) tierValue = 'founding';
+    else if (name.includes('bronze')) tierValue = 'bronze';
+    else if (name.includes('silver')) tierValue = 'silver';
+    else if (name.includes('gold')) tierValue = 'gold';
+    else if (name.includes('platinum')) tierValue = 'platinum';
+
     const formElement = document.getElementById('sponsorship-form');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth' });
-      
-      // Show a toast to guide the user
-      toast.success(`Great choice! The ${tierName} tier is pre-selected in the form below.`);
-      
-      // Pre-select the tier in the form after a small delay
-      setTimeout(() => {
-        const tierSelect = document.querySelector('[data-tier-select]') as HTMLSelectElement;
-        if (tierSelect) {
-          const tierValue = tierName.toLowerCase().includes('silver') ? 'silver' : 
-                           tierName.toLowerCase().includes('gold') ? 'gold' : 'platinum';
-          tierSelect.value = tierValue;
-        }
-      }, 1000);
+      toast.success(`Great choice! ${tierName} is pre-selected in the form below.`);
+
+      // Notify the form to preselect the tier (Radix Select can't be set via DOM)
+      window.dispatchEvent(
+        new CustomEvent('sponsorship:preselect-tier', { detail: tierValue })
+      );
     }
   };
 
