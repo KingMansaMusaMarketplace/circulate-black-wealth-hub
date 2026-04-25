@@ -103,7 +103,7 @@ serve(async (req) => {
     // Validate messages with comprehensive Zod schema
     const parseResult = messagesSchema.safeParse((requestBody as Record<string, unknown>)?.messages);
     if (!parseResult.success) {
-      const errorMessage = parseResult.error.errors.map(e => (e as Error).message).join(', ');
+      const errorMessage = parseResult.error.errors.map((e: any) => e.message).join(', ');
       console.log("Validation error:", errorMessage);
       return new Response(
         JSON.stringify({ error: `Invalid request format: ${errorMessage}` }),

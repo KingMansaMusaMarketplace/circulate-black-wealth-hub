@@ -34,12 +34,12 @@ serve(async (req) => {
       .order("average_rating", { ascending: false })
       .limit(50);
 
-    const businessContext = businesses?.map(b => 
+    const businessContext = businesses?.map((b: any) => 
       `${b.name} (${b.category || 'General'}) - ${b.city || ''}, ${b.state || ''} - Rating: ${b.average_rating || 'N/A'}${b.description ? ` - ${b.description.substring(0, 100)}` : ''}`
     ).join("\n") || "No businesses available";
 
     // Get unique categories
-    const categories = [...new Set(businesses?.map(b => b.category).filter(Boolean))];
+    const categories = [...new Set(businesses?.map((b: any) => b.category).filter(Boolean))];
 
     const systemPrompt = `You are Kayla, the AI shopping assistant for Mansa Musa Marketplace — the premier directory of Black-owned businesses. You help customers discover and connect with amazing Black-owned businesses.
 
