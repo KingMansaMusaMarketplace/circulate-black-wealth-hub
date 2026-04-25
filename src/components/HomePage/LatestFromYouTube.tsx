@@ -71,7 +71,11 @@ const LatestFromYouTube: React.FC = () => {
             <a
               href={siteConfig.youtube.channelUrl}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
+              onClick={(e) => {
+                e.preventDefault();
+                window.open(siteConfig.youtube.channelUrl, '_blank', 'noopener,noreferrer');
+              }}
             >
               Visit Channel <ArrowRight className="ml-2 h-4 w-4" />
             </a>
