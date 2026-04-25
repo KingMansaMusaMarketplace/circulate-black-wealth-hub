@@ -27,7 +27,7 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY not configured");
     }
 
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(supabaseUrl, supabaseKey) as any;
 
     // Verify auth
     const authHeader = req.headers.get("Authorization");
@@ -91,7 +91,7 @@ serve(async (req) => {
 
   } catch (error) {
     console.error("AI Agent error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

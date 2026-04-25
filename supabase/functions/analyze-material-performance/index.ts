@@ -24,7 +24,7 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const lovableApiKey = Deno.env.get('LOVABLE_API_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     console.log('[MATERIAL PERFORMANCE] Analyzing material performance for last', dateRange, 'days');
 
@@ -100,8 +100,9 @@ Deno.serve(async (req) => {
         ? (conversions / materialDownloads.length) * 100 
         : 0;
 
-      const tierDistribution = materialDownloads.reduce((acc, d) => {
-        const tier = d.sales_agents?.tier || 'unknown';
+      const tierDistribution = materialDownloads.reduce((acc, d: any) => {
+        const sa = Array.isArray(d.sales_agents) ? d.sales_agents[0] : d.sales_agents;
+        const tier = sa?.tier || 'unknown';
         acc[tier] = (acc[tier] || 0) + 1;
         return acc;
       }, {} as Record<string, number>);
@@ -212,7 +213,7 @@ Keep your response concise, actionable, and data-driven. Focus on practical step
     console.error('[MATERIAL PERFORMANCE] Error:', error);
     return new Response(
       JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? (error as Error).message : 'Unknown error',
         details: error instanceof Error ? error.stack : undefined
       }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

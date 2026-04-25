@@ -156,7 +156,7 @@ serve(async (req) => {
   } catch (error) {
     console.error("Create payment intent error:", error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: error instanceof Error ? (error as Error).message : "Unknown error" }),
       {
         headers: { ...getCorsHeaders(req), "Content-Type": "application/json" },
         status: 500,

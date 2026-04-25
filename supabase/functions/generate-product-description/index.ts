@@ -144,7 +144,7 @@ Create a description that highlights the product's unique value and appeals to c
     console.error('Error generating product description:', error);
     return new Response(
       JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+        error: error instanceof Error ? (error as Error).message : 'Unknown error occurred' 
       }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

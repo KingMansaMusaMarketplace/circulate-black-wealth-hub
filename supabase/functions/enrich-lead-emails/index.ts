@@ -71,7 +71,7 @@ serve(async (req) => {
       );
     }
 
-    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
+    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!) as any;
     const body: EnrichRequest = await req.json();
     const { lead_ids, enrich_missing_only = true, limit = 20 } = body;
 
@@ -222,7 +222,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in enrich-lead-emails:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: error instanceof Error ? (error as Error).message : 'Unknown error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

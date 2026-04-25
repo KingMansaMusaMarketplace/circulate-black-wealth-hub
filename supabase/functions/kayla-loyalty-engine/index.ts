@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(supabaseUrl, supabaseKey) as any;
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
@@ -123,7 +123,7 @@ Deno.serve(async (req) => {
         ends_at,
       }).select().single();
 
-      if (error) return json({ error: error.message }, 500);
+      if (error) return json({ error: (error as Error).message }, 500);
       return json({ success: true, rule: data });
     }
 
@@ -136,7 +136,7 @@ Deno.serve(async (req) => {
         .eq("id", rule_id)
         .eq("business_id", business_id);
 
-      if (error) return json({ error: error.message }, 500);
+      if (error) return json({ error: (error as Error).message }, 500);
       return json({ success: true });
     }
 
@@ -168,7 +168,7 @@ Deno.serve(async (req) => {
         status: starts_at && new Date(starts_at) > new Date() ? "scheduled" : "active",
       }).select().single();
 
-      if (error) return json({ error: error.message }, 500);
+      if (error) return json({ error: (error as Error).message }, 500);
 
       // Log to Kayla events
       await supabase.from("kayla_event_queue").insert({
@@ -190,7 +190,7 @@ Deno.serve(async (req) => {
         .eq("id", campaign_id)
         .eq("business_id", business_id);
 
-      if (error) return json({ error: error.message }, 500);
+      if (error) return json({ error: (error as Error).message }, 500);
       return json({ success: true });
     }
 
@@ -395,7 +395,7 @@ Deno.serve(async (req) => {
   } catch (err) {
     console.error("Loyalty engine error:", err);
     return new Response(
-      JSON.stringify({ error: err.message || "Internal error" }),
+      JSON.stringify({ error: (err as Error).message || "Internal error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

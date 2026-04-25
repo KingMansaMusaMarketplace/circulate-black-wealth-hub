@@ -85,7 +85,7 @@ Deno.serve(async (req) => {
     )
   }
 
-  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any
 
   // Check suppression list
   const { data: suppressed } = await supabase
@@ -183,7 +183,7 @@ Deno.serve(async (req) => {
       template_name: templateName,
       recipient_email: effectiveRecipient,
       status: 'failed',
-      error_message: err.message || 'Network error calling Resend',
+      error_message: (err as Error).message || 'Network error calling Resend',
     })
     return new Response(
       JSON.stringify({ error: 'Failed to send email' }),

@@ -63,7 +63,7 @@ serve(async (req) => {
             .eq("id", bookingId);
 
           if (error) {
-            logStep("Error updating booking", { error: error.message });
+            logStep("Error updating booking", { error: (error as Error).message });
             throw error;
           }
 
@@ -186,7 +186,7 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? (error as Error).message : String(error);
     logStep("ERROR", { message: errorMessage });
     return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -24,7 +24,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_URL") as any ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
@@ -105,7 +105,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-sponsor-email function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: (error as Error).message }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

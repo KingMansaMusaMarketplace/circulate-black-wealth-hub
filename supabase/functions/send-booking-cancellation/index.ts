@@ -26,7 +26,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { bookingId, recipientType }: CancellationRequest = await req.json();
     console.log(`Sending ${recipientType} cancellation for booking:`, bookingId);
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     const { data: booking, error: bookingError } = await supabase
       .from('bookings')
@@ -114,7 +114,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-booking-cancellation function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: (error as Error).message }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

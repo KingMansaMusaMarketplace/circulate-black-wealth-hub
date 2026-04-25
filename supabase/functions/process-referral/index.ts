@@ -36,7 +36,7 @@ async function logError(supabase: any, error: any, operation: string, details: a
     await supabase
       .from('error_logs')
       .insert({
-        error_message: error.message,
+        error_message: (error as Error).message,
         error_code: error.code,
         operation,
         details: JSON.stringify(details),

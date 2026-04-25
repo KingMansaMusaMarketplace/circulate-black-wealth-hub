@@ -41,7 +41,7 @@ serve(async (req) => {
 
   try {
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_URL") as any ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
@@ -196,7 +196,7 @@ serve(async (req) => {
     );
   } catch (error) {
     console.error("Error processing QR transaction:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+    const errorMessage = error instanceof Error ? (error as Error).message : "Unknown error occurred";
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }

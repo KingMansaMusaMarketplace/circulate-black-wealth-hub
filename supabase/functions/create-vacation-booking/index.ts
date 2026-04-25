@@ -24,7 +24,7 @@ serve(async (req) => {
 
   try {
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_URL") as any ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
@@ -352,7 +352,7 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+    const errorMessage = error instanceof Error ? (error as Error).message : "Unknown error occurred";
     logStep("ERROR", { message: errorMessage });
     return new Response(
       JSON.stringify({

@@ -22,7 +22,7 @@ serve(async (req) => {
 
     // Use service role for DB operations
     const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_URL') as any ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
@@ -201,7 +201,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error:', error);
     return new Response(
-      JSON.stringify({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ success: false, error: error instanceof Error ? (error as Error).message : 'Unknown error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

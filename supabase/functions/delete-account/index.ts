@@ -106,7 +106,7 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? (error as Error).message : 'Unknown error';
     logStep("ERROR", { message: errorMessage });
     
     return new Response(

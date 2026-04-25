@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-    const userId = claimsData.claims.sub as string;
+    const userId = claimsData.user.id as string;
 
     // Apply rate limiting
     const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
@@ -94,7 +94,7 @@ Deno.serve(async (req) => {
 
     // Get Supabase service client for data queries
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // --- Authorization: verify the user owns this business ---
     const { data: businessOwner, error: ownerError } = await supabase

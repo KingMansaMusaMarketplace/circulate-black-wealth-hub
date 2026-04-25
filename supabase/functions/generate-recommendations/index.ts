@@ -66,8 +66,8 @@ Deno.serve(async (req) => {
       global: { headers: { Authorization: authHeader } }
     });
     const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims?.sub) {
+    const { data: claimsData, error: claimsError } = await authClient.auth.getUser(token);
+    if (claimsError || !claimsData?.user?.id) {
       return new Response(
         JSON.stringify({ error: 'Invalid or expired authentication token' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -75,7 +75,7 @@ Deno.serve(async (req) => {
     }
 
     // Use authenticated user's ID instead of trusting body input
-    const userId = claimsData.claims.sub as string;
+    const userId = claimsData.user.id as string;
     console.log(`Generate recommendations: Authenticated user ${userId}`);
     
     const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
@@ -248,7 +248,7 @@ Generate personalized recommendations with:
   } catch (error) {
     console.error('Error in generate-recommendations function:', error);
     return new Response(JSON.stringify({ 
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      error: error instanceof Error ? (error as Error).message : 'Unknown error occurred',
       recommendations: [],
       summary: "Unable to generate recommendations at this time",
       confidence: 0

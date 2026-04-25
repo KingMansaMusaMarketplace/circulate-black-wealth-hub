@@ -55,7 +55,7 @@ interface LearningContext {
 }
 
 async function getLearningContext(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   serviceType: string
 ): Promise<LearningContext> {
   const ctx: LearningContext = { avoidPatterns: [], confidenceThreshold: 0.5 };
@@ -100,7 +100,7 @@ function applyLearningToPrompt(basePrompt: string, ctx: LearningContext): string
   return adds.length ? `${basePrompt}\n\n--- ADAPTIVE CONTEXT ---\n${adds.join("\n")}` : basePrompt;
 }
 
-async function updateLearningSignals(supabase: ReturnType<typeof createClient>, serviceType: string) {
+async function updateLearningSignals(supabase: any, serviceType: string) {
   try {
     const { data: feedback } = await supabase
       .from("kayla_outcome_feedback")
@@ -181,7 +181,7 @@ async function updateLearningSignals(supabase: ReturnType<typeof createClient>, 
 // ══════════════════════════════════════════
 // SERVICE 1: Smart Review Responder
 // ══════════════════════════════════════════
-async function runReviewResponder(supabase: ReturnType<typeof createClient>) {
+async function runReviewResponder(supabase: any) {
   const results: string[] = [];
 
   // Find reviews without a draft response
@@ -251,7 +251,7 @@ Never be defensive. Sound human, not corporate. Sign off with the business name.
 // ══════════════════════════════════════════
 // SERVICE 2: Onboarding Concierge
 // ══════════════════════════════════════════
-async function runOnboardingConcierge(supabase: ReturnType<typeof createClient>) {
+async function runOnboardingConcierge(supabase: any) {
   const results: string[] = [];
 
   // Find businesses created in last 7 days that are incomplete
@@ -327,7 +327,7 @@ async function runOnboardingConcierge(supabase: ReturnType<typeof createClient>)
 // ══════════════════════════════════════════
 // SERVICE 3: Churn Predictor
 // ══════════════════════════════════════════
-async function runChurnPredictor(supabase: ReturnType<typeof createClient>) {
+async function runChurnPredictor(supabase: any) {
   const results: string[] = [];
 
   // Find business owners who haven't logged in or had activity in 30+ days
@@ -374,7 +374,7 @@ async function runChurnPredictor(supabase: ReturnType<typeof createClient>) {
 // ══════════════════════════════════════════
 // SERVICE 4: AI Business Matchmaker
 // ══════════════════════════════════════════
-async function runBusinessMatchmaker(supabase: ReturnType<typeof createClient>) {
+async function runBusinessMatchmaker(supabase: any) {
   const results: string[] = [];
 
   // Get open needs
@@ -471,7 +471,7 @@ async function runBusinessMatchmaker(supabase: ReturnType<typeof createClient>) 
 // ══════════════════════════════════════════
 // SERVICE 5: Content Generator
 // ══════════════════════════════════════════
-async function runContentGenerator(supabase: ReturnType<typeof createClient>) {
+async function runContentGenerator(supabase: any) {
   const results: string[] = [];
 
   // Generate content for businesses that haven't had content in 7 days
@@ -542,7 +542,7 @@ async function runContentGenerator(supabase: ReturnType<typeof createClient>) {
 // ══════════════════════════════════════════
 // SERVICE 6: Listing Quality Scorer
 // ══════════════════════════════════════════
-async function runQualityScorer(supabase: ReturnType<typeof createClient>) {
+async function runQualityScorer(supabase: any) {
   const results: string[] = [];
 
   const { data: businesses, error: bizError } = await supabase
@@ -698,7 +698,7 @@ serve(async (req) => {
 
   try {
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_URL") as any!,
       serviceRoleKey,
     );
 
@@ -768,7 +768,7 @@ serve(async (req) => {
   } catch (error) {
     console.error("kayla-services error:", error);
     return new Response(
-      JSON.stringify({ success: false, error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ success: false, error: error instanceof Error ? (error as Error).message : "Unknown error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }

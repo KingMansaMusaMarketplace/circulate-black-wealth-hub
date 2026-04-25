@@ -31,7 +31,7 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     let userId: string | null = null;
 
@@ -43,9 +43,9 @@ serve(async (req) => {
           const authClient = createClient(supabaseUrl, supabaseAnonKey, {
             global: { headers: { Authorization: authHeader } },
           });
-          const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
-          if (!claimsError && claimsData?.claims?.sub) {
-            userId = String(claimsData.claims.sub);
+          const { data: claimsData, error: claimsError } = await authClient.auth.getUser(token);
+          if (!claimsError && claimsData?.user?.id) {
+            userId = String(claimsData.user.id);
           } else {
             console.warn("[realtime-token] Invalid bearer token; continuing as guest");
           }
@@ -785,7 +785,7 @@ When helping admins, provide specific guidance on navigating the dashboard, unde
     });
   } catch (error) {
     console.error("Error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });

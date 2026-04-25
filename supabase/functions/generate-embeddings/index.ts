@@ -77,7 +77,7 @@ Deno.serve(async (req) => {
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Parse request
     const body = await req.json().catch(() => ({}));
@@ -237,7 +237,7 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     console.error("Generate embeddings error:", error);
-    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+    return new Response(JSON.stringify({ error: error instanceof Error ? (error as Error).message : "Unknown error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 });

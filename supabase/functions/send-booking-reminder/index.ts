@@ -20,7 +20,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     console.log("Processing booking reminders...");
     
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Find bookings happening in the next 24 hours
     const now = new Date();
@@ -124,7 +124,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-booking-reminder function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: (error as Error).message }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

@@ -117,7 +117,7 @@ async function hashApiKey(key: string): Promise<string> {
  */
 async function validateRequest(
   req: Request,
-  supabase: ReturnType<typeof createClient>
+  supabase: any
 ): Promise<{ valid: boolean; developer?: any; error?: string; statusCode?: number }> {
   const authHeader = req.headers.get("authorization");
   const apiKeyHeader = req.headers.get("x-api-key");
@@ -174,7 +174,7 @@ async function validateRequest(
  * Log API usage
  */
 async function logUsage(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   developer: any,
   endpoint: string,
   method: string,
@@ -286,7 +286,7 @@ serve(async (req) => {
   }
 
   const startTime = Date.now();
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
   const url = new URL(req.url);
   const path = url.pathname.replace("/cmal-api", "");
   
@@ -395,7 +395,7 @@ serve(async (req) => {
     );
     
     return new Response(
-      JSON.stringify({ error: error.message || "Internal server error" }),
+      JSON.stringify({ error: (error as Error).message || "Internal server error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

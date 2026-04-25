@@ -80,14 +80,14 @@ Deno.serve(async (req) => {
       global: { headers: { Authorization: authHeader } }
     });
     const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims?.sub) {
+    const { data: claimsData, error: claimsError } = await authClient.auth.getUser(token);
+    if (claimsError || !claimsData?.user?.id) {
       return new Response(
         JSON.stringify({ error: 'Invalid or expired authentication token' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-    console.log(`Generate description: Authenticated user ${claimsData.claims.sub}`);
+    console.log(`Generate description: Authenticated user ${claimsData.user.id}`);
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
@@ -216,7 +216,7 @@ Create a description that will make potential customers excited to visit and sup
     return new Response(
       JSON.stringify({ 
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: error instanceof Error ? (error as Error).message : 'Unknown error occurred',
         details: 'Failed to generate business description'
       }),
       { 

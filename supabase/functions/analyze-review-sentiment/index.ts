@@ -85,7 +85,7 @@ serve(async (req) => {
     const limitedIds = reviewIdsToAnalyze.slice(0, 10);
 
     // Use service role for data operations
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Fetch review(s) to analyze
     const { data: reviews, error: fetchError } = await supabase

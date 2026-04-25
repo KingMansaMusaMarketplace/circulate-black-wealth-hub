@@ -7,7 +7,7 @@ const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const adminEmail = Deno.env.get("ADMIN_EMAIL") || "Thomas@1325.AI";
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -243,7 +243,7 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(
       JSON.stringify({ 
         success: false,
-        error: error.message 
+        error: (error as Error).message 
       }),
       {
         status: 500,

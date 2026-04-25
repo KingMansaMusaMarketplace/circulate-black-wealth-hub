@@ -295,7 +295,7 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    const errorMsg = error instanceof Error ? error.message : String(error);
+    const errorMsg = error instanceof Error ? (error as Error).message : String(error);
     console.error("Stripe checkout error:", errorMsg);
     return new Response(JSON.stringify({ error: errorMsg }), {
       headers: { ...getCorsHeaders(req), "Content-Type": "application/json" },

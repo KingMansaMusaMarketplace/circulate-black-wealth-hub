@@ -155,9 +155,9 @@ serve(async (req) => {
     });
     
     const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
+    const { data: userData, error: claimsError } = await authClient.auth.getUser(token);
     
-    if (claimsError || !claimsData?.claims?.sub) {
+    if (claimsError || !userData?.user?.id) {
       console.warn('B2B Web Search: Invalid authentication token');
       return new Response(
         JSON.stringify({ error: 'Invalid or expired authentication token' }),
@@ -165,7 +165,7 @@ serve(async (req) => {
       );
     }
 
-    const userId = claimsData.claims.sub;
+    const userId = userData.user.id;
     console.log(`B2B Web Search: Authenticated request from user ${userId}`);
 
     const rawInput: WebSearchRequest = await req.json();
@@ -185,7 +185,7 @@ serve(async (req) => {
     console.log(`B2B Web Search: query="${query}", category="${category}", location="${location}"`);
 
     // Create Supabase client for caching
-    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
+    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!) as any;
     const queryHash = hashQuery(query, category, location);
 
     // Check cache first
@@ -377,7 +377,7 @@ PRIORITY: Return 10 businesses with emails rather than 25 without.`
   } catch (error) {
     console.error('Error in b2b-web-search:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: error instanceof Error ? (error as Error).message : 'Unknown error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

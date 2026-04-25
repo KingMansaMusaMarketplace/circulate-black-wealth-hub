@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
       { global: { headers: { Authorization: authHeader } } }
     );
-    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
+    const { data: claimsData, error: claimsError } = await authClient.auth.getUser(token);
     if (claimsError || !claimsData?.claims) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -259,7 +259,7 @@ Please provide comprehensive enhancements for this product image.`;
     console.error('Error in enhance-image function:', error);
     return new Response(JSON.stringify({ 
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      error: error instanceof Error ? (error as Error).message : 'Unknown error occurred',
       enhancement: null
     }), {
       status: 500,

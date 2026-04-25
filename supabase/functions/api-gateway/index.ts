@@ -75,7 +75,7 @@ function extractApiKey(req: Request): string | null {
  * Validate API key and check rate limits
  */
 async function validateAndCheckLimits(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   apiKey: string
 ): Promise<GatewayResponse> {
   const keyHash = await hashApiKey(apiKey);
@@ -146,7 +146,7 @@ async function validateAndCheckLimits(
  * Log API usage for billing
  */
 async function logUsage(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   apiKeyId: string,
   developerId: string,
   endpoint: string,
@@ -183,7 +183,7 @@ function hasScope(developer: ApiKeyValidation, requiredScope: string): boolean {
  * Get monthly usage for a specific endpoint type
  */
 async function getMonthlyUsage(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   developerId: string,
   endpointPrefix: string
 ): Promise<number> {
@@ -211,7 +211,7 @@ serve(async (req) => {
   }
 
   const startTime = Date.now();
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
   
   try {
     // This endpoint is for internal gateway validation only
@@ -325,7 +325,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message || "Internal server error",
+        error: (error as Error).message || "Internal server error",
         errorCode: "INTERNAL_ERROR",
       }),
       { 

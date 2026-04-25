@@ -24,7 +24,7 @@ interface YouTubeVideo {
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
 async function readCache(): Promise<{ videos: YouTubeVideo[]; channelId: string | null; expiresAt: Date; fetchedAt: Date } | null> {
   const { data, error } = await supabase
@@ -173,7 +173,7 @@ Deno.serve(async (req) => {
       throw apiError;
     }
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
+    const message = error instanceof Error ? (error as Error).message : 'Unknown error';
     console.error('youtube-latest-videos error:', message);
     return new Response(JSON.stringify({ error: message, videos: [] }), {
       status: 200,

@@ -76,7 +76,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Initialize Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(supabaseUrl, supabaseKey) as any;
 
     // Map Resend event types to our event types
     const eventTypeMap: Record<string, string> = {

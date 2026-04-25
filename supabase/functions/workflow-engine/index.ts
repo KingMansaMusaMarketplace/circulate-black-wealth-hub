@@ -77,7 +77,7 @@ async function executeAction(
           body: { to: resolvedTo, subject: resolvedSubject, html: resolvedBody },
         });
 
-        if (response.error) throw new Error(response.error.message);
+        if (response.error) throw new Error(response.(error as Error).message);
         return { success: true, output: { email_sent_to: resolvedTo } };
       }
 
@@ -204,7 +204,7 @@ Deno.serve(async (req) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
   try {
     const { trigger_type, trigger_data, business_id } = await req.json();

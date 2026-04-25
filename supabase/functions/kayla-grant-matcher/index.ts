@@ -23,7 +23,7 @@ serve(async (req) => {
 
 
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_URL") as any!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
@@ -152,7 +152,7 @@ Focus on REAL programs for minority/Black-owned businesses, SBA programs, state 
     });
   } catch (error) {
     console.error("Grant matcher error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

@@ -23,7 +23,7 @@ serve(async (req) => {
 
     console.log("Processing webhook event:", event.type);
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     switch (event.type) {
       case "checkout.session.completed": {

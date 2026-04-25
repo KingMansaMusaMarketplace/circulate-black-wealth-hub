@@ -52,8 +52,8 @@ serve(async (req) => {
         verificationResponse = await verifyWithApple(receiptData, true);
       }
     } catch (error) {
-      logStep("Apple verification failed", { error: error.message });
-      throw new Error(`Receipt verification failed: ${error.message}`);
+      logStep("Apple verification failed", { error: (error as Error).message });
+      throw new Error(`Receipt verification failed: ${(error as Error).message}`);
     }
 
     if (verificationResponse.status !== 0) {
@@ -128,8 +128,8 @@ serve(async (req) => {
     });
 
   } catch (error: any) {
-    logStep("ERROR", { message: error.message });
-    return new Response(JSON.stringify({ error: error.message }), {
+    logStep("ERROR", { message: (error as Error).message });
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

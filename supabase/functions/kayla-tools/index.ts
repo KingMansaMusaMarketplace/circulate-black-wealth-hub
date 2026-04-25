@@ -12,7 +12,7 @@ const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 // --- Tool Handlers ---
 
 async function searchBusinesses(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   args: { query: string; category?: string; city?: string; limit?: number }
 ) {
   const limit = Math.min(args.limit || 5, 10);
@@ -35,12 +35,12 @@ async function searchBusinesses(
   }
 
   const { data, error } = await query.order("is_verified", { ascending: false });
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
   return { businesses: data, count: data?.length || 0 };
 }
 
 async function getBusinessDetails(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   args: { business_id: string }
 ) {
   const { data: business, error } = await supabase
@@ -48,7 +48,7 @@ async function getBusinessDetails(
     .select("*")
     .eq("id", args.business_id)
     .single();
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
 
   const { data: reviews } = await supabase
     .from("reviews")
@@ -61,7 +61,7 @@ async function getBusinessDetails(
 }
 
 async function checkLoyaltyPoints(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   userId: string
 ) {
   const { data, error } = await supabase
@@ -69,12 +69,12 @@ async function checkLoyaltyPoints(
     .select("points_balance, total_earned, total_redeemed, tier")
     .eq("user_id", userId)
     .single();
-  if (error && error.code !== "PGRST116") throw new Error(error.message);
+  if (error && error.code !== "PGRST116") throw new Error((error as Error).message);
   return data || { points_balance: 0, total_earned: 0, total_redeemed: 0, tier: "bronze" };
 }
 
 async function getUpcomingBookings(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   userId: string
 ) {
   const { data, error } = await supabase
@@ -85,12 +85,12 @@ async function getUpcomingBookings(
     .in("status", ["confirmed", "pending"])
     .order("booking_date", { ascending: true })
     .limit(5);
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
   return { bookings: data || [], count: data?.length || 0 };
 }
 
 async function getNearbyBusinesses(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   args: { city: string; category?: string; limit?: number }
 ) {
   const limit = Math.min(args.limit || 5, 10);
@@ -105,14 +105,14 @@ async function getNearbyBusinesses(
   }
 
   const { data, error } = await query.order("average_rating", { ascending: false });
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
   return { businesses: data, count: data?.length || 0 };
 }
 
 // --- Business-owner tools ---
 
 async function getChurnAlerts(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   businessId: string
 ) {
   const { data, error } = await supabase
@@ -122,12 +122,12 @@ async function getChurnAlerts(
     .gte("risk_score", 0.6)
     .order("risk_score", { ascending: false })
     .limit(5);
-  if (error && error.code !== "PGRST116") throw new Error(error.message);
+  if (error && error.code !== "PGRST116") throw new Error((error as Error).message);
   return { alerts: data || [], count: data?.length || 0 };
 }
 
 async function getDealPipeline(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   businessId: string
 ) {
   const { data, error } = await supabase
@@ -136,12 +136,12 @@ async function getDealPipeline(
     .or(`buyer_business_id.eq.${businessId},supplier_business_id.eq.${businessId}`)
     .order("match_score", { ascending: false })
     .limit(10);
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
   return { deals: data || [], count: data?.length || 0 };
 }
 
 async function getAgentStats(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   businessId: string
 ) {
   const { data: actions } = await supabase
@@ -167,7 +167,7 @@ async function getAgentStats(
 
 // --- Determine user role ---
 
-async function getUserRole(supabase: ReturnType<typeof createClient>, userId: string) {
+async function getUserRole(supabase: any, userId: string) {
   // Check admin
   const { data: profile } = await supabase
     .from("profiles")
@@ -209,7 +209,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
     const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
       global: { headers: { Authorization: authHeader } },
     });
@@ -272,7 +272,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error("kayla-tools error:", error);
     return new Response(
-      JSON.stringify({ error: error.message || "Internal error" }),
+      JSON.stringify({ error: (error as Error).message || "Internal error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

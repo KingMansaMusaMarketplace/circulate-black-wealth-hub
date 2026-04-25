@@ -153,7 +153,7 @@ serve(async (req) => {
   } catch (error) {
     console.error("Connect Stripe account error:", error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: error instanceof Error ? (error as Error).message : "Unknown error" }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,

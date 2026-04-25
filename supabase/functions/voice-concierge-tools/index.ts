@@ -116,13 +116,13 @@ serve(async (req) => {
       });
       const token = authHeader.replace('Bearer ', '');
       const { data: claimsData, error: claimsError } = await anonClient.auth.getClaims(token);
-      if (!claimsError && claimsData?.claims?.sub) {
-        authenticatedUserId = claimsData.claims.sub as string;
+      if (!claimsError && claimsData?.user?.id) {
+        authenticatedUserId = claimsData.user.id as string;
       }
     }
 
     // Use service role client for data queries (RLS bypass for public business data)
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     console.log(`Voice concierge tool called: ${tool_name}`, args);
 
@@ -316,7 +316,7 @@ serve(async (req) => {
     console.error("Voice concierge tool error:", error);
     return new Response(
       JSON.stringify({ 
-        error: error.message,
+        error: (error as Error).message,
         message: "I encountered an error. Please try again.",
       }),
       {

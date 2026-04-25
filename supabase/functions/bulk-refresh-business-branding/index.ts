@@ -305,7 +305,7 @@ serve(async (req) => {
           id: biz.id,
           name: biz.name,
           status: "error",
-          error: error instanceof Error ? error.message : "Unknown error",
+          error: error instanceof Error ? (error as Error).message : "Unknown error",
         });
       }
     }
@@ -331,7 +331,7 @@ serve(async (req) => {
   } catch (error) {
     console.error("bulk-refresh-business-branding error", error);
     return new Response(
-      JSON.stringify({ success: false, error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ success: false, error: error instanceof Error ? (error as Error).message : "Unknown error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }

@@ -55,7 +55,7 @@ serve(async (req) => {
       );
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Verify the JWT and get user claims
     const token = authHeader.replace("Bearer ", "");
@@ -134,7 +134,7 @@ serve(async (req) => {
     if (error) {
       console.error("Error awarding coalition points:", error);
       return new Response(
-        JSON.stringify({ error: error.message }),
+        JSON.stringify({ error: (error as Error).message }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
