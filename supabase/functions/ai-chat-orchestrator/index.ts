@@ -36,7 +36,7 @@ async function retrieveRAGContext(
     const embedding = await getQueryEmbedding(userMessage, openaiApiKey);
     if (!embedding) return '';
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
     const { data, error } = await supabase.rpc('match_embeddings', {
       query_embedding: `[${embedding.join(',')}]`,
       match_threshold: 0.4,
@@ -586,7 +586,7 @@ Deno.serve(async (req) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     const token = authHeader.replace("Bearer ", "");
     const { data: { user }, error: authError } = await supabase.auth.getUser(token);

@@ -76,7 +76,7 @@ const validateWebhookEvent = (event: Stripe.Event): { valid: boolean; error?: st
     return { valid: true };
   } catch (error) {
     const errorMessage = error instanceof z.ZodError 
-      ? error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')
+      ? error.errors.map(e => `${e.path.join('.')}: ${(e as Error).message}`).join(', ')
       : 'Unknown validation error';
     return { valid: false, error: errorMessage };
   }

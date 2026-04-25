@@ -26,7 +26,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { bookingId, recipientType }: BookingConfirmationRequest = await req.json();
     console.log(`Sending ${recipientType} confirmation for booking:`, bookingId);
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Fetch booking details
     const { data: booking, error: bookingError } = await supabase

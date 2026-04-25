@@ -31,7 +31,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Create Supabase client to get invitation details
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(supabaseUrl, supabaseKey) as any;
 
     // Get the invitation token
     const { data: invitation, error: invError } = await supabase

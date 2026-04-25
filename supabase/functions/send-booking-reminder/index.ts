@@ -20,7 +20,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     console.log("Processing booking reminders...");
     
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Find bookings happening in the next 24 hours
     const now = new Date();

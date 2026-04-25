@@ -855,7 +855,7 @@ serve(async (req) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // === SMART COMBO SELECTION: Track previously searched combos ===
     // Fetch recently searched combos from reports to avoid repetition
@@ -1335,7 +1335,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     try {
       const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
       const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-      const supabase = createClient(supabaseUrl, supabaseServiceKey);
+      const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
       await supabase.from("kayla_agent_reports").insert({
         report_type: "auto_discover",
         status: "error",

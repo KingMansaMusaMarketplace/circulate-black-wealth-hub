@@ -185,7 +185,7 @@ serve(async (req) => {
     console.log(`B2B Web Search: query="${query}", category="${category}", location="${location}"`);
 
     // Create Supabase client for caching
-    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
+    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!) as any;
     const queryHash = hashQuery(query, category, location);
 
     // Check cache first

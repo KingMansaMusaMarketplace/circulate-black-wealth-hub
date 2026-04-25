@@ -26,7 +26,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { bookingId, recipientType }: CancellationRequest = await req.json();
     console.log(`Sending ${recipientType} cancellation for booking:`, bookingId);
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     const { data: booking, error: bookingError } = await supabase
       .from('bookings')

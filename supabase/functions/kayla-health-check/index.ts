@@ -26,7 +26,7 @@ interface RemediationAction {
 // HEALTH CHECKS
 // ══════════════════════════════════════════════
 
-async function checkDatabase(supabase: ReturnType<typeof createClient>): Promise<HealthCheck> {
+async function checkDatabase(supabase: any): Promise<HealthCheck> {
   const start = Date.now();
   try {
     const { count, error } = await supabase
@@ -49,7 +49,7 @@ async function checkDatabase(supabase: ReturnType<typeof createClient>): Promise
   }
 }
 
-async function checkAuth(supabase: ReturnType<typeof createClient>): Promise<HealthCheck> {
+async function checkAuth(supabase: any): Promise<HealthCheck> {
   const start = Date.now();
   try {
     const { count, error } = await supabase
@@ -87,7 +87,7 @@ async function checkEdgeFunctions(): Promise<HealthCheck> {
   }
 }
 
-async function checkCoreServices(supabase: ReturnType<typeof createClient>): Promise<HealthCheck> {
+async function checkCoreServices(supabase: any): Promise<HealthCheck> {
   const start = Date.now();
   try {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -123,7 +123,7 @@ async function checkCoreServices(supabase: ReturnType<typeof createClient>): Pro
 // DATA INTEGRITY CHECKS (new — detects & fixes)
 // ══════════════════════════════════════════════
 
-async function checkAndFixDataIntegrity(supabase: ReturnType<typeof createClient>): Promise<{
+async function checkAndFixDataIntegrity(supabase: any): Promise<{
   check: HealthCheck;
   remediations: RemediationAction[];
 }> {
@@ -490,7 +490,7 @@ async function checkAndFixDataIntegrity(supabase: ReturnType<typeof createClient
 // SIGNUP HEALTH MONITORING
 // ══════════════════════════════════════════════
 
-async function checkSignupHealth(supabase: ReturnType<typeof createClient>): Promise<HealthCheck> {
+async function checkSignupHealth(supabase: any): Promise<HealthCheck> {
   const start = Date.now();
   try {
     // Check for recent signup failures in the last 4 hours
@@ -668,7 +668,7 @@ serve(async (req) => {
 
   try {
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_URL") as any!,
       serviceRoleKey,
     );
 

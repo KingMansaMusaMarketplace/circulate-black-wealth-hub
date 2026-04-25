@@ -12,7 +12,7 @@ const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 // --- Tool Handlers ---
 
 async function searchBusinesses(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   args: { query: string; category?: string; city?: string; limit?: number }
 ) {
   const limit = Math.min(args.limit || 5, 10);
@@ -40,7 +40,7 @@ async function searchBusinesses(
 }
 
 async function getBusinessDetails(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   args: { business_id: string }
 ) {
   const { data: business, error } = await supabase
@@ -61,7 +61,7 @@ async function getBusinessDetails(
 }
 
 async function checkLoyaltyPoints(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   userId: string
 ) {
   const { data, error } = await supabase
@@ -74,7 +74,7 @@ async function checkLoyaltyPoints(
 }
 
 async function getUpcomingBookings(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   userId: string
 ) {
   const { data, error } = await supabase
@@ -90,7 +90,7 @@ async function getUpcomingBookings(
 }
 
 async function getNearbyBusinesses(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   args: { city: string; category?: string; limit?: number }
 ) {
   const limit = Math.min(args.limit || 5, 10);
@@ -112,7 +112,7 @@ async function getNearbyBusinesses(
 // --- Business-owner tools ---
 
 async function getChurnAlerts(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   businessId: string
 ) {
   const { data, error } = await supabase
@@ -127,7 +127,7 @@ async function getChurnAlerts(
 }
 
 async function getDealPipeline(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   businessId: string
 ) {
   const { data, error } = await supabase
@@ -141,7 +141,7 @@ async function getDealPipeline(
 }
 
 async function getAgentStats(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   businessId: string
 ) {
   const { data: actions } = await supabase
@@ -167,7 +167,7 @@ async function getAgentStats(
 
 // --- Determine user role ---
 
-async function getUserRole(supabase: ReturnType<typeof createClient>, userId: string) {
+async function getUserRole(supabase: any, userId: string) {
   // Check admin
   const { data: profile } = await supabase
     .from("profiles")
@@ -209,7 +209,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
     const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
       global: { headers: { Authorization: authHeader } },
     });

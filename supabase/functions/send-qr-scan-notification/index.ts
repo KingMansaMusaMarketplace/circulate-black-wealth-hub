@@ -24,7 +24,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
     const { salesAgentId, scanId, notificationType }: NotificationRequest = await req.json();
 
     console.log('Processing QR notification:', { salesAgentId, scanId, notificationType });

@@ -22,7 +22,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
     const { businessId, month }: CommissionReportRequest = await req.json();
 
     // Calculate date range for the report (default to previous month)

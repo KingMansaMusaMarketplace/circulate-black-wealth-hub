@@ -299,7 +299,7 @@ Return ONLY valid JSON with this exact structure:
       }
 
       const supabase = createClient(
-        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_URL') as any ?? '',
         Deno.env.get('SUPABASE_ANON_KEY') ?? '',
         { global: { headers: { Authorization: authHeader } } }
       );

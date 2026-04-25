@@ -65,7 +65,7 @@ Deno.serve(async (req) => {
     if (!LOVABLE_API_KEY) throw new Error('LOVABLE_API_KEY not configured');
 
     const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_URL') as any!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 

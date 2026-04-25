@@ -204,7 +204,7 @@ Deno.serve(async (req) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
   try {
     const { trigger_type, trigger_data, business_id } = await req.json();

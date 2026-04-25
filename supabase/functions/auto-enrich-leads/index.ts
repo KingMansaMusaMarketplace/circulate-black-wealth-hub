@@ -124,7 +124,7 @@ serve(async (req) => {
       throw new Error('Missing Supabase configuration');
     }
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY) as any;
     const body: EnrichmentRequest = await req.json();
     const { lead_ids, enrich_all_new = false, limit = 50 } = body;
 

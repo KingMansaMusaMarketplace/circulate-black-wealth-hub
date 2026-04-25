@@ -145,7 +145,7 @@ Deno.serve(async (req) => {
     const { lead_ids, validate_all } = await req.json();
 
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Get leads to validate
     let query = supabase

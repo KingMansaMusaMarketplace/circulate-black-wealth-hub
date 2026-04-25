@@ -38,7 +38,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const token = authHeader.replace('Bearer ', '');
     const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims?.sub) {
+    if (claimsError || !claimsData?.user?.id) {
       return new Response(
         JSON.stringify({ error: 'Invalid token' }),
         { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -55,7 +55,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Use service role client only after confirming admin identity
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     const { job_id, csv_data, field_mapping, source_query = 'CSV Import' }: CSVImportRequest = await req.json();
 
@@ -200,7 +200,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Try to update job status on error
     try {
-      const supabase = createClient(supabaseUrl, supabaseServiceKey);
+      const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
       const { job_id } = await req.json().catch(() => ({ job_id: null }));
       if (job_id) {
         await supabase

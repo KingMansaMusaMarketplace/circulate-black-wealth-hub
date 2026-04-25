@@ -31,7 +31,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const resend = new Resend(resendApiKey);
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     const { prospect_id, template_id, subject, body, performed_by }: OutreachEmailRequest = await req.json();
 

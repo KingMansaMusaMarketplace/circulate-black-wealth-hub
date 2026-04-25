@@ -15,7 +15,7 @@ serve(async (req) => {
   const startTime = Date.now();
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
   const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = createClient(supabaseUrl, supabaseKey) as any;
 
   try {
     const body = await req.json().catch(() => ({}));
@@ -89,7 +89,7 @@ serve(async (req) => {
 // SERVICE ROUTER
 // ═══════════════════════════════════════════
 async function routeToService(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   event: { event_type: string; target_service: string; payload: Record<string, unknown>; record_id: string }
 ): Promise<{ success: boolean; message: string }> {
   const { event_type, target_service, payload, record_id } = event;
@@ -118,7 +118,7 @@ async function routeToService(
 // ═══════════════════════════════════════════
 
 async function handleReviewEvent(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   payload: Record<string, unknown>,
   recordId: string
 ): Promise<{ success: boolean; message: string }> {
@@ -167,7 +167,7 @@ async function handleReviewEvent(
 }
 
 async function handleOnboardingEvent(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   payload: Record<string, unknown>,
   recordId: string
 ): Promise<{ success: boolean; message: string }> {
@@ -193,7 +193,7 @@ async function handleOnboardingEvent(
 }
 
 async function handleContentEvent(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   payload: Record<string, unknown>,
   recordId: string
 ): Promise<{ success: boolean; message: string }> {
@@ -219,7 +219,7 @@ async function handleContentEvent(
 }
 
 async function handleScorerEvent(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   payload: Record<string, unknown>,
   recordId: string
 ): Promise<{ success: boolean; message: string }> {
@@ -267,7 +267,7 @@ async function handleScorerEvent(
 }
 
 async function handleMatchmakerEvent(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   payload: Record<string, unknown>,
   recordId: string
 ): Promise<{ success: boolean; message: string }> {
@@ -284,7 +284,7 @@ async function handleMatchmakerEvent(
 }
 
 async function handleChurnEvent(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   payload: Record<string, unknown>,
   recordId: string
 ): Promise<{ success: boolean; message: string }> {
@@ -296,7 +296,7 @@ async function handleChurnEvent(
 // SWEEP MODE: Process pending events in batch
 // ═══════════════════════════════════════════
 async function processPendingEvents(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   startTime: number
 ): Promise<Response> {
   console.log("[Kayla Event] Sweep mode: processing pending events");

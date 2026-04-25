@@ -55,7 +55,7 @@ serve(async (req) => {
       );
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Verify the JWT and get user claims
     const token = authHeader.replace("Bearer ", "");

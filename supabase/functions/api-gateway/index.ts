@@ -211,7 +211,7 @@ serve(async (req) => {
   }
 
   const startTime = Date.now();
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
   
   try {
     // This endpoint is for internal gateway validation only

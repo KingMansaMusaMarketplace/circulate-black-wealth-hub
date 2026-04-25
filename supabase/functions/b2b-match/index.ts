@@ -91,14 +91,14 @@ serve(async (req) => {
       global: { headers: { Authorization: authHeader } }
     });
     const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims?.sub) {
+    const { data: claimsData, error: claimsError } = await authClient.auth.getUser(token);
+    if (claimsError || !claimsData?.user?.id) {
       return new Response(
         JSON.stringify({ error: 'Invalid or expired authentication token' }),
         { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-    console.log(`B2B Match: Authenticated user ${claimsData.claims.sub}`);
+    console.log(`B2B Match: Authenticated user ${claimsData.user.id}`);
 
     // Parse and validate input
     const rawBody = await req.json();
@@ -114,7 +114,7 @@ serve(async (req) => {
     }
 
     const { need_id } = parseResult.data;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // Get the need details
     const { data: need, error: needError } = await supabase

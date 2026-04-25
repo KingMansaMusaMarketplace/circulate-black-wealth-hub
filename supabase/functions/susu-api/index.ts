@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
   
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
   const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = createClient(supabaseUrl, supabaseKey) as any;
 
   // Validate API key
   const validation = await validateApiKey(req, supabase, REQUIRED_SCOPE);

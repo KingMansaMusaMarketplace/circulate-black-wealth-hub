@@ -286,7 +286,7 @@ serve(async (req) => {
   }
 
   const startTime = Date.now();
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
   const url = new URL(req.url);
   const path = url.pathname.replace("/cmal-api", "");
   
