@@ -3,7 +3,7 @@ import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "admin@1325.ai";
+const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "Thomas@1325.AI";
 const APP_URL = Deno.env.get("APP_URL") || "https://1325.ai";
 
 const corsHeaders = {
