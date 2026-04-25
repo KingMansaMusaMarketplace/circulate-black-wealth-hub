@@ -41,6 +41,25 @@ const TIER_DEAL_VALUE: Record<string, number> = {
   platinum: 600000,
 };
 
+// Map form → DB CHECK constraint allowed values
+const COMPANY_SIZE_MAP: Record<string, string> = {
+  "1-50": "small",
+  "51-500": "medium",
+  "501-5000": "large",
+  "5000+": "enterprise",
+};
+
+// DB allows: bronze|silver|gold|platinum|custom
+const TIER_DB_MAP: Record<string, string> = {
+  founding: "custom",
+  bronze: "bronze",
+  silver: "silver",
+  gold: "gold",
+  platinum: "platinum",
+  partner: "custom",
+  recommend: "custom",
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
