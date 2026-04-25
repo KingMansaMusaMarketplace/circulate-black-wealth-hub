@@ -1,92 +1,86 @@
-# Corporate Sponsorship — Forbes-100 Redesign
+# Forbes-100 Sponsor Wall Redesign
 
-**Goal:** Transform `/corporate-sponsorship` from a "startup pitch" feel into a calm, confident, institutional experience that a Fortune-class brand would feel proud to be listed on.
+## What this is about (in plain English)
 
-**Design north star:** Apple-meets-Goldman. Lots of black space. One accent color (MansaGold). Quiet typography. No emoji. No rainbow gradients. No "buy now" energy.
+We already polished the **prospect page** at `/corporate-sponsorship` (the page that convinces companies to join us). But the section on the **homepage** that actually shows off the sponsors we already have — Miguel Wilson Collection, Apparel Redefined, Mansa Kunda, Mansa Musa Marketplace — still looks like a startup brochure: purple-violet gradients, glowy effects, faint grey subtext, "Visit Website" call-outs everywhere.
 
----
+A Forbes 100 / Goldman Sachs-style sponsor wall is the opposite: **quiet, confident, monochrome, almost no motion**. The brand logos do the talking. The page says, in effect, *"these are the institutions that stand with us"* — not *"click here, click here!"*
 
-## 1. Hero — `SponsorshipHeroSection.tsx`
-- Remove multi-color glows (purple/blue blobs). Keep **one** subtle MansaGold radial behind the headline.
-- Reduce motion: kill pulsing particles, keep a single slow-fade ambient layer.
-- New copy hierarchy:
-  - Eyebrow: `CORPORATE PARTNERSHIPS · 1325.AI`
-  - Headline: **"Invest in the infrastructure of Black economic circulation."**
-  - Sub: One sentence — patent-pending, 33-agent AI workforce, verified business network.
-- Two buttons only: **"Request Partnership Brief"** (primary, gold) and **"View Engagement Tiers"** (ghost, white outline).
-- Add a thin trust strip directly under the buttons: *"U.S. Patent Pending 63/969,202 · Verified Corporation · HBCU Partner Network"*.
+## The problem with what's there now
 
-## 2. Recognition Strip (new)
-- Thin section under hero: monochrome row of trust marks (Patent Pending, Verified Corp, HBCU Network, Illinois-registered, etc.).
-- Grayscale, low opacity, no logos we don't actually have. Text-based marks only until real partner logos exist.
+File: `src/components/sponsors/PublicSponsorDisplay.tsx`
 
-## 3. Impact Section — `SponsorshipImpactSection.tsx`
-- Convert flashy stat cards to a **quiet 4-up metric grid** on a black surface:
-  - 33 AI Agents · 8 Revenue Streams · $12,100+/mo Operator Savings · Patent-Pending Tech
-- Single-line captions under each. No gradients on numbers — solid white, MansaGold accent on the unit.
+1. **Color clash** — Heavy violet/purple gradients on the Platinum card fight with our true-black + MansaGold brand.
+2. **Readability** — Subtext is `text-white/40` (40% opacity white) which is barely visible on dark.
+3. **Too many "buy" cues** — Pulsing "Active Partner" dots, animated arrows, hover-scale tiles, gradient buttons. Institutional brands present sponsors *quietly*.
+4. **Inconsistent with the rest of the site** — The prospect page is now black + thin gold hairlines + Playfair serif headlines. This section is gradient + bold sans-serif + glow shadows.
+5. **CTA mismatch** — Big amber gradient "Become a Corporate Sponsor" button looks like an e-commerce add-to-cart, not an enterprise invitation.
 
-## 4. Tiers — `SponsorshipTiersSection.tsx` / `SponsorshipTiers.tsx`
-- Rename to **"Engagement Tiers"** (not "Sponsorship Tiers").
-- Replace "Most Popular" badge on Gold with subtle label: **"Recommended for national brands."**
-- Frame pricing as **"Annual Commitment"** with monthly equivalent in small text below — institutional sponsors think yearly.
-- Remove the monthly/yearly toggle (looks SaaS-y); show annual as primary, monthly as secondary line.
-- Add a 4th column on the right: **"Founding Partner"** — invite-only, "Contact leadership" CTA. Creates aspiration.
-- Card styling: black glass, hairline gold border on the recommended tier only, no shadows-on-shadows.
+## What I'll change
 
-## 5. Engagement Process (new section)
-A 5-step horizontal timeline showing how a partnership actually unfolds:
-1. **Discovery Call** (30 min)
-2. **Partnership Brief** (custom PDF within 5 business days)
-3. **Agreement & Onboarding** (legal, branding assets, dashboard access)
-4. **Activation** (logo placement, listings, co-marketing)
-5. **Quarterly Business Review** (impact report, ROI, renewal)
+### 1. Rename and reframe the section
+- Section eyebrow: **"Corporate Partners"** → **"In Partnership With"** (institutional language).
+- Headline: instead of *"Powering Economic Infrastructure"* with a gradient text effect, use a calm Playfair serif headline:
+  > **The institutions standing with 1325.AI.**
+- Supporting line in readable contrast (`text-white/85`, not `text-white/40`):
+  > "A select group of companies investing in the infrastructure of Black economic circulation."
 
-This single section does more for credibility than any visual flourish.
+### 2. Strip out all violet/purple
+- Remove every `violet-*` and `purple-*` color class.
+- Replace with **MansaGold** accent only (matches the rest of the institutional pass).
+- Background: pure black with one extremely subtle gold radial — not a multi-stop gradient.
 
-## 6. Founder Note (new section)
-A short, signed note from you — black card, gold rule, your signature/name. Three sentences max:
-> "We built 1325.AI because the data was undeniable: a dollar circulates in the Black community for hours, not days. Sponsorship of this platform is not philanthropy — it is infrastructure investment in a $1.8T economy. I'd be honored to discuss how your brand fits in."
-> — *[Your Name], Founder*
+### 3. Redesign the Platinum card (Miguel Wilson Collection)
+- Keep it as the hero, but quiet it down:
+  - Black card, **2px MansaGold border** (not violet glow).
+  - Single thin gold hairline at top and bottom (matches the prospect page).
+  - Logo in a clean white tile, no animated corners.
+  - Eyebrow text: **"FOUNDING PLATINUM PARTNER"** in tracked-out gold caps.
+  - Company name in Playfair serif, bold, white.
+  - One-line descriptor in `text-white/80` (readable).
+  - Replace the gradient pill button with a simple bordered link: `Visit miguelwilson.com →` in gold, no background fill.
+  - Remove the pulsing "Active Partner" dot.
 
-I'll draft, you edit.
+### 4. Redesign the Gold partner grid
+- Same card treatment as the prospect page tiers: **black background, 2px gold/30 border, square corners (rounded-lg, not rounded-2xl)**.
+- Logo tile stays white (logos need a light background to read).
+- Tier label in tracked-out gold caps above the logo.
+- Company name in white, medium weight, no hover color shift.
+- Drop the "Visit Website" link — clicking the card already opens it. (Reduces visual noise — a Forbes-style wall doesn't beg for clicks.)
+- Remove the `hover:-translate-y-1` lift. Institutional pages don't bounce.
 
-## 7. Sponsorship Form — `SponsorshipForm.tsx` + form sections
-Upgrade to enterprise intake. Add fields:
-- **Company size** (1–50 / 51–500 / 501–5000 / 5000+)
-- **Annual marketing budget** (range buckets, not exact)
-- **Primary objective** (Brand visibility / Community impact / Talent pipeline / Data & insights / Other)
-- **Decision timeline** (This quarter / Next quarter / Exploratory)
-- Keep tier selector but add **"Not sure — recommend a tier"** option.
-- Submit button copy: **"Request Partnership Brief"** (not "Submit").
-- Confirmation state: "A partnerships lead will respond within 1 business day."
+### 5. Bottom CTA
+- Remove the giant amber gradient button.
+- Replace with the same restrained pattern used on the prospect page:
+  - Eyebrow: "By invitation and review"
+  - Single outlined button: **"Become a Corporate Partner →"** routing to `/corporate-sponsorship` (not the old `/sponsor-pricing`, so they land on the new institutional page we just built).
 
-## 8. CTA Section — `SponsorshipCTASection.tsx`
-- Strip down to one calm block: gold rule, single sentence, two buttons (Request Brief / Download Media Kit).
-- Remove urgency language ("limited spots", "act now"). Replace with stewardship language ("by invitation and review").
+### 6. Add a "Recognition Strip" footer to this section
+Mirror the trust strip from the prospect page — a single horizontal row of grey tracked-out text:
+> **U.S. Patent Pending 63/969,202 · Verified Corporation · HBCU Partner Network · 33-Agent AI Workforce**
 
-## 9. Page-level — `CorporateSponsorshipPage.tsx`
-- Final section order:
-  1. Hero
-  2. Recognition Strip
-  3. Impact Metrics
-  4. Engagement Tiers (incl. Founding Partner)
-  5. Engagement Process
-  6. Founder Note
-  7. Form (Request Partnership Brief)
-  8. Media Kit
-  9. Final CTA
-- Remove duplicate Patent Pending badge (it's already in the recognition strip and footer of media kit).
+This is the single biggest cue that a viewer is on a "real company" page, not a startup landing page.
 
----
+## Files I'll edit
 
-## Out of scope for this pass
-- Real third-party logos (we'll add when you give the green light + actual partners).
-- Backend/email changes to the sponsorship form (kept as-is unless you want me to wire a notification).
-- PDF media kit content (separate task).
+- `src/components/sponsors/PublicSponsorDisplay.tsx` — full visual rewrite (the only file that needs real surgery).
 
-## Three small confirmations I still need (I'll proceed with sensible defaults if you don't answer)
-1. **Founder name & title** for the signed note — default: *"Bobby Mitchell, Founder & CEO"*. Confirm or correct.
-2. **Recommended tier highlight** — default: **Gold** gets the "Recommended for national brands" label.
-3. **Founding Partner price anchor** — default: shown as **"By invitation"** with no number. (Alternative: $100K+/yr.)
+## Files I'll leave alone
 
-If you just say "go," I'll use the defaults above and ship the redesign.
+- `SponsorLogoGrid.tsx`, `SponsorBanner.tsx`, `SponsorSidebar.tsx` — these are smaller utility displays used in the footer and sidebar; they're already neutral. Touching them risks regressions for not much visual gain. We can do a follow-up pass if you want.
+- The prospect page (`/corporate-sponsorship`) — already done.
+
+## What you'll see after
+
+A homepage section that reads like the "Our Investors" page on a Goldman Sachs or BlackRock site:
+- Pure black canvas
+- One gold accent
+- Big Playfair headline
+- A single quiet hero card for Miguel Wilson
+- A clean 2-up grid for the gold partners
+- A whisper-quiet trust strip at the bottom
+- One restrained CTA pointing to the new institutional partner page
+
+## One thing I want to confirm before building
+
+The current Platinum card describes Miguel Wilson Collection as *"Luxury menswear — Phipps Plaza, Atlanta"*. I'll keep that line as-is unless you want different wording. Reply with a tweak or just say "keep it" and I'll proceed.
