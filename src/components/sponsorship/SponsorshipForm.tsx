@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,24 +7,30 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const sponsorshipFormSchema = z.object({
   companyName: z.string().min(2, 'Company name is required'),
   contactName: z.string().min(2, 'Contact name is required'),
+  title: z.string().optional(),
   email: z.string().email('Valid email is required'),
   phone: z.string().min(10, 'Phone number is required'),
   website: z.string().url().optional().or(z.literal('')),
-  sponsorshipTier: z.enum(['bronze', 'silver', 'gold', 'platinum']),
+  sponsorshipTier: z.enum(['recommend', 'founding', 'bronze', 'silver', 'gold', 'platinum', 'partner']),
   industry: z.string().min(2, 'Industry is required'),
   companySize: z.string().min(1, 'Company size is required'),
+  budget: z.string().min(1, 'Budget range is required'),
+  objective: z.string().min(1, 'Primary objective is required'),
+  timeline: z.string().min(1, 'Decision timeline is required'),
   message: z.string().optional(),
 });
 
 type SponsorshipFormData = z.infer<typeof sponsorshipFormSchema>;
+
+const inputClass =
+  'bg-black border-white/10 text-white placeholder:text-white/30 focus:border-mansagold/50';
 
 const SponsorshipForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,32 +41,23 @@ const SponsorshipForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
-    reset
+    reset,
   } = useForm<SponsorshipFormData>({
-    resolver: zodResolver(sponsorshipFormSchema)
+    resolver: zodResolver(sponsorshipFormSchema),
   });
-
-  const sponsorshipTier = watch('sponsorshipTier');
 
   const onSubmit = async (data: SponsorshipFormData) => {
     setIsSubmitting(true);
-    
     try {
-      // Simulate API call - replace with actual submission
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log('Sponsorship application submitted:', data);
-      
+      await new Promise((r) => setTimeout(r, 1200));
+      console.log('Partnership brief request:', data);
       setIsSubmitted(true);
-      toast.success('Thank you! Your sponsorship application has been submitted successfully.');
+      toast.success('Brief request received. A partnerships lead will respond within 1 business day.');
       reset();
-      
-      // Reset success state after 5 seconds
-      setTimeout(() => setIsSubmitted(false), 5000);
+      setTimeout(() => setIsSubmitted(false), 6000);
     } catch (error) {
-      console.error('Submission error:', error);
-      toast.error('Failed to submit application. Please try again.');
+      console.error(error);
+      toast.error('Submission failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -69,21 +65,24 @@ const SponsorshipForm: React.FC = () => {
 
   if (isSubmitted) {
     return (
-      <section id="sponsorship-form" className="py-16 relative z-10">
+      <section id="sponsorship-form" className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <Card className="max-w-2xl mx-auto text-center bg-slate-900/40 backdrop-blur-xl border-white/10">
-            <CardContent className="pt-8">
-              <CheckCircle className="h-16 w-16 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-white mb-4">Application Submitted!</h3>
-              <p className="text-blue-200 mb-6">
-                Thank you for your interest in partnering with us. Our team will review your application 
-                and contact you within 1-2 business days to discuss the next steps.
+          <Card className="max-w-2xl mx-auto text-center bg-black border-mansagold/30">
+            <CardContent className="pt-12 pb-12">
+              <CheckCircle className="h-12 w-12 text-mansagold mx-auto mb-6" />
+              <h3 className="font-playfair text-3xl font-semibold text-white mb-4">
+                Brief request received.
+              </h3>
+              <p className="text-white/60 mb-8 max-w-md mx-auto leading-relaxed">
+                A partnerships lead will respond within one business day to schedule
+                your discovery call.
               </p>
-              <Button 
+              <Button
                 onClick={() => setIsSubmitted(false)}
-                className="bg-yellow-400 hover:bg-yellow-500 text-slate-900"
+                variant="outline"
+                className="border-white/20 text-white hover:bg-white/5"
               >
-                Submit Another Application
+                Submit another inquiry
               </Button>
             </CardContent>
           </Card>
@@ -93,170 +92,177 @@ const SponsorshipForm: React.FC = () => {
   }
 
   return (
-    <section id="sponsorship-form" className="py-16 relative z-10">
+    <section id="sponsorship-form" className="py-24 relative z-10">
       <div className="container mx-auto px-4">
-        <Card className="max-w-2xl mx-auto bg-slate-900/40 backdrop-blur-xl border-white/10">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-yellow-400">
-              Partnership Application
-            </CardTitle>
-            <CardDescription className="text-blue-200">
-              Ready to make an impact? Fill out the form below and we'll be in touch soon.
-            </CardDescription>
-          </CardHeader>
-          
-          <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="companyName" className="text-blue-200">Company Name *</Label>
-                  <Input
-                    id="companyName"
-                    {...register('companyName')}
-                    placeholder="Your Company Name"
-                    className="bg-slate-800/50 border-white/10 text-white placeholder:text-gray-400"
-                  />
-                  {errors.companyName && (
-                    <p className="text-sm text-red-400 mt-1">{errors.companyName.message}</p>
-                  )}
-                </div>
-                
-                <div>
-                  <Label htmlFor="contactName" className="text-blue-200">Contact Name *</Label>
-                  <Input
-                    id="contactName"
-                    {...register('contactName')}
-                    placeholder="Your Full Name"
-                    className="bg-slate-800/50 border-white/10 text-white placeholder:text-gray-400"
-                  />
-                  {errors.contactName && (
-                    <p className="text-sm text-red-400 mt-1">{errors.contactName.message}</p>
-                  )}
-                </div>
-              </div>
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-[11px] text-mansagold tracking-[0.3em] uppercase mb-4">
+              Partnership Intake
+            </p>
+            <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-white tracking-tight">
+              Request a Partnership Brief.
+            </h2>
+            <p className="text-white/55 mt-4 max-w-xl mx-auto">
+              Submissions are reviewed by our Partnerships team within 2 business days.
+            </p>
+          </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="email" className="text-blue-200">Email Address *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    {...register('email')}
-                    placeholder="contact@company.com"
-                    className="bg-slate-800/50 border-white/10 text-white placeholder:text-gray-400"
-                  />
-                  {errors.email && (
-                    <p className="text-sm text-red-400 mt-1">{errors.email.message}</p>
-                  )}
+          <Card className="bg-black border-white/10">
+            <CardContent className="pt-8">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="companyName" className="text-white/70">Company Name *</Label>
+                    <Input id="companyName" {...register('companyName')} className={inputClass} />
+                    {errors.companyName && <p className="text-xs text-red-400 mt-1">{errors.companyName.message}</p>}
+                  </div>
+                  <div>
+                    <Label htmlFor="contactName" className="text-white/70">Contact Name *</Label>
+                    <Input id="contactName" {...register('contactName')} className={inputClass} />
+                    {errors.contactName && <p className="text-xs text-red-400 mt-1">{errors.contactName.message}</p>}
+                  </div>
                 </div>
-                
-                <div>
-                  <Label htmlFor="phone" className="text-blue-200">Phone Number *</Label>
-                  <Input
-                    id="phone"
-                    {...register('phone')}
-                    placeholder="(555) 123-4567"
-                    className="bg-slate-800/50 border-white/10 text-white placeholder:text-gray-400"
-                  />
-                  {errors.phone && (
-                    <p className="text-sm text-red-400 mt-1">{errors.phone.message}</p>
-                  )}
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="title" className="text-white/70">Title / Role</Label>
+                    <Input id="title" {...register('title')} placeholder="e.g. VP of Brand Partnerships" className={inputClass} />
+                  </div>
+                  <div>
+                    <Label htmlFor="industry" className="text-white/70">Industry *</Label>
+                    <Input id="industry" {...register('industry')} className={inputClass} />
+                    {errors.industry && <p className="text-xs text-red-400 mt-1">{errors.industry.message}</p>}
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <Label htmlFor="website" className="text-blue-200">Company Website</Label>
-                <Input
-                  id="website"
-                  {...register('website')}
-                  placeholder="https://www.company.com"
-                  className="bg-slate-800/50 border-white/10 text-white placeholder:text-gray-400"
-                />
-                {errors.website && (
-                  <p className="text-sm text-red-400 mt-1">{errors.website.message}</p>
-                )}
-              </div>
-
-              <div>
-                <Label htmlFor="sponsorshipTier" className="text-blue-200">Preferred Sponsorship Tier *</Label>
-                <Select onValueChange={(value) => setValue('sponsorshipTier', value as any)}>
-                  <SelectTrigger className="bg-slate-800/50 border-white/10 text-white">
-                    <SelectValue placeholder="Select a sponsorship tier" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-white/10">
-                    <SelectItem value="bronze" className="text-white hover:bg-slate-700">Bronze Partner - $5,000/month</SelectItem>
-                    <SelectItem value="silver" className="text-white hover:bg-slate-700">Silver Partner - $15,000/month</SelectItem>
-                    <SelectItem value="gold" className="text-white hover:bg-slate-700">Gold Partner - $25,000/month</SelectItem>
-                    <SelectItem value="platinum" className="text-white hover:bg-slate-700">Platinum Partner - $50,000/month</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.sponsorshipTier && (
-                  <p className="text-sm text-red-400 mt-1">{errors.sponsorshipTier.message}</p>
-                )}
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="industry" className="text-blue-200">Industry *</Label>
-                  <Input
-                    id="industry"
-                    {...register('industry')}
-                    placeholder="e.g., Technology, Finance, Healthcare"
-                    className="bg-slate-800/50 border-white/10 text-white placeholder:text-gray-400"
-                  />
-                  {errors.industry && (
-                    <p className="text-sm text-red-400 mt-1">{errors.industry.message}</p>
-                  )}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="email" className="text-white/70">Work Email *</Label>
+                    <Input id="email" type="email" {...register('email')} className={inputClass} />
+                    {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
+                  </div>
+                  <div>
+                    <Label htmlFor="phone" className="text-white/70">Direct Phone *</Label>
+                    <Input id="phone" {...register('phone')} className={inputClass} />
+                    {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone.message}</p>}
+                  </div>
                 </div>
-                
+
                 <div>
-                  <Label htmlFor="companySize" className="text-blue-200">Company Size *</Label>
-                  <Select onValueChange={(value) => setValue('companySize', value)}>
-                    <SelectTrigger className="bg-slate-800/50 border-white/10 text-white">
-                      <SelectValue placeholder="Select company size" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-slate-800 border-white/10">
-                      <SelectItem value="startup" className="text-white hover:bg-slate-700">Startup (1-10 employees)</SelectItem>
-                      <SelectItem value="small" className="text-white hover:bg-slate-700">Small (11-50 employees)</SelectItem>
-                      <SelectItem value="medium" className="text-white hover:bg-slate-700">Medium (51-200 employees)</SelectItem>
-                      <SelectItem value="large" className="text-white hover:bg-slate-700">Large (201-1000 employees)</SelectItem>
-                      <SelectItem value="enterprise" className="text-white hover:bg-slate-700">Enterprise (1000+ employees)</SelectItem>
+                  <Label htmlFor="website" className="text-white/70">Company Website</Label>
+                  <Input id="website" {...register('website')} placeholder="https://" className={inputClass} />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-white/70">Company Size *</Label>
+                    <Select onValueChange={(v) => setValue('companySize', v)}>
+                      <SelectTrigger className={inputClass}><SelectValue placeholder="Select size" /></SelectTrigger>
+                      <SelectContent className="bg-black border-white/10">
+                        <SelectItem value="1-50">1 – 50 employees</SelectItem>
+                        <SelectItem value="51-500">51 – 500 employees</SelectItem>
+                        <SelectItem value="501-5000">501 – 5,000 employees</SelectItem>
+                        <SelectItem value="5000+">5,000+ employees</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.companySize && <p className="text-xs text-red-400 mt-1">{errors.companySize.message}</p>}
+                  </div>
+                  <div>
+                    <Label className="text-white/70">Annual Marketing / CSR Budget *</Label>
+                    <Select onValueChange={(v) => setValue('budget', v)}>
+                      <SelectTrigger className={inputClass}><SelectValue placeholder="Select range" /></SelectTrigger>
+                      <SelectContent className="bg-black border-white/10">
+                        <SelectItem value="under-100k">Under $100K</SelectItem>
+                        <SelectItem value="100k-500k">$100K – $500K</SelectItem>
+                        <SelectItem value="500k-2m">$500K – $2M</SelectItem>
+                        <SelectItem value="2m-10m">$2M – $10M</SelectItem>
+                        <SelectItem value="10m+">$10M+</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.budget && <p className="text-xs text-red-400 mt-1">{errors.budget.message}</p>}
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-white/70">Primary Objective *</Label>
+                    <Select onValueChange={(v) => setValue('objective', v)}>
+                      <SelectTrigger className={inputClass}><SelectValue placeholder="Select objective" /></SelectTrigger>
+                      <SelectContent className="bg-black border-white/10">
+                        <SelectItem value="brand">Brand visibility</SelectItem>
+                        <SelectItem value="impact">Community impact</SelectItem>
+                        <SelectItem value="talent">Talent pipeline</SelectItem>
+                        <SelectItem value="data">Data & insights</SelectItem>
+                        <SelectItem value="multi">All of the above</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.objective && <p className="text-xs text-red-400 mt-1">{errors.objective.message}</p>}
+                  </div>
+                  <div>
+                    <Label className="text-white/70">Decision Timeline *</Label>
+                    <Select onValueChange={(v) => setValue('timeline', v)}>
+                      <SelectTrigger className={inputClass}><SelectValue placeholder="Select timeline" /></SelectTrigger>
+                      <SelectContent className="bg-black border-white/10">
+                        <SelectItem value="this-quarter">This quarter</SelectItem>
+                        <SelectItem value="next-quarter">Next quarter</SelectItem>
+                        <SelectItem value="next-year">Next 12 months</SelectItem>
+                        <SelectItem value="exploratory">Exploratory</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.timeline && <p className="text-xs text-red-400 mt-1">{errors.timeline.message}</p>}
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-white/70">Preferred Tier *</Label>
+                  <Select onValueChange={(v) => setValue('sponsorshipTier', v as any)}>
+                    <SelectTrigger className={inputClass}><SelectValue placeholder="Select tier" /></SelectTrigger>
+                    <SelectContent className="bg-black border-white/10">
+                      <SelectItem value="recommend">Not sure — recommend a tier</SelectItem>
+                      <SelectItem value="founding">Founding Sponsor — $21K/yr</SelectItem>
+                      <SelectItem value="bronze">Bronze Partner — $60K/yr</SelectItem>
+                      <SelectItem value="silver">Silver Partner — $180K/yr</SelectItem>
+                      <SelectItem value="gold">Gold Partner — $300K/yr</SelectItem>
+                      <SelectItem value="platinum">Platinum Partner — $600K/yr</SelectItem>
+                      <SelectItem value="partner">Founding Partner — by invitation</SelectItem>
                     </SelectContent>
                   </Select>
-                  {errors.companySize && (
-                    <p className="text-sm text-red-400 mt-1">{errors.companySize.message}</p>
-                  )}
+                  {errors.sponsorshipTier && <p className="text-xs text-red-400 mt-1">{errors.sponsorshipTier.message}</p>}
                 </div>
-              </div>
 
-              <div>
-                <Label htmlFor="message" className="text-blue-200">Additional Message</Label>
-                <Textarea
-                  id="message"
-                  {...register('message')}
-                  placeholder="Tell us about your company's values, community involvement, or specific partnership interests..."
-                  rows={4}
-                  className="bg-slate-800/50 border-white/10 text-white placeholder:text-gray-400"
-                />
-              </div>
+                <div>
+                  <Label htmlFor="message" className="text-white/70">Additional Context</Label>
+                  <Textarea
+                    id="message"
+                    {...register('message')}
+                    placeholder="Tell us about your brand's values, target communities, and what success looks like."
+                    rows={4}
+                    className={inputClass}
+                  />
+                </div>
 
-              <Button 
-                type="submit" 
-                className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-semibold"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Submitting Application...
-                  </>
-                ) : (
-                  'Submit Partnership Application'
-                )}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+                <Button
+                  type="submit"
+                  className="w-full bg-mansagold hover:bg-mansagold/90 text-slate-900 font-semibold py-6 rounded-md"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Submitting…
+                    </>
+                  ) : (
+                    'Request Partnership Brief'
+                  )}
+                </Button>
+
+                <p className="text-center text-xs text-white/40 pt-2">
+                  Submissions are reviewed by our Partnerships team within 2 business days.
+                </p>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </section>
   );
