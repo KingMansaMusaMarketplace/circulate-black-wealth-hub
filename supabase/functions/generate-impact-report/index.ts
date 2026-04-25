@@ -121,15 +121,15 @@ Deno.serve(async (req) => {
     const safeTransactions = transactions || [];
     const safeInteractions = interactions || [];
     
-    const totalSpent = safeTransactions.reduce((sum, t) => sum + parseFloat(t.amount?.toString() || '0'), 0);
-    const uniqueBusinesses = new Set(safeTransactions.map(t => t.business_id).filter(Boolean)).size;
+    const totalSpent = safeTransactions.reduce((sum: number, t: any) => sum + parseFloat(t.amount?.toString() || '0'), 0);
+    const uniqueBusinesses = new Set(safeTransactions.map((t: any) => t.business_id).filter(Boolean)).size;
     const totalVisits = safeInteractions.length;
     const transactionCount = safeTransactions.length;
 
     // Fetch business names for context
     const businessIds = Array.from(new Set([
-      ...safeTransactions.map(t => t.business_id),
-      ...safeInteractions.map(i => i.business_id)
+      ...safeTransactions.map((t: any) => t.business_id),
+      ...safeInteractions.map((i: any) => i.business_id)
     ].filter(Boolean)));
     
     let businessNames: any[] = [];
@@ -147,7 +147,7 @@ Deno.serve(async (req) => {
       .select('amount')
       .gte('created_at', startDate.toISOString());
 
-    const totalCirculation = allTransactions?.reduce((sum, t) => sum + parseFloat(t.amount?.toString() || '0'), 0) || 0;
+    const totalCirculation = allTransactions?.reduce((sum: number, t: any) => sum + parseFloat(t.amount?.toString() || '0'), 0) || 0;
 
     const systemPrompt = `You are an AI storyteller for 1325.AI, a platform dedicated to circulating wealth within the community. Your goal is to create inspiring, personalized impact stories that make users feel proud of their contribution to economic empowerment.
 

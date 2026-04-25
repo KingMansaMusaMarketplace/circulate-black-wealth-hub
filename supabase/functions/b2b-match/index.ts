@@ -149,7 +149,7 @@ serve(async (req) => {
     }
 
     // Score each capability
-    const scoredMatches = (capabilities || []).map((cap) => {
+    const scoredMatches = (capabilities || []).map((cap: any) => {
       let score = 0;
       const reasons: string[] = [];
 
@@ -218,7 +218,7 @@ serve(async (req) => {
     });
 
     // Sort by score
-    scoredMatches.sort((a, b) => b.score - a.score);
+    scoredMatches.sort((a: any, b: any) => b.score - a.score);
 
     // Take top 10 matches
     const topMatches = scoredMatches.slice(0, 10);
