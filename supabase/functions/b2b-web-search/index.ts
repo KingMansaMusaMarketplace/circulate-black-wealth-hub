@@ -165,7 +165,7 @@ serve(async (req) => {
       );
     }
 
-    const userId = claimsData.claims.sub;
+    const userId = userData.user.id;
     console.log(`B2B Web Search: Authenticated request from user ${userId}`);
 
     const rawInput: WebSearchRequest = await req.json();
