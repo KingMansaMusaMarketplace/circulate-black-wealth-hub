@@ -5,7 +5,7 @@ import { Resend } from "https://esm.sh/resend@2.0.0";
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const adminEmail = Deno.env.get("ADMIN_EMAIL") || "contact@1325.ai";
+const adminEmail = Deno.env.get("ADMIN_EMAIL") || "Thomas@1325.AI";
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
