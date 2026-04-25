@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 const sponsorshipFormSchema = z.object({
   companyName: z.string().min(2, 'Company name is required'),
@@ -49,15 +50,21 @@ const SponsorshipForm: React.FC = () => {
   const onSubmit = async (data: SponsorshipFormData) => {
     setIsSubmitting(true);
     try {
-      await new Promise((r) => setTimeout(r, 1200));
-      console.log('Partnership brief request:', data);
+      const { data: result, error } = await supabase.functions.invoke('submit-sponsorship-inquiry', {
+        body: data,
+      });
+
+      if (error) throw error;
+      if (result?.error) throw new Error(result.error);
+
+      console.log('Partnership brief submitted:', result);
       setIsSubmitted(true);
       toast.success('Brief request received. A partnerships lead will respond within 1 business day.');
       reset();
       setTimeout(() => setIsSubmitted(false), 6000);
-    } catch (error) {
-      console.error(error);
-      toast.error('Submission failed. Please try again.');
+    } catch (error: any) {
+      console.error('Submission error:', error);
+      toast.error(error?.message || 'Submission failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
