@@ -99,15 +99,15 @@ serve(async (req) => {
 
     // If not admin, verify user owns the business for these reviews
     if (!isAdmin) {
-      const businessIds = [...new Set(reviews.map(r => r.business_id))];
+      const businessIds = [...new Set(reviews.map((r: any) => r.business_id))];
       const { data: ownedBusinesses } = await supabase
         .from('businesses')
         .select('id')
         .in('id', businessIds)
         .eq('owner_id', user.id);
       
-      const ownedBusinessIds = new Set((ownedBusinesses || []).map(b => b.id));
-      const unauthorizedReviews = reviews.filter(r => !ownedBusinessIds.has(r.business_id));
+      const ownedBusinessIds = new Set((ownedBusinesses || []).map((b: any) => b.id));
+      const unauthorizedReviews = reviews.filter((r: any) => !ownedBusinessIds.has(r.business_id));
       
       if (unauthorizedReviews.length > 0) {
         return new Response(

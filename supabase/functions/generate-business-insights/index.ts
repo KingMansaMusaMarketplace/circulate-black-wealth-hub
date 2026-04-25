@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-    const userId = claimsData.user.id as string;
+    const userId = (claimsData.claims as any).sub as string;
 
     // Apply rate limiting
     const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
@@ -146,15 +146,15 @@ Deno.serve(async (req) => {
       scans: {
         total: qrScans?.length || 0,
         recent: qrScans?.slice(0, 7).length || 0,
-        uniqueCustomers: new Set(qrScans?.map(s => s.customer_id)).size || 0,
-        totalPoints: qrScans?.reduce((sum, s) => sum + (s.points_awarded || 0), 0) || 0,
-        avgPointsPerScan: qrScans?.length ? (qrScans.reduce((sum, s) => sum + (s.points_awarded || 0), 0) / qrScans.length) : 0
+        uniqueCustomers: new Set(qrScans?.map((s: any) => s.customer_id)).size || 0,
+        totalPoints: qrScans?.reduce((sum: number, s: any) => sum + (s.points_awarded || 0), 0) || 0,
+        avgPointsPerScan: qrScans?.length ? (qrScans.reduce((sum: number, s: any) => sum + (s.points_awarded || 0), 0) / qrScans.length) : 0
       },
       qrCodes: {
         total: qrCodes?.length || 0,
-        active: qrCodes?.filter(q => q.is_active).length || 0,
-        discountCodes: qrCodes?.filter(q => q.code_type === 'discount').length || 0,
-        loyaltyCodes: qrCodes?.filter(q => q.code_type === 'loyalty').length || 0
+        active: qrCodes?.filter((q: any) => q.is_active).length || 0,
+        discountCodes: qrCodes?.filter((q: any) => q.code_type === 'discount').length || 0,
+        loyaltyCodes: qrCodes?.filter((q: any) => q.code_type === 'loyalty').length || 0
       },
       reviews: {
         total: reviews?.length || 0,
