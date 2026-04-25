@@ -1,48 +1,92 @@
+# Corporate Sponsorship — Forbes-100 Redesign
 
+**Goal:** Transform `/corporate-sponsorship` from a "startup pitch" feel into a calm, confident, institutional experience that a Fortune-class brand would feel proud to be listed on.
 
-The user uploaded the official 1325.AI logo (gold wireframe brain over "1325.AI" text on deep blue) and wants it added to the end of both videos.
+**Design north star:** Apple-meets-Goldman. Lots of black space. One accent color (MansaGold). Quiet typography. No emoji. No rainbow gradients. No "buy now" energy.
 
-**Current ending (both videos):**
-- 30s cinematic: `ClosingCTA` component — text-only "1325.AI" in Playfair font with gold accent, plus tagline
-- 15s reel: `ClosingCTAVertical` component — same text-based treatment
+---
 
-**My honest take:** Yes, this is a great addition. Right now the closing is pure typography — clean but generic. The actual logo gives the ending **brand authority and memorability**. The wireframe brain is on-message (AI + intelligence + connection), the gold-on-blue matches the existing Mansa palette perfectly, and a real logo at the end is what viewers expect from a polished brand film.
+## 1. Hero — `SponsorshipHeroSection.tsx`
+- Remove multi-color glows (purple/blue blobs). Keep **one** subtle MansaGold radial behind the headline.
+- Reduce motion: kill pulsing particles, keep a single slow-fade ambient layer.
+- New copy hierarchy:
+  - Eyebrow: `CORPORATE PARTNERSHIPS · 1325.AI`
+  - Headline: **"Invest in the infrastructure of Black economic circulation."**
+  - Sub: One sentence — patent-pending, 33-agent AI workforce, verified business network.
+- Two buttons only: **"Request Partnership Brief"** (primary, gold) and **"View Engagement Tiers"** (ghost, white outline).
+- Add a thin trust strip directly under the buttons: *"U.S. Patent Pending 63/969,202 · Verified Corporation · HBCU Partner Network"*.
 
-**Recommended approach:** Don't replace the existing CTA — **layer the logo in as a hero reveal** before the text CTA, then transition to the text. This gives a 2-beat closing: logo hits → text + URL appears.
+## 2. Recognition Strip (new)
+- Thin section under hero: monochrome row of trust marks (Patent Pending, Verified Corp, HBCU Network, Illinois-registered, etc.).
+- Grayscale, low opacity, no logos we don't actually have. Text-based marks only until real partner logos exist.
 
-## Plan
+## 3. Impact Section — `SponsorshipImpactSection.tsx`
+- Convert flashy stat cards to a **quiet 4-up metric grid** on a black surface:
+  - 33 AI Agents · 8 Revenue Streams · $12,100+/mo Operator Savings · Patent-Pending Tech
+- Single-line captions under each. No gradients on numbers — solid white, MansaGold accent on the unit.
 
-### 1. Save logo asset
-- Copy `user-uploads://1325-ai-logo-2.png` → `remotion/public/images/logo-1325ai.png`
+## 4. Tiers — `SponsorshipTiersSection.tsx` / `SponsorshipTiers.tsx`
+- Rename to **"Engagement Tiers"** (not "Sponsorship Tiers").
+- Replace "Most Popular" badge on Gold with subtle label: **"Recommended for national brands."**
+- Frame pricing as **"Annual Commitment"** with monthly equivalent in small text below — institutional sponsors think yearly.
+- Remove the monthly/yearly toggle (looks SaaS-y); show annual as primary, monthly as secondary line.
+- Add a 4th column on the right: **"Founding Partner"** — invite-only, "Contact leadership" CTA. Creates aspiration.
+- Card styling: black glass, hairline gold border on the recommended tier only, no shadows-on-shadows.
 
-### 2. Update `ClosingCTA.tsx` (30s, 16:9)
-- Logo enters with spring scale (0.7 → 1) + fade-in over ~20 frames
-- Subtle glow pulse on the brain area
-- After ~50 frames, logo scales down slightly and shifts up; text CTA ("Visit 1325.ai · Plans from $19/mo · Founders' Lock: $149/mo for life") fades in below
-- Logo stays visible through the whole closing
+## 5. Engagement Process (new section)
+A 5-step horizontal timeline showing how a partnership actually unfolds:
+1. **Discovery Call** (30 min)
+2. **Partnership Brief** (custom PDF within 5 business days)
+3. **Agreement & Onboarding** (legal, branding assets, dashboard access)
+4. **Activation** (logo placement, listings, co-marketing)
+5. **Quarterly Business Review** (impact report, ROI, renewal)
 
-### 3. Update `ClosingCTAVertical.tsx` (15s, 9:16)
-- Same idea, vertical layout: logo top-center, CTA text below
-- Slightly faster pacing (reel needs to hit harder, faster)
+This single section does more for credibility than any visual flourish.
 
-### 4. Re-render both videos
-- New filenames (versioned per memory rule):
-  - `1325AI-cinematic-30s-v2.mp4`
-  - `1325AI-reel-15s-v2.mp4`
-- Use existing render script (`remotion/scripts/render-remotion.mjs`)
+## 6. Founder Note (new section)
+A short, signed note from you — black card, gold rule, your signature/name. Three sentences max:
+> "We built 1325.AI because the data was undeniable: a dollar circulates in the Black community for hours, not days. Sponsorship of this platform is not philanthropy — it is infrastructure investment in a $1.8T economy. I'd be honored to discuss how your brand fits in."
+> — *[Your Name], Founder*
 
-### 5. QA
-- Spot-check final frames with `bunx remotion still` to confirm logo renders crisply at both aspect ratios
-- Verify no text overlap with logo, gold glow doesn't blow out, audio still syncs
+I'll draft, you edit.
 
-### Technical notes
-- Logo is 1024x1024 PNG with solid blue background. Two options:
-  - **A)** Use as-is — its blue blends into the existing `#000814` cinematic bg (close enough, will look intentional)
-  - **B)** Add a soft radial mask/vignette around it so it floats on the cinematic bg without a hard square edge
-- Going with **B** for premium feel — wrap the `<Img>` in a div with `maskImage: radial-gradient` to fade the logo's blue background into the scene
+## 7. Sponsorship Form — `SponsorshipForm.tsx` + form sections
+Upgrade to enterprise intake. Add fields:
+- **Company size** (1–50 / 51–500 / 501–5000 / 5000+)
+- **Annual marketing budget** (range buckets, not exact)
+- **Primary objective** (Brand visibility / Community impact / Talent pipeline / Data & insights / Other)
+- **Decision timeline** (This quarter / Next quarter / Exploratory)
+- Keep tier selector but add **"Not sure — recommend a tier"** option.
+- Submit button copy: **"Request Partnership Brief"** (not "Submit").
+- Confirmation state: "A partnerships lead will respond within 1 business day."
 
-### What you get
-- Two new MP4 files in your downloads (v2 versions, originals preserved)
-- Same VO, same pacing, same scenes — only the closing is upgraded
-- Estimated render time: ~10 min total (both videos)
+## 8. CTA Section — `SponsorshipCTASection.tsx`
+- Strip down to one calm block: gold rule, single sentence, two buttons (Request Brief / Download Media Kit).
+- Remove urgency language ("limited spots", "act now"). Replace with stewardship language ("by invitation and review").
 
+## 9. Page-level — `CorporateSponsorshipPage.tsx`
+- Final section order:
+  1. Hero
+  2. Recognition Strip
+  3. Impact Metrics
+  4. Engagement Tiers (incl. Founding Partner)
+  5. Engagement Process
+  6. Founder Note
+  7. Form (Request Partnership Brief)
+  8. Media Kit
+  9. Final CTA
+- Remove duplicate Patent Pending badge (it's already in the recognition strip and footer of media kit).
+
+---
+
+## Out of scope for this pass
+- Real third-party logos (we'll add when you give the green light + actual partners).
+- Backend/email changes to the sponsorship form (kept as-is unless you want me to wire a notification).
+- PDF media kit content (separate task).
+
+## Three small confirmations I still need (I'll proceed with sensible defaults if you don't answer)
+1. **Founder name & title** for the signed note — default: *"Bobby Mitchell, Founder & CEO"*. Confirm or correct.
+2. **Recommended tier highlight** — default: **Gold** gets the "Recommended for national brands" label.
+3. **Founding Partner price anchor** — default: shown as **"By invitation"** with no number. (Alternative: $100K+/yr.)
+
+If you just say "go," I'll use the defaults above and ship the redesign.
