@@ -197,7 +197,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
                       className={`w-full group rounded-md py-5 font-medium transition-all ${
                         isRecommended
                           ? 'bg-mansagold hover:bg-mansagold/90 text-slate-900'
-                          : 'bg-white/[0.03] hover:bg-white/[0.08] text-white border border-white/15 hover:border-white/30'
+                          : 'bg-white/[0.05] hover:bg-mansagold/15 text-white border border-mansagold/30 hover:border-mansagold/60'
                       }`}
                       onClick={() => onLearnMore(tier.name)}
                     >
