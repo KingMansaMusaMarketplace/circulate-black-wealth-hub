@@ -241,7 +241,7 @@ const handler = async (req: Request): Promise<Response> => {
           businessId: business.id,
           businessName: business.business_name,
           success: false,
-          error: error.message
+          error: (error as Error).message
         });
       }
     }
@@ -261,7 +261,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-commission-report:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: (error as Error).message }),
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" }

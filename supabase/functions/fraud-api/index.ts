@@ -295,6 +295,6 @@ Deno.serve(async (req) => {
       req
     );
 
-    return errorResponse(error.message || "Internal server error", 500);
+    return errorResponse((error as Error).message || "Internal server error", 500);
   }
 });

@@ -63,7 +63,7 @@ serve(async (req) => {
       },
     );
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+    const message = error instanceof Error ? (error as Error).message : String(error);
     console.error("[founders-count] error:", message);
     return new Response(
       JSON.stringify({

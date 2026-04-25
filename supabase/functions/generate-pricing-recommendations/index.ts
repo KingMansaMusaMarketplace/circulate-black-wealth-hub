@@ -229,7 +229,7 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
-    const msg = error instanceof Error ? error.message : String(error);
+    const msg = error instanceof Error ? (error as Error).message : String(error);
     logStep("ERROR", { message: msg });
     return new Response(JSON.stringify({ success: false, error: msg }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

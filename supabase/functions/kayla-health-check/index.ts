@@ -793,7 +793,7 @@ serve(async (req) => {
   } catch (error) {
     console.error("Health check error:", error);
     return new Response(
-      JSON.stringify({ success: false, error: error instanceof Error ? error.message : "Unknown" }),
+      JSON.stringify({ success: false, error: error instanceof Error ? (error as Error).message : "Unknown" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }

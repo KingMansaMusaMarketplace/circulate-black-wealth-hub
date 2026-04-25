@@ -79,7 +79,7 @@ serve(async (req) => {
   } catch (error) {
     console.error("[Kayla Event] Fatal error:", error);
     return jsonResponse(
-      { success: false, error: error instanceof Error ? error.message : "Unknown error" },
+      { success: false, error: error instanceof Error ? (error as Error).message : "Unknown error" },
       500
     );
   }

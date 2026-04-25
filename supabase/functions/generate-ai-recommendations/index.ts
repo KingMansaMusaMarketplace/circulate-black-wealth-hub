@@ -201,7 +201,7 @@ Please recommend 5 businesses that would be perfect for this user. Return JSON f
   } catch (error) {
     console.error('[AI Recommendations] Error:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: error instanceof Error ? (error as Error).message : 'Unknown error' }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

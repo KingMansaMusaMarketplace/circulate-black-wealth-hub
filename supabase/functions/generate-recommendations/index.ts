@@ -248,7 +248,7 @@ Generate personalized recommendations with:
   } catch (error) {
     console.error('Error in generate-recommendations function:', error);
     return new Response(JSON.stringify({ 
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      error: error instanceof Error ? (error as Error).message : 'Unknown error occurred',
       recommendations: [],
       summary: "Unable to generate recommendations at this time",
       confidence: 0

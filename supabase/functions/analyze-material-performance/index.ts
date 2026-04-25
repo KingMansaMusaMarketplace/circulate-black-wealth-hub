@@ -213,7 +213,7 @@ Keep your response concise, actionable, and data-driven. Focus on practical step
     console.error('[MATERIAL PERFORMANCE] Error:', error);
     return new Response(
       JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? (error as Error).message : 'Unknown error',
         details: error instanceof Error ? error.stack : undefined
       }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

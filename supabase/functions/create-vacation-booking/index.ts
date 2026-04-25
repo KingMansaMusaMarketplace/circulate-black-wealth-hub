@@ -352,7 +352,7 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+    const errorMessage = error instanceof Error ? (error as Error).message : "Unknown error occurred";
     logStep("ERROR", { message: errorMessage });
     return new Response(
       JSON.stringify({

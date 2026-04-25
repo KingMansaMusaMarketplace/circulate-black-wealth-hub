@@ -174,7 +174,7 @@ Only return the JSON object, no other text.`
   } catch (error) {
     console.error('Error in parse-business-info:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: error instanceof Error ? (error as Error).message : 'Unknown error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

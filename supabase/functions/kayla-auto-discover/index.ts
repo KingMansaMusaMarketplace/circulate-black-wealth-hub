@@ -1329,7 +1329,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
-    const errMsg = error instanceof Error ? error.message : "Unknown error";
+    const errMsg = error instanceof Error ? (error as Error).message : "Unknown error";
     console.error("[Kayla Auto-Discover] Error:", errMsg);
 
     try {

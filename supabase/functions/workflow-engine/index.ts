@@ -77,7 +77,7 @@ async function executeAction(
           body: { to: resolvedTo, subject: resolvedSubject, html: resolvedBody },
         });
 
-        if (response.error) throw new Error(response.error.message);
+        if (response.error) throw new Error(response.(error as Error).message);
         return { success: true, output: { email_sent_to: resolvedTo } };
       }
 

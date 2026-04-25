@@ -171,7 +171,7 @@ RULES:
     );
   } catch (error) {
     console.error("Answering service error:", error);
-    const msg = error instanceof Error ? error.message : "Unknown error";
+    const msg = error instanceof Error ? (error as Error).message : "Unknown error";
     return new Response(
       `<?xml version="1.0" encoding="UTF-8"?><Response><Message>We're experiencing technical difficulties. Please try again later.</Message></Response>`,
       { headers: { ...corsHeaders, "Content-Type": "text/xml" }, status: 200 }

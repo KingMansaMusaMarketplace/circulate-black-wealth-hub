@@ -316,7 +316,7 @@ serve(async (req) => {
     console.error("Voice concierge tool error:", error);
     return new Response(
       JSON.stringify({ 
-        error: error.message,
+        error: (error as Error).message,
         message: "I encountered an error. Please try again.",
       }),
       {

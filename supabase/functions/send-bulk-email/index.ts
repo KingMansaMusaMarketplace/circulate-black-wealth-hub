@@ -205,7 +205,7 @@ const handler = async (req: Request): Promise<Response> => {
           batch: Math.floor(i / batchSize) + 1,
           count: batch.length,
           success: false,
-          error: error.message
+          error: (error as Error).message
         });
       }
 
@@ -236,7 +236,7 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(
       JSON.stringify({ 
         success: false,
-        error: error.message 
+        error: (error as Error).message 
       }),
       {
         status: 500,

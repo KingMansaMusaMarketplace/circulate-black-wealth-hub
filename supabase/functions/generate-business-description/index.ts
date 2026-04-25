@@ -216,7 +216,7 @@ Create a description that will make potential customers excited to visit and sup
     return new Response(
       JSON.stringify({ 
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: error instanceof Error ? (error as Error).message : 'Unknown error occurred',
         details: 'Failed to generate business description'
       }),
       { 

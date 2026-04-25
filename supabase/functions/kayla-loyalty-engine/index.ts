@@ -123,7 +123,7 @@ Deno.serve(async (req) => {
         ends_at,
       }).select().single();
 
-      if (error) return json({ error: error.message }, 500);
+      if (error) return json({ error: (error as Error).message }, 500);
       return json({ success: true, rule: data });
     }
 
@@ -136,7 +136,7 @@ Deno.serve(async (req) => {
         .eq("id", rule_id)
         .eq("business_id", business_id);
 
-      if (error) return json({ error: error.message }, 500);
+      if (error) return json({ error: (error as Error).message }, 500);
       return json({ success: true });
     }
 
@@ -168,7 +168,7 @@ Deno.serve(async (req) => {
         status: starts_at && new Date(starts_at) > new Date() ? "scheduled" : "active",
       }).select().single();
 
-      if (error) return json({ error: error.message }, 500);
+      if (error) return json({ error: (error as Error).message }, 500);
 
       // Log to Kayla events
       await supabase.from("kayla_event_queue").insert({
@@ -190,7 +190,7 @@ Deno.serve(async (req) => {
         .eq("id", campaign_id)
         .eq("business_id", business_id);
 
-      if (error) return json({ error: error.message }, 500);
+      if (error) return json({ error: (error as Error).message }, 500);
       return json({ success: true });
     }
 

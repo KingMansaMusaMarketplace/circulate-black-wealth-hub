@@ -205,7 +205,7 @@ const handler = async (req: Request): Promise<Response> => {
       if (job_id) {
         await supabase
           .from('business_import_jobs')
-          .update({ status: 'failed', error_details: { error: error.message } })
+          .update({ status: 'failed', error_details: { error: (error as Error).message } })
           .eq('id', job_id);
       }
     } catch (e) {

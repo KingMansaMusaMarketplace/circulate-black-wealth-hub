@@ -259,7 +259,7 @@ Please provide comprehensive enhancements for this product image.`;
     console.error('Error in enhance-image function:', error);
     return new Response(JSON.stringify({ 
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      error: error instanceof Error ? (error as Error).message : 'Unknown error occurred',
       enhancement: null
     }), {
       status: 500,

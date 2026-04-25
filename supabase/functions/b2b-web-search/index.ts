@@ -377,7 +377,7 @@ PRIORITY: Return 10 businesses with emails rather than 25 without.`
   } catch (error) {
     console.error('Error in b2b-web-search:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: error instanceof Error ? (error as Error).message : 'Unknown error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

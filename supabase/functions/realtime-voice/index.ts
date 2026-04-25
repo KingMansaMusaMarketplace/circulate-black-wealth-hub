@@ -182,7 +182,7 @@ When ending conversations, casually mention telling friends about the platform. 
       if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({ 
           type: 'error', 
-          error: error.message 
+          error: (error as Error).message 
         }));
         socket.close();
       }

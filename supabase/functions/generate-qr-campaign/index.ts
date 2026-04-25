@@ -284,7 +284,7 @@ Create an optimized QR code campaign with strategic content and marketing materi
     console.error('Error in generate-qr-campaign function:', error);
     return new Response(JSON.stringify({ 
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      error: error instanceof Error ? (error as Error).message : 'Unknown error occurred',
       campaign: null
     }), {
       status: 500,

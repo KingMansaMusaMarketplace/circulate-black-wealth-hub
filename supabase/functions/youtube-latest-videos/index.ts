@@ -173,7 +173,7 @@ Deno.serve(async (req) => {
       throw apiError;
     }
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
+    const message = error instanceof Error ? (error as Error).message : 'Unknown error';
     console.error('youtube-latest-videos error:', message);
     return new Response(JSON.stringify({ error: message, videos: [] }), {
       status: 200,

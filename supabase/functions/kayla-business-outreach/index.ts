@@ -111,7 +111,7 @@ serve(async (req) => {
     return jsonResponse({ success: true, generated, total_eligible: targetBusinesses.length });
   } catch (error) {
     console.error("[Kayla Outreach] Error:", error);
-    return jsonResponse({ success: false, error: error instanceof Error ? error.message : "Unknown error" }, 500);
+    return jsonResponse({ success: false, error: error instanceof Error ? (error as Error).message : "Unknown error" }, 500);
   }
 });
 

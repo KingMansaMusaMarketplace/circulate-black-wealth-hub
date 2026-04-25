@@ -35,7 +35,7 @@ async function searchBusinesses(
   }
 
   const { data, error } = await query.order("is_verified", { ascending: false });
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
   return { businesses: data, count: data?.length || 0 };
 }
 
@@ -48,7 +48,7 @@ async function getBusinessDetails(
     .select("*")
     .eq("id", args.business_id)
     .single();
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
 
   const { data: reviews } = await supabase
     .from("reviews")
@@ -69,7 +69,7 @@ async function checkLoyaltyPoints(
     .select("points_balance, total_earned, total_redeemed, tier")
     .eq("user_id", userId)
     .single();
-  if (error && error.code !== "PGRST116") throw new Error(error.message);
+  if (error && error.code !== "PGRST116") throw new Error((error as Error).message);
   return data || { points_balance: 0, total_earned: 0, total_redeemed: 0, tier: "bronze" };
 }
 
@@ -85,7 +85,7 @@ async function getUpcomingBookings(
     .in("status", ["confirmed", "pending"])
     .order("booking_date", { ascending: true })
     .limit(5);
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
   return { bookings: data || [], count: data?.length || 0 };
 }
 
@@ -105,7 +105,7 @@ async function getNearbyBusinesses(
   }
 
   const { data, error } = await query.order("average_rating", { ascending: false });
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
   return { businesses: data, count: data?.length || 0 };
 }
 
@@ -122,7 +122,7 @@ async function getChurnAlerts(
     .gte("risk_score", 0.6)
     .order("risk_score", { ascending: false })
     .limit(5);
-  if (error && error.code !== "PGRST116") throw new Error(error.message);
+  if (error && error.code !== "PGRST116") throw new Error((error as Error).message);
   return { alerts: data || [], count: data?.length || 0 };
 }
 
@@ -136,7 +136,7 @@ async function getDealPipeline(
     .or(`buyer_business_id.eq.${businessId},supplier_business_id.eq.${businessId}`)
     .order("match_score", { ascending: false })
     .limit(10);
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as Error).message);
   return { deals: data || [], count: data?.length || 0 };
 }
 
@@ -272,7 +272,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error("kayla-tools error:", error);
     return new Response(
-      JSON.stringify({ error: error.message || "Internal error" }),
+      JSON.stringify({ error: (error as Error).message || "Internal error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

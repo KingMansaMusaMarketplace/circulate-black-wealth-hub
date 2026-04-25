@@ -152,7 +152,7 @@ Focus on REAL programs for minority/Black-owned businesses, SBA programs, state 
     });
   } catch (error) {
     console.error("Grant matcher error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
