@@ -218,13 +218,13 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="bg-black border border-white/10 rounded-2xl p-8 md:p-10">
+          <div className="bg-black border-2 border-mansagold/30 rounded-2xl p-8 md:p-10">
             <p className="text-[11px] text-mansagold tracking-[0.3em] uppercase mb-4 text-center">
               Investment context
             </p>
-            <p className="text-white/70 text-center text-base md:text-lg leading-relaxed">
+            <p className="text-white/90 text-center text-base md:text-lg leading-relaxed">
               Comparable corporate community-impact programs typically range from
-              <span className="text-white font-semibold"> $50K to $200K per month</span> with limited
+              <span className="text-mansagold font-semibold"> $50K to $200K per month</span> with limited
               measurement. Our tiers begin at $1,750 per month — with verified circulation tracking,
               executive reporting, and patent-pending infrastructure built in.
             </p>
