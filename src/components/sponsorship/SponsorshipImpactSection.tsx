@@ -40,7 +40,7 @@ const SponsorshipImpactSection: React.FC = () => {
           <div className="w-16 h-px bg-mansagold/60 mx-auto mt-8" />
         </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-2xl overflow-hidden mb-24 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-mansagold/30 rounded-2xl overflow-hidden mb-24 max-w-6xl mx-auto border border-mansagold/30">
           {metrics.map((m, i) => (
             <motion.div
               key={m.unit}
@@ -56,7 +56,7 @@ const SponsorshipImpactSection: React.FC = () => {
               <p className="text-mansagold text-xs md:text-sm tracking-widest uppercase mb-4">
                 {m.unit}
               </p>
-              <p className="text-white/50 text-xs md:text-sm leading-relaxed">{m.detail}</p>
+              <p className="text-white/85 text-sm leading-relaxed">{m.detail}</p>
             </motion.div>
           ))}
         </div>
