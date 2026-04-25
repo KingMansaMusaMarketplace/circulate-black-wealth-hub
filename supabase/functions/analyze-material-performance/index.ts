@@ -100,8 +100,9 @@ Deno.serve(async (req) => {
         ? (conversions / materialDownloads.length) * 100 
         : 0;
 
-      const tierDistribution = materialDownloads.reduce((acc, d) => {
-        const tier = d.sales_agents?.tier || 'unknown';
+      const tierDistribution = materialDownloads.reduce((acc, d: any) => {
+        const sa = Array.isArray(d.sales_agents) ? d.sales_agents[0] : d.sales_agents;
+        const tier = sa?.tier || 'unknown';
         acc[tier] = (acc[tier] || 0) + 1;
         return acc;
       }, {} as Record<string, number>);

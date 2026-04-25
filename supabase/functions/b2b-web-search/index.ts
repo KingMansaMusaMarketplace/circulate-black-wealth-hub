@@ -155,9 +155,9 @@ serve(async (req) => {
     });
     
     const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
+    const { data: userData, error: claimsError } = await authClient.auth.getUser(token);
     
-    if (claimsError || !claimsData?.claims?.sub) {
+    if (claimsError || !userData?.user?.id) {
       console.warn('B2B Web Search: Invalid authentication token');
       return new Response(
         JSON.stringify({ error: 'Invalid or expired authentication token' }),

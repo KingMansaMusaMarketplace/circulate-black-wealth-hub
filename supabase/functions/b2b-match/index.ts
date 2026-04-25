@@ -251,7 +251,7 @@ serve(async (req) => {
           const aiData = await aiResponse.json();
           const recommendation = aiData.choices?.[0]?.message?.content;
           if (recommendation) {
-            topMatches[0].ai_recommendation = recommendation;
+            (topMatches[0] as any).ai_recommendation = recommendation;
           }
         }
       } catch (aiError) {
