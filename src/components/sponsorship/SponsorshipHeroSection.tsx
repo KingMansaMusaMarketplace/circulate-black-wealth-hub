@@ -88,7 +88,7 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-[11px] md:text-xs text-white/40 tracking-[0.2em] uppercase"
+            className="text-[11px] md:text-xs text-white/70 tracking-[0.2em] uppercase"
           >
             U.S. Patent Pending 63/969,202 · Verified Corporation · HBCU Partner Network
           </motion.div>
