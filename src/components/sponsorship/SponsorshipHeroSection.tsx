@@ -50,7 +50,7 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
           </motion.h1>
 
           <motion.p
-            className="text-lg md:text-xl text-white/70 mb-14 max-w-2xl mx-auto leading-relaxed font-body"
+            className="text-lg md:text-xl text-white/90 mb-14 max-w-2xl mx-auto leading-relaxed font-body"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
