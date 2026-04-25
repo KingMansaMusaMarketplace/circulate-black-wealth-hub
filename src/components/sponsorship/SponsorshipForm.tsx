@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -36,6 +36,7 @@ const inputClass =
 const SponsorshipForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<string | undefined>(undefined);
 
   const {
     register,
@@ -46,6 +47,18 @@ const SponsorshipForm: React.FC = () => {
   } = useForm<SponsorshipFormData>({
     resolver: zodResolver(sponsorshipFormSchema),
   });
+
+  // Listen for tier preselection from the tiers section CTAs
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const tier = (e as CustomEvent<string>).detail;
+      if (!tier) return;
+      setSelectedTier(tier);
+      setValue('sponsorshipTier', tier as any, { shouldValidate: true });
+    };
+    window.addEventListener('sponsorship:preselect-tier', handler as EventListener);
+    return () => window.removeEventListener('sponsorship:preselect-tier', handler as EventListener);
+  }, [setValue]);
 
   const onSubmit = async (data: SponsorshipFormData) => {
     setIsSubmitting(true);
@@ -222,7 +235,13 @@ const SponsorshipForm: React.FC = () => {
 
                 <div>
                   <Label className="text-white/70">Preferred Tier *</Label>
-                  <Select onValueChange={(v) => setValue('sponsorshipTier', v as any)}>
+                  <Select
+                    value={selectedTier}
+                    onValueChange={(v) => {
+                      setSelectedTier(v);
+                      setValue('sponsorshipTier', v as any, { shouldValidate: true });
+                    }}
+                  >
                     <SelectTrigger className={inputClass}><SelectValue placeholder="Select tier" /></SelectTrigger>
                     <SelectContent className="bg-black border-white/10">
                       <SelectItem value="recommend">Not sure — recommend a tier</SelectItem>
