@@ -235,7 +235,13 @@ const SponsorshipForm: React.FC = () => {
 
                 <div>
                   <Label className="text-white/70">Preferred Tier *</Label>
-                  <Select onValueChange={(v) => setValue('sponsorshipTier', v as any)}>
+                  <Select
+                    value={selectedTier}
+                    onValueChange={(v) => {
+                      setSelectedTier(v);
+                      setValue('sponsorshipTier', v as any, { shouldValidate: true });
+                    }}
+                  >
                     <SelectTrigger className={inputClass}><SelectValue placeholder="Select tier" /></SelectTrigger>
                     <SelectContent className="bg-black border-white/10">
                       <SelectItem value="recommend">Not sure — recommend a tier</SelectItem>
