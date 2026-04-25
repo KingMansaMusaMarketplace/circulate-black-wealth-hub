@@ -25,11 +25,11 @@ const FounderNoteSection: React.FC = () => {
 
             <div className="flex items-center gap-4 pt-6 border-t border-white/10">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-mansagold to-amber-700 flex items-center justify-center font-playfair text-slate-900 font-bold text-lg">
-                BM
+                TB
               </div>
               <div>
-                <p className="text-white font-semibold">Bobby Mitchell</p>
-                <p className="text-white/50 text-sm">Founder & CEO, 1325.AI</p>
+                <p className="text-white font-semibold">Thomas D. Bowling</p>
+                <p className="text-white/50 text-sm">Founder, Chairman & Chief Architect, 1325.AI</p>
               </div>
             </div>
           </div>
