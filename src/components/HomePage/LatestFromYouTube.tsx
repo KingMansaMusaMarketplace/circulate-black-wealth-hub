@@ -64,11 +64,17 @@ const LatestFromYouTube: React.FC = () => {
             </h2>
           </div>
           <Button
+            asChild
             variant="outline"
-            onClick={() => window.open(siteConfig.youtube.channelUrl, '_blank', 'noopener,noreferrer')}
             className="border-mansagold/40 text-mansagold hover:bg-mansagold/10"
           >
-            Visit Channel <ArrowRight className="ml-2 h-4 w-4" />
+            <a
+              href={siteConfig.youtube.channelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit Channel <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
           </Button>
         </div>
 
