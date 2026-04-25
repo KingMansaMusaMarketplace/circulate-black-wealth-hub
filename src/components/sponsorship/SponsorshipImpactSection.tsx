@@ -75,7 +75,7 @@ const SponsorshipImpactSection: React.FC = () => {
             </h3>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-px bg-white/10 rounded-2xl overflow-hidden">
+          <div className="grid md:grid-cols-3 gap-px bg-mansagold/30 rounded-2xl overflow-hidden border border-mansagold/30">
             {pillars.map((p, i) => (
               <motion.div
                 key={p.title}
@@ -85,9 +85,9 @@ const SponsorshipImpactSection: React.FC = () => {
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 className="bg-black p-10"
               >
-                <p className="font-playfair text-mansagold/60 text-sm mb-3">0{i + 1}</p>
+                <p className="font-playfair text-mansagold text-sm mb-3">0{i + 1}</p>
                 <h4 className="font-playfair text-xl font-semibold text-white mb-4">{p.title}</h4>
-                <p className="text-white/55 text-sm leading-relaxed">{p.body}</p>
+                <p className="text-white/85 text-sm leading-relaxed">{p.body}</p>
               </motion.div>
             ))}
           </div>
