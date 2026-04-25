@@ -668,7 +668,7 @@ serve(async (req) => {
 
   try {
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") as any!,
+      Deno.env.get("SUPABASE_URL") as any,
       serviceRoleKey,
     );
 
