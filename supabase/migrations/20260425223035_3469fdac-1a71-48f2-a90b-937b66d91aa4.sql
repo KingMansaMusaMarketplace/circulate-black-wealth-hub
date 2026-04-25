@@ -1,0 +1,1 @@
+DELETE FROM sponsor_prospects WHERE id = 'dbf2ecf7-d4fc-4ae8-b7d2-e8fe40bfa936';
