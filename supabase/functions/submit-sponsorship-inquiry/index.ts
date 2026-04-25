@@ -41,6 +41,25 @@ const TIER_DEAL_VALUE: Record<string, number> = {
   platinum: 600000,
 };
 
+// Map form → DB CHECK constraint allowed values
+const COMPANY_SIZE_MAP: Record<string, string> = {
+  "1-50": "small",
+  "51-500": "medium",
+  "501-5000": "large",
+  "5000+": "enterprise",
+};
+
+// DB allows: bronze|silver|gold|platinum|custom
+const TIER_DB_MAP: Record<string, string> = {
+  founding: "custom",
+  bronze: "bronze",
+  silver: "silver",
+  gold: "gold",
+  platinum: "platinum",
+  partner: "custom",
+  recommend: "custom",
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -68,16 +87,16 @@ serve(async (req) => {
       .insert({
         company_name: payload.companyName,
         industry: payload.industry,
-        company_size: payload.companySize,
+        company_size: COMPANY_SIZE_MAP[payload.companySize] ?? "medium",
         website: payload.website || null,
         primary_contact_name: payload.contactName,
         primary_contact_title: payload.title || null,
         primary_contact_email: payload.email,
         primary_contact_phone: payload.phone,
-        source: "corporate_sponsorship_page",
-        source_details: `Tier: ${payload.sponsorshipTier} · Budget: ${payload.budget} · Timeline: ${payload.timeline} · Objective: ${payload.objective}`,
-        pipeline_stage: "new_lead",
-        expected_tier: payload.sponsorshipTier,
+        source: "inbound",
+        source_details: `Corporate sponsorship page · Tier: ${payload.sponsorshipTier} · Budget: ${payload.budget} · Timeline: ${payload.timeline} · Objective: ${payload.objective} · Size: ${payload.companySize}`,
+        pipeline_stage: "research",
+        expected_tier: TIER_DB_MAP[payload.sponsorshipTier] ?? "custom",
         deal_value: TIER_DEAL_VALUE[payload.sponsorshipTier] ?? null,
         notes: payload.message || null,
         priority: payload.timeline === "this-quarter" ? "high" : "medium",
@@ -98,7 +117,7 @@ serve(async (req) => {
       await resend.emails.send({
         from: "Partnerships <partnerships@1325.ai>",
         to: [adminEmail],
-        replyTo: payload.email,
+        reply_to: payload.email,
         subject: `New Partnership Inquiry — ${payload.companyName} (${TIER_LABELS[payload.sponsorshipTier] ?? payload.sponsorshipTier})`,
         html: `
           <div style="font-family: -apple-system, sans-serif; max-width: 640px;">

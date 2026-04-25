@@ -97,7 +97,7 @@ Deno.serve(async (req) => {
     const parseResult = RecommendationsRequestSchema.safeParse(rawBody);
     
     if (!parseResult.success) {
-      const errors = parseResult.error.issues.map(i => i.message).join(', ');
+      const errors = parseResult.error.issues.map((i: any) => i.message).join(', ');
       console.log('Validation error:', errors);
       return new Response(
         JSON.stringify({ error: `Validation error: ${errors}` }),
@@ -142,14 +142,14 @@ Deno.serve(async (req) => {
     }
 
     // Build context for AI
-    const businessList = businesses.map((b, idx) => 
+    const businessList = businesses.map((b: any, idx: number) => 
       `${idx + 1}. ${b.business_name} - ${b.category || 'General'} (${b.city}, ${b.state}) - Rating: ${b.average_rating || 'N/A'}\n   Description: ${b.description || 'No description'}`
     ).join('\n\n');
 
     // Sanitize user-provided values before embedding in prompts
     const safeCity = sanitizeForPrompt(userLocation?.city);
     const safeState = sanitizeForPrompt(userLocation?.state);
-    const safeCategories = userPreferences?.categories?.map(c => sanitizeForPrompt(c)).join(', ') || 'Not specified';
+    const safeCategories = userPreferences?.categories?.map((c: any) => sanitizeForPrompt(c)).join(', ') || 'Not specified';
     const safeBrowsing = browsingHistory?.map((b: any) => sanitizeForPrompt(b.category)).join(', ') || 'No history';
 
     const systemPrompt = `You are an AI recommendation engine for 1325.AI, a platform dedicated to promoting community businesses and circulating wealth within the community.
@@ -240,13 +240,13 @@ ${businessList}`;
       recommendedIds = businesses
         .sort(() => Math.random() - 0.5)
         .slice(0, limit)
-        .map(b => ({ id: b.id, reason: 'Featured business in your area' }));
+        .map((b: any) => ({ id: b.id, reason: 'Featured business in your area' }));
     }
 
     // Get full business details for recommended IDs
     const recommendations = recommendedIds
       .map((rec: any) => {
-        const business = businesses.find(b => b.id === rec.id);
+        const business = businesses.find((b: any) => b.id === rec.id);
         return business ? { ...business, recommendationReason: rec.reason } : null;
       })
       .filter((b: any) => b !== null);

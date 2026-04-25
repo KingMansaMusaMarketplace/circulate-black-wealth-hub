@@ -42,7 +42,7 @@ serve(async (req) => {
     }
 
     // Check cache
-    const reviewHash = reviews.map(r => `${r.rating}:${r.review_text?.substring(0, 20)}`).join("|");
+    const reviewHash = reviews.map((r: any) => `${r.rating}:${r.review_text?.substring(0, 20)}`).join("|");
     const simpleHash = btoa(reviewHash).substring(0, 32);
 
     const { data: cached } = await supabase
@@ -64,8 +64,8 @@ serve(async (req) => {
       .eq("id", business_id)
       .single();
 
-    const reviewsText = reviews.map(r => `Rating: ${r.rating}/5 - "${r.review_text || 'No text'}"`).join("\n");
-    const avgRating = (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1);
+    const reviewsText = reviews.map((r: any) => `Rating: ${r.rating}/5 - "${r.review_text || 'No text'}"`).join("\n");
+    const avgRating = (reviews.reduce((s: any, r: any) => s + r.rating, 0) / reviews.length).toFixed(1);
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

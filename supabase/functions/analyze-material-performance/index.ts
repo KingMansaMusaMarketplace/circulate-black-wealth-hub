@@ -80,14 +80,14 @@ Deno.serve(async (req) => {
     }
 
     // Build performance metrics
-    const materialPerformance = materials?.map(material => {
-      const materialDownloads = downloads?.filter(d => d.material_id === material.id) || [];
-      const uniqueAgents = new Set(materialDownloads.map(d => d.sales_agent_id));
+    const materialPerformance = materials?.map((material: any) => {
+      const materialDownloads = downloads?.filter((d: any) => d.material_id === material.id) || [];
+      const uniqueAgents = new Set(materialDownloads.map((d: any) => d.sales_agent_id));
       
       // Track conversions: referrals made within 30 days after download
-      const conversions = materialDownloads.reduce((count, download) => {
+      const conversions = materialDownloads.reduce((count: any, download: any) => {
         const downloadDate = new Date(download.downloaded_at);
-        const agentReferrals = referrals?.filter(ref => {
+        const agentReferrals = referrals?.filter((ref: any) => {
           const refDate = new Date(ref.referral_date);
           return ref.sales_agent_id === download.sales_agent_id &&
                  refDate >= downloadDate &&
@@ -100,7 +100,7 @@ Deno.serve(async (req) => {
         ? (conversions / materialDownloads.length) * 100 
         : 0;
 
-      const tierDistribution = materialDownloads.reduce((acc, d: any) => {
+      const tierDistribution = materialDownloads.reduce((acc: any, d: any) => {
         const sa = Array.isArray(d.sales_agents) ? d.sales_agents[0] : d.sales_agents;
         const tier = sa?.tier || 'unknown';
         acc[tier] = (acc[tier] || 0) + 1;
@@ -123,12 +123,12 @@ Deno.serve(async (req) => {
 
     // Sort by conversion rate and downloads
     const topPerformers = materialPerformance
-      .sort((a, b) => (b.conversions || 0) - (a.conversions || 0))
+      .sort((a: any, b: any) => (b.conversions || 0) - (a.conversions || 0))
       .slice(0, 10);
 
     const underperformers = materialPerformance
-      .filter(m => m.total_downloads > 5 && m.conversion_rate < 5)
-      .sort((a, b) => a.conversion_rate - b.conversion_rate)
+      .filter((m: any) => m.total_downloads > 5 && m.conversion_rate < 5)
+      .sort((a: any, b: any) => a.conversion_rate - b.conversion_rate)
       .slice(0, 5);
 
     // Call Lovable AI for insights
@@ -136,17 +136,17 @@ Deno.serve(async (req) => {
 
 Performance Summary:
 - Total Materials: ${materialPerformance.length}
-- Total Downloads: ${materialPerformance.reduce((s, m) => s + m.total_downloads, 0)}
-- Average Conversion Rate: ${(materialPerformance.reduce((s, m) => s + m.conversion_rate, 0) / materialPerformance.length).toFixed(2)}%
+- Total Downloads: ${materialPerformance.reduce((s: any, m: any) => s + m.total_downloads, 0)}
+- Average Conversion Rate: ${(materialPerformance.reduce((s: any, m: any) => s + m.conversion_rate, 0) / materialPerformance.length).toFixed(2)}%
 
 Top Performing Materials (by conversions):
-${topPerformers.map(m => `- ${m.title} (${m.category}): ${m.conversions} conversions, ${m.conversion_rate.toFixed(1)}% rate, ${m.total_downloads} downloads`).join('\n')}
+${topPerformers.map((m: any) => `- ${m.title} (${m.category}): ${m.conversions} conversions, ${m.conversion_rate.toFixed(1)}% rate, ${m.total_downloads} downloads`).join('\n')}
 
 Underperforming Materials (high downloads, low conversions):
-${underperformers.map(m => `- ${m.title} (${m.category}): ${m.conversion_rate.toFixed(1)}% rate, ${m.total_downloads} downloads`).join('\n')}
+${underperformers.map((m: any) => `- ${m.title} (${m.category}): ${m.conversion_rate.toFixed(1)}% rate, ${m.total_downloads} downloads`).join('\n')}
 
 Material Category Distribution:
-${Object.entries(materialPerformance.reduce((acc, m) => {
+${Object.entries(materialPerformance.reduce((acc: any, m: any) => {
   acc[m.category] = (acc[m.category] || 0) + m.total_downloads;
   return acc;
 }, {} as Record<string, number>)).map(([category, count]) => `- ${category}: ${count} downloads`).join('\n')}
@@ -198,9 +198,9 @@ Keep your response concise, actionable, and data-driven. Focus on practical step
       JSON.stringify({
         summary: {
           total_materials: materialPerformance.length,
-          total_downloads: materialPerformance.reduce((s, m) => s + m.total_downloads, 0),
-          total_conversions: materialPerformance.reduce((s, m) => s + m.conversions, 0),
-          avg_conversion_rate: (materialPerformance.reduce((s, m) => s + m.conversion_rate, 0) / materialPerformance.length).toFixed(2),
+          total_downloads: materialPerformance.reduce((s: any, m: any) => s + m.total_downloads, 0),
+          total_conversions: materialPerformance.reduce((s: any, m: any) => s + m.conversions, 0),
+          avg_conversion_rate: (materialPerformance.reduce((s: any, m: any) => s + m.conversion_rate, 0) / materialPerformance.length).toFixed(2),
         },
         top_performers: topPerformers,
         underperformers: underperformers,

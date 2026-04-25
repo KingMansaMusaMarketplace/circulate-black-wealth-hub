@@ -66,8 +66,8 @@ serve(async (req) => {
       .order("created_at", { ascending: false })
       .limit(30);
 
-    const reviewsContext = reviews?.filter(r => r.review_text)
-      .map(r => `"${r.review_text}"`)
+    const reviewsContext = reviews?.filter((r: any) => r.review_text)
+      .map((r: any) => `"${r.review_text}"`)
       .join("\n") || "No reviews yet";
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
