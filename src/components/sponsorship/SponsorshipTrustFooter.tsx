@@ -15,12 +15,12 @@ const SponsorshipTrustFooter: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3">
           {items.map((item, i) => (
-            <React.Fragment key={item}>
+            <span key={item} className="flex items-center gap-x-6">
               <span className="text-[11px] md:text-xs text-white/85 tracking-[0.15em] uppercase font-medium">
                 {item}
               </span>
-              {i < items.length - 1 && <span className="text-mansagold">·</span>}
-            </React.Fragment>
+              {i < items.length - 1 && <span className="text-mansagold" aria-hidden="true">·</span>}
+            </span>
           ))}
         </div>
       </div>
