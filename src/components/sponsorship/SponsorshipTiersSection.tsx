@@ -127,7 +127,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           <h2 className="font-playfair text-3xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight">
             Choose your level of commitment.
           </h2>
-          <p className="text-white/55 mt-6 max-w-2xl mx-auto">
+          <p className="text-white/85 mt-6 max-w-2xl mx-auto">
             Annual commitments below. Monthly equivalents shown for budgeting reference.
             Every tier includes verified ROI dashboards.
           </p>
