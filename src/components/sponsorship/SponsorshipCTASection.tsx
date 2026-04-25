@@ -36,7 +36,7 @@ const SponsorshipCTASection: React.FC<SponsorshipCTASectionProps> = ({
                 Begin a conversation.
               </h2>
 
-              <p className="text-white/60 mb-12 max-w-xl mx-auto leading-relaxed">
+              <p className="text-white/85 mb-12 max-w-xl mx-auto leading-relaxed">
                 Our partnerships team will respond within one business day to schedule
                 an introductory call.
               </p>
