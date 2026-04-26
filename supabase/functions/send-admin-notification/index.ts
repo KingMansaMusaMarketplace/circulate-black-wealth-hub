@@ -323,7 +323,7 @@ const handler = async (req: Request): Promise<Response> => {
       console.error('Database logging error:', dbError);
     }
 
-    return new Response(JSON.stringify({ success: true, emailId: emailResponse.id }), {
+    return new Response(JSON.stringify({ success: true, emailId: (emailResponse as any)?.data?.id ?? (emailResponse as any)?.id }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });

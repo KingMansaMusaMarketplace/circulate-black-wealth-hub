@@ -55,7 +55,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Found ${upcomingBookings.length} upcoming bookings`);
 
     const results = await Promise.allSettled(
-      upcomingBookings.map(async (booking) => {
+      upcomingBookings.map(async (booking: any) => {
         const bookingDate = new Date(booking.booking_date);
         const hoursUntil = Math.round((bookingDate.getTime() - now.getTime()) / (1000 * 60 * 60));
         
