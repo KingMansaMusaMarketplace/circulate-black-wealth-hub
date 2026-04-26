@@ -36,7 +36,7 @@ Deno.serve(async (req) => {
     console.log(`Found ${businesses?.length || 0} verified businesses`);
 
     // Get unique categories
-    const categories = [...new Set(businesses?.map(b => b.category).filter(Boolean) || [])];
+    const categories = [...new Set(businesses?.map((b: any) => b.category).filter(Boolean) || [])] as string[];
 
     // Static pages with priorities
     const staticPages = [

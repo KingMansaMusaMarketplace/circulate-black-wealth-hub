@@ -259,17 +259,17 @@ serve(async (req) => {
 
     if (mode !== "audit_only") {
       // ── FIX 1: Normalize empty strings ──
-      const { count: fixedLogos } = await supabase
+      const { count: fixedLogos } = await (supabase as any)
         .from("businesses")
-        .update({ logo_url: null })
+        .update({ logo_url: null }, { count: "exact" })
         .eq("logo_url", "")
-        .select("id", { count: "exact" });
+        .select("id");
 
-      const { count: fixedBanners } = await supabase
+      const { count: fixedBanners } = await (supabase as any)
         .from("businesses")
-        .update({ banner_url: null })
+        .update({ banner_url: null }, { count: "exact" })
         .eq("banner_url", "")
-        .select("id", { count: "exact" });
+        .select("id");
 
       const normalizedCount = (fixedLogos || 0) + (fixedBanners || 0);
       if (normalizedCount > 0) {

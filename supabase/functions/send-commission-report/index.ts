@@ -79,9 +79,9 @@ const handler = async (req: Request): Promise<Response> => {
         }
 
         // Calculate metrics
-        const totalCommission = commissions?.reduce((sum, c) => sum + (c.commission_amount || 0), 0) || 0;
+        const totalCommission = commissions?.reduce((sum: number, c: any) => sum + (c.commission_amount || 0), 0) || 0;
         const totalTransactions = commissions?.length || 0;
-        const totalVolume = commissions?.reduce((sum, c) => sum + (c.transaction_amount || 0), 0) || 0;
+        const totalVolume = commissions?.reduce((sum: number, c: any) => sum + (c.transaction_amount || 0), 0) || 0;
 
         // Get previous month data for comparison
         const prevMonthStart = new Date(startDate);
@@ -96,8 +96,8 @@ const handler = async (req: Request): Promise<Response> => {
           .gte('created_at', prevMonthStart.toISOString())
           .lte('created_at', prevMonthEnd.toISOString());
 
-        const prevTotalCommission = prevCommissions?.reduce((sum, c) => sum + (c.commission_amount || 0), 0) || 0;
-        const prevTotalVolume = prevCommissions?.reduce((sum, c) => sum + (c.transaction_amount || 0), 0) || 0;
+        const prevTotalCommission = prevCommissions?.reduce((sum: number, c: any) => sum + (c.commission_amount || 0), 0) || 0;
+        const prevTotalVolume = prevCommissions?.reduce((sum: number, c: any) => sum + (c.transaction_amount || 0), 0) || 0;
 
         // Calculate trends
         const commissionTrend = prevTotalCommission > 0 

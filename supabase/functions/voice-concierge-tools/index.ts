@@ -116,8 +116,8 @@ serve(async (req) => {
       });
       const token = authHeader.replace('Bearer ', '');
       const { data: claimsData, error: claimsError } = await anonClient.auth.getClaims(token);
-      if (!claimsError && claimsData?.user?.id) {
-        authenticatedUserId = claimsData.user.id as string;
+      if (!claimsError && (claimsData?.claims as any)?.sub) {
+        authenticatedUserId = (claimsData.claims as any).sub as string;
       }
     }
 
@@ -201,9 +201,9 @@ serve(async (req) => {
           .select("day_of_week, start_time, end_time, is_available")
           .eq("business_id", args.business_id);
 
-        const requestedDate = new Date(args.date);
+        const requestedDate = new Date(args.date as string);
         const dayOfWeek = requestedDate.getDay();
-        const dayAvailability = availability?.find(a => a.day_of_week === dayOfWeek);
+        const dayAvailability = availability?.find((a: any) => a.day_of_week === dayOfWeek);
 
         result = {
           available: dayAvailability?.is_available || false,
@@ -229,7 +229,7 @@ serve(async (req) => {
             .order("created_at", { ascending: false })
             .limit(5);
 
-          const visitedIds = interactions?.map(i => i.business_id) || [];
+          const visitedIds = interactions?.map((i: any) => i.business_id) || [];
 
           // Get similar businesses or top-rated
           const { data } = await supabase

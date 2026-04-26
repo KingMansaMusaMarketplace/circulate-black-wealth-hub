@@ -38,7 +38,7 @@ async function sendEmailWithRetry(
     try {
       const response = await resend.emails.send(emailConfig);
       if (response.error) {
-        if (response.error.statusCode === 429) {
+        if ((response.error as any).statusCode === 429) {
           console.log(`Rate limited on attempt ${attempt + 1}, retrying...`);
           await new Promise(resolve => setTimeout(resolve, 500 * Math.pow(2, attempt)));
           lastError = response.error;

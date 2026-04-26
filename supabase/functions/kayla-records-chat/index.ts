@@ -37,7 +37,7 @@ serve(async (req) => {
       .limit(50);
 
     // Build document context
-    const docContext = (documents || []).map((doc) => {
+    const docContext = (documents || []).map((doc: any) => {
       const fields = doc.extracted_fields ? JSON.stringify(doc.extracted_fields) : "none";
       const expiry = doc.expiration_date ? `Expires: ${doc.expiration_date}` : "No expiration";
       return `[${doc.document_type || "unknown"}] ${doc.file_name}\n${expiry}\nExtracted fields: ${fields}\nContent preview: ${(doc.ocr_text || "").substring(0, 500)}`;

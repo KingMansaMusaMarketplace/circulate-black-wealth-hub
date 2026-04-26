@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
       .order('downloaded_at', { ascending: false })
       .limit(50);
 
-    const downloadedMaterialIds = downloads?.map(d => d.material_id) || [];
+    const downloadedMaterialIds = downloads?.map((d: any) => d.material_id) || [];
 
     // Get download patterns of similar agents (same tier and/or region)
     const { data: similarAgentsDownloads } = await supabase
@@ -140,8 +140,8 @@ Deno.serve(async (req) => {
 
     // Score and rank materials
     const scoredMaterials = allMaterials
-      .filter(material => !downloadedMaterialIds.includes(material.id))
-      .map(material => {
+      .filter((material: any) => !downloadedMaterialIds.includes(material.id))
+      .map((material: any) => {
         let score = materialScores.get(material.id) || 0;
         const downloadCount = materialDownloadCounts.get(material.id) || 0;
 
@@ -159,10 +159,10 @@ Deno.serve(async (req) => {
           reason: generateReason(score, downloadCount, agent.tier, material)
         };
       })
-      .sort((a, b) => b.score - a.score)
+      .sort((a: any, b: any) => b.score - a.score)
       .slice(0, 6);
 
-    const recommendations = scoredMaterials.map(({ material, reason }) => ({
+    const recommendations = scoredMaterials.map(({ material, reason }: any) => ({
       id: material.id,
       title: material.title,
       type: material.type,
