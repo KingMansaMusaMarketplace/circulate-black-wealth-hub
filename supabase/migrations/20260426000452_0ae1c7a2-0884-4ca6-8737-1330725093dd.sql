@@ -1,0 +1,1 @@
+UPDATE public.businesses SET phone = '(336) 767-7530' WHERE id = 'a9e49fdd-b0ab-4ecc-b332-08d3e8509223';
