@@ -1101,7 +1101,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       .in("city", candidateCities.map(c => c.charAt(0).toUpperCase() + c.slice(1)));
 
     const existingBizSet = new Set(
-      (existingBusinesses || []).map(b => `${b.name?.toLowerCase()}|${b.city?.toLowerCase()}`)
+      (existingBusinesses || []).map((b: any) => `${b.name?.toLowerCase()}|${b.city?.toLowerCase()}`)
     );
 
     // Batch check b2b_external_leads table
@@ -1111,7 +1111,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       .in("city", candidateCities.map(c => c.charAt(0).toUpperCase() + c.slice(1)));
 
     const existingLeadSet = new Set(
-      (existingLeads || []).map(l => `${l.business_name?.toLowerCase()}|${l.city?.toLowerCase()}`)
+      (existingLeads || []).map((l: any) => `${l.business_name?.toLowerCase()}|${l.city?.toLowerCase()}`)
     );
 
     const dedupedCandidates = viableCandidates.filter(c => {
