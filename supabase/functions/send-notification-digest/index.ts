@@ -92,11 +92,11 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Build digest data
     const digestData: DigestData = {
-      businessVerifications: (verifications || []).map(v => ({
+      businessVerifications: (verifications || []).map((v: any) => ({
         business_name: v.business_name,
         submitted_at: v.created_at,
       })),
-      agentMilestones: (notifications || []).map(n => ({
+      agentMilestones: (notifications || []).map((n: any) => ({
         agent_name: n.user?.full_name || 'Unknown',
         agent_email: n.user?.email || '',
         milestone_type: n.metadata?.milestone_type || '',
@@ -112,7 +112,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Calculate top agents
     const agentStats = new Map<string, { name: string; count: number }>();
-    (notifications || []).forEach(n => {
+    (notifications || []).forEach((n: any) => {
       const name = n.user?.full_name || 'Unknown';
       const current = agentStats.get(name) || { name, count: 0 };
       current.count++;
@@ -124,7 +124,7 @@ const handler = async (req: Request): Promise<Response> => {
       .map(a => ({ name: a.name, milestones: a.count }));
 
     // Send digest to each admin
-    const emailPromises = preferences.map(async (pref) => {
+    const emailPromises = preferences.map(async (pref: any) => {
       const recipients = [pref.notification_email];
       if (pref.send_to_multiple_emails) {
         recipients.push(...pref.send_to_multiple_emails);
