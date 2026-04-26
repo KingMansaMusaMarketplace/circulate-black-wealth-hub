@@ -148,7 +148,7 @@ async function checkAndFixDataIntegrity(supabase: any): Promise<{
       };
 
       // Fix placeholder images
-      const bizWithPlaceholderImages = allBiz.filter(b => isPlaceholder(b.logo_url) || isPlaceholder(b.banner_url));
+      const bizWithPlaceholderImages = allBiz.filter((b: any) => isPlaceholder(b.logo_url) || isPlaceholder(b.banner_url));
       for (const biz of bizWithPlaceholderImages.slice(0, 5)) {
         const updates: Record<string, any> = {};
         if (isPlaceholder(biz.logo_url)) updates.logo_url = null;
@@ -168,7 +168,7 @@ async function checkAndFixDataIntegrity(supabase: any): Promise<{
       }
 
       // 2. Fix businesses with missing descriptions using AI
-      const bizNoDesc = allBiz.filter(b => !b.description || b.description.trim().length < 10);
+      const bizNoDesc = allBiz.filter((b: any) => !b.description || b.description.trim().length < 10);
       if (bizNoDesc.length > 0) {
         const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
         for (const biz of bizNoDesc.slice(0, 3)) {
@@ -272,7 +272,7 @@ async function checkAndFixDataIntegrity(supabase: any): Promise<{
       }
 
       // 5. Check for businesses without an owner (orphaned)
-      const orphanedBiz = allBiz.filter(b => !b.website && !b.description);
+      const orphanedBiz = allBiz.filter((b: any) => !b.website && !b.description);
       if (orphanedBiz.length > 5) {
         issues.push(`${orphanedBiz.length} businesses with no website AND no description`);
         remediations.push({
@@ -321,7 +321,7 @@ async function checkAndFixDataIntegrity(supabase: any): Promise<{
               .order("created_at", { ascending: true });
 
             if (copies && copies.length > 1) {
-              const idsToDelete = copies.slice(1).map(c => c.id);
+              const idsToDelete = copies.slice(1).map((c: any) => c.id);
               const { error } = await supabase
                 .from("businesses")
                 .delete()
@@ -366,7 +366,7 @@ async function checkAndFixDataIntegrity(supabase: any): Promise<{
           const { error } = await supabase
             .from("businesses")
             .update({ logo_url: null, updated_at: new Date().toISOString() })
-            .in("id", badLogos.map(b => b.id));
+            .in("id", badLogos.map((b: any) => b.id));
 
           if (!error) {
             fixedCount++;
