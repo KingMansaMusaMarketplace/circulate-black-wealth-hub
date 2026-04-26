@@ -24,7 +24,7 @@ serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } }
     );
     const { data: claimsData, error: claimsError } = await authClient.auth.getUser(token);
-    if (claimsError || !claimsData?.claims) {
+    if (claimsError || !claimsData?.user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" }
       });

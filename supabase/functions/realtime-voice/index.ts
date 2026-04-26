@@ -20,6 +20,7 @@
  */
 
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+// @ts-ignore - npm specifier resolved at runtime
 import WebSocket from 'npm:ws@8.18.0';
 
 const corsHeaders = {
