@@ -116,7 +116,7 @@ serve(async (req) => {
       });
       const token = authHeader.replace('Bearer ', '');
       const { data: claimsData, error: claimsError } = await anonClient.auth.getClaims(token);
-      if (!claimsError && (claimsData?.claims as any)?.sub) {
+      if (!claimsError && claimsData && (claimsData.claims as any)?.sub) {
         authenticatedUserId = (claimsData.claims as any).sub as string;
       }
     }
