@@ -150,6 +150,7 @@ const LazyInstallPage = lazy(() => import('@/pages/InstallPage'));
 // Growth System pages
 const LazyAdminBusinessImport = lazy(() => import('@/pages/AdminBusinessImport'));
 const LazyAdminSponsorCRM = lazy(() => import('@/pages/AdminSponsorCRM'));
+const LazyAdminOutreachCRM = lazy(() => import('@/pages/AdminOutreachCRM'));
 
 // Investor & Ambassador pages
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
@@ -454,6 +455,7 @@ function App() {
                               <Route path="/admin/verification" element={<RequireAdmin><LazyAdminVerificationPage /></RequireAdmin>} />
                               <Route path="/admin/business-import" element={<RequireAdmin><LazyAdminBusinessImport /></RequireAdmin>} />
                               <Route path="/admin/sponsor-crm" element={<RequireAdmin><LazyAdminSponsorCRM /></RequireAdmin>} />
+                              <Route path="/admin/outreach" element={<RequireAdmin><LazyAdminOutreachCRM /></RequireAdmin>} />
                               <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                               <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                               <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
@@ -752,6 +754,7 @@ function App() {
                         <Route path="/admin/verification" element={<RequireAdmin><LazyAdminVerificationPage /></RequireAdmin>} />
                         <Route path="/admin/business-import" element={<RequireAdmin><LazyAdminBusinessImport /></RequireAdmin>} />
                         <Route path="/admin/sponsor-crm" element={<RequireAdmin><LazyAdminSponsorCRM /></RequireAdmin>} />
+                        <Route path="/admin/outreach" element={<RequireAdmin><LazyAdminOutreachCRM /></RequireAdmin>} />
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                         <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
@@ -1021,6 +1024,7 @@ function App() {
                         <Route path="/admin/verification" element={<RequireAdmin><LazyAdminVerificationPage /></RequireAdmin>} />
                         <Route path="/admin/business-import" element={<RequireAdmin><LazyAdminBusinessImport /></RequireAdmin>} />
                         <Route path="/admin/sponsor-crm" element={<RequireAdmin><LazyAdminSponsorCRM /></RequireAdmin>} />
+                        <Route path="/admin/outreach" element={<RequireAdmin><LazyAdminOutreachCRM /></RequireAdmin>} />
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />

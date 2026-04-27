@@ -12654,6 +12654,120 @@ export type Database = {
           },
         ]
       }
+      outreach_targets: {
+        Row: {
+          assigned_to: string | null
+          contact_method: Database["public"]["Enums"]["outreach_channel"] | null
+          contact_value: string | null
+          created_at: string
+          created_by: string | null
+          directory_name: string
+          id: string
+          linkedin_url: string | null
+          location: string | null
+          next_action: string | null
+          next_action_date: string | null
+          notes: string | null
+          owner_name: string | null
+          owner_title: string | null
+          priority: number
+          status: Database["public"]["Enums"]["outreach_status"]
+          tier: Database["public"]["Enums"]["outreach_tier"]
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          contact_method?:
+            | Database["public"]["Enums"]["outreach_channel"]
+            | null
+          contact_value?: string | null
+          created_at?: string
+          created_by?: string | null
+          directory_name: string
+          id?: string
+          linkedin_url?: string | null
+          location?: string | null
+          next_action?: string | null
+          next_action_date?: string | null
+          notes?: string | null
+          owner_name?: string | null
+          owner_title?: string | null
+          priority?: number
+          status?: Database["public"]["Enums"]["outreach_status"]
+          tier?: Database["public"]["Enums"]["outreach_tier"]
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          contact_method?:
+            | Database["public"]["Enums"]["outreach_channel"]
+            | null
+          contact_value?: string | null
+          created_at?: string
+          created_by?: string | null
+          directory_name?: string
+          id?: string
+          linkedin_url?: string | null
+          location?: string | null
+          next_action?: string | null
+          next_action_date?: string | null
+          notes?: string | null
+          owner_name?: string | null
+          owner_title?: string | null
+          priority?: number
+          status?: Database["public"]["Enums"]["outreach_status"]
+          tier?: Database["public"]["Enums"]["outreach_tier"]
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      outreach_touches: {
+        Row: {
+          body: string | null
+          channel: Database["public"]["Enums"]["outreach_channel"]
+          created_at: string
+          created_by: string | null
+          direction: Database["public"]["Enums"]["outreach_direction"]
+          id: string
+          occurred_at: string
+          subject: string | null
+          target_id: string
+        }
+        Insert: {
+          body?: string | null
+          channel: Database["public"]["Enums"]["outreach_channel"]
+          created_at?: string
+          created_by?: string | null
+          direction?: Database["public"]["Enums"]["outreach_direction"]
+          id?: string
+          occurred_at?: string
+          subject?: string | null
+          target_id: string
+        }
+        Update: {
+          body?: string | null
+          channel?: Database["public"]["Enums"]["outreach_channel"]
+          created_at?: string
+          created_by?: string | null
+          direction?: Database["public"]["Enums"]["outreach_direction"]
+          id?: string
+          occurred_at?: string
+          subject?: string | null
+          target_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outreach_touches_target_id_fkey"
+            columns: ["target_id"]
+            isOneToOne: false
+            referencedRelation: "outreach_targets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       partner_bonus_milestones: {
         Row: {
           bonus_amount: number
@@ -23191,6 +23305,25 @@ export type Database = {
         | "qr_codes"
         | "videos"
         | "documents"
+      outreach_channel:
+        | "email"
+        | "linkedin"
+        | "contact_form"
+        | "phone"
+        | "meeting"
+        | "sms"
+        | "other"
+      outreach_direction: "outbound" | "inbound"
+      outreach_status:
+        | "researched"
+        | "intro_sent"
+        | "replied"
+        | "meeting_booked"
+        | "in_discussion"
+        | "allied"
+        | "declined"
+        | "paused"
+      outreach_tier: "tier_1" | "tier_2" | "tier_3"
       partner_status: "pending" | "active" | "suspended" | "inactive"
       partner_tier: "founding" | "premium" | "standard"
       pricing_rule_type:
@@ -23387,6 +23520,27 @@ export const Constants = {
         "videos",
         "documents",
       ],
+      outreach_channel: [
+        "email",
+        "linkedin",
+        "contact_form",
+        "phone",
+        "meeting",
+        "sms",
+        "other",
+      ],
+      outreach_direction: ["outbound", "inbound"],
+      outreach_status: [
+        "researched",
+        "intro_sent",
+        "replied",
+        "meeting_booked",
+        "in_discussion",
+        "allied",
+        "declined",
+        "paused",
+      ],
+      outreach_tier: ["tier_1", "tier_2", "tier_3"],
       partner_status: ["pending", "active", "suspended", "inactive"],
       partner_tier: ["founding", "premium", "standard"],
       pricing_rule_type: [
