@@ -1,81 +1,70 @@
-# Channing Capital × 1325.AI — Partnership Deck + One-Pager
 
-## What you're getting
+# Plan: Black Directory Alliance Outreach — Kit + Target List
 
-Two branded PDF artifacts for Keith McGregory to forward to Rodney Herenton at Channing Capital Management:
+Two deliverables, in this order. Both land as files in `/mnt/documents/` you can download, edit, and start using the same day. No code changes to the live app — pure prospecting + outreach package.
 
-1. **`1325AI_x_ChanningCapital_Partnership_Deck.pdf`** — 10-slide landscape deck (16:9, ~13.33" × 7.5")
-2. **`1325AI_x_ChanningCapital_OnePager.pdf`** — single-page letter-size summary Keith can paste into the email body or attach as a teaser
-
-Both will live in `/mnt/documents/` and appear inline so you can preview and download.
+**Wording rule (locked):** Use **"Alliance"** in all deck titles, PDF headers, subject lines, and tracking-sheet status labels. Use **"Collaboration"** in body copy where the tone is warm and peer-to-peer. Never use "Partnership" anywhere in any deliverable.
 
 ---
 
-## Branding (matches your existing pitch deck + manual)
+## Part C — Reusable Outreach Kit (built first)
 
-- **Background:** Deep navy `#0A1F3D` with a subtle radial gold glow on cover/closing
-- **Accent:** MansaGold `#FFB300`
-- **Text:** White on navy, with `rgba(255,255,255,0.78)` for body copy
-- **Type:** Helvetica-Bold for headlines, Helvetica for body (matches reportlab default + your manual)
-- **Motif:** Thin gold rule under each section title; gold-circled checkmarks for benefit lists; small 1325.AI wordmark + "Confidential — Prepared for Channing Capital Management" footer on every slide
+A drop-in toolkit you can reuse for every directory owner you approach (Brian, then the next 20).
 
----
+**Files I'll generate:**
 
-## Deck structure (10 slides)
-
-| # | Slide | Tone | Key content |
-|---|---|---|---|
-| 1 | **Cover (personal)** | Warm | "Prepared for Keith McGregory & Rodney B. Herenton" · "A Partnership Conversation" · 1325.AI neural-brain mark · date |
-| 2 | **Why this conversation** | Personal-pro hybrid | Short note: "Keith — at your suggestion, sharing how 1325.AI and Channing might align beyond capital." Frames it as partnership, **not** an investment ask. |
-| 3 | **Two firms, one mission** | Professional | Side-by-side: Channing (est. 2003, ~$3.5B AUM, value equity, Black-led, Chicago) vs. 1325.AI (agentic commerce protocol, $1.6T market, 27 patent claims, Chicago) |
-| 4 | **The intersection** | Professional | Channing serves **capital allocators upstream**; 1325.AI serves **businesses & consumers downstream**. We meet at "Black economic infrastructure." |
-| 5 | **5 ways 1325.AI helps Channing** | Professional | (1) AI ops for portfolio companies (Kayla + 33 agents) · (2) Supplier-diversity intelligence for institutional clients · (3) ESG / community-impact reporting data · (4) Deal-flow signal from our SMB transaction graph · (5) Co-branded thought leadership |
-| 6 | **5 ways Channing helps 1325.AI** | Professional | (1) Institutional credibility & introductions · (2) Pension/endowment LP relationships · (3) Public-equity lens on our roadmap · (4) Board / advisory expertise · (5) Chicago civic network access |
-| 7 | **Joint initiatives we could launch** | Professional | • Annual *State of Black Wealth* report (Channing data + 1325.AI commerce data)<br>• Chicago SMB accelerator co-sponsored with Channing portfolio companies<br>• HBCU finance fellowship pipeline<br>• Joint LP/investor breakfast series |
-| 8 | **What we're explicitly NOT asking** | Hybrid | Bold callout: "This is **not** a capital raise." We're proposing a **strategic partnership** — data, distribution, and credibility exchange. (This is the trust-builder slide.) |
-| 9 | **Suggested 90-day path** | Professional | Day 0–30: 30-min intro call (Keith + Rodney + Thomas) · Day 30–60: NDA + data-sharing pilot on one Channing portfolio co · Day 60–90: Co-author one public artifact (op-ed or report) |
-| 10 | **Closing (personal)** | Warm | Tagline: *"Let's build the future of Black wealth — together."*<br><br>**Thomas D. Bowling** · Founder & CEO, 1325.AI<br>✉ Thomas@1325.AI<br>📍 1000 E. 111th Street, Suite 1100, Chicago, IL 60628<br>🌐 1325.AI |
+1. **`outreach/01_intro_email_template.txt`** — Plain-text, copy-paste safe (no black background). The "Brian email" generalized with `{{FirstName}}`, `{{DirectoryName}}`, `{{IntroducerName}}` merge fields. Subject line uses **"Alliance"**; body uses **"Collaboration"** ("a quiet collaboration between two builders…").
+2. **`outreach/02_followup_email_template.txt`** — 7-day polite nudge, same wording rules.
+3. **`outreach/03_one_pager.pdf`** — 1-page summary titled **"The 1325.AI Alliance"**. Body copy frames it as a collaboration. Brand-aligned: True Black, MansaBlue (#003366), MansaGold (#FFB300). Uses "~4 Roles Covered" and "$12,100+/mo savings" messaging.
+4. **`outreach/04_alliance_deck.pdf`** — 10-slide deck titled **"The 1325.AI Alliance"**. Sections: problem, solution, what they get, what we get, the collaboration model, 90-day path, proof, the ask.
+5. **`outreach/05_tracking_sheet.xlsx`** — Pipeline tracker. Status column values: Researched / Intro Sent / Replied / Call Booked / **Allied** / Pass. Columns: Directory, Owner, Email, Phone, LinkedIn, Source, Status, Last Touch, Next Action, Notes.
 
 ---
 
-## One-pager structure (single letter-size PDF, portrait)
+## Part A — Verified Target Shortlist (built second)
 
-Designed to live in the **email body** as a teaser — Keith forwards email + this one-pager, attaches the full deck.
+A clean XLSX of **15–25 active Black business directories** with **publicly sourced** contact info only. No fabricated personal emails.
 
-- **Header band** (navy + gold rule): "1325.AI × Channing Capital Management — A Partnership Conversation"
-- **Two-column body:**
-  - *Left:* "Why now" (2 short paragraphs) + "What 1325.AI is" (3 bullets: agentic commerce protocol, $1.6T market, 27 patent claims)
-  - *Right:* "5 ways we can help each other" (compressed version of slides 5 + 6, 5 bullets total)
-- **Joint initiative callout box** (gold border): "Proposed first step: a 30-minute intro call between Thomas, Keith, and Rodney."
-- **Explicit non-ask line** in italics: *"This is a partnership conversation, not a capital raise."*
-- **Footer:** Thomas's full contact block (same as slide 10) + "Confidential — Prepared at the request of Keith McGregory"
+**File:** `outreach/06_black_directory_targets.xlsx`
+
+**Columns:**
+- Directory Name
+- Website URL
+- Estimated Size / Reach (where public)
+- Founder / Owner Name
+- Founder LinkedIn URL
+- City / HQ
+- Best Public Contact Method (listed business email, contact form URL, or LinkedIn DM)
+- Status (pre-filled "Researched")
+- Source URL (verifiable provenance for every row)
+- Notes
+
+**Research method:**
+- `websearch--web_search` to surface candidate directories
+- `code--fetch_website` against each candidate's About / Contact / Press pages to confirm active operation and pull listed contact info
+- LinkedIn public profile lookup for founder names
+- Cross-check known directories: The Black Directory, Official Black Wall Street, EatOkra, We Buy Black, ByBlack/US Black Chamber, Support Black Owned, Black Owned Brooklyn, Buy From a Black Woman, and others surfaced during research
+- **Hard rule:** if I can't find a public source for an email/phone in <2 minutes, I leave it blank and put "LinkedIn DM" or the contact-form URL instead. No guessing.
+
+**What I will NOT do:**
+- Invent personal emails
+- Include directories I can't verify are still operating
+- Scrape gated/private data
 
 ---
 
-## Build approach
+## Defaults I'm assuming (say so if any are wrong)
 
-1. Switch to default mode (so I can run scripts).
-2. Write a single Python script at `/tmp/build_channing_deck.py` using `reportlab` (already used for your manual + pitch deck — same look & feel).
-3. Render both PDFs to `/mnt/documents/`.
-4. **Mandatory QA:** convert every page to JPEG with `pdftoppm -r 150` and visually inspect each one for overlap, clipping, low contrast, alignment issues. Fix and re-render until clean.
-5. Surface both files inline as `<lov-artifact>` tags so you can preview/download from chat.
+- **Voice:** Thomas / Mansa Musa Marketplace / 1325.AI — warm, peer-to-peer, no hard pitch
+- **Geographic scope:** US-focused, all major metros (no UK/Canada/Africa unless you ask)
+- **Target count:** Aim for ~20 verified, prefer quality over padding to 25
 
 ---
 
-## What I will NOT touch
+## Order of operations
 
-- No code in the React app
-- No database changes
-- No edits to the existing platform manual or pitch deck
-- No mention of investment / fundraising in the deck (per your direction — partnership only)
+1. Build all 5 outreach kit files (Part C).
+2. Run the research pass and build the targets sheet (Part A).
+3. Drop one consolidated chat reply with: download links for all 6 files, count of verified targets, any directories I flagged "dormant — skip", and a suggested first batch of 5 to send intros to this week.
 
----
-
-## After approval, you'll get back
-
-- ✅ Deck PDF (10 slides, landscape)
-- ✅ One-pager PDF (1 page, portrait)
-- ✅ A short suggested email body Keith can paste above the attachments when he forwards to Rodney
-- ✅ A QA summary listing every issue I found and fixed during visual review
-
-Approve below and I'll build it.
+Approve and I'll switch to build mode and ship both parts in one go.
