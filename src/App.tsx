@@ -613,6 +613,7 @@ function App() {
                               <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                               <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                              <Route path="/founding-success" element={<LazyFoundingSuccessPage />} />
                               <Route path="/pricing" element={<LazyPricingPage />} />
                               <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                               {/* /payment-test, /qr-test removed */}
