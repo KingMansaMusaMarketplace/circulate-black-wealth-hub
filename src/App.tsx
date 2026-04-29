@@ -60,6 +60,7 @@ const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
 const LazyB2BMarketplacePage = lazy(() => import('@/pages/B2BMarketplacePage'));
 const LazyB2BDashboardPage = lazy(() => import('@/pages/business/B2BDashboardPage'));
+import { B2BProGate } from '@/components/business/B2BProGate';
 const LazyNoirLandingPage = lazy(() => import('@/pages/NoirLandingPage'));
 const LazyLeadsDashboardPage = lazy(() => import('@/pages/LeadsDashboardPage'));
 const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
@@ -504,7 +505,7 @@ function App() {
                                 </IOSProtectedRoute>
                               } />
                               <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
-                              <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
+                              <Route path="/business/b2b-dashboard" element={<B2BProGate><LazyB2BDashboardPage /></B2BProGate>} />
                               <Route path="/business/register" element={
                                 <IOSProtectedRoute>
                                   <LazyBusinessSignupPage />
@@ -810,7 +811,7 @@ function App() {
                           </IOSProtectedRoute>
                         } />
                         <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
-                        <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
+                        <Route path="/business/b2b-dashboard" element={<B2BProGate><LazyB2BDashboardPage /></B2BProGate>} />
                         <Route path="/business/register" element={
                           <IOSProtectedRoute>
                             <LazyBusinessSignupPage />
