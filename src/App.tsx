@@ -86,6 +86,7 @@ const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyErrorPage = lazy(() => import('@/pages/ErrorPage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
+const LazyFoundingSuccessPage = lazy(() => import('@/pages/FoundingSuccessPage'));
 const LazyListingSuccessPage = lazy(() => import('@/pages/ListingSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
 const LazyPricingPage = lazy(() => import('@/pages/PricingPage'));
