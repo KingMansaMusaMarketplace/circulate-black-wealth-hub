@@ -7313,6 +7313,39 @@ export type Database = {
         }
         Relationships: []
       }
+      enterprise_seats: {
+        Row: {
+          created_at: string
+          id: string
+          owner_user_id: string
+          seat_count: number
+          stripe_customer_id: string | null
+          stripe_seat_item_id: string | null
+          stripe_subscription_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          owner_user_id: string
+          seat_count?: number
+          stripe_customer_id?: string | null
+          stripe_seat_item_id?: string | null
+          stripe_subscription_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          owner_user_id?: string
+          seat_count?: number
+          stripe_customer_id?: string | null
+          stripe_seat_item_id?: string | null
+          stripe_subscription_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       event_attendees: {
         Row: {
           created_at: string
