@@ -27,21 +27,6 @@ export const unifiedSubscriptionService = {
         throw new Error('User not authenticated');
       }
 
-      // During free period, grant premium access to everyone
-      if (isInFreePeriod()) {
-        console.log('[Unified Subscription] Free period active - granting premium access');
-        return {
-          isActive: true,
-          tier: 'premium',
-          status: 'active',
-          source: 'free_period',
-          subscribed: true,
-          subscription_tier: 'premium',
-          subscription_end: FREE_PERIOD_END_DATE.toISOString(),
-          isFreePeriod: true
-        };
-      }
-
       console.log('[Unified Subscription] Checking all subscription sources for user:', user.id);
 
       // Check Stripe subscription (web purchases)
