@@ -43,10 +43,10 @@ This platform offers incredible tools to help your business thrive:
 ✅ Build customer loyalty with integrated rewards programs
 ✅ Track your economic impact on the community
 
-As a member of our community, you can sign up for FREE using our exclusive link:
+As a member of our community, you can sign up using our exclusive link:
 ${partner.referral_link}
 
-Sign up before September 1, 2026 to become a Founding Member and lock in special benefits!
+🔥 Founding 100 Offer: the first 100 businesses lock in Pro at $149/mo — forever (regular price $249/mo). Spots are limited!
 
 Questions? Reply to this email or visit 1325.AI to learn more.
 
@@ -64,7 +64,7 @@ A quick reminder about 1325.AI - the platform helping community businesses grow 
 
 💰 THE VALUE: Members get $700/month worth of business tools for just $100/month. That's a 7x ROI!
 
-If you haven't signed up yet, now is the perfect time. Founding Member status (free until September 1, 2026) includes:
+If you haven't signed up yet, now is the perfect time. Founding 100 status (Pro at $149/mo locked in forever — only 100 spots) includes:
 
 🌟 Priority listing in the business directory
 🌟 Early access to new features
@@ -100,7 +100,7 @@ Since joining, our community members have:
 
 The platform tracks economic impact using their CMAL (Circulatory Multiplier Attribution Logic) system - showing how every dollar spent at community businesses multiplies through the community.
 
-Ready to be part of this movement? Sign up free:
+Ready to be part of this movement? Claim a Founding 100 spot:
 ${partner.referral_link}
 
 Together, we're building generational wealth.
@@ -111,24 +111,24 @@ ${partner.directory_name}`,
     {
       id: 'deadline',
       name: 'Deadline Urgency',
-      purpose: 'Create urgency before the September 2026 cutoff',
-      subject: '⏰ Last Chance: Lock In $700/mo Value Before Prices Rise',
+      purpose: 'Create urgency before the Founding 100 spots sell out',
+      subject: '⏰ Last Chance: Lock In Pro at $149/mo Forever — Only 100 Spots',
       body: `IMPORTANT: Time-Sensitive Opportunity
 
-The deadline to become a Founding Member of 1325.AI is approaching: September 1, 2026.
+The Founding 100 program at 1325.AI is filling up fast. Only the first 100 businesses lock in Pro at $149/mo — forever.
 
-After this date, the platform moves to paid tiers only.
+After 100 spots are claimed, Pro is $249/mo.
 
-💰 THE VALUE: $700/month in business tools for just $100/month = 7x ROI
+💰 THE VALUE: $700/month in business tools for $149/month = 4.7x ROI, locked in for life
 
-As a Founding Member, you get:
-✓ FREE lifetime access to core features
+As a Founding 100 member, you get:
+✓ Pro tier locked in at $149/mo forever (vs. $249 regular)
 ✓ Priority directory placement
 ✓ Founding Member badge
 ✓ Early access to all new features
 ✓ Higher commission rates
 
-Don't miss this opportunity. Sign up now:
+Don't miss this. Claim your spot now:
 ${partner.referral_link}
 
 This is a once-in-a-lifetime chance to be part of building the economic infrastructure for our community.
