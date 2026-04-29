@@ -61,7 +61,11 @@ const checkoutRequestSchema = z.object({
   businessName: z.string().max(200).optional().default(''),
   tier: z.string().max(50).nullable().optional(),
   message: z.string().max(1000).optional().default(''),
+  seatCount: z.number().int().min(1).max(500).optional(),
 });
+
+// Enterprise per-seat add-on price ($50/user/mo)
+const ENTERPRISE_PER_SEAT_PRICE_ID = 'price_1TNLU6AsptTW1mCmvlaqtQsZ';
 
 // Rate limiting map (in-memory, resets on function restart)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
