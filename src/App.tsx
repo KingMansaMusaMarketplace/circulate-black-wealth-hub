@@ -434,6 +434,7 @@ function App() {
                         <FloatingNav />
                         <BusinessProfilePrompt />
                         <OfflineBanner />
+                        <SubscriptionAlertBanner />
                         <GlobalErrorRecovery />
                         <Suspense fallback={<LoadingFallback />}>
                           <Layout>
@@ -753,6 +754,7 @@ function App() {
                         <FloatingNav />
                         <BusinessProfilePrompt />
                         <OfflineBanner />
+                        <SubscriptionAlertBanner />
                         <GlobalErrorRecovery />
                         <Suspense fallback={<LoadingFallback />}>
                         <Layout>
