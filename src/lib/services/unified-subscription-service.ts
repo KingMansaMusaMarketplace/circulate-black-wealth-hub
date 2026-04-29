@@ -1,7 +1,6 @@
 
 import { supabase } from '@/lib/supabase';
 import { subscriptionService } from './subscription-service';
-import { isInFreePeriod, FREE_PERIOD_END_DATE } from '@/lib/constants/free-period';
 
 export interface UnifiedSubscriptionInfo {
   isActive: boolean;
