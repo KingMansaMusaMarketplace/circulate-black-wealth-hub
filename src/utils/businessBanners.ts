@@ -7,6 +7,8 @@
 
 // Map of business IDs to their fallback banner images
 const businessBannerFallbacks: Record<string, string> = {
+  // The IT Architect Corporation - IT, telecom & building automation
+  'c9afd7c1-d37d-455d-9dcd-b11bb0c685cd': '/images/businesses/the-it-architect-banner.jpg',
   // Allstate Insurance Agent: Barbara J. Brown - Financial Services in Homewood, IL
   '78fce9c3-8447-493d-a4bc-e92806f9a29f': '/images/businesses/allstate-barbara-brown-banner.jpg',
   // GN Bank - Banking & Financial Services in Chicago, IL
