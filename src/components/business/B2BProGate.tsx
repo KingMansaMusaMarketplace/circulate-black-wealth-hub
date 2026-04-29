@@ -24,9 +24,9 @@ interface B2BProGateProps {
  * The B2B Dashboard is a headline Pro deliverable.
  */
 export const B2BProGate: React.FC<B2BProGateProps> = ({ children }) => {
-  const { subscriptionInfo, loading } = useSubscription();
+  const { subscriptionInfo, isLoading } = useSubscription();
 
-  if (loading) return null;
+  if (isLoading) return null;
 
   const tier = subscriptionInfo?.subscription_tier ?? '';
   if (PRO_TIERS.has(tier)) {
