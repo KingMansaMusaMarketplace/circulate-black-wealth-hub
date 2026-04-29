@@ -287,16 +287,21 @@ serve(async (req) => {
       return 0;
     };
 
+    // Build line items — Enterprise tier gets a base seat + per-user add-on
+    const lineItems: Array<{ price: string; quantity: number }> = [
+      { price: priceId, quantity: 1 },
+    ];
+    if (tier === 'kayla_enterprise') {
+      const seats = Math.max(1, Math.min(500, seatCount ?? 1));
+      lineItems.push({ price: ENTERPRISE_PER_SEAT_PRICE_ID, quantity: seats });
+      logStep("Added Enterprise per-seat line item", { seats });
+    }
+
     // Create subscription checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       mode: "subscription",
       success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}&user_type=${userType}`,
       cancel_url: `${req.headers.get("origin")}/${userType === 'corporate' ? 'corporate-sponsorship' : 'signup'}`,
@@ -304,7 +309,8 @@ serve(async (req) => {
         userType,
         email,
         tier: tier || '',
-        message: message || ''
+        message: message || '',
+        seatCount: tier === 'kayla_enterprise' ? String(seatCount ?? 1) : '',
       },
       subscription_data: {
         trial_period_days: getTrialPeriod(),
