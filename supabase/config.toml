@@ -261,3 +261,12 @@ project_id = "agoclnqfyinwjxdmjnns"
 
   [functions.submit-sponsorship-inquiry]
     verify_jwt = false
+
+  [functions.create-founding-checkout]
+    verify_jwt = false
+
+  [functions.verify-founding-checkout]
+    verify_jwt = false
+
+  [functions.create-pro-checkout]
+    verify_jwt = false

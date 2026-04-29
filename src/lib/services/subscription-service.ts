@@ -1,6 +1,5 @@
 
 import { supabase } from '@/lib/supabase';
-import { isInFreePeriod, FREE_PERIOD_END_DATE } from '@/lib/constants/free-period';
 
 export interface SubscriptionInfo {
   isActive: boolean;
@@ -24,19 +23,6 @@ export const subscriptionService = {
         throw new Error('User not authenticated');
       }
 
-      // During free period, all users are treated as having premium access
-      if (isInFreePeriod()) {
-        console.log('[Subscription] Free period active - granting premium access');
-        return {
-          isActive: true,
-          tier: 'premium',
-          status: 'active',
-          subscription_tier: 'premium',
-          subscription_end: FREE_PERIOD_END_DATE.toISOString(),
-          subscribed: true,
-          isFreePeriod: true
-        };
-      }
 
       const { data, error } = await supabase.functions.invoke('check-subscription', {
         headers: {

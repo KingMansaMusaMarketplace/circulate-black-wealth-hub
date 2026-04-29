@@ -86,6 +86,7 @@ const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyErrorPage = lazy(() => import('@/pages/ErrorPage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
+const LazyFoundingSuccessPage = lazy(() => import('@/pages/FoundingSuccessPage'));
 const LazyListingSuccessPage = lazy(() => import('@/pages/ListingSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
 const LazyPricingPage = lazy(() => import('@/pages/PricingPage'));
@@ -612,6 +613,7 @@ function App() {
                               <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                               <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                              <Route path="/founding-success" element={<LazyFoundingSuccessPage />} />
                               <Route path="/pricing" element={<LazyPricingPage />} />
                               <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                               {/* /payment-test, /qr-test removed */}
@@ -905,6 +907,7 @@ function App() {
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                         <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                        <Route path="/founding-success" element={<LazyFoundingSuccessPage />} />
                         <Route path="/pricing" element={<LazyPricingPage />} />
                         <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                         {/* /payment-test removed */}
