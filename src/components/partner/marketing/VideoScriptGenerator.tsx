@@ -24,13 +24,13 @@ const VideoScriptGenerator: React.FC<VideoScriptGeneratorProps> = ({ partner }) 
       wordCount: '~75 words',
       script: `Hey family! I want to tell you about 1325.ai.
 
-It's an economic operating system built for community businesses - and right now, it's FREE to join.
+It's an economic operating system built for community businesses.
 
-We're talking $700 worth of business tools for just $100 a month. That's 7 times your investment back.
+Right now, the first 100 businesses lock in Pro at just $149 a month — forever. After that, it goes to $249.
 
-Get discovered by conscious consumers, connect with other Black businesses, and build real wealth.
+You get $700 worth of business tools, conscious consumers actively looking for you, and B2B matching with other community businesses.
 
-Sign up free using my link in the bio before September 2026.
+Use my link in the bio and grab a Founding 100 spot before they're gone.
 
 Let's circulate that wealth together!`,
     },
@@ -51,7 +51,7 @@ You get access to Susu circles - that's community-powered savings without needin
 
 And the value? $700 worth of business tools for just $100 a month. That's a 7x return on your investment.
 
-But here's the thing - right now, it's FREE. You can become a Founding Member until September 2026.
+But here's the thing - the first 100 businesses lock in Pro at $149/mo forever. After that, it's $249/mo. Spots are limited.
 
 Click the link in my bio to sign up. Use my partner code: ${partner.referral_code}
 
@@ -78,7 +78,7 @@ Third, Susu circles. Community-powered rotating savings. No bank, no credit chec
 
 And the numbers? $700 worth of business tools for just $100 a month. That's 7 times your money back.
 
-But here's the best part - right now, it's completely FREE. Sign up before September 1, 2026 and you're locked in as a Founding Member with lifetime benefits.
+But here's the best part - the first 100 businesses lock in Pro at just $149 a month, forever. After 100 spots, it jumps to $249. Become a Founding 100 member before they're gone.
 
 Click the link in my bio. Use partner code ${partner.referral_code}.
 

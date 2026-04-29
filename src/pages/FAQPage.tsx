@@ -17,7 +17,7 @@ const FAQPage = () => {
     },
     {
       question: "Is there a fee to use the platform?",
-      answer: "Customers are ALWAYS FREE with full access to loyalty programs, QR scanning, and rewards. Businesses are 100% FREE until September 1, 2026, then will have affordable subscription plans. Corporate sponsorships (for companies wanting to support the platform) are available now starting at $500/month."
+      answer: "Customers are ALWAYS FREE with full access to loyalty programs, QR scanning, and rewards. For businesses, we're running a Founding 100 Offer: the first 100 businesses lock in Pro at $149/mo — forever. After 100 spots are claimed, Pro is $249/mo. Corporate sponsorships (for companies wanting to support the platform) are also available starting at $500/month."
     },
     {
       question: "How do I find businesses near me?",

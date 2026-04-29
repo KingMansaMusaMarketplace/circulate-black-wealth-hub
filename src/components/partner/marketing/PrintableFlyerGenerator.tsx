@@ -98,8 +98,8 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
     
     <div class="cta-section">
       <div class="cta-left">
-        <h2>Sign Up FREE</h2>
-        <p>Founding Member status closes Sept 1, 2026 or at 100K members — whichever comes first!</p>
+        <h2>Founding 100 Offer</h2>
+        <p>First 100 businesses lock in Pro at $149/mo — forever (regular $249/mo). Spots are limited.</p>
         <div class="link">${partner.referral_link}</div>
         <p style="margin-top: 12px; font-size: 0.875rem;">Partner Code: <strong>${partner.referral_code}</strong></p>
       </div>
@@ -164,7 +164,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
           
           <div className="bg-slate-800 text-white p-3 rounded-lg flex justify-between items-center">
             <div>
-              <div className="font-bold text-sm">Sign Up FREE</div>
+              <div className="font-bold text-sm">Founding 100 — $149/mo</div>
               <div className="text-xs text-slate-400">Code: {partner.referral_code}</div>
             </div>
             <div className="w-12 h-12 bg-white rounded flex items-center justify-center text-slate-400 text-xs">

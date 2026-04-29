@@ -60,7 +60,7 @@ export function FoundingSponsorBadge({
           <div className="space-y-1">
             <p className="font-semibold text-teal-400">🏆 Founding Sponsor</p>
             <p className="text-sm text-slate-300">
-              This business joined during our free growth phase! They'll enjoy special perks and locked-in rates as a thank you for being an early believer.
+              This business is one of the Founding 100 — Pro locked in at $149/mo forever, with special perks as an early believer.
             </p>
           </div>
         </TooltipContent>

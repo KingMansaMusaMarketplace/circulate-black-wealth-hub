@@ -43,8 +43,8 @@ const CTASection = () => {
             </h2>
             
             <p className="font-body text-lg sm:text-xl text-white/90 leading-relaxed mb-8 max-w-2xl mx-auto">
-              Join the FREE 1325.AI community and help build economic power together. 
-              Phase 1: Everything is FREE until September 1, 2026 as we focus on growing our community!
+              Join the 1325.AI community and help build economic power together. 
+              Founding 100 Offer: the first 100 businesses lock in Pro at $149/mo — forever.
             </p>
             
             <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-8 mb-8 max-w-3xl mx-auto border border-white/20 shadow-2xl">
@@ -55,7 +55,7 @@ const CTASection = () => {
             
             <div className="mt-6 text-white/80 text-sm flex items-center justify-center gap-2">
               <Check size={18} className="text-green-400" />
-              <span className="font-body">100% FREE during Phase 1. No credit card required. Community first, revenue later.</span>
+              <span className="font-body">Customers always free. Founding 100 businesses lock in Pro at $149/mo forever — only 100 spots.</span>
             </div>
           </div>
         </ScrollReveal>

@@ -18,7 +18,7 @@ const TalkingPointsCard: React.FC<TalkingPointsCardProps> = ({ partner }) => {
       id: 'elevator',
       title: '30-Second Elevator Pitch',
       icon: '🎤',
-      content: `"Have you heard of 1325.AI? It's an economic operating system built specifically for community businesses. You get $700 worth of tools for just $100 a month - that's a 7x return. They have B2B matching, community financing circles, and help you get discovered by conscious consumers. Right now it's FREE to join as a Founding Member until September 2026. I can send you my referral link - what's your email?"`,
+      content: `"Have you heard of 1325.AI? It's an economic operating system built specifically for community businesses. You get $700 worth of tools, B2B matching, community financing circles, and you get discovered by conscious consumers. Right now they're running a Founding 100 Offer — the first 100 businesses lock in Pro at just $149 a month, forever. After that it's $249. I can send you my referral link — what's your email?"`,
     },
     {
       id: 'objections',
@@ -27,8 +27,8 @@ const TalkingPointsCard: React.FC<TalkingPointsCardProps> = ({ partner }) => {
       content: `**"I don't have time for another platform."**
 → "That's exactly why this is different. It's not just a directory - it's tools that work for you. The B2B matching alone has connected businesses to new suppliers and customers worth thousands."
 
-**"What's the catch with 'free'?"**
-→ "No catch. They're building to 10,000 businesses by September 2026. After that, it moves to paid tiers. Getting in now locks in Founding Member benefits for life."
+**"Why $149? What's the catch?"**
+→ "No catch. The first 100 businesses lock in Pro at $149/mo forever as Founding Members. After 100 spots, it goes to the regular $249/mo. Getting in now locks in your rate for life."
 
 **"I already have a website/social media."**
 → "This isn't replacing that - it's amplifying it. Think of it as getting discovered by people actively looking to support community businesses, plus B2B tools your website can't offer."
@@ -54,10 +54,10 @@ const TalkingPointsCard: React.FC<TalkingPointsCardProps> = ({ partner }) => {
       title: 'Closing the Conversation',
       icon: '🎯',
       content: `**Soft Close:**
-"Can I text you my referral link? It takes 5 minutes to sign up and it's free."
+"Can I text you my referral link? It takes 5 minutes to sign up."
 
 **Urgency Close:**
-"The Founding Member deadline is September 2026. After that, these benefits move to paid tiers. Getting in now is the smart move."
+"The Founding 100 spots are filling up. Once they're gone, the price jumps from $149 to $249/mo. Getting in now locks your rate forever."
 
 **Referral Close:**
 "Know any other Black business owners who should hear about this? I'd love to help them too."

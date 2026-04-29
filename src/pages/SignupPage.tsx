@@ -35,7 +35,7 @@ const SignupPage = () => {
               </p>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-mansagold/20 border border-mansagold/40 rounded-full mt-4">
                 <span className="text-mansagold font-semibold text-sm md:text-base">
-                  ⏰ Founding Member Deadline: Sept 1, 2026 or 100K members — whichever comes first
+                  👑 Founding 100 Offer: Pro at $149/mo — locked in forever. Only 100 spots.
                 </span>
               </div>
             </div>

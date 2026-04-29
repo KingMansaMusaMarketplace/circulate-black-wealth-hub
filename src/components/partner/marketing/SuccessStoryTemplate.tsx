@@ -42,11 +42,10 @@ ${metric || '[Add a specific metric - e.g., "$5,000 saved in first quarter" or "
 
 Ready to write your own success story?
 
-🔗 Join 1325.AI FREE: ${partner.referral_link}
+🔗 Join 1325.AI: ${partner.referral_link}
 📱 Partner Code: ${partner.referral_code}
 
-$700/month in business tools for just $100/month = 7x ROI
-Founding Member status closes Sept 1, 2026 or at 100K members — whichever comes first!
+👑 Founding 100 Offer: the first 100 businesses lock in Pro at $149/mo — forever (regular $249/mo). Spots are limited!
 
 #BlackOwnedBusiness #1325AI #SuccessStory #BuyBlack`;
   };

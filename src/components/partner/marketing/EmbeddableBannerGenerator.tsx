@@ -90,7 +90,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
 ">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
     <span style="font-weight: 700; font-size: 18px; color: ${colors.text}; font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</span>
-    <span style="font-size: 12px; color: ${colors.accent};">FREE until Sept 2026</span>
+    <span style="font-size: 12px; color: ${colors.accent};">Founding 100 — $149/mo</span>
   </div>
   <div style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 12px; color: #1e293b;">
     <div style="font-weight: 800; font-size: 16px;">$${valueProposition.monthlyValue}/mo value → $${valueProposition.monthlyPrice}/mo</div>
@@ -109,7 +109,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     font-weight: 600;
     font-size: 14px;
   ">
-    Sign Up Free →
+    Claim a Spot →
   </a>
   <p style="margin: 12px 0 0 0; font-size: 11px; color: ${colors.muted};">
     Referred by ${partner.directory_name}
@@ -180,12 +180,12 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     font-size: 15px;
     margin-bottom: 12px;
   ">
-    Sign Up Free →
+    Claim a Founding 100 Spot →
   </a>
   
   <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: ${colors.muted};">
     <span>Referred by ${partner.directory_name}</span>
-    <span>Free until Sept 1, 2026</span>
+    <span>$149/mo locked in forever</span>
   </div>
 </div>`;
   };

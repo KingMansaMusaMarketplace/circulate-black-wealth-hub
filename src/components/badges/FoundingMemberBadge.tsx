@@ -60,7 +60,7 @@ export function FoundingMemberBadge({
           <div className="space-y-1">
             <p className="font-semibold text-mansagold">🎉 Founding Member</p>
             <p className="text-sm text-slate-300">
-              You joined during our free growth phase! This badge is yours forever as a thank you for being an early supporter.
+              You're one of the Founding 100 — Pro locked in at $149/mo, forever. This badge is yours as a thank you for being an early believer.
             </p>
           </div>
         </TooltipContent>
