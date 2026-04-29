@@ -131,15 +131,17 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     console.log(`[CHECK-SUBSCRIPTION] Customer found: ${customerId}`);
     
-    // Check for active subscriptions
+    // Check for active OR trialing subscriptions (Essentials/Starter ship with a 30-day trial)
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
-      status: "active",
-      limit: 1,
+      status: "all",
+      limit: 10,
     });
-    
-    // Set subscription details
-    const hasActiveSub = subscriptions.data.length > 0;
+
+    const activeOrTrialing = subscriptions.data.find(
+      (s) => s.status === "active" || s.status === "trialing"
+    );
+    const hasActiveSub = !!activeOrTrialing;
     let subscriptionTier = null;
     let subscriptionEnd = null;
 
