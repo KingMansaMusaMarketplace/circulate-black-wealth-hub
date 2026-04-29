@@ -1,85 +1,37 @@
 ## Goal
 
-Make the Enterprise tier billing match the marketing copy: a flat **$899/mo base** + **$50/user/mo per seat**, with the seat count adjustable by the Enterprise admin and synced to Stripe.
+Replace the basic Gemini-generated PDF with a beautifully branded, multi-page Church Partnership Proposal that clearly communicates our mission: circulating wealth in Black communities through **Mansa Musa Marketplace, powered by 1325.AI**.
 
-The Stripe price for the per-seat add-on already exists:
-`price_1TNLU6AsptTW1mCmvlaqtQsZ` (`kayla_enterprise_per_user` in `subscription-tiers.ts`).
+## Deliverable
 
-## What changes
+A single PDF: `/mnt/documents/Church_Partnership_Proposal_v2.pdf` (downloadable artifact, ~5–6 pages).
 
-### 1. Stripe checkout — bundle base + per-seat at signup
+## Branding
 
-Edit `supabase/functions/create-checkout/index.ts`:
+- True Black background (#000000) with MansaBlue (#003366) and MansaGold (#FFB300) accents
+- Apple-like minimal layout, generous whitespace
+- Cover page with brand lockup: "Mansa Musa Marketplace — Powered by 1325.AI"
+- Footer on every page with contact info from `src/config/site.ts`
 
-When `tier === 'kayla_enterprise'`, build a checkout session with **two line items**:
+## Content Structure
 
-```
-line_items: [
-  { price: 'price_1TNLTCAsptTW1mCmVEccEd1D', quantity: 1 },         // $899 base
-  { price: 'price_1TNLU6AsptTW1mCmvlaqtQsZ', quantity: seatCount }, // $50 × N
-]
-```
+1. **Cover Page** — Title, subtitle "Strategic Partnership for the Black Church", date, recipient line, brand lockup.
+2. **Our Mission** — The Circulation Problem: dollar circulates only 6 hours in our community vs 28+ days elsewhere. Mansa Musa Marketplace exists to extend that circulation, building generational wealth. Inspired by Mansa Musa (1325 AD), the wealthiest man in history, who reinvested in his people.
+3. **The Platform — Powered by 1325.AI** — Agentic Commerce Protocol: Kayla AI concierge + 33 AI employees that run business operations (~4 roles covered, $12,100+/mo savings). Directory, loyalty, B2B matching, voice AI.
+4. **Why the Church** — The Black Church has always been the economic heartbeat of the community. Partnership amplifies that role in the AI era.
+5. **The Digital Tithe Model** — 10% of every congregant subscription returns to the church's Vision Fund, automated monthly. Includes a simple ROI table (e.g., 50 / 100 / 250 members → monthly church revenue).
+6. **Partner Benefits** — Preferred pricing, custom-branded portal in 48 hrs, Kayla AI concierge access, priority support, quarterly impact reports.
+7. **Next Steps & Contact** — Demo invitation, signature block for Thomas D. Bowling, CEO. Contact: Thomas@1325.AI, 312.709.6006, 1325.ai.
 
-- Accept an optional `seatCount` (int, 1–500, default 1) in the request body / Zod schema.
-- Set `proration_behavior: 'create_prorations'` on subsequent updates (handled in step 3).
+## Implementation
 
-### 2. Database — track seats per Enterprise account
+- Python + ReportLab (Platypus) — already covered by the PDF skill
+- Custom dark theme: black page background via canvas, gold/blue text styles
+- Use Paragraph `<sub>`/`<super>` for any sub/superscripts (per skill rules)
+- QA: render every page to JPG, visually inspect for clipping/overlap/contrast, fix and re-render until clean
+- Final file delivered via `<lov-artifact>` tag
 
-New migration adds:
+## Notes
 
-```sql
-create table public.enterprise_seats (
-  id uuid primary key default gen_random_uuid(),
-  owner_user_id uuid not null,        -- the Enterprise admin
-  stripe_subscription_id text not null,
-  stripe_seat_item_id text,           -- subscription item id for the per-seat price
-  seat_count int not null default 1 check (seat_count between 1 and 500),
-  updated_at timestamptz not null default now(),
-  unique (stripe_subscription_id)
-);
-alter table public.enterprise_seats enable row level security;
-
--- Owner can read/update their own row
-create policy "owner read seats" on public.enterprise_seats
-  for select using (auth.uid() = owner_user_id);
-```
-
-Writes happen only from edge functions using the service role key.
-
-### 3. Edge function — `enterprise-seats` (manage seats post-signup)
-
-New function `supabase/functions/enterprise-seats/index.ts`:
-
-- `GET` → returns current `seat_count` and computed monthly total.
-- `POST { seatCount }` → validates (1–500), looks up the subscription item for the per-seat price, calls `stripe.subscriptionItems.update(itemId, { quantity: seatCount, proration_behavior: 'create_prorations' })`, updates `enterprise_seats` row.
-- Re-uses the same auth + CORS pattern (incl. `x-csrf-token`) used by `customer-portal`.
-- Registered in `supabase/config.toml`.
-
-### 4. Admin UI — seat management page
-
-New page `src/pages/business/EnterpriseSeatsPage.tsx` (route `/business/enterprise/seats`, gated by `EnterpriseGate`):
-
-- Shows current seat count, base price, per-seat price, computed monthly total, and renewal date.
-- Stepper / number input to change seats (1–500), "Update seats" button → calls `enterprise-seats` POST.
-- Inline note: "Changes are prorated and billed on your next invoice."
-- Link to Stripe Customer Portal for invoices/payment method.
-
-Add route in `src/App.tsx` and a card link inside the existing Enterprise dashboard area.
-
-### 5. Marketing copy — keep, but add accuracy footnote
-
-In the Enterprise pricing card (already shows "From $899/mo + $50/user/mo"), add a small line:
-"Seat count is set at checkout and can be adjusted any time from the Enterprise dashboard."
-
-## Out of scope (intentionally)
-
-- Per-seat user invitations / SSO / team membership table — that is a real "team management" feature; this task is purely about getting **billing** correct so the marketed price is honored. Inviting individual users can be added later without re-touching billing.
-- Metered usage (true `usage_record` style billing). We're using **licensed quantity** on a recurring price, which matches the "$50/user/mo" promise and is far simpler to operate.
-
-## Files
-
-- **edit**: `supabase/functions/create-checkout/index.ts`, `supabase/config.toml`, `src/App.tsx`, `src/components/business/EnterpriseGate.tsx` (add link to seats page)
-- **create**: `supabase/functions/enterprise-seats/index.ts`, `src/pages/business/EnterpriseSeatsPage.tsx`
-- **migration**: `enterprise_seats` table + RLS
-
-After approval I'll implement all of the above in one pass.
+- This is a one-off document generation task (per non-build-tasks rules) — no React UI changes
+- Will not touch any app code, only produce the PDF artifact
