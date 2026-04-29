@@ -145,19 +145,17 @@ serve(async (req) => {
     let subscriptionTier = null;
     let subscriptionEnd = null;
 
-    if (hasActiveSub) {
-      const subscription = subscriptions.data[0];
-      
-      // Get subscription end date
-      subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
-      
-      // Determine tier from price
-      const priceId = subscription.items.data[0].price.id;
-      console.log(`[CHECK-SUBSCRIPTION] Active subscription found with price ID: ${priceId}`);
+    if (hasActiveSub && activeOrTrialing) {
+      // Get subscription end date (or trial end if trialing)
+      const endTs = activeOrTrialing.current_period_end || activeOrTrialing.trial_end;
+      subscriptionEnd = endTs ? new Date(endTs * 1000).toISOString() : null;
+
+      const priceId = activeOrTrialing.items.data[0].price.id;
+      console.log(`[CHECK-SUBSCRIPTION] ${activeOrTrialing.status} subscription found with price ID: ${priceId}`);
       subscriptionTier = await getTierFromPriceId(stripe, priceId);
       console.log(`[CHECK-SUBSCRIPTION] Determined tier: ${subscriptionTier}`);
     } else {
-      console.log(`[CHECK-SUBSCRIPTION] No active subscription found for customer: ${customerId}`);
+      console.log(`[CHECK-SUBSCRIPTION] No active or trialing subscription found for customer: ${customerId}`);
     }
 
     // Update subscribers table with current status
