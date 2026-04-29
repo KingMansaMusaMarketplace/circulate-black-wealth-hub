@@ -27,6 +27,7 @@ import FloatingNav from "@/components/navigation/FloatingNav";
 import BusinessProfilePrompt from "@/components/business/BusinessProfilePrompt";
 import { GlobalErrorRecovery } from "@/components/error-recovery/GlobalErrorRecovery";
 import { OfflineBanner } from "@/components/network/OfflineBanner";
+import { SubscriptionAlertBanner } from "@/components/subscription/SubscriptionAlertBanner";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useCartSync } from "@/hooks/useCartSync";
 import "./index.css";
