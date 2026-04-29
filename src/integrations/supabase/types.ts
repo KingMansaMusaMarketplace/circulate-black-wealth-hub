@@ -7313,6 +7313,87 @@ export type Database = {
         }
         Relationships: []
       }
+      enterprise_account_managers: {
+        Row: {
+          assigned_at: string
+          calendly_url: string | null
+          id: string
+          manager_email: string
+          manager_name: string
+          manager_phone: string | null
+          manager_photo_url: string | null
+          manager_timezone: string | null
+          notes: string | null
+          owner_user_id: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_at?: string
+          calendly_url?: string | null
+          id?: string
+          manager_email: string
+          manager_name: string
+          manager_phone?: string | null
+          manager_photo_url?: string | null
+          manager_timezone?: string | null
+          notes?: string | null
+          owner_user_id: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_at?: string
+          calendly_url?: string | null
+          id?: string
+          manager_email?: string
+          manager_name?: string
+          manager_phone?: string | null
+          manager_photo_url?: string | null
+          manager_timezone?: string | null
+          notes?: string | null
+          owner_user_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      enterprise_concierge_requests: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          owner_user_id: string
+          priority: string
+          resolved_at: string | null
+          responded_at: string | null
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          owner_user_id: string
+          priority?: string
+          resolved_at?: string | null
+          responded_at?: string | null
+          status?: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          owner_user_id?: string
+          priority?: string
+          resolved_at?: string | null
+          responded_at?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       enterprise_seats: {
         Row: {
           created_at: string
