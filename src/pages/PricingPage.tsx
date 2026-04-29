@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import PricingSection from '@/components/HomePage/PricingSection';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
+import FoundingMemberOffer from '@/components/founding/FoundingMemberOffer';
 import { Helmet } from 'react-helmet-async';
 import { Sparkles, ShieldCheck, CreditCard } from 'lucide-react';
 
