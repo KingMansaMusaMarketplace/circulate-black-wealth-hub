@@ -195,6 +195,7 @@ const LazyCustomerBookingsPage = lazy(() => import('@/pages/CustomerBookingsPage
 const LazyBusinessBookingsPage = lazy(() => import('@/pages/BusinessBookingsPage'));
 const LazyBookBusinessPage = lazy(() => import('@/pages/BookBusinessPage'));
 const LazyBusinessFinancesPage = lazy(() => import('@/pages/BusinessFinancesPage'));
+const LazyBusinessRecordsPage = lazy(() => import('@/pages/business/BusinessRecordsPage'));
 
 // Lazy load marketing pages
 const LazyMarketingMaterialsPage = lazy(() => import('./pages/MarketingMaterialsPage'));
@@ -497,6 +498,11 @@ function App() {
                                   <LazyBusinessBookingsPage />
                                 </IOSProtectedRoute>
                               } />
+                              <Route path="/business/records" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessRecordsPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                               <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
                               <Route path="/business/register" element={
@@ -796,6 +802,11 @@ function App() {
                         <Route path="/business/bookings" element={
                           <IOSProtectedRoute>
                             <LazyBusinessBookingsPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/business/records" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessRecordsPage />
                           </IOSProtectedRoute>
                         } />
                         <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
