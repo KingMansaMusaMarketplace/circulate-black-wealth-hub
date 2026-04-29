@@ -7844,6 +7844,82 @@ export type Database = {
           },
         ]
       }
+      founding_member_slots: {
+        Row: {
+          business_id: string | null
+          claimed_at: string
+          id: string
+          locked_price_cents: number
+          slot_number: number
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          user_id: string
+        }
+        Insert: {
+          business_id?: string | null
+          claimed_at?: string
+          id?: string
+          locked_price_cents?: number
+          slot_number: number
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          user_id: string
+        }
+        Update: {
+          business_id?: string | null
+          claimed_at?: string
+          id?: string
+          locked_price_cents?: number
+          slot_number?: number
+          stripe_customer_id?: string
+          stripe_subscription_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "founding_member_slots_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "founding_member_slots_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "founding_member_slots_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "founding_member_slots_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "founding_member_slots_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "founding_member_slots_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       fraud_alerts: {
         Row: {
           ai_confidence_score: number | null
@@ -22032,6 +22108,15 @@ export type Database = {
       claim_business_lead: {
         Args: { p_token: string; p_user_id: string }
         Returns: Json
+      }
+      claim_founding_slot: {
+        Args: {
+          _business_id: string
+          _stripe_customer_id: string
+          _stripe_subscription_id: string
+          _user_id: string
+        }
+        Returns: number
       }
       claim_kayla_events: {
         Args: { batch_size?: number }
