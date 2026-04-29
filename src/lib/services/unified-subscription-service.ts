@@ -5,17 +5,18 @@ import { subscriptionService } from './subscription-service';
 export interface UnifiedSubscriptionInfo {
   isActive: boolean;
   tier: 'free' | 'paid' | 'premium';
-  status: 'active' | 'canceled' | 'past_due' | 'trial';
+  status: 'active' | 'canceled' | 'past_due' | 'unpaid' | 'incomplete' | 'trial' | 'trialing';
   source: 'stripe' | 'apple' | 'google' | 'free_period' | 'unknown';
   currentPeriodStart?: string;
   currentPeriodEnd?: string;
   cancelAtPeriodEnd?: boolean;
-  subscription_tier?: 'free' | 'premium' | 'business' | 'enterprise';
+  subscription_tier?: string;
   subscription_end?: string;
   subscribed?: boolean;
   autoRenewEnabled?: boolean;
   isSandbox?: boolean;
   isFreePeriod?: boolean;
+  trial_end?: string | null;
 }
 
 export const unifiedSubscriptionService = {

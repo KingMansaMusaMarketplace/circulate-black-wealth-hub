@@ -144,21 +144,37 @@ serve(async (req) => {
     const hasActiveSub = !!activeOrTrialing;
     let subscriptionTier = null;
     let subscriptionEnd = null;
+    let trialEnd: string | null = null;
+    let status: string | null = null;
 
     if (hasActiveSub && activeOrTrialing) {
-      // Get subscription end date (or trial end if trialing)
       const endTs = activeOrTrialing.current_period_end || activeOrTrialing.trial_end;
       subscriptionEnd = endTs ? new Date(endTs * 1000).toISOString() : null;
+      trialEnd = activeOrTrialing.trial_end ? new Date(activeOrTrialing.trial_end * 1000).toISOString() : null;
+      status = activeOrTrialing.status;
 
       const priceId = activeOrTrialing.items.data[0].price.id;
       console.log(`[CHECK-SUBSCRIPTION] ${activeOrTrialing.status} subscription found with price ID: ${priceId}`);
       subscriptionTier = await getTierFromPriceId(stripe, priceId);
       console.log(`[CHECK-SUBSCRIPTION] Determined tier: ${subscriptionTier}`);
     } else {
-      console.log(`[CHECK-SUBSCRIPTION] No active or trialing subscription found for customer: ${customerId}`);
+      // Surface payment-failure / cancellation states even when not "active"
+      const problem = subscriptions.data.find(
+        (s) => s.status === "past_due" || s.status === "unpaid" || s.status === "incomplete"
+      );
+      const canceled = subscriptions.data.find((s) => s.status === "canceled");
+      const surfaced = problem || canceled;
+      if (surfaced) {
+        status = surfaced.status;
+        const endTs = surfaced.current_period_end;
+        subscriptionEnd = endTs ? new Date(endTs * 1000).toISOString() : null;
+        try {
+          subscriptionTier = await getTierFromPriceId(stripe, surfaced.items.data[0].price.id);
+        } catch (_e) { /* ignore */ }
+      }
+      console.log(`[CHECK-SUBSCRIPTION] No active subscription. Surfaced status: ${status}`);
     }
 
-    // Update subscribers table with current status
     await supabaseAdmin.from("subscribers").upsert({
       email: user.email,
       user_id: user.id,
@@ -166,15 +182,19 @@ serve(async (req) => {
       subscribed: hasActiveSub,
       subscription_tier: subscriptionTier,
       subscription_end: subscriptionEnd,
+      status,
+      trial_end: trialEnd,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'email' });
-    
-    console.log(`[CHECK-SUBSCRIPTION] Updated subscriber record: ${user.email}, tier: ${subscriptionTier}, subscribed: ${hasActiveSub}`);
-    
+
+    console.log(`[CHECK-SUBSCRIPTION] Updated subscriber record: ${user.email}, tier: ${subscriptionTier}, subscribed: ${hasActiveSub}, status: ${status}`);
+
     return new Response(JSON.stringify({
       subscribed: hasActiveSub,
       subscription_tier: subscriptionTier,
-      subscription_end: subscriptionEnd
+      subscription_end: subscriptionEnd,
+      status,
+      trial_end: trialEnd,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
