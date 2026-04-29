@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSubscription } from '@/contexts/SubscriptionContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2, Loader2, Sparkles } from 'lucide-react';
@@ -12,21 +13,33 @@ const PaymentSuccessPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { refreshSubscription } = useSubscription();
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     const verifyPayment = async () => {
       const sessionId = searchParams.get('session_id');
+      console.log('[PaymentSuccess] Verifying session:', sessionId);
 
-      // Give Stripe webhook time to process, then show success
-      setTimeout(() => {
-        setSuccess(true);
-        setLoading(false);
-      }, 2000);
+      // Poll check-subscription so the new (often trialing) Essentials
+      // subscription is reflected in the UI before the user clicks Continue.
+      for (let attempt = 0; attempt < 5; attempt++) {
+        await new Promise((r) => setTimeout(r, 2000));
+        try {
+          await refreshSubscription();
+        } catch (err) {
+          console.warn('[PaymentSuccess] refresh attempt failed', err);
+        }
+      }
+
+      setSuccess(true);
+      setLoading(false);
+      toast.success('Subscription activated!');
     };
 
     verifyPayment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const handleContinue = () => {
