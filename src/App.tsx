@@ -907,6 +907,7 @@ function App() {
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                         <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                        <Route path="/founding-success" element={<LazyFoundingSuccessPage />} />
                         <Route path="/pricing" element={<LazyPricingPage />} />
                         <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                         {/* /payment-test removed */}
