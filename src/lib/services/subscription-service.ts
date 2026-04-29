@@ -4,14 +4,15 @@ import { supabase } from '@/lib/supabase';
 export interface SubscriptionInfo {
   isActive: boolean;
   tier: 'free' | 'paid' | 'premium';
-  status: 'active' | 'canceled' | 'past_due' | 'trial';
+  status: 'active' | 'canceled' | 'past_due' | 'unpaid' | 'incomplete' | 'trial' | 'trialing';
   currentPeriodStart?: string;
   currentPeriodEnd?: string;
   cancelAtPeriodEnd?: boolean;
-  subscription_tier?: 'free' | 'premium' | 'business' | 'enterprise';
+  subscription_tier?: string;
   subscription_end?: string;
   subscribed?: boolean;
   isFreePeriod?: boolean;
+  trial_end?: string | null;
 }
 
 export const subscriptionService = {
@@ -45,11 +46,12 @@ export const subscriptionService = {
       return {
         isActive: data.subscribed || false,
         tier: data.subscription_tier || 'free',
-        status: data.subscribed ? 'active' : 'canceled',
+        status: data.status || (data.subscribed ? 'active' : 'canceled'),
         subscription_tier: data.subscription_tier || 'free',
         subscription_end: data.subscription_end,
         subscribed: data.subscribed || false,
-        isFreePeriod: false
+        isFreePeriod: false,
+        trial_end: data.trial_end ?? null,
       };
     } catch (error) {
       console.error('Error checking subscription:', error);
