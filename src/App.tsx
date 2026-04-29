@@ -855,6 +855,11 @@ function App() {
                             <EnterpriseGate featureName="Seat management"><LazyEnterpriseSeatsPage /></EnterpriseGate>
                           </IOSProtectedRoute>
                         } />
+                        <Route path="/business/enterprise/concierge" element={
+                          <IOSProtectedRoute>
+                            <EnterpriseGate featureName="Enterprise Concierge"><LazyEnterpriseConciergePage /></EnterpriseGate>
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/business/register" element={
                           <IOSProtectedRoute>
                             <LazyBusinessSignupPage />
