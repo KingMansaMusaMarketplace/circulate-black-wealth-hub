@@ -200,6 +200,7 @@ const LazyBusinessFinancesPage = lazy(() => import('@/pages/BusinessFinancesPage
 const LazyBusinessRecordsPage = lazy(() => import('@/pages/business/BusinessRecordsPage'));
 const LazyEnterpriseLocationsPage = lazy(() => import('@/pages/business/EnterpriseLocationsPage'));
 const LazyEnterpriseWhiteLabelPage = lazy(() => import('@/pages/business/EnterpriseWhiteLabelPage'));
+const LazyEnterpriseSeatsPage = lazy(() => import('@/pages/business/EnterpriseSeatsPage'));
 import { EnterpriseGate } from '@/components/business/EnterpriseGate';
 
 // Lazy load marketing pages
