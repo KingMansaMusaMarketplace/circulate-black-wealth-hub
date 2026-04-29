@@ -128,6 +128,8 @@ const businessBannerOverrides: Record<string, string> = {
   'e4117c53-1d41-49eb-9f31-9365abae0116': '/businesses/harriets-cheesecakes-card.jpg',
   // Channing Capital Management - no banner in DB; use Chicago skyline banner
   'c188b47b-9d41-4e97-ba06-043e0b4c9b92': '/businesses/channing-capital-banner.jpg',
+  // Buna Ethiopian Restaurant & Market - DB banner URL returns 404; use locally hosted food photo
+  '2047a7b2-7d62-42a6-b2e2-1047eba1188d': '/images/businesses/buna-ethiopian-banner.jpg',
 };
 
 // Map of business IDs to card-specific images (used in directory cards only, not detail pages)
