@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift, Share2, Lightbulb } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCommunityInvestments, useSavingsCircles } from '@/hooks/use-community-finance';
+import { EnterpriseQuickAccessCard } from '@/components/business/EnterpriseQuickAccessCard';
 
 
 const UnifiedDashboard: React.FC = () => {
