@@ -152,7 +152,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_pro: {
     displayName: 'Kayla AI Pro',
-    description: 'Full suite of 33 AI-powered services — replaces ~$560/mo of single-purpose tools',
+    description: 'Full suite of 28 AI-powered services — replaces ~$560/mo of single-purpose tools',
     price: 299,
     interval: 'month',
     popular: true,
@@ -161,7 +161,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   kayla_pro_annual: {
     displayName: 'Kayla AI Pro (Annual)',
-    description: 'Full suite of 33 AI-powered services — replaces ~$560/mo of single-purpose tools',
+    description: 'Full suite of 28 AI-powered services — replaces ~$560/mo of single-purpose tools',
     price: 2990,
     interval: 'year',
     savingsText: 'Save $598/year',
