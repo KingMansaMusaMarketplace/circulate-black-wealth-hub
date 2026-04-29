@@ -140,8 +140,8 @@ serve(async (req) => {
       );
     }
     
-    const { userType, email, name, businessName, tier, message } = parseResult.data;
-    logStep("Request received", { userType, email, tier });
+    const { userType, email, name, businessName, tier, message, seatCount } = parseResult.data;
+    logStep("Request received", { userType, email, tier, seatCount });
 
     // Create Supabase client with anon key for authentication
     const supabaseClient = createClient(
