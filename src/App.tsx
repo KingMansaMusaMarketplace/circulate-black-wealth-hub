@@ -195,6 +195,7 @@ const LazyCustomerBookingsPage = lazy(() => import('@/pages/CustomerBookingsPage
 const LazyBusinessBookingsPage = lazy(() => import('@/pages/BusinessBookingsPage'));
 const LazyBookBusinessPage = lazy(() => import('@/pages/BookBusinessPage'));
 const LazyBusinessFinancesPage = lazy(() => import('@/pages/BusinessFinancesPage'));
+const LazyBusinessRecordsPage = lazy(() => import('@/pages/business/BusinessRecordsPage'));
 
 // Lazy load marketing pages
 const LazyMarketingMaterialsPage = lazy(() => import('./pages/MarketingMaterialsPage'));
