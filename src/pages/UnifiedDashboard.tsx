@@ -144,6 +144,9 @@ const UnifiedDashboard: React.FC = () => {
 
           {/* Right Column - 1/3 width */}
           <div className="space-y-6">
+            {/* Enterprise quick access (only for Enterprise tier) */}
+            <EnterpriseQuickAccessCard />
+
             {/* Streak Tracker */}
             <StreakTracker />
 
