@@ -804,6 +804,11 @@ function App() {
                             <LazyBusinessBookingsPage />
                           </IOSProtectedRoute>
                         } />
+                        <Route path="/business/records" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessRecordsPage />
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                         <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
                         <Route path="/business/register" element={
