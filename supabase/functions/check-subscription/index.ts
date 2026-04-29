@@ -5,52 +5,59 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+  "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+};
+
+// Authoritative price-id → tier map (must mirror create-checkout)
+const PRICE_ID_TO_TIER: Record<string, string> = {
+  // Kayla AI tiers
+  'price_1TJ9yKAsptTW1mCmr8SJRK2g': 'kayla_essentials',          // $19/mo
+  'price_1TJ9yjAsptTW1mCmJ8pWHUqs': 'kayla_essentials_annual',  // $190/yr
+  'price_1TNLRpAsptTW1mCm5QvipN9l': 'kayla_starter',             // $79/mo
+  'price_1TNLWEAsptTW1mCm2jha0NfY': 'kayla_starter_annual',     // $790/yr
+  'price_1TNLSUAsptTW1mCmMW1G6Jfv': 'kayla_pro',                 // $299/mo
+  'price_1TNLXeAsptTW1mCmb6dsvL2y': 'kayla_pro_annual',          // $2,990/yr
+  'price_1TGzewAsptTW1mCmYKjYk0Fn': 'kayla_pro_founders',        // $149/mo Founders' Lock
+  'price_1TNLTCAsptTW1mCmVEccEd1D': 'kayla_enterprise',          // $899/mo
+  // Business tiers
+  'price_1TNLRBAsptTW1mCmCpwvkqrV': 'business_pro',              // $39/mo
+  'price_1TNLVlAsptTW1mCmedqECEFO': 'business_pro_annual',       // $390/yr
+  // Sponsorship
+  'price_1TNLUlAsptTW1mCm7rLwOuCq': 'sponsor_founding',          // $1,750/mo
 };
 
 // Helper function to determine subscription tier from price ID
 const getTierFromPriceId = async (stripe: Stripe, priceId: string): Promise<string> => {
+  // 1. Direct lookup against the canonical Stripe price-id map
+  if (PRICE_ID_TO_TIER[priceId]) {
+    console.log(`[CHECK-SUBSCRIPTION] Direct match for price ${priceId} -> ${PRICE_ID_TO_TIER[priceId]}`);
+    return PRICE_ID_TO_TIER[priceId];
+  }
+
   try {
-    console.log(`[CHECK-SUBSCRIPTION] Getting tier for price: ${priceId}`);
+    console.log(`[CHECK-SUBSCRIPTION] No direct match, retrieving price metadata for: ${priceId}`);
     const price = await stripe.prices.retrieve(priceId);
-    
-    // Get price ID for corporate tiers for direct comparison
+
+    // Corporate tier env-based fallback
     const silverPriceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
     const goldPriceId = Deno.env.get("STRIPE_GOLD_PRICE_ID");
     const platinumPriceId = Deno.env.get("STRIPE_PLATINUM_PRICE_ID");
-    
-    console.log(`[CHECK-SUBSCRIPTION] Comparing to corporate tiers: silver=${silverPriceId}, gold=${goldPriceId}, platinum=${platinumPriceId}`);
-    
-    // Check for exact match with corporate tier price IDs first
-    if (priceId === platinumPriceId) {
-      return "platinum";
-    } else if (priceId === goldPriceId) {
-      return "gold";
-    } else if (priceId === silverPriceId) {
-      return "silver";
-    }
-    
-    // If no direct match, fall back to checking price amount
+
+    if (priceId === platinumPriceId) return "platinum";
+    if (priceId === goldPriceId) return "gold";
+    if (priceId === silverPriceId) return "silver";
+
+    // Final fallback: amount-based bucketing for legacy/unknown prices
     const amount = price.unit_amount || 0;
-    console.log(`[CHECK-SUBSCRIPTION] No direct match, checking amount: ${amount}`);
-    
-    // Corporate tier pricing - fallback based on price amounts
-    if (amount >= 1000000) { // $10,000 (platinum)
-      return "platinum";
-    } else if (amount >= 500000) { // $5,000 (gold)
-      return "gold";
-    } else if (amount >= 200000) { // $2,000 (silver)
-      return "silver";
-    }
-    
-    // Regular subscription tiers
-    if (amount <= 999) {
-      return "basic";
-    } else if (amount <= 1999) {
-      return "premium";
-    } else {
-      return "enterprise";
-    }
+    if (amount >= 1000000) return "platinum";
+    if (amount >= 500000) return "gold";
+    if (amount >= 200000) return "silver";
+    if (amount <= 1999) return "kayla_essentials"; // $0–$19 → Essentials
+    if (amount <= 3999) return "business_pro";     // $20–$39 → Business Pro
+    if (amount <= 9999) return "kayla_starter";    // $40–$99 → Starter
+    if (amount <= 29999) return "kayla_pro";       // $100–$299 → Pro
+    return "kayla_enterprise";
   } catch (error) {
     console.error("Error retrieving price:", error);
     return "unknown";
@@ -124,31 +131,31 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     console.log(`[CHECK-SUBSCRIPTION] Customer found: ${customerId}`);
     
-    // Check for active subscriptions
+    // Check for active OR trialing subscriptions (Essentials/Starter ship with a 30-day trial)
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
-      status: "active",
-      limit: 1,
+      status: "all",
+      limit: 10,
     });
-    
-    // Set subscription details
-    const hasActiveSub = subscriptions.data.length > 0;
+
+    const activeOrTrialing = subscriptions.data.find(
+      (s) => s.status === "active" || s.status === "trialing"
+    );
+    const hasActiveSub = !!activeOrTrialing;
     let subscriptionTier = null;
     let subscriptionEnd = null;
 
-    if (hasActiveSub) {
-      const subscription = subscriptions.data[0];
-      
-      // Get subscription end date
-      subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
-      
-      // Determine tier from price
-      const priceId = subscription.items.data[0].price.id;
-      console.log(`[CHECK-SUBSCRIPTION] Active subscription found with price ID: ${priceId}`);
+    if (hasActiveSub && activeOrTrialing) {
+      // Get subscription end date (or trial end if trialing)
+      const endTs = activeOrTrialing.current_period_end || activeOrTrialing.trial_end;
+      subscriptionEnd = endTs ? new Date(endTs * 1000).toISOString() : null;
+
+      const priceId = activeOrTrialing.items.data[0].price.id;
+      console.log(`[CHECK-SUBSCRIPTION] ${activeOrTrialing.status} subscription found with price ID: ${priceId}`);
       subscriptionTier = await getTierFromPriceId(stripe, priceId);
       console.log(`[CHECK-SUBSCRIPTION] Determined tier: ${subscriptionTier}`);
     } else {
-      console.log(`[CHECK-SUBSCRIPTION] No active subscription found for customer: ${customerId}`);
+      console.log(`[CHECK-SUBSCRIPTION] No active or trialing subscription found for customer: ${customerId}`);
     }
 
     // Update subscribers table with current status

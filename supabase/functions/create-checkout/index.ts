@@ -10,24 +10,46 @@ const getAllowedOrigins = (): string[] => {
   if (origins) {
     return origins.split(',').map(o => o.trim());
   }
-  // Default allowed origins for 1325.AI platform
+  // Default allowed origins for 1325.AI / Mansa Musa Marketplace platform
   return [
     'https://agoclnqfyinwjxdmjnns.lovableproject.com',
     'https://lovable.dev',
     'http://localhost:5173',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://circulate-black-wealth-hub.lovable.app',
+    'https://mansamusamarketplace.com',
+    'https://www.mansamusamarketplace.com',
+    'https://1325.ai',
+    'https://www.1325.ai',
   ];
+};
+
+const isOriginAllowed = (origin: string, allowedOrigins: string[]): boolean => {
+  if (!origin) return false;
+  if (allowedOrigins.includes('*')) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  // Allow any *.lovable.app or *.lovableproject.com preview/published domain
+  try {
+    const host = new URL(origin).hostname;
+    if (host.endsWith('.lovable.app') || host.endsWith('.lovableproject.com')) {
+      return true;
+    }
+  } catch (_e) {
+    // ignore
+  }
+  return false;
 };
 
 const getCorsHeaders = (req: Request): Record<string, string> => {
   const origin = req.headers.get('origin') || '';
   const allowedOrigins = getAllowedOrigins();
-  const isAllowed = allowedOrigins.includes(origin) || allowedOrigins.includes('*');
-  
+  const allowed = isOriginAllowed(origin, allowedOrigins);
+
   return {
-    'Access-Control-Allow-Origin': isAllowed ? origin : allowedOrigins[0],
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Origin': allowed ? origin : allowedOrigins[0],
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Vary': 'Origin',
   };
 };
 
