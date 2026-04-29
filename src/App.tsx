@@ -197,6 +197,9 @@ const LazyBusinessBookingsPage = lazy(() => import('@/pages/BusinessBookingsPage
 const LazyBookBusinessPage = lazy(() => import('@/pages/BookBusinessPage'));
 const LazyBusinessFinancesPage = lazy(() => import('@/pages/BusinessFinancesPage'));
 const LazyBusinessRecordsPage = lazy(() => import('@/pages/business/BusinessRecordsPage'));
+const LazyEnterpriseLocationsPage = lazy(() => import('@/pages/business/EnterpriseLocationsPage'));
+const LazyEnterpriseWhiteLabelPage = lazy(() => import('@/pages/business/EnterpriseWhiteLabelPage'));
+import { EnterpriseGate } from '@/components/business/EnterpriseGate';
 
 // Lazy load marketing pages
 const LazyMarketingMaterialsPage = lazy(() => import('./pages/MarketingMaterialsPage'));
@@ -506,6 +509,16 @@ function App() {
                               } />
                               <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                               <Route path="/business/b2b-dashboard" element={<B2BProGate><LazyB2BDashboardPage /></B2BProGate>} />
+                              <Route path="/business/locations" element={
+                                <IOSProtectedRoute>
+                                  <EnterpriseGate featureName="Multi-location management"><LazyEnterpriseLocationsPage /></EnterpriseGate>
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/business/white-label" element={
+                                <IOSProtectedRoute>
+                                  <EnterpriseGate featureName="White-label settings"><LazyEnterpriseWhiteLabelPage /></EnterpriseGate>
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/business/register" element={
                                 <IOSProtectedRoute>
                                   <LazyBusinessSignupPage />
@@ -812,6 +825,16 @@ function App() {
                         } />
                         <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                         <Route path="/business/b2b-dashboard" element={<B2BProGate><LazyB2BDashboardPage /></B2BProGate>} />
+                        <Route path="/business/locations" element={
+                          <IOSProtectedRoute>
+                            <EnterpriseGate featureName="Multi-location management"><LazyEnterpriseLocationsPage /></EnterpriseGate>
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/business/white-label" element={
+                          <IOSProtectedRoute>
+                            <EnterpriseGate featureName="White-label settings"><LazyEnterpriseWhiteLabelPage /></EnterpriseGate>
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/business/register" element={
                           <IOSProtectedRoute>
                             <LazyBusinessSignupPage />
