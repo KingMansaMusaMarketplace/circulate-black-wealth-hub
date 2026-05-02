@@ -52,7 +52,7 @@ export const SceneLogoIntro: React.FC = () => {
             }}
           />
           <Img
-            src={staticFile("images/1325-ai-logo.png")}
+            src={staticFile("images/logo-1325ai.png")}
             style={{
               position: "relative",
               height: 560,

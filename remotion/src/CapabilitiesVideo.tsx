@@ -29,11 +29,6 @@ export const CapabilitiesVideo: React.FC = () => {
     <AbsoluteFill style={{ backgroundColor: "#000000" }}>
       <Audio src={staticFile("audio/vo-capabilities.mp3")} />
 
-      {/* Logo intro overlay — first 75 frames (2.5s) over the Hook */}
-      <Sequence from={0} durationInFrames={75}>
-        <SceneLogoIntro />
-      </Sequence>
-
       <Series>
         <Series.Sequence durationInFrames={540}>
           <SceneHook />
@@ -60,6 +55,11 @@ export const CapabilitiesVideo: React.FC = () => {
           <AbsoluteFill style={{ backgroundColor: "#000000" }} />
         </Series.Sequence>
       </Series>
+
+      {/* Logo intro overlay — first 75 frames (2.5s) on top of Hook */}
+      <Sequence from={0} durationInFrames={75}>
+        <SceneLogoIntro />
+      </Sequence>
     </AbsoluteFill>
   );
 };
