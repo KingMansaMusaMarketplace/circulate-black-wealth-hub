@@ -1,44 +1,56 @@
+# Kayla Agentic AI Team — Full Health Audit & Intelligence Upgrade
+
 ## Goal
+Give you a verifiable, evidence-based answer to "Is my Kayla AI team at 100/100?" — and then close any gaps so it actually gets smarter over time.
 
-Write a polished, ready-to-send email that accompanies the **Church Partnership Proposal v5 PDF** when Thomas sends it to a pastor or church leader.
+## Phase 1 — Audit (read-only, ~10 min)
 
-## Deliverable
+I will inspect the live system and produce a scorecard. No code changes in this phase.
 
-A plain text + HTML email saved to `/mnt/documents/`:
-- `Church_Partnership_Email.txt` — copy/paste version for Gmail/Outlook
-- `Church_Partnership_Email.html` — branded HTML version with True Black + MansaGold styling, glowing 1325.AI logo header, and a clear CTA to open the attached PDF
+1. **Agent Inventory** — Query the database to confirm all 33 agents are registered, active, and assigned to a department per the Agentic Ecosystem hierarchy.
+2. **Edge Function Health** — Pull last 7 days of logs for `ai-agent`, `generate-ai-business-insights`, and Kayla's chat function. Count: success rate, error rate, avg latency, rate-limit hits (429), credit errors (402).
+3. **Output Quality Sample** — Pull the 20 most recent rows from `business_insights`, `lead_scores`, `churn_predictions`, and `ai_agent_actions`. Manually review for: hallucinations, generic output, missing reasoning fields.
+4. **Model Routing Check** — Verify each agent uses the right model for its job (heavy reasoning → gemini-2.5-pro / gpt-5; light tasks → gemini-3-flash-preview). Mis-routed agents waste money or under-perform.
+5. **Prompt Versioning Check** — Look for system prompts in edge functions. Flag any that are vague, contradictory, or missing role/format instructions.
 
-Both reference the PDF as an attachment (no phone number per prior instruction).
+**Deliverable:** A scorecard PDF in `/mnt/documents/kayla-team-audit.pdf` with a real number out of 100, color-coded by dimension, and a prioritized fix list.
 
-## Email Content Outline
+## Phase 2 — Intelligence Upgrades (only if you approve after seeing the audit)
 
-- **Subject line options** (3 to choose from):
-  1. "A Partnership to Circulate Wealth Through Your Church"
-  2. "How Your Church Can Build a Vision Fund with Mansa Musa Marketplace"
-  3. "Invitation: Become a Founding Church Partner of 1325.AI"
-- **Greeting** — "Dear Pastor [Last Name],"
-- **Opening hook** — The dollar circulates only ~6 hours in our community vs. 28+ days elsewhere. Our mission is to change that.
-- **The ask** — Brief intro to Mansa Musa Marketplace (powered by 1325.AI) and the Digital Tithe model: 10% of every congregant subscription returns to the church's Vision Fund, automated monthly.
-- **Why this church** — One sentence positioning the Black Church as the economic heartbeat.
-- **What's attached** — Reference the proposal PDF: pricing tiers, ROI projections, partner benefits.
-- **Clear CTA** — Request a 20-minute discovery call.
-- **Signature** — Thomas D. Bowling, Founder & CEO, 1325.AI · Thomas@1325.AI · 1325.ai (no phone number).
+These are the four upgrades that make agents genuinely smarter over time. We pick which to build based on audit findings.
 
-## Branding (HTML version)
+### Upgrade A — Agent Memory (RAG)
+- New table `agent_memory` storing past decisions, outcomes, and embeddings
+- Before each agent call, retrieve top-5 relevant past decisions and inject into the prompt
+- Result: Agents stop repeating mistakes and reuse what worked
 
-- True Black background (#000000), MansaGold (#FFB300) accents, MansaBlue (#003366) secondary
-- Glowing 1325.AI logo at top (reuse the asset generated for v4/v5 PDF)
-- Apple-minimal layout, generous whitespace, white body text on dark
-- Footer: "Mansa Musa Marketplace — Powered by 1325.AI"
+### Upgrade B — Feedback Loop
+- Add thumbs-up/down on every agent output in the UI
+- Store ratings in `ai_agent_feedback` table
+- Weekly job: surface lowest-rated outputs so prompts can be refined
+- Result: Measurable quality improvement week over week
 
-## Implementation
+### Upgrade C — Prompt Version Control
+- Move all agent system prompts into a `agent_prompts` table with version, A/B variant, and performance metrics
+- Track which prompt version produced which output
+- Result: Safe, measurable prompt iteration instead of blind edits
 
-- Python script writes both `.txt` and `.html` files to `/mnt/documents/`
-- Reuse the glowing logo PNG already generated (`/tmp/logo_glow_*.png`) embedded as base64 in the HTML
-- QA: render the HTML to an image with a headless browser (or imagemagick) to verify layout before delivering
-- Deliver both files via `<lov-artifact>` tags
+### Upgrade D — Inter-Agent Memory Bus
+- Agents can read each other's recent conclusions (e.g., the Churn agent sees what the Lead-Scoring agent just decided about the same customer)
+- Implemented as a shared `agent_context_bus` table with TTL
+- Result: Coordinated decisions instead of siloed ones — this is the Level 3 "AI Organization" behavior your patent claims
 
-## Notes
+## What I Need From You
 
-- One-off artifact generation, no app code touched
-- Phone number 312.709.6006 will NOT appear anywhere (per prior memory)
+Two decisions:
+
+1. **Run the audit?** (Phase 1 only — read-only, no risk, ~10 min)
+2. **Audit format:** PDF report, or live dashboard page at `/admin/kayla-health`?
+
+After Phase 1 you'll see the real score and decide which Phase 2 upgrades to fund.
+
+## Honest Notes
+
+- I cannot promise "100/100" before running the audit — that would be guessing.
+- "Beginning very smart" requires Upgrades A + C at minimum. Without them, every Kayla conversation starts from zero context.
+- None of this requires new infrastructure — your current Lovable Cloud + Lovable AI Gateway + Supabase stack supports all four upgrades.
