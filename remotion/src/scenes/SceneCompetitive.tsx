@@ -7,8 +7,6 @@ import { GoldDivider } from "../components/GoldDivider";
 const { fontFamily: playfair } = loadFont("normal", { weights: ["700", "900"], subsets: ["latin"] });
 const { fontFamily: inter } = loadInter("normal", { weights: ["400", "500", "700"], subsets: ["latin"] });
 
-// Scene 5: Competitive comparison (~60s = 1800 frames)
-// Title beat 0-180. Then 4 competitor rows, each ~330 frames. Final Kayla row 1500-1800.
 const COMPETITORS = [
   { name: "OpenAI · ChatGPT", verdict: "Powerful chatbot", limits: ["No shared memory", "No business context", "Waits for prompts"], score: 60 },
   { name: "Microsoft Copilot", verdict: "Document assistant", limits: ["Edits files, doesn't run business", "No autonomous action", "Per-app silos"], score: 65 },
@@ -16,25 +14,26 @@ const COMPETITORS = [
   { name: "Intuit QuickBooks AI", verdict: "Bookkeeping only", limits: ["Stops at the ledger", "No marketing or sales", "No community layer"], score: 55 },
 ];
 
+// Scene 5: Competitive comparison (~55s = 1650 frames)
+//   0-195   Title beat
+//   195-1475 Four competitor rows (320 each)
+//   1475-1650 Kayla winning row
 export const SceneCompetitive: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={1800} />
+      <CinematicBg totalFrames={1650} />
 
-      {/* Title beat */}
-      <Sequence from={0} durationInFrames={195}>
+      <Sequence from={0} durationInFrames={195} layout="none">
         <TitleBeat />
       </Sequence>
 
-      {/* Competitor rows: 195-1500 = 1305 frames / 4 = ~325 each */}
       {COMPETITORS.map((c, i) => (
-        <Sequence key={i} from={195 + i * 320} durationInFrames={340}>
+        <Sequence key={i} from={195 + i * 320} durationInFrames={320} layout="none">
           <CompetitorRow {...c} />
         </Sequence>
       ))}
 
-      {/* Kayla winning row 1475-1800 */}
-      <Sequence from={1475} durationInFrames={325}>
+      <Sequence from={1475} durationInFrames={175} layout="none">
         <KaylaRow />
       </Sequence>
     </AbsoluteFill>
@@ -71,7 +70,7 @@ const CompetitorRow: React.FC<{ name: string; verdict: string; limits: string[];
   const sp = spring({ frame, fps, config: { damping: 20, stiffness: 90 } });
   const y = interpolate(sp, [0, 1], [50, 0]);
   const op = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const opOut = interpolate(frame, [310, 340], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const opOut = interpolate(frame, [290, 320], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const barW = interpolate(spring({ frame: frame - 25, fps, config: { damping: 22, stiffness: 80 } }), [0, 1], [0, score]);
 
   return (
