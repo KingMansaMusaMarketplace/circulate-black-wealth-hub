@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning, buildReasoning } from "../_shared/kayla-coordination.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -39,6 +40,10 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
+    // SHARED BRAIN: read what the rest of the team already knows
+    const sharedCtx = await getBusinessContext(supabase, businessId);
+    const ctxFragment = contextAsPromptFragment(sharedCtx);
+
     const prompt = `You are a grant and funding research specialist for Black-owned businesses. Given this business profile, identify 5 relevant grants, loans, or funding opportunities they could apply for.
 
 Business: ${business.business_name}
@@ -46,6 +51,7 @@ Category: ${business.category || "General"}
 Location: ${business.city || ""}, ${business.state || ""}
 Description: ${business.description || "N/A"}
 Verified: ${business.is_verified ? "Yes" : "No"}
+${ctxFragment}
 
 Return a JSON array of grant objects. Each should have:
 - grant_name: string
