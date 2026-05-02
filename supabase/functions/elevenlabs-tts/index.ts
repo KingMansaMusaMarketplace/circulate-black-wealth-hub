@@ -1,4 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,6 +15,10 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Require auth — prevents anonymous abuse of paid ElevenLabs quota
+    const auth = await requireAuth(req, corsHeaders);
+    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
     const { text, voiceId = SARAH_VOICE_ID } = await req.json();
     
     if (!text) {

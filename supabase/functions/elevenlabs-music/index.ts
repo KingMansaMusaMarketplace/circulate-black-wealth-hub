@@ -1,3 +1,5 @@
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
@@ -9,6 +11,10 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Require auth — prevents anonymous abuse of paid ElevenLabs music quota
+    const auth = await requireAuth(req, corsHeaders);
+    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
     const { prompt, duration } = await req.json();
 
     if (!prompt) {
