@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2, TrendingUp, TrendingDown, AlertTriangle, Lightbulb, Sparkles, BarChart3 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
 
 interface Forecast {
   id: string;
@@ -132,6 +133,15 @@ export const KaylaCashFlowForecast: React.FC<Props> = ({ businessId }) => {
                   {f.ai_summary && (
                     <p className="text-xs text-white/50 italic">{f.ai_summary}</p>
                   )}
+                  <div className="mt-3">
+                    <AgentFeedbackButtons
+                      agentName="kayla-cashflow-forecast"
+                      decisionType="cashflow_forecast"
+                      businessId={businessId}
+                      decisionPayload={{ forecast_id: f.id, period: f.forecast_period, projected_net: f.projected_net, confidence: f.confidence_level }}
+                      compact
+                    />
+                  </div>
                 </CardContent>
               </Card>
             ))}

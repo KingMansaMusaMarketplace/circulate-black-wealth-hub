@@ -9079,6 +9079,54 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_business_baseline: {
+        Row: {
+          business_id: string
+          certifications: Json
+          compliance_gaps: Json
+          created_at: string
+          id: string
+          industry: string | null
+          public_sentiment: string | null
+          raw_insights: Json
+          size_estimate: string | null
+          status: string
+          top_grants: Json
+          updated_at: string
+          welcome_message: string | null
+        }
+        Insert: {
+          business_id: string
+          certifications?: Json
+          compliance_gaps?: Json
+          created_at?: string
+          id?: string
+          industry?: string | null
+          public_sentiment?: string | null
+          raw_insights?: Json
+          size_estimate?: string | null
+          status?: string
+          top_grants?: Json
+          updated_at?: string
+          welcome_message?: string | null
+        }
+        Update: {
+          business_id?: string
+          certifications?: Json
+          compliance_gaps?: Json
+          created_at?: string
+          id?: string
+          industry?: string | null
+          public_sentiment?: string | null
+          raw_insights?: Json
+          size_estimate?: string | null
+          status?: string
+          top_grants?: Json
+          updated_at?: string
+          welcome_message?: string | null
+        }
+        Relationships: []
+      }
       kayla_business_insights: {
         Row: {
           business_id: string
