@@ -142,6 +142,15 @@ Return forecasts for the next 3 months. Each forecast should include:
     const forecasts = JSON.parse(toolCall?.function?.arguments || "{}").forecasts || [];
 
     for (const forecast of forecasts) {
+      const reasoning = buildReasoning(
+        [
+          { label: "QR scans (30d)", value: dataPoints.scans_30d },
+          { label: "Prior 30d scans", value: dataPoints.scans_prior_30d },
+          { label: "Bookings (30d)", value: dataPoints.bookings_30d },
+          { label: "Avg rating", value: dataPoints.avg_rating },
+        ],
+        forecast.ai_summary || `Projected from recent activity trend; confidence ${forecast.confidence_level || 50}%.`,
+      );
       await supabase.from("kayla_cashflow_forecasts").insert({
         business_id: businessId,
         forecast_period: forecast.forecast_period,
@@ -153,11 +162,31 @@ Return forecasts for the next 3 months. Each forecast should include:
         opportunities: forecast.opportunities || [],
         ai_summary: forecast.ai_summary || "",
         data_points: dataPoints,
+        reasoning,
       });
     }
 
+    // SHARED BRAIN: tell the team what we just decided
+    const top = forecasts[0];
+    if (top) {
+      await appendDecision(
+        supabase,
+        businessId,
+        "Cash-Flow Analyst",
+        `Forecasted ${top.forecast_period}: net ${top.projected_net >= 0 ? "+" : "-"}$${Math.abs(top.projected_net || 0).toLocaleString()} (confidence ${top.confidence_level || 50}%).`,
+        { last_cashflow_net: top.projected_net || 0, last_cashflow_confidence: top.confidence_level || 50 },
+      );
+      await logLearning(
+        supabase,
+        businessId,
+        "Cash-Flow Analyst",
+        `Forecast generated using ${dataPoints.scans_30d} recent scans + ${dataPoints.bookings_30d} bookings as signal.`,
+        "agent_run",
+        0.65,
+      );
+    }
 
-    // Learning loop: log this decision so future runs can be rated and tuned
+    // Decision feedback log (existing learning loop)
     try {
       await supabase.from("ai_agent_feedback").insert({
         agent_name: "kayla-cashflow-forecast",
