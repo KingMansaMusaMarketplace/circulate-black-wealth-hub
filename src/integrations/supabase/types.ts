@@ -9251,6 +9251,7 @@ export type Database = {
           projected_expenses: number | null
           projected_net: number | null
           projected_revenue: number | null
+          reasoning: Json | null
           risk_factors: string[] | null
         }
         Insert: {
@@ -9265,6 +9266,7 @@ export type Database = {
           projected_expenses?: number | null
           projected_net?: number | null
           projected_revenue?: number | null
+          reasoning?: Json | null
           risk_factors?: string[] | null
         }
         Update: {
@@ -9279,6 +9281,7 @@ export type Database = {
           projected_expenses?: number | null
           projected_net?: number | null
           projected_revenue?: number | null
+          reasoning?: Json | null
           risk_factors?: string[] | null
         }
         Relationships: [
@@ -9909,6 +9912,7 @@ export type Database = {
           id: string
           match_reasons: string[] | null
           match_score: number | null
+          reasoning: Json | null
           status: string | null
           updated_at: string | null
         }
@@ -9926,6 +9930,7 @@ export type Database = {
           id?: string
           match_reasons?: string[] | null
           match_score?: number | null
+          reasoning?: Json | null
           status?: string | null
           updated_at?: string | null
         }
@@ -9943,6 +9948,7 @@ export type Database = {
           id?: string
           match_reasons?: string[] | null
           match_score?: number | null
+          reasoning?: Json | null
           status?: string | null
           updated_at?: string | null
         }
