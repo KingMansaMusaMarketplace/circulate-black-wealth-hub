@@ -825,10 +825,10 @@ Deno.serve(async (req) => {
 
     console.log(`Response served by: ${modelUsed}`);
 
-    // Inject model info as first SSE event, then pipe the rest
+    // Inject model info + session id as the first SSE event, then pipe the rest
     const encoder = new TextEncoder();
-    const modelInfoChunk = encoder.encode(`data: ${JSON.stringify({ model_used: modelUsed })}\n\n`);
-    
+    const modelInfoChunk = encoder.encode(`data: ${JSON.stringify({ model_used: modelUsed, session_id: sessionId })}\n\n`);
+
     const originalBody = responseStream.body;
     if (!originalBody) {
       return new Response(JSON.stringify({ error: "Empty response from AI" }),
