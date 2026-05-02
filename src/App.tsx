@@ -125,6 +125,7 @@ const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWork
 const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
 const LazyKaylaGTMKitPage = lazy(() => import('@/pages/KaylaGTMKitPage'));
 const LazyWhatKaylaDoesPage = lazy(() => import('@/pages/WhatKaylaDoesPage'));
+const LazyKaylaTeamPage = lazy(() => import('@/pages/KaylaTeamPage'));
 const LazyAIAssistantPage = lazy(() => import('@/pages/AIAssistantPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
@@ -590,6 +591,7 @@ function App() {
                               <Route path="/kayla-announcement" element={<LazyKaylaGTMKitPage />} />
                               <Route path="/kayla-onboarding-sequence" element={<LazyKaylaGTMKitPage />} />
                               <Route path="/what-kayla-does" element={<LazyWhatKaylaDoesPage />} />
+                              <Route path="/kayla/team" element={<LazyKaylaTeamPage />} />
                               <Route path="/error" element={<LazyErrorPage />} />
                               
                               {/* F */}
@@ -914,6 +916,7 @@ function App() {
                         <Route path="/kayla-announcement" element={<LazyKaylaGTMKitPage />} />
                         <Route path="/kayla-onboarding-sequence" element={<LazyKaylaGTMKitPage />} />
                         <Route path="/what-kayla-does" element={<LazyWhatKaylaDoesPage />} />
+                        <Route path="/kayla/team" element={<LazyKaylaTeamPage />} />
                         <Route path="/error" element={<LazyErrorPage />} />
                         
                         {/* F */}

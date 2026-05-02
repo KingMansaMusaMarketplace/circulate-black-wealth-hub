@@ -9127,6 +9127,45 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_business_context: {
+        Row: {
+          business_id: string
+          created_at: string
+          goals: Json
+          id: string
+          key_metrics: Json
+          last_updated_by: string | null
+          preferences: Json
+          recent_decisions: Json
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          goals?: Json
+          id?: string
+          key_metrics?: Json
+          last_updated_by?: string | null
+          preferences?: Json
+          recent_decisions?: Json
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          goals?: Json
+          id?: string
+          key_metrics?: Json
+          last_updated_by?: string | null
+          preferences?: Json
+          recent_decisions?: Json
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kayla_business_insights: {
         Row: {
           business_id: string
@@ -10197,6 +10236,39 @@ export type Database = {
           signal_key?: string
           signal_type?: string
           signal_value?: Json
+        }
+        Relationships: []
+      }
+      kayla_learnings: {
+        Row: {
+          agent_name: string
+          applied: boolean
+          business_id: string
+          confidence: number
+          created_at: string
+          id: string
+          learning: string
+          source: string
+        }
+        Insert: {
+          agent_name: string
+          applied?: boolean
+          business_id: string
+          confidence?: number
+          created_at?: string
+          id?: string
+          learning: string
+          source?: string
+        }
+        Update: {
+          agent_name?: string
+          applied?: boolean
+          business_id?: string
+          confidence?: number
+          created_at?: string
+          id?: string
+          learning?: string
+          source?: string
         }
         Relationships: []
       }
