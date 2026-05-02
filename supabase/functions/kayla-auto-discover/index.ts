@@ -1385,7 +1385,34 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
-  } catch (error) {
+  } finally {
+    // Close the run-log row (success or error) — finally runs in both cases
+    try {
+      const supabaseUrl2 = Deno.env.get("SUPABASE_URL")!;
+      const supabaseServiceKey2 = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase2 = createClient(supabaseUrl2, supabaseServiceKey2) as any;
+      const { data: openRow } = await supabase2
+        .from("kayla_run_log")
+        .select("id")
+        .eq("agent_name", "kayla-auto-discover")
+        .eq("run_status", "started")
+        .order("started_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (openRow) {
+        await supabase2
+          .from("kayla_run_log")
+          .update({
+            run_status: "completed",
+            completed_at: new Date().toISOString(),
+            duration_ms: Date.now() - startTime,
+          })
+          .eq("id", openRow.id);
+      }
+    } catch (e) {
+      console.error("[Kayla Auto-Discover] run-log close failed:", e);
+    }
+  }
     const errMsg = error instanceof Error ? (error as Error).message : "Unknown error";
     console.error("[Kayla Auto-Discover] Error:", errMsg);
 
