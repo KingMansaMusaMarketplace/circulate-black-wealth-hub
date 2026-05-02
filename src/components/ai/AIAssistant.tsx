@@ -200,6 +200,10 @@ export const AIAssistant = () => {
 
             if (parsed.model_used && !parsed.choices) {
               modelUsed = parsed.model_used;
+              if (parsed.session_id && parsed.session_id !== sessionIdRef.current) {
+                sessionIdRef.current = parsed.session_id;
+                try { localStorage.setItem('kayla_session_id', parsed.session_id); } catch {}
+              }
               continue;
             }
 
