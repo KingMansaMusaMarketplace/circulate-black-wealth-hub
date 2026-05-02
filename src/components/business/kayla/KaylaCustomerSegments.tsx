@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, Users, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
 
 interface Segment {
   name: string;
@@ -81,6 +82,15 @@ export const KaylaCustomerSegments: React.FC<Props> = ({ businessId }) => {
                   {seg.characteristics?.map((c, j) => (
                     <Badge key={j} variant="outline" className="text-xs border-white/10 text-white/40">{c}</Badge>
                   ))}
+                </div>
+                <div className="mt-3">
+                  <AgentFeedbackButtons
+                    agentName="kayla-segment-analyzer"
+                    decisionType="customer_segment"
+                    businessId={businessId}
+                    decisionPayload={{ segment_name: seg.name, count: seg.count }}
+                    compact
+                  />
                 </div>
               </CardContent>
             </Card>

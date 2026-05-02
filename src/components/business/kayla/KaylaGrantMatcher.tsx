@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, DollarSign, ExternalLink, Calendar, Target, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
 
 interface GrantMatch {
   id: string;
@@ -150,6 +151,15 @@ export const KaylaGrantMatcher: React.FC<Props> = ({ businessId }) => {
                         <p className="text-xs text-white/60">{grant.ai_application_tips}</p>
                       </div>
                     )}
+                    <div className="mt-3">
+                      <AgentFeedbackButtons
+                        agentName="kayla-grant-matcher"
+                        decisionType="grant_match"
+                        businessId={businessId}
+                        decisionPayload={{ grant_id: grant.id, grant_name: grant.grant_name, match_score: grant.match_score }}
+                        compact
+                      />
+                    </div>
                   </div>
                   {grant.grant_url && grant.grant_url !== '#' && (
                     <Button
