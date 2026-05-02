@@ -76,7 +76,7 @@ const AIChatWidgetInner: React.FC = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         if (response.status === 429) {
           toast.error('Rate limit exceeded. Please try again in a moment.');
         } else if (response.status === 402) {
@@ -84,6 +84,7 @@ const AIChatWidgetInner: React.FC = () => {
         } else {
           toast.error(errorData.error || 'Failed to get response');
         }
+        setMessages(prev => prev.slice(0, -1)); // remove seeded placeholder
         setIsLoading(false);
         return;
       }
@@ -97,8 +98,7 @@ const AIChatWidgetInner: React.FC = () => {
       let buffer = '';
       let streamDone = false;
 
-      // Add empty assistant message that we'll update
-      setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+      // Assistant placeholder was already seeded above with agents list.
 
       while (!streamDone) {
         const { done, value } = await reader.read();
