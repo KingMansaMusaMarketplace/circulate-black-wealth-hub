@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning, buildReasoning } from "../_shared/kayla-coordination.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -39,6 +40,10 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
+    // SHARED BRAIN: read what the rest of the team already knows
+    const sharedCtx = await getBusinessContext(supabase, businessId);
+    const ctxFragment = contextAsPromptFragment(sharedCtx);
+
     const prompt = `You are a grant and funding research specialist for Black-owned businesses. Given this business profile, identify 5 relevant grants, loans, or funding opportunities they could apply for.
 
 Business: ${business.business_name}
@@ -46,6 +51,7 @@ Category: ${business.category || "General"}
 Location: ${business.city || ""}, ${business.state || ""}
 Description: ${business.description || "N/A"}
 Verified: ${business.is_verified ? "Yes" : "No"}
+${ctxFragment}
 
 Return a JSON array of grant objects. Each should have:
 - grant_name: string
@@ -122,6 +128,16 @@ Focus on REAL programs for minority/Black-owned businesses, SBA programs, state 
 
     // Store grants
     for (const grant of grants) {
+      const reasoning = buildReasoning(
+        [
+          { label: "Category", value: business.category || "General" },
+          { label: "Location", value: `${business.city || ""}, ${business.state || ""}` },
+          { label: "Verified", value: business.is_verified ? "Yes" : "No" },
+          { label: "Match score", value: `${grant.match_score || 0}%` },
+        ],
+        (grant.match_reasons || []).slice(0, 2).join("; ") ||
+          `Matched on category, location, and certification eligibility.`,
+      );
       await supabase.from("kayla_grant_matches").insert({
         business_id: businessId,
         grant_name: grant.grant_name,
@@ -134,6 +150,7 @@ Focus on REAL programs for minority/Black-owned businesses, SBA programs, state 
         match_score: grant.match_score || 0,
         match_reasons: grant.match_reasons || [],
         ai_application_tips: grant.ai_application_tips || null,
+        reasoning,
       });
     }
 
@@ -147,6 +164,24 @@ Focus on REAL programs for minority/Black-owned businesses, SBA programs, state 
       metadata: { source: "grant_matcher", count: grants.length },
     });
 
+    // SHARED BRAIN
+    if (grants[0]) {
+      await appendDecision(
+        supabase,
+        businessId,
+        "Grant-Finder",
+        `Found ${grants.length} matches; top: ${grants[0].grant_name} at ${grants[0].match_score || 0}%.`,
+        { last_grant_count: grants.length, top_grant_score: grants[0].match_score || 0 },
+      );
+      await logLearning(
+        supabase,
+        businessId,
+        "Grant-Finder",
+        `Surfaced ${grants.length} grant matches based on category "${business.category || "General"}" and location.`,
+        "agent_run",
+        0.7,
+      );
+    }
 
     try {
       await supabase.from("ai_agent_feedback").insert({

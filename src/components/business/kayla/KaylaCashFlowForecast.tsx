@@ -5,6 +5,7 @@ import { Loader2, TrendingUp, TrendingDown, AlertTriangle, Lightbulb, Sparkles, 
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
+import { WhyThisCard } from './WhyThisCard';
 
 interface Forecast {
   id: string;
@@ -16,6 +17,7 @@ interface Forecast {
   risk_factors: string[];
   opportunities: string[];
   ai_summary: string;
+  reasoning?: { inputs: Array<{ label: string; value: string | number }>; rationale: string } | null;
   created_at: string;
 }
 
@@ -142,6 +144,7 @@ export const KaylaCashFlowForecast: React.FC<Props> = ({ businessId }) => {
                       compact
                     />
                   </div>
+                  <WhyThisCard reasoning={f.reasoning} />
                 </CardContent>
               </Card>
             ))}
