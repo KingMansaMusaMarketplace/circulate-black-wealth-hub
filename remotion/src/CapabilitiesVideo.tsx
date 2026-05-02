@@ -1,5 +1,6 @@
-import { AbsoluteFill, Audio, Series, staticFile } from "remotion";
+import { AbsoluteFill, Audio, Sequence, Series, staticFile } from "remotion";
 import { SceneHook } from "./scenes/SceneHook";
+import { SceneLogoIntro } from "./scenes/SceneLogoIntro";
 import { SceneMeetKayla } from "./scenes/SceneMeetKayla";
 import { SceneCapabilities } from "./scenes/SceneCapabilities";
 import { SceneScore } from "./scenes/SceneScore";
@@ -27,6 +28,11 @@ export const CapabilitiesVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000000" }}>
       <Audio src={staticFile("audio/vo-capabilities.mp3")} />
+
+      {/* Logo intro overlay — first 75 frames (2.5s) over the Hook */}
+      <Sequence from={0} durationInFrames={75}>
+        <SceneLogoIntro />
+      </Sequence>
 
       <Series>
         <Series.Sequence durationInFrames={540}>
