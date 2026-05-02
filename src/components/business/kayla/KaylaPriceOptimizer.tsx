@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Loader2, DollarSign, TrendingUp, TrendingDown, Plus, Sparkles, Tag } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
 
 interface PriceRec {
   id: string;
@@ -177,6 +178,15 @@ export const KaylaPriceOptimizer: React.FC<Props> = ({ businessId }) => {
                       <Button size="sm" variant="ghost" className="text-red-400 text-xs" onClick={() => updateStatus(rec.id, 'rejected')}>Reject</Button>
                     </div>
                   )}
+                </div>
+                <div className="mt-3">
+                  <AgentFeedbackButtons
+                    agentName="kayla-price-optimizer"
+                    decisionType="price_recommendation"
+                    businessId={businessId}
+                    decisionPayload={{ rec_id: rec.id, product: rec.product_or_service, recommended_price: rec.recommended_price }}
+                    compact
+                  />
                 </div>
               </CardContent>
             </Card>
