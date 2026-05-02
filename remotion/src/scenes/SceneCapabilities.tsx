@@ -73,7 +73,7 @@ const DEPTS: Dept[] = [
 ];
 
 export const SceneCapabilities: React.FC = () => {
-  const PER = 540; // 18s per department
+  const PER = 558; // 18.6s per department × 5 = 2790f (93s)
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
       <CinematicBg totalFrames={DEPTS.length * PER} />
@@ -92,7 +92,7 @@ const DeptScene: React.FC<{ dept: Dept }> = ({ dept }) => {
   const sp = spring({ frame, fps, config: { damping: 22, stiffness: 90 } });
   const yTitle = interpolate(sp, [0, 1], [40, 0]);
   const opTitle = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const opOut = interpolate(frame, [510, 540], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const opOut = interpolate(frame, [528, 558], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
     <AbsoluteFill style={{ flexDirection: "row", padding: "8% 8%", opacity: opOut }}>
@@ -118,7 +118,7 @@ const DeptScene: React.FC<{ dept: Dept }> = ({ dept }) => {
       {/* RIGHT: capability cards */}
       <div style={{ flex: 1.1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 16 }}>
         {dept.caps.map((c, i) => (
-          <Sequence key={i} from={40 + i * 18} durationInFrames={540}>
+          <Sequence key={i} from={40 + i * 18} durationInFrames={558}>
             <CapCard idx={i} title={c.title} sub={c.sub} />
           </Sequence>
         ))}
