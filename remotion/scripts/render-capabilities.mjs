@@ -12,7 +12,7 @@ const TOTAL_FRAMES = 8730;
 const FINAL = "/mnt/documents/1325AI-Kayla-Capabilities-Report-5min.mp4";
 
 // Render in 3 chunks of ~2910 frames each (~97s) to stay under per-call timeouts.
-const CHUNK_SIZE = 2910;
+const CHUNK_SIZE = 1500;
 const NUM_CHUNKS = Math.ceil(TOTAL_FRAMES / CHUNK_SIZE);
 const CHUNKS = Array.from({ length: NUM_CHUNKS }, (_, i) => ({
   from: i * CHUNK_SIZE,
