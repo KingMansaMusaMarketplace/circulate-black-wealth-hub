@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -70,7 +70,7 @@ serve(async (req) => {
       .eq('business_id', businessId);
 
     // Calculate metrics
-    const totalRevenue = bookings?.reduce((sum, b) => sum + Number(b.amount), 0) || 0;
+    const totalRevenue = bookings?.reduce((sum: number, b: any) => sum + Number(b.amount), 0) || 0;
     const avgBookingValue = bookings?.length ? totalRevenue / bookings.length : 0;
     const avgRating = business?.average_rating || 0;
     const totalScans = qrScans?.length || 0;
@@ -90,11 +90,11 @@ serve(async (req) => {
         conversionRate: (conversionRate * 100).toFixed(1) + '%'
       },
       recentTrends: {
-        bookingsByStatus: bookings?.reduce((acc: any, b: any) => {
+        bookingsByStatus: bookings?.reduce((acc: Record<string, number>, b: any) => {
           acc[b.status] = (acc[b.status] || 0) + 1;
           return acc;
         }, {}),
-        revenueByMonth: bookings?.reduce((acc: any, b: any) => {
+        revenueByMonth: bookings?.reduce((acc: Record<string, number>, b: any) => {
           const month = new Date(b.booking_date).toLocaleString('default', { month: 'short' });
           acc[month] = (acc[month] || 0) + Number(b.amount);
           return acc;

@@ -1,5 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
 import { z } from 'https://esm.sh/zod@3.23.8';
 
 const corsHeaders = {
@@ -31,6 +31,26 @@ const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[
 const BusinessInsightsRequestSchema = z.object({
   businessId: z.string().regex(uuidRegex, 'Invalid UUID format for businessId'),
 });
+
+interface QrScanRow {
+  customer_id: string | null;
+  points_awarded: number | null;
+}
+
+interface QrCodeRow {
+  is_active: boolean | null;
+  code_type: string | null;
+}
+
+interface ReviewRow {
+  rating: number | null;
+  review_text?: string | null;
+}
+
+interface ProductRow {
+  is_active: boolean | null;
+  category: string | null;
+}
 
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
@@ -132,6 +152,11 @@ Deno.serve(async (req) => {
       supabase.from('product_images').select('*').eq('business_id', businessId)
     ]);
 
+    const qrScanRows = (qrScans || []) as QrScanRow[];
+    const qrCodeRows = (qrCodes || []) as QrCodeRow[];
+    const reviewRows = (reviews || []) as ReviewRow[];
+    const productRows = (products || []) as ProductRow[];
+
     // Prepare analytics data for AI analysis
     const analyticsData = {
       business: {
@@ -144,27 +169,27 @@ Deno.serve(async (req) => {
         createdAt: business?.created_at
       },
       scans: {
-        total: qrScans?.length || 0,
-        recent: qrScans?.slice(0, 7).length || 0,
-        uniqueCustomers: new Set(qrScans?.map((s: any) => s.customer_id)).size || 0,
-        totalPoints: qrScans?.reduce((sum: number, s: any) => sum + (s.points_awarded || 0), 0) || 0,
-        avgPointsPerScan: qrScans?.length ? (qrScans.reduce((sum: number, s: any) => sum + (s.points_awarded || 0), 0) / qrScans.length) : 0
+        total: qrScanRows.length,
+        recent: qrScanRows.slice(0, 7).length,
+        uniqueCustomers: new Set(qrScanRows.map((s: QrScanRow) => s.customer_id)).size,
+        totalPoints: qrScanRows.reduce((sum: number, s: QrScanRow) => sum + (s.points_awarded || 0), 0),
+        avgPointsPerScan: qrScanRows.length ? (qrScanRows.reduce((sum: number, s: QrScanRow) => sum + (s.points_awarded || 0), 0) / qrScanRows.length) : 0
       },
       qrCodes: {
-        total: qrCodes?.length || 0,
-        active: qrCodes?.filter((q: any) => q.is_active).length || 0,
-        discountCodes: qrCodes?.filter((q: any) => q.code_type === 'discount').length || 0,
-        loyaltyCodes: qrCodes?.filter((q: any) => q.code_type === 'loyalty').length || 0
+        total: qrCodeRows.length,
+        active: qrCodeRows.filter((q: QrCodeRow) => q.is_active).length,
+        discountCodes: qrCodeRows.filter((q: QrCodeRow) => q.code_type === 'discount').length,
+        loyaltyCodes: qrCodeRows.filter((q: QrCodeRow) => q.code_type === 'loyalty').length
       },
       reviews: {
-        total: reviews?.length || 0,
-        avgRating: reviews?.length ? reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / reviews.length : 0,
-        recent: reviews?.slice(0, 5).map((r: any) => ({ rating: r.rating, text: r.review_text?.substring(0, 100) })) || []
+        total: reviewRows.length,
+        avgRating: reviewRows.length ? reviewRows.reduce((sum: number, r: ReviewRow) => sum + (r.rating || 0), 0) / reviewRows.length : 0,
+        recent: reviewRows.slice(0, 5).map((r: ReviewRow) => ({ rating: r.rating, text: r.review_text?.substring(0, 100) }))
       },
       products: {
-        total: products?.length || 0,
-        active: products?.filter((p: any) => p.is_active).length || 0,
-        categories: [...new Set(products?.map((p: any) => p.category).filter(Boolean))].length || 0
+        total: productRows.length,
+        active: productRows.filter((p: ProductRow) => p.is_active).length,
+        categories: [...new Set(productRows.map((p: ProductRow) => p.category).filter(Boolean))].length
       }
     };
 

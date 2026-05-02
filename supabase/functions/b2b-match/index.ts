@@ -22,7 +22,7 @@
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { z } from 'https://esm.sh/zod@3.23.8';
 
 const corsHeaders = {
@@ -33,6 +33,12 @@ const corsHeaders = {
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+
+interface ScoredMatch {
+  capability: any;
+  score: number;
+  reasons: string[];
+}
 
 // Rate limiting store (in-memory, resets on function cold start)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -149,7 +155,7 @@ serve(async (req) => {
     }
 
     // Score each capability
-    const scoredMatches = (capabilities || []).map((cap: any) => {
+    const scoredMatches: ScoredMatch[] = ((capabilities || []) as any[]).map((cap: any) => {
       let score = 0;
       const reasons: string[] = [];
 
@@ -218,7 +224,7 @@ serve(async (req) => {
     });
 
     // Sort by score
-    scoredMatches.sort((a: any, b: any) => b.score - a.score);
+    scoredMatches.sort((a: ScoredMatch, b: ScoredMatch) => b.score - a.score);
 
     // Take top 10 matches
     const topMatches = scoredMatches.slice(0, 10);
