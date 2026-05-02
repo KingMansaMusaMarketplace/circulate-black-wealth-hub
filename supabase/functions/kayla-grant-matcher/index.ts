@@ -147,6 +147,21 @@ Focus on REAL programs for minority/Black-owned businesses, SBA programs, state 
       metadata: { source: "grant_matcher", count: grants.length },
     });
 
+
+    try {
+      await supabase.from("ai_agent_feedback").insert({
+        agent_name: "kayla-grant-matcher",
+        business_id: businessId,
+        decision_type: "grant_matches",
+        decision_payload: {
+          count: grants.length,
+          top_match: grants[0]?.grant_name || null,
+          top_score: grants[0]?.match_score || null,
+        },
+        outcome: "auto",
+      });
+    } catch {}
+
     return new Response(JSON.stringify({ success: true, grants }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
