@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -48,8 +49,12 @@ serve(async (req) => {
       let vendorRecs: any[] = [];
 
       if (LOVABLE_API_KEY && business) {
+        const sharedCtx = await getBusinessContext(supabase, business_id);
+        const ctxFragment = contextAsPromptFragment(sharedCtx);
+
         const prompt = `You are a supply chain advisor for a ${business.category || "small"} business called "${business.business_name}". 
-        
+${ctxFragment}
+
 Current inventory items: ${JSON.stringify(items?.map((i: any) => ({ name: i.item_name, category: i.category, stock: i.current_stock, cost: i.unit_cost })) || [])}
 
 Low stock items needing reorder: ${JSON.stringify(lowStock.map((i: any) => i.item_name))}
@@ -120,6 +125,23 @@ Provide 3 vendor recommendations as a JSON array with fields: vendor_name, vendo
           .update({ reorder_recommended: true, ai_notes: `Stock (${item.current_stock}) is at or below minimum (${item.min_stock_level}). Reorder recommended.` })
           .eq("id", item.id);
       }
+
+      const totalSavings = vendorRecs.reduce((s: number, v: any) => s + (v.estimated_savings || 0), 0);
+      await appendDecision(
+        supabase,
+        business_id,
+        "Inventory Manager",
+        `Reviewed ${items?.length || 0} items; ${lowStock.length} low-stock alerts; ${vendorRecs.length} vendor swaps could save ~$${totalSavings.toFixed(0)}/mo`,
+        { low_stock_count: lowStock.length, projected_vendor_savings_monthly: Number(totalSavings.toFixed(0)) },
+      );
+      await logLearning(
+        supabase,
+        business_id,
+        "kayla-inventory-manager",
+        `${lowStock.length} items below reorder threshold. Switching vendors could save ~$${totalSavings.toFixed(0)}/mo.`,
+        "inventory_scan",
+        0.7,
+      );
 
       try {
         await supabase.from("ai_agent_feedback").insert({

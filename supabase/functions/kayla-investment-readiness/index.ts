@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -55,7 +56,11 @@ serve(async (req) => {
 
     if (!LOVABLE_API_KEY) throw new Error("AI not configured");
 
+    const sharedCtx = await getBusinessContext(supabase, business_id);
+    const ctxFragment = contextAsPromptFragment(sharedCtx);
+
     const prompt = `You are an investment readiness advisor. Assess this business for investor appeal:
+${ctxFragment}
 
 Business: ${business?.business_name}
 Category: ${business?.category}
@@ -117,6 +122,22 @@ Score each dimension 0-100 and provide strengths, weaknesses, and recommendation
       ...result,
       assessed_at: new Date().toISOString(),
     });
+
+    await appendDecision(
+      supabase,
+      business_id,
+      "Investment Readiness",
+      `Overall investor score ${result.overall_score}/100; best fit: ${(result.investor_type_fit || []).slice(0, 2).join(", ") || "n/a"}`,
+      { investor_readiness_score: result.overall_score },
+    );
+    await logLearning(
+      supabase,
+      business_id,
+      "kayla-investment-readiness",
+      `Investor readiness ${result.overall_score}/100. Top weakness: ${(result.weaknesses || [])[0] || "none flagged"}.`,
+      "investor_assessment",
+      0.75,
+    );
 
 
     try {

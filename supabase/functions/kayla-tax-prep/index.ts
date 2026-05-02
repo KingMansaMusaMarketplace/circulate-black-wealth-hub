@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -59,7 +60,11 @@ serve(async (req) => {
     let quarterlyEstimates: any[] = [];
 
     if (LOVABLE_API_KEY && business) {
+      const sharedCtx = await getBusinessContext(supabase, business_id);
+      const ctxFragment = contextAsPromptFragment(sharedCtx);
+
       const prompt = `You are a tax preparation assistant for a ${business.category || "small"} business called "${business.business_name}" located in ${business.city || ""}, ${business.state || "US"}.
+${ctxFragment}
 
 Tax Year: ${year}
 Revenue: $${totalRevenue.toFixed(2)}
@@ -140,6 +145,23 @@ Provide tax preparation guidance including potential deductions and quarterly es
             ai_summary: aiSummary,
             updated_at: new Date().toISOString(),
           }, { onConflict: "business_id,tax_year", ignoreDuplicates: false });
+
+          const totalDeductions = deductions.reduce((s: number, d: any) => s + (d.amount || 0), 0);
+          await appendDecision(
+            supabase,
+            business_id,
+            "Tax Prep",
+            `Estimated $${parsed.estimated_tax_liability?.toFixed(0) || 0} tax liability for ${year}; found $${totalDeductions.toFixed(0)} in deductions`,
+            { estimated_tax_liability: parsed.estimated_tax_liability || 0, tax_year_active: year },
+          );
+          await logLearning(
+            supabase,
+            business_id,
+            "kayla-tax-prep",
+            `${year} tax estimate: $${parsed.estimated_tax_liability?.toFixed(0) || 0} liability, ${deductions.length} deductions identified.`,
+            "tax_analysis",
+            0.7,
+          );
         }
       }
     }
