@@ -22742,6 +22742,7 @@ export type Database = {
           social_count: number
         }[]
       }
+      get_founding_slots_claimed_count: { Args: never; Returns: number }
       get_hbcu_verification_document_url: {
         Args: { verification_id: string }
         Returns: string
