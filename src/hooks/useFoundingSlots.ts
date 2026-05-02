@@ -19,12 +19,10 @@ export const useFoundingSlots = (): FoundingSlotsState => {
     let cancelled = false;
 
     const fetchCount = async () => {
-      const { count, error } = await supabase
-        .from("founding_member_slots")
-        .select("*", { count: "exact", head: true });
+      const { data, error } = await supabase.rpc("get_founding_slots_claimed_count");
       if (cancelled) return;
-      if (!error && typeof count === "number") {
-        setClaimed(count);
+      if (!error && typeof data === "number") {
+        setClaimed(data);
       }
       setLoading(false);
     };
