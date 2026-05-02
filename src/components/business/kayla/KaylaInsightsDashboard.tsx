@@ -334,6 +334,10 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
         <TabsContent value="emails">
           <KaylaEmailCampaigns businessId={businessId} />
         </TabsContent>
+
+        <TabsContent value="learning">
+          <KaylaLearningPanel businessId={businessId} />
+        </TabsContent>
       </Tabs>
     </div>
   );
