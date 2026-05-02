@@ -9,10 +9,13 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useCapacitor } from '@/hooks/use-capacitor';
+import { KaylaOrchestratorChips } from '@/components/business/kayla/KaylaOrchestratorChips';
+import { routeAgents } from '@/lib/kayla-agent-router';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  agents?: { id: string; name: string }[];
 }
 
 export const AIChatWidget: React.FC = () => {
@@ -42,13 +45,17 @@ const AIChatWidgetInner: React.FC = () => {
   }, [messages]);
 
   const streamChat = async (userMessage: string) => {
+    const agents = routeAgents(userMessage);
     const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
     setMessages(newMessages);
     setIsLoading(true);
     setInput('');
 
     let assistantMessage = '';
-    
+    // Seed the assistant placeholder up front so the chips render
+    // alongside the typing indicator and persist with the final reply.
+    setMessages(prev => [...prev, { role: 'assistant', content: '', agents }]);
+
     try {
       // Get the user's session token for authentication
       const { data: { session } } = await supabase.auth.getSession();
@@ -69,7 +76,7 @@ const AIChatWidgetInner: React.FC = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         if (response.status === 429) {
           toast.error('Rate limit exceeded. Please try again in a moment.');
         } else if (response.status === 402) {
@@ -77,6 +84,7 @@ const AIChatWidgetInner: React.FC = () => {
         } else {
           toast.error(errorData.error || 'Failed to get response');
         }
+        setMessages(prev => prev.slice(0, -1)); // remove seeded placeholder
         setIsLoading(false);
         return;
       }
@@ -90,8 +98,7 @@ const AIChatWidgetInner: React.FC = () => {
       let buffer = '';
       let streamDone = false;
 
-      // Add empty assistant message that we'll update
-      setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+      // Assistant placeholder was already seeded above with agents list.
 
       while (!streamDone) {
         const { done, value } = await reader.read();
@@ -121,7 +128,8 @@ const AIChatWidgetInner: React.FC = () => {
               assistantMessage += content;
               setMessages(prev => {
                 const updated = [...prev];
-                updated[updated.length - 1] = { role: 'assistant', content: assistantMessage };
+                const last = updated[updated.length - 1];
+                updated[updated.length - 1] = { ...last, role: 'assistant', content: assistantMessage };
                 return updated;
               });
             }
@@ -147,7 +155,8 @@ const AIChatWidgetInner: React.FC = () => {
               assistantMessage += content;
               setMessages(prev => {
                 const updated = [...prev];
-                updated[updated.length - 1] = { role: 'assistant', content: assistantMessage };
+                const last = updated[updated.length - 1];
+                updated[updated.length - 1] = { ...last, role: 'assistant', content: assistantMessage };
                 return updated;
               });
             }
@@ -223,13 +232,30 @@ const AIChatWidgetInner: React.FC = () => {
                   )}
                   <div
                     className={cn(
-                      'rounded-lg px-4 py-2 max-w-[80%]',
+                      'rounded-lg px-4 py-2 max-w-[80%] space-y-2',
                       msg.role === 'user'
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted'
                     )}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                    {msg.role === 'assistant' && msg.agents && msg.agents.length > 1 && (
+                      <KaylaOrchestratorChips
+                        agents={msg.agents.map(a => ({
+                          ...a,
+                          status: msg.content ? 'ready' : 'thinking',
+                        }))}
+                        label={msg.content ? 'Team contributed:' : 'Coordinating your AI team'}
+                      />
+                    )}
+                    {msg.content ? (
+                      <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                    ) : msg.role === 'assistant' ? (
+                      <div className="flex gap-1 py-1">
+                        <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce" />
+                        <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]" />
+                        <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+                      </div>
+                    ) : null}
                   </div>
                   {msg.role === 'user' && (
                     <Avatar className="h-8 w-8">
@@ -240,22 +266,7 @@ const AIChatWidgetInner: React.FC = () => {
                   )}
                 </div>
               ))}
-              {isLoading && (
-                <div className="flex gap-3">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary/10 text-primary">
-                      <Sparkles className="h-4 w-4" />
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="bg-muted rounded-lg px-4 py-2">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]" />
-                      <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
-                    </div>
-                  </div>
-                </div>
-              )}
+              {/* Typing indicator now lives inside the seeded assistant bubble (with chips). */}
             </div>
           </ScrollArea>
 
