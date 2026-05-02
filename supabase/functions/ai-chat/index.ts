@@ -1,5 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { routeAgents } from "../_shared/kayla-agent-router.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -367,7 +368,32 @@ Keep answers helpful, accurate, and conversational. If you need more details abo
       );
     }
 
-    return new Response(response.body, {
+    // Server-confirmed orchestration: tell the client which Kayla
+    // specialists are contributing, BEFORE any model deltas arrive.
+    const lastUserMsg = messages[messages.length - 1]?.content || "";
+    const agents = routeAgents(typeof lastUserMsg === "string" ? lastUserMsg : "");
+
+    const encoder = new TextEncoder();
+    const agentEvent = encoder.encode(`data: ${JSON.stringify({ agents })}\n\n`);
+    const upstream = response.body!;
+    const combined = new ReadableStream({
+      async start(controller) {
+        controller.enqueue(agentEvent);
+        const reader = upstream.getReader();
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            controller.enqueue(value);
+          }
+          controller.close();
+        } catch (e) {
+          controller.error(e);
+        }
+      },
+    });
+
+    return new Response(combined, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (error) {
