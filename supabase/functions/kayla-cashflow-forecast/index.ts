@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning, buildReasoning } from "../_shared/kayla-coordination.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -57,6 +58,10 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
+    // SHARED BRAIN: read what the rest of the team already knows
+    const sharedCtx = await getBusinessContext(supabase, businessId);
+    const ctxFragment = contextAsPromptFragment(sharedCtx);
+
     const prompt = `You are a financial analyst AI for small businesses. Based on this data, generate a 3-month cash flow forecast.
 
 Business: ${business.business_name} (${business.category || "General"})
@@ -67,6 +72,7 @@ Activity Data (last 30 days vs prior 30 days):
 - Reviews: ${dataPoints.reviews_30d}
 - Bookings: ${dataPoints.bookings_30d}
 - Avg Rating: ${dataPoints.avg_rating}
+${ctxFragment}
 
 Return forecasts for the next 3 months. Each forecast should include:
 - forecast_period: "Month 1", "Month 2", "Month 3"
