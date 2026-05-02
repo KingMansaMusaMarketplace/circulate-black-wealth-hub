@@ -150,6 +150,18 @@ Return forecasts for the next 3 months. Each forecast should include:
       });
     }
 
+
+    // Learning loop: log this decision so future runs can be rated and tuned
+    try {
+      await supabase.from("ai_agent_feedback").insert({
+        agent_name: "kayla-cashflow-forecast",
+        business_id: businessId,
+        decision_type: "cashflow_forecast",
+        decision_payload: { forecasts },
+        outcome: "auto",
+      });
+    } catch {}
+
     return new Response(JSON.stringify({ success: true, forecasts }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
