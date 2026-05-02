@@ -60,6 +60,10 @@ export const AIAssistant = () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // Stable per-conversation id so Kayla can persist memory across reloads via ai_chat_sessions.
+  const sessionIdRef = useRef<string | null>(
+    typeof window !== 'undefined' ? localStorage.getItem('kayla_session_id') : null
+  );
 
   useEffect(() => {
     const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
