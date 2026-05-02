@@ -22,6 +22,8 @@ import { KaylaTaxPrep } from './KaylaTaxPrep';
 import { KaylaInvestmentReadiness } from './KaylaInvestmentReadiness';
 import { KaylaComplianceReminders } from './KaylaComplianceReminders';
 import { KaylaLegalTemplates } from './KaylaLegalTemplates';
+import { KaylaFirstLook } from './KaylaFirstLook';
+import { KaylaLearningPanel } from './KaylaLearningPanel';
 
 interface KaylaInsight {
   id: string;
@@ -126,6 +128,8 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
     <div className="space-y-6">
       {!isKaylaSubscriber && <KaylaUpgradeCard />}
 
+      <KaylaFirstLook businessId={businessId} />
+
       <Tabs defaultValue="insights" className="w-full">
         <TabsList className="flex flex-wrap gap-1 bg-slate-800/40 border border-white/10 h-auto p-1">
           <TabsTrigger value="insights" className="data-[state=active]:bg-yellow-900/60 data-[state=active]:text-yellow-300 text-white/60 text-xs">📊 Insights</TabsTrigger>
@@ -143,6 +147,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
           <TabsTrigger value="followups" className="data-[state=active]:bg-orange-900/60 data-[state=active]:text-orange-300 text-white/60 text-xs">🔄 Follow-ups</TabsTrigger>
           <TabsTrigger value="reminders" className="data-[state=active]:bg-amber-900/60 data-[state=active]:text-amber-300 text-white/60 text-xs">🔔 Reminders</TabsTrigger>
           <TabsTrigger value="emails" className="data-[state=active]:bg-rose-900/60 data-[state=active]:text-rose-300 text-white/60 text-xs">✉️ Campaigns</TabsTrigger>
+          <TabsTrigger value="learning" className="data-[state=active]:bg-mansagold/30 data-[state=active]:text-mansagold text-white/60 text-xs">🧠 Learning</TabsTrigger>
         </TabsList>
 
         <TabsContent value="insights">
