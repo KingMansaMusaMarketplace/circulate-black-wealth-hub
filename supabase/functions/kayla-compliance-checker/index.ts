@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -36,7 +37,11 @@ serve(async (req) => {
 
     if (!LOVABLE_API_KEY || !business) throw new Error("Cannot generate compliance reminders");
 
+    const sharedCtx = await getBusinessContext(supabase, business_id);
+    const ctxFragment = contextAsPromptFragment(sharedCtx);
+
     const prompt = `You are a business compliance advisor. Generate compliance reminders for:
+${ctxFragment}
 
 Business: ${business.business_name}
 Category: ${business.category}
@@ -105,12 +110,29 @@ Generate 5-8 compliance reminders relevant to this business type and location. I
       });
     }
 
+    const critical = reminders.filter((r: any) => r.urgency === "critical" || r.urgency === "high").length;
+    await appendDecision(
+      supabase,
+      business_id,
+      "Compliance Checker",
+      `Surfaced ${reminders.length} compliance reminders (${critical} high/critical) for ${business.state}`,
+      { open_compliance_items: reminders.length, critical_compliance: critical },
+    );
+    await logLearning(
+      supabase,
+      business_id,
+      "kayla-compliance-checker",
+      `${reminders.length} compliance items active in ${business.state}; ${critical} need urgent attention.`,
+      "compliance_scan",
+      0.75,
+    );
+
     try {
       await supabase.from("ai_agent_feedback").insert({
         agent_name: "kayla-compliance-checker",
         business_id,
         decision_type: "compliance_reminders",
-        decision_payload: { count: reminders.length, state: business.state },
+        decision_payload: { count: reminders.length, state: business.state, critical },
         outcome: "auto",
       });
     } catch {}
