@@ -24,7 +24,7 @@ export const SceneLogoIntro: React.FC = () => {
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
       {/* Dark veil */}
-      <AbsoluteFill style={{ backgroundColor: "#000000", opacity: veil > 0 ? 1 : 0 }} />
+      <AbsoluteFill style={{ backgroundColor: "#000000", opacity: veil }} />
 
       {/* Logo + glow */}
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity }}>
@@ -52,7 +52,7 @@ export const SceneLogoIntro: React.FC = () => {
             }}
           />
           <Img
-            src={staticFile("images/1325-ai-logo.png")}
+            src={staticFile("images/logo-1325ai.png")}
             style={{
               position: "relative",
               height: 560,
