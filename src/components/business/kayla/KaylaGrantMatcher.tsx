@@ -6,6 +6,7 @@ import { Loader2, DollarSign, ExternalLink, Calendar, Target, Sparkles } from 'l
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
+import { WhyThisCard } from './WhyThisCard';
 
 interface GrantMatch {
   id: string;
@@ -19,6 +20,7 @@ interface GrantMatch {
   match_score: number;
   match_reasons: string[];
   ai_application_tips: string | null;
+  reasoning?: { inputs: Array<{ label: string; value: string | number }>; rationale: string } | null;
   status: string;
   created_at: string;
 }
@@ -160,6 +162,7 @@ export const KaylaGrantMatcher: React.FC<Props> = ({ businessId }) => {
                         compact
                       />
                     </div>
+                    <WhyThisCard reasoning={grant.reasoning} />
                   </div>
                   {grant.grant_url && grant.grant_url !== '#' && (
                     <Button

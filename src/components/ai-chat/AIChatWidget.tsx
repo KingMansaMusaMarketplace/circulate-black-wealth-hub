@@ -123,6 +123,18 @@ const AIChatWidgetInner: React.FC = () => {
 
           try {
             const parsed = JSON.parse(jsonStr);
+            // Server-confirmed orchestrator chips override the client guess.
+            if (Array.isArray(parsed.agents)) {
+              setMessages(prev => {
+                const updated = [...prev];
+                const last = updated[updated.length - 1];
+                if (last?.role === 'assistant') {
+                  updated[updated.length - 1] = { ...last, agents: parsed.agents };
+                }
+                return updated;
+              });
+              continue;
+            }
             const content = parsed.choices?.[0]?.delta?.content;
             if (content) {
               assistantMessage += content;
