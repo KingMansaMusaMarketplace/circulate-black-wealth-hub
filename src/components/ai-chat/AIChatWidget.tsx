@@ -128,7 +128,8 @@ const AIChatWidgetInner: React.FC = () => {
               assistantMessage += content;
               setMessages(prev => {
                 const updated = [...prev];
-                updated[updated.length - 1] = { role: 'assistant', content: assistantMessage };
+                const last = updated[updated.length - 1];
+                updated[updated.length - 1] = { ...last, role: 'assistant', content: assistantMessage };
                 return updated;
               });
             }
@@ -154,7 +155,8 @@ const AIChatWidgetInner: React.FC = () => {
               assistantMessage += content;
               setMessages(prev => {
                 const updated = [...prev];
-                updated[updated.length - 1] = { role: 'assistant', content: assistantMessage };
+                const last = updated[updated.length - 1];
+                updated[updated.length - 1] = { ...last, role: 'assistant', content: assistantMessage };
                 return updated;
               });
             }
