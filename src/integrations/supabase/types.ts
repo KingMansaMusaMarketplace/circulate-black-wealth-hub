@@ -696,6 +696,51 @@ export type Database = {
           },
         ]
       }
+      ai_agent_feedback: {
+        Row: {
+          agent_name: string
+          business_id: string | null
+          created_at: string
+          decision_payload: Json
+          decision_type: string
+          feedback_text: string | null
+          id: string
+          model_used: string | null
+          outcome: string | null
+          outcome_value: number | null
+          rating: number | null
+          user_id: string | null
+        }
+        Insert: {
+          agent_name: string
+          business_id?: string | null
+          created_at?: string
+          decision_payload?: Json
+          decision_type: string
+          feedback_text?: string | null
+          id?: string
+          model_used?: string | null
+          outcome?: string | null
+          outcome_value?: number | null
+          rating?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          agent_name?: string
+          business_id?: string | null
+          created_at?: string
+          decision_payload?: Json
+          decision_type?: string
+          feedback_text?: string | null
+          id?: string
+          model_used?: string | null
+          outcome?: string | null
+          outcome_value?: number | null
+          rating?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       ai_agent_queue: {
         Row: {
           action_id: string
@@ -10618,6 +10663,39 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      kayla_run_log: {
+        Row: {
+          agent_name: string
+          completed_at: string | null
+          created_at: string
+          details: Json | null
+          duration_ms: number | null
+          id: string
+          run_status: string
+          started_at: string
+        }
+        Insert: {
+          agent_name: string
+          completed_at?: string | null
+          created_at?: string
+          details?: Json | null
+          duration_ms?: number | null
+          id?: string
+          run_status?: string
+          started_at?: string
+        }
+        Update: {
+          agent_name?: string
+          completed_at?: string | null
+          created_at?: string
+          details?: Json | null
+          duration_ms?: number | null
+          id?: string
+          run_status?: string
+          started_at?: string
+        }
+        Relationships: []
       }
       kayla_segment_members: {
         Row: {
@@ -23178,6 +23256,18 @@ export type Database = {
           entity_type: string
         }
         Returns: undefined
+      }
+      log_agent_decision: {
+        Args: {
+          _agent_name: string
+          _business_id: string
+          _decision_payload: Json
+          _decision_type: string
+          _model_used?: string
+          _outcome?: string
+          _user_id: string
+        }
+        Returns: string
       }
       log_api_usage: {
         Args: {

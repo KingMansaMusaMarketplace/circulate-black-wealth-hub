@@ -388,6 +388,16 @@ Deno.serve(async (req) => {
         rules: [{ rule_type: "multiplier", trigger_event: "qr_scan", conditions: { day_of_week: "friday", time_range: ["17:00", "21:00"] }, reward_config: { multiplier: 2 } }],
       });
 
+      try {
+        await supabase.from("ai_agent_feedback").insert({
+          agent_name: "kayla-loyalty-engine",
+          business_id,
+          decision_type: "loyalty_campaign_suggestions",
+          decision_payload: { count: suggestions.length, types: suggestions.map((s: any) => s.campaign_type) },
+          outcome: "auto",
+        });
+      } catch {}
+
       return json({ success: true, suggestions });
     }
 

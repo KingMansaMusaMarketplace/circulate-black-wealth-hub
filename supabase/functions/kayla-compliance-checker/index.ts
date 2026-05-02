@@ -105,6 +105,16 @@ Generate 5-8 compliance reminders relevant to this business type and location. I
       });
     }
 
+    try {
+      await supabase.from("ai_agent_feedback").insert({
+        agent_name: "kayla-compliance-checker",
+        business_id,
+        decision_type: "compliance_reminders",
+        decision_payload: { count: reminders.length, state: business.state },
+        outcome: "auto",
+      });
+    } catch {}
+
     return new Response(JSON.stringify({ reminders }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

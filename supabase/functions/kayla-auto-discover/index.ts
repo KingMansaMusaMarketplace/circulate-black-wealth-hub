@@ -857,6 +857,63 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
+    // === EARLY-EXIT GUARD ===
+    // Skip if we successfully completed a run in the last 9 minutes
+    // (cron is */10, so this prevents overlap from manual triggers + double-fires)
+    const NINE_MIN_AGO = new Date(Date.now() - 9 * 60 * 1000).toISOString();
+    const { data: recentRun } = await supabase
+      .from("kayla_run_log")
+      .select("id, completed_at")
+      .eq("agent_name", "kayla-auto-discover")
+      .eq("run_status", "completed")
+      .gte("completed_at", NINE_MIN_AGO)
+      .order("completed_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (recentRun) {
+      console.log(`[Kayla Auto-Discover] Skipping: recent run completed at ${recentRun.completed_at}`);
+      await supabase.from("kayla_run_log").insert({
+        agent_name: "kayla-auto-discover",
+        run_status: "skipped",
+        completed_at: new Date().toISOString(),
+        duration_ms: Date.now() - startTime,
+        details: { reason: "recent_run_within_9min", last_completed: recentRun.completed_at },
+      });
+      return new Response(
+        JSON.stringify({ success: true, skipped: true, reason: "recent_run_within_9min", lastCompleted: recentRun.completed_at }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Also skip if a run is currently in progress (started <5 min ago, no completion yet)
+    const FIVE_MIN_AGO = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+    const { data: inFlight } = await supabase
+      .from("kayla_run_log")
+      .select("id, started_at")
+      .eq("agent_name", "kayla-auto-discover")
+      .eq("run_status", "started")
+      .gte("started_at", FIVE_MIN_AGO)
+      .order("started_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (inFlight) {
+      console.log(`[Kayla Auto-Discover] Skipping: run in progress since ${inFlight.started_at}`);
+      return new Response(
+        JSON.stringify({ success: true, skipped: true, reason: "run_in_progress", startedAt: inFlight.started_at }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Open a run-log row that we'll close on success/failure
+    const { data: runRow } = await supabase
+      .from("kayla_run_log")
+      .insert({ agent_name: "kayla-auto-discover", run_status: "started" })
+      .select("id")
+      .single();
+    const currentRunId: string | null = runRow?.id ?? null;
+
     // === SMART COMBO SELECTION: Track previously searched combos ===
     // Fetch recently searched combos from reports to avoid repetition
     const { data: recentReports } = await supabase
@@ -1350,5 +1407,33 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       JSON.stringify({ success: false, error: errMsg }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
+  } finally {
+    // Close the run-log row (success or error). Skipped/early-return paths exit
+    // before this finally runs because they return inside the guard branch.
+    try {
+      const supabaseUrl2 = Deno.env.get("SUPABASE_URL")!;
+      const supabaseServiceKey2 = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase2 = createClient(supabaseUrl2, supabaseServiceKey2) as any;
+      const { data: openRow } = await supabase2
+        .from("kayla_run_log")
+        .select("id")
+        .eq("agent_name", "kayla-auto-discover")
+        .eq("run_status", "started")
+        .order("started_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (openRow) {
+        await supabase2
+          .from("kayla_run_log")
+          .update({
+            run_status: "completed",
+            completed_at: new Date().toISOString(),
+            duration_ms: Date.now() - startTime,
+          })
+          .eq("id", openRow.id);
+      }
+    } catch (e) {
+      console.error("[Kayla Auto-Discover] run-log close failed:", e);
+    }
   }
 });

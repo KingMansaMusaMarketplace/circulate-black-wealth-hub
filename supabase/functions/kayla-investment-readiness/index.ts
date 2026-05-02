@@ -118,6 +118,17 @@ Score each dimension 0-100 and provide strengths, weaknesses, and recommendation
       assessed_at: new Date().toISOString(),
     });
 
+
+    try {
+      await supabase.from("ai_agent_feedback").insert({
+        agent_name: "kayla-investment-readiness",
+        business_id,
+        decision_type: "investment_readiness_assessment",
+        decision_payload: result,
+        outcome: "auto",
+      });
+    } catch {}
+
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

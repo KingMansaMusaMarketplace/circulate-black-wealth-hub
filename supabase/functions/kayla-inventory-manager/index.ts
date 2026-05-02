@@ -121,6 +121,20 @@ Provide 3 vendor recommendations as a JSON array with fields: vendor_name, vendo
           .eq("id", item.id);
       }
 
+      try {
+        await supabase.from("ai_agent_feedback").insert({
+          agent_name: "kayla-inventory-manager",
+          business_id,
+          decision_type: "inventory_analysis",
+          decision_payload: {
+            total_items: items?.length || 0,
+            low_stock_count: lowStock.length,
+            vendor_recommendations_count: vendorRecs.length,
+          },
+          outcome: "auto",
+        });
+      } catch {}
+
       return new Response(JSON.stringify({
         total_items: items?.length || 0,
         low_stock_count: lowStock.length,

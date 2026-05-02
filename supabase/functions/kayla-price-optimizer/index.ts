@@ -132,6 +132,17 @@ If no products given, suggest 5 common products/services for this business categ
       });
     }
 
+
+    try {
+      await supabase.from("ai_agent_feedback").insert({
+        agent_name: "kayla-price-optimizer",
+        business_id: businessId,
+        decision_type: "price_recommendations",
+        decision_payload: { recommendations },
+        outcome: "auto",
+      });
+    } catch {}
+
     return new Response(JSON.stringify({ success: true, recommendations }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

@@ -60,6 +60,10 @@ export const AIAssistant = () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // Stable per-conversation id so Kayla can persist memory across reloads via ai_chat_sessions.
+  const sessionIdRef = useRef<string | null>(
+    typeof window !== 'undefined' ? localStorage.getItem('kayla_session_id') : null
+  );
 
   useEffect(() => {
     const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
@@ -148,7 +152,7 @@ export const AIAssistant = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${session.access_token}`,
           },
-          body: JSON.stringify({ messages: apiMessages }),
+          body: JSON.stringify({ messages: apiMessages, session_id: sessionIdRef.current }),
           signal: controller.signal,
         }
       );
@@ -196,6 +200,10 @@ export const AIAssistant = () => {
 
             if (parsed.model_used && !parsed.choices) {
               modelUsed = parsed.model_used;
+              if (parsed.session_id && parsed.session_id !== sessionIdRef.current) {
+                sessionIdRef.current = parsed.session_id;
+                try { localStorage.setItem('kayla_session_id', parsed.session_id); } catch {}
+              }
               continue;
             }
 
