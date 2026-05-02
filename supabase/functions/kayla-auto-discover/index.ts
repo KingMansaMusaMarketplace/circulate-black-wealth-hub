@@ -1385,8 +1385,31 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
+  } catch (error) {
+    const errMsg = error instanceof Error ? (error as Error).message : "Unknown error";
+    console.error("[Kayla Auto-Discover] Error:", errMsg);
+
+    try {
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
+      await supabase.from("kayla_agent_reports").insert({
+        report_type: "auto_discover",
+        status: "error",
+        summary: `Auto-discover failed: ${errMsg}`,
+        details: { error: errMsg, duration_ms: Date.now() - startTime },
+        issues_found: 0,
+        issues_fixed: 0,
+      });
+    } catch {}
+
+    return new Response(
+      JSON.stringify({ success: false, error: errMsg }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   } finally {
-    // Close the run-log row (success or error) — finally runs in both cases
+    // Close the run-log row (success or error). Skipped/early-return paths exit
+    // before this finally runs because they return inside the guard branch.
     try {
       const supabaseUrl2 = Deno.env.get("SUPABASE_URL")!;
       const supabaseServiceKey2 = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -1412,27 +1435,5 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     } catch (e) {
       console.error("[Kayla Auto-Discover] run-log close failed:", e);
     }
-  }
-    const errMsg = error instanceof Error ? (error as Error).message : "Unknown error";
-    console.error("[Kayla Auto-Discover] Error:", errMsg);
-
-    try {
-      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-      const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-      const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
-      await supabase.from("kayla_agent_reports").insert({
-        report_type: "auto_discover",
-        status: "error",
-        summary: `Auto-discover failed: ${errMsg}`,
-        details: { error: errMsg, duration_ms: Date.now() - startTime },
-        issues_found: 0,
-        issues_fixed: 0,
-      });
-    } catch {}
-
-    return new Response(
-      JSON.stringify({ success: false, error: errMsg }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
   }
 });
