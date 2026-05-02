@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -13,12 +14,15 @@ interface OtpRequest {
 }
 
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // Require authentication — prevents SMS flooding & unauthenticated OTP minting
+    const auth = await requireAuth(req, corsHeaders);
+    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const twilioAccountSid = Deno.env.get("TWILIO_ACCOUNT_SID");
@@ -33,6 +37,28 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ success: false, error: "Missing required fields" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Authenticated user must match userId in payload
+    if (auth.userId !== userId) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Forbidden: user mismatch" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Verify ownership of the business (or location-manager)
+    const { data: ownedBiz } = await supabase
+      .from("businesses")
+      .select("id")
+      .eq("id", businessId)
+      .or(`owner_id.eq.${auth.userId},location_manager_id.eq.${auth.userId}`)
+      .maybeSingle();
+    if (!ownedBiz) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Forbidden: not business owner" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -60,7 +86,7 @@ serve(async (req) => {
         user_id: userId,
         phone_number: phoneNumber,
         otp_hash: otpHash,
-        expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString() // 10 minutes
+        expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString()
       });
 
     if (insertError) {
@@ -74,7 +100,7 @@ serve(async (req) => {
     // Send SMS via Twilio if configured
     if (twilioAccountSid && twilioAuthToken && twilioPhoneNumber) {
       const formattedPhone = phoneNumber.startsWith("+1") ? phoneNumber : `+1${phoneNumber}`;
-      
+
       const twilioResponse = await fetch(
         `https://api.twilio.com/2010-04-01/Accounts/${twilioAccountSid}/Messages.json`,
         {
@@ -94,19 +120,17 @@ serve(async (req) => {
       if (!twilioResponse.ok) {
         const errorData = await twilioResponse.json();
         console.error("Twilio error:", errorData);
-        // Don't fail - we can still verify via database for testing
       }
     } else {
-      // For development/testing, log the OTP
+      // Server-side log only — NEVER return OTP in HTTP response
       console.log(`[DEV MODE] OTP for ${phoneNumber}: ${otpCode}`);
     }
 
+    // SECURITY: Never return the OTP in the response body
     return new Response(
-      JSON.stringify({ 
-        success: true, 
+      JSON.stringify({
+        success: true,
         message: "Verification code sent",
-        // Only include code in dev mode
-        ...((!twilioAccountSid) && { devCode: otpCode })
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
