@@ -232,13 +232,30 @@ const AIChatWidgetInner: React.FC = () => {
                   )}
                   <div
                     className={cn(
-                      'rounded-lg px-4 py-2 max-w-[80%]',
+                      'rounded-lg px-4 py-2 max-w-[80%] space-y-2',
                       msg.role === 'user'
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted'
                     )}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                    {msg.role === 'assistant' && msg.agents && msg.agents.length > 1 && (
+                      <KaylaOrchestratorChips
+                        agents={msg.agents.map(a => ({
+                          ...a,
+                          status: msg.content ? 'ready' : 'thinking',
+                        }))}
+                        label={msg.content ? 'Team contributed:' : 'Coordinating your AI team'}
+                      />
+                    )}
+                    {msg.content ? (
+                      <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                    ) : msg.role === 'assistant' ? (
+                      <div className="flex gap-1 py-1">
+                        <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce" />
+                        <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]" />
+                        <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+                      </div>
+                    ) : null}
                   </div>
                   {msg.role === 'user' && (
                     <Avatar className="h-8 w-8">
@@ -249,22 +266,7 @@ const AIChatWidgetInner: React.FC = () => {
                   )}
                 </div>
               ))}
-              {isLoading && (
-                <div className="flex gap-3">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary/10 text-primary">
-                      <Sparkles className="h-4 w-4" />
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="bg-muted rounded-lg px-4 py-2">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]" />
-                      <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
-                    </div>
-                  </div>
-                </div>
-              )}
+              {/* Typing indicator now lives inside the seeded assistant bubble (with chips). */}
             </div>
           </ScrollArea>
 
