@@ -97,17 +97,19 @@ serve(async (req) => {
       throw new Error('Reviews not found');
     }
 
+    const reviewRows = reviews as ReviewData[];
+
     // If not admin, verify user owns the business for these reviews
     if (!isAdmin) {
-      const businessIds = [...new Set(reviews.map((r: any) => r.business_id))];
+      const businessIds = [...new Set(reviewRows.map((r: ReviewData) => r.business_id))];
       const { data: ownedBusinesses } = await supabase
         .from('businesses')
         .select('id')
         .in('id', businessIds)
         .eq('owner_id', user.id);
       
-      const ownedBusinessIds = new Set((ownedBusinesses || []).map((b: any) => b.id));
-      const unauthorizedReviews = reviews.filter((r: any) => !ownedBusinessIds.has(r.business_id));
+      const ownedBusinessIds = new Set(((ownedBusinesses || []) as Array<{ id: string }>).map((b) => b.id));
+      const unauthorizedReviews = reviewRows.filter((r: ReviewData) => !ownedBusinessIds.has(r.business_id));
       
       if (unauthorizedReviews.length > 0) {
         return new Response(
@@ -119,7 +121,7 @@ serve(async (req) => {
 
     const analyzedReviews = [];
 
-    for (const review of reviews as ReviewData[]) {
+    for (const review of reviewRows) {
       console.log(`Analyzing review ${review.id}`);
 
       // Sanitize review content before sending to AI
