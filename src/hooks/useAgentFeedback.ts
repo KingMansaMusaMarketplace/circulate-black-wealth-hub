@@ -37,6 +37,25 @@ export function useAgentFeedback() {
         model_used: p.modelUsed ?? null,
       });
       if (error) throw error;
+
+      // Make learning visible: record a short, human-readable note in the
+      // shared kayla_learnings feed so the dashboard can surface it.
+      if (p.businessId) {
+        const learning = p.rating === 1
+          ? `${p.agentName}'s ${p.decisionType} approved — keep doing more of this.`
+          : p.feedbackText
+            ? `${p.agentName} adjusted ${p.decisionType}: "${p.feedbackText}".`
+            : `${p.agentName}'s ${p.decisionType} marked unhelpful — recalibrating prompts.`;
+        await supabase.from('kayla_learnings' as any).insert({
+          business_id: p.businessId,
+          agent_name: p.agentName,
+          learning,
+          source: 'feedback',
+          confidence: p.rating === 1 ? 0.7 : 0.6,
+          applied: false,
+        });
+      }
+
       toast.success(p.rating === 1 ? 'Thanks — Kayla learns from this.' : 'Got it. Kayla will adjust.');
     } catch (err: any) {
       setSubmitted(null); // rollback

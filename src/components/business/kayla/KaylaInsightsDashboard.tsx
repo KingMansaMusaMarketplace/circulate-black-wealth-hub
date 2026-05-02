@@ -24,6 +24,8 @@ import { KaylaComplianceReminders } from './KaylaComplianceReminders';
 import { KaylaLegalTemplates } from './KaylaLegalTemplates';
 import { KaylaFirstLook } from './KaylaFirstLook';
 import { KaylaLearningPanel } from './KaylaLearningPanel';
+import { KaylaTeamRosterTeaser } from './KaylaTeamRosterTeaser';
+import { KaylaWeeklyLearnings } from './KaylaWeeklyLearnings';
 
 interface KaylaInsight {
   id: string;
@@ -129,6 +131,11 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
       {!isKaylaSubscriber && <KaylaUpgradeCard />}
 
       <KaylaFirstLook businessId={businessId} />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <KaylaTeamRosterTeaser />
+        <KaylaWeeklyLearnings businessId={businessId} />
+      </div>
 
       <Tabs defaultValue="insights" className="w-full">
         <TabsList className="flex flex-wrap gap-1 bg-slate-800/40 border border-white/10 h-auto p-1">
