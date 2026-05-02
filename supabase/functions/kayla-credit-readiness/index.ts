@@ -253,6 +253,21 @@ Generate your assessment using the following tool.`;
       processed_at: new Date().toISOString(),
     });
 
+
+    try {
+      await supabase.from("ai_agent_feedback").insert({
+        agent_name: "kayla-credit-readiness",
+        business_id,
+        decision_type: "credit_readiness_assessment",
+        decision_payload: {
+          report_id: report.id,
+          overall_score: assessment.overall_score,
+          estimated_borrowing_range: assessment.estimated_borrowing_range,
+        },
+        outcome: "auto",
+      });
+    } catch {}
+
     return new Response(
       JSON.stringify({ report_id: report.id, ...assessment }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
