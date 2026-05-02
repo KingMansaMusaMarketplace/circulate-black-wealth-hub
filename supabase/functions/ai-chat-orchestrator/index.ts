@@ -610,6 +610,37 @@ Deno.serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
+    // ========== KAYLA SESSION MEMORY ==========
+    // Optional client-provided session id; if absent we generate one and return it
+    // so the client can pin all subsequent turns to the same row in ai_chat_sessions.
+    const incomingSessionId = typeof requestBody.session_id === 'string' ? requestBody.session_id : null;
+    const sessionId = incomingSessionId && /^[0-9a-f-]{36}$/i.test(incomingSessionId)
+      ? incomingSessionId
+      : crypto.randomUUID();
+
+    // Persist (or refresh) the conversation row with the messages we know about so far.
+    // This guarantees Kayla's memory survives reloads. The next request will include
+    // the assistant's reply (the client always sends the full message list), so the
+    // assistant turn lands in the row on the *next* upsert. This is intentional —
+    // it keeps the streaming response path uncomplicated.
+    try {
+      const firstUserText = (() => {
+        const firstUser = messages.find((m: any) => m.role === 'user');
+        return firstUser ? getMessageText(firstUser.content).slice(0, 80) : 'Kayla session';
+      })();
+      await supabase
+        .from('ai_chat_sessions')
+        .upsert({
+          id: sessionId,
+          user_id: user.id,
+          title: firstUserText,
+          messages,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'id' });
+    } catch (e) {
+      console.error('[Kayla memory] Session upsert failed (non-fatal):', e);
+    }
+
     // ========== CHECK API KEYS ==========
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
