@@ -9,10 +9,13 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useCapacitor } from '@/hooks/use-capacitor';
+import { KaylaOrchestratorChips } from '@/components/business/kayla/KaylaOrchestratorChips';
+import { routeAgents } from '@/lib/kayla-agent-router';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  agents?: { id: string; name: string }[];
 }
 
 export const AIChatWidget: React.FC = () => {
@@ -42,13 +45,17 @@ const AIChatWidgetInner: React.FC = () => {
   }, [messages]);
 
   const streamChat = async (userMessage: string) => {
+    const agents = routeAgents(userMessage);
     const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
     setMessages(newMessages);
     setIsLoading(true);
     setInput('');
 
     let assistantMessage = '';
-    
+    // Seed the assistant placeholder up front so the chips render
+    // alongside the typing indicator and persist with the final reply.
+    setMessages(prev => [...prev, { role: 'assistant', content: '', agents }]);
+
     try {
       // Get the user's session token for authentication
       const { data: { session } } = await supabase.auth.getSession();
