@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -42,7 +43,11 @@ serve(async (req) => {
       ? products.map((p: any) => `${p.name}: $${p.price}`).join("\n")
       : "No specific products provided — suggest general pricing strategy for this category.";
 
+    const sharedCtx = await getBusinessContext(supabase, businessId);
+    const ctxFragment = contextAsPromptFragment(sharedCtx);
+
     const prompt = `You are a pricing strategist for small businesses. Analyze and suggest optimal pricing.
+${ctxFragment}
 
 Business: ${business.business_name}
 Category: ${business.category || "General"}
@@ -119,17 +124,44 @@ If no products given, suggest 5 common products/services for this business categ
     const recommendations = JSON.parse(toolCall?.function?.arguments || "{}").recommendations || [];
 
     for (const rec of recommendations) {
+      const reasoning = {
+        inputs: [
+          { label: "Current price", value: rec.current_price ?? "n/a" },
+          { label: "Competitor range", value: rec.competitor_range || "unknown" },
+          { label: "Confidence", value: `${rec.confidence_score || 50}%` },
+        ],
+        rationale: rec.reasoning || "Recommended based on category benchmarks and shared business context.",
+      };
       await supabase.from("kayla_price_recommendations").insert({
         business_id: businessId,
         product_or_service: rec.product_or_service,
         current_price: rec.current_price || null,
         recommended_price: rec.recommended_price,
         price_change_percent: rec.price_change_percent || null,
-        reasoning: rec.reasoning || null,
+        reasoning: reasoning as any,
         market_data: {},
         competitor_range: rec.competitor_range || null,
         confidence_score: rec.confidence_score || 50,
       });
+    }
+
+    if (recommendations.length) {
+      const avgChange = recommendations.reduce((s: number, r: any) => s + (r.price_change_percent || 0), 0) / recommendations.length;
+      await appendDecision(
+        supabase,
+        businessId,
+        "Price Optimizer",
+        `Recommended ${recommendations.length} price changes (avg ${avgChange.toFixed(1)}%)`,
+        { last_pricing_avg_change_pct: Number(avgChange.toFixed(1)) },
+      );
+      await logLearning(
+        supabase,
+        businessId,
+        "kayla-price-optimizer",
+        `Generated ${recommendations.length} pricing recommendations averaging ${avgChange.toFixed(1)}% change.`,
+        "price_optimization",
+        0.7,
+      );
     }
 
 
