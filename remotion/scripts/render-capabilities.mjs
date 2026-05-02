@@ -58,7 +58,7 @@ for (let i = 0; i < CHUNKS.length; i++) {
     outputLocation: out,
     puppeteerInstance: browser,
     muted: true, // we mux VO at the end
-    concurrency: 1,
+    concurrency: 4,
     frameRange: [c.from, c.to - 1],
   });
   console.log(`Chunk ${i} done.`);
