@@ -152,7 +152,7 @@ export const AIAssistant = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${session.access_token}`,
           },
-          body: JSON.stringify({ messages: apiMessages }),
+          body: JSON.stringify({ messages: apiMessages, session_id: sessionIdRef.current }),
           signal: controller.signal,
         }
       );
