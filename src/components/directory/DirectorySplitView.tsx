@@ -11,6 +11,7 @@ import MobileMapSheet from './MobileMapSheet';
 import MapboxMap from '@/components/MapView/MapboxMap';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import DirectoryEmptyState from './DirectoryEmptyState';
 
 interface DirectorySplitViewProps {
   businesses: Business[];
@@ -19,6 +20,7 @@ interface DirectorySplitViewProps {
   isLoading?: boolean;
   userLocation?: { lat: number; lng: number } | null;
   mapApiKey?: string;
+  onResetFilters?: () => void;
 }
 
 const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
@@ -28,6 +30,7 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
   isLoading = false,
   userLocation = null,
   mapApiKey = '',
+  onResetFilters,
 }) => {
   const isMobile = useIsMobile();
   // Treat iPads / tablets (≤1024px) as mobile for split-view purposes
