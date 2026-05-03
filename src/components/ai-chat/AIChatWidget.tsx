@@ -12,11 +12,14 @@ import { supabase } from '@/integrations/supabase/client';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { KaylaOrchestratorChips } from '@/components/business/kayla/KaylaOrchestratorChips';
 import { routeAgents } from '@/lib/kayla-agent-router';
+import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   agents?: { id: string; name: string }[];
+  modelUsed?: string;
+  sessionId?: string;
 }
 
 export const AIChatWidget: React.FC = () => {
@@ -37,7 +40,11 @@ const AIChatWidgetInner: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
+  // Persisted per-conversation id so Kayla remembers across reloads (matches AIAssistant.tsx).
+  const sessionIdRef = useRef<string | null>(
+    typeof window !== 'undefined' ? localStorage.getItem('kayla_widget_session_id') : null
+  );
+  const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat-orchestrator`;
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -73,7 +80,7 @@ const AIChatWidgetInner: React.FC = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session.access_token}`,
         },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ messages: newMessages, session_id: sessionIdRef.current }),
       });
 
       if (!response.ok) {
@@ -124,6 +131,22 @@ const AIChatWidgetInner: React.FC = () => {
 
           try {
             const parsed = JSON.parse(jsonStr);
+            // Server emits { model_used, session_id } once before content streams.
+            if (parsed.model_used && !parsed.choices) {
+              if (parsed.session_id && parsed.session_id !== sessionIdRef.current) {
+                sessionIdRef.current = parsed.session_id;
+                try { localStorage.setItem('kayla_widget_session_id', parsed.session_id); } catch {}
+              }
+              setMessages(prev => {
+                const updated = [...prev];
+                const last = updated[updated.length - 1];
+                if (last?.role === 'assistant') {
+                  updated[updated.length - 1] = { ...last, modelUsed: parsed.model_used, sessionId: parsed.session_id };
+                }
+                return updated;
+              });
+              continue;
+            }
             // Server-confirmed orchestrator chips override the client guess.
             if (Array.isArray(parsed.agents)) {
               setMessages(prev => {
@@ -275,6 +298,20 @@ const AIChatWidgetInner: React.FC = () => {
                         <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
                       </div>
                     ) : null}
+                    {msg.role === 'assistant' && msg.content && !isLoading && idx === messages.length - 1 && (
+                      <AgentFeedbackButtons
+                        agentName="kayla-orchestrator"
+                        decisionType="chat_response"
+                        decisionPayload={{
+                          session_id: msg.sessionId ?? sessionIdRef.current,
+                          model_used: msg.modelUsed,
+                          preview: msg.content.slice(0, 240),
+                        }}
+                        modelUsed={msg.modelUsed}
+                        compact
+                        className="pt-1"
+                      />
+                    )}
                   </div>
                   {msg.role === 'user' && (
                     <Avatar className="h-8 w-8">
