@@ -220,13 +220,13 @@ const SalesAgentDashboardPage: React.FC = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="referrals">Referrals</TabsTrigger>
-            <TabsTrigger value="team">Team</TabsTrigger>
-            <TabsTrigger value="commissions">Commissions</TabsTrigger>
-            <TabsTrigger value="payments">Payments</TabsTrigger>
-            <TabsTrigger value="export">Export</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-6 bg-slate-900/40 border border-white/10 p-1">
+            <TabsTrigger value="overview" className="text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold">Overview</TabsTrigger>
+            <TabsTrigger value="referrals" className="text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold">Referrals</TabsTrigger>
+            <TabsTrigger value="team" className="text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold">Team</TabsTrigger>
+            <TabsTrigger value="commissions" className="text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold">Commissions</TabsTrigger>
+            <TabsTrigger value="payments" className="text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold">Payments</TabsTrigger>
+            <TabsTrigger value="export" className="text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold">Export</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
