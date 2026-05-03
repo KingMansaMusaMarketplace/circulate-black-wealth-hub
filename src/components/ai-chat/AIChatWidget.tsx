@@ -12,11 +12,14 @@ import { supabase } from '@/integrations/supabase/client';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { KaylaOrchestratorChips } from '@/components/business/kayla/KaylaOrchestratorChips';
 import { routeAgents } from '@/lib/kayla-agent-router';
+import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   agents?: { id: string; name: string }[];
+  modelUsed?: string;
+  sessionId?: string;
 }
 
 export const AIChatWidget: React.FC = () => {
