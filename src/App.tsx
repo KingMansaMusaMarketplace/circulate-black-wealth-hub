@@ -652,9 +652,21 @@ function App() {
                               <Route path="/partner/eatokra" element={<LazyEatOkraPartnershipPage />} />
                               <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                               <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
-                              <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
-                              <Route path="/founding-success" element={<LazyFoundingSuccessPage />} />
-                              <Route path="/pricing" element={<LazyPricingPage />} />
+                              <Route path="/payment-success" element={
+                                <IOSProtectedRoute>
+                                  <LazyPaymentSuccessPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/founding-success" element={
+                                <IOSProtectedRoute>
+                                  <LazyFoundingSuccessPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/pricing" element={
+                                <IOSProtectedRoute>
+                                  <LazyPricingPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                               {/* /payment-test, /qr-test removed */}
                               <Route path="/qr-code-generator" element={<LazyQRCodeGeneratorPage />} />
