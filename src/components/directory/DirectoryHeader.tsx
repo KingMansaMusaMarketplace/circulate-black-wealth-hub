@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface DirectoryHeaderProps {
@@ -9,9 +8,12 @@ interface DirectoryHeaderProps {
 const DirectoryHeader: React.FC<DirectoryHeaderProps> = ({ title, description }) => {
   return (
     <div className="mb-10">
-      <h1 className="text-3xl font-bold text-mansablue mb-4">{title}</h1>
+      <h1 className="font-display text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
+        {title}
+      </h1>
+      <div className="h-px w-16 bg-mansagold mb-4" />
       {description && (
-        <p className="text-gray-600 max-w-2xl">
+        <p className="font-body text-slate-400 max-w-2xl leading-relaxed">
           {description}
         </p>
       )}
