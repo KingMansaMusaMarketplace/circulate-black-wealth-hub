@@ -53,12 +53,17 @@ const ShoppingAssistantChat: React.FC = () => {
 
 const ShoppingAssistantChatInner: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(() => loadStoredMessages());
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  // Persist messages whenever they change (skips empty arrays).
+  useEffect(() => {
+    saveStoredMessages(messages);
+  }, [messages]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -71,6 +76,11 @@ const ShoppingAssistantChatInner: React.FC = () => {
       inputRef.current.focus();
     }
   }, [isOpen]);
+
+  const clearChat = () => {
+    setMessages([]);
+    saveStoredMessages([]);
+  };
 
   const sendMessage = async () => {
     const trimmed = input.trim();
