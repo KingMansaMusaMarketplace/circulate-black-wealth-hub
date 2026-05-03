@@ -65,75 +65,71 @@ const ShareImpactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Modern dark gradient mesh background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
-      
-      {/* Animated gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-float" />
-        <div className="absolute top-1/4 -right-32 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] bg-gradient-to-tr from-blue-700/25 to-mansablue/25 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-gradient-to-bl from-mansagold/20 to-amber-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
-      </div>
-
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
+    <div className="min-h-screen relative overflow-hidden bg-black">
+      {/* Subtle ambient accent */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-70"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.06), transparent 70%)',
+        }}
+      />
 
       <div className="container mx-auto px-4 max-w-2xl py-20 relative z-10">
         {loading ? (
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <Sparkles className="w-12 h-12 animate-spin mx-auto mb-4 text-mansagold" />
-              <p className="text-white/80">Loading your impact...</p>
+              <p className="text-slate-400">Loading your impact...</p>
             </div>
           </div>
         ) : (
           <div className="space-y-8 animate-fade-in">
             {/* Header */}
             <div className="text-center space-y-3">
-              <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-mansagold via-amber-400 to-mansagold bg-clip-text text-transparent animate-fade-in">
-                Share Your Impact
+              <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight text-white animate-fade-in">
+                Share Your <span className="text-mansagold">Impact</span>
               </h1>
-              <p className="text-white/70 text-lg">
+              <p className="text-slate-400 text-lg">
                 Show the community your progress
               </p>
             </div>
 
-            {/* Stats Card with Glass-morphism */}
-            <Card ref={cardRef} className="p-8 md:p-10 space-y-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:bg-white/10 transition-all duration-300">
-              <h2 className="text-3xl font-semibold text-center bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                My Impact
+            {/* Stats Card — kept slightly accented since it's the downloadable artifact */}
+            <Card ref={cardRef} className="p-8 md:p-10 space-y-8 bg-slate-950 border border-mansagold/20 shadow-2xl">
+              <h2 className="font-display text-3xl font-semibold tracking-tight text-center text-white">
+                My <span className="text-mansagold">Impact</span>
               </h2>
               
               <div className="grid grid-cols-3 gap-6">
                 <div className="text-center space-y-3">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-mansablue/30 to-blue-600/30 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
+                  <div className="w-16 h-16 mx-auto bg-mansablue/15 ring-1 ring-mansablue/40 rounded-full flex items-center justify-center">
                     <Users className="w-8 h-8 text-blue-300" />
                   </div>
                   <div className="text-4xl font-bold text-white">{stats.businesses}</div>
-                  <div className="text-sm text-white/60">Businesses</div>
+                  <div className="text-sm text-slate-400">Businesses</div>
                 </div>
 
                 <div className="text-center space-y-3">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-500/30 to-purple-600/30 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
-                    <Award className="w-8 h-8 text-purple-300" />
+                  <div className="w-16 h-16 mx-auto bg-mansagold/10 ring-1 ring-mansagold/40 rounded-full flex items-center justify-center">
+                    <Award className="w-8 h-8 text-mansagold" />
                   </div>
                   <div className="text-4xl font-bold text-white">{stats.achievements}</div>
-                  <div className="text-sm text-white/60">Achievements</div>
+                  <div className="text-sm text-slate-400">Achievements</div>
                 </div>
 
                 <div className="text-center space-y-3">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-mansagold/30 to-amber-500/30 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
-                    <Sparkles className="w-8 h-8 text-amber-300" />
+                  <div className="w-16 h-16 mx-auto bg-mansagold/10 ring-1 ring-mansagold/40 rounded-full flex items-center justify-center">
+                    <Sparkles className="w-8 h-8 text-mansagold" />
                   </div>
                   <div className="text-4xl font-bold text-white">{stats.points}</div>
-                  <div className="text-sm text-white/60">Points</div>
+                  <div className="text-sm text-slate-400">Points</div>
                 </div>
               </div>
 
-              <div className="text-center text-white/70 text-lg pt-4 border-t border-white/10">
-                Building Community Wealth Together 💪
+              <div className="text-center text-slate-300 text-lg pt-4 border-t border-white/10">
+                Building Community Wealth Together
               </div>
             </Card>
 
@@ -143,7 +139,7 @@ const ShareImpactPage: React.FC = () => {
                 size="lg"
                 onClick={handleDownload}
                 disabled={downloading}
-                className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-mansagold/90 hover:via-amber-500/90 hover:to-mansagold/90 text-slate-900 font-semibold shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-mansagold text-black hover:bg-mansagold/90 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="w-5 h-5 mr-2" />
                 {downloading ? 'Downloading...' : 'Download Image'}
