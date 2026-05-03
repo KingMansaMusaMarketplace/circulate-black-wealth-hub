@@ -115,7 +115,7 @@ serve(async (req) => {
       let q = supabase
         .from("businesses")
         .select("name, category, city, state, description, average_rating, website")
-        .eq("listing_status", "active")
+        .in("listing_status", ["live", "active"])
         .limit(25);
 
       if (city) q = q.ilike("city", `%${city}%`);
@@ -140,7 +140,7 @@ serve(async (req) => {
       const { data } = await supabase
         .from("businesses")
         .select("name, category, city, state, description, average_rating, website")
-        .eq("listing_status", "active")
+        .in("listing_status", ["live", "active"])
         .order("average_rating", { ascending: false, nullsFirst: false })
         .limit(30);
       popular = data || [];
