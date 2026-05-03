@@ -126,30 +126,30 @@ const SupportPage = () => {
       </Helmet>
       
       <div className="min-h-screen bg-black relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        </div>
+        {/* Subtle ambient accent */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-70"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.06), transparent 70%)',
+          }}
+        />
 
-        {/* Subtle grid overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-
-        {/* Hero Section */}
+        {/* Hero */}
         <div className="relative z-10">
           <div className="container mx-auto px-4 py-16">
             <div className="text-center max-w-3xl mx-auto">
               <div className="inline-block mb-6">
-                <div className="p-4 bg-gradient-to-br from-mansagold/20 to-amber-500/20 rounded-full backdrop-blur-sm border border-mansagold/30 shadow-lg shadow-mansagold/20 animate-pulse">
+                <div className="p-4 bg-mansagold/10 rounded-full border border-mansagold/30">
                   <Headphones className="h-16 w-16 text-mansagold" />
                 </div>
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-4">
-                Support <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Center</span> 🎧
+              <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-4 text-white">
+                Support <span className="text-mansagold">Center</span>
               </h1>
-              <p className="text-xl text-blue-100/90 font-medium">
-                We're here to help you make the most of 1325.AI ✨
+              <p className="text-xl text-slate-400">
+                We're here to help you make the most of 1325.AI
               </p>
             </div>
           </div>
@@ -159,35 +159,27 @@ const SupportPage = () => {
 
           {/* Support Options */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-8">
-              <span className="text-white">How Can We </span>
-              <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Help You?</span> 💬
+            <h2 className="font-display text-3xl font-bold tracking-tight text-center mb-8 text-white">
+              How Can We <span className="text-mansagold">Help You?</span>
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
-              {supportOptions.map((option, index) => {
-                const iconBgs = [
-                  'from-mansablue to-blue-600',
-                  'from-green-500 to-emerald-600',
-                  'from-mansagold to-amber-500'
-                ];
-                return (
-                  <Card key={index} className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 hover:shadow-xl hover:shadow-mansagold/20 transition-all duration-300 hover:scale-105">
-                    <CardHeader className="text-center">
-                      <div className={`mx-auto mb-4 p-3 bg-gradient-to-br ${iconBgs[index]} rounded-xl shadow-lg flex justify-center w-fit`}>
-                        {React.cloneElement(option.icon as React.ReactElement, { className: "h-6 w-6 text-white" })}
-                      </div>
-                      <CardTitle className="text-center text-white">{option.title}</CardTitle>
-                      <CardDescription className="text-center text-blue-200/70">{option.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-center space-y-4">
-                      <p className="font-semibold text-center break-words bg-gradient-to-r from-blue-300 to-mansagold bg-clip-text text-transparent">{option.contact}</p>
-                      <Button className={`w-full bg-gradient-to-r ${iconBgs[index]} hover:opacity-90 text-white font-semibold shadow-lg`}>
-                        {option.action}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+              {supportOptions.map((option, index) => (
+                <Card key={index} className="bg-slate-900/40 border-white/10 hover:border-mansagold/40 transition-colors">
+                  <CardHeader className="text-center">
+                    <div className="mx-auto mb-4 p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl flex justify-center w-fit">
+                      {React.cloneElement(option.icon as React.ReactElement, { className: "h-6 w-6 text-mansagold" })}
+                    </div>
+                    <CardTitle className="text-center text-white">{option.title}</CardTitle>
+                    <CardDescription className="text-center text-slate-400">{option.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-center space-y-4">
+                    <p className="font-semibold text-center break-words text-mansagold">{option.contact}</p>
+                    <Button className="w-full bg-mansagold text-black hover:bg-mansagold/90 font-medium">
+                      {option.action}
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </section>
 
