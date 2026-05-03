@@ -317,48 +317,48 @@ export default function UserProfilePage() {
                 <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="full_name" className="text-blue-200">Full Name</Label>
+                      <Label htmlFor="full_name" className="text-slate-300">Full Name</Label>
                       <Input
                         id="full_name"
                         value={profile.full_name || ''}
                         onChange={(e) => setProfile(prev => prev ? {...prev, full_name: e.target.value} : null)}
-                        className="bg-white/5 border-white/10 text-white placeholder:text-blue-200/50 focus:border-yellow-500/50"
+                        className="bg-slate-900/60 border-white/10 text-white placeholder:text-slate-500 focus:border-mansagold/50 focus-visible:ring-mansagold/40"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-blue-200">Email</Label>
+                      <Label htmlFor="email" className="text-slate-300">Email</Label>
                       <Input
                         id="email"
                         value={profile.email || ''}
                         disabled
-                        className="bg-white/10 border-white/10 text-blue-200/60"
+                        className="bg-slate-900/40 border-white/10 text-slate-400"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-blue-200">Phone</Label>
+                      <Label htmlFor="phone" className="text-slate-300">Phone</Label>
                       <Input
                         id="phone"
                         value={profile.phone || ''}
                         onChange={(e) => setProfile(prev => prev ? {...prev, phone: e.target.value} : null)}
-                        className="bg-white/5 border-white/10 text-white placeholder:text-blue-200/50 focus:border-yellow-500/50"
+                        className="bg-slate-900/60 border-white/10 text-white placeholder:text-slate-500 focus:border-mansagold/50 focus-visible:ring-mansagold/40"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="city" className="text-blue-200">City</Label>
+                      <Label htmlFor="city" className="text-slate-300">City</Label>
                       <Input
                         id="city"
                         value={profile.city || ''}
                         onChange={(e) => setProfile(prev => prev ? {...prev, city: e.target.value} : null)}
-                        className="bg-white/5 border-white/10 text-white placeholder:text-blue-200/50 focus:border-yellow-500/50"
+                        className="bg-slate-900/60 border-white/10 text-white placeholder:text-slate-500 focus:border-mansagold/50 focus-visible:ring-mansagold/40"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="state" className="text-blue-200">State</Label>
+                      <Label htmlFor="state" className="text-slate-300">State</Label>
                       <Input
                         id="state"
                         value={profile.state || ''}
                         onChange={(e) => setProfile(prev => prev ? {...prev, state: e.target.value} : null)}
-                        className="bg-white/5 border-white/10 text-white placeholder:text-blue-200/50 focus:border-yellow-500/50"
+                        className="bg-slate-900/60 border-white/10 text-white placeholder:text-slate-500 focus:border-mansagold/50 focus-visible:ring-mansagold/40"
                       />
                     </div>
                   </div>
@@ -372,7 +372,7 @@ export default function UserProfilePage() {
                         state: profile.state
                       })}
                       disabled={isSaving}
-                      className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 hover:from-yellow-400 hover:to-yellow-500 font-semibold"
+                      className="bg-mansagold text-black hover:bg-mansagold/90 font-medium"
                     >
                       {isSaving ? 'Saving...' : 'Save Changes'}
                     </Button>
@@ -382,13 +382,13 @@ export default function UserProfilePage() {
             </TabsContent>
 
             <TabsContent value="preferences" className="animate-fade-in">
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl">
+              <div className="bg-slate-900/40 border border-white/10 rounded-xl">
                 <DiscoveryPreferences />
               </div>
             </TabsContent>
 
             <TabsContent value="notifications" className="animate-fade-in">
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl">
+              <div className="bg-slate-900/40 border border-white/10 rounded-xl">
                 <NotificationSettings />
               </div>
             </TabsContent>
