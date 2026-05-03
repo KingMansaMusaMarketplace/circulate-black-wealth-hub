@@ -158,11 +158,11 @@ export default function LeadsDashboardPage() {
 
   if (!user) {
     return (
-      <div className="dark min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center">
-        <Card className="bg-slate-800/50 border-white/10 p-8 text-center">
+      <div className="dark min-h-screen bg-black flex items-center justify-center">
+        <Card className="bg-slate-900/40 border-white/10 p-8 text-center">
           <p className="text-slate-300 mb-4">Please sign in to view your leads</p>
           <Link to="/auth">
-            <Button className="bg-amber-500 hover:bg-amber-600 text-slate-900">
+            <Button className="bg-mansagold hover:bg-mansagold/90 text-black font-medium">
               Sign In
             </Button>
           </Link>
@@ -174,28 +174,32 @@ export default function LeadsDashboardPage() {
   return (
     <>
       <Helmet>
-        <title>Leads Dashboard | MansaMusa</title>
+        <title>Leads Dashboard | 1325.AI</title>
         <meta name="description" content="Manage your discovered B2B supplier leads" />
       </Helmet>
 
-      <div className="dark min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        </div>
+      <div className="dark min-h-screen bg-black relative overflow-hidden">
+        {/* Subtle ambient accent */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-[480px] opacity-70"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.05), transparent 70%)',
+          }}
+        />
 
         {/* Header */}
-        <header className="border-b border-white/10 bg-slate-900/60 backdrop-blur-xl sticky top-0 z-50">
+        <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
           <div className="container flex h-14 items-center justify-between">
             <div className="flex items-center gap-4">
               <Link to="/b2b-marketplace">
-                <Button variant="ghost" size="sm" className="text-slate-200 hover:text-white hover:bg-white/10">
+                <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white hover:bg-white/5">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Back to Marketplace
                 </Button>
               </Link>
-              <h1 className="font-semibold text-white">Leads Dashboard</h1>
+              <h1 className="font-display tracking-tight font-semibold text-white">Leads Dashboard</h1>
             </div>
           </div>
         </header>
