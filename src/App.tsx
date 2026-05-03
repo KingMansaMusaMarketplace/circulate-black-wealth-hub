@@ -564,7 +564,11 @@ function App() {
                               <Route path="/contact" element={<LazyContactPage />} />
                               <Route path="/cookies" element={<LazyCookiePolicyPage />} />
                               <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
-                              <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                              <Route path="/corporate-sponsorship" element={
+                                <IOSProtectedRoute>
+                                  <LazyCorporateSponsorshipPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/customers" element={<LazyCustomersPage />} />
                               <Route path="/customers/new" element={<LazyNewCustomerPage />} />
@@ -648,10 +652,26 @@ function App() {
                               <Route path="/partner/eatokra" element={<LazyEatOkraPartnershipPage />} />
                               <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                               <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
-                              <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
-                              <Route path="/founding-success" element={<LazyFoundingSuccessPage />} />
-                              <Route path="/pricing" element={<LazyPricingPage />} />
-                              <Route path="/listing-success" element={<LazyListingSuccessPage />} />
+                              <Route path="/payment-success" element={
+                                <IOSProtectedRoute>
+                                  <LazyPaymentSuccessPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/founding-success" element={
+                                <IOSProtectedRoute>
+                                  <LazyFoundingSuccessPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/pricing" element={
+                                <IOSProtectedRoute>
+                                  <LazyPricingPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/listing-success" element={
+                                <IOSProtectedRoute>
+                                  <LazyListingSuccessPage />
+                                </IOSProtectedRoute>
+                              } />
                               {/* /payment-test, /qr-test removed */}
                               <Route path="/qr-code-generator" element={<LazyQRCodeGeneratorPage />} />
                               <Route path="/qr-code-management" element={<LazyQRCodeGeneratorPage />} />
@@ -702,10 +722,26 @@ function App() {
                               } />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
                               <Route path="/submit-ticket" element={<LazySubmitTicketPage />} />
-                              <Route path="/sponsor-dashboard" element={<LazyCorporateDashboardPage />} />
-                              <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
-                              <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
-                              <Route path="/sponsor/:slug" element={<LazySponsorLandingPage />} />
+                              <Route path="/sponsor-dashboard" element={
+                                <IOSProtectedRoute>
+                                  <LazyCorporateDashboardPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/sponsor-pricing" element={
+                                <IOSProtectedRoute>
+                                  <LazyCorporateSponsorshipPricingPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/sponsor-success" element={
+                                <IOSProtectedRoute>
+                                  <LazySponsorSuccessPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/sponsor/:slug" element={
+                                <IOSProtectedRoute>
+                                  <LazySponsorLandingPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/subscription" element={
                                 <IOSProtectedRoute>
                                   <LazySubscriptionPage />
@@ -891,7 +927,11 @@ function App() {
                             <LazyCorporateDashboardPage />
                           </IOSProtectedRoute>
                         } />
-                        <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                        <Route path="/corporate-sponsorship" element={
+                          <IOSProtectedRoute>
+                            <LazyCorporateSponsorshipPage />
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                         <Route path="/customers" element={<LazyCustomersPage />} />
                         <Route path="/customers/new" element={<LazyNewCustomerPage />} />
@@ -969,10 +1009,26 @@ function App() {
                         <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
-                        <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
-                        <Route path="/founding-success" element={<LazyFoundingSuccessPage />} />
-                        <Route path="/pricing" element={<LazyPricingPage />} />
-                        <Route path="/listing-success" element={<LazyListingSuccessPage />} />
+                        <Route path="/payment-success" element={
+                          <IOSProtectedRoute>
+                            <LazyPaymentSuccessPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/founding-success" element={
+                          <IOSProtectedRoute>
+                            <LazyFoundingSuccessPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/pricing" element={
+                          <IOSProtectedRoute>
+                            <LazyPricingPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/listing-success" element={
+                          <IOSProtectedRoute>
+                            <LazyListingSuccessPage />
+                          </IOSProtectedRoute>
+                        } />
                         {/* /payment-test removed */}
                         <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
                         <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
@@ -1032,8 +1088,16 @@ function App() {
                             <LazyCorporateSponsorshipPricingPage />
                           </IOSProtectedRoute>
                         } />
-                        <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
-                        <Route path="/sponsor/:slug" element={<LazySponsorLandingPage />} />
+                        <Route path="/sponsor-success" element={
+                          <IOSProtectedRoute>
+                            <LazySponsorSuccessPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/sponsor/:slug" element={
+                          <IOSProtectedRoute>
+                            <LazySponsorLandingPage />
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/subscription" element={
                           <IOSProtectedRoute>
                             <LazySubscriptionPage />
