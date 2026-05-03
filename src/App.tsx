@@ -564,7 +564,11 @@ function App() {
                               <Route path="/contact" element={<LazyContactPage />} />
                               <Route path="/cookies" element={<LazyCookiePolicyPage />} />
                               <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
-                              <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                              <Route path="/corporate-sponsorship" element={
+                                <IOSProtectedRoute>
+                                  <LazyCorporateSponsorshipPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/customers" element={<LazyCustomersPage />} />
                               <Route path="/customers/new" element={<LazyNewCustomerPage />} />
