@@ -66,8 +66,8 @@ const CorporateDashboardPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="dark flex items-center justify-center min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400"></div>
+      <div className="dark flex items-center justify-center min-h-screen bg-black">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold"></div>
       </div>
     );
   }
@@ -83,58 +83,56 @@ const CorporateDashboardPage: React.FC = () => {
         <meta name="description" content="Manage your corporate sponsorship and track your community impact." />
       </Helmet>
 
-      <div className="dark min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated Gradient Orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-amber-500/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-40 right-20 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute bottom-40 right-10 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
-        </div>
+      <div className="dark min-h-screen bg-black relative overflow-hidden">
+        {/* Subtle ambient accent */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-[520px] opacity-70"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.05), transparent 70%)',
+          }}
+        />
 
         <div className="container mx-auto px-4 py-8 relative z-10">
-          {/* Enhanced Header */}
+          {/* Header */}
           <div className="mb-8 animate-fade-in">
-            <div className="relative inline-block">
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 via-blue-500/20 to-amber-400/20 rounded-2xl blur-xl"></div>
-              <div className="relative bg-slate-800/60 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-white/10">
-                <h1 className="text-4xl font-bold mb-2">
-                  <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">Corporate</span>{' '}
-                  <span className="text-white">Dashboard</span> 🏢
-                </h1>
-                <p className="text-slate-300 text-lg font-medium">
-                  Welcome back, {subscription.company_name}! Track your impact and manage your sponsorship ✨
-                </p>
-              </div>
+            <div className="bg-slate-900/40 rounded-2xl p-6 border border-white/10">
+              <h1 className="font-display text-4xl font-bold tracking-tight mb-2 text-white">
+                <span className="text-mansagold">Corporate</span> Dashboard
+              </h1>
+              <p className="text-slate-400 text-lg">
+                Welcome back, {subscription.company_name}. Track your impact and manage your sponsorship.
+              </p>
             </div>
           </div>
 
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4 lg:w-auto bg-slate-800/50 border border-white/10 p-1">
+            <TabsList className="grid w-full grid-cols-4 lg:w-auto bg-slate-900/40 border border-white/10 p-1">
               <TabsTrigger 
                 value="overview" 
-                className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-amber-600 data-[state=active]:text-slate-900"
+                className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold"
               >
                 <Building2 className="h-4 w-4" />
                 <span className="hidden sm:inline">Overview</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="impact" 
-                className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-amber-600 data-[state=active]:text-slate-900"
+                className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold"
               >
                 <TrendingUp className="h-4 w-4" />
                 <span className="hidden sm:inline">Impact</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="benefits" 
-                className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-amber-600 data-[state=active]:text-slate-900"
+                className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold"
               >
                 <Award className="h-4 w-4" />
                 <span className="hidden sm:inline">Benefits</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="settings" 
-                className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-amber-600 data-[state=active]:text-slate-900"
+                className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold"
               >
                 <Settings className="h-4 w-4" />
                 <span className="hidden sm:inline">Settings</span>
@@ -145,10 +143,10 @@ const CorporateDashboardPage: React.FC = () => {
               <SubscriptionOverview subscription={subscription} />
               
               <div className="grid gap-6 md:grid-cols-3">
-                <Card className="bg-slate-800/50 backdrop-blur-sm border-white/10">
+                <Card className="bg-slate-900/40 border-white/10">
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
                     <CardTitle className="text-sm font-medium text-slate-300">Active Tier</CardTitle>
-                    <Award className="h-4 w-4 text-amber-400" />
+                    <Award className="h-4 w-4 text-mansagold" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold capitalize text-white">{subscription.tier}</div>
@@ -158,10 +156,10 @@ const CorporateDashboardPage: React.FC = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-slate-800/50 backdrop-blur-sm border-white/10">
+                <Card className="bg-slate-900/40 border-white/10">
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
                     <CardTitle className="text-sm font-medium text-slate-300">Status</CardTitle>
-                    <Users className="h-4 w-4 text-amber-400" />
+                    <Users className="h-4 w-4 text-mansagold" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold capitalize text-white">{subscription.status}</div>
@@ -171,10 +169,10 @@ const CorporateDashboardPage: React.FC = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-slate-800/50 backdrop-blur-sm border-white/10">
+                <Card className="bg-slate-900/40 border-white/10">
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
                     <CardTitle className="text-sm font-medium text-slate-300">Next Billing</CardTitle>
-                    <DollarSign className="h-4 w-4 text-amber-400" />
+                    <DollarSign className="h-4 w-4 text-mansagold" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-white">
