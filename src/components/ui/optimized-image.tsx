@@ -139,7 +139,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         onLoad={handleLoad}
         onError={handleError}
         decoding="async"
-        fetchPriority={lazy ? 'low' : 'high'}
+        {...{ fetchpriority: lazy ? 'low' : 'high' } as any}
         className={cn(
           'transition-opacity duration-150 w-full h-full object-cover',
           isLoaded ? 'opacity-100' : 'opacity-0',
