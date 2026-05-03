@@ -8,7 +8,7 @@ const APP_URL = Deno.env.get("APP_URL") || "https://1325.ai";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
 interface NotificationRequest {
