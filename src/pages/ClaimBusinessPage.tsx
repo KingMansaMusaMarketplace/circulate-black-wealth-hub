@@ -38,34 +38,31 @@ const ClaimBusinessPage: React.FC = () => {
       }
 
       try {
-        // Check if token is valid
+        // Securely verify token via SECURITY DEFINER RPC (claim_token column not directly readable)
         const { data, error: fetchError } = await supabase
-          .from('b2b_external_leads')
-          .select('business_name, claim_status, claim_token_expires_at')
-          .eq('claim_token', token)
-          .single();
+          .rpc('verify_claim_token', { p_token: token });
 
-        if (fetchError || !data) {
+        const lead = Array.isArray(data) ? data[0] : null;
+
+        if (fetchError || !lead) {
           setStatus('error');
           setError('Invalid or expired claim link');
           return;
         }
 
-        // Check if already claimed
-        if (data.claim_status === 'verified') {
-          setStatus('error');
-          setError('This business has already been claimed');
-          return;
-        }
-
-        // Check expiration
-        if (new Date(data.claim_token_expires_at) < new Date()) {
+        if (lead.is_expired) {
           setStatus('expired');
           setError('This claim link has expired');
           return;
         }
 
-        setBusinessName(data.business_name);
+        if (!lead.is_valid) {
+          setStatus('error');
+          setError('This business has already been claimed or the link is invalid');
+          return;
+        }
+
+        setBusinessName(lead.business_name);
         setStatus('ready');
       } catch (err) {
         console.error('Error verifying token:', err);

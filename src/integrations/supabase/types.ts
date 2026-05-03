@@ -23793,6 +23793,19 @@ export type Database = {
         Args: { p_business_id: string; p_pin: string }
         Returns: boolean
       }
+      verify_claim_token: {
+        Args: { p_token: string }
+        Returns: {
+          business_description: string
+          business_name: string
+          category: string
+          is_expired: boolean
+          is_valid: boolean
+          lead_id: string
+          location: string
+          website_url: string
+        }[]
+      }
     }
     Enums: {
       answering_action: "answered_faq" | "took_message" | "forwarded"
