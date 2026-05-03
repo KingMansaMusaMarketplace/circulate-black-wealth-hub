@@ -51,7 +51,7 @@ export default function BookBusinessPage() {
 
   if (businessLoading || servicesLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <Loading text="Loading booking details..." />
       </div>
     );
@@ -59,11 +59,11 @@ export default function BookBusinessPage() {
 
   if (!business) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex flex-col items-center justify-center gap-4">
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4">
         <h2 className="text-2xl font-bold text-white">Business Not Found</h2>
         <Button
           onClick={() => navigate('/directory')}
-          className="bg-gradient-to-r from-mansagold to-yellow-600 text-slate-900 font-semibold"
+          className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
         >
           Explore Businesses
         </Button>
@@ -84,9 +84,9 @@ export default function BookBusinessPage() {
         <meta name="description" content={`Book an appointment with ${bizName}. ${business.description || ''}`} />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Subtle ambient glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-mansagold/5 rounded-full blur-[120px]" />
+      <div className="min-h-screen bg-black relative overflow-hidden">
+        {/* Subtle ambient gold accent */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-mansagold/[0.04] rounded-full blur-[120px] pointer-events-none" />
 
         {/* Hero Header with Banner */}
         <div className="relative z-10">
