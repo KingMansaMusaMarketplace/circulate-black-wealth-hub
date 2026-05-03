@@ -1,28 +1,19 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Search, 
-  Filter, 
-  MapPin, 
-  Grid3X3, 
-  List, 
+import {
+  Search,
+  Filter,
+  MapPin,
+  Grid3X3,
+  List,
   Map,
   X,
   Loader2,
   Settings,
   Sparkles
 } from 'lucide-react';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import SearchSuggestions from './SearchSuggestions';
 import UserPreferencesDialog from './UserPreferencesDialog';
@@ -55,14 +46,13 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
   totalResults = 0,
   categories = []
 }) => {
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [, setIsSearchFocused] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const { addToSearchHistory } = useSearchHistory();
 
   const handleSearchChange = (value: string) => {
     onSearchChange(value);
     if (value.trim() && value.length > 2) {
-      // Add to search history when user types
       addToSearchHistory(value, undefined, undefined, totalResults);
     }
   };
@@ -74,20 +64,23 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
 
   const isNaturalLanguage = searchTerm.trim().split(/\s+/).length > 2;
 
+  const viewBtn = (active: boolean) =>
+    `h-8 px-3 ${active ? 'bg-mansagold text-black hover:bg-mansagold/90' : 'text-slate-300 hover:text-white hover:bg-white/5'}`;
+
   return (
-    <div className="bg-white border-b border-gray-200 sticky top-16 z-40 md:hidden">
+    <div className="bg-slate-900/80 backdrop-blur-xl border-b border-white/10 sticky top-16 z-40 md:hidden">
       {/* Main Search Row */}
       <div className="p-4 space-y-3">
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400 z-10" />
             <Popover open={showSuggestions} onOpenChange={setShowSuggestions}>
               <PopoverTrigger asChild>
                 <div className="relative">
                   <Input
                     type="text"
                     placeholder="Try 'soul food near me'"
-                    className="pl-10 h-12 text-base rounded-lg pr-20"
+                    className="pl-10 h-12 text-base rounded-lg pr-20 bg-slate-800/60 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-mansagold/40"
                     value={searchTerm}
                     onChange={(e) => handleSearchChange(e.target.value)}
                     onFocus={() => {
@@ -97,9 +90,9 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
                     onBlur={() => setIsSearchFocused(false)}
                   />
                   {isNaturalLanguage && (
-                    <Badge 
-                      variant="secondary" 
-                      className="absolute right-12 top-1/2 transform -translate-y-1/2 text-xs gap-1"
+                    <Badge
+                      variant="secondary"
+                      className="absolute right-12 top-1/2 transform -translate-y-1/2 text-xs gap-1 bg-mansagold/15 text-mansagold border border-mansagold/30"
                     >
                       <Sparkles className="h-3 w-3" />
                       AI
@@ -107,8 +100,8 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
                   )}
                 </div>
               </PopoverTrigger>
-              <PopoverContent 
-                className="w-full p-0 mt-1" 
+              <PopoverContent
+                className="w-full p-0 mt-1 bg-slate-900 border-white/10"
                 align="start"
                 onOpenAutoFocus={(e) => e.preventDefault()}
               >
@@ -122,19 +115,23 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
               <Button
                 variant="ghost"
                 size="sm"
-                className="absolute right-2 top-2 h-8 w-8 p-0"
+                className="absolute right-2 top-2 h-8 w-8 p-0 text-slate-400 hover:text-white hover:bg-white/5"
                 onClick={() => onSearchChange('')}
               >
                 <X className="h-4 w-4" />
               </Button>
             )}
           </div>
-          
+
           <Button
             variant="outline"
             size="sm"
             onClick={toggleFilters}
-            className={`h-12 px-3 ${showFilters ? 'bg-mansablue text-white' : ''}`}
+            className={`h-12 px-3 border-white/10 ${
+              showFilters
+                ? 'bg-mansagold text-black hover:bg-mansagold/90 border-0'
+                : 'bg-transparent text-slate-300 hover:bg-white/5 hover:text-white'
+            }`}
           >
             <Filter className="h-4 w-4" />
           </Button>
@@ -148,7 +145,7 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
               size="sm"
               onClick={onGetLocation}
               disabled={locationLoading}
-              className="h-9 px-3"
+              className="h-9 px-3 border-white/10 bg-transparent text-slate-300 hover:bg-white/5 hover:text-white"
             >
               {locationLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -159,44 +156,51 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
                 {userLocation ? 'Near me' : 'Location'}
               </span>
             </Button>
-            
+
             <UserPreferencesDialog categories={categories}>
-              <Button variant="outline" size="sm" className="h-9 px-3">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-9 px-3 border-white/10 bg-transparent text-slate-300 hover:bg-white/5 hover:text-white"
+              >
                 <Settings className="h-4 w-4" />
                 <span className="ml-1 text-xs">Prefs</span>
               </Button>
             </UserPreferencesDialog>
-            
+
             {totalResults > 0 && (
-              <Badge variant="secondary" className="text-xs">
+              <Badge variant="secondary" className="text-xs bg-white/5 text-slate-300 border border-white/10">
                 {totalResults} found
               </Badge>
             )}
           </div>
 
           {/* View Mode Toggle */}
-          <div className="flex bg-gray-100 rounded-lg p-1">
+          <div className="flex bg-slate-800/60 border border-white/10 rounded-lg p-1">
             <Button
-              variant={viewMode === 'grid' ? 'default' : 'ghost'}
+              variant="ghost"
               size="sm"
               onClick={() => setViewMode('grid')}
-              className="h-8 px-3"
+              className={viewBtn(viewMode === 'grid')}
+              aria-pressed={viewMode === 'grid'}
             >
               <Grid3X3 className="h-3 w-3" />
             </Button>
             <Button
-              variant={viewMode === 'list' ? 'default' : 'ghost'}
+              variant="ghost"
               size="sm"
               onClick={() => setViewMode('list')}
-              className="h-8 px-3"
+              className={viewBtn(viewMode === 'list')}
+              aria-pressed={viewMode === 'list'}
             >
               <List className="h-3 w-3" />
             </Button>
             <Button
-              variant={viewMode === 'map' ? 'default' : 'ghost'}
+              variant="ghost"
               size="sm"
               onClick={() => setViewMode('map')}
-              className="h-8 px-3"
+              className={viewBtn(viewMode === 'map')}
+              aria-pressed={viewMode === 'map'}
             >
               <Map className="h-3 w-3" />
             </Button>
