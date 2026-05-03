@@ -34,9 +34,14 @@ const STOPWORDS = new Set([
 function extractSearchSignals(text: string) {
   const lower = (text || "").toLowerCase();
 
-  // City detection: "in <City>" or "<City>, <ST>"
+  // City detection: "in <City>" or "<City>, <ST>" — stop at state names so
+  // "in Chicago Illinois" parses to city="chicago", state="IL".
   let city: string | null = null;
-  const inMatch = lower.match(/\bin\s+([a-z][a-z\s\.'-]{2,30}?)(?:[,\.\?!]|\s+(?:area|zone|today|tonight|please|tomorrow)|$)/);
+  const stateNamesAlt = Object.keys(US_STATES).join("|");
+  const inRegex = new RegExp(
+    `\\bin\\s+([a-z][a-z\\s\\.'-]{2,30}?)(?:[,\\.\\?!]|\\s+(?:${stateNamesAlt}|[a-z]{2}\\b|area|zone|today|tonight|please|tomorrow)|$)`,
+  );
+  const inMatch = lower.match(inRegex);
   if (inMatch) city = inMatch[1].trim();
   const cityComma = lower.match(/\b([a-z][a-z\s'-]{2,25}),\s*([a-z]{2})\b/);
   if (cityComma) city = cityComma[1].trim();
