@@ -216,6 +216,52 @@ Deno.serve(async (req) => {
       );
     }
 
+    // AUTHZ: caller must be either a cron job (with secret) or the business owner/admin
+    const cronSecret = Deno.env.get("CRON_SECRET");
+    const providedCron = req.headers.get("x-cron-secret");
+    const isCron = !!(cronSecret && providedCron && providedCron === cronSecret);
+
+    if (!isCron) {
+      const authHeader = req.headers.get("Authorization");
+      if (!authHeader?.startsWith("Bearer ")) {
+        return new Response(
+          JSON.stringify({ error: "Unauthorized" }),
+          { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      const userClient = createClient(
+        supabaseUrl,
+        Deno.env.get("SUPABASE_ANON_KEY")!,
+        { global: { headers: { Authorization: authHeader } } }
+      );
+      const token = authHeader.replace("Bearer ", "");
+      const { data: claims, error: claimsErr } = await (userClient as any).auth.getClaims(token);
+      if (claimsErr || !claims?.claims?.sub) {
+        return new Response(
+          JSON.stringify({ error: "Invalid token" }),
+          { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      const userId = claims.claims.sub as string;
+
+      // Admin or business owner check
+      const { data: isAdmin } = await (userClient as any).rpc("is_admin_secure");
+      if (!isAdmin) {
+        const { data: biz } = await supabase
+          .from("businesses")
+          .select("id")
+          .eq("id", business_id)
+          .or(`owner_id.eq.${userId},location_manager_id.eq.${userId}`)
+          .maybeSingle();
+        if (!biz) {
+          return new Response(
+            JSON.stringify({ error: "Forbidden: not authorized for this business" }),
+            { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+      }
+    }
+
     // Find active workflows matching this trigger
     const { data: workflows, error: wfError } = await supabase
       .from("workflows")
