@@ -187,7 +187,7 @@ const SupportPage = () => {
           <section className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-8">
               <span className="text-white">Frequently Asked </span>
-              <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Questions</span> 📚
+              <span className="text-mansagold">Questions</span>
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
               {faqCategories.map((category, index) => {
@@ -198,7 +198,7 @@ const SupportPage = () => {
                   'text-mansablue'
                 ];
                 return (
-                  <Card key={index} className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/30 hover:shadow-xl hover:shadow-mansagold/10 transition-all duration-300">
+                  <Card key={index} className="bg-slate-900/40 border-white/10 hover:border-mansagold/30  transition-all duration-300">
                     <CardHeader>
                       <CardTitle className={`flex items-center gap-2 font-bold text-white`}>
                         <Book className={`h-5 w-5 ${iconColors[index]}`} />
@@ -209,10 +209,10 @@ const SupportPage = () => {
                       <Accordion type="single" collapsible className="w-full">
                         {category.faqs.map((faq, qIndex) => (
                           <AccordionItem key={qIndex} value={`item-${index}-${qIndex}`} className="border-white/10">
-                            <AccordionTrigger className="text-left text-sm font-semibold text-blue-200/90 hover:text-mansagold transition-colors">
+                            <AccordionTrigger className="text-left text-sm font-semibold text-slate-300 hover:text-mansagold transition-colors">
                               {faq.question}
                             </AccordionTrigger>
-                            <AccordionContent className="text-sm text-blue-100/80">
+                            <AccordionContent className="text-sm text-slate-300">
                               {faq.answer}
                             </AccordionContent>
                           </AccordionItem>
@@ -227,11 +227,11 @@ const SupportPage = () => {
 
           {/* System Status */}
           <section className="mb-16">
-            <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:shadow-xl hover:shadow-mansagold/20 transition-all duration-300">
+            <Card className="bg-slate-900/40 border-white/10  transition-all duration-300">
               <CardHeader className="border-b border-white/10">
                 <CardTitle className="flex items-center gap-2 text-white font-bold">
                   <Headphones className="h-6 w-6 text-mansagold" />
-                  System Status & Service Hours ⏰
+                  System Status & Service Hours
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
@@ -241,7 +241,7 @@ const SupportPage = () => {
                       <Clock className="h-5 w-5 text-mansagold" />
                       Support Hours
                     </h4>
-                    <ul className="space-y-2 text-sm text-blue-100/90">
+                    <ul className="space-y-2 text-sm text-slate-300">
                       <li className="flex items-center gap-2">
                         <span className="w-2 h-2 bg-green-400 rounded-full"></span>
                         <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM CST
@@ -260,7 +260,7 @@ const SupportPage = () => {
                     <h4 className="font-bold mb-3 text-white">Current System Status</h4>
                     <div className="flex items-center gap-3 p-3 bg-green-500/20 rounded-lg border border-green-500/30">
                       <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-                      <span className="text-sm font-semibold text-green-300">All systems operational ✅</span>
+                      <span className="text-sm font-semibold text-green-300">All systems operational</span>
                     </div>
                   </div>
                 </div>
@@ -270,10 +270,10 @@ const SupportPage = () => {
 
           {/* Contact Information */}
           <section>
-            <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:shadow-xl hover:shadow-mansagold/20 transition-all duration-300">
+            <Card className="bg-slate-900/40 border-white/10  transition-all duration-300">
               <CardHeader className="border-b border-white/10">
-                <CardTitle className="text-white font-bold">Contact Information 📍</CardTitle>
-                <CardDescription className="text-blue-200/70">
+                <CardTitle className="text-white font-bold">Contact Information</CardTitle>
+                <CardDescription className="text-slate-400">
                   Other ways to reach us
                 </CardDescription>
               </CardHeader>
@@ -285,7 +285,7 @@ const SupportPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-white mb-1">Mailing Address</p>
-                      <p className="text-sm text-blue-100/90 font-medium">
+                      <p className="text-sm text-slate-300 font-medium">
                         1000 E. 111th Street, Suite 1100<br />
                         Chicago, Illinois 60628
                       </p>
@@ -297,7 +297,7 @@ const SupportPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-white mb-1">General Inquiries</p>
-                      <p className="text-sm text-blue-100/90 font-medium break-words">
+                      <p className="text-sm text-slate-300 font-medium break-words">
                         Thomas@1325.AI
                       </p>
                     </div>
