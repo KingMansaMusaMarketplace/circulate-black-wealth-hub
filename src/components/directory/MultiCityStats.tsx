@@ -11,53 +11,55 @@ interface MultiCityStatsProps {
 const MultiCityStats: React.FC<MultiCityStatsProps> = ({ selectedCity }) => {
   const selectedCityData = cities.find(city => city.id === selectedCity);
 
+  const iconClass = "h-5 w-5 text-mansagold";
+
   // Live stats reflecting current directory scale
   const stats = selectedCity === 'all' ? [
     {
-      icon: <Building2 className="h-5 w-5 text-primary" />,
+      icon: <Building2 className={iconClass} />,
       label: 'Businesses',
       value: '21,000+',
       description: 'And growing daily'
     },
     {
-      icon: <MapPin className="h-5 w-5 text-secondary" />,
+      icon: <MapPin className={iconClass} />,
       label: 'Coverage',
       value: '50 States + Canada',
       description: '1,200+ cities across US & Canada'
     },
     {
-      icon: <Users className="h-5 w-5 text-accent" />,
+      icon: <Users className={iconClass} />,
       label: 'Status',
       value: 'Live',
       description: 'AI-powered discovery active'
     },
     {
-      icon: <TrendingUp className="h-5 w-5 text-success" />,
+      icon: <TrendingUp className={iconClass} />,
       label: 'Goal',
       value: '100,000+',
       description: 'Businesses by 2027'
     }
   ] : [
     {
-      icon: <Building2 className="h-5 w-5 text-primary" />,
+      icon: <Building2 className={iconClass} />,
       label: 'City',
       value: selectedCityData?.name || 'Unknown',
       description: selectedCityData?.state || ''
     },
     {
-      icon: <MapPin className="h-5 w-5 text-secondary" />,
+      icon: <MapPin className={iconClass} />,
       label: 'Status',
       value: 'Active',
       description: 'Now accepting businesses'
     },
     {
-      icon: <Users className="h-5 w-5 text-accent" />,
+      icon: <Users className={iconClass} />,
       label: 'Featured',
       value: selectedCityData?.featured ? 'Yes' : 'No',
       description: 'Priority market'
     },
     {
-      icon: <TrendingUp className="h-5 w-5 text-success" />,
+      icon: <TrendingUp className={iconClass} />,
       label: 'Join Now',
       value: 'Free',
       description: 'Early adopter benefits'
