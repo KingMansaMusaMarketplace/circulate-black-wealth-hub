@@ -26,25 +26,25 @@ const UnifiedDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      </div>
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Subtle ambient accent */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px] opacity-70"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.05), transparent 70%)',
+        }}
+      />
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
-
-      
       <div className="container mx-auto px-4 py-8 space-y-8 relative z-10">
         {/* Welcome Header */}
         <div className="flex flex-col md:flex-row items-start justify-between gap-4">
           <div className="space-y-2">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent animate-fade-in">
-              {getGreeting()}{user ? `, ${user.email?.split('@')[0]}` : ''}!
+            <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white animate-fade-in">
+              {getGreeting()}{user ? `, ${user.email?.split('@')[0]}` : ''}
             </h1>
-            <p className="text-slate-300 text-lg">
+            <p className="text-slate-400 text-lg">
               Your personalized hub for community impact and growth
             </p>
           </div>
@@ -52,7 +52,7 @@ const UnifiedDashboard: React.FC = () => {
             <Button
               onClick={() => navigate('/features')}
               variant="outline"
-              className="border-white/20 text-white hover:border-mansablue hover:bg-mansablue/10 transition-all duration-300"
+              className="border-white/15 bg-transparent text-slate-200 hover:bg-white/5 hover:text-white hover:border-mansagold/40 transition-colors"
               data-tour="features-btn"
             >
               <Lightbulb className="w-4 h-4 mr-2" />
@@ -60,7 +60,7 @@ const UnifiedDashboard: React.FC = () => {
             </Button>
             <Button
               onClick={() => navigate('/share-impact')}
-              className="bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue/90 hover:to-mansagold/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              className="bg-mansagold text-black hover:bg-mansagold/90 font-medium transition-colors"
             >
               <Share2 className="w-4 h-4 mr-2" />
               Share Impact
@@ -70,12 +70,11 @@ const UnifiedDashboard: React.FC = () => {
 
         {/* Quick Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <CardContent className="p-6 relative z-10">
+          <Card className="border border-white/10 bg-slate-900/40 transition-colors hover:border-mansagold/30">
+            <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-mansablue to-blue-600 rounded-xl shadow-lg">
-                  <Sparkles className="w-6 h-6 text-white" />
+                <div className="p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl">
+                  <Sparkles className="w-6 h-6 text-mansagold" />
                 </div>
                 <div>
                   <p className="text-sm text-slate-400 font-medium">AI Recommendations</p>
@@ -85,12 +84,11 @@ const UnifiedDashboard: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <CardContent className="p-6 relative z-10">
+          <Card className="border border-white/10 bg-slate-900/40 transition-colors hover:border-mansagold/30">
+            <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-mansagold to-amber-600 rounded-xl shadow-lg">
-                  <Award className="w-6 h-6 text-white" />
+                <div className="p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl">
+                  <Award className="w-6 h-6 text-mansagold" />
                 </div>
                 <div>
                   <p className="text-sm text-slate-400 font-medium">Achievements</p>
@@ -100,12 +98,11 @@ const UnifiedDashboard: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <CardContent className="p-6 relative z-10">
+          <Card className="border border-white/10 bg-slate-900/40 transition-colors hover:border-mansagold/30">
+            <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-mansablue to-blue-600 rounded-xl shadow-lg">
-                  <Landmark className="w-6 h-6 text-white" />
+                <div className="p-3 bg-mansablue/15 ring-1 ring-mansablue/40 rounded-xl">
+                  <Landmark className="w-6 h-6 text-blue-300" />
                 </div>
                 <div>
                   <p className="text-sm text-slate-400 font-medium">Savings Circles</p>
@@ -115,12 +112,11 @@ const UnifiedDashboard: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <CardContent className="p-6 relative z-10">
+          <Card className="border border-white/10 bg-slate-900/40 transition-colors hover:border-mansagold/30">
+            <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-mansagold to-amber-600 rounded-xl shadow-lg">
-                  <TrendingUp className="w-6 h-6 text-white" />
+                <div className="p-3 bg-mansablue/15 ring-1 ring-mansablue/40 rounded-xl">
+                  <TrendingUp className="w-6 h-6 text-blue-300" />
                 </div>
                 <div>
                   <p className="text-sm text-slate-400 font-medium">Investments</p>
@@ -154,21 +150,20 @@ const UnifiedDashboard: React.FC = () => {
             <Leaderboard />
 
             {/* Quick Actions */}
-            <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-mansagold/10 to-transparent rounded-full blur-2xl" />
-              <CardHeader className="relative z-10">
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  <div className="p-2 bg-gradient-to-br from-mansablue to-blue-600 rounded-lg">
-                    <Target className="w-5 h-5 text-white" />
+            <Card className="border border-white/10 bg-slate-900/40">
+              <CardHeader>
+                <CardTitle className="font-display tracking-tight flex items-center gap-2 text-xl text-white">
+                  <div className="p-2 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-lg">
+                    <Target className="w-5 h-5 text-mansagold" />
                   </div>
-                  <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Quick Actions</span>
+                  Quick Actions
                 </CardTitle>
                 <CardDescription className="text-slate-400">Explore community features</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-3 relative z-10">
+              <CardContent className="space-y-3">
                 <Button 
                   onClick={() => navigate('/challenges')}
-                  className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansablue/10 hover:border-mansablue/30 transition-all duration-300"
+                  className="w-full justify-start gap-2 text-slate-200 border-white/15 bg-transparent hover:bg-white/5 hover:text-white hover:border-mansagold/40 transition-colors"
                   variant="outline"
                 >
                   <Target className="w-4 h-4" />
@@ -176,7 +171,7 @@ const UnifiedDashboard: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={() => navigate('/community-finance')}
-                  className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansagold/10 hover:border-mansagold/30 transition-all duration-300"
+                  className="w-full justify-start gap-2 text-slate-200 border-white/15 bg-transparent hover:bg-white/5 hover:text-white hover:border-mansagold/40 transition-colors"
                   variant="outline"
                 >
                   <Landmark className="w-4 h-4" />
@@ -184,7 +179,7 @@ const UnifiedDashboard: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={() => navigate('/directory')}
-                  className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansablue/10 hover:border-mansablue/30 transition-all duration-300"
+                  className="w-full justify-start gap-2 text-slate-200 border-white/15 bg-transparent hover:bg-white/5 hover:text-white hover:border-mansagold/40 transition-colors"
                   variant="outline"
                 >
                   <Sparkles className="w-4 h-4" />
@@ -192,7 +187,7 @@ const UnifiedDashboard: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={() => navigate('/community-impact')}
-                  className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansagold/10 hover:border-mansagold/30 transition-all duration-300"
+                  className="w-full justify-start gap-2 text-slate-200 border-white/15 bg-transparent hover:bg-white/5 hover:text-white hover:border-mansagold/40 transition-colors"
                   variant="outline"
                 >
                   <Users className="w-4 h-4" />
@@ -200,7 +195,7 @@ const UnifiedDashboard: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={() => navigate('/referrals')}
-                  className="w-full justify-start gap-2 bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue/90 hover:to-mansagold/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+                  className="w-full justify-start gap-2 bg-mansagold text-black hover:bg-mansagold/90 font-medium transition-colors"
                 >
                   <Gift className="w-4 h-4" />
                   Earn Rewards
