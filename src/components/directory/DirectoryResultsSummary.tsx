@@ -1,6 +1,6 @@
-
 import React from 'react';
-import { MapPin, Info } from 'lucide-react';
+import { MapPin, Search, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface DirectoryResultsSummaryProps {
   totalResults: number;
@@ -13,29 +13,52 @@ const DirectoryResultsSummary: React.FC<DirectoryResultsSummaryProps> = ({
   totalResults,
   nearMeActive,
   searchTerm,
-  isFiltered
+  isFiltered,
 }) => {
+  const hasResults = totalResults > 0;
+
   return (
-    <div className="flex items-center text-sm text-slate-300 mt-4 mb-2">
-      <Info size={16} className="mr-2 text-slate-400" />
-      {totalResults === 0 ? (
-        <p>No businesses found. Try adjusting your search criteria.</p>
-      ) : (
-        <p>
-          <span className="font-medium">{totalResults}</span>{' '}
-          {totalResults === 1 ? 'business' : 'businesses'} found
-          {searchTerm && (
-            <> matching "<span className="font-medium">{searchTerm}</span>"</>
-          )}
-          {nearMeActive && (
-            <span className="inline-flex items-center ml-1">
-              <MapPin size={14} className="mr-1" /> near you
-            </span>
-          )}
-          {isFiltered && !searchTerm && (
-            <> with selected filters</>
-          )}
-        </p>
+    <div className="flex flex-wrap items-center gap-2 mt-4 mb-2 text-sm text-slate-300">
+      <div className="flex items-center gap-2">
+        <Sparkles size={16} className="text-mansagold" />
+        {hasResults ? (
+          <span>
+            <span className="font-semibold text-white">{totalResults.toLocaleString()}</span>{' '}
+            {totalResults === 1 ? 'business' : 'businesses'}
+          </span>
+        ) : (
+          <span className="text-slate-400">No businesses match your criteria yet.</span>
+        )}
+      </div>
+
+      {searchTerm && (
+        <Badge
+          variant="outline"
+          className="bg-mansagold/10 text-mansagold border-mansagold/30 gap-1"
+        >
+          <Search size={12} />
+          "{searchTerm}"
+        </Badge>
+      )}
+
+      {nearMeActive && (
+        <Badge
+          variant="outline"
+          className="bg-mansablue/20 text-blue-300 border-mansablue/40 gap-1"
+        >
+          <MapPin size={12} />
+          Near you
+        </Badge>
+      )}
+
+      {isFiltered && !searchTerm && (
+        <Badge
+          variant="outline"
+          className="bg-white/5 text-slate-300 border-white/10 gap-1"
+        >
+          <SlidersHorizontal size={12} />
+          Filtered
+        </Badge>
       )}
     </div>
   );
