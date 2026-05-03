@@ -2134,6 +2134,51 @@ export type Database = {
           },
         ]
       }
+      b2b_external_leads_private: {
+        Row: {
+          contact_info: Json | null
+          created_at: string
+          lead_id: string
+          owner_email: string | null
+          owner_name: string | null
+          phone_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          contact_info?: Json | null
+          created_at?: string
+          lead_id: string
+          owner_email?: string | null
+          owner_name?: string | null
+          phone_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          contact_info?: Json | null
+          created_at?: string
+          lead_id?: string
+          owner_email?: string | null
+          owner_name?: string | null
+          phone_number?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "b2b_external_leads_private_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: true
+            referencedRelation: "b2b_external_leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_external_leads_private_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: true
+            referencedRelation: "b2b_external_leads_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       b2b_messages: {
         Row: {
           attachments: Json | null
@@ -4952,27 +4997,36 @@ export type Database = {
           business_id: string
           created_at: string
           email: string | null
-          id: string
-          owner_contact_notes: string | null
+          latitude: number | null
+          longitude: number | null
+          owner_id: string
           phone: string | null
+          total_revenue_tracked: number | null
+          transaction_count: number | null
           updated_at: string
         }
         Insert: {
           business_id: string
           created_at?: string
           email?: string | null
-          id?: string
-          owner_contact_notes?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          owner_id: string
           phone?: string | null
+          total_revenue_tracked?: number | null
+          transaction_count?: number | null
           updated_at?: string
         }
         Update: {
           business_id?: string
           created_at?: string
           email?: string | null
-          id?: string
-          owner_contact_notes?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          owner_id?: string
           phone?: string | null
+          total_revenue_tracked?: number | null
+          transaction_count?: number | null
           updated_at?: string
         }
         Relationships: [
