@@ -118,21 +118,21 @@ const UserSettingsPage: React.FC = () => {
               <TabsContent value="profile" className="space-y-6 animate-fade-in">
                 {/* Business Profile Link for Business Users */}
                 {userType === 'business' && (
-                  <Card className="bg-gradient-to-r from-yellow-500/10 to-amber-500/10 backdrop-blur-xl border-yellow-500/20 shadow-2xl">
+                  <Card className="bg-mansagold/5 border-mansagold/30">
                     <CardContent className="py-6">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="p-3 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-xl">
-                            <Building2 className="h-6 w-6 text-slate-900" />
+                          <div className="p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl">
+                            <Building2 className="h-6 w-6 text-mansagold" />
                           </div>
                           <div>
                             <h3 className="text-lg font-semibold text-white">Business Profile</h3>
-                            <p className="text-blue-200/70 text-sm">
+                            <p className="text-slate-400 text-sm">
                               Edit your business details, images, services, and more
                             </p>
                           </div>
                         </div>
-                        <Button asChild className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold">
+                        <Button asChild className="bg-mansagold hover:bg-mansagold/90 text-black font-medium">
                           <Link to="/business/profile">
                             Edit Business Profile
                             <ArrowRight className="ml-2 h-4 w-4" />
@@ -144,13 +144,13 @@ const UserSettingsPage: React.FC = () => {
                 )}
 
                 {/* Personal Profile Form */}
-                <Card className="bg-white/5 backdrop-blur-xl border-white/10 shadow-2xl">
+                <Card className="bg-slate-900/40 border-white/10">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
-                      <User className="h-5 w-5 text-yellow-400" />
+                      <User className="h-5 w-5 text-mansagold" />
                       Personal Information
                     </CardTitle>
-                    <CardDescription className="text-blue-200/70">
+                    <CardDescription className="text-slate-400">
                       Update your personal information and profile details.
                     </CardDescription>
                   </CardHeader>
@@ -161,18 +161,18 @@ const UserSettingsPage: React.FC = () => {
               </TabsContent>
 
               <TabsContent value="notifications" className="space-y-6 animate-fade-in">
-                <Card className="bg-white/5 backdrop-blur-xl border-white/10 shadow-2xl">
+                <Card className="bg-slate-900/40 border-white/10">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
-                      <Bell className="h-5 w-5 text-yellow-400" />
+                      <Bell className="h-5 w-5 text-mansagold" />
                       Notification Preferences
                     </CardTitle>
-                    <CardDescription className="text-blue-200/70">
+                    <CardDescription className="text-slate-400">
                       Choose what notifications you want to receive.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-8 text-blue-200/60">
+                    <div className="text-center py-8 text-slate-400">
                       Notification settings coming soon.
                     </div>
                   </CardContent>
@@ -180,38 +180,38 @@ const UserSettingsPage: React.FC = () => {
               </TabsContent>
 
               <TabsContent value="privacy" className="space-y-6 animate-fade-in">
-                <Card className="bg-white/5 backdrop-blur-xl border-white/10 shadow-2xl">
+                <Card className="bg-slate-900/40 border-white/10">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
-                      <Shield className="h-5 w-5 text-yellow-400" />
+                      <Shield className="h-5 w-5 text-mansagold" />
                       Privacy & Security
                     </CardTitle>
-                    <CardDescription className="text-blue-200/70">
+                    <CardDescription className="text-slate-400">
                       Manage your privacy settings and security preferences.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="p-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-yellow-500/30 transition-colors">
+                      <div className="p-4 bg-black/40 border border-white/10 rounded-xl hover:border-mansagold/40 transition-colors">
                         <h4 className="font-medium mb-2 text-white">Data Export</h4>
-                        <p className="text-sm text-blue-200/70 mb-3">
+                        <p className="text-sm text-slate-400 mb-3">
                           Download a copy of your data including transactions, reviews, and profile information.
                         </p>
                         <button 
-                          className="text-yellow-400 hover:text-yellow-300 text-sm font-medium transition-colors"
+                          className="text-mansagold hover:text-mansagold/80 text-sm font-medium transition-colors"
                           onClick={() => window.open('mailto:Thomas@1325.AI?subject=Data Export Request', '_blank')}
                         >
                           Request Data Export →
                         </button>
                       </div>
 
-                      <div className="p-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-yellow-500/30 transition-colors">
+                      <div className="p-4 bg-black/40 border border-white/10 rounded-xl hover:border-mansagold/40 transition-colors">
                         <h4 className="font-medium mb-2 text-white">Privacy Policy</h4>
-                        <p className="text-sm text-blue-200/70 mb-3">
+                        <p className="text-sm text-slate-400 mb-3">
                           Review how we collect, use, and protect your personal information.
                         </p>
                         <button 
-                          className="text-yellow-400 hover:text-yellow-300 text-sm font-medium transition-colors"
+                          className="text-mansagold hover:text-mansagold/80 text-sm font-medium transition-colors"
                           onClick={() => window.open('https://1325.ai/privacy-policy', '_blank')}
                         >
                           View Privacy Policy →
