@@ -486,6 +486,7 @@ const DirectoryPage: React.FC = () => {
                   isLoading={isLoading}
                   userLocation={location}
                   mapApiKey={mapApiKey}
+                  onResetFilters={handleResetFilters}
                 />
               ) : viewMode === 'grid' ? (
                 <BusinessGridView 
@@ -496,7 +497,8 @@ const DirectoryPage: React.FC = () => {
               ) : (
                 <BusinessListView 
                   businesses={regularBusinesses} 
-                  onSelectBusiness={handleSelectBusiness} 
+                  onSelectBusiness={handleSelectBusiness}
+                  onResetFilters={handleResetFilters}
                 />
               )}
             </div>
