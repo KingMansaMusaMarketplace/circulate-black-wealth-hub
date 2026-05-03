@@ -45,17 +45,13 @@ const ReferralDashboard: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float" />
-          <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
-        </div>
+      <div className="min-h-screen bg-black relative overflow-hidden">
         <div className="container mx-auto px-4 py-12 space-y-6 relative z-10">
-          <Skeleton className="h-32 w-full rounded-3xl bg-white/10" />
+          <Skeleton className="h-32 w-full rounded-2xl bg-white/5" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Skeleton className="h-48 rounded-3xl bg-white/10" />
-            <Skeleton className="h-48 rounded-3xl bg-white/10" />
-            <Skeleton className="h-48 rounded-3xl bg-white/10" />
+            <Skeleton className="h-48 rounded-2xl bg-white/5" />
+            <Skeleton className="h-48 rounded-2xl bg-white/5" />
+            <Skeleton className="h-48 rounded-2xl bg-white/5" />
           </div>
         </div>
       </div>
@@ -68,32 +64,34 @@ const ReferralDashboard: React.FC = () => {
     : 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-      {/* Animated Background Orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float" />
-        <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-40 right-10 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '0.5s' }} />
-      </div>
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Subtle ambient accent */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px] opacity-70"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.05), transparent 70%)',
+        }}
+      />
 
       <div className="container mx-auto px-4 py-12 space-y-8 relative z-10">
-        {/* Campaign Banner - Shows active campaigns */}
+        {/* Campaign Banner */}
         <ReferralCampaignBanner />
         
-        {/* Enhanced Header */}
+        {/* Header */}
         <div className="mb-10 animate-fade-in">
-          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 shadow-2xl">
+          <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-8">
             <div className="flex items-center gap-4 mb-3">
-              <div className="p-3 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl shadow-lg">
-                <Gift className="h-10 w-10 text-slate-900" />
+              <div className="p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl">
+                <Gift className="h-10 w-10 text-mansagold" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white">
-                Referral <span className="text-yellow-400">Rewards</span> Program 🎁
+              <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white">
+                Referral <span className="text-mansagold">Rewards</span> Program
               </h1>
             </div>
-            <p className="text-blue-200 text-xl font-medium ml-16">
-              Earn rewards by inviting friends to join 1325.AI 🚀
+            <p className="text-slate-400 text-xl ml-16">
+              Earn rewards by inviting friends to join 1325.AI
             </p>
           </div>
         </div>
