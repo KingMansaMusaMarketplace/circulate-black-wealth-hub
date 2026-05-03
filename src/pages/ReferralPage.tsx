@@ -35,57 +35,47 @@ const ReferralPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden bg-black">
         <Helmet>
           <title>Referral Program | 1325.AI</title>
         </Helmet>
-        
-        {/* Animated Background */}
-        <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        </div>
-        
         <div className="container py-12 max-w-4xl mx-auto relative z-10">
-          <div className="animate-pulse h-64 bg-white/5 rounded-3xl backdrop-blur-xl border border-white/10"></div>
+          <div className="animate-pulse h-64 bg-white/5 rounded-2xl border border-white/10"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden bg-black">
       <Helmet>
         <title>Referral Program | 1325.AI</title>
         <meta name="description" content="Share your referral code and earn rewards" />
       </Helmet>
 
-      {/* Animated Background */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
-      </div>
+      {/* Subtle ambient accent */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px] opacity-70"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.05), transparent 70%)',
+        }}
+      />
 
       <div className="container py-12 max-w-4xl mx-auto relative z-10">
-        {/* Enhanced Header */}
+        {/* Header */}
         <div className="mb-10 animate-fade-in">
-          <div className="relative overflow-hidden rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 p-8 shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-yellow-500/20" />
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-mansagold"></div>
-            <div className="absolute top-4 right-10 w-24 h-24 bg-purple-400/20 rounded-full blur-2xl animate-pulse" />
-            <div className="absolute bottom-4 left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-            <div className="relative flex items-center gap-4">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg">
-                <Gift className="h-8 w-8 text-white" />
+          <div className="rounded-2xl bg-slate-900/40 border border-white/10 p-8">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-2xl bg-mansagold/10 ring-1 ring-mansagold/30">
+                <Gift className="h-8 w-8 text-mansagold" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-white font-display">
+                <h1 className="font-display text-4xl font-bold tracking-tight text-white">
                   Referral <span className="text-mansagold">Program</span>
                 </h1>
-                <p className="text-blue-200/80 text-lg mt-1">
+                <p className="text-slate-400 text-lg mt-1">
                   Share your code with friends and earn rewards for every signup
                 </p>
               </div>
@@ -94,34 +84,34 @@ const ReferralPage = () => {
         </div>
         
         <div className="grid md:grid-cols-2 gap-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <Card className="backdrop-blur-xl bg-slate-900/40 border-white/10 shadow-xl">
+          <Card className="bg-slate-900/40 border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center text-white">
-                <Users className="h-5 w-5 mr-2 text-purple-400" /> 
+              <CardTitle className="flex items-center text-white font-display tracking-tight">
+                <Users className="h-5 w-5 mr-2 text-mansagold" /> 
                 Your Referral Code
               </CardTitle>
-              <CardDescription className="text-white/60">
+              <CardDescription className="text-slate-400">
                 Share your code with friends and earn rewards for every signup
               </CardDescription>
             </CardHeader>
             <CardContent>
               {isAgent && referralCode ? (
                 <>
-                  <div className="bg-slate-800/60 border border-white/10 rounded-lg p-6 mb-4 text-center">
-                    <p className="text-xs text-white/50 mb-1">Your Referral Code</p>
+                  <div className="bg-black/40 border border-white/10 rounded-lg p-6 mb-4 text-center">
+                    <p className="text-xs text-slate-500 mb-1">Your Referral Code</p>
                     <p className="text-3xl font-bold tracking-wider text-mansagold my-3">{referralCode}</p>
                     <div className="flex justify-center mt-4 space-x-3">
                       <Button 
                         variant="outline" 
                         onClick={handleCopyReferral}
-                        className="flex items-center border-white/20 text-white hover:bg-white/10"
+                        className="flex items-center border-white/15 bg-transparent text-slate-200 hover:bg-white/5 hover:text-white"
                       >
                         <Copy className="h-4 w-4 mr-2" /> Copy Code
                       </Button>
                       <SocialShareDialog 
                         {...shareContent}
                         triggerContent={
-                          <Button className="flex items-center bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
+                          <Button className="flex items-center bg-mansagold text-black hover:bg-mansagold/90 font-medium">
                             <Share2 className="h-4 w-4 mr-2" /> Share
                           </Button>
                         }
@@ -131,12 +121,12 @@ const ReferralPage = () => {
                 </>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-white/60 mb-4">
+                  <p className="text-slate-400 mb-4">
                     Become a Mansa Ambassador to get your referral code and start earning commissions
                   </p>
                   <Button 
                     asChild
-                    className="bg-gradient-to-r from-mansagold to-amber-500 text-slate-900 hover:from-yellow-500 hover:to-amber-600"
+                    className="bg-mansagold text-black hover:bg-mansagold/90 font-medium"
                   >
                     <a href="/become-agent">Apply Now</a>
                   </Button>
@@ -145,37 +135,37 @@ const ReferralPage = () => {
             </CardContent>
           </Card>
           
-          <Card className="backdrop-blur-xl bg-slate-900/40 border-white/10 shadow-xl">
+          <Card className="bg-slate-900/40 border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center text-white">
-                <TrendingUp className="h-5 w-5 mr-2 text-blue-400" />
+              <CardTitle className="flex items-center text-white font-display tracking-tight">
+                <TrendingUp className="h-5 w-5 mr-2 text-mansagold" />
                 How It Works
               </CardTitle>
-              <CardDescription className="text-white/60">
+              <CardDescription className="text-slate-400">
                 Three simple steps to start earning through referrals
               </CardDescription>
             </CardHeader>
             <CardContent>
               <ol className="space-y-4">
                 <li className="flex items-start">
-                  <span className="bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-0.5 shadow-lg">1</span>
+                  <span className="bg-mansagold/15 ring-1 ring-mansagold/40 text-mansagold font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-0.5 text-sm">1</span>
                   <div>
                     <h3 className="font-medium text-white">Get your referral code</h3>
-                    <p className="text-sm text-white/60">Apply to become a Mansa Ambassador and receive your unique code</p>
+                    <p className="text-sm text-slate-400">Apply to become a Mansa Ambassador and receive your unique code</p>
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <span className="bg-gradient-to-br from-blue-500 to-indigo-500 text-white font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-0.5 shadow-lg">2</span>
+                  <span className="bg-mansagold/15 ring-1 ring-mansagold/40 text-mansagold font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-0.5 text-sm">2</span>
                   <div>
                     <h3 className="font-medium text-white">Share with potential users</h3>
-                    <p className="text-sm text-white/60">Share your code with friends, family, and businesses</p>
+                    <p className="text-sm text-slate-400">Share your code with friends, family, and businesses</p>
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <span className="bg-gradient-to-br from-mansagold to-amber-500 text-slate-900 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-0.5 shadow-lg">3</span>
+                  <span className="bg-mansagold text-black font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-0.5 text-sm">3</span>
                   <div>
                     <h3 className="font-medium text-white">Earn rewards</h3>
-                    <p className="text-sm text-white/60">Earn commission for every successful signup using your code</p>
+                    <p className="text-sm text-slate-400">Earn commission for every successful signup using your code</p>
                   </div>
                 </li>
               </ol>
