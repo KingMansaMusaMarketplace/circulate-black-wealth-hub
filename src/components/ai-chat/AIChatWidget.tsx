@@ -298,6 +298,20 @@ const AIChatWidgetInner: React.FC = () => {
                         <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
                       </div>
                     ) : null}
+                    {msg.role === 'assistant' && msg.content && !isLoading && idx === messages.length - 1 && (
+                      <AgentFeedbackButtons
+                        agentName="kayla-orchestrator"
+                        decisionType="chat_response"
+                        decisionPayload={{
+                          session_id: msg.sessionId ?? sessionIdRef.current,
+                          model_used: msg.modelUsed,
+                          preview: msg.content.slice(0, 240),
+                        }}
+                        modelUsed={msg.modelUsed}
+                        compact
+                        className="pt-1"
+                      />
+                    )}
                   </div>
                   {msg.role === 'user' && (
                     <Avatar className="h-8 w-8">
