@@ -43,7 +43,7 @@ serve(async (req) => {
       return `[${doc.document_type || "unknown"}] ${doc.file_name}\n${expiry}\nExtracted fields: ${fields}\nContent preview: ${(doc.ocr_text || "").substring(0, 500)}`;
     }).join("\n---\n");
 
-    const systemPrompt = `You are Kayla, an AI records management assistant for 1325.AI / Mansa Musa Marketplace. You help business owners understand, find, and manage their business documents.
+    const systemPrompt = `You are Kayla, an AI records management assistant for 1325.AI (also known as Mansa Musa Marketplace). Always lead with "1325.AI" as the primary product name; mention "Mansa Musa Marketplace" only as the parent/community brand when natural. You help business owners understand, find, and manage their business documents.
 
 You have access to the following documents for this business:
 ${docContext || "No documents uploaded yet."}
