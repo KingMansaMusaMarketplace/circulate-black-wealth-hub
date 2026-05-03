@@ -105,6 +105,14 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
               onChange={(e) => { setUserIsTyping(true); onSearchChange(e.target.value); }}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setShowResults(false);
+                  (e.currentTarget as HTMLInputElement).blur();
+                } else if (e.key === 'Escape') {
+                  setShowResults(false);
+                }
+              }}
               className="pl-12 pr-24 h-12 text-base bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
             
@@ -148,48 +156,67 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
         
         {/* Search Results Dropdown */}
         <AnimatePresence>
-          {showResults && searchResults.length > 0 && (
+          {showResults && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute z-[100] mt-2 w-full bg-slate-900/98 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+              className="absolute z-[100] mt-2 left-0 right-0 bg-slate-900/98 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
             >
-              {searchResults.map((business, index) => (
-                <motion.div
-                  key={business.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  onClick={() => handleSelectBusiness(business)}
-                  className="p-3 hover:bg-white/5 cursor-pointer border-b border-white/5 last:border-0 flex items-center gap-3 group"
-                >
-                  <div className="h-12 w-12 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0">
-                    {business.imageUrl ? (
-                      <img 
-                        src={business.imageUrl} 
-                        alt={business.name}
-                        className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="h-full w-full flex items-center justify-center text-mansagold font-bold">
-                        {business.name.charAt(0)}
+              {searchResults.length > 0 ? (
+                <>
+                  {searchResults.map((business, index) => (
+                    <motion.div
+                      key={business.id}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      onClick={() => handleSelectBusiness(business)}
+                      className="p-3 hover:bg-white/5 cursor-pointer border-b border-white/5 last:border-0 flex items-center gap-3 group"
+                    >
+                      <div className="h-12 w-12 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0">
+                        {business.imageUrl ? (
+                          <img
+                            src={business.imageUrl}
+                            alt={business.name}
+                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="h-full w-full flex items-center justify-center text-mansagold font-bold">
+                            {business.name.charAt(0)}
+                          </div>
+                        )}
                       </div>
-                    )}
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-white group-hover:text-mansagold transition-colors truncate">
+                          {business.name}
+                        </div>
+                        <div className="text-sm text-gray-400 truncate">
+                          {business.category}
+                          {business.city && <span className="text-gray-500"> · {business.city}{business.state ? `, ${business.state}` : ''}</span>}
+                        </div>
+                      </div>
+                      {business.isFeatured && (
+                        <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30 text-xs">
+                          Featured
+                        </Badge>
+                      )}
+                    </motion.div>
+                  ))}
+                  <div className="px-3 py-2 text-xs text-gray-500 bg-slate-950/40 border-t border-white/5 flex items-center justify-between">
+                    <span>Showing {searchResults.length} match{searchResults.length === 1 ? '' : 'es'}</span>
+                    <span className="hidden sm:inline">Press <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-gray-300">Enter</kbd> to see all results below</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-white group-hover:text-mansagold transition-colors truncate">
-                      {business.name}
-                    </div>
-                    <div className="text-sm text-gray-400">{business.category}</div>
+                </>
+              ) : (
+                !isSearching && debouncedSearchTerm.length >= 2 && (
+                  <div className="p-6 text-center">
+                    <div className="text-3xl mb-2">🔍</div>
+                    <div className="text-sm text-gray-300 font-medium">No quick matches</div>
+                    <div className="text-xs text-gray-500 mt-1">Press <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-gray-300">Enter</kbd> to search the full directory</div>
                   </div>
-                  {business.isFeatured && (
-                    <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30 text-xs">
-                      Featured
-                    </Badge>
-                  )}
-                </motion.div>
-              ))}
+                )
+              )}
             </motion.div>
           )}
         </AnimatePresence>
