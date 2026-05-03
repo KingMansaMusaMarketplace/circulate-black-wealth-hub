@@ -702,10 +702,26 @@ function App() {
                               } />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
                               <Route path="/submit-ticket" element={<LazySubmitTicketPage />} />
-                              <Route path="/sponsor-dashboard" element={<LazyCorporateDashboardPage />} />
-                              <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
-                              <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
-                              <Route path="/sponsor/:slug" element={<LazySponsorLandingPage />} />
+                              <Route path="/sponsor-dashboard" element={
+                                <IOSProtectedRoute>
+                                  <LazyCorporateDashboardPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/sponsor-pricing" element={
+                                <IOSProtectedRoute>
+                                  <LazyCorporateSponsorshipPricingPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/sponsor-success" element={
+                                <IOSProtectedRoute>
+                                  <LazySponsorSuccessPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/sponsor/:slug" element={
+                                <IOSProtectedRoute>
+                                  <LazySponsorLandingPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/subscription" element={
                                 <IOSProtectedRoute>
                                   <LazySubscriptionPage />
