@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Sparkles, Loader2 } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, Loader2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -10,6 +10,39 @@ import { useCapacitor } from '@/hooks/use-capacitor';
 type Message = { role: 'user' | 'assistant'; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-shopping-assistant`;
+
+// Persist anonymous chat history client-side (7-day TTL).
+const STORAGE_KEY = 'mm:kayla:chat:v1';
+const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+const MAX_MESSAGES = 50;
+
+const loadStoredMessages = (): Message[] => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as { savedAt: number; messages: Message[] };
+    if (!parsed?.savedAt || Date.now() - parsed.savedAt > MAX_AGE_MS) {
+      localStorage.removeItem(STORAGE_KEY);
+      return [];
+    }
+    return Array.isArray(parsed.messages) ? parsed.messages.slice(-MAX_MESSAGES) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveStoredMessages = (messages: Message[]) => {
+  try {
+    if (!messages.length) {
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ savedAt: Date.now(), messages: messages.slice(-MAX_MESSAGES) }),
+    );
+  } catch { /* quota or private mode — ignore */ }
+};
 
 const ShoppingAssistantChat: React.FC = () => {
   const { platform } = useCapacitor();
