@@ -131,6 +131,22 @@ const AIChatWidgetInner: React.FC = () => {
 
           try {
             const parsed = JSON.parse(jsonStr);
+            // Server emits { model_used, session_id } once before content streams.
+            if (parsed.model_used && !parsed.choices) {
+              if (parsed.session_id && parsed.session_id !== sessionIdRef.current) {
+                sessionIdRef.current = parsed.session_id;
+                try { localStorage.setItem('kayla_widget_session_id', parsed.session_id); } catch {}
+              }
+              setMessages(prev => {
+                const updated = [...prev];
+                const last = updated[updated.length - 1];
+                if (last?.role === 'assistant') {
+                  updated[updated.length - 1] = { ...last, modelUsed: parsed.model_used, sessionId: parsed.session_id };
+                }
+                return updated;
+              });
+              continue;
+            }
             // Server-confirmed orchestrator chips override the client guess.
             if (Array.isArray(parsed.agents)) {
               setMessages(prev => {
