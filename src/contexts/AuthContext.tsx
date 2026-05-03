@@ -103,13 +103,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Check for existing session with AGGRESSIVE timeout for iOS
     const initializeAuth = async () => {
-      const timeout = isIOS ? 1500 : 2000; // 1.5s on iOS, 2s elsewhere
+      const timeout = isIOS ? 1500 : 5000; // 1.5s on iOS for app responsiveness, 5s elsewhere to ride out cold-start latency
       
       try {
         const sessionPromise = supabase.auth.getSession();
         const timeoutPromise = new Promise<null>((resolve) => 
           setTimeout(() => {
-            console.warn('[AUTH INIT] Session fetch timeout after', timeout, 'ms');
+            // Benign — auth listener will pick up the session asynchronously if it arrives later
+            console.info('[AUTH INIT] Session fetch slow (>', timeout, 'ms), continuing as guest');
             resolve(null);
           }, timeout)
         );
