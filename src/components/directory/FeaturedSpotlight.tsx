@@ -46,7 +46,7 @@ const FeaturedSpotlightCard: React.FC<{ business: Business }> = ({ business }) =
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-slate-900/90" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent md:hidden" />
           <div className="absolute top-8 right-8 hidden md:block">
-            <Sparkles className="h-8 w-8 text-mansagold animate-pulse" />
+            <Sparkles className="h-8 w-8 text-mansagold" />
           </div>
         </div>
         
@@ -58,7 +58,7 @@ const FeaturedSpotlightCard: React.FC<{ business: Business }> = ({ business }) =
               {business.category}
             </Badge>
             
-            <h2 className="text-3xl md:text-4xl font-bold text-mansagold mb-3 drop-shadow-[0_0_20px_rgba(251,191,36,0.4)]">
+            <h2 className="text-3xl md:text-4xl font-bold text-mansagold mb-3">
               {business.name}
             </h2>
             
@@ -139,8 +139,8 @@ const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ business, busines
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Animated glow background */}
-      <div className="absolute -inset-4 bg-gradient-to-r from-mansagold/20 via-amber-500/10 to-mansagold/20 rounded-3xl blur-2xl animate-pulse" />
+      {/* Subtle static glow — Apple-minimal */}
+      <div className="absolute -inset-1 bg-mansagold/5 rounded-3xl blur-xl pointer-events-none" />
       
       <div className="relative">
         <AnimatePresence mode="wait">
