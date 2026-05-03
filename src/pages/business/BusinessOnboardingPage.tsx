@@ -61,8 +61,15 @@ const BusinessOnboardingPage: React.FC = () => {
     navigate('/business-dashboard');
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     toast.success('Your listing is now live! 🎉');
+    // Fire-and-forget Kayla first-touch enrichment so the dashboard
+    // greets the new owner with personalized insights (idempotent on business_id).
+    if (business?.id) {
+      supabase.functions
+        .invoke('kayla-first-touch', { body: { businessId: business.id } })
+        .catch((err) => console.warn('[kayla-first-touch] background invoke failed:', err));
+    }
     navigate('/business-dashboard');
   };
 
