@@ -96,7 +96,7 @@ serve(async (req) => {
       throw new Error("Webhook secret not configured");
     }
 
-    const event = stripe.webhooks.constructEvent(
+    const event = await stripe.webhooks.constructEventAsync(
       body,
       signature!,
       webhookSecret
