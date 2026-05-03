@@ -39,16 +39,14 @@ import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
 import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
 import { getRememberedDirectoryUrl } from '@/utils/directoryReturn';
 
-// Memoized background orbs to prevent re-render on typing
-const BackgroundOrbs = memo(() => (
-  <>
-    <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float pointer-events-none" style={{ willChange: 'transform', contain: 'strict' }} />
-    <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float pointer-events-none" style={{ willChange: 'transform', animationDelay: '2s', contain: 'strict' }} />
-    <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float pointer-events-none" style={{ willChange: 'transform', animationDelay: '4s', contain: 'strict' }} />
-    <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-float pointer-events-none" style={{ willChange: 'transform', animationDelay: '3s', contain: 'strict' }} />
-  </>
+// Subtle static accent — Apple-minimal, no animated colored orbs
+const BackgroundAccent = memo(() => (
+  <div
+    className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,179,0,0.05),transparent_60%)] pointer-events-none"
+    style={{ contain: 'strict' }}
+  />
 ));
-BackgroundOrbs.displayName = 'BackgroundOrbs';
+BackgroundAccent.displayName = 'BackgroundAccent';
 
 // Helper to check if ID is a valid UUID
 const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
@@ -264,14 +262,14 @@ const BusinessDetailPage = () => {
 
   const renderStars = (rating: number, size: 'sm' | 'md' = 'sm') => {
     const starSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
-    
+
     return Array.from({ length: 5 }).map((_, index) => (
       <Star
         key={index}
         className={`${starSize} ${
-          index < Math.floor(rating) 
-            ? 'text-yellow-400 fill-current' 
-            : 'text-yellow-400/30'
+          index < Math.floor(rating)
+            ? 'text-mansagold fill-mansagold'
+            : 'text-mansagold/25'
         }`}
       />
     ));
@@ -315,8 +313,8 @@ const BusinessDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center relative overflow-hidden">
-        <BackgroundOrbs />
+      <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
+        <BackgroundAccent />
         <LoadingSpinner />
       </div>
     );
@@ -324,25 +322,25 @@ const BusinessDetailPage = () => {
 
   if (error || !business) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex flex-col items-center justify-center relative overflow-hidden px-4">
-        <BackgroundOrbs />
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden px-4">
+        <BackgroundAccent />
         <div className="relative z-10 text-center max-w-md space-y-6">
           <div className="text-6xl">😔</div>
           <h2 className="text-xl font-bold text-white">
             {error?.includes('timed out') ? 'Connection Issue' : 'Business Not Found'}
           </h2>
-          <p className="text-blue-200/70 text-sm">
+          <p className="text-slate-400 text-sm">
             {error || 'This business listing could not be loaded.'}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button 
-              onClick={() => setRetryCount(c => c + 1)} 
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold"
+            <Button
+              onClick={() => setRetryCount(c => c + 1)}
+              className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
             >
               Try Again
             </Button>
             <Link to="/directory">
-              <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 w-full">
+              <Button variant="outline" className="border-white/15 text-white hover:bg-white/5 w-full">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Directory
               </Button>
@@ -360,18 +358,16 @@ const BusinessDetailPage = () => {
         <meta name="description" content={business.description} />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        <BackgroundOrbs />
+      <div className="min-h-screen bg-black relative overflow-hidden">
+        <BackgroundAccent />
 
         {/* Header */}
-        <div className="border-b border-white/10 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-50">
+        <div className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
           <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => {
-                  // Prefer returning to the exact directory listing the user was browsing
-                  // (e.g. /directory?category=Acupuncture%20Clinic).
                   const remembered = getRememberedDirectoryUrl();
                   if (remembered) {
                     navigate(remembered);
@@ -385,22 +381,27 @@ const BusinessDetailPage = () => {
                     navigate('/directory');
                   }
                 }}
-                className="flex items-center gap-2 text-blue-200 hover:text-yellow-400 transition-colors"
+                className="flex items-center gap-2 text-slate-300 hover:text-mansagold transition-colors text-sm"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Directory
               </button>
-              
+
               <div className="flex items-center gap-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={handleLike}
-                  className={`text-white hover:bg-white/10 ${isLiked ? 'text-red-400' : ''}`}
+                  className={`hover:bg-white/5 ${isLiked ? 'text-red-400 hover:text-red-400' : 'text-slate-300 hover:text-white'}`}
                 >
                   <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleShare} className="text-white hover:bg-white/10">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleShare}
+                  className="text-slate-300 hover:bg-white/5 hover:text-white"
+                >
                   <Share2 className="h-4 w-4" />
                 </Button>
               </div>
@@ -415,78 +416,78 @@ const BusinessDetailPage = () => {
             const bannerUrl = getBusinessBanner(business.id, business.banner_url, business.website);
             return bannerUrl ? (
               <div className="h-72 md:h-96 overflow-hidden">
-                <img 
-                  src={bannerUrl} 
+                <img
+                  src={bannerUrl}
                   alt={business.business_name}
                   className="w-full h-full object-cover object-[center_25%]"
                 />
               </div>
             ) : (
-              <div className="h-64 md:h-80 bg-gradient-to-br from-blue-600/30 to-yellow-500/20" />
+              <div className="h-64 md:h-80 bg-slate-900" />
             );
           })()}
-          
+
           {/* Business Info Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent text-white">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent text-white">
             <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="flex flex-col md:flex-row items-start md:items-end gap-6">
                 {/* Logo */}
-                <Avatar className="w-24 h-24 border-4 border-yellow-400/50 shadow-lg shadow-yellow-500/20">
+                <Avatar className="w-24 h-24 border border-mansagold/40 ring-1 ring-black/40">
                   <AvatarImage src={business.logo_url} alt={business.business_name} />
-                  <AvatarFallback className="text-2xl font-bold bg-gradient-to-br from-blue-600 to-blue-800 text-white">
+                  <AvatarFallback className="text-2xl font-bold bg-slate-800 text-mansagold">
                     {business.business_name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                
+
                 {/* Business Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
-                    <h1 className="text-3xl md:text-4xl font-bold text-white">
+                    <h1 className="font-display text-3xl md:text-4xl font-bold text-white tracking-tight">
                       {business.business_name}
                     </h1>
                     {business.is_founding_sponsor && (
                       <FoundingSponsorBadge size="md" />
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-4 mb-2 flex-wrap">
-                    <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-400/30">
+                    <Badge variant="outline" className="bg-mansagold/10 text-mansagold border-mansagold/30">
                       {business.category}
                     </Badge>
-                    
+
                     {business.average_rating > 0 ? (
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1">
                           {renderStars(business.average_rating, 'md')}
                         </div>
-                        <span className="text-blue-200">
-                          {business.average_rating.toFixed(1)} ({business.review_count} reviews)
+                        <span className="text-slate-300 text-sm">
+                          {business.average_rating.toFixed(1)} <span className="text-slate-500">({business.review_count} reviews)</span>
                         </span>
                       </div>
                     ) : (
-                      <span className="text-blue-300/70">No reviews yet</span>
+                      <span className="text-slate-500 text-sm">No reviews yet</span>
                     )}
                   </div>
-                  
+
                   {business.is_verified && (
                     <div className="mb-3">
                       <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} />
                     </div>
                   )}
-                  
+
                   {(business.city || business.state) && (
-                    <div className="flex items-center gap-1 text-blue-200">
-                      <MapPin className="h-4 w-4 text-yellow-400" />
+                    <div className="flex items-center gap-1 text-slate-300 text-sm">
+                      <MapPin className="h-4 w-4 text-mansagold" />
                       <span>{business.city}{business.city && business.state ? ', ' : ''}{business.state}</span>
                     </div>
                   )}
                 </div>
-                
+
                 {/* Book Now Button */}
-                <Button 
+                <Button
                   size="lg"
                   onClick={() => navigate(`/book/${businessId}`)}
-                  className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-semibold shadow-lg shadow-yellow-500/30"
+                  className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
                 >
                   Book Appointment
                 </Button>
@@ -502,19 +503,19 @@ const BusinessDetailPage = () => {
             <div className="lg:col-span-2 space-y-6">
               {/* Tabs: About, Book, Reviews */}
               <Tabs defaultValue="about" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 bg-slate-900/40 backdrop-blur-xl border border-white/10">
-                  <TabsTrigger value="about" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-300 text-blue-200">About</TabsTrigger>
-                  <TabsTrigger value="book" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-300 text-blue-200">Book Appointment</TabsTrigger>
-                  <TabsTrigger value="reviews" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-300 text-blue-200">Reviews ({reviews.length})</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-3 bg-slate-900/40 border border-white/10">
+                  <TabsTrigger value="about" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">About</TabsTrigger>
+                  <TabsTrigger value="book" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">Book Appointment</TabsTrigger>
+                  <TabsTrigger value="reviews" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">Reviews ({reviews.length})</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="about" className="space-y-6">
-                  <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
+                  <Card className="bg-slate-900/40 border-white/10">
                     <CardHeader>
                       <CardTitle className="text-white">About {business.business_name}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-blue-200 leading-relaxed">
+                      <p className="text-slate-300 leading-relaxed">
                         {business.description || 'No description available.'}
                       </p>
                     </CardContent>
@@ -522,10 +523,10 @@ const BusinessDetailPage = () => {
 
                   {/* Business Location Map */}
                   {business.city && business.state && (
-                    <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
+                    <Card className="bg-slate-900/40 border-white/10">
                       <CardHeader>
                         <CardTitle className="text-white flex items-center gap-2">
-                          <MapPin className="h-5 w-5" />
+                          <MapPin className="h-5 w-5 text-mansagold" />
                           Business Location
                         </CardTitle>
                       </CardHeader>
@@ -539,25 +540,25 @@ const BusinessDetailPage = () => {
                           state={business.state}
                         />
                         <div className="text-center mt-4 space-y-2">
-                          <p className="text-blue-200">
+                          <p className="text-slate-300 text-sm">
                             {business.address ? `${business.address}, ` : ''}{business.city}, {business.state} {business.zip_code}
                           </p>
                           {business.phone && (
-                            <p className="text-blue-200">
-                              <a 
+                            <p className="text-slate-300 text-sm">
+                              <a
                                 href={`tel:${business.phone}`}
-                                className="inline-flex items-center hover:text-yellow-300 transition-colors"
+                                className="inline-flex items-center hover:text-mansagold transition-colors"
                               >
                                 <Phone size={16} className="mr-1" />
                                 {business.phone}
                               </a>
                             </p>
                           )}
-                          <a 
+                          <a
                             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address ? business.address + ', ' : ''}${business.city}, ${business.state}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center text-yellow-400 hover:text-yellow-300 hover:underline"
+                            className="inline-flex items-center text-mansagold hover:text-mansagold/80 hover:underline"
                           >
                             <MapPin size={16} className="mr-1" />
                             Get Directions
@@ -569,7 +570,7 @@ const BusinessDetailPage = () => {
                 </TabsContent>
 
                 <TabsContent value="book">
-                  <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
+                  <div className="bg-slate-900/40 border border-white/10 rounded-lg p-6">
                     <BookingForm
                       businessId={business.id}
                       businessName={business.business_name}
@@ -580,17 +581,17 @@ const BusinessDetailPage = () => {
 
                 <TabsContent value="reviews" className="space-y-6">
                   {user && (
-                    <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
-                      <ReviewForm 
-                        businessId={business.id} 
+                    <div className="bg-slate-900/40 border border-white/10 rounded-lg p-6">
+                      <ReviewForm
+                        businessId={business.id}
                         onSuccess={loadReviews}
                       />
                     </div>
                   )}
-                  
+
                   <AIReviewSummary businessId={business.id} />
-                  
-                  <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
+
+                  <div className="bg-slate-900/40 border border-white/10 rounded-lg p-6">
                     <ReviewsList businessId={business.id} />
                   </div>
                 </TabsContent>
@@ -621,49 +622,49 @@ const BusinessDetailPage = () => {
               />
 
               {/* Location Info (public) */}
-              <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
+              <Card className="bg-slate-900/40 border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white">Location</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {business.address && (
                     <div className="flex items-start gap-3">
-                      <MapPin className="h-5 w-5 text-yellow-400 mt-0.5" />
+                      <MapPin className="h-5 w-5 text-mansagold mt-0.5" />
                       <div>
-                        <p className="font-medium text-white">Address</p>
-                        <p className="text-sm text-blue-200">
+                        <p className="font-medium text-white text-sm">Address</p>
+                        <p className="text-sm text-slate-400">
                           {business.address}
                           {business.city && <><br />{business.city}{business.state && `, ${business.state}`} {business.zip_code}</>}
                         </p>
                       </div>
                     </div>
                   )}
-                  
+
                   {business.phone && (
                     <div className="flex items-center gap-3">
-                      <Phone className="h-5 w-5 text-yellow-400" />
+                      <Phone className="h-5 w-5 text-mansagold" />
                       <div>
-                        <p className="font-medium text-white">Phone</p>
-                        <a 
-                          href={`tel:${business.phone}`} 
-                          className="text-sm text-yellow-400 hover:text-yellow-300 hover:underline"
+                        <p className="font-medium text-white text-sm">Phone</p>
+                        <a
+                          href={`tel:${business.phone}`}
+                          className="text-sm text-mansagold hover:text-mansagold/80 hover:underline"
                         >
                           {business.phone}
                         </a>
                       </div>
                     </div>
                   )}
-                  
+
                   {business.website && (
                     <div className="flex items-center gap-3">
-                      <Globe className="h-5 w-5 text-yellow-400" />
+                      <Globe className="h-5 w-5 text-mansagold" />
                       <div>
-                        <p className="font-medium text-white">Website</p>
-                        <a 
-                          href={business.website} 
-                          target="_blank" 
+                        <p className="font-medium text-white text-sm">Website</p>
+                        <a
+                          href={business.website}
+                          target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-yellow-400 hover:text-yellow-300 hover:underline"
+                          className="text-sm text-mansagold hover:text-mansagold/80 hover:underline"
                         >
                           Visit Website
                         </a>
@@ -674,14 +675,14 @@ const BusinessDetailPage = () => {
               </Card>
 
               {/* Quick Actions */}
-              <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
+              <Card className="bg-slate-900/40 border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white">Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  
+
                   {business.phone && (
-                    <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:text-yellow-300" asChild>
+                    <Button variant="outline" className="w-full border-white/15 bg-transparent text-slate-300 hover:bg-white/5 hover:text-mansagold" asChild>
                       <a href={`tel:${business.phone}`}>
                         <Phone className="h-4 w-4 mr-2" />
                         Call {business.phone}
@@ -690,15 +691,15 @@ const BusinessDetailPage = () => {
                   )}
 
                   {business.website && (
-                    <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:text-yellow-300" asChild>
+                    <Button variant="outline" className="w-full border-white/15 bg-transparent text-slate-300 hover:bg-white/5 hover:text-mansagold" asChild>
                       <a href={business.website} target="_blank" rel="noopener noreferrer">
                         <Globe className="h-4 w-4 mr-2" />
                         Visit Website
                       </a>
                     </Button>
                   )}
-                  
-                  <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:text-yellow-300" onClick={handleShare}>
+
+                  <Button variant="outline" className="w-full border-white/15 bg-transparent text-slate-300 hover:bg-white/5 hover:text-mansagold" onClick={handleShare}>
                     <Share2 className="h-4 w-4 mr-2" />
                     Share Business
                   </Button>
