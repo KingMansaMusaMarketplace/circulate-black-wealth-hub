@@ -23302,18 +23302,13 @@ export type Database = {
         }
         Returns: Json
       }
-      has_role:
-        | {
-            Args: { _role: Database["public"]["Enums"]["user_role"] }
-            Returns: boolean
-          }
-        | {
-            Args: {
-              _role: Database["public"]["Enums"]["app_role"]
-              _user_id: string
-            }
-            Returns: boolean
-          }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       has_transacted_with_business: {
         Args: { p_business_id: string; p_customer_id: string }
         Returns: boolean
