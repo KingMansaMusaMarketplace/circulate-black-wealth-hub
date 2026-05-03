@@ -67,15 +67,15 @@ export default function KnowledgeBasePage() {
             <CardHeader className="border-b border-white/10">
               <div className="flex items-start justify-between">
                 <div>
-                  <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 mb-3">
+                  <Badge className="bg-mansablue/15 text-blue-300 border border-mansablue/40 mb-3">
                     {selectedArticle.category}
                   </Badge>
                   <CardTitle className="text-2xl text-white">{selectedArticle.title}</CardTitle>
-                  <p className="text-sm text-blue-200/60 mt-2">
+                  <p className="text-sm text-slate-400 mt-2">
                     Last updated: {format(new Date(selectedArticle.updated_at), 'MMM d, yyyy')}
                   </p>
                 </div>
-                <div className="flex items-center gap-4 text-sm text-blue-200/60">
+                <div className="flex items-center gap-4 text-sm text-slate-400">
                   <span className="flex items-center gap-1">
                     <Eye className="h-4 w-4" />
                     {selectedArticle.view_count}
@@ -91,7 +91,7 @@ export default function KnowledgeBasePage() {
               />
 
               <div className="mt-8 pt-6 border-t border-white/10">
-                <p className="text-sm text-blue-200/70 mb-4">Was this article helpful?</p>
+                <p className="text-sm text-slate-400 mb-4">Was this article helpful?</p>
                 <div className="flex gap-3">
                   <Button
                     variant="outline"
