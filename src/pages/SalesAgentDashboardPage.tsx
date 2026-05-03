@@ -137,13 +137,16 @@ const SalesAgentDashboardPage: React.FC = () => {
     .reduce((sum, b) => sum + parseFloat(b.bonus_amount), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-orange-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 right-1/4 w-72 h-72 bg-yellow-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-      </div>
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Subtle ambient accent */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[480px] opacity-70"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.05), transparent 70%)',
+        }}
+      />
 
       <ResponsiveLayout title="Agent Dashboard">
         <Helmet>
@@ -155,8 +158,8 @@ const SalesAgentDashboardPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Welcome back, {agent.full_name}!</h1>
-            <p className="text-muted-foreground mt-1">
+            <h1 className="font-display text-3xl font-bold tracking-tight text-white">Welcome back, {agent.full_name}</h1>
+            <p className="text-slate-400 mt-1">
               Here's your sales performance overview
             </p>
           </div>
@@ -166,6 +169,7 @@ const SalesAgentDashboardPage: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => navigate('/sales-agent-leaderboard')}
+              className="border-white/15 bg-transparent text-slate-200 hover:bg-white/5 hover:text-white"
             >
               <Trophy className="h-4 w-4 mr-1" />
               Leaderboard
@@ -174,27 +178,28 @@ const SalesAgentDashboardPage: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => navigate('/marketing-materials')}
+              className="border-white/15 bg-transparent text-slate-200 hover:bg-white/5 hover:text-white"
             >
               <FileText className="h-4 w-4 mr-1" />
               Marketing Materials
             </Button>
             <NotificationBell />
-            <Card className="w-full sm:w-auto">
+            <Card className="w-full sm:w-auto bg-slate-900/40 border-white/10">
               <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Your Referral Code</CardTitle>
+                <CardTitle className="text-sm font-medium text-slate-300">Your Referral Code</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <code className="text-2xl font-bold bg-muted px-3 py-1 rounded">
+                  <code className="text-2xl font-bold text-mansagold bg-black/40 ring-1 ring-mansagold/30 px-3 py-1 rounded">
                     {agent.referral_code}
                   </code>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline" onClick={copyReferralCode}>
+                  <Button size="sm" variant="outline" onClick={copyReferralCode} className="border-white/15 bg-transparent text-slate-200 hover:bg-white/5 hover:text-white">
                     <Copy className="h-4 w-4 mr-1" />
                     Copy Code
                   </Button>
-                  <Button size="sm" variant="outline" onClick={copyReferralLink}>
+                  <Button size="sm" variant="outline" onClick={copyReferralLink} className="border-white/15 bg-transparent text-slate-200 hover:bg-white/5 hover:text-white">
                     <Share2 className="h-4 w-4 mr-1" />
                     Copy Link
                   </Button>
