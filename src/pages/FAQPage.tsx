@@ -38,63 +38,46 @@ const FAQPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
+    <div className="min-h-screen bg-black relative overflow-hidden">
       <Helmet>
         <title>FAQ - Frequently Asked Questions | 1325.AI</title>
         <meta name="description" content="Find answers to common questions about 1325.AI - how to sign up, use loyalty points, and support community businesses." />
       </Helmet>
 
-      {/* Premium ambient background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-mansagold/10 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/5 rounded-full blur-[150px]" />
-      </div>
-      
-      {/* Grid pattern overlay */}
-      <div 
-        className="fixed inset-0 pointer-events-none opacity-[0.02]"
+      {/* Subtle ambient accent */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 h-[600px] opacity-70"
         style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
-          backgroundSize: '60px 60px'
+          background:
+            'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.06), transparent 70%)',
         }}
       />
-      
+
       <div className="container mx-auto px-4 py-16 relative z-10">
-        {/* Hero Section */}
+        {/* Hero */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center gap-2 bg-mansagold/10 backdrop-blur-sm border border-mansagold/30 rounded-full px-6 py-3 mb-8 shadow-lg shadow-mansagold/20"
-          >
-            <Sparkles className="w-5 h-5 text-mansagold animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-mansagold/10 border border-mansagold/30 rounded-full px-6 py-3 mb-8">
+            <Sparkles className="w-5 h-5 text-mansagold" />
             <span className="font-semibold text-white">Help Center</span>
-          </motion.div>
+          </div>
 
           <div className="inline-block mb-6">
-            <motion.div 
-              className="p-5 bg-gradient-to-br from-mansagold to-amber-600 rounded-2xl shadow-2xl shadow-mansagold/30"
-              whileHover={{ rotate: [0, -5, 5, 0], scale: 1.05 }}
-              transition={{ duration: 0.5 }}
-            >
-              <HelpCircle className="h-16 w-16 text-mansablue-dark" />
-            </motion.div>
+            <div className="p-5 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-2xl">
+              <HelpCircle className="h-16 w-16 text-mansagold" />
+            </div>
           </div>
           
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 font-playfair">
+          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-tight mb-6">
             <span className="text-white">Frequently Asked </span>
-            <span className="bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent">
-              Questions
-            </span>
+            <span className="text-mansagold">Questions</span>
           </h1>
-          <p className="text-xl text-white/80">
+          <p className="text-xl text-slate-400">
             Find answers to common questions about 1325.AI
           </p>
         </motion.div>
@@ -106,7 +89,7 @@ const FAQPage = () => {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl p-8 md:p-10">
+          <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-8 md:p-10">
             <Accordion type="single" collapsible className="w-full space-y-4">
               {faqs.map((faq, index) => (
                 <motion.div
@@ -117,17 +100,17 @@ const FAQPage = () => {
                 >
                   <AccordionItem 
                     value={`item-${index}`} 
-                    className="border border-white/10 rounded-xl overflow-hidden bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300"
+                    className="border border-white/10 rounded-xl overflow-hidden bg-black/30 hover:bg-black/50 transition-colors"
                   >
                     <AccordionTrigger className="text-left text-white hover:text-mansagold font-semibold px-6 py-5 text-lg hover:no-underline">
                       <span className="flex items-center gap-3">
-                        <span className="flex-shrink-0 w-8 h-8 rounded-full bg-mansagold/20 flex items-center justify-center text-mansagold text-sm font-bold">
+                        <span className="flex-shrink-0 w-8 h-8 rounded-full bg-mansagold/15 ring-1 ring-mansagold/40 flex items-center justify-center text-mansagold text-sm font-bold">
                           {index + 1}
                         </span>
                         {faq.question}
                       </span>
                     </AccordionTrigger>
-                    <AccordionContent className="text-white/70 px-6 pb-5 pt-0 leading-relaxed text-base">
+                    <AccordionContent className="text-slate-300 px-6 pb-5 pt-0 leading-relaxed text-base">
                       <div className="pl-11">
                         {faq.answer}
                       </div>
@@ -146,14 +129,14 @@ const FAQPage = () => {
           transition={{ delay: 0.8, duration: 0.6 }}
           className="text-center mt-16"
         >
-          <div className="backdrop-blur-xl bg-gradient-to-r from-mansagold/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-3">Still have questions?</h3>
-            <p className="text-white/70 mb-6">
+          <div className="bg-slate-900/40 border border-mansagold/20 rounded-2xl p-8 max-w-2xl mx-auto">
+            <h3 className="font-display text-2xl font-bold tracking-tight text-white mb-3">Still have questions?</h3>
+            <p className="text-slate-400 mb-6">
               Our team is here to help. Reach out and we'll get back to you as soon as possible.
             </p>
             <a 
               href="/contact" 
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-mansagold to-amber-500 text-mansablue-dark font-bold rounded-xl hover:shadow-lg hover:shadow-mansagold/30 transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-mansagold text-black font-medium rounded-xl hover:bg-mansagold/90 transition-colors"
             >
               Contact Us
             </a>
