@@ -184,7 +184,7 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ open, onOpenChang
           autoFocus
         />
         {isAIQuery && (
-          <Badge variant="secondary" className="ml-2 gap-1 shrink-0">
+          <Badge className="ml-2 gap-1 shrink-0 bg-mansagold/15 text-mansagold border border-mansagold/30 hover:bg-mansagold/20">
             <Sparkles className="h-3 w-3" />
             AI
           </Badge>
@@ -266,8 +266,8 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ open, onOpenChang
                   onSelect={() => handleSelectBusiness(business.id, business.name)}
                   className="flex items-center gap-3 cursor-pointer"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/10">
-                    <Store className="h-4 w-4 text-primary" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-mansagold/10 ring-1 ring-mansagold/30">
+                    <Store className="h-4 w-4 text-mansagold" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium truncate">{business.name}</div>
@@ -277,7 +277,7 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ open, onOpenChang
                       )}
                       {business.rating && (
                         <span className="flex items-center gap-0.5">
-                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                          <Star className="h-3 w-3 fill-mansagold text-mansagold" />
                           {business.rating.toFixed(1)}
                         </span>
                       )}
@@ -293,7 +293,7 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ open, onOpenChang
               ))}
               <CommandItem
                 onSelect={handleViewAll}
-                className="justify-center text-primary cursor-pointer"
+                className="justify-center text-mansagold font-medium cursor-pointer"
               >
                 View all business results →
               </CommandItem>
