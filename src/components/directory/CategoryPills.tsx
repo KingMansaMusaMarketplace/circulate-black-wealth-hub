@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -214,38 +214,50 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
           </motion.button>
 
           {/* Category pills */}
-          {categories.map((category, index) => (
-            <motion.button
-              key={category}
-              ref={(el) => {
-                if (el) pillRefs.current.set(category, el);
-                else pillRefs.current.delete(category);
-              }}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.03 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => onSelectCategory(category)}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all duration-300 flex-shrink-0",
-                selectedCategory === category
-                  ? "bg-gradient-to-r from-mansagold to-amber-500 text-slate-900 font-semibold shadow-lg shadow-mansagold/30"
-                  : "bg-slate-800/80 text-gray-300 border border-white/10 hover:border-mansagold/50 hover:text-white"
-              )}
-            >
-              <span>{getCategoryIcon(category)}</span>
-              <span>{category}</span>
-              {businessCounts[category] && (
-                <span className={cn(
-                  "text-xs px-1.5 py-0.5 rounded-full",
-                  selectedCategory === category ? "bg-slate-900/30 text-slate-900" : "bg-white/10 text-gray-400"
-                )}>
-                  {businessCounts[category]}
-                </span>
-              )}
-            </motion.button>
-          ))}
+          {categories.map((category, index) => {
+            const isSelected = selectedCategory === category;
+            return (
+              <motion.button
+                key={category}
+                ref={(el) => {
+                  if (el) pillRefs.current.set(category, el);
+                  else pillRefs.current.delete(category);
+                }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.03 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => onSelectCategory(isSelected ? undefined : category)}
+                aria-pressed={isSelected}
+                title={isSelected ? `Clear ${category} filter` : `Filter by ${category}`}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all duration-300 flex-shrink-0",
+                  isSelected
+                    ? "bg-gradient-to-r from-mansagold to-amber-500 text-slate-900 font-semibold shadow-lg shadow-mansagold/30 ring-2 ring-mansagold/60 ring-offset-2 ring-offset-slate-950"
+                    : "bg-slate-800/80 text-gray-300 border border-white/10 hover:border-mansagold/50 hover:text-white"
+                )}
+              >
+                {isSelected ? (
+                  <Check className="h-4 w-4" />
+                ) : (
+                  <span>{getCategoryIcon(category)}</span>
+                )}
+                <span>{category}</span>
+                {businessCounts[category] && (
+                  <span className={cn(
+                    "text-xs px-1.5 py-0.5 rounded-full",
+                    isSelected ? "bg-slate-900/30 text-slate-900" : "bg-white/10 text-gray-400"
+                  )}>
+                    {businessCounts[category]}
+                  </span>
+                )}
+                {isSelected && (
+                  <X className="h-3.5 w-3.5 ml-0.5 opacity-70" />
+                )}
+              </motion.button>
+            );
+          })}
         </div>
 
         {/* Right scroll button */}
