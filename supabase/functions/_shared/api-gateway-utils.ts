@@ -9,7 +9,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-api-key",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-api-key, x-csrf-token",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "X-Patent-Notice": "Protected under USPTO Provisional 63/969,202",
 };
