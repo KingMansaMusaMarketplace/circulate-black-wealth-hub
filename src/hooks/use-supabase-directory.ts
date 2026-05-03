@@ -80,6 +80,7 @@ export const useSupabaseDirectory = () => {
   const insertCountRef = useRef(0);
   const [selectedCity, setSelectedCity] = useState<string>('all');
   const routerLocation = useRouterLocation();
+  const navigate = useNavigate();
 
   // Read initial search term + category from URL query params
   // (e.g. /directory?search=restaurants or /directory?category=Acupuncture%20Practice)
@@ -116,6 +117,23 @@ export const useSupabaseDirectory = () => {
     setSearchTerm(prev => (prev === urlSearch ? prev : urlSearch));
     setPage(1);
   }, [routerLocation.search]);
+
+  // Push state OUT to the URL so refresh / share-link preserves the
+  // user's category + search (memory: filter persistence rule).
+  useEffect(() => {
+    const params = new URLSearchParams(routerLocation.search);
+    const currentCat = params.get('category') || '';
+    const currentSearch = params.get('search') || '';
+    const nextCat = filterOptions.category || '';
+    const nextSearch = searchTerm || '';
+    if (currentCat === nextCat && currentSearch === nextSearch) return;
+
+    if (nextCat) params.set('category', nextCat); else params.delete('category');
+    if (nextSearch) params.set('search', nextSearch); else params.delete('search');
+    const qs = params.toString();
+    navigate(`${routerLocation.pathname}${qs ? `?${qs}` : ''}${routerLocation.hash}`, { replace: true });
+  }, [filterOptions.category, searchTerm, navigate, routerLocation.pathname, routerLocation.hash, routerLocation.search]);
+
 
   // Realtime subscription: auto-refresh directory every 15 new inserts from Kayla
   useEffect(() => {
