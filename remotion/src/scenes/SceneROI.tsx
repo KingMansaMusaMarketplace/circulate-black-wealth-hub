@@ -20,7 +20,7 @@ export const SceneROI: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={885} />
+      <CinematicBg totalFrames={1500} />
       <AbsoluteFill style={{ flexDirection: "row", padding: "8% 8%" }}>
         {/* LEFT: roles list */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 14 }}>

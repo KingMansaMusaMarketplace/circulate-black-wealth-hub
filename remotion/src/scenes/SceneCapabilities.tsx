@@ -50,30 +50,30 @@ const DEPTS: Dept[] = [
   ]},
 ];
 
-const PER = 558; // 18.6s per dept × 5 = 2790f
-
-// Scene 3: Capabilities reel (~93s = 2790 frames)
-// Each dept lives in its own Sequence so layout resets per dept.
+// Scene 3: Capabilities reel — duration-driven from parent Sequence.
+// VO has 5 segments (one per dept), so we always show 5 depts evenly distributed.
 export const SceneCapabilities: React.FC = () => {
+  const { durationInFrames } = useVideoConfig();
+  const PER = Math.floor(durationInFrames / DEPTS.length);
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={DEPTS.length * PER} />
+      <CinematicBg totalFrames={durationInFrames} />
       {DEPTS.map((d, i) => (
         <Sequence key={i} from={i * PER} durationInFrames={PER} layout="none">
-          <DeptScene dept={d} />
+          <DeptScene dept={d} per={PER} />
         </Sequence>
       ))}
     </AbsoluteFill>
   );
 };
 
-const DeptScene: React.FC<{ dept: Dept }> = ({ dept }) => {
+const DeptScene: React.FC<{ dept: Dept; per: number }> = ({ dept, per }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const sp = spring({ frame, fps, config: { damping: 22, stiffness: 90 } });
   const yTitle = interpolate(sp, [0, 1], [40, 0]);
   const opTitle = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const opOut = interpolate(frame, [528, 558], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const opOut = interpolate(frame, [per - 30, per], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
     <AbsoluteFill style={{ flexDirection: "row", padding: "8% 8%", opacity: opOut }}>

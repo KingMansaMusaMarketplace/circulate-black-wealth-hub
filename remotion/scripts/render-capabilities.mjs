@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJ = path.resolve(__dirname, "..");
 
 const COMP_ID = "capabilities";
-const TOTAL_FRAMES = 8730;
+const TOTAL_FRAMES = 4192;
 const FINAL = "/mnt/documents/1325AI-Kayla-Capabilities-Report-5min.mp4";
 
 // Render in 3 chunks of ~2910 frames each (~97s) to stay under per-call timeouts.
