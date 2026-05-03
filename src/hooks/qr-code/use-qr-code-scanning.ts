@@ -65,6 +65,7 @@ export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
         business_name?: string;
         points_earned?: number;
         discount_applied?: number;
+        next_available_at?: string;
       } | null;
 
       if (!res?.success) {
@@ -75,6 +76,11 @@ export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
           code === 'qr_inactive' ? 'This QR code is no longer active' :
           code === 'qr_expired' ? 'This QR code has expired' :
           code === 'scan_limit_reached' ? 'This QR code has reached its scan limit' :
+          code === 'scan_cooldown' ? (
+            res.next_available_at
+              ? `You already scanned this. Try again after ${new Date(res.next_available_at).toLocaleString()}.`
+              : 'You already scanned this code recently. Try again later.'
+          ) :
           'Failed to record scan';
         toast.error(msg);
         return { success: false, error: code };
