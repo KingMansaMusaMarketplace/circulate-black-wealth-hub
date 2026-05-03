@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Sparkles, Loader2 } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, Loader2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,6 +11,39 @@ type Message = { role: 'user' | 'assistant'; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-shopping-assistant`;
 
+// Persist anonymous chat history client-side (7-day TTL).
+const STORAGE_KEY = 'mm:kayla:chat:v1';
+const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+const MAX_MESSAGES = 50;
+
+const loadStoredMessages = (): Message[] => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as { savedAt: number; messages: Message[] };
+    if (!parsed?.savedAt || Date.now() - parsed.savedAt > MAX_AGE_MS) {
+      localStorage.removeItem(STORAGE_KEY);
+      return [];
+    }
+    return Array.isArray(parsed.messages) ? parsed.messages.slice(-MAX_MESSAGES) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveStoredMessages = (messages: Message[]) => {
+  try {
+    if (!messages.length) {
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ savedAt: Date.now(), messages: messages.slice(-MAX_MESSAGES) }),
+    );
+  } catch { /* quota or private mode — ignore */ }
+};
+
 const ShoppingAssistantChat: React.FC = () => {
   const { platform } = useCapacitor();
   // CRITICAL iOS: Hide floating "Ask Kayla" widget on iOS to prevent crashes & App Store rejection.
@@ -20,12 +53,17 @@ const ShoppingAssistantChat: React.FC = () => {
 
 const ShoppingAssistantChatInner: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(() => loadStoredMessages());
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  // Persist messages whenever they change (skips empty arrays).
+  useEffect(() => {
+    saveStoredMessages(messages);
+  }, [messages]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -38,6 +76,11 @@ const ShoppingAssistantChatInner: React.FC = () => {
       inputRef.current.focus();
     }
   }, [isOpen]);
+
+  const clearChat = () => {
+    setMessages([]);
+    saveStoredMessages([]);
+  };
 
   const sendMessage = async () => {
     const trimmed = input.trim();
@@ -175,9 +218,23 @@ const ShoppingAssistantChatInner: React.FC = () => {
             <p className="text-xs opacity-80">Find Black-owned businesses</p>
           </div>
         </div>
-        <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-primary-foreground hover:bg-primary-foreground/20 h-8 w-8">
-          <X className="h-4 w-4" />
-        </Button>
+        <div className="flex items-center gap-1">
+          {messages.length > 0 && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={clearChat}
+              className="text-primary-foreground hover:bg-primary-foreground/20 h-8 w-8"
+              aria-label="Clear chat history"
+              title="Clear chat"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
+          <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-primary-foreground hover:bg-primary-foreground/20 h-8 w-8">
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Messages */}
