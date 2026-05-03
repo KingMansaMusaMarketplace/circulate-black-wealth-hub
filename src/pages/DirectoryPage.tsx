@@ -242,6 +242,17 @@ const DirectoryPage: React.FC = () => {
     setShowFilters(prev => !prev);
   }, []);
 
+  const handleResetFilters = useCallback(() => {
+    setSearchTerm('');
+    handleFilterChange({
+      category: undefined,
+      minRating: 0,
+      minDiscount: 0,
+      featured: false,
+      distance: 0,
+    });
+  }, [setSearchTerm, handleFilterChange]);
+
   // Handle category selection
   const handleCategorySelect = useCallback((category: string | undefined) => {
     handleFilterChange({ category });
@@ -479,7 +490,8 @@ const DirectoryPage: React.FC = () => {
               ) : viewMode === 'grid' ? (
                 <BusinessGridView 
                   businesses={regularBusinesses} 
-                  onSelectBusiness={handleSelectBusiness} 
+                  onSelectBusiness={handleSelectBusiness}
+                  onResetFilters={handleResetFilters}
                 />
               ) : (
                 <BusinessListView 
