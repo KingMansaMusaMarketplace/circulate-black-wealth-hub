@@ -75,10 +75,10 @@ const BusinessOnboardingPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading your business...</p>
+          <p className="text-white/60">Loading your business...</p>
         </div>
       </div>
     );
@@ -88,9 +88,9 @@ const BusinessOnboardingPage: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Complete Your Listing | Mansa Musa</title>
+          <title>Complete Your Listing | 1325.AI</title>
         </Helmet>
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 py-8">
+        <div className="min-h-screen bg-black py-8">
           <div className="container mx-auto px-4 max-w-2xl">
             <div className="mb-6">
               <Button
