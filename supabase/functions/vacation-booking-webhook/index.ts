@@ -36,7 +36,7 @@ serve(async (req) => {
     if (!signature) throw new Error("No Stripe signature found");
 
     const body = await req.text();
-    const event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    const event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
     logStep("Event verified", { type: event.type, id: event.id });
 
     switch (event.type) {
