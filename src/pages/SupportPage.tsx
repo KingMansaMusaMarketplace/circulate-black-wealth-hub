@@ -125,31 +125,31 @@ const SupportPage = () => {
         <link rel="canonical" href="https://1325.ai/support" />
       </Helmet>
       
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        </div>
+      <div className="min-h-screen bg-black relative overflow-hidden">
+        {/* Subtle ambient accent */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-70"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.06), transparent 70%)',
+          }}
+        />
 
-        {/* Subtle grid overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-
-        {/* Hero Section */}
+        {/* Hero */}
         <div className="relative z-10">
           <div className="container mx-auto px-4 py-16">
             <div className="text-center max-w-3xl mx-auto">
               <div className="inline-block mb-6">
-                <div className="p-4 bg-gradient-to-br from-mansagold/20 to-amber-500/20 rounded-full backdrop-blur-sm border border-mansagold/30 shadow-lg shadow-mansagold/20 animate-pulse">
+                <div className="p-4 bg-mansagold/10 rounded-full border border-mansagold/30">
                   <Headphones className="h-16 w-16 text-mansagold" />
                 </div>
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-4">
-                Support <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Center</span> 🎧
+              <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-4 text-white">
+                Support <span className="text-mansagold">Center</span>
               </h1>
-              <p className="text-xl text-blue-100/90 font-medium">
-                We're here to help you make the most of 1325.AI ✨
+              <p className="text-xl text-slate-400">
+                We're here to help you make the most of 1325.AI
               </p>
             </div>
           </div>
@@ -159,35 +159,27 @@ const SupportPage = () => {
 
           {/* Support Options */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-8">
-              <span className="text-white">How Can We </span>
-              <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Help You?</span> 💬
+            <h2 className="font-display text-3xl font-bold tracking-tight text-center mb-8 text-white">
+              How Can We <span className="text-mansagold">Help You?</span>
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
-              {supportOptions.map((option, index) => {
-                const iconBgs = [
-                  'from-mansablue to-blue-600',
-                  'from-green-500 to-emerald-600',
-                  'from-mansagold to-amber-500'
-                ];
-                return (
-                  <Card key={index} className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 hover:shadow-xl hover:shadow-mansagold/20 transition-all duration-300 hover:scale-105">
-                    <CardHeader className="text-center">
-                      <div className={`mx-auto mb-4 p-3 bg-gradient-to-br ${iconBgs[index]} rounded-xl shadow-lg flex justify-center w-fit`}>
-                        {React.cloneElement(option.icon as React.ReactElement, { className: "h-6 w-6 text-white" })}
-                      </div>
-                      <CardTitle className="text-center text-white">{option.title}</CardTitle>
-                      <CardDescription className="text-center text-blue-200/70">{option.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-center space-y-4">
-                      <p className="font-semibold text-center break-words bg-gradient-to-r from-blue-300 to-mansagold bg-clip-text text-transparent">{option.contact}</p>
-                      <Button className={`w-full bg-gradient-to-r ${iconBgs[index]} hover:opacity-90 text-white font-semibold shadow-lg`}>
-                        {option.action}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+              {supportOptions.map((option, index) => (
+                <Card key={index} className="bg-slate-900/40 border-white/10 hover:border-mansagold/40 transition-colors">
+                  <CardHeader className="text-center">
+                    <div className="mx-auto mb-4 p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl flex justify-center w-fit">
+                      {React.cloneElement(option.icon as React.ReactElement, { className: "h-6 w-6 text-mansagold" })}
+                    </div>
+                    <CardTitle className="text-center text-white">{option.title}</CardTitle>
+                    <CardDescription className="text-center text-slate-400">{option.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-center space-y-4">
+                    <p className="font-semibold text-center break-words text-mansagold">{option.contact}</p>
+                    <Button className="w-full bg-mansagold text-black hover:bg-mansagold/90 font-medium">
+                      {option.action}
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </section>
 
@@ -195,7 +187,7 @@ const SupportPage = () => {
           <section className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-8">
               <span className="text-white">Frequently Asked </span>
-              <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Questions</span> 📚
+              <span className="text-mansagold">Questions</span>
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
               {faqCategories.map((category, index) => {
@@ -206,7 +198,7 @@ const SupportPage = () => {
                   'text-mansablue'
                 ];
                 return (
-                  <Card key={index} className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/30 hover:shadow-xl hover:shadow-mansagold/10 transition-all duration-300">
+                  <Card key={index} className="bg-slate-900/40 border-white/10 hover:border-mansagold/30  transition-all duration-300">
                     <CardHeader>
                       <CardTitle className={`flex items-center gap-2 font-bold text-white`}>
                         <Book className={`h-5 w-5 ${iconColors[index]}`} />
@@ -217,10 +209,10 @@ const SupportPage = () => {
                       <Accordion type="single" collapsible className="w-full">
                         {category.faqs.map((faq, qIndex) => (
                           <AccordionItem key={qIndex} value={`item-${index}-${qIndex}`} className="border-white/10">
-                            <AccordionTrigger className="text-left text-sm font-semibold text-blue-200/90 hover:text-mansagold transition-colors">
+                            <AccordionTrigger className="text-left text-sm font-semibold text-slate-300 hover:text-mansagold transition-colors">
                               {faq.question}
                             </AccordionTrigger>
-                            <AccordionContent className="text-sm text-blue-100/80">
+                            <AccordionContent className="text-sm text-slate-300">
                               {faq.answer}
                             </AccordionContent>
                           </AccordionItem>
@@ -235,11 +227,11 @@ const SupportPage = () => {
 
           {/* System Status */}
           <section className="mb-16">
-            <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:shadow-xl hover:shadow-mansagold/20 transition-all duration-300">
+            <Card className="bg-slate-900/40 border-white/10  transition-all duration-300">
               <CardHeader className="border-b border-white/10">
                 <CardTitle className="flex items-center gap-2 text-white font-bold">
                   <Headphones className="h-6 w-6 text-mansagold" />
-                  System Status & Service Hours ⏰
+                  System Status & Service Hours
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
@@ -249,7 +241,7 @@ const SupportPage = () => {
                       <Clock className="h-5 w-5 text-mansagold" />
                       Support Hours
                     </h4>
-                    <ul className="space-y-2 text-sm text-blue-100/90">
+                    <ul className="space-y-2 text-sm text-slate-300">
                       <li className="flex items-center gap-2">
                         <span className="w-2 h-2 bg-green-400 rounded-full"></span>
                         <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM CST
@@ -268,7 +260,7 @@ const SupportPage = () => {
                     <h4 className="font-bold mb-3 text-white">Current System Status</h4>
                     <div className="flex items-center gap-3 p-3 bg-green-500/20 rounded-lg border border-green-500/30">
                       <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-                      <span className="text-sm font-semibold text-green-300">All systems operational ✅</span>
+                      <span className="text-sm font-semibold text-green-300">All systems operational</span>
                     </div>
                   </div>
                 </div>
@@ -278,10 +270,10 @@ const SupportPage = () => {
 
           {/* Contact Information */}
           <section>
-            <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:shadow-xl hover:shadow-mansagold/20 transition-all duration-300">
+            <Card className="bg-slate-900/40 border-white/10  transition-all duration-300">
               <CardHeader className="border-b border-white/10">
-                <CardTitle className="text-white font-bold">Contact Information 📍</CardTitle>
-                <CardDescription className="text-blue-200/70">
+                <CardTitle className="text-white font-bold">Contact Information</CardTitle>
+                <CardDescription className="text-slate-400">
                   Other ways to reach us
                 </CardDescription>
               </CardHeader>
@@ -293,7 +285,7 @@ const SupportPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-white mb-1">Mailing Address</p>
-                      <p className="text-sm text-blue-100/90 font-medium">
+                      <p className="text-sm text-slate-300 font-medium">
                         1000 E. 111th Street, Suite 1100<br />
                         Chicago, Illinois 60628
                       </p>
@@ -305,7 +297,7 @@ const SupportPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-white mb-1">General Inquiries</p>
-                      <p className="text-sm text-blue-100/90 font-medium break-words">
+                      <p className="text-sm text-slate-300 font-medium break-words">
                         Thomas@1325.AI
                       </p>
                     </div>
