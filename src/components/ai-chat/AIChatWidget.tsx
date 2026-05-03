@@ -40,7 +40,11 @@ const AIChatWidgetInner: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
+  // Persisted per-conversation id so Kayla remembers across reloads (matches AIAssistant.tsx).
+  const sessionIdRef = useRef<string | null>(
+    typeof window !== 'undefined' ? localStorage.getItem('kayla_widget_session_id') : null
+  );
+  const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat-orchestrator`;
 
   useEffect(() => {
     if (scrollRef.current) {
