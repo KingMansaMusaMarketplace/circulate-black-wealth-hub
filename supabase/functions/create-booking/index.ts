@@ -5,7 +5,7 @@ import Stripe from "https://esm.sh/stripe@14.21.0";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+    "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
 const COMMISSION_RATE = 7.5; // 7.5% platform commission
