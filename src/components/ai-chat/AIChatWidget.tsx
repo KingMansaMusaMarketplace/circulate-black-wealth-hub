@@ -80,7 +80,7 @@ const AIChatWidgetInner: React.FC = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session.access_token}`,
         },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ messages: newMessages, session_id: sessionIdRef.current }),
       });
 
       if (!response.ok) {
