@@ -23,65 +23,66 @@ const DirectoryViewToggle: React.FC<DirectoryViewToggleProps> = ({
   selectedCity,
   businesses
 }) => {
+  const activeBtn = "bg-mansagold text-black hover:bg-mansagold/90 border-0";
+  const idleBtn = "border-white/10 bg-transparent text-slate-300 hover:bg-white/5 hover:text-white";
+
   return (
-    <div className="relative">
-      <div className="absolute inset-0 bg-gradient-to-r from-mansablue/20 via-blue-500/20 to-mansagold/20 rounded-3xl blur-xl"></div>
-      <div className="relative border border-white/10 bg-slate-800/60 backdrop-blur-xl rounded-3xl shadow-2xl p-6 mb-8 overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold"></div>
-        <div className="pt-2 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="flex items-center">
-            <ListFilter className="h-6 w-6 mr-2 text-mansagold" />
-            <span className="font-body text-white font-bold text-lg">
-              {businessCount} businesses found 🎯
-              {selectedCity !== 'all' && (
-                <span className="text-slate-300 ml-2 font-normal">
-                  in {selectedCity.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                </span>
-              )}
-            </span>
-          </div>
-          
-          <div className="flex items-center gap-2 flex-wrap">
-            <CompareButton businesses={businesses} />
-            <Button 
-              variant={viewMode === 'grid' ? "default" : "outline"} 
+    <div className="border border-white/10 bg-slate-900/40 rounded-xl p-4 mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div className="flex items-center text-sm">
+          <ListFilter className="h-4 w-4 mr-2 text-mansagold" />
+          <span className="font-body text-white font-medium">
+            {businessCount} {businessCount === 1 ? 'business' : 'businesses'}
+            {selectedCity !== 'all' && (
+              <span className="text-slate-400 ml-1.5 font-normal">
+                in {selectedCity.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+              </span>
+            )}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <CompareButton businesses={businesses} />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onViewModeChange('grid')}
+            className={viewMode === 'grid' ? activeBtn : idleBtn}
+            aria-label="Grid view"
+            aria-pressed={viewMode === 'grid'}
+          >
+            <Grid3X3 className="h-4 w-4 mr-1" />
+            <span>Grid</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onViewModeChange('list')}
+            className={viewMode === 'list' ? activeBtn : idleBtn}
+            aria-label="List view"
+            aria-pressed={viewMode === 'list'}
+          >
+            <List className="h-4 w-4 mr-1" />
+            <span>List</span>
+          </Button>
+          <ContextualTooltip
+            id="directory-map-view"
+            title={CONTEXTUAL_TIPS['directory-map'].title}
+            tip={CONTEXTUAL_TIPS['directory-map'].tip}
+            trigger="hover"
+          >
+            <Button
+              variant="outline"
               size="sm"
-              onClick={() => onViewModeChange('grid')}
-              className={`shadow-sm ${viewMode === 'grid' ? 'bg-gradient-to-r from-mansablue to-blue-500 hover:from-blue-600 hover:to-blue-600 text-white border-0' : 'border-white/10 text-slate-300 hover:bg-white/10'}`}
-              aria-label="Grid view"
-              aria-pressed={viewMode === 'grid'}
+              onClick={() => onViewModeChange('map')}
+              className={viewMode === 'map' ? activeBtn : idleBtn}
+              aria-label="Map view"
+              aria-pressed={viewMode === 'map'}
             >
-              <Grid3X3 className="h-4 w-4 mr-1" />
-              <span>Grid</span>
+              <MapPin className="h-4 w-4 mr-1" />
+              Map
             </Button>
-            <Button 
-              variant={viewMode === 'list' ? "default" : "outline"} 
-              size="sm"
-              onClick={() => onViewModeChange('list')}
-              className={`shadow-sm ${viewMode === 'list' ? 'bg-gradient-to-r from-blue-500 to-mansagold hover:from-blue-600 hover:to-amber-500 text-white border-0' : 'border-white/10 text-slate-300 hover:bg-white/10'}`}
-              aria-label="List view"
-              aria-pressed={viewMode === 'list'}
-            >
-              <List className="h-4 w-4 mr-1" />
-              <span>List</span>
-            </Button>
-            <ContextualTooltip
-              id="directory-map-view"
-              title={CONTEXTUAL_TIPS['directory-map'].title}
-              tip={CONTEXTUAL_TIPS['directory-map'].tip}
-              trigger="hover"
-            >
-              <Button 
-                variant={viewMode === 'map' ? "default" : "outline"} 
-                size="sm"
-                onClick={() => onViewModeChange('map')}
-                className={`shadow-sm ${viewMode === 'map' ? 'bg-gradient-to-r from-mansagold to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white border-0' : 'border-white/10 text-slate-300 hover:bg-white/10'}`}
-              >
-                <MapPin className="h-4 w-4 mr-1" />
-                Map
-              </Button>
-            </ContextualTooltip>
-          </div>
+          </ContextualTooltip>
         </div>
       </div>
     </div>
