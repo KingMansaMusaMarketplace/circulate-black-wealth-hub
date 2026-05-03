@@ -7,46 +7,47 @@ import { GoldDivider } from "../components/GoldDivider";
 const { fontFamily: playfair } = loadFont("normal", { weights: ["700", "900"], subsets: ["latin"] });
 const { fontFamily: inter } = loadInter("normal", { weights: ["400", "500", "700"], subsets: ["latin"] });
 
+// Show top 2 competitors (matches VO segments) + Kayla winner row.
 const COMPETITORS = [
-  { name: "OpenAI · ChatGPT", verdict: "Powerful chatbot", limits: ["No shared memory", "No business context", "Waits for prompts"], score: 60 },
-  { name: "Microsoft Copilot", verdict: "Document assistant", limits: ["Edits files, doesn't run business", "No autonomous action", "Per-app silos"], score: 65 },
-  { name: "Salesforce Einstein", verdict: "CRM predictions", limits: ["7-figure implementation", "Only sees structured data", "Salesforce-locked"], score: 70 },
-  { name: "Intuit QuickBooks AI", verdict: "Bookkeeping only", limits: ["Stops at the ledger", "No marketing or sales", "No community layer"], score: 55 },
+  { name: "OpenAI · ChatGPT", verdict: "1 chatbot. Waits for prompts.", limits: ["No shared memory", "No business context", "No autonomous action"], score: 60 },
+  { name: "Hiring a Real C-Suite", verdict: "$2M+ per year.", limits: ["Months to hire", "Sleeps 8 hrs/day", "Quits, gets sick, takes PTO"], score: 70 },
 ];
 
-// Scene 5: Competitive comparison (~55s = 1650 frames)
-//   0-195   Title beat
-//   195-1475 Four competitor rows (320 each)
-//   1475-1650 Kayla winning row
+// Scene 5: Competitive comparison — duration-driven from parent Sequence.
 export const SceneCompetitive: React.FC = () => {
+  const { durationInFrames } = useVideoConfig();
+  // Layout: titleBeat (12%) | row1 (32%) | row2 (32%) | Kayla (24%)
+  const titleDur = Math.round(durationInFrames * 0.12);
+  const rowDur = Math.round(durationInFrames * 0.32);
+  const kaylaDur = durationInFrames - titleDur - rowDur * 2;
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={1650} />
+      <CinematicBg totalFrames={durationInFrames} />
 
-      <Sequence from={0} durationInFrames={195} layout="none">
-        <TitleBeat />
+      <Sequence from={0} durationInFrames={titleDur} layout="none">
+        <TitleBeat dur={titleDur} />
       </Sequence>
 
       {COMPETITORS.map((c, i) => (
-        <Sequence key={i} from={195 + i * 320} durationInFrames={320} layout="none">
-          <CompetitorRow {...c} />
+        <Sequence key={i} from={titleDur + i * rowDur} durationInFrames={rowDur} layout="none">
+          <CompetitorRow {...c} dur={rowDur} />
         </Sequence>
       ))}
 
-      <Sequence from={1475} durationInFrames={175} layout="none">
+      <Sequence from={titleDur + rowDur * 2} durationInFrames={kaylaDur} layout="none">
         <KaylaRow />
       </Sequence>
     </AbsoluteFill>
   );
 };
 
-const TitleBeat: React.FC = () => {
+const TitleBeat: React.FC<{ dur: number }> = ({ dur }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const sp = spring({ frame, fps, config: { damping: 22, stiffness: 90 } });
   const y = interpolate(sp, [0, 1], [40, 0]);
   const op = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const opOut = interpolate(frame, [165, 195], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const opOut = interpolate(frame, [dur - 20, dur], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
       <div style={{ opacity: op * opOut, transform: `translateY(${y}px)`, textAlign: "center" }}>
