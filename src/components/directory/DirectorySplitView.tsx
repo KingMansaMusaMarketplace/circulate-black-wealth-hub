@@ -114,6 +114,9 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
       <>
         {/* Business list */}
         <div className="space-y-3">
+          {businesses.length === 0 && !isLoading && (
+            <DirectoryEmptyState onResetFilters={onResetFilters} />
+          )}
           {businesses.map((business, index) => {
             const firstChar = business.name.charAt(0).toUpperCase();
             const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
@@ -204,7 +207,11 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
                     {businesses.length} businesses
                   </h3>
                 </div>
-                
+
+                {businesses.length === 0 && !isLoading && (
+                  <DirectoryEmptyState onResetFilters={onResetFilters} compact />
+                )}
+
                 {businesses.map((business, index) => {
                   const firstChar = business.name.charAt(0).toUpperCase();
                   const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
