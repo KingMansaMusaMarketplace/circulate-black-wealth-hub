@@ -28,7 +28,7 @@ export const SceneMeetKayla: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={960} />
+      <CinematicBg totalFrames={1500} />
 
       <AbsoluteFill style={{ flexDirection: "row", padding: "8% 8%" }}>
         {/* LEFT: title block */}

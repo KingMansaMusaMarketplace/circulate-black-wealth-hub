@@ -19,7 +19,7 @@ export const SceneScore: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={990} />
+      <CinematicBg totalFrames={1500} />
       <AbsoluteFill style={{ flexDirection: "row", padding: "7% 7%" }}>
         {/* LEFT: score */}
         <div style={{ flex: 0.95, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>

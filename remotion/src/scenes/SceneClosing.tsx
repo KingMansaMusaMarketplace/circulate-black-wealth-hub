@@ -28,7 +28,7 @@ export const SceneClosing: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000814" }}>
-      <CinematicBg totalFrames={900} />
+      <CinematicBg totalFrames={1500} />
 
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 8%" }}>
         {/* Logo */}
