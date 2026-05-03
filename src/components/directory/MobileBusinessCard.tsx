@@ -30,7 +30,7 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
   onSelect
 }) => {
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer border border-white/10 bg-slate-800/60 backdrop-blur-xl" onClick={onSelect}>
+    <Card className="overflow-hidden hover:border-mansagold/40 transition-colors cursor-pointer border border-white/10 bg-slate-900/40" onClick={onSelect}>
       <div className="flex h-32">
         {/* Image Section */}
         <div className="w-32 flex-shrink-0 relative">

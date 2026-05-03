@@ -11,44 +11,40 @@ interface DirectoryHeroProps {
 
 const DirectoryHero: React.FC<DirectoryHeroProps> = ({ searchTerm, onSearchChange }) => {
   return (
-    <div className="bg-gradient-to-br from-[#000000] via-[#060d1f] to-[#030712] py-16 md:py-24 relative overflow-hidden border-b border-white/10">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.05),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.08),transparent_50%)]" />
-      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold"></div>
-      
+    <div className="bg-black py-16 md:py-24 relative overflow-hidden border-b border-white/10">
+      {/* Single subtle radial accent */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,179,0,0.06),transparent_60%)]" />
+
       <div className="container mx-auto text-center relative z-10 px-4 animate-fade-in">
-        <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg flex items-center justify-center gap-4 flex-wrap">
-          <span className="font-mono tracking-wider bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">1325.AI</span> Business Directory
-          <img 
-            src={earthImage} 
-            alt="Global Network" 
-            className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 drop-shadow-[0_0_15px_rgba(255,193,7,0.5)] rounded-full" 
+        <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-4 flex items-center justify-center gap-4 flex-wrap tracking-tight">
+          <span className="font-mono tracking-wider text-mansagold">1325.AI</span>
+          <span className="text-white/90">Business Directory</span>
+          <img
+            src={earthImage}
+            alt="Global Network"
+            className="h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 rounded-full opacity-90"
           />
         </h1>
-        <p className="font-body text-xl sm:text-2xl text-slate-300 leading-relaxed max-w-4xl mx-auto mb-4 font-medium">
+        <p className="font-body text-lg sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto mb-3">
           The Economic Operating System for Community Businesses
         </p>
-        <p className="font-body text-base sm:text-lg text-slate-400 max-w-3xl mx-auto mb-6">
-          Verified • Curated • Community-Powered
+        <p className="font-body text-sm sm:text-base text-slate-500 max-w-3xl mx-auto mb-8 tracking-wide">
+          Verified · Curated · Community-Powered
         </p>
-        
+
         <div className="mb-10">
           <GlobalReachBanner />
         </div>
-        
+
         <div className="relative max-w-2xl mx-auto" data-tour="search-businesses">
-          <div className="absolute inset-0 bg-gradient-to-r from-mansablue/30 via-blue-500/30 to-mansagold/30 rounded-3xl blur-xl"></div>
-          <div className="relative">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-mansagold" />
-            <Input
-              type="text" 
-              placeholder="Search businesses across all cities... 🔍"
-              className="pl-14 h-16 rounded-3xl w-full text-xl md:text-2xl font-body shadow-2xl bg-slate-800/60 border border-white/10 text-white placeholder:text-slate-400 focus-visible:ring-4 focus-visible:ring-mansagold/50"
-              value={searchTerm}
-              onChange={(e) => onSearchChange(e.target.value)}
-            />
-          </div>
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-mansagold z-10" />
+          <Input
+            type="text"
+            placeholder="Search businesses across all cities…"
+            className="pl-14 h-14 rounded-2xl w-full text-base md:text-lg font-body bg-slate-900/60 border border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-mansagold/50"
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
         </div>
       </div>
     </div>

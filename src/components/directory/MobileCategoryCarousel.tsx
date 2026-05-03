@@ -66,65 +66,74 @@ const MobileCategoryCarousel: React.FC<MobileCategoryCarouselProps> = ({
   ];
 
   return (
-    <div className="md:hidden bg-white border-b border-gray-100">
+    <div className="md:hidden bg-slate-900/40 border-b border-white/10">
       <div className="p-4">
-        <h3 className="text-sm font-medium text-gray-900 mb-3">Browse Categories</h3>
-        
+        <h3 className="text-sm font-medium text-white mb-3">Browse Categories</h3>
+
         <div className="relative">
           <Button
             variant="outline"
             size="sm"
             onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 h-8 w-8 p-0 bg-white shadow-md"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 h-8 w-8 p-0 bg-slate-900/90 border-white/10 text-slate-300 hover:bg-white/10 hover:text-white"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          
+
           <div
             ref={scrollRef}
             className="flex gap-3 overflow-x-auto scroll-smooth pb-2 px-8"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {displayCategories.map((category) => (
-              <Card
-                key={category}
-                className={`flex-shrink-0 cursor-pointer transition-all duration-200 hover:scale-105 ${
-                  selectedCategory === category ? 'ring-2 ring-mansablue shadow-md' : ''
-                }`}
-                onClick={() => onCategorySelect(category)}
-              >
-                <CardContent className="p-3 text-center w-20">
-                  <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-mansablue/10 flex items-center justify-center text-mansablue">
-                    {getCategoryIcon(category)}
-                  </div>
-                  <div className="text-xs font-medium text-gray-900 leading-tight">
-                    {category.split(' ')[0]}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            {displayCategories.map((category) => {
+              const active = selectedCategory === category;
+              return (
+                <Card
+                  key={category}
+                  className={`flex-shrink-0 cursor-pointer transition-all duration-200 border ${
+                    active
+                      ? 'border-mansagold bg-mansagold/10'
+                      : 'border-white/10 bg-slate-800/60 hover:bg-slate-800'
+                  }`}
+                  onClick={() => onCategorySelect(category)}
+                >
+                  <CardContent className="p-3 text-center w-20">
+                    <div
+                      className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${
+                        active ? 'bg-mansagold text-black' : 'bg-white/5 text-mansagold'
+                      }`}
+                    >
+                      {getCategoryIcon(category)}
+                    </div>
+                    <div className={`text-xs font-medium leading-tight ${active ? 'text-white' : 'text-slate-300'}`}>
+                      {category.split(' ')[0]}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
-          
+
           <Button
             variant="outline"
             size="sm"
             onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 h-8 w-8 p-0 bg-white shadow-md"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 h-8 w-8 p-0 bg-slate-900/90 border-white/10 text-slate-300 hover:bg-white/10 hover:text-white"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
-        
-        {selectedCategory && (
+
+        {selectedCategory && selectedCategory !== 'all' && (
           <div className="mt-3 flex items-center justify-between">
-            <Badge variant="secondary" className="bg-mansablue/10 text-mansablue">
+            <Badge variant="outline" className="bg-mansagold/15 text-mansagold border-mansagold/40">
               {selectedCategory}
             </Badge>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => onCategorySelect('all')}
-              className="text-xs text-mansablue"
+              className="text-xs text-slate-400 hover:text-mansagold hover:bg-mansagold/10"
             >
               Clear
             </Button>

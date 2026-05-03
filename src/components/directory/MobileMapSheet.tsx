@@ -137,8 +137,8 @@ const MobileMapSheet: React.FC<MobileMapSheetProps> = ({
                         rel="noopener noreferrer"
                         className={cn(
                           'flex items-center justify-center gap-2 mt-2 w-full py-2.5 rounded-lg',
-                          'bg-mansablue text-white font-medium text-sm',
-                          'hover:bg-mansablue/90 active:scale-98 transition-all'
+                          'bg-mansagold text-black font-semibold text-sm',
+                          'hover:bg-mansagold/90 active:scale-98 transition-all'
                         )}
                         onClick={(e) => e.stopPropagation()}
                       >
