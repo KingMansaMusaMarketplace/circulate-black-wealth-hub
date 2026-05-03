@@ -48,42 +48,42 @@ const CitySelector: React.FC<CitySelectorProps> = ({
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-2">
-        <MapPin size={16} className="text-primary" />
-        <label className="text-sm font-medium text-foreground">Select City</label>
-        {selectedCityData && showBusinessCount && (
-          <Badge variant="outline" className="ml-auto">
+        <MapPin size={16} className="text-mansagold" />
+        <label className="text-sm font-medium text-gray-200">Select City</label>
+        {selectedCityData && showBusinessCount && selectedCityData.businesses > 0 && (
+          <Badge variant="outline" className="ml-auto bg-mansagold/10 text-mansagold border-mansagold/30">
             {selectedCityData.businesses} businesses
           </Badge>
         )}
       </div>
       
       <Select value={selectedCity} onValueChange={onCityChange}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full bg-slate-800/70 border-white/10 text-white hover:border-mansagold/40 transition-colors">
           <SelectValue placeholder="Choose a city">
             {selectedCityData && (
               <div className="flex items-center gap-2">
                 <span>{selectedCityData.name}, {selectedCityData.state}</span>
                 {selectedCityData.featured && (
-                  <Badge variant="secondary" className="text-xs">Featured</Badge>
+                  <Badge variant="secondary" className="text-xs bg-mansagold/20 text-mansagold border-mansagold/30">Featured</Badge>
                 )}
               </div>
             )}
           </SelectValue>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-slate-900 border-white/10 text-white max-h-80">
           <SelectItem value="all">All Cities</SelectItem>
           {cities.map((city) => (
             <SelectItem key={city.id} value={city.id}>
-              <div className="flex items-center justify-between w-full">
+              <div className="flex items-center justify-between w-full gap-3">
                 <div className="flex items-center gap-2">
                   <span>{city.name}, {city.state}</span>
                   {city.featured && (
-                    <Badge variant="secondary" className="text-xs">Featured</Badge>
+                    <Badge variant="secondary" className="text-xs bg-mansagold/20 text-mansagold border-mansagold/30">Featured</Badge>
                   )}
                 </div>
-                {showBusinessCount && (
-                  <span className="text-sm text-muted-foreground ml-2">
-                    {city.businesses} businesses
+                {showBusinessCount && city.businesses > 0 && (
+                  <span className="text-xs text-gray-400 ml-2">
+                    {city.businesses}
                   </span>
                 )}
               </div>
