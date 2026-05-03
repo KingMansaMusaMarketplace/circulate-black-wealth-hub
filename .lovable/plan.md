@@ -1,77 +1,37 @@
-# Item #6 — CORS + `x-csrf-token` Compliance Sweep
+## Goal
+Rebuild the David one-pager (v3) with two upgrades:
+1. **Real 1325.AI logo** (the gold neural-brain on navy you just uploaded) embedded in the header
+2. **Full official pricing table** (Essentials / Starter / Pro / Enterprise) replacing the generic ROI line
 
-## Audit Result
+## Steps
 
-Scanned all **169** edge functions against the Core memory rule:
-> Edge functions MUST include `x-csrf-token` in CORS headers.
+1. **Save the logo** as a permanent asset
+   - Copy `user-uploads://1325-logo-4.jpeg` → `/mnt/documents/assets/1325-logo.jpeg`
 
-**162 / 169 compliant.** Only **7 violations** — a much smaller blast radius than expected.
+2. **Rewrite the PDF generation script** (`/tmp/david_pdf_v3.py`)
+   - Header: navy band (#003366) with embedded real logo (~1.0" tall, centered), gold hairline divider beneath
+   - Title: *"Kayla vs. Claude — and what 1325.AI actually delivers"*
+   - Section 1: Short framing paragraph (Claude = engine, Kayla = vehicle, powered by Opus 4.6 + GPT-5 + Gemini via Lovable AI Gateway)
+   - Section 2: Compact 2-column comparison table (Claude vs Kayla) — 5 rows max
+   - Section 3: **Pricing block** with all 4 tiers as branded cards in a 2x2 grid:
+     - Essentials — $19/mo · $190/yr (save $38) · 30-day trial
+     - Starter — $79/mo · $790/yr (save $158) · 30-day trial
+     - Pro (Most Popular badge in gold) — $299/mo · $2,990/yr (save $598) · Founders' Lock $149/mo for first 100 · 14-day trial
+     - Enterprise — From $899/mo + $50/user/mo · custom annual · 14-day trial
+   - Footer: "All plans include a free trial. Valid credit card required." + 1325.AI / mansamusamarketplace.com contact line
+   - Single page, US Letter, brand palette (Navy #003366, Gold #FFB300)
 
-### Violations by category
+3. **Render** as `1325AI_Kayla_vs_Claude_OnePager_v3.pdf` (preserve v1/v2)
 
-**Group A — Shared file (fixes 3 functions at once)**
-`_shared/api-gateway-utils.ts` exports a `corsHeaders` constant missing `x-csrf-token`. Three API functions inherit the bug:
-- `fraud-api/index.ts`
-- `susu-api/index.ts`
-- `voice-api/index.ts`
+4. **Mandatory visual QA**
+   - `pdftoppm -jpeg -r 150` → inspect with code--view
+   - Check: logo crisp, no text overflow, all 4 pricing cards fit, "Most Popular" badge visible, footer not clipped, table aligned
+   - Fix and re-render until clean
 
-**Group B — Webhook functions (no CORS at all)**
-Server-to-server webhooks. CORS isn't strictly required (browsers never call them), but the Core rule says "all edge functions". Adding a standard CORS block + OPTIONS preflight handler is harmless and future-proofs them:
-- `handle-email-suppression/index.ts` (Lovable email webhook)
-- `handle-subscription-webhook/index.ts` (Stripe)
-- `stripe-webhook/index.ts` (Stripe)
-- `stripe-webhook-corporate/index.ts` (Stripe corporate)
+5. **Deliver** as `<lov-artifact>` with mime `application/pdf`
 
-## Plan
-
-### Step 1 — Fix the shared module (1 edit, 3 functions fixed)
-Update `_shared/api-gateway-utils.ts` line 12 to add `x-csrf-token` to `Access-Control-Allow-Headers`:
-
-```text
-"Access-Control-Allow-Headers":
-  "authorization, x-client-info, apikey, content-type, x-api-key, x-csrf-token"
-```
-
-This automatically fixes `fraud-api`, `susu-api`, and `voice-api` since they import this constant.
-
-### Step 2 — Add CORS to the 4 webhooks
-For each webhook, add at the top of the handler:
-
-```text
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-csrf-token, stripe-signature",
-};
-
-if (req.method === "OPTIONS") {
-  return new Response(null, { headers: corsHeaders });
-}
-```
-
-Stripe webhooks get `stripe-signature` added so signature verification preflights would work if ever invoked from a browser. The webhook signature validation logic itself is unchanged.
-
-### Step 3 — Verify
-After edits, re-run the audit one-liner to confirm `0` functions missing `x-csrf-token` and `0` functions without CORS.
-
-### Step 4 — Strengthen the Core rule
-Update `mem://constraints/technical-and-security` to specify the canonical header string so future functions copy the right pattern, preventing drift.
-
-## What this does NOT change
-
-- No business logic touched
-- No authentication/JWT verification changes
-- No webhook signature verification changes
-- No deployments or DB migrations — pure header edits
-
-## Files Edited (5 total)
-1. `supabase/functions/_shared/api-gateway-utils.ts`
-2. `supabase/functions/handle-email-suppression/index.ts`
-3. `supabase/functions/handle-subscription-webhook/index.ts`
-4. `supabase/functions/stripe-webhook/index.ts`
-5. `supabase/functions/stripe-webhook-corporate/index.ts`
-6. `mem://constraints/technical-and-security` (memory update)
-
-## Next After Approval
-
-Once this sweep is done and verified, we move to **Recent error/log triage** with clean CORS signal.
+## Technical notes
+- `reportlab.platypus` with `Image`, `Table`, `Paragraph` flowables
+- Pricing cards built as a 2-column `Table` with nested cell content for consistent sizing
+- Gold accent border on Pro card to highlight "Most Popular"
+- Use ParagraphStyle for tier name (bold), price (large), bullets (small)
