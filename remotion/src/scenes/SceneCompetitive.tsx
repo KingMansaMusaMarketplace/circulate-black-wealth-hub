@@ -65,13 +65,13 @@ const TitleBeat: React.FC<{ dur: number }> = ({ dur }) => {
   );
 };
 
-const CompetitorRow: React.FC<{ name: string; verdict: string; limits: string[]; score: number }> = ({ name, verdict, limits, score }) => {
+const CompetitorRow: React.FC<{ name: string; verdict: string; limits: string[]; score: number; dur: number }> = ({ name, verdict, limits, score, dur }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const sp = spring({ frame, fps, config: { damping: 20, stiffness: 90 } });
   const y = interpolate(sp, [0, 1], [50, 0]);
   const op = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const opOut = interpolate(frame, [290, 320], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const opOut = interpolate(frame, [dur - 30, dur], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const barW = interpolate(spring({ frame: frame - 25, fps, config: { damping: 22, stiffness: 80 } }), [0, 1], [0, score]);
 
   return (
