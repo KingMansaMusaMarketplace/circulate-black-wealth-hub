@@ -76,12 +76,12 @@ const TierRow: React.FC<{ label: string; count: number; examples: string; highli
         gap: 20,
       }}
     >
-      <div style={{ minWidth: 64, height: 64, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", background: highlight ? "#FFB300" : "rgba(255,179,0,0.15)", color: highlight ? "#000814" : "#FFB300", fontFamily: playfair, fontWeight: 900, fontSize: 34 }}>
+      <div style={{ minWidth: 78, height: 78, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", background: highlight ? "#FFB300" : "rgba(255,179,0,0.15)", color: highlight ? "#000814" : "#FFB300", fontFamily: playfair, fontWeight: 900, fontSize: 42 }}>
         {count}
       </div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 22, letterSpacing: 4, color: highlight ? "#FFB300" : "#FFFFFF" }}>{label}</div>
-        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 16, color: "rgba(255,255,255,0.55)", marginTop: 4 }}>{examples}</div>
+        <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 28, letterSpacing: 4, color: highlight ? "#FFB300" : "#FFFFFF" }}>{label}</div>
+        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 22, color: "rgba(255,255,255,0.70)", marginTop: 6 }}>{examples}</div>
       </div>
     </div>
   );
@@ -93,10 +93,10 @@ const TotalBadge: React.FC<{ frame: number }> = ({ frame }) => {
   const scale = interpolate(sp, [0, 1], [0.6, 1]);
   const op = interpolate(frame, [0, 16], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
   return (
-    <div style={{ marginTop: 10, opacity: op, transform: `scale(${scale})`, textAlign: "center", padding: "20px 32px", border: "2px solid #FFB300", borderRadius: 14, background: "rgba(255,179,0,0.10)" }}>
-      <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 16, letterSpacing: 8, color: "#FFB300" }}>TOTAL WORKFORCE</div>
-      <div style={{ fontFamily: playfair, fontWeight: 900, fontSize: 80, color: "#FFFFFF", lineHeight: 1, marginTop: 6 }}>33 Agents</div>
-      <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 18, color: "rgba(255,255,255,0.65)", marginTop: 4 }}>One shared brain · Always on</div>
+    <div style={{ marginTop: 14, opacity: op, transform: `scale(${scale})`, textAlign: "center", padding: "26px 32px", border: "2px solid #FFB300", borderRadius: 16, background: "rgba(255,179,0,0.10)" }}>
+      <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 20, letterSpacing: 8, color: "#FFB300" }}>TOTAL WORKFORCE</div>
+      <div style={{ fontFamily: playfair, fontWeight: 900, fontSize: 96, color: "#FFFFFF", lineHeight: 1, marginTop: 8 }}>33 Agents</div>
+      <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 24, color: "rgba(255,255,255,0.75)", marginTop: 6 }}>One shared brain · Always on</div>
     </div>
   );
 };

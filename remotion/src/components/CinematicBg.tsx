@@ -52,17 +52,7 @@ export const CinematicBg = ({ totalFrames }: Props) => {
         }}
       />
 
-      {/* Subtle film grain via noise texture */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          opacity: 0.04,
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' /></filter><rect width='100%25' height='100%25' filter='url(%23n)' /></svg>\")",
-          mixBlendMode: "overlay",
-        }}
-      />
+      {/* Film grain removed — caused visual shimmer/static at low bitrates */}
 
       {/* Subtle vignette */}
       <div

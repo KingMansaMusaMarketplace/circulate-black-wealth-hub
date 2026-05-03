@@ -115,12 +115,12 @@ const CapCard: React.FC<{ idx: number; title: string; sub: string; frame: number
         gap: 22,
       }}
     >
-      <div style={{ minWidth: 64, height: 64, borderRadius: 12, background: "rgba(255,179,0,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: playfair, fontWeight: 900, fontSize: 32, color: "#FFB300" }}>
+      <div style={{ minWidth: 78, height: 78, borderRadius: 14, background: "rgba(255,179,0,0.18)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: playfair, fontWeight: 900, fontSize: 38, color: "#FFB300" }}>
         {String(idx + 1).padStart(2, "0")}
       </div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 36, color: "#FFFFFF", lineHeight: 1.1 }}>{title}</div>
-        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 20, color: "rgba(255,255,255,0.65)", marginTop: 4 }}>{sub}</div>
+        <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 44, color: "#FFFFFF", lineHeight: 1.1 }}>{title}</div>
+        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 26, color: "rgba(255,255,255,0.75)", marginTop: 6 }}>{sub}</div>
       </div>
     </div>
   );
