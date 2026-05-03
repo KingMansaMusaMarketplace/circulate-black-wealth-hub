@@ -5,28 +5,49 @@ import { getBusinessCardImage } from '@/utils/businessBanners';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import InlineSponsorCard from '@/components/sponsors/InlineSponsorCard';
+import { Button } from '@/components/ui/button';
+import { RotateCcw, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface BusinessGridViewProps {
   businesses: Business[];
   onSelectBusiness: (id: string) => void;
+  onResetFilters?: () => void;
 }
 
-const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelectBusiness }) => {
+const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelectBusiness, onResetFilters }) => {
   
   if (businesses.length === 0) {
     return (
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center py-16 border border-dashed border-white/20 rounded-2xl bg-slate-900/50 backdrop-blur-sm"
+        className="text-center py-16 px-6 border border-dashed border-white/20 rounded-2xl bg-slate-900/50 backdrop-blur-sm"
       >
         <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center border border-white/10">
           <span className="text-4xl">🔍</span>
         </div>
         <h3 className="text-2xl font-bold text-white mb-3">No businesses found</h3>
-        <p className="text-gray-400 max-w-md mx-auto text-lg">
-          Try adjusting your search or filters to discover more verified businesses in your area
+        <p className="text-gray-400 max-w-md mx-auto text-lg mb-6">
+          Try adjusting your search or filters to discover more verified businesses in your area.
         </p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {onResetFilters && (
+            <Button
+              onClick={onResetFilters}
+              className="bg-mansagold text-slate-900 hover:bg-amber-400 font-semibold"
+            >
+              <RotateCcw className="h-4 w-4 mr-2" />
+              Clear filters
+            </Button>
+          )}
+          <Link to="/business-signup">
+            <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Plus className="h-4 w-4 mr-2" />
+              Add a business
+            </Button>
+          </Link>
+        </div>
       </motion.div>
     );
   }
