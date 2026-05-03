@@ -32,68 +32,39 @@ const UserSettingsPage: React.FC = () => {
         />
       </Helmet>
       
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div 
-            className="absolute top-10 right-10 w-[500px] h-[500px] rounded-full blur-3xl opacity-30"
-            style={{
-              background: 'radial-gradient(circle, rgba(234,179,8,0.4) 0%, rgba(59,130,246,0.2) 50%, transparent 70%)',
-              animation: 'pulse 8s ease-in-out infinite',
-            }}
-          />
-          <div 
-            className="absolute bottom-20 left-10 w-[600px] h-[600px] rounded-full blur-3xl opacity-25"
-            style={{
-              background: 'radial-gradient(circle, rgba(59,130,246,0.4) 0%, rgba(234,179,8,0.2) 50%, transparent 70%)',
-              animation: 'pulse 10s ease-in-out infinite',
-              animationDelay: '2s',
-            }}
-          />
-          <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-3xl opacity-20"
-            style={{
-              background: 'radial-gradient(circle, rgba(234,179,8,0.3) 0%, rgba(30,58,138,0.3) 60%, transparent 80%)',
-              animation: 'pulse 6s ease-in-out infinite',
-              animationDelay: '4s',
-            }}
-          />
-        </div>
-
-        {/* Subtle grid overlay */}
-        <div 
-          className="absolute inset-0 opacity-5"
+      <div className="min-h-screen bg-black relative overflow-hidden">
+        {/* Subtle ambient accent */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-[480px] opacity-70"
           style={{
-            backgroundImage: `linear-gradient(rgba(234,179,8,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(234,179,8,0.3) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
+            background:
+              'radial-gradient(ellipse 70% 50% at 50% 0%, hsl(var(--mansagold) / 0.05), transparent 70%)',
           }}
         />
 
         <main className="container mx-auto px-4 py-8 relative z-10">
           <div className="max-w-4xl mx-auto">
-            {/* Enhanced Header with glass-morphism */}
+            {/* Header */}
             <div className="mb-8 animate-fade-in">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 via-blue-500/20 to-yellow-500/20 rounded-2xl blur-xl" />
-                <div className="relative bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-2xl">
-                  <div className="flex items-center gap-4 mb-3">
-                    <div className="p-3 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl shadow-lg">
-                      <Settings className="h-8 w-8 text-slate-900" />
-                    </div>
-                    <div>
-                      <h1 className="text-3xl md:text-4xl font-bold text-white">
-                        Account <span className="text-yellow-400">Settings</span>
-                      </h1>
-                      <p className="text-blue-200/80 text-lg">
-                        Manage your account preferences, privacy settings, and data
-                      </p>
-                    </div>
+              <div className="bg-slate-900/40 rounded-2xl p-6 border border-white/10">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl">
+                    <Settings className="h-8 w-8 text-mansagold" />
+                  </div>
+                  <div>
+                    <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-white">
+                      Account <span className="text-mansagold">Settings</span>
+                    </h1>
+                    <p className="text-slate-400 text-lg">
+                      Manage your account preferences, privacy settings, and data
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* PROMINENT Account Deletion Notice - Required for Apple 5.1.1(v) compliance */}
+            {/* Account Deletion Notice — Apple 5.1.1(v) compliance */}
             <Alert className="mb-6 bg-red-500/10 border-red-500/30 animate-fade-in">
               <AlertTriangle className="h-5 w-5 text-red-400" />
               <AlertTitle className="text-red-400 font-semibold">Account Management</AlertTitle>
@@ -113,31 +84,31 @@ const UserSettingsPage: React.FC = () => {
             </Alert>
 
             <Tabs defaultValue="profile" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4 bg-white/5 backdrop-blur-xl border border-white/10 p-1 rounded-xl">
+              <TabsList className="grid w-full grid-cols-4 bg-slate-900/40 border border-white/10 p-1 rounded-xl">
                 <TabsTrigger 
                   value="profile" 
-                  className="flex items-center gap-2 text-blue-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500 data-[state=active]:to-yellow-600 data-[state=active]:text-slate-900 data-[state=active]:font-semibold rounded-lg transition-all"
+                  className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold rounded-lg transition-all"
                 >
                   <User className="h-4 w-4" />
                   <span className="hidden sm:inline">Profile</span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="notifications" 
-                  className="flex items-center gap-2 text-blue-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500 data-[state=active]:to-yellow-600 data-[state=active]:text-slate-900 data-[state=active]:font-semibold rounded-lg transition-all"
+                  className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold rounded-lg transition-all"
                 >
                   <Bell className="h-4 w-4" />
                   <span className="hidden sm:inline">Notifications</span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="privacy" 
-                  className="flex items-center gap-2 text-blue-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500 data-[state=active]:to-yellow-600 data-[state=active]:text-slate-900 data-[state=active]:font-semibold rounded-lg transition-all"
+                  className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold rounded-lg transition-all"
                 >
                   <Shield className="h-4 w-4" />
                   <span className="hidden sm:inline">Privacy</span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="account" 
-                  className="flex items-center gap-2 text-blue-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500 data-[state=active]:to-yellow-600 data-[state=active]:text-slate-900 data-[state=active]:font-semibold rounded-lg transition-all"
+                  className="flex items-center gap-2 text-slate-300 data-[state=active]:bg-mansagold data-[state=active]:text-black data-[state=active]:font-semibold rounded-lg transition-all"
                 >
                   <Trash2 className="h-4 w-4" />
                   <span className="hidden sm:inline">Account</span>
