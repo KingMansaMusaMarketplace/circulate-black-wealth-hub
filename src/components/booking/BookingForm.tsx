@@ -222,22 +222,22 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                   key={service.id}
                   type="button"
                   onClick={() => setFormData({ ...formData, serviceId: service.id })}
-                  className={`w-full p-4 rounded-xl text-left transition-all duration-200 ${
+                  className={`w-full p-4 rounded-xl text-left transition-colors duration-200 border ${
                     formData.serviceId === service.id
-                      ? 'bg-mansagold/20 border-2 border-mansagold'
-                      : 'bg-white/10 border border-white/20 hover:bg-white/15'
+                      ? 'bg-mansagold/10 border-mansagold'
+                      : 'bg-slate-900/40 border-white/10 hover:border-white/20 hover:bg-slate-900/60'
                   }`}
                 >
                   <div className="flex justify-between items-start">
                     <div>
                       <h4 className="font-semibold text-white">{service.name}</h4>
                       {service.description && (
-                        <p className="text-sm text-white/70 mt-1">{service.description}</p>
+                        <p className="text-sm text-slate-400 mt-1">{service.description}</p>
                       )}
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-mansagold">${service.price}</p>
-                      <p className="text-xs text-white/60">{service.duration_minutes} min</p>
+                      <p className="text-xs text-slate-500">{service.duration_minutes} min</p>
                     </div>
                   </div>
                 </button>
@@ -263,7 +263,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                 type="button"
                 variant="ghost"
                 onClick={() => setStep('service')}
-                className="text-white hover:bg-white/10"
+                className="text-slate-300 hover:bg-white/5 hover:text-white"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" /> Back
               </Button>
@@ -275,8 +275,8 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
 
             {/* Selected Service Summary */}
             {selectedService && (
-              <div className="bg-white/5 rounded-lg p-3 flex justify-between items-center">
-                <span className="text-white/90">{selectedService.name}</span>
+              <div className="bg-slate-900/40 border border-white/10 rounded-lg p-3 flex justify-between items-center">
+                <span className="text-slate-200">{selectedService.name}</span>
                 <span className="text-mansagold font-semibold">
                   ${selectedService.price} • {selectedService.duration_minutes} min
                 </span>
@@ -284,7 +284,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
             )}
 
             {/* Calendar */}
-            <div className="backdrop-blur-xl bg-white/5 rounded-xl border border-white/10 p-4">
+            <div className="bg-slate-900/40 rounded-xl border border-white/10 p-4">
               <BookingCalendar
                 availableDates={availableDates}
                 selectedDate={selectedDate}
@@ -298,8 +298,8 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
 
             {/* Time Slots */}
             {selectedDate && (
-              <div className="backdrop-blur-xl bg-white/5 rounded-xl border border-white/10 p-4">
-                <h4 className="text-sm font-medium text-white/80 mb-3">
+              <div className="bg-slate-900/40 rounded-xl border border-white/10 p-4">
+                <h4 className="text-sm font-medium text-slate-300 mb-3">
                   Times for {format(selectedDate, 'EEEE, MMMM d')}
                 </h4>
                 <TimeSlotPicker
@@ -330,7 +330,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                 type="button"
                 variant="ghost"
                 onClick={() => setStep('datetime')}
-                className="text-white hover:bg-white/10"
+                className="text-slate-300 hover:bg-white/5 hover:text-white"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" /> Back
               </Button>
@@ -342,10 +342,10 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
 
             {/* Booking Summary */}
             {selectedService && selectedDate && (
-              <div className="backdrop-blur-xl bg-white/10 rounded-lg border border-white/20 p-4 space-y-2">
+              <div className="bg-slate-900/60 rounded-lg border border-white/10 p-4 space-y-2">
                 <p className="font-semibold text-white">{selectedService.name}</p>
-                <div className="flex items-center text-sm text-white/80">
-                  <Clock className="w-4 h-4 mr-2" />
+                <div className="flex items-center text-sm text-slate-300">
+                  <Clock className="w-4 h-4 mr-2 text-mansagold" />
                   {format(selectedDate, 'EEEE, MMMM d')} at{' '}
                   {timeSlots.find(s => s.time === formData.bookingTime)?.display || formData.bookingTime}
                 </div>
@@ -364,7 +364,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                 onChange={(e) =>
                   setFormData({ ...formData, customerName: e.target.value })
                 }
-                className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+                className="bg-slate-900/60 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-mansagold/40"
                 required
               />
             </div>
@@ -378,7 +378,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                 onChange={(e) =>
                   setFormData({ ...formData, customerEmail: e.target.value })
                 }
-                className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+                className="bg-slate-900/60 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-mansagold/40"
                 required
               />
             </div>
@@ -392,7 +392,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                 onChange={(e) =>
                   setFormData({ ...formData, customerPhone: e.target.value })
                 }
-                className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+                className="bg-slate-900/60 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-mansagold/40"
               />
             </div>
 
@@ -405,17 +405,17 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                   setFormData({ ...formData, notes: e.target.value })
                 }
                 rows={3}
-                className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+                className="bg-slate-900/60 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-mansagold/40"
               />
             </div>
 
-            <div className="text-xs text-white/60 pt-2">
-              Platform fee (7.5%) included • Secure payment via Stripe
+            <div className="text-xs text-slate-500 pt-2">
+              Platform fee (7.5%) included · Secure payment via Stripe
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-black font-semibold" 
+            <Button
+              type="submit"
+              className="w-full bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
               disabled={loading}
             >
               {loading ? 'Creating Booking...' : 'Book Now & Pay'}
