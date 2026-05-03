@@ -57,10 +57,10 @@ const RoleCard: React.FC<{ title: string; cost: number; frame: number }> = ({ ti
   const x = interpolate(sp, [0, 1], [70, 0]);
   const op = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
   return (
-    <div style={{ opacity: op, transform: `translateX(${x}px)`, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.10)", borderLeft: "4px solid #FFB300", borderRadius: 12, padding: "20px 28px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-      <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 36, color: "#FFFFFF" }}>{title}</div>
-      <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 30, color: "#FFB300" }}>
-        ${cost.toLocaleString()}<span style={{ fontSize: 18, color: "rgba(255,255,255,0.5)", marginLeft: 4 }}>/mo</span>
+    <div style={{ opacity: op, transform: `translateX(${x}px)`, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.10)", borderLeft: "4px solid #FFB300", borderRadius: 12, padding: "26px 30px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 44, color: "#FFFFFF" }}>{title}</div>
+      <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 36, color: "#FFB300" }}>
+        ${cost.toLocaleString()}<span style={{ fontSize: 22, color: "rgba(255,255,255,0.6)", marginLeft: 4 }}>/mo</span>
       </div>
     </div>
   );

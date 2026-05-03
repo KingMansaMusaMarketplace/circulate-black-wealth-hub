@@ -90,9 +90,9 @@ const CompetitorCard: React.FC<{ name: string; verdict: string; limits: string[]
           <div style={{ width: `${barW}%`, height: "100%", background: "linear-gradient(90deg,#7a1f1f,#c97474)", borderRadius: 8 }} />
         </div>
 
-        <div style={{ marginTop: 30, display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ marginTop: 30, display: "flex", flexDirection: "column", gap: 14 }}>
           {limits.map((l, i) => (
-            <div key={i} style={{ fontFamily: inter, fontSize: 24, color: "rgba(255,255,255,0.85)", background: "rgba(200,80,80,0.14)", border: "1px solid rgba(200,80,80,0.4)", padding: "14px 22px", borderRadius: 10 }}>
+            <div key={i} style={{ fontFamily: inter, fontSize: 30, color: "rgba(255,255,255,0.92)", background: "rgba(200,80,80,0.14)", border: "1px solid rgba(200,80,80,0.4)", padding: "18px 24px", borderRadius: 10 }}>
               ✕ {l}
             </div>
           ))}
@@ -133,9 +133,9 @@ const KaylaCard: React.FC<{ dur: number }> = ({ dur }) => {
           </div>
         </div>
 
-        <div style={{ marginTop: 30, display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ marginTop: 30, display: "flex", flexDirection: "column", gap: 14 }}>
           {wins.map((w, i) => (
-            <div key={i} style={{ fontFamily: inter, fontSize: 24, color: "#FFFFFF", background: "rgba(255,179,0,0.18)", border: "1px solid rgba(255,179,0,0.55)", padding: "14px 22px", borderRadius: 10, fontWeight: 500 }}>
+            <div key={i} style={{ fontFamily: inter, fontSize: 30, color: "#FFFFFF", background: "rgba(255,179,0,0.18)", border: "1px solid rgba(255,179,0,0.55)", padding: "18px 24px", borderRadius: 10, fontWeight: 500 }}>
               {w}
             </div>
           ))}

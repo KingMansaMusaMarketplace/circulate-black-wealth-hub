@@ -76,7 +76,7 @@ const ScoreRing: React.FC<{ frame: number }> = ({ frame }) => {
 const Caption: React.FC<{ frame: number }> = ({ frame }) => {
   const op = interpolate(frame, [0, 22], [0, 1], { extrapolateRight: "clamp" });
   return (
-    <div style={{ opacity: op, marginTop: 50, padding: "20px 40px", border: "1px dashed rgba(255,179,0,0.5)", borderRadius: 12, background: "rgba(255,179,0,0.06)", fontFamily: inter, fontSize: 24, color: "rgba(255,255,255,0.85)", textAlign: "center" }}>
+    <div style={{ opacity: op, marginTop: 50, padding: "26px 40px", border: "1px dashed rgba(255,179,0,0.5)", borderRadius: 14, background: "rgba(255,179,0,0.06)", fontFamily: inter, fontSize: 30, color: "rgba(255,255,255,0.90)", textAlign: "center" }}>
       <span style={{ color: "#FFB300", fontWeight: 700 }}>Closed-loop learning:</span> smarter every week.
     </div>
   );
