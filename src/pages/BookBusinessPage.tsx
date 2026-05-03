@@ -105,13 +105,13 @@ export default function BookBusinessPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/60 to-transparent" />
               </>
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-mansagold/10 via-[#050a18] to-[#030712]" />
+              <div className="w-full h-full bg-slate-900" />
             )}
             {/* Back button over banner */}
             <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
               <button
                 onClick={() => navigate(`/business/${businessId}`)}
-                className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors bg-black/40 backdrop-blur-sm rounded-lg px-3 py-2 group"
+                className="inline-flex items-center gap-2 text-sm text-white/90 hover:text-mansagold transition-colors bg-black/60 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 group"
               >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
                 Back to Business
@@ -125,19 +125,19 @@ export default function BookBusinessPage() {
               <div className="flex items-end gap-5">
                 {/* Logo */}
                 <div className="flex-shrink-0">
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-[#030712] shadow-xl bg-white flex items-center justify-center">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border border-white/10 ring-2 ring-black bg-slate-900 flex items-center justify-center">
                     {logoImage ? (
                       <img
                         src={logoImage}
                         alt={bizName}
                         className="w-full h-full object-contain p-1"
-                        
+
                         onError={(e) => {
                           const img = e.target as HTMLImageElement;
                           img.style.display = 'none';
                           const parent = img.parentElement;
                           if (parent) {
-                            parent.classList.add('bg-gradient-to-br', 'from-mansagold/20', 'to-mansagold/5');
+                            parent.classList.add('bg-mansagold/10');
                             parent.innerHTML = `<span class="text-3xl font-bold text-mansagold">${bizName.charAt(0)}</span>`;
                           }
                         }}
