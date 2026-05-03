@@ -49,28 +49,37 @@ const WishlistPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
+    <div className="min-h-screen bg-black relative">
+      {/* Subtle ambient glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[480px] opacity-60"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 50% at 50% 0%, hsl(var(--mansagold) / 0.06), transparent 70%)',
+        }}
+      />
       <Helmet>
-        <title>My Favorites | Mansa Stays</title>
+        <title>My Favorites | 1325.AI</title>
         <meta name="description" content="View your saved vacation and monthly rental properties on Mansa Stays." />
       </Helmet>
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 relative">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate(-1)}
-            className="text-white hover:bg-white/10"
+            className="text-slate-300 hover:text-white hover:bg-white/5"
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-white flex items-center gap-2">
-              <Heart className="w-7 h-7 fill-red-500 text-red-500" />
+            <h1 className="font-display text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+              <Heart className="w-7 h-7 fill-mansagold text-mansagold" />
               My Favorites
             </h1>
-            <p className="text-white/60 mt-1">
+            <p className="text-slate-400 mt-1">
               {properties.length} saved {properties.length === 1 ? 'property' : 'properties'}
             </p>
           </div>
@@ -87,9 +96,9 @@ const WishlistPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-20"
           >
-            <Heart className="w-16 h-16 text-white/20 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-white mb-2">No saved properties yet</h2>
-            <p className="text-white/60 mb-6">
+            <Heart className="w-16 h-16 text-mansagold/30 mx-auto mb-4" />
+            <h2 className="font-display text-xl font-semibold tracking-tight text-white mb-2">No saved properties yet</h2>
+            <p className="text-slate-400 mb-6">
               Tap the heart icon on any property to save it here.
             </p>
             <Button
