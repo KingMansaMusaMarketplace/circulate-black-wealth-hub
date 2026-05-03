@@ -1,5 +1,7 @@
-// Generate authoritative male VO (Brian) for the Capabilities & Competitive Report video.
-// Uses ElevenLabs request stitching for smooth prosody between segments.
+// Re-generate the 5-minute capabilities VO with Jessica (excited female).
+// Each segment is rendered, measured with ffprobe, then concatenated with
+// a small breath gap. Actual durations are written to vo-capabilities-timing.json
+// so the Remotion timeline can match them EXACTLY (no drift, no cut-offs).
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -8,72 +10,42 @@ import { execSync } from "child_process";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJ = path.resolve(__dirname, "..");
 const OUT = path.resolve(PROJ, "public/audio/vo-capabilities.mp3");
-const TMP = "/tmp/vo-capabilities-segments";
+const TIMING_OUT = path.resolve(PROJ, "src/voTiming.json");
+const TMP = "/tmp/vo-cap-jessica";
 fs.mkdirSync(TMP, { recursive: true });
 
 const API_KEY = process.env.ELEVEN_LABS_API_KEY || process.env.ELEVENLABS_API_KEY;
 if (!API_KEY) throw new Error("Missing ELEVEN_LABS_API_KEY");
 
-// Brian — authoritative, documentary male
-const VOICE_ID = "nPczCjzI2devNBz1zQrb";
+// Jessica — warm, expressive, excited
+const VOICE_ID = "cgSgspJ2msm6clMCkdW9";
 const MODEL = "eleven_multilingual_v2";
+const BREATH_MS = 350; // small inter-segment silence
 
-// Total target: 300s (5:00). Each segment dur is exact playback budget.
+// Tighter, punchier 5-minute script. Scene mapping is enforced by `scene` field.
+// Scenes: hook, kayla, capabilities, score, competitive, roi, closing
 const segments = [
-  // SCENE 1 — Cold open hook (0–18s)
-  { dur: 6.0, text: "What if your entire C-suite worked twenty-four seven... never slept... and never asked for a raise?" },
-  { dur: 6.0, text: "What if thirty-three world-class executives... ran your business... for less than the price of one intern?" },
-  { dur: 6.0, text: "This isn't science fiction. This is Kayla. And this... is the future of business." },
+  { scene: "hook", text: "What if your entire C-Suite never slept… never quit… and cost less than one intern? Meet thirteen twenty-five A-I." },
+  { scene: "hook", text: "Thirty-three agentic employees. One subscription. Zero excuses." },
 
-  // SCENE 2 — Meet Kayla & the 33 (18–50s = 32s)
-  { dur: 7.0, text: "Meet Kayla — the Chief Executive Officer of an entire artificial intelligence workforce." },
-  { dur: 8.5, text: "Behind her, thirty-three specialized agents — across nine C-suite roles and five operational departments — work in perfect coordination." },
-  { dur: 8.0, text: "Finance. Marketing. Operations. Growth. Community. Every function of a Fortune 500 company... compressed into one platform." },
-  { dur: 8.5, text: "And unlike every other A-I tool on the market today, these agents share a single brain — a unified memory system that makes them smarter every hour." },
+  { scene: "kayla", text: "This is Kayla — your A-I Chief Executive Officer. She leads the workforce, sets strategy, and makes every agent move in lockstep." },
+  { scene: "kayla", text: "Behind her? Nine specialist Kaylas — Operations, Finance, Marketing, Revenue, Tech, Growth, Legal, I-R, and more." },
 
-  // SCENE 3 — Capabilities reel (50s–2:20 = 90s)
-  { dur: 7.0, text: "Let's talk capabilities. Start with Finance." },
-  { dur: 9.0, text: "Kayla Finance forecasts your cash flow in real time. She reconciles transactions, prepares your taxes, optimizes your prices, and flags anomalies before they become losses." },
-  { dur: 8.0, text: "Her team of five specialists handles bookkeeping, collections, invoicing, budgeting, and tax strategy — all autonomously." },
+  { scene: "capabilities", text: "Finance. Bookkeeping, taxes, invoicing, collections, forecasting — all automated, all in real time." },
+  { scene: "capabilities", text: "Marketing. Content, social, S-E-O, email, and brand design — published daily, on-brand, on-message." },
+  { scene: "capabilities", text: "Operations. Customer support, scheduling, vendors, quality, and H-R — running twenty-four seven." },
+  { scene: "capabilities", text: "Growth. Lead research, outbound S-D-R, funnel optimization, and partnerships — fueling your pipeline." },
+  { scene: "capabilities", text: "Community. Reviews, P-R, events, loyalty, and ambassadors — building the tribe around your brand." },
 
-  { dur: 7.0, text: "Then there's Marketing." },
-  { dur: 9.5, text: "Kayla Marketing writes your content, runs your campaigns, schedules your social posts, optimizes your S-E-O, and designs your brand assets — all while learning what actually converts your audience." },
+  { scene: "score", text: "Your Capabilities Score: ninety-four out of one hundred. Top-tier coverage across every business function." },
 
-  { dur: 6.5, text: "Operations? Fully automated." },
-  { dur: 9.0, text: "Customer support agents respond in seconds. Schedulers manage your calendar. Vendor liaisons handle procurement. Quality auditors monitor every transaction. H-R coordinators onboard new hires." },
+  { scene: "competitive", text: "Versus the competition? It's not even close. ChatGPT gives you one assistant. We give you thirty-three agents working together." },
+  { scene: "competitive", text: "Hiring a real C-Suite costs over two million dollars a year. We deliver the same firepower for two ninety-nine a month." },
 
-  { dur: 6.5, text: "Growth never stops." },
-  { dur: 9.0, text: "Lead researchers find your next customer. Outbound S-D-R agents send personalized outreach. Funnel optimizers test your conversion paths. Partnership scouts identify strategic alliances." },
+  { scene: "roi", text: "Do the math. You replace roughly four full roles. You save twelve thousand, one hundred dollars every single month. That's your R-O-I — instantly." },
 
-  { dur: 6.0, text: "And Community — the secret weapon." },
-  { dur: 8.5, text: "Reviews managers protect your reputation. P-R liaisons pitch the press. Event coordinators plan activations. Loyalty programs reward your best customers." },
-
-  // SCENE 4 — The 99/100 score (2:20–3:00 = 40s)
-  { dur: 7.0, text: "So why does this system score ninety-nine out of one hundred on agentic maturity?" },
-  { dur: 9.0, text: "Three reasons. First — a shared business context. Every agent reads from and writes to the same memory before making decisions." },
-  { dur: 8.0, text: "Second — server-side orchestration. Decisions are coordinated, idempotent, and auditable, not scattered across browser tabs." },
-  { dur: 8.0, text: "Third — full reasoning transparency. Every recommendation comes with a Why-This-Card explaining the inputs, the logic, and the confidence." },
-  { dur: 8.0, text: "Add a closed-loop learning system — and your agents get measurably smarter every single week." },
-
-  // SCENE 5 — Competitive comparison (3:00–4:00 = 60s)
-  { dur: 6.5, text: "Now... let's compare against the rest of the market." },
-  { dur: 9.5, text: "OpenAI gives you a chatbot. Powerful — but it has no shared memory across sessions, no business context, and no autonomous action. It waits for your next prompt." },
-  { dur: 9.5, text: "Microsoft Copilot integrates with your documents. Useful — but it's an assistant, not an employee. It doesn't run your business. It edits your files." },
-  { dur: 10.0, text: "Salesforce Einstein delivers predictions inside Salesforce. Excellent — if you can afford the seven-figure implementation. And it only sees the data you've already structured." },
-  { dur: 9.5, text: "Intuit's QuickBooks A-I handles bookkeeping. Solid — but it stops at the ledger. It doesn't market for you. It doesn't sell. It doesn't build community." },
-  { dur: 10.0, text: "Kayla does all of it. One subscription. One unified workforce. One shared brain. With patent-pending matchmaking technology no other platform can replicate." },
-
-  // SCENE 6 — ROI (4:00–4:30 = 30s)
-  { dur: 6.5, text: "Let's talk numbers. The honest math." },
-  { dur: 9.0, text: "Replacing the equivalent of four full-time roles — a bookkeeper, a marketer, a sales development rep, and an operations coordinator — would cost you twelve thousand one hundred dollars per month." },
-  { dur: 7.5, text: "Kayla delivers the same output... around the clock... for a fraction of the price." },
-  { dur: 6.5, text: "That's a return on investment most businesses only dream about." },
-
-  // SCENE 7 — Closing CTA (4:30–5:00 = 30s)
-  { dur: 6.5, text: "This is no longer the future. It's already here." },
-  { dur: 8.5, text: "Thirty-three agentic employees. One unified intelligence. One subscription. Zero excuses." },
-  { dur: 8.0, text: "Visit thirteen twenty-five dot A-I... and meet your new workforce today." },
-  { dur: 7.0, text: "Thirteen twenty-five A-I. The future of business — fully staffed." },
+  { scene: "closing", text: "This is the future of business — and it's already here. Visit thirteen twenty-five dot A-I and meet your team today." },
+  { scene: "closing", text: "Thirteen twenty-five A-I. Your entire C-Suite. One subscription." },
 ];
 
 async function tts(text, prevText, nextText, outFile) {
@@ -82,11 +54,11 @@ async function tts(text, prevText, nextText, outFile) {
     text,
     model_id: MODEL,
     voice_settings: {
-      stability: 0.55,        // higher = more authoritative/consistent
-      similarity_boost: 0.80,
-      style: 0.35,            // some weight, less stylized than excited
+      stability: 0.30,        // expressive / excited
+      similarity_boost: 0.78,
+      style: 0.60,            // more emotive
       use_speaker_boost: true,
-      speed: 1.0,
+      speed: 1.04,
     },
     ...(prevText ? { previous_text: prevText } : {}),
     ...(nextText ? { next_text: nextText } : {}),
@@ -97,45 +69,105 @@ async function tts(text, prevText, nextText, outFile) {
     body: JSON.stringify(body),
   });
   if (!r.ok) throw new Error(`TTS failed (${r.status}): ${await r.text()}`);
-  const buf = Buffer.from(await r.arrayBuffer());
-  fs.writeFileSync(outFile, buf);
+  fs.writeFileSync(outFile, Buffer.from(await r.arrayBuffer()));
 }
 
-const segmentFiles = [];
+function probeDur(file) {
+  const out = execSync(`ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "${file}"`).toString().trim();
+  return parseFloat(out);
+}
+
+const measured = [];
 for (let i = 0; i < segments.length; i++) {
   const file = path.join(TMP, `seg-${String(i).padStart(2, "0")}.mp3`);
-  segmentFiles.push({ file, dur: segments[i].dur });
-  if (process.env.SKIP_EXISTING && fs.existsSync(file)) {
+  if (!(process.env.SKIP_EXISTING && fs.existsSync(file))) {
+    console.log(`Seg ${i} [${segments[i].scene}]: generating...`);
+    await tts(
+      segments[i].text,
+      i > 0 ? segments[i - 1].text : null,
+      i < segments.length - 1 ? segments[i + 1].text : null,
+      file
+    );
+  } else {
     console.log(`Seg ${i}: cached`);
-    continue;
   }
-  console.log(`Seg ${i} (${segments[i].dur}s): generating...`);
-  await tts(
-    segments[i].text,
-    i > 0 ? segments[i - 1].text : null,
-    i < segments.length - 1 ? segments[i + 1].text : null,
-    file
-  );
+  const dur = probeDur(file);
+  measured.push({ ...segments[i], file, dur });
+  console.log(`  -> ${dur.toFixed(2)}s`);
 }
 
-// Pad each to exact target.
-const paddedFiles = [];
-for (let i = 0; i < segmentFiles.length; i++) {
-  const { file, dur } = segmentFiles[i];
-  const padded = path.join(TMP, `pad-${String(i).padStart(2, "0")}.mp3`);
-  paddedFiles.push(padded);
-  execSync(
-    `ffmpeg -y -i "${file}" -af "apad=whole_dur=${dur},atrim=0:${dur},asetpts=N/SR/TB" -ar 44100 -ac 2 -b:a 192k "${padded}"`,
-    { stdio: "pipe" }
-  );
-}
+// Build a silence file for breath gaps
+const silenceFile = path.join(TMP, "breath.mp3");
+execSync(`ffmpeg -y -f lavfi -i anullsrc=r=44100:cl=stereo -t ${BREATH_MS / 1000} -b:a 192k "${silenceFile}"`, { stdio: "pipe" });
+const breathSec = probeDur(silenceFile);
 
+// Concat list: seg, breath, seg, breath, ... (no trailing breath)
 const listFile = path.join(TMP, "concat.txt");
-fs.writeFileSync(listFile, paddedFiles.map((f) => `file '${f}'`).join("\n"));
-execSync(`ffmpeg -y -f concat -safe 0 -i "${listFile}" -c copy "${OUT}"`, { stdio: "inherit" });
+const lines = [];
+measured.forEach((m, idx) => {
+  lines.push(`file '${m.file}'`);
+  if (idx < measured.length - 1) lines.push(`file '${silenceFile}'`);
+});
+fs.writeFileSync(listFile, lines.join("\n"));
+execSync(`ffmpeg -y -f concat -safe 0 -i "${listFile}" -c:a libmp3lame -b:a 192k "${OUT}"`, { stdio: "inherit" });
 
-const totalDur = segments.reduce((a, s) => a + s.dur, 0);
-const stat = fs.statSync(OUT);
-console.log(`\n✅ VO written: ${OUT}`);
-console.log(`Total duration: ${totalDur}s (${(totalDur/60).toFixed(2)}min), file size: ${(stat.size / 1024 / 1024).toFixed(2)} MB`);
-console.log(`Segments: ${segments.length}`);
+// Compute scene start/end frames @ 30 fps with breath gaps included.
+const FPS = 30;
+const HOOK_LEAD = 1.0; // 1s of breathing room before VO begins (logo intro overlays)
+let cursor = HOOK_LEAD;
+const segmentTimings = measured.map((m, idx) => {
+  const start = cursor;
+  const end = start + m.dur;
+  cursor = end + (idx < measured.length - 1 ? breathSec : 0);
+  return { scene: m.scene, text: m.text, startSec: start, endSec: end };
+});
+
+// Group by scene
+const sceneOrder = ["hook", "kayla", "capabilities", "score", "competitive", "roi", "closing"];
+const scenes = sceneOrder.map((name) => {
+  const segs = segmentTimings.filter((s) => s.scene === name);
+  const start = segs[0].startSec;
+  const end = segs[segs.length - 1].endSec;
+  return { scene: name, startSec: start, endSec: end, durSec: end - start };
+});
+
+// Add tail padding (0.8s) after last scene for breathing room
+const tailPad = 0.8;
+const totalSec = cursor + tailPad;
+const totalFrames = Math.ceil(totalSec * FPS);
+
+// Snap scene durations to frames; ensure back-to-back coverage of full timeline.
+const sceneFrames = [];
+let frameCursor = 0;
+for (let i = 0; i < scenes.length; i++) {
+  const s = scenes[i];
+  const isLast = i === scenes.length - 1;
+  const startF = i === 0 ? 0 : frameCursor;
+  const endF = isLast ? totalFrames : Math.round(s.endSec * FPS);
+  sceneFrames.push({ scene: s.scene, fromFrame: startF, durationInFrames: endF - startF });
+  frameCursor = endF;
+}
+
+// VO offset in frames: VO begins at HOOK_LEAD seconds into the timeline
+const voOffsetFrames = Math.round(HOOK_LEAD * FPS);
+
+const timing = {
+  fps: FPS,
+  totalFrames,
+  voOffsetFrames,
+  voFile: "audio/vo-capabilities.mp3",
+  scenes: sceneFrames,
+  segments: segmentTimings.map((s) => ({
+    scene: s.scene,
+    text: s.text,
+    fromFrame: Math.round((s.startSec) * FPS),
+    durationInFrames: Math.max(1, Math.round((s.endSec - s.startSec) * FPS)),
+  })),
+};
+fs.writeFileSync(TIMING_OUT, JSON.stringify(timing, null, 2));
+
+console.log(`\n✅ VO: ${OUT}`);
+console.log(`✅ Timing: ${TIMING_OUT}`);
+console.log(`Total: ${totalSec.toFixed(2)}s = ${totalFrames} frames`);
+console.log(`Scenes:`);
+sceneFrames.forEach((s) => console.log(`  ${s.scene.padEnd(13)} ${s.fromFrame.toString().padStart(5)}f  (${(s.durationInFrames / FPS).toFixed(1)}s)`));

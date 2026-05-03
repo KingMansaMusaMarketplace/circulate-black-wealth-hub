@@ -1,0 +1,135 @@
+{
+  "fps": 30,
+  "totalFrames": 4192,
+  "voOffsetFrames": 30,
+  "voFile": "audio/vo-capabilities.mp3",
+  "scenes": [
+    {
+      "scene": "hook",
+      "fromFrame": 0,
+      "durationInFrames": 495
+    },
+    {
+      "scene": "kayla",
+      "fromFrame": 495,
+      "durationInFrames": 641
+    },
+    {
+      "scene": "capabilities",
+      "fromFrame": 1136,
+      "durationInFrames": 1454
+    },
+    {
+      "scene": "score",
+      "fromFrame": 2590,
+      "durationInFrames": 221
+    },
+    {
+      "scene": "competitive",
+      "fromFrame": 2811,
+      "durationInFrames": 556
+    },
+    {
+      "scene": "roi",
+      "fromFrame": 3367,
+      "durationInFrames": 326
+    },
+    {
+      "scene": "closing",
+      "fromFrame": 3693,
+      "durationInFrames": 499
+    }
+  ],
+  "segments": [
+    {
+      "scene": "hook",
+      "text": "What if your entire C-Suite never slept… never quit… and cost less than one intern? Meet thirteen twenty-five A-I.",
+      "fromFrame": 30,
+      "durationInFrames": 298
+    },
+    {
+      "scene": "hook",
+      "text": "Thirty-three agentic employees. One subscription. Zero excuses.",
+      "fromFrame": 339,
+      "durationInFrames": 156
+    },
+    {
+      "scene": "kayla",
+      "text": "This is Kayla — your A-I Chief Executive Officer. She leads the workforce, sets strategy, and makes every agent move in lockstep.",
+      "fromFrame": 505,
+      "durationInFrames": 273
+    },
+    {
+      "scene": "kayla",
+      "text": "Behind her? Nine specialist Kaylas — Operations, Finance, Marketing, Revenue, Tech, Growth, Legal, I-R, and more.",
+      "fromFrame": 789,
+      "durationInFrames": 347
+    },
+    {
+      "scene": "capabilities",
+      "text": "Finance. Bookkeeping, taxes, invoicing, collections, forecasting — all automated, all in real time.",
+      "fromFrame": 1146,
+      "durationInFrames": 274
+    },
+    {
+      "scene": "capabilities",
+      "text": "Marketing. Content, social, S-E-O, email, and brand design — published daily, on-brand, on-message.",
+      "fromFrame": 1431,
+      "durationInFrames": 270
+    },
+    {
+      "scene": "capabilities",
+      "text": "Operations. Customer support, scheduling, vendors, quality, and H-R — running twenty-four seven.",
+      "fromFrame": 1712,
+      "durationInFrames": 259
+    },
+    {
+      "scene": "capabilities",
+      "text": "Growth. Lead research, outbound S-D-R, funnel optimization, and partnerships — fueling your pipeline.",
+      "fromFrame": 1982,
+      "durationInFrames": 298
+    },
+    {
+      "scene": "capabilities",
+      "text": "Community. Reviews, P-R, events, loyalty, and ambassadors — building the tribe around your brand.",
+      "fromFrame": 2290,
+      "durationInFrames": 300
+    },
+    {
+      "scene": "score",
+      "text": "Your Capabilities Score: ninety-four out of one hundred. Top-tier coverage across every business function.",
+      "fromFrame": 2600,
+      "durationInFrames": 210
+    },
+    {
+      "scene": "competitive",
+      "text": "Versus the competition? It's not even close. ChatGPT gives you one assistant. We give you thirty-three agents working together.",
+      "fromFrame": 2821,
+      "durationInFrames": 293
+    },
+    {
+      "scene": "competitive",
+      "text": "Hiring a real C-Suite costs over two million dollars a year. We deliver the same firepower for two ninety-nine a month.",
+      "fromFrame": 3124,
+      "durationInFrames": 242
+    },
+    {
+      "scene": "roi",
+      "text": "Do the math. You replace roughly four full roles. You save twelve thousand, one hundred dollars every single month. That's your R-O-I — instantly.",
+      "fromFrame": 3377,
+      "durationInFrames": 316
+    },
+    {
+      "scene": "closing",
+      "text": "This is the future of business — and it's already here. Visit thirteen twenty-five dot A-I and meet your team today.",
+      "fromFrame": 3704,
+      "durationInFrames": 291
+    },
+    {
+      "scene": "closing",
+      "text": "Thirteen twenty-five A-I. Your entire C-Suite. One subscription.",
+      "fromFrame": 4006,
+      "durationInFrames": 162
+    }
+  ]
+}
