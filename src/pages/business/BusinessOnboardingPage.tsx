@@ -96,12 +96,12 @@ const BusinessOnboardingPage: React.FC = () => {
               <Button
                 variant="ghost"
                 onClick={() => setShowBuilder(false)}
-                className="mb-4"
+                className="mb-4 text-white/70 hover:text-mansagold hover:bg-white/5"
               >
                 ← Back
               </Button>
-              <h1 className="text-2xl font-bold">Complete Your Listing</h1>
-              <p className="text-muted-foreground">Fill in the details to go live</p>
+              <h1 className="text-2xl font-bold text-white">Complete Your Listing</h1>
+              <p className="text-white/60">Fill in the details to go live</p>
             </div>
             
             <BusinessProfileBuilder
