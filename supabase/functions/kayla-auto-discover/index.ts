@@ -862,15 +862,14 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // === EARLY-EXIT GUARD ===
-    // Skip if we successfully completed a run in the last 9 minutes
-    // (cron is */10, so this prevents overlap from manual triggers + double-fires)
-    const NINE_MIN_AGO = new Date(Date.now() - 9 * 60 * 1000).toISOString();
+    // Skip if we successfully completed a run in the last 2 minutes
+    const TWO_MIN_AGO = new Date(Date.now() - 2 * 60 * 1000).toISOString();
     const { data: recentRun } = await supabase
       .from("kayla_run_log")
       .select("id, completed_at")
       .eq("agent_name", "kayla-auto-discover")
       .eq("run_status", "completed")
-      .gte("completed_at", NINE_MIN_AGO)
+      .gte("completed_at", TWO_MIN_AGO)
       .order("completed_at", { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -882,10 +881,10 @@ serve(async (req) => {
         run_status: "skipped",
         completed_at: new Date().toISOString(),
         duration_ms: Date.now() - startTime,
-        details: { reason: "recent_run_within_9min", last_completed: recentRun.completed_at },
+        details: { reason: "recent_run_within_2min", last_completed: recentRun.completed_at },
       });
       return new Response(
-        JSON.stringify({ success: true, skipped: true, reason: "recent_run_within_9min", lastCompleted: recentRun.completed_at }),
+        JSON.stringify({ success: true, skipped: true, reason: "recent_run_within_2min", lastCompleted: recentRun.completed_at }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
