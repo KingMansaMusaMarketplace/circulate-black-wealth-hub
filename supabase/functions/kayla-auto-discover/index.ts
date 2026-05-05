@@ -356,7 +356,7 @@ const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 // Lower volume per run, higher confidence threshold. Verification happens in
 // kayla-verify-and-promote before anything reaches the live directory.
 // Scaled up for the 100k push — accuracy gate still enforced by kayla-verify-and-promote
-const NUM_SEARCHES = 60;
+const NUM_SEARCHES = 120;
 const PER_QUERY_LIMIT = 15;
 const MIN_CONFIDENCE = 0.7;
 const SCRAPE_BATCH_SIZE = 60;
