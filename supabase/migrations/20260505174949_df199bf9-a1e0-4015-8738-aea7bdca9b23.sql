@@ -1,0 +1,1 @@
+SELECT cron.alter_job(24, schedule => '*/3 * * * *');
