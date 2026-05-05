@@ -1850,6 +1850,8 @@ export type Database = {
       }
       b2b_external_leads: {
         Row: {
+          address: string | null
+          banner_url: string | null
           business_description: string | null
           business_name: string
           call_notes: string | null
@@ -1884,16 +1886,22 @@ export type Database = {
           last_enriched_at: string | null
           last_invited_at: string | null
           last_validated_at: string | null
+          latitude: number | null
           lead_score: number | null
           listing_expires_at: string | null
           listing_type: string | null
           location: string | null
+          logo_url: string | null
+          longitude: number | null
+          normalized_name: string | null
           owner_email: string | null
           owner_name: string | null
           paid_at: string | null
           payment_amount: number | null
+          perplexity_raw: Json | null
           phone_number: string | null
           phone_valid: boolean | null
+          price_range: string | null
           priority_rank: string | null
           social_profiles: Json | null
           source_citations: string[] | null
@@ -1904,11 +1912,19 @@ export type Database = {
           validation_notes: string | null
           validation_status: string | null
           verification_method: string | null
+          verification_notes: Json | null
+          verification_status: string
+          verified_address: string | null
+          verified_at: string | null
+          verified_phone: string | null
+          website_domain: string | null
           website_url: string | null
           website_valid: boolean | null
           zip_code: string | null
         }
         Insert: {
+          address?: string | null
+          banner_url?: string | null
           business_description?: string | null
           business_name: string
           call_notes?: string | null
@@ -1943,16 +1959,22 @@ export type Database = {
           last_enriched_at?: string | null
           last_invited_at?: string | null
           last_validated_at?: string | null
+          latitude?: number | null
           lead_score?: number | null
           listing_expires_at?: string | null
           listing_type?: string | null
           location?: string | null
+          logo_url?: string | null
+          longitude?: number | null
+          normalized_name?: string | null
           owner_email?: string | null
           owner_name?: string | null
           paid_at?: string | null
           payment_amount?: number | null
+          perplexity_raw?: Json | null
           phone_number?: string | null
           phone_valid?: boolean | null
+          price_range?: string | null
           priority_rank?: string | null
           social_profiles?: Json | null
           source_citations?: string[] | null
@@ -1963,11 +1985,19 @@ export type Database = {
           validation_notes?: string | null
           validation_status?: string | null
           verification_method?: string | null
+          verification_notes?: Json | null
+          verification_status?: string
+          verified_address?: string | null
+          verified_at?: string | null
+          verified_phone?: string | null
+          website_domain?: string | null
           website_url?: string | null
           website_valid?: boolean | null
           zip_code?: string | null
         }
         Update: {
+          address?: string | null
+          banner_url?: string | null
           business_description?: string | null
           business_name?: string
           call_notes?: string | null
@@ -2002,16 +2032,22 @@ export type Database = {
           last_enriched_at?: string | null
           last_invited_at?: string | null
           last_validated_at?: string | null
+          latitude?: number | null
           lead_score?: number | null
           listing_expires_at?: string | null
           listing_type?: string | null
           location?: string | null
+          logo_url?: string | null
+          longitude?: number | null
+          normalized_name?: string | null
           owner_email?: string | null
           owner_name?: string | null
           paid_at?: string | null
           payment_amount?: number | null
+          perplexity_raw?: Json | null
           phone_number?: string | null
           phone_valid?: boolean | null
+          price_range?: string | null
           priority_rank?: string | null
           social_profiles?: Json | null
           source_citations?: string[] | null
@@ -2022,6 +2058,12 @@ export type Database = {
           validation_notes?: string | null
           validation_status?: string | null
           verification_method?: string | null
+          verification_notes?: Json | null
+          verification_status?: string
+          verified_address?: string | null
+          verified_at?: string | null
+          verified_phone?: string | null
+          website_domain?: string | null
           website_url?: string | null
           website_valid?: boolean | null
           zip_code?: string | null
@@ -4830,6 +4872,7 @@ export type Database = {
           logo_url: string | null
           longitude: number | null
           name: string
+          normalized_name: string | null
           onboarding_completed_at: string | null
           owner_id: string
           parent_business_id: string | null
@@ -4848,6 +4891,7 @@ export type Database = {
           transaction_count: number | null
           updated_at: string | null
           website: string | null
+          website_domain: string | null
           zip_code: string | null
         }
         Insert: {
@@ -4875,6 +4919,7 @@ export type Database = {
           logo_url?: string | null
           longitude?: number | null
           name: string
+          normalized_name?: string | null
           onboarding_completed_at?: string | null
           owner_id: string
           parent_business_id?: string | null
@@ -4893,6 +4938,7 @@ export type Database = {
           transaction_count?: number | null
           updated_at?: string | null
           website?: string | null
+          website_domain?: string | null
           zip_code?: string | null
         }
         Update: {
@@ -4920,6 +4966,7 @@ export type Database = {
           logo_url?: string | null
           longitude?: number | null
           name?: string
+          normalized_name?: string | null
           onboarding_completed_at?: string | null
           owner_id?: string
           parent_business_id?: string | null
@@ -4938,6 +4985,7 @@ export type Database = {
           transaction_count?: number | null
           updated_at?: string | null
           website?: string | null
+          website_domain?: string | null
           zip_code?: string | null
         }
         Relationships: [
@@ -23521,6 +23569,7 @@ export type Database = {
           similarity: number
         }[]
       }
+      normalize_business_name: { Args: { p_name: string }; Returns: string }
       process_business_referral: {
         Args: { p_business_id: string; p_referral_code: string }
         Returns: Json
