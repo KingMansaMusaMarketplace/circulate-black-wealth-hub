@@ -1,64 +1,88 @@
-## Goal
-Produce a professional, attorney-ready **Patent Technical Specification PDF** for updating USPTO Provisional 63/969,202 — built so you can hand it to Fraline (or any patent attorney) and cut their drafting time from ~$6K to ~$2K. Plus the three optional add-ons.
 
-## Deliverables (all PDFs, brand palette: Navy #003366 / Gold #FFB300)
+# Restart Kayla Business Discovery — Accuracy First
 
-### 1. Main: `1325AI_Patent_Technical_Specification_v1.pdf` (~40–55 pages)
-Structured exactly the way a patent attorney consumes a tech disclosure:
+## Why Kayla stopped adding businesses
 
-1. **Cover & Filing Reference** — links to original 63/969,202, filing date, inventor, assignee (Mansa Musa Marketplace, Inc.), continuation-in-part intent
-2. **Executive Summary of New Subject Matter** — what's been built since the original 27 claims
-3. **Field of the Invention** + **Background / Problem Statement** (Alice-resistant framing: technical problem, not business problem)
-4. **Summary of the Invention**
-5. **Detailed Description of the Preferred Embodiments** — the meat:
-   - **Multi-Model Orchestration Engine** (Claude Opus 4.6 + GPT-5 + Gemini via Lovable AI Gateway): routing rules, fallback hierarchy, cost/latency optimization, model-strength matrix
-   - **33-Agent Hierarchical Architecture** (Kayla orchestrator + specialist sub-agents): server-side router, agent learning loop, chat memory + feedback writes, run-log idempotency
-   - **Atomic QR-to-Loyalty Pipeline** (`award_qr_scan` RPC): single-transaction validation + scan-limit + cooldown + point accrual
-   - **Temporal Founding-Member System** (immutable trigger, 2026-09-01 cutoff)
-   - **Circulatory Multiplier Attribution** + **Geospatial Velocity Fraud Detection** (claims 1, 3 expanded)
-   - **Tiered Subscription + Founders' Lock** mechanism (technical implementation, not just pricing)
-   - **Answering Service / Voice AI integration** ($49 add-on) — Realtime Voice + agent routing
-   - **Perplexity Pro integration** as a research-tier model in the orchestration mix
-6. **Drawings (Figures)** — auto-generated technical diagrams:
-   - Fig. 1: System architecture (consumer ↔ orchestrator ↔ 33 agents ↔ DB)
-   - Fig. 2: Multi-model routing decision tree
-   - Fig. 3: Atomic QR-to-loyalty sequence diagram
-   - Fig. 4: Agent learning loop (memory → feedback → run-log)
-   - Fig. 5: Temporal founding-status trigger flow
-   - Fig. 6: Geospatial fraud detection flow
-7. **Proposed Claim Set (Draft, ~15 new claims)** — independent + dependent, written in proper claim language ("A computer-implemented method comprising…") with explicit Alice-resistant technical-improvement framing on every independent claim
-8. **Code Excerpts as Technical Evidence** (appendix) — numbered listings of the actual SQL trigger, `award_qr_scan` RPC signature, agent router, with line references
-9. **Glossary of Terms**
-10. **Inventor Declaration template** (signature page)
+I checked the database and logs:
 
-### 2. Add-On A: `Patent_Prior_Art_Search_Summary_v1.pdf` (~8–12 pages)
-- USPTO + Google Patents keyword sweep on each new claim area
-- Closest known prior art per claim, with distinguishing technical features called out
-- "Whitespace map" — where 1325.AI's claims are clear of existing IP
+- The `kayla-auto-discover` job has been running every 10 minutes, but every run for the last week+ reports **0 candidates** from Perplexity. That means the Perplexity call itself is failing/returning empty and the error is being swallowed — Kayla burns credits but adds nothing.
+- There are **two duplicate cron jobs** firing the same function every 10 minutes (`kayla-auto-discover-businesses` and `kayla-auto-discover-businesses-v2`). One must go.
+- When candidates *do* come through, they are written straight into `businesses` as `is_verified=true, listing_status='live'`, so any bad row is immediately public — that is what caused the wasted-credits / wrong-banner / wrong-ID pain.
+- Banner images come from a generic Unsplash category pool (not the business's actual website), which is why some businesses ended up with a banner that wasn't theirs.
 
-### 3. Add-On B: `Patent_Alice_Defense_Memo_v1.pdf` (~6–8 pages)
-- Per-claim Alice/Mayo two-step analysis
-- "Technical improvement" framing language attorney can lift verbatim
-- Red-flag claims (any that read too "business-method-y") with rewrite suggestions
+## Plan — 4 fixes, accuracy over volume
 
-### 4. Add-On C: `Attorney_Engagement_Brief_v1.pdf` (~4 pages)
-- One-page cover letter to Fraline
-- Scope of work checklist (what you want her to do vs. what's already done)
-- Budget/timeline expectations ($2K target, 2-week turnaround)
-- Filing-deadline tracker (12-month conversion clock from original provisional)
+### 1. Stop the noise & fix the silent failure
 
-## Technical approach
-- **ReportLab Platypus** (same toolchain as v29 manual) — reuse navy/gold styles, `TH_W` white-header table style, 150-DPI QA pipeline
-- **matplotlib** for the 6 figures (clean technical line art, navy strokes, gold accents)
-- All files written to `/mnt/documents/`
-- Mandatory visual QA on every page before delivery — re-render until clean
-- No Unicode subscripts (use `<sub>` tags); brand-consistent typography
-- Conservative, attorney-grade voice (no marketing fluff in the spec itself; Alice-defense memo can be more persuasive)
+- Drop the duplicate `kayla-auto-discover-businesses-v2` cron (keep one job, every 15 min, not 10).
+- Surface Perplexity errors: when the API returns non-200, the run-log row should be marked `error` with the upstream message, not "completed: 0 candidates". This will tell us immediately whether it's a key issue, model-name issue, or quota.
+- Reduce per-run search count from 75 → 25 to cut credit burn while we re-stabilize.
 
-## What I will NOT do
-- Will not transmit anything to Fraline (you deliver)
-- Will not give legal advice — every doc carries a "Draft for attorney review" watermark
-- Will not invent prior-art citations — Add-On A uses public USPTO/Google Patents data only, clearly sourced
+### 2. Add a "verification gate" — no more direct-to-live inserts
 
-## Output
-Four `<lov-artifact>` PDFs delivered together, plus a short summary of what's in each and a recommended order to walk Fraline through them.
+Today: Perplexity result → insert into `businesses` (live).
+New flow:
+
+```text
+Perplexity → b2b_external_leads (staging)
+           → Firecrawl scrape of the actual website
+           → automated checks (below)
+           → if all pass: promote to businesses (live)
+           → if any fail: leave in staging with a "needs_review" reason
+```
+
+Automated checks Kayla must pass before promoting a row to live:
+
+- **Website resolves** (HTTP 200, not parked/for-sale page).
+- **Business name appears on the homepage** (case-insensitive substring or ≥80% fuzzy match). This kills hallucinated names.
+- **Phone on the site matches the phone Perplexity gave** (last 7 digits). If mismatch, use the site's phone.
+- **Address city/state matches** what Perplexity claimed.
+- **Logo + banner come from the business's own domain** (or its CDN). If we can't extract them, fall back to the initials-logo + a *category* banner — never a stock photo of a different identifiable business.
+- **Confidence ≥ 0.75** (raised from 0.55).
+
+Only rows that pass all five get promoted. Everything else stays in staging for an admin review screen.
+
+### 3. Stronger duplicate detection
+
+Current dedup is exact `name|city`. We'll add:
+
+- Normalize names (strip "LLC", "Inc.", "The", punctuation, lowercase) before comparing.
+- Compare against `businesses` AND `b2b_external_leads` AND any pending staging row.
+- Add a unique index on `(normalized_name, lower(city), lower(state))` so a duplicate insert fails at the DB level too — belt and suspenders.
+- Domain-level dedup: if the website root domain already exists in the directory, skip.
+
+### 4. Admin review queue (small UI)
+
+A new page at `/admin/business-review` (admin-only) showing:
+
+- Businesses Kayla flagged as `needs_review` with the reason (e.g. "name not found on homepage", "phone mismatch").
+- Side-by-side: what Perplexity said vs. what Firecrawl found on the site, plus a screenshot/preview of the homepage.
+- One-click **Approve & Publish**, **Edit & Publish**, or **Reject**.
+
+This is the safety net — anything Kayla isn't 100% sure of waits here instead of going live and getting deleted later.
+
+## Technical details
+
+- Edit `supabase/functions/kayla-auto-discover/index.ts`:
+  - Replace direct `businesses.insert(...)` with `b2b_external_leads.insert(...)` plus a new column `verification_status` ('pending' | 'verified' | 'needs_review' | 'rejected').
+  - Wrap Perplexity call in proper error reporting to `kayla_run_log`.
+  - Lower `NUM_SEARCHES` to 25, raise `MIN_CONFIDENCE` to 0.75.
+- New edge function `kayla-verify-and-promote` (cron every 15 min, offset 5 min):
+  - Pulls up to 50 `pending` leads, runs the 5 checks above using Firecrawl, sets `verification_status` accordingly, and promotes verified ones into `businesses`.
+- Migration:
+  - Add `verification_status` + `verification_notes` + `normalized_name` columns to `b2b_external_leads`.
+  - Add unique index on `(lower(normalized_name), lower(city), lower(state))` on both `b2b_external_leads` and `businesses`.
+  - Drop the duplicate cron job `kayla-auto-discover-businesses-v2`; update the surviving one to `*/15 * * * *`.
+- New page `src/pages/admin/BusinessReviewQueue.tsx` (gated by `RequireAdmin`) + route + nav link in the admin dashboard.
+
+## What you'll see after this lands
+
+- Kayla resumes adding businesses, slower but accurate (target ~30–60 verified/day instead of bursts of bad data).
+- A live counter on the admin dashboard: "X pending review, Y verified today, Z rejected".
+- No more banners belonging to other companies, no more hallucinated business IDs in the live directory.
+- If Perplexity is failing, you'll see it in the run-log immediately instead of silent zeros.
+
+## Out of scope for this round
+
+- Re-importing the deleted ~14K businesses (we should re-discover them through the new gated pipeline so they're verified the same way).
+- Switching discovery away from Perplexity (we'll first see if proper error reporting fixes it; if Perplexity is the problem, a follow-up plan will swap in Google Places / SerpAPI).
