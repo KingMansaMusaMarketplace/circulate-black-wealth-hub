@@ -837,6 +837,7 @@ serve(async (req) => {
   }
 
   const startTime = Date.now();
+  let runDetails: Record<string, any> = {};
 
   try {
     // AUTH: Require admin or cron secret
@@ -861,15 +862,14 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
     // === EARLY-EXIT GUARD ===
-    // Skip if we successfully completed a run in the last 9 minutes
-    // (cron is */10, so this prevents overlap from manual triggers + double-fires)
-    const NINE_MIN_AGO = new Date(Date.now() - 9 * 60 * 1000).toISOString();
+    // Skip if we successfully completed a run in the last 2 minutes
+    const TWO_MIN_AGO = new Date(Date.now() - 2 * 60 * 1000).toISOString();
     const { data: recentRun } = await supabase
       .from("kayla_run_log")
       .select("id, completed_at")
       .eq("agent_name", "kayla-auto-discover")
       .eq("run_status", "completed")
-      .gte("completed_at", NINE_MIN_AGO)
+      .gte("completed_at", TWO_MIN_AGO)
       .order("completed_at", { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -881,10 +881,10 @@ serve(async (req) => {
         run_status: "skipped",
         completed_at: new Date().toISOString(),
         duration_ms: Date.now() - startTime,
-        details: { reason: "recent_run_within_9min", last_completed: recentRun.completed_at },
+        details: { reason: "recent_run_within_2min", last_completed: recentRun.completed_at },
       });
       return new Response(
-        JSON.stringify({ success: true, skipped: true, reason: "recent_run_within_9min", lastCompleted: recentRun.completed_at }),
+        JSON.stringify({ success: true, skipped: true, reason: "recent_run_within_2min", lastCompleted: recentRun.completed_at }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -1340,30 +1340,35 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     const durationMs = Date.now() - startTime;
     const searchCombosSummary = searchCombos.map(s => `${s.category} in ${s.city.city}, ${s.city.state}`).join("; ");
     const uniqueCategories = [...new Set(searchCombos.map(s => s.category))];
+
+    runDetails = {
+      num_searches: NUM_SEARCHES,
+      per_query_limit: PER_QUERY_LIMIT,
+      unique_categories: uniqueCategories.length,
+      candidates: allCandidates.length,
+      viable_after_filter: viableCandidates.length,
+      after_dedup: dedupedCandidates.length,
+      inserted,
+      skipped_duplicates: skippedDuplicates,
+      skipped_low_confidence: skippedLowConfidence,
+      skipped_no_website: skippedNoWebsite,
+      skipped_no_phone: skippedNoPhone,
+      skipped_no_address: skippedNoAddress,
+      skipped_no_images: skippedNoImages,
+      duration_ms: durationMs,
+      min_confidence: MIN_CONFIDENCE,
+    };
+
     const reportData = {
       report_type: "auto_discover",
       status: "completed",
       summary: `Expanded discovery: ${NUM_SEARCHES} queries across ${uniqueCategories.length} unique categories. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}, No phone: ${skippedNoPhone}, No address: ${skippedNoAddress}. Duration: ${durationMs}ms.`,
       details: {
+        ...runDetails,
         searches: searchCombosSummary,
-        num_searches: NUM_SEARCHES,
-        per_query_limit: PER_QUERY_LIMIT,
-        unique_categories: uniqueCategories.length,
-        candidates_found: allCandidates.length,
-        viable_after_filter: viableCandidates.length,
-        after_dedup: dedupedCandidates.length,
-        inserted,
-        skipped_duplicates: skippedDuplicates,
-        skipped_low_confidence: skippedLowConfidence,
-        skipped_no_website: skippedNoWebsite,
-        skipped_no_phone: skippedNoPhone,
-        skipped_no_address: skippedNoAddress,
-        skipped_no_images: skippedNoImages,
         inserted_names: insertedNames,
         enrichment: enrichmentDetails,
         citations: allCitations,
-        duration_ms: durationMs,
-        min_confidence: MIN_CONFIDENCE,
         quality_gate: "tiered_image_fallback",
         total_category_pool: CATEGORIES.length,
         optimizations: ["expanded_categories", "query_variations", "parallel_enrichment", "batch_dedup", "tiered_images"],
@@ -1375,7 +1380,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     const { error: reportErr } = await supabase.from("kayla_agent_reports").insert(reportData);
     if (reportErr) console.error("[Kayla Auto-Discover] Report insert error:", reportErr.message);
 
-    console.log(`[Kayla Auto-Discover] Complete: ${inserted}/${allCandidates.length} businesses added in ${durationMs}ms`);
+    console.log(`[Kayla Auto-Discover] FUNNEL: candidates=${allCandidates.length} viable=${viableCandidates.length} dedup=${dedupedCandidates.length} inserted=${inserted} dup=${skippedDuplicates} lowConf=${skippedLowConfidence} noSite=${skippedNoWebsite} noPhone=${skippedNoPhone} noAddr=${skippedNoAddress} noImg=${skippedNoImages} durMs=${durationMs}`);
 
     return new Response(
       JSON.stringify({
@@ -1442,6 +1447,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
             run_status: "completed",
             completed_at: new Date().toISOString(),
             duration_ms: Date.now() - startTime,
+            details: runDetails,
           })
           .eq("id", openRow.id);
       }
