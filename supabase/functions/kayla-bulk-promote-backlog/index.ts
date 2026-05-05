@@ -158,7 +158,7 @@ Deno.serve(async (req) => {
         .update({
           is_converted: true,
           converted_business_id: inserted.id,
-          verification_status: "promoted_bulk",
+          verification_status: "promoted",
           verified_at: new Date().toISOString(),
           verification_notes: [{ reason: "bulk_backlog_flush", at: new Date().toISOString() }],
         })
