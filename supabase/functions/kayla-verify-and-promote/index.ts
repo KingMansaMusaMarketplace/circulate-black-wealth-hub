@@ -78,7 +78,7 @@ serve(async (req) => {
 
     let verified = 0, needsReview = 0, rejected = 0, promoted = 0;
 
-    for (const lead of leads || []) {
+    const processLead = async (lead: any) => {
       const reasons: string[] = [];
       const websiteUrl = lead.website_url?.trim();
       if (!websiteUrl) {
@@ -86,7 +86,7 @@ serve(async (req) => {
           .update({ verification_status: "rejected", verification_notes: [{ reason: "no_website", at: new Date().toISOString() }] })
           .eq("id", lead.id);
         rejected++;
-        continue;
+        return;
       }
 
       // Domain dedup against live directory
@@ -102,7 +102,7 @@ serve(async (req) => {
             .update({ verification_status: "rejected", verification_notes: [{ reason: "domain_already_live", at: new Date().toISOString() }] })
             .eq("id", lead.id);
           rejected++;
-          continue;
+          return;
         }
       }
 
@@ -120,7 +120,7 @@ serve(async (req) => {
             .update({ verification_status: "rejected", verification_notes: [{ reason: "name_city_already_live", at: new Date().toISOString() }] })
             .eq("id", lead.id);
           rejected++;
-          continue;
+          return;
         }
       }
 
@@ -129,12 +129,9 @@ serve(async (req) => {
       if (!scrape.ok || scrape.markdown.length < 100) {
         reasons.push(`website_unreachable${scrape.status ? `_${scrape.status}` : ""}`);
       } else {
-        // Check 1: business name appears on the homepage
         if (!fuzzyContains(scrape.markdown, lead.business_name)) {
           reasons.push("name_not_on_homepage");
         }
-
-        // Check 2: phone matches (last 7 digits)
         const claimedPhoneDigits = digitsOnly(lead.phone_number);
         if (claimedPhoneDigits.length >= 7) {
           const last7 = claimedPhoneDigits.slice(-7);
@@ -142,14 +139,11 @@ serve(async (req) => {
             reasons.push("phone_mismatch");
           }
         }
-
-        // Check 3: city appears somewhere on the site
         if (lead.city && !scrape.markdown.toLowerCase().includes(lead.city.toLowerCase())) {
           reasons.push("city_not_on_site");
         }
       }
 
-      // Confidence floor
       if ((lead.confidence_score ?? 0) < 0.75) {
         reasons.push("low_confidence");
       }
@@ -157,7 +151,6 @@ serve(async (req) => {
       const updateNote = { at: new Date().toISOString(), reasons, scrape_ok: scrape.ok };
 
       if (reasons.length === 0) {
-        // PROMOTE to live businesses
         const { error: promoteErr } = await supabase.from("businesses").insert({
           name: lead.business_name,
           business_name: lead.business_name,
@@ -199,12 +192,18 @@ serve(async (req) => {
           promoted++;
         }
       } else {
-        // Send to admin review queue
         await supabase.from("b2b_external_leads")
           .update({ verification_status: "needs_review", verification_notes: [updateNote] })
           .eq("id", lead.id);
         needsReview++;
       }
+    };
+
+    // Process in parallel chunks
+    const allLeads = leads || [];
+    for (let i = 0; i < allLeads.length; i += PARALLEL_CONCURRENCY) {
+      const chunk = allLeads.slice(i, i + PARALLEL_CONCURRENCY);
+      await Promise.all(chunk.map(processLead));
     }
 
     const durationMs = Date.now() - startTime;
