@@ -13,7 +13,8 @@ const corsHeaders = {
 };
 
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
-const BATCH_SIZE = 30;
+const BATCH_SIZE = 150;
+const PARALLEL_CONCURRENCY = 15;
 
 function digitsOnly(s: string | null | undefined): string {
   return (s || "").replace(/\D/g, "");
