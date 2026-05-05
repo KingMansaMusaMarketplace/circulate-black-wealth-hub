@@ -1274,32 +1274,42 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           imageSource = imageSource === "fallback" ? "fallback" : "mixed";
         }
 
-        const businessRecord: Record<string, any> = {
-          name: biz.name.trim(),
+        // STAGING: write to b2b_external_leads with verification_status='pending'.
+        // kayla-verify-and-promote will scrape the website, run quality checks,
+        // and only then promote into the live `businesses` table.
+        const stagingRecord: Record<string, any> = {
           business_name: biz.name.trim(),
-          description: biz.description || `Black-owned ${biz.category || catFocus} business in ${biz.city}, ${biz.state}.`,
+          business_description: biz.description || `Black-owned ${biz.category || catFocus} business in ${biz.city}, ${biz.state}.`,
           category: biz.category || catFocus,
           address: enrichedAddress || "",
           city: biz.city.trim(),
           state: biz.state?.trim() || targetCity.state,
           zip_code: enrichedZip || "",
-          phone: enrichedPhone || "",
-          email: biz.email || "",
-          website: websiteUrl,
-          owner_id: PLACEHOLDER_OWNER_ID,
-          is_verified: true,
-          listing_status: 'live',
+          phone_number: enrichedPhone || "",
+          owner_email: biz.email || null,
+          website_url: websiteUrl,
+          location: `${biz.city.trim()}, ${biz.state?.trim() || targetCity.state}`,
+          source_query: `${catFocus} in ${targetCity.city}, ${targetCity.state}`,
+          source_citations: [],
+          confidence_score: biz.confidence ?? 0.5,
           logo_url: finalLogoUrl,
           banner_url: finalBannerUrl,
+          price_range: biz.price_range || null,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          verification_status: 'pending',
+          perplexity_raw: biz,
         };
 
-        if (coords.latitude !== null) businessRecord.latitude = coords.latitude;
-        if (coords.longitude !== null) businessRecord.longitude = coords.longitude;
-
-        const { error: insertErr } = await supabase.from("businesses").insert(businessRecord);
+        const { error: insertErr } = await supabase
+          .from("b2b_external_leads")
+          .insert(stagingRecord);
 
         if (insertErr) {
-          console.error(`[Kayla Auto-Discover] Insert error for "${biz.name}":`, insertErr.message);
+          // Likely a duplicate (unique index) — that's expected, skip silently
+          if (!insertErr.message?.toLowerCase().includes('duplicate')) {
+            console.error(`[Kayla Auto-Discover] Staging insert error for "${biz.name}":`, insertErr.message);
+          }
           continue;
         }
 
