@@ -837,6 +837,7 @@ serve(async (req) => {
   }
 
   const startTime = Date.now();
+  let runDetails: Record<string, any> = {};
 
   try {
     // AUTH: Require admin or cron secret
