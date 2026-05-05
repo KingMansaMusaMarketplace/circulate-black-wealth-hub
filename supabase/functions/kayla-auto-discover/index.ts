@@ -1061,7 +1061,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         if (!perplexityResponse.ok) {
           const errText = await perplexityResponse.text();
           console.error(`[Kayla Auto-Discover] Perplexity error for ${label}: ${perplexityResponse.status} - ${errText.substring(0, 200)}`);
-          return { businesses: [], citations: [], label, targetCity, categoryFocus };
+          return { businesses: [], citations: [], label, targetCity, categoryFocus, perplexityError: `${perplexityResponse.status}: ${errText.substring(0, 200)}` };
         }
 
         const perplexityData = await perplexityResponse.json();
