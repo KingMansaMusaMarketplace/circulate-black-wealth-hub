@@ -352,10 +352,12 @@ const QUERY_PATTERNS = [
 
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
-// === OPTIMIZATION: High-throughput settings ===
-const NUM_SEARCHES = 75;
-const PER_QUERY_LIMIT = 15;
-const MIN_CONFIDENCE = 0.55;
+// === OPTIMIZATION: Accuracy-first settings ===
+// Lower volume per run, higher confidence threshold. Verification happens in
+// kayla-verify-and-promote before anything reaches the live directory.
+const NUM_SEARCHES = 25;
+const PER_QUERY_LIMIT = 10;
+const MIN_CONFIDENCE = 0.75;
 const SCRAPE_BATCH_SIZE = 40;
 
 // === Category-specific stock banner pools ===
