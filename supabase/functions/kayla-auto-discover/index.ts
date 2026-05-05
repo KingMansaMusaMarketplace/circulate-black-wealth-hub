@@ -1340,30 +1340,35 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     const durationMs = Date.now() - startTime;
     const searchCombosSummary = searchCombos.map(s => `${s.category} in ${s.city.city}, ${s.city.state}`).join("; ");
     const uniqueCategories = [...new Set(searchCombos.map(s => s.category))];
+
+    runDetails = {
+      num_searches: NUM_SEARCHES,
+      per_query_limit: PER_QUERY_LIMIT,
+      unique_categories: uniqueCategories.length,
+      candidates: allCandidates.length,
+      viable_after_filter: viableCandidates.length,
+      after_dedup: dedupedCandidates.length,
+      inserted,
+      skipped_duplicates: skippedDuplicates,
+      skipped_low_confidence: skippedLowConfidence,
+      skipped_no_website: skippedNoWebsite,
+      skipped_no_phone: skippedNoPhone,
+      skipped_no_address: skippedNoAddress,
+      skipped_no_images: skippedNoImages,
+      duration_ms: durationMs,
+      min_confidence: MIN_CONFIDENCE,
+    };
+
     const reportData = {
       report_type: "auto_discover",
       status: "completed",
       summary: `Expanded discovery: ${NUM_SEARCHES} queries across ${uniqueCategories.length} unique categories. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}, No phone: ${skippedNoPhone}, No address: ${skippedNoAddress}. Duration: ${durationMs}ms.`,
       details: {
+        ...runDetails,
         searches: searchCombosSummary,
-        num_searches: NUM_SEARCHES,
-        per_query_limit: PER_QUERY_LIMIT,
-        unique_categories: uniqueCategories.length,
-        candidates_found: allCandidates.length,
-        viable_after_filter: viableCandidates.length,
-        after_dedup: dedupedCandidates.length,
-        inserted,
-        skipped_duplicates: skippedDuplicates,
-        skipped_low_confidence: skippedLowConfidence,
-        skipped_no_website: skippedNoWebsite,
-        skipped_no_phone: skippedNoPhone,
-        skipped_no_address: skippedNoAddress,
-        skipped_no_images: skippedNoImages,
         inserted_names: insertedNames,
         enrichment: enrichmentDetails,
         citations: allCitations,
-        duration_ms: durationMs,
-        min_confidence: MIN_CONFIDENCE,
         quality_gate: "tiered_image_fallback",
         total_category_pool: CATEGORIES.length,
         optimizations: ["expanded_categories", "query_variations", "parallel_enrichment", "batch_dedup", "tiered_images"],
@@ -1375,7 +1380,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     const { error: reportErr } = await supabase.from("kayla_agent_reports").insert(reportData);
     if (reportErr) console.error("[Kayla Auto-Discover] Report insert error:", reportErr.message);
 
-    console.log(`[Kayla Auto-Discover] Complete: ${inserted}/${allCandidates.length} businesses added in ${durationMs}ms`);
+    console.log(`[Kayla Auto-Discover] FUNNEL: candidates=${allCandidates.length} viable=${viableCandidates.length} dedup=${dedupedCandidates.length} inserted=${inserted} dup=${skippedDuplicates} lowConf=${skippedLowConfidence} noSite=${skippedNoWebsite} noPhone=${skippedNoPhone} noAddr=${skippedNoAddress} noImg=${skippedNoImages} durMs=${durationMs}`);
 
     return new Response(
       JSON.stringify({
