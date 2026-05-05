@@ -107,6 +107,8 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = true
   [functions.kayla-auto-discover]
     verify_jwt = false
+  [functions.kayla-bulk-promote-backlog]
+    verify_jwt = false
   [functions.kayla-cashflow-forecast]
     verify_jwt = false
   [functions.kayla-compliance-checker]
