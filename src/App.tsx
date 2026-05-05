@@ -134,6 +134,7 @@ const LazyLoyaltyProgramGuidePage = lazy(() => import('@/pages/LoyaltyProgramGui
 
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAIWorkforceDashboard = lazy(() => import('@/pages/admin/AIWorkforceDashboard'));
+const LazyBusinessReviewQueue = lazy(() => import('@/pages/admin/BusinessReviewQueue'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
 const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
