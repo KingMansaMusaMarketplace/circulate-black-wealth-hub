@@ -1447,6 +1447,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
             run_status: "completed",
             completed_at: new Date().toISOString(),
             duration_ms: Date.now() - startTime,
+            details: runDetails,
           })
           .eq("id", openRow.id);
       }
