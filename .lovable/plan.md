@@ -1,45 +1,64 @@
 ## Goal
-Produce **`1325AI_Complete_Platform_Manual_v20.pdf`** that is **≥ 81 pages** (matching v18's depth) AND includes all v19 corrections. No content regression, no factual regression.
+Produce a professional, attorney-ready **Patent Technical Specification PDF** for updating USPTO Provisional 63/969,202 — built so you can hand it to Fraline (or any patent attorney) and cut their drafting time from ~$6K to ~$2K. Plus the three optional add-ons.
 
-## Root cause
-v19 was rebuilt from a fresh outline instead of patching v18, so ~30 pages of detail were silently dropped (agent profiles, patent section, investor portal, security appendix, ancillary services, ROI worksheets, glossary, etc.).
+## Deliverables (all PDFs, brand palette: Navy #003366 / Gold #FFB300)
 
-## Steps
+### 1. Main: `1325AI_Patent_Technical_Specification_v1.pdf` (~40–55 pages)
+Structured exactly the way a patent attorney consumes a tech disclosure:
 
-1. **Diff v18 vs v19 to find what's missing**
-   - Extract full text of both with `pdftotext -layout`
-   - Build a section-by-section inventory of v18
-   - Mark every section as: (a) present & correct in v19, (b) present but stale in v19, (c) **missing from v19**
-   - Save the inventory to `/tmp/manual_diff_v18_v19.md` for reference
+1. **Cover & Filing Reference** — links to original 63/969,202, filing date, inventor, assignee (Mansa Musa Marketplace, Inc.), continuation-in-part intent
+2. **Executive Summary of New Subject Matter** — what's been built since the original 27 claims
+3. **Field of the Invention** + **Background / Problem Statement** (Alice-resistant framing: technical problem, not business problem)
+4. **Summary of the Invention**
+5. **Detailed Description of the Preferred Embodiments** — the meat:
+   - **Multi-Model Orchestration Engine** (Claude Opus 4.6 + GPT-5 + Gemini via Lovable AI Gateway): routing rules, fallback hierarchy, cost/latency optimization, model-strength matrix
+   - **33-Agent Hierarchical Architecture** (Kayla orchestrator + specialist sub-agents): server-side router, agent learning loop, chat memory + feedback writes, run-log idempotency
+   - **Atomic QR-to-Loyalty Pipeline** (`award_qr_scan` RPC): single-transaction validation + scan-limit + cooldown + point accrual
+   - **Temporal Founding-Member System** (immutable trigger, 2026-09-01 cutoff)
+   - **Circulatory Multiplier Attribution** + **Geospatial Velocity Fraud Detection** (claims 1, 3 expanded)
+   - **Tiered Subscription + Founders' Lock** mechanism (technical implementation, not just pricing)
+   - **Answering Service / Voice AI integration** ($49 add-on) — Realtime Voice + agent routing
+   - **Perplexity Pro integration** as a research-tier model in the orchestration mix
+6. **Drawings (Figures)** — auto-generated technical diagrams:
+   - Fig. 1: System architecture (consumer ↔ orchestrator ↔ 33 agents ↔ DB)
+   - Fig. 2: Multi-model routing decision tree
+   - Fig. 3: Atomic QR-to-loyalty sequence diagram
+   - Fig. 4: Agent learning loop (memory → feedback → run-log)
+   - Fig. 5: Temporal founding-status trigger flow
+   - Fig. 6: Geospatial fraud detection flow
+7. **Proposed Claim Set (Draft, ~15 new claims)** — independent + dependent, written in proper claim language ("A computer-implemented method comprising…") with explicit Alice-resistant technical-improvement framing on every independent claim
+8. **Code Excerpts as Technical Evidence** (appendix) — numbered listings of the actual SQL trigger, `award_qr_scan` RPC signature, agent router, with line references
+9. **Glossary of Terms**
+10. **Inventor Declaration template** (signature page)
 
-2. **Build v20 by starting from v18's full outline**, then applying ONLY these surgical edits:
-   - Replace every "28 agents" → **"33 AI employees"**
-   - Replace every "FTEs Replaced" / dollar-range ROI → **"~4 Roles Covered" + "$12,100+/mo savings"**
-   - Replace pricing section with the **full 4-tier ladder** (Essentials $19 · Starter $79 · Pro $299 · Enterprise from $899 + $50/user) and **Founders' Lock $149/mo for first 100** under Pro
-   - Add the **multi-model orchestration** callout (Claude Opus 4.6 + GPT-5 + Gemini via Lovable AI Gateway) — both in the tech-stack section and the executive summary
-   - Rebuild the **Table of Contents** cleanly (no corrupt dot-leader artifacts)
-   - Ensure **1325.AI** is the lead brand throughout; "Mansa Musa Marketplace, Inc." only in legal/parent-company contexts
+### 2. Add-On A: `Patent_Prior_Art_Search_Summary_v1.pdf` (~8–12 pages)
+- USPTO + Google Patents keyword sweep on each new claim area
+- Closest known prior art per claim, with distinguishing technical features called out
+- "Whitespace map" — where 1325.AI's claims are clear of existing IP
 
-3. **Preserve all v18 sections verbatim where unaffected by the 5 edits above**, including:
-   - Full 33-agent roster with role descriptions
-   - Patent / IP detail (USPTO 63/969,202, IL law)
-   - Investor portal + NDA-first flow
-   - QR loyalty pipeline (atomic award_qr_scan RPC, 24h cooldown)
-   - Security & compliance appendix (CSRF, RLS, edge function rules)
-   - Ancillary services (Mansa Stays, Noire Rideshare)
-   - ROI worksheets and case examples
-   - Glossary / appendix
+### 3. Add-On B: `Patent_Alice_Defense_Memo_v1.pdf` (~6–8 pages)
+- Per-claim Alice/Mayo two-step analysis
+- "Technical improvement" framing language attorney can lift verbatim
+- Red-flag claims (any that read too "business-method-y") with rewrite suggestions
 
-4. **Mandatory QA before delivery**
-   - Confirm `pdfinfo` page count is **≥ 81**
-   - `pdftoppm -jpeg -r 150` and inspect: cover, ToC, every section header, pricing page, agent roster, appendix
-   - `pdftotext` grep checks: zero hits for "28 agents", "FTEs Replaced"; expected hits for "33 AI employees", "$12,100", "Founders' Lock", "$149", "$899", "Claude Opus 4.6", "GPT-5", "Gemini"
-   - Re-render and re-check until all gates pass
+### 4. Add-On C: `Attorney_Engagement_Brief_v1.pdf` (~4 pages)
+- One-page cover letter to Fraline
+- Scope of work checklist (what you want her to do vs. what's already done)
+- Budget/timeline expectations ($2K target, 2-week turnaround)
+- Filing-deadline tracker (12-month conversion clock from original provisional)
 
-5. **Deliver** v20 as a `<lov-artifact>` with a short changelog vs v19 (what was restored) and vs v18 (what was corrected).
+## Technical approach
+- **ReportLab Platypus** (same toolchain as v29 manual) — reuse navy/gold styles, `TH_W` white-header table style, 150-DPI QA pipeline
+- **matplotlib** for the 6 figures (clean technical line art, navy strokes, gold accents)
+- All files written to `/mnt/documents/`
+- Mandatory visual QA on every page before delivery — re-render until clean
+- No Unicode subscripts (use `<sub>` tags); brand-consistent typography
+- Conservative, attorney-grade voice (no marketing fluff in the spec itself; Alice-defense memo can be more persuasive)
 
-## Technical notes
-- Generation script: `/tmp/manual_v20.py` using `reportlab.platypus`
-- Brand palette: Navy `#003366`, Gold `#FFB300`
-- Keep v19 around — do not overwrite
-- If section text needs to be lifted from v18, extract via `pdftotext -layout` and reflow into Paragraph flowables (don't try to merge PDF pages directly — formatting will drift)
+## What I will NOT do
+- Will not transmit anything to Fraline (you deliver)
+- Will not give legal advice — every doc carries a "Draft for attorney review" watermark
+- Will not invent prior-art citations — Add-On A uses public USPTO/Google Patents data only, clearly sourced
+
+## Output
+Four `<lov-artifact>` PDFs delivered together, plus a short summary of what's in each and a recommended order to walk Fraline through them.
