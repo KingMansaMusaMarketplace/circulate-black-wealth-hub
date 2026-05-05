@@ -1,30 +1,46 @@
-# Restore Kayla Discovery Throughput
+# One-Shot Backlog Flush + Keep Strict Verification
 
-## Problem
-Last 24h only 15 verified businesses inserted (vs. perceived "600/hr"). Root causes:
-1. `details` JSON in `kayla_run_log` is empty `{}` on completed runs — can't see funnel
-2. 9-minute self-lockout skips ~50% of cron triggers
-3. Duplicate cron jobs racing into the lockout
-4. Verification gate may be over-rejecting (unknown without step 1)
+## Goal
+Promote the ~391 stuck `b2b_external_leads` (status `pending` + `needs_review`) into the `businesses` directory in a single run, while keeping the strict verify-and-promote gate as the default for all new leads going forward.
 
 ## Changes
 
-### 1. `supabase/functions/kayla-auto-discover/index.ts`
-- Ensure the completion `kayla_run_log` insert writes a populated `details` object: `candidates`, `inserted`, `skipped_duplicate`, `skipped_low_confidence`, `skipped_no_website`, `skipped_no_phone`, `skipped_no_address`, `perplexity_errors`, `num_searches`, `duration_ms`
-- Shorten self-lockout from 9 min → 2 min (line ~884)
-- Add a top-level `console.log` summary line for the funnel for easy log scanning
+### 1. New edge function: `kayla-bulk-promote-backlog`
+File: `supabase/functions/kayla-bulk-promote-backlog/index.ts`
 
-### 2. SQL migration — dedupe cron jobs
-- Inspect `cron.job` for all `kayla-auto-discover` entries
-- Unschedule duplicates, keep ONE entry running `*/5 * * * *`
-- Keep `kayla-auto-discover-businesses-v2` unscheduled (per `.lovable/plan.md`)
+- `verify_jwt = false` (admin-invoked)
+- Uses `SUPABASE_SERVICE_ROLE_KEY` internally
+- Query target leads:
+  - `verification_status IN ('pending','needs_review')`
+  - `is_converted = false`
+  - Order by `lead_score DESC NULLS LAST, created_at ASC`
+  - Batch size 500, parallel chunks of 25
+- For each lead:
+  1. Normalize `website_domain` (strip protocol/www/path, lowercase)
+  2. Normalize `(name, city)` — lowercase, trim, collapse whitespace
+  3. **Dedup check** against `businesses`:
+     - Skip if any row matches `website_domain`
+     - Skip if any row matches `(normalized_name, city)`
+  4. Insert into `businesses` with:
+     - `listing_status = 'live'`
+     - `is_verified = true`
+     - `verification_source = 'bulk_backlog_flush'`
+     - Map name, description, category, website, phone, email, address, city, state, lat/lng from the lead
+  5. Update lead: `is_converted = true`, `converted_business_id = <new id>`, `verification_status = 'promoted_bulk'`
+- Returns JSON summary: `{ processed, promoted, skipped_duplicate_domain, skipped_duplicate_name_city, skipped_missing_required, errors }`
 
-### 3. Manual test run after deploy
-- Invoke the function once via curl
-- Read the new `details` row to identify the real bottleneck (Perplexity empty? gate too strict? dedup?)
-- Report findings back before touching the verification gate or `NUM_SEARCHES`
+### 2. One-shot invocation (no cron)
+After deploy, invoke once via the Supabase curl tool. Do NOT schedule it in `cron.job`. Strict `kayla-verify-and-promote` (every 3 min) remains the default path for all newly-discovered leads.
 
-## Out of scope (next round, after diagnostics)
-- Loosening verification thresholds
-- Increasing `NUM_SEARCHES` above 120
-- Swapping Perplexity for another provider
+### 3. No schema changes
+Reuses existing columns on `b2b_external_leads` and `businesses`. No migration required unless we discover a missing column during implementation, in which case I'll add the minimum needed.
+
+## Out of scope
+- Loosening the strict verifier
+- Scheduling the bulk promoter on a recurring cron
+- Increasing Perplexity `NUM_SEARCHES` (revisit after 24h if volume still lags)
+
+## Verification after run
+- Report counts: promoted vs skipped (with reasons)
+- Spot-check 5 promoted businesses on `/directory`
+- Confirm `b2b_external_leads` backlog (`pending` + `needs_review`, not converted) drops to ~0
