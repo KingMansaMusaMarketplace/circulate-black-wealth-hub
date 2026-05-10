@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '15525 Emerald Way, Bowie, MD 20716', phone = '(240) 929-4909', website = 'https://yvonneexclusive.com', updated_at = now() WHERE id = 'd8d5afa8-2ab8-409e-b113-3be754a27f91';
