@@ -35,19 +35,7 @@ const BasicInfoFields = () => {
           )}
         />
         
-        <FormField
-          control={control}
-          name="category"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g. Restaurant, Retail, Services" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <CategoryField form={methods} name="category" />
       </div>
 
       <FormField
