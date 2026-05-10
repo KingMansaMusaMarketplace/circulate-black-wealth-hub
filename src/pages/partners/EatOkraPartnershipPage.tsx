@@ -37,7 +37,7 @@ const EatOkraPartnershipPage: React.FC = () => {
 
   const handleScheduleCall = () => {
     // Open Calendly or email
-    window.open('mailto:partnerships@1325.ai?subject=EatOkra%20Partnership%20Inquiry', '_blank');
+    window.open('mailto:Thomas@1325.AI?subject=EatOkra%20Partnership%20Inquiry', '_blank');
   };
 
   return (
@@ -285,7 +285,7 @@ const EatOkraPartnershipPage: React.FC = () => {
                     variant="outline"
                     className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-6 rounded-xl"
                     onClick={() => {
-                      window.open('mailto:partnerships@1325.ai?subject=EatOkra%20Partnership%20PDF%20Request', '_blank');
+                      window.open('mailto:Thomas@1325.AI?subject=EatOkra%20Partnership%20PDF%20Request', '_blank');
                     }}
                   >
                     <Download className="w-5 h-5 mr-2" />
@@ -296,11 +296,11 @@ const EatOkraPartnershipPage: React.FC = () => {
                 <div className="mt-8 pt-8 border-t border-white/10">
                   <p className="text-sm text-blue-200/60 mb-2">Partnership Inquiries</p>
                   <a 
-                    href="mailto:partnerships@1325.ai"
+                    href="mailto:Thomas@1325.AI"
                     className="text-mansagold hover:text-mansagold-light inline-flex items-center gap-2"
                   >
                     <Mail className="w-4 h-4" />
-                    partnerships@1325.ai
+                    Thomas@1325.AI
                   </a>
                 </div>
               </CardContent>

@@ -106,7 +106,7 @@ const handler = async (req: Request): Promise<Response> => {
             <p>If you have questions about this decision or would like to discuss alternative partnership opportunities, please don't hesitate to reach out to our partnerships team:</p>
             
             <ul>
-              <li>📧 Email: partnerships@1325.ai</li>
+              <li>📧 Email: Thomas@1325.AI</li>
               <li>📞 Phone: (555) 123-4567</li>
             </ul>
             

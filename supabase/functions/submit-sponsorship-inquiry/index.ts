@@ -115,7 +115,7 @@ serve(async (req) => {
 
     try {
       await resend.emails.send({
-        from: "Partnerships <partnerships@1325.ai>",
+        from: "Partnerships <Thomas@1325.AI>",
         to: [adminEmail],
         reply_to: payload.email,
         subject: `New Partnership Inquiry — ${payload.companyName} (${TIER_LABELS[payload.sponsorshipTier] ?? payload.sponsorshipTier})`,
@@ -143,7 +143,7 @@ serve(async (req) => {
 
       // Acknowledgement to the prospect
       await resend.emails.send({
-        from: "1325.AI Partnerships <partnerships@1325.ai>",
+        from: "1325.AI Partnerships <Thomas@1325.AI>",
         to: [payload.email],
         subject: "We received your partnership inquiry — 1325.AI",
         html: `
