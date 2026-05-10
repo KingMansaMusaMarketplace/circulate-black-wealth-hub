@@ -55,6 +55,8 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   const startTime = Date.now();
+  let supabase: any = null;
+  let runId: string | null = null;
   try {
     const auth = await requireAdminOrCron(req, corsHeaders);
     if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
@@ -62,7 +64,7 @@ serve(async (req) => {
     const firecrawlKey = Deno.env.get("FIRECRAWL_API_KEY");
     if (!firecrawlKey) throw new Error("FIRECRAWL_API_KEY required");
 
-    const supabase = createClient(
+    supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     ) as any;
@@ -112,6 +114,7 @@ serve(async (req) => {
       .insert({ agent_name: "kayla-verify-and-promote", run_status: "started" })
       .select("id")
       .single();
+    runId = runRow?.id ?? null;
 
     let verified = 0, needsReview = 0, rejected = 0, promoted = 0;
 
@@ -262,7 +265,7 @@ serve(async (req) => {
       issues_fixed: promoted,
     });
 
-    if (runRow?.id) {
+    if (runId) {
       await supabase
         .from("kayla_run_log")
         .update({
@@ -271,7 +274,7 @@ serve(async (req) => {
           duration_ms: durationMs,
           details: { processed: leads?.length || 0, promoted, needs_review: needsReview, rejected },
         })
-        .eq("id", runRow.id);
+        .eq("id", runId);
     }
 
     return new Response(JSON.stringify({
@@ -280,6 +283,17 @@ serve(async (req) => {
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Unknown error";
     console.error("[Kayla Verify] Error:", msg);
+    if (supabase && runId) {
+      await supabase
+        .from("kayla_run_log")
+        .update({
+          run_status: "failed",
+          completed_at: new Date().toISOString(),
+          duration_ms: Date.now() - startTime,
+          details: { error: msg },
+        })
+        .eq("id", runId);
+    }
     return new Response(JSON.stringify({ success: false, error: msg }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
