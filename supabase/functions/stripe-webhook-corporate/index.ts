@@ -62,7 +62,7 @@ serve(async (req) => {
         }
 
         // Validate tier value
-        const validTiers = ["bronze", "silver", "gold", "platinum"];
+        const validTiers = ["founding", "bronze", "silver", "gold", "platinum"];
         if (!validTiers.includes(metadata.tier.toLowerCase())) {
           console.error("Invalid tier value:", metadata.tier);
           return new Response(
