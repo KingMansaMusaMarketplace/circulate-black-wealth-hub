@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '5108 N Broadway, Chicago, IL 60640', phone = '(773) 593-4562', website = 'https://thegsafricanfashion.com', updated_at = now() WHERE id = '07e9c315-aa79-4422-9b06-61ceb5e18cff';
