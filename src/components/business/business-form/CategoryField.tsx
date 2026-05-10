@@ -62,6 +62,11 @@ const CategoryField: React.FC<CategoryFieldProps> = ({ form, name }) => {
                         key={category.id}
                         value={category.name}
                         onSelect={() => {
+                          // Guard against drift-click: ignore selections that fire
+                          // within the first 300ms of the popover opening, which
+                          // happens when a user clicks the trigger and releases
+                          // over the first item without intending to choose it.
+                          if (Date.now() - openedAtRef.current < 300) return;
                           form.setValue(name, category.id);
                           setOpen(false);
                         }}
