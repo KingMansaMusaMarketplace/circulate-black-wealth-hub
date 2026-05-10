@@ -665,6 +665,25 @@ serve(async (req) => {
     const checkType = body.checkType || "scheduled";
     const autoFix = body.autoFix !== false; // Default: true
 
+    if (checkType === "scheduled") {
+      const fiftyFiveMinutesAgo = new Date(Date.now() - 55 * 60 * 1000).toISOString();
+      const { data: recentScheduled } = await supabase
+        .from("kayla_health_checks")
+        .select("id, created_at")
+        .eq("check_type", "scheduled")
+        .gte("created_at", fiftyFiveMinutesAgo)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (recentScheduled) {
+        return new Response(
+          JSON.stringify({ success: true, skipped: true, reason: "recent_scheduled_health_check", lastRun: recentScheduled.created_at }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    }
+
     console.log(`🏥 Kayla Health Check starting (${checkType}, autoFix=${autoFix})...`);
 
     // Run core checks in parallel (including signup monitoring)
