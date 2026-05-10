@@ -97,6 +97,24 @@ serve(async (req) => {
           );
         }
 
+        // Fetch the actual subscription from Stripe to get real billing period
+        let periodStart = new Date().toISOString();
+        let periodEnd = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+        let subStatus: string = "active";
+        let cancelAtPeriodEnd = false;
+
+        if (session.subscription) {
+          try {
+            const stripeSub = await stripe.subscriptions.retrieve(session.subscription as string);
+            periodStart = new Date(stripeSub.current_period_start * 1000).toISOString();
+            periodEnd = new Date(stripeSub.current_period_end * 1000).toISOString();
+            subStatus = stripeSub.status;
+            cancelAtPeriodEnd = stripeSub.cancel_at_period_end;
+          } catch (retrieveErr) {
+            console.error("Failed to retrieve subscription from Stripe, using fallback period:", retrieveErr);
+          }
+        }
+
         // Create or update corporate subscription using service role (bypasses RLS)
         const { error: subError } = await supabase
           .from("corporate_subscriptions")
@@ -108,9 +126,10 @@ serve(async (req) => {
             website_url: metadata.website_url?.substring(0, 2048) || null,
             stripe_customer_id: session.customer as string,
             stripe_subscription_id: session.subscription as string,
-            status: "active",
-            current_period_start: new Date().toISOString(),
-            current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            status: subStatus,
+            current_period_start: periodStart,
+            current_period_end: periodEnd,
+            cancel_at_period_end: cancelAtPeriodEnd,
           }, {
             onConflict: "user_id",
           });
