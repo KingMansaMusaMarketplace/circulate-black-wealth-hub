@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,6 +17,11 @@ interface CategoryFieldProps {
 
 const CategoryField: React.FC<CategoryFieldProps> = ({ form, name }) => {
   const [open, setOpen] = useState(false);
+  const openedAtRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (open) openedAtRef.current = Date.now();
+  }, [open]);
 
   return (
     <FormField
@@ -57,6 +62,11 @@ const CategoryField: React.FC<CategoryFieldProps> = ({ form, name }) => {
                         key={category.id}
                         value={category.name}
                         onSelect={() => {
+                          // Guard against drift-click: ignore selections that fire
+                          // within the first 300ms of the popover opening, which
+                          // happens when a user clicks the trigger and releases
+                          // over the first item without intending to choose it.
+                          if (Date.now() - openedAtRef.current < 300) return;
                           form.setValue(name, category.id);
                           setOpen(false);
                         }}
