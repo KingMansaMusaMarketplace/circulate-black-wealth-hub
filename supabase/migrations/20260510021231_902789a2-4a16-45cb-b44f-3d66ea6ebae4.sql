@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '14707 Main St, Upper Marlboro, MD 20772', phone = '(240) 898-8661', email = 'info@afriquefashionhouse.com', website = 'afriquefashionhouse.com', banner_url = 'https://www.1325.ai/business-banners/afrique-fashion-house-banner.jpg', updated_at = now() WHERE id = '24be706e-bf18-478a-a21d-3e0bafb5666b';
