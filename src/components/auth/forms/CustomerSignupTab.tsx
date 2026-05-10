@@ -110,7 +110,28 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
         } catch (betaErr) {
           console.warn('[CUSTOMER SIGNUP] Beta tester check failed (non-blocking):', betaErr);
         }
-        
+
+        // Send welcome email (non-blocking) — only if we have a session (auth header required)
+        if (authData.session) {
+          try {
+            const { error: emailErr } = await supabase.functions.invoke('send-business-notification', {
+              body: {
+                type: 'new_customer',
+                userId: authData.user.id,
+                recipientEmail: data.email,
+                customerName: data.email.split('@')[0],
+              },
+            });
+            if (emailErr) {
+              console.warn('[CUSTOMER SIGNUP] Welcome email failed (non-blocking):', emailErr);
+            } else {
+              console.log('[CUSTOMER SIGNUP] Welcome email sent');
+            }
+          } catch (emailErr) {
+            console.warn('[CUSTOMER SIGNUP] Welcome email error (non-blocking):', emailErr);
+          }
+        }
+
         const pendingSubscription = sessionStorage.getItem('pendingSubscription');
         
         setSuccess(true);
