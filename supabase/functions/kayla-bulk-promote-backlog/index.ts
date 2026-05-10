@@ -215,7 +215,7 @@ Deno.serve(async (req) => {
     const { count: remaining } = await supabase
       .from("b2b_external_leads")
       .select("id", { count: "exact", head: true })
-      .in("verification_status", ["pending", "needs_review"])
+      .in("verification_status", statuses)
       .eq("is_converted", false);
 
     return new Response(
