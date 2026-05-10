@@ -60,9 +60,12 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
     try {
       console.log('[CUSTOMER SIGNUP] Starting signup process...');
       
+      const cap = (window as any).Capacitor;
+      const isNative = !!(cap && typeof cap.isNativePlatform === 'function' && cap.isNativePlatform());
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const isCapacitor = !!(window as any).Capacitor;
-      const platform = isCapacitor ? (/(iPhone|iPad|iPod)/i.test(navigator.userAgent) ? 'ios' : 'android') : (isMobile ? 'mobile_web' : 'web');
+      const platform = isNative
+        ? (/(iPhone|iPad|iPod)/i.test(navigator.userAgent) ? 'ios' : 'android')
+        : (isMobile ? 'mobile_web' : 'web');
       
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: data.email,
@@ -107,7 +110,28 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
         } catch (betaErr) {
           console.warn('[CUSTOMER SIGNUP] Beta tester check failed (non-blocking):', betaErr);
         }
-        
+
+        // Send welcome email (non-blocking) — only if we have a session (auth header required)
+        if (authData.session) {
+          try {
+            const { error: emailErr } = await supabase.functions.invoke('send-business-notification', {
+              body: {
+                type: 'new_customer',
+                userId: authData.user.id,
+                recipientEmail: data.email,
+                customerName: data.email.split('@')[0],
+              },
+            });
+            if (emailErr) {
+              console.warn('[CUSTOMER SIGNUP] Welcome email failed (non-blocking):', emailErr);
+            } else {
+              console.log('[CUSTOMER SIGNUP] Welcome email sent');
+            }
+          } catch (emailErr) {
+            console.warn('[CUSTOMER SIGNUP] Welcome email error (non-blocking):', emailErr);
+          }
+        }
+
         const pendingSubscription = sessionStorage.getItem('pendingSubscription');
         
         setSuccess(true);
