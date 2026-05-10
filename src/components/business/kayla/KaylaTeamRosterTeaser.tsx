@@ -1,14 +1,15 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bot, ArrowRight, Megaphone, DollarSign, Briefcase, Heart } from 'lucide-react';
+import { Bot, ArrowRight, Crown, Megaphone, DollarSign, Briefcase, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const SUMMARY = [
+  { dept: 'Leadership', icon: Crown, count: 9, color: 'text-mansagold bg-mansagold/10 border-mansagold/30' },
   { dept: 'Marketing', icon: Megaphone, count: 7, color: 'text-pink-400 bg-pink-500/10 border-pink-500/30' },
   { dept: 'Finance', icon: DollarSign, count: 6, color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' },
-  { dept: 'Operations', icon: Briefcase, count: 8, color: 'text-slate-300 bg-slate-500/10 border-slate-500/30' },
-  { dept: 'Community', icon: Heart, count: 4, color: 'text-red-400 bg-red-500/10 border-red-500/30' },
+  { dept: 'Operations', icon: Briefcase, count: 6, color: 'text-slate-300 bg-slate-500/10 border-slate-500/30' },
+  { dept: 'Community', icon: Heart, count: 5, color: 'text-red-400 bg-red-500/10 border-red-500/30' },
 ];
 
 /**
