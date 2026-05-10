@@ -114,13 +114,13 @@ export const pageSEO = {
     keywords: ['Black-owned business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
   },
   directory: {
-    title: 'Black-Owned Business Directory | Search 36,000+ Verified Listings | 1325.AI',
-    description: 'Search the largest Black-owned business directory. 36,000+ verified Black-owned restaurants, services, shops & professionals across all cities.',
+    title: 'Black-Owned Business Directory | Search 50,000+ Verified Listings | 1325.AI',
+    description: 'Search the largest Black-owned business directory. 50,000+ verified Black-owned restaurants, services, shops & professionals across all cities.',
     keywords: ['Black-owned business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
   about: {
     title: 'About 1325.AI | Black-Owned Business Discovery Platform',
-    description: '1325.AI is the largest Black-owned business directory — circulating Black dollars intentionally through 36,000+ verified businesses nationwide.',
+    description: '1325.AI is the largest Black-owned business directory — circulating Black dollars intentionally through 50,000+ verified businesses nationwide.',
     keywords: ['about 1325.AI', 'Black-owned business platform', 'Black economic empowerment', 'Black dollar circulation', 'support Black businesses'],
   },
   howItWorks: {

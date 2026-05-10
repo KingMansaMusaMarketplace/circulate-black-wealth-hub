@@ -186,7 +186,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            36,000+ verified businesses. Loyalty rewards on every purchase. Always free for consumers.
+            50,000+ verified businesses. Loyalty rewards on every purchase. Always free for consumers.
           </motion.p>
 
           {/* Search bar with autocomplete */}
