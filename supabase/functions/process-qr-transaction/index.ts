@@ -21,7 +21,35 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
-const COMMISSION_RATE = 7.5; // 7.5% platform commission
+// Tiered platform fee (lower for paid subscribers)
+const DEFAULT_COMMISSION_RATE = 1.0; // 1% baseline platform fee
+const TIER_COMMISSION_RATES: Record<string, number> = {
+  pro: 0.5,
+  business_pro: 0.5,
+  enterprise: 0.25,
+  founders_lock: 0.25,
+};
+
+async function getCommissionRate(supabase: any, businessId: string): Promise<number> {
+  try {
+    const { data: biz } = await supabase
+      .from("businesses")
+      .select("owner_id")
+      .eq("id", businessId)
+      .single();
+    if (!biz?.owner_id) return DEFAULT_COMMISSION_RATE;
+    const { data: sub } = await supabase
+      .from("subscribers")
+      .select("subscription_tier, subscribed")
+      .eq("user_id", biz.owner_id)
+      .maybeSingle();
+    if (!sub?.subscribed) return DEFAULT_COMMISSION_RATE;
+    const tier = (sub.subscription_tier || "").toLowerCase();
+    return TIER_COMMISSION_RATES[tier] ?? DEFAULT_COMMISSION_RATE;
+  } catch {
+    return DEFAULT_COMMISSION_RATE;
+  }
+}
 
 const qrTransactionSchema = z.object({
   businessId: z.string().uuid(),
