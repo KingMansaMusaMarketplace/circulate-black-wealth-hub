@@ -57,6 +57,10 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     const bgStyle = theme === 'gold' 
       ? `background: ${colors.bg};` 
       : `background-color: ${colors.bg};`;
+    // Escape any user-controlled values before injecting into HTML
+    const safeName = escapeHtml(partner.directory_name || '');
+    const safeLinkRaw = sanitizeUrl(partner.referral_link || '') ?? 'https://1325.ai';
+    const safeLink = escapeHtml(safeLinkRaw);
 
     if (style === 'minimal') {
       return `<!-- 1325.AI Partner Banner - Minimal -->
