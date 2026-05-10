@@ -44,10 +44,16 @@ const BasicInfoFields = () => {
           <FormItem>
             <FormLabel>Business Description</FormLabel>
             <FormControl>
-              <Textarea 
-                placeholder="Describe your business..." 
-                className="min-h-[100px]"
-                {...field} 
+              <Textarea
+                placeholder="Describe your business..."
+                className="min-h-[100px] scroll-mb-32"
+                onFocus={(e) => {
+                  // Ensure the field is fully visible above the iOS keyboard
+                  setTimeout(() => {
+                    e.currentTarget?.scrollIntoView({ block: "center", behavior: "smooth" });
+                  }, 100);
+                }}
+                {...field}
               />
             </FormControl>
             <FormMessage />
