@@ -142,6 +142,11 @@ const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyt
 const LazyQRCodeGeneratorPage = lazy(() => import('@/pages/QRCodeGeneratorPage'));
 const LazyQRCodeManagementPage = lazy(() => import('@/pages/QRCodeManagementPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
+const LazyFeaturedPlacementPage = lazy(() => import('@/pages/business/FeaturedPlacementPage'));
+const LazyInstitutionalAPIPage = lazy(() => import('@/pages/InstitutionalAPIPage'));
+const LazyAPIDocsPage = lazy(() => import('@/pages/developer/APIDocsPage'));
+const LazyAdminPlatformRevenuePage = lazy(() => import('@/pages/admin/PlatformRevenuePage'));
+const LazyAdminAPIClientsPage = lazy(() => import('@/pages/admin/APIClientsPage'));
 
 // Unified Test Dashboard (consolidates all test pages)
 const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard'));
