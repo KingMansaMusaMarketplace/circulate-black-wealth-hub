@@ -113,6 +113,8 @@ serve(async (req) => {
       .select("id")
       .single();
 
+    let verified = 0, needsReview = 0, rejected = 0, promoted = 0;
+
     const { data: leads, error: fetchErr } = await supabase
       .from("b2b_external_leads")
       .select("*")
@@ -121,8 +123,6 @@ serve(async (req) => {
       .limit(BATCH_SIZE);
 
     if (fetchErr) throw new Error(`Fetch leads failed: ${fetchErr.message}`);
-
-    let verified = 0, needsReview = 0, rejected = 0, promoted = 0;
 
     const processLead = async (lead: any) => {
       const reasons: string[] = [];
