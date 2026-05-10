@@ -120,17 +120,10 @@ const MarketingStudio: React.FC = () => {
     </div>
   );
 
-  // Show loading while auth is initializing
-  if (loading || !authInitialized) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
-      </div>
-    );
-  }
+  // If business user (once auth is ready), wrap in DashboardLayout
+  const isBusinessUser = authInitialized && !loading && user && userType === 'business';
 
-  // If business user, wrap in DashboardLayout
-  if (user && userType === 'business') {
+  if (isBusinessUser) {
     return (
       <>
         <Helmet>
@@ -144,7 +137,6 @@ const MarketingStudio: React.FC = () => {
     );
   }
 
-  // Non-business users or guests get standalone page
   return (
     <div className="min-h-screen p-6 bg-background">
       <Helmet>
