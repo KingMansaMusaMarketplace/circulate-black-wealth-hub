@@ -45,7 +45,15 @@ Deno.serve(async (req) => {
     batches: 0,
   };
 
+  let statuses = ["pending", "needs_review"];
   try {
+    try {
+      const body = await req.json();
+      if (Array.isArray(body?.statuses) && body.statuses.length > 0) {
+        statuses = body.statuses;
+      }
+    } catch { /* no body */ }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
@@ -62,7 +70,7 @@ Deno.serve(async (req) => {
       const { data: leads, error: leadsErr } = await supabase
         .from("b2b_external_leads")
         .select("*")
-        .in("verification_status", ["pending", "needs_review"])
+        .in("verification_status", statuses)
         .eq("is_converted", false)
         .order("lead_score", { ascending: false, nullsFirst: false })
         .order("created_at", { ascending: true })
@@ -207,7 +215,7 @@ Deno.serve(async (req) => {
     const { count: remaining } = await supabase
       .from("b2b_external_leads")
       .select("id", { count: "exact", head: true })
-      .in("verification_status", ["pending", "needs_review"])
+      .in("verification_status", statuses)
       .eq("is_converted", false);
 
     return new Response(
