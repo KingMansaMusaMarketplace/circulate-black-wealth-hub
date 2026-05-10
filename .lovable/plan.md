@@ -1,71 +1,78 @@
-## What we're adding
+# Three New Revenue Streams
 
-Three AI upgrades, shipped as small, isolated edge functions + UI surfaces. None of them touch existing payment, auth, or Kayla agent routing logic.
+Implementing the top 3 monetization opportunities from the audit. All three are net-new revenue surfaces that complement existing subscriptions and don't disturb consumer-free promises.
 
 ---
 
-### 1. Vision AI — Photo-to-Product (vendor onboarding)
+## 1. QR Transaction Fee (1% platform fee)
 
-**Where:** Product image upload form (`src/components/business/product-images/form/`)
-
-**Flow:**
-1. Vendor uploads/selects a product photo (existing flow already captures `previewUrl`)
-2. New "✨ Auto-fill from photo" button appears next to the upload area
-3. Calls new edge function `analyze-product-image` → Lovable AI Gateway with `google/gemini-2.5-pro` (vision)
-4. Returns: `{ title, category, suggestedPrice, description, tags[], altText }`
-5. Auto-populates form fields; vendor reviews and submits
+**What it does:** Every paid QR-loyalty transaction routed through `process-qr-transaction` already calculates a 7.5% commission. We will:
+- Add a configurable `platform_fee_percentage` field on the businesses/subscriptions side (default 1%, overridable per tier — Pro/Enterprise get 0.5%).
+- Persist each fee in `platform_transactions` (table already exists).
+- Add an admin revenue widget at `/admin/revenue` showing total QR fees collected, count, MRR contribution.
+- Surface "Platform fee: X%" transparently in `QRPaymentButton` so businesses see what's deducted.
 
 **Files:**
-- NEW: `supabase/functions/analyze-product-image/index.ts`
-- NEW: `src/hooks/use-product-image-analysis.ts`
-- EDIT: `src/components/business/product-images/form/tabs/SingleUploadTab.tsx` (add button)
+- Edit `supabase/functions/process-qr-transaction/index.ts` — read fee % from business tier, default 1%.
+- Edit `src/components/qr/QRPaymentButton.tsx` — show dynamic fee instead of hardcoded 7.5%.
+- New `src/pages/admin/PlatformRevenuePage.tsx` — aggregated view of QR fees + transactions.
 
 ---
 
-### 2. Real-time Web Search for Kayla
+## 2. Featured Directory Placement
 
-**Where:** Kayla agent edge function (will locate via search — likely `supabase/functions/kayla-*/index.ts`)
+**What it does:** Paid promotion to pin a business at the top of category/city searches and on the spotlight carousel. $20–$200/mo tiers.
 
-**Flow:**
-1. Add new tool `web_search` to Kayla's AI SDK tool set
-2. Tool uses **Firecrawl connector** (`firecrawl/v2/search`) — gives Kayla live web results + scraped content
-3. Kayla auto-invokes when user asks: "What are competitors charging?", "Latest grant deadlines for Black-owned businesses?", "Current Chicago BHM events?"
-4. Results fold into Kayla's existing streaming response
+**DB migration:**
+- New table `featured_placements` (business_id, tier, category, city, starts_at, ends_at, status, stripe_subscription_id, priority_score).
+- RLS: businesses can read/insert their own; public read for active rows.
+- Index on (category, city, status, ends_at).
 
-**Files:**
-- EDIT: Kayla's main agent edge function (add `web_search` tool)
-- Requires: Firecrawl connector linked (will prompt user via `standard_connectors--connect`)
+**Edge functions:**
+- New `create-featured-placement-checkout` — Stripe Checkout subscription for 4 tiers (Bronze $20, Silver $50, Gold $100, Platinum $200).
+- Reuse existing stripe-webhook to activate/expire placements.
 
----
-
-### 3. AI Image Generation — Marketing Studio
-
-**Where:** New tab in business dashboard
-
-**Flow:**
-1. New "Marketing Studio" section with prompt input + style presets (Banner / Social Post / Promo Flyer)
-2. Calls new edge function `generate-marketing-image` → Lovable AI Gateway with `google/gemini-3-pro-image-preview`
-3. Generated image previews; vendor can download or save directly to their `marketing_materials` table (already exists per `src/types/marketing-material.ts`)
-4. Auto-fills dimensions based on preset (1200x400 banner, 1080x1080 social, etc.)
-
-**Files:**
-- NEW: `supabase/functions/generate-marketing-image/index.ts`
-- NEW: `src/components/business/marketing-studio/MarketingStudio.tsx`
-- NEW: `src/hooks/use-marketing-image-gen.ts`
-- EDIT: Business dashboard page to add the new tab/route
+**UI:**
+- New `src/pages/business/FeaturedPlacementPage.tsx` — tier selector, category/city scope, checkout.
+- Edit directory sort logic (`src/utils/businessSorting` or wherever spotlight pulls) to give featured rows top priority with a "Featured" badge.
+- Add "Promote your business" CTA on business dashboard.
 
 ---
 
-## Order of work
+## 3. Data & Insights API (institutional)
 
-1. Ship #1 (Vision AI) first — smallest blast radius, biggest "wow" for vendor onboarding
-2. Ship #3 (Marketing Studio) — uses same gateway pattern
-3. Ship #2 (Kayla web search) — requires Firecrawl connector approval from you
+**What it does:** Tiered API for banks, foundations, CRA-compliant institutions to query anonymized circulation, demographic, and dollar-velocity data. Patent-protected ledger already exists.
 
-## Tech notes
+**DB migration:**
+- New table `api_clients` (org_name, contact_email, tier, monthly_quota, api_key_hash, status, created_at).
+- New table `api_usage_logs` (client_id, endpoint, queried_at, response_ms, status_code).
+- RLS: admin-only writes; clients identified via API key in edge function.
 
-- All three use the existing **Lovable AI Gateway** pattern (no new API keys needed for #1 and #3)
-- #2 needs **Firecrawl connector** (free tier available; I'll prompt you to connect when we get there)
-- All edge functions follow existing CORS + `x-csrf-token` rules from project memory
-- All UI components use semantic tokens (MansaBlue/MansaGold theme)
-- Brand copy stays "1325.AI" as primary
+**Edge functions:**
+- New `data-insights-api` — public endpoint, validates `Authorization: Bearer <api_key>`, enforces quota, returns anonymized aggregates:
+  - `/circulation` — dollar velocity by city/category
+  - `/demographics` — anonymized signup counts, no PII
+  - `/business-density` — verified business counts by region
+- New `provision-api-client` — admin-only, generates API key, hashes it, returns one-time plaintext.
+
+**UI:**
+- New `src/pages/InstitutionalAPIPage.tsx` — public marketing page with tiers ($99 Starter / $499 Pro / $999 Enterprise), "Request Access" form.
+- New `src/pages/admin/APIClientsPage.tsx` — admin manages clients, sees usage.
+- New `src/pages/developer/APIDocsPage.tsx` — endpoint docs, code samples.
+
+---
+
+## Order of execution
+
+1. DB migrations (combined: `featured_placements`, `api_clients`, `api_usage_logs`).
+2. QR fee tweak (smallest, fastest win).
+3. Featured Placement (checkout + sort logic + UI).
+4. Data API (edge functions + marketing page + admin + docs).
+
+## Out of scope
+
+- iOS native UI for any of these (per platform constraint, payment UI hidden on iOS).
+- Refund / cancellation flows beyond Stripe defaults.
+- Webhook automation for usage-based API overage billing (flat tiers only for v1).
+
+Ready to build — confirm and I'll start with the migration.
