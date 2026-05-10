@@ -17,6 +17,11 @@ interface CategoryFieldProps {
 
 const CategoryField: React.FC<CategoryFieldProps> = ({ form, name }) => {
   const [open, setOpen] = useState(false);
+  const openedAtRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (open) openedAtRef.current = Date.now();
+  }, [open]);
 
   return (
     <FormField
