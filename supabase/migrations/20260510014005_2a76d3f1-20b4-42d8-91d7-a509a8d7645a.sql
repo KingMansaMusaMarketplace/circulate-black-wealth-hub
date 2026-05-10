@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address='46 Williams Street', city='Pontiac', state='MI', zip_code='48341', phone='(248) 338-9288', email='sparksgriffinfuneralhome@comcast.net', updated_at=now() WHERE id='ed4570e1-32ae-4db9-98fa-3854403d04ec';
