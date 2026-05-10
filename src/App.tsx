@@ -476,6 +476,11 @@ function App() {
                               <Route path="/admin/outreach" element={<RequireAdmin><LazyAdminOutreachCRM /></RequireAdmin>} />
                               <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                               <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
+                              <Route path="/admin/revenue" element={<RequireAdmin><LazyAdminPlatformRevenuePage /></RequireAdmin>} />
+                              <Route path="/admin/api-clients" element={<RequireAdmin><LazyAdminAPIClientsPage /></RequireAdmin>} />
+                              <Route path="/business/featured-placement" element={<LazyFeaturedPlacementPage />} />
+                              <Route path="/institutional-api" element={<LazyInstitutionalAPIPage />} />
+                              <Route path="/developer/api-docs" element={<LazyAPIDocsPage />} />
                               <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                               <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                               <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
