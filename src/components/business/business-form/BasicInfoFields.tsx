@@ -11,9 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { BusinessFormValues } from "./models";
+import CategoryField from "./CategoryField";
+import { useForm, useFormContext as _u } from "react-hook-form";
 
 const BasicInfoFields = () => {
-  const { control } = useFormContext<BusinessFormValues>();
+  const methods = useFormContext<BusinessFormValues>();
+  const { control } = methods;
 
   return (
     <>
