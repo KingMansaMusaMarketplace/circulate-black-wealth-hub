@@ -13,6 +13,44 @@ import { toast } from 'sonner';
 
 export const FooterSection: React.FC = () => {
   const [showResetDialog, setShowResetDialog] = useState(false);
+  const [showResend, setShowResend] = useState(false);
+  const [resendEmail, setResendEmail] = useState('');
+  const [resending, setResending] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  const handleResend = async () => {
+    const email = resendEmail.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+    setResending(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: { emailRedirectTo: `${window.location.origin}/email-verified` },
+      });
+      if (error) throw error;
+      toast.success('Verification email sent! Check your inbox (and spam folder).');
+      setCooldown(60);
+    } catch (e: any) {
+      const msg = e?.message || 'Failed to resend verification email.';
+      if (msg.toLowerCase().includes('already')) {
+        toast.info('This email is already verified — try signing in.');
+      } else {
+        toast.error(msg);
+      }
+    } finally {
+      setResending(false);
+    }
+  };
 
   return (
     <>
