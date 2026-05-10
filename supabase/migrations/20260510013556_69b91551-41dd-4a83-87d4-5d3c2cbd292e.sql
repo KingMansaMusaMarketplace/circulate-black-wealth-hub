@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address='625 Nellie B Ave', city='Athens', state='GA', zip_code='30601', phone='(706) 543-8213', email='mack.paynefh@gmail.com', updated_at=now() WHERE id='43e1022a-d3c4-4003-b706-3f30e496a9f0';
