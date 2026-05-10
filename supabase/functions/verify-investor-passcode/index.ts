@@ -17,6 +17,50 @@ function isValidEmail(s: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s) && s.length <= 255;
 }
 
+// In-memory per-IP rate limit: max 5 failed attempts / 15 min
+const RATE_WINDOW_MS = 15 * 60 * 1000;
+const RATE_MAX_FAILS = 5;
+const ipAttempts = new Map<string, { count: number; firstAt: number; blockedUntil: number }>();
+
+function checkRateLimit(ip: string): { allowed: boolean; retryAfterSec?: number } {
+  const now = Date.now();
+  const rec = ipAttempts.get(ip);
+  if (!rec) return { allowed: true };
+  if (rec.blockedUntil && now < rec.blockedUntil) {
+    return { allowed: false, retryAfterSec: Math.ceil((rec.blockedUntil - now) / 1000) };
+  }
+  if (now - rec.firstAt > RATE_WINDOW_MS) {
+    ipAttempts.delete(ip);
+  }
+  return { allowed: true };
+}
+
+function recordFailure(ip: string) {
+  const now = Date.now();
+  const rec = ipAttempts.get(ip);
+  if (!rec || now - rec.firstAt > RATE_WINDOW_MS) {
+    ipAttempts.set(ip, { count: 1, firstAt: now, blockedUntil: 0 });
+    return;
+  }
+  rec.count += 1;
+  if (rec.count >= RATE_MAX_FAILS) {
+    rec.blockedUntil = now + RATE_WINDOW_MS;
+  }
+  ipAttempts.set(ip, rec);
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  const enc = new TextEncoder();
+  const ab = enc.encode(a);
+  const bb = enc.encode(b);
+  const len = Math.max(ab.length, bb.length);
+  let diff = ab.length ^ bb.length;
+  for (let i = 0; i < len; i++) {
+    diff |= (ab[i] ?? 0) ^ (bb[i] ?? 0);
+  }
+  return diff === 0;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -71,10 +115,26 @@ Deno.serve(async (req) => {
     const ip =
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
       req.headers.get("cf-connecting-ip") ??
-      null;
+      "unknown";
     const ua = req.headers.get("user-agent") ?? null;
 
-    const success = passcode === expected;
+    // Per-IP brute-force protection
+    const rl = checkRateLimit(ip);
+    if (!rl.allowed) {
+      return new Response(
+        JSON.stringify({ error: "Too many attempts. Try again later." }),
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+            "Retry-After": String(rl.retryAfterSec ?? 900),
+          },
+        },
+      );
+    }
+
+    const success = timingSafeEqual(passcode, expected);
 
     // Always log the attempt
     await supabase.from("investor_access_log").insert({
@@ -83,12 +143,15 @@ Deno.serve(async (req) => {
       investor_firm: firm || null,
       action_type: success ? "portal_unlock_success" : "portal_unlock_failed",
       document_requested: null,
-      ip_address: ip,
+      ip_address: ip === "unknown" ? null : ip,
       user_agent: ua,
       metadata: {},
     });
 
     if (!success) {
+      recordFailure(ip);
+      // Small artificial delay to slow scripted attacks
+      await new Promise((r) => setTimeout(r, 600));
       return new Response(JSON.stringify({ error: "Invalid passcode." }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

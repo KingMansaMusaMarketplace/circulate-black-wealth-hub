@@ -1,4 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -11,14 +12,11 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { userId } = await req.json();
-    
-    if (!userId) {
-      return new Response(
-        JSON.stringify({ error: 'User ID is required' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
+    const auth = await requireAuth(req, corsHeaders);
+    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
+    // Always derive userId from the verified JWT — never trust the request body
+    const userId = auth.userId!;
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;

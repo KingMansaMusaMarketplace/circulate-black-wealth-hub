@@ -24,6 +24,7 @@
 
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -36,6 +37,9 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const auth = await requireAuth(req, corsHeaders);
+    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
     const { businessIds } = await req.json();
     
     if (!businessIds || businessIds.length < 2) {
@@ -50,10 +54,10 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Fetch business details
+    // Fetch business details (no PII — never expose owner email/phone)
     const { data: businesses, error: fetchError } = await supabaseClient
       .from('businesses')
-      .select('id, name, business_name, category, description, city, state, average_rating, review_count, website, phone, email')
+      .select('id, name, business_name, category, description, city, state, average_rating, review_count, website')
       .in('id', businessIds);
 
     if (fetchError || !businesses) {

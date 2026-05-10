@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { Copy, Code2, Check, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
+import { escapeHtml, sanitizeUrl } from '@/lib/security/content-sanitizer';
 
 interface EmbeddableBannerGeneratorProps {
   partner: DirectoryPartner;
@@ -56,10 +57,14 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     const bgStyle = theme === 'gold' 
       ? `background: ${colors.bg};` 
       : `background-color: ${colors.bg};`;
+    // Escape any user-controlled values before injecting into HTML
+    const safeName = escapeHtml(partner.directory_name || '');
+    const safeLinkRaw = sanitizeUrl(partner.referral_link || '') ?? 'https://1325.ai';
+    const safeLink = escapeHtml(safeLinkRaw);
 
     if (style === 'minimal') {
       return `<!-- 1325.AI Partner Banner - Minimal -->
-<a href="${partner.referral_link}" target="_blank" rel="noopener" style="
+<a href="${safeLink}" target="_blank" rel="noopener" style="
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -74,7 +79,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
   border: 1px solid ${colors.border};
 ">
   <span style="font-weight: 600;">Join 1325.AI</span>
-  <span style="color: ${colors.muted};">via ${partner.directory_name}</span>
+  <span style="color: ${colors.muted};">via ${safeName}</span>
 </a>`;
     }
 
@@ -99,7 +104,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
   <p style="margin: 0 0 16px 0; font-size: 14px; color: ${colors.muted}; line-height: 1.5;">
     The economic operating system for community businesses. Get discovered, connect B2B, and build wealth together.
   </p>
-  <a href="${partner.referral_link}" target="_blank" rel="noopener" style="
+  <a href="${safeLink}" target="_blank" rel="noopener" style="
     display: inline-block;
     padding: 10px 20px;
     background-color: ${theme === 'gold' ? colors.accent : colors.accent};
@@ -112,7 +117,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     Claim a Spot →
   </a>
   <p style="margin: 12px 0 0 0; font-size: 11px; color: ${colors.muted};">
-    Referred by ${partner.directory_name}
+    Referred by ${safeName}
   </p>
 </div>`;
     }
@@ -168,7 +173,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     </div>
   </div>
   
-  <a href="${partner.referral_link}" target="_blank" rel="noopener" style="
+  <a href="${safeLink}" target="_blank" rel="noopener" style="
     display: block;
     text-align: center;
     padding: 12px 24px;
@@ -184,7 +189,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
   </a>
   
   <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: ${colors.muted};">
-    <span>Referred by ${partner.directory_name}</span>
+    <span>Referred by ${safeName}</span>
     <span>$149/mo locked in forever</span>
   </div>
 </div>`;
@@ -201,7 +206,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     }
   };
 
-  // Generate a preview using dangerouslySetInnerHTML (safe here since we control the content)
+  // Preview HTML — partner.directory_name is escapeHtml-encoded and partner.referral_link is sanitizeUrl-validated above
   const previewHTML = generateBannerHTML();
 
   return (
