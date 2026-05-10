@@ -99,7 +99,7 @@ export const QRPaymentButton = ({
       ) : (
         <>
           <QrCode className="mr-2 h-4 w-4" />
-          Pay ${amount.toFixed(2)} (7.5% commission)
+          Pay ${amount.toFixed(2)}
         </>
       )}
     </Button>

@@ -21,7 +21,35 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
-const COMMISSION_RATE = 7.5; // 7.5% platform commission
+// Tiered platform fee (lower for paid subscribers)
+const DEFAULT_COMMISSION_RATE = 1.0; // 1% baseline platform fee
+const TIER_COMMISSION_RATES: Record<string, number> = {
+  pro: 0.5,
+  business_pro: 0.5,
+  enterprise: 0.25,
+  founders_lock: 0.25,
+};
+
+async function getCommissionRate(supabase: any, businessId: string): Promise<number> {
+  try {
+    const { data: biz } = await supabase
+      .from("businesses")
+      .select("owner_id")
+      .eq("id", businessId)
+      .single();
+    if (!biz?.owner_id) return DEFAULT_COMMISSION_RATE;
+    const { data: sub } = await supabase
+      .from("subscribers")
+      .select("subscription_tier, subscribed")
+      .eq("user_id", biz.owner_id)
+      .maybeSingle();
+    if (!sub?.subscribed) return DEFAULT_COMMISSION_RATE;
+    const tier = (sub.subscription_tier || "").toLowerCase();
+    return TIER_COMMISSION_RATES[tier] ?? DEFAULT_COMMISSION_RATE;
+  } catch {
+    return DEFAULT_COMMISSION_RATE;
+  }
+}
 
 const qrTransactionSchema = z.object({
   businessId: z.string().uuid(),
@@ -94,7 +122,8 @@ serve(async (req) => {
     // Apply discount to the bill the customer pays
     const discountedAmount = amount * (1 - (discountPercentage || 0) / 100);
     const finalAmountCents = Math.max(50, Math.round(discountedAmount * 100)); // Stripe min 50¢
-    const commissionCents = Math.round(finalAmountCents * (COMMISSION_RATE / 100));
+    const commissionRate = await getCommissionRate(supabase, businessId);
+    const commissionCents = Math.round(finalAmountCents * (commissionRate / 100));
     const businessReceivesCents = finalAmountCents - commissionCents;
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -137,7 +166,7 @@ serve(async (req) => {
           originalAmount: amount.toFixed(2),
           discountPercentage: String(discountPercentage || 0),
           finalAmount: (finalAmountCents / 100).toFixed(2),
-          commissionRate: COMMISSION_RATE.toString(),
+          commissionRate: commissionRate.toString(),
           transactionType: "qr_scan",
         },
         description: description || `QR Code Payment to ${business?.business_name || "Business"}`,
@@ -168,7 +197,7 @@ serve(async (req) => {
           qr_code_id: qrCodeId,
           original_amount: amount,
           discount_percentage: discountPercentage || 0,
-          commission_rate: COMMISSION_RATE,
+          commission_rate: commissionRate,
           status: "pending",
         },
       })
@@ -186,7 +215,7 @@ serve(async (req) => {
           discountPercentage: discountPercentage || 0,
           finalAmount: finalAmountCents / 100,
           commission: {
-            rate: COMMISSION_RATE,
+            rate: commissionRate,
             amount: commissionCents / 100,
             businessReceives: businessReceivesCents / 100,
           },
