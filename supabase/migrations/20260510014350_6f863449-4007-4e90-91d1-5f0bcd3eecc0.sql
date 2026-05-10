@@ -1,0 +1,1 @@
+UPDATE public.businesses SET phone='(706) 905-9298', email='news@columbustimes.com', address='', updated_at=now() WHERE id='88f4dd49-5d47-4d51-8f50-69d616787e90';
