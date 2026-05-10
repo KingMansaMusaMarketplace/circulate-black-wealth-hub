@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '1083 Austin Ave, Atlanta, GA 30307', phone = '(404) 462-5723', email = 'Mangadance@yahoo.com', website = 'mangadance.org', updated_at = now() WHERE id = 'e5d47f19-e849-4cf1-b7e9-f3d7610280ba';
