@@ -472,6 +472,7 @@ function App() {
                               <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                               <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                               <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
+                              <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                               <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                               {/* Test routes removed from production */}
                               <Route path="/auth" element={<LazyLoginPage />} />
@@ -837,6 +838,7 @@ function App() {
                         <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                         <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
+                        <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         {/* Test routes removed from production — use /all-pages (admin only) */}
                         <Route path="/auth" element={<LazyLoginPage />} />
@@ -1162,6 +1164,7 @@ function App() {
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                         <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
+                        <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
                         
