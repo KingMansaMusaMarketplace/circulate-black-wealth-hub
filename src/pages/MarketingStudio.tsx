@@ -138,18 +138,27 @@ const MarketingStudio: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 bg-background">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
       <Helmet>
         <title>Marketing Studio | 1325.AI</title>
         <meta name="description" content="Generate on-brand marketing images for your business with AI — banners, social posts, flyers, and logos." />
       </Helmet>
 
-      <div className="container mx-auto max-w-5xl">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
+
+      <div className="container mx-auto max-w-5xl p-6 relative z-10">
         <header className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">
             <span className="text-gradient-gold">Marketing Studio</span>
           </h1>
-          <p className="text-muted-foreground">AI-generated banners, social posts, and flyers for your business.</p>
+          <p className="text-white/70">AI-generated banners, social posts, and flyers for your business.</p>
         </header>
 
         {studioContent}
