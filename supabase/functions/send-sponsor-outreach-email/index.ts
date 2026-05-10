@@ -94,7 +94,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send the email
     const { data: emailResult, error: emailError } = await resend.emails.send({
-      from: "1325.AI <partnerships@1325.ai>",
+      from: "1325.AI <Thomas@1325.AI>",
       to: [prospect.primary_contact_email],
       subject: personalizedSubject,
       html: bodyWithTracking,
