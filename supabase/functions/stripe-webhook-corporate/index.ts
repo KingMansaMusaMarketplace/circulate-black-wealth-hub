@@ -213,6 +213,46 @@ serve(async (req) => {
         break;
       }
 
+      case "invoice.payment_failed": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = (invoice as any).subscription as string | null;
+        if (subscriptionId) {
+          const { error: pfError } = await supabase
+            .from("corporate_subscriptions")
+            .update({ status: "past_due" })
+            .eq("stripe_subscription_id", subscriptionId);
+          if (pfError) {
+            console.error("Error marking subscription past_due:", pfError);
+          } else {
+            console.log("Subscription marked past_due:", subscriptionId);
+          }
+        }
+        break;
+      }
+
+      case "invoice.payment_succeeded": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = (invoice as any).subscription as string | null;
+        if (subscriptionId) {
+          try {
+            const stripeSub = await stripe.subscriptions.retrieve(subscriptionId);
+            const { error: psError } = await supabase
+              .from("corporate_subscriptions")
+              .update({
+                status: stripeSub.status,
+                current_period_start: new Date(stripeSub.current_period_start * 1000).toISOString(),
+                current_period_end: new Date(stripeSub.current_period_end * 1000).toISOString(),
+                cancel_at_period_end: stripeSub.cancel_at_period_end,
+              })
+              .eq("stripe_subscription_id", subscriptionId);
+            if (psError) console.error("Error updating subscription after payment success:", psError);
+          } catch (err) {
+            console.error("Failed to retrieve subscription on payment_succeeded:", err);
+          }
+        }
+        break;
+      }
+
       default:
         console.log("Unhandled event type:", event.type);
     }
