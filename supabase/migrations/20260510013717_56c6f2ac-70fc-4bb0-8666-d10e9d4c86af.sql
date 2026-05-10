@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address='1835 Minnesota Ave', city='Kansas City', state='KS', zip_code='66102', phone='(913) 621-6400', updated_at=now() WHERE id='efbb8ac9-98a9-47c6-b55b-8f549e506762';
