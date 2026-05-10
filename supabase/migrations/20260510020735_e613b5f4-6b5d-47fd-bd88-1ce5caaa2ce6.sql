@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '126 East 13th Street & 3rd Ave, Union Square, NY 10003', phone = '(212) 470-5929', email = 'info@djoniba.com', website = 'djoniba.com', updated_at = now() WHERE id = 'bf09f795-8665-4d27-9fea-60d881e0d6a8';
