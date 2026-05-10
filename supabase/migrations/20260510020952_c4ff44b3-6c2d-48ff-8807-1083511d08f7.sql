@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '2244 N 7th Street, Harrisburg, PA 17110', email = '717yazminedance@gmail.com', website = 'yazminedance.weebly.com', updated_at = now() WHERE id = 'c0cfb446-4214-41b8-8089-40bcc730dc01';
