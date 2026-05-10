@@ -97,8 +97,50 @@ export const FooterSection: React.FC = () => {
               <PasswordResetForm onBack={() => setShowResetDialog(false)} />
             </DialogContent>
           </Dialog>
+
+          <button
+            type="button"
+            onClick={() => setShowResend((v) => !v)}
+            className="text-sm text-slate-400 hover:text-mansablue transition-colors duration-300 font-medium block mx-auto"
+          >
+            <Mail className="inline h-3.5 w-3.5 mr-1.5 -mt-0.5" />
+            Didn't get a verification email?
+          </button>
+
+          {showResend && (
+            <div className="mt-2 p-3 rounded-lg bg-white/5 border border-white/10 space-y-2 animate-fade-in">
+              <p className="text-xs text-slate-400 text-left">
+                Check spam first, or resend it below.
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  type="email"
+                  placeholder="you@example.com"
+                  value={resendEmail}
+                  onChange={(e) => setResendEmail(e.target.value)}
+                  disabled={resending || cooldown > 0}
+                  className="bg-white/10 border-white/20 text-white placeholder:text-slate-500 text-sm h-9"
+                />
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={handleResend}
+                  disabled={resending || cooldown > 0}
+                  className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-semibold whitespace-nowrap"
+                >
+                  {resending ? (
+                    <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                  ) : cooldown > 0 ? (
+                    `Wait ${cooldown}s`
+                  ) : (
+                    'Resend'
+                  )}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
-        
+
         <p className="text-xs text-slate-500">
           By signing in, you're joining a movement to circulate wealth in the Black community.
         </p>
