@@ -101,9 +101,14 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         setMapError(null);
       });
 
-      map.current.on('error', (e) => {
+      map.current.on('error', (e: any) => {
+        const status = e?.error?.status;
         console.error('Mapbox error:', e);
-        setMapError('Failed to load map. Please check your API key.');
+        if (status === 401 || status === 403) {
+          setMapError('Map tiles unauthorized. Add this site to your Mapbox token URL allowlist.');
+        } else {
+          setMapError('Failed to load map tiles. Please try again.');
+        }
         setMapLoading(false);
       });
 
