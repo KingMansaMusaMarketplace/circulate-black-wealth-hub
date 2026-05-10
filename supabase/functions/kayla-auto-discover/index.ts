@@ -857,6 +857,36 @@ serve(async (req) => {
       throw new Error("FIRECRAWL_API_KEY required");
     }
 
+    // === PERPLEXITY QUOTA CIRCUIT BREAKER ===
+    // Cheap probe — if quota is exhausted (401) or rate-limited (429),
+    // skip the run cleanly instead of failing every cron tick.
+    try {
+      const probe = await fetch("https://api.perplexity.ai/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${perplexityKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "sonar",
+          messages: [{ role: "user", content: "ok" }],
+          max_tokens: 1,
+        }),
+      });
+      if (probe.status === 401 || probe.status === 402 || probe.status === 429) {
+        const reason = probe.status === 429 ? "rate_limited" : "quota_exhausted";
+        console.warn(`[Kayla Auto-Discover] Skipping run — Perplexity ${reason} (${probe.status})`);
+        return new Response(
+          JSON.stringify({ success: true, skipped: true, reason, status: probe.status }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      // Drain body to free the connection
+      try { await probe.text(); } catch { /* ignore */ }
+    } catch (probeErr) {
+      console.warn("[Kayla Auto-Discover] Perplexity probe failed (non-fatal):", probeErr);
+    }
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
