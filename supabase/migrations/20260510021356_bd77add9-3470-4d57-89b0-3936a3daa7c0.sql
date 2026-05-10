@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = 'New Black Wall Street Market, 8109 Mall Parkway, Stonecrest, GA 30038', phone = '(678) 365-7166', website = 'kuba-kingdomllc.com', banner_url = 'https://www.1325.ai/business-banners/kuba-kingdom-banner.jpg', updated_at = now() WHERE id = '2f25b9ea-8442-49c3-a2df-10ec2930cfad';
