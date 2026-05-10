@@ -207,13 +207,17 @@ const BusinessOnboardingPage: React.FC = () => {
 
             <div className="space-y-3">
               {[
-                { icon: FileText, label: 'Add category & description', done: !!business?.category && !!business?.description },
-                { icon: MapPin, label: 'Confirm your location', done: !!business?.address && !!business?.city },
-                { icon: Image, label: 'Upload logo (optional)', done: !!business?.logo_url },
+                { icon: FileText, label: 'Add category & description', done: !!business?.category && !!business?.description, to: '/business-form' },
+                { icon: MapPin, label: 'Confirm your location', done: !!business?.address && !!business?.city, to: '/business-form' },
+                { icon: Image, label: 'Upload logo (optional)', done: !!business?.logo_url, to: '/business-form' },
               ].map((step, index) => (
                 <Card
                   key={step.label}
-                  className={`transition-colors backdrop-blur-xl ${
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => navigate(step.to)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(step.to); } }}
+                  className={`transition-colors backdrop-blur-xl cursor-pointer hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-mansagold ${
                     step.done
                       ? 'bg-emerald-500/10 border-emerald-400/30'
                       : 'bg-white/5 border-white/10'
