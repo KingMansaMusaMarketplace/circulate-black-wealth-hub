@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { Copy, Code2, Check, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { escapeHtml, sanitizeUrl, sanitizeHtml } from '@/lib/security/content-sanitizer';
+import { escapeHtml, sanitizeUrl } from '@/lib/security/content-sanitizer';
 
 interface EmbeddableBannerGeneratorProps {
   partner: DirectoryPartner;
