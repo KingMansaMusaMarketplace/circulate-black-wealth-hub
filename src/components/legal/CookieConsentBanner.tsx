@@ -26,6 +26,17 @@ const CookieConsentBanner: React.FC = () => {
     }
   }, []);
 
+  // While the banner is visible, reserve space at the bottom of the page so it
+  // never overlaps form actions (submit buttons, checkboxes, etc.). Reset on hide.
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (visible) {
+      const prev = document.body.style.paddingBottom;
+      document.body.style.paddingBottom = '220px';
+      return () => { document.body.style.paddingBottom = prev; };
+    }
+  }, [visible]);
+
   const handleAccept = () => {
     localStorage.setItem(CONSENT_KEY, JSON.stringify({ accepted: true, date: new Date().toISOString() }));
     setVisible(false);
