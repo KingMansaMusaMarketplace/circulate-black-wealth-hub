@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -7,6 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Loader2, Sparkles, Download, RefreshCw, ImageIcon } from 'lucide-react';
 import { useMarketingImageGen, type MarketingPreset } from '@/hooks/use-marketing-image-gen';
+import { useAuth } from '@/contexts/AuthContext';
+import { DashboardLayout } from '@/components/dashboard';
 import { cn } from '@/lib/utils';
 
 const PRESETS: { value: MarketingPreset; label: string; hint: string }[] = [
