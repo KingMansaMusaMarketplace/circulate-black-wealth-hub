@@ -17,7 +17,8 @@ import {
   DollarSign,
   Calendar,
   Sparkles,
-  CircleDollarSign
+  CircleDollarSign,
+  ImageIcon
 } from 'lucide-react';
 
 const SidebarNavigation = () => {
@@ -46,6 +47,7 @@ const SidebarNavigation = () => {
     { name: 'Vacation Rentals', href: '/stays/host', icon: Home },
     { name: 'Finances', href: '/business-finances', icon: DollarSign },
     { name: 'Analytics', href: '/business-analytics', icon: BarChart3 },
+    { name: 'Marketing Studio', href: '/marketing-studio', icon: ImageIcon },
     { name: 'QR Codes', href: '/business/qr-codes', icon: QrCode },
     { name: 'Customers', href: '/business/customers', icon: Users },
     { name: 'Susu Circles', href: '/susu-circles', icon: CircleDollarSign },
