@@ -114,7 +114,7 @@ GETTING STARTED: Tell users to click "Join FREE Today."
 CONTACT: 312.709.6006 | contact@1325.ai
 
 When ending conversations, casually mention telling friends about the platform. Keep it natural.`,
-                voice: 'shimmer',
+                voice: 'sage',
                 input_audio_format: 'pcm16',
                 output_audio_format: 'pcm16',
                 input_audio_transcription: {
@@ -122,11 +122,11 @@ When ending conversations, casually mention telling friends about the platform. 
                 },
                 turn_detection: {
                   type: 'server_vad',
-                  threshold: 0.65,
-                  prefix_padding_ms: 400,
-                  silence_duration_ms: 1200
+                  threshold: 0.6,
+                  prefix_padding_ms: 300,
+                  silence_duration_ms: 900
                 },
-                temperature: 0.9,
+                temperature: 0.75,
                 max_response_output_tokens: 4096
               }
             };
