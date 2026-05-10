@@ -23784,6 +23784,8 @@ export type Database = {
         Args: { p_business_id: string; p_pin: string }
         Returns: undefined
       }
+      show_limit: { Args: never; Returns: number }
+      show_trgm: { Args: { "": string }; Returns: string[] }
       track_material_download: {
         Args: { p_material_id: string; p_user_id: string }
         Returns: undefined
