@@ -1,4 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,6 +19,9 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
 
   try {
+    const auth = await requireAuth(req, corsHeaders);
+    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
     const { prompt, preset = 'social', brandHint } = await req.json();
     if (!prompt || typeof prompt !== 'string' || prompt.length < 4) {
       return new Response(JSON.stringify({ error: 'Prompt is required (min 4 chars)' }), {
