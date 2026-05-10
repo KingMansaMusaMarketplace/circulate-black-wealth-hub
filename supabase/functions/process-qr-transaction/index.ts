@@ -122,7 +122,8 @@ serve(async (req) => {
     // Apply discount to the bill the customer pays
     const discountedAmount = amount * (1 - (discountPercentage || 0) / 100);
     const finalAmountCents = Math.max(50, Math.round(discountedAmount * 100)); // Stripe min 50¢
-    const commissionCents = Math.round(finalAmountCents * (COMMISSION_RATE / 100));
+    const commissionRate = await getCommissionRate(supabase, businessId);
+    const commissionCents = Math.round(finalAmountCents * (commissionRate / 100));
     const businessReceivesCents = finalAmountCents - commissionCents;
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
