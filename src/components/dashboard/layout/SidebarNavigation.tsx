@@ -17,7 +17,8 @@ import {
   DollarSign,
   Calendar,
   Sparkles,
-  CircleDollarSign
+  CircleDollarSign,
+  ImageIcon
 } from 'lucide-react';
 
 const SidebarNavigation = () => {
