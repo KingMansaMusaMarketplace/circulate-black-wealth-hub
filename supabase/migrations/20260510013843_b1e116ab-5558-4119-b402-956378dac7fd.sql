@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address='534 Hampton Street', city='Rock Hill', state='SC', zip_code='29730', phone='(803) 327-4245', updated_at=now() WHERE id='976df2a6-aa62-446d-a179-bd75cfeee64f';
