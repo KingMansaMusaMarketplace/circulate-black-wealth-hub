@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '481 N Commons Dr, Suite C, Aurora, IL 60504', phone = '(630) 788-0962', banner_url = 'https://www.1325.ai/business-banners/samandarose-couture-banner.jpg', updated_at = now() WHERE id = '80ad97b8-7b95-4e72-826d-c58423a256df';
