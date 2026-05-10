@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '268 North Perry Street', updated_at = now() WHERE id = '888b4126-7861-4056-bcc6-b8bd0e8f6f4e';
