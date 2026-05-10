@@ -122,6 +122,8 @@ const MarketingStudio: React.FC = () => {
 
   // If business user (once auth is ready), wrap in DashboardLayout
   const isBusinessUser = authInitialized && !loading && user && userType === 'business';
+
+  if (isBusinessUser) {
     return (
       <>
         <Helmet>
@@ -135,7 +137,6 @@ const MarketingStudio: React.FC = () => {
     );
   }
 
-  // Non-business users or guests get standalone page
   return (
     <div className="min-h-screen p-6 bg-background">
       <Helmet>
