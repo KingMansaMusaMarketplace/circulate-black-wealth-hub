@@ -55,6 +55,8 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   const startTime = Date.now();
+  let supabase: any = null;
+  let runId: string | null = null;
   try {
     const auth = await requireAdminOrCron(req, corsHeaders);
     if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
@@ -62,10 +64,59 @@ serve(async (req) => {
     const firecrawlKey = Deno.env.get("FIRECRAWL_API_KEY");
     if (!firecrawlKey) throw new Error("FIRECRAWL_API_KEY required");
 
-    const supabase = createClient(
+    supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     ) as any;
+
+    const TWO_MIN_AGO = new Date(Date.now() - 2 * 60 * 1000).toISOString();
+    const { data: recentRun } = await supabase
+      .from("kayla_run_log")
+      .select("id, completed_at")
+      .eq("agent_name", "kayla-verify-and-promote")
+      .eq("run_status", "completed")
+      .gte("completed_at", TWO_MIN_AGO)
+      .order("completed_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (recentRun) {
+      return new Response(JSON.stringify({
+        success: true,
+        skipped: true,
+        reason: "recent_run_within_2min",
+        lastCompleted: recentRun.completed_at,
+      }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const FIVE_MIN_AGO = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+    const { data: inFlight } = await supabase
+      .from("kayla_run_log")
+      .select("id, started_at")
+      .eq("agent_name", "kayla-verify-and-promote")
+      .eq("run_status", "started")
+      .gte("started_at", FIVE_MIN_AGO)
+      .order("started_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (inFlight) {
+      return new Response(JSON.stringify({
+        success: true,
+        skipped: true,
+        reason: "run_in_progress",
+        startedAt: inFlight.started_at,
+      }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const { data: runRow } = await supabase
+      .from("kayla_run_log")
+      .insert({ agent_name: "kayla-verify-and-promote", run_status: "started" })
+      .select("id")
+      .single();
+    runId = runRow?.id ?? null;
+
+    let verified = 0, needsReview = 0, rejected = 0, promoted = 0;
 
     const { data: leads, error: fetchErr } = await supabase
       .from("b2b_external_leads")
@@ -75,8 +126,6 @@ serve(async (req) => {
       .limit(BATCH_SIZE);
 
     if (fetchErr) throw new Error(`Fetch leads failed: ${fetchErr.message}`);
-
-    let verified = 0, needsReview = 0, rejected = 0, promoted = 0;
 
     const processLead = async (lead: any) => {
       const reasons: string[] = [];
@@ -216,12 +265,35 @@ serve(async (req) => {
       issues_fixed: promoted,
     });
 
+    if (runId) {
+      await supabase
+        .from("kayla_run_log")
+        .update({
+          run_status: "completed",
+          completed_at: new Date().toISOString(),
+          duration_ms: durationMs,
+          details: { processed: leads?.length || 0, promoted, needs_review: needsReview, rejected },
+        })
+        .eq("id", runId);
+    }
+
     return new Response(JSON.stringify({
       success: true, processed: leads?.length || 0, promoted, needsReview, rejected, durationMs,
     }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Unknown error";
     console.error("[Kayla Verify] Error:", msg);
+    if (supabase && runId) {
+      await supabase
+        .from("kayla_run_log")
+        .update({
+          run_status: "failed",
+          completed_at: new Date().toISOString(),
+          duration_ms: Date.now() - startTime,
+          details: { error: msg },
+        })
+        .eq("id", runId);
+    }
     return new Response(JSON.stringify({ success: false, error: msg }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

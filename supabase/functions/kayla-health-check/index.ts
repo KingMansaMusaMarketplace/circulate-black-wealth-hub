@@ -1,9 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-csrf-token",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-csrf-token, x-cron-secret",
 };
 
 interface HealthCheck {
@@ -642,26 +643,14 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // ── Authentication: require service role key or valid admin JWT ──
+  // ── Authentication: require service role key, cron secret, or valid admin JWT ──
   const authHeader = req.headers.get("Authorization");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
   const isServiceRole = authHeader === `Bearer ${serviceRoleKey}`;
 
   if (!isServiceRole) {
-    if (!authHeader?.startsWith("Bearer ")) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
-    }
-    const userClient = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, {
-      global: { headers: { Authorization: authHeader } },
-    });
-    const { data: claims, error: claimsErr } = await userClient.auth.getClaims(authHeader.replace("Bearer ", ""));
-    if (claimsErr || !claims?.claims?.sub) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
-    }
-    const { data: isAdmin } = await userClient.rpc("is_admin_secure");
-    if (isAdmin !== true) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
-    }
+    const authResult = await requireAdminOrCron(req, corsHeaders);
+    if (!authResult.authenticated) return authErrorResponse(authResult, corsHeaders);
   }
 
   const startTime = Date.now();
@@ -675,6 +664,25 @@ serve(async (req) => {
     const body = await req.json().catch(() => ({}));
     const checkType = body.checkType || "scheduled";
     const autoFix = body.autoFix !== false; // Default: true
+
+    if (checkType === "scheduled") {
+      const fiftyFiveMinutesAgo = new Date(Date.now() - 55 * 60 * 1000).toISOString();
+      const { data: recentScheduled } = await supabase
+        .from("kayla_health_checks")
+        .select("id, created_at")
+        .eq("check_type", "scheduled")
+        .gte("created_at", fiftyFiveMinutesAgo)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (recentScheduled) {
+        return new Response(
+          JSON.stringify({ success: true, skipped: true, reason: "recent_scheduled_health_check", lastRun: recentScheduled.created_at }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    }
 
     console.log(`🏥 Kayla Health Check starting (${checkType}, autoFix=${autoFix})...`);
 
