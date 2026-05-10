@@ -166,7 +166,7 @@ serve(async (req) => {
           originalAmount: amount.toFixed(2),
           discountPercentage: String(discountPercentage || 0),
           finalAmount: (finalAmountCents / 100).toFixed(2),
-          commissionRate: COMMISSION_RATE.toString(),
+          commissionRate: commissionRate.toString(),
           transactionType: "qr_scan",
         },
         description: description || `QR Code Payment to ${business?.business_name || "Business"}`,
@@ -197,7 +197,7 @@ serve(async (req) => {
           qr_code_id: qrCodeId,
           original_amount: amount,
           discount_percentage: discountPercentage || 0,
-          commission_rate: COMMISSION_RATE,
+          commission_rate: commissionRate,
           status: "pending",
         },
       })
@@ -215,7 +215,7 @@ serve(async (req) => {
           discountPercentage: discountPercentage || 0,
           finalAmount: finalAmountCents / 100,
           commission: {
-            rate: COMMISSION_RATE,
+            rate: commissionRate,
             amount: commissionCents / 100,
             businessReceives: businessReceivesCents / 100,
           },
