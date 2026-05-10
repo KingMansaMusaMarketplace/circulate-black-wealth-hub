@@ -45,7 +45,15 @@ Deno.serve(async (req) => {
     batches: 0,
   };
 
+  let statuses = ["pending", "needs_review"];
   try {
+    try {
+      const body = await req.json();
+      if (Array.isArray(body?.statuses) && body.statuses.length > 0) {
+        statuses = body.statuses;
+      }
+    } catch { /* no body */ }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
