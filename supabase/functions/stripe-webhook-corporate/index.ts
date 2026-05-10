@@ -97,6 +97,24 @@ serve(async (req) => {
           );
         }
 
+        // Fetch the actual subscription from Stripe to get real billing period
+        let periodStart = new Date().toISOString();
+        let periodEnd = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+        let subStatus: string = "active";
+        let cancelAtPeriodEnd = false;
+
+        if (session.subscription) {
+          try {
+            const stripeSub = await stripe.subscriptions.retrieve(session.subscription as string);
+            periodStart = new Date(stripeSub.current_period_start * 1000).toISOString();
+            periodEnd = new Date(stripeSub.current_period_end * 1000).toISOString();
+            subStatus = stripeSub.status;
+            cancelAtPeriodEnd = stripeSub.cancel_at_period_end;
+          } catch (retrieveErr) {
+            console.error("Failed to retrieve subscription from Stripe, using fallback period:", retrieveErr);
+          }
+        }
+
         // Create or update corporate subscription using service role (bypasses RLS)
         const { error: subError } = await supabase
           .from("corporate_subscriptions")
@@ -108,9 +126,10 @@ serve(async (req) => {
             website_url: metadata.website_url?.substring(0, 2048) || null,
             stripe_customer_id: session.customer as string,
             stripe_subscription_id: session.subscription as string,
-            status: "active",
-            current_period_start: new Date().toISOString(),
-            current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            status: subStatus,
+            current_period_start: periodStart,
+            current_period_end: periodEnd,
+            cancel_at_period_end: cancelAtPeriodEnd,
           }, {
             onConflict: "user_id",
           });
@@ -190,6 +209,46 @@ serve(async (req) => {
           console.error("Error cancelling subscription:", deleteError);
         } else {
           console.log("Subscription cancelled:", subscription.id);
+        }
+        break;
+      }
+
+      case "invoice.payment_failed": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = (invoice as any).subscription as string | null;
+        if (subscriptionId) {
+          const { error: pfError } = await supabase
+            .from("corporate_subscriptions")
+            .update({ status: "past_due" })
+            .eq("stripe_subscription_id", subscriptionId);
+          if (pfError) {
+            console.error("Error marking subscription past_due:", pfError);
+          } else {
+            console.log("Subscription marked past_due:", subscriptionId);
+          }
+        }
+        break;
+      }
+
+      case "invoice.payment_succeeded": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = (invoice as any).subscription as string | null;
+        if (subscriptionId) {
+          try {
+            const stripeSub = await stripe.subscriptions.retrieve(subscriptionId);
+            const { error: psError } = await supabase
+              .from("corporate_subscriptions")
+              .update({
+                status: stripeSub.status,
+                current_period_start: new Date(stripeSub.current_period_start * 1000).toISOString(),
+                current_period_end: new Date(stripeSub.current_period_end * 1000).toISOString(),
+                cancel_at_period_end: stripeSub.cancel_at_period_end,
+              })
+              .eq("stripe_subscription_id", subscriptionId);
+            if (psError) console.error("Error updating subscription after payment success:", psError);
+          } catch (err) {
+            console.error("Failed to retrieve subscription on payment_succeeded:", err);
+          }
         }
         break;
       }
