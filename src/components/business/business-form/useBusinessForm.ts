@@ -77,7 +77,16 @@ export const useBusinessForm = () => {
       const result = await saveBusinessProfile(profileData);
       if (result.success && result.data?.id) {
         setProfileId(result.data.id);
-        toast.success("Business profile saved successfully!");
+        toast.success("Business profile saved successfully!", {
+          description: "Your listing is now live on the directory.",
+          action: {
+            label: "View in directory",
+            onClick: () => {
+              window.location.href = `/directory`;
+            },
+          },
+          duration: 8000,
+        });
       }
     } catch (error: any) {
       console.error("Error saving business profile:", error);
