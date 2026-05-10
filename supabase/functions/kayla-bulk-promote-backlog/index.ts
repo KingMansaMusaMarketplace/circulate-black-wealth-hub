@@ -70,7 +70,7 @@ Deno.serve(async (req) => {
       const { data: leads, error: leadsErr } = await supabase
         .from("b2b_external_leads")
         .select("*")
-        .in("verification_status", ["pending", "needs_review"])
+        .in("verification_status", statuses)
         .eq("is_converted", false)
         .order("lead_score", { ascending: false, nullsFirst: false })
         .order("created_at", { ascending: true })
