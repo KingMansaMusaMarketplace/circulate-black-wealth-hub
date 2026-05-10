@@ -4,7 +4,8 @@ import {
   Bot, MessageSquare, Search, Eye, Globe, DollarSign, CreditCard, Scale,
   FileText, Gift, Handshake, Heart, Calendar, Receipt, QrCode, TrendingUp,
   BarChart3, Mic, Megaphone, Zap, UserPlus, CheckCircle2, Clock, Briefcase,
-  ChevronDown, ChevronUp, Sparkles
+  ChevronDown, ChevronUp, Sparkles, Crown, ShieldCheck, Cpu, Rocket, Lock,
+  BookOpen, Boxes, Mail, Target, Building2, Newspaper, Sprout, Users
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
