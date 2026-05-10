@@ -67,6 +67,52 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     ) as any;
 
+    const TWO_MIN_AGO = new Date(Date.now() - 2 * 60 * 1000).toISOString();
+    const { data: recentRun } = await supabase
+      .from("kayla_run_log")
+      .select("id, completed_at")
+      .eq("agent_name", "kayla-verify-and-promote")
+      .eq("run_status", "completed")
+      .gte("completed_at", TWO_MIN_AGO)
+      .order("completed_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (recentRun) {
+      return new Response(JSON.stringify({
+        success: true,
+        skipped: true,
+        reason: "recent_run_within_2min",
+        lastCompleted: recentRun.completed_at,
+      }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const FIVE_MIN_AGO = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+    const { data: inFlight } = await supabase
+      .from("kayla_run_log")
+      .select("id, started_at")
+      .eq("agent_name", "kayla-verify-and-promote")
+      .eq("run_status", "started")
+      .gte("started_at", FIVE_MIN_AGO)
+      .order("started_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (inFlight) {
+      return new Response(JSON.stringify({
+        success: true,
+        skipped: true,
+        reason: "run_in_progress",
+        startedAt: inFlight.started_at,
+      }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const { data: runRow } = await supabase
+      .from("kayla_run_log")
+      .insert({ agent_name: "kayla-verify-and-promote", run_status: "started" })
+      .select("id")
+      .single();
+
     const { data: leads, error: fetchErr } = await supabase
       .from("b2b_external_leads")
       .select("*")
@@ -215,6 +261,18 @@ serve(async (req) => {
       issues_found: leads?.length || 0,
       issues_fixed: promoted,
     });
+
+    if (runRow?.id) {
+      await supabase
+        .from("kayla_run_log")
+        .update({
+          run_status: "completed",
+          completed_at: new Date().toISOString(),
+          duration_ms: durationMs,
+          details: { processed: leads?.length || 0, promoted, needs_review: needsReview, rejected },
+        })
+        .eq("id", runRow.id);
+    }
 
     return new Response(JSON.stringify({
       success: true, processed: leads?.length || 0, promoted, needsReview, rejected, durationMs,
