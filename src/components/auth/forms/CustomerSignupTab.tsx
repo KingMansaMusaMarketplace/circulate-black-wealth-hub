@@ -60,9 +60,12 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
     try {
       console.log('[CUSTOMER SIGNUP] Starting signup process...');
       
+      const cap = (window as any).Capacitor;
+      const isNative = !!(cap && typeof cap.isNativePlatform === 'function' && cap.isNativePlatform());
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const isCapacitor = !!(window as any).Capacitor;
-      const platform = isCapacitor ? (/(iPhone|iPad|iPod)/i.test(navigator.userAgent) ? 'ios' : 'android') : (isMobile ? 'mobile_web' : 'web');
+      const platform = isNative
+        ? (/(iPhone|iPad|iPod)/i.test(navigator.userAgent) ? 'ios' : 'android')
+        : (isMobile ? 'mobile_web' : 'web');
       
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: data.email,
