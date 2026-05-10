@@ -206,7 +206,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     }
   };
 
-  // Generate a preview using dangerouslySetInnerHTML (safe here since we control the content)
+  // Preview HTML — partner.directory_name is escapeHtml-encoded and partner.referral_link is sanitizeUrl-validated above
   const previewHTML = generateBannerHTML();
 
   return (
