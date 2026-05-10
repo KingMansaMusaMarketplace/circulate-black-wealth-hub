@@ -1,0 +1,1 @@
+UPDATE public.businesses SET address = '21 W. Hargett Street, Raleigh, NC 27601', phone = '(984) 200-3506', website = 'nashona.com', banner_url = 'https://www.1325.ai/business-banners/nashona-banner.jpg', updated_at = now() WHERE id = 'bd7173fa-89a6-41ce-88e2-a952be820b22';
