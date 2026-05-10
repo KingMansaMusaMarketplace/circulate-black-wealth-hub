@@ -1,46 +1,71 @@
-# Pre-Launch Customer Signup Smoke Test
+## What we're adding
 
-Goal: simulate a brand-new customer signing up end-to-end so real users on Monday hit zero friction. I'll use the in-browser preview to act as a real customer, then report every issue I find with a fix recommendation.
+Three AI upgrades, shipped as small, isolated edge functions + UI surfaces. None of them touch existing payment, auth, or Kayla agent routing logic.
 
-## What I'll test
+---
 
-1. **Navigate to `/signup`** on the live preview as an unauthenticated visitor.
-2. **Fill the Customer signup form** with realistic throwaway data:
-   - Name, email (unique `qa+<timestamp>@mansamusamarketplace.com`), phone, address, password, confirm password, agree to terms.
-3. **Submit** and observe:
-   - Network call to Supabase Auth (`/auth/v1/signup`) — status, error body
-   - Edge function calls: `auth-rate-guard`, `send-verification-email`, `send-business-notification`
-   - Toast / inline error messages
-   - Redirect behavior after submit
-4. **Verify the welcome + verification emails actually send** by checking edge function logs for `send-verification-email` and `send-business-notification`.
-5. **Confirm the new user row** lands in `auth.users` and `profiles` (via read-only DB query).
-6. **Try the failure paths** real users will hit:
-   - Weak password (under 8 chars)
-   - Mismatched confirm password
-   - Duplicate email (re-submit same address)
-   - Empty required fields
-   - Rate-limit behavior (5 rapid submits) → confirms `auth-rate-guard` blocks gracefully
-7. **Spot-check the post-signup experience**: does the user land somewhere sensible (verify-email screen, dashboard, or directory)? Is the "check your email" message clear?
-8. **Mobile viewport sanity check** (390×844) — make sure form is usable on phone since most Monday signups will be mobile.
+### 1. Vision AI — Photo-to-Product (vendor onboarding)
 
-## What I'll report back
+**Where:** Product image upload form (`src/components/business/product-images/form/`)
 
-For each issue found, I'll give you:
-- Exact step that failed
-- Screenshot
-- Console / network / edge-function log excerpt
-- Severity (blocker vs. polish)
-- Proposed fix (file + change)
+**Flow:**
+1. Vendor uploads/selects a product photo (existing flow already captures `previewUrl`)
+2. New "✨ Auto-fill from photo" button appears next to the upload area
+3. Calls new edge function `analyze-product-image` → Lovable AI Gateway with `google/gemini-2.5-pro` (vision)
+4. Returns: `{ title, category, suggestedPrice, description, tags[], altText }`
+5. Auto-populates form fields; vendor reviews and submits
 
-## What I will NOT do without your OK
+**Files:**
+- NEW: `supabase/functions/analyze-product-image/index.ts`
+- NEW: `src/hooks/use-product-image-analysis.ts`
+- EDIT: `src/components/business/product-images/form/tabs/SingleUploadTab.tsx` (add button)
 
-- Modify any code (this is a diagnostic pass first)
-- Delete the test user from `auth.users` (I'll list the test emails I created so you can purge or keep them)
-- Touch the SMTP / rate-limit settings we just configured in Supabase
+---
 
-## After the test
+### 2. Real-time Web Search for Kayla
 
-If everything is clean → I'll give you a green-light checklist for Monday.
-If issues exist → I'll come back with a prioritized fix plan you approve before I write code.
+**Where:** Kayla agent edge function (will locate via search — likely `supabase/functions/kayla-*/index.ts`)
 
-Sound good? Hit **Implement plan** and I'll start the run.
+**Flow:**
+1. Add new tool `web_search` to Kayla's AI SDK tool set
+2. Tool uses **Firecrawl connector** (`firecrawl/v2/search`) — gives Kayla live web results + scraped content
+3. Kayla auto-invokes when user asks: "What are competitors charging?", "Latest grant deadlines for Black-owned businesses?", "Current Chicago BHM events?"
+4. Results fold into Kayla's existing streaming response
+
+**Files:**
+- EDIT: Kayla's main agent edge function (add `web_search` tool)
+- Requires: Firecrawl connector linked (will prompt user via `standard_connectors--connect`)
+
+---
+
+### 3. AI Image Generation — Marketing Studio
+
+**Where:** New tab in business dashboard
+
+**Flow:**
+1. New "Marketing Studio" section with prompt input + style presets (Banner / Social Post / Promo Flyer)
+2. Calls new edge function `generate-marketing-image` → Lovable AI Gateway with `google/gemini-3-pro-image-preview`
+3. Generated image previews; vendor can download or save directly to their `marketing_materials` table (already exists per `src/types/marketing-material.ts`)
+4. Auto-fills dimensions based on preset (1200x400 banner, 1080x1080 social, etc.)
+
+**Files:**
+- NEW: `supabase/functions/generate-marketing-image/index.ts`
+- NEW: `src/components/business/marketing-studio/MarketingStudio.tsx`
+- NEW: `src/hooks/use-marketing-image-gen.ts`
+- EDIT: Business dashboard page to add the new tab/route
+
+---
+
+## Order of work
+
+1. Ship #1 (Vision AI) first — smallest blast radius, biggest "wow" for vendor onboarding
+2. Ship #3 (Marketing Studio) — uses same gateway pattern
+3. Ship #2 (Kayla web search) — requires Firecrawl connector approval from you
+
+## Tech notes
+
+- All three use the existing **Lovable AI Gateway** pattern (no new API keys needed for #1 and #3)
+- #2 needs **Firecrawl connector** (free tier available; I'll prompt you to connect when we get there)
+- All edge functions follow existing CORS + `x-csrf-token` rules from project memory
+- All UI components use semantic tokens (MansaBlue/MansaGold theme)
+- Brand copy stays "1325.AI" as primary
