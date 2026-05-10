@@ -7762,6 +7762,57 @@ export type Database = {
           },
         ]
       }
+      featured_placements: {
+        Row: {
+          business_id: string
+          category: string | null
+          city: string | null
+          created_at: string
+          ends_at: string | null
+          id: string
+          owner_user_id: string
+          priority_score: number
+          starts_at: string | null
+          status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          tier: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          category?: string | null
+          city?: string | null
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          owner_user_id: string
+          priority_score?: number
+          starts_at?: string | null
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tier: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          category?: string | null
+          city?: string | null
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          owner_user_id?: string
+          priority_score?: number
+          starts_at?: string | null
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tier?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       financial_audit_log: {
         Row: {
           action: string
