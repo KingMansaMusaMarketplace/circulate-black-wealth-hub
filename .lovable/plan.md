@@ -1,46 +1,53 @@
-# One-Shot Backlog Flush + Keep Strict Verification
+# Pre-Launch QA: Business Owner Signup Flow
 
-## Goal
-Promote the ~391 stuck `b2b_external_leads` (status `pending` + `needs_review`) into the `businesses` directory in a single run, while keeping the strict verify-and-promote gate as the default for all new leads going forward.
+Great idea — with real owners arriving Monday, we should walk the full path ourselves first using a fake business and fix anything that breaks. Here's how I'll do it.
 
-## Changes
+## Test Persona
 
-### 1. New edge function: `kayla-bulk-promote-backlog`
-File: `supabase/functions/kayla-bulk-promote-backlog/index.ts`
+- **Business:** "Harper & Vine Coffee Roasters" (fictional)
+- **Owner:** Jordan Harper
+- **Email:** a throwaway test address (e.g. `qa+harpervine@1325.ai`)
+- **Category:** Food & Beverage (picked from the new dropdown)
+- **Address:** real Chicago address so geocoding works
+- **Phone, website, description:** fully filled
 
-- `verify_jwt = false` (admin-invoked)
-- Uses `SUPABASE_SERVICE_ROLE_KEY` internally
-- Query target leads:
-  - `verification_status IN ('pending','needs_review')`
-  - `is_converted = false`
-  - Order by `lead_score DESC NULLS LAST, created_at ASC`
-  - Batch size 500, parallel chunks of 25
-- For each lead:
-  1. Normalize `website_domain` (strip protocol/www/path, lowercase)
-  2. Normalize `(name, city)` — lowercase, trim, collapse whitespace
-  3. **Dedup check** against `businesses`:
-     - Skip if any row matches `website_domain`
-     - Skip if any row matches `(normalized_name, city)`
-  4. Insert into `businesses` with:
-     - `listing_status = 'live'`
-     - `is_verified = true`
-     - `verification_source = 'bulk_backlog_flush'`
-     - Map name, description, category, website, phone, email, address, city, state, lat/lng from the lead
-  5. Update lead: `is_converted = true`, `converted_business_id = <new id>`, `verification_status = 'promoted_bulk'`
-- Returns JSON summary: `{ processed, promoted, skipped_duplicate_domain, skipped_duplicate_name_city, skipped_missing_required, errors }`
+## What I'll Walk Through
 
-### 2. One-shot invocation (no cron)
-After deploy, invoke once via the Supabase curl tool. Do NOT schedule it in `cron.job`. Strict `kayla-verify-and-promote` (every 3 min) remains the default path for all newly-discovered leads.
+1. **Signup** — `/auth` → create account as `user_type: business`
+2. **Email verification** — confirm the verification email arrives and the link lands on `/email-verified`
+3. **Login** — sign back in, confirm session + UserMenu shows name (not duplicated email — Lisa's fix)
+4. **Business Registration form** (`BusinessForm`)
+   - Basic Info: name, **Category dropdown** (Lisa's fix), description
+   - Location: address, city, state, zip
+   - Contact: phone (with the looser regex), email, website
+   - Submit → confirm `saveBusinessProfile` succeeds (no "permission denied" — Lisa's fix #1)
+5. **Post-save checks**
+   - Profile re-loads correctly on refresh
+   - Business appears on `/directory`
+   - Logo/banner upload works
+   - QR code generation works
+6. **Edit flow** — change a field, re-save, confirm update path works
+7. **Logout / re-login** — confirm everything persists
 
-### 3. No schema changes
-Reuses existing columns on `b2b_external_leads` and `businesses`. No migration required unless we discover a missing column during implementation, in which case I'll add the minimum needed.
+## What I'll Check At Each Step
 
-## Out of scope
-- Loosening the strict verifier
-- Scheduling the bulk promoter on a recurring cron
-- Increasing Perplexity `NUM_SEARCHES` (revisit after 24h if volume still lags)
+- Console errors
+- Network failures (4xx/5xx)
+- Validation messages that block valid input
+- Toasts (success vs. error)
+- Visual issues at the current 1575px viewport + a quick mobile pass
 
-## Verification after run
-- Report counts: promoted vs skipped (with reasons)
-- Spot-check 5 promoted businesses on `/directory`
-- Confirm `b2b_external_leads` backlog (`pending` + `needs_review`, not converted) drops to ~0
+## Deliverable
+
+A short report listing:
+- ✅ Steps that worked cleanly
+- ⚠️ Anything that needs a fix before Monday, with the exact file + line and a proposed patch
+- 🔧 Fixes I apply during the run (after you approve switching to build mode)
+
+## Notes / Caveats
+
+- I'll need to actually create an auth user in your Supabase project. I'll use a clearly-marked test email so you can delete it after (or I can clean it up at the end).
+- Email verification: if SMTP is restricted, I may need to mark the test user verified via a migration to continue the flow. I'll flag this if it happens rather than working around it silently.
+- I won't touch any real owner data.
+
+Approve this and I'll switch to build mode, run the walkthrough, fix any blockers in real time, and hand you the report.
