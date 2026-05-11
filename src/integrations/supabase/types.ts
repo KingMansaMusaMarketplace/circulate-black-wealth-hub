@@ -9197,6 +9197,117 @@ export type Database = {
           },
         ]
       }
+      job_postings: {
+        Row: {
+          amount_cents: number
+          apply_email: string | null
+          apply_url: string | null
+          business_id: string | null
+          company_name: string
+          created_at: string
+          description: string
+          employment_type: string
+          expires_at: string | null
+          id: string
+          location: string | null
+          paid_at: string | null
+          poster_user_id: string
+          rejection_reason: string | null
+          remote_ok: boolean
+          salary_currency: string
+          salary_max: number | null
+          salary_min: number | null
+          status: string
+          stripe_session_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents?: number
+          apply_email?: string | null
+          apply_url?: string | null
+          business_id?: string | null
+          company_name: string
+          created_at?: string
+          description: string
+          employment_type?: string
+          expires_at?: string | null
+          id?: string
+          location?: string | null
+          paid_at?: string | null
+          poster_user_id: string
+          rejection_reason?: string | null
+          remote_ok?: boolean
+          salary_currency?: string
+          salary_max?: number | null
+          salary_min?: number | null
+          status?: string
+          stripe_session_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          apply_email?: string | null
+          apply_url?: string | null
+          business_id?: string | null
+          company_name?: string
+          created_at?: string
+          description?: string
+          employment_type?: string
+          expires_at?: string | null
+          id?: string
+          location?: string | null
+          paid_at?: string | null
+          poster_user_id?: string
+          rejection_reason?: string | null
+          remote_ok?: boolean
+          salary_currency?: string
+          salary_max?: number | null
+          salary_min?: number | null
+          status?: string
+          stripe_session_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_postings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_postings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_postings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_postings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_postings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       karma_transactions: {
         Row: {
           change_amount: number
