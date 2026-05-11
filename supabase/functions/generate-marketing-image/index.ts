@@ -1,4 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
@@ -18,6 +19,13 @@ const PRESET_GUIDANCE: Record<Preset, string> = {
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
 
+  let consumedBucket: string | null = null;
+  let businessIdForRefund: string | null = null;
+  const admin = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+  );
+
   try {
     const auth = await requireAuth(req, corsHeaders);
     if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
@@ -28,6 +36,45 @@ Deno.serve(async (req) => {
         status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
+
+    // Resolve business + tier for this user
+    const { data: biz } = await admin
+      .from('businesses')
+      .select('id')
+      .eq('owner_id', auth.userId!)
+      .order('created_at', { ascending: true })
+      .limit(1)
+      .maybeSingle();
+
+    if (!biz) {
+      return new Response(JSON.stringify({ error: 'No business profile found. Marketing Studio is for business accounts.' }), {
+        status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+    businessIdForRefund = biz.id;
+
+    const { data: sub } = await admin
+      .from('subscribers')
+      .select('subscription_tier, subscribed')
+      .eq('user_id', auth.userId!)
+      .maybeSingle();
+    const tier = (sub?.subscribed ? sub?.subscription_tier : null) || 'free';
+
+    // Atomic credit consume
+    const { data: consume, error: cErr } = await admin.rpc('consume_marketing_credit', {
+      p_business_id: biz.id,
+      p_tier: tier,
+    });
+    if (cErr) throw new Error(`Credit check failed: ${cErr.message}`);
+    if (!consume?.ok) {
+      return new Response(JSON.stringify({
+        error: 'insufficient_credits',
+        message: "You're out of Marketing Studio credits. Top up to keep generating.",
+        plan_remaining: consume?.plan_remaining ?? 0,
+        topup_remaining: consume?.topup_remaining ?? 0,
+      }), { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+    consumedBucket = consume.bucket;
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) throw new Error('LOVABLE_API_KEY not configured');
@@ -49,6 +96,11 @@ Deno.serve(async (req) => {
     });
 
     if (!response.ok) {
+      // Refund — gateway failure isn't user's fault
+      if (consumedBucket && businessIdForRefund) {
+        await admin.rpc('refund_marketing_credit', { p_business_id: businessIdForRefund, p_bucket: consumedBucket });
+        consumedBucket = null;
+      }
       const errorText = await response.text();
       console.error('Image gen error:', response.status, errorText);
       if (response.status === 429) {
@@ -62,13 +114,29 @@ Deno.serve(async (req) => {
 
     const data = await response.json();
     const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
-    if (!imageUrl) throw new Error('No image returned');
+    if (!imageUrl) {
+      if (consumedBucket && businessIdForRefund) {
+        await admin.rpc('refund_marketing_credit', { p_business_id: businessIdForRefund, p_bucket: consumedBucket });
+      }
+      throw new Error('No image returned');
+    }
 
-    return new Response(JSON.stringify({ success: true, imageUrl, preset }), {
+    return new Response(JSON.stringify({
+      success: true,
+      imageUrl,
+      preset,
+      plan_remaining: consume.plan_remaining,
+      topup_remaining: consume.topup_remaining,
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
     console.error('generate-marketing-image error:', error);
+    if (consumedBucket && businessIdForRefund) {
+      try {
+        await admin.rpc('refund_marketing_credit', { p_business_id: businessIdForRefund, p_bucket: consumedBucket });
+      } catch (_) { /* swallow */ }
+    }
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
