@@ -78,8 +78,8 @@ serve(async (req) => {
         },
         quantity: 1,
       }],
-      success_url: `${origin}/business/verification?priority=success`,
-      cancel_url: `${origin}/business/verification?priority=cancelled`,
+      success_url: `${origin}/business-dashboard?priority=success`,
+      cancel_url: `${origin}/business-dashboard?priority=cancelled`,
       metadata: {
         type: "verification_priority",
         businessId,
