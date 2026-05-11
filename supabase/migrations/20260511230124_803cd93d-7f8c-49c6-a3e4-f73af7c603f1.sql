@@ -1,0 +1,1 @@
+DELETE FROM public.rate_limit_log WHERE user_id IS NULL AND operation = 'signin';
