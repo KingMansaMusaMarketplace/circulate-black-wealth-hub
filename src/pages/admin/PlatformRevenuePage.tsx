@@ -310,6 +310,50 @@ export default function PlatformRevenuePage() {
         if (r.paid_at && r.paid_at >= thirtyAgo) next.agentCommissions.last30 += amt;
       });
 
+      // Apple iOS in-app subscriptions (App Store) — match tier from product_id
+      const { data: appleRows } = await supabase
+        .from('apple_subscriptions')
+        .select('product_id, status, expires_date')
+        .eq('status', 'active');
+      (appleRows ?? []).forEach((r: any) => {
+        const pid = String(r.product_id ?? '').toLowerCase();
+        let price = 0;
+        for (const [tier, p] of Object.entries(SUBSCRIPTION_MRR)) {
+          if (pid.includes(tier)) { price = p; break; }
+        }
+        if (price > 0) {
+          next.apple.mrr += price;
+          next.apple.activeCount += 1;
+        }
+      });
+
+      // Corporate B2B Subscriptions (separate from sponsors)
+      const { data: corpRows } = await supabase
+        .from('corporate_subscriptions')
+        .select('tier, status')
+        .eq('status', 'active');
+      (corpRows ?? []).forEach((r: any) => {
+        const key = String(r.tier ?? '').toLowerCase().trim();
+        const price = SPONSOR_MRR[key] ?? 0;
+        if (price > 0) {
+          next.corpSubs.mrr += price;
+          next.corpSubs.activeCount += 1;
+          next.corpSubs.byTier[key] = (next.corpSubs.byTier[key] ?? 0) + 1;
+        }
+      });
+
+      // Service Bookings — platform_fee on bookings (in-platform booking system)
+      const { data: bookRows } = await supabase
+        .from('bookings')
+        .select('platform_fee, created_at, status')
+        .neq('status', 'cancelled');
+      (bookRows ?? []).forEach((r: any) => {
+        const fee = Number(r.platform_fee || 0);
+        next.serviceBookings.total += fee;
+        next.serviceBookings.count += 1;
+        if (r.created_at && r.created_at >= thirtyAgo) next.serviceBookings.last30 += fee;
+      });
+
       setS(next);
       setLoading(false);
     })();
