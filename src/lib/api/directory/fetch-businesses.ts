@@ -54,7 +54,7 @@ export async function fetchBusinesses(
       const totalCount = count || 0;
       const totalPages = pagination ? Math.ceil(totalCount / pagination.pageSize) : 1;
       const businesses = data.map(mapSupabaseBusinessToBusiness);
-      
+      await applyFeaturedPlacements(businesses, filters);
       return { businesses, totalCount, totalPages };
     }
     
