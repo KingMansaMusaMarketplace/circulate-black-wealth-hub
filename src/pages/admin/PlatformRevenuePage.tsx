@@ -37,6 +37,8 @@ const SUBSCRIPTION_MRR: Record<string, number> = {
   starter: 79,
   pro: 299,
   enterprise: 899,
+  founding_pro: 149, // Founders' Lock — first 100 businesses
+  founding: 149,
 };
 
 // API developer tier MRR (matches create-api-subscription-checkout)
@@ -44,6 +46,15 @@ const API_TIER_MRR: Record<string, number> = {
   free: 0,
   pro: 299,
   enterprise: 999,
+};
+
+// Corporate Sponsor tier MRR (estimates — Stripe price IDs are env-driven)
+const SPONSOR_MRR: Record<string, number> = {
+  bronze: 500,
+  silver: 1500,
+  gold: 5000,
+  platinum: 10000,
+  founding: 2500,
 };
 
 const fmt = (n: number) =>
