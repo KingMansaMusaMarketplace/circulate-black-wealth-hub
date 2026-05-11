@@ -13,6 +13,11 @@ import {
   QrCode,
   Star,
   Crown,
+  Users,
+  Code2,
+  PhoneCall,
+  Home,
+  Car,
 } from 'lucide-react';
 
 // Featured Placement monthly pricing (USD) — must match create-featured-placement-checkout edge fn
@@ -25,6 +30,21 @@ const FEATURED_MRR: Record<string, number> = {
 
 // Marketing topup packs — derive USD from credit delta (matches create-marketing-topup-checkout)
 const TOPUP_USD_BY_CREDITS: Record<number, number> = { 25: 9, 100: 25, 500: 79 };
+
+// Business subscription tiers (matches /pricing). Lowercase-normalized lookup.
+const SUBSCRIPTION_MRR: Record<string, number> = {
+  essentials: 19,
+  starter: 79,
+  pro: 299,
+  enterprise: 899,
+};
+
+// API developer tier MRR (matches create-api-subscription-checkout)
+const API_TIER_MRR: Record<string, number> = {
+  free: 0,
+  pro: 299,
+  enterprise: 999,
+};
 
 const fmt = (n: number) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
@@ -58,6 +78,11 @@ interface RevenueState {
   jobs: { total: number; count: number; last30: number };
   marketing: { total: number; count: number; last30: number };
   apiCalls: number;
+  subscriptions: { mrr: number; activeCount: number; byTier: Record<string, number> };
+  apiTiers: { mrr: number; activeCount: number };
+  answering: { activeCount: number; callsLast30: number };
+  stays: { total: number; count: number; last30: number };
+  noire: { total: number; count: number; last30: number };
 }
 
 const EMPTY: RevenueState = {
@@ -67,6 +92,11 @@ const EMPTY: RevenueState = {
   jobs: { total: 0, count: 0, last30: 0 },
   marketing: { total: 0, count: 0, last30: 0 },
   apiCalls: 0,
+  subscriptions: { mrr: 0, activeCount: 0, byTier: {} },
+  apiTiers: { mrr: 0, activeCount: 0 },
+  answering: { activeCount: 0, callsLast30: 0 },
+  stays: { total: 0, count: 0, last30: 0 },
+  noire: { total: 0, count: 0, last30: 0 },
 };
 
 export default function PlatformRevenuePage() {
@@ -149,20 +179,98 @@ export default function PlatformRevenuePage() {
         .gte('request_timestamp', monthStart.toISOString());
       next.apiCalls = ac ?? 0;
 
+      // Business subscriptions (Essentials / Starter / Pro / Enterprise)
+      const { data: subRows } = await supabase
+        .from('subscribers')
+        .select('subscription_tier, subscribed, status')
+        .eq('subscribed', true);
+      (subRows ?? []).forEach((r: any) => {
+        const key = String(r.subscription_tier ?? '').toLowerCase().trim();
+        const price = SUBSCRIPTION_MRR[key] ?? 0;
+        if (price > 0) {
+          next.subscriptions.mrr += price;
+          next.subscriptions.activeCount += 1;
+          next.subscriptions.byTier[key] = (next.subscriptions.byTier[key] ?? 0) + 1;
+        }
+      });
+
+      // Institutional Data API tiers
+      const { data: devRows } = await supabase
+        .from('developer_accounts')
+        .select('tier, tier_price_cents, stripe_subscription_status')
+        .eq('stripe_subscription_status', 'active');
+      (devRows ?? []).forEach((r: any) => {
+        const fromCents = Number(r.tier_price_cents || 0) / 100;
+        const fromMap = API_TIER_MRR[String(r.tier ?? '').toLowerCase()] ?? 0;
+        const price = fromCents > 0 ? fromCents : fromMap;
+        if (price > 0) {
+          next.apiTiers.mrr += price;
+          next.apiTiers.activeCount += 1;
+        }
+      });
+
+      // Kayla Answering Service (active deployments + 30d call volume)
+      const { count: ansActive } = await supabase
+        .from('business_answering_config')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_active', true);
+      next.answering.activeCount = ansActive ?? 0;
+      const { count: ansCalls } = await supabase
+        .from('answering_call_logs')
+        .select('*', { count: 'exact', head: true })
+        .gte('created_at', thirtyAgo);
+      next.answering.callsLast30 = ansCalls ?? 0;
+
+      // Mansa Stays — platform_fee on vacation_bookings
+      const { data: stayRows } = await supabase
+        .from('vacation_bookings')
+        .select('platform_fee, created_at, status')
+        .neq('status', 'cancelled');
+      (stayRows ?? []).forEach((r: any) => {
+        const fee = Number(r.platform_fee || 0);
+        next.stays.total += fee;
+        next.stays.count += 1;
+        if (r.created_at && r.created_at >= thirtyAgo) next.stays.last30 += fee;
+      });
+
+      // Noire Rideshare — platform_fee on completed rides
+      const { data: rideRows } = await supabase
+        .from('noir_rides')
+        .select('platform_fee, created_at, status');
+      (rideRows ?? []).forEach((r: any) => {
+        const fee = Number(r.platform_fee || 0);
+        next.noire.total += fee;
+        next.noire.count += 1;
+        if (r.created_at && r.created_at >= thirtyAgo) next.noire.last30 += fee;
+      });
+
       setS(next);
       setLoading(false);
     })();
   }, []);
 
   const lifetimeTotal = useMemo(
-    () => s.qr.total + s.verification.total + s.jobs.total + s.marketing.total,
+    () =>
+      s.qr.total +
+      s.verification.total +
+      s.jobs.total +
+      s.marketing.total +
+      s.stays.total +
+      s.noire.total,
     [s],
   );
   const last30Total = useMemo(
-    () => s.qr.last30 + s.verification.last30 + s.jobs.last30 + s.marketing.last30,
+    () =>
+      s.qr.last30 +
+      s.verification.last30 +
+      s.jobs.last30 +
+      s.marketing.last30 +
+      s.stays.last30 +
+      s.noire.last30,
     [s],
   );
-  const annualizedFromMrr = s.featured.mrr * 12;
+  const totalMrr = s.featured.mrr + s.subscriptions.mrr + s.apiTiers.mrr;
+  const annualizedFromMrr = totalMrr * 12;
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
@@ -187,24 +295,24 @@ export default function PlatformRevenuePage() {
           <Card className="bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-mansagold/30">
             <CardHeader className="pb-2">
               <CardDescription className="text-mansagold/90 uppercase tracking-wider text-xs">
-                Lifetime one-time + transactional
+                Lifetime transactional
               </CardDescription>
               <CardTitle className="text-3xl">{loading ? '—' : fmt(lifetimeTotal)}</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-muted-foreground">
-              QR fees + verification + jobs + marketing topups
+              QR + verification + jobs + marketing + stays + rideshare
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-mansablue/30 to-mansablue/5 border-mansablue/40">
             <CardHeader className="pb-2">
               <CardDescription className="text-blue-200/80 uppercase tracking-wider text-xs">
-                Recurring (MRR)
+                Total MRR
               </CardDescription>
-              <CardTitle className="text-3xl">{loading ? '—' : fmt(s.featured.mrr)}</CardTitle>
+              <CardTitle className="text-3xl">{loading ? '—' : fmt(totalMrr)}</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-muted-foreground">
-              {s.featured.activeCount} active featured placements · {fmt(annualizedFromMrr)} ARR
+              Subs + Featured + API · {fmt(annualizedFromMrr)} ARR
             </CardContent>
           </Card>
 
@@ -213,7 +321,7 @@ export default function PlatformRevenuePage() {
               <CardDescription className="uppercase tracking-wider text-xs">
                 Last 30 days
               </CardDescription>
-              <CardTitle className="text-3xl">{loading ? '—' : fmt(last30Total + s.featured.mrr)}</CardTitle>
+              <CardTitle className="text-3xl">{loading ? '—' : fmt(last30Total + totalMrr)}</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-muted-foreground">
               Includes 1× current MRR run-rate
@@ -227,17 +335,31 @@ export default function PlatformRevenuePage() {
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
           <StreamCard
-            icon={<QrCode className="h-5 w-5" />}
-            label="QR Transaction Fees (1.5%)"
-            total={s.qr.total}
-            sub={`${s.qr.count} txns · ${fmt(s.qr.last30)} last 30d`}
+            icon={<Users className="h-5 w-5" />}
+            label="Business Subscriptions"
+            total={s.subscriptions.mrr}
+            sub={`${s.subscriptions.activeCount} active · MRR shown · ${fmt(s.subscriptions.mrr * 12)} ARR`}
+            accent="bg-mansablue/20 text-blue-300"
           />
           <StreamCard
             icon={<Crown className="h-5 w-5" />}
             label="Featured Placements"
             total={s.featured.mrr}
-            sub={`${s.featured.activeCount} active · MRR shown · ${fmt(annualizedFromMrr)} ARR`}
+            sub={`${s.featured.activeCount} active · MRR · ${fmt(s.featured.mrr * 12)} ARR`}
             accent="bg-mansagold/20 text-mansagold"
+          />
+          <StreamCard
+            icon={<Code2 className="h-5 w-5" />}
+            label="Institutional Data API"
+            total={s.apiTiers.mrr}
+            sub={`${s.apiTiers.activeCount} paid devs · ${s.apiCalls.toLocaleString()} calls this month`}
+            accent="bg-cyan-500/15 text-cyan-300"
+          />
+          <StreamCard
+            icon={<QrCode className="h-5 w-5" />}
+            label="QR Transaction Fees (1.5%)"
+            total={s.qr.total}
+            sub={`${s.qr.count} txns · ${fmt(s.qr.last30)} last 30d`}
           />
           <StreamCard
             icon={<Zap className="h-5 w-5" />}
@@ -261,13 +383,62 @@ export default function PlatformRevenuePage() {
             accent="bg-purple-500/15 text-purple-400"
           />
           <StreamCard
+            icon={<Home className="h-5 w-5" />}
+            label="Mansa Stays (commission)"
+            total={s.stays.total}
+            sub={`${s.stays.count} bookings · ${fmt(s.stays.last30)} last 30d`}
+            accent="bg-rose-500/15 text-rose-300"
+          />
+          <StreamCard
+            icon={<Car className="h-5 w-5" />}
+            label="Noire Rideshare (platform fee)"
+            total={s.noire.total}
+            sub={`${s.noire.count} rides · ${fmt(s.noire.last30)} last 30d`}
+            accent="bg-indigo-500/15 text-indigo-300"
+          />
+          <StreamCard
+            icon={<PhoneCall className="h-5 w-5" />}
+            label="Kayla Answering Service"
+            total={0}
+            sub={`${s.answering.activeCount} active · ${s.answering.callsLast30.toLocaleString()} calls 30d · bundled in plans`}
+            accent="bg-teal-500/15 text-teal-300"
+          />
+          <StreamCard
             icon={<Activity className="h-5 w-5" />}
             label="API Calls (this month)"
             total={0}
-            sub={`${s.apiCalls.toLocaleString()} requests · metering not yet billed`}
+            sub={`${s.apiCalls.toLocaleString()} requests · metered against tier`}
             accent="bg-slate-500/15 text-slate-300"
           />
         </div>
+
+        {/* Subscription breakdown */}
+        {s.subscriptions.activeCount > 0 && (
+          <Card className="bg-card/40 backdrop-blur border-white/10 mb-6">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-blue-300" />
+                <CardTitle className="text-base">Business Subscriptions by Tier</CardTitle>
+              </div>
+              <CardDescription>Live business plans contributing to MRR</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-3">
+                {(['essentials', 'starter', 'pro', 'enterprise'] as const).map((t) => {
+                  const count = s.subscriptions.byTier[t] ?? 0;
+                  const sub = count * (SUBSCRIPTION_MRR[t] ?? 0);
+                  if (count === 0) return null;
+                  return (
+                    <Badge key={t} variant="outline" className="px-3 py-1.5 capitalize gap-2 text-sm">
+                      {t} × {count}
+                      <span className="text-muted-foreground">· {fmt(sub)}/mo</span>
+                    </Badge>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Featured Placement breakdown */}
         {s.featured.activeCount > 0 && (
@@ -304,12 +475,12 @@ export default function PlatformRevenuePage() {
               <TrendingUp className="h-5 w-5 text-primary" />
               <CardTitle className="text-base">Revenue stack</CardTitle>
             </div>
-            <CardDescription>5 active streams. iOS surfaces are hidden per App Store policy.</CardDescription>
+            <CardDescription>10 active streams. iOS surfaces are hidden per App Store policy.</CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-1.5">
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime: <span className="text-foreground font-semibold">{fmt(lifetimeTotal)}</span></div>
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> MRR: <span className="text-foreground font-semibold">{fmt(s.featured.mrr)}</span> · ARR: <span className="text-foreground font-semibold">{fmt(annualizedFromMrr)}</span></div>
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d (incl. MRR): <span className="text-foreground font-semibold">{fmt(last30Total + s.featured.mrr)}</span></div>
+            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime transactional: <span className="text-foreground font-semibold">{fmt(lifetimeTotal)}</span></div>
+            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> MRR: <span className="text-foreground font-semibold">{fmt(totalMrr)}</span> · ARR: <span className="text-foreground font-semibold">{fmt(annualizedFromMrr)}</span></div>
+            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d (incl. MRR): <span className="text-foreground font-semibold">{fmt(last30Total + totalMrr)}</span></div>
           </CardContent>
         </Card>
       </div>
