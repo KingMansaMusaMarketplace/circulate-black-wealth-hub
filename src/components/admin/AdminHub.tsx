@@ -116,6 +116,9 @@ const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
         </p>
       </div>
 
+      {/* Live revenue snapshot */}
+      <AdminRevenueWidget />
+
       {/* Sections Grid */}
       {sections.map((section) => (
         <div key={section.group} className="space-y-3">
