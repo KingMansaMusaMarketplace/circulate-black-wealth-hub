@@ -76,6 +76,10 @@ const AdminVerificationPage: React.FC = () => {
             <TabsContent value="queue">
               <VerificationQueue />
             </TabsContent>
+
+            <TabsContent value="priority">
+              <PriorityQueue />
+            </TabsContent>
             
             <TabsContent value="settings">
               <VerificationSettings />
