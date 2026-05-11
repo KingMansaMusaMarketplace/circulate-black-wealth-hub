@@ -251,6 +251,41 @@ serve(async (req) => {
           }
         );
       }
+
+      // Enforce monthly call quota (paid tier billing cap)
+      const { data: devRow } = await supabase
+        .from("developer_accounts")
+        .select("monthly_call_limit, tier")
+        .eq("id", validation.developer!.developer_id)
+        .maybeSingle();
+
+      const monthlyLimit = devRow?.monthly_call_limit ?? 1000;
+      const monthStart = new Date();
+      monthStart.setUTCDate(1);
+      monthStart.setUTCHours(0, 0, 0, 0);
+
+      const { count: monthlyUsed } = await supabase
+        .from("api_usage_logs")
+        .select("*", { count: "exact", head: true })
+        .eq("developer_id", validation.developer!.developer_id)
+        .gte("request_timestamp", monthStart.toISOString());
+
+      if ((monthlyUsed ?? 0) >= monthlyLimit) {
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: `Monthly quota exceeded (${monthlyUsed}/${monthlyLimit} requests). Upgrade your tier to keep going.`,
+            errorCode: "MONTHLY_QUOTA_EXCEEDED",
+            currentTier: devRow?.tier ?? "free",
+            monthlyLimit,
+            monthlyUsed,
+          }),
+          {
+            status: 429,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
+      }
       
       // Check scope if required
       if (scope && !hasScope(validation.developer!, scope)) {
