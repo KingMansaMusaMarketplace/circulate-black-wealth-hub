@@ -121,7 +121,7 @@ const AdminRevenueWidget: React.FC = () => {
               </div>
               <div>
                 <div className="text-sm font-semibold text-white">Platform Revenue</div>
-                <div className="text-xs text-white/60">Live across 5 streams</div>
+                <div className="text-xs text-white/60">Live across 10 streams</div>
               </div>
             </div>
             <ArrowRight className="h-5 w-5 text-mansagold opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
