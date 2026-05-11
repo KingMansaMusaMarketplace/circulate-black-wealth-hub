@@ -120,7 +120,7 @@ async function applyFeaturedPlacements(businesses: any[], filters?: BusinessFilt
   try {
     let q = supabase
       .from('featured_placements')
-      .select('business_id, priority_score, category')
+      .select('id, business_id, priority_score, category')
       .eq('status', 'active');
 
     if (filters?.category && filters.category !== 'all') {
@@ -130,17 +130,20 @@ async function applyFeaturedPlacements(businesses: any[], filters?: BusinessFilt
     const { data: placements } = await q;
     if (!placements || placements.length === 0) return;
 
-    const map = new Map<string, number>();
+    const map = new Map<string, { score: number; placementId: string }>();
     placements.forEach((p: any) => {
-      const prev = map.get(p.business_id) || 0;
-      if (p.priority_score > prev) map.set(p.business_id, p.priority_score);
+      const prev = map.get(p.business_id);
+      if (!prev || p.priority_score > prev.score) {
+        map.set(p.business_id, { score: p.priority_score, placementId: p.id });
+      }
     });
 
     businesses.forEach((b) => {
-      const score = map.get(b.id);
-      if (score) {
+      const entry = map.get(b.id);
+      if (entry) {
         b.isFeatured = true;
-        (b as any).featuredPriority = score;
+        (b as any).featuredPriority = entry.score;
+        (b as any).featuredPlacementId = entry.placementId;
       }
     });
 
