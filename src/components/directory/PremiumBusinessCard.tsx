@@ -222,7 +222,7 @@ const PremiumBusinessCard = ({
             )}
             
             <div className="mt-auto">
-              <Link to={`/business/${id}`}>
+              <Link to={`/business/${id}`} onClick={handleFeaturedClick}>
                 <Button className="w-full relative overflow-hidden bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansagold hover:to-amber-500 hover:text-slate-900 transition-all duration-500 font-semibold group/btn">
                   <span className="relative z-10 flex items-center justify-center">
                     View Details
