@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
+import ApiSubscriptionPlans from '@/components/developers/ApiSubscriptionPlans';
 import { 
   Key, 
   Copy, 
@@ -280,6 +281,10 @@ const DeveloperDashboard: React.FC = () => {
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
+        </div>
+
+        <div className="mb-6">
+          <ApiSubscriptionPlans currentTier={account.tier} />
         </div>
 
         <Tabs defaultValue="keys" className="space-y-6">

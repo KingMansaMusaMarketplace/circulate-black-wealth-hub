@@ -6975,7 +6975,9 @@ export type Database = {
           company_name: string
           company_website: string | null
           created_at: string
+          current_period_end: string | null
           id: string
+          monthly_call_limit: number
           monthly_cmal_limit: number
           monthly_fraud_limit: number
           monthly_susu_limit: number
@@ -6983,7 +6985,9 @@ export type Database = {
           status: Database["public"]["Enums"]["developer_status"]
           stripe_customer_id: string | null
           stripe_subscription_id: string | null
+          stripe_subscription_status: string | null
           tier: Database["public"]["Enums"]["developer_tier"]
+          tier_price_cents: number
           updated_at: string
           user_id: string
         }
@@ -6992,7 +6996,9 @@ export type Database = {
           company_name: string
           company_website?: string | null
           created_at?: string
+          current_period_end?: string | null
           id?: string
+          monthly_call_limit?: number
           monthly_cmal_limit?: number
           monthly_fraud_limit?: number
           monthly_susu_limit?: number
@@ -7000,7 +7006,9 @@ export type Database = {
           status?: Database["public"]["Enums"]["developer_status"]
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
+          stripe_subscription_status?: string | null
           tier?: Database["public"]["Enums"]["developer_tier"]
+          tier_price_cents?: number
           updated_at?: string
           user_id: string
         }
@@ -7009,7 +7017,9 @@ export type Database = {
           company_name?: string
           company_website?: string | null
           created_at?: string
+          current_period_end?: string | null
           id?: string
+          monthly_call_limit?: number
           monthly_cmal_limit?: number
           monthly_fraud_limit?: number
           monthly_susu_limit?: number
@@ -7017,7 +7027,9 @@ export type Database = {
           status?: Database["public"]["Enums"]["developer_status"]
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
+          stripe_subscription_status?: string | null
           tier?: Database["public"]["Enums"]["developer_tier"]
+          tier_price_cents?: number
           updated_at?: string
           user_id?: string
         }

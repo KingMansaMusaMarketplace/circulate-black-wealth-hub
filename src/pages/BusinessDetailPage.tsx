@@ -38,6 +38,7 @@ import BusinessLocationMap from '@/components/business-detail/BusinessLocationMa
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
 import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
 import { getRememberedDirectoryUrl } from '@/utils/directoryReturn';
+import BoostVisibilityCard from '@/components/business/BoostVisibilityCard';
 
 // Subtle static accent — Apple-minimal, no animated colored orbs
 const BackgroundAccent = memo(() => (
@@ -72,6 +73,7 @@ interface Business {
   created_at: string;
   latitude?: number;
   longitude?: number;
+  owner_id?: string;
 }
 
 interface Review {
@@ -498,6 +500,12 @@ const BusinessDetailPage = () => {
 
         {/* Main Content */}
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+          {/* Owner-only: Boost Visibility upsell */}
+          {user?.id && business.owner_id && user.id === business.owner_id && (
+            <div className="mb-6 max-w-md">
+              <BoostVisibilityCard />
+            </div>
+          )}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Main Content */}
             <div className="lg:col-span-2 space-y-6">

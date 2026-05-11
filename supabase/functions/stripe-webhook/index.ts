@@ -465,6 +465,32 @@ serve(async (req) => {
           }
         }
 
+        // Handle Institutional Data API tier subscription
+        if (metadata?.type === 'api_subscription' && session.subscription) {
+          const developerId = metadata.developerId;
+          const tier = metadata.tier; // 'pro' | 'enterprise'
+          const callLimit = parseInt(metadata.callLimit || '1000', 10);
+          const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
+          const priceCents = subscription.items.data[0]?.price.unit_amount ?? 0;
+          const periodEnd = new Date(subscription.current_period_end * 1000).toISOString();
+
+          const { error: apiErr } = await supabaseClient
+            .from('developer_accounts')
+            .update({
+              tier,
+              status: 'active',
+              stripe_customer_id: session.customer as string,
+              stripe_subscription_id: subscription.id,
+              stripe_subscription_status: subscription.status,
+              tier_price_cents: priceCents,
+              current_period_end: periodEnd,
+              monthly_call_limit: callLimit,
+            })
+            .eq('id', developerId);
+          if (apiErr) console.error('API subscription activation failed:', apiErr);
+          else console.log(`API subscription activated: developer ${developerId} → ${tier} (${callLimit} calls/mo)`);
+        }
+
         break;
       }
 
@@ -498,19 +524,28 @@ serve(async (req) => {
 
       case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
-        
+
         // Mark subscription as cancelled
         await supabaseClient
           .from('corporate_subscriptions')
-          .update({
-            status: 'cancelled',
-          })
+          .update({ status: 'cancelled' })
           .eq('stripe_subscription_id', subscription.id);
 
         // Mark featured placements as expired
         await supabaseClient
           .from('featured_placements')
           .update({ status: 'expired' })
+          .eq('stripe_subscription_id', subscription.id);
+
+        // Downgrade API developer back to free tier on cancellation
+        await supabaseClient
+          .from('developer_accounts')
+          .update({
+            tier: 'free',
+            stripe_subscription_status: 'canceled',
+            tier_price_cents: 0,
+            monthly_call_limit: 1000,
+          })
           .eq('stripe_subscription_id', subscription.id);
 
         console.log(`Subscription deleted: ${subscription.id}`);

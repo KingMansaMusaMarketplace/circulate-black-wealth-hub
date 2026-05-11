@@ -8,6 +8,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import AdminRevenueWidget from './AdminRevenueWidget';
 
 interface AdminHubProps {
   onNavigate: (tab: string) => void;
@@ -114,6 +115,9 @@ const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
           Quick access to all administrative tools. Click any section to get started.
         </p>
       </div>
+
+      {/* Live revenue snapshot */}
+      <AdminRevenueWidget />
 
       {/* Sections Grid */}
       {sections.map((section) => (
