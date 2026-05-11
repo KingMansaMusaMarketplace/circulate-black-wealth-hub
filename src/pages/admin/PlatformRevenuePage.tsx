@@ -100,6 +100,9 @@ interface RevenueState {
   sponsors: { mrr: number; activeCount: number; byTier: Record<string, number> };
   bhm: { total: number; count: number; last30: number };
   agentCommissions: { total: number; count: number; last30: number };
+  apple: { mrr: number; activeCount: number };
+  corpSubs: { mrr: number; activeCount: number; byTier: Record<string, number> };
+  serviceBookings: { total: number; count: number; last30: number };
 }
 
 const EMPTY: RevenueState = {
