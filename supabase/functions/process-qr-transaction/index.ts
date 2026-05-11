@@ -22,7 +22,7 @@ const corsHeaders = {
 };
 
 // Tiered platform fee (lower for paid subscribers)
-const DEFAULT_COMMISSION_RATE = 1.0; // 1% baseline platform fee
+const DEFAULT_COMMISSION_RATE = 1.5; // 1.5% baseline platform fee
 const TIER_COMMISSION_RATES: Record<string, number> = {
   pro: 0.5,
   business_pro: 0.5,
