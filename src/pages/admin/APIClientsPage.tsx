@@ -109,6 +109,30 @@ export default function APIClientsPage() {
         </CardContent>
       </Card>
 
+      <h2 className="text-xl font-bold mb-4">Pending access requests</h2>
+      <div className="space-y-2 mb-10">
+        {requests.filter((r) => r.status === 'pending').map((r) => (
+          <Card key={r.id}>
+            <CardContent className="py-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div className="flex-1">
+                <div className="font-medium">{r.org_name} <Badge variant="outline" className="ml-2">{r.tier}</Badge></div>
+                <div className="text-sm text-muted-foreground">{r.contact_name} · {r.contact_email}</div>
+                {r.use_case && <div className="text-sm mt-1 text-muted-foreground italic">"{r.use_case}"</div>}
+                <div className="text-xs text-muted-foreground mt-1">{new Date(r.created_at).toLocaleString()}</div>
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline" onClick={() => prefillFromRequest(r)}>Provision</Button>
+                <Button size="sm" variant="ghost" onClick={() => markReviewed(r.id, 'approved')}>Mark approved</Button>
+                <Button size="sm" variant="ghost" onClick={() => markReviewed(r.id, 'rejected')}>Reject</Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+        {requests.filter((r) => r.status === 'pending').length === 0 && (
+          <p className="text-muted-foreground">No pending requests.</p>
+        )}
+      </div>
+
       <h2 className="text-xl font-bold mb-4">Active clients</h2>
       <div className="space-y-2">
         {clients.map((c) => (
