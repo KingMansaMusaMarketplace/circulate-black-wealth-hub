@@ -194,6 +194,8 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
         </Card>
 
         <PlatformFeesCard businessId={businessId} />
+
+        <BoostVisibilityCard />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
