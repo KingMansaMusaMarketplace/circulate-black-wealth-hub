@@ -432,6 +432,24 @@ serve(async (req) => {
           console.log(`Verification fast-track activated: ${businessId} (${tier})`);
         }
 
+        // Handle paid job board postings
+        if (metadata?.type === 'job_post') {
+          const jobPostingId = metadata.jobPostingId;
+          const durationDays = parseInt(metadata.durationDays || '30', 10);
+          const expiresAt = new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000).toISOString();
+          const { error: jErr } = await supabaseClient
+            .from('job_postings')
+            .update({
+              status: 'active',
+              paid_at: new Date().toISOString(),
+              expires_at: expiresAt,
+              stripe_session_id: session.id,
+            })
+            .eq('id', jobPostingId);
+          if (jErr) console.error('Job posting activation failed:', jErr);
+          else console.log(`Job posting activated: ${jobPostingId} (expires ${expiresAt})`);
+        }
+
         // Handle marketing studio credit top-ups
         if (metadata?.type === 'marketing_topup') {
           const businessId = metadata.businessId;

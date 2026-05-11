@@ -98,6 +98,9 @@ const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyAdminSponsorDetailPage = lazy(() => import('@/pages/AdminSponsorDetailPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
 const LazySponsorLandingPage = lazy(() => import('@/pages/SponsorLandingPage'));
+const LazyJobsPage = lazy(() => import('@/pages/JobsPage'));
+const LazyPostJobPage = lazy(() => import('@/pages/PostJobPage'));
+const LazyAdminJobsPage = lazy(() => import('@/pages/AdminJobsPage'));
 const LazyFeatureDiscoveryPage = lazy(() => import('@/components/onboarding/FeatureDiscovery'));
 const LazyCustomersPage = lazy(() => import('@/pages/CustomersPage'));
 const LazyCustomerDetailPage = lazy(() => import('@/pages/CustomerDetailPage'));
@@ -598,6 +601,9 @@ function App() {
                               <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
                               <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
+                              <Route path="/jobs" element={<LazyJobsPage />} />
+                              <Route path="/jobs/post" element={<LazyPostJobPage />} />
+                              <Route path="/admin/jobs" element={<RequireAdmin><LazyAdminJobsPage /></RequireAdmin>} />
                               
                               {/* E */}
                               <Route path="/education" element={<LazyEducationPage />} />
@@ -963,6 +969,9 @@ function App() {
                         <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
                         <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
+                        <Route path="/jobs" element={<LazyJobsPage />} />
+                        <Route path="/jobs/post" element={<LazyPostJobPage />} />
+                        <Route path="/admin/jobs" element={<RequireAdmin><LazyAdminJobsPage /></RequireAdmin>} />
                         
                         {/* E */}
                         <Route path="/education" element={<LazyEducationPage />} />
