@@ -3,7 +3,8 @@ import VerificationQueue from '@/components/admin/verification/VerificationQueue
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import VerificationSettings from '@/components/admin/verification/VerificationSettings';
 import VerificationStatistics from '@/components/admin/verification/VerificationStatistics';
-import { Activity, Settings, ClipboardList, BadgeCheck } from 'lucide-react';
+import { Activity, Settings, ClipboardList, BadgeCheck, Zap } from 'lucide-react';
+import PriorityQueue from '@/components/admin/verification/PriorityQueue';
 import { Helmet } from 'react-helmet-async';
 
 const AdminVerificationPage: React.FC = () => {
@@ -55,6 +56,12 @@ const AdminVerificationPage: React.FC = () => {
                 <ClipboardList className="h-4 w-4" /> Verification Queue
               </TabsTrigger>
               <TabsTrigger 
+                value="priority" 
+                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+              >
+                <Zap className="h-4 w-4" /> Priority Queue
+              </TabsTrigger>
+              <TabsTrigger 
                 value="settings" 
                 className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
               >
@@ -68,6 +75,10 @@ const AdminVerificationPage: React.FC = () => {
             
             <TabsContent value="queue">
               <VerificationQueue />
+            </TabsContent>
+
+            <TabsContent value="priority">
+              <PriorityQueue />
             </TabsContent>
             
             <TabsContent value="settings">

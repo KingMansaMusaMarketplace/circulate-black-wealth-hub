@@ -22689,6 +22689,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_grant_marketing_credits: {
+        Args: { p_business_id: string; p_credits: number; p_reason?: string }
+        Returns: Json
+      }
       admin_reject_business_verification: {
         Args: { reason: string; verification_id: string }
         Returns: undefined
@@ -23885,6 +23889,7 @@ export type Database = {
         }
         Returns: string
       }
+      refill_expired_marketing_credits: { Args: never; Returns: Json }
       refund_marketing_credit: {
         Args: { p_bucket: string; p_business_id: string }
         Returns: undefined
