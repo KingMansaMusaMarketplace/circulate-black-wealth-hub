@@ -72,6 +72,7 @@ interface Business {
   created_at: string;
   latitude?: number;
   longitude?: number;
+  owner_id?: string;
 }
 
 interface Review {
