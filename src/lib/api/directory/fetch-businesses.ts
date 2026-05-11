@@ -54,7 +54,7 @@ export async function fetchBusinesses(
       const totalCount = count || 0;
       const totalPages = pagination ? Math.ceil(totalCount / pagination.pageSize) : 1;
       const businesses = data.map(mapSupabaseBusinessToBusiness);
-      
+      await applyFeaturedPlacements(businesses, filters);
       return { businesses, totalCount, totalPages };
     }
     
@@ -102,10 +102,54 @@ export async function fetchBusinesses(
       }
     }
     
+    await applyFeaturedPlacements(businesses, filters);
     return { businesses, totalCount, totalPages };
   } catch (error) {
     console.error('Unexpected error fetching businesses:', error);
     toast.error('Something went wrong while loading businesses');
     return { businesses: [], totalCount: 0, totalPages: 0 };
+  }
+}
+
+/**
+ * Mark businesses with active featured_placements and reorder so featured rows
+ * come first, sorted by priority_score desc.
+ */
+async function applyFeaturedPlacements(businesses: any[], filters?: BusinessFilters) {
+  if (!businesses || businesses.length === 0) return;
+  try {
+    let q = supabase
+      .from('featured_placements')
+      .select('business_id, priority_score, category')
+      .eq('status', 'active');
+
+    if (filters?.category && filters.category !== 'all') {
+      q = q.or(`category.eq.${filters.category},category.is.null`);
+    }
+
+    const { data: placements } = await q;
+    if (!placements || placements.length === 0) return;
+
+    const map = new Map<string, number>();
+    placements.forEach((p: any) => {
+      const prev = map.get(p.business_id) || 0;
+      if (p.priority_score > prev) map.set(p.business_id, p.priority_score);
+    });
+
+    businesses.forEach((b) => {
+      const score = map.get(b.id);
+      if (score) {
+        b.isFeatured = true;
+        (b as any).featuredPriority = score;
+      }
+    });
+
+    businesses.sort((a, b) => {
+      const ap = a.isFeatured ? ((a as any).featuredPriority || 1) : 0;
+      const bp = b.isFeatured ? ((b as any).featuredPriority || 1) : 0;
+      return bp - ap;
+    });
+  } catch (e) {
+    console.warn('applyFeaturedPlacements failed:', e);
   }
 }

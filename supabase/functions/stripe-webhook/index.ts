@@ -376,6 +376,31 @@ serve(async (req) => {
           }
         }
 
+        // Handle featured directory placements
+        if (metadata?.type === 'featured_placement' && session.subscription) {
+          const businessId = metadata.businessId;
+          const tier = metadata.tier;
+          const subscriptionId = session.subscription as string;
+          const customerId = session.customer as string;
+          const sub = await stripe.subscriptions.retrieve(subscriptionId);
+
+          const { error: updErr } = await supabaseClient
+            .from('featured_placements')
+            .update({
+              status: 'active',
+              stripe_subscription_id: subscriptionId,
+              stripe_customer_id: customerId,
+              starts_at: new Date(sub.current_period_start * 1000).toISOString(),
+              ends_at: new Date(sub.current_period_end * 1000).toISOString(),
+            })
+            .eq('business_id', businessId)
+            .eq('tier', tier)
+            .eq('status', 'pending');
+
+          if (updErr) console.error('Featured placement activation failed:', updErr);
+          else console.log(`Featured placement activated for business ${businessId} (${tier})`);
+        }
+
         break;
       }
 
@@ -393,6 +418,16 @@ serve(async (req) => {
           })
           .eq('stripe_subscription_id', subscription.id);
 
+        // Update featured placements (extend period or mark inactive)
+        const placementStatus = subscription.status === 'active' || subscription.status === 'trialing' ? 'active' : 'inactive';
+        await supabaseClient
+          .from('featured_placements')
+          .update({
+            status: placementStatus,
+            ends_at: new Date(subscription.current_period_end * 1000).toISOString(),
+          })
+          .eq('stripe_subscription_id', subscription.id);
+
         console.log(`Subscription updated: ${subscription.id}`);
         break;
       }
@@ -406,6 +441,12 @@ serve(async (req) => {
           .update({
             status: 'cancelled',
           })
+          .eq('stripe_subscription_id', subscription.id);
+
+        // Mark featured placements as expired
+        await supabaseClient
+          .from('featured_placements')
+          .update({ status: 'expired' })
           .eq('stripe_subscription_id', subscription.id);
 
         console.log(`Subscription deleted: ${subscription.id}`);
