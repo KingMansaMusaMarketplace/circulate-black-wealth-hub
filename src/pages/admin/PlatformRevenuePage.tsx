@@ -546,6 +546,27 @@ export default function PlatformRevenuePage() {
             accent="bg-red-500/15 text-red-300"
           />
           <StreamCard
+            icon={<Users className="h-5 w-5" />}
+            label="Apple iOS Subscriptions"
+            total={s.apple.mrr}
+            sub={`${s.apple.activeCount} active · MRR · ${fmt(s.apple.mrr * 12)} ARR`}
+            accent="bg-zinc-500/15 text-zinc-300"
+          />
+          <StreamCard
+            icon={<Building2 className="h-5 w-5" />}
+            label="Corporate B2B Subscriptions"
+            total={s.corpSubs.mrr}
+            sub={`${s.corpSubs.activeCount} active · MRR · ${fmt(s.corpSubs.mrr * 12)} ARR`}
+            accent="bg-violet-500/15 text-violet-300"
+          />
+          <StreamCard
+            icon={<Calendar className="h-5 w-5" />}
+            label="Service Bookings (platform fee)"
+            total={s.serviceBookings.total}
+            sub={`${s.serviceBookings.count} bookings · ${fmt(s.serviceBookings.last30)} last 30d`}
+            accent="bg-pink-500/15 text-pink-300"
+          />
+          <StreamCard
             icon={<Activity className="h-5 w-5" />}
             label="API Calls (this month)"
             total={0}
