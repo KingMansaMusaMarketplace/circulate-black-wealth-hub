@@ -6,6 +6,7 @@ import VerificationForm from './VerificationForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
+import { VerificationPriorityUpsell } from './VerificationPriorityUpsell';
 
 const VerificationTab: React.FC = () => {
   const { user } = useAuth();
@@ -53,6 +54,8 @@ const VerificationTab: React.FC = () => {
         {user && profile && (
           <VerificationForm businessId={profile.id} userId={user.id} />
         )}
+
+        {profile && <VerificationPriorityUpsell businessId={profile.id} />}
 
         <Card>
           <CardHeader>
