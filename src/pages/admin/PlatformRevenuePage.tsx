@@ -261,6 +261,46 @@ export default function PlatformRevenuePage() {
         if (r.created_at && r.created_at >= thirtyAgo) next.noire.last30 += fee;
       });
 
+      // Corporate Sponsors — active sponsors by tier
+      const { data: sponsorRows } = await supabase
+        .from('sponsors')
+        .select('sponsorship_tier, subscription_status')
+        .eq('subscription_status', 'active');
+      (sponsorRows ?? []).forEach((r: any) => {
+        const key = String(r.sponsorship_tier ?? '').toLowerCase().trim();
+        const price = SPONSOR_MRR[key] ?? 0;
+        if (price > 0) {
+          next.sponsors.mrr += price;
+          next.sponsors.activeCount += 1;
+          next.sponsors.byTier[key] = (next.sponsors.byTier[key] ?? 0) + 1;
+        }
+      });
+
+      // BHM Quick Add Listings — paid one-time fees
+      const { data: bhmRows } = await supabase
+        .from('b2b_external_leads')
+        .select('payment_amount, paid_at')
+        .eq('source_query', 'bhm_quick_add')
+        .eq('validation_status', 'paid');
+      (bhmRows ?? []).forEach((r: any) => {
+        const amt = Number(r.payment_amount || 0);
+        next.bhm.total += amt;
+        next.bhm.count += 1;
+        if (r.paid_at && r.paid_at >= thirtyAgo) next.bhm.last30 += amt;
+      });
+
+      // Sales Agent Commissions (paid out — revenue COST/deduction)
+      const { data: commRows } = await supabase
+        .from('commission_payments')
+        .select('amount, paid_at, status')
+        .eq('status', 'paid');
+      (commRows ?? []).forEach((r: any) => {
+        const amt = Number(r.amount || 0);
+        next.agentCommissions.total += amt;
+        next.agentCommissions.count += 1;
+        if (r.paid_at && r.paid_at >= thirtyAgo) next.agentCommissions.last30 += amt;
+      });
+
       setS(next);
       setLoading(false);
     })();
