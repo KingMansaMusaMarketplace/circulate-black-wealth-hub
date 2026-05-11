@@ -159,6 +159,7 @@ const MarketingStudio: React.FC = () => {
           )}
         </Card>
       </div>
+      <MarketingTopupDialog open={topupOpen} onOpenChange={setTopupOpen} businessId={credits.businessId} />
     </div>
   );
 
