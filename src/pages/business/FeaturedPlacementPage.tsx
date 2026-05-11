@@ -55,6 +55,17 @@ export default function FeaturedPlacementPage() {
     }
   };
 
+  const openPortal = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('customer-portal');
+      if (error) throw error;
+      if (data?.url) window.open(data.url, '_blank');
+      else throw new Error('No portal URL');
+    } catch (e: any) {
+      toast.error(e.message || 'Could not open billing portal');
+    }
+  };
+
   return (
     <div className="container max-w-5xl mx-auto py-12 px-4">
       <Helmet>
