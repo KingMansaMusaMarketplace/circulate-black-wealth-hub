@@ -120,6 +120,9 @@ const EMPTY: RevenueState = {
   sponsors: { mrr: 0, activeCount: 0, byTier: {} },
   bhm: { total: 0, count: 0, last30: 0 },
   agentCommissions: { total: 0, count: 0, last30: 0 },
+  apple: { mrr: 0, activeCount: 0 },
+  corpSubs: { mrr: 0, activeCount: 0, byTier: {} },
+  serviceBookings: { total: 0, count: 0, last30: 0 },
 };
 
 export default function PlatformRevenuePage() {
