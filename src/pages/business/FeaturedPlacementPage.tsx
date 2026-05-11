@@ -21,7 +21,7 @@ const TIERS = [
 
 export default function FeaturedPlacementPage() {
   const { user } = useAuth();
-  const { profile } = useBusinessProfile();
+  const { profile, loading: profileLoading } = useBusinessProfile();
   const [tier, setTier] = useState<string>('silver');
   const [category, setCategory] = useState('');
   const [city, setCity] = useState('');
@@ -98,6 +98,38 @@ export default function FeaturedPlacementPage() {
       <p className="text-muted-foreground mb-8">
         Pin your business at the top of category & city searches. Cancel anytime.
       </p>
+
+      {profileLoading && (
+        <Card className="mb-8">
+          <CardContent className="py-8 flex items-center gap-3 text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" /> Loading your business…
+          </CardContent>
+        </Card>
+      )}
+
+      {!profileLoading && user && !profile && (
+        <Card className="mb-8 border-mansagold/40">
+          <CardContent className="py-6 space-y-3">
+            <h2 className="text-xl font-semibold">We couldn't find a business linked to your account</h2>
+            <p className="text-sm text-muted-foreground">
+              You're signed in as <span className="font-medium">{user.email}</span>, but no business
+              profile is connected to this account yet. If you already manage a listing on 1325.AI,
+              you may be signed into the wrong account or the listing needs to be claimed.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button onClick={() => (window.location.href = '/business-dashboard')} variant="outline">
+                Go to Business Dashboard
+              </Button>
+              <Button onClick={() => (window.location.href = '/directory')} variant="outline">
+                Find &amp; claim my listing
+              </Button>
+              <Button onClick={() => (window.location.href = '/business-signup')}>
+                Create a business profile
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <IOSPaymentBlocker>
         <div className="grid md:grid-cols-4 gap-4 mb-8">
