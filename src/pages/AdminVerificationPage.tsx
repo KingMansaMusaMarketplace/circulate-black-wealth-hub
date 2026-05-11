@@ -3,7 +3,8 @@ import VerificationQueue from '@/components/admin/verification/VerificationQueue
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import VerificationSettings from '@/components/admin/verification/VerificationSettings';
 import VerificationStatistics from '@/components/admin/verification/VerificationStatistics';
-import { Activity, Settings, ClipboardList, BadgeCheck } from 'lucide-react';
+import { Activity, Settings, ClipboardList, BadgeCheck, Zap } from 'lucide-react';
+import PriorityQueue from '@/components/admin/verification/PriorityQueue';
 import { Helmet } from 'react-helmet-async';
 
 const AdminVerificationPage: React.FC = () => {
