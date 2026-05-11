@@ -8,6 +8,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import AdminRevenueWidget from './AdminRevenueWidget';
 
 interface AdminHubProps {
   onNavigate: (tab: string) => void;
