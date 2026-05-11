@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { format, startOfMonth, endOfMonth, subMonths, startOfWeek, endOfWeek } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { EmptyDashboardState } from './EmptyDashboardState';
+import PlatformFeesCard from './PlatformFeesCard';
 
 interface BusinessDashboardProps {
   businessId: string;
@@ -190,6 +191,8 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
             <p className="text-xs text-white/70">this month</p>
           </CardContent>
         </Card>
+
+        <PlatformFeesCard businessId={businessId} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -96,29 +96,52 @@ const PaymentSuccessPage: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-              <h3 className="font-medium mb-3 text-amber-400">What's Next?</h3>
-              <ul className="space-y-3 text-sm text-slate-300">
-                <li className="flex items-start gap-3">
-                  <div className="h-5 w-5 rounded-full bg-gradient-to-br from-amber-400/20 to-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <CheckCircle2 className="h-3 w-3 text-amber-400" />
+            {searchParams.get('kind') === 'qr' ? (
+              <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 space-y-2 text-sm">
+                <h3 className="font-medium mb-2 text-amber-400">Receipt</h3>
+                {searchParams.get('biz') && (
+                  <div className="flex justify-between text-slate-300">
+                    <span>Paid to</span>
+                    <span className="font-medium text-white">{searchParams.get('biz')}</span>
                   </div>
-                  <span>Access your personalized dashboard</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="h-5 w-5 rounded-full bg-gradient-to-br from-amber-400/20 to-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <CheckCircle2 className="h-3 w-3 text-amber-400" />
-                  </div>
-                  <span>Track your impact and metrics</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="h-5 w-5 rounded-full bg-gradient-to-br from-amber-400/20 to-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <CheckCircle2 className="h-3 w-3 text-amber-400" />
-                  </div>
-                  <span>Explore all your subscription benefits</span>
-                </li>
-              </ul>
-            </div>
+                )}
+                <div className="flex justify-between text-slate-300">
+                  <span>Total charged</span>
+                  <span className="font-medium text-white">${Number(searchParams.get('total') || 0).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-slate-400 text-xs pt-2 border-t border-white/10">
+                  <span>Platform fee ({Number(searchParams.get('fee_pct') || 0).toFixed(2)}%)</span>
+                  <span>${Number(searchParams.get('fee_amt') || 0).toFixed(2)}</span>
+                </div>
+                <p className="text-[11px] text-slate-400 pt-1">
+                  Loyalty points are being added to your account now.
+                </p>
+              </div>
+            ) : (
+              <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
+                <h3 className="font-medium mb-3 text-amber-400">What's Next?</h3>
+                <ul className="space-y-3 text-sm text-slate-300">
+                  <li className="flex items-start gap-3">
+                    <div className="h-5 w-5 rounded-full bg-gradient-to-br from-amber-400/20 to-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <CheckCircle2 className="h-3 w-3 text-amber-400" />
+                    </div>
+                    <span>Access your personalized dashboard</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="h-5 w-5 rounded-full bg-gradient-to-br from-amber-400/20 to-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <CheckCircle2 className="h-3 w-3 text-amber-400" />
+                    </div>
+                    <span>Track your impact and metrics</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="h-5 w-5 rounded-full bg-gradient-to-br from-amber-400/20 to-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <CheckCircle2 className="h-3 w-3 text-amber-400" />
+                    </div>
+                    <span>Explore all your subscription benefits</span>
+                  </li>
+                </ul>
+              </div>
+            )}
 
             <div className="space-y-2">
               <p className="text-sm text-slate-400 text-center">
