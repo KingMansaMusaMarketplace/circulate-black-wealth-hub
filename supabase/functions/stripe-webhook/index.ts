@@ -401,6 +401,52 @@ serve(async (req) => {
           else console.log(`Featured placement activated for business ${businessId} (${tier})`);
         }
 
+        // Handle verification fast-track payments
+        if (metadata?.type === 'verification_priority') {
+          const businessId = metadata.businessId;
+          const verificationId = metadata.verificationId;
+          const userId = metadata.userId;
+          const tier = metadata.tier;
+          const slaHours = parseInt(metadata.slaHours || '4', 10);
+          const deadline = new Date(Date.now() + slaHours * 60 * 60 * 1000).toISOString();
+
+          const { error: vErr } = await supabaseClient
+            .from('business_verifications')
+            .update({
+              priority_tier: tier,
+              priority_paid_at: new Date().toISOString(),
+              priority_stripe_session_id: session.id,
+              priority_sla_deadline: deadline,
+            })
+            .eq('id', verificationId);
+          if (vErr) console.error('Priority verification update failed:', vErr);
+
+          await supabaseClient.from('verification_priority_payments').insert({
+            business_id: businessId,
+            verification_id: verificationId,
+            user_id: userId,
+            tier,
+            amount_cents: session.amount_total ?? 0,
+            stripe_session_id: session.id,
+          });
+          console.log(`Verification fast-track activated: ${businessId} (${tier})`);
+        }
+
+        // Handle marketing studio credit top-ups
+        if (metadata?.type === 'marketing_topup') {
+          const businessId = metadata.businessId;
+          const credits = parseInt(metadata.credits || '0', 10);
+          if (credits > 0) {
+            const { error: mErr } = await supabaseClient.rpc('add_marketing_topup_credits', {
+              p_business_id: businessId,
+              p_credits: credits,
+              p_session_id: session.id,
+            });
+            if (mErr) console.error('Marketing topup failed:', mErr);
+            else console.log(`Marketing topup: +${credits} credits to ${businessId}`);
+          }
+        }
+
         break;
       }
 
