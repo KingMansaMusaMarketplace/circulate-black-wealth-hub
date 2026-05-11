@@ -28,13 +28,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { isNative } = useCapacitor();
   
   // Pages that should NOT have header/footer (full-screen experiences)
+  // Note: dashboards previously hid the navbar, but users got stranded with no
+  // way to navigate. Top navbar now shows on all dashboards.
   const noLayoutPages = [
     '/scanner',
     '/qr-scanner',
     '/admin-dashboard',
-    '/business-dashboard',
-    '/user-dashboard',
-    '/dashboard',
     '/business',
   ];
   

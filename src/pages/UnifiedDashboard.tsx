@@ -25,6 +25,29 @@ const UnifiedDashboard: React.FC = () => {
     return 'Good evening';
   };
 
+  // Prefer the user's chosen display name, then full_name / fullName from
+  // metadata, then a humanized email prefix as a last resort.
+  const getDisplayName = () => {
+    if (!user) return '';
+    const m: any = user.user_metadata || {};
+    const candidate =
+      m.display_name ||
+      m.displayName ||
+      m.full_name ||
+      m.fullName ||
+      m.first_name ||
+      m.firstName ||
+      m.name ||
+      '';
+    if (candidate && typeof candidate === 'string') {
+      return candidate.split(' ')[0];
+    }
+    const prefix = user.email?.split('@')[0] || '';
+    // Capitalize and strip dots/underscores so "support" -> "Support"
+    const cleaned = prefix.replace(/[._-]+/g, ' ').trim();
+    return cleaned ? cleaned.charAt(0).toUpperCase() + cleaned.slice(1) : '';
+  };
+
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
       {/* Subtle ambient accent */}
@@ -42,7 +65,7 @@ const UnifiedDashboard: React.FC = () => {
         <div className="flex flex-col md:flex-row items-start justify-between gap-4">
           <div className="space-y-2">
             <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white animate-fade-in">
-              {getGreeting()}{user ? `, ${user.email?.split('@')[0]}` : ''}
+              {getGreeting()}{user ? `, ${getDisplayName()}` : ''}
             </h1>
             <p className="text-slate-400 text-lg">
               Your personalized hub for community impact and growth
