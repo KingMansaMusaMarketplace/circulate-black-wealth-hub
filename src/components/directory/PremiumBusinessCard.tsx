@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, ArrowRight, Phone, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 import { motion } from 'framer-motion';
+import { trackFeaturedEvent } from '@/lib/featured-tracking';
 
 interface PremiumBusinessCardProps {
   id: string;
