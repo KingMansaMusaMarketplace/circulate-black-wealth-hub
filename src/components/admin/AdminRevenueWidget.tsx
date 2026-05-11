@@ -32,14 +32,27 @@ const AdminRevenueWidget: React.FC = () => {
       let life = 0;
       let l30 = 0;
 
-      const [{ data: qr }, { data: fp }, { data: vp }, { data: jobs }, { data: mt }] =
-        await Promise.all([
-          supabase.from('platform_transactions').select('amount_platform_fee, created_at').eq('status', 'succeeded'),
-          supabase.from('featured_placements').select('tier').eq('status', 'active'),
-          supabase.from('verification_priority_payments').select('amount_cents, paid_at, created_at'),
-          supabase.from('job_postings').select('amount_cents, paid_at').not('paid_at', 'is', null),
-          supabase.from('marketing_credit_ledger').select('delta, created_at').eq('bucket', 'topup').gt('delta', 0),
-        ]);
+      const [
+        { data: qr },
+        { data: fp },
+        { data: vp },
+        { data: jobs },
+        { data: mt },
+        { data: subs },
+        { data: devs },
+        { data: stays },
+        { data: rides },
+      ] = await Promise.all([
+        supabase.from('platform_transactions').select('amount_platform_fee, created_at').eq('status', 'succeeded'),
+        supabase.from('featured_placements').select('tier').eq('status', 'active'),
+        supabase.from('verification_priority_payments').select('amount_cents, paid_at, created_at'),
+        supabase.from('job_postings').select('amount_cents, paid_at').not('paid_at', 'is', null),
+        supabase.from('marketing_credit_ledger').select('delta, created_at').eq('bucket', 'topup').gt('delta', 0),
+        supabase.from('subscribers').select('subscription_tier').eq('subscribed', true),
+        supabase.from('developer_accounts').select('tier, tier_price_cents').eq('stripe_subscription_status', 'active'),
+        supabase.from('vacation_bookings').select('platform_fee, created_at, status').neq('status', 'cancelled'),
+        supabase.from('noir_rides').select('platform_fee, created_at'),
+      ]);
 
       (qr ?? []).forEach((r: any) => {
         const v = Number(r.amount_platform_fee || 0);
@@ -62,11 +75,32 @@ const AdminRevenueWidget: React.FC = () => {
         life += v;
         if (r.created_at >= thirtyAgo) l30 += v;
       });
+      (stays ?? []).forEach((r: any) => {
+        const v = Number(r.platform_fee || 0);
+        life += v;
+        if (r.created_at && r.created_at >= thirtyAgo) l30 += v;
+      });
+      (rides ?? []).forEach((r: any) => {
+        const v = Number(r.platform_fee || 0);
+        life += v;
+        if (r.created_at && r.created_at >= thirtyAgo) l30 += v;
+      });
 
-      const monthly = (fp ?? []).reduce(
+      const featuredMrr = (fp ?? []).reduce(
         (s: number, r: any) => s + (FEATURED_MRR[r.tier] ?? 0),
         0,
       );
+      const subsMrr = (subs ?? []).reduce(
+        (s: number, r: any) => s + (SUBSCRIPTION_MRR[String(r.subscription_tier ?? '').toLowerCase().trim()] ?? 0),
+        0,
+      );
+      const apiMrr = (devs ?? []).reduce((s: number, r: any) => {
+        const fromCents = Number(r.tier_price_cents || 0) / 100;
+        const fromMap = API_TIER_MRR[String(r.tier ?? '').toLowerCase()] ?? 0;
+        return s + (fromCents > 0 ? fromCents : fromMap);
+      }, 0);
+
+      const monthly = featuredMrr + subsMrr + apiMrr;
 
       setLifetime(life);
       setMrr(monthly);
