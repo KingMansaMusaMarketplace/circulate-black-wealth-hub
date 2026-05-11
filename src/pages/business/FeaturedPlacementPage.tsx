@@ -27,14 +27,35 @@ export default function FeaturedPlacementPage() {
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState<any[]>([]);
+  const [stats, setStats] = useState<Record<string, { impressions: number; clicks: number }>>({});
 
   useEffect(() => {
     if (!profile?.id) return;
-    supabase.from('featured_placements')
-      .select('*')
-      .eq('business_id', profile.id)
-      .order('created_at', { ascending: false })
-      .then(({ data }) => setActive(data || []));
+    (async () => {
+      const { data: placements } = await supabase
+        .from('featured_placements')
+        .select('*')
+        .eq('business_id', profile.id)
+        .order('created_at', { ascending: false });
+      setActive(placements || []);
+
+      if (placements?.length) {
+        const ids = placements.map((p: any) => p.id);
+        const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const { data: events } = await supabase
+          .from('featured_placement_events')
+          .select('placement_id, event_type')
+          .in('placement_id', ids)
+          .gte('created_at', since);
+        const agg: Record<string, { impressions: number; clicks: number }> = {};
+        ids.forEach((id) => { agg[id] = { impressions: 0, clicks: 0 }; });
+        (events || []).forEach((e: any) => {
+          if (e.event_type === 'impression') agg[e.placement_id].impressions++;
+          else if (e.event_type === 'click') agg[e.placement_id].clicks++;
+        });
+        setStats(agg);
+      }
+    })();
   }, [profile?.id]);
 
   const checkout = async () => {
