@@ -38,6 +38,7 @@ import BusinessLocationMap from '@/components/business-detail/BusinessLocationMa
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
 import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
 import { getRememberedDirectoryUrl } from '@/utils/directoryReturn';
+import BoostVisibilityCard from '@/components/business/BoostVisibilityCard';
 
 // Subtle static accent — Apple-minimal, no animated colored orbs
 const BackgroundAccent = memo(() => (
