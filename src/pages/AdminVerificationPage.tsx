@@ -56,6 +56,12 @@ const AdminVerificationPage: React.FC = () => {
                 <ClipboardList className="h-4 w-4" /> Verification Queue
               </TabsTrigger>
               <TabsTrigger 
+                value="priority" 
+                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+              >
+                <Zap className="h-4 w-4" /> Priority Queue
+              </TabsTrigger>
+              <TabsTrigger 
                 value="settings" 
                 className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
               >
