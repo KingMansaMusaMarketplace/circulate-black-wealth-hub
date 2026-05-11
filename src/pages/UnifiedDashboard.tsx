@@ -127,6 +127,30 @@ const UnifiedDashboard: React.FC = () => {
           </Card>
         </div>
 
+        {/* Promote Your Business CTA */}
+        <Card className="border border-mansagold/30 bg-gradient-to-br from-mansagold/10 via-amber-500/5 to-transparent">
+          <CardContent className="p-6 flex flex-col md:flex-row items-start md:items-center gap-4 justify-between">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-mansagold/15 ring-1 ring-mansagold/40 rounded-xl">
+                <Megaphone className="w-6 h-6 text-mansagold" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white">Promote your business</h3>
+                <p className="text-sm text-slate-400 max-w-xl">
+                  Pin your listing at the top of category and city searches. Featured Placements start at $20/month — cancel anytime.
+                </p>
+              </div>
+            </div>
+            <Button
+              onClick={() => navigate('/business/featured-placement')}
+              className="bg-mansagold text-black hover:bg-mansagold/90 font-medium whitespace-nowrap"
+            >
+              Get Featured
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </CardContent>
+        </Card>
+
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - 2/3 width */}
