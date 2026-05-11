@@ -181,7 +181,36 @@ serve(async (req) => {
       },
     });
 
-    // Record pending transaction (will be confirmed via stripe-webhook)
+    // Record platform fee row so QR revenue appears in admin Platform Revenue dashboard.
+    // Webhook (payment_intent.succeeded/failed, charge.refunded) updates this row by stripe_payment_intent_id.
+    const paymentIntentId =
+      typeof session.payment_intent === "string"
+        ? session.payment_intent
+        : session.payment_intent?.id ?? null;
+
+    if (paymentIntentId) {
+      await supabase.from("platform_transactions").insert({
+        business_id: businessId,
+        customer_id: user.id,
+        stripe_payment_intent_id: paymentIntentId,
+        amount_total: finalAmountCents / 100,
+        amount_business: businessReceivesCents / 100,
+        amount_platform_fee: commissionCents / 100,
+        platform_fee_percentage: commissionRate,
+        status: "pending",
+        description: description || `QR Code Payment`,
+        customer_email: customerEmail || user.email,
+        metadata: {
+          checkout_session_id: session.id,
+          qr_code_id: qrCodeId || null,
+          original_amount: amount,
+          discount_percentage: discountPercentage || 0,
+          transaction_type: "qr_scan",
+        },
+      });
+    }
+
+    // Record pending loyalty transaction (will be confirmed via stripe-webhook)
     const { data: transaction } = await supabase
       .from("transactions")
       .insert({
