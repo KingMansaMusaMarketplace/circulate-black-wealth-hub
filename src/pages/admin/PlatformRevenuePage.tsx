@@ -468,6 +468,27 @@ export default function PlatformRevenuePage() {
             accent="bg-teal-500/15 text-teal-300"
           />
           <StreamCard
+            icon={<Building2 className="h-5 w-5" />}
+            label="Corporate Sponsors"
+            total={s.sponsors.mrr}
+            sub={`${s.sponsors.activeCount} active · MRR estimate · ${fmt(s.sponsors.mrr * 12)} ARR`}
+            accent="bg-mansagold/20 text-mansagold"
+          />
+          <StreamCard
+            icon={<Calendar className="h-5 w-5" />}
+            label="BHM Quick-Add Listings"
+            total={s.bhm.total}
+            sub={`${s.bhm.count} paid listings · ${fmt(s.bhm.last30)} last 30d`}
+            accent="bg-orange-500/15 text-orange-300"
+          />
+          <StreamCard
+            icon={<HandCoins className="h-5 w-5" />}
+            label="Sales Agent Commissions (cost)"
+            total={-s.agentCommissions.total}
+            sub={`${s.agentCommissions.count} payouts · -${fmt(s.agentCommissions.last30)} last 30d`}
+            accent="bg-red-500/15 text-red-300"
+          />
+          <StreamCard
             icon={<Activity className="h-5 w-5" />}
             label="API Calls (this month)"
             total={0}
