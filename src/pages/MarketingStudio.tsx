@@ -59,6 +59,22 @@ const MarketingStudio: React.FC = () => {
 
   const studioContent = (
     <div className="container mx-auto max-w-5xl">
+      <div className="mb-4 flex items-center justify-between gap-3 flex-wrap">
+        <Badge variant="outline" className="gap-2 py-1.5 px-3 text-sm">
+          <Coins className="h-4 w-4 text-mansagold" />
+          {credits.loading ? '…' : credits.total} credits
+          {credits.topupRemaining > 0 && (
+            <span className="text-xs text-muted-foreground ml-1">
+              ({credits.planRemaining} plan + {credits.topupRemaining} top-up)
+            </span>
+          )}
+        </Badge>
+        {!hidePayments && credits.businessId && (
+          <Button size="sm" variant="outline" className="gap-1" onClick={() => setTopupOpen(true)}>
+            <Plus className="h-3.5 w-3.5" /> Top up
+          </Button>
+        )}
+      </div>
       <div className="grid lg:grid-cols-2 gap-6">
         <Card className="p-6 space-y-5">
           <div className="space-y-2">
