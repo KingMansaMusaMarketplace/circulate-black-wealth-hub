@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { Loader2, Sparkles, Download, RefreshCw, ImageIcon } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Loader2, Sparkles, Download, RefreshCw, ImageIcon, Coins, Plus } from 'lucide-react';
 import { useMarketingImageGen, type MarketingPreset } from '@/hooks/use-marketing-image-gen';
+import { useMarketingCredits } from '@/hooks/use-marketing-credits';
 import { useAuth } from '@/contexts/AuthContext';
 import { DashboardLayout } from '@/components/dashboard';
+import { MarketingTopupDialog } from '@/components/marketing/MarketingTopupDialog';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
 const PRESETS: { value: MarketingPreset; label: string; hint: string }[] = [
@@ -24,11 +28,33 @@ const MarketingStudio: React.FC = () => {
   const [prompt, setPrompt] = useState('');
   const [brandHint, setBrandHint] = useState('');
   const [preset, setPreset] = useState<MarketingPreset>('social');
+  const [topupOpen, setTopupOpen] = useState(false);
   const { isGenerating, imageUrl, generate, download, reset } = useMarketingImageGen();
+  const credits = useMarketingCredits();
+  const hidePayments = shouldHideStripePayments();
 
-  const handleGenerate = () => {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('topup') === 'success') {
+      toast.success('Top-up successful! Credits added.');
+      setTimeout(() => credits.refresh(), 1500);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, [credits]);
+
+  const handleGenerate = async () => {
     if (prompt.trim().length < 4) return;
-    generate(prompt.trim(), preset, brandHint.trim() || undefined);
+    if (credits.total === 0 && !credits.loading) {
+      if (!hidePayments) setTopupOpen(true);
+      else toast.error('Out of credits. Upgrade your plan to keep generating.');
+      return;
+    }
+    const result = await generate(prompt.trim(), preset, brandHint.trim() || undefined);
+    if (result.insufficientCredits) {
+      if (!hidePayments) setTopupOpen(true);
+      else toast.error('Out of credits this month.');
+    }
+    credits.refresh();
   };
 
   const studioContent = (
