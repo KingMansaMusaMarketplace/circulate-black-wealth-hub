@@ -404,6 +404,7 @@ serve(async (req) => {
         break;
       }
 
+      case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
         
         // Update corporate subscription status
@@ -414,6 +415,16 @@ serve(async (req) => {
             current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
             current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
             cancel_at_period_end: subscription.cancel_at_period_end,
+          })
+          .eq('stripe_subscription_id', subscription.id);
+
+        // Update featured placements (extend period or mark inactive)
+        const placementStatus = subscription.status === 'active' || subscription.status === 'trialing' ? 'active' : 'inactive';
+        await supabaseClient
+          .from('featured_placements')
+          .update({
+            status: placementStatus,
+            ends_at: new Date(subscription.current_period_end * 1000).toISOString(),
           })
           .eq('stripe_subscription_id', subscription.id);
 
@@ -430,6 +441,12 @@ serve(async (req) => {
           .update({
             status: 'cancelled',
           })
+          .eq('stripe_subscription_id', subscription.id);
+
+        // Mark featured placements as expired
+        await supabaseClient
+          .from('featured_placements')
+          .update({ status: 'expired' })
           .eq('stripe_subscription_id', subscription.id);
 
         console.log(`Subscription deleted: ${subscription.id}`);
