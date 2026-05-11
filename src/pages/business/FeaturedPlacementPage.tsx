@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Star, Sparkles, Crown, Trophy, Loader2 } from 'lucide-react';
+import { Star, Sparkles, Crown, Trophy, Loader2, Settings } from 'lucide-react';
 import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 
 const TIERS = [
@@ -52,6 +52,17 @@ export default function FeaturedPlacementPage() {
       toast.error(e.message || 'Checkout failed');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const openPortal = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('customer-portal');
+      if (error) throw error;
+      if (data?.url) window.open(data.url, '_blank');
+      else throw new Error('No portal URL');
+    } catch (e: any) {
+      toast.error(e.message || 'Could not open billing portal');
     }
   };
 
@@ -117,22 +128,39 @@ export default function FeaturedPlacementPage() {
 
         {active.length > 0 && (
           <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">Your placements</h2>
-            <div className="space-y-2">
-              {active.map((p) => (
-                <Card key={p.id}>
-                  <CardContent className="py-4 flex items-center justify-between">
-                    <div>
-                      <div className="font-medium capitalize">{p.tier} placement</div>
-                      <div className="text-sm text-muted-foreground">
-                        {p.category || 'all categories'} · {p.city || 'all cities'}
-                      </div>
-                    </div>
-                    <Badge variant={p.status === 'active' ? 'default' : 'secondary'}>{p.status}</Badge>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold">Your placements</h2>
+              <Button variant="outline" size="sm" onClick={openPortal}>
+                <Settings className="h-4 w-4 mr-2" />
+                Manage subscription
+              </Button>
             </div>
+            <div className="space-y-2">
+              {active.map((p) => {
+                const variant =
+                  p.status === 'active' ? 'default' :
+                  p.status === 'pending' ? 'secondary' : 'outline';
+                return (
+                  <Card key={p.id}>
+                    <CardContent className="py-4 flex items-center justify-between">
+                      <div>
+                        <div className="font-medium capitalize">{p.tier} placement</div>
+                        <div className="text-sm text-muted-foreground">
+                          {p.category || 'all categories'} · {p.city || 'all cities'}
+                          {p.ends_at && p.status === 'active' && (
+                            <> · renews {new Date(p.ends_at).toLocaleDateString()}</>
+                          )}
+                        </div>
+                      </div>
+                      <Badge variant={variant as any} className="capitalize">{p.status}</Badge>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground mt-3">
+              Cancel or change payment method via the Stripe billing portal.
+            </p>
           </div>
         )}
       </IOSPaymentBlocker>
