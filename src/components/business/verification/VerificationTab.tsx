@@ -55,6 +55,8 @@ const VerificationTab: React.FC = () => {
           <VerificationForm businessId={profile.id} userId={user.id} />
         )}
 
+        {profile && <VerificationPriorityUpsell businessId={profile.id} />}
+
         <Card>
           <CardHeader>
             <CardTitle>Why Get Verified?</CardTitle>
