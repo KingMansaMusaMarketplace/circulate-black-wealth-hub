@@ -376,10 +376,34 @@ serve(async (req) => {
           }
         }
 
+        // Handle featured directory placements
+        if (metadata?.type === 'featured_placement' && session.subscription) {
+          const businessId = metadata.businessId;
+          const tier = metadata.tier;
+          const subscriptionId = session.subscription as string;
+          const customerId = session.customer as string;
+          const sub = await stripe.subscriptions.retrieve(subscriptionId);
+
+          const { error: updErr } = await supabaseClient
+            .from('featured_placements')
+            .update({
+              status: 'active',
+              stripe_subscription_id: subscriptionId,
+              stripe_customer_id: customerId,
+              starts_at: new Date(sub.current_period_start * 1000).toISOString(),
+              ends_at: new Date(sub.current_period_end * 1000).toISOString(),
+            })
+            .eq('business_id', businessId)
+            .eq('tier', tier)
+            .eq('status', 'pending');
+
+          if (updErr) console.error('Featured placement activation failed:', updErr);
+          else console.log(`Featured placement activated for business ${businessId} (${tier})`);
+        }
+
         break;
       }
 
-      case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
         
         // Update corporate subscription status
