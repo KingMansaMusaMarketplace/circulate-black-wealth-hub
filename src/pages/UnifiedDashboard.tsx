@@ -218,6 +218,14 @@ const UnifiedDashboard: React.FC = () => {
                   View Impact
                 </Button>
                 <Button 
+                  onClick={() => navigate('/business/featured-placement')}
+                  className="w-full justify-start gap-2 text-slate-200 border-white/15 bg-transparent hover:bg-white/5 hover:text-white hover:border-mansagold/40 transition-colors"
+                  variant="outline"
+                >
+                  <Megaphone className="w-4 h-4" />
+                  Promote My Business
+                </Button>
+                <Button 
                   onClick={() => navigate('/referrals')}
                   className="w-full justify-start gap-2 bg-mansagold text-black hover:bg-mansagold/90 font-medium transition-colors"
                 >
