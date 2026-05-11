@@ -161,7 +161,7 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute z-[100] mt-2 left-0 right-0 bg-slate-900/98 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+              className="absolute z-[100] mt-2 left-0 right-0 bg-slate-950 border border-mansagold/30 rounded-xl shadow-2xl shadow-black/80 overflow-hidden"
             >
               {searchResults.length > 0 ? (
                 <>
