@@ -53,11 +53,11 @@ const API_TIER_MRR: Record<string, number> = {
 
 // Corporate Sponsor tier MRR (estimates — Stripe price IDs are env-driven)
 const SPONSOR_MRR: Record<string, number> = {
-  bronze: 500,
-  silver: 1500,
-  gold: 5000,
-  platinum: 10000,
-  founding: 2500,
+  founding: 1750,
+  bronze: 5000,
+  silver: 15000,
+  gold: 25000,
+  platinum: 50000,
 };
 
 const fmt = (n: number) =>
