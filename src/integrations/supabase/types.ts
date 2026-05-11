@@ -1367,6 +1367,48 @@ export type Database = {
           },
         ]
       }
+      api_access_requests: {
+        Row: {
+          contact_email: string
+          contact_name: string
+          created_at: string
+          id: string
+          notes: string | null
+          org_name: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          tier: string
+          use_case: string | null
+        }
+        Insert: {
+          contact_email: string
+          contact_name: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          org_name: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          tier?: string
+          use_case?: string | null
+        }
+        Update: {
+          contact_email?: string
+          contact_name?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          org_name?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          tier?: string
+          use_case?: string | null
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -7759,6 +7801,47 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "consumer_emails"
             referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      featured_placement_events: {
+        Row: {
+          business_id: string
+          context: Json | null
+          created_at: string
+          event_type: string
+          id: string
+          placement_id: string
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          business_id: string
+          context?: Json | null
+          created_at?: string
+          event_type: string
+          id?: string
+          placement_id: string
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          business_id?: string
+          context?: Json | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          placement_id?: string
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "featured_placement_events_placement_id_fkey"
+            columns: ["placement_id"]
+            isOneToOne: false
+            referencedRelation: "featured_placements"
+            referencedColumns: ["id"]
           },
         ]
       }

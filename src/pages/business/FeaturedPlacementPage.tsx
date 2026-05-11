@@ -27,14 +27,35 @@ export default function FeaturedPlacementPage() {
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState<any[]>([]);
+  const [stats, setStats] = useState<Record<string, { impressions: number; clicks: number }>>({});
 
   useEffect(() => {
     if (!profile?.id) return;
-    supabase.from('featured_placements')
-      .select('*')
-      .eq('business_id', profile.id)
-      .order('created_at', { ascending: false })
-      .then(({ data }) => setActive(data || []));
+    (async () => {
+      const { data: placements } = await supabase
+        .from('featured_placements')
+        .select('*')
+        .eq('business_id', profile.id)
+        .order('created_at', { ascending: false });
+      setActive(placements || []);
+
+      if (placements?.length) {
+        const ids = placements.map((p: any) => p.id);
+        const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const { data: events } = await supabase
+          .from('featured_placement_events')
+          .select('placement_id, event_type')
+          .in('placement_id', ids)
+          .gte('created_at', since);
+        const agg: Record<string, { impressions: number; clicks: number }> = {};
+        ids.forEach((id) => { agg[id] = { impressions: 0, clicks: 0 }; });
+        (events || []).forEach((e: any) => {
+          if (e.event_type === 'impression') agg[e.placement_id].impressions++;
+          else if (e.event_type === 'click') agg[e.placement_id].clicks++;
+        });
+        setStats(agg);
+      }
+    })();
   }, [profile?.id]);
 
   const checkout = async () => {
@@ -140,19 +161,39 @@ export default function FeaturedPlacementPage() {
                 const variant =
                   p.status === 'active' ? 'default' :
                   p.status === 'pending' ? 'secondary' : 'outline';
+                const s = stats[p.id] || { impressions: 0, clicks: 0 };
+                const ctr = s.impressions ? ((s.clicks / s.impressions) * 100).toFixed(1) : '0.0';
                 return (
                   <Card key={p.id}>
-                    <CardContent className="py-4 flex items-center justify-between">
-                      <div>
-                        <div className="font-medium capitalize">{p.tier} placement</div>
-                        <div className="text-sm text-muted-foreground">
-                          {p.category || 'all categories'} · {p.city || 'all cities'}
-                          {p.ends_at && p.status === 'active' && (
-                            <> · renews {new Date(p.ends_at).toLocaleDateString()}</>
-                          )}
+                    <CardContent className="py-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-medium capitalize">{p.tier} placement</div>
+                          <div className="text-sm text-muted-foreground">
+                            {p.category || 'all categories'} · {p.city || 'all cities'}
+                            {p.ends_at && p.status === 'active' && (
+                              <> · renews {new Date(p.ends_at).toLocaleDateString()}</>
+                            )}
+                          </div>
                         </div>
+                        <Badge variant={variant as any} className="capitalize">{p.status}</Badge>
                       </div>
-                      <Badge variant={variant as any} className="capitalize">{p.status}</Badge>
+                      {p.status === 'active' && (
+                        <div className="grid grid-cols-3 gap-3 pt-2 border-t">
+                          <div>
+                            <div className="text-xs text-muted-foreground">Impressions (30d)</div>
+                            <div className="text-lg font-semibold">{s.impressions.toLocaleString()}</div>
+                          </div>
+                          <div>
+                            <div className="text-xs text-muted-foreground">Clicks (30d)</div>
+                            <div className="text-lg font-semibold">{s.clicks.toLocaleString()}</div>
+                          </div>
+                          <div>
+                            <div className="text-xs text-muted-foreground">CTR</div>
+                            <div className="text-lg font-semibold">{ctr}%</div>
+                          </div>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 );

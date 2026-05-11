@@ -65,6 +65,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
               isSample={business.isSample}
               isVerified={business.isVerified}
               index={index}
+              featuredPlacementId={(business as any).featuredPlacementId}
             />
           </div>
         );
@@ -109,6 +110,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
                 isSample={business.isSample}
                 isVerified={business.isVerified}
                 index={index + featuredBusinesses.length}
+                featuredPlacementId={(business as any).featuredPlacementId}
               />
             </div>
           </React.Fragment>

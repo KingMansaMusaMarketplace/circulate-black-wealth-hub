@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, ArrowRight, Phone, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 import { motion } from 'framer-motion';
+import { trackFeaturedEvent } from '@/lib/featured-tracking';
 
 interface PremiumBusinessCardProps {
   id: string;
@@ -28,6 +29,7 @@ interface PremiumBusinessCardProps {
   isSample?: boolean;
   isVerified?: boolean;
   index?: number;
+  featuredPlacementId?: string;
 }
 
 const PremiumBusinessCard = ({ 
@@ -47,9 +49,24 @@ const PremiumBusinessCard = ({
   isFeatured = false,
   isSample = false,
   isVerified = false,
-  index = 0
+  index = 0,
+  featuredPlacementId,
 }: PremiumBusinessCardProps) => {
   const description = `Discover amazing ${category.toLowerCase()} services and earn loyalty points`;
+
+  // Track impression once when a featured card mounts
+  useEffect(() => {
+    if (isFeatured && featuredPlacementId) {
+      trackFeaturedEvent(featuredPlacementId, id, 'impression');
+    }
+  }, [isFeatured, featuredPlacementId, id]);
+
+  const handleFeaturedClick = () => {
+    if (isFeatured && featuredPlacementId) {
+      trackFeaturedEvent(featuredPlacementId, id, 'click');
+    }
+  };
+
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -205,7 +222,7 @@ const PremiumBusinessCard = ({
             )}
             
             <div className="mt-auto">
-              <Link to={`/business/${id}`}>
+              <Link to={`/business/${id}`} onClick={handleFeaturedClick}>
                 <Button className="w-full relative overflow-hidden bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansagold hover:to-amber-500 hover:text-slate-900 transition-all duration-500 font-semibold group/btn">
                   <span className="relative z-10 flex items-center justify-center">
                     View Details
