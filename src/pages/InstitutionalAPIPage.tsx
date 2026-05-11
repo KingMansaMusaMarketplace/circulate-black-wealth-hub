@@ -62,9 +62,10 @@ export default function InstitutionalAPIPage() {
                   <li key={f} className="text-sm flex gap-2"><Shield className="h-4 w-4 text-primary mt-0.5" />{f}</li>
                 ))}
               </ul>
-              <a href="mailto:partnerships@1325.ai?subject=Data%20%26%20Insights%20API%20Access" className="block">
-                <Button className="w-full">Request Access</Button>
-              </a>
+              <RequestAPIAccessDialog
+                defaultTier={t.id}
+                trigger={<Button className="w-full">Request Access</Button>}
+              />
             </CardContent>
           </Card>
         ))}
