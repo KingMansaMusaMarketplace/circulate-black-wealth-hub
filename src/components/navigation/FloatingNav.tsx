@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { Home, Building2, Users, Menu, X, Briefcase, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -77,7 +76,7 @@ const FloatingNav = () => {
 
               {/* Desktop Nav */}
               <div className="hidden md:flex items-center gap-6">
-                {navItems.map((item) => {
+                {mainNavItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = location.pathname === item.path;
                   return (
@@ -95,8 +94,48 @@ const FloatingNav = () => {
                     </Link>
                   );
                 })}
-              </div>
 
+                {/* Resources Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsResourcesOpen(!isResourcesOpen)}
+                    className="flex items-center gap-1 font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Resources <ChevronDown className={`h-3 w-3 transition-transform ${isResourcesOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  <AnimatePresence>
+                    {isResourcesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute top-full right-0 mt-2 w-40 glass-card backdrop-blur-xl bg-background/90 border border-border/50 rounded-xl shadow-xl py-2"
+                      >
+                        {resourceNavItems.map((item) => {
+                          const Icon = item.icon;
+                          const isActive = location.pathname === item.path;
+                          return (
+                            <Link
+                              key={item.path}
+                              to={item.path}
+                              onClick={() => setIsResourcesOpen(false)}
+                              className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors ${
+                                isActive
+                                  ? 'text-mansagold font-semibold'
+                                  : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                              }`}
+                            >
+                              <Icon className="h-4 w-4" />
+                              {item.label}
+                            </Link>
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
 
               {/* Mobile Menu Button */}
               <button
@@ -119,7 +158,7 @@ const FloatingNav = () => {
                   className="md:hidden overflow-hidden"
                 >
                   <div className="pt-4 mt-4 border-t border-border/30 space-y-3">
-                    {navItems.map((item) => {
+                    {mainNavItems.map((item) => {
                       const Icon = item.icon;
                       const isActive = location.pathname === item.path;
                       return (
@@ -138,6 +177,29 @@ const FloatingNav = () => {
                         </Link>
                       );
                     })}
+                    {/* Mobile Resources section */}
+                    <div className="pt-2 border-t border-border/20">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider px-3 py-1">Resources</p>
+                      {resourceNavItems.map((item) => {
+                        const Icon = item.icon;
+                        const isActive = location.pathname === item.path;
+                        return (
+                          <Link
+                            key={item.path}
+                            to={item.path}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`flex items-center gap-3 font-body text-sm py-2 px-3 rounded-lg transition-colors ${
+                              isActive
+                                ? 'bg-mansagold/10 text-mansagold font-semibold'
+                                : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                            }`}
+                          >
+                            <Icon className="h-4 w-4" />
+                            {item.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
                 </motion.div>
               )}
