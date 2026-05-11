@@ -6,7 +6,7 @@ import { StreakTracker } from '@/components/gamification/StreakTracker';
 import { Leaderboard } from '@/components/gamification/Leaderboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift, Share2, Lightbulb } from 'lucide-react';
+import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift, Share2, Lightbulb, Megaphone, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCommunityInvestments, useSavingsCircles } from '@/hooks/use-community-finance';
 import { EnterpriseQuickAccessCard } from '@/components/business/EnterpriseQuickAccessCard';
