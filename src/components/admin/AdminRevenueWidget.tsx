@@ -105,6 +105,11 @@ const AdminRevenueWidget: React.FC = () => {
         life += v;
         if (r.paid_at && r.paid_at >= thirtyAgo) l30 += v;
       });
+      (serviceBookings ?? []).forEach((r: any) => {
+        const v = Number(r.platform_fee || 0);
+        life += v;
+        if (r.created_at && r.created_at >= thirtyAgo) l30 += v;
+      });
 
       // Sales agent commissions are a COST — subtract from totals
       let commissionCost = 0;
@@ -134,8 +139,19 @@ const AdminRevenueWidget: React.FC = () => {
         (s: number, r: any) => s + (SPONSOR_MRR[String(r.sponsorship_tier ?? '').toLowerCase().trim()] ?? 0),
         0,
       );
+      const appleMrr = (apple ?? []).reduce((s: number, r: any) => {
+        const pid = String(r.product_id ?? '').toLowerCase();
+        for (const [tier, p] of Object.entries(SUBSCRIPTION_MRR)) {
+          if (pid.includes(tier)) return s + p;
+        }
+        return s;
+      }, 0);
+      const corpSubsMrr = (corpSubs ?? []).reduce(
+        (s: number, r: any) => s + (SPONSOR_MRR[String(r.tier ?? '').toLowerCase().trim()] ?? 0),
+        0,
+      );
 
-      const monthly = featuredMrr + subsMrr + apiMrr + sponsorsMrr;
+      const monthly = featuredMrr + subsMrr + apiMrr + sponsorsMrr + appleMrr + corpSubsMrr;
 
       setLifetime(life);
       setMrr(monthly);
