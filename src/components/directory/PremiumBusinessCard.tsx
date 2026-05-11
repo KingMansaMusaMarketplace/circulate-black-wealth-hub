@@ -49,9 +49,24 @@ const PremiumBusinessCard = ({
   isFeatured = false,
   isSample = false,
   isVerified = false,
-  index = 0
+  index = 0,
+  featuredPlacementId,
 }: PremiumBusinessCardProps) => {
   const description = `Discover amazing ${category.toLowerCase()} services and earn loyalty points`;
+
+  // Track impression once when a featured card mounts
+  useEffect(() => {
+    if (isFeatured && featuredPlacementId) {
+      trackFeaturedEvent(featuredPlacementId, id, 'impression');
+    }
+  }, [isFeatured, featuredPlacementId, id]);
+
+  const handleFeaturedClick = () => {
+    if (isFeatured && featuredPlacementId) {
+      trackFeaturedEvent(featuredPlacementId, id, 'click');
+    }
+  };
+
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
