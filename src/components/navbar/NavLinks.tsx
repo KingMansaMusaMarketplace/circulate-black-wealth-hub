@@ -324,7 +324,7 @@ const NavLinks: React.FC = () => {
                     <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 shadow-sm">
                       <Users className="h-3.5 w-3.5 text-white" />
                     </div>
-                    <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">Community</div>
+                    <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">Community HUB</div>
                   </div>
                   <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
                     Connect with other members of the marketplace
