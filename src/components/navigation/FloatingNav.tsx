@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Home, Building2, Users, Menu, X } from 'lucide-react';
+import { Home, Building2, Users, Menu, X, Briefcase, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const FloatingNav = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const location = useLocation();
 
   // Don't show FloatingNav on auth pages
@@ -37,10 +38,14 @@ const FloatingNav = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
-  const navItems = [
+  const mainNavItems = [
     { path: '/', label: 'Home', icon: Home },
     { path: '/directory', label: 'Directory', icon: Building2 },
     { path: '/how-it-works', label: 'How It Works', icon: Users },
+  ];
+
+  const resourceNavItems = [
+    { path: '/jobs', label: 'Jobs', icon: Briefcase },
   ];
 
   // Return null after all hooks are called
