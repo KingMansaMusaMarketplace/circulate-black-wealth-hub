@@ -48,6 +48,9 @@ const AdminRevenueWidget: React.FC = () => {
         { data: sponsors },
         { data: bhm },
         { data: comm },
+        { data: apple },
+        { data: corpSubs },
+        { data: serviceBookings },
       ] = await Promise.all([
         supabase.from('platform_transactions').select('amount_platform_fee, created_at').eq('status', 'succeeded'),
         supabase.from('featured_placements').select('tier').eq('status', 'active'),
@@ -61,6 +64,9 @@ const AdminRevenueWidget: React.FC = () => {
         supabase.from('sponsors').select('sponsorship_tier').eq('subscription_status', 'active'),
         supabase.from('b2b_external_leads').select('payment_amount, paid_at').eq('source_query', 'bhm_quick_add').eq('validation_status', 'paid'),
         supabase.from('commission_payments').select('amount, paid_at').eq('status', 'paid'),
+        supabase.from('apple_subscriptions').select('product_id').eq('status', 'active'),
+        supabase.from('corporate_subscriptions').select('tier').eq('status', 'active'),
+        supabase.from('bookings').select('platform_fee, created_at, status').neq('status', 'cancelled'),
       ]);
 
       (qr ?? []).forEach((r: any) => {
@@ -99,6 +105,11 @@ const AdminRevenueWidget: React.FC = () => {
         life += v;
         if (r.paid_at && r.paid_at >= thirtyAgo) l30 += v;
       });
+      (serviceBookings ?? []).forEach((r: any) => {
+        const v = Number(r.platform_fee || 0);
+        life += v;
+        if (r.created_at && r.created_at >= thirtyAgo) l30 += v;
+      });
 
       // Sales agent commissions are a COST — subtract from totals
       let commissionCost = 0;
@@ -128,8 +139,19 @@ const AdminRevenueWidget: React.FC = () => {
         (s: number, r: any) => s + (SPONSOR_MRR[String(r.sponsorship_tier ?? '').toLowerCase().trim()] ?? 0),
         0,
       );
+      const appleMrr = (apple ?? []).reduce((s: number, r: any) => {
+        const pid = String(r.product_id ?? '').toLowerCase();
+        for (const [tier, p] of Object.entries(SUBSCRIPTION_MRR)) {
+          if (pid.includes(tier)) return s + p;
+        }
+        return s;
+      }, 0);
+      const corpSubsMrr = (corpSubs ?? []).reduce(
+        (s: number, r: any) => s + (SPONSOR_MRR[String(r.tier ?? '').toLowerCase().trim()] ?? 0),
+        0,
+      );
 
-      const monthly = featuredMrr + subsMrr + apiMrr + sponsorsMrr;
+      const monthly = featuredMrr + subsMrr + apiMrr + sponsorsMrr + appleMrr + corpSubsMrr;
 
       setLifetime(life);
       setMrr(monthly);
@@ -150,7 +172,7 @@ const AdminRevenueWidget: React.FC = () => {
               </div>
               <div>
                 <div className="text-sm font-semibold text-white">Platform Revenue</div>
-                <div className="text-xs text-white/60">Live across 13 streams · net of commissions</div>
+                <div className="text-xs text-white/60">Live across 16 streams · net of commissions</div>
               </div>
             </div>
             <ArrowRight className="h-5 w-5 text-mansagold opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
