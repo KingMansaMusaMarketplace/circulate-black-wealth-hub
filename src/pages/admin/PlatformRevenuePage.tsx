@@ -94,6 +94,9 @@ interface RevenueState {
   answering: { activeCount: number; callsLast30: number };
   stays: { total: number; count: number; last30: number };
   noire: { total: number; count: number; last30: number };
+  sponsors: { mrr: number; activeCount: number; byTier: Record<string, number> };
+  bhm: { total: number; count: number; last30: number };
+  agentCommissions: { total: number; count: number; last30: number };
 }
 
 const EMPTY: RevenueState = {
@@ -108,6 +111,9 @@ const EMPTY: RevenueState = {
   answering: { activeCount: 0, callsLast30: 0 },
   stays: { total: 0, count: 0, last30: 0 },
   noire: { total: 0, count: 0, last30: 0 },
+  sponsors: { mrr: 0, activeCount: 0, byTier: {} },
+  bhm: { total: 0, count: 0, last30: 0 },
+  agentCommissions: { total: 0, count: 0, last30: 0 },
 };
 
 export default function PlatformRevenuePage() {
