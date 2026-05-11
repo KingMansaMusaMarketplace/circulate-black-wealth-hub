@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { format, startOfMonth, endOfMonth, subMonths, startOfWeek, endOfWeek } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { EmptyDashboardState } from './EmptyDashboardState';
+import PlatformFeesCard from './PlatformFeesCard';
 
 interface BusinessDashboardProps {
   businessId: string;
