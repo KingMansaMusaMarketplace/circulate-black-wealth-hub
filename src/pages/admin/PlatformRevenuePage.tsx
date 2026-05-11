@@ -18,6 +18,9 @@ import {
   PhoneCall,
   Home,
   Car,
+  Building2,
+  Calendar,
+  HandCoins,
 } from 'lucide-react';
 
 // Featured Placement monthly pricing (USD) — must match create-featured-placement-checkout edge fn
@@ -37,6 +40,8 @@ const SUBSCRIPTION_MRR: Record<string, number> = {
   starter: 79,
   pro: 299,
   enterprise: 899,
+  founding_pro: 149, // Founders' Lock — first 100 businesses
+  founding: 149,
 };
 
 // API developer tier MRR (matches create-api-subscription-checkout)
@@ -44,6 +49,15 @@ const API_TIER_MRR: Record<string, number> = {
   free: 0,
   pro: 299,
   enterprise: 999,
+};
+
+// Corporate Sponsor tier MRR (estimates — Stripe price IDs are env-driven)
+const SPONSOR_MRR: Record<string, number> = {
+  bronze: 500,
+  silver: 1500,
+  gold: 5000,
+  platinum: 10000,
+  founding: 2500,
 };
 
 const fmt = (n: number) =>
@@ -83,6 +97,9 @@ interface RevenueState {
   answering: { activeCount: number; callsLast30: number };
   stays: { total: number; count: number; last30: number };
   noire: { total: number; count: number; last30: number };
+  sponsors: { mrr: number; activeCount: number; byTier: Record<string, number> };
+  bhm: { total: number; count: number; last30: number };
+  agentCommissions: { total: number; count: number; last30: number };
 }
 
 const EMPTY: RevenueState = {
@@ -97,6 +114,9 @@ const EMPTY: RevenueState = {
   answering: { activeCount: 0, callsLast30: 0 },
   stays: { total: 0, count: 0, last30: 0 },
   noire: { total: 0, count: 0, last30: 0 },
+  sponsors: { mrr: 0, activeCount: 0, byTier: {} },
+  bhm: { total: 0, count: 0, last30: 0 },
+  agentCommissions: { total: 0, count: 0, last30: 0 },
 };
 
 export default function PlatformRevenuePage() {
@@ -244,6 +264,46 @@ export default function PlatformRevenuePage() {
         if (r.created_at && r.created_at >= thirtyAgo) next.noire.last30 += fee;
       });
 
+      // Corporate Sponsors — active sponsors by tier
+      const { data: sponsorRows } = await supabase
+        .from('sponsors')
+        .select('sponsorship_tier, subscription_status')
+        .eq('subscription_status', 'active');
+      (sponsorRows ?? []).forEach((r: any) => {
+        const key = String(r.sponsorship_tier ?? '').toLowerCase().trim();
+        const price = SPONSOR_MRR[key] ?? 0;
+        if (price > 0) {
+          next.sponsors.mrr += price;
+          next.sponsors.activeCount += 1;
+          next.sponsors.byTier[key] = (next.sponsors.byTier[key] ?? 0) + 1;
+        }
+      });
+
+      // BHM Quick Add Listings — paid one-time fees
+      const { data: bhmRows } = await supabase
+        .from('b2b_external_leads')
+        .select('payment_amount, paid_at')
+        .eq('source_query', 'bhm_quick_add')
+        .eq('validation_status', 'paid');
+      (bhmRows ?? []).forEach((r: any) => {
+        const amt = Number(r.payment_amount || 0);
+        next.bhm.total += amt;
+        next.bhm.count += 1;
+        if (r.paid_at && r.paid_at >= thirtyAgo) next.bhm.last30 += amt;
+      });
+
+      // Sales Agent Commissions (paid out — revenue COST/deduction)
+      const { data: commRows } = await supabase
+        .from('commission_payments')
+        .select('amount, paid_at, status')
+        .eq('status', 'paid');
+      (commRows ?? []).forEach((r: any) => {
+        const amt = Number(r.amount || 0);
+        next.agentCommissions.total += amt;
+        next.agentCommissions.count += 1;
+        if (r.paid_at && r.paid_at >= thirtyAgo) next.agentCommissions.last30 += amt;
+      });
+
       setS(next);
       setLoading(false);
     })();
@@ -256,7 +316,8 @@ export default function PlatformRevenuePage() {
       s.jobs.total +
       s.marketing.total +
       s.stays.total +
-      s.noire.total,
+      s.noire.total +
+      s.bhm.total,
     [s],
   );
   const last30Total = useMemo(
@@ -266,11 +327,14 @@ export default function PlatformRevenuePage() {
       s.jobs.last30 +
       s.marketing.last30 +
       s.stays.last30 +
-      s.noire.last30,
+      s.noire.last30 +
+      s.bhm.last30,
     [s],
   );
-  const totalMrr = s.featured.mrr + s.subscriptions.mrr + s.apiTiers.mrr;
+  const totalMrr =
+    s.featured.mrr + s.subscriptions.mrr + s.apiTiers.mrr + s.sponsors.mrr;
   const annualizedFromMrr = totalMrr * 12;
+  const netLast30 = last30Total + totalMrr - s.agentCommissions.last30;
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
@@ -404,6 +468,27 @@ export default function PlatformRevenuePage() {
             accent="bg-teal-500/15 text-teal-300"
           />
           <StreamCard
+            icon={<Building2 className="h-5 w-5" />}
+            label="Corporate Sponsors"
+            total={s.sponsors.mrr}
+            sub={`${s.sponsors.activeCount} active · MRR estimate · ${fmt(s.sponsors.mrr * 12)} ARR`}
+            accent="bg-mansagold/20 text-mansagold"
+          />
+          <StreamCard
+            icon={<Calendar className="h-5 w-5" />}
+            label="BHM Quick-Add Listings"
+            total={s.bhm.total}
+            sub={`${s.bhm.count} paid listings · ${fmt(s.bhm.last30)} last 30d`}
+            accent="bg-orange-500/15 text-orange-300"
+          />
+          <StreamCard
+            icon={<HandCoins className="h-5 w-5" />}
+            label="Sales Agent Commissions (cost)"
+            total={-s.agentCommissions.total}
+            sub={`${s.agentCommissions.count} payouts · -${fmt(s.agentCommissions.last30)} last 30d`}
+            accent="bg-red-500/15 text-red-300"
+          />
+          <StreamCard
             icon={<Activity className="h-5 w-5" />}
             label="API Calls (this month)"
             total={0}
@@ -475,12 +560,14 @@ export default function PlatformRevenuePage() {
               <TrendingUp className="h-5 w-5 text-primary" />
               <CardTitle className="text-base">Revenue stack</CardTitle>
             </div>
-            <CardDescription>10 active streams. iOS surfaces are hidden per App Store policy.</CardDescription>
+            <CardDescription>13 monetized streams (10 revenue + Sponsors + BHM + Founders' Lock). Sales agent commissions netted out. iOS surfaces hidden per App Store policy.</CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-1.5">
             <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime transactional: <span className="text-foreground font-semibold">{fmt(lifetimeTotal)}</span></div>
             <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> MRR: <span className="text-foreground font-semibold">{fmt(totalMrr)}</span> · ARR: <span className="text-foreground font-semibold">{fmt(annualizedFromMrr)}</span></div>
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d (incl. MRR): <span className="text-foreground font-semibold">{fmt(last30Total + totalMrr)}</span></div>
+            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d gross (incl. MRR): <span className="text-foreground font-semibold">{fmt(last30Total + totalMrr)}</span></div>
+            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-red-400" /> – Agent commissions paid (30d): <span className="text-foreground font-semibold">-{fmt(s.agentCommissions.last30)}</span></div>
+            <div className="flex items-center gap-2 pt-1 border-t border-white/5"><DollarSign className="h-4 w-4 text-emerald-400" /> <span className="text-foreground">Net last 30d:</span> <span className="text-emerald-300 font-bold">{fmt(netLast30)}</span></div>
           </CardContent>
         </Card>
       </div>

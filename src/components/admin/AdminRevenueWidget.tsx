@@ -8,9 +8,12 @@ const FEATURED_MRR: Record<string, number> = {
   bronze: 20, silver: 50, gold: 100, platinum: 200,
 };
 const SUBSCRIPTION_MRR: Record<string, number> = {
-  essentials: 19, starter: 79, pro: 299, enterprise: 899,
+  essentials: 19, starter: 79, pro: 299, enterprise: 899, founding_pro: 149, founding: 149,
 };
 const API_TIER_MRR: Record<string, number> = { free: 0, pro: 299, enterprise: 999 };
+const SPONSOR_MRR: Record<string, number> = {
+  bronze: 500, silver: 1500, gold: 5000, platinum: 10000, founding: 2500,
+};
 const TOPUP_USD_BY_CREDITS: Record<number, number> = { 25: 9, 100: 25, 500: 79 };
 
 const fmt = (n: number) =>
@@ -42,6 +45,9 @@ const AdminRevenueWidget: React.FC = () => {
         { data: devs },
         { data: stays },
         { data: rides },
+        { data: sponsors },
+        { data: bhm },
+        { data: comm },
       ] = await Promise.all([
         supabase.from('platform_transactions').select('amount_platform_fee, created_at').eq('status', 'succeeded'),
         supabase.from('featured_placements').select('tier').eq('status', 'active'),
@@ -52,6 +58,9 @@ const AdminRevenueWidget: React.FC = () => {
         supabase.from('developer_accounts').select('tier, tier_price_cents').eq('stripe_subscription_status', 'active'),
         supabase.from('vacation_bookings').select('platform_fee, created_at, status').neq('status', 'cancelled'),
         supabase.from('noir_rides').select('platform_fee, created_at'),
+        supabase.from('sponsors').select('sponsorship_tier').eq('subscription_status', 'active'),
+        supabase.from('b2b_external_leads').select('payment_amount, paid_at').eq('source_query', 'bhm_quick_add').eq('validation_status', 'paid'),
+        supabase.from('commission_payments').select('amount, paid_at').eq('status', 'paid'),
       ]);
 
       (qr ?? []).forEach((r: any) => {
@@ -85,6 +94,22 @@ const AdminRevenueWidget: React.FC = () => {
         life += v;
         if (r.created_at && r.created_at >= thirtyAgo) l30 += v;
       });
+      (bhm ?? []).forEach((r: any) => {
+        const v = Number(r.payment_amount || 0);
+        life += v;
+        if (r.paid_at && r.paid_at >= thirtyAgo) l30 += v;
+      });
+
+      // Sales agent commissions are a COST — subtract from totals
+      let commissionCost = 0;
+      let commissionCost30 = 0;
+      (comm ?? []).forEach((r: any) => {
+        const v = Number(r.amount || 0);
+        commissionCost += v;
+        if (r.paid_at && r.paid_at >= thirtyAgo) commissionCost30 += v;
+      });
+      life -= commissionCost;
+      l30 -= commissionCost30;
 
       const featuredMrr = (fp ?? []).reduce(
         (s: number, r: any) => s + (FEATURED_MRR[r.tier] ?? 0),
@@ -99,8 +124,12 @@ const AdminRevenueWidget: React.FC = () => {
         const fromMap = API_TIER_MRR[String(r.tier ?? '').toLowerCase()] ?? 0;
         return s + (fromCents > 0 ? fromCents : fromMap);
       }, 0);
+      const sponsorsMrr = (sponsors ?? []).reduce(
+        (s: number, r: any) => s + (SPONSOR_MRR[String(r.sponsorship_tier ?? '').toLowerCase().trim()] ?? 0),
+        0,
+      );
 
-      const monthly = featuredMrr + subsMrr + apiMrr;
+      const monthly = featuredMrr + subsMrr + apiMrr + sponsorsMrr;
 
       setLifetime(life);
       setMrr(monthly);
@@ -121,7 +150,7 @@ const AdminRevenueWidget: React.FC = () => {
               </div>
               <div>
                 <div className="text-sm font-semibold text-white">Platform Revenue</div>
-                <div className="text-xs text-white/60">Live across 10 streams</div>
+                <div className="text-xs text-white/60">Live across 13 streams · net of commissions</div>
               </div>
             </div>
             <ArrowRight className="h-5 w-5 text-mansagold opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
