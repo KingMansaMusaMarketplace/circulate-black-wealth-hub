@@ -7,6 +7,10 @@ import { supabase } from '@/integrations/supabase/client';
 const FEATURED_MRR: Record<string, number> = {
   bronze: 20, silver: 50, gold: 100, platinum: 200,
 };
+const SUBSCRIPTION_MRR: Record<string, number> = {
+  essentials: 19, starter: 79, pro: 299, enterprise: 899,
+};
+const API_TIER_MRR: Record<string, number> = { free: 0, pro: 299, enterprise: 999 };
 const TOPUP_USD_BY_CREDITS: Record<number, number> = { 25: 9, 100: 25, 500: 79 };
 
 const fmt = (n: number) =>
