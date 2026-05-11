@@ -48,6 +48,9 @@ const AdminRevenueWidget: React.FC = () => {
         { data: sponsors },
         { data: bhm },
         { data: comm },
+        { data: apple },
+        { data: corpSubs },
+        { data: serviceBookings },
       ] = await Promise.all([
         supabase.from('platform_transactions').select('amount_platform_fee, created_at').eq('status', 'succeeded'),
         supabase.from('featured_placements').select('tier').eq('status', 'active'),
@@ -61,6 +64,9 @@ const AdminRevenueWidget: React.FC = () => {
         supabase.from('sponsors').select('sponsorship_tier').eq('subscription_status', 'active'),
         supabase.from('b2b_external_leads').select('payment_amount, paid_at').eq('source_query', 'bhm_quick_add').eq('validation_status', 'paid'),
         supabase.from('commission_payments').select('amount, paid_at').eq('status', 'paid'),
+        supabase.from('apple_subscriptions').select('product_id').eq('status', 'active'),
+        supabase.from('corporate_subscriptions').select('tier').eq('status', 'active'),
+        supabase.from('bookings').select('platform_fee, created_at, status').neq('status', 'cancelled'),
       ]);
 
       (qr ?? []).forEach((r: any) => {
