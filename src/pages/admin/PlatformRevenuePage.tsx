@@ -100,6 +100,9 @@ interface RevenueState {
   sponsors: { mrr: number; activeCount: number; byTier: Record<string, number> };
   bhm: { total: number; count: number; last30: number };
   agentCommissions: { total: number; count: number; last30: number };
+  apple: { mrr: number; activeCount: number };
+  corpSubs: { mrr: number; activeCount: number; byTier: Record<string, number> };
+  serviceBookings: { total: number; count: number; last30: number };
 }
 
 const EMPTY: RevenueState = {
@@ -117,6 +120,9 @@ const EMPTY: RevenueState = {
   sponsors: { mrr: 0, activeCount: 0, byTier: {} },
   bhm: { total: 0, count: 0, last30: 0 },
   agentCommissions: { total: 0, count: 0, last30: 0 },
+  apple: { mrr: 0, activeCount: 0 },
+  corpSubs: { mrr: 0, activeCount: 0, byTier: {} },
+  serviceBookings: { total: 0, count: 0, last30: 0 },
 };
 
 export default function PlatformRevenuePage() {
@@ -304,6 +310,50 @@ export default function PlatformRevenuePage() {
         if (r.paid_at && r.paid_at >= thirtyAgo) next.agentCommissions.last30 += amt;
       });
 
+      // Apple iOS in-app subscriptions (App Store) — match tier from product_id
+      const { data: appleRows } = await supabase
+        .from('apple_subscriptions')
+        .select('product_id, status, expires_date')
+        .eq('status', 'active');
+      (appleRows ?? []).forEach((r: any) => {
+        const pid = String(r.product_id ?? '').toLowerCase();
+        let price = 0;
+        for (const [tier, p] of Object.entries(SUBSCRIPTION_MRR)) {
+          if (pid.includes(tier)) { price = p; break; }
+        }
+        if (price > 0) {
+          next.apple.mrr += price;
+          next.apple.activeCount += 1;
+        }
+      });
+
+      // Corporate B2B Subscriptions (separate from sponsors)
+      const { data: corpRows } = await supabase
+        .from('corporate_subscriptions')
+        .select('tier, status')
+        .eq('status', 'active');
+      (corpRows ?? []).forEach((r: any) => {
+        const key = String(r.tier ?? '').toLowerCase().trim();
+        const price = SPONSOR_MRR[key] ?? 0;
+        if (price > 0) {
+          next.corpSubs.mrr += price;
+          next.corpSubs.activeCount += 1;
+          next.corpSubs.byTier[key] = (next.corpSubs.byTier[key] ?? 0) + 1;
+        }
+      });
+
+      // Service Bookings — platform_fee on bookings (in-platform booking system)
+      const { data: bookRows } = await supabase
+        .from('bookings')
+        .select('platform_fee, created_at, status')
+        .neq('status', 'cancelled');
+      (bookRows ?? []).forEach((r: any) => {
+        const fee = Number(r.platform_fee || 0);
+        next.serviceBookings.total += fee;
+        next.serviceBookings.count += 1;
+        if (r.created_at && r.created_at >= thirtyAgo) next.serviceBookings.last30 += fee;
+      });
+
       setS(next);
       setLoading(false);
     })();
@@ -317,7 +367,8 @@ export default function PlatformRevenuePage() {
       s.marketing.total +
       s.stays.total +
       s.noire.total +
-      s.bhm.total,
+      s.bhm.total +
+      s.serviceBookings.total,
     [s],
   );
   const last30Total = useMemo(
@@ -328,11 +379,17 @@ export default function PlatformRevenuePage() {
       s.marketing.last30 +
       s.stays.last30 +
       s.noire.last30 +
-      s.bhm.last30,
+      s.bhm.last30 +
+      s.serviceBookings.last30,
     [s],
   );
   const totalMrr =
-    s.featured.mrr + s.subscriptions.mrr + s.apiTiers.mrr + s.sponsors.mrr;
+    s.featured.mrr +
+    s.subscriptions.mrr +
+    s.apiTiers.mrr +
+    s.sponsors.mrr +
+    s.apple.mrr +
+    s.corpSubs.mrr;
   const annualizedFromMrr = totalMrr * 12;
   const netLast30 = last30Total + totalMrr - s.agentCommissions.last30;
 
@@ -489,6 +546,27 @@ export default function PlatformRevenuePage() {
             accent="bg-red-500/15 text-red-300"
           />
           <StreamCard
+            icon={<Users className="h-5 w-5" />}
+            label="Apple iOS Subscriptions"
+            total={s.apple.mrr}
+            sub={`${s.apple.activeCount} active · MRR · ${fmt(s.apple.mrr * 12)} ARR`}
+            accent="bg-zinc-500/15 text-zinc-300"
+          />
+          <StreamCard
+            icon={<Building2 className="h-5 w-5" />}
+            label="Corporate B2B Subscriptions"
+            total={s.corpSubs.mrr}
+            sub={`${s.corpSubs.activeCount} active · MRR · ${fmt(s.corpSubs.mrr * 12)} ARR`}
+            accent="bg-violet-500/15 text-violet-300"
+          />
+          <StreamCard
+            icon={<Calendar className="h-5 w-5" />}
+            label="Service Bookings (platform fee)"
+            total={s.serviceBookings.total}
+            sub={`${s.serviceBookings.count} bookings · ${fmt(s.serviceBookings.last30)} last 30d`}
+            accent="bg-pink-500/15 text-pink-300"
+          />
+          <StreamCard
             icon={<Activity className="h-5 w-5" />}
             label="API Calls (this month)"
             total={0}
@@ -560,7 +638,7 @@ export default function PlatformRevenuePage() {
               <TrendingUp className="h-5 w-5 text-primary" />
               <CardTitle className="text-base">Revenue stack</CardTitle>
             </div>
-            <CardDescription>13 monetized streams (10 revenue + Sponsors + BHM + Founders' Lock). Sales agent commissions netted out. iOS surfaces hidden per App Store policy.</CardDescription>
+            <CardDescription>16 monetized streams tracked end-to-end. Sales agent commissions netted out. Apple iOS subscriptions tracked but UI hidden per App Store policy.</CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-1.5">
             <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime transactional: <span className="text-foreground font-semibold">{fmt(lifetimeTotal)}</span></div>
