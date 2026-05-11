@@ -5,11 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Database, Shield, BarChart3, Building2, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { RequestAPIAccessDialog } from '@/components/api/RequestAPIAccessDialog';
 
 const TIERS = [
-  { name: 'Starter',    price: 99,  quota: '1,000 calls/mo',     features: ['All public endpoints', 'Email support', 'CSV export'] },
-  { name: 'Pro',        price: 499, quota: '10,000 calls/mo',    features: ['Everything in Starter', 'Webhook deliveries', 'Custom city scopes'], featured: true },
-  { name: 'Enterprise', price: 999, quota: '100,000+ calls/mo',  features: ['Everything in Pro', 'Dedicated success manager', 'Custom data partnerships', 'SLA'] },
+  { id: 'starter',    name: 'Starter',    price: 99,  quota: '1,000 calls/mo',     features: ['All public endpoints', 'Email support', 'CSV export'] },
+  { id: 'pro',        name: 'Pro',        price: 499, quota: '10,000 calls/mo',    features: ['Everything in Starter', 'Webhook deliveries', 'Custom city scopes'], featured: true },
+  { id: 'enterprise', name: 'Enterprise', price: 999, quota: '100,000+ calls/mo',  features: ['Everything in Pro', 'Dedicated success manager', 'Custom data partnerships', 'SLA'] },
 ];
 
 export default function InstitutionalAPIPage() {
