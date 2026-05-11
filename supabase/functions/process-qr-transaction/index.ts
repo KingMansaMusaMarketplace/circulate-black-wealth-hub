@@ -171,7 +171,12 @@ serve(async (req) => {
         },
         description: description || `QR Code Payment to ${business?.business_name || "Business"}`,
       },
-      success_url: successUrl || `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: (() => {
+        const base = successUrl || `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`;
+        const sep = base.includes("?") ? "&" : "?";
+        const feeParams = `kind=qr&fee_amt=${(commissionCents / 100).toFixed(2)}&fee_pct=${commissionRate}&total=${(finalAmountCents / 100).toFixed(2)}&biz=${encodeURIComponent(business?.business_name || "")}`;
+        return `${base}${sep}${feeParams}`;
+      })(),
       cancel_url: cancelUrl || `${origin}/qr-scanner?canceled=1`,
       metadata: {
         businessId,
