@@ -163,24 +163,13 @@ export const secureSignUp = async (email: string, password: string, userData?: a
   }
 };
 
-// Enhanced sign in with rate limiting and attempt logging
+// Enhanced sign in with attempt logging.
+// NOTE: We intentionally do NOT call check_rate_limit_secure here — that RPC
+// buckets by auth.uid(), which is NULL for every sign-in attempt, causing all
+// anonymous visitors to share one global bucket and lock each other out.
+// Supabase's built-in auth rate limiting (per-IP / per-email) handles abuse.
 export const secureSignIn = async (email: string, password: string) => {
   try {
-    // Check rate limit first  
-    const { data: rateLimitResult } = await supabase.rpc('check_rate_limit_secure', {
-      operation_name: 'signin',
-      max_attempts: 5,
-      window_minutes: 15
-    });
-
-    if (rateLimitResult && !rateLimitResult.allowed) {
-      return {
-        success: false,
-        error: `Too many login attempts. ${rateLimitResult.message}`,
-        rateLimitInfo: rateLimitResult
-      };
-    }
-
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
