@@ -4765,6 +4765,10 @@ export type Database = {
           phone_verification_number: string | null
           phone_verified: boolean | null
           phone_verified_at: string | null
+          priority_paid_at: string | null
+          priority_sla_deadline: string | null
+          priority_stripe_session_id: string | null
+          priority_tier: string
           registration_document_url: string | null
           rejection_reason: string | null
           social_verification_links: Json | null
@@ -4797,6 +4801,10 @@ export type Database = {
           phone_verification_number?: string | null
           phone_verified?: boolean | null
           phone_verified_at?: string | null
+          priority_paid_at?: string | null
+          priority_sla_deadline?: string | null
+          priority_stripe_session_id?: string | null
+          priority_tier?: string
           registration_document_url?: string | null
           rejection_reason?: string | null
           social_verification_links?: Json | null
@@ -4829,6 +4837,10 @@ export type Database = {
           phone_verification_number?: string | null
           phone_verified?: boolean | null
           phone_verified_at?: string | null
+          priority_paid_at?: string | null
+          priority_sla_deadline?: string | null
+          priority_stripe_session_id?: string | null
+          priority_tier?: string
           registration_document_url?: string | null
           rejection_reason?: string | null
           social_verification_links?: Json | null
@@ -12128,6 +12140,69 @@ export type Database = {
           is_active?: boolean
           name?: string
           sort_order?: number
+        }
+        Relationships: []
+      }
+      marketing_credit_ledger: {
+        Row: {
+          bucket: string
+          business_id: string
+          created_at: string
+          delta: number
+          id: string
+          metadata: Json | null
+          reason: string
+          stripe_session_id: string | null
+        }
+        Insert: {
+          bucket: string
+          business_id: string
+          created_at?: string
+          delta: number
+          id?: string
+          metadata?: Json | null
+          reason: string
+          stripe_session_id?: string | null
+        }
+        Update: {
+          bucket?: string
+          business_id?: string
+          created_at?: string
+          delta?: number
+          id?: string
+          metadata?: Json | null
+          reason?: string
+          stripe_session_id?: string | null
+        }
+        Relationships: []
+      }
+      marketing_credits: {
+        Row: {
+          business_id: string
+          current_tier: string
+          period_end: string
+          period_start: string
+          plan_credits_remaining: number
+          topup_credits_remaining: number
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          current_tier?: string
+          period_end?: string
+          period_start?: string
+          plan_credits_remaining?: number
+          topup_credits_remaining?: number
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          current_tier?: string
+          period_end?: string
+          period_start?: string
+          plan_credits_remaining?: number
+          topup_credits_remaining?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -21277,6 +21352,42 @@ export type Database = {
           },
         ]
       }
+      verification_priority_payments: {
+        Row: {
+          amount_cents: number
+          business_id: string
+          created_at: string
+          id: string
+          paid_at: string
+          stripe_session_id: string
+          tier: string
+          user_id: string
+          verification_id: string | null
+        }
+        Insert: {
+          amount_cents: number
+          business_id: string
+          created_at?: string
+          id?: string
+          paid_at?: string
+          stripe_session_id: string
+          tier: string
+          user_id: string
+          verification_id?: string | null
+        }
+        Update: {
+          amount_cents?: number
+          business_id?: string
+          created_at?: string
+          id?: string
+          paid_at?: string
+          stripe_session_id?: string
+          tier?: string
+          user_id?: string
+          verification_id?: string | null
+        }
+        Relationships: []
+      }
       verified_transactions: {
         Row: {
           amount: number
@@ -22562,6 +22673,10 @@ export type Database = {
             Returns: boolean
           }
         | { Args: { p_email: string; p_user_id: string }; Returns: boolean }
+      add_marketing_topup_credits: {
+        Args: { p_business_id: string; p_credits: number; p_session_id: string }
+        Returns: undefined
+      }
       admin_approve_business_verification: {
         Args: { verification_id: string }
         Returns: undefined
@@ -22765,6 +22880,10 @@ export type Database = {
       complete_withdrawal: {
         Args: { p_request_id: string; p_transaction_reference?: string }
         Returns: boolean
+      }
+      consume_marketing_credit: {
+        Args: { p_business_id: string; p_tier?: string }
+        Returns: Json
       }
       create_sales_agent_application_secure: {
         Args: {
@@ -23673,6 +23792,10 @@ export type Database = {
         Args: { p_referral_code: string; p_user_id: string }
         Returns: boolean
       }
+      marketing_credits_monthly_allocation: {
+        Args: { p_tier: string }
+        Returns: number
+      }
       match_document_chunks: {
         Args: {
           match_business_id: string
@@ -23761,6 +23884,10 @@ export type Database = {
           p_user_id?: string
         }
         Returns: string
+      }
+      refund_marketing_credit: {
+        Args: { p_bucket: string; p_business_id: string }
+        Returns: undefined
       }
       reject_corporate_subscription: {
         Args: {
