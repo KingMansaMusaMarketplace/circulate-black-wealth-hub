@@ -18,6 +18,9 @@ import {
   PhoneCall,
   Home,
   Car,
+  Building2,
+  Calendar,
+  HandCoins,
 } from 'lucide-react';
 
 // Featured Placement monthly pricing (USD) — must match create-featured-placement-checkout edge fn
