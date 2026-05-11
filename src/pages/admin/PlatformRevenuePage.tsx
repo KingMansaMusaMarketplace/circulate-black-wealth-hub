@@ -560,12 +560,14 @@ export default function PlatformRevenuePage() {
               <TrendingUp className="h-5 w-5 text-primary" />
               <CardTitle className="text-base">Revenue stack</CardTitle>
             </div>
-            <CardDescription>10 active streams. iOS surfaces are hidden per App Store policy.</CardDescription>
+            <CardDescription>13 monetized streams (10 revenue + Sponsors + BHM + Founders' Lock). Sales agent commissions netted out. iOS surfaces hidden per App Store policy.</CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-1.5">
             <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime transactional: <span className="text-foreground font-semibold">{fmt(lifetimeTotal)}</span></div>
             <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> MRR: <span className="text-foreground font-semibold">{fmt(totalMrr)}</span> · ARR: <span className="text-foreground font-semibold">{fmt(annualizedFromMrr)}</span></div>
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d (incl. MRR): <span className="text-foreground font-semibold">{fmt(last30Total + totalMrr)}</span></div>
+            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d gross (incl. MRR): <span className="text-foreground font-semibold">{fmt(last30Total + totalMrr)}</span></div>
+            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-red-400" /> – Agent commissions paid (30d): <span className="text-foreground font-semibold">-{fmt(s.agentCommissions.last30)}</span></div>
+            <div className="flex items-center gap-2 pt-1 border-t border-white/5"><DollarSign className="h-4 w-4 text-emerald-400" /> <span className="text-foreground">Net last 30d:</span> <span className="text-emerald-300 font-bold">{fmt(netLast30)}</span></div>
           </CardContent>
         </Card>
       </div>
