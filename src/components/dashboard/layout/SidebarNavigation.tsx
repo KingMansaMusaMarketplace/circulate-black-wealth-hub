@@ -48,6 +48,7 @@ const SidebarNavigation = () => {
     { name: 'Finances', href: '/business-finances', icon: DollarSign },
     { name: 'Analytics', href: '/business-analytics', icon: BarChart3 },
     { name: 'Marketing Studio', href: '/marketing-studio', icon: ImageIcon },
+    { name: 'Promote (Featured)', href: '/business/featured-placement', icon: Sparkles },
     { name: 'QR Codes', href: '/business/qr-codes', icon: QrCode },
     { name: 'Customers', href: '/business/customers', icon: Users },
     { name: 'Susu Circles', href: '/susu-circles', icon: CircleDollarSign },
