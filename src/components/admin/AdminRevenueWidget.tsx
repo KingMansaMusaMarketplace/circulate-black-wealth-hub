@@ -12,7 +12,7 @@ const SUBSCRIPTION_MRR: Record<string, number> = {
 };
 const API_TIER_MRR: Record<string, number> = { free: 0, pro: 299, enterprise: 999 };
 const SPONSOR_MRR: Record<string, number> = {
-  bronze: 500, silver: 1500, gold: 5000, platinum: 10000, founding: 2500,
+  founding: 1750, bronze: 5000, silver: 15000, gold: 25000, platinum: 50000,
 };
 const TOPUP_USD_BY_CREDITS: Record<number, number> = { 25: 9, 100: 25, 500: 79 };
 

@@ -114,10 +114,11 @@ const AdminSponsorCRM: React.FC = () => {
                       <SelectValue placeholder="Select tier" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="bronze">Bronze ($2,500/yr)</SelectItem>
-                      <SelectItem value="silver">Silver ($5,000/yr)</SelectItem>
-                      <SelectItem value="gold">Gold ($10,000/yr)</SelectItem>
-                      <SelectItem value="platinum">Platinum ($25,000/yr)</SelectItem>
+                      <SelectItem value="founding">Founding ($1,750/mo)</SelectItem>
+                      <SelectItem value="bronze">Bronze ($5,000/mo)</SelectItem>
+                      <SelectItem value="silver">Silver ($15,000/mo)</SelectItem>
+                      <SelectItem value="gold">Gold ($25,000/mo)</SelectItem>
+                      <SelectItem value="platinum">Platinum ($50,000/mo)</SelectItem>
                       <SelectItem value="custom">Custom</SelectItem>
                     </SelectContent>
                   </Select>

@@ -69,6 +69,7 @@ import SponsorDeliverablesTab from '@/components/sponsors/SponsorDeliverablesTab
 import SponsorOverviewHeader from '@/components/sponsors/SponsorOverviewHeader';
 
 const tierPrices = {
+  founding: 1750,
   platinum: 50000,
   gold: 25000,
   silver: 15000,
