@@ -19,7 +19,7 @@ interface QRPayBillProps {
   onCancel: () => void;
 }
 
-const COMMISSION_RATE = 7.5;
+const COMMISSION_RATE = 1.5;
 
 const QRPayBill: React.FC<QRPayBillProps> = ({
   businessId,
