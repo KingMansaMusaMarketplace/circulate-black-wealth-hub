@@ -29,6 +29,7 @@ interface PremiumBusinessCardProps {
   isSample?: boolean;
   isVerified?: boolean;
   index?: number;
+  featuredPlacementId?: string;
 }
 
 const PremiumBusinessCard = ({ 
