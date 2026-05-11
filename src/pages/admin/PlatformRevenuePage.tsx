@@ -313,7 +313,8 @@ export default function PlatformRevenuePage() {
       s.jobs.total +
       s.marketing.total +
       s.stays.total +
-      s.noire.total,
+      s.noire.total +
+      s.bhm.total,
     [s],
   );
   const last30Total = useMemo(
@@ -323,11 +324,14 @@ export default function PlatformRevenuePage() {
       s.jobs.last30 +
       s.marketing.last30 +
       s.stays.last30 +
-      s.noire.last30,
+      s.noire.last30 +
+      s.bhm.last30,
     [s],
   );
-  const totalMrr = s.featured.mrr + s.subscriptions.mrr + s.apiTiers.mrr;
+  const totalMrr =
+    s.featured.mrr + s.subscriptions.mrr + s.apiTiers.mrr + s.sponsors.mrr;
   const annualizedFromMrr = totalMrr * 12;
+  const netLast30 = last30Total + totalMrr - s.agentCommissions.last30;
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
