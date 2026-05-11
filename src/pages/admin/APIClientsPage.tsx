@@ -12,6 +12,7 @@ import { Copy, Plus } from 'lucide-react';
 
 export default function APIClientsPage() {
   const [clients, setClients] = useState<any[]>([]);
+  const [requests, setRequests] = useState<any[]>([]);
   const [orgName, setOrgName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [tier, setTier] = useState('starter');
@@ -19,13 +20,27 @@ export default function APIClientsPage() {
   const [newKey, setNewKey] = useState<string | null>(null);
 
   const load = async () => {
-    const { data } = await supabase
-      .from('developer_accounts')
-      .select('*')
-      .order('created_at', { ascending: false });
-    setClients(data || []);
+    const [{ data: c }, { data: r }] = await Promise.all([
+      supabase.from('developer_accounts').select('*').order('created_at', { ascending: false }),
+      supabase.from('api_access_requests').select('*').order('created_at', { ascending: false }).limit(50),
+    ]);
+    setClients(c || []);
+    setRequests(r || []);
   };
   useEffect(() => { load(); }, []);
+
+  const markReviewed = async (id: string, status: 'approved' | 'rejected') => {
+    await supabase.from('api_access_requests').update({ status, reviewed_at: new Date().toISOString() }).eq('id', id);
+    toast.success(`Marked ${status}`);
+    await load();
+  };
+
+  const prefillFromRequest = (r: any) => {
+    setOrgName(r.org_name);
+    setContactEmail(r.contact_email);
+    setTier(r.tier || 'starter');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const create = async () => {
     if (!orgName || !contactEmail) { toast.error('Fill all fields'); return; }
