@@ -6,6 +6,7 @@ import VerificationForm from './VerificationForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
+import { VerificationPriorityUpsell } from './VerificationPriorityUpsell';
 
 const VerificationTab: React.FC = () => {
   const { user } = useAuth();
