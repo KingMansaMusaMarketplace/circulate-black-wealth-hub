@@ -282,6 +282,10 @@ const DeveloperDashboard: React.FC = () => {
           </Button>
         </div>
 
+        <div className="mb-6">
+          <ApiSubscriptionPlans currentTier={account.tier} />
+        </div>
+
         <Tabs defaultValue="keys" className="space-y-6">
           <TabsList className="bg-slate-800/60 border border-white/10 p-1">
             <TabsTrigger value="keys" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60">
