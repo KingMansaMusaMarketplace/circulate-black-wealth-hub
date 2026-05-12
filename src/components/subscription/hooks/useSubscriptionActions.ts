@@ -79,15 +79,19 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
       if (isIOS) {
         console.log('[SUBSCRIPTION] Using Apple IAP for iOS');
         
+        // Only Essentials + Starter are sold via Apple IAP.
+        // Pro / Enterprise are web-only — show compliant redirect notice.
         const productIdMap: Record<string, string> = {
-          'premium': APPLE_PRODUCT_IDS.PREMIUM,
-          'business': APPLE_PRODUCT_IDS.BUSINESS_BASIC,
-          'enterprise': APPLE_PRODUCT_IDS.BUSINESS_ENTERPRISE,
+          'essentials': APPLE_PRODUCT_IDS.ESSENTIALS,
+          'starter': APPLE_PRODUCT_IDS.STARTER,
         };
 
         const productId = productIdMap[tier];
         if (!productId) {
-          toast.error('This subscription tier is not available on iOS');
+          toast.info('Subscribe at 1325.ai to activate this plan', {
+            description: 'Open Safari on your device and visit 1325.ai to manage Pro and Enterprise subscriptions.',
+            duration: 8000,
+          });
           return;
         }
 
