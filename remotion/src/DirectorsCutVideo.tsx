@@ -385,8 +385,8 @@ function SceneMath() {
                 color: s.color, lineHeight: 1, letterSpacing: -3,
                 textShadow: s.color === GOLD ? "0 0 60px rgba(255,179,0,0.4)" : "none",
               }}>{s.big}</div>
-              <div style={{ fontFamily: inter, fontWeight: 600, fontSize: 22, color: "#FFFFFF", letterSpacing: 4, textTransform: "uppercase" }}>{s.label}</div>
-              <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 18, color: "rgba(255,255,255,0.6)", letterSpacing: 1, textAlign: "center" }}>{s.sub}</div>
+              <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 32, color: "#FFFFFF", letterSpacing: 4, textTransform: "uppercase", marginTop: 6 }}>{s.label}</div>
+              <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 26, color: "rgba(255,255,255,0.85)", letterSpacing: 0.5, textAlign: "center", marginTop: 4, maxWidth: 320, lineHeight: 1.3 }}>{s.sub}</div>
             </div>
           );
         })}
