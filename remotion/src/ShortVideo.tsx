@@ -33,11 +33,11 @@ const SceneHook: React.FC = () => {
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", padding: 70, flexDirection: "column" }}>
       <AbsoluteFill style={{ background: "rgba(255,179,0,0.18)", opacity: flashOp }} />
-      <KineticTitle text="AI replaced" size={140} delay={4} />
+      <KineticTitle text="I hired" size={140} delay={4} />
       <div style={{ height: 22 }} />
-      <KineticTitle text="4 of my" size={140} delay={28} />
+      <KineticTitle text="an AI team" size={140} delay={28} />
       <div style={{ height: 22 }} />
-      <KineticTitle text="employees." size={170} italic color="#FFB300" delay={52} />
+      <KineticTitle text="of 33." size={170} italic color="#FFB300" delay={52} />
     </AbsoluteFill>
   );
 };
