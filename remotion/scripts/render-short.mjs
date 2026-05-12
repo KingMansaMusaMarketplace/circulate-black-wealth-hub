@@ -30,6 +30,11 @@ await renderMedia({
   puppeteerInstance: browser,
   muted: true,
   concurrency: 2,
+  crf: 16,
+  pixelFormat: "yuv420p",
+  jpegQuality: 100,
+  imageFormat: "jpeg",
+  x264Preset: "slow",
 });
 console.log("Done:", OUT);
 await browser.close({ silent: false });
