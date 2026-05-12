@@ -50,8 +50,8 @@ const SceneKayla: React.FC = () => {
     spring({ frame, fps: 30, config: { damping: 14, stiffness: 80 } }),
     [0, 1], [0.6, 1]
   );
-  const pulse = 1 + Math.sin(frame / 12) * 0.04;
-  const glow = interpolate(frame % 60, [0, 30, 60], [0.4, 0.8, 0.4]);
+  const pulse = 1;
+  const glow = 0.6;
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", padding: 60, flexDirection: "column" }}>
       <div
@@ -189,7 +189,7 @@ const SceneCTA: React.FC = () => {
   const logoSp = spring({ frame, fps, config: { damping: 13, stiffness: 100 } });
   const logoScale = interpolate(logoSp, [0, 1], [0.6, 1]);
   const logoOp = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const glow = interpolate(frame % 50, [0, 25, 50], [0.35, 0.7, 0.35]);
+  const glow = 0.55;
   const lineW = interpolate(frame, [40, 70], [0, 540], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const ctaOp = interpolate(frame, [55, 85], [0, 1], { extrapolateRight: "clamp" });
   const tagOp = interpolate(frame, [90, 120], [0, 1], { extrapolateRight: "clamp" });
