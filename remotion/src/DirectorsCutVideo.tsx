@@ -345,7 +345,7 @@ function SceneFlywheel() {
           }} />
         </div>
       </div>
-      <FadeIn delay={150} style={{ marginTop: 40 }}>
+      <FadeIn delay={150} style={{ marginTop: 90 }}>
         <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 26, color: "rgba(255,255,255,0.8)", letterSpacing: 4, textAlign: "center" }}>
           A self-reinforcing engine for circulation.
         </div>
