@@ -50,8 +50,8 @@ const SceneKayla: React.FC = () => {
     spring({ frame, fps: 30, config: { damping: 14, stiffness: 80 } }),
     [0, 1], [0.6, 1]
   );
-  const pulse = 1 + Math.sin(frame / 12) * 0.04;
-  const glow = interpolate(frame % 60, [0, 30, 60], [0.4, 0.8, 0.4]);
+  const pulse = 1;
+  const glow = 0.6;
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", padding: 60, flexDirection: "column" }}>
       <div
