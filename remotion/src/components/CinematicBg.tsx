@@ -21,7 +21,7 @@ export const CinematicBg = ({ totalFrames }: Props) => {
         }}
       />
 
-      {/* Mansa Gold ambient glow — top right */}
+      {/* Mansa Gold ambient glow — top right, no blur filter to avoid video artifacts */}
       <div
         style={{
           position: "absolute",
@@ -31,7 +31,6 @@ export const CinematicBg = ({ totalFrames }: Props) => {
           height: 1100,
           borderRadius: "50%",
           background: `radial-gradient(circle, rgba(255,179,0,${0.10 * pulse}) 0%, transparent 65%)`,
-          filter: "blur(100px)",
           transform: `translate(${Math.sin(frame * 0.008) * 40 - drift * 0.3}px, ${Math.cos(frame * 0.006) * 30}px)`,
         }}
       />
@@ -47,7 +46,6 @@ export const CinematicBg = ({ totalFrames }: Props) => {
           borderRadius: "50%",
           background:
             "radial-gradient(circle, rgba(0,116,217,0.12) 0%, transparent 70%)",
-          filter: "blur(90px)",
           transform: `translate(${Math.cos(frame * 0.009) * 35 + drift * 0.2}px, ${Math.sin(frame * 0.007) * 20}px)`,
         }}
       />
