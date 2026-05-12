@@ -308,7 +308,7 @@ function SceneFlywheel() {
 
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", opacity: opOut }}>
-      <div style={{ opacity: op, marginBottom: 60 }}><Eyebrow label="The CMAL Flywheel" /></div>
+      <div style={{ opacity: op, marginBottom: 110 }}><Eyebrow label="The CMAL Flywheel" /></div>
       <div style={{ position: "relative", width: 540, height: 540, opacity: op, transform: `scale(${scale})` }}>
         <div style={{
           position: "absolute", inset: 0, borderRadius: "50%",
