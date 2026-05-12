@@ -16,7 +16,7 @@ interface Props {
   letterSpacing?: number;
 }
 
-// Apple-style word-by-word reveal: each word springs up + blurs in
+// Apple-style word-by-word reveal: each word springs up cleanly.
 export const KineticTitle = ({
   text,
   size = 140,
@@ -59,10 +59,6 @@ export const KineticTitle = ({
           extrapolateRight: "clamp",
           extrapolateLeft: "clamp",
         });
-        const blur = interpolate(localFrame, [0, 18], [14, 0], {
-          extrapolateRight: "clamp",
-          extrapolateLeft: "clamp",
-        });
         return (
           <span
             key={i}
@@ -70,7 +66,6 @@ export const KineticTitle = ({
               display: "inline-block",
               transform: `translateY(${y}px)`,
               opacity,
-              filter: `blur(${blur}px)`,
               willChange: "transform, opacity",
             }}
           >
