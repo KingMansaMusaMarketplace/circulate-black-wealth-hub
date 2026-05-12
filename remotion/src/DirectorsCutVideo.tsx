@@ -308,7 +308,7 @@ function SceneFlywheel() {
 
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", opacity: opOut }}>
-      <div style={{ opacity: op, marginBottom: 60 }}><Eyebrow label="The CMAL Flywheel" /></div>
+      <div style={{ opacity: op, marginBottom: 110 }}><Eyebrow label="The CMAL Flywheel" /></div>
       <div style={{ position: "relative", width: 540, height: 540, opacity: op, transform: `scale(${scale})` }}>
         <div style={{
           position: "absolute", inset: 0, borderRadius: "50%",
@@ -323,7 +323,7 @@ function SceneFlywheel() {
         }} />
         {labels.map((label, i) => {
           const angle = (i * 90 - 90) * (Math.PI / 180);
-          const r = 320;
+          const r = 230;
           const x = Math.cos(angle) * r;
           const y = Math.sin(angle) * r;
           const lop = interpolate(frame, [40 + i * 14, 60 + i * 14], [0, 1], { extrapolateRight: "clamp" });
@@ -345,7 +345,7 @@ function SceneFlywheel() {
           }} />
         </div>
       </div>
-      <FadeIn delay={150} style={{ marginTop: 40 }}>
+      <FadeIn delay={150} style={{ marginTop: 90 }}>
         <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 26, color: "rgba(255,255,255,0.8)", letterSpacing: 4, textAlign: "center" }}>
           A self-reinforcing engine for circulation.
         </div>
