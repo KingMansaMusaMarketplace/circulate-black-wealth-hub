@@ -299,6 +299,12 @@ const Footer = () => {
             </button>
           </div>
           <div className="text-white text-sm text-center md:text-right">
+              {isIOS && (
+                <p className="text-xs mb-2 text-white/70 leading-relaxed">
+                  Pro and Enterprise plans are available at <span className="text-mansagold font-semibold">1325.ai</span>.
+                  Open Safari to view advanced plans and manage your account.
+                </p>
+              )}
               <p className="font-heading font-bold text-lg bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">© 2026 1325.AI, Inc. All rights reserved. U.S. Patent Pending 63/969,202.</p>
               <p className="text-xs mt-2 text-white/60 font-medium">
                 Incorporated in Illinois • File #75201745 • Registered Agent: Thomas Bowling •{' '}
