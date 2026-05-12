@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const OUT = "/mnt/documents/1325AI-short-35s-v2.mp4";
+const OUT = "/mnt/documents/1325AI-short-35s-v5-silent.mp4";
 
 console.log("Bundling...");
 const bundled = await bundle({
