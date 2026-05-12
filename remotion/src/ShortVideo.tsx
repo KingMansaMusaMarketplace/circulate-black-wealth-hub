@@ -203,9 +203,10 @@ const SceneCTA: React.FC = () => {
       </div>
       <div
         style={{
-          width: 880, height: 880, opacity: logoOp,
+          width: 520, height: 520, opacity: logoOp,
           transform: `scale(${logoScale})`,
-          marginTop: -30, marginBottom: -50,
+          marginBottom: 20,
+          display: "flex", alignItems: "center", justifyContent: "center",
         }}
       >
         <Img
@@ -217,7 +218,7 @@ const SceneCTA: React.FC = () => {
         style={{
           height: 2, width: lineW,
           background: "linear-gradient(90deg, transparent, #FFB300, transparent)",
-          marginTop: -30, marginBottom: 36,
+          marginBottom: 30,
         }}
       />
       <div
