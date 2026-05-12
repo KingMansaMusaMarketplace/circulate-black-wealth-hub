@@ -108,7 +108,6 @@ const SceneNumber: React.FC = () => {
         style={{
           fontFamily: playfair, fontWeight: 900, fontSize: 280, color: "#FFB300",
           lineHeight: 1, letterSpacing: -8, opacity: numOp, transform: `scale(${numScale})`,
-          textShadow: "0 0 100px rgba(255,179,0,0.45)",
         }}
       >
         ${count.toLocaleString()}
@@ -156,7 +155,6 @@ const SceneWhy: React.FC = () => {
         style={{
           fontFamily: playfair, fontWeight: 900, fontSize: 320, color: "#FFB300",
           lineHeight: 1, letterSpacing: -10, opacity: numOp, transform: `scale(${numScale})`,
-          textShadow: "0 0 120px rgba(255,179,0,0.4)",
         }}
       >
         $1.6T
