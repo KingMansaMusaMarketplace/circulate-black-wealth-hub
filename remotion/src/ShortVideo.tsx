@@ -59,7 +59,6 @@ const SceneKayla: React.FC = () => {
           width: 520, height: 520, borderRadius: "50%",
           background: "radial-gradient(circle at 30% 30%, #003366 0%, #001a33 60%, #000814 100%)",
           border: "3px solid #FFB300",
-          boxShadow: `0 0 ${120 * glow}px ${30 * glow}px rgba(255,179,0,${0.5 * glow}), inset 0 0 80px rgba(0,51,102,0.6)`,
           opacity: orbOp,
           transform: `scale(${orbScale * pulse})`,
           display: "flex", alignItems: "center", justifyContent: "center",
@@ -69,7 +68,7 @@ const SceneKayla: React.FC = () => {
         <div
           style={{
             fontFamily: playfair, fontWeight: 900, fontSize: 110, color: "#FFB300",
-            letterSpacing: 4, textShadow: "0 0 40px rgba(255,179,0,0.6)",
+            letterSpacing: 4,
           }}
         >
           KAYLA
