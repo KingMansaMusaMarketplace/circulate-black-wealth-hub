@@ -50,9 +50,9 @@ class AppleIAPService {
       }
 
       try {
-        // Dynamic import so web bundle doesn't choke on cordova globals
-        const mod: any = await import('cordova-plugin-purchase');
-        const CdvPurchase = mod.CdvPurchase ?? (window as any).CdvPurchase;
+        // The plugin attaches CdvPurchase to window when loaded by Capacitor on iOS.
+        await import(/* @vite-ignore */ ('cordova-plugin-purchase' as any)).catch(() => {});
+        const CdvPurchase = (window as any).CdvPurchase;
         if (!CdvPurchase) throw new Error('CdvPurchase not available');
 
         this.store = CdvPurchase.store;
