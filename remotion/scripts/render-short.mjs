@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const OUT = "/mnt/documents/1325AI-short-35s.mp4";
+const OUT = "/mnt/documents/1325AI-short-35s-v2.mp4";
 
 console.log("Bundling...");
 const bundled = await bundle({
@@ -29,11 +29,10 @@ await renderMedia({
   outputLocation: OUT,
   puppeteerInstance: browser,
   muted: true,
-  concurrency: 2,
-  crf: 16,
+  concurrency: 1,
+  crf: 10,
   pixelFormat: "yuv420p",
-  jpegQuality: 100,
-  imageFormat: "jpeg",
+  imageFormat: "png",
   x264Preset: "slow",
 });
 console.log("Done:", OUT);
