@@ -323,7 +323,7 @@ function SceneFlywheel() {
         }} />
         {labels.map((label, i) => {
           const angle = (i * 90 - 90) * (Math.PI / 180);
-          const r = 320;
+          const r = 230;
           const x = Math.cos(angle) * r;
           const y = Math.sin(angle) * r;
           const lop = interpolate(frame, [40 + i * 14, 60 + i * 14], [0, 1], { extrapolateRight: "clamp" });
