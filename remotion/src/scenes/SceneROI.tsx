@@ -88,14 +88,14 @@ const RoleCard: React.FC<{ title: string; cost: number; frame: number }> = ({ ti
 const SubtotalLine: React.FC<{ frame: number }> = ({ frame }) => {
   const op = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
   return (
-    <div style={{ opacity: op, marginTop: 12, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px" }}>
-      <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 18, letterSpacing: 4, color: "rgba(255,255,255,0.6)", textTransform: "uppercase" }}>
-        Total Payroll Replaced
+      <div style={{ opacity: op, marginTop: 12, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px" }}>
+        <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 18, letterSpacing: 4, color: "rgba(255,255,255,0.6)", textTransform: "uppercase" }}>
+          Value You Unlock
+        </div>
+        <div style={{ fontFamily: playfair, fontWeight: 900, fontSize: 38, color: "#FFFFFF" }}>
+          $12,100<span style={{ fontSize: 18, color: "rgba(255,255,255,0.5)", marginLeft: 4 }}>/mo</span>
+        </div>
       </div>
-      <div style={{ fontFamily: playfair, fontWeight: 900, fontSize: 38, color: "#FFFFFF" }}>
-        $12,100<span style={{ fontSize: 18, color: "rgba(255,255,255,0.5)", marginLeft: 4 }}>/mo</span>
-      </div>
-    </div>
   );
 };
 

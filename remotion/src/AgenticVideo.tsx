@@ -85,7 +85,7 @@ export const AgenticVideo = () => {
         </Series.Sequence>
 
         <Series.Sequence durationInFrames={s(9.0)}>
-          <TitleCard eyebrow="The Math" title="$2M+ team. $299/month." subtitle="Replace what used to take a 33-person workforce." />
+          <TitleCard eyebrow="The Math" title="$2M+ team. $299/month." subtitle="The power of a 33-person workforce. One subscription." />
         </Series.Sequence>
 
         <Series.Sequence durationInFrames={s(16.0)}>
