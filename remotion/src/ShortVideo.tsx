@@ -186,7 +186,6 @@ const SceneCTA: React.FC = () => {
   const logoSp = spring({ frame, fps, config: { damping: 13, stiffness: 100 } });
   const logoScale = interpolate(logoSp, [0, 1], [0.6, 1]);
   const logoOp = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
-  const glow = 0.55;
   const lineW = interpolate(frame, [40, 70], [0, 540], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const ctaOp = interpolate(frame, [55, 85], [0, 1], { extrapolateRight: "clamp" });
   const tagOp = interpolate(frame, [90, 120], [0, 1], { extrapolateRight: "clamp" });
@@ -206,9 +205,6 @@ const SceneCTA: React.FC = () => {
         style={{
           width: 880, height: 880, opacity: logoOp,
           transform: `scale(${logoScale})`,
-          WebkitMaskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 58%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0) 92%)",
-          maskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 58%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0) 92%)",
-          filter: `drop-shadow(0 0 120px rgba(255,179,0,${glow}))`,
           marginTop: -30, marginBottom: -50,
         }}
       >
