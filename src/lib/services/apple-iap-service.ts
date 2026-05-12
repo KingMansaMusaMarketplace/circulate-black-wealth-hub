@@ -2,15 +2,17 @@ import { Capacitor } from '@capacitor/core';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
-// Apple IAP Product IDs - these must match App Store Connect
+// Apple IAP Product IDs - these must match App Store Connect.
+// Only Essentials + Starter are sold via Apple IAP. Pro and Enterprise are
+// web-only (high-touch / B2B) and remain hidden in the iOS app per the
+// compliant "Subscribe at 1325.ai" notice.
 export const APPLE_PRODUCT_IDS = {
-  PREMIUM: 'com.mansamusa.premium.monthly',
-  BUSINESS_BASIC: 'com.mansamusa.business.basic.monthly',
-  BUSINESS_PREMIUM: 'com.mansamusa.business.premium.monthly',
-  BUSINESS_ENTERPRISE: 'com.mansamusa.business.enterprise.monthly',
-  SPONSOR_COMMUNITY: 'com.mansamusa.sponsor.community.monthly',
-  SPONSOR_CORPORATE: 'com.mansamusa.sponsor.corporate.monthly',
+  ESSENTIALS: 'com.mansamusa.essentials.monthly',  // $19/mo
+  STARTER:    'com.mansamusa.starter.monthly',     // $79/mo
 } as const;
+
+// Tiers explicitly NOT available via Apple IAP — show web-redirect notice instead.
+export const IOS_WEB_ONLY_TIERS = ['pro', 'business_pro', 'business_pro_kayla', 'enterprise'] as const;
 
 export type AppleProductId = typeof APPLE_PRODUCT_IDS[keyof typeof APPLE_PRODUCT_IDS];
 

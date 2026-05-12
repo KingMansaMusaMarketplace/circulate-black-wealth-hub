@@ -1,36 +1,26 @@
 import React from 'react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Info } from 'lucide-react';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
+import { IOSWebSubscribeNotice } from '@/components/platform/IOSWebSubscribeNotice';
 
 interface IOSPaymentBlockerProps {
   children: React.ReactNode;
   fallback?: React.ReactNode;
+  tierName?: string;
 }
 
 /**
- * Blocks payment-related UI on iOS to comply with Apple's IAP guidelines (Guideline 3.1.1)
- * Shows fallback message on iOS, renders children on other platforms
+ * Blocks payment-related UI on iOS to comply with Apple's IAP guidelines (3.1.1).
+ * Shows compliant "Subscribe at 1325.ai" notice (no link, no button) by default.
  */
-export const IOSPaymentBlocker: React.FC<IOSPaymentBlockerProps> = ({ 
-  children, 
-  fallback 
+export const IOSPaymentBlocker: React.FC<IOSPaymentBlockerProps> = ({
+  children,
+  fallback,
+  tierName,
 }) => {
   const hidePayments = shouldHideStripePayments();
 
   if (hidePayments) {
-    return fallback ? (
-      <>{fallback}</>
-    ) : (
-      <Alert className="my-8">
-        <Info className="h-4 w-4" />
-        <AlertTitle>Payment Features Unavailable</AlertTitle>
-        <AlertDescription>
-          Payment and subscription features are not available in the iOS app.
-          Please visit our website to manage subscriptions and payments.
-        </AlertDescription>
-      </Alert>
-    );
+    return fallback ? <>{fallback}</> : <IOSWebSubscribeNotice tierName={tierName} />;
   }
 
   return <>{children}</>;

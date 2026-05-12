@@ -1,24 +1,30 @@
 import React from 'react';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
+import { IOSWebSubscribeNotice } from '@/components/platform/IOSWebSubscribeNotice';
 
 interface SubscriptionUIBlockerProps {
   children: React.ReactNode;
+  /** Optional tier name to personalize the iOS notice */
+  tierName?: string;
+  /** If true, render nothing on iOS (legacy behavior) instead of the notice */
+  silent?: boolean;
 }
 
 /**
- * Component that completely hides subscription UI on iOS
- * Returns null (renders nothing) when on iOS platform
- * 
- * Use this to wrap ANY subscription-related UI components
+ * On iOS, replaces subscription UI with a compliant notice directing users
+ * to subscribe at 1325.ai (no links, no buttons — Apple Guideline 3.1.1).
+ * On other platforms, renders children normally.
  */
-export const SubscriptionUIBlocker: React.FC<SubscriptionUIBlockerProps> = ({ children }) => {
+export const SubscriptionUIBlocker: React.FC<SubscriptionUIBlockerProps> = ({
+  children,
+  tierName,
+  silent = false,
+}) => {
   const hideOnIOS = shouldHideStripePayments();
-  
-  // On iOS, render nothing - completely hide all subscription UI
+
   if (hideOnIOS) {
-    return null;
+    return silent ? null : <IOSWebSubscribeNotice tierName={tierName} />;
   }
-  
-  // On other platforms, show the subscription UI
+
   return <>{children}</>;
 };

@@ -89,16 +89,12 @@ export const unifiedSubscriptionService = {
     }
   },
 
-  mapAppleProductToTier(productId: string): 'free' | 'premium' | 'business' | 'enterprise' {
-    const productMap: Record<string, 'free' | 'premium' | 'business' | 'enterprise'> = {
-      'com.mansamusa.premium.monthly': 'premium',
-      'com.mansamusa.business.basic.monthly': 'business',
-      'com.mansamusa.business.premium.monthly': 'business',
-      'com.mansamusa.business.enterprise.monthly': 'enterprise',
-      'com.mansamusa.sponsor.community.monthly': 'premium',
-      'com.mansamusa.sponsor.corporate.monthly': 'enterprise',
+  mapAppleProductToTier(productId: string): 'free' | 'essentials' | 'starter' | 'premium' | 'business' | 'enterprise' {
+    const productMap: Record<string, 'essentials' | 'starter'> = {
+      'com.mansamusa.essentials.monthly': 'essentials',
+      'com.mansamusa.starter.monthly': 'starter',
     };
-    return productMap[productId] || 'premium';
+    return productMap[productId] || 'essentials';
   },
 
   async refreshSubscriptionStatus(): Promise<void> {
