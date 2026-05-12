@@ -1,70 +1,43 @@
-## 1325.AI — "Wealth Comes Home" Director's Cut
+# YouTube Growth Pack for @1325AI
 
-A cinematic 2:30 motion-graphics film positioning 1325.AI as the operating system bringing economic power back to the Black community. Built in your existing Remotion stack, rendered fully in the sandbox, delivered as a downloadable MP4 ready for YouTube.
+Everything below is **free, made by me, no third party**. No code in your live web app changes — these are downloadable assets and a copy-paste doc.
 
-**Why 2:30, not 8:00**: Sandbox rendering caps at ~10 min per chunk; 8 min = 14,400 frames requiring ~30 chunks and several hours with high failure risk. A tight 2:30 (4,500 frames) renders cleanly here in one pass and lands harder on YouTube than a bloated 8-minute cut. If you want the full 8-min version after, I can scaffold it for you to render locally on your Mac.
+## What you'll get (3 deliverables)
 
----
+### 1. Three thumbnail options for your latest video
+- **Format**: 1280x720 PNG, YouTube's required size, under 2MB.
+- **Style**: True Black background, MansaBlue (#003366) + MansaGold (#FFB300), big bold readable text (3-5 words max), Kayla/AI motif.
+- **Three directions** to A/B test:
+  - **A) Bold Stat** — giant number ("$12,100/mo SAVED") + small face/icon
+  - **B) Curiosity Gap** — provocative question ("Why 99% of AI is WRONG")
+  - **C) Product Hero** — Kayla/dashboard visual + 2-word label ("MEET KAYLA")
+- Saved to `/mnt/documents/thumbnails/` so you can download and upload to YouTube Studio → Customization → Thumbnail.
 
-### Creative direction
+### 2. SEO rewrite doc for all existing videos
+- **Format**: One Markdown file (`/mnt/documents/youtube-seo-rewrites.md`) with a section per video.
+- **Per video**: New title (≤60 chars, keyword-front-loaded), new description (first 150 chars are the hook, then full pitch + links + timestamps), 15 tags, pinned comment, suggested end-screen CTA.
+- **Source of truth**: I'll pull your real video list using the `youtube-latest-videos` edge function already in your project (it uses your YouTube API key). If that returns fewer than expected, I'll ask you to paste the missing titles.
+- **Real YouTube SEO best practices**: keyword in first 60 chars of description, hashtags at end, no keyword stuffing in tags (it hurts ranking now), chapters/timestamps for watch time, consistent series naming.
 
-- **Aesthetic**: Cinematic Minimal — true black background, MansaGold (#FFB300) accents, MansaBlue (#003366) secondary glow. Editorial pacing. Massive Playfair Display headlines + Inter body. Same visual DNA as your existing FullVideo / AgenticVideo so it feels like a series.
-- **Motion system**: Spring-driven entrances (damping 18, stiffness 95), gold dividers as scene punctuation, kinetic per-word typography, subtle parallax on background gradient + drifting gold orbs.
-- **Audio**: Hybrid — VO over story beats (generated via ElevenLabs TTS, voice "Brian" or "George" for gravitas), music-only montage sections for the data/statistic moments and closing manifesto.
+### 3. One 30–45 second vertical Short
+- **Format**: 1080x1920 MP4, ~35 seconds, saved to `/mnt/documents/1325ai-short.mp4`.
+- **Source**: Cut from the existing Director's Cut (we already have the Remotion project at `remotion/`).
+- **Structure**: 0-3s hook ("AI replaced 4 of my employees") → 3-25s the proof (Kayla doing work, the $12,100/mo number) → 25-35s soft CTA ("Search 1325.AI").
+- **Built fresh** as a new Remotion composition (`remotion/src/ShortVideo.tsx`) so it stays clean — not a forced crop of the horizontal cut.
+- Upload to YouTube Shorts, Instagram Reels, and TikTok with the same caption.
 
-### 9-scene storyboard (~150 sec / 4,500 frames @ 30fps)
+## Order of work
+1. Thumbnails first (fastest, ~3 min) so you can update YouTube today.
+2. SEO doc next (~5 min) — you copy-paste into YouTube Studio.
+3. Vertical Short last (~10-15 min render time) — biggest growth lever but slowest.
 
-```
-00:00–00:08  Logo bumper                          (240f, music sting)
-00:08–00:22  Scene 1 — HOOK                       (420f, VO)
-             "$1.6 trillion. That's how much the Black community
-              spends every year. Less than 2% stays in the community."
-00:22–00:35  Scene 2 — THE PROBLEM (data viz)     (390f, music)
-             Animated bar: $1.6T → 6 hours → $0. Wealth leaving.
-00:35–00:50  Scene 3 — THE THESIS                 (450f, VO)
-             "1325.AI is the operating system for community wealth."
-00:50–01:08  Scene 4 — MEET KAYLA + 33 AGENTS     (540f, VO)
-             Kayla portrait → grid of 33 agent tiles light up.
-01:08–01:25  Scene 5 — THE FLYWHEEL               (510f, music)
-             Rotating CONNECT → MONETIZE → AMPLIFY → LOOP wheel.
-01:25–01:42  Scene 6 — THE MATH                   (510f, VO)
-             "$2M C-suite. $299/month. ~4 roles covered.
-              $12,100+ saved every month."
-01:42–01:58  Scene 7 — IMPACT (montage)           (480f, music)
-             Wealth circulation animation: dollars looping
-             between businesses, customers, HBCUs.
-01:58–02:18  Scene 8 — MANIFESTO                  (600f, VO)
-             "This isn't a directory. It's an Agentic Commerce
-              Protocol. Capital that stays home. Wealth that
-              compounds. Power that circulates."
-02:18–02:30  Scene 9 — CLOSING CTA                (360f, music sting)
-             "Visit 1325.AI. The future is already here."
-```
+## What I need from you
+- **Nothing right now** — I'll fetch your video list automatically. If the API call returns fewer than your 9 videos, I'll ping you to paste the missing titles + URLs.
+- **After delivery**: you'll need to (a) upload thumbnails in YouTube Studio, (b) paste new titles/descriptions/tags per video, (c) upload the Short to YouTube/Reels/TikTok.
 
-### Technical plan
+## Notes
+- No changes to your live website code.
+- Phone number stays removed (per your earlier instruction) — it won't appear in any thumbnail, description, or Short.
+- I'll use **1325.AI** as the primary brand, mentioning Mansa Musa Marketplace only where natural.
 
-1. **VO generation** — Write 6-segment script, generate via ElevenLabs TTS (server-side via existing edge function pattern or `lovable_ai.py`-style script). Save 6 MP3s under `remotion/public/audio/dc/`.
-2. **Music bed** — Generate cinematic ambient track via ElevenLabs Music API (~150s, "cinematic, hopeful, deep cinematic strings, soft hip-hop drums, uplifting"). Save as `remotion/public/audio/dc/bed.mp3`.
-3. **New components** — Reuse existing `CinematicBg`, `KineticTitle`, `GoldDivider`, `LogoBumper`. New scenes:
-   - `scenes/dc/SceneHookDC.tsx` (massive $1.6T number reveal)
-   - `scenes/dc/SceneProblemDC.tsx` (animated bar chart of wealth leaving)
-   - `scenes/dc/SceneThesisDC.tsx` (logo + tagline reveal)
-   - `scenes/dc/SceneAgentsDC.tsx` (Kayla + 33-tile grid)
-   - `scenes/dc/SceneFlywheelDC.tsx` (reuse FullVideo's wheel, refactored)
-   - `scenes/dc/SceneMathDC.tsx` (counter animation: $2M, $299, $12,100)
-   - `scenes/dc/SceneImpactDC.tsx` (looping dollar arrows between nodes)
-   - `scenes/dc/SceneManifestoDC.tsx` (kinetic 4-line manifesto)
-   - `scenes/dc/SceneClosingDC.tsx` (logo + "1325.AI" + URL)
-4. **New composition** — `DirectorsCutVideo.tsx` registered in `Root.tsx` as id `directors-cut`, 4500 frames @ 30fps, 1920×1080. Mixes VO (per-scene `<Audio>` with offsets) and continuous music bed (volume ducked under VO scenes via volume function).
-5. **Render** — Use existing `render-full.mjs` pattern, chunked into 3 × 1500-frame chunks, concat with ffmpeg. Output: `/mnt/documents/1325AI-directors-cut.mp4`.
-6. **QA** — Render 3 spot-check stills (frames 800, 2200, 4000) before full render to verify scenes look right.
-
-### Deliverable
-
-- `1325AI-directors-cut.mp4` in `/mnt/documents/` ready to upload to YouTube
-- All Remotion source committed to your project for re-rendering / editing
-- Optional: I can also generate a YouTube title, description, and chapters timestamps based on the storyboard
-
-### What I'll need from you after approval
-
-Nothing — I'll generate the VO and music in-sandbox using your ElevenLabs key (already in secrets). If you'd rather record the VO yourself, say so and I'll deliver the script first and stub silent VO files for placement.
+Click **Implement plan** below and I'll start with the thumbnails.
