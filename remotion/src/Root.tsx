@@ -5,6 +5,7 @@ import { FullVideo } from "./FullVideo";
 import { AgenticVideo } from "./AgenticVideo";
 import { CapabilitiesVideo } from "./CapabilitiesVideo";
 import { CapabilitiesVideoVertical } from "./CapabilitiesVideoVertical";
+import { DirectorsCutVideo, DC_TOTAL } from "./DirectorsCutVideo";
 
 export const RemotionRoot = () => (
   <>
@@ -14,5 +15,6 @@ export const RemotionRoot = () => (
     <Composition id="agentic" component={AgenticVideo} durationInFrames={6273} fps={30} width={1920} height={1080} />
     <Composition id="capabilities" component={CapabilitiesVideo} durationInFrames={4192} fps={30} width={1920} height={1080} />
     <Composition id="capabilities-vertical" component={CapabilitiesVideoVertical} durationInFrames={4192} fps={30} width={1080} height={1920} />
+    <Composition id="directors-cut" component={DirectorsCutVideo} durationInFrames={DC_TOTAL} fps={30} width={1920} height={1080} />
   </>
 );
