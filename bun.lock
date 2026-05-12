@@ -65,6 +65,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cmdk": "^1.0.0",
+        "cordova-plugin-purchase": "^13.15.4",
         "date-fns": "^3.6.0",
         "docx": "^9.5.1",
         "dompurify": "^3.2.7",
@@ -998,6 +999,8 @@
     "concat-map": ["concat-map@0.0.1", "", {}, "sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg=="],
 
     "convert-source-map": ["convert-source-map@2.0.0", "", {}, "sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg=="],
+
+    "cordova-plugin-purchase": ["cordova-plugin-purchase@13.15.4", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/cordova-plugin-purchase/-/cordova-plugin-purchase-13.15.4.tgz", {}, "sha512-00setGRIVqxO2v6hPxeqJsv5q05gR5Adpw2n7AYvcDJd7g+SqUPI+2qMJlFr1NueT+7+P3zHjNhKH+/T4RWErA=="],
 
     "core-js": ["core-js@3.42.0", "", {}, "sha512-Sz4PP4ZA+Rq4II21qkNqOEDTDrCvcANId3xpIgB34NDkWc3UduWj2dqEtN9yZIq8Dk3HyPI33x9sqqU5C8sr0g=="],
 
