@@ -9,7 +9,7 @@ const browser = await openBrowser("chrome", {
   chromeMode: "chrome-for-testing",
 });
 const composition = await selectComposition({ serveUrl: bundled, id: "directors-cut", puppeteerInstance: browser });
-for (const f of [1500, 1650, 1800]) {
+for (const f of [1950, 2050, 2150]) {
   await renderStill({ composition, serveUrl: bundled, output: `/tmp/dc-${f}.png`, frame: f, puppeteerInstance: browser });
   console.log("frame", f);
 }
