@@ -40,6 +40,15 @@ import BusinessImpactScorecard from '@/components/community-impact/BusinessImpac
 import { getRememberedDirectoryUrl } from '@/utils/directoryReturn';
 import BoostVisibilityCard from '@/components/business/BoostVisibilityCard';
 import { BusinessStructuredData } from '@/components/SEO/BusinessStructuredData';
+import { BreadcrumbStructuredData } from '@/components/SEO/BreadcrumbStructuredData';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 // Subtle static accent — Apple-minimal, no animated colored orbs
 const BackgroundAccent = memo(() => (
