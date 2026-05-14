@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { motion } from 'framer-motion';
 import { HelpCircle, Sparkles } from 'lucide-react';
+import { FAQStructuredData } from '@/components/SEO/FAQStructuredData';
 
 const FAQPage = () => {
   const faqs = [
