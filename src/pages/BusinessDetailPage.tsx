@@ -369,6 +369,20 @@ const BusinessDetailPage = () => {
         <meta name="description" content={business.description} />
       </Helmet>
       {business.is_verified && <BusinessStructuredData business={business} />}
+      <BreadcrumbStructuredData
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Directory', url: '/directory' },
+          ...(business.category
+            ? [{ name: business.category, url: `/directory?category=${encodeURIComponent(business.category)}` }]
+            : []),
+          ...(business.city
+            ? [{ name: business.city, url: `/black-owned/city/${encodeURIComponent(business.city.toLowerCase().replace(/\s+/g, '-'))}` }]
+            : []),
+          { name: business.business_name, url: `/business/${business.id}` },
+        ]}
+      />
+
 
       <div className="min-h-screen bg-black relative overflow-hidden">
         <BackgroundAccent />
