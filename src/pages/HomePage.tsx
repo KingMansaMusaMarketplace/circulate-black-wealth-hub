@@ -17,6 +17,7 @@ import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructu
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 import StickySignupBar from '@/components/marketing/StickySignupBar';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
+import KaylaDemoSection from '@/components/homepage/KaylaDemoSection';
 
 const HomePage = () => {
   
