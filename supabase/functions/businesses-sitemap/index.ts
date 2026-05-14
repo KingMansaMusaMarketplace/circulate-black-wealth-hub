@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     while (true) {
       const { data, error } = await supabase
         .from("businesses")
-        .select("id, updated_at")
+        .select("id, slug, updated_at")
         .eq("listing_status", "live")
         .order("id", { ascending: true })
         .range(from, from + PAGE_SIZE - 1);
@@ -36,8 +36,9 @@ Deno.serve(async (req) => {
       if (!data || data.length === 0) break;
       for (const row of data) {
         const lastmod = row.updated_at ? new Date(row.updated_at).toISOString().slice(0, 10) : "";
+        const path = row.slug || row.id;
         urls.push(
-          `  <url><loc>${BASE_URL}/business/${escapeXml(row.id)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}<changefreq>weekly</changefreq><priority>0.6</priority></url>`,
+          `  <url><loc>${BASE_URL}/business/${escapeXml(path)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}<changefreq>weekly</changefreq><priority>0.6</priority></url>`,
         );
       }
       if (data.length < PAGE_SIZE) break;
