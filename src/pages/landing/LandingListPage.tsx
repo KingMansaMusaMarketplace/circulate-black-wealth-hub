@@ -98,6 +98,8 @@ export default function LandingListPage({ mode }: Props) {
         <meta property="og:url" content={`https://1325.ai${path}`} />
       </Helmet>
 
+      {total > 0 && <FAQStructuredData faqs={faqs} />}
+
       <main className="container mx-auto px-4 py-10">
         <nav className="text-sm text-muted-foreground mb-4">
           <Link to="/black-owned" className="hover:underline">Black-Owned Directory</Link>
