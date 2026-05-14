@@ -40,6 +40,9 @@ import NotFound from './pages/NotFound';
 import {
   LazyAboutPage,
   LazyDirectoryPage,
+  LazyBlackOwnedIndexPage,
+  LazyBlackOwnedCityPage,
+  LazyBlackOwnedCategoryPage,
   LazyCorporateSponsorshipPage,
   LazyQRScannerPage,
   LazyBusinessDetailPage,
