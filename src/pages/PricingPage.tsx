@@ -54,7 +54,7 @@ const PricingPage: React.FC = () => {
                   <ul className="space-y-4">
                     {[
                       { icon: '🤖', title: '33 Agentic AI Employees', desc: 'Working 24/7 across marketing, finance, operations & more' },
-                      { icon: '💰', title: 'Save $1,650–$5,750/month', desc: 'Replace expensive labor costs with autonomous AI' },
+                      { icon: '💰', title: 'Save $1,650–$5,750/month', desc: 'Scale your operations without adding to payroll' },
                       { icon: '📈', title: 'Grow faster, work less', desc: 'Automated reviews, bookkeeping, marketing & community tools' },
                       { icon: '🔒', title: 'Enterprise-grade security', desc: 'Your data is encrypted and protected at every level' },
                     ].map((item) => (
