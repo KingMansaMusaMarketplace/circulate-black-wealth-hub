@@ -62,20 +62,26 @@ Deno.serve(async (req) => {
       );
     }
 
-    // City × category combo pages — only emit URLs that have ≥1 matching business
-    // to avoid wasting crawl budget on empty pages.
+    // City × category combo pages — fetch all (city_slug, category) counts in one query
+    // then group categories by SEO category-group in JS. Avoids N+1 RPC round trips.
+    const allCats = CATEGORY_GROUPS.flatMap((g) => g.categories);
+    const { data: comboCounts } = await supabase.rpc(
+      "list_city_category_counts",
+      { p_categories: allCats, p_min_count: 1 },
+    );
+
+    // Build lookup: city_slug -> category -> count
+    const counts = new Map<string, Map<string, number>>();
+    for (const row of (comboCounts || []) as Array<{ city_slug: string; category: string; business_count: number }>) {
+      if (!counts.has(row.city_slug)) counts.set(row.city_slug, new Map());
+      counts.get(row.city_slug)!.set(row.category, Number(row.business_count));
+    }
+
     for (const city of cityRows) {
+      const cityCats = counts.get(city.slug);
+      if (!cityCats) continue;
       for (const group of CATEGORY_GROUPS) {
-        const { data: check } = await supabase.rpc(
-          "get_businesses_by_city_and_categories",
-          {
-            p_city_slug: city.slug,
-            p_categories: group.categories,
-            p_limit: 1,
-            p_offset: 0,
-          },
-        );
-        const total = (check && check[0]?.total_count) ? Number(check[0].total_count) : 0;
+        const total = group.categories.reduce((sum, c) => sum + (cityCats.get(c) || 0), 0);
         if (total > 0) {
           urls.push(
             `  <url><loc>${BASE_URL}/black-owned/in/${escapeXml(city.slug)}/${group.slug}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
