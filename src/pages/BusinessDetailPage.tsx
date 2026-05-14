@@ -40,6 +40,15 @@ import BusinessImpactScorecard from '@/components/community-impact/BusinessImpac
 import { getRememberedDirectoryUrl } from '@/utils/directoryReturn';
 import BoostVisibilityCard from '@/components/business/BoostVisibilityCard';
 import { BusinessStructuredData } from '@/components/SEO/BusinessStructuredData';
+import { BreadcrumbStructuredData } from '@/components/SEO/BreadcrumbStructuredData';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 // Subtle static accent — Apple-minimal, no animated colored orbs
 const BackgroundAccent = memo(() => (
@@ -360,6 +369,20 @@ const BusinessDetailPage = () => {
         <meta name="description" content={business.description} />
       </Helmet>
       {business.is_verified && <BusinessStructuredData business={business} />}
+      <BreadcrumbStructuredData
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Directory', url: '/directory' },
+          ...(business.category
+            ? [{ name: business.category, url: `/directory?category=${encodeURIComponent(business.category)}` }]
+            : []),
+          ...(business.city
+            ? [{ name: business.city, url: `/black-owned/city/${encodeURIComponent(business.city.toLowerCase().replace(/\s+/g, '-'))}` }]
+            : []),
+          { name: business.business_name, url: `/business/${business.id}` },
+        ]}
+      />
+
 
       <div className="min-h-screen bg-black relative overflow-hidden">
         <BackgroundAccent />
@@ -411,6 +434,55 @@ const BusinessDetailPage = () => {
             </div>
           </div>
         </div>
+
+        {/* Visible breadcrumbs (SEO + UX) */}
+        <nav className="relative z-10 border-b border-white/5 bg-black/40">
+          <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <Breadcrumb>
+              <BreadcrumbList className="text-slate-400">
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/" className="hover:text-mansagold">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/directory" className="hover:text-mansagold">Directory</BreadcrumbLink>
+                </BreadcrumbItem>
+                {business.category && (
+                  <>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbLink
+                        href={`/directory?category=${encodeURIComponent(business.category)}`}
+                        className="hover:text-mansagold"
+                      >
+                        {business.category}
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  </>
+                )}
+                {business.city && (
+                  <>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbLink
+                        href={`/black-owned/city/${encodeURIComponent(business.city.toLowerCase().replace(/\s+/g, '-'))}`}
+                        className="hover:text-mansagold"
+                      >
+                        {business.city}
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  </>
+                )}
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-white truncate max-w-[200px] sm:max-w-none">
+                    {business.business_name}
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </nav>
 
         {/* Hero Section */}
         <div className="relative z-10">
