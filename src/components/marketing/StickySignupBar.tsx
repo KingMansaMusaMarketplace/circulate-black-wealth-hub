@@ -58,6 +58,7 @@ const StickySignupBar = () => {
           </div>
           <Link
             to="/business-signup"
+            onClick={() => trackFunnelEvent("sticky_cta_click", { remaining, isFull })}
             className="inline-flex items-center gap-1.5 bg-mansagold hover:bg-amber-400 text-black font-bold px-4 py-2 rounded-lg text-sm shadow-lg transition-all hover:scale-105 shrink-0"
           >
             Claim Spot
