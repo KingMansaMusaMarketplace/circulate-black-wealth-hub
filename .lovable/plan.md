@@ -1,37 +1,25 @@
-## Security Fixes Plan
+# Verify mansamusamarketplace.com in Google Search Console
 
-### What we're fixing
-Three genuine security warnings from the latest scan.
+## Goal
+Add `mansamusamarketplace.com` as a verified property in your Google Search Console so search data flows in for that domain (which redirects to 1325.AI).
 
-### Changes
+## Steps
 
-#### 1. Bookings: Hide payment identifiers from business owners
-- Create a `business_owner_bookings` view that shows all booking fields EXCEPT `stripe_charge_id` and `payment_intent_id`
-- Update any business-facing queries to use this view instead of the raw `bookings` table
-- Business owners still see customer name/email/phone (they need those to operate), but they won't see raw Stripe payment tokens
+1. **Request a verification token from Google** via the Search Console API (using your already-connected GSC account).
+2. **Add the meta tag to `index.html`** inside the `<head>` so it's served on the live site.
+3. **You publish the site** by clicking the Publish button (frontend changes require a publish to go live).
+4. **Tell Google to verify** the domain via the API — Google fetches your homepage and confirms the meta tag.
+5. **Add the verified site** as a property in your Search Console list via the API.
+6. **Confirm** the property appears in your GSC property dropdown.
 
-#### 2. Vacation Bookings: Hide payment identifiers from hosts
-- Create a `host_vacation_bookings` view that shows all booking fields EXCEPT `stripe_charge_id` and `payment_intent_id`
-- Update any host-facing queries to use this view
-- Hosts still see guest name/email/phone (operationally necessary), but no Stripe tokens
+## What you need to do
+- Approve this plan
+- After I add the meta tag, click **Publish → Update** so the change goes live
+- Tell me when published, and I'll trigger the Google verification step
 
-#### 3. B2B Leads: Remove PII columns from main table
-- The `b2b_external_leads_private` table already stores `owner_email`, `phone_number`, and `owner_name`
-- Drop these three columns from the `b2b_external_leads` main table
-- Any code referencing them from the main table will be updated to use the private table
-
-### Risk Assessment
-- **Low risk**: These are defensive changes. No existing functionality is removed — only sensitive fields that shouldn't be exposed are filtered out.
-- **No user-facing changes**: Customers and guests won't notice anything different.
-
-### Technical details
-```
-Database migrations:
-- Create view: business_owner_bookings
-- Create view: host_vacation_bookings  
-- Alter table: DROP COLUMN owner_email, phone_number, owner_name FROM b2b_external_leads
-
-Frontend updates:
-- Update any Supabase queries for bookings/vacation_bookings to use new views
-- Update any B2B lead queries to join with private table for PII
-```
+## Technical details
+- Method: META tag (no DNS changes needed in Vercel)
+- Identifier registered: `https://mansamusamarketplace.com/`
+- File changed: `index.html` (single line added inside `<head>`)
+- API: Google Site Verification + Search Console via Lovable connector gateway
+- Existing `1325.ai` and `mansamusamarketplace.com` properties are unaffected
