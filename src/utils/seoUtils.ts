@@ -109,12 +109,12 @@ export const updateMetaTags = (data: {
 // Pre-defined SEO configurations for common pages
 export const pageSEO = {
   home: {
-    title: 'Black-Owned Business Directory | 36,000+ Verified Businesses | 1325.AI',
-    description: 'The largest verified Black-owned business directory with 36,000+ listings. Find Black-owned restaurants, shops, services & professionals near you. Powered by 1325.AI.',
+    title: 'Black-Owned Business Directory | 36,000+ | 1325.AI',
+    description: 'The largest verified Black-owned business directory. Find 36,000+ Black-owned restaurants, shops & services near you. Powered by 1325.AI.',
     keywords: ['Black-owned business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
   },
   directory: {
-    title: 'Black-Owned Business Directory | Search 50,000+ Verified Listings | 1325.AI',
+    title: 'Black-Owned Business Directory | 50,000+ Listings | 1325.AI',
     description: 'Search the largest Black-owned business directory. 50,000+ verified Black-owned restaurants, services, shops & professionals across all cities.',
     keywords: ['Black-owned business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
