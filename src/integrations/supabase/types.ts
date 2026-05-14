@@ -22407,6 +22407,97 @@ export type Database = {
           },
         ]
       }
+      business_owner_platform_transactions: {
+        Row: {
+          amount_business: number | null
+          amount_platform_fee: number | null
+          amount_total: number | null
+          business_id: string | null
+          created_at: string | null
+          currency: string | null
+          customer_id: string | null
+          customer_name: string | null
+          description: string | null
+          id: string | null
+          platform_fee_percentage: number | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount_business?: number | null
+          amount_platform_fee?: number | null
+          amount_total?: number | null
+          business_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          description?: string | null
+          id?: string | null
+          platform_fee_percentage?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount_business?: number | null
+          amount_platform_fee?: number | null
+          amount_total?: number | null
+          business_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          description?: string | null
+          id?: string | null
+          platform_fee_percentage?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       businesses_full_details: {
         Row: {
           address: string | null
@@ -22757,6 +22848,84 @@ export type Database = {
           website_url?: string | null
         }
         Relationships: []
+      }
+      customer_platform_transactions: {
+        Row: {
+          amount_business: number | null
+          amount_platform_fee: number | null
+          amount_total: number | null
+          business_id: string | null
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          id: string | null
+          platform_fee_percentage: number | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount_business?: number | null
+          amount_platform_fee?: number | null
+          amount_total?: number | null
+          business_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: string | null
+          platform_fee_percentage?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount_business?: number | null
+          amount_platform_fee?: number | null
+          amount_total?: number | null
+          business_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: string | null
+          platform_fee_percentage?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ecosystem_cross_stats: {
         Row: {
