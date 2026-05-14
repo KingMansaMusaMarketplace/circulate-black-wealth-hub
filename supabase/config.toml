@@ -278,3 +278,5 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.businesses-sitemap]
     verify_jwt = false
+  [functions.landing-sitemap]
+    verify_jwt = false

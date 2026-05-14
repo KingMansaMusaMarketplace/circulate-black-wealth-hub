@@ -40,6 +40,9 @@ import NotFound from './pages/NotFound';
 import {
   LazyAboutPage,
   LazyDirectoryPage,
+  LazyBlackOwnedIndexPage,
+  LazyBlackOwnedCityPage,
+  LazyBlackOwnedCategoryPage,
   LazyCorporateSponsorshipPage,
   LazyQRScannerPage,
   LazyBusinessDetailPage,
@@ -601,6 +604,9 @@ function App() {
                               <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
                               <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
+                              <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
+                              <Route path="/black-owned/city/:slug" element={<LazyBlackOwnedCityPage />} />
+                              <Route path="/black-owned/category/:slug" element={<LazyBlackOwnedCategoryPage />} />
                               <Route path="/jobs" element={<LazyJobsPage />} />
                               <Route path="/jobs/post" element={<LazyPostJobPage />} />
                               <Route path="/admin/jobs" element={<RequireAdmin><LazyAdminJobsPage /></RequireAdmin>} />
@@ -969,6 +975,9 @@ function App() {
                         <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
                         <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
+                        <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
+                        <Route path="/black-owned/city/:slug" element={<LazyBlackOwnedCityPage />} />
+                        <Route path="/black-owned/category/:slug" element={<LazyBlackOwnedCategoryPage />} />
                         <Route path="/jobs" element={<LazyJobsPage />} />
                         <Route path="/jobs/post" element={<LazyPostJobPage />} />
                         <Route path="/admin/jobs" element={<RequireAdmin><LazyAdminJobsPage /></RequireAdmin>} />
