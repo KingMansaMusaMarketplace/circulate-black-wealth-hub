@@ -360,6 +360,7 @@ const BusinessDetailPage = () => {
         <title>{business.business_name} | 1325.AI</title>
         <meta name="description" content={business.description} />
       </Helmet>
+      {business.is_verified && <BusinessStructuredData business={business} />}
 
       <div className="min-h-screen bg-black relative overflow-hidden">
         <BackgroundAccent />
