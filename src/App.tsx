@@ -488,6 +488,7 @@ function App() {
                               <Route path="/admin/revenue" element={<RequireAdmin><LazyAdminPlatformRevenuePage /></RequireAdmin>} />
                               <Route path="/admin/api-clients" element={<RequireAdmin><LazyAdminAPIClientsPage /></RequireAdmin>} />
                               <Route path="/admin/seo" element={<RequireAdmin><LazySEODashboard /></RequireAdmin>} />
+                              <Route path="/admin/funnel" element={<RequireAdmin><LazyFunnelAnalyticsPage /></RequireAdmin>} />
                               <Route path="/business/featured-placement" element={<LazyFeaturedPlacementPage />} />
                               <Route path="/institutional-api" element={<LazyInstitutionalAPIPage />} />
                               <Route path="/developer/api-docs" element={<LazyAPIDocsPage />} />
