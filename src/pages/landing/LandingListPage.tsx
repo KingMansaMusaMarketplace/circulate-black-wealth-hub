@@ -150,6 +150,26 @@ export default function LandingListPage({ mode }: Props) {
           </p>
         )}
 
+        {mode === "city" && (
+          <section className="mt-12" aria-labelledby="city-cats">
+            <h2 id="city-cats" className="text-xl font-bold mb-4">
+              Browse Black-owned categories in {label}
+            </h2>
+            <ul className="flex flex-wrap gap-2">
+              {CATEGORY_GROUPS.map((g) => (
+                <li key={g.slug}>
+                  <Link
+                    to={`/black-owned/in/${slug}/${g.slug}`}
+                    className="inline-block px-3 py-1.5 rounded-full border border-border bg-card text-sm hover:bg-accent transition"
+                  >
+                    {g.label} in {label.split(",")[0]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {total > 0 && (
           <section className="mt-16 max-w-3xl mx-auto" aria-labelledby="faq-heading">
             <h2 id="faq-heading" className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
