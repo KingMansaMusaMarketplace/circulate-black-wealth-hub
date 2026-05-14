@@ -113,7 +113,7 @@ const PricingSection = () => {
       icon: Crown,
       monthlyPrice: 299,
       annualPrice: 2990,
-      description: 'Full suite of 28 AI-powered services — replaces ~$560/mo of single-purpose tools',
+      description: 'Full suite of 28 AI-powered services — worth ~$560/mo if bought separately',
       highlight: true,
       badge: 'Most Popular',
       trialText: '14-day free trial',
@@ -174,7 +174,7 @@ const PricingSection = () => {
               Power Your Business with <span className="text-mansagold">Kayla AI</span>
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
-              Replace ~$12,100/mo in overhead with Kayla's 33 AI employees covering ~4 roles. 
+              Unlock ~$12,100/mo in team capacity with Kayla's 33 AI employees covering ~4 key business functions.
               Choose the plan that fits your growth stage.
             </p>
 
