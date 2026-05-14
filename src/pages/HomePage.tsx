@@ -25,6 +25,8 @@ const HomePage = () => {
   const [animationKey] = useState(() => Date.now());
   
   useEffect(() => {
+    // Funnel: homepage view
+    trackFunnelEvent('homepage_view');
     // Brief refresh indicator
     const timer = setTimeout(() => setShowRefreshBar(false), 600);
     
