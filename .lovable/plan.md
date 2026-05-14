@@ -1,73 +1,105 @@
-# City + Category SEO Landing Pages
+# Conversion Push: Top 3 Quick Wins
 
-## Goal
-Capture the ~50,000+ monthly Google searches for terms like "black owned restaurants near me" and "black hair salons near me" by creating dedicated pages for every city × category combination.
+**Context:** 1,511 visitors, 0 registered businesses, 0 paying customers. Goal: convert traffic into Founding 100 signups so we can walk into the seed raise with traction, not just a product demo.
 
-## What gets built
+---
 
-### 1. New route pattern
-`/black-owned/:category/:city` — examples:
-- `/black-owned/restaurants/chicago`
-- `/black-owned/hair-salons/atlanta`
-- `/black-owned/restaurants/houston`
-- `/black-owned/barbers/detroit`
+## 1. Sticky "List Your Business — Free" CTA + Founding Counter
 
-Plus a category index: `/black-owned/:category` (all cities)
-And a city index: `/black-owned-near-me/:city` (all categories in that city)
+**What the user sees:**
+- A slim sticky bar at the top (or bottom on mobile) of the homepage that's always visible as they scroll.
+- Reads something like: **"List Your Business — Free • Only X of 100 Founding spots left"** with a gold "Claim Your Spot" button.
+- The counter is live — pulls from the existing `useFoundingSlots` hook we already have (`FoundingSlotBadge` component).
+- Dismissible (X button) so it doesn't annoy returning visitors, but reappears next session.
 
-### 2. Page contents (SEO-optimized)
-Each page includes:
-- **H1**: "Black Owned Restaurants in Chicago" (exact target keyword)
-- **Intro paragraph**: 80-120 words with the keyword + supporting terms
-- **Filtered business grid**: pulls from existing directory data, filtered by category + city
-- **Map view** of those businesses
-- **FAQ section**: "Are these all verified Black-owned?", "How do I add my business?" — captures question-keyword traffic
-- **Related cities** ("Black-owned restaurants in Atlanta, Houston, Detroit…") — internal linking
-- **CTA** to claim/add business
-- **Schema.org JSON-LD**: `ItemList` of `LocalBusiness` items — helps Google show rich results
-- **Meta title / description** with the exact keyword
-- **Canonical URL**
+**Why this matters:** Right now only 56 of 1,511 visitors (3.7%) ever see the business signup page. A persistent CTA is the single highest-impact change — industry data shows sticky CTAs lift conversion 10–25%.
 
-### 3. Sitemap
-Auto-generate a new `cities-sitemap.xml` containing every category × city URL (~10 categories × top 50 US cities = 500 high-intent landing pages). Submit to Google Search Console.
+---
 
-### 4. Internal linking
-- Add a "Browse by city" section to the homepage and existing `/directory` page
-- Footer links to top 5 cities × top 3 categories
+## 2. Free Kayla Demo Section on Homepage
 
-## Target categories (initial 8)
-Restaurants, Hair Salons, Barbers, Beauty, Health, Retail, Services, Cafes
+**What the user sees:**
+- A new section on the homepage (above the fold or just below the hero) titled something like **"Meet Kayla — Your AI Business Manager. Try her free."**
+- A simple chat-style box where a visitor can type a question (e.g. "How would you handle my Instagram?") and get a real Kayla response — no signup required.
+- After 2–3 messages, a soft prompt: **"Want Kayla working for your business 24/7? Claim your Founding spot →"**
+- Shows the $12,100/mo savings number prominently nearby.
 
-## Target cities (initial 25)
-Chicago, Atlanta, Houston, Detroit, New York, Los Angeles, Philadelphia, Washington DC, Dallas, Memphis, Baltimore, Charlotte, New Orleans, Oakland, Brooklyn, Miami, Phoenix, Seattle, Cleveland, St. Louis, Birmingham, Jackson, Nashville, Newark, Milwaukee
+**Why this matters:** Visitors don't understand what 1325.AI does until they experience Kayla. Letting them try her with zero friction is the "aha moment" that converts curiosity into signups. This is the same playbook ChatGPT used — let people try it, then ask them to commit.
 
-That's **200 landing pages on day one** (8 categories × 25 cities).
+**Note:** We'll rate-limit by IP (3 messages per visitor per day) to control AI costs.
 
-## What you'll need to do
-- Approve this plan
-- After build: visit one of the new URLs to confirm it looks good (e.g., `/black-owned/restaurants/chicago`)
-- Submit `cities-sitemap.xml` in Google Search Console (or I can do this via the connector)
+---
 
-## Technical details
+## 3. Business Signup Funnel Analytics Dashboard
 
-**New files**
-- `src/pages/CityCategoryLanding.tsx` — the SEO landing page template
-- `src/lib/seo/cities-categories.ts` — config of cities + categories + slug mapping
-- `src/lib/seo/landing-content.ts` — generator for unique intro text per page (avoids duplicate-content penalty)
-- `public/cities-sitemap.xml` — generated sitemap (built by `scripts/generate-sitemaps.ts`)
+**What the user sees:**
+- A new admin-only page at `/admin/funnel` with a visual conversion funnel:
+  ```
+  Homepage visits      →  1,511  (100%)
+  Clicked "List Business" → ???  (??%)
+  Reached signup form  →  56     (3.7%)
+  Started filling form →  ???    (??%)
+  Completed signup     →  ???    (??%)
+  ```
+- Drop-off percentages between each step shown in red/yellow/green.
+- Last 7 / 30 / 90 day toggle.
+- Top exit pages list (where visitors leave from).
 
-**Edited files**
-- `src/App.tsx` — register the 3 new routes (lazy-loaded)
-- `scripts/generate-sitemaps.ts` — add city × category URL generation
-- `public/sitemap.xml` (or sitemap index) — reference the new sitemap
-- `src/pages/Directory.tsx` (or similar) — add "Browse by city" section linking to landing pages
+**Why this matters:** Right now we're flying blind. We know visitors come in, but we have no idea WHERE they leave. This dashboard tells us exactly which step to fix next — and gives us the metrics to show investors ("we improved business signup conversion from 0.5% to 4% in 30 days").
 
-**Reused**
-- Existing business data from Supabase (filtered by category + city)
-- Existing `BusinessCard`, `MapView`, design tokens
-- Existing `react-helmet-async` for meta tags
+---
 
-**Out of scope (can add later)**
-- Per-business pages (you already have these)
-- Auto-generating new city pages when a new business is added
-- A/B testing different intro copy
+## How they work together
+
+These three pieces form a complete funnel:
+1. **Sticky CTA** drives more people TO the signup page
+2. **Kayla demo** convinces them WHY they should sign up
+3. **Funnel dashboard** tells us which step to optimize NEXT
+
+After 2 weeks of data, we'll know exactly where to focus the next round of improvements (e.g. simplify the signup form, add testimonials, etc.).
+
+---
+
+## Technical Details
+
+**Sticky CTA component:**
+- New `src/components/marketing/StickySignupBar.tsx`
+- Mounted in homepage layout (not on /business-signup itself)
+- Uses existing `useFoundingSlots` hook
+- localStorage flag `sticky_cta_dismissed_v1` for dismissal
+- Hidden on iOS native per existing platform constraint
+
+**Kayla demo widget:**
+- New `src/components/homepage/KaylaDemoSection.tsx`
+- Calls a new edge function `kayla-public-demo` (no auth required)
+- Rate limit: 3 messages per IP per 24h, stored in a new `public_demo_usage` table
+- Reuses existing Kayla agent prompt/personality from `kayla-agent-router.ts`
+- Logs every demo conversation to a new `public_demo_conversations` table for later analysis
+
+**Funnel dashboard:**
+- New page `src/pages/admin/FunnelAnalyticsPage.tsx` (admin-only via existing `has_role` check)
+- New event tracking added to: homepage CTA clicks, signup page views, form field interactions, submit success/failure
+- New table `funnel_events` (event_name, session_id, user_id nullable, metadata jsonb, created_at)
+- Aggregation query computes conversion rates per step
+- Recharts funnel visualization
+
+**Database migrations needed:**
+- `public_demo_usage` (ip_hash, message_count, window_start)
+- `public_demo_conversations` (session_id, messages jsonb, ip_hash)
+- `funnel_events` (event tracking)
+- All with RLS — admin-only read, service-role write
+
+**Estimated build:** 3 focused work sessions. We'd build them in this order so each one starts producing value immediately:
+1. Sticky CTA (fastest, immediate lift) — ~30 min
+2. Funnel dashboard + event tracking (so we can measure #1 working) — ~90 min
+3. Kayla demo (highest impact but most complex) — ~2 hours
+
+---
+
+## What you'll need to do after I build it
+
+1. **Watch the funnel dashboard daily for the first week** — tell me which drop-off is biggest and we'll fix it next.
+2. **Share the homepage on LinkedIn / Facebook** — the sticky CTA + Kayla demo combo needs traffic to prove itself. Even 50 new visitors with this funnel could land your first 5 signups.
+3. **Be ready to respond** — when business signups start coming in, you'll get email notifications. Reply within an hour. First-touch speed is the #1 conversion factor at this stage.
+
+Ready to build? Hit "Implement plan" and I'll start with the sticky CTA.
