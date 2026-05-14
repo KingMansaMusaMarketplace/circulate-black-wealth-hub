@@ -4937,6 +4937,7 @@ export type Database = {
           referral_commission_paid: boolean | null
           referred_at: string | null
           review_count: number | null
+          slug: string | null
           state: string | null
           subscription_end_date: string | null
           subscription_start_date: string | null
@@ -4984,6 +4985,7 @@ export type Database = {
           referral_commission_paid?: boolean | null
           referred_at?: string | null
           review_count?: number | null
+          slug?: string | null
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -5031,6 +5033,7 @@ export type Database = {
           referral_commission_paid?: boolean | null
           referred_at?: string | null
           review_count?: number | null
+          slug?: string | null
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -23156,6 +23159,10 @@ export type Database = {
         }
         Returns: Json
       }
+      build_business_slug: {
+        Args: { p_city: string; p_id: string; p_name: string }
+        Returns: string
+      }
       calculate_asset_depreciation: {
         Args: { p_as_of_date?: string; p_asset_id: string }
         Returns: number
@@ -23662,6 +23669,38 @@ export type Database = {
           name: string
           phone: string
           review_count: number
+          slug: string
+          state: string
+          updated_at: string
+          website: string
+          zip_code: string
+        }[]
+      }
+      get_directory_business_by_slug: {
+        Args: { p_slug: string }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          email: string
+          id: string
+          is_founding_sponsor: boolean
+          is_verified: boolean
+          latitude: number
+          listing_status: string
+          location_name: string
+          location_type: string
+          logo_url: string
+          longitude: number
+          name: string
+          phone: string
+          review_count: number
+          slug: string
           state: string
           updated_at: string
           website: string
@@ -24475,6 +24514,7 @@ export type Database = {
       }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
+      slugify: { Args: { input: string }; Returns: string }
       track_material_download: {
         Args: { p_material_id: string; p_user_id: string }
         Returns: undefined
