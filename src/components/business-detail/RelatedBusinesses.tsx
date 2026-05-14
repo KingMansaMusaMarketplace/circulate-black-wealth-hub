@@ -200,23 +200,25 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
         </div>
 
         {/* SEO-friendly internal links to landing pages */}
-        <div className="mt-4 flex flex-wrap gap-3 justify-center text-sm">
-          {city && category && (
+        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 justify-center text-sm">
+          {city && (
             <Link
-              to={`/black-owned/${encodeURIComponent(category.toLowerCase().replace(/\s+/g, '-'))}/${encodeURIComponent(city.toLowerCase().replace(/\s+/g, '-'))}`}
+              to={`/black-owned/city/${encodeURIComponent(city.toLowerCase().replace(/\s+/g, '-'))}`}
               className="text-yellow-400 hover:text-yellow-300 inline-flex items-center gap-1 hover:underline"
             >
-              All Black-owned {category} in {city}
+              Black-owned businesses in {city}
               <ArrowRight className="h-4 w-4" />
             </Link>
           )}
-          <button
-            onClick={() => navigate(`/directory?category=${encodeURIComponent(category)}`)}
-            className="text-blue-300 hover:text-blue-200 inline-flex items-center gap-1 hover:underline"
-          >
-            Browse all {category}
-            <ArrowRight className="h-4 w-4" />
-          </button>
+          {category && (
+            <Link
+              to={`/black-owned/category/${encodeURIComponent(category.toLowerCase().replace(/\s+/g, '-'))}`}
+              className="text-blue-300 hover:text-blue-200 inline-flex items-center gap-1 hover:underline"
+            >
+              All {category} businesses
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          )}
         </div>
       </CardContent>
     </Card>
