@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
+import { FAQStructuredData } from "@/components/SEO/FAQStructuredData";
 
 interface BizRow {
   id: string; slug: string | null; business_name: string | null; name: string | null;
