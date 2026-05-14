@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, MapPin, ArrowRight, GraduationCap, Building2, Utensils, Sparkles } from 'lucide-react';
@@ -15,11 +15,13 @@ interface RelatedBusiness {
   logo_url: string;
   average_rating: number;
   is_verified: boolean;
+  slug: string | null;
 }
 
 interface RelatedBusinessesProps {
   currentBusinessId: string;
   category: string;
+  city?: string;
   limit?: number;
 }
 
@@ -34,63 +36,69 @@ const getCategoryIcon = (category: string) => {
   return <Building2 className="h-5 w-5" />;
 };
 
-const getCategoryTitle = (category: string) => {
-  const lowerCategory = category.toLowerCase();
-  if (lowerCategory.includes('hbcu') || lowerCategory.includes('college') || lowerCategory.includes('university')) {
-    return 'Related HBCUs';
-  }
-  if (lowerCategory.includes('education')) {
-    return 'Related Educational Institutions';
-  }
-  if (lowerCategory.includes('bank') || lowerCategory.includes('financial')) {
-    return 'Related Financial Institutions';
-  }
-  if (lowerCategory.includes('restaurant') || lowerCategory.includes('food')) {
-    return 'Related Restaurants';
-  }
-  return `More in ${category}`;
-};
-
-const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({ 
-  currentBusinessId, 
-  category, 
-  limit = 4 
+const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
+  currentBusinessId,
+  category,
+  city,
+  limit = 6,
 }) => {
   const navigate = useNavigate();
   const [businesses, setBusinesses] = useState<RelatedBusiness[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const [isFallback, setIsFallback] = useState(false);
+  const [headingMode, setHeadingMode] = useState<'sameCityCategory' | 'sameCategory' | 'fallback'>('sameCategory');
 
   useEffect(() => {
-    const fetchRelatedBusinesses = async () => {
+    const fetchRelated = async () => {
+      const baseSelect = 'id, business_name, category, city, state, logo_url, average_rating, is_verified, slug';
       try {
-        // First try same category
-        const { data, error } = await supabase
-          .from('businesses')
-          .select('id, business_name, category, city, state, logo_url, average_rating, is_verified')
-          .eq('category', category)
-          .neq('id', currentBusinessId)
-          .limit(limit);
+        const collected: RelatedBusiness[] = [];
 
-        if (error) throw error;
-
-        if (data && data.length > 0) {
-          setBusinesses(data);
-          setIsFallback(false);
-        } else {
-          // Fallback: show businesses from any category
-          const { data: fallbackData, error: fallbackError } = await supabase
+        // 1) Same city + same category (best for local SEO)
+        if (city && category) {
+          const { data } = await supabase
             .from('businesses')
-            .select('id, business_name, category, city, state, logo_url, average_rating, is_verified')
+            .select(baseSelect)
+            .eq('category', category)
+            .eq('city', city)
+            .neq('id', currentBusinessId)
+            .limit(limit);
+          if (data && data.length) {
+            collected.push(...(data as RelatedBusiness[]));
+            setHeadingMode('sameCityCategory');
+          }
+        }
+
+        // 2) Same category, any city
+        if (collected.length < limit && category) {
+          const need = limit - collected.length;
+          const { data } = await supabase
+            .from('businesses')
+            .select(baseSelect)
+            .eq('category', category)
+            .neq('id', currentBusinessId)
+            .not('id', 'in', `(${[currentBusinessId, ...collected.map(b => b.id)].map(id => `"${id}"`).join(',')})`)
+            .limit(need);
+          if (data && data.length) {
+            collected.push(...(data as RelatedBusiness[]));
+            if (collected.length === data.length) setHeadingMode('sameCategory');
+          }
+        }
+
+        // 3) Fallback: top-rated businesses
+        if (collected.length === 0) {
+          const { data } = await supabase
+            .from('businesses')
+            .select(baseSelect)
             .neq('id', currentBusinessId)
             .order('average_rating', { ascending: false })
             .limit(limit);
-
-          if (fallbackError) throw fallbackError;
-          setBusinesses(fallbackData || []);
-          setIsFallback(true);
+          if (data) {
+            collected.push(...(data as RelatedBusiness[]));
+            setHeadingMode('fallback');
+          }
         }
+
+        setBusinesses(collected);
       } catch (err) {
         console.error('Error fetching related businesses:', err);
       } finally {
@@ -98,12 +106,8 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
       }
     };
 
-    if (category) {
-      fetchRelatedBusinesses();
-    } else {
-      setLoading(false);
-    }
-  }, [currentBusinessId, category, limit]);
+    fetchRelated();
+  }, [currentBusinessId, category, city, limit]);
 
   if (loading) {
     return (
@@ -118,34 +122,41 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
     );
   }
 
-  if (businesses.length === 0) {
-    return null;
-  }
+  if (businesses.length === 0) return null;
+
+  const heading =
+    headingMode === 'sameCityCategory'
+      ? `More ${category} in ${city}`
+      : headingMode === 'sameCategory'
+      ? `More ${category} businesses`
+      : 'Discover other businesses';
 
   return (
     <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
       <CardHeader>
         <CardTitle className="text-white flex items-center gap-2">
-          {isFallback ? <Building2 className="h-5 w-5" /> : getCategoryIcon(category)}
-          {isFallback ? 'Discover Other Businesses' : getCategoryTitle(category)}
+          {getCategoryIcon(category)}
+          {heading}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {businesses.map((business) => {
             const bannerUrl = getBusinessBanner(business.id, business.logo_url);
-            
+            const href = `/business/${business.slug || business.id}`;
+
             return (
-              <div
+              <Link
                 key={business.id}
-                onClick={() => navigate(`/business/${business.id}`)}
-                className="group cursor-pointer bg-slate-800/50 rounded-lg overflow-hidden border border-white/5 hover:border-yellow-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10"
+                to={href}
+                aria-label={`${business.business_name} in ${business.city}`}
+                className="group cursor-pointer bg-slate-800/50 rounded-lg overflow-hidden border border-white/5 hover:border-yellow-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10 block"
               >
-                {/* Image */}
                 <div className="relative h-32 overflow-hidden">
                   <img
                     src={bannerUrl}
-                    alt={business.business_name}
+                    alt={`${business.business_name} — ${business.category} in ${business.city}`}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
@@ -153,8 +164,7 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
-                  
-                  {/* Rating Badge */}
+
                   {business.average_rating > 0 && (
                     <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1">
                       <Star className="h-3 w-3 text-yellow-400 fill-yellow-400" />
@@ -162,8 +172,7 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
                     </div>
                   )}
                 </div>
-                
-                {/* Content */}
+
                 <div className="p-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
@@ -177,7 +186,7 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
                     </div>
                     <ArrowRight className="h-4 w-4 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
                   </div>
-                  
+
                   {business.is_verified && (
                     <Badge variant="outline" className="mt-2 text-xs border-green-500/30 text-green-400 bg-green-500/10">
                       <Sparkles className="h-3 w-3 mr-1" />
@@ -185,18 +194,27 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
                     </Badge>
                   )}
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
-        
-        {/* View All Link */}
-        <div className="mt-4 text-center">
+
+        {/* SEO-friendly internal links to landing pages */}
+        <div className="mt-4 flex flex-wrap gap-3 justify-center text-sm">
+          {city && category && (
+            <Link
+              to={`/black-owned/${encodeURIComponent(category.toLowerCase().replace(/\s+/g, '-'))}/${encodeURIComponent(city.toLowerCase().replace(/\s+/g, '-'))}`}
+              className="text-yellow-400 hover:text-yellow-300 inline-flex items-center gap-1 hover:underline"
+            >
+              All Black-owned {category} in {city}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          )}
           <button
             onClick={() => navigate(`/directory?category=${encodeURIComponent(category)}`)}
-            className="text-sm text-yellow-400 hover:text-yellow-300 inline-flex items-center gap-1 hover:underline"
+            className="text-blue-300 hover:text-blue-200 inline-flex items-center gap-1 hover:underline"
           >
-            View all {category} businesses
+            Browse all {category}
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
