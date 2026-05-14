@@ -16,6 +16,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructuredData';
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 import StickySignupBar from '@/components/marketing/StickySignupBar';
+import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 
 const HomePage = () => {
   
