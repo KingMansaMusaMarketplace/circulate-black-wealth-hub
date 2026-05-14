@@ -139,54 +139,53 @@ const BusinessDetailPage = () => {
         setBusiness(null);
       }
 
-      // Check if this is a valid UUID (real database business)
-      if (isValidUUID(businessId)) {
-        // Use SECURITY DEFINER RPC to bypass RLS and fetch public business data
-        const { data, error } = await supabase.rpc('get_directory_business_by_id', {
-          p_business_id: businessId,
-        });
+      // Look up by UUID or slug
+      const isUuid = isValidUUID(businessId);
+      const { data, error } = isUuid
+        ? await supabase.rpc('get_directory_business_by_id', { p_business_id: businessId })
+        : await supabase.rpc('get_directory_business_by_slug', { p_slug: businessId });
 
-        if (error) throw error;
-        
-        const row = Array.isArray(data) ? data[0] : data;
-        if (!row) {
-          if (!cachedBusiness) {
-            setError('Business not found');
-          }
-          return;
-        }
+      if (error) throw error;
 
-        const nextBusiness = {
-          id: row.id,
-          business_name: row.business_name || row.name || '',
-          description: row.description || '',
-          category: row.category || '',
-          address: row.address || '',
-          city: row.city || '',
-          state: row.state || '',
-          zip_code: row.zip_code || '',
-          phone: row.phone || '',
-          email: row.email || '',
-          website: row.website || '',
-          logo_url: row.logo_url || '',
-          banner_url: row.banner_url || '',
-          is_verified: row.is_verified || false,
-          is_founding_sponsor: row.is_founding_sponsor || false,
-          average_rating: row.average_rating || 0,
-          review_count: row.review_count || 0,
-          created_at: row.created_at || new Date().toISOString(),
-          latitude: row.latitude,
-          longitude: row.longitude
-        };
-
-        setBusiness(nextBusiness);
-        cacheBusiness(nextBusiness);
-      } else {
-        // Non-UUID ID - no longer supported (sample data removed)
+      const row = Array.isArray(data) ? data[0] : data;
+      if (!row) {
         if (!cachedBusiness) {
           setError('Business not found');
         }
+        return;
       }
+
+      // If accessed by UUID and a slug exists, redirect to the slug URL (better SEO + shareable)
+      if (isUuid && row.slug && row.slug !== businessId) {
+        navigate(`/business/${row.slug}`, { replace: true });
+        return;
+      }
+
+      const nextBusiness = {
+        id: row.id,
+        business_name: row.business_name || row.name || '',
+        description: row.description || '',
+        category: row.category || '',
+        address: row.address || '',
+        city: row.city || '',
+        state: row.state || '',
+        zip_code: row.zip_code || '',
+        phone: row.phone || '',
+        email: row.email || '',
+        website: row.website || '',
+        logo_url: row.logo_url || '',
+        banner_url: row.banner_url || '',
+        is_verified: row.is_verified || false,
+        is_founding_sponsor: row.is_founding_sponsor || false,
+        average_rating: row.average_rating || 0,
+        review_count: row.review_count || 0,
+        created_at: row.created_at || new Date().toISOString(),
+        latitude: row.latitude,
+        longitude: row.longitude
+      };
+
+      setBusiness(nextBusiness);
+      cacheBusiness(nextBusiness);
     } catch (error: any) {
       console.error('Error loading business:', error);
       if (!cachedBusiness) {
