@@ -435,6 +435,55 @@ const BusinessDetailPage = () => {
           </div>
         </div>
 
+        {/* Visible breadcrumbs (SEO + UX) */}
+        <nav className="relative z-10 border-b border-white/5 bg-black/40">
+          <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <Breadcrumb>
+              <BreadcrumbList className="text-slate-400">
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/" className="hover:text-mansagold">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/directory" className="hover:text-mansagold">Directory</BreadcrumbLink>
+                </BreadcrumbItem>
+                {business.category && (
+                  <>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbLink
+                        href={`/directory?category=${encodeURIComponent(business.category)}`}
+                        className="hover:text-mansagold"
+                      >
+                        {business.category}
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  </>
+                )}
+                {business.city && (
+                  <>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbLink
+                        href={`/black-owned/city/${encodeURIComponent(business.city.toLowerCase().replace(/\s+/g, '-'))}`}
+                        className="hover:text-mansagold"
+                      >
+                        {business.city}
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  </>
+                )}
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-white truncate max-w-[200px] sm:max-w-none">
+                    {business.business_name}
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </nav>
+
         {/* Hero Section */}
         <div className="relative z-10">
           {/* Banner Image */}
