@@ -23623,6 +23623,50 @@ export type Database = {
           verified_by: string
         }[]
       }
+      get_businesses_by_category_slug: {
+        Args: { p_limit?: number; p_offset?: number; p_slug: string }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          description: string
+          id: string
+          is_verified: boolean
+          logo_url: string
+          name: string
+          phone: string
+          review_count: number
+          slug: string
+          state: string
+          total_count: number
+          website: string
+        }[]
+      }
+      get_businesses_by_city_slug: {
+        Args: { p_limit?: number; p_offset?: number; p_slug: string }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          description: string
+          id: string
+          is_verified: boolean
+          logo_url: string
+          name: string
+          phone: string
+          review_count: number
+          slug: string
+          state: string
+          total_count: number
+          website: string
+        }[]
+      }
       get_campaign_leaderboard: {
         Args: { p_campaign_id: string; p_limit?: number }
         Returns: {
@@ -24190,6 +24234,23 @@ export type Database = {
       }
       is_user_suspended: { Args: { check_user_id: string }; Returns: boolean }
       join_challenge: { Args: { p_challenge_id: string }; Returns: Json }
+      list_landing_categories: {
+        Args: { p_min_count?: number }
+        Returns: {
+          business_count: number
+          category: string
+          slug: string
+        }[]
+      }
+      list_landing_cities: {
+        Args: { p_min_count?: number }
+        Returns: {
+          business_count: number
+          city: string
+          slug: string
+          state: string
+        }[]
+      }
       log_activity: {
         Args: {
           activity_details?: Json
