@@ -611,7 +611,8 @@ const BusinessDetailPage = () => {
                 <RelatedBusinesses 
                   currentBusinessId={business.id}
                   category={business.category}
-                  limit={4}
+                  city={business.city}
+                  limit={6}
                 />
               )}
             </div>
