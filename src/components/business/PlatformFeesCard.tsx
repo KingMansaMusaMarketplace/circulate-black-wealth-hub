@@ -14,7 +14,7 @@ export default function PlatformFeesCard({ businessId }: PlatformFeesCardProps) 
     queryFn: async () => {
       const monthStart = startOfMonth(new Date()).toISOString();
       const { data: rows } = await supabase
-        .from('platform_transactions')
+        .from('business_owner_platform_transactions' as any)
         .select('amount_platform_fee, amount_total, platform_fee_percentage')
         .eq('business_id', businessId)
         .eq('status', 'succeeded')

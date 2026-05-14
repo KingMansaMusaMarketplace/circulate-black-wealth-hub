@@ -126,17 +126,19 @@ export const bookingService = {
 
   async getCustomerBookings(): Promise<Booking[]> {
     try {
+      // Safe column list — excludes Stripe identifiers (revoked at column level)
+      const BOOKING_COLS = 'id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, cancellation_reason, cancelled_at, created_at, updated_at';
       const { data, error } = await supabase
         .from('bookings')
         .select(`
-          *,
+          ${BOOKING_COLS},
           business_services(name, description),
           businesses(business_name, logo_url)
         `)
         .order('booking_date', { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data || []) as unknown as Booking[];
     } catch (error) {
       console.error('Error fetching customer bookings:', error);
       throw error;
@@ -145,10 +147,11 @@ export const bookingService = {
 
   async getBusinessBookings(businessId: string): Promise<Booking[]> {
     try {
+      const BOOKING_COLS = 'id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, cancellation_reason, cancelled_at, created_at, updated_at';
       const { data, error } = await supabase
         .from('bookings')
         .select(`
-          *,
+          ${BOOKING_COLS},
           business_services(name, description),
           profiles(full_name, email)
         `)
@@ -156,7 +159,7 @@ export const bookingService = {
         .order('booking_date', { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data || []) as unknown as Booking[];
     } catch (error) {
       console.error('Error fetching business bookings:', error);
       throw error;

@@ -27,9 +27,12 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
       const thisWeekEnd = endOfWeek(now);
 
       // Get this month's bookings
+      // Safe column list — excludes Stripe identifiers (revoked at column level)
+      const BOOKING_COLS = 'id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, cancellation_reason, cancelled_at, created_at, updated_at';
+
       const { data: thisMonthBookings, error: thisMonthError } = await supabase
         .from('bookings')
-        .select('*')
+        .select(BOOKING_COLS)
         .eq('business_id', businessId)
         .gte('booking_date', thisMonthStart.toISOString())
         .lte('booking_date', thisMonthEnd.toISOString());
@@ -39,7 +42,7 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
       // Get last month's bookings
       const { data: lastMonthBookings, error: lastMonthError } = await supabase
         .from('bookings')
-        .select('*')
+        .select(BOOKING_COLS)
         .eq('business_id', businessId)
         .gte('booking_date', lastMonthStart.toISOString())
         .lte('booking_date', lastMonthEnd.toISOString());
@@ -49,7 +52,7 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
       // Get this week's bookings
       const { data: thisWeekBookings, error: thisWeekError } = await supabase
         .from('bookings')
-        .select('*')
+        .select(BOOKING_COLS)
         .eq('business_id', businessId)
         .gte('booking_date', thisWeekStart.toISOString())
         .lte('booking_date', thisWeekEnd.toISOString());

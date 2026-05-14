@@ -57,10 +57,11 @@ const BookingConfirmation: React.FC = () => {
 
   const fetchBookingDetails = async () => {
     try {
+      const VB_COLS = 'id, property_id, guest_id, check_in_date, check_out_date, num_nights, num_guests, num_pets, nightly_rate, cleaning_fee, pet_fee, subtotal, platform_fee, host_payout, total_amount, status, payout_status, payout_date, guest_name, guest_email, guest_phone, special_requests, confirmed_at, cancelled_at, cancellation_reason, created_at, updated_at, cancellation_policy, cancelled_by, refund_amount, refund_status';
       const { data, error: fetchError } = await supabase
         .from('vacation_bookings')
         .select(`
-          *,
+          ${VB_COLS},
           vacation_properties (
             title, address, city, state, photos, 
             check_in_time, check_out_time, host_id
