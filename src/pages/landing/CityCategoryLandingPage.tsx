@@ -297,7 +297,7 @@ export default function CityCategoryLandingPage() {
             List your business for free and reach customers searching for Black-owned {group.label.toLowerCase()} every day.
           </p>
           <Link
-            to="/business/signup"
+            to="/business-signup"
             className="inline-block px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-medium hover:opacity-90 transition"
           >
             Add your business
