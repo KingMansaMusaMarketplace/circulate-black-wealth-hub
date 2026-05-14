@@ -33,6 +33,7 @@ export const LazyDirectoryPage = lazyWithRetry(() => import('@/pages/DirectoryPa
 export const LazyBlackOwnedIndexPage = lazyWithRetry(() => import('@/pages/landing/BlackOwnedIndexPage'));
 export const LazyBlackOwnedCityPage = lazyWithRetry(() => import('@/pages/landing/LandingListPage').then(m => ({ default: () => <m.default mode="city" /> })));
 export const LazyBlackOwnedCategoryPage = lazyWithRetry(() => import('@/pages/landing/LandingListPage').then(m => ({ default: () => <m.default mode="category" /> })));
+export const LazyCityCategoryLandingPage = lazyWithRetry(() => import('@/pages/landing/CityCategoryLandingPage'));
 
 export const LazyCorporateSponsorshipPage = lazyWithRetry(() => import('@/pages/CorporateSponsorshipPage'));
 export const LazyQRScannerPage = lazyWithRetry(() => import('@/pages/QRScannerPage'));
