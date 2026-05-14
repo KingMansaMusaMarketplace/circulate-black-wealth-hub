@@ -49,6 +49,44 @@ export default function LandingListPage({ mode }: Props) {
 
   const path = mode === "city" ? `/black-owned/city/${slug}` : `/black-owned/category/${slug}`;
 
+  const faqs = mode === "city"
+    ? [
+        {
+          question: `How many Black-owned businesses are in ${label}?`,
+          answer: `1325.AI lists ${total.toLocaleString()} verified Black-owned businesses in ${label}, spanning restaurants, beauty, professional services, retail and more.`,
+        },
+        {
+          question: `Where can I find Black-owned restaurants in ${label}?`,
+          answer: `Browse the full list of Black-owned restaurants and food businesses in ${label} on this page, or search by category at 1325.ai/directory. Every listing is verified and includes hours, photos and reviews.`,
+        },
+        {
+          question: `How do I support Black-owned businesses in ${label}?`,
+          answer: `Visit, shop, or book services from any of the ${total.toLocaleString()} Black-owned businesses listed on this page. You can also leave reviews, share listings on social media, and earn loyalty rewards through 1325.AI for every visit.`,
+        },
+        {
+          question: `Are these Black-owned businesses in ${label} verified?`,
+          answer: `Yes. Every business on 1325.AI goes through an ownership and location verification process. Verified businesses display a verification badge on their listing.`,
+        },
+      ]
+    : [
+        {
+          question: `How many Black-owned ${label.toLowerCase()} businesses are listed?`,
+          answer: `1325.AI lists ${total.toLocaleString()} verified Black-owned ${label.toLowerCase()} businesses across the United States, with photos, reviews, and contact information.`,
+        },
+        {
+          question: `How do I find a Black-owned ${label.toLowerCase()} business near me?`,
+          answer: `Browse the listings on this page, or visit 1325.ai/directory to filter Black-owned ${label.toLowerCase()} businesses by city, rating, and verification status.`,
+        },
+        {
+          question: `How are Black-owned ${label.toLowerCase()} businesses verified?`,
+          answer: `Each listing goes through an ownership and location verification process. Verified businesses display a verification badge so you can shop and book with confidence.`,
+        },
+        {
+          question: `Can I add my Black-owned ${label.toLowerCase()} business to 1325.AI?`,
+          answer: `Yes — register your business for free at 1325.ai/register. Once verified, your business appears in this list and across the 1325.AI directory.`,
+        },
+      ];
+
   return (
     <>
       <Helmet>
