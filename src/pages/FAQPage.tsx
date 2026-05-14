@@ -44,6 +44,7 @@ const FAQPage = () => {
         <title>FAQ - Frequently Asked Questions | 1325.AI</title>
         <meta name="description" content="Find answers to common questions about 1325.AI - how to sign up, use loyalty points, and support community businesses." />
       </Helmet>
+      <FAQStructuredData faqs={faqs} />
 
       {/* Subtle ambient accent */}
       <div
