@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import LazySection from './LazySection';
+import BlackOwnedDiscoverySection from './BlackOwnedDiscoverySection';
 
 // Lazy load all non-critical sections
 const ConsumerBenefits = lazy(() => import('./ConsumerBenefits'));
@@ -78,7 +79,12 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* 4. CTA — hit while intent is hot */}
+      {/* 4.5 Black-Owned Discovery — SEO landing page gateway */}
+      <SectionErrorBoundary sectionName="Black-Owned Discovery">
+        <BlackOwnedDiscoverySection />
+      </SectionErrorBoundary>
+
+      {/* 5. CTA — hit while intent is hot */}
       <SectionErrorBoundary sectionName="Call to Action">
         <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
           <section id="cta-section">
