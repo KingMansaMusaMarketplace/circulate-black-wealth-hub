@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const stats = [
-  { value: '$12,100+/mo', label: 'Avg. business savings with Kayla' },
-  { value: '~4 Roles Covered', label: 'Sales, marketing, support, ops' },
-  { value: '24/7', label: 'AI employee uptime' },
+  { value: '$12,100+/mo', label: 'Worth of business support you unlock with Kayla' },
+  { value: '~4 Key Functions', label: 'Sales, marketing, support & ops — handled 24/7' },
+  { value: '24/7', label: 'AI teammate uptime' },
   { value: '100%', label: 'Verified Community Businesses' },
 ];
 
