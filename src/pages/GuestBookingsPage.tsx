@@ -100,11 +100,11 @@ const GuestBookingsPage: React.FC = () => {
         const reviewedBookingIds = new Set(reviewsData?.map(r => r.booking_id) || []);
         const propertyMap = new Map(propertiesData?.map(p => [p.id, p]) || []);
 
-        const enrichedBookings = bookingsData.map(booking => ({
+        const enrichedBookings = bookingsData.map((booking: any) => ({
           ...booking,
           property: propertyMap.get(booking.property_id),
           hasReview: reviewedBookingIds.has(booking.id),
-        }));
+        })) as any;
 
         setBookings(enrichedBookings);
       } else {

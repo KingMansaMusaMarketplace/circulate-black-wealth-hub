@@ -343,10 +343,10 @@ export async function fetchGuestBookings(): Promise<VacationBooking[]> {
     throw error;
   }
 
-  return (data || []).map(booking => ({
+  return (data || []).map((booking: any) => ({
     ...booking,
     property: booking.vacation_properties ? mapPropertyFromDB(booking.vacation_properties) : undefined,
-  }));
+  })) as VacationBooking[];
 }
 
 // Fetch host bookings

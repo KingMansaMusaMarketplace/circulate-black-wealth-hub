@@ -72,9 +72,10 @@ const BookingConfirmation: React.FC = () => {
 
       if (fetchError) throw fetchError;
 
+      const row = data as any;
       setBooking({
-        ...data,
-        property: data.vacation_properties,
+        ...row,
+        property: Array.isArray(row.vacation_properties) ? row.vacation_properties[0] : row.vacation_properties,
       });
 
       // Update status to confirmed if still pending (payment succeeded)
