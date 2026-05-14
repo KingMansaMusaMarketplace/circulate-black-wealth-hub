@@ -23467,6 +23467,13 @@ export type Database = {
           state: string
         }[]
       }
+      get_business_owner_contact: {
+        Args: { p_business_id: string }
+        Returns: {
+          email: string
+          phone: string
+        }[]
+      }
       get_business_referral_info: {
         Args: { p_business_id: string }
         Returns: Json
