@@ -23645,6 +23645,33 @@ export type Database = {
           website: string
         }[]
       }
+      get_businesses_by_city_and_categories: {
+        Args: {
+          p_categories: string[]
+          p_city_slug: string
+          p_limit?: number
+          p_offset?: number
+        }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          description: string
+          id: string
+          is_verified: boolean
+          logo_url: string
+          name: string
+          phone: string
+          review_count: number
+          slug: string
+          state: string
+          total_count: number
+          website: string
+        }[]
+      }
       get_businesses_by_city_slug: {
         Args: { p_limit?: number; p_offset?: number; p_slug: string }
         Returns: {
@@ -24234,6 +24261,14 @@ export type Database = {
       }
       is_user_suspended: { Args: { check_user_id: string }; Returns: boolean }
       join_challenge: { Args: { p_challenge_id: string }; Returns: Json }
+      list_city_category_counts: {
+        Args: { p_categories: string[]; p_min_count?: number }
+        Returns: {
+          business_count: number
+          category: string
+          city_slug: string
+        }[]
+      }
       list_landing_categories: {
         Args: { p_min_count?: number }
         Returns: {
