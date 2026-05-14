@@ -21,7 +21,11 @@ const BusinessSignupPage: React.FC = () => {
   const referralCode = searchParams.get('ref') || '';
   const betaMode = searchParams.get('beta') === 'true';
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
-  
+
+  useEffect(() => {
+    trackFunnelEvent('business_signup_page_view', { ref: referralCode || null });
+  }, [referralCode]);
+
   const checkReferralCode = async (code: string): Promise<SalesAgent | null> => {
     if (!code) return null;
     
