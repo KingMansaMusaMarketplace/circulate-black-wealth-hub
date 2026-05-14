@@ -1,25 +1,49 @@
-# Verify mansamusamarketplace.com in Google Search Console
+# Admin SEO Dashboard — Live Google Search Console Data
 
 ## Goal
-Add `mansamusamarketplace.com` as a verified property in your Google Search Console so search data flows in for that domain (which redirects to 1325.AI).
+Add an admin-only page at `/admin/seo` that shows live Google Search Console data for both `1325.ai` and `mansamusamarketplace.com` — so you don't have to log into Google to see how people are finding you.
 
-## Steps
+## What you'll see on the page
 
-1. **Request a verification token from Google** via the Search Console API (using your already-connected GSC account).
-2. **Add the meta tag to `index.html`** inside the `<head>` so it's served on the live site.
-3. **You publish the site** by clicking the Publish button (frontend changes require a publish to go live).
-4. **Tell Google to verify** the domain via the API — Google fetches your homepage and confirms the meta tag.
-5. **Add the verified site** as a property in your Search Console list via the API.
-6. **Confirm** the property appears in your GSC property dropdown.
+1. **Property switcher** — toggle between `1325.ai` and `mansamusamarketplace.com`
+2. **Date range picker** — last 7 / 28 / 90 days
+3. **Top-line metrics cards** — total Clicks, Impressions, average CTR, average Position
+4. **Top Queries table** — the search terms bringing people to your site (query, clicks, impressions, CTR, position)
+5. **Top Pages table** — which URLs Google is sending traffic to
+6. **Top Countries** — where your visitors are searching from
+7. **Indexing status** — how many of your submitted sitemap URLs Google has indexed (per sitemap)
+8. **Refresh button** — pulls fresh data from Google on demand
+
+## How it works (plain English)
+
+- A new secure backend function (Supabase edge function) talks to Google Search Console using the connector you already authorized.
+- The frontend page calls that function and displays the data in clean tables and cards.
+- Only logged-in admin users can see the page — verified server-side using your existing `has_role` check.
 
 ## What you need to do
+
 - Approve this plan
-- After I add the meta tag, click **Publish → Update** so the change goes live
-- Tell me when published, and I'll trigger the Google verification step
+- After it's built, log in as an admin and visit `/admin/seo`
+- That's it — no Google login needed
 
 ## Technical details
-- Method: META tag (no DNS changes needed in Vercel)
-- Identifier registered: `https://mansamusamarketplace.com/`
-- File changed: `index.html` (single line added inside `<head>`)
-- API: Google Site Verification + Search Console via Lovable connector gateway
-- Existing `1325.ai` and `mansamusamarketplace.com` properties are unaffected
+
+**New files**
+- `supabase/functions/gsc-analytics/index.ts` — calls the GSC connector gateway. Endpoints used:
+  - `POST /webmasters/v3/sites/{siteUrl}/searchAnalytics/query` (queries, pages, countries)
+  - `GET /webmasters/v3/sites/{siteUrl}/sitemaps` (indexed URL counts per sitemap)
+  - Accepts `{ siteUrl, startDate, endDate, dimension }` from the client
+  - Verifies caller is authenticated and has `admin` role before calling Google
+- `src/pages/admin/SEODashboard.tsx` — the dashboard UI (cards + tables, uses existing shadcn components and design tokens)
+- Route added to the admin router
+
+**Reused**
+- Existing `google_search_console` connector + `LOVABLE_API_KEY` / `GOOGLE_SEARCH_CONSOLE_API_KEY` secrets
+- Existing admin role check (`has_role(auth.uid(), 'admin')`)
+- Existing shadcn Card / Table / Tabs / Select components
+- React Query for caching (5-min stale time so you don't re-hit Google on every render)
+
+**Out of scope (can add later)**
+- Historical trend charts (would need to store snapshots in DB)
+- Email alerts when traffic drops
+- Comparing 1325.ai vs mansamusamarketplace.com side-by-side
