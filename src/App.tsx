@@ -43,6 +43,7 @@ import {
   LazyBlackOwnedIndexPage,
   LazyBlackOwnedCityPage,
   LazyBlackOwnedCategoryPage,
+  LazyCityCategoryLandingPage,
   LazyCorporateSponsorshipPage,
   LazyQRScannerPage,
   LazyBusinessDetailPage,
