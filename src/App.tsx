@@ -153,6 +153,7 @@ const LazyInstitutionalAPIPage = lazy(() => import('@/pages/InstitutionalAPIPage
 const LazyAPIDocsPage = lazy(() => import('@/pages/developer/APIDocsPage'));
 const LazyAdminPlatformRevenuePage = lazy(() => import('@/pages/admin/PlatformRevenuePage'));
 const LazyAdminAPIClientsPage = lazy(() => import('@/pages/admin/APIClientsPage'));
+const LazySEODashboard = lazy(() => import('@/pages/admin/SEODashboard'));
 
 // Unified Test Dashboard (consolidates all test pages)
 const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard'));
