@@ -8605,6 +8605,36 @@ export type Database = {
           },
         ]
       }
+      funnel_events: {
+        Row: {
+          created_at: string
+          event_name: string
+          id: string
+          metadata: Json
+          path: string | null
+          session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_name: string
+          id?: string
+          metadata?: Json
+          path?: string | null
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_name?: string
+          id?: string
+          metadata?: Json
+          path?: string | null
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       group_challenges: {
         Row: {
           challenge_type: string

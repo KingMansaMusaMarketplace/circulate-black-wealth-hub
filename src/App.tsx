@@ -155,6 +155,7 @@ const LazyAPIDocsPage = lazy(() => import('@/pages/developer/APIDocsPage'));
 const LazyAdminPlatformRevenuePage = lazy(() => import('@/pages/admin/PlatformRevenuePage'));
 const LazyAdminAPIClientsPage = lazy(() => import('@/pages/admin/APIClientsPage'));
 const LazySEODashboard = lazy(() => import('@/pages/admin/SEODashboard'));
+const LazyFunnelAnalyticsPage = lazy(() => import('@/pages/admin/FunnelAnalyticsPage'));
 
 // Unified Test Dashboard (consolidates all test pages)
 const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard'));
@@ -487,6 +488,7 @@ function App() {
                               <Route path="/admin/revenue" element={<RequireAdmin><LazyAdminPlatformRevenuePage /></RequireAdmin>} />
                               <Route path="/admin/api-clients" element={<RequireAdmin><LazyAdminAPIClientsPage /></RequireAdmin>} />
                               <Route path="/admin/seo" element={<RequireAdmin><LazySEODashboard /></RequireAdmin>} />
+                              <Route path="/admin/funnel" element={<RequireAdmin><LazyFunnelAnalyticsPage /></RequireAdmin>} />
                               <Route path="/business/featured-placement" element={<LazyFeaturedPlacementPage />} />
                               <Route path="/institutional-api" element={<LazyInstitutionalAPIPage />} />
                               <Route path="/developer/api-docs" element={<LazyAPIDocsPage />} />

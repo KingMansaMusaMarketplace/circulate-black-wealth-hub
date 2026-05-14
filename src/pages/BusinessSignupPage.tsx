@@ -1,11 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
+import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 import { 
   Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, 
   Wallet, BarChart3, Shield, Star, Sparkles, MessageSquare, Gift, 
@@ -20,7 +21,11 @@ const BusinessSignupPage: React.FC = () => {
   const referralCode = searchParams.get('ref') || '';
   const betaMode = searchParams.get('beta') === 'true';
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
-  
+
+  useEffect(() => {
+    trackFunnelEvent('business_signup_page_view', { ref: referralCode || null });
+  }, [referralCode]);
+
   const checkReferralCode = async (code: string): Promise<SalesAgent | null> => {
     if (!code) return null;
     

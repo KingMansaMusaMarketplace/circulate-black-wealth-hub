@@ -15,6 +15,9 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructuredData';
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
+import StickySignupBar from '@/components/marketing/StickySignupBar';
+import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
+import KaylaDemoSection from '@/components/homepage/KaylaDemoSection';
 
 const HomePage = () => {
   
@@ -23,6 +26,8 @@ const HomePage = () => {
   const [animationKey] = useState(() => Date.now());
   
   useEffect(() => {
+    // Funnel: homepage view
+    trackFunnelEvent('homepage_view');
     // Brief refresh indicator
     const timer = setTimeout(() => setShowRefreshBar(false), 600);
     
@@ -106,6 +111,11 @@ const HomePage = () => {
           <Hero key={animationKey} />
         </SectionErrorBoundary>
 
+        {/* Free Kayla Demo — try before signup */}
+        <SectionErrorBoundary sectionName="Kayla Demo">
+          <KaylaDemoSection />
+        </SectionErrorBoundary>
+
         {/* Essential Sections Only */}
         <SectionErrorBoundary sectionName="Content Sections">
           <HomePageSections />
@@ -118,9 +128,10 @@ const HomePage = () => {
           </LazySection>
         </SectionErrorBoundary>
       </div>
-      
-      
+
+      <StickySignupBar />
     </>
+
   );
 };
 
