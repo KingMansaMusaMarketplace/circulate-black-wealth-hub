@@ -276,3 +276,5 @@ project_id = "agoclnqfyinwjxdmjnns"
 
   [functions.create-pro-checkout]
     verify_jwt = false
+  [functions.businesses-sitemap]
+    verify_jwt = false
