@@ -101,7 +101,7 @@ export default function LandingListPage({ mode }: Props) {
 
       {total > 0 && <FAQStructuredData faqs={faqs} />}
 
-      <main className="container mx-auto px-4 py-10">
+      <main className="dark container mx-auto px-4 py-10 bg-background text-foreground min-h-screen">
         <nav className="text-sm text-muted-foreground mb-4">
           <Link to="/black-owned" className="hover:underline">Black-Owned Directory</Link>
           <span className="mx-2">/</span>

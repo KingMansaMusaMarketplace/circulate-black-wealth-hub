@@ -29,7 +29,7 @@ export default function BlackOwnedIndexPage() {
         <link rel="canonical" href="https://1325.ai/black-owned" />
       </Helmet>
 
-      <main className="container mx-auto px-4 py-12">
+      <main className="dark container mx-auto px-4 py-12 bg-background text-foreground min-h-screen">
         <header className="mb-10 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-3">Black-Owned Businesses</h1>
           <p className="text-muted-foreground text-lg">
