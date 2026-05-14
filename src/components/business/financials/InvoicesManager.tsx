@@ -50,7 +50,7 @@ export const InvoicesManager: React.FC<InvoicesManagerProps> = ({ businessId }) 
       // Get completed bookings without invoices
       const { data: bookings } = await supabase
         .from('bookings')
-        .select('*')
+        .select('id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, created_at, updated_at')
         .eq('business_id', businessId)
         .eq('status', 'completed')
         .is('id', null); // This is a placeholder - we'd need to check if invoice exists

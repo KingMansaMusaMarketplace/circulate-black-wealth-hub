@@ -76,7 +76,7 @@ const GuestBookingsPage: React.FC = () => {
       // Fetch bookings for the current user
       const { data: bookingsData, error: bookingsError } = await supabase
         .from('vacation_bookings')
-        .select('*')
+        .select('id, property_id, guest_id, check_in_date, check_out_date, num_nights, num_guests, num_pets, nightly_rate, cleaning_fee, pet_fee, subtotal, platform_fee, host_payout, total_amount, status, payout_status, payout_date, guest_name, guest_email, guest_phone, special_requests, confirmed_at, cancelled_at, cancellation_reason, created_at, updated_at, cancellation_policy, cancelled_by, refund_amount, refund_status')
         .eq('guest_id', user.id)
         .order('check_in_date', { ascending: false });
 
@@ -100,11 +100,11 @@ const GuestBookingsPage: React.FC = () => {
         const reviewedBookingIds = new Set(reviewsData?.map(r => r.booking_id) || []);
         const propertyMap = new Map(propertiesData?.map(p => [p.id, p]) || []);
 
-        const enrichedBookings = bookingsData.map(booking => ({
+        const enrichedBookings = bookingsData.map((booking: any) => ({
           ...booking,
           property: propertyMap.get(booking.property_id),
           hasReview: reviewedBookingIds.has(booking.id),
-        }));
+        })) as any;
 
         setBookings(enrichedBookings);
       } else {

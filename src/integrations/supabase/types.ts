@@ -5941,13 +5941,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "commission_transactions_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
-            referencedRelation: "business_owner_bookings"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "commission_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
@@ -9180,13 +9173,6 @@ export type Database = {
             columns: ["booking_id"]
             isOneToOne: false
             referencedRelation: "bookings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoices_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
-            referencedRelation: "business_owner_bookings"
             referencedColumns: ["id"]
           },
           {
@@ -15188,13 +15174,6 @@ export type Database = {
             foreignKeyName: "property_reviews_booking_id_fkey"
             columns: ["booking_id"]
             isOneToOne: true
-            referencedRelation: "host_vacation_bookings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "property_reviews_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: true
             referencedRelation: "vacation_bookings"
             referencedColumns: ["id"]
           },
@@ -16477,13 +16456,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "review_requests_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
-            referencedRelation: "business_owner_bookings"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "review_requests_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
@@ -17492,13 +17464,6 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "security_deposit_holds_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
-            referencedRelation: "host_vacation_bookings"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "security_deposit_holds_booking_id_fkey"
             columns: ["booking_id"]
@@ -18900,13 +18865,6 @@ export type Database = {
             foreignKeyName: "stays_conversations_booking_id_fkey"
             columns: ["booking_id"]
             isOneToOne: false
-            referencedRelation: "host_vacation_bookings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "stays_conversations_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
             referencedRelation: "vacation_bookings"
             referencedColumns: ["id"]
           },
@@ -19053,13 +19011,6 @@ export type Database = {
             foreignKeyName: "stays_host_payouts_booking_id_fkey"
             columns: ["booking_id"]
             isOneToOne: false
-            referencedRelation: "host_vacation_bookings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "stays_host_payouts_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
             referencedRelation: "vacation_bookings"
             referencedColumns: ["id"]
           },
@@ -19097,13 +19048,6 @@ export type Database = {
           rules_version?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "stays_house_rules_acceptance_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
-            referencedRelation: "host_vacation_bookings"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "stays_house_rules_acceptance_booking_id_fkey"
             columns: ["booking_id"]
@@ -19366,13 +19310,6 @@ export type Database = {
             foreignKeyName: "stays_reviews_booking_id_fkey"
             columns: ["booking_id"]
             isOneToOne: false
-            referencedRelation: "host_vacation_bookings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "stays_reviews_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
             referencedRelation: "vacation_bookings"
             referencedColumns: ["id"]
           },
@@ -19453,13 +19390,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "stays_security_deposits_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
-            referencedRelation: "host_vacation_bookings"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "stays_security_deposits_booking_id_fkey"
             columns: ["booking_id"]
@@ -22294,115 +22224,93 @@ export type Database = {
         }
         Relationships: []
       }
-      business_owner_bookings: {
+      business_owner_platform_transactions: {
         Row: {
-          amount: number | null
-          booking_date: string | null
-          business_amount: number | null
+          amount_business: number | null
+          amount_platform_fee: number | null
+          amount_total: number | null
           business_id: string | null
-          cancellation_reason: string | null
-          cancelled_at: string | null
           created_at: string | null
-          customer_email: string | null
+          currency: string | null
           customer_id: string | null
           customer_name: string | null
-          customer_phone: string | null
-          duration_minutes: number | null
+          description: string | null
           id: string | null
-          notes: string | null
-          platform_fee: number | null
-          service_id: string | null
+          platform_fee_percentage: number | null
           status: string | null
           updated_at: string | null
         }
         Insert: {
-          amount?: number | null
-          booking_date?: string | null
-          business_amount?: number | null
+          amount_business?: number | null
+          amount_platform_fee?: number | null
+          amount_total?: number | null
           business_id?: string | null
-          cancellation_reason?: string | null
-          cancelled_at?: string | null
           created_at?: string | null
-          customer_email?: string | null
+          currency?: string | null
           customer_id?: string | null
           customer_name?: string | null
-          customer_phone?: string | null
-          duration_minutes?: number | null
+          description?: string | null
           id?: string | null
-          notes?: string | null
-          platform_fee?: number | null
-          service_id?: string | null
+          platform_fee_percentage?: number | null
           status?: string | null
           updated_at?: string | null
         }
         Update: {
-          amount?: number | null
-          booking_date?: string | null
-          business_amount?: number | null
+          amount_business?: number | null
+          amount_platform_fee?: number | null
+          amount_total?: number | null
           business_id?: string | null
-          cancellation_reason?: string | null
-          cancelled_at?: string | null
           created_at?: string | null
-          customer_email?: string | null
+          currency?: string | null
           customer_id?: string | null
           customer_name?: string | null
-          customer_phone?: string | null
-          duration_minutes?: number | null
+          description?: string | null
           id?: string | null
-          notes?: string | null
-          platform_fee?: number | null
-          service_id?: string | null
+          platform_fee_percentage?: number | null
           status?: string | null
           updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "bookings_business_id_fkey"
+            foreignKeyName: "platform_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "business_directory"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "bookings_business_id_fkey"
+            foreignKeyName: "platform_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "bookings_business_id_fkey"
+            foreignKeyName: "platform_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_full_details"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "bookings_business_id_fkey"
+            foreignKeyName: "platform_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "bookings_business_id_fkey"
+            foreignKeyName: "platform_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "bookings_customer_id_fkey"
+            foreignKeyName: "platform_transactions_customer_id_fkey"
             columns: ["customer_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bookings_service_id_fkey"
-            columns: ["service_id"]
-            isOneToOne: false
-            referencedRelation: "business_services"
             referencedColumns: ["id"]
           },
         ]
@@ -22758,6 +22666,84 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_platform_transactions: {
+        Row: {
+          amount_business: number | null
+          amount_platform_fee: number | null
+          amount_total: number | null
+          business_id: string | null
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          id: string | null
+          platform_fee_percentage: number | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount_business?: number | null
+          amount_platform_fee?: number | null
+          amount_total?: number | null
+          business_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: string | null
+          platform_fee_percentage?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount_business?: number | null
+          amount_platform_fee?: number | null
+          amount_total?: number | null
+          business_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: string | null
+          platform_fee_percentage?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ecosystem_cross_stats: {
         Row: {
           active_developers: number | null
@@ -22769,123 +22755,6 @@ export type Database = {
           total_technical_partner_earnings: number | null
         }
         Relationships: []
-      }
-      host_vacation_bookings: {
-        Row: {
-          cancellation_policy: string | null
-          cancellation_reason: string | null
-          cancelled_at: string | null
-          cancelled_by: string | null
-          check_in_date: string | null
-          check_out_date: string | null
-          cleaning_fee: number | null
-          confirmed_at: string | null
-          created_at: string | null
-          guest_email: string | null
-          guest_id: string | null
-          guest_name: string | null
-          guest_phone: string | null
-          host_payout: number | null
-          id: string | null
-          nightly_rate: number | null
-          num_guests: number | null
-          num_nights: number | null
-          num_pets: number | null
-          payout_date: string | null
-          payout_status: string | null
-          pet_fee: number | null
-          platform_fee: number | null
-          property_id: string | null
-          refund_amount: number | null
-          refund_status: string | null
-          special_requests: string | null
-          status: Database["public"]["Enums"]["vacation_booking_status"] | null
-          subtotal: number | null
-          total_amount: number | null
-          updated_at: string | null
-        }
-        Insert: {
-          cancellation_policy?: string | null
-          cancellation_reason?: string | null
-          cancelled_at?: string | null
-          cancelled_by?: string | null
-          check_in_date?: string | null
-          check_out_date?: string | null
-          cleaning_fee?: number | null
-          confirmed_at?: string | null
-          created_at?: string | null
-          guest_email?: string | null
-          guest_id?: string | null
-          guest_name?: string | null
-          guest_phone?: string | null
-          host_payout?: number | null
-          id?: string | null
-          nightly_rate?: number | null
-          num_guests?: number | null
-          num_nights?: number | null
-          num_pets?: number | null
-          payout_date?: string | null
-          payout_status?: string | null
-          pet_fee?: number | null
-          platform_fee?: number | null
-          property_id?: string | null
-          refund_amount?: number | null
-          refund_status?: string | null
-          special_requests?: string | null
-          status?: Database["public"]["Enums"]["vacation_booking_status"] | null
-          subtotal?: number | null
-          total_amount?: number | null
-          updated_at?: string | null
-        }
-        Update: {
-          cancellation_policy?: string | null
-          cancellation_reason?: string | null
-          cancelled_at?: string | null
-          cancelled_by?: string | null
-          check_in_date?: string | null
-          check_out_date?: string | null
-          cleaning_fee?: number | null
-          confirmed_at?: string | null
-          created_at?: string | null
-          guest_email?: string | null
-          guest_id?: string | null
-          guest_name?: string | null
-          guest_phone?: string | null
-          host_payout?: number | null
-          id?: string | null
-          nightly_rate?: number | null
-          num_guests?: number | null
-          num_nights?: number | null
-          num_pets?: number | null
-          payout_date?: string | null
-          payout_status?: string | null
-          pet_fee?: number | null
-          platform_fee?: number | null
-          property_id?: string | null
-          refund_amount?: number | null
-          refund_status?: string | null
-          special_requests?: string | null
-          status?: Database["public"]["Enums"]["vacation_booking_status"] | null
-          subtotal?: number | null
-          total_amount?: number | null
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "vacation_bookings_guest_id_fkey"
-            columns: ["guest_id"]
-            isOneToOne: false
-            referencedRelation: "consumer_emails"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "vacation_bookings_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
-            referencedRelation: "vacation_properties"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       noir_drivers_public: {
         Row: {
