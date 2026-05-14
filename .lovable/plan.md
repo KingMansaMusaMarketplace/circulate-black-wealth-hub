@@ -1,49 +1,73 @@
-# Admin SEO Dashboard — Live Google Search Console Data
+# City + Category SEO Landing Pages
 
 ## Goal
-Add an admin-only page at `/admin/seo` that shows live Google Search Console data for both `1325.ai` and `mansamusamarketplace.com` — so you don't have to log into Google to see how people are finding you.
+Capture the ~50,000+ monthly Google searches for terms like "black owned restaurants near me" and "black hair salons near me" by creating dedicated pages for every city × category combination.
 
-## What you'll see on the page
+## What gets built
 
-1. **Property switcher** — toggle between `1325.ai` and `mansamusamarketplace.com`
-2. **Date range picker** — last 7 / 28 / 90 days
-3. **Top-line metrics cards** — total Clicks, Impressions, average CTR, average Position
-4. **Top Queries table** — the search terms bringing people to your site (query, clicks, impressions, CTR, position)
-5. **Top Pages table** — which URLs Google is sending traffic to
-6. **Top Countries** — where your visitors are searching from
-7. **Indexing status** — how many of your submitted sitemap URLs Google has indexed (per sitemap)
-8. **Refresh button** — pulls fresh data from Google on demand
+### 1. New route pattern
+`/black-owned/:category/:city` — examples:
+- `/black-owned/restaurants/chicago`
+- `/black-owned/hair-salons/atlanta`
+- `/black-owned/restaurants/houston`
+- `/black-owned/barbers/detroit`
 
-## How it works (plain English)
+Plus a category index: `/black-owned/:category` (all cities)
+And a city index: `/black-owned-near-me/:city` (all categories in that city)
 
-- A new secure backend function (Supabase edge function) talks to Google Search Console using the connector you already authorized.
-- The frontend page calls that function and displays the data in clean tables and cards.
-- Only logged-in admin users can see the page — verified server-side using your existing `has_role` check.
+### 2. Page contents (SEO-optimized)
+Each page includes:
+- **H1**: "Black Owned Restaurants in Chicago" (exact target keyword)
+- **Intro paragraph**: 80-120 words with the keyword + supporting terms
+- **Filtered business grid**: pulls from existing directory data, filtered by category + city
+- **Map view** of those businesses
+- **FAQ section**: "Are these all verified Black-owned?", "How do I add my business?" — captures question-keyword traffic
+- **Related cities** ("Black-owned restaurants in Atlanta, Houston, Detroit…") — internal linking
+- **CTA** to claim/add business
+- **Schema.org JSON-LD**: `ItemList` of `LocalBusiness` items — helps Google show rich results
+- **Meta title / description** with the exact keyword
+- **Canonical URL**
 
-## What you need to do
+### 3. Sitemap
+Auto-generate a new `cities-sitemap.xml` containing every category × city URL (~10 categories × top 50 US cities = 500 high-intent landing pages). Submit to Google Search Console.
 
+### 4. Internal linking
+- Add a "Browse by city" section to the homepage and existing `/directory` page
+- Footer links to top 5 cities × top 3 categories
+
+## Target categories (initial 8)
+Restaurants, Hair Salons, Barbers, Beauty, Health, Retail, Services, Cafes
+
+## Target cities (initial 25)
+Chicago, Atlanta, Houston, Detroit, New York, Los Angeles, Philadelphia, Washington DC, Dallas, Memphis, Baltimore, Charlotte, New Orleans, Oakland, Brooklyn, Miami, Phoenix, Seattle, Cleveland, St. Louis, Birmingham, Jackson, Nashville, Newark, Milwaukee
+
+That's **200 landing pages on day one** (8 categories × 25 cities).
+
+## What you'll need to do
 - Approve this plan
-- After it's built, log in as an admin and visit `/admin/seo`
-- That's it — no Google login needed
+- After build: visit one of the new URLs to confirm it looks good (e.g., `/black-owned/restaurants/chicago`)
+- Submit `cities-sitemap.xml` in Google Search Console (or I can do this via the connector)
 
 ## Technical details
 
 **New files**
-- `supabase/functions/gsc-analytics/index.ts` — calls the GSC connector gateway. Endpoints used:
-  - `POST /webmasters/v3/sites/{siteUrl}/searchAnalytics/query` (queries, pages, countries)
-  - `GET /webmasters/v3/sites/{siteUrl}/sitemaps` (indexed URL counts per sitemap)
-  - Accepts `{ siteUrl, startDate, endDate, dimension }` from the client
-  - Verifies caller is authenticated and has `admin` role before calling Google
-- `src/pages/admin/SEODashboard.tsx` — the dashboard UI (cards + tables, uses existing shadcn components and design tokens)
-- Route added to the admin router
+- `src/pages/CityCategoryLanding.tsx` — the SEO landing page template
+- `src/lib/seo/cities-categories.ts` — config of cities + categories + slug mapping
+- `src/lib/seo/landing-content.ts` — generator for unique intro text per page (avoids duplicate-content penalty)
+- `public/cities-sitemap.xml` — generated sitemap (built by `scripts/generate-sitemaps.ts`)
+
+**Edited files**
+- `src/App.tsx` — register the 3 new routes (lazy-loaded)
+- `scripts/generate-sitemaps.ts` — add city × category URL generation
+- `public/sitemap.xml` (or sitemap index) — reference the new sitemap
+- `src/pages/Directory.tsx` (or similar) — add "Browse by city" section linking to landing pages
 
 **Reused**
-- Existing `google_search_console` connector + `LOVABLE_API_KEY` / `GOOGLE_SEARCH_CONSOLE_API_KEY` secrets
-- Existing admin role check (`has_role(auth.uid(), 'admin')`)
-- Existing shadcn Card / Table / Tabs / Select components
-- React Query for caching (5-min stale time so you don't re-hit Google on every render)
+- Existing business data from Supabase (filtered by category + city)
+- Existing `BusinessCard`, `MapView`, design tokens
+- Existing `react-helmet-async` for meta tags
 
 **Out of scope (can add later)**
-- Historical trend charts (would need to store snapshots in DB)
-- Email alerts when traffic drops
-- Comparing 1325.ai vs mansamusamarketplace.com side-by-side
+- Per-business pages (you already have these)
+- Auto-generating new city pages when a new business is added
+- A/B testing different intro copy
