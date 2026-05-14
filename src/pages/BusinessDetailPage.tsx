@@ -39,6 +39,7 @@ import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
 import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
 import { getRememberedDirectoryUrl } from '@/utils/directoryReturn';
 import BoostVisibilityCard from '@/components/business/BoostVisibilityCard';
+import { BusinessStructuredData } from '@/components/SEO/BusinessStructuredData';
 
 // Subtle static accent — Apple-minimal, no animated colored orbs
 const BackgroundAccent = memo(() => (
@@ -359,6 +360,7 @@ const BusinessDetailPage = () => {
         <title>{business.business_name} | 1325.AI</title>
         <meta name="description" content={business.description} />
       </Helmet>
+      {business.is_verified && <BusinessStructuredData business={business} />}
 
       <div className="min-h-screen bg-black relative overflow-hidden">
         <BackgroundAccent />
