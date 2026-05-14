@@ -148,6 +148,20 @@ export default function LandingListPage({ mode }: Props) {
             Showing top {rows.length} of {total.toLocaleString()}. <Link to="/directory" className="underline">View all in directory</Link>.
           </p>
         )}
+
+        {total > 0 && (
+          <section className="mt-16 max-w-3xl mx-auto" aria-labelledby="faq-heading">
+            <h2 id="faq-heading" className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+            <dl className="space-y-6">
+              {faqs.map((f) => (
+                <div key={f.question} className="border-b border-border pb-4">
+                  <dt className="font-semibold text-base mb-2">{f.question}</dt>
+                  <dd className="text-muted-foreground text-sm leading-relaxed">{f.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
       </main>
     </>
   );
