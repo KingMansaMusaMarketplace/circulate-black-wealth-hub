@@ -119,9 +119,10 @@ const HomePage = () => {
           </LazySection>
         </SectionErrorBoundary>
       </div>
-      
-      
+
+      <StickySignupBar />
     </>
+
   );
 };
 
