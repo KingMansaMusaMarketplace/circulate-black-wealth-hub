@@ -87,6 +87,66 @@ const MansaStaysAdmin: React.FC = () => {
     setDetailOpen(true);
   };
 
+  // Filters / search
+  const [propSearch, setPropSearch] = useState('');
+  const [propStatus, setPropStatus] = useState<'all' | 'active' | 'inactive' | 'verified' | 'unverified'>('all');
+  const [bookingSearch, setBookingSearch] = useState('');
+  const [bookingStatus, setBookingStatus] = useState<'all' | 'pending' | 'confirmed' | 'completed' | 'cancelled'>('all');
+
+  const filteredProperties = useMemo(() => {
+    const q = propSearch.trim().toLowerCase();
+    return properties.filter(p => {
+      if (propStatus === 'active' && !p.is_active) return false;
+      if (propStatus === 'inactive' && p.is_active) return false;
+      if (propStatus === 'verified' && !p.is_verified) return false;
+      if (propStatus === 'unverified' && p.is_verified) return false;
+      if (!q) return true;
+      return [p.title, p.city, p.state].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [properties, propSearch, propStatus]);
+
+  const filteredBookings = useMemo(() => {
+    const q = bookingSearch.trim().toLowerCase();
+    return bookings.filter(b => {
+      if (bookingStatus !== 'all' && b.status !== bookingStatus) return false;
+      if (!q) return true;
+      const propTitle = (properties.find(p => p.id === b.property_id)?.title) || '';
+      return [b.guest_name, b.guest_email, propTitle].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [bookings, bookingSearch, bookingStatus, properties]);
+
+  const exportProperties = () => {
+    downloadCSV('mansa-stays-properties', toCSV(filteredProperties, [
+      { key: 'title', label: 'Title' },
+      { key: 'city', label: 'City' },
+      { key: 'state', label: 'State' },
+      { key: 'bedrooms', label: 'Bedrooms' },
+      { key: 'max_guests', label: 'Max Guests' },
+      { key: 'base_nightly_rate', label: 'Nightly Rate' },
+      { key: 'is_active', label: 'Active' },
+      { key: 'is_verified', label: 'Verified' },
+      { key: 'created_at', label: 'Created' },
+    ]));
+  };
+
+  const exportBookings = () => {
+    downloadCSV('mansa-stays-bookings', toCSV(filteredBookings, [
+      { key: 'guest_name', label: 'Guest' },
+      { key: 'guest_email', label: 'Email' },
+      { label: 'Property', key: 'property_id', get: b => properties.find(p => p.id === b.property_id)?.title || b.property_id },
+      { key: 'check_in_date', label: 'Check In' },
+      { key: 'check_out_date', label: 'Check Out' },
+      { key: 'num_nights', label: 'Nights' },
+      { key: 'total_amount', label: 'Total' },
+      { key: 'platform_fee', label: 'Platform Fee' },
+      { key: 'host_payout', label: 'Host Payout' },
+      { key: 'status', label: 'Status' },
+      { key: 'payout_status', label: 'Payout Status' },
+      { key: 'created_at', label: 'Created' },
+    ]));
+  };
+
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
