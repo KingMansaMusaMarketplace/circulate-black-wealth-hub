@@ -43,6 +43,7 @@ import SupabaseSetup from '@/components/admin/SupabaseSetup';
 import MansaStaysAdmin from '@/components/admin/MansaStaysAdmin';
 import NoireRideshareAdmin from '@/components/admin/NoireRideshareAdmin';
 import QRScanFraudMonitor from '@/components/admin/QRScanFraudMonitor';
+import KaylaAgentCostMeter from '@/components/admin/KaylaAgentCostMeter';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -125,6 +126,8 @@ const AdminDashboardPage: React.FC = () => {
         );
       case 'ai':
         return <AdminAIDashboard />;
+      case 'kayla-cost':
+        return <KaylaAgentCostMeter />;
       case 'patents':
         return <LegalIPDocuments />;
       case 'growth':

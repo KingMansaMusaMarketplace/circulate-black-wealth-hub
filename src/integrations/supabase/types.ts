@@ -9867,6 +9867,36 @@ export type Database = {
           },
         ]
       }
+      kayla_cost_thresholds: {
+        Row: {
+          agent_name: string
+          created_at: string
+          daily_cap_usd: number
+          enabled: boolean
+          id: string
+          monthly_cap_usd: number
+          updated_at: string
+        }
+        Insert: {
+          agent_name: string
+          created_at?: string
+          daily_cap_usd?: number
+          enabled?: boolean
+          id?: string
+          monthly_cap_usd?: number
+          updated_at?: string
+        }
+        Update: {
+          agent_name?: string
+          created_at?: string
+          daily_cap_usd?: number
+          enabled?: boolean
+          id?: string
+          monthly_cap_usd?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kayla_customer_segments: {
         Row: {
           ai_insights: string | null
@@ -11255,30 +11285,42 @@ export type Database = {
         Row: {
           agent_name: string
           completed_at: string | null
+          cost_usd: number | null
           created_at: string
           details: Json | null
           duration_ms: number | null
           id: string
+          input_tokens: number | null
+          model: string | null
+          output_tokens: number | null
           run_status: string
           started_at: string
         }
         Insert: {
           agent_name: string
           completed_at?: string | null
+          cost_usd?: number | null
           created_at?: string
           details?: Json | null
           duration_ms?: number | null
           id?: string
+          input_tokens?: number | null
+          model?: string | null
+          output_tokens?: number | null
           run_status?: string
           started_at?: string
         }
         Update: {
           agent_name?: string
           completed_at?: string | null
+          cost_usd?: number | null
           created_at?: string
           details?: Json | null
           duration_ms?: number | null
           id?: string
+          input_tokens?: number | null
+          model?: string | null
+          output_tokens?: number | null
           run_status?: string
           started_at?: string
         }
