@@ -96,6 +96,8 @@ const AdminDashboardPage: React.FC = () => {
         return <PartnerApplicationsManager />;
       case 'loyalty':
         return <LoyaltyManagement />;
+      case 'qr-fraud':
+        return <QRScanFraudMonitor />;
       case 'financial':
         return <FinancialManagement />;
       case 'subscriptions':
