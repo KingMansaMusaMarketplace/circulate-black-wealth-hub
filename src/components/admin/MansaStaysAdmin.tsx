@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import PropertyDetailDialog from './mansa-stays/PropertyDetailDialog';
 import HostsTab from './mansa-stays/HostsTab';
+import PayoutsTab from './mansa-stays/PayoutsTab';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -180,6 +181,7 @@ const MansaStaysAdmin: React.FC = () => {
           <TabsTrigger value="properties">Properties ({properties.length})</TabsTrigger>
           <TabsTrigger value="bookings">Bookings ({bookings.length})</TabsTrigger>
           <TabsTrigger value="hosts">Hosts</TabsTrigger>
+          <TabsTrigger value="payouts">Payouts</TabsTrigger>
         </TabsList>
 
         <TabsContent value="properties" className="mt-4">
@@ -302,6 +304,10 @@ const MansaStaysAdmin: React.FC = () => {
 
         <TabsContent value="hosts" className="mt-4">
           <HostsTab />
+        </TabsContent>
+
+        <TabsContent value="payouts" className="mt-4">
+          <PayoutsTab />
         </TabsContent>
       </Tabs>
 
