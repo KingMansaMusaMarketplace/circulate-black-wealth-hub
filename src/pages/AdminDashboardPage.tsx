@@ -44,6 +44,7 @@ import MansaStaysAdmin from '@/components/admin/MansaStaysAdmin';
 import NoireRideshareAdmin from '@/components/admin/NoireRideshareAdmin';
 import QRScanFraudMonitor from '@/components/admin/QRScanFraudMonitor';
 import KaylaAgentCostMeter from '@/components/admin/KaylaAgentCostMeter';
+import BroadcastAnnouncements from '@/components/admin/BroadcastAnnouncements';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -83,6 +84,8 @@ const AdminDashboardPage: React.FC = () => {
         return <PromoCodeManager />;
       case 'flags':
         return <FeatureFlagsManager />;
+      case 'broadcasts':
+        return <BroadcastAnnouncements />;
       case 'retention':
         return <RetentionAnalytics />;
       case 'geographic':
