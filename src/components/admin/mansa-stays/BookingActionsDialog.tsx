@@ -197,11 +197,16 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
 
             <TabsContent value="refund" className="mt-4 space-y-3">
               <div className="rounded-md bg-yellow-500/10 border border-yellow-500/30 p-3 text-xs text-yellow-200">
-                This records the refund in our system. Process the actual money refund in Stripe separately.
+                This sends a REAL refund to the guest's card via Stripe and updates our record.
               </div>
               {booking.refund_status === 'refunded' && (
                 <div className="rounded-md bg-blue-500/10 border border-blue-500/30 p-3 text-xs text-blue-200">
-                  Already refunded {fmt(Number(booking.refund_amount || 0))}. Submitting again will overwrite.
+                  Already refunded {fmt(Number(booking.refund_amount || 0))}{booking.refund_id ? ` (${booking.refund_id})` : ''}.
+                </div>
+              )}
+              {!booking.payment_intent_id && (
+                <div className="rounded-md bg-red-500/10 border border-red-500/30 p-3 text-xs text-red-200">
+                  No Stripe payment_intent_id on this booking — refund cannot be processed.
                 </div>
               )}
               <div>
@@ -223,9 +228,9 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
                 />
               </div>
               <div className="flex justify-end">
-                <Button onClick={issueRefund} disabled={busy}>
+                <Button onClick={issueRefund} disabled={busy || !booking.payment_intent_id}>
                   {busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-                  <RefreshCcw className="h-4 w-4 mr-1" /> Record Refund
+                  <RefreshCcw className="h-4 w-4 mr-1" /> Refund via Stripe
                 </Button>
               </div>
             </TabsContent>
