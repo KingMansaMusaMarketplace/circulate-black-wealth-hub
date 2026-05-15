@@ -122,7 +122,7 @@ interface ActivePartnerViewProps {
   referrals: any;
   payouts: any;
   onCopyReferralLink: () => void;
-  onRequestPayout: () => void;
+  onRequestPayout: (amount: number, method: string) => Promise<void>;
   getEmbedCode: () => string;
 }
 

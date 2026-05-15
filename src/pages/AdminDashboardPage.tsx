@@ -49,6 +49,7 @@ import BackupRestorePanel from '@/components/admin/BackupRestorePanel';
 import WebhookManager from '@/components/admin/WebhookManager';
 import APITokenManager from '@/components/admin/APITokenManager';
 import SystemHealthDashboard from '@/components/admin/SystemHealthDashboard';
+import PartnerOnboardingFunnel from '@/components/admin/PartnerOnboardingFunnel';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';

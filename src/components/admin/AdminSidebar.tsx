@@ -78,6 +78,7 @@ const menuGroups = [
       { id: 'listing-queue', label: 'Listing Queue', icon: ListChecks },
       { id: 'agents', label: 'Sales Agents', icon: Users },
       { id: 'partners', label: 'Partners', icon: Handshake },
+      { id: 'partner-onboarding', label: 'Partner Onboarding', icon: Route },
       { id: 'sponsorship', label: 'Sponsorship (Public)', icon: Award, route: '/corporate-sponsorship' },
       { id: 'sponsors-manage', label: 'Sponsors (Manage)', icon: Award, route: '/admin/sponsors' },
       { id: 'sponsor-crm', label: 'Sponsor CRM', icon: Handshake, route: '/admin/sponsor-crm' },
