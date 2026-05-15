@@ -4,12 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power } from 'lucide-react';
+import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power, Settings2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import PropertyDetailDialog from './mansa-stays/PropertyDetailDialog';
 import HostsTab from './mansa-stays/HostsTab';
 import PayoutsTab from './mansa-stays/PayoutsTab';
+import BookingActionsDialog from './mansa-stays/BookingActionsDialog';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
