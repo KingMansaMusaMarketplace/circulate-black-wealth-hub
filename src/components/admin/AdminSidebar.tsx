@@ -82,6 +82,7 @@ const menuGroups = [
       { id: 'sponsors-manage', label: 'Sponsors (Manage)', icon: Award, route: '/admin/sponsors' },
       { id: 'sponsor-crm', label: 'Sponsor CRM', icon: Handshake, route: '/admin/sponsor-crm' },
       { id: 'outreach-crm', label: 'Directory Outreach', icon: Handshake, route: '/admin/outreach' },
+      { id: 'investor-portal-admin', label: 'Investor Portal', icon: Shield, route: '/admin/investor-portal' },
       { id: 'developers', label: 'Developers', icon: Code2 },
       { id: 'financial', label: 'Financial', icon: DollarSign },
       { id: 'subscriptions', label: 'Subscriptions', icon: CreditCard },
