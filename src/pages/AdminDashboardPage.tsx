@@ -45,6 +45,7 @@ import NoireRideshareAdmin from '@/components/admin/NoireRideshareAdmin';
 import QRScanFraudMonitor from '@/components/admin/QRScanFraudMonitor';
 import KaylaAgentCostMeter from '@/components/admin/KaylaAgentCostMeter';
 import BroadcastAnnouncements from '@/components/admin/BroadcastAnnouncements';
+import BackupRestorePanel from '@/components/admin/BackupRestorePanel';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -86,6 +87,8 @@ const AdminDashboardPage: React.FC = () => {
         return <FeatureFlagsManager />;
       case 'broadcasts':
         return <BroadcastAnnouncements />;
+      case 'backups':
+        return <BackupRestorePanel />;
       case 'retention':
         return <RetentionAnalytics />;
       case 'geographic':

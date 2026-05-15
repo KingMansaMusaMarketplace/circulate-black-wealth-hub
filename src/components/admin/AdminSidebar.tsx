@@ -107,6 +107,7 @@ const menuGroups = [
       { id: 'exports', label: 'Data Export', icon: Download },
       { id: 'reports', label: 'Scheduled Reports', icon: Calendar },
       { id: 'database', label: 'DB Monitor', icon: Database },
+      { id: 'backups', label: 'Backup & Restore', icon: Shield },
     ]
   },
   {
