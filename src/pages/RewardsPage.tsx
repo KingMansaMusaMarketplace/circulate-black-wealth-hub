@@ -286,6 +286,13 @@ const RewardsPage = () => {
 
         {/* Tier Benefits */}
         <div className="container mx-auto px-4 py-8">
+          {userPoints.totalPoints > 0 && (
+            <ReturningCustomerHero
+              totalPoints={userPoints.totalPoints}
+              availablePoints={userPoints.availablePoints}
+              tierLevel={userPoints.tierLevel}
+            />
+          )}
           <Card className="mb-8 bg-gradient-to-br from-primary/5 via-mansagold/5 to-mansablue/5 border-2 border-primary/20">
             <CardHeader className="border-b border-primary/10">
               <CardTitle className="text-center text-2xl bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
