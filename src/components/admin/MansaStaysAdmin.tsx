@@ -298,6 +298,13 @@ const MansaStaysAdmin: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <PropertyDetailDialog
+        propertyId={selectedPropertyId}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+        onSaved={loadData}
+      />
     </div>
   );
 };
