@@ -49,6 +49,8 @@ const MansaStaysAdmin: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
+  const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
 
   const loadData = async () => {
