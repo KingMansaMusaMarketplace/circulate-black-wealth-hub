@@ -249,7 +249,33 @@ const MansaStaysAdmin: React.FC = () => {
           <TabsTrigger value="payouts">Payouts</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="properties" className="mt-4">
+        <TabsContent value="properties" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search title, city, state…"
+                value={propSearch}
+                onChange={e => setPropSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <select
+              value={propStatus}
+              onChange={e => setPropStatus(e.target.value as any)}
+              className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-sm"
+            >
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="verified">Verified</option>
+              <option value="unverified">Unverified</option>
+            </select>
+            <div className="text-xs text-white/50 ml-auto">{filteredProperties.length} of {properties.length}</div>
+            <Button size="sm" variant="outline" onClick={exportProperties}>
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
+          </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
