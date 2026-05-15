@@ -4,7 +4,7 @@ import {
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
-  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car, CreditCard, ListChecks
+  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car, CreditCard, ListChecks, ScanLine
 } from 'lucide-react';
 import {
   Sidebar,
