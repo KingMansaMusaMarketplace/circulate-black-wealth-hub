@@ -94,32 +94,40 @@ const EmailAnalyticsPage: React.FC = () => {
             </Button>
           </div>
 
-          {/* Stats Cards */}
-          <div className="mb-8">
-            <EmailStatsCards stats={stats || defaultStats} isLoading={statsLoading} />
-          </div>
+          <Tabs defaultValue="overview">
+            <TabsList className="bg-white/5 border border-white/10">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="deliverability">Deliverability</TabsTrigger>
+            </TabsList>
 
-          {/* Events Table */}
-          <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-white flex items-center gap-2">
-                <Mail className="h-5 w-5 text-mansagold" />
-                Recent Email Events
-              </CardTitle>
-              <div className="relative w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-                <Input
-                  placeholder="Search emails..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-white/40"
-                />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <EmailEventsTable events={filteredEvents} isLoading={eventsLoading} />
-            </CardContent>
-          </Card>
+            <TabsContent value="overview" className="space-y-8 mt-6">
+              <EmailStatsCards stats={stats || defaultStats} isLoading={statsLoading} />
+              <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <Mail className="h-5 w-5 text-mansagold" />
+                    Recent Email Events
+                  </CardTitle>
+                  <div className="relative w-64">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
+                    <Input
+                      placeholder="Search emails..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-white/40"
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <EmailEventsTable events={filteredEvents} isLoading={eventsLoading} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="deliverability" className="mt-6">
+              <EmailDeliverabilityPanel />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </RequireAdmin>
