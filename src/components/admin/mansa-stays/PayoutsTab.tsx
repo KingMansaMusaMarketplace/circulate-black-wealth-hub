@@ -335,7 +335,22 @@ const PayoutsTab: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="history" className="mt-4">
+        <TabsContent value="history" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search host, reference, notes…"
+                value={historySearch}
+                onChange={e => setHistorySearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <div className="text-xs text-white/50 ml-auto">{historyRows.length} of {history.length}</div>
+            <Button size="sm" variant="outline" onClick={exportHistory}>
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
+          </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
@@ -350,9 +365,9 @@ const PayoutsTab: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {history.length === 0 ? (
-                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No payouts recorded yet.</TableCell></TableRow>
-                  ) : history.map(p => (
+                  {historyRows.length === 0 ? (
+                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No payouts match.</TableCell></TableRow>
+                  ) : historyRows.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white/70 text-xs">
                         {p.paid_at ? new Date(p.paid_at).toLocaleDateString() : new Date(p.created_at).toLocaleDateString()}
