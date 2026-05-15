@@ -179,6 +179,7 @@ const MansaStaysAdmin: React.FC = () => {
         <TabsList className="bg-white/5 border border-white/10">
           <TabsTrigger value="properties">Properties ({properties.length})</TabsTrigger>
           <TabsTrigger value="bookings">Bookings ({bookings.length})</TabsTrigger>
+          <TabsTrigger value="hosts">Hosts</TabsTrigger>
         </TabsList>
 
         <TabsContent value="properties" className="mt-4">
