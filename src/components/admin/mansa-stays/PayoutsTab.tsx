@@ -5,13 +5,14 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, CheckCircle2, DollarSign } from 'lucide-react';
+import { Loader2, CheckCircle2, DollarSign, Search, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toCSV, downloadCSV } from './csvUtils';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -183,11 +184,55 @@ const PayoutsTab: React.FC = () => {
     load();
   };
 
+  const [owedSearch, setOwedSearch] = useState('');
+  const [historySearch, setHistorySearch] = useState('');
+
+  const owedRows = useMemo(() => {
+    const q = owedSearch.trim().toLowerCase();
+    return hosts.filter(h => {
+      if (h.owed <= 0) return false;
+      if (!q) return true;
+      return [h.full_name, h.email].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [hosts, owedSearch]);
+
+  const historyRows = useMemo(() => {
+    const q = historySearch.trim().toLowerCase();
+    if (!q) return history;
+    return history.filter(p => {
+      const prof = profileMap[p.host_id];
+      return [prof?.name, prof?.email, p.description, p.booking_id].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [history, historySearch, profileMap]);
+
   const totals = useMemo(() => ({
     owed: hosts.reduce((s, h) => s + h.owed, 0),
     paid: hosts.reduce((s, h) => s + h.paid_total, 0),
     hostsOwed: hosts.filter(h => h.owed > 0).length,
   }), [hosts]);
+
+  const exportOwed = () => {
+    downloadCSV('mansa-stays-owed', toCSV(owedRows, [
+      { key: 'full_name', label: 'Host' },
+      { key: 'email', label: 'Email' },
+      { key: 'payout_method_type', label: 'Method' },
+      { label: 'Bookings', key: 'bookings', get: r => r.bookings.length },
+      { key: 'owed', label: 'Amount Owed' },
+      { key: 'paid_total', label: 'Lifetime Paid' },
+    ]));
+  };
+
+  const exportHistory = () => {
+    downloadCSV('mansa-stays-payout-history', toCSV(historyRows, [
+      { label: 'Date', key: 'paid_at', get: p => (p.paid_at || p.created_at) },
+      { label: 'Host', key: 'host_id', get: p => profileMap[p.host_id]?.name || profileMap[p.host_id]?.email || p.host_id },
+      { key: 'net_amount', label: 'Amount' },
+      { key: 'status', label: 'Status' },
+      { key: 'booking_id', label: 'Reference' },
+      { key: 'description', label: 'Notes' },
+    ]));
+  };
+
 
   if (loading) {
     return (
@@ -220,7 +265,22 @@ const PayoutsTab: React.FC = () => {
           <TabsTrigger value="history">Payout History ({history.length})</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="owed" className="mt-4">
+        <TabsContent value="owed" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search host name or email…"
+                value={owedSearch}
+                onChange={e => setOwedSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <div className="text-xs text-white/50 ml-auto">{owedRows.length} hosts</div>
+            <Button size="sm" variant="outline" onClick={exportOwed}>
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
+          </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
@@ -235,9 +295,9 @@ const PayoutsTab: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {hosts.filter(h => h.owed > 0).length === 0 ? (
+                  {owedRows.length === 0 ? (
                     <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No hosts currently owed.</TableCell></TableRow>
-                  ) : hosts.filter(h => h.owed > 0).map(h => (
+                  ) : owedRows.map(h => (
                     <TableRow key={h.host_id} className="border-white/10">
                       <TableCell className="text-white">
                         <div className="font-medium">{h.full_name || 'Unnamed host'}</div>
@@ -275,7 +335,22 @@ const PayoutsTab: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="history" className="mt-4">
+        <TabsContent value="history" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search host, reference, notes…"
+                value={historySearch}
+                onChange={e => setHistorySearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <div className="text-xs text-white/50 ml-auto">{historyRows.length} of {history.length}</div>
+            <Button size="sm" variant="outline" onClick={exportHistory}>
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
+          </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
@@ -290,9 +365,9 @@ const PayoutsTab: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {history.length === 0 ? (
-                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No payouts recorded yet.</TableCell></TableRow>
-                  ) : history.map(p => (
+                  {historyRows.length === 0 ? (
+                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No payouts match.</TableCell></TableRow>
+                  ) : historyRows.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white/70 text-xs">
                         {p.paid_at ? new Date(p.paid_at).toLocaleDateString() : new Date(p.created_at).toLocaleDateString()}

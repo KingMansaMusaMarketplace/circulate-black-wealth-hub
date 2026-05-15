@@ -4,8 +4,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Loader2, Wallet, Eye } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Loader2, Wallet, Search, Download } from 'lucide-react';
 import HostPayoutMethodDialog from './HostPayoutMethodDialog';
+import { toCSV, downloadCSV } from './csvUtils';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -89,12 +91,41 @@ const HostsTab: React.FC = () => {
     load();
   }, []);
 
+  const [search, setSearch] = useState('');
+  const [methodFilter, setMethodFilter] = useState<'all' | 'with' | 'without'>('all');
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return rows.filter(r => {
+      if (methodFilter === 'with' && !r.payout_method_type) return false;
+      if (methodFilter === 'without' && r.payout_method_type) return false;
+      if (!q) return true;
+      return [r.full_name, r.email, r.phone].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [rows, search, methodFilter]);
+
   const totals = useMemo(() => ({
     hosts: rows.length,
     owed: rows.reduce((s, r) => s + r.total_payout_owed, 0),
     paid: rows.reduce((s, r) => s + r.total_paid, 0),
     withMethod: rows.filter(r => r.payout_method_type).length,
   }), [rows]);
+
+  const exportCSV = () => {
+    downloadCSV('mansa-stays-hosts', toCSV(filtered, [
+      { key: 'full_name', label: 'Host' },
+      { key: 'email', label: 'Email' },
+      { key: 'phone', label: 'Phone' },
+      { key: 'property_count', label: 'Properties' },
+      { key: 'active_count', label: 'Active Properties' },
+      { key: 'total_bookings', label: 'Bookings' },
+      { key: 'total_payout_owed', label: 'Owed' },
+      { key: 'total_paid', label: 'Paid' },
+      { key: 'payout_method_type', label: 'Payout Method' },
+      { key: 'payout_verified', label: 'Verified' },
+    ]));
+  };
+
 
   if (loading) {
     return (
@@ -125,6 +156,31 @@ const HostsTab: React.FC = () => {
         </div>
       </div>
 
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="relative flex-1 min-w-[200px] max-w-md">
+          <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+          <Input
+            placeholder="Search host name, email, phone…"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="pl-9 bg-white/5 border-white/10 text-white"
+          />
+        </div>
+        <select
+          value={methodFilter}
+          onChange={e => setMethodFilter(e.target.value as any)}
+          className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-sm"
+        >
+          <option value="all">All Hosts</option>
+          <option value="with">With Payout Method</option>
+          <option value="without">Missing Payout Method</option>
+        </select>
+        <div className="text-xs text-white/50 ml-auto">{filtered.length} of {rows.length}</div>
+        <Button size="sm" variant="outline" onClick={exportCSV}>
+          <Download className="h-4 w-4 mr-1" /> Export CSV
+        </Button>
+      </div>
+
       <Card className="bg-white/5 border-white/10">
         <CardContent className="p-0">
           <Table>
@@ -141,9 +197,9 @@ const HostsTab: React.FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rows.length === 0 ? (
-                <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No hosts yet.</TableCell></TableRow>
-              ) : rows.map(r => (
+              {filtered.length === 0 ? (
+                <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No hosts match.</TableCell></TableRow>
+              ) : filtered.map(r => (
                 <TableRow key={r.host_id} className="border-white/10">
                   <TableCell className="text-white">
                     <div className="font-medium">{r.full_name || 'Unnamed host'}</div>

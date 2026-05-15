@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power, Settings2 } from 'lucide-react';
+import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power, Settings2, Search, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import PropertyDetailDialog from './mansa-stays/PropertyDetailDialog';
 import HostsTab from './mansa-stays/HostsTab';
 import PayoutsTab from './mansa-stays/PayoutsTab';
 import BookingActionsDialog from './mansa-stays/BookingActionsDialog';
+import { toCSV, downloadCSV } from './mansa-stays/csvUtils';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -84,6 +86,66 @@ const MansaStaysAdmin: React.FC = () => {
     setSelectedPropertyId(id);
     setDetailOpen(true);
   };
+
+  // Filters / search
+  const [propSearch, setPropSearch] = useState('');
+  const [propStatus, setPropStatus] = useState<'all' | 'active' | 'inactive' | 'verified' | 'unverified'>('all');
+  const [bookingSearch, setBookingSearch] = useState('');
+  const [bookingStatus, setBookingStatus] = useState<'all' | 'pending' | 'confirmed' | 'completed' | 'cancelled'>('all');
+
+  const filteredProperties = useMemo(() => {
+    const q = propSearch.trim().toLowerCase();
+    return properties.filter(p => {
+      if (propStatus === 'active' && !p.is_active) return false;
+      if (propStatus === 'inactive' && p.is_active) return false;
+      if (propStatus === 'verified' && !p.is_verified) return false;
+      if (propStatus === 'unverified' && p.is_verified) return false;
+      if (!q) return true;
+      return [p.title, p.city, p.state].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [properties, propSearch, propStatus]);
+
+  const filteredBookings = useMemo(() => {
+    const q = bookingSearch.trim().toLowerCase();
+    return bookings.filter(b => {
+      if (bookingStatus !== 'all' && b.status !== bookingStatus) return false;
+      if (!q) return true;
+      const propTitle = (properties.find(p => p.id === b.property_id)?.title) || '';
+      return [b.guest_name, b.guest_email, propTitle].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [bookings, bookingSearch, bookingStatus, properties]);
+
+  const exportProperties = () => {
+    downloadCSV('mansa-stays-properties', toCSV(filteredProperties, [
+      { key: 'title', label: 'Title' },
+      { key: 'city', label: 'City' },
+      { key: 'state', label: 'State' },
+      { key: 'bedrooms', label: 'Bedrooms' },
+      { key: 'max_guests', label: 'Max Guests' },
+      { key: 'base_nightly_rate', label: 'Nightly Rate' },
+      { key: 'is_active', label: 'Active' },
+      { key: 'is_verified', label: 'Verified' },
+      { key: 'created_at', label: 'Created' },
+    ]));
+  };
+
+  const exportBookings = () => {
+    downloadCSV('mansa-stays-bookings', toCSV(filteredBookings, [
+      { key: 'guest_name', label: 'Guest' },
+      { key: 'guest_email', label: 'Email' },
+      { label: 'Property', key: 'property_id', get: b => properties.find(p => p.id === b.property_id)?.title || b.property_id },
+      { key: 'check_in_date', label: 'Check In' },
+      { key: 'check_out_date', label: 'Check Out' },
+      { key: 'num_nights', label: 'Nights' },
+      { key: 'total_amount', label: 'Total' },
+      { key: 'platform_fee', label: 'Platform Fee' },
+      { key: 'host_payout', label: 'Host Payout' },
+      { key: 'status', label: 'Status' },
+      { key: 'payout_status', label: 'Payout Status' },
+      { key: 'created_at', label: 'Created' },
+    ]));
+  };
+
 
   if (loading) {
     return (
@@ -187,7 +249,33 @@ const MansaStaysAdmin: React.FC = () => {
           <TabsTrigger value="payouts">Payouts</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="properties" className="mt-4">
+        <TabsContent value="properties" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search title, city, state…"
+                value={propSearch}
+                onChange={e => setPropSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <select
+              value={propStatus}
+              onChange={e => setPropStatus(e.target.value as any)}
+              className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-sm"
+            >
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="verified">Verified</option>
+              <option value="unverified">Unverified</option>
+            </select>
+            <div className="text-xs text-white/50 ml-auto">{filteredProperties.length} of {properties.length}</div>
+            <Button size="sm" variant="outline" onClick={exportProperties}>
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
+          </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
@@ -203,9 +291,9 @@ const MansaStaysAdmin: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {properties.length === 0 ? (
-                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No properties yet.</TableCell></TableRow>
-                  ) : properties.map(p => (
+                  {filteredProperties.length === 0 ? (
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No properties match.</TableCell></TableRow>
+                  ) : filteredProperties.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white font-medium">{p.title}</TableCell>
                       <TableCell className="text-white/70">{[p.city, p.state].filter(Boolean).join(', ') || '—'}</TableCell>
@@ -260,7 +348,33 @@ const MansaStaysAdmin: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="bookings" className="mt-4">
+        <TabsContent value="bookings" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search guest, email, property…"
+                value={bookingSearch}
+                onChange={e => setBookingSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <select
+              value={bookingStatus}
+              onChange={e => setBookingStatus(e.target.value as any)}
+              className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-sm"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <div className="text-xs text-white/50 ml-auto">{filteredBookings.length} of {bookings.length}</div>
+            <Button size="sm" variant="outline" onClick={exportBookings}>
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
+          </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
@@ -278,9 +392,9 @@ const MansaStaysAdmin: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {bookings.length === 0 ? (
-                    <TableRow><TableCell colSpan={9} className="text-center text-white/50 py-8">No bookings yet.</TableCell></TableRow>
-                  ) : bookings.map(b => (
+                  {filteredBookings.length === 0 ? (
+                    <TableRow><TableCell colSpan={9} className="text-center text-white/50 py-8">No bookings match.</TableCell></TableRow>
+                  ) : filteredBookings.map(b => (
                     <TableRow key={b.id} className="border-white/10">
                       <TableCell className="text-white">
                         <div className="font-medium">{b.guest_name || '—'}</div>
