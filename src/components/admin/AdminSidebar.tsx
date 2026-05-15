@@ -83,6 +83,7 @@ const menuGroups = [
       { id: 'outreach-crm', label: 'Directory Outreach', icon: Handshake, route: '/admin/outreach' },
       { id: 'developers', label: 'Developers', icon: Code2 },
       { id: 'financial', label: 'Financial', icon: DollarSign },
+      { id: 'mansa-stays', label: 'Mansa Stays', icon: Home },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award },
     ]
   },

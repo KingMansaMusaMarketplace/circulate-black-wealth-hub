@@ -38,6 +38,7 @@ import ValuationMetrics from '@/components/admin/ValuationMetrics';
 import DatabaseSetup from '@/components/admin/DatabaseSetup';
 import BetaTesterManager from '@/components/admin/BetaTesterManager';
 import SupabaseSetup from '@/components/admin/SupabaseSetup';
+import MansaStaysAdmin from '@/components/admin/MansaStaysAdmin';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -91,6 +92,8 @@ const AdminDashboardPage: React.FC = () => {
         return <LoyaltyManagement />;
       case 'financial':
         return <FinancialManagement />;
+      case 'mansa-stays':
+        return <MansaStaysAdmin />;
       case 'exports':
         return <DataExportManager />;
       case 'reports':
