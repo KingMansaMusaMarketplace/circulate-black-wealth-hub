@@ -803,7 +803,7 @@ const NoireRideshareAdmin: React.FC = () => {
               <Textarea value={actionReason} onChange={e => setActionReason(e.target.value)} placeholder="Why is this happening?" />
             </div>
             {rideAction?.type === 'refund' && (
-              <p className="text-xs text-yellow-300 flex items-start gap-2"><AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" /> Records refund only. Live Stripe execution is wired in Batch A #2.</p>
+              <p className="text-xs text-yellow-300 flex items-start gap-2"><AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" /> Sends a REAL refund to the rider's card via Stripe.</p>
             )}
           </div>
           <DialogFooter>
