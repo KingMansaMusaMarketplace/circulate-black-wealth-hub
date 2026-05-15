@@ -197,9 +197,9 @@ const HostsTab: React.FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rows.length === 0 ? (
-                <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No hosts yet.</TableCell></TableRow>
-              ) : rows.map(r => (
+              {filtered.length === 0 ? (
+                <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No hosts match.</TableCell></TableRow>
+              ) : filtered.map(r => (
                 <TableRow key={r.host_id} className="border-white/10">
                   <TableCell className="text-white">
                     <div className="font-medium">{r.full_name || 'Unnamed host'}</div>
