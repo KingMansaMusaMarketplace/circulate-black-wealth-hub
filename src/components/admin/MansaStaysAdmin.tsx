@@ -8,6 +8,7 @@ import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Po
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import PropertyDetailDialog from './mansa-stays/PropertyDetailDialog';
+import HostsTab from './mansa-stays/HostsTab';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
