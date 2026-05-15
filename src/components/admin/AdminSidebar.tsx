@@ -97,6 +97,7 @@ const menuGroups = [
     items: [
       { id: 'promos', label: 'Promo Codes', icon: Tag },
       { id: 'flags', label: 'Feature Flags', icon: Flag },
+      { id: 'broadcasts', label: 'Broadcasts', icon: Megaphone },
       { id: 'email-analytics', label: 'Email Analytics', icon: Mail, route: '/admin/emails' },
     ]
   },
