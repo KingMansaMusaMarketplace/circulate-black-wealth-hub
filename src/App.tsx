@@ -202,6 +202,7 @@ const LazyCreateExperiencePage = lazy(() => import('@/pages/stays/CreateExperien
 const LazyBlackOwnedHotelsPage = lazy(() => import('@/pages/landing/BlackOwnedHotelsPage'));
 const LazyBlackOwnedResortsPage = lazy(() => import('@/pages/landing/BlackOwnedResortsPage'));
 const LazyBlackOwnedVacationRentalsPage = lazy(() => import('@/pages/landing/BlackOwnedVacationRentalsPage'));
+const LazyBlackOwnedHotelsByStatePage = lazy(() => import('@/pages/landing/BlackOwnedHotelsByStatePage'));
 const LazySoulFoodNearMePage = lazy(() => import('@/pages/landing/SoulFoodNearMePage'));
 
 // Founder's Wall
@@ -742,6 +743,7 @@ function App() {
                               <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
                               <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
                               <Route path="/stays/black-owned-vacation-rentals" element={<LazyBlackOwnedVacationRentalsPage />} />
+                              <Route path="/stays/black-owned-hotels/:stateSlug" element={<LazyBlackOwnedHotelsByStatePage />} />
                               <Route path="/directory/soul-food-restaurants-near-me" element={<LazySoulFoodNearMePage />} />
                               <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                               <Route path="/wallet" element={<LazyWalletPage />} />
@@ -1117,6 +1119,7 @@ function App() {
                         <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
                         <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
                         <Route path="/stays/black-owned-vacation-rentals" element={<LazyBlackOwnedVacationRentalsPage />} />
+                        <Route path="/stays/black-owned-hotels/:stateSlug" element={<LazyBlackOwnedHotelsByStatePage />} />
                         <Route path="/directory/soul-food-restaurants-near-me" element={<LazySoulFoodNearMePage />} />
                         <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                         <Route path="/wallet" element={<LazyWalletPage />} />
