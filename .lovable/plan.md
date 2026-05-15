@@ -1,55 +1,112 @@
-# SEO Landing Pages — Black-Owned Travel & Food Niche
+# Admin Gaps Buildout — 12 Items, Phased
 
-Build four dedicated landing pages targeting the easy-win keywords Evolve doesn't touch. Each page is a real, indexable URL with unique title, meta description, structured data, and content Google can rank.
+You confirmed all 12 gaps. Here is the rollout. Each item ships as its own batch so you can review between batches. I'll start with #1 (Noire Rideshare admin) immediately after you approve.
 
-## Pages to build
+## Batch A — Symmetric Operations (biggest ROI)
 
-| URL | Target keyword | Monthly searches | Difficulty |
-|---|---|---|---|
-| `/stays/black-owned-hotels` | black owned hotels | 720 | Easy |
-| `/stays/black-owned-resorts` | black owned resorts | 260 | Very easy |
-| `/stays/black-owned-vacation-rentals` | black owned vacation rentals + black owned airbnb + cabins | 130 combined | Uncontested |
-| `/directory/soul-food-restaurants-near-me` | soul food restaurants near me | 22,200 | Medium (biggest prize) |
+### #1 Noire Rideshare Admin (mirrors Mansa Stays)
+A new top-level admin section `NoireRideshareAdmin.tsx` with 6 tabs:
+- **Drivers** — list, verification status, vehicle docs, payout method, deactivate
+- **Rides** — search, filter by status (requested/accepted/in_progress/completed/cancelled), refund/cancel actions
+- **Payouts** — owed-by-driver, payout history, mark paid, CSV export
+- **Pricing** — base fare, per-mile, per-minute, surge multipliers (editable)
+- **Disputes** — rider complaints queue
+- **Reporting** — GMV, rides/day, avg fare, top drivers, cancellation rate
 
-## What each page contains
+Adds sidebar entry "Noire Rideshare". Phased like Mansa Stays (6 sub-phases).
 
-1. **SEO head** — Unique `<title>` (<60 chars, keyword-led), meta description (<160 chars), canonical URL, Open Graph tags. Uses the existing `PageSEO` component.
-2. **Structured data** — JSON-LD `ItemList` of properties/restaurants + `FAQPage` schema with 3-4 keyword-rich Q&As (uses existing `BreadcrumbStructuredData` + new inline FAQ schema).
-3. **Hero section** — H1 with exact-match keyword, 1-2 paragraph intro explaining what the page is, primary CTA (browse listings / list your property).
-4. **Live listings grid** — Pulls real properties from the database (filtered by category for stays pages, filtered by `Soul Food Restaurant` category for the food page). If no listings yet, shows a "Be the first to list" CTA so the page still has unique content for Google.
-5. **City links section** — Links to top cities (Atlanta, Houston, Chicago, etc.) using the existing `TOP_CITY_SLUGS` list — gives Google internal link signals.
-6. **FAQ section** — Visible Q&A matching the JSON-LD, answering "What is the best Black-owned hotel?", "How do I find Black-owned resorts?", etc. Real text content Google indexes.
-7. **Breadcrumbs** — Home → Stays/Directory → [page name].
+### #2 Refund Execution (real Stripe refunds)
+Wire the existing "Refund" buttons in Mansa Stays bookings (and new Noire rides) to a `process-refund` edge function that:
+- Looks up the Stripe `payment_intent_id` on the booking/ride
+- Calls `stripe.refunds.create()` with optional partial amount + reason
+- Writes the result to the existing refund record
+- Logs to `admin_audit_log`
+Adds a confirmation dialog with amount + reason picker.
 
-## Wiring
+### #3 Subscription / Billing Admin
+New tab under Financial: **User Subscriptions**
+- Search user by email → shows Stripe customer, active subscription, tier, next renewal
+- Actions: change tier, comp 1 month (apply 100% coupon), issue credit, cancel at period end, cancel immediately
+- Audit-logged
 
-- Add the 4 routes to `src/App.tsx`.
-- Add the 4 URLs to `scripts/generate-sitemaps.ts` so Google discovers them.
-- Update `src/pages/landing/BlackOwnedIndexPage.tsx` (already exists at `/black-owned`) to link to these new pages in a "Featured collections" section.
-- Add internal links from `/stays` and `/directory` to the relevant new landing pages.
+## Batch B — Approval & Content Queues
 
-## Technical details
+### #4 Business Listing Approvals
+New tab **Listing Queue** in Verifications area:
+- New businesses awaiting approval
+- Pending edits to existing listings (diff view)
+- Photo moderation queue with approve/reject + reason
+- Bulk approve
 
-- New shared component: `src/components/seo/SEOLandingPage.tsx` — reusable layout taking `{ title, h1, description, keyword, faqs, listings, breadcrumbs }` so all 4 pages share consistent structure.
-- New page files:
-  - `src/pages/landing/BlackOwnedHotelsPage.tsx`
-  - `src/pages/landing/BlackOwnedResortsPage.tsx`
-  - `src/pages/landing/BlackOwnedVacationRentalsPage.tsx`
-  - `src/pages/landing/SoulFoodNearMePage.tsx`
-- Listings query: reuses `useBusinessDirectory` hook with category filter (already supports this).
-- For the stays pages, queries the `vacation_rentals` / properties table by property type. For soul food, queries businesses where category matches the Soul Food group from `category-groups.ts`.
+## Batch C — Trust, Safety, Cost Visibility
 
-## Out of scope (for now)
+### #5 QR Scan Fraud Monitor
+New tab in FraudDetectionDashboard: **QR Patterns**
+- Same user scanning same business >X/day
+- Same IP across many users
+- Geographically impossible scans
+- One-click block user / block business
 
-- Per-city variants (e.g. "Black-owned hotels in Atlanta") — can be a follow-up once these 4 prove the pattern.
-- Blog posts / articles — separate effort.
-- Backlink outreach — manual work, not code.
+### #6 Kayla Agent Cost Meter
+New panel in KaylaAgentReports:
+- Per-agent token usage and $ cost (last 24h / 7d / 30d)
+- Cost per successful task
+- Top expensive agents
+- Soft cap warning at configurable thresholds
+Requires logging tokens on each agent run (small migration).
 
-## Expected outcome
+## Batch D — Investor & Comms
 
-- 4 new indexable pages live within minutes.
-- Google starts crawling within ~1 week (sitemap submission).
-- Realistic ranking on page 1 for the easy-win keywords within 2-3 months as listings populate.
-- Each page = a free customer-acquisition channel that compounds over time.
+### #7 Investor Portal Admin
+New hidden admin page `/admin/investor-portal`:
+- NDA signers list (name, email, signed_at, IP)
+- Documents downloaded per signer
+- Last access timestamp
+- Revoke access
 
-Ready to build all 4 — say the word and I'll ship them.
+### #8 Email Deliverability
+New tab in Email Analytics: **Deliverability**
+- Pull bounces/complaints from Resend API
+- Bounce rate, complaint rate (24h/7d/30d)
+- Blocked recipient list with unblock action
+
+### #9 Broadcast Targeting
+Upgrade BroadcastAnnouncements with target filters:
+- By tier (free, founding, premium)
+- By city/state
+- By role (customer, business, sales_agent)
+- Preview recipient count before send
+
+## Batch E — Ops Hardening
+
+### #10 Backup & Restore One-Click
+New tab in ArchiveRecovery: **Snapshots**
+- List Supabase point-in-time snapshots
+- Trigger on-demand snapshot
+- Restore-to-staging button (read-only confirm)
+
+### #11 Audit Log Filtering
+Upgrade AdminAuditLog:
+- Filter by actor (user search), action type (dropdown), table, date range
+- CSV export of filtered results
+
+### #12 Roles UI Granularity
+Upgrade AdminRolesManager:
+- Custom permission sets beyond admin/moderator/user
+- Per-permission toggles (view financials, refund, change roles, moderate, etc.)
+- Assign permission set to user
+Requires a `permission_sets` and `user_permissions` table.
+
+## Technical Notes
+
+- Each batch = 1 sidebar entry or tab additions, 1–3 edge functions, 1 migration where needed
+- All actions audit-logged via existing `admin_audit_log`
+- All tables get the same SearchToolbar + CSV export pattern from Mansa Stays
+- Stripe-touching actions (#2, #3) need confirmation dialogs and admin role check server-side
+- #6 and #12 require new tables; the rest reuse existing schema
+
+## Delivery Order
+
+I'll ship Batch A first (the biggest 3), pause for your review, then continue B → E. Each batch is 2–4 messages of work.
+
+Ready to start with #1 Noire Rideshare admin Phase 1 (schema + Drivers tab) the moment you approve.
