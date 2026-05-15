@@ -6,6 +6,7 @@ import SalesAgentAnalytics from '@/components/admin/SalesAgentAnalytics';
 import UserManagement from '@/components/admin/UserManagement';
 import FinancialManagement from '@/components/admin/FinancialManagement';
 import SubscriptionsAdmin from '@/components/admin/SubscriptionsAdmin';
+import ListingApprovalsQueue from '@/components/admin/ListingApprovalsQueue';
 import SystemSettings from '@/components/admin/SystemSettings';
 import AdminAIDashboard from '@/components/admin/ai/AdminAIDashboard';
 import RequireAdmin from '@/components/auth/RequireAdmin';
@@ -86,6 +87,8 @@ const AdminDashboardPage: React.FC = () => {
         return <GeographicAnalytics />;
       case 'verifications':
         return <VerificationQueue />;
+      case 'listing-queue':
+        return <ListingApprovalsQueue />;
       case 'agents':
         return <SalesAgentAnalytics />;
       case 'partners':

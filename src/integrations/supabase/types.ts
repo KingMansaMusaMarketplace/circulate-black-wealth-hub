@@ -4919,6 +4919,9 @@ export type Database = {
           is_founding_sponsor: boolean | null
           is_verified: boolean | null
           latitude: number | null
+          listing_rejection_reason: string | null
+          listing_reviewed_at: string | null
+          listing_reviewed_by: string | null
           listing_status: string | null
           location_manager_id: string | null
           location_name: string | null
@@ -4967,6 +4970,9 @@ export type Database = {
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
           latitude?: number | null
+          listing_rejection_reason?: string | null
+          listing_reviewed_at?: string | null
+          listing_reviewed_by?: string | null
           listing_status?: string | null
           location_manager_id?: string | null
           location_name?: string | null
@@ -5015,6 +5021,9 @@ export type Database = {
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
           latitude?: number | null
+          listing_rejection_reason?: string | null
+          listing_reviewed_at?: string | null
+          listing_reviewed_by?: string | null
           listing_status?: string | null
           location_manager_id?: string | null
           location_name?: string | null
