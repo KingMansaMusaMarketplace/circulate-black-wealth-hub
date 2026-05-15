@@ -46,6 +46,9 @@ import QRScanFraudMonitor from '@/components/admin/QRScanFraudMonitor';
 import KaylaAgentCostMeter from '@/components/admin/KaylaAgentCostMeter';
 import BroadcastAnnouncements from '@/components/admin/BroadcastAnnouncements';
 import BackupRestorePanel from '@/components/admin/BackupRestorePanel';
+import WebhookManager from '@/components/admin/WebhookManager';
+import APITokenManager from '@/components/admin/APITokenManager';
+import SystemHealthDashboard from '@/components/admin/SystemHealthDashboard';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -89,6 +92,12 @@ const AdminDashboardPage: React.FC = () => {
         return <BroadcastAnnouncements />;
       case 'backups':
         return <BackupRestorePanel />;
+      case 'webhooks':
+        return <WebhookManager />;
+      case 'api-tokens':
+        return <APITokenManager />;
+      case 'system-health':
+        return <SystemHealthDashboard />;
       case 'retention':
         return <RetentionAnalytics />;
       case 'geographic':

@@ -4,7 +4,7 @@ import {
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
-  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car, CreditCard, ListChecks, ScanLine, Gauge, Megaphone
+  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car, CreditCard, ListChecks, ScanLine, Gauge, Megaphone, Webhook, Key, Activity
 } from 'lucide-react';
 import {
   Sidebar,
@@ -116,6 +116,9 @@ const menuGroups = [
       { id: 'system', label: 'Settings', icon: Sliders },
       { id: 'ai', label: 'AI Tools', icon: Bot },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge },
+      { id: 'system-health', label: 'System Health', icon: Activity },
+      { id: 'webhooks', label: 'Webhooks', icon: Webhook },
+      { id: 'api-tokens', label: 'API Tokens', icon: Key },
       { id: 'setup', label: 'Database Setup', icon: Database },
       { id: 'archive', label: 'Archive Recovery', icon: History },
     ]
