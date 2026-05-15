@@ -42,6 +42,7 @@ import BetaTesterManager from '@/components/admin/BetaTesterManager';
 import SupabaseSetup from '@/components/admin/SupabaseSetup';
 import MansaStaysAdmin from '@/components/admin/MansaStaysAdmin';
 import NoireRideshareAdmin from '@/components/admin/NoireRideshareAdmin';
+import QRScanFraudMonitor from '@/components/admin/QRScanFraudMonitor';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -95,6 +96,8 @@ const AdminDashboardPage: React.FC = () => {
         return <PartnerApplicationsManager />;
       case 'loyalty':
         return <LoyaltyManagement />;
+      case 'qr-fraud':
+        return <QRScanFraudMonitor />;
       case 'financial':
         return <FinancialManagement />;
       case 'subscriptions':
