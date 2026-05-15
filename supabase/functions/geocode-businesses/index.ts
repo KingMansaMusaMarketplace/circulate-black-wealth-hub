@@ -2,17 +2,22 @@
 // Uses Mapbox Geocoding API. Admin-only (verified via JWT + has_role check).
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { corsHeaders as supabaseCorsHeaders } from "npm:@supabase/supabase-js@2/cors";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+  ...supabaseCorsHeaders,
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type, x-csrf-token",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const MAPBOX_TOKEN = Deno.env.get("MAPBOX_PUBLIC_TOKEN")!;
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const MAX_BATCH_SIZE = 10;
+const GEOCODE_CONCURRENCY = 4;
+const MAPBOX_TIMEOUT_MS = 2_500;
+
+const MAPBOX_TOKEN = Deno.env.get("MAPBOX_PUBLIC_TOKEN");
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
 interface BizRow {
   id: string;
@@ -32,17 +37,44 @@ function buildQuery(b: BizRow): string | null {
 }
 
 async function geocodeOne(query: string): Promise<{ lat: number; lng: number } | null> {
+  if (!MAPBOX_TOKEN) return null;
   const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
     query
   )}.json?access_token=${MAPBOX_TOKEN}&limit=1`;
-  const r = await fetch(url);
-  if (!r.ok) return null;
-  const j = await r.json();
-  const feat = j?.features?.[0];
-  if (!feat?.center || feat.center.length !== 2) return null;
-  const [lng, lat] = feat.center;
-  if (typeof lat !== "number" || typeof lng !== "number") return null;
-  return { lat, lng };
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), MAPBOX_TIMEOUT_MS);
+  try {
+    const r = await fetch(url, { signal: controller.signal });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const feat = j?.features?.[0];
+    if (!feat?.center || feat.center.length !== 2) return null;
+    const [lng, lat] = feat.center;
+    if (typeof lat !== "number" || typeof lng !== "number") return null;
+    return { lat, lng };
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+async function mapWithConcurrency<T, R>(
+  items: T[],
+  concurrency: number,
+  worker: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const results = new Array<R>(items.length);
+  let index = 0;
+  await Promise.all(
+    Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+      while (index < items.length) {
+        const currentIndex = index++;
+        results[currentIndex] = await worker(items[currentIndex]);
+      }
+    }),
+  );
+  return results;
 }
 
 Deno.serve(async (req) => {
