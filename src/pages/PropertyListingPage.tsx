@@ -40,6 +40,7 @@ import {
   ArrowRight,
   Upload,
 } from 'lucide-react';
+import PropertyPhotoUploader from '@/components/stays/PropertyPhotoUploader';
 
 type Step = 'basics' | 'location' | 'details' | 'amenities' | 'pricing' | 'photos' | 'review';
 
