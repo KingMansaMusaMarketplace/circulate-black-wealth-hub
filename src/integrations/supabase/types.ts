@@ -232,6 +232,62 @@ export type Database = {
           },
         ]
       }
+      admin_backups: {
+        Row: {
+          backup_type: string
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          id: string
+          notes: string | null
+          row_counts: Json
+          size_bytes: number | null
+          started_at: string
+          status: string
+          storage_path: string | null
+          tables_included: string[]
+        }
+        Insert: {
+          backup_type?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          notes?: string | null
+          row_counts?: Json
+          size_bytes?: number | null
+          started_at?: string
+          status?: string
+          storage_path?: string | null
+          tables_included?: string[]
+        }
+        Update: {
+          backup_type?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          notes?: string | null
+          row_counts?: Json
+          size_bytes?: number | null
+          started_at?: string
+          status?: string
+          storage_path?: string | null
+          tables_included?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_backups_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       admin_notification_preferences: {
         Row: {
           admin_user_id: string
