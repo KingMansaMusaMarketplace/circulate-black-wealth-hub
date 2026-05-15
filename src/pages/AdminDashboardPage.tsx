@@ -5,6 +5,7 @@ import VerificationQueue from '@/components/admin/verification/VerificationQueue
 import SalesAgentAnalytics from '@/components/admin/SalesAgentAnalytics';
 import UserManagement from '@/components/admin/UserManagement';
 import FinancialManagement from '@/components/admin/FinancialManagement';
+import SubscriptionsAdmin from '@/components/admin/SubscriptionsAdmin';
 import SystemSettings from '@/components/admin/SystemSettings';
 import AdminAIDashboard from '@/components/admin/ai/AdminAIDashboard';
 import RequireAdmin from '@/components/auth/RequireAdmin';
