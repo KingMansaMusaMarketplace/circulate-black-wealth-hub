@@ -389,6 +389,109 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_webhook_deliveries: {
+        Row: {
+          attempt: number
+          delivered_at: string
+          error_message: string | null
+          event_type: string
+          id: string
+          latency_ms: number | null
+          payload: Json
+          response_body: string | null
+          response_status: number | null
+          webhook_id: string
+        }
+        Insert: {
+          attempt?: number
+          delivered_at?: string
+          error_message?: string | null
+          event_type: string
+          id?: string
+          latency_ms?: number | null
+          payload?: Json
+          response_body?: string | null
+          response_status?: number | null
+          webhook_id: string
+        }
+        Update: {
+          attempt?: number
+          delivered_at?: string
+          error_message?: string | null
+          event_type?: string
+          id?: string
+          latency_ms?: number | null
+          payload?: Json
+          response_body?: string | null
+          response_status?: number | null
+          webhook_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_webhook_deliveries_webhook_id_fkey"
+            columns: ["webhook_id"]
+            isOneToOne: false
+            referencedRelation: "admin_webhooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      admin_webhooks: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          event_types: string[]
+          failure_count: number
+          id: string
+          is_active: boolean
+          last_delivery_at: string | null
+          last_delivery_status: number | null
+          name: string
+          signing_secret: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          event_types?: string[]
+          failure_count?: number
+          id?: string
+          is_active?: boolean
+          last_delivery_at?: string | null
+          last_delivery_status?: number | null
+          name: string
+          signing_secret: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          event_types?: string[]
+          failure_count?: number
+          id?: string
+          is_active?: boolean
+          last_delivery_at?: string | null
+          last_delivery_status?: number | null
+          name?: string
+          signing_secret?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_webhooks_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       agent_badges: {
         Row: {
           category: Database["public"]["Enums"]["badge_category"]
