@@ -45,18 +45,40 @@ const MansaStaysAdmin: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState<Property[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
+
+  const loadData = async () => {
+    const [{ data: p }, { data: b }] = await Promise.all([
+      supabase.from('vacation_properties').select('*').order('created_at', { ascending: false }),
+      supabase.from('vacation_bookings').select('*').order('created_at', { ascending: false }),
+    ]);
+    setProperties((p as Property[]) ?? []);
+    setBookings((b as Booking[]) ?? []);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    (async () => {
-      const [{ data: p }, { data: b }] = await Promise.all([
-        supabase.from('vacation_properties').select('*').order('created_at', { ascending: false }),
-        supabase.from('vacation_bookings').select('*').order('created_at', { ascending: false }),
-      ]);
-      setProperties((p as Property[]) ?? []);
-      setBookings((b as Booking[]) ?? []);
-      setLoading(false);
-    })();
+    loadData();
   }, []);
+
+  const toggleField = async (id: string, field: 'is_active' | 'is_verified', value: boolean) => {
+    const { error } = await supabase
+      .from('vacation_properties')
+      .update({ [field]: value })
+      .eq('id', id);
+    if (error) {
+      toast.error('Update failed: ' + error.message);
+      return;
+    }
+    setProperties(prev => prev.map(p => (p.id === id ? { ...p, [field]: value } : p)));
+    toast.success(field === 'is_verified' ? (value ? 'Verified' : 'Unverified') : (value ? 'Activated' : 'Deactivated'));
+  };
+
+  const openDetail = (id: string) => {
+    setSelectedPropertyId(id);
+    setDetailOpen(true);
+  };
 
   if (loading) {
     return (
