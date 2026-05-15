@@ -81,20 +81,28 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
   const issueRefund = async () => {
     const amt = parseFloat(refundAmount);
     if (!amt || amt <= 0) return toast.error('Enter a valid refund amount');
+    if (!booking?.payment_intent_id) {
+      return toast.error('No Stripe payment_intent_id on this booking — cannot refund.');
+    }
+    const ok = window.confirm(
+      `Refund ${fmt(amt)} to the guest via Stripe? This is REAL money and cannot be undone.`
+    );
+    if (!ok) return;
     setBusy(true);
-    const { error } = await supabase
-      .from('vacation_bookings')
-      .update({
-        refund_amount: amt,
-        refund_status: 'refunded',
-        admin_notes: refundReason
-          ? `${booking.admin_notes ? booking.admin_notes + '\n' : ''}[Refund ${new Date().toLocaleDateString()}] ${refundReason}`
-          : booking.admin_notes,
-      })
-      .eq('id', bookingId);
+    const { data, error } = await supabase.functions.invoke('process-refund', {
+      body: {
+        record_type: 'vacation_booking',
+        record_id: bookingId,
+        amount: amt,
+        reason: 'requested_by_customer',
+        notes: refundReason || undefined,
+      },
+    });
     setBusy(false);
-    if (error) return toast.error('Refund failed: ' + error.message);
-    toast.success(`Marked ${fmt(amt)} as refunded`);
+    if (error || (data as any)?.error) {
+      return toast.error('Refund failed: ' + (error?.message || (data as any)?.error));
+    }
+    toast.success(`Stripe refund ${(data as any).status} · ${fmt((data as any).amount)}`);
     onSaved();
     onOpenChange(false);
   };
@@ -189,11 +197,16 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
 
             <TabsContent value="refund" className="mt-4 space-y-3">
               <div className="rounded-md bg-yellow-500/10 border border-yellow-500/30 p-3 text-xs text-yellow-200">
-                This records the refund in our system. Process the actual money refund in Stripe separately.
+                This sends a REAL refund to the guest's card via Stripe and updates our record.
               </div>
               {booking.refund_status === 'refunded' && (
                 <div className="rounded-md bg-blue-500/10 border border-blue-500/30 p-3 text-xs text-blue-200">
-                  Already refunded {fmt(Number(booking.refund_amount || 0))}. Submitting again will overwrite.
+                  Already refunded {fmt(Number(booking.refund_amount || 0))}{booking.refund_id ? ` (${booking.refund_id})` : ''}.
+                </div>
+              )}
+              {!booking.payment_intent_id && (
+                <div className="rounded-md bg-red-500/10 border border-red-500/30 p-3 text-xs text-red-200">
+                  No Stripe payment_intent_id on this booking — refund cannot be processed.
                 </div>
               )}
               <div>
@@ -215,9 +228,9 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
                 />
               </div>
               <div className="flex justify-end">
-                <Button onClick={issueRefund} disabled={busy}>
+                <Button onClick={issueRefund} disabled={busy || !booking.payment_intent_id}>
                   {busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-                  <RefreshCcw className="h-4 w-4 mr-1" /> Record Refund
+                  <RefreshCcw className="h-4 w-4 mr-1" /> Refund via Stripe
                 </Button>
               </div>
             </TabsContent>

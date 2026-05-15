@@ -192,13 +192,25 @@ const NoireRideshareAdmin: React.FC = () => {
         if (error) throw error;
         toast.success('Ride cancelled');
       } else {
-        // Refund — record locally; #2 will wire to Stripe
-        const { error } = await supabase
-          .from('noir_rides')
-          .update({ status: 'cancelled', cancellation_reason: `REFUND: ${actionReason}`, cancelled_at: new Date().toISOString() })
-          .eq('id', rideAction.ride.id);
-        if (error) throw error;
-        toast.success(`Refund of ${actionAmount || 'full amount'} recorded. (Stripe execution wired in Phase #2.)`);
+        // Refund via Stripe
+        const amt = parseFloat(actionAmount);
+        if (!amt || amt <= 0) throw new Error('Enter a valid refund amount');
+        if (!(rideAction.ride as any).payment_intent_id) {
+          throw new Error('No Stripe payment_intent_id on this ride — cannot refund.');
+        }
+        const ok = window.confirm(`Refund $${amt.toFixed(2)} to the rider via Stripe? This is REAL money and cannot be undone.`);
+        if (!ok) { setActionLoading(false); return; }
+        const { data, error } = await supabase.functions.invoke('process-refund', {
+          body: {
+            record_type: 'noir_ride',
+            record_id: rideAction.ride.id,
+            amount: amt,
+            reason: 'requested_by_customer',
+            notes: actionReason || undefined,
+          },
+        });
+        if (error || (data as any)?.error) throw new Error(error?.message || (data as any)?.error);
+        toast.success(`Stripe refund ${(data as any).status} · $${(data as any).amount}`);
       }
       setRideAction(null);
       setActionReason('');
@@ -791,7 +803,7 @@ const NoireRideshareAdmin: React.FC = () => {
               <Textarea value={actionReason} onChange={e => setActionReason(e.target.value)} placeholder="Why is this happening?" />
             </div>
             {rideAction?.type === 'refund' && (
-              <p className="text-xs text-yellow-300 flex items-start gap-2"><AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" /> Records refund only. Live Stripe execution is wired in Batch A #2.</p>
+              <p className="text-xs text-yellow-300 flex items-start gap-2"><AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" /> Sends a REAL refund to the rider's card via Stripe.</p>
             )}
           </div>
           <DialogFooter>

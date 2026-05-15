@@ -1,0 +1,11 @@
+
+ALTER TABLE public.noir_rides
+  ADD COLUMN IF NOT EXISTS refund_amount NUMERIC,
+  ADD COLUMN IF NOT EXISTS refund_status TEXT,
+  ADD COLUMN IF NOT EXISTS refund_id TEXT,
+  ADD COLUMN IF NOT EXISTS refunded_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS refund_reason TEXT;
+
+ALTER TABLE public.vacation_bookings
+  ADD COLUMN IF NOT EXISTS refund_id TEXT,
+  ADD COLUMN IF NOT EXISTS refunded_at TIMESTAMPTZ;
