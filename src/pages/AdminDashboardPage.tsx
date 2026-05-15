@@ -87,6 +87,8 @@ const AdminDashboardPage: React.FC = () => {
         return <GeographicAnalytics />;
       case 'verifications':
         return <VerificationQueue />;
+      case 'listing-queue':
+        return <ListingApprovalsQueue />;
       case 'agents':
         return <SalesAgentAnalytics />;
       case 'partners':
