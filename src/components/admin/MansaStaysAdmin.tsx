@@ -192,11 +192,12 @@ const MansaStaysAdmin: React.FC = () => {
                     <TableHead className="text-white/70">Nightly</TableHead>
                     <TableHead className="text-white/70">Status</TableHead>
                     <TableHead className="text-white/70">Verified</TableHead>
+                    <TableHead className="text-white/70 text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {properties.length === 0 ? (
-                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No properties yet.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No properties yet.</TableCell></TableRow>
                   ) : properties.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white font-medium">{p.title}</TableCell>
@@ -212,6 +213,37 @@ const MansaStaysAdmin: React.FC = () => {
                         {p.is_verified ? (
                           <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">Verified</Badge>
                         ) : <span className="text-white/40 text-xs">—</span>}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center justify-end gap-1">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            title={p.is_verified ? 'Unverify' : 'Verify'}
+                            onClick={() => toggleField(p.id, 'is_verified', !p.is_verified)}
+                            className="h-8 w-8 p-0 text-blue-300 hover:bg-blue-500/10"
+                          >
+                            <ShieldCheck className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            title={p.is_active ? 'Deactivate' : 'Activate'}
+                            onClick={() => toggleField(p.id, 'is_active', !p.is_active)}
+                            className={`h-8 w-8 p-0 hover:bg-white/10 ${p.is_active ? 'text-green-300' : 'text-white/40'}`}
+                          >
+                            <Power className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            title="View / Edit"
+                            onClick={() => openDetail(p.id)}
+                            className="h-8 w-8 p-0 text-white/80 hover:bg-white/10"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
