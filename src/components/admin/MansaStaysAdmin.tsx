@@ -332,6 +332,13 @@ const MansaStaysAdmin: React.FC = () => {
         onOpenChange={setDetailOpen}
         onSaved={loadData}
       />
+
+      <BookingActionsDialog
+        bookingId={selectedBookingId}
+        open={bookingDialogOpen}
+        onOpenChange={setBookingDialogOpen}
+        onSaved={loadData}
+      />
     </div>
   );
 };
