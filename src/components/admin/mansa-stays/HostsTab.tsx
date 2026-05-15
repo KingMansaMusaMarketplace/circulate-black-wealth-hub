@@ -91,12 +91,41 @@ const HostsTab: React.FC = () => {
     load();
   }, []);
 
+  const [search, setSearch] = useState('');
+  const [methodFilter, setMethodFilter] = useState<'all' | 'with' | 'without'>('all');
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return rows.filter(r => {
+      if (methodFilter === 'with' && !r.payout_method_type) return false;
+      if (methodFilter === 'without' && r.payout_method_type) return false;
+      if (!q) return true;
+      return [r.full_name, r.email, r.phone].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [rows, search, methodFilter]);
+
   const totals = useMemo(() => ({
     hosts: rows.length,
     owed: rows.reduce((s, r) => s + r.total_payout_owed, 0),
     paid: rows.reduce((s, r) => s + r.total_paid, 0),
     withMethod: rows.filter(r => r.payout_method_type).length,
   }), [rows]);
+
+  const exportCSV = () => {
+    downloadCSV('mansa-stays-hosts', toCSV(filtered, [
+      { key: 'full_name', label: 'Host' },
+      { key: 'email', label: 'Email' },
+      { key: 'phone', label: 'Phone' },
+      { key: 'property_count', label: 'Properties' },
+      { key: 'active_count', label: 'Active Properties' },
+      { key: 'total_bookings', label: 'Bookings' },
+      { key: 'total_payout_owed', label: 'Owed' },
+      { key: 'total_paid', label: 'Paid' },
+      { key: 'payout_method_type', label: 'Payout Method' },
+      { key: 'payout_verified', label: 'Verified' },
+    ]));
+  };
+
 
   if (loading) {
     return (
