@@ -274,11 +274,12 @@ const MansaStaysAdmin: React.FC = () => {
                     <TableHead className="text-white/70">Host Payout</TableHead>
                     <TableHead className="text-white/70">Status</TableHead>
                     <TableHead className="text-white/70">Payout</TableHead>
+                    <TableHead className="text-white/70 text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {bookings.length === 0 ? (
-                    <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No bookings yet.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={9} className="text-center text-white/50 py-8">No bookings yet.</TableCell></TableRow>
                   ) : bookings.map(b => (
                     <TableRow key={b.id} className="border-white/10">
                       <TableCell className="text-white">
@@ -297,6 +298,17 @@ const MansaStaysAdmin: React.FC = () => {
                         <Badge variant="outline" className={statusColor(b.status)}>{b.status}</Badge>
                       </TableCell>
                       <TableCell className="text-xs text-white/60">{b.payout_status || 'pending'}</TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          title="Manage booking"
+                          onClick={() => { setSelectedBookingId(b.id); setBookingDialogOpen(true); }}
+                          className="h-8 w-8 p-0 text-white/80 hover:bg-white/10"
+                        >
+                          <Settings2 className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
