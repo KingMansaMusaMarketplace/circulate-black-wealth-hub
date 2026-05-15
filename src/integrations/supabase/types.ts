@@ -21207,6 +21207,7 @@ export type Database = {
       }
       vacation_bookings: {
         Row: {
+          admin_notes: string | null
           cancellation_policy: string | null
           cancellation_reason: string | null
           cancelled_at: string | null
@@ -21242,6 +21243,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          admin_notes?: string | null
           cancellation_policy?: string | null
           cancellation_reason?: string | null
           cancelled_at?: string | null
@@ -21277,6 +21279,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          admin_notes?: string | null
           cancellation_policy?: string | null
           cancellation_reason?: string | null
           cancelled_at?: string | null

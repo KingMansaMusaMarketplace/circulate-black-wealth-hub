@@ -4,12 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power } from 'lucide-react';
+import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power, Settings2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import PropertyDetailDialog from './mansa-stays/PropertyDetailDialog';
 import HostsTab from './mansa-stays/HostsTab';
 import PayoutsTab from './mansa-stays/PayoutsTab';
+import BookingActionsDialog from './mansa-stays/BookingActionsDialog';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -48,6 +49,8 @@ const MansaStaysAdmin: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
+  const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
 
   const loadData = async () => {
@@ -271,11 +274,12 @@ const MansaStaysAdmin: React.FC = () => {
                     <TableHead className="text-white/70">Host Payout</TableHead>
                     <TableHead className="text-white/70">Status</TableHead>
                     <TableHead className="text-white/70">Payout</TableHead>
+                    <TableHead className="text-white/70 text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {bookings.length === 0 ? (
-                    <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No bookings yet.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={9} className="text-center text-white/50 py-8">No bookings yet.</TableCell></TableRow>
                   ) : bookings.map(b => (
                     <TableRow key={b.id} className="border-white/10">
                       <TableCell className="text-white">
@@ -294,6 +298,17 @@ const MansaStaysAdmin: React.FC = () => {
                         <Badge variant="outline" className={statusColor(b.status)}>{b.status}</Badge>
                       </TableCell>
                       <TableCell className="text-xs text-white/60">{b.payout_status || 'pending'}</TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          title="Manage booking"
+                          onClick={() => { setSelectedBookingId(b.id); setBookingDialogOpen(true); }}
+                          className="h-8 w-8 p-0 text-white/80 hover:bg-white/10"
+                        >
+                          <Settings2 className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -315,6 +330,13 @@ const MansaStaysAdmin: React.FC = () => {
         propertyId={selectedPropertyId}
         open={detailOpen}
         onOpenChange={setDetailOpen}
+        onSaved={loadData}
+      />
+
+      <BookingActionsDialog
+        bookingId={selectedBookingId}
+        open={bookingDialogOpen}
+        onOpenChange={setBookingDialogOpen}
         onSaved={loadData}
       />
     </div>
