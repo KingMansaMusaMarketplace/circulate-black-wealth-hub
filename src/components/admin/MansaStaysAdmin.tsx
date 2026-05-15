@@ -291,9 +291,9 @@ const MansaStaysAdmin: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {properties.length === 0 ? (
-                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No properties yet.</TableCell></TableRow>
-                  ) : properties.map(p => (
+                  {filteredProperties.length === 0 ? (
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No properties match.</TableCell></TableRow>
+                  ) : filteredProperties.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white font-medium">{p.title}</TableCell>
                       <TableCell className="text-white/70">{[p.city, p.state].filter(Boolean).join(', ') || '—'}</TableCell>
