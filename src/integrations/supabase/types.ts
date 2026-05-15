@@ -14389,6 +14389,59 @@ export type Database = {
           },
         ]
       }
+      partner_onboarding_progress: {
+        Row: {
+          completed_at: string | null
+          current_step: number
+          first_link_generated: boolean
+          goals: Json
+          id: string
+          profile_completed: boolean
+          resources_viewed: boolean
+          started_at: string
+          step_timestamps: Json
+          steps_completed: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          current_step?: number
+          first_link_generated?: boolean
+          goals?: Json
+          id?: string
+          profile_completed?: boolean
+          resources_viewed?: boolean
+          started_at?: string
+          step_timestamps?: Json
+          steps_completed?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          current_step?: number
+          first_link_generated?: boolean
+          goals?: Json
+          id?: string
+          profile_completed?: boolean
+          resources_viewed?: boolean
+          started_at?: string
+          step_timestamps?: Json
+          steps_completed?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_onboarding_progress_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       partner_payouts: {
         Row: {
           amount: number
