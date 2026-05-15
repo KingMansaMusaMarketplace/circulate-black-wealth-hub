@@ -75,6 +75,7 @@ const menuGroups = [
     label: 'Business',
     items: [
       { id: 'verifications', label: 'Verifications', icon: ShieldCheck },
+      { id: 'listing-queue', label: 'Listing Queue', icon: ListChecks },
       { id: 'agents', label: 'Sales Agents', icon: Users },
       { id: 'partners', label: 'Partners', icon: Handshake },
       { id: 'sponsorship', label: 'Sponsorship (Public)', icon: Award, route: '/corporate-sponsorship' },
