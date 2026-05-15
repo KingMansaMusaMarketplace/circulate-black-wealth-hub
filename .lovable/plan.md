@@ -1,105 +1,55 @@
-# Conversion Push: Top 3 Quick Wins
+# SEO Landing Pages — Black-Owned Travel & Food Niche
 
-**Context:** 1,511 visitors, 0 registered businesses, 0 paying customers. Goal: convert traffic into Founding 100 signups so we can walk into the seed raise with traction, not just a product demo.
+Build four dedicated landing pages targeting the easy-win keywords Evolve doesn't touch. Each page is a real, indexable URL with unique title, meta description, structured data, and content Google can rank.
 
----
+## Pages to build
 
-## 1. Sticky "List Your Business — Free" CTA + Founding Counter
+| URL | Target keyword | Monthly searches | Difficulty |
+|---|---|---|---|
+| `/stays/black-owned-hotels` | black owned hotels | 720 | Easy |
+| `/stays/black-owned-resorts` | black owned resorts | 260 | Very easy |
+| `/stays/black-owned-vacation-rentals` | black owned vacation rentals + black owned airbnb + cabins | 130 combined | Uncontested |
+| `/directory/soul-food-restaurants-near-me` | soul food restaurants near me | 22,200 | Medium (biggest prize) |
 
-**What the user sees:**
-- A slim sticky bar at the top (or bottom on mobile) of the homepage that's always visible as they scroll.
-- Reads something like: **"List Your Business — Free • Only X of 100 Founding spots left"** with a gold "Claim Your Spot" button.
-- The counter is live — pulls from the existing `useFoundingSlots` hook we already have (`FoundingSlotBadge` component).
-- Dismissible (X button) so it doesn't annoy returning visitors, but reappears next session.
+## What each page contains
 
-**Why this matters:** Right now only 56 of 1,511 visitors (3.7%) ever see the business signup page. A persistent CTA is the single highest-impact change — industry data shows sticky CTAs lift conversion 10–25%.
+1. **SEO head** — Unique `<title>` (<60 chars, keyword-led), meta description (<160 chars), canonical URL, Open Graph tags. Uses the existing `PageSEO` component.
+2. **Structured data** — JSON-LD `ItemList` of properties/restaurants + `FAQPage` schema with 3-4 keyword-rich Q&As (uses existing `BreadcrumbStructuredData` + new inline FAQ schema).
+3. **Hero section** — H1 with exact-match keyword, 1-2 paragraph intro explaining what the page is, primary CTA (browse listings / list your property).
+4. **Live listings grid** — Pulls real properties from the database (filtered by category for stays pages, filtered by `Soul Food Restaurant` category for the food page). If no listings yet, shows a "Be the first to list" CTA so the page still has unique content for Google.
+5. **City links section** — Links to top cities (Atlanta, Houston, Chicago, etc.) using the existing `TOP_CITY_SLUGS` list — gives Google internal link signals.
+6. **FAQ section** — Visible Q&A matching the JSON-LD, answering "What is the best Black-owned hotel?", "How do I find Black-owned resorts?", etc. Real text content Google indexes.
+7. **Breadcrumbs** — Home → Stays/Directory → [page name].
 
----
+## Wiring
 
-## 2. Free Kayla Demo Section on Homepage
+- Add the 4 routes to `src/App.tsx`.
+- Add the 4 URLs to `scripts/generate-sitemaps.ts` so Google discovers them.
+- Update `src/pages/landing/BlackOwnedIndexPage.tsx` (already exists at `/black-owned`) to link to these new pages in a "Featured collections" section.
+- Add internal links from `/stays` and `/directory` to the relevant new landing pages.
 
-**What the user sees:**
-- A new section on the homepage (above the fold or just below the hero) titled something like **"Meet Kayla — Your AI Business Manager. Try her free."**
-- A simple chat-style box where a visitor can type a question (e.g. "How would you handle my Instagram?") and get a real Kayla response — no signup required.
-- After 2–3 messages, a soft prompt: **"Want Kayla working for your business 24/7? Claim your Founding spot →"**
-- Shows the $12,100/mo savings number prominently nearby.
+## Technical details
 
-**Why this matters:** Visitors don't understand what 1325.AI does until they experience Kayla. Letting them try her with zero friction is the "aha moment" that converts curiosity into signups. This is the same playbook ChatGPT used — let people try it, then ask them to commit.
+- New shared component: `src/components/seo/SEOLandingPage.tsx` — reusable layout taking `{ title, h1, description, keyword, faqs, listings, breadcrumbs }` so all 4 pages share consistent structure.
+- New page files:
+  - `src/pages/landing/BlackOwnedHotelsPage.tsx`
+  - `src/pages/landing/BlackOwnedResortsPage.tsx`
+  - `src/pages/landing/BlackOwnedVacationRentalsPage.tsx`
+  - `src/pages/landing/SoulFoodNearMePage.tsx`
+- Listings query: reuses `useBusinessDirectory` hook with category filter (already supports this).
+- For the stays pages, queries the `vacation_rentals` / properties table by property type. For soul food, queries businesses where category matches the Soul Food group from `category-groups.ts`.
 
-**Note:** We'll rate-limit by IP (3 messages per visitor per day) to control AI costs.
+## Out of scope (for now)
 
----
+- Per-city variants (e.g. "Black-owned hotels in Atlanta") — can be a follow-up once these 4 prove the pattern.
+- Blog posts / articles — separate effort.
+- Backlink outreach — manual work, not code.
 
-## 3. Business Signup Funnel Analytics Dashboard
+## Expected outcome
 
-**What the user sees:**
-- A new admin-only page at `/admin/funnel` with a visual conversion funnel:
-  ```
-  Homepage visits      →  1,511  (100%)
-  Clicked "List Business" → ???  (??%)
-  Reached signup form  →  56     (3.7%)
-  Started filling form →  ???    (??%)
-  Completed signup     →  ???    (??%)
-  ```
-- Drop-off percentages between each step shown in red/yellow/green.
-- Last 7 / 30 / 90 day toggle.
-- Top exit pages list (where visitors leave from).
+- 4 new indexable pages live within minutes.
+- Google starts crawling within ~1 week (sitemap submission).
+- Realistic ranking on page 1 for the easy-win keywords within 2-3 months as listings populate.
+- Each page = a free customer-acquisition channel that compounds over time.
 
-**Why this matters:** Right now we're flying blind. We know visitors come in, but we have no idea WHERE they leave. This dashboard tells us exactly which step to fix next — and gives us the metrics to show investors ("we improved business signup conversion from 0.5% to 4% in 30 days").
-
----
-
-## How they work together
-
-These three pieces form a complete funnel:
-1. **Sticky CTA** drives more people TO the signup page
-2. **Kayla demo** convinces them WHY they should sign up
-3. **Funnel dashboard** tells us which step to optimize NEXT
-
-After 2 weeks of data, we'll know exactly where to focus the next round of improvements (e.g. simplify the signup form, add testimonials, etc.).
-
----
-
-## Technical Details
-
-**Sticky CTA component:**
-- New `src/components/marketing/StickySignupBar.tsx`
-- Mounted in homepage layout (not on /business-signup itself)
-- Uses existing `useFoundingSlots` hook
-- localStorage flag `sticky_cta_dismissed_v1` for dismissal
-- Hidden on iOS native per existing platform constraint
-
-**Kayla demo widget:**
-- New `src/components/homepage/KaylaDemoSection.tsx`
-- Calls a new edge function `kayla-public-demo` (no auth required)
-- Rate limit: 3 messages per IP per 24h, stored in a new `public_demo_usage` table
-- Reuses existing Kayla agent prompt/personality from `kayla-agent-router.ts`
-- Logs every demo conversation to a new `public_demo_conversations` table for later analysis
-
-**Funnel dashboard:**
-- New page `src/pages/admin/FunnelAnalyticsPage.tsx` (admin-only via existing `has_role` check)
-- New event tracking added to: homepage CTA clicks, signup page views, form field interactions, submit success/failure
-- New table `funnel_events` (event_name, session_id, user_id nullable, metadata jsonb, created_at)
-- Aggregation query computes conversion rates per step
-- Recharts funnel visualization
-
-**Database migrations needed:**
-- `public_demo_usage` (ip_hash, message_count, window_start)
-- `public_demo_conversations` (session_id, messages jsonb, ip_hash)
-- `funnel_events` (event tracking)
-- All with RLS — admin-only read, service-role write
-
-**Estimated build:** 3 focused work sessions. We'd build them in this order so each one starts producing value immediately:
-1. Sticky CTA (fastest, immediate lift) — ~30 min
-2. Funnel dashboard + event tracking (so we can measure #1 working) — ~90 min
-3. Kayla demo (highest impact but most complex) — ~2 hours
-
----
-
-## What you'll need to do after I build it
-
-1. **Watch the funnel dashboard daily for the first week** — tell me which drop-off is biggest and we'll fix it next.
-2. **Share the homepage on LinkedIn / Facebook** — the sticky CTA + Kayla demo combo needs traffic to prove itself. Even 50 new visitors with this funnel could land your first 5 signups.
-3. **Be ready to respond** — when business signups start coming in, you'll get email notifications. Reply within an hour. First-touch speed is the #1 conversion factor at this stage.
-
-Ready to build? Hit "Implement plan" and I'll start with the sticky CTA.
+Ready to build all 4 — say the word and I'll ship them.

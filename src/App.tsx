@@ -199,6 +199,10 @@ const LazyWishlistPage = lazy(() => import('@/pages/WishlistPage'));
 const LazyCoHostAcceptPage = lazy(() => import('@/pages/CoHostAcceptPage'));
 const LazyExperiencesPage = lazy(() => import('@/pages/stays/ExperiencesPage'));
 const LazyCreateExperiencePage = lazy(() => import('@/pages/stays/CreateExperiencePage'));
+const LazyBlackOwnedHotelsPage = lazy(() => import('@/pages/landing/BlackOwnedHotelsPage'));
+const LazyBlackOwnedResortsPage = lazy(() => import('@/pages/landing/BlackOwnedResortsPage'));
+const LazyBlackOwnedVacationRentalsPage = lazy(() => import('@/pages/landing/BlackOwnedVacationRentalsPage'));
+const LazySoulFoodNearMePage = lazy(() => import('@/pages/landing/SoulFoodNearMePage'));
 
 // Founder's Wall
 const LazyFoundersWallPage = lazy(() => import('@/pages/FoundersWallPage'));
@@ -735,6 +739,10 @@ function App() {
                               <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
                               <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
                               <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
+                              <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
+                              <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
+                              <Route path="/stays/black-owned-vacation-rentals" element={<LazyBlackOwnedVacationRentalsPage />} />
+                              <Route path="/directory/soul-food-restaurants-near-me" element={<LazySoulFoodNearMePage />} />
                               <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                               <Route path="/wallet" element={<LazyWalletPage />} />
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
@@ -1106,6 +1114,10 @@ function App() {
                         <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
                         <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
                         <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
+                        <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
+                        <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
+                        <Route path="/stays/black-owned-vacation-rentals" element={<LazyBlackOwnedVacationRentalsPage />} />
+                        <Route path="/directory/soul-food-restaurants-near-me" element={<LazySoulFoodNearMePage />} />
                         <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                         <Route path="/wallet" element={<LazyWalletPage />} />
                         <Route path="/settings" element={<LazyUserSettingsPage />} />
