@@ -299,6 +299,10 @@ const MansaStaysAdmin: React.FC = () => {
             </CardContent>
           </Card>
         </TabsContent>
+
+        <TabsContent value="hosts" className="mt-4">
+          <HostsTab />
+        </TabsContent>
       </Tabs>
 
       <PropertyDetailDialog
