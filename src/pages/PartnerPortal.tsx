@@ -6,6 +6,9 @@ import PartnerPendingReview from '@/components/partner/PartnerPendingReview';
 import AdminPartnerPreview from '@/components/partner/AdminPartnerPreview';
 import PartnerFAQ from '@/components/partner/PartnerFAQ';
 import PartnerLanding from '@/components/partner/PartnerLanding';
+import PartnerOnboardingWizard from '@/components/partner/onboarding/PartnerOnboardingWizard';
+import OnboardingChecklistCard from '@/components/partner/onboarding/OnboardingChecklistCard';
+import { usePartnerOnboarding } from '@/hooks/use-partner-onboarding';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -101,17 +104,68 @@ const PartnerPortal: React.FC = () => {
     );
   }
 
-  // Partner is active - show dashboard
+  // Partner is active - show onboarding wizard if not yet completed, otherwise dashboard
+  return <ActivePartnerView
+    partner={partner!}
+    stats={stats!}
+    referrals={referrals}
+    payouts={payouts}
+    onCopyReferralLink={copyReferralLink}
+    onRequestPayout={requestPayout}
+    getEmbedCode={getEmbedCode}
+  />;
+};
+
+interface ActivePartnerViewProps {
+  partner: any;
+  stats: any;
+  referrals: any;
+  payouts: any;
+  onCopyReferralLink: () => void;
+  onRequestPayout: () => void;
+  getEmbedCode: () => string;
+}
+
+const ActivePartnerView: React.FC<ActivePartnerViewProps> = (props) => {
+  const { isComplete, loading: obLoading } = usePartnerOnboarding();
+  const [forceShowWizard, setForceShowWizard] = useState(false);
+  const [forceSkipWizard, setForceSkipWizard] = useState(false);
+
+  if (obLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  const showWizard = forceShowWizard || (!isComplete && !forceSkipWizard);
+
+  if (showWizard) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
+        <PartnerOnboardingWizard
+          partnerName={props.partner?.name || props.partner?.business_name}
+          onSkip={() => { setForceShowWizard(false); setForceSkipWizard(true); }}
+          onCompleteAll={() => { setForceShowWizard(false); setForceSkipWizard(true); }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
+      <div className="container mx-auto px-4 pt-6">
+        <OnboardingChecklistCard onResume={() => setForceShowWizard(true)} />
+      </div>
       <PartnerDashboard
-        partner={partner!}
-        stats={stats!}
-        referrals={referrals}
-        payouts={payouts}
-        onCopyReferralLink={copyReferralLink}
-        onRequestPayout={requestPayout}
-        getEmbedCode={getEmbedCode}
+        partner={props.partner}
+        stats={props.stats}
+        referrals={props.referrals}
+        payouts={props.payouts}
+        onCopyReferralLink={props.onCopyReferralLink}
+        onRequestPayout={props.onRequestPayout}
+        getEmbedCode={props.getEmbedCode}
       />
     </div>
   );
