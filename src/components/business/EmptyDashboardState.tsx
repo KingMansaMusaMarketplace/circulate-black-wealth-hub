@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { FirstHourExperience } from './FirstHourExperience';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -18,6 +20,28 @@ interface EmptyDashboardStateProps {
 
 export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({ businessId }) => {
   const navigate = useNavigate();
+  const [isFirstHour, setIsFirstHour] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const { data } = await supabase
+        .from('businesses')
+        .select('created_at')
+        .eq('id', businessId)
+        .maybeSingle();
+      if (!active) return;
+      const created = data?.created_at ? new Date(data.created_at).getTime() : 0;
+      setIsFirstHour(created > 0 && Date.now() - created < 60 * 60 * 1000);
+    })();
+    return () => { active = false; };
+  }, [businessId]);
+
+  // First-hour businesses get the rich onboarding experience.
+  if (isFirstHour) {
+    return <FirstHourExperience businessId={businessId} />;
+  }
+
 
   const steps = [
     {
