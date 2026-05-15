@@ -305,6 +305,10 @@ const MansaStaysAdmin: React.FC = () => {
         <TabsContent value="hosts" className="mt-4">
           <HostsTab />
         </TabsContent>
+
+        <TabsContent value="payouts" className="mt-4">
+          <PayoutsTab />
+        </TabsContent>
       </Tabs>
 
       <PropertyDetailDialog
