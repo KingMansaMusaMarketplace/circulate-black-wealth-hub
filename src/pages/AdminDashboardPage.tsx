@@ -126,6 +126,8 @@ const AdminDashboardPage: React.FC = () => {
         );
       case 'ai':
         return <AdminAIDashboard />;
+      case 'kayla-cost':
+        return <KaylaAgentCostMeter />;
       case 'patents':
         return <LegalIPDocuments />;
       case 'growth':
