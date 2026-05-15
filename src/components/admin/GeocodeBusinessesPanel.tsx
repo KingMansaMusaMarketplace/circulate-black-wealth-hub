@@ -15,7 +15,7 @@ interface GeocodeResult {
 }
 
 export const GeocodeBusinessesPanel: React.FC = () => {
-  const [batchSize, setBatchSize] = useState(100);
+  const [batchSize, setBatchSize] = useState(10);
   const [running, setRunning] = useState(false);
   const [last, setLast] = useState<GeocodeResult | null>(null);
   const [totals, setTotals] = useState<GeocodeResult>({
@@ -64,13 +64,13 @@ export const GeocodeBusinessesPanel: React.FC = () => {
 
         <div className="flex items-end gap-3">
           <div className="space-y-1">
-            <Label className="text-slate-200">Batch size (max 500)</Label>
+            <Label className="text-slate-200">Batch size (max 10)</Label>
             <Input
               type="number"
               min={1}
-              max={500}
+              max={10}
               value={batchSize}
-              onChange={(e) => setBatchSize(Number(e.target.value))}
+              onChange={(e) => setBatchSize(Math.min(Math.max(Number(e.target.value), 1), 10))}
               className="w-32 bg-slate-800 border-slate-600 text-white"
             />
           </div>
