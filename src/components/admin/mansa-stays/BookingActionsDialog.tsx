@@ -81,20 +81,28 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
   const issueRefund = async () => {
     const amt = parseFloat(refundAmount);
     if (!amt || amt <= 0) return toast.error('Enter a valid refund amount');
+    if (!booking?.payment_intent_id) {
+      return toast.error('No Stripe payment_intent_id on this booking — cannot refund.');
+    }
+    const ok = window.confirm(
+      `Refund ${fmt(amt)} to the guest via Stripe? This is REAL money and cannot be undone.`
+    );
+    if (!ok) return;
     setBusy(true);
-    const { error } = await supabase
-      .from('vacation_bookings')
-      .update({
-        refund_amount: amt,
-        refund_status: 'refunded',
-        admin_notes: refundReason
-          ? `${booking.admin_notes ? booking.admin_notes + '\n' : ''}[Refund ${new Date().toLocaleDateString()}] ${refundReason}`
-          : booking.admin_notes,
-      })
-      .eq('id', bookingId);
+    const { data, error } = await supabase.functions.invoke('process-refund', {
+      body: {
+        record_type: 'vacation_booking',
+        record_id: bookingId,
+        amount: amt,
+        reason: 'requested_by_customer',
+        notes: refundReason || undefined,
+      },
+    });
     setBusy(false);
-    if (error) return toast.error('Refund failed: ' + error.message);
-    toast.success(`Marked ${fmt(amt)} as refunded`);
+    if (error || (data as any)?.error) {
+      return toast.error('Refund failed: ' + (error?.message || (data as any)?.error));
+    }
+    toast.success(`Stripe refund ${(data as any).status} · ${fmt((data as any).amount)}`);
     onSaved();
     onOpenChange(false);
   };
