@@ -4,8 +4,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Loader2, Wallet, Eye } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Loader2, Wallet, Search, Download } from 'lucide-react';
 import HostPayoutMethodDialog from './HostPayoutMethodDialog';
+import { toCSV, downloadCSV } from './csvUtils';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
