@@ -11,6 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { toast } from 'sonner';
+import { ReturningCustomerHero } from '@/components/loyalty/ReturningCustomerHero';
 
 interface Reward {
   id: string;
