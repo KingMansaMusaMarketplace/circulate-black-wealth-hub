@@ -13157,6 +13157,57 @@ export type Database = {
           },
         ]
       }
+      noire_driver_payouts: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          driver_id: string
+          id: string
+          method: string | null
+          notes: string | null
+          paid_at: string
+          reference: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          driver_id: string
+          id?: string
+          method?: string | null
+          notes?: string | null
+          paid_at?: string
+          reference?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          driver_id?: string
+          id?: string
+          method?: string | null
+          notes?: string | null
+          paid_at?: string
+          reference?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noire_driver_payouts_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noire_driver_payouts_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       noire_favorite_drivers: {
         Row: {
           created_at: string
@@ -13206,6 +13257,98 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "consumer_emails"
             referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      noire_pricing_config: {
+        Row: {
+          base_fare: number
+          created_at: string
+          id: string
+          is_active: boolean
+          minimum_fare: number
+          per_mile_rate: number
+          per_minute_rate: number
+          platform_fee_pct: number
+          surge_multiplier: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          base_fare?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          minimum_fare?: number
+          per_mile_rate?: number
+          per_minute_rate?: number
+          platform_fee_pct?: number
+          surge_multiplier?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          base_fare?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          minimum_fare?: number
+          per_mile_rate?: number
+          per_minute_rate?: number
+          platform_fee_pct?: number
+          surge_multiplier?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      noire_ride_disputes: {
+        Row: {
+          created_at: string
+          description: string | null
+          filed_by: string
+          id: string
+          reason: string
+          resolution_notes: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          ride_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          filed_by: string
+          id?: string
+          reason: string
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          ride_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          filed_by?: string
+          id?: string
+          reason?: string
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          ride_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noire_ride_disputes_ride_id_fkey"
+            columns: ["ride_id"]
+            isOneToOne: false
+            referencedRelation: "noir_rides"
+            referencedColumns: ["id"]
           },
         ]
       }
