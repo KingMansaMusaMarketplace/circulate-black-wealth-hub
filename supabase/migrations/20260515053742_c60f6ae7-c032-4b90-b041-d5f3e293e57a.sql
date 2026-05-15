@@ -1,0 +1,9 @@
+WITH src(business_name,category,address,city,state,phone,website,description,banner_url) AS (VALUES
+('The Knickerbocker','Hotel','6 Times Square','New York','NY','','','Luxury and Legacy on Times Square - A five-star hotel offering a blend of historic charm and modern sophistication.','https://i0.wp.com/blackhotelguide.com/wp-content/uploads/2025/02/exterior-1-3.jpg?fit=1100%2C1406&ssl=1'),
+('Couples Negril','Resort','','Negril','','','','Black-owned all-inclusive resort on Jamaica''s famed Seven Mile Beach.','https://blackhotelguide.com/wp-content/uploads/2020/01/3-color-268-png-vr-1.png'),
+('S Hotel Kingston','Hotel','1 St Lucia Avenue','Kingston','Saint Andrew','','https://expedia.stay22.com/blackhotelguide/j0OWTWuFAQ','S Hotel Kingston is a luxury boutique hotel owned by Jamaican entrepreneur Christopher Issa, reflecting local leadership and cultural pride with a sophisticated urban Caribbean experience.','https://i0.wp.com/blackhotelguide.com/wp-content/uploads/2026/02/S-Hotel-Kingston-%E2%80%94-Kingston-Jamaica.jpg?fit=836%2C607&ssl=1')
+)
+INSERT INTO public.businesses (name, business_name, category, address, city, state, phone, website, description, banner_url, owner_id, listing_status, is_verified)
+SELECT s.business_name, s.business_name, s.category, NULLIF(s.address,''), NULLIF(s.city,''), NULLIF(s.state,''), NULLIF(s.phone,''), NULLIF(s.website,''), NULLIF(s.description,''), NULLIF(s.banner_url,''), 'bd72a75e-1310-4f40-9c74-380443b09d9b'::uuid, 'live', true
+FROM src s
+WHERE NOT EXISTS (SELECT 1 FROM public.businesses b WHERE lower(regexp_replace(b.business_name,'[^A-Za-z0-9]+','','g')) = lower(regexp_replace(s.business_name,'[^A-Za-z0-9]+','','g')));
