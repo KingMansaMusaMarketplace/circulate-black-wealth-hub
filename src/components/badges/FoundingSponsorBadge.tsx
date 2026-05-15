@@ -51,7 +51,7 @@ export function FoundingSponsorBadge({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          {badge}
+          <span className="inline-flex">{badge}</span>
         </TooltipTrigger>
         <TooltipContent 
           side="bottom" 
