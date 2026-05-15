@@ -8931,6 +8931,54 @@ export type Database = {
           },
         ]
       }
+      host_payout_methods: {
+        Row: {
+          account_holder_name: string | null
+          account_last4: string | null
+          bank_name: string | null
+          created_at: string
+          host_id: string
+          id: string
+          is_verified: boolean
+          method_type: string
+          notes: string | null
+          paypal_email: string | null
+          routing_last4: string | null
+          stripe_account_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          account_holder_name?: string | null
+          account_last4?: string | null
+          bank_name?: string | null
+          created_at?: string
+          host_id: string
+          id?: string
+          is_verified?: boolean
+          method_type?: string
+          notes?: string | null
+          paypal_email?: string | null
+          routing_last4?: string | null
+          stripe_account_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          account_holder_name?: string | null
+          account_last4?: string | null
+          bank_name?: string | null
+          created_at?: string
+          host_id?: string
+          id?: string
+          is_verified?: boolean
+          method_type?: string
+          notes?: string | null
+          paypal_email?: string | null
+          routing_last4?: string | null
+          stripe_account_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       host_verification_requests: {
         Row: {
           address_document_url: string | null
