@@ -184,11 +184,55 @@ const PayoutsTab: React.FC = () => {
     load();
   };
 
+  const [owedSearch, setOwedSearch] = useState('');
+  const [historySearch, setHistorySearch] = useState('');
+
+  const owedRows = useMemo(() => {
+    const q = owedSearch.trim().toLowerCase();
+    return hosts.filter(h => {
+      if (h.owed <= 0) return false;
+      if (!q) return true;
+      return [h.full_name, h.email].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [hosts, owedSearch]);
+
+  const historyRows = useMemo(() => {
+    const q = historySearch.trim().toLowerCase();
+    if (!q) return history;
+    return history.filter(p => {
+      const prof = profileMap[p.host_id];
+      return [prof?.name, prof?.email, p.description, p.booking_id].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+    });
+  }, [history, historySearch, profileMap]);
+
   const totals = useMemo(() => ({
     owed: hosts.reduce((s, h) => s + h.owed, 0),
     paid: hosts.reduce((s, h) => s + h.paid_total, 0),
     hostsOwed: hosts.filter(h => h.owed > 0).length,
   }), [hosts]);
+
+  const exportOwed = () => {
+    downloadCSV('mansa-stays-owed', toCSV(owedRows, [
+      { key: 'full_name', label: 'Host' },
+      { key: 'email', label: 'Email' },
+      { key: 'payout_method_type', label: 'Method' },
+      { label: 'Bookings', key: 'bookings', get: r => r.bookings.length },
+      { key: 'owed', label: 'Amount Owed' },
+      { key: 'paid_total', label: 'Lifetime Paid' },
+    ]));
+  };
+
+  const exportHistory = () => {
+    downloadCSV('mansa-stays-payout-history', toCSV(historyRows, [
+      { label: 'Date', key: 'paid_at', get: p => (p.paid_at || p.created_at) },
+      { label: 'Host', key: 'host_id', get: p => profileMap[p.host_id]?.name || profileMap[p.host_id]?.email || p.host_id },
+      { key: 'net_amount', label: 'Amount' },
+      { key: 'status', label: 'Status' },
+      { key: 'booking_id', label: 'Reference' },
+      { key: 'description', label: 'Notes' },
+    ]));
+  };
+
 
   if (loading) {
     return (
