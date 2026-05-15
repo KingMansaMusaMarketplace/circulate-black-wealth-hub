@@ -645,23 +645,11 @@ const PropertyListingPage: React.FC = () => {
 
             {/* Photos Step */}
             {currentStep === 'photos' && (
-              <div className="space-y-4">
-                <div className="border-2 border-dashed border-white/20 rounded-lg p-8 text-center">
-                  <Upload className="w-12 h-12 mx-auto text-mansagold mb-4" />
-                  <h3 className="font-semibold mb-2 text-white">Upload Photos</h3>
-                  <p className="text-sm text-white/60 mb-4">
-                    Photo upload functionality coming soon.
-                    For now, you can add your property and update photos later.
-                  </p>
-                  <Button variant="outline" disabled className="border-white/20 text-white/50">
-                    Upload Photos
-                  </Button>
-                </div>
-                <p className="text-sm text-white/60">
-                  Tip: Properties with high-quality photos get 40% more bookings.
-                  Include photos of every room, outdoor spaces, and unique features.
-                </p>
-              </div>
+              <PropertyPhotoUploader
+                photos={formData.photos}
+                onChange={(photos) => updateFormData({ photos })}
+                userId={user.id}
+              />
             )}
 
             {/* Review Step */}
