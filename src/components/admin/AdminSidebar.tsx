@@ -4,7 +4,7 @@ import {
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
-  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car
+  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car, CreditCard
 } from 'lucide-react';
 import {
   Sidebar,
@@ -83,6 +83,7 @@ const menuGroups = [
       { id: 'outreach-crm', label: 'Directory Outreach', icon: Handshake, route: '/admin/outreach' },
       { id: 'developers', label: 'Developers', icon: Code2 },
       { id: 'financial', label: 'Financial', icon: DollarSign },
+      { id: 'subscriptions', label: 'Subscriptions', icon: CreditCard },
       { id: 'mansa-stays', label: 'Mansa Stays', icon: Home },
       { id: 'noire-rideshare', label: 'Noire Rideshare', icon: Car },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award },
