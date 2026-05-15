@@ -9,6 +9,8 @@ import { ArrowLeft, RefreshCw, Search, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import EmailStatsCards from '@/components/admin/email/EmailStatsCards';
 import EmailEventsTable from '@/components/admin/email/EmailEventsTable';
+import EmailDeliverabilityPanel from '@/components/admin/email/EmailDeliverabilityPanel';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { fetchEmailEvents, fetchEmailStats } from '@/lib/api/email-events';
 
 const EmailAnalyticsPage: React.FC = () => {
