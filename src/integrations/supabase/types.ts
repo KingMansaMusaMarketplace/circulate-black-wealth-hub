@@ -15648,11 +15648,17 @@ export type Database = {
           created_at: string | null
           customer_id: string
           discount_applied: number | null
+          flag_reason: string | null
+          flagged_at: string | null
+          flagged_by: string | null
           id: string
+          is_flagged: boolean
           location_lat: number | null
           location_lng: number | null
           points_awarded: number | null
           qr_code_id: string
+          reversed: boolean
+          reversed_at: string | null
           scan_date: string | null
         }
         Insert: {
@@ -15660,11 +15666,17 @@ export type Database = {
           created_at?: string | null
           customer_id: string
           discount_applied?: number | null
+          flag_reason?: string | null
+          flagged_at?: string | null
+          flagged_by?: string | null
           id?: string
+          is_flagged?: boolean
           location_lat?: number | null
           location_lng?: number | null
           points_awarded?: number | null
           qr_code_id: string
+          reversed?: boolean
+          reversed_at?: string | null
           scan_date?: string | null
         }
         Update: {
@@ -15672,11 +15684,17 @@ export type Database = {
           created_at?: string | null
           customer_id?: string
           discount_applied?: number | null
+          flag_reason?: string | null
+          flagged_at?: string | null
+          flagged_by?: string | null
           id?: string
+          is_flagged?: boolean
           location_lat?: number | null
           location_lng?: number | null
           points_awarded?: number | null
           qr_code_id?: string
+          reversed?: boolean
+          reversed_at?: string | null
           scan_date?: string | null
         }
         Relationships: [
