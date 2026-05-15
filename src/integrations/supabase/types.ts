@@ -12951,6 +12951,11 @@ export type Database = {
           pickup_lat: number | null
           pickup_lng: number | null
           platform_fee: number | null
+          refund_amount: number | null
+          refund_id: string | null
+          refund_reason: string | null
+          refund_status: string | null
+          refunded_at: string | null
           requested_at: string
           rider_rating: number | null
           rider_user_id: string
@@ -12980,6 +12985,11 @@ export type Database = {
           pickup_lat?: number | null
           pickup_lng?: number | null
           platform_fee?: number | null
+          refund_amount?: number | null
+          refund_id?: string | null
+          refund_reason?: string | null
+          refund_status?: string | null
+          refunded_at?: string | null
           requested_at?: string
           rider_rating?: number | null
           rider_user_id: string
@@ -13009,6 +13019,11 @@ export type Database = {
           pickup_lat?: number | null
           pickup_lng?: number | null
           platform_fee?: number | null
+          refund_amount?: number | null
+          refund_id?: string | null
+          refund_reason?: string | null
+          refund_status?: string | null
+          refunded_at?: string | null
           requested_at?: string
           rider_rating?: number | null
           rider_user_id?: string
@@ -21377,7 +21392,9 @@ export type Database = {
           platform_fee: number
           property_id: string
           refund_amount: number | null
+          refund_id: string | null
           refund_status: string | null
+          refunded_at: string | null
           special_requests: string | null
           status: Database["public"]["Enums"]["vacation_booking_status"] | null
           stripe_charge_id: string | null
@@ -21413,7 +21430,9 @@ export type Database = {
           platform_fee: number
           property_id: string
           refund_amount?: number | null
+          refund_id?: string | null
           refund_status?: string | null
+          refunded_at?: string | null
           special_requests?: string | null
           status?: Database["public"]["Enums"]["vacation_booking_status"] | null
           stripe_charge_id?: string | null
@@ -21449,7 +21468,9 @@ export type Database = {
           platform_fee?: number
           property_id?: string
           refund_amount?: number | null
+          refund_id?: string | null
           refund_status?: string | null
+          refunded_at?: string | null
           special_requests?: string | null
           status?: Database["public"]["Enums"]["vacation_booking_status"] | null
           stripe_charge_id?: string | null
