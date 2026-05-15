@@ -265,7 +265,22 @@ const PayoutsTab: React.FC = () => {
           <TabsTrigger value="history">Payout History ({history.length})</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="owed" className="mt-4">
+        <TabsContent value="owed" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search host name or email…"
+                value={owedSearch}
+                onChange={e => setOwedSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <div className="text-xs text-white/50 ml-auto">{owedRows.length} hosts</div>
+            <Button size="sm" variant="outline" onClick={exportOwed}>
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
+          </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
@@ -280,9 +295,9 @@ const PayoutsTab: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {hosts.filter(h => h.owed > 0).length === 0 ? (
+                  {owedRows.length === 0 ? (
                     <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No hosts currently owed.</TableCell></TableRow>
-                  ) : hosts.filter(h => h.owed > 0).map(h => (
+                  ) : owedRows.map(h => (
                     <TableRow key={h.host_id} className="border-white/10">
                       <TableCell className="text-white">
                         <div className="font-medium">{h.full_name || 'Unnamed host'}</div>
