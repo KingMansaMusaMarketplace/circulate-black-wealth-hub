@@ -84,6 +84,8 @@ const AdminDashboardPage: React.FC = () => {
         return <PromoCodeManager />;
       case 'flags':
         return <FeatureFlagsManager />;
+      case 'broadcasts':
+        return <BroadcastAnnouncements />;
       case 'retention':
         return <RetentionAnalytics />;
       case 'geographic':
