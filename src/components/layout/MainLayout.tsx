@@ -7,6 +7,7 @@ import { useOnboardingFlow } from '@/hooks/useOnboardingFlow';
 import BackToButton from '@/components/ui/BackToButton';
 import PWAInstallBanner from '@/components/pwa/PWAInstallBanner';
 import OfflineBanner from '@/components/network/OfflineBanner';
+import BroadcastBanner from '@/components/announcements/BroadcastBanner';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       
       <main className="flex-1">
         <EmailVerificationBanner />
+        <BroadcastBanner />
         <div className="container mx-auto px-4 pt-2">
           <BackToButton />
         </div>
