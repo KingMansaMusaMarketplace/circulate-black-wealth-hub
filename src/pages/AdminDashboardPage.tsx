@@ -94,6 +94,8 @@ const AdminDashboardPage: React.FC = () => {
         return <LoyaltyManagement />;
       case 'financial':
         return <FinancialManagement />;
+      case 'subscriptions':
+        return <SubscriptionsAdmin />;
       case 'mansa-stays':
         return <MansaStaysAdmin />;
       case 'noire-rideshare':
