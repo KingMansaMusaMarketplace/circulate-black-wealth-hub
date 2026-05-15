@@ -392,9 +392,9 @@ const MansaStaysAdmin: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {bookings.length === 0 ? (
-                    <TableRow><TableCell colSpan={9} className="text-center text-white/50 py-8">No bookings yet.</TableCell></TableRow>
-                  ) : bookings.map(b => (
+                  {filteredBookings.length === 0 ? (
+                    <TableRow><TableCell colSpan={9} className="text-center text-white/50 py-8">No bookings match.</TableCell></TableRow>
+                  ) : filteredBookings.map(b => (
                     <TableRow key={b.id} className="border-white/10">
                       <TableCell className="text-white">
                         <div className="font-medium">{b.guest_name || '—'}</div>
