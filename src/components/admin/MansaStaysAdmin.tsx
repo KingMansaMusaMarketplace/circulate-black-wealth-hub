@@ -12,6 +12,7 @@ import PropertyDetailDialog from './mansa-stays/PropertyDetailDialog';
 import HostsTab from './mansa-stays/HostsTab';
 import PayoutsTab from './mansa-stays/PayoutsTab';
 import BookingActionsDialog from './mansa-stays/BookingActionsDialog';
+import ReportingTab from './mansa-stays/ReportingTab';
 import { toCSV, downloadCSV } from './mansa-stays/csvUtils';
 
 const fmt = (n: number) =>
