@@ -4,7 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Home, Calendar, DollarSign, CheckCircle2, Loader2 } from 'lucide-react';
+import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+import PropertyDetailDialog from './mansa-stays/PropertyDetailDialog';
 
 const fmt = (n: number) =>
   Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -42,18 +45,40 @@ const MansaStaysAdmin: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState<Property[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
+
+  const loadData = async () => {
+    const [{ data: p }, { data: b }] = await Promise.all([
+      supabase.from('vacation_properties').select('*').order('created_at', { ascending: false }),
+      supabase.from('vacation_bookings').select('*').order('created_at', { ascending: false }),
+    ]);
+    setProperties((p as Property[]) ?? []);
+    setBookings((b as Booking[]) ?? []);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    (async () => {
-      const [{ data: p }, { data: b }] = await Promise.all([
-        supabase.from('vacation_properties').select('*').order('created_at', { ascending: false }),
-        supabase.from('vacation_bookings').select('*').order('created_at', { ascending: false }),
-      ]);
-      setProperties((p as Property[]) ?? []);
-      setBookings((b as Booking[]) ?? []);
-      setLoading(false);
-    })();
+    loadData();
   }, []);
+
+  const toggleField = async (id: string, field: 'is_active' | 'is_verified', value: boolean) => {
+    const { error } = await supabase
+      .from('vacation_properties')
+      .update({ [field]: value })
+      .eq('id', id);
+    if (error) {
+      toast.error('Update failed: ' + error.message);
+      return;
+    }
+    setProperties(prev => prev.map(p => (p.id === id ? { ...p, [field]: value } : p)));
+    toast.success(field === 'is_verified' ? (value ? 'Verified' : 'Unverified') : (value ? 'Activated' : 'Deactivated'));
+  };
+
+  const openDetail = (id: string) => {
+    setSelectedPropertyId(id);
+    setDetailOpen(true);
+  };
 
   if (loading) {
     return (
@@ -167,11 +192,12 @@ const MansaStaysAdmin: React.FC = () => {
                     <TableHead className="text-white/70">Nightly</TableHead>
                     <TableHead className="text-white/70">Status</TableHead>
                     <TableHead className="text-white/70">Verified</TableHead>
+                    <TableHead className="text-white/70 text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {properties.length === 0 ? (
-                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No properties yet.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No properties yet.</TableCell></TableRow>
                   ) : properties.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white font-medium">{p.title}</TableCell>
@@ -187,6 +213,37 @@ const MansaStaysAdmin: React.FC = () => {
                         {p.is_verified ? (
                           <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">Verified</Badge>
                         ) : <span className="text-white/40 text-xs">—</span>}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center justify-end gap-1">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            title={p.is_verified ? 'Unverify' : 'Verify'}
+                            onClick={() => toggleField(p.id, 'is_verified', !p.is_verified)}
+                            className="h-8 w-8 p-0 text-blue-300 hover:bg-blue-500/10"
+                          >
+                            <ShieldCheck className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            title={p.is_active ? 'Deactivate' : 'Activate'}
+                            onClick={() => toggleField(p.id, 'is_active', !p.is_active)}
+                            className={`h-8 w-8 p-0 hover:bg-white/10 ${p.is_active ? 'text-green-300' : 'text-white/40'}`}
+                          >
+                            <Power className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            title="View / Edit"
+                            onClick={() => openDetail(p.id)}
+                            className="h-8 w-8 p-0 text-white/80 hover:bg-white/10"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -241,6 +298,13 @@ const MansaStaysAdmin: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <PropertyDetailDialog
+        propertyId={selectedPropertyId}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+        onSaved={loadData}
+      />
     </div>
   );
 };
