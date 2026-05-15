@@ -156,6 +156,31 @@ const HostsTab: React.FC = () => {
         </div>
       </div>
 
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="relative flex-1 min-w-[200px] max-w-md">
+          <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+          <Input
+            placeholder="Search host name, email, phone…"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="pl-9 bg-white/5 border-white/10 text-white"
+          />
+        </div>
+        <select
+          value={methodFilter}
+          onChange={e => setMethodFilter(e.target.value as any)}
+          className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-sm"
+        >
+          <option value="all">All Hosts</option>
+          <option value="with">With Payout Method</option>
+          <option value="without">Missing Payout Method</option>
+        </select>
+        <div className="text-xs text-white/50 ml-auto">{filtered.length} of {rows.length}</div>
+        <Button size="sm" variant="outline" onClick={exportCSV}>
+          <Download className="h-4 w-4 mr-1" /> Export CSV
+        </Button>
+      </div>
+
       <Card className="bg-white/5 border-white/10">
         <CardContent className="p-0">
           <Table>
