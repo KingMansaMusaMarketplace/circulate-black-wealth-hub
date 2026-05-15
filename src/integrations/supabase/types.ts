@@ -3117,6 +3117,7 @@ export type Database = {
           priority: number
           starts_at: string
           target_audience: string
+          target_filters: Json
           title: string
           updated_at: string
         }
@@ -3131,6 +3132,7 @@ export type Database = {
           priority?: number
           starts_at?: string
           target_audience?: string
+          target_filters?: Json
           title: string
           updated_at?: string
         }
@@ -3145,6 +3147,7 @@ export type Database = {
           priority?: number
           starts_at?: string
           target_audience?: string
+          target_filters?: Json
           title?: string
           updated_at?: string
         }
