@@ -112,6 +112,7 @@ const menuGroups = [
     items: [
       { id: 'system', label: 'Settings', icon: Sliders },
       { id: 'ai', label: 'AI Tools', icon: Bot },
+      { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge },
       { id: 'setup', label: 'Database Setup', icon: Database },
       { id: 'archive', label: 'Archive Recovery', icon: History },
     ]
