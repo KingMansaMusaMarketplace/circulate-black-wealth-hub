@@ -9,9 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Car, Users, DollarSign, Loader2, Search, Download, Power, ShieldCheck, Settings2, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Car, Users, DollarSign, Loader2, Search, Download, Power, ShieldCheck, Settings2, AlertTriangle, CheckCircle2, FileCheck } from 'lucide-react';
 import { toast } from 'sonner';
 import { toCSV, downloadCSV } from './noire-rideshare/csvUtils';
+import DriverDetailDrawer from './noir/DriverDetailDrawer';
+import { STATUS_COLORS, DriverApplicationStatus } from '@/lib/api/noir-driver-api';
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
