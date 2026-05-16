@@ -155,10 +155,16 @@ const UserManagement: React.FC = () => {
     }
   };
 
-  const filteredUsers = users.filter(user =>
-    user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredUsers = users.filter(user => {
+    const matchesSearch =
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.full_name?.toLowerCase().includes(searchTerm.toLowerCase());
+    if (!matchesSearch) return false;
+    if (roleFilter === 'all') return true;
+    const roles = rolesByUser[user.id] || [];
+    if (roleFilter === 'none') return roles.length === 0;
+    return roles.includes(roleFilter);
+  });
 
   const getUserTypeBadge = (type: string | null) => {
     const colors: Record<string, string> = {
@@ -167,6 +173,24 @@ const UserManagement: React.FC = () => {
       sales_agent: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
     };
     return <Badge className={colors[type || ''] || 'bg-white/10 text-white/70 border-white/20'}>{type || 'Unknown'}</Badge>;
+  };
+
+  const getRoleBadges = (userId: string) => {
+    const roles = rolesByUser[userId] || [];
+    if (roles.length === 0) return <span className="text-white/40">—</span>;
+    const colors: Record<string, string> = {
+      admin: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+      moderator: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+    };
+    return (
+      <div className="flex flex-wrap gap-1">
+        {roles.map(r => (
+          <Badge key={r} className={colors[r] || 'bg-white/10 text-white/70 border-white/20'}>
+            {r.toUpperCase()}
+          </Badge>
+        ))}
+      </div>
+    );
   };
 
   return (
