@@ -408,6 +408,10 @@ const UserManagement: React.FC = () => {
                   <div>{getUserTypeBadge(selectedUser.user_type)}</div>
                 </div>
                 <div>
+                  <div className="text-sm font-medium text-white/60">Permission Role</div>
+                  <div>{getRoleBadges(selectedUser.id)}</div>
+                </div>
+                <div>
                   <div className="text-sm font-medium text-white/60">Phone</div>
                   <div className="text-white">{selectedUser.phone || 'N/A'}</div>
                 </div>
