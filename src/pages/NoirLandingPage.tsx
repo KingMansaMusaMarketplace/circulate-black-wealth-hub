@@ -77,7 +77,9 @@ const NoirLandingPage: React.FC = () => {
 
   const handleDriverSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Capture lightweight lead, then send them to the full application
     setDriverSubmitted(true);
+    setTimeout(() => { window.location.href = '/noir/drive/apply'; }, 600);
   };
 
   return (
