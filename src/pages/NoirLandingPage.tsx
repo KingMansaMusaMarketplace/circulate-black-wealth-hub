@@ -77,7 +77,9 @@ const NoirLandingPage: React.FC = () => {
 
   const handleDriverSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Capture lightweight lead, then send them to the full application
     setDriverSubmitted(true);
+    setTimeout(() => { window.location.href = '/noir/drive/apply'; }, 600);
   };
 
   return (
@@ -854,7 +856,7 @@ const NoirLandingPage: React.FC = () => {
                 variant="outline"
                 className="border-mansagold/30 text-mansagold hover:bg-mansagold/10 rounded-xl text-lg px-10"
               >
-                <a href="#drivers">
+                <a href="/noir/drive/apply">
                   Become a Driver
                 </a>
               </Button>
