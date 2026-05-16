@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { Search, UserX, Mail, Calendar, Shield, Users as UsersIcon } from 'lucide-react';
 import { format } from 'date-fns';
@@ -34,9 +35,11 @@ interface AccountDeletionRequest {
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [rolesByUser, setRolesByUser] = useState<Record<string, string[]>>({});
   const [deletionRequests, setDeletionRequests] = useState<AccountDeletionRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState<string>('all');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [userStats, setUserStats] = useState({ total: 0, customers: 0, businesses: 0, agents: 0 });
@@ -65,6 +68,17 @@ const UserManagement: React.FC = () => {
         agents: usersData?.filter(u => u.user_type === 'sales_agent').length || 0,
       };
       setUserStats(stats);
+
+      // Load permission roles (admin, moderator, etc.) from the locked-down user_roles table
+      const { data: rolesData } = await supabase
+        .from('user_roles')
+        .select('user_id, role');
+      const rolesMap: Record<string, string[]> = {};
+      (rolesData || []).forEach((r: any) => {
+        if (!rolesMap[r.user_id]) rolesMap[r.user_id] = [];
+        rolesMap[r.user_id].push(r.role);
+      });
+      setRolesByUser(rolesMap);
 
       // Load deletion requests (fetch profiles separately since no FK relationship)
       const { data: requestsData, error: requestsError } = await supabase
@@ -142,10 +156,16 @@ const UserManagement: React.FC = () => {
     }
   };
 
-  const filteredUsers = users.filter(user =>
-    user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredUsers = users.filter(user => {
+    const matchesSearch =
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.full_name?.toLowerCase().includes(searchTerm.toLowerCase());
+    if (!matchesSearch) return false;
+    if (roleFilter === 'all') return true;
+    const roles = rolesByUser[user.id] || [];
+    if (roleFilter === 'none') return roles.length === 0;
+    return roles.includes(roleFilter);
+  });
 
   const getUserTypeBadge = (type: string | null) => {
     const colors: Record<string, string> = {
@@ -154,6 +174,24 @@ const UserManagement: React.FC = () => {
       sales_agent: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
     };
     return <Badge className={colors[type || ''] || 'bg-white/10 text-white/70 border-white/20'}>{type || 'Unknown'}</Badge>;
+  };
+
+  const getRoleBadges = (userId: string) => {
+    const roles = rolesByUser[userId] || [];
+    if (roles.length === 0) return <span className="text-white/40">—</span>;
+    const colors: Record<string, string> = {
+      admin: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+      moderator: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+    };
+    return (
+      <div className="flex flex-wrap gap-1">
+        {roles.map(r => (
+          <Badge key={r} className={colors[r] || 'bg-white/10 text-white/70 border-white/20'}>
+            {r.toUpperCase()}
+          </Badge>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -214,14 +252,27 @@ const UserManagement: React.FC = () => {
                   <CardTitle className="text-white">All Users</CardTitle>
                   <CardDescription className="text-white/60">Manage all platform users</CardDescription>
                 </div>
-                <div className="relative w-64">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/50" />
-                  <Input
-                    placeholder="Search users..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-8 bg-white/5 border-white/10 text-white placeholder:text-white/50"
-                  />
+                <div className="flex items-center gap-2">
+                  <Select value={roleFilter} onValueChange={setRoleFilter}>
+                    <SelectTrigger className="w-40 bg-white/5 border-white/10 text-white">
+                      <SelectValue placeholder="Filter by role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Roles</SelectItem>
+                      <SelectItem value="admin">Admins only</SelectItem>
+                      <SelectItem value="moderator">Moderators only</SelectItem>
+                      <SelectItem value="none">No special role</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <div className="relative w-64">
+                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/50" />
+                    <Input
+                      placeholder="Search users..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-8 bg-white/5 border-white/10 text-white placeholder:text-white/50"
+                    />
+                  </div>
                 </div>
               </div>
             </CardHeader>
@@ -233,6 +284,7 @@ const UserManagement: React.FC = () => {
                       <TableHead className="text-white/80">Email</TableHead>
                       <TableHead className="text-white/80">Name</TableHead>
                       <TableHead className="text-white/80">Type</TableHead>
+                      <TableHead className="text-white/80">Role</TableHead>
                       <TableHead className="text-white/80">Joined</TableHead>
                       <TableHead className="text-white/80">Actions</TableHead>
                     </TableRow>
@@ -248,6 +300,7 @@ const UserManagement: React.FC = () => {
                         </TableCell>
                         <TableCell className="text-white/80">{user.full_name || 'N/A'}</TableCell>
                         <TableCell>{getUserTypeBadge(user.user_type)}</TableCell>
+                        <TableCell>{getRoleBadges(user.id)}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1 text-sm text-white/70">
                             <Calendar className="h-3 w-3" />
@@ -353,6 +406,10 @@ const UserManagement: React.FC = () => {
                 <div>
                   <div className="text-sm font-medium text-white/60">User Type</div>
                   <div>{getUserTypeBadge(selectedUser.user_type)}</div>
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-white/60">Permission Role</div>
+                  <div>{getRoleBadges(selectedUser.id)}</div>
                 </div>
                 <div>
                   <div className="text-sm font-medium text-white/60">Phone</div>
