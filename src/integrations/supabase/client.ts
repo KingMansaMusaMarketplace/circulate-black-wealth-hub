@@ -31,20 +31,50 @@ const isIOSDevice = () => {
   }
 };
 
-// Storage adapter with iOS-safe fallback
-// CRITICAL: On iOS WKWebView, localStorage can be restricted
+// Storage adapter with iOS-safe fallback + "Remember me" support.
+// When the user UNCHECKS "Remember me" at login, we set the flag below to "false"
+// so the Supabase auth token is written to sessionStorage (cleared when the tab
+// closes). When checked (default), it lives in localStorage and persists.
+export const REMEMBER_ME_FLAG = 'mmm-remember-me';
+const isAuthKey = (key: string) => key.startsWith('sb-');
+const sessionOnly = () => {
+  try { return localStorage.getItem(REMEMBER_ME_FLAG) === 'false'; } catch { return false; }
+};
+
 const getStorage = () => {
-  // Try localStorage first (works on web and most native)
   try {
     const testKey = '__storage_test__';
     localStorage.setItem(testKey, testKey);
     localStorage.removeItem(testKey);
-    console.log('[SUPABASE] Using localStorage');
-    return localStorage;
+    console.log('[SUPABASE] Using localStorage (with Remember-me aware adapter)');
+    return {
+      getItem: (key: string) => {
+        try {
+          if (isAuthKey(key) && sessionOnly()) {
+            return sessionStorage.getItem(key) ?? localStorage.getItem(key);
+          }
+          return localStorage.getItem(key);
+        } catch { return null; }
+      },
+      setItem: (key: string, value: string) => {
+        try {
+          if (isAuthKey(key) && sessionOnly()) {
+            sessionStorage.setItem(key, value);
+            try { localStorage.removeItem(key); } catch {}
+          } else {
+            localStorage.setItem(key, value);
+          }
+        } catch {}
+      },
+      removeItem: (key: string) => {
+        try { localStorage.removeItem(key); } catch {}
+        try { sessionStorage.removeItem(key); } catch {}
+      },
+    };
   } catch (e) {
     console.warn('[SUPABASE] localStorage not available, using memory storage');
   }
-  
+
   // Fallback to memory storage (auth won't persist but app will work)
   console.log('[SUPABASE] Using memory storage fallback');
   const memoryStorage: Record<string, string> = {};
