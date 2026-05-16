@@ -856,7 +856,7 @@ const NoirLandingPage: React.FC = () => {
                 variant="outline"
                 className="border-mansagold/30 text-mansagold hover:bg-mansagold/10 rounded-xl text-lg px-10"
               >
-                <a href="#drivers">
+                <a href="/noir/drive/apply">
                   Become a Driver
                 </a>
               </Button>
