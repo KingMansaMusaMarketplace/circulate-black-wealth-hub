@@ -685,6 +685,7 @@ function App() {
                               
                               {/* N */}
                               <Route path="/noir" element={<LazyNoirLandingPage />} />
+                              <Route path="/noir/drive/apply" element={<LazyDriverApplyPage />} />
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                               <Route path="/network" element={<LazyNetworkPage />} />
