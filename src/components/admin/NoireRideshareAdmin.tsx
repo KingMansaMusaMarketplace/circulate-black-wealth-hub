@@ -436,8 +436,11 @@ const NoireRideshareAdmin: React.FC = () => {
         </Card>
       </div>
 
-      <Tabs defaultValue="drivers" className="w-full">
+      <Tabs defaultValue="applications" className="w-full">
         <TabsList className="bg-white/5 border border-white/10 flex-wrap h-auto">
+          <TabsTrigger value="applications">
+            Applications ({drivers.filter(d => ['submitted','under_review'].includes(d.application_status || '')).length})
+          </TabsTrigger>
           <TabsTrigger value="drivers">Drivers ({drivers.length})</TabsTrigger>
           <TabsTrigger value="rides">Rides ({rides.length})</TabsTrigger>
           <TabsTrigger value="payouts">Payouts</TabsTrigger>
@@ -445,6 +448,60 @@ const NoireRideshareAdmin: React.FC = () => {
           <TabsTrigger value="disputes">Disputes ({openDisputes})</TabsTrigger>
           <TabsTrigger value="reporting">Reporting</TabsTrigger>
         </TabsList>
+
+        {/* APPLICATIONS */}
+        <TabsContent value="applications" className="mt-4 space-y-3">
+          <div className="text-xs text-white/50">
+            Click any driver to review documents, approve, reject, or suspend.
+          </div>
+          <Card className="bg-white/5 border-white/10">
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader><TableRow className="border-white/10">
+                  <TableHead className="text-white/70">Name</TableHead>
+                  <TableHead className="text-white/70">Vehicle</TableHead>
+                  <TableHead className="text-white/70">Submitted</TableHead>
+                  <TableHead className="text-white/70">Status</TableHead>
+                  <TableHead className="text-white/70 text-right">Review</TableHead>
+                </TableRow></TableHeader>
+                <TableBody>
+                  {drivers.length === 0 ? (
+                    <TableRow><TableCell colSpan={5} className="text-center text-white/50 py-8">No driver applications yet.</TableCell></TableRow>
+                  ) : drivers
+                      .slice()
+                      .sort((a, b) => {
+                        const order = ['submitted', 'under_review', 'approved', 'rejected', 'suspended', 'draft'];
+                        return (order.indexOf(a.application_status || 'draft')) - (order.indexOf(b.application_status || 'draft'));
+                      })
+                      .map(d => (
+                    <TableRow key={d.id} className="border-white/10 cursor-pointer hover:bg-white/5" onClick={() => setOpenDriverId(d.id)}>
+                      <TableCell className="text-white font-medium">
+                        {d.full_name || '—'}
+                        <div className="text-xs text-white/50">{d.email || d.phone}</div>
+                      </TableCell>
+                      <TableCell className="text-white/70 text-sm">
+                        {[d.vehicle_year, d.vehicle_make, d.vehicle_model].filter(Boolean).join(' ') || '—'}
+                      </TableCell>
+                      <TableCell className="text-white/50 text-xs">
+                        {d.submitted_at ? new Date(d.submitted_at).toLocaleDateString() : '—'}
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={STATUS_COLORS[(d.application_status || 'draft') as DriverApplicationStatus]}>
+                          {(d.application_status || 'draft').replace('_', ' ')}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button size="sm" variant="ghost" className="text-mansagold hover:bg-mansagold/10">
+                          <FileCheck className="h-4 w-4 mr-1" /> Review
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         {/* DRIVERS */}
         <TabsContent value="drivers" className="mt-4 space-y-3">
