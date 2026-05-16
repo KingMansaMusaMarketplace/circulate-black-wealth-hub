@@ -51,6 +51,17 @@ interface DeveloperAccount {
   profiles?: { full_name: string | null; email: string | null } | null;
 }
 
+// Raw row shape from developer_accounts table
+interface DeveloperAccountRow {
+  id: string;
+  user_id: string;
+  company_name: string | null;
+  company_website: string | null;
+  tier: string | null;
+  status: string | null;
+  created_at: string;
+}
+
 interface ApiKey {
   id: string;
   developer_id: string;
