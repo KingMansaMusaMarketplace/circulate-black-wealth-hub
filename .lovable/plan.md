@@ -1,91 +1,65 @@
-# Noire Rideshare Pivot: Hotel & Airport Transport
+# Plan: New iOS Build with Apple In-App Purchases Enabled
 
-Reposition Noire from a general rideshare into a **premium, scheduled-only Black-owned transport service for hotels and airports in Chicago**. Phase 1 driver vetting stays. Checkr stays deferred until first hotel partners sign.
+## Goal
+Ship a new build to App Store Connect where iOS users can subscribe **inside the app** via Apple In-App Purchase (IAP). Apple takes their 15–30% cut. This replaces the current behavior, which hides all payment UI on iOS and tells users to subscribe at 1325.ai.
 
-## What changes (plain English)
+## What's already in place (good news)
+- `src/lib/services/apple-iap-service.ts` — full Apple IAP service using `cordova-plugin-purchase`, with server-side receipt validation via the `validate-apple-receipt` edge function. Already wired for two products:
+  - `com.mansamusa.essentials.monthly` ($19/mo)
+  - `com.mansamusa.starter.monthly` ($79/mo)
+- `useSubscriptionActions.ts` already routes iOS purchases through `appleIAPService.purchase(...)` for those two tiers.
+- Pro / Enterprise are intentionally web-only and show a "Subscribe at 1325.ai" notice on iOS.
 
-### 1. Rebrand the landing page (`/noir`)
-- New hero: "Premium Black-Owned Hotel & Airport Transport — Chicago"
-- Subhead emphasizes: scheduled rides only, flight tracking, meet-and-greet, vetted Black drivers, corporate billing
-- Replace generic "request a ride" with three clear paths:
-  - **Book a Ride** (riders — airport or hotel pickup)
-  - **Hotel & Corporate Partners** (B2B concierge portal signup)
-  - **Drive with Noire** (existing driver apply flow, unchanged)
-- Update homepage `NoirRideCTA` copy to match (no more "your ride / your driver / your community" — replace with airport/hotel positioning)
+## What needs to change
 
-### 2. Replace ride-request flow with scheduled booking
-- Remove on-demand "pick me up now" UI
-- New booking form fields:
-  - Trip type: **Airport pickup**, **Airport drop-off**, **Hotel pickup**, **Hotel drop-off**, **Hotel ↔ Hotel**
-  - Pickup date + time (min 2 hours out)
-  - Flight number (optional, enables tracking) — for airport trips
-  - Hotel name (autocomplete from partner list, or free text) — for hotel trips
-  - Passenger count + luggage count
-  - Meet-and-greet add-on (checkbox, +$15)
-  - Special instructions
-- Confirmation screen shows estimated fare range, assigned driver (once matched), and contact info
+### 1. Flip the iOS payment block OFF (code)
+- **`src/utils/platform-utils.ts`** → `shouldHideStripePayments()` currently returns `true` on iOS. Update so that:
+  - For tiers sold via Apple IAP (Essentials, Starter) → payment UI is **shown** on iOS (so the Apple IAP purchase button appears).
+  - For web-only tiers (Pro, Enterprise) → still show the "Subscribe at 1325.ai" notice (Apple does not allow linking out, but a plain-text mention is compliant).
+- **`src/components/platform/IOSPaymentBlocker.tsx`** → make it tier-aware so it only blocks the web-only tiers, not the IAP tiers.
+- **`src/hooks/useCorporateCheckout.ts`** → leave blocked (corporate Stripe checkout stays web-only).
 
-### 3. New Hotel Partners section + concierge portal
-- Public marketing page: `/noir/hotels` — pitch to hotel GMs and concierge desks (benefits, sample concierge dashboard screenshot, contact form)
-- Hotel partner signup → creates a `hotel_partner` record (pending admin approval)
-- Once approved, concierge gets a portal at `/noir/concierge` to:
-  - Book rides on behalf of guests (guest name, room number, pickup details)
-  - View today's bookings for their property
-  - Quick-rebook frequent routes (hotel → ORD, hotel → MDW)
-  - Monthly invoice instead of per-ride payment
+### 2. App Store Connect setup (you, manual — outside code)
+Before the build is useful, the two products **must exist and be in "Ready to Submit" state** in App Store Connect → My Apps → Subscriptions:
+- Create subscription group "Mansa Musa Subscriptions" (if not already)
+- Product 1: `com.mansamusa.essentials.monthly` — $19.99/mo (closest Apple price tier to $19)
+- Product 2: `com.mansamusa.starter.monthly` — $79.99/mo
+- Add localized display name, description, and one promotional screenshot per product
+- Sign the **Paid Apps Agreement** in App Store Connect → Agreements (required before IAP works at all)
+- Add banking + tax info
 
-### 4. Admin dashboard additions
-- New tab in `NoireRideshareAdmin`: **Hotel Partners** (approve/reject pending hotels, view active partners, see booking volume per hotel)
-- Booking list filterable by: airport vs hotel, partner hotel, scheduled date
+### 3. Xcode capability (you, manual)
+- Open Xcode → App target → Signing & Capabilities → **+ Capability → In-App Purchase**
+- This adds an entitlement; commit the updated `App.entitlements`.
 
-### 5. Keep as-is
-- Phase 1 driver vetting (license, insurance, vehicle photos, admin approval) — unchanged, already perfect for this niche
-- `DriverDetailDrawer` and `DriverApplyPage` — unchanged
-- Checkr integration — still deferred until first 2–3 signed hotel contracts
+### 4. Build & submit
+- Run `scripts/clean-rebuild-ios.sh` (already exists — installs deps, builds web, syncs iOS)
+- Increment build number in Xcode
+- Archive → Upload to App Store Connect
+- In the review notes, tell Apple:
+  > "This build enables In-App Purchase for monthly subscriptions (Essentials $19.99, Starter $79.99). Higher business tiers (Pro, Enterprise) remain web-only as they are sold to businesses, not consumers, per guideline 3.1.3(b) Multiplatform Services."
 
-## Database changes (technical)
+## Technical details (for the implementer)
 
-New tables:
-- `noir_hotel_partners` — hotel_name, address, contact_name, contact_email, contact_phone, concierge_user_id, status (pending/active/suspended), billing_terms (per_ride/monthly_invoice), commission_rate
-- `noir_concierge_users` — links a user account to a hotel_partner with role (concierge/manager)
+```text
+Files to edit:
+ src/utils/platform-utils.ts        ← add isAppleIAPTier(tier) helper, narrow shouldHideStripePayments
+ src/components/platform/IOSPaymentBlocker.tsx  ← accept a `tier` prop, only block web-only tiers
+ (call sites of IOSPaymentBlocker)  ← pass the tier prop where known
 
-Changes to `noir_bookings` (existing table):
-- Add `trip_type` enum: airport_pickup, airport_dropoff, hotel_pickup, hotel_dropoff, hotel_to_hotel
-- Add `flight_number`, `hotel_partner_id` (nullable FK), `booked_by_concierge_id` (nullable, for B2B bookings)
-- Add `meet_and_greet` boolean, `luggage_count` int, `passenger_count` int
-- Add `scheduled_for` timestamp (replaces on-demand `requested_at` for new bookings)
+No backend changes — validate-apple-receipt edge function already exists.
+No new packages — cordova-plugin-purchase is already installed.
+```
 
-RLS: hotel concierges can only see bookings for their own hotel; admins see all.
+## What I will NOT touch
+- Stripe web checkout (untouched — still works at 1325.ai)
+- Pro / Enterprise tier flow (still web-only)
+- The Apple IAP service itself (already correct)
 
-## Files I'll create / edit
+## Open questions for you
 
-**New:**
-- `src/pages/noir/HotelPartnersPage.tsx` — public B2B pitch + signup form
-- `src/pages/noir/ConciergePortalPage.tsx` — authenticated concierge dashboard
-- `src/pages/noir/BookRidePage.tsx` — new scheduled booking form (replaces request-a-ride)
-- `src/components/admin/noir/HotelPartnersTab.tsx` — admin approval UI
-- `src/lib/api/noir-hotel-partners-api.ts`
-- `supabase/migrations/<timestamp>_noir_hotel_pivot.sql`
+1. **Pricing confirmation** — Apple's price tiers don't include exact $19 or $79. Closest are $19.99 and $79.99. OK to use those, or do you want a different tier?
+2. **Do you also want Pro available via IAP?** Today only Essentials + Starter are IAP. Adding Pro would mean creating a 3rd App Store product and giving Apple 15–30% of that revenue too. My recommendation: **keep Pro web-only** (it's a business tier, qualifies for guideline 3.1.3(b)).
+3. **Have you already signed the Paid Apps Agreement** in App Store Connect? If not, that's blocker #1 — nothing IAP-related works until it's signed.
 
-**Edited:**
-- `src/pages/NoirLandingPage.tsx` — new hero, three CTAs, hotel/airport positioning
-- `src/components/HomePage/NoirRideCTA.tsx` — copy update on main homepage
-- `src/components/admin/NoireRideshareAdmin.tsx` — add Hotel Partners tab
-- `src/App.tsx` — register new routes
-
-## What I will NOT do in this phase
-
-- Build the actual driver-matching / dispatch algorithm (manual admin assignment for now — fine at low volume)
-- Build payment processing (Stripe for rider payments, monthly invoicing for hotels — defer to next phase once a partner is signed)
-- Build flight-tracking integration (FlightAware API — defer; for now flight number is just stored for the driver to see)
-- Build the concierge mobile app (web portal is enough for v1)
-- Touch Checkr / background checks (still deferred per your decision)
-
-## After this is built — your next steps
-
-1. Walk into 3–5 Chicago boutique hotels (start with Black-owned ones — e.g. The Robey, Sable at Navy Pier) with the hotel partner pitch URL
-2. Offer first hotel a free 30-day pilot (no commission) in exchange for a testimonial
-3. Once one hotel is live, use that logo + quote on the marketing page to land the next two
-4. **Then** we wire up Checkr and Stripe — by that point you'll have real revenue justifying the ~$25/check cost
-
-Want me to proceed with this plan?
+Once you confirm, I'll make the code changes (small, ~2 files) and you handle the App Store Connect + Xcode steps in parallel.
