@@ -458,7 +458,12 @@ const BetaTesterManager: React.FC = () => {
                         </span>
                       </TableCell>
                       <TableCell className="text-gray-300">
-                        {tester.signed_up_at ? `${daysSince(tester.signed_up_at)}d` : '—'}
+                        {`${daysSince(tester.created_at)}d`}
+                        {tester.signed_up_at && (
+                          <span className="block text-xs text-muted-foreground">
+                            signed up {daysSince(tester.signed_up_at)}d ago
+                          </span>
+                        )}
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-1">
