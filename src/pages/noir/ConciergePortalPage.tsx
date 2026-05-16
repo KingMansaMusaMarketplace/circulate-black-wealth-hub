@@ -32,7 +32,7 @@ interface HotelRide {
 }
 
 const ConciergePortalPage: React.FC = () => {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(true);
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [hotelId, setHotelId] = useState<string | null>(null);
