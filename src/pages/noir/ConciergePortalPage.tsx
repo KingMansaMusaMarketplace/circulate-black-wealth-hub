@@ -32,7 +32,7 @@ interface HotelRide {
 }
 
 const ConciergePortalPage: React.FC = () => {
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const [loading, setLoading] = useState(true);
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [hotelId, setHotelId] = useState<string | null>(null);
@@ -77,7 +77,7 @@ const ConciergePortalPage: React.FC = () => {
       .then(({ data }) => setRides((data as HotelRide[] | null) ?? []));
   }, [hotelId, showForm]);
 
-  if (isLoading || loading) {
+  if (loading || loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-mansagold" /></div>;
   }
   if (!user) return <Navigate to="/login?redirect=/noir/concierge" replace />;
