@@ -200,6 +200,7 @@ const LazyWishlistPage = lazy(() => import('@/pages/WishlistPage'));
 const LazyCoHostAcceptPage = lazy(() => import('@/pages/CoHostAcceptPage'));
 const LazyExperiencesPage = lazy(() => import('@/pages/stays/ExperiencesPage'));
 const LazyCreateExperiencePage = lazy(() => import('@/pages/stays/CreateExperiencePage'));
+const LazyJoinStaysBetaPage = lazy(() => import('@/pages/stays/JoinStaysBetaPage'));
 const LazyBlackOwnedHotelsPage = lazy(() => import('@/pages/landing/BlackOwnedHotelsPage'));
 const LazyBlackOwnedResortsPage = lazy(() => import('@/pages/landing/BlackOwnedResortsPage'));
 const LazyBlackOwnedVacationRentalsPage = lazy(() => import('@/pages/landing/BlackOwnedVacationRentalsPage'));
