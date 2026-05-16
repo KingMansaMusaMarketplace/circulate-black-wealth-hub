@@ -14,6 +14,8 @@ import { Loader2, Home, Plus, Luggage, Sparkles, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/hooks/useWishlist';
+import { useStaysBetaTracking } from '@/hooks/useStaysBetaTracking';
+import StaysBetaFeedbackWidget from '@/components/stays/StaysBetaFeedbackWidget';
 
 const VacationRentalsPage: React.FC = () => {
   const navigate = useNavigate();
