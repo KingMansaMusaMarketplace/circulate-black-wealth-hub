@@ -34,9 +34,11 @@ interface AccountDeletionRequest {
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [rolesByUser, setRolesByUser] = useState<Record<string, string[]>>({});
   const [deletionRequests, setDeletionRequests] = useState<AccountDeletionRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState<string>('all');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [userStats, setUserStats] = useState({ total: 0, customers: 0, businesses: 0, agents: 0 });
