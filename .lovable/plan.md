@@ -1,101 +1,91 @@
-# Phase 1 — Noire Rideshare Driver Vetting
+# Noire Rideshare Pivot: Hotel & Airport Transport
 
-Goal: Give admins everything they need to verify a driver before letting them pick up riders. No external background-check API yet — that's Phase 2.
+Reposition Noire from a general rideshare into a **premium, scheduled-only Black-owned transport service for hotels and airports in Chicago**. Phase 1 driver vetting stays. Checkr stays deferred until first hotel partners sign.
 
-## What's already in place
+## What changes (plain English)
 
-The `noir_drivers` table exists with basic info (name, phone, vehicle, license number, approval flag). It is missing: document storage, structured status pipeline, expiration tracking, audit history.
+### 1. Rebrand the landing page (`/noir`)
+- New hero: "Premium Black-Owned Hotel & Airport Transport — Chicago"
+- Subhead emphasizes: scheduled rides only, flight tracking, meet-and-greet, vetted Black drivers, corporate billing
+- Replace generic "request a ride" with three clear paths:
+  - **Book a Ride** (riders — airport or hotel pickup)
+  - **Hotel & Corporate Partners** (B2B concierge portal signup)
+  - **Drive with Noire** (existing driver apply flow, unchanged)
+- Update homepage `NoirRideCTA` copy to match (no more "your ride / your driver / your community" — replace with airport/hotel positioning)
 
-## What this phase adds
+### 2. Replace ride-request flow with scheduled booking
+- Remove on-demand "pick me up now" UI
+- New booking form fields:
+  - Trip type: **Airport pickup**, **Airport drop-off**, **Hotel pickup**, **Hotel drop-off**, **Hotel ↔ Hotel**
+  - Pickup date + time (min 2 hours out)
+  - Flight number (optional, enables tracking) — for airport trips
+  - Hotel name (autocomplete from partner list, or free text) — for hotel trips
+  - Passenger count + luggage count
+  - Meet-and-greet add-on (checkbox, +$15)
+  - Special instructions
+- Confirmation screen shows estimated fare range, assigned driver (once matched), and contact info
 
-### 1. Database (one migration)
+### 3. New Hotel Partners section + concierge portal
+- Public marketing page: `/noir/hotels` — pitch to hotel GMs and concierge desks (benefits, sample concierge dashboard screenshot, contact form)
+- Hotel partner signup → creates a `hotel_partner` record (pending admin approval)
+- Once approved, concierge gets a portal at `/noir/concierge` to:
+  - Book rides on behalf of guests (guest name, room number, pickup details)
+  - View today's bookings for their property
+  - Quick-rebook frequent routes (hotel → ORD, hotel → MDW)
+  - Monthly invoice instead of per-ride payment
 
-**Extend `noir_drivers`** with vetting fields:
-- `date_of_birth`, `address_line1`, `address_city`, `address_state`, `address_zip`
-- `drivers_license_state`, `drivers_license_expires_at`
-- `vehicle_vin`, `vehicle_registration_expires_at`, `insurance_policy_number`, `insurance_expires_at`
-- `application_status` — enum: `draft`, `submitted`, `under_review`, `approved`, `rejected`, `suspended`
-- `submitted_at`, `reviewed_at`, `reviewed_by`, `rejection_reason`, `admin_notes`
-- `agreement_accepted_at` (driver TOS)
+### 4. Admin dashboard additions
+- New tab in `NoireRideshareAdmin`: **Hotel Partners** (approve/reject pending hotels, view active partners, see booking volume per hotel)
+- Booking list filterable by: airport vs hotel, partner hotel, scheduled date
 
-**New table `noir_driver_documents`** — one row per uploaded file:
-- `driver_id`, `document_type` (license_front, license_back, selfie, insurance, registration, vehicle_photo_front/back/left/right/interior, w9, vehicle_inspection)
-- `file_url`, `uploaded_at`, `expires_at` (nullable)
-- `review_status` (pending/approved/rejected), `reviewer_notes`, `reviewed_by`, `reviewed_at`
+### 5. Keep as-is
+- Phase 1 driver vetting (license, insurance, vehicle photos, admin approval) — unchanged, already perfect for this niche
+- `DriverDetailDrawer` and `DriverApplyPage` — unchanged
+- Checkr integration — still deferred until first 2–3 signed hotel contracts
 
-**New table `noir_driver_status_history`** — audit trail:
-- `driver_id`, `from_status`, `to_status`, `changed_by`, `reason`, `changed_at`
+## Database changes (technical)
 
-**Storage bucket `noir-driver-documents`** — private, RLS so drivers only see their own and admins see all.
+New tables:
+- `noir_hotel_partners` — hotel_name, address, contact_name, contact_email, contact_phone, concierge_user_id, status (pending/active/suspended), billing_terms (per_ride/monthly_invoice), commission_rate
+- `noir_concierge_users` — links a user account to a hotel_partner with role (concierge/manager)
 
-**RLS**: drivers read/write their own row + own documents; admins (via `has_role`) read/write everything.
+Changes to `noir_bookings` (existing table):
+- Add `trip_type` enum: airport_pickup, airport_dropoff, hotel_pickup, hotel_dropoff, hotel_to_hotel
+- Add `flight_number`, `hotel_partner_id` (nullable FK), `booked_by_concierge_id` (nullable, for B2B bookings)
+- Add `meet_and_greet` boolean, `luggage_count` int, `passenger_count` int
+- Add `scheduled_for` timestamp (replaces on-demand `requested_at` for new bookings)
 
-### 2. Driver-facing UI
+RLS: hotel concierges can only see bookings for their own hotel; admins see all.
 
-New page **`/noir/drive/apply`** (multi-step form):
-1. Personal info (name, DOB, address, phone)
-2. Driver's license (number, state, expiration, upload front + back + selfie)
-3. Vehicle (make/model/year/color/VIN/plate, upload 4 exterior photos + interior)
-4. Insurance & registration (policy #, expiration, upload both PDFs)
-5. Agreement checkbox + submit → status becomes `submitted`
+## Files I'll create / edit
 
-Driver dashboard shows current status with clear next steps ("3 documents pending review", "Insurance expires in 14 days — please re-upload").
+**New:**
+- `src/pages/noir/HotelPartnersPage.tsx` — public B2B pitch + signup form
+- `src/pages/noir/ConciergePortalPage.tsx` — authenticated concierge dashboard
+- `src/pages/noir/BookRidePage.tsx` — new scheduled booking form (replaces request-a-ride)
+- `src/components/admin/noir/HotelPartnersTab.tsx` — admin approval UI
+- `src/lib/api/noir-hotel-partners-api.ts`
+- `supabase/migrations/<timestamp>_noir_hotel_pivot.sql`
 
-### 3. Admin UI (extends existing Admin → Noire Rideshare → Drivers tab)
+**Edited:**
+- `src/pages/NoirLandingPage.tsx` — new hero, three CTAs, hotel/airport positioning
+- `src/components/HomePage/NoirRideCTA.tsx` — copy update on main homepage
+- `src/components/admin/NoireRideshareAdmin.tsx` — add Hotel Partners tab
+- `src/App.tsx` — register new routes
 
-- **Applications queue** with filter chips: Submitted / Under Review / Approved / Rejected / Suspended
-- **Driver detail drawer**: all info + all documents in a grid with image preview + per-document approve/reject buttons
-- **Action buttons**: Approve Driver / Reject (with reason picker + custom text) / Suspend / Reactivate / Add Note
-- **Status history timeline** at the bottom of the drawer
-- **Expiration warnings**: badges when license/insurance/registration are within 30 days
+## What I will NOT do in this phase
 
-### 4. Notifications
+- Build the actual driver-matching / dispatch algorithm (manual admin assignment for now — fine at low volume)
+- Build payment processing (Stripe for rider payments, monthly invoicing for hotels — defer to next phase once a partner is signed)
+- Build flight-tracking integration (FlightAware API — defer; for now flight number is just stored for the driver to see)
+- Build the concierge mobile app (web portal is enough for v1)
+- Touch Checkr / background checks (still deferred per your decision)
 
-When a driver's status changes, send a branded email via the existing `send-transactional-email` edge function:
-- Submitted → "We've received your application"
-- Approved → "Welcome to Noire — you're cleared to drive"
-- Rejected → reason included + how to re-apply
-- Suspended → reason + contact support
-- Document rejected → "Please re-upload [document name]"
+## After this is built — your next steps
 
-### 5. End-to-end test
+1. Walk into 3–5 Chicago boutique hotels (start with Black-owned ones — e.g. The Robey, Sable at Navy Pier) with the hotel partner pitch URL
+2. Offer first hotel a free 30-day pilot (no commission) in exchange for a testimonial
+3. Once one hotel is live, use that logo + quote on the marketing page to land the next two
+4. **Then** we wire up Checkr and Stripe — by that point you'll have real revenue justifying the ~$25/check cost
 
-A migration-based test (same pattern as the Stays beta + Noire ride test) that:
-1. Creates a test driver application with documents
-2. Walks it through submitted → under_review → approved
-3. Verifies the status history rows
-4. Cleans up
-
-## Out of scope (Phase 2 / 3)
-
-- Checkr / Sterling background check API
-- DMV motor vehicle record pulls
-- Automatic re-verification reminders via email scheduler
-- City permit verification (Chicago TNP)
-- W-9 / 1099 tax form auto-generation
-
-## Files to be created
-
-- `supabase/migrations/<timestamp>_noir_driver_vetting.sql`
-- `src/pages/noir/DriverApplyPage.tsx`
-- `src/components/noir/driver-apply/` — 5 step components + a `DocumentUploader` shared component
-- `src/components/admin/noir/DriverApplicationsQueue.tsx`
-- `src/components/admin/noir/DriverDetailDrawer.tsx`
-- `src/components/admin/noir/DriverDocumentReview.tsx`
-- `src/components/admin/noir/DriverStatusHistory.tsx`
-- `src/hooks/useDriverApplication.ts`
-- `src/lib/api/noir-driver-api.ts`
-- `supabase/migrations/<timestamp>_noir_driver_vetting_e2e_test.sql`
-
-## Files to be edited
-
-- `src/App.tsx` — add `/noir/drive/apply` route
-- The existing Noire admin tab — wire in the new applications queue
-- `src/integrations/supabase/types.ts` — regenerated automatically after migration
-
-## Your next steps (no jargon)
-
-1. Approve this plan — I'll build it.
-2. After it's live, go to **Admin → Noire Rideshare → Drivers** and you'll see a new "Applications" tab.
-3. Test the full flow by signing up as a driver at `/noir/drive/apply`, uploading sample docs, then approving yourself from the admin side.
-4. Talk to a lawyer + insurance broker about Illinois rideshare requirements before letting real strangers drive (separate from the code).
+Want me to proceed with this plan?
