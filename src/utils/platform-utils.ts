@@ -46,6 +46,19 @@ export const shouldHidePaymentForTier = (tier?: string | null): boolean => {
   return true;
 };
 
+/**
+ * Real-world services (rideshare, lodging, physical goods/services consumed
+ * outside the app). Per Apple Guideline 3.1.5(a) these MUST use an external
+ * payment processor (Stripe) — IAP is not allowed and Apple takes 0%.
+ */
+export type RealWorldService = 'rideshare' | 'stays';
+
+/**
+ * Stripe payment UI for real-world services is always allowed, including on iOS.
+ * Use at booking call sites to document intent and bypass any generic iOS payment block.
+ */
+export const shouldAllowStripeForService = (_service: RealWorldService): boolean => true;
+
 export const getPlatformName = (): string => {
   return Capacitor.getPlatform();
 };
