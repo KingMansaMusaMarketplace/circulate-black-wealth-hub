@@ -300,6 +300,7 @@ const UserManagement: React.FC = () => {
                         </TableCell>
                         <TableCell className="text-white/80">{user.full_name || 'N/A'}</TableCell>
                         <TableCell>{getUserTypeBadge(user.user_type)}</TableCell>
+                        <TableCell>{getRoleBadges(user.id)}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1 text-sm text-white/70">
                             <Calendar className="h-3 w-3" />
