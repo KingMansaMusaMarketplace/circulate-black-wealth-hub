@@ -743,6 +743,7 @@ function App() {
                               <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
                               <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
                               <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
+                              <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                               <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
                               <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
                               <Route path="/stays/black-owned-vacation-rentals" element={<LazyBlackOwnedVacationRentalsPage />} />
@@ -1120,6 +1121,7 @@ function App() {
                         <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
                         <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
                         <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
+                        <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />
                         <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
                         <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
                         <Route path="/stays/black-owned-vacation-rentals" element={<LazyBlackOwnedVacationRentalsPage />} />
