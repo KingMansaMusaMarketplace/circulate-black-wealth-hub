@@ -79,11 +79,11 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
       if (isIOS) {
         console.log('[SUBSCRIPTION] Using Apple IAP for iOS');
         
-        // Only Essentials + Starter are sold via Apple IAP.
-        // Pro / Enterprise are web-only — show compliant redirect notice.
+        // Only Essentials + Starter (monthly) are sold via Apple IAP.
+        // Pro / Enterprise + annual variants are web-only — show compliant redirect notice.
         const productIdMap: Record<string, string> = {
-          'essentials': APPLE_PRODUCT_IDS.ESSENTIALS,
-          'starter': APPLE_PRODUCT_IDS.STARTER,
+          'kayla_essentials': APPLE_PRODUCT_IDS.ESSENTIALS,
+          'kayla_starter':    APPLE_PRODUCT_IDS.STARTER,
         };
 
         const productId = productIdMap[tier];
