@@ -139,13 +139,6 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
     window.location.href = 'itms-apps://apps.apple.com/account/subscriptions';
   };
 
-  const handleSubscribeViaWebsite = (e?: React.MouseEvent | React.TouchEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    window.open('https://circulate-black-wealth-hub.lovable.app/subscription', '_blank');
-  };
 
   // iOS: show a brief manage-subscriptions banner above the normal plan grid.
   // Apple-IAP tiers (Essentials, Starter) render purchase buttons that route
