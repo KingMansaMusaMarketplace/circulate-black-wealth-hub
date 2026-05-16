@@ -20,6 +20,7 @@ import StaysBetaFeedbackWidget from '@/components/stays/StaysBetaFeedbackWidget'
 const VacationRentalsPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  useStaysBetaTracking();
   const { isFavorited, toggleFavorite } = useWishlist();
   const [properties, setProperties] = useState<VacationProperty[]>([]);
   const [loading, setLoading] = useState(true);
