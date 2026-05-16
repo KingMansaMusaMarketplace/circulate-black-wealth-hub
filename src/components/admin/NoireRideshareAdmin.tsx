@@ -102,6 +102,7 @@ const NoireRideshareAdmin: React.FC = () => {
   const [pricing, setPricing] = useState<Pricing | null>(null);
   const [payouts, setPayouts] = useState<Payout[]>([]);
   const [disputes, setDisputes] = useState<Dispute[]>([]);
+  const [openDriverId, setOpenDriverId] = useState<string | null>(null);
 
   const loadAll = async () => {
     const [d, r, p, py, dp] = await Promise.all([
