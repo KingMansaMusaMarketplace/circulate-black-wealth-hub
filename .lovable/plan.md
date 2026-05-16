@@ -1,65 +1,54 @@
-# Plan: New iOS Build with Apple In-App Purchases Enabled
+
+# Plan: Enable Stays + Rideshare Bookings on iOS (Stripe, 0% Apple fee)
 
 ## Goal
-Ship a new build to App Store Connect where iOS users can subscribe **inside the app** via Apple In-App Purchase (IAP). Apple takes their 15–30% cut. This replaces the current behavior, which hides all payment UI on iOS and tells users to subscribe at 1325.ai.
+Unblock Stripe payment flows on iOS **only** for real-world services:
+- **Noire Rideshare** (ride bookings)
+- **Mansa Stays** (lodging bookings)
 
-## What's already in place (good news)
-- `src/lib/services/apple-iap-service.ts` — full Apple IAP service using `cordova-plugin-purchase`, with server-side receipt validation via the `validate-apple-receipt` edge function. Already wired for two products:
-  - `com.mansamusa.essentials.monthly` ($19/mo)
-  - `com.mansamusa.starter.monthly` ($79/mo)
-- `useSubscriptionActions.ts` already routes iOS purchases through `appleIAPService.purchase(...)` for those two tiers.
-- Pro / Enterprise are intentionally web-only and show a "Subscribe at 1325.ai" notice on iOS.
+These are physical/real-world services, so per Apple Guideline 3.1.5(a) they MUST use Stripe (or any non-IAP processor) — Apple takes **0%**.
 
-## What needs to change
+All other Stripe UI on iOS stays blocked (already in place from the prior IAP work).
 
-### 1. Flip the iOS payment block OFF (code)
-- **`src/utils/platform-utils.ts`** → `shouldHideStripePayments()` currently returns `true` on iOS. Update so that:
-  - For tiers sold via Apple IAP (Essentials, Starter) → payment UI is **shown** on iOS (so the Apple IAP purchase button appears).
-  - For web-only tiers (Pro, Enterprise) → still show the "Subscribe at 1325.ai" notice (Apple does not allow linking out, but a plain-text mention is compliant).
-- **`src/components/platform/IOSPaymentBlocker.tsx`** → make it tier-aware so it only blocks the web-only tiers, not the IAP tiers.
-- **`src/hooks/useCorporateCheckout.ts`** → leave blocked (corporate Stripe checkout stays web-only).
+## What I'll change (code only — small, ~3 files)
 
-### 2. App Store Connect setup (you, manual — outside code)
-Before the build is useful, the two products **must exist and be in "Ready to Submit" state** in App Store Connect → My Apps → Subscriptions:
-- Create subscription group "Mansa Musa Subscriptions" (if not already)
-- Product 1: `com.mansamusa.essentials.monthly` — $19.99/mo (closest Apple price tier to $19)
-- Product 2: `com.mansamusa.starter.monthly` — $79.99/mo
-- Add localized display name, description, and one promotional screenshot per product
-- Sign the **Paid Apps Agreement** in App Store Connect → Agreements (required before IAP works at all)
-- Add banking + tax info
+### 1. `src/utils/platform-utils.ts`
+Add a new helper for "real-world service" payment flows that bypass the iOS block:
 
-### 3. Xcode capability (you, manual)
-- Open Xcode → App target → Signing & Capabilities → **+ Capability → In-App Purchase**
-- This adds an entitlement; commit the updated `App.entitlements`.
+```ts
+/**
+ * Returns true if Stripe payment UI for a real-world service
+ * (rideshare, lodging, etc.) should be ALLOWED on iOS.
+ * Apple Guideline 3.1.5(a): physical goods/services use Stripe at 0% fee.
+ */
+export type RealWorldService = 'rideshare' | 'stays';
 
-### 4. Build & submit
-- Run `scripts/clean-rebuild-ios.sh` (already exists — installs deps, builds web, syncs iOS)
-- Increment build number in Xcode
-- Archive → Upload to App Store Connect
-- In the review notes, tell Apple:
-  > "This build enables In-App Purchase for monthly subscriptions (Essentials $19.99, Starter $79.99). Higher business tiers (Pro, Enterprise) remain web-only as they are sold to businesses, not consumers, per guideline 3.1.3(b) Multiplatform Services."
-
-## Technical details (for the implementer)
-
-```text
-Files to edit:
- src/utils/platform-utils.ts        ← add isAppleIAPTier(tier) helper, narrow shouldHideStripePayments
- src/components/platform/IOSPaymentBlocker.tsx  ← accept a `tier` prop, only block web-only tiers
- (call sites of IOSPaymentBlocker)  ← pass the tier prop where known
-
-No backend changes — validate-apple-receipt edge function already exists.
-No new packages — cordova-plugin-purchase is already installed.
+export const shouldAllowStripeForService = (service: RealWorldService): boolean => true;
 ```
 
+Plus a small `<StripePaymentBlocker service="rideshare|stays">` pattern (see #2). The existing `shouldHideStripePayments()` stays unchanged so it still hides Stripe for everything else on iOS.
+
+### 2. New component: `src/components/platform/RealWorldServiceGate.tsx`
+Thin wrapper that always renders children (used to make the intent explicit at booking call sites — so future code reviewers see "this is a real-world service, iOS is allowed"). Optional but recommended for clarity.
+
+### 3. Booking call sites — wrap the checkout buttons
+Identified call sites to update so they bypass the iOS payment block:
+- **Rideshare**: `src/pages/noir/BookRidePage.tsx`, `src/components/HomePage/NoirRideCTA.tsx`
+- **Stays**: `src/pages/PropertyDetailPage.tsx`, `src/pages/GuestBookingsPage.tsx` (any "Book / Reserve / Pay" buttons currently wrapped in `IOSPaymentBlocker` or guarded by `shouldHideStripePayments()`)
+
+For each: either unwrap `IOSPaymentBlocker` for that specific button, or wrap with `<RealWorldServiceGate service="...">`. I'll audit each file before editing to make sure I'm not unblocking subscription UI by mistake.
+
 ## What I will NOT touch
-- Stripe web checkout (untouched — still works at 1325.ai)
-- Pro / Enterprise tier flow (still web-only)
-- The Apple IAP service itself (already correct)
+- Apple IAP for Essentials & Starter subscriptions (already working)
+- Pro / Enterprise web-only flow (stays blocked on iOS)
+- Subscription UI blockers anywhere else
+- QR loyalty payments / corporate sponsorship checkout (stays blocked on iOS — those are digital and not in scope)
+- Backend / edge functions (the Stripe booking edge functions already work — they don't care which platform calls them)
 
-## Open questions for you
+## App Store review note (for your submission)
+> "Booking flows for Mansa Stays (lodging) and Noire Rideshare (transportation) use Stripe in compliance with Guideline 3.1.5(a), as they are real-world goods and services consumed outside the app. Digital subscription tiers (Essentials, Starter) use Apple In-App Purchase per Guideline 3.1.1."
 
-1. **Pricing confirmation** — Apple's price tiers don't include exact $19 or $79. Closest are $19.99 and $79.99. OK to use those, or do you want a different tier?
-2. **Do you also want Pro available via IAP?** Today only Essentials + Starter are IAP. Adding Pro would mean creating a 3rd App Store product and giving Apple 15–30% of that revenue too. My recommendation: **keep Pro web-only** (it's a business tier, qualifies for guideline 3.1.3(b)).
-3. **Have you already signed the Paid Apps Agreement** in App Store Connect? If not, that's blocker #1 — nothing IAP-related works until it's signed.
+## Open question (one)
+**Do you want the iOS user to see the same exact booking UI as web** (same prices, same Stripe checkout redirect), or do you want a **slightly different mobile-optimized flow** (e.g. Apple Pay button via Stripe instead of card form)?
 
-Once you confirm, I'll make the code changes (small, ~2 files) and you handle the App Store Connect + Xcode steps in parallel.
+My recommendation: **same flow as web for now** — fastest to ship, Apple Pay can be added later as a Stripe payment method without code changes. Confirm and I'll implement.
