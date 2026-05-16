@@ -9159,6 +9159,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "host_message_templates_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       host_payout_methods: {
@@ -15191,6 +15198,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "photography_requests_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       platform_transactions: {
@@ -15354,6 +15368,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pricing_recommendations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
             referencedColumns: ["id"]
           },
         ]
@@ -15789,6 +15810,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "property_availability_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       property_cohosts: {
@@ -15888,6 +15916,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "property_guarantee_compliance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       property_price_overrides: {
@@ -15921,6 +15956,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_price_overrides_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
             referencedColumns: ["id"]
           },
         ]
@@ -15983,6 +16025,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_pricing_rules_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
             referencedColumns: ["id"]
           },
         ]
@@ -16065,6 +16114,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_reviews_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
             referencedColumns: ["id"]
           },
         ]
@@ -18149,6 +18205,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "scheduled_guest_messages_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "scheduled_guest_messages_template_id_fkey"
             columns: ["template_id"]
             isOneToOne: false
@@ -18370,6 +18433,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "security_deposit_holds_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
             referencedColumns: ["id"]
           },
         ]
@@ -19988,6 +20058,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "stays_conversations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       stays_experiences: {
@@ -20063,6 +20140,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_experiences_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
             referencedColumns: ["id"]
           },
         ]
@@ -20175,6 +20259,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "stays_house_rules_acceptance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       stays_id_verification: {
@@ -20261,6 +20352,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "stays_message_templates_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       stays_messages: {
@@ -20344,6 +20442,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_property_views_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
             referencedColumns: ["id"]
           },
         ]
@@ -20433,6 +20538,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "stays_reviews_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       stays_security_deposits: {
@@ -20517,6 +20629,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "stays_security_deposits_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       stays_wishlist_items: {
@@ -20547,6 +20666,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_wishlist_items_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
             referencedColumns: ["id"]
           },
           {
@@ -22370,6 +22496,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "vacation_bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       vacation_properties: {
@@ -24022,6 +24155,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "property_availability_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       property_price_overrides_public: {
@@ -24054,6 +24194,13 @@ export type Database = {
             referencedRelation: "vacation_properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "property_price_overrides_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       referral_stats_leaderboard: {
@@ -24073,6 +24220,140 @@ export type Database = {
           total_referrals?: number | null
         }
         Relationships: []
+      }
+      vacation_properties_public: {
+        Row: {
+          amenities: Json | null
+          approx_latitude: number | null
+          approx_longitude: number | null
+          average_rating: number | null
+          base_monthly_rate: number | null
+          base_nightly_rate: number | null
+          bathrooms: number | null
+          bedrooms: number | null
+          cancellation_policy: string | null
+          check_in_time: string | null
+          check_out_time: string | null
+          city: string | null
+          cleaning_fee: number | null
+          country: string | null
+          created_at: string | null
+          description: string | null
+          host_id: string | null
+          house_rules: string | null
+          id: string | null
+          is_active: boolean | null
+          is_instant_book: boolean | null
+          is_verified: boolean | null
+          listing_mode: string | null
+          max_guests: number | null
+          max_nights: number | null
+          min_nights: number | null
+          pet_fee: number | null
+          pets_allowed: boolean | null
+          photos: Json | null
+          property_type: Database["public"]["Enums"]["property_type"] | null
+          review_count: number | null
+          security_deposit: number | null
+          service_fee_percent: number | null
+          service_tier: string | null
+          state: string | null
+          title: string | null
+          updated_at: string | null
+          weekly_rate: number | null
+          zip_code: string | null
+        }
+        Insert: {
+          amenities?: Json | null
+          approx_latitude?: never
+          approx_longitude?: never
+          average_rating?: number | null
+          base_monthly_rate?: number | null
+          base_nightly_rate?: number | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          cancellation_policy?: string | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          city?: string | null
+          cleaning_fee?: number | null
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          host_id?: string | null
+          house_rules?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          is_instant_book?: boolean | null
+          is_verified?: boolean | null
+          listing_mode?: string | null
+          max_guests?: number | null
+          max_nights?: number | null
+          min_nights?: number | null
+          pet_fee?: number | null
+          pets_allowed?: boolean | null
+          photos?: Json | null
+          property_type?: Database["public"]["Enums"]["property_type"] | null
+          review_count?: number | null
+          security_deposit?: number | null
+          service_fee_percent?: number | null
+          service_tier?: string | null
+          state?: string | null
+          title?: string | null
+          updated_at?: string | null
+          weekly_rate?: number | null
+          zip_code?: string | null
+        }
+        Update: {
+          amenities?: Json | null
+          approx_latitude?: never
+          approx_longitude?: never
+          average_rating?: number | null
+          base_monthly_rate?: number | null
+          base_nightly_rate?: number | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          cancellation_policy?: string | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          city?: string | null
+          cleaning_fee?: number | null
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          host_id?: string | null
+          house_rules?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          is_instant_book?: boolean | null
+          is_verified?: boolean | null
+          listing_mode?: string | null
+          max_guests?: number | null
+          max_nights?: number | null
+          min_nights?: number | null
+          pet_fee?: number | null
+          pets_allowed?: boolean | null
+          photos?: Json | null
+          property_type?: Database["public"]["Enums"]["property_type"] | null
+          review_count?: number | null
+          security_deposit?: number | null
+          service_fee_percent?: number | null
+          service_tier?: string | null
+          state?: string | null
+          title?: string | null
+          updated_at?: string | null
+          weekly_rate?: number | null
+          zip_code?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vacation_properties_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
     }
     Functions: {
@@ -25208,6 +25489,10 @@ export type Database = {
           operation_name: string
         }
         Returns: Json
+      }
+      has_confirmed_booking_for_property: {
+        Args: { _property_id: string }
+        Returns: boolean
       }
       has_role: {
         Args: {
