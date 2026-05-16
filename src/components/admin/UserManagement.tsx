@@ -284,6 +284,7 @@ const UserManagement: React.FC = () => {
                       <TableHead className="text-white/80">Email</TableHead>
                       <TableHead className="text-white/80">Name</TableHead>
                       <TableHead className="text-white/80">Type</TableHead>
+                      <TableHead className="text-white/80">Role</TableHead>
                       <TableHead className="text-white/80">Joined</TableHead>
                       <TableHead className="text-white/80">Actions</TableHead>
                     </TableRow>
