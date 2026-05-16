@@ -47,6 +47,19 @@ export const handleSignUp = async (
       } catch (betaErr) {
         console.warn('Beta tester check failed (non-blocking):', betaErr);
       }
+
+      // Also check Mansa Stays beta
+      try {
+        const { data: isStaysBeta } = await supabase.rpc('activate_stays_beta_tester' as any, {
+          p_email: email,
+          p_user_id: data.user.id,
+        });
+        if (isStaysBeta) {
+          console.log('Mansa Stays beta tester activated');
+        }
+      } catch (e) {
+        console.warn('Stays beta check failed (non-blocking):', e);
+      }
     }
 
     // If user signed up with a referral code, create the referral link

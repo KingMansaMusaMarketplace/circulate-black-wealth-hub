@@ -14,10 +14,13 @@ import { Loader2, Home, Plus, Luggage, Sparkles, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/hooks/useWishlist';
+import { useStaysBetaTracking } from '@/hooks/useStaysBetaTracking';
+import StaysBetaFeedbackWidget from '@/components/stays/StaysBetaFeedbackWidget';
 
 const VacationRentalsPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  useStaysBetaTracking();
   const { isFavorited, toggleFavorite } = useWishlist();
   const [properties, setProperties] = useState<VacationProperty[]>([]);
   const [loading, setLoading] = useState(true);
@@ -399,6 +402,7 @@ const VacationRentalsPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <StaysBetaFeedbackWidget />
     </div>
   );
 };

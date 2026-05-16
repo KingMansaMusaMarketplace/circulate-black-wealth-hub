@@ -19396,6 +19396,225 @@ export type Database = {
           },
         ]
       }
+      stays_beta_feedback: {
+        Row: {
+          beta_tester_id: string | null
+          comment: string | null
+          created_at: string
+          id: string
+          page_url: string | null
+          rating: number | null
+          screenshot_url: string | null
+          user_id: string | null
+        }
+        Insert: {
+          beta_tester_id?: string | null
+          comment?: string | null
+          created_at?: string
+          id?: string
+          page_url?: string | null
+          rating?: number | null
+          screenshot_url?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          beta_tester_id?: string | null
+          comment?: string | null
+          created_at?: string
+          id?: string
+          page_url?: string | null
+          rating?: number | null
+          screenshot_url?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_beta_feedback_beta_tester_id_fkey"
+            columns: ["beta_tester_id"]
+            isOneToOne: false
+            referencedRelation: "stays_beta_testers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_beta_feedback_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      stays_beta_tester_daily_activity: {
+        Row: {
+          actions_count: number | null
+          activity_date: string
+          beta_tester_id: string
+          created_at: string
+          id: string
+          page_views: number | null
+          total_minutes: number | null
+          user_id: string
+        }
+        Insert: {
+          actions_count?: number | null
+          activity_date?: string
+          beta_tester_id: string
+          created_at?: string
+          id?: string
+          page_views?: number | null
+          total_minutes?: number | null
+          user_id: string
+        }
+        Update: {
+          actions_count?: number | null
+          activity_date?: string
+          beta_tester_id?: string
+          created_at?: string
+          id?: string
+          page_views?: number | null
+          total_minutes?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_beta_tester_daily_activity_beta_tester_id_fkey"
+            columns: ["beta_tester_id"]
+            isOneToOne: false
+            referencedRelation: "stays_beta_testers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_beta_tester_daily_activity_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      stays_beta_tester_sessions: {
+        Row: {
+          beta_tester_id: string
+          duration_minutes: number | null
+          id: string
+          session_end: string | null
+          session_start: string
+          user_id: string
+        }
+        Insert: {
+          beta_tester_id: string
+          duration_minutes?: number | null
+          id?: string
+          session_end?: string | null
+          session_start?: string
+          user_id: string
+        }
+        Update: {
+          beta_tester_id?: string
+          duration_minutes?: number | null
+          id?: string
+          session_end?: string | null
+          session_start?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_beta_tester_sessions_beta_tester_id_fkey"
+            columns: ["beta_tester_id"]
+            isOneToOne: false
+            referencedRelation: "stays_beta_testers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_beta_tester_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      stays_beta_testers: {
+        Row: {
+          active_days_count: number | null
+          beta_code: string
+          bookings_count: number | null
+          created_at: string
+          email: string
+          expiration_date: string | null
+          feedback_count: number | null
+          full_name: string
+          id: string
+          invited_by: string | null
+          last_active_at: string | null
+          messages_sent: number | null
+          notes: string | null
+          properties_viewed: number | null
+          signed_up_at: string | null
+          status: string
+          total_session_minutes: number | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          active_days_count?: number | null
+          beta_code?: string
+          bookings_count?: number | null
+          created_at?: string
+          email: string
+          expiration_date?: string | null
+          feedback_count?: number | null
+          full_name: string
+          id?: string
+          invited_by?: string | null
+          last_active_at?: string | null
+          messages_sent?: number | null
+          notes?: string | null
+          properties_viewed?: number | null
+          signed_up_at?: string | null
+          status?: string
+          total_session_minutes?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          active_days_count?: number | null
+          beta_code?: string
+          bookings_count?: number | null
+          created_at?: string
+          email?: string
+          expiration_date?: string | null
+          feedback_count?: number | null
+          full_name?: string
+          id?: string
+          invited_by?: string | null
+          last_active_at?: string | null
+          messages_sent?: number | null
+          notes?: string | null
+          properties_viewed?: number | null
+          signed_up_at?: string | null
+          status?: string
+          total_session_minutes?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_beta_testers_invited_by_fkey"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "stays_beta_testers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       stays_conversations: {
         Row: {
           booking_id: string | null
@@ -23556,6 +23775,10 @@ export type Database = {
             Returns: boolean
           }
         | { Args: { p_email: string; p_user_id: string }; Returns: boolean }
+      activate_stays_beta_tester: {
+        Args: { p_email: string; p_user_id: string }
+        Returns: boolean
+      }
       add_marketing_topup_credits: {
         Args: { p_business_id: string; p_credits: number; p_session_id: string }
         Returns: undefined
@@ -24723,6 +24946,7 @@ export type Database = {
         Args: { p_list_id: string; p_user_id: string }
         Returns: boolean
       }
+      is_stays_beta_tester: { Args: { p_email: string }; Returns: boolean }
       is_user_suspended: { Args: { check_user_id: string }; Returns: boolean }
       join_challenge: { Args: { p_challenge_id: string }; Returns: Json }
       list_city_category_counts: {
