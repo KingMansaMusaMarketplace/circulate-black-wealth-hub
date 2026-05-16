@@ -688,6 +688,9 @@ function App() {
                               
                               {/* N */}
                               <Route path="/noir" element={<LazyNoirLandingPage />} />
+                              <Route path="/noir/book" element={<LazyNoirBookRidePage />} />
+                              <Route path="/noir/hotels" element={<LazyNoirHotelPartnersPage />} />
+                              <Route path="/noir/concierge" element={<LazyNoirConciergePortalPage />} />
                               <Route path="/noir/drive/apply" element={<LazyDriverApplyPage />} />
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
@@ -1062,6 +1065,9 @@ function App() {
                         
                         {/* N */}
                         <Route path="/noir" element={<LazyNoirLandingPage />} />
+                        <Route path="/noir/book" element={<LazyNoirBookRidePage />} />
+                        <Route path="/noir/hotels" element={<LazyNoirHotelPartnersPage />} />
+                        <Route path="/noir/concierge" element={<LazyNoirConciergePortalPage />} />
                         <Route path="/noir/drive/apply" element={<LazyDriverApplyPage />} />
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                         <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
