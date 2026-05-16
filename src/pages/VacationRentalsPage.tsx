@@ -402,6 +402,7 @@ const VacationRentalsPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <StaysBetaFeedbackWidget />
     </div>
   );
 };
