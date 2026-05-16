@@ -222,6 +222,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
+      {isIOS && renderIOSManageBanner()}
       {/* Founders' Lock spotlight (only when available, monthly view) */}
       {founders.isAvailable && billingCycle === 'monthly' && (
         <FoundersLockBanner
