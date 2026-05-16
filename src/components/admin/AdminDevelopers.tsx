@@ -51,6 +51,17 @@ interface DeveloperAccount {
   profiles?: { full_name: string | null; email: string | null } | null;
 }
 
+// Raw row shape from developer_accounts table
+interface DeveloperAccountRow {
+  id: string;
+  user_id: string;
+  company_name: string | null;
+  company_website: string | null;
+  tier: string | null;
+  status: string | null;
+  created_at: string;
+}
+
 interface ApiKey {
   id: string;
   developer_id: string;
@@ -95,16 +106,56 @@ const AdminDevelopers: React.FC = () => {
 
   const fetchDevelopers = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: rows, error } = await supabase
         .from('developer_accounts')
-        .select(`
-          *,
-          profiles:user_id (full_name, email)
-        `)
+        .select('id, user_id, company_name, company_website, tier, status, created_at')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setDevelopers(data || []);
+
+      const accounts = (rows || []) as DeveloperAccountRow[];
+      const userIds = Array.from(new Set(accounts.map(a => a.user_id).filter(Boolean)));
+
+      let profileMap: Record<string, { full_name: string | null; email: string | null }> = {};
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name, email')
+          .in('id', userIds);
+        for (const p of profiles || []) {
+          profileMap[p.id] = { full_name: p.full_name, email: p.email };
+        }
+      }
+
+      // Aggregate API calls per developer (last 30 days)
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const { data: usageRows } = await supabase
+        .from('api_usage_logs')
+        .select('developer_id, billed_units')
+        .gte('request_timestamp', thirtyDaysAgo.toISOString());
+
+      const callsByDev: Record<string, number> = {};
+      for (const row of usageRows || []) {
+        const id = (row as any).developer_id as string;
+        if (!id) continue;
+        callsByDev[id] = (callsByDev[id] || 0) + ((row as any).billed_units || 1);
+      }
+
+      const mapped: DeveloperAccount[] = accounts.map(a => ({
+        id: a.id,
+        user_id: a.user_id,
+        company_name: a.company_name || 'Untitled',
+        contact_email: profileMap[a.user_id]?.email || '',
+        website_url: a.company_website,
+        plan_type: a.tier || 'free',
+        status: a.status || 'pending',
+        created_at: a.created_at,
+        monthly_api_calls: callsByDev[a.id] || 0,
+        profiles: profileMap[a.user_id] || null,
+      }));
+
+      setDevelopers(mapped);
     } catch (error) {
       console.error('Error fetching developers:', error);
       toast.error('Failed to load developer accounts');
@@ -137,14 +188,14 @@ const AdminDevelopers: React.FC = () => {
 
       const totalApiCalls = usageData?.reduce((sum, log) => sum + (log.billed_units || 1), 0) || 0;
 
-      // Estimate revenue (simplified calculation)
+      // Estimate revenue from `tier`
       const { data: proDevs } = await supabase
         .from('developer_accounts')
-        .select('plan_type')
+        .select('tier')
         .eq('status', 'active');
 
-      const proCount = proDevs?.filter(d => d.plan_type === 'pro').length || 0;
-      const enterpriseCount = proDevs?.filter(d => d.plan_type === 'enterprise').length || 0;
+      const proCount = proDevs?.filter((d: any) => d.tier === 'pro').length || 0;
+      const enterpriseCount = proDevs?.filter((d: any) => d.tier === 'enterprise').length || 0;
       const totalRevenue = (proCount * 299) + (enterpriseCount * 999); // Rough estimate
 
       setStats({
