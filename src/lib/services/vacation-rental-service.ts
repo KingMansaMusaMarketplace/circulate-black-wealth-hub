@@ -13,8 +13,9 @@ import {
 export async function fetchVacationProperties(
   filters?: PropertySearchFilters
 ): Promise<VacationProperty[]> {
-  let query = supabase
-    .from('vacation_properties')
+  // Public browse uses the privacy-safe view (no street address, fuzzy GPS)
+  let query = (supabase as any)
+    .from('vacation_properties_public')
     .select('*')
     .eq('is_active', true);
 
@@ -68,18 +69,30 @@ export async function fetchVacationProperties(
 
 // Fetch single property by ID
 export async function fetchPropertyById(id: string): Promise<VacationProperty | null> {
-  const { data, error } = await supabase
+  // Try the full table first (host/admin/confirmed-guest see full address).
+  // Fall back to the privacy-safe public view for everyone else.
+  const fullResult = await supabase
     .from('vacation_properties')
     .select('*')
     .eq('id', id)
-    .single();
+    .maybeSingle();
 
-  if (error) {
-    console.error('Error fetching property:', error);
+  if (fullResult.data) {
+    return mapPropertyFromDB(fullResult.data);
+  }
+
+  const publicResult = await (supabase as any)
+    .from('vacation_properties_public')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (publicResult.error || !publicResult.data) {
+    if (publicResult.error) console.error('Error fetching property:', publicResult.error);
     return null;
   }
 
-  return mapPropertyFromDB(data);
+  return mapPropertyFromDB(publicResult.data);
 }
 
 // Fetch properties by host
@@ -384,8 +397,9 @@ export function mapPropertyFromDB(data: any): VacationProperty {
     state: data.state,
     zip_code: data.zip_code,
     country: data.country,
-    latitude: data.latitude ? parseFloat(data.latitude) : null,
-    longitude: data.longitude ? parseFloat(data.longitude) : null,
+    // Fall back to approx_* fields from the privacy-safe public view
+    latitude: data.latitude ? parseFloat(data.latitude) : (data.approx_latitude ? parseFloat(data.approx_latitude) : null),
+    longitude: data.longitude ? parseFloat(data.longitude) : (data.approx_longitude ? parseFloat(data.approx_longitude) : null),
     bedrooms: data.bedrooms,
     bathrooms: parseFloat(data.bathrooms),
     max_guests: data.max_guests,
