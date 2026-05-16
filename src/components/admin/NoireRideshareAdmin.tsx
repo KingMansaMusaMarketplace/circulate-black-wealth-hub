@@ -13,6 +13,7 @@ import { Car, Users, DollarSign, Loader2, Search, Download, Power, ShieldCheck, 
 import { toast } from 'sonner';
 import { toCSV, downloadCSV } from './noire-rideshare/csvUtils';
 import DriverDetailDrawer from './noir/DriverDetailDrawer';
+import HotelPartnersTab from './noir/HotelPartnersTab';
 import { STATUS_COLORS, DriverApplicationStatus } from '@/lib/api/noir-driver-api';
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
@@ -445,9 +446,14 @@ const NoireRideshareAdmin: React.FC = () => {
           <TabsTrigger value="rides">Rides ({rides.length})</TabsTrigger>
           <TabsTrigger value="payouts">Payouts</TabsTrigger>
           <TabsTrigger value="pricing">Pricing</TabsTrigger>
+          <TabsTrigger value="hotels">Hotel Partners</TabsTrigger>
           <TabsTrigger value="disputes">Disputes ({openDisputes})</TabsTrigger>
           <TabsTrigger value="reporting">Reporting</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="hotels" className="mt-4">
+          <HotelPartnersTab />
+        </TabsContent>
 
         {/* APPLICATIONS */}
         <TabsContent value="applications" className="mt-4 space-y-3">

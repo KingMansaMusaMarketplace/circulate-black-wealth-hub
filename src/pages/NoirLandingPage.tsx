@@ -102,15 +102,30 @@ const NoirLandingPage: React.FC = () => {
               <img src={noirLogo} alt="Noire Rideshare" className="h-64 md:h-96 w-auto brightness-150 contrast-125 drop-shadow-[0_0_60px_rgba(255,193,7,0.5)]" />
             </div>
 
+            <span className="inline-block text-xs font-bold uppercase tracking-widest text-mansagold bg-mansagold/10 border border-mansagold/30 px-3 py-1 rounded-full mb-4">Premium Hotel & Airport Transport · Chicago</span>
+
             <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-3 leading-relaxed">
-              The ride-share that puts <span className="text-mansagold font-semibold">people first</span>.
+              Scheduled rides to <span className="text-mansagold font-semibold">O'Hare, Midway, and Chicago's finest hotels</span>.
               <br className="hidden md:block" />
-              Lower fares. Higher driver pay. Premium experience.
+              Vetted Black-owned drivers. Flight tracking. Meet-and-greet. No surge pricing — ever.
             </p>
 
-            <p className="text-sm font-mono text-mansagold/50 tracking-[0.3em] uppercase mb-10">
+            <p className="text-sm font-mono text-mansagold/50 tracking-[0.3em] uppercase mb-8">
               Powered by 1325.AI
             </p>
+
+            {/* Primary 3-CTA bar — hotel/airport pivot */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-3xl mx-auto mb-10">
+              <Button asChild size="lg" className="bg-mansagold hover:bg-amber-500 text-black font-bold rounded-xl px-8 flex-1">
+                <Link to="/noir/book">Book a Ride <ArrowRight className="ml-2 h-5 w-5" /></Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 rounded-xl px-8 flex-1">
+                <Link to="/noir/hotels">Hotel & Corporate Partners</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/5 rounded-xl px-8 flex-1">
+                <Link to="/noir/drive/apply">Drive with Noire</Link>
+              </Button>
+            </div>
 
             {/* Ride Request Form */}
             <div className="max-w-xl mx-auto mb-8">

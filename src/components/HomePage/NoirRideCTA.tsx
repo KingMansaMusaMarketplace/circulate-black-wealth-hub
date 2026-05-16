@@ -28,14 +28,13 @@ const NoirRideCTA: React.FC = () => {
               </div>
               
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
-                Your Ride.{' '}
-                <span className="text-mansagold">Your Driver. Your Community.</span>
+                Premium <span className="text-mansagold">Hotel & Airport Transport</span> — Chicago
               </h2>
               
               <p className="text-base text-blue-200/70 mb-4">
-                <span className="font-semibold text-white">Riders:</span> Book a ride and we'll pick you up & drop you off — reliable, safe, and community-powered.
+                <span className="font-semibold text-white">Riders & hotels:</span> Scheduled airport runs and hotel transfers with vetted Black-owned drivers — flight tracking, meet-and-greet, no surge pricing.
                 <br className="hidden sm:block" />
-                <span className="font-semibold text-white">Drivers:</span> Keep 80% of every fare. Flat 20% fee, full transparency — no algorithm games, no hidden math.
+                <span className="font-semibold text-white">Drivers:</span> Keep 80% of every fare. Flat 20% fee, full transparency — no algorithm games.
               </p>
               
               {/* Value Props */}
@@ -59,8 +58,8 @@ const NoirRideCTA: React.FC = () => {
                   asChild
                   className="bg-mansagold hover:bg-mansagold-dark text-slate-900 font-bold rounded-xl group"
                 >
-                  <Link to="/noir">
-                    Request a Ride
+                <Link to="/noir/book">
+                    Book a Ride
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>

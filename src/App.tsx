@@ -68,6 +68,9 @@ const LazyB2BDashboardPage = lazy(() => import('@/pages/business/B2BDashboardPag
 import { B2BProGate } from '@/components/business/B2BProGate';
 const LazyNoirLandingPage = lazy(() => import('@/pages/NoirLandingPage'));
 const LazyDriverApplyPage = lazy(() => import('@/pages/noir/DriverApplyPage'));
+const LazyNoirHotelPartnersPage = lazy(() => import('@/pages/noir/HotelPartnersPage'));
+const LazyNoirBookRidePage = lazy(() => import('@/pages/noir/BookRidePage'));
+const LazyNoirConciergePortalPage = lazy(() => import('@/pages/noir/ConciergePortalPage'));
 const LazyLeadsDashboardPage = lazy(() => import('@/pages/LeadsDashboardPage'));
 const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
 const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
@@ -685,6 +688,9 @@ function App() {
                               
                               {/* N */}
                               <Route path="/noir" element={<LazyNoirLandingPage />} />
+                              <Route path="/noir/book" element={<LazyNoirBookRidePage />} />
+                              <Route path="/noir/hotels" element={<LazyNoirHotelPartnersPage />} />
+                              <Route path="/noir/concierge" element={<LazyNoirConciergePortalPage />} />
                               <Route path="/noir/drive/apply" element={<LazyDriverApplyPage />} />
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
@@ -1059,6 +1065,9 @@ function App() {
                         
                         {/* N */}
                         <Route path="/noir" element={<LazyNoirLandingPage />} />
+                        <Route path="/noir/book" element={<LazyNoirBookRidePage />} />
+                        <Route path="/noir/hotels" element={<LazyNoirHotelPartnersPage />} />
+                        <Route path="/noir/concierge" element={<LazyNoirConciergePortalPage />} />
                         <Route path="/noir/drive/apply" element={<LazyDriverApplyPage />} />
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                         <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />

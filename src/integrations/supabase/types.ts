@@ -13052,6 +13052,44 @@ export type Database = {
           },
         ]
       }
+      noir_concierge_users: {
+        Row: {
+          created_at: string
+          hotel_partner_id: string
+          id: string
+          is_active: boolean
+          role: Database["public"]["Enums"]["noir_concierge_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          hotel_partner_id: string
+          id?: string
+          is_active?: boolean
+          role?: Database["public"]["Enums"]["noir_concierge_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          hotel_partner_id?: string
+          id?: string
+          is_active?: boolean
+          role?: Database["public"]["Enums"]["noir_concierge_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noir_concierge_users_hotel_partner_id_fkey"
+            columns: ["hotel_partner_id"]
+            isOneToOne: false
+            referencedRelation: "noir_hotel_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       noir_driver_documents: {
         Row: {
           created_at: string
@@ -13366,6 +13404,75 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      noir_hotel_partners: {
+        Row: {
+          address_city: string | null
+          address_line1: string | null
+          address_state: string | null
+          address_zip: string | null
+          approved_at: string | null
+          approved_by: string | null
+          billing_terms: string
+          commission_rate: number
+          contact_email: string
+          contact_name: string
+          contact_phone: string | null
+          created_at: string
+          created_by: string | null
+          hotel_name: string
+          id: string
+          notes: string | null
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["noir_hotel_partner_status"]
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          address_city?: string | null
+          address_line1?: string | null
+          address_state?: string | null
+          address_zip?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          billing_terms?: string
+          commission_rate?: number
+          contact_email: string
+          contact_name: string
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          hotel_name: string
+          id?: string
+          notes?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["noir_hotel_partner_status"]
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          address_city?: string | null
+          address_line1?: string | null
+          address_state?: string | null
+          address_zip?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          billing_terms?: string
+          commission_rate?: number
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          hotel_name?: string
+          id?: string
+          notes?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["noir_hotel_partner_status"]
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: []
       }
       noir_rides: {
         Row: {
@@ -13853,57 +13960,97 @@ export type Database = {
       }
       noire_scheduled_rides: {
         Row: {
+          booked_by_concierge_id: string | null
           created_at: string
           dropoff_address: string
           dropoff_lat: number | null
           dropoff_lng: number | null
           estimated_fare: number | null
+          flight_number: string | null
+          guest_name: string | null
+          guest_room_number: string | null
+          hotel_name_freeform: string | null
+          hotel_partner_id: string | null
           id: string
+          luggage_count: number
+          meet_and_greet: boolean
           notes: string | null
+          passenger_count: number
           pickup_address: string
           pickup_lat: number | null
           pickup_lng: number | null
           preferred_driver_id: string | null
           rider_user_id: string
           scheduled_for: string
+          special_instructions: string | null
           status: string
+          trip_type: Database["public"]["Enums"]["noir_trip_type"]
           updated_at: string
         }
         Insert: {
+          booked_by_concierge_id?: string | null
           created_at?: string
           dropoff_address: string
           dropoff_lat?: number | null
           dropoff_lng?: number | null
           estimated_fare?: number | null
+          flight_number?: string | null
+          guest_name?: string | null
+          guest_room_number?: string | null
+          hotel_name_freeform?: string | null
+          hotel_partner_id?: string | null
           id?: string
+          luggage_count?: number
+          meet_and_greet?: boolean
           notes?: string | null
+          passenger_count?: number
           pickup_address: string
           pickup_lat?: number | null
           pickup_lng?: number | null
           preferred_driver_id?: string | null
           rider_user_id: string
           scheduled_for: string
+          special_instructions?: string | null
           status?: string
+          trip_type?: Database["public"]["Enums"]["noir_trip_type"]
           updated_at?: string
         }
         Update: {
+          booked_by_concierge_id?: string | null
           created_at?: string
           dropoff_address?: string
           dropoff_lat?: number | null
           dropoff_lng?: number | null
           estimated_fare?: number | null
+          flight_number?: string | null
+          guest_name?: string | null
+          guest_room_number?: string | null
+          hotel_name_freeform?: string | null
+          hotel_partner_id?: string | null
           id?: string
+          luggage_count?: number
+          meet_and_greet?: boolean
           notes?: string | null
+          passenger_count?: number
           pickup_address?: string
           pickup_lat?: number | null
           pickup_lng?: number | null
           preferred_driver_id?: string | null
           rider_user_id?: string
           scheduled_for?: string
+          special_instructions?: string | null
           status?: string
+          trip_type?: Database["public"]["Enums"]["noir_trip_type"]
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "noire_scheduled_rides_hotel_partner_id_fkey"
+            columns: ["hotel_partner_id"]
+            isOneToOne: false
+            referencedRelation: "noir_hotel_partners"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "noire_scheduled_rides_preferred_driver_id_fkey"
             columns: ["preferred_driver_id"]
@@ -25009,6 +25156,10 @@ export type Database = {
       }
       get_tier_multiplier: { Args: { tier: string }; Returns: number }
       get_user_hbcu_status: { Args: { target_user_id?: string }; Returns: Json }
+      get_user_hotel_partner_ids: {
+        Args: { _user_id: string }
+        Returns: string[]
+      }
       get_user_milestone_progress: {
         Args: never
         Returns: {
@@ -25105,6 +25256,10 @@ export type Database = {
       }
       is_circle_member: {
         Args: { _circle_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_noir_concierge_for: {
+        Args: { _hotel_partner_id: string; _user_id: string }
         Returns: boolean
       }
       is_savings_circle_creator: {
@@ -25566,6 +25721,7 @@ export type Database = {
         | "qr_codes"
         | "videos"
         | "documents"
+      noir_concierge_role: "concierge" | "manager"
       noir_document_review_status: "pending" | "approved" | "rejected"
       noir_driver_application_status:
         | "draft"
@@ -25587,6 +25743,14 @@ export type Database = {
         | "vehicle_interior"
         | "w9"
         | "vehicle_inspection"
+      noir_hotel_partner_status: "pending" | "active" | "suspended" | "rejected"
+      noir_trip_type:
+        | "airport_pickup"
+        | "airport_dropoff"
+        | "hotel_pickup"
+        | "hotel_dropoff"
+        | "hotel_to_hotel"
+        | "other"
       outreach_channel:
         | "email"
         | "linkedin"
@@ -25802,6 +25966,7 @@ export const Constants = {
         "videos",
         "documents",
       ],
+      noir_concierge_role: ["concierge", "manager"],
       noir_document_review_status: ["pending", "approved", "rejected"],
       noir_driver_application_status: [
         "draft",
@@ -25824,6 +25989,15 @@ export const Constants = {
         "vehicle_interior",
         "w9",
         "vehicle_inspection",
+      ],
+      noir_hotel_partner_status: ["pending", "active", "suspended", "rejected"],
+      noir_trip_type: [
+        "airport_pickup",
+        "airport_dropoff",
+        "hotel_pickup",
+        "hotel_dropoff",
+        "hotel_to_hotel",
+        "other",
       ],
       outreach_channel: [
         "email",
