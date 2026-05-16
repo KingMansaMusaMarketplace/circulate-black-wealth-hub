@@ -147,73 +147,31 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
     window.open('https://circulate-black-wealth-hub.lovable.app/subscription', '_blank');
   };
 
-  // iOS: show subscription management info
-  if (isIOS) {
-    return (
-      <div className="max-w-2xl mx-auto">
-        <Card className="bg-card/60 backdrop-blur-xl border-border/40">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Subscription Management</CardTitle>
-            <CardDescription>
-              Manage your subscription through your device settings
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <Button
-                onClick={handleManageSubscriptions}
-                className="w-full font-semibold py-6"
-                style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
-              >
-                <ExternalLink className="mr-2 h-5 w-5" />
-                Manage Subscriptions (Apple ID)
-              </Button>
-              <Button
-                onClick={handleSubscribeViaWebsite}
-                variant="outline"
-                className="w-full py-6"
-                style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
-              >
-                Subscribe via Website
-              </Button>
-            </div>
-            <Alert>
-              <ExternalLink className="h-4 w-4" />
-              <AlertTitle>iOS Subscription Info</AlertTitle>
-              <AlertDescription>
-                To view or cancel subscriptions on iOS, tap "Manage Subscriptions" above or go to
-                Settings → Apple ID → Subscriptions on your device.
-              </AlertDescription>
-            </Alert>
-            <div className="border-t border-border/40 pt-4 mt-4">
-              <p className="text-xs text-muted-foreground text-center mb-3">
-                By using our services, you agree to our:
-              </p>
-              <div className="flex flex-col gap-2">
-                <button
-                  type="button"
-                  onClick={() => navigate('/terms')}
-                  className="bg-muted hover:bg-muted/80 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
-                  style={{ touchAction: 'manipulation' }}
-                >
-                  📜 Terms of Service (EULA)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => navigate('/privacy')}
-                  className="bg-muted hover:bg-muted/80 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
-                  style={{ touchAction: 'manipulation' }}
-                >
-                  🔒 Privacy Policy
-                </button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
+  // iOS: show a brief manage-subscriptions banner above the normal plan grid.
+  // Apple-IAP tiers (Essentials, Starter) render purchase buttons that route
+  // through StoreKit; web-only tiers show a compliant redirect notice via
+  // useSubscriptionActions when tapped.
+  const renderIOSManageBanner = () => (
+    <Card className="bg-card/60 backdrop-blur-xl border-border/40 mb-6">
+      <CardHeader className="text-center pb-3">
+        <CardTitle className="text-lg">Manage your subscription</CardTitle>
+        <CardDescription>
+          Subscriptions are billed through your Apple ID.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Button
+          onClick={handleManageSubscriptions}
+          variant="outline"
+          className="w-full"
+          style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+        >
+          <ExternalLink className="mr-2 h-4 w-4" />
+          Manage Subscriptions (Apple ID)
+        </Button>
+      </CardContent>
+    </Card>
+  );
   // Customer view (only free for now)
   if (userType === 'customer') {
     const tier = subscriptionTiers.free;
