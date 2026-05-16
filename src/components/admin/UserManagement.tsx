@@ -252,14 +252,27 @@ const UserManagement: React.FC = () => {
                   <CardTitle className="text-white">All Users</CardTitle>
                   <CardDescription className="text-white/60">Manage all platform users</CardDescription>
                 </div>
-                <div className="relative w-64">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/50" />
-                  <Input
-                    placeholder="Search users..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-8 bg-white/5 border-white/10 text-white placeholder:text-white/50"
-                  />
+                <div className="flex items-center gap-2">
+                  <Select value={roleFilter} onValueChange={setRoleFilter}>
+                    <SelectTrigger className="w-40 bg-white/5 border-white/10 text-white">
+                      <SelectValue placeholder="Filter by role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Roles</SelectItem>
+                      <SelectItem value="admin">Admins only</SelectItem>
+                      <SelectItem value="moderator">Moderators only</SelectItem>
+                      <SelectItem value="none">No special role</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <div className="relative w-64">
+                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/50" />
+                    <Input
+                      placeholder="Search users..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-8 bg-white/5 border-white/10 text-white placeholder:text-white/50"
+                    />
+                  </div>
                 </div>
               </div>
             </CardHeader>
