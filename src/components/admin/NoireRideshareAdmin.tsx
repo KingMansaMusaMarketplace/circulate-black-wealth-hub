@@ -40,6 +40,8 @@ interface Driver {
   total_rides: number | null;
   total_earnings: number | null;
   created_at: string;
+  application_status?: DriverApplicationStatus;
+  submitted_at?: string | null;
 }
 
 interface Ride {
