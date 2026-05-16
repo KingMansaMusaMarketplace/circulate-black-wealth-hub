@@ -917,6 +917,13 @@ const NoireRideshareAdmin: React.FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <DriverDetailDrawer
+        driverId={openDriverId}
+        open={!!openDriverId}
+        onClose={() => setOpenDriverId(null)}
+        onChanged={loadAll}
+      />
     </div>
   );
 };
