@@ -34,8 +34,8 @@ const WishlistPage: React.FC = () => {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('vacation_properties')
+      const { data, error } = await (supabase as any)
+        .from('vacation_properties_public')
         .select('*')
         .in('id', Array.from(favoritePropertyIds));
 

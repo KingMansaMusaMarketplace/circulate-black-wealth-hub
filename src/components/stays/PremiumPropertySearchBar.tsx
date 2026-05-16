@@ -46,8 +46,8 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const { data, error } = await supabase
-          .from('vacation_properties')
+        const { data, error } = await (supabase as any)
+          .from('vacation_properties_public')
           .select('city, state')
           .eq('is_active', true);
 
