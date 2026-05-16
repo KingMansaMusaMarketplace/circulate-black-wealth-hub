@@ -68,6 +68,17 @@ const UserManagement: React.FC = () => {
       };
       setUserStats(stats);
 
+      // Load permission roles (admin, moderator, etc.) from the locked-down user_roles table
+      const { data: rolesData } = await supabase
+        .from('user_roles')
+        .select('user_id, role');
+      const rolesMap: Record<string, string[]> = {};
+      (rolesData || []).forEach((r: any) => {
+        if (!rolesMap[r.user_id]) rolesMap[r.user_id] = [];
+        rolesMap[r.user_id].push(r.role);
+      });
+      setRolesByUser(rolesMap);
+
       // Load deletion requests (fetch profiles separately since no FK relationship)
       const { data: requestsData, error: requestsError } = await supabase
         .from('account_deletion_requests')
