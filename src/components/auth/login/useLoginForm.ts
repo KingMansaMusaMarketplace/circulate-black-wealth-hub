@@ -26,14 +26,20 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
     defaultValues: {
       email: '',
       password: '',
-      rememberMe: false,
+      rememberMe: true,
     },
   });
 
   const handleFormSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
     console.log("Login form submitted with values:", values);
-    
+
+    // Honor "Remember me": persist across browser closes when checked,
+    // otherwise sign the user out when the tab closes.
+    try {
+      localStorage.setItem('mmm-remember-me', values.rememberMe ? 'true' : 'false');
+    } catch {}
+
     try {
       // Cache the email in case we need it for MFA (in memory only, not localStorage)
       setEmailCache(values.email);
