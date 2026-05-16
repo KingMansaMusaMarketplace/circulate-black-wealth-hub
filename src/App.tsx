@@ -67,6 +67,7 @@ const LazyB2BMarketplacePage = lazy(() => import('@/pages/B2BMarketplacePage'));
 const LazyB2BDashboardPage = lazy(() => import('@/pages/business/B2BDashboardPage'));
 import { B2BProGate } from '@/components/business/B2BProGate';
 const LazyNoirLandingPage = lazy(() => import('@/pages/NoirLandingPage'));
+const LazyDriverApplyPage = lazy(() => import('@/pages/noir/DriverApplyPage'));
 const LazyLeadsDashboardPage = lazy(() => import('@/pages/LeadsDashboardPage'));
 const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
 const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
