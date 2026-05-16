@@ -25565,6 +25565,7 @@ export type Database = {
       }
       is_stays_beta_tester: { Args: { p_email: string }; Returns: boolean }
       is_user_suspended: { Args: { check_user_id: string }; Returns: boolean }
+      is_valid_stays_beta_code: { Args: { code: string }; Returns: boolean }
       join_challenge: { Args: { p_challenge_id: string }; Returns: Json }
       list_city_category_counts: {
         Args: { p_categories: string[]; p_min_count?: number }
