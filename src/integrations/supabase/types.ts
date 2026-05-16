@@ -13052,6 +13052,69 @@ export type Database = {
           },
         ]
       }
+      noir_driver_documents: {
+        Row: {
+          created_at: string
+          document_type: Database["public"]["Enums"]["noir_driver_document_type"]
+          driver_id: string
+          expires_at: string | null
+          file_path: string | null
+          file_url: string
+          id: string
+          review_status: Database["public"]["Enums"]["noir_document_review_status"]
+          reviewed_at: string | null
+          reviewed_by: string | null
+          reviewer_notes: string | null
+          updated_at: string
+          uploaded_at: string
+        }
+        Insert: {
+          created_at?: string
+          document_type: Database["public"]["Enums"]["noir_driver_document_type"]
+          driver_id: string
+          expires_at?: string | null
+          file_path?: string | null
+          file_url: string
+          id?: string
+          review_status?: Database["public"]["Enums"]["noir_document_review_status"]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_notes?: string | null
+          updated_at?: string
+          uploaded_at?: string
+        }
+        Update: {
+          created_at?: string
+          document_type?: Database["public"]["Enums"]["noir_driver_document_type"]
+          driver_id?: string
+          expires_at?: string | null
+          file_path?: string | null
+          file_url?: string
+          id?: string
+          review_status?: Database["public"]["Enums"]["noir_document_review_status"]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_notes?: string | null
+          updated_at?: string
+          uploaded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noir_driver_documents_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noir_driver_documents_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       noir_driver_location_history: {
         Row: {
           driver_id: string
@@ -13107,17 +13170,80 @@ export type Database = {
           },
         ]
       }
+      noir_driver_status_history: {
+        Row: {
+          changed_at: string
+          changed_by: string | null
+          driver_id: string
+          from_status:
+            | Database["public"]["Enums"]["noir_driver_application_status"]
+            | null
+          id: string
+          reason: string | null
+          to_status: Database["public"]["Enums"]["noir_driver_application_status"]
+        }
+        Insert: {
+          changed_at?: string
+          changed_by?: string | null
+          driver_id: string
+          from_status?:
+            | Database["public"]["Enums"]["noir_driver_application_status"]
+            | null
+          id?: string
+          reason?: string | null
+          to_status: Database["public"]["Enums"]["noir_driver_application_status"]
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string | null
+          driver_id?: string
+          from_status?:
+            | Database["public"]["Enums"]["noir_driver_application_status"]
+            | null
+          id?: string
+          reason?: string | null
+          to_status?: Database["public"]["Enums"]["noir_driver_application_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noir_driver_status_history_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noir_driver_status_history_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "noir_drivers_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       noir_drivers: {
         Row: {
+          address_city: string | null
+          address_line1: string | null
+          address_state: string | null
+          address_zip: string | null
+          admin_notes: string | null
+          agreement_accepted_at: string | null
+          application_status: Database["public"]["Enums"]["noir_driver_application_status"]
           created_at: string
           current_heading: number | null
           current_lat: number | null
           current_lng: number | null
           current_speed: number | null
+          date_of_birth: string | null
+          drivers_license_expires_at: string | null
           drivers_license_number: string | null
+          drivers_license_state: string | null
           email: string | null
           full_name: string
           id: string
+          insurance_expires_at: string | null
+          insurance_policy_number: string | null
           is_active: boolean | null
           is_approved: boolean | null
           is_online: boolean | null
@@ -13126,6 +13252,10 @@ export type Database = {
           phone: string | null
           profile_photo_url: string | null
           rating_average: number | null
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          submitted_at: string | null
           total_earnings: number | null
           total_rides: number | null
           updated_at: string
@@ -13133,18 +13263,32 @@ export type Database = {
           vehicle_color: string | null
           vehicle_make: string | null
           vehicle_model: string | null
+          vehicle_registration_expires_at: string | null
+          vehicle_vin: string | null
           vehicle_year: number | null
         }
         Insert: {
+          address_city?: string | null
+          address_line1?: string | null
+          address_state?: string | null
+          address_zip?: string | null
+          admin_notes?: string | null
+          agreement_accepted_at?: string | null
+          application_status?: Database["public"]["Enums"]["noir_driver_application_status"]
           created_at?: string
           current_heading?: number | null
           current_lat?: number | null
           current_lng?: number | null
           current_speed?: number | null
+          date_of_birth?: string | null
+          drivers_license_expires_at?: string | null
           drivers_license_number?: string | null
+          drivers_license_state?: string | null
           email?: string | null
           full_name: string
           id?: string
+          insurance_expires_at?: string | null
+          insurance_policy_number?: string | null
           is_active?: boolean | null
           is_approved?: boolean | null
           is_online?: boolean | null
@@ -13153,6 +13297,10 @@ export type Database = {
           phone?: string | null
           profile_photo_url?: string | null
           rating_average?: number | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          submitted_at?: string | null
           total_earnings?: number | null
           total_rides?: number | null
           updated_at?: string
@@ -13160,18 +13308,32 @@ export type Database = {
           vehicle_color?: string | null
           vehicle_make?: string | null
           vehicle_model?: string | null
+          vehicle_registration_expires_at?: string | null
+          vehicle_vin?: string | null
           vehicle_year?: number | null
         }
         Update: {
+          address_city?: string | null
+          address_line1?: string | null
+          address_state?: string | null
+          address_zip?: string | null
+          admin_notes?: string | null
+          agreement_accepted_at?: string | null
+          application_status?: Database["public"]["Enums"]["noir_driver_application_status"]
           created_at?: string
           current_heading?: number | null
           current_lat?: number | null
           current_lng?: number | null
           current_speed?: number | null
+          date_of_birth?: string | null
+          drivers_license_expires_at?: string | null
           drivers_license_number?: string | null
+          drivers_license_state?: string | null
           email?: string | null
           full_name?: string
           id?: string
+          insurance_expires_at?: string | null
+          insurance_policy_number?: string | null
           is_active?: boolean | null
           is_approved?: boolean | null
           is_online?: boolean | null
@@ -13180,6 +13342,10 @@ export type Database = {
           phone?: string | null
           profile_photo_url?: string | null
           rating_average?: number | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          submitted_at?: string | null
           total_earnings?: number | null
           total_rides?: number | null
           updated_at?: string
@@ -13187,6 +13353,8 @@ export type Database = {
           vehicle_color?: string | null
           vehicle_make?: string | null
           vehicle_model?: string | null
+          vehicle_registration_expires_at?: string | null
+          vehicle_vin?: string | null
           vehicle_year?: number | null
         }
         Relationships: [
@@ -23803,6 +23971,15 @@ export type Database = {
         Args: { reason: string; verification_id: string }
         Returns: undefined
       }
+      admin_update_noir_driver_status: {
+        Args: {
+          p_admin_notes?: string
+          p_driver_id: string
+          p_new_status: Database["public"]["Enums"]["noir_driver_application_status"]
+          p_reason?: string
+        }
+        Returns: boolean
+      }
       approve_corporate_subscription: {
         Args: { p_admin_notes?: string; p_subscription_id: string }
         Returns: Json
@@ -25389,6 +25566,27 @@ export type Database = {
         | "qr_codes"
         | "videos"
         | "documents"
+      noir_document_review_status: "pending" | "approved" | "rejected"
+      noir_driver_application_status:
+        | "draft"
+        | "submitted"
+        | "under_review"
+        | "approved"
+        | "rejected"
+        | "suspended"
+      noir_driver_document_type:
+        | "license_front"
+        | "license_back"
+        | "selfie"
+        | "insurance"
+        | "registration"
+        | "vehicle_front"
+        | "vehicle_back"
+        | "vehicle_left"
+        | "vehicle_right"
+        | "vehicle_interior"
+        | "w9"
+        | "vehicle_inspection"
       outreach_channel:
         | "email"
         | "linkedin"
@@ -25603,6 +25801,29 @@ export const Constants = {
         "qr_codes",
         "videos",
         "documents",
+      ],
+      noir_document_review_status: ["pending", "approved", "rejected"],
+      noir_driver_application_status: [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "rejected",
+        "suspended",
+      ],
+      noir_driver_document_type: [
+        "license_front",
+        "license_back",
+        "selfie",
+        "insurance",
+        "registration",
+        "vehicle_front",
+        "vehicle_back",
+        "vehicle_left",
+        "vehicle_right",
+        "vehicle_interior",
+        "w9",
+        "vehicle_inspection",
       ],
       outreach_channel: [
         "email",
