@@ -10,7 +10,7 @@ import { Loader2, Plus, Plane, Hotel } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link, Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { getMyConciergeMemberships } from '@/lib/api/noir-hotel-partners-api';
 
 interface Membership {

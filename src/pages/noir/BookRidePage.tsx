@@ -11,7 +11,7 @@ import { Plane, Hotel, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 
 type TripType = 'airport_pickup' | 'airport_dropoff' | 'hotel_pickup' | 'hotel_dropoff' | 'hotel_to_hotel';
 
