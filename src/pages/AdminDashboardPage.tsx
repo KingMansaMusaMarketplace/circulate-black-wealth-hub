@@ -39,6 +39,8 @@ import ArchiveRecovery from '@/components/admin/ArchiveRecovery';
 import ValuationMetrics from '@/components/admin/ValuationMetrics';
 import DatabaseSetup from '@/components/admin/DatabaseSetup';
 import BetaTesterManager from '@/components/admin/BetaTesterManager';
+import StaysBetaManager from '@/components/admin/StaysBetaManager';
+import { Tabs as BetaTabs, TabsList as BetaTabsList, TabsTrigger as BetaTabsTrigger, TabsContent as BetaTabsContent } from '@/components/ui/tabs';
 import SupabaseSetup from '@/components/admin/SupabaseSetup';
 import MansaStaysAdmin from '@/components/admin/MansaStaysAdmin';
 import NoireRideshareAdmin from '@/components/admin/NoireRideshareAdmin';
@@ -161,7 +163,16 @@ const AdminDashboardPage: React.FC = () => {
       case 'archive':
         return <ArchiveRecovery />;
       case 'beta-testers':
-        return <BetaTesterManager />;
+        return (
+          <BetaTabs defaultValue="general" className="w-full">
+            <BetaTabsList className="bg-gray-900 border border-gray-700 mb-4">
+              <BetaTabsTrigger value="general">General Beta</BetaTabsTrigger>
+              <BetaTabsTrigger value="stays">Mansa Stays Beta</BetaTabsTrigger>
+            </BetaTabsList>
+            <BetaTabsContent value="general"><BetaTesterManager /></BetaTabsContent>
+            <BetaTabsContent value="stays"><StaysBetaManager /></BetaTabsContent>
+          </BetaTabs>
+        );
       case 'setup':
         return (
           <div className="space-y-6">
