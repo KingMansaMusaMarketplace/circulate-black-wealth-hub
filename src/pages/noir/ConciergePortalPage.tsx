@@ -77,7 +77,7 @@ const ConciergePortalPage: React.FC = () => {
       .then(({ data }) => setRides((data as HotelRide[] | null) ?? []));
   }, [hotelId, showForm]);
 
-  if (loading || loading) {
+  if (authLoading || loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-mansagold" /></div>;
   }
   if (!user) return <Navigate to="/login?redirect=/noir/concierge" replace />;
