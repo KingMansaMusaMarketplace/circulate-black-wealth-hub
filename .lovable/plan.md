@@ -1,80 +1,61 @@
-## Private Boardroom Mode — How it works
+## Goal
 
-From now on, before I make any **major** change to your app, I'll pause and give you a short **Board Check** summary first. You read it, give a thumbs-up (or push back), then I touch code.
+Make sure new businesses and landing pages show up in Google within days — not whenever the next code deploy happens — without any manual work from you.
 
-Nothing is built right now. This is a working agreement between you and me — Phase 1 of the plan we discussed. The real `/boardroom` page can come later if you want it.
+## What's there today
 
----
+Looking at your setup:
 
-### What counts as "major" (triggers a Board Check)
+- `businesses-sitemap.xml` and `landing-sitemap.xml` already **proxy live** to Supabase edge functions (via `public/_redirects`). These are always fresh — every time Google fetches them, they reflect the current database. ✅
+- `images-sitemap.xml` (and its 5 parts) is a **static file** generated at build time. Stale until the next deploy. ⚠️
+- `sitemap.xml` (the index) and `static-sitemap.xml` are also static — but they rarely change (just a list of sitemap names + ~94 core routes), so they don't need weekly refresh.
 
-- New pages, routes, or features
-- Pricing, tiers, payments, or subscription logic
-- Database schema, auth, or user roles
-- Public-facing copy on landing, pricing, investor, or press pages
-- Brand, naming, or positioning changes
-- Anything investor-, patent-, or compliance-adjacent
-- Removing or hiding existing features
+So the actual "freshness" problem is only:
+1. The **images sitemap** (43,703 images) goes stale between deploys.
+2. Google doesn't know to re-crawl unless something nudges it.
 
-### What does NOT need a Board Check (I just do it)
+## The plan — 3 small changes
 
-- Typo fixes, copy tweaks you explicitly dictate
-- Single-line style/color fixes
-- Bug fixes with an obvious cause
-- Anything you prefix with **"just do it"** or **"no board"**
+### 1. Make the images sitemap live (no more staleness)
 
----
+Add a proxy redirect in `public/_redirects` so `images-sitemap.xml` is served live from the existing `images-sitemap` edge function — same trick we already use for businesses and landing.
 
-### Board Check format (what you'll see before I code)
+Because images-sitemap is an index pointing to parts (`images-sitemap-1.xml` … `-5.xml`), we'll either:
+- (a) update the edge function to return a single non-chunked sitemap if under the 50k URL / 50MB limit, OR
+- (b) add part-file proxy rules too.
 
-A short block at the top of my reply, like this:
+I'll pick whichever is simpler after inspecting the edge function output size.
 
-```text
-🛡️ BOARD CHECK — [change name]
-Board: Kayla (chair) + [3–5 relevant specialists]
+### 2. Weekly "ping" cron job inside Supabase
 
-• Kayla CRO — [revenue/conversion take]
-• Kayla IP Shield — [patent/IP take]
-• Kayla IR — [investor optics take]
-• Kayla Compliance — [legal/Apple/Stripe take]
-• Kayla Cash-Flow — [cost/runway take]
+Create a new edge function `refresh-sitemaps-weekly` that:
+- Calls each sitemap edge function once (warms cache, confirms healthy).
+- Pings **IndexNow** (one open API used by Bing, Yandex, DuckDuckGo, Naver) with the sitemap URLs — no auth, instant recrawl signal for ~30% of search traffic.
+- Logs success/failure to a small `sitemap_refresh_log` table so you can see it ran.
 
-VERDICT: ✅ Proceed  /  ⚠️ Proceed with changes  /  🛑 Hold
-Recommended adjustments: [1–3 bullets, or "none"]
-```
+Schedule it via Supabase `pg_cron` to run every **Monday 6am Chicago time**.
 
-Then I wait for your **"go"** before writing any code.
+For Google specifically: Google deprecated the old "ping sitemap" endpoint in 2023. Google now auto-recrawls submitted sitemaps every few days on its own — no API ping needed. With option #1 (live images sitemap) above, every Google recrawl will see fresh data automatically.
 
-### Who sits on the board (rotating, not all 33)
+### 3. One IndexNow key file
 
-Kayla is always chair. I pull in 3–5 specialists per topic based on what's being changed. Examples:
+IndexNow needs a small text file at `public/<key>.txt` to verify ownership (just a UUID matching the one we send in the ping). One-time setup.
 
-- **Pricing change** → CRO, Cash-Flow, Pricing Optimizer, Compliance
-- **New investor page** → IR, IP Shield, Legal, Brand
-- **Database/auth change** → Compliance, IP Shield, Cash-Flow
-- **Landing page copy** → CRO, Brand, SEO, IR
+## What you'll need to do
 
-### Privacy lock
+- Approve this plan — I do everything in code.
+- After deploy, no further action. The cron runs itself.
+- (Optional, in ~1 week) glance at the `sitemap_refresh_log` table to confirm it's pinging.
 
-- Board discussions live only in our chat — not shown to other users, not stored in any shared table, not used for training.
-- If we later build the real `/boardroom` page (Phase 2), it'll be founder-locked to your user ID, same pattern as `/investor-portal`.
+## Technical details (for the record)
 
-### Your controls (say any of these anytime)
+- New file: `supabase/functions/refresh-sitemaps-weekly/index.ts`
+- New file: `public/<indexnow-key>.txt`
+- DB migration: `sitemap_refresh_log` table + `pg_cron` schedule (uses Supabase insert for the cron `SELECT` since it contains the anon key).
+- Edit: `public/_redirects` to add images sitemap proxy.
+- Possible edit: `supabase/functions/images-sitemap/index.ts` if we go with single-file mode.
+- No changes to: existing build-time `scripts/generate-sitemaps.ts`, GSC config, or frontend code.
 
-- **"no board"** or **"just do it"** → skip the check for this one change
-- **"full board"** → force all 33 to weigh in (noisy, use sparingly)
-- **"pause boardroom"** → turn the mode off entirely
-- **"summon [agent name]"** → add a specific Kayla agent to the next check
-- **"board only"** → give me just the board check, don't code yet
+## Why this is the right approach
 
-### What changes for you
-
-- Slightly longer replies on major changes (the board block adds ~10 lines)
-- Fewer surprises — you'll catch a bad idea *before* code gets written
-- No new pages, no new database tables, no new build cost today
-
----
-
-### Next step after you approve this plan
-
-I save this as a project memory rule so it survives across sessions, then we're live. Your very next major request triggers the first real Board Check.
+You don't have a GitHub-connected auto-deploy pipeline that we can trigger weekly, and Lovable hosting serves static files from the last build. Live edge-function proxying solves the freshness problem at its root, and IndexNow handles the "tell search engines to look again" part for free.

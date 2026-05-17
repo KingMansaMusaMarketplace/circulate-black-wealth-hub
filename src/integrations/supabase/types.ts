@@ -18614,6 +18614,39 @@ export type Database = {
           },
         ]
       }
+      sitemap_refresh_log: {
+        Row: {
+          duration_ms: number | null
+          error: string | null
+          id: string
+          indexnow_response: string | null
+          indexnow_status: number | null
+          ran_at: string
+          sitemaps_warmed: Json | null
+          status: string
+        }
+        Insert: {
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          indexnow_response?: string | null
+          indexnow_status?: number | null
+          ran_at?: string
+          sitemaps_warmed?: Json | null
+          status: string
+        }
+        Update: {
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          indexnow_response?: string | null
+          indexnow_status?: number | null
+          ran_at?: string
+          sitemaps_warmed?: Json | null
+          status?: string
+        }
+        Relationships: []
+      }
       sla_policies: {
         Row: {
           business_id: string | null
