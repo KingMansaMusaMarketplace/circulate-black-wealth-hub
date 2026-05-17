@@ -1,54 +1,57 @@
+# SEO Boost Plan — Rewrite Weak Pages + Competitor Gap Analysis
 
-# Plan: Enable Stays + Rideshare Bookings on iOS (Stripe, 0% Apple fee)
+Goal: lift clicks from the 6 pages that Google is already showing but nobody clicks, and find new keywords worth targeting.
 
-## Goal
-Unblock Stripe payment flows on iOS **only** for real-world services:
-- **Noire Rideshare** (ride bookings)
-- **Mansa Stays** (lodging bookings)
+## What I'll do
 
-These are physical/real-world services, so per Apple Guideline 3.1.5(a) they MUST use Stripe (or any non-IAP processor) — Apple takes **0%**.
+### Step 1 — Pull the real search data (Semrush)
+Run two read-only analyses to ground the rewrites in real numbers, not guesses:
+- **Page analysis** on each of the 6 weak pages — to see what keywords they already rank for and at what position.
+- **Competitor gap analysis** for `1325.ai` — to find keywords competitors rank for that you don't.
 
-All other Stripe UI on iOS stays blocked (already in place from the prior IAP work).
+This takes ~1 minute and uses no credits on your side (Semrush is built into Lovable).
 
-## What I'll change (code only — small, ~3 files)
+### Step 2 — Rewrite titles and meta descriptions
+Update the SEO **title** (the blue headline in Google) and **meta description** (the gray snippet) on these 6 pages:
 
-### 1. `src/utils/platform-utils.ts`
-Add a new helper for "real-world service" payment flows that bypass the iOS block:
+| Page | Why it needs help |
+|---|---|
+| `/community-impact` | 71 impressions, 0 clicks |
+| `/business-signup` | 65 impressions, 0 clicks |
+| `/scanner` | 55 impressions, 0 clicks |
+| `/media-kit` | 91 impressions, 1 click |
+| `/about` | 156 impressions, only 9 clicks |
+| `/directory` | 68 impressions, 2 clicks |
 
-```ts
-/**
- * Returns true if Stripe payment UI for a real-world service
- * (rideshare, lodging, etc.) should be ALLOWED on iOS.
- * Apple Guideline 3.1.5(a): physical goods/services use Stripe at 0% fee.
- */
-export type RealWorldService = 'rideshare' | 'stays';
+Each new title will be:
+- Under 60 characters (so Google doesn't cut it off)
+- Lead with the keyword the page actually ranks for
+- Include a benefit ("Find Black-owned businesses near you" vs. just "Directory")
 
-export const shouldAllowStripeForService = (service: RealWorldService): boolean => true;
-```
+Each new meta description will be:
+- Under 160 characters
+- Action-oriented (tells the user what they'll get if they click)
 
-Plus a small `<StripePaymentBlocker service="rideshare|stays">` pattern (see #2). The existing `shouldHideStripePayments()` stays unchanged so it still hides Stripe for everything else on iOS.
+### Step 3 — Report back with the gap analysis
+I'll deliver a short list of:
+- **Quick-win keywords** you're close to ranking for (positions 8–20) — small page tweaks could push these to page 1.
+- **Content gap keywords** competitors get traffic from that you don't — candidates for future blog posts or new pages.
 
-### 2. New component: `src/components/platform/RealWorldServiceGate.tsx`
-Thin wrapper that always renders children (used to make the intent explicit at booking call sites — so future code reviewers see "this is a real-world service, iOS is allowed"). Optional but recommended for clarity.
+## Technical details (for reference)
 
-### 3. Booking call sites — wrap the checkout buttons
-Identified call sites to update so they bypass the iOS payment block:
-- **Rideshare**: `src/pages/noir/BookRidePage.tsx`, `src/components/HomePage/NoirRideCTA.tsx`
-- **Stays**: `src/pages/PropertyDetailPage.tsx`, `src/pages/GuestBookingsPage.tsx` (any "Book / Reserve / Pay" buttons currently wrapped in `IOSPaymentBlocker` or guarded by `shouldHideStripePayments()`)
+- The 6 pages use `react-helmet-async` for per-route SEO tags. I'll edit each page component's `<Helmet>` block — no new files, no design changes.
+- If a page is currently relying only on the sitewide tags in `index.html`, I'll add a `<Helmet>` block to that one route.
+- No backend changes, no database changes, no UI changes — only `<title>`, `<meta name="description">`, and (where missing) `<link rel="canonical">`.
 
-For each: either unwrap `IOSPaymentBlocker` for that specific button, or wrap with `<RealWorldServiceGate service="...">`. I'll audit each file before editing to make sure I'm not unblocking subscription UI by mistake.
+## What I will NOT do
 
-## What I will NOT touch
-- Apple IAP for Essentials & Starter subscriptions (already working)
-- Pro / Enterprise web-only flow (stays blocked on iOS)
-- Subscription UI blockers anywhere else
-- QR loyalty payments / corporate sponsorship checkout (stays blocked on iOS — those are digital and not in scope)
-- Backend / edge functions (the Stripe booking edge functions already work — they don't care which platform calls them)
+- Won't change page designs or copy on the page itself.
+- Won't change routing, navigation, or any business logic.
+- Won't touch the homepage (it's already your top performer — don't risk it).
+- Won't add new pages in this round (we'll discuss that after the gap analysis).
 
-## App Store review note (for your submission)
-> "Booking flows for Mansa Stays (lodging) and Noire Rideshare (transportation) use Stripe in compliance with Guideline 3.1.5(a), as they are real-world goods and services consumed outside the app. Digital subscription tiers (Essentials, Starter) use Apple In-App Purchase per Guideline 3.1.1."
+## What you need to do
+Nothing during the work. After it ships, **resubmit the 6 pages in Google Search Console** ("Request indexing" on each URL) so Google re-crawls them faster. I'll give you the exact steps when done.
 
-## Open question (one)
-**Do you want the iOS user to see the same exact booking UI as web** (same prices, same Stripe checkout redirect), or do you want a **slightly different mobile-optimized flow** (e.g. Apple Pay button via Stripe instead of card form)?
-
-My recommendation: **same flow as web for now** — fastest to ship, Apple Pay can be added later as a Stripe payment method without code changes. Confirm and I'll implement.
+## Expected outcome
+Most title/meta rewrites lift click-through rate within 2–4 weeks of Google re-crawling. Realistic target: **+30–60 clicks/month** from these 6 pages, which would push you past the 80-click achievement badge.
