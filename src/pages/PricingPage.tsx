@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import PricingSection from '@/components/HomePage/PricingSection';
+import ROICalculator from '@/components/HomePage/ROICalculator';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import FoundingMemberOffer from '@/components/founding/FoundingMemberOffer';
 import { Helmet } from 'react-helmet-async';
