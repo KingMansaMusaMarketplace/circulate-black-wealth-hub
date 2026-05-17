@@ -114,14 +114,34 @@ export const pageSEO = {
     keywords: ['Black-owned business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
   },
   directory: {
-    title: 'Black-Owned Business Directory | 50,000+ Listings | 1325.AI',
-    description: 'Search the largest Black-owned business directory. 50,000+ verified Black-owned restaurants, services, shops & professionals across all cities.',
+    title: 'Black-Owned Business Directory Near You | 1325.AI',
+    description: 'Find verified Black-owned businesses near you — restaurants, shops, services & pros. Search 50,000+ listings free on 1325.AI.',
     keywords: ['Black-owned business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
   about: {
-    title: 'About 1325.AI | Black-Owned Business Discovery Platform',
-    description: '1325.AI is the largest Black-owned business directory — circulating Black dollars intentionally through 50,000+ verified businesses nationwide.',
+    title: 'About 1325.AI | Circulate Black Dollars Intentionally',
+    description: 'Meet 1325.AI — the AI-powered platform helping you find, support and circulate dollars to 50,000+ Black-owned businesses nationwide.',
     keywords: ['about 1325.AI', 'Black-owned business platform', 'Black economic empowerment', 'Black dollar circulation', 'support Black businesses'],
+  },
+  impact: {
+    title: 'Black Economic Impact Tracker | 1325.AI',
+    description: 'See the real-time impact of every dollar circulated through Black-owned businesses. Track community wealth growth live on 1325.AI.',
+    keywords: ['Black economic impact', 'Black dollar circulation tracker', 'community wealth', 'Black economic empowerment'],
+  },
+  scanner: {
+    title: 'Scan to Earn Rewards at Black-Owned Businesses | 1325.AI',
+    description: 'Scan QR codes at Black-owned businesses to earn loyalty rewards and prove your impact. Free on 1325.AI.',
+    keywords: ['QR scanner', 'loyalty rewards', 'Black-owned business rewards', 'scan to earn'],
+  },
+  mediaKit: {
+    title: '1325.AI Media Kit | Press, Stats & Brand Assets',
+    description: 'Download the 1325.AI media kit — platform stats, founder bios, logos and press resources for journalists, partners and sponsors.',
+    keywords: ['1325.AI media kit', 'press resources', 'brand assets', 'Black-owned business press'],
+  },
+  businessSignup: {
+    title: 'List Your Black-Owned Business Free | 1325.AI',
+    description: 'Add your Black-owned business to 1325.AI in 2 minutes. Get found by 36,000+ supporters and unlock free AI-powered customer tools.',
+    keywords: ['list Black-owned business', 'register Black business', 'free business listing', 'Black-owned business signup'],
   },
   howItWorks: {
     title: 'How It Works | 1325.AI Economic Infrastructure',
