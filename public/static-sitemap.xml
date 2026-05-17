@@ -16,6 +16,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://1325.ai/press</loc>
+    <lastmod>2026-05-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://1325.ai/directory</loc>
     <lastmod>2026-03-11</lastmod>
     <changefreq>daily</changefreq>

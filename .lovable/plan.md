@@ -1,57 +1,40 @@
-# SEO Boost Plan — Rewrite Weak Pages + Competitor Gap Analysis
+## Press & Partners Page (/press)
 
-Goal: lift clicks from the 6 pages that Google is already showing but nobody clicks, and find new keywords worth targeting.
+A polished, journalist-ready page that makes 1325.AI easy to write about and easy to partner with. Linked from the footer.
 
-## What I'll do
+### Sections (top to bottom)
 
-### Step 1 — Pull the real search data (Semrush)
-Run two read-only analyses to ground the rewrites in real numbers, not guesses:
-- **Page analysis** on each of the 6 weak pages — to see what keywords they already rank for and at what position.
-- **Competitor gap analysis** for `1325.ai` — to find keywords competitors rank for that you don't.
+1. **Hero** — "Press & Partnerships" headline, one-line pitch, two CTAs: *Email press team* and *Download press kit*.
+2. **At a glance (key stats)** — 47,000+ Black-owned businesses · USPTO 63/969,202 patent-pending · 33 AI agents · $1.6T market · Founded 2024 in Illinois.
+3. **About 1325.AI** — 2–3 short paragraphs describing the platform, the "6-hour Black dollar" problem, and how 1325.AI solves it. Mentions Mansa Musa Marketplace as parent brand.
+4. **Founder bio** — William Foster headshot placeholder, short bio, LinkedIn link.
+5. **Boilerplate** — Copy-paste paragraph journalists can drop into articles (with copy-to-clipboard button).
+6. **Press kit downloads** — Logo pack (PNG/SVG), brand colors (MansaBlue #003366, MansaGold #FFB300), founder photo, product screenshots, one-page fact sheet (PDF).
+7. **In the news** — Empty-state placeholder ("Featured coverage coming soon") with grid ready for logos once press lands.
+8. **Partnership CTA** — Card with three partner types (Media, Chambers/Nonprofits, Corporate Sponsors) and a *Become a partner* button → mailto or contact form.
+9. **Media contact block** — Email, response-time promise ("We reply within 24h"), social links.
 
-This takes ~1 minute and uses no credits on your side (Semrush is built into Lovable).
+### Technical notes
 
-### Step 2 — Rewrite titles and meta descriptions
-Update the SEO **title** (the blue headline in Google) and **meta description** (the gray snippet) on these 6 pages:
+- New route: `src/pages/PressPage.tsx`, registered in the existing router.
+- New components in `src/components/press/`: `PressHero`, `PressStats`, `FounderBio`, `BoilerplateBlock` (with copy button), `PressKitDownloads`, `PartnershipCTA`, `MediaContact`.
+- Use the True Black / MansaBlue / MansaGold design tokens already in `index.css` and `tailwind.config.ts` — no new colors.
+- SEO via existing `seoUtils.ts` pattern: title "Press & Partnerships | 1325.AI", meta description, JSON-LD `Organization` schema with founder, foundingDate, sameAs links.
+- Press kit assets: create a placeholder ZIP in `public/press-kit/1325ai-press-kit.zip` referencing existing logos in `src/assets/`. (User will swap in the real kit later — I'll flag this.)
+- Add footer link: "Press" → `/press`.
+- Add to `static-sitemap.xml` so Google indexes it.
 
-| Page | Why it needs help |
-|---|---|
-| `/community-impact` | 71 impressions, 0 clicks |
-| `/business-signup` | 65 impressions, 0 clicks |
-| `/scanner` | 55 impressions, 0 clicks |
-| `/media-kit` | 91 impressions, 1 click |
-| `/about` | 156 impressions, only 9 clicks |
-| `/directory` | 68 impressions, 2 clicks |
+### What I'll need from you AFTER the page is live
 
-Each new title will be:
-- Under 60 characters (so Google doesn't cut it off)
-- Lead with the keyword the page actually ranks for
-- Include a benefit ("Find Black-owned businesses near you" vs. just "Directory")
+1. Founder headshot (drop into `src/assets/` — I'll wire it up).
+2. Your preferred press email address (e.g., `press@1325.ai`).
+3. Your LinkedIn URL.
+4. Any existing press logos to display in the "In the news" section (optional).
 
-Each new meta description will be:
-- Under 160 characters
-- Action-oriented (tells the user what they'll get if they click)
+Placeholders will be used until you provide these — page will look complete and professional either way.
 
-### Step 3 — Report back with the gap analysis
-I'll deliver a short list of:
-- **Quick-win keywords** you're close to ranking for (positions 8–20) — small page tweaks could push these to page 1.
-- **Content gap keywords** competitors get traffic from that you don't — candidates for future blog posts or new pages.
+### Out of scope (can add later)
 
-## Technical details (for reference)
-
-- The 6 pages use `react-helmet-async` for per-route SEO tags. I'll edit each page component's `<Helmet>` block — no new files, no design changes.
-- If a page is currently relying only on the sitewide tags in `index.html`, I'll add a `<Helmet>` block to that one route.
-- No backend changes, no database changes, no UI changes — only `<title>`, `<meta name="description">`, and (where missing) `<link rel="canonical">`.
-
-## What I will NOT do
-
-- Won't change page designs or copy on the page itself.
-- Won't change routing, navigation, or any business logic.
-- Won't touch the homepage (it's already your top performer — don't risk it).
-- Won't add new pages in this round (we'll discuss that after the gap analysis).
-
-## What you need to do
-Nothing during the work. After it ships, **resubmit the 6 pages in Google Search Console** ("Request indexing" on each URL) so Google re-crawls them faster. I'll give you the exact steps when done.
-
-## Expected outcome
-Most title/meta rewrites lift click-through rate within 2–4 weeks of Google re-crawling. Realistic target: **+30–60 clicks/month** from these 6 pages, which would push you past the 80-click achievement badge.
+- Contact form with email delivery (currently mailto: link)
+- Real PDF fact sheet generation
+- CMS for managing press mentions
