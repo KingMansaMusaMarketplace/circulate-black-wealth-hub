@@ -366,8 +366,11 @@ const QRScannerPage = () => {
   return (
     <>
       <Helmet>
-        <title>QR Scanner | 1325.AI</title>
-        <meta name="description" content="Scan QR codes at verified businesses to earn loyalty points and redeem rewards" />
+        <title>Scan to Earn Rewards at Black-Owned Businesses | 1325.AI</title>
+        <meta name="description" content="Scan QR codes at Black-owned businesses to earn loyalty rewards and prove your impact. Free on 1325.AI." />
+        <meta property="og:title" content="Scan to Earn Rewards at Black-Owned Businesses | 1325.AI" />
+        <meta property="og:description" content="Earn loyalty rewards every time you support a Black-owned business." />
+        <link rel="canonical" href="https://1325.ai/scanner" />
       </Helmet>
 
       <div className="min-h-screen bg-black relative">
