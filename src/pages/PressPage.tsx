@@ -65,7 +65,7 @@ const PressPage: React.FC = () => {
     foundingLocation: { '@type': 'Place', name: 'Illinois, USA' },
     founder: {
       '@type': 'Person',
-      name: 'William Foster',
+      name: 'Thoma D Bowling',
       sameAs: [FOUNDER_LINKEDIN],
     },
     sameAs: [FOUNDER_LINKEDIN],
@@ -167,16 +167,16 @@ const PressPage: React.FC = () => {
             <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden bg-mansablue/40 border border-white/10 mx-auto md:mx-0">
               <img
                 src={founderHeadshot}
-                alt="William Foster, Founder of 1325.AI"
+                alt="Thoma D Bowling, Founder of 1325.AI"
                 className="w-full h-full object-cover object-top"
               />
             </div>
             <div>
               <Badge className="mb-3 bg-mansablue/30 text-white/90 border-white/10">Founder</Badge>
-              <h3 className="text-2xl md:text-3xl font-bold mb-2">William Foster</h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-2">Thoma D Bowling</h3>
               <p className="text-mansagold mb-4 font-medium">Founder &amp; CEO, 1325.AI</p>
               <p className="text-white/80 leading-relaxed mb-4">
-                William Foster is the founder of 1325.AI and Mansa Musa Marketplace, on a mission to build
+                Thoma D Bowling is the founder of 1325.AI and Mansa Musa Marketplace, on a mission to build
                 the economic infrastructure for the $1.6T Black economy. With patent-pending technology
                 (USPTO 63/969,202) and 33 deployed AI agents, his work focuses on extending how long the
                 Black dollar circulates and giving Black-owned businesses the tools larger companies take
