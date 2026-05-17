@@ -244,7 +244,6 @@ const PricingSection = () => {
           </p>
         </ScrollReveal>
 
-        <ROICalculator />
       </div>
     </section>
   );
