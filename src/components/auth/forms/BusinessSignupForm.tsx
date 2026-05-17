@@ -359,6 +359,9 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
               <p className="text-xs text-center text-gray-500">
                 Add your category, description, and photos after signup to appear in the directory.
               </p>
+              <p className="text-[11px] text-center text-gray-400 leading-relaxed px-2">
+                ROI, savings, and "~4 Roles Covered" figures shown across 1325.AI are illustrative estimates based on typical SMB workloads. Actual results vary by industry, usage, and business size. Not a guarantee of revenue or savings.
+              </p>
             </form>
           </div>
         </div>
