@@ -13,13 +13,9 @@ const CTASection = lazy(() => import('@/components/CTASection'));
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const PricingSection = lazy(() => import('./PricingSection'));
 
-const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
-const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
+const AlsoFromStrip = lazy(() => import('./AlsoFromStrip'));
 
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
-
-const SponsorshipVideoSection = lazy(() => import('@/components/HowItWorks/SponsorshipVideoSection'));
-const LatestFromYouTube = lazy(() => import('./LatestFromYouTube'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (
@@ -93,38 +89,24 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* 5. See The Impact — post-CTA enrichment for scrollers */}
-      <SectionErrorBoundary sectionName="See The Impact">
-        <Suspense fallback={<SectionSkeleton height="h-96" />}>
-          <SponsorshipVideoSection />
-        </Suspense>
-      </SectionErrorBoundary>
-
-      {/* 6. Pricing — answers the cost objection first */}
+      {/* Pricing — answers the cost objection first */}
       <SectionErrorBoundary sectionName="Pricing">
         <Suspense fallback={<SectionSkeleton height="h-48" />}>
           <PricingSection />
         </Suspense>
       </SectionErrorBoundary>
 
-      {/* 7. Meet Kayla — justifies the price with the feature deep-dive */}
+      {/* Meet Kayla — justifies the price with the feature deep-dive */}
       <SectionErrorBoundary sectionName="Meet Kayla">
         <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
           <MeetKaylaSection />
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* 10. Vacation Rentals CTA */}
-      <SectionErrorBoundary sectionName="Vacation Rentals CTA">
-        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
-          <VacationRentalsCTA />
-        </LazySection>
-      </SectionErrorBoundary>
-
-      {/* 11. Noir Ride CTA */}
-      <SectionErrorBoundary sectionName="Noir Ride CTA">
-        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
-          <NoirRideCTA />
+      {/* Also from 1325.AI — combined Stays + Noire strip */}
+      <SectionErrorBoundary sectionName="Also from 1325.AI">
+        <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
+          <AlsoFromStrip />
         </LazySection>
       </SectionErrorBoundary>
     </>
