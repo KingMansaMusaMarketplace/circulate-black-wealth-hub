@@ -60,6 +60,7 @@ import {
 
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
+const LazyPressPage = lazy(() => import('@/pages/PressPage'));
 
 // Coalition & B2B pages
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
@@ -683,6 +684,7 @@ function App() {
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                               {/* test routes removed */}
                               <Route path="/media-kit" element={<LazyMediaKitPage />} />
+                              <Route path="/press" element={<LazyPressPage />} />
                               <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
                               
@@ -1058,6 +1060,7 @@ function App() {
                         <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                         {/* /master-apple-review-test removed */}
                         <Route path="/media-kit" element={<LazyMediaKitPage />} />
+                        <Route path="/press" element={<LazyPressPage />} />
                         {/* /mobile-readiness-test removed */}
                         <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                         <Route path="/my-profile" element={<LazyUserProfilePage />} />
