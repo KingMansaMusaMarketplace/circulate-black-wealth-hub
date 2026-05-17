@@ -13,7 +13,8 @@ const CTASection = lazy(() => import('@/components/CTASection'));
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const PricingSection = lazy(() => import('./PricingSection'));
 
-const AlsoFromStrip = lazy(() => import('./AlsoFromStrip'));
+const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
+const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
 
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
 
@@ -103,10 +104,17 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* Also from 1325.AI — combined Stays + Noire strip */}
-      <SectionErrorBoundary sectionName="Also from 1325.AI">
-        <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
-          <AlsoFromStrip />
+      {/* Mansa Stays — full-width section */}
+      <SectionErrorBoundary sectionName="Mansa Stays">
+        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
+          <VacationRentalsCTA />
+        </LazySection>
+      </SectionErrorBoundary>
+
+      {/* Noire Rideshare — full-width section */}
+      <SectionErrorBoundary sectionName="Noire Rideshare">
+        <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
+          <NoirRideCTA />
         </LazySection>
       </SectionErrorBoundary>
     </>
