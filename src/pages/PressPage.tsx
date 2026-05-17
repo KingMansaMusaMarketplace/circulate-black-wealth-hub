@@ -189,7 +189,7 @@ const PressPage: React.FC = () => {
                   </a>
                 </Button>
                 <Button asChild size="sm" className="bg-mansagold text-black hover:bg-mansagold/90">
-                  <a href={`mailto:${PRESS_EMAIL}?subject=Interview%20Request%20-%20William%20Foster`}>
+                  <a href={`mailto:${PRESS_EMAIL}?subject=Interview%20Request%20-%20Thoma%20D%20Bowling`}>
                     <Mail className="w-4 h-4 mr-2" /> Request Interview
                   </a>
                 </Button>
