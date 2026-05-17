@@ -13,13 +13,9 @@ const CTASection = lazy(() => import('@/components/CTASection'));
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const PricingSection = lazy(() => import('./PricingSection'));
 
-const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
-const NoirRideCTA = lazy(() => import('./NoirRideCTA'));
+const AlsoFromStrip = lazy(() => import('./AlsoFromStrip'));
 
 const MeetKaylaSection = lazy(() => import('./MeetKaylaSection'));
-
-const SponsorshipVideoSection = lazy(() => import('@/components/HowItWorks/SponsorshipVideoSection'));
-const LatestFromYouTube = lazy(() => import('./LatestFromYouTube'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (
