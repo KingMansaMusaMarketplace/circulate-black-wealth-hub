@@ -1,5 +1,12 @@
 import { createClient } from 'jsr:@supabase/supabase-js@2';
-import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
+import { corsHeaders as baseCorsHeaders } from 'npm:@supabase/supabase-js@2/cors';
+
+// Extend SDK CORS to include our app's CSRF header
+const corsHeaders = {
+  ...baseCorsHeaders,
+  'Access-Control-Allow-Headers':
+    'authorization, x-client-info, apikey, content-type, x-csrf-token',
+};
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
