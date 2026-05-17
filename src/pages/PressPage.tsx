@@ -18,6 +18,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import logo1325 from '@/assets/1325-ai-logo.webp';
+import founderHeadshot from '@/assets/william-foster-headshot.png';
 import { updateMetaTags, BASE_URL } from '@/utils/seoUtils';
 
 const PRESS_EMAIL = 'press@1325.ai';
