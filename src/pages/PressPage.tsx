@@ -164,11 +164,11 @@ const PressPage: React.FC = () => {
       <section className="max-w-6xl mx-auto px-6 py-12">
         <Card className="p-8 md:p-10 bg-white/5 border-white/10">
           <div className="grid md:grid-cols-[200px_1fr] gap-8 items-start">
-            <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden bg-mansablue/40 border border-white/10 flex items-center justify-center mx-auto md:mx-0">
+            <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden bg-mansablue/40 border border-white/10 mx-auto md:mx-0">
               <img
-                src={logo1325}
+                src={founderHeadshot}
                 alt="William Foster, Founder of 1325.AI"
-                className="w-full h-full object-cover opacity-90"
+                className="w-full h-full object-cover object-top"
               />
             </div>
             <div>
