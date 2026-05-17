@@ -17,7 +17,7 @@ const ROICalculator = () => {
           <div className="p-2 rounded-lg bg-mansagold/20">
             <Calculator className="w-5 h-5 text-mansagold" />
           </div>
-          <h3 className="text-xl font-bold text-white">ROI Calculator</h3>
+          <h3 className="text-xl font-bold text-white">Savings Estimator</h3>
         </div>
 
         <p className="text-sm text-white/60 mb-6">
