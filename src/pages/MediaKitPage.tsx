@@ -126,10 +126,11 @@ const MediaKitPage = () => {
   return (
     <>
       <Helmet>
-        <title>Media Kit | 1325.AI</title>
-        <meta name="description" content="Access 1325.AI's media kit with platform stats, brand assets, partnership opportunities, and press resources." />
-        <meta property="og:title" content="Media Kit | 1325.AI" />
-        <meta property="og:description" content="Download our media kit, brand assets, and partnership information." />
+        <title>1325.AI Media Kit | Press, Stats & Brand Assets</title>
+        <meta name="description" content="Download the 1325.AI media kit — platform stats, founder bios, logos and press resources for journalists, partners and sponsors." />
+        <meta property="og:title" content="1325.AI Media Kit | Press, Stats & Brand Assets" />
+        <meta property="og:description" content="Platform stats, founder bios, logos and press resources for journalists and partners." />
+        <link rel="canonical" href="https://1325.ai/media-kit" />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">

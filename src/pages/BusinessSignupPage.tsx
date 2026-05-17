@@ -420,8 +420,11 @@ const BusinessSignupPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative flex flex-col justify-center py-12">
       <Helmet>
-        <title>Business Sign Up — Kayla AI Employee Included | 1325.AI</title>
-        <meta name="description" content="Sign up your business on 1325.AI and get Kayla, your AI employee — 28 autonomous services saving you $12,100+/mo in time and overhead. Included free." />
+        <title>List Your Black-Owned Business Free | 1325.AI</title>
+        <meta name="description" content="Add your Black-owned business to 1325.AI in 2 minutes. Get found by 36,000+ supporters and unlock Kayla, your free AI employee (~4 roles covered)." />
+        <meta property="og:title" content="List Your Black-Owned Business Free | 1325.AI" />
+        <meta property="og:description" content="Get found by 36,000+ supporters and unlock free AI-powered customer tools." />
+        <link rel="canonical" href="https://1325.ai/business-signup" />
       </Helmet>
 
       {/* Animated gradient orbs */}

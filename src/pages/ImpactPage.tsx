@@ -29,16 +29,16 @@ const ImpactPage = () => {
   useEffect(() => {
     const meta: Record<ImpactTab, { title: string; description: string }> = {
       my: {
-        title: 'My Impact - 1325.AI',
-        description: "See how you're building community wealth and circulating money within the community through 1325.AI.",
+        title: 'My Black Economic Impact | 1325.AI',
+        description: "See how you're building community wealth and circulating dollars to Black-owned businesses through 1325.AI.",
       },
       community: {
-        title: 'Community Impact - 1325.AI',
-        description: 'Track collective wealth circulation, jobs created, and businesses supported across the 1325.AI community.',
+        title: 'Black Economic Impact Tracker | 1325.AI',
+        description: 'See the real-time impact of every dollar circulated through Black-owned businesses. Track community wealth growth live on 1325.AI.',
       },
       economic: {
-        title: 'Economic Impact - 1325.AI',
-        description: 'Explore the economic impact, multiplier effect, and growth metrics powering Black community wealth on 1325.AI.',
+        title: 'Black Economic Multiplier & Growth Metrics | 1325.AI',
+        description: 'Explore the multiplier effect, jobs created and growth metrics powering Black community wealth on 1325.AI.',
       },
     };
     updateMetaTags({ ...meta[activeTab], path: location.pathname });
