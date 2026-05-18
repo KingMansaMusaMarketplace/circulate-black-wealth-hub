@@ -68,6 +68,7 @@ const LazyLeaseListingDetailPage = lazy(() => import('@/pages/stays/LeaseListing
 const LazyHostCreateLeasePage = lazy(() => import('@/pages/stays/HostCreateLeasePage'));
 const LazyTenantConfirmLeasePage = lazy(() => import('@/pages/stays/TenantConfirmLeasePage'));
 const LazyHostLeaseDashboardPage = lazy(() => import('@/pages/stays/HostLeaseDashboardPage'));
+const LazyLeaseCategoryLandingPage = lazy(() => import('@/pages/stays/LeaseCategoryLandingPage'));
 
 // Coalition & B2B pages
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
