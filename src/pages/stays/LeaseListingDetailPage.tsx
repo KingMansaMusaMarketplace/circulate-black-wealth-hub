@@ -200,6 +200,10 @@ const LeaseListingDetailPage: React.FC = () => {
               />
               <p className="text-xs text-white/40 mt-2">Approximate location shown. Exact address shared after the landlord accepts your inquiry.</p>
             </div>
+
+            <div className="mt-6 flex justify-end">
+              <ReportContentButton contentType="lease_property" contentId={listing.id} variant="link" />
+            </div>
           </div>
 
           {/* Sidebar - sticky contact card */}
