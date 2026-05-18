@@ -249,11 +249,11 @@ const MansaStaysAdmin: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-white">Mansa Stays</h2>
-        <p className="text-white/60 text-sm">Vacation rental properties, bookings, and host payouts.</p>
+        <p className="text-white/60 text-sm">Vacation rentals, yearly leases, bookings, host payouts, and lease agreements.</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
