@@ -82,18 +82,24 @@ const MansaStaysAdmin: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState<Property[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [leaseInquiries, setLeaseInquiries] = useState<LeaseInquiry[]>([]);
+  const [leaseAgreements, setLeaseAgreements] = useState<LeaseAgreement[]>([]);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
 
   const loadData = async () => {
-    const [{ data: p }, { data: b }] = await Promise.all([
+    const [{ data: p }, { data: b }, { data: li }, { data: la }] = await Promise.all([
       supabase.from('vacation_properties').select('*').order('created_at', { ascending: false }),
       supabase.from('vacation_bookings').select('*').order('created_at', { ascending: false }),
+      supabase.from('lease_inquiries').select('*').order('created_at', { ascending: false }),
+      supabase.from('lease_agreements').select('*').order('created_at', { ascending: false }),
     ]);
     setProperties((p as Property[]) ?? []);
     setBookings((b as Booking[]) ?? []);
+    setLeaseInquiries((li as LeaseInquiry[]) ?? []);
+    setLeaseAgreements((la as LeaseAgreement[]) ?? []);
     setLoading(false);
   };
 
