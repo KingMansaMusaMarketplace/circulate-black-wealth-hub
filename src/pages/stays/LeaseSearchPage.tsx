@@ -238,8 +238,8 @@ const LeaseSearchPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Lease an Apartment, House, Condo, Loft or Townhouse | Mansa Stays</title>
-        <meta name="description" content="Find yearly lease apartments, houses, condos, lofts and townhouses on Mansa Stays. Black-owned properties nationwide. Now live in Chicago and Atlanta." />
+        <title>Lease Apartments, Houses, Condos, Office Space & Warehouses | Mansa Stays</title>
+        <meta name="description" content="Find yearly leases on apartments, houses, condos, lofts, townhouses, office space and warehouses on Mansa Stays. Black-owned properties nationwide. Now live in Chicago and Atlanta." />
       </Helmet>
 
       {heroBlock}
