@@ -46,7 +46,7 @@ const BrowseLayout: React.FC<BrowseLayoutProps> = ({
   footer,
 }) => {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white bg-[radial-gradient(ellipse_at_top,_rgba(0,51,102,0.35),transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgba(124,58,237,0.18),transparent_50%),linear-gradient(180deg,#05060f_0%,#020308_100%)]">
       {/* Header band */}
       <section className="border-b border-white/10 py-10 px-4">
         <div className="max-w-7xl mx-auto">
