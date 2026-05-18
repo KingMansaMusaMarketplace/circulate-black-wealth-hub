@@ -189,6 +189,10 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
         Tip: Properties with high-quality photos get 40% more bookings. Include every room, outdoor
         spaces, and unique features. The first photo is your cover image.
       </p>
+      <p className="text-xs text-white/40">
+        🛡️ All photos are auto-scanned for safety. Inappropriate images (nudity, violence,
+        non-property content) are blocked at upload.
+      </p>
     </div>
   );
 };
