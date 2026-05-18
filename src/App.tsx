@@ -62,6 +62,12 @@ import {
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyPressPage = lazy(() => import('@/pages/PressPage'));
 
+// Mansa Stays — Yearly Leasing
+const LazyLeaseSearchPage = lazy(() => import('@/pages/stays/LeaseSearchPage'));
+const LazyLeaseListingDetailPage = lazy(() => import('@/pages/stays/LeaseListingDetailPage'));
+const LazyHostCreateLeasePage = lazy(() => import('@/pages/stays/HostCreateLeasePage'));
+const LazyTenantConfirmLeasePage = lazy(() => import('@/pages/stays/TenantConfirmLeasePage'));
+
 // Coalition & B2B pages
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
 const LazyB2BMarketplacePage = lazy(() => import('@/pages/B2BMarketplacePage'));
