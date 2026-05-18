@@ -96,7 +96,25 @@ export const HostVerificationCard: React.FC = () => {
     return request.status;
   };
 
-  const handleStartVerification = (type: VerificationType) => {
+  const handleStartVerification = async (type: VerificationType) => {
+    // Stripe Identity flow for identity verification
+    if (type === 'identity') {
+      try {
+        setSubmitting(true);
+        const { data, error } = await supabase.functions.invoke('create-identity-session');
+        if (error) throw error;
+        if (data?.url) {
+          window.location.href = data.url;
+          return;
+        }
+        throw new Error('No verification URL returned');
+      } catch (e: any) {
+        console.error(e);
+        toast.error(e.message || 'Failed to start identity verification');
+        setSubmitting(false);
+        return;
+      }
+    }
     setSelectedType(type);
     setShowDialog(true);
   };
