@@ -215,8 +215,14 @@ const MansaStaysAdmin: React.FC = () => {
     );
   }
 
+  const vacationCount = properties.filter(p => p.listing_mode !== 'yearly_lease').length;
+  const leaseCount = properties.filter(p => p.listing_mode === 'yearly_lease').length;
   const activeProperties = properties.filter(p => p.is_active).length;
   const verifiedProperties = properties.filter(p => p.is_verified).length;
+  const signedAgreements = leaseAgreements.filter(a => ['confirmed', 'active', 'signed'].includes(a.status)).length;
+  const leaseFeesCollected = leaseAgreements
+    .filter(a => a.fee_charged_at && !a.refunded_at)
+    .reduce((s, a) => s + Number(a.fee_amount || 0), 0);
   const realized = bookings
     .filter(b => ['confirmed', 'completed'].includes(b.status))
     .reduce((sum, b) => sum + Number(b.platform_fee || 0), 0);
