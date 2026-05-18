@@ -12431,6 +12431,60 @@ export type Database = {
           },
         ]
       }
+      lease_saved_searches: {
+        Row: {
+          bedrooms: number | null
+          city: string | null
+          created_at: string
+          furnished: boolean | null
+          id: string
+          label: string | null
+          last_notified_at: string | null
+          max_rent: number | null
+          min_rent: number | null
+          notify_email: boolean
+          pets_allowed: boolean | null
+          property_type: string | null
+          section_8_accepted: boolean | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bedrooms?: number | null
+          city?: string | null
+          created_at?: string
+          furnished?: boolean | null
+          id?: string
+          label?: string | null
+          last_notified_at?: string | null
+          max_rent?: number | null
+          min_rent?: number | null
+          notify_email?: boolean
+          pets_allowed?: boolean | null
+          property_type?: string | null
+          section_8_accepted?: boolean | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          bedrooms?: number | null
+          city?: string | null
+          created_at?: string
+          furnished?: boolean | null
+          id?: string
+          label?: string | null
+          last_notified_at?: string | null
+          max_rent?: number | null
+          min_rent?: number | null
+          notify_email?: boolean
+          pets_allowed?: boolean | null
+          property_type?: string | null
+          section_8_accepted?: boolean | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       loyalty_engine_campaigns: {
         Row: {
           ai_reasoning: string | null

@@ -12,6 +12,9 @@ import PropertyTypeFilter from "@/components/stays/lease/PropertyTypeFilter";
 import LeaseListingCard from "@/components/stays/lease/LeaseListingCard";
 import LeaseListRow from "@/components/stays/lease/LeaseListRow";
 import LeaseMapView from "@/components/stays/lease/LeaseMapView";
+import LeaseHero from "@/components/stays/lease/LeaseHero";
+import SaveSearchButton from "@/components/stays/lease/SaveSearchButton";
+import SmartEmptyState from "@/components/stays/lease/SmartEmptyState";
 import BrowseLayout, { BrowseViewMode } from "@/components/browse/BrowseLayout";
 import LeasePriceRail, { PRICE_TIERS, PriceTier } from "@/components/stays/lease/LeasePriceRail";
 import DirectoryPagination from "@/components/directory/DirectoryPagination";
@@ -143,24 +146,26 @@ const LeaseSearchPage: React.FC = () => {
     [sorted, page, viewMode]
   );
 
-  const header = (
-    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-4">
-      <div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">Find your next home</h1>
-        <p className="text-white/85 mb-2 max-w-2xl">
-          Yearly leases on apartments, houses, condos, lofts and townhouses. Direct from landlords — no broker fees for tenants.
-        </p>
-        <p className="text-mansagold text-sm">Now live in <strong>Chicago</strong> and <strong>Atlanta</strong> · Listings available nationwide</p>
+  const heroBlock = (
+    <LeaseHero>
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-3 tracking-tight">Find your next home</h1>
+          <p className="text-white/90 mb-2 max-w-2xl text-lg">
+            Yearly leases on apartments, houses, condos, lofts and townhouses. Direct from landlords — no broker fees for tenants.
+          </p>
+          <p className="text-mansagold text-sm">Now live in <strong>Chicago</strong> and <strong>Atlanta</strong> · Listings available nationwide</p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+          <Button asChild variant="outline" size="lg" className="border-white/40 bg-black/30 text-white hover:bg-white/10 min-h-[48px] backdrop-blur">
+            <Link to="/stays/host/lease/dashboard">My Listings</Link>
+          </Button>
+          <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold shadow-lg min-h-[48px]">
+            <Link to="/stays/host/lease/new">List Your Property — Free</Link>
+          </Button>
+        </div>
       </div>
-      <div className="flex flex-col sm:flex-row gap-2 shrink-0">
-        <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10 min-h-[48px]">
-          <Link to="/stays/host/lease/dashboard">My Listings</Link>
-        </Button>
-        <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold shadow-lg min-h-[48px]">
-          <Link to="/stays/host/lease/new">List Your Property — Free</Link>
-        </Button>
-      </div>
-    </div>
+    </LeaseHero>
   );
 
   const searchRow = (
@@ -203,17 +208,29 @@ const LeaseSearchPage: React.FC = () => {
   );
 
   const sortControl = (
-    <select
-      value={sortBy}
-      onChange={(e) => setSortBy(e.target.value as SortBy)}
-      className="bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 text-sm min-h-[40px]"
-      aria-label="Sort results"
-    >
-      <option value="newest" className="bg-black">Newest</option>
-      <option value="price_low" className="bg-black">Price: low to high</option>
-      <option value="price_high" className="bg-black">Price: high to low</option>
-      <option value="beds" className="bg-black">Most bedrooms</option>
-    </select>
+    <div className="flex items-center gap-2">
+      <SaveSearchButton payload={{
+        city: filters.city || null,
+        min_rent: filters.minRent ? Number(filters.minRent) : null,
+        max_rent: filters.maxRent ? Number(filters.maxRent) : null,
+        bedrooms: filters.bedrooms ? Number(filters.bedrooms) : null,
+        property_type: propertyType,
+        pets_allowed: filters.pets || null,
+        section_8_accepted: filters.section8 || null,
+        furnished: filters.furnished || null,
+      }} />
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value as SortBy)}
+        className="bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 text-sm min-h-[40px]"
+        aria-label="Sort results"
+      >
+        <option value="newest" className="bg-black">Newest</option>
+        <option value="price_low" className="bg-black">Price: low to high</option>
+        <option value="price_high" className="bg-black">Price: high to low</option>
+        <option value="beds" className="bg-black">Most bedrooms</option>
+      </select>
+    </div>
   );
 
   const empty = !loading && sorted.length === 0;
@@ -225,8 +242,10 @@ const LeaseSearchPage: React.FC = () => {
         <meta name="description" content="Find yearly lease apartments, houses, condos, lofts and townhouses on Mansa Stays. Black-owned properties nationwide. Now live in Chicago and Atlanta." />
       </Helmet>
 
+      {heroBlock}
+
       <BrowseLayout
-        header={header}
+        header={null}
         searchRow={searchRow}
         showFilters={showFilters}
         onToggleFilters={() => setShowFilters((s) => !s)}
@@ -245,12 +264,18 @@ const LeaseSearchPage: React.FC = () => {
         {loading ? (
           <p className="text-white/70">Loading listings…</p>
         ) : empty ? (
-          <Card className="p-8 bg-white/10 border-white/20 text-center">
-            <p className="text-white/90 mb-4">No lease listings match your filters yet.</p>
-            <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold min-h-[48px]">
-              <Link to="/stays/host/lease/new">List Your Property — Free</Link>
-            </Button>
-          </Card>
+          <SmartEmptyState
+            city={filters.city || undefined}
+            maxRent={filters.maxRent ? Number(filters.maxRent) : undefined}
+            onSuggestion={(patch) => {
+              setFilters((f) => ({
+                ...f,
+                ...(patch.city !== undefined ? { city: patch.city } : {}),
+                ...(patch.maxRent !== undefined ? { maxRent: patch.maxRent } : {}),
+              }));
+              setTimeout(() => fetchListings(), 0);
+            }}
+          />
         ) : viewMode === "map" ? (
           <div className="grid lg:grid-cols-5 gap-4">
             <div className="lg:col-span-3">
