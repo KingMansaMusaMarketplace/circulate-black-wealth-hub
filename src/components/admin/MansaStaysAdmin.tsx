@@ -355,6 +355,7 @@ const MansaStaysAdmin: React.FC = () => {
 
       <Tabs defaultValue="properties" className="w-full">
         <TabsList className="bg-white/5 border border-white/10 flex-wrap h-auto">
+          <TabsTrigger value="pending">Pending Approval ({properties.filter(p => p.listing_status === 'pending_review').length})</TabsTrigger>
           <TabsTrigger value="properties">Properties ({properties.length})</TabsTrigger>
           <TabsTrigger value="bookings">Bookings ({bookings.length})</TabsTrigger>
           <TabsTrigger value="lease-inquiries">Lease Inquiries ({leaseInquiries.length})</TabsTrigger>
