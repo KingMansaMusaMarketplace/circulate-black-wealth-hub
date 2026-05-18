@@ -10,7 +10,7 @@ import ActiveFiltersBar from '@/components/stays/ActiveFiltersBar';
 import FeaturedPropertySpotlight from '@/components/stays/FeaturedPropertySpotlight';
 import { vacationRentalService } from '@/lib/services/vacation-rental-service';
 import { VacationProperty, PropertySearchFilters } from '@/types/vacation-rental';
-import { Loader2, Home, Plus, Luggage, Sparkles, Heart } from 'lucide-react';
+import { Loader2, Home, Plus, Luggage, Sparkles, Heart, Key, CalendarRange, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/hooks/useWishlist';
