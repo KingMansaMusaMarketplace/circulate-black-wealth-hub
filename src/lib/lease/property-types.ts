@@ -1,10 +1,25 @@
-import { Building2, Home, Building, Warehouse, Layers } from "lucide-react";
+import { Building2, Home, Building, Warehouse, Layers, Briefcase, Boxes } from "lucide-react";
 
-export type PropertyTypeSlug = "apartments" | "houses" | "condos" | "lofts" | "townhouses";
-export type PropertyTypeValue = "apartment" | "house" | "condo" | "loft" | "townhouse";
+export type PropertyTypeSlug =
+  | "apartments"
+  | "houses"
+  | "condos"
+  | "lofts"
+  | "townhouses"
+  | "office-space"
+  | "warehouses";
+
+export type PropertyTypeValue =
+  | "apartment"
+  | "house"
+  | "condo"
+  | "loft"
+  | "townhouse"
+  | "office_space"
+  | "warehouse";
 
 export interface PropertyTypeDef {
-  value: PropertyTypeValue;      // DB value (singular)
+  value: PropertyTypeValue;      // DB value (singular / enum)
   slug: PropertyTypeSlug;        // URL slug (plural)
   label: string;                 // UI label singular
   labelPlural: string;
@@ -39,10 +54,22 @@ export const PROPERTY_TYPES: PropertyTypeDef[] = [
       `Rent a loft${city ? ` in ${city}` : ""} on Mansa Stays. Open-concept spaces with high ceilings and exposed brick, leased directly by Black-owned property owners.`,
   },
   {
-    value: "townhouse", slug: "townhouses", label: "Townhouse", labelPlural: "Townhouses", icon: Warehouse,
+    value: "townhouse", slug: "townhouses", label: "Townhouse", labelPlural: "Townhouses", icon: Building,
     shortDesc: "Multi-story attached homes",
     seoIntro: (city) =>
       `Townhouses for rent${city ? ` in ${city}` : ""} — multi-level living with private entrances, leased directly by Black-owned landlords on Mansa Stays.`,
+  },
+  {
+    value: "office_space", slug: "office-space", label: "Office Space", labelPlural: "Office Space", icon: Briefcase,
+    shortDesc: "Commercial offices, suites, and coworking buildouts",
+    seoIntro: (city) =>
+      `Lease office space${city ? ` in ${city}` : " nationwide"} from Black-owned commercial landlords on 1325.AI. Private suites, open-plan floors, and turnkey offices — flexible terms direct from the owner.`,
+  },
+  {
+    value: "warehouse", slug: "warehouses", label: "Warehouse", labelPlural: "Warehouses", icon: Warehouse,
+    shortDesc: "Industrial, flex, and storage space",
+    seoIntro: (city) =>
+      `Warehouse and industrial space for lease${city ? ` in ${city}` : " across the U.S."} on 1325.AI. Loading docks, high ceilings, flex layouts — direct from Black-owned commercial property owners with transparent yearly leases.`,
   },
 ];
 
