@@ -193,9 +193,14 @@ const HostLeaseDashboardPage: React.FC = () => {
             <h1 className="text-3xl md:text-4xl font-bold">My Lease Listings</h1>
             <p className="text-white/80 mt-2">Manage inquiries, mark leases as signed, and pay the $99 success fee.</p>
           </div>
-          <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold min-h-[48px]">
-            <Link to="/stays/host/lease/new"><Plus className="w-4 h-4 mr-1" />New Listing</Link>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10 min-h-[48px]">
+              <Link to="/stays/host/lease/bulk-upload">Bulk upload CSV</Link>
+            </Button>
+            <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold min-h-[48px]">
+              <Link to="/stays/host/lease/new"><Plus className="w-4 h-4 mr-1" />New Listing</Link>
+            </Button>
+          </div>
         </div>
 
         {loading ? (
