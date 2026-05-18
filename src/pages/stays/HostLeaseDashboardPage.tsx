@@ -212,6 +212,15 @@ const HostLeaseDashboardPage: React.FC = () => {
               const myAgreements = agreements.filter(a => a.property_id === l.id);
               return (
                 <Card key={l.id} className="bg-white/10 border-white/20 p-6">
+                  {/* Backfill nudge: prompt host to confirm category for older listings (pre-2026-05-18) */}
+                  {new Date(l.created_at) < new Date("2026-05-18") && (
+                    <div className="mb-4 p-3 rounded-md bg-yellow-500/15 border border-yellow-500/40 text-yellow-100 text-sm flex items-center justify-between gap-3 flex-wrap">
+                      <span>Pick a property type (House, Condo, Loft…) so renters can find this listing.</span>
+                      <Button asChild size="sm" className="bg-yellow-500 text-black hover:bg-yellow-500/90 font-bold">
+                        <Link to={`/stays/lease/${l.id}`}>Update now</Link>
+                      </Button>
+                    </div>
+                  )}
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
                     <div>
                       <h2 className="text-xl font-bold text-white">{l.title}</h2>

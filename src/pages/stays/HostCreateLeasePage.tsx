@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import LeaseLegalFooter from "@/components/stays/lease/LeaseLegalFooter";
+import { PROPERTY_TYPES } from "@/lib/lease/property-types";
 
 const HostCreateLeasePage: React.FC = () => {
   const { user } = useAuth();
@@ -79,6 +80,20 @@ const HostCreateLeasePage: React.FC = () => {
 
         <Card className="bg-white/10 border-white/20 p-6 mt-6 space-y-4">
           <Input placeholder="Listing title *" value={f.title} onChange={(e) => setF({ ...f, title: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+          <div>
+            <label className="text-sm text-white/90 font-medium mb-1 block">Property type *</label>
+            <select
+              value={f.property_type}
+              onChange={(e) => setF({ ...f, property_type: e.target.value })}
+              className="w-full bg-white/10 border border-white/30 text-white rounded-md px-3 py-2 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-mansagold"
+            >
+              {PROPERTY_TYPES.map((t) => (
+                <option key={t.value} value={t.value} className="bg-black text-white">
+                  {t.label} — {t.shortDesc}
+                </option>
+              ))}
+            </select>
+          </div>
           <Textarea placeholder="Description" rows={4} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           <div className="grid sm:grid-cols-2 gap-3">
             <Input placeholder="Street address" value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />

@@ -1,78 +1,107 @@
-# Mansa Stays — Yearly Leasing (v1)
+# Property Categories + SEO Landing Pages
 
-## Confirmed decisions
+## What this does (plain English)
 
-- **Fee:** Flat **$99** per successful lease
-- **Who pays:** **Landlord pays** (charged on tenant confirmation)
-- **Trigger:** Both landlord + tenant confirm the lease in-app
-- **Refund window:** **7 days, no questions asked.** After day 7, fee is final.
-- **Pro-manager onboarding:** Self-serve **CSV import** (12-column template + AI cleanup)
-- **Tech scope:** Nationwide
-- **Marketing focus:** **Chicago + Atlanta** for first 90 days
-- **Legal posture:** Listing platform only — no lease signing, no escrow, no deposit handling, Fair Housing Act compliant
+Adds **5 property type categories** — Apartment, House, Condo, Loft, Townhouse — so renters can filter by what they actually want, and Google can index dedicated pages for each (huge for free traffic). Also nudges hosts to update older listings that are stuck on "apartment" by default.
 
 ---
 
-## What gets built
+## Part 1 — Property type filter (the basics)
 
-### 1. Database (one migration)
-Extend `vacation_properties` with lease fields:
-- `listing_mode` adds `'yearly_lease'`
-- `monthly_rent`, `lease_term_months` (default 12), `security_deposit_amount`, `pet_deposit`, `utilities_included` (text[]), `section_8_accepted` (bool), `min_credit_score`, `min_income_multiplier` (e.g. 3x), `available_from` (date), `furnished` (bool)
+### a. Lease search page (`/stays/lease`)
+- Add a **"Property type" pill row** at the top of the filter bar with 5 toggles: All · Apartments · Houses · Condos · Lofts · Townhouses.
+- Tapping one re-runs the search and updates the URL (`?type=house`) so the filter is shareable and browser back-button friendly.
+- Show the active type as a removable chip in the existing active-filters bar.
 
-New tables:
-- `lease_inquiries` — tenant interest, contact, move-in date, message
-- `lease_agreements` — links property + landlord + tenant, status (`pending_landlord_confirm`, `pending_tenant_confirm`, `confirmed`, `cancelled`, `refunded`), `confirmed_at`, `fee_charged_at`, `refund_eligible_until` (confirmed_at + 7 days), `stripe_payment_intent_id`
-- `lease_fee_refunds` — audit trail
+### b. Listing creation page (`/stays/host/lease/new`)
+- Replace the hidden hardcoded `"apartment"` with a **visible dropdown** labeled "Property type *" with the 5 options.
+- Default to Apartment but require the host to confirm by clicking.
 
-RLS: landlords see their own, tenants see their own, admins see all.
+### c. Listing detail page (`/stays/lease/:id`)
+- Show the property type prominently next to bedrooms/bathrooms (e.g. "House · 3bd · 2ba").
 
-### 2. Edge functions
-- `charge-lease-success-fee` — Stripe Checkout, $99 one-time, landlord pays, fires when both parties confirm
-- `refund-lease-fee` — full refund if within 7-day window
-- `import-lease-listings-csv` — pro-manager bulk upload, AI cleanup of messy rows
-
-### 3. Pages & UI
-- `/stays/lease` — search page with filters (beds, rent range, city, pets, Section 8, move-in date, furnished)
-- `/stays/lease/:id` — lease listing detail (separate template from nightly — shows monthly rent, term, deposit, screening criteria)
-- `/stays/host/lease/new` — create lease listing wizard (separate from nightly wizard, includes Fair Housing disclosures)
-- `/stays/host/lease/import` — pro-manager CSV import with template download + AI cleanup
-- `/stays/host/lease/:id/confirm-lease` — landlord clicks "I leased to [tenant name]"
-- `/stays/tenant/confirm-lease/:token` — tenant clicks email/SMS link to confirm
-- Host dashboard: new "Lease Listings" tab + lease pipeline (inquiries → confirmed leases)
-- Refund button visible to landlord during 7-day window
-
-### 4. Legal & compliance copy
-- "Mansa Stays is a listing platform, not a real estate broker" footer on every lease page
-- Fair Housing Act statement on listing form (no filters by race, religion, family status, etc.)
-- "We don't handle lease signing, escrow, or security deposits" disclosure on landlord checkout
-- 7-day refund policy clearly stated before $99 charge
-- Section 8 toggle (source-of-income discrimination is illegal in many states)
-
-### 5. Marketing surface (Chicago + Atlanta launch)
-- Geo-detect: Chicago and Atlanta visitors see "Now live in your city" hero on `/stays/lease`
-- SEO landing pages: `/stays/lease/chicago`, `/stays/lease/atlanta` (+ neighborhood pages for top 10 in each)
-- Other cities show "Coming soon — list your property now" (still accept listings nationwide)
+### d. Database
+- Add a database constraint so `property_type` for yearly leases can only be one of the 5 allowed values (prevents typos like "appartmnt").
+- Update the search function (`search_lease_listings`) to accept an optional `p_property_type` argument.
 
 ---
 
-## What you'll need to do
+## Part 2 — SEO landing pages (the traffic play)
 
-1. Approve this plan — I'll then create the database migration (you'll see one approval prompt for SQL)
-2. Confirm the **$99 lease fee Stripe product** should be created (I'll do it via tool, no action needed from you)
-3. After launch: provide Chicago + Atlanta neighborhood lists for SEO pages (optional, I can seed defaults)
+Build a single reusable page component that handles **all combinations** via URL params. Two URL shapes:
+
+```text
+/stays/lease/:category                       e.g. /stays/lease/houses
+/stays/lease/:city/:category                 e.g. /stays/lease/chicago/houses
+```
+
+Plus the existing `/stays/lease/chicago` and `/stays/lease/atlanta` (city-only) we'd planned for Phase 2.2.
+
+### What each landing page contains
+- **H1** (main heading): "Houses for Rent in Chicago" (auto-built from URL).
+- **Intro paragraph** with city + category context (e.g. neighborhoods, average rents).
+- **Listing grid** filtered to that category + city (re-uses the existing lease search component).
+- **FAQ block** (3–4 questions like "What's the average rent for a house in Chicago?") — great for Google's "People also ask" rankings.
+- **Title tag + meta description** (the snippet Google shows) auto-built per page.
+- **JSON-LD structured data** (`RealEstateListing` schema) so Google understands these are rental listings, not blog posts.
+- **Internal links** to sister pages (e.g. on `/chicago/houses`, link to `/chicago/condos` and `/atlanta/houses`).
+- Fallback message + "Be the first to list" CTA when the grid is empty.
+
+### Coverage at launch
+- **2 cities** (Chicago, Atlanta) × **5 categories** + **5 nationwide category pages** + **2 city-only pages** = **17 landing pages** from a single component.
+- Add all to `sitemap.xml` so Google can find them.
+
+### Routing
+- New routes in `App.tsx` (both router blocks for web + native):
+  - `/stays/lease/:category` — nationwide by type
+  - `/stays/lease/:city/:category` — city × type
+- The existing `/stays/lease/:id` (listing detail) keeps working because UUIDs (long random IDs) don't collide with our short category/city slugs — but we'll guard with a regex so `houses` never gets treated as a listing ID.
 
 ---
 
-## What v1 explicitly does NOT include
+## Part 3 — Backfill prompt for older listings (option B you picked)
 
-- ❌ Lease signing / e-signature (use DocuSign separately)
-- ❌ Tenant background checks (link out to TransUnion SmartMove or similar)
-- ❌ Rent collection / escrow
-- ❌ Yardi/AppFolio integration (CSV only until 5+ pro managers ask)
-- ❌ Featured/boosted listings (Phase 2 once 500+ listings exist)
-- ❌ Tenant-side fees
+- On the **Host Dashboard** (`/stays/host/lease/dashboard`), any listing where `property_type` was never set by the host shows a yellow inline banner: *"Pick a category so renters can find you →"* with a one-click dropdown.
+- No automatic data change. We just flag the field as "needs review" by checking if the listing was created before today's migration date.
 
 ---
 
-Reply **"go"** to start the migration, or tell me what to change.
+## Files affected
+
+**New files (5):**
+- `src/pages/stays/LeaseCategoryLandingPage.tsx` — the reusable landing page (handles all 17+ URL combos)
+- `src/lib/lease/property-types.ts` — single source of truth for the 5 categories (label, slug, icon, SEO copy)
+- `src/lib/lease/city-data.ts` — Chicago/Atlanta context (neighborhoods, avg rent stub)
+- `src/components/stays/lease/PropertyTypeFilter.tsx` — the pill row
+- `supabase/migrations/<timestamp>_lease_property_types.sql` — constraint + RPC update
+
+**Edited files (5):**
+- `src/pages/stays/LeaseSearchPage.tsx` — wire in the pill filter + URL sync
+- `src/pages/stays/HostCreateLeasePage.tsx` — replace hidden type with dropdown
+- `src/pages/stays/LeaseListingDetailPage.tsx` — show type label
+- `src/pages/stays/HostLeaseDashboardPage.tsx` — backfill banner
+- `src/App.tsx` — 2 new routes in both router blocks
+- `public/sitemap.xml` (or sitemap generator) — add the 17 URLs
+
+---
+
+## Technical notes
+
+- **Slug map:** `apartments → apartment`, `houses → house`, `condos → condo`, `lofts → loft`, `townhouses → townhouse`. URL uses plurals (better for SEO).
+- **Single React component, many URLs:** the landing page reads `useParams()` for `city` and `category`, resolves them against the slug map, 404s on unknown slugs, then renders.
+- **SEO sitemap:** I'll regenerate `public/sitemap.xml` to include all new URLs so Google indexes them within ~1–2 weeks.
+- **No new Stripe / payment changes.** Pure schema + frontend.
+
+---
+
+## What you (the user) need to do after this ships
+
+1. Visit `/stays/lease/chicago/houses` and `/stays/lease/atlanta/condos` to spot-check.
+2. **Submit the updated sitemap to Google Search Console** (https://search.google.com/search-console) — paste `https://mansamusamarketplace.com/sitemap.xml`. Takes 30 seconds, makes Google find the pages faster.
+3. (Optional) Tell me later what avg rents look like in Chicago/Atlanta and I'll plug real numbers into the FAQ blocks.
+
+---
+
+## Cost
+
+~1 prompt to build all of this in one shot. After that, **Phase 2.3 (CSV bulk upload)** is the last item on the original Phase 2 list.

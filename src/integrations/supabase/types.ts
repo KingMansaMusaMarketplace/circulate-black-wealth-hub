@@ -26122,79 +26122,154 @@ export type Database = {
               zip_code: string
             }[]
           }
-      search_lease_listings: {
-        Args: {
-          p_available_by?: string
-          p_bedrooms?: number
-          p_city?: string
-          p_furnished?: boolean
-          p_limit?: number
-          p_max_rent?: number
-          p_min_rent?: number
-          p_offset?: number
-          p_pets?: boolean
-          p_section_8?: boolean
-          p_state?: string
-        }
-        Returns: {
-          address: string
-          amenities: Json | null
-          available_from: string | null
-          average_rating: number | null
-          base_monthly_rate: number | null
-          base_nightly_rate: number
-          bathrooms: number | null
-          bedrooms: number | null
-          cancellation_policy: string | null
-          check_in_time: string | null
-          check_out_time: string | null
-          city: string
-          cleaning_fee: number | null
-          country: string | null
-          created_at: string | null
-          description: string | null
-          furnished: boolean | null
-          host_id: string
-          house_rules: string | null
-          id: string
-          is_active: boolean | null
-          is_instant_book: boolean | null
-          is_verified: boolean | null
-          latitude: number | null
-          lease_term_months: number | null
-          listing_mode: string
-          longitude: number | null
-          max_guests: number | null
-          max_nights: number | null
-          min_credit_score: number | null
-          min_income_multiplier: number | null
-          min_nights: number | null
-          monthly_rent: number | null
-          pet_deposit: number | null
-          pet_fee: number | null
-          pets_allowed: boolean | null
-          photos: Json | null
-          property_type: Database["public"]["Enums"]["property_type"] | null
-          review_count: number | null
-          section_8_accepted: boolean | null
-          security_deposit: number | null
-          security_deposit_amount: number | null
-          service_fee_percent: number | null
-          service_tier: string
-          state: string
-          title: string
-          updated_at: string | null
-          utilities_included: string[] | null
-          weekly_rate: number | null
-          zip_code: string | null
-        }[]
-        SetofOptions: {
-          from: "*"
-          to: "vacation_properties"
-          isOneToOne: false
-          isSetofReturn: true
-        }
-      }
+      search_lease_listings:
+        | {
+            Args: {
+              p_available_by?: string
+              p_bedrooms?: number
+              p_city?: string
+              p_furnished?: boolean
+              p_limit?: number
+              p_max_rent?: number
+              p_min_rent?: number
+              p_offset?: number
+              p_pets?: boolean
+              p_section_8?: boolean
+              p_state?: string
+            }
+            Returns: {
+              address: string
+              amenities: Json | null
+              available_from: string | null
+              average_rating: number | null
+              base_monthly_rate: number | null
+              base_nightly_rate: number
+              bathrooms: number | null
+              bedrooms: number | null
+              cancellation_policy: string | null
+              check_in_time: string | null
+              check_out_time: string | null
+              city: string
+              cleaning_fee: number | null
+              country: string | null
+              created_at: string | null
+              description: string | null
+              furnished: boolean | null
+              host_id: string
+              house_rules: string | null
+              id: string
+              is_active: boolean | null
+              is_instant_book: boolean | null
+              is_verified: boolean | null
+              latitude: number | null
+              lease_term_months: number | null
+              listing_mode: string
+              longitude: number | null
+              max_guests: number | null
+              max_nights: number | null
+              min_credit_score: number | null
+              min_income_multiplier: number | null
+              min_nights: number | null
+              monthly_rent: number | null
+              pet_deposit: number | null
+              pet_fee: number | null
+              pets_allowed: boolean | null
+              photos: Json | null
+              property_type: Database["public"]["Enums"]["property_type"] | null
+              review_count: number | null
+              section_8_accepted: boolean | null
+              security_deposit: number | null
+              security_deposit_amount: number | null
+              service_fee_percent: number | null
+              service_tier: string
+              state: string
+              title: string
+              updated_at: string | null
+              utilities_included: string[] | null
+              weekly_rate: number | null
+              zip_code: string | null
+            }[]
+            SetofOptions: {
+              from: "*"
+              to: "vacation_properties"
+              isOneToOne: false
+              isSetofReturn: true
+            }
+          }
+        | {
+            Args: {
+              p_available_by?: string
+              p_bedrooms?: number
+              p_city?: string
+              p_furnished?: boolean
+              p_limit?: number
+              p_max_rent?: number
+              p_min_rent?: number
+              p_offset?: number
+              p_pets?: boolean
+              p_property_type?: string
+              p_section_8?: boolean
+              p_state?: string
+            }
+            Returns: {
+              address: string
+              amenities: Json | null
+              available_from: string | null
+              average_rating: number | null
+              base_monthly_rate: number | null
+              base_nightly_rate: number
+              bathrooms: number | null
+              bedrooms: number | null
+              cancellation_policy: string | null
+              check_in_time: string | null
+              check_out_time: string | null
+              city: string
+              cleaning_fee: number | null
+              country: string | null
+              created_at: string | null
+              description: string | null
+              furnished: boolean | null
+              host_id: string
+              house_rules: string | null
+              id: string
+              is_active: boolean | null
+              is_instant_book: boolean | null
+              is_verified: boolean | null
+              latitude: number | null
+              lease_term_months: number | null
+              listing_mode: string
+              longitude: number | null
+              max_guests: number | null
+              max_nights: number | null
+              min_credit_score: number | null
+              min_income_multiplier: number | null
+              min_nights: number | null
+              monthly_rent: number | null
+              pet_deposit: number | null
+              pet_fee: number | null
+              pets_allowed: boolean | null
+              photos: Json | null
+              property_type: Database["public"]["Enums"]["property_type"] | null
+              review_count: number | null
+              section_8_accepted: boolean | null
+              security_deposit: number | null
+              security_deposit_amount: number | null
+              service_fee_percent: number | null
+              service_tier: string
+              state: string
+              title: string
+              updated_at: string | null
+              utilities_included: string[] | null
+              weekly_rate: number | null
+              zip_code: string | null
+            }[]
+            SetofOptions: {
+              from: "*"
+              to: "vacation_properties"
+              isOneToOne: false
+              isSetofReturn: true
+            }
+          }
       search_public_businesses: {
         Args: {
           p_category?: string

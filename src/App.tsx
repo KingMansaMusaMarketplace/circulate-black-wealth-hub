@@ -68,6 +68,7 @@ const LazyLeaseListingDetailPage = lazy(() => import('@/pages/stays/LeaseListing
 const LazyHostCreateLeasePage = lazy(() => import('@/pages/stays/HostCreateLeasePage'));
 const LazyTenantConfirmLeasePage = lazy(() => import('@/pages/stays/TenantConfirmLeasePage'));
 const LazyHostLeaseDashboardPage = lazy(() => import('@/pages/stays/HostLeaseDashboardPage'));
+const LazyLeaseCategoryLandingPage = lazy(() => import('@/pages/stays/LeaseCategoryLandingPage'));
 
 // Coalition & B2B pages
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
@@ -761,6 +762,14 @@ function App() {
                               <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
                               <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
                               <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
+                              <Route path="/stays/lease/apartments" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/houses" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/condos" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/lofts" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/townhouses" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/chicago" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/atlanta" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/:city/:category" element={<LazyLeaseCategoryLandingPage />} />
                               <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
                               <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
                               <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
@@ -1149,6 +1158,14 @@ function App() {
                         <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
                         <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
                         <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
+                        <Route path="/stays/lease/apartments" element={<LazyLeaseCategoryLandingPage />} />
+                        <Route path="/stays/lease/houses" element={<LazyLeaseCategoryLandingPage />} />
+                        <Route path="/stays/lease/condos" element={<LazyLeaseCategoryLandingPage />} />
+                        <Route path="/stays/lease/lofts" element={<LazyLeaseCategoryLandingPage />} />
+                        <Route path="/stays/lease/townhouses" element={<LazyLeaseCategoryLandingPage />} />
+                        <Route path="/stays/lease/chicago" element={<LazyLeaseCategoryLandingPage />} />
+                        <Route path="/stays/lease/atlanta" element={<LazyLeaseCategoryLandingPage />} />
+                        <Route path="/stays/lease/:city/:category" element={<LazyLeaseCategoryLandingPage />} />
                         <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
                         <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
                         <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
