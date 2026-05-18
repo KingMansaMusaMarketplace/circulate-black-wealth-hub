@@ -24753,6 +24753,9 @@ export type Database = {
           is_instant_book: boolean | null
           is_verified: boolean | null
           listing_mode: string | null
+          listing_status:
+            | Database["public"]["Enums"]["listing_status_enum"]
+            | null
           max_guests: number | null
           max_nights: number | null
           min_nights: number | null
@@ -24794,6 +24797,9 @@ export type Database = {
           is_instant_book?: boolean | null
           is_verified?: boolean | null
           listing_mode?: string | null
+          listing_status?:
+            | Database["public"]["Enums"]["listing_status_enum"]
+            | null
           max_guests?: number | null
           max_nights?: number | null
           min_nights?: number | null
@@ -24835,6 +24841,9 @@ export type Database = {
           is_instant_book?: boolean | null
           is_verified?: boolean | null
           listing_mode?: string | null
+          listing_status?:
+            | Database["public"]["Enums"]["listing_status_enum"]
+            | null
           max_guests?: number | null
           max_nights?: number | null
           min_nights?: number | null
