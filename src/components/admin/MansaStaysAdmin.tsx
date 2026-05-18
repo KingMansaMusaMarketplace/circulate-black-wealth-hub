@@ -84,23 +84,36 @@ const MansaStaysAdmin: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [leaseInquiries, setLeaseInquiries] = useState<LeaseInquiry[]>([]);
   const [leaseAgreements, setLeaseAgreements] = useState<LeaseAgreement[]>([]);
+  const [reports, setReports] = useState<any[]>([]);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
 
   const loadData = async () => {
-    const [{ data: p }, { data: b }, { data: li }, { data: la }] = await Promise.all([
+    const [{ data: p }, { data: b }, { data: li }, { data: la }, { data: rep }] = await Promise.all([
       supabase.from('vacation_properties').select('*').order('created_at', { ascending: false }),
       supabase.from('vacation_bookings').select('*').order('created_at', { ascending: false }),
       supabase.from('lease_inquiries').select('*').order('created_at', { ascending: false }),
       supabase.from('lease_agreements').select('*').order('created_at', { ascending: false }),
+      supabase.from('content_reports').select('*').order('created_at', { ascending: false }),
     ]);
     setProperties((p as Property[]) ?? []);
     setBookings((b as Booking[]) ?? []);
     setLeaseInquiries((li as LeaseInquiry[]) ?? []);
     setLeaseAgreements((la as LeaseAgreement[]) ?? []);
+    setReports((rep as any[]) ?? []);
     setLoading(false);
+  };
+
+  const updateReportStatus = async (id: string, status: 'reviewed' | 'removed' | 'dismissed') => {
+    const { error } = await supabase
+      .from('content_reports')
+      .update({ status, reviewed_at: new Date().toISOString() })
+      .eq('id', id);
+    if (error) { toast.error(error.message); return; }
+    setReports(prev => prev.map(r => r.id === id ? { ...r, status } : r));
+    toast.success('Report ' + status);
   };
 
   useEffect(() => {
