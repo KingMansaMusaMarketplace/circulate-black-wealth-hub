@@ -85,7 +85,7 @@ const HomePage = () => {
 
       <div className="min-h-screen relative overflow-hidden" style={{ contain: 'layout' }}>
         {/* Modern dark gradient mesh background - matching directory page */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0,51,102,0.35),transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgba(124,58,237,0.18),transparent_50%),linear-gradient(180deg,#05060f_0%,#020308_100%)]" />
         
         {/* Animated gradient orbs — reduced to 2, lower opacity, slower */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
