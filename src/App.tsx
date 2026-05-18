@@ -66,6 +66,7 @@ const LazyPressPage = lazy(() => import('@/pages/PressPage'));
 const LazyLeaseSearchPage = lazy(() => import('@/pages/stays/LeaseSearchPage'));
 const LazyLeaseListingDetailPage = lazy(() => import('@/pages/stays/LeaseListingDetailPage'));
 const LazyHostCreateLeasePage = lazy(() => import('@/pages/stays/HostCreateLeasePage'));
+const LazyHostEditLeasePage = lazy(() => import('@/pages/stays/HostEditLeasePage'));
 const LazyHostBulkUploadLeasesPage = lazy(() => import('@/pages/stays/HostBulkUploadLeasesPage'));
 const LazyTenantConfirmLeasePage = lazy(() => import('@/pages/stays/TenantConfirmLeasePage'));
 const LazyHostLeaseDashboardPage = lazy(() => import('@/pages/stays/HostLeaseDashboardPage'));
@@ -772,9 +773,10 @@ function App() {
                               <Route path="/stays/lease/atlanta" element={<LazyLeaseCategoryLandingPage />} />
                               <Route path="/stays/lease/:city/:category" element={<LazyLeaseCategoryLandingPage />} />
                               <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
-                              <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
-                              <Route path="/stays/host/lease/bulk-upload" element={<LazyHostBulkUploadLeasesPage />} />
-                              <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
+                             <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
+                             <Route path="/stays/host/lease/edit/:id" element={<LazyHostEditLeasePage />} />
+                             <Route path="/stays/host/lease/bulk-upload" element={<LazyHostBulkUploadLeasesPage />} />
+                             <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
                               <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
                               <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                               <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
@@ -1169,9 +1171,10 @@ function App() {
                         <Route path="/stays/lease/atlanta" element={<LazyLeaseCategoryLandingPage />} />
                         <Route path="/stays/lease/:city/:category" element={<LazyLeaseCategoryLandingPage />} />
                         <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
-                        <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
-                        <Route path="/stays/host/lease/bulk-upload" element={<LazyHostBulkUploadLeasesPage />} />
-                        <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
+                       <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
+                       <Route path="/stays/host/lease/edit/:id" element={<LazyHostEditLeasePage />} />
+                       <Route path="/stays/host/lease/bulk-upload" element={<LazyHostBulkUploadLeasesPage />} />
+                       <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
                         <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
                         <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                         <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />

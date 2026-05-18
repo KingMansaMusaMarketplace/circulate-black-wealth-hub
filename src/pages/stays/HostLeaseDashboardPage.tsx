@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Plus, Mail, Phone, Calendar, Copy, CheckCircle2, Clock, DollarSign, ExternalLink } from "lucide-react";
+import { Plus, Mail, Phone, Calendar, Copy, CheckCircle2, Clock, DollarSign, ExternalLink, Pencil, Camera } from "lucide-react";
 import { toast } from "sonner";
 import LeaseLegalFooter from "@/components/stays/lease/LeaseLegalFooter";
 
@@ -233,6 +233,7 @@ const HostLeaseDashboardPage: React.FC = () => {
                     </div>
                     <div className="flex gap-2 flex-wrap">
                       <Button asChild variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10"><Link to={`/stays/lease/${l.id}`}><ExternalLink className="w-3 h-3 mr-1" />View public page</Link></Button>
+                      <Button asChild variant="outline" size="sm" className="border-mansagold/60 text-mansagold hover:bg-mansagold/10"><Link to={`/stays/host/lease/edit/${l.id}`}><Camera className="w-3 h-3 mr-1" />Edit & Photos</Link></Button>
                       <Button onClick={() => openMarkLeased(l)} size="sm" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold"><CheckCircle2 className="w-4 h-4 mr-1" />Mark as Leased</Button>
                     </div>
                   </div>
