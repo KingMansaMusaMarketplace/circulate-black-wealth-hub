@@ -343,6 +343,15 @@ const MansaStaysAdmin: React.FC = () => {
               />
             </div>
             <select
+              value={propMode}
+              onChange={e => setPropMode(e.target.value as any)}
+              className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-sm"
+            >
+              <option value="all">All Types</option>
+              <option value="vacation">Vacation Rentals</option>
+              <option value="lease">Yearly Leases</option>
+            </select>
+            <select
               value={propStatus}
               onChange={e => setPropStatus(e.target.value as any)}
               className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-sm"
@@ -364,9 +373,10 @@ const MansaStaysAdmin: React.FC = () => {
                 <TableHeader>
                   <TableRow className="border-white/10">
                     <TableHead className="text-white/70">Title</TableHead>
+                    <TableHead className="text-white/70">Type</TableHead>
                     <TableHead className="text-white/70">Location</TableHead>
                     <TableHead className="text-white/70">Beds</TableHead>
-                    <TableHead className="text-white/70">Nightly</TableHead>
+                    <TableHead className="text-white/70">Rate</TableHead>
                     <TableHead className="text-white/70">Status</TableHead>
                     <TableHead className="text-white/70">Verified</TableHead>
                     <TableHead className="text-white/70 text-right">Actions</TableHead>
@@ -374,13 +384,24 @@ const MansaStaysAdmin: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {filteredProperties.length === 0 ? (
-                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No properties match.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No properties match.</TableCell></TableRow>
                   ) : filteredProperties.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white font-medium">{p.title}</TableCell>
+                      <TableCell>
+                        {isLease(p) ? (
+                          <Badge className="bg-mansablue/30 text-blue-200 border-blue-500/30">🔑 Yearly Lease</Badge>
+                        ) : (
+                          <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">🏖️ Vacation</Badge>
+                        )}
+                      </TableCell>
                       <TableCell className="text-white/70">{[p.city, p.state].filter(Boolean).join(', ') || '—'}</TableCell>
-                      <TableCell className="text-white/70">{p.bedrooms ?? '—'} bd · {p.max_guests ?? '—'} guests</TableCell>
-                      <TableCell className="text-white/70">{fmt(Number(p.base_nightly_rate || 0))}</TableCell>
+                      <TableCell className="text-white/70">{p.bedrooms ?? '—'} bd{!isLease(p) && p.max_guests ? ` · ${p.max_guests} guests` : ''}</TableCell>
+                      <TableCell className="text-white/70">
+                        {isLease(p)
+                          ? `${fmt(Number(p.monthly_rent || 0))}/mo`
+                          : `${fmt(Number(p.base_nightly_rate || 0))}/nt`}
+                      </TableCell>
                       <TableCell>
                         <Badge variant="outline" className={p.is_active ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-white/10 text-white/60'}>
                           {p.is_active ? 'Active' : 'Inactive'}
