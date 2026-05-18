@@ -534,6 +534,120 @@ const MansaStaysAdmin: React.FC = () => {
           </Card>
         </TabsContent>
 
+        <TabsContent value="lease-inquiries" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search tenant, email, phone…"
+                value={leaseSearch}
+                onChange={e => setLeaseSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <div className="text-xs text-white/50 ml-auto">{filteredInquiries.length} of {leaseInquiries.length}</div>
+          </div>
+          <Card className="bg-white/5 border-white/10">
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-white/10">
+                    <TableHead className="text-white/70">Tenant</TableHead>
+                    <TableHead className="text-white/70">Property</TableHead>
+                    <TableHead className="text-white/70">Move-In</TableHead>
+                    <TableHead className="text-white/70">Message</TableHead>
+                    <TableHead className="text-white/70">Status</TableHead>
+                    <TableHead className="text-white/70">Received</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredInquiries.length === 0 ? (
+                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No lease inquiries yet.</TableCell></TableRow>
+                  ) : filteredInquiries.map(i => (
+                    <TableRow key={i.id} className="border-white/10">
+                      <TableCell className="text-white">
+                        <div className="font-medium">{i.tenant_name || '—'}</div>
+                        <div className="text-xs text-white/50">{i.tenant_email}</div>
+                        {i.tenant_phone && <div className="text-xs text-white/40">{i.tenant_phone}</div>}
+                      </TableCell>
+                      <TableCell className="text-white/70 text-sm">{propMap[i.property_id] || i.property_id.slice(0, 8)}</TableCell>
+                      <TableCell className="text-white/70 text-xs">{i.desired_move_in || '—'}</TableCell>
+                      <TableCell className="text-white/60 text-xs max-w-xs truncate" title={i.message || ''}>{i.message || '—'}</TableCell>
+                      <TableCell><Badge variant="outline" className={statusColor(i.status)}>{i.status}</Badge></TableCell>
+                      <TableCell className="text-xs text-white/50">{new Date(i.created_at).toLocaleDateString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="lease-agreements" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search tenant, email…"
+                value={leaseSearch}
+                onChange={e => setLeaseSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <div className="text-xs text-white/50 ml-auto">
+              {filteredAgreements.length} of {leaseAgreements.length} · {fmt(leaseFeesCollected)} fees collected
+            </div>
+          </div>
+          <Card className="bg-white/5 border-white/10">
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-white/10">
+                    <TableHead className="text-white/70">Tenant</TableHead>
+                    <TableHead className="text-white/70">Property</TableHead>
+                    <TableHead className="text-white/70">Term</TableHead>
+                    <TableHead className="text-white/70">Monthly Rent</TableHead>
+                    <TableHead className="text-white/70">$99 Fee</TableHead>
+                    <TableHead className="text-white/70">Refund Window</TableHead>
+                    <TableHead className="text-white/70">Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredAgreements.length === 0 ? (
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No lease agreements yet.</TableCell></TableRow>
+                  ) : filteredAgreements.map(a => {
+                    const refundOpen = a.refund_eligible_until && new Date(a.refund_eligible_until) > new Date() && !a.refunded_at;
+                    return (
+                      <TableRow key={a.id} className="border-white/10">
+                        <TableCell className="text-white">
+                          <div className="font-medium">{a.tenant_name || '—'}</div>
+                          <div className="text-xs text-white/50">{a.tenant_email}</div>
+                        </TableCell>
+                        <TableCell className="text-white/70 text-sm">{propMap[a.property_id] || a.property_id.slice(0, 8)}</TableCell>
+                        <TableCell className="text-white/70 text-xs">
+                          {a.lease_start_date || '—'} → {a.lease_end_date || '—'}
+                        </TableCell>
+                        <TableCell className="text-white/70">{fmt(Number(a.monthly_rent || 0))}</TableCell>
+                        <TableCell className="text-mansagold">
+                          {a.fee_charged_at ? fmt(Number(a.fee_amount || 0)) : <span className="text-white/40 text-xs">unpaid</span>}
+                          {a.refunded_at && <div className="text-xs text-red-300">refunded</div>}
+                        </TableCell>
+                        <TableCell className="text-xs text-white/60">
+                          {a.refund_eligible_until ? (
+                            refundOpen ? <span className="text-yellow-300">open · until {new Date(a.refund_eligible_until).toLocaleDateString()}</span>
+                            : <span className="text-white/40">closed</span>
+                          ) : '—'}
+                        </TableCell>
+                        <TableCell><Badge variant="outline" className={statusColor(a.status)}>{a.status}</Badge></TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         <TabsContent value="hosts" className="mt-4">
           <HostsTab />
         </TabsContent>
