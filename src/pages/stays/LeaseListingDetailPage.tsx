@@ -14,6 +14,7 @@ import LightboxGallery from "@/components/stays/lease/LightboxGallery";
 import LeaseListingCard from "@/components/stays/lease/LeaseListingCard";
 import LeaseMapView from "@/components/stays/lease/LeaseMapView";
 import { findByValue } from "@/lib/lease/property-types";
+import ReportContentButton from "@/components/stays/ReportContentButton";
 
 const LeaseListingDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -198,6 +199,10 @@ const LeaseListingDetailPage: React.FC = () => {
                 height="360px"
               />
               <p className="text-xs text-white/40 mt-2">Approximate location shown. Exact address shared after the landlord accepts your inquiry.</p>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <ReportContentButton contentType="lease_property" contentId={listing.id} variant="link" />
             </div>
           </div>
 

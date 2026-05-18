@@ -84,23 +84,36 @@ const MansaStaysAdmin: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [leaseInquiries, setLeaseInquiries] = useState<LeaseInquiry[]>([]);
   const [leaseAgreements, setLeaseAgreements] = useState<LeaseAgreement[]>([]);
+  const [reports, setReports] = useState<any[]>([]);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
 
   const loadData = async () => {
-    const [{ data: p }, { data: b }, { data: li }, { data: la }] = await Promise.all([
+    const [{ data: p }, { data: b }, { data: li }, { data: la }, { data: rep }] = await Promise.all([
       supabase.from('vacation_properties').select('*').order('created_at', { ascending: false }),
       supabase.from('vacation_bookings').select('*').order('created_at', { ascending: false }),
       supabase.from('lease_inquiries').select('*').order('created_at', { ascending: false }),
       supabase.from('lease_agreements').select('*').order('created_at', { ascending: false }),
+      supabase.from('content_reports').select('*').order('created_at', { ascending: false }),
     ]);
     setProperties((p as Property[]) ?? []);
     setBookings((b as Booking[]) ?? []);
     setLeaseInquiries((li as LeaseInquiry[]) ?? []);
     setLeaseAgreements((la as LeaseAgreement[]) ?? []);
+    setReports((rep as any[]) ?? []);
     setLoading(false);
+  };
+
+  const updateReportStatus = async (id: string, status: 'reviewed' | 'removed' | 'dismissed') => {
+    const { error } = await supabase
+      .from('content_reports')
+      .update({ status, reviewed_at: new Date().toISOString() })
+      .eq('id', id);
+    if (error) { toast.error(error.message); return; }
+    setReports(prev => prev.map(r => r.id === id ? { ...r, status } : r));
+    toast.success('Report ' + status);
   };
 
   useEffect(() => {
@@ -328,6 +341,7 @@ const MansaStaysAdmin: React.FC = () => {
           <TabsTrigger value="lease-agreements">Lease Agreements ({leaseAgreements.length})</TabsTrigger>
           <TabsTrigger value="hosts">Hosts</TabsTrigger>
           <TabsTrigger value="payouts">Payouts</TabsTrigger>
+          <TabsTrigger value="reports">Reports ({reports.filter(r => r.status === 'pending').length})</TabsTrigger>
           <TabsTrigger value="reporting">Reporting</TabsTrigger>
         </TabsList>
 
@@ -654,6 +668,54 @@ const MansaStaysAdmin: React.FC = () => {
 
         <TabsContent value="payouts" className="mt-4">
           <PayoutsTab />
+        </TabsContent>
+
+        <TabsContent value="reports" className="mt-4 space-y-3">
+          <Card className="bg-white/5 border-white/10">
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-white/10">
+                    <TableHead className="text-white/70">Reported</TableHead>
+                    <TableHead className="text-white/70">Type</TableHead>
+                    <TableHead className="text-white/70">Reason</TableHead>
+                    <TableHead className="text-white/70">Reporter</TableHead>
+                    <TableHead className="text-white/70">Details</TableHead>
+                    <TableHead className="text-white/70">Status</TableHead>
+                    <TableHead className="text-white/70 text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {reports.length === 0 ? (
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No reports yet.</TableCell></TableRow>
+                  ) : reports.map(r => (
+                    <TableRow key={r.id} className="border-white/10">
+                      <TableCell className="text-xs text-white/60">{new Date(r.created_at).toLocaleString()}</TableCell>
+                      <TableCell className="text-white/70 text-xs">
+                        <div>{r.content_type}</div>
+                        {r.photo_url && (
+                          <a href={r.photo_url} target="_blank" rel="noreferrer" className="text-mansagold underline">view photo</a>
+                        )}
+                        <div className="text-white/40 font-mono text-[10px]">{r.content_id.slice(0, 8)}</div>
+                      </TableCell>
+                      <TableCell><Badge className="bg-red-500/20 text-red-300 border-red-500/30">{r.reason}</Badge></TableCell>
+                      <TableCell className="text-white/60 text-xs">{r.reporter_email || 'anonymous'}</TableCell>
+                      <TableCell className="text-white/60 text-xs max-w-xs truncate" title={r.details || ''}>{r.details || '—'}</TableCell>
+                      <TableCell><Badge variant="outline" className={statusColor(r.status)}>{r.status}</Badge></TableCell>
+                      <TableCell className="text-right">
+                        {r.status === 'pending' && (
+                          <div className="flex gap-1 justify-end">
+                            <Button size="sm" variant="ghost" className="h-7 text-xs text-red-300 hover:bg-red-500/10" onClick={() => updateReportStatus(r.id, 'removed')}>Remove</Button>
+                            <Button size="sm" variant="ghost" className="h-7 text-xs text-white/70 hover:bg-white/10" onClick={() => updateReportStatus(r.id, 'dismissed')}>Dismiss</Button>
+                          </div>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="reporting" className="mt-4">

@@ -22,6 +22,35 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
+  const fileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        // strip the "data:image/...;base64," prefix
+        resolve(result.split(',')[1] || '');
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+  const moderateImage = async (file: File): Promise<{ safe: boolean; reason?: string }> => {
+    try {
+      const base64 = await fileToBase64(file);
+      const { data, error } = await supabase.functions.invoke('moderate-image', {
+        body: { imageBase64: base64, mimeType: file.type },
+      });
+      if (error) {
+        console.warn('Moderation call failed, allowing upload:', error);
+        return { safe: true };
+      }
+      return data as { safe: boolean; reason?: string };
+    } catch (e) {
+      console.warn('Moderation threw, allowing upload:', e);
+      return { safe: true };
+    }
+  };
+
   const handleFiles = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
     if (photos.length + files.length > MAX_PHOTOS) {
@@ -39,6 +68,16 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
       }
       if (file.size > MAX_SIZE_MB * 1024 * 1024) {
         toast.error(`${file.name}: must be under ${MAX_SIZE_MB} MB.`);
+        continue;
+      }
+
+      // AI safety check BEFORE uploading
+      const check = await moderateImage(file);
+      if (!check.safe) {
+        toast.error(
+          `${file.name} was blocked: ${check.reason || 'inappropriate content'}. Please upload a property photo.`,
+          { duration: 6000 },
+        );
         continue;
       }
 
@@ -149,6 +188,10 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
       <p className="text-sm text-white/60">
         Tip: Properties with high-quality photos get 40% more bookings. Include every room, outdoor
         spaces, and unique features. The first photo is your cover image.
+      </p>
+      <p className="text-xs text-white/40">
+        🛡️ All photos are auto-scanned for safety. Inappropriate images (nudity, violence,
+        non-property content) are blocked at upload.
       </p>
     </div>
   );

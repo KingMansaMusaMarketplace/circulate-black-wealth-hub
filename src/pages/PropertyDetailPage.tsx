@@ -11,6 +11,7 @@ import GuestCounter from '@/components/vacation-rentals/GuestCounter';
 import PropertyReviewsComponent from '@/components/stays/PropertyReviews';
 import ContactHostButton from '@/components/stays/ContactHostButton';
 import { SecurityDepositInfo, MansaPromiseBadge } from '@/components/stays/trust';
+import ReportContentButton from '@/components/stays/ReportContentButton';
 import { useVacationBooking } from '@/hooks/useVacationBooking';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -360,6 +361,9 @@ const PropertyDetailPage: React.FC = () => {
                   >
                     <Heart className={cn("w-4 h-4", id && isFavorited(id) && "fill-red-500")} />
                   </Button>
+                  {id && (
+                    <ReportContentButton contentType="property" contentId={id} variant="icon" />
+                  )}
                 </div>
               </div>
 
