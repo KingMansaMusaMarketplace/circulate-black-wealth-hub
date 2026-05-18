@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { initSentry } from "@/lib/sentry-init";
 import App from "./App";
+
+// Initialize Sentry FIRST — before anything else that could throw
+initSentry();
 
 // Build version for cache-busting stale service workers
 const BUILD_VERSION = '20260516a';
