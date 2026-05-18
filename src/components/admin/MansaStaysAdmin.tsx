@@ -128,12 +128,18 @@ const MansaStaysAdmin: React.FC = () => {
   // Filters / search
   const [propSearch, setPropSearch] = useState('');
   const [propStatus, setPropStatus] = useState<'all' | 'active' | 'inactive' | 'verified' | 'unverified'>('all');
+  const [propMode, setPropMode] = useState<'all' | 'vacation' | 'lease'>('all');
   const [bookingSearch, setBookingSearch] = useState('');
   const [bookingStatus, setBookingStatus] = useState<'all' | 'pending' | 'confirmed' | 'completed' | 'cancelled'>('all');
+  const [leaseSearch, setLeaseSearch] = useState('');
+
+  const isLease = (p: Property) => p.listing_mode === 'yearly_lease';
 
   const filteredProperties = useMemo(() => {
     const q = propSearch.trim().toLowerCase();
     return properties.filter(p => {
+      if (propMode === 'vacation' && isLease(p)) return false;
+      if (propMode === 'lease' && !isLease(p)) return false;
       if (propStatus === 'active' && !p.is_active) return false;
       if (propStatus === 'inactive' && p.is_active) return false;
       if (propStatus === 'verified' && !p.is_verified) return false;
@@ -141,7 +147,23 @@ const MansaStaysAdmin: React.FC = () => {
       if (!q) return true;
       return [p.title, p.city, p.state].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
     });
-  }, [properties, propSearch, propStatus]);
+  }, [properties, propSearch, propStatus, propMode]);
+
+  const filteredInquiries = useMemo(() => {
+    const q = leaseSearch.trim().toLowerCase();
+    if (!q) return leaseInquiries;
+    return leaseInquiries.filter(i =>
+      [i.tenant_name, i.tenant_email, i.tenant_phone].filter(Boolean).some(v => String(v).toLowerCase().includes(q))
+    );
+  }, [leaseInquiries, leaseSearch]);
+
+  const filteredAgreements = useMemo(() => {
+    const q = leaseSearch.trim().toLowerCase();
+    if (!q) return leaseAgreements;
+    return leaseAgreements.filter(a =>
+      [a.tenant_name, a.tenant_email].filter(Boolean).some(v => String(v).toLowerCase().includes(q))
+    );
+  }, [leaseAgreements, leaseSearch]);
 
   const filteredBookings = useMemo(() => {
     const q = bookingSearch.trim().toLowerCase();
