@@ -114,6 +114,11 @@ const PropertyDetailPage: React.FC = () => {
         vacationRentalService.fetchPropertyById(propertyId),
         vacationRentalService.fetchPropertyReviews(propertyId),
       ]);
+      // Guard: yearly-lease listings belong on the lease detail page.
+      if (propertyData && (propertyData as any).listing_mode === 'yearly_lease') {
+        navigate(`/stays/lease/${propertyId}`, { replace: true });
+        return;
+      }
       setProperty(propertyData);
       setReviews(reviewsData);
     } catch (error) {
