@@ -46,7 +46,7 @@ const BrowseLayout: React.FC<BrowseLayoutProps> = ({
   footer,
 }) => {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white bg-[radial-gradient(ellipse_at_top,_rgba(0,51,102,0.35),transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgba(124,58,237,0.18),transparent_50%),linear-gradient(180deg,#05060f_0%,#020308_100%)]">
       {/* Header band */}
       <section className="border-b border-white/10 py-10 px-4">
         <div className="max-w-7xl mx-auto">
@@ -72,7 +72,7 @@ const BrowseLayout: React.FC<BrowseLayoutProps> = ({
       </section>
 
       {/* Results header: count + sort + view tabs */}
-      <section className="py-5 px-4 border-b border-white/5 sticky top-0 z-30 bg-black/85 backdrop-blur">
+      <section className="py-5 px-4 border-b border-white/5 sticky top-0 z-30 bg-[#05060f]/85 backdrop-blur">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="min-h-[28px]">{resultsSummary}</div>
           <div className="flex items-center gap-2 flex-wrap">
