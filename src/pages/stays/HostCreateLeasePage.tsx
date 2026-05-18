@@ -69,10 +69,10 @@ const HostCreateLeasePage: React.FC = () => {
         <title>List your property for lease — Mansa Stays</title>
       </Helmet>
       <section className="max-w-3xl mx-auto p-4 md:p-10">
-        <h1 className="text-3xl md:text-4xl font-bold">List your property for lease</h1>
-        <p className="text-white/70 mt-2">Free to list. $99 success fee only when both you and your tenant confirm the lease in-app.</p>
+        <h1 className="text-3xl md:text-4xl font-bold text-white">List your property for lease</h1>
+        <p className="text-white/90 mt-2">Free to list. $99 success fee only when both you and your tenant confirm the lease in-app.</p>
 
-        <Card className="bg-white/5 border-white/10 p-6 mt-6 space-y-4">
+        <Card className="bg-white/10 border-white/20 p-6 mt-6 space-y-4">
           <Input placeholder="Listing title *" value={f.title} onChange={(e) => setF({ ...f, title: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           <Textarea placeholder="Description" rows={4} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           <div className="grid sm:grid-cols-2 gap-3">
