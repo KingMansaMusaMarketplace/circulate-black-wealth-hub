@@ -55,6 +55,9 @@ export async function fetchVacationProperties(
   if (filters?.listingMode && filters.listingMode !== 'both') {
     // 'nightly' should match 'nightly' or 'both', 'monthly' should match 'monthly' or 'both'
     query = query.or(`listing_mode.eq.${filters.listingMode},listing_mode.eq.both`);
+  } else {
+    // Default: vacation-rental browse must NEVER show yearly leases.
+    query = query.in('listing_mode', ['nightly', 'monthly', 'both']);
   }
 
   const { data, error } = await query.order('created_at', { ascending: false });

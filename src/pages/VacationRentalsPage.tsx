@@ -72,7 +72,7 @@ const VacationRentalsPage: React.FC = () => {
         <meta property="og:title" content="Mansa Stays — Vacation & Monthly Rentals" />
         <meta property="og:description" content="Support Black hosts. Lower fees. Book unique stays with community impact." />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://circulate-black-wealth-hub.lovable.app/stays" />
+        <link rel="canonical" href="https://www.1325.ai/stays" />
       </Helmet>
       {/* Gold accent line at top */}
       <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60" />
