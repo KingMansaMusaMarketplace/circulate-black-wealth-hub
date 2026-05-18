@@ -29,6 +29,9 @@ interface Property {
   bedrooms: number | null;
   max_guests: number | null;
   created_at: string;
+  listing_mode: string | null;
+  monthly_rent: number | null;
+  property_type: string | null;
 }
 
 interface Booking {
@@ -44,6 +47,34 @@ interface Booking {
   host_payout: number;
   status: string;
   payout_status: string | null;
+  created_at: string;
+}
+
+interface LeaseInquiry {
+  id: string;
+  property_id: string;
+  tenant_name: string | null;
+  tenant_email: string | null;
+  tenant_phone: string | null;
+  desired_move_in: string | null;
+  message: string | null;
+  status: string;
+  created_at: string;
+}
+
+interface LeaseAgreement {
+  id: string;
+  property_id: string;
+  tenant_name: string | null;
+  tenant_email: string | null;
+  lease_start_date: string | null;
+  lease_end_date: string | null;
+  monthly_rent: number | null;
+  status: string;
+  fee_amount: number | null;
+  fee_charged_at: string | null;
+  refund_eligible_until: string | null;
+  refunded_at: string | null;
   created_at: string;
 }
 
