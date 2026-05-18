@@ -73,9 +73,14 @@ const LeaseSearchPage: React.FC = () => {
               </p>
               <p className="text-mansagold text-sm">Now live in <strong>Chicago</strong> and <strong>Atlanta</strong> · Listings available nationwide</p>
             </div>
-            <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold shadow-lg min-h-[48px] shrink-0">
-              <Link to="/stays/host/lease/new">List Your Property — Free</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+              <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10 min-h-[48px]">
+                <Link to="/stays/host/lease/dashboard">My Listings</Link>
+              </Button>
+              <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold shadow-lg min-h-[48px]">
+                <Link to="/stays/host/lease/new">List Your Property — Free</Link>
+              </Button>
+            </div>
           </div>
 
           <div className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-3">
