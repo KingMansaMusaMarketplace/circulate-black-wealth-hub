@@ -97,7 +97,7 @@ const HostCreateLeasePage: React.FC = () => {
             <Input type="number" placeholder="Min credit score" value={f.min_credit_score} onChange={(e) => setF({ ...f, min_credit_score: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
             <Input type="number" step="0.1" placeholder="Min income multiplier (e.g. 3)" value={f.min_income_multiplier} onChange={(e) => setF({ ...f, min_income_multiplier: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           </div>
-          <div className="flex flex-wrap gap-4 text-sm">
+          <div className="flex flex-wrap gap-4 text-sm text-white">
             <label className="flex items-center gap-2"><Checkbox checked={f.pets_allowed} onCheckedChange={(v) => setF({ ...f, pets_allowed: !!v })} /> Pets allowed</label>
             <label className="flex items-center gap-2"><Checkbox checked={f.section_8_accepted} onCheckedChange={(v) => setF({ ...f, section_8_accepted: !!v })} /> Section 8 accepted</label>
             <label className="flex items-center gap-2"><Checkbox checked={f.furnished} onCheckedChange={(v) => setF({ ...f, furnished: !!v })} /> Furnished</label>
@@ -106,12 +106,12 @@ const HostCreateLeasePage: React.FC = () => {
             <Input type="number" placeholder="Pet deposit ($)" value={f.pet_deposit || ""} onChange={(e) => setF({ ...f, pet_deposit: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           )}
 
-          <div className="space-y-3 border-t border-white/10 pt-4">
-            <label className="flex items-start gap-2 text-sm">
+          <div className="space-y-3 border-t border-white/20 pt-4">
+            <label className="flex items-start gap-2 text-sm text-white/95">
               <Checkbox checked={f.fair_housing_ack} onCheckedChange={(v) => setF({ ...f, fair_housing_ack: !!v })} className="mt-1" />
               <span>I will comply with the federal Fair Housing Act and all applicable state/local laws. I will not discriminate based on race, color, religion, sex, national origin, familial status, disability, or other protected characteristics.</span>
             </label>
-            <label className="flex items-start gap-2 text-sm">
+            <label className="flex items-start gap-2 text-sm text-white/95">
               <Checkbox checked={f.no_broker_ack} onCheckedChange={(v) => setF({ ...f, no_broker_ack: !!v })} className="mt-1" />
               <span>I understand Mansa Stays is a listing platform, not a real estate broker. I am responsible for lease signing, security deposits, background checks, and rent collection. A $99 success fee will be charged after both parties confirm the lease (full refund available within 7 days).</span>
             </label>
