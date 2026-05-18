@@ -220,9 +220,9 @@ const HostLeaseDashboardPage: React.FC = () => {
                   {/* Backfill nudge: prompt host to confirm category for older listings (pre-2026-05-18) */}
                   {new Date(l.created_at) < new Date("2026-05-18") && (
                     <div className="mb-4 p-3 rounded-md bg-yellow-500/15 border border-yellow-500/40 text-yellow-100 text-sm flex items-center justify-between gap-3 flex-wrap">
-                      <span>Pick a property type (House, Condo, Loft…) so renters can find this listing.</span>
+                      <span>Pick a property type and upload photos so renters can find this listing.</span>
                       <Button asChild size="sm" className="bg-yellow-500 text-black hover:bg-yellow-500/90 font-bold">
-                        <Link to={`/stays/lease/${l.id}`}>Update now</Link>
+                        <Link to={`/stays/host/lease/edit/${l.id}`}>Update now</Link>
                       </Button>
                     </div>
                   )}
