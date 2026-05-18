@@ -34,9 +34,9 @@ const LeaseHero: React.FC<Props> = ({ children }) => {
           }`}
         />
       ))}
-      {/* Dark gradient overlay for legibility */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+      {/* Lighter gradient overlay — keeps skyline visible while preserving text legibility */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-black/50" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/15 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 px-4 py-12 md:py-16">
