@@ -32,6 +32,9 @@ interface Property {
   listing_mode: string | null;
   monthly_rent: number | null;
   property_type: string | null;
+  listing_status?: 'draft' | 'pending_review' | 'approved' | 'rejected' | null;
+  rejection_reason?: string | null;
+  reviewed_at?: string | null;
 }
 
 interface Booking {
@@ -131,6 +134,23 @@ const MansaStaysAdmin: React.FC = () => {
     }
     setProperties(prev => prev.map(p => (p.id === id ? { ...p, [field]: value } : p)));
     toast.success(field === 'is_verified' ? (value ? 'Verified' : 'Unverified') : (value ? 'Activated' : 'Deactivated'));
+  };
+
+  const setListingStatus = async (id: string, status: 'approved' | 'rejected', reason?: string) => {
+    const userRes = await supabase.auth.getUser();
+    const reviewer = userRes.data.user?.id ?? null;
+    const { error } = await supabase
+      .from('vacation_properties')
+      .update({
+        listing_status: status,
+        rejection_reason: status === 'rejected' ? (reason || 'Not specified') : null,
+        reviewed_at: new Date().toISOString(),
+        reviewed_by: reviewer,
+      } as any)
+      .eq('id', id);
+    if (error) { toast.error(error.message); return; }
+    setProperties(prev => prev.map(p => p.id === id ? { ...p, listing_status: status, rejection_reason: status === 'rejected' ? (reason || 'Not specified') : null } as Property : p));
+    toast.success(status === 'approved' ? 'Listing approved & now public' : 'Listing rejected');
   };
 
   const openDetail = (id: string) => {
@@ -335,6 +355,7 @@ const MansaStaysAdmin: React.FC = () => {
 
       <Tabs defaultValue="properties" className="w-full">
         <TabsList className="bg-white/5 border border-white/10 flex-wrap h-auto">
+          <TabsTrigger value="pending">Pending Approval ({properties.filter(p => p.listing_status === 'pending_review').length})</TabsTrigger>
           <TabsTrigger value="properties">Properties ({properties.length})</TabsTrigger>
           <TabsTrigger value="bookings">Bookings ({bookings.length})</TabsTrigger>
           <TabsTrigger value="lease-inquiries">Lease Inquiries ({leaseInquiries.length})</TabsTrigger>
@@ -344,6 +365,63 @@ const MansaStaysAdmin: React.FC = () => {
           <TabsTrigger value="reports">Reports ({reports.filter(r => r.status === 'pending').length})</TabsTrigger>
           <TabsTrigger value="reporting">Reporting</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="pending" className="mt-4 space-y-3">
+          <Card className="bg-amber-500/5 border-amber-500/30">
+            <CardContent className="p-4 text-sm text-amber-200/90">
+              New host listings land here for review. <strong>Approved</strong> listings go public on /stays.
+              <strong> Rejected</strong> listings are hidden and the host is notified with the reason.
+            </CardContent>
+          </Card>
+
+          {properties.filter(p => p.listing_status === 'pending_review').length === 0 ? (
+            <Card><CardContent className="p-8 text-center text-white/60">No pending listings — you're all caught up. 🎉</CardContent></Card>
+          ) : (
+            <div className="grid gap-3">
+              {properties.filter(p => p.listing_status === 'pending_review').map(p => (
+                <Card key={p.id} className="bg-slate-900/60 border-amber-500/20">
+                  <CardContent className="p-4">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Badge variant="outline" className="border-amber-500/40 text-amber-300 text-xs">
+                            {p.listing_mode === 'yearly_lease' ? '🔑 Yearly Lease' : '🏖️ Vacation'}
+                          </Badge>
+                          <span className="text-xs text-white/40">
+                            Submitted {new Date(p.created_at).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <h3 className="font-semibold text-white truncate">{p.title}</h3>
+                        <p className="text-sm text-white/60">
+                          {p.city}, {p.state} · {p.bedrooms} bd · {p.property_type}
+                        </p>
+                        <p className="text-sm text-mansagold mt-1">
+                          {p.listing_mode === 'yearly_lease' && p.monthly_rent
+                            ? `${fmt(p.monthly_rent)}/mo`
+                            : p.base_nightly_rate ? `${fmt(p.base_nightly_rate)}/nt` : '—'}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <Button size="sm" variant="outline" onClick={() => openDetail(p.id)}>
+                          <Eye className="h-4 w-4 mr-1" /> Review
+                        </Button>
+                        <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700" onClick={() => setListingStatus(p.id, 'approved')}>
+                          <CheckCircle2 className="h-4 w-4 mr-1" /> Approve
+                        </Button>
+                        <Button size="sm" variant="destructive" onClick={() => {
+                          const reason = window.prompt('Reason for rejection (sent to host):', 'Photos do not meet quality standards.');
+                          if (reason !== null) setListingStatus(p.id, 'rejected', reason);
+                        }}>
+                          Reject
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </TabsContent>
 
         <TabsContent value="properties" className="mt-4 space-y-3">
           <div className="flex flex-wrap items-center gap-2">
