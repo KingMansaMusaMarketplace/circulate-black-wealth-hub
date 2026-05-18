@@ -289,3 +289,10 @@ project_id = "agoclnqfyinwjxdmjnns"
 
   [functions.lease-saved-search-notify]
     verify_jwt = false
+
+  [functions.process-lease-refunds]
+    verify_jwt = false
+  [functions.create-identity-session]
+    verify_jwt = true
+  [functions.stripe-identity-webhook]
+    verify_jwt = false
