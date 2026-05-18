@@ -136,6 +136,23 @@ const MansaStaysAdmin: React.FC = () => {
     toast.success(field === 'is_verified' ? (value ? 'Verified' : 'Unverified') : (value ? 'Activated' : 'Deactivated'));
   };
 
+  const setListingStatus = async (id: string, status: 'approved' | 'rejected', reason?: string) => {
+    const userRes = await supabase.auth.getUser();
+    const reviewer = userRes.data.user?.id ?? null;
+    const { error } = await supabase
+      .from('vacation_properties')
+      .update({
+        listing_status: status,
+        rejection_reason: status === 'rejected' ? (reason || 'Not specified') : null,
+        reviewed_at: new Date().toISOString(),
+        reviewed_by: reviewer,
+      } as any)
+      .eq('id', id);
+    if (error) { toast.error(error.message); return; }
+    setProperties(prev => prev.map(p => p.id === id ? { ...p, listing_status: status, rejection_reason: status === 'rejected' ? (reason || 'Not specified') : null } as Property : p));
+    toast.success(status === 'approved' ? 'Listing approved & now public' : 'Listing rejected');
+  };
+
   const openDetail = (id: string) => {
     setSelectedPropertyId(id);
     setDetailOpen(true);
