@@ -73,29 +73,29 @@ const HostCreateLeasePage: React.FC = () => {
         <p className="text-white/70 mt-2">Free to list. $99 success fee only when both you and your tenant confirm the lease in-app.</p>
 
         <Card className="bg-white/5 border-white/10 p-6 mt-6 space-y-4">
-          <Input placeholder="Listing title *" value={f.title} onChange={(e) => setF({ ...f, title: e.target.value })} className="bg-white/5 border-white/20" />
-          <Textarea placeholder="Description" rows={4} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} className="bg-white/5 border-white/20" />
+          <Input placeholder="Listing title *" value={f.title} onChange={(e) => setF({ ...f, title: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+          <Textarea placeholder="Description" rows={4} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           <div className="grid sm:grid-cols-2 gap-3">
-            <Input placeholder="Street address" value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} className="bg-white/5 border-white/20" />
-            <Input placeholder="City *" value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} className="bg-white/5 border-white/20" />
-            <Input placeholder="State *" value={f.state} onChange={(e) => setF({ ...f, state: e.target.value })} className="bg-white/5 border-white/20" />
-            <Input placeholder="ZIP" value={f.zip_code} onChange={(e) => setF({ ...f, zip_code: e.target.value })} className="bg-white/5 border-white/20" />
+            <Input placeholder="Street address" value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input placeholder="City *" value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input placeholder="State *" value={f.state} onChange={(e) => setF({ ...f, state: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input placeholder="ZIP" value={f.zip_code} onChange={(e) => setF({ ...f, zip_code: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           </div>
           <div className="grid grid-cols-3 gap-3">
-            <Input type="number" placeholder="Bedrooms" value={f.bedrooms} onChange={(e) => setF({ ...f, bedrooms: +e.target.value })} className="bg-white/5 border-white/20" />
-            <Input type="number" placeholder="Bathrooms" value={f.bathrooms} onChange={(e) => setF({ ...f, bathrooms: +e.target.value })} className="bg-white/5 border-white/20" />
-            <Input type="number" placeholder="Max occupants" value={f.max_guests} onChange={(e) => setF({ ...f, max_guests: +e.target.value })} className="bg-white/5 border-white/20" />
+            <Input type="number" placeholder="Bedrooms" value={f.bedrooms} onChange={(e) => setF({ ...f, bedrooms: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input type="number" placeholder="Bathrooms" value={f.bathrooms} onChange={(e) => setF({ ...f, bathrooms: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input type="number" placeholder="Max occupants" value={f.max_guests} onChange={(e) => setF({ ...f, max_guests: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           </div>
           <div className="grid sm:grid-cols-3 gap-3">
-            <Input type="number" placeholder="Monthly rent ($) *" value={f.monthly_rent || ""} onChange={(e) => setF({ ...f, monthly_rent: +e.target.value })} className="bg-white/5 border-white/20" />
-            <Input type="number" placeholder="Security deposit ($)" value={f.security_deposit_amount || ""} onChange={(e) => setF({ ...f, security_deposit_amount: +e.target.value })} className="bg-white/5 border-white/20" />
-            <Input type="number" placeholder="Lease term (months)" value={f.lease_term_months} onChange={(e) => setF({ ...f, lease_term_months: +e.target.value })} className="bg-white/5 border-white/20" />
+            <Input type="number" placeholder="Monthly rent ($) *" value={f.monthly_rent || ""} onChange={(e) => setF({ ...f, monthly_rent: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input type="number" placeholder="Security deposit ($)" value={f.security_deposit_amount || ""} onChange={(e) => setF({ ...f, security_deposit_amount: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input type="number" placeholder="Lease term (months)" value={f.lease_term_months} onChange={(e) => setF({ ...f, lease_term_months: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           </div>
-          <Input type="date" placeholder="Available from" value={f.available_from} onChange={(e) => setF({ ...f, available_from: e.target.value })} className="bg-white/5 border-white/20" />
-          <Input placeholder="Utilities included (comma-separated: water, gas, trash)" value={f.utilities_included} onChange={(e) => setF({ ...f, utilities_included: e.target.value })} className="bg-white/5 border-white/20" />
+          <Input type="date" placeholder="Available from" value={f.available_from} onChange={(e) => setF({ ...f, available_from: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+          <Input placeholder="Utilities included (comma-separated: water, gas, trash)" value={f.utilities_included} onChange={(e) => setF({ ...f, utilities_included: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           <div className="grid sm:grid-cols-2 gap-3">
-            <Input type="number" placeholder="Min credit score" value={f.min_credit_score} onChange={(e) => setF({ ...f, min_credit_score: e.target.value })} className="bg-white/5 border-white/20" />
-            <Input type="number" step="0.1" placeholder="Min income multiplier (e.g. 3)" value={f.min_income_multiplier} onChange={(e) => setF({ ...f, min_income_multiplier: +e.target.value })} className="bg-white/5 border-white/20" />
+            <Input type="number" placeholder="Min credit score" value={f.min_credit_score} onChange={(e) => setF({ ...f, min_credit_score: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input type="number" step="0.1" placeholder="Min income multiplier (e.g. 3)" value={f.min_income_multiplier} onChange={(e) => setF({ ...f, min_income_multiplier: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           </div>
           <div className="flex flex-wrap gap-4 text-sm">
             <label className="flex items-center gap-2"><Checkbox checked={f.pets_allowed} onCheckedChange={(v) => setF({ ...f, pets_allowed: !!v })} /> Pets allowed</label>
@@ -103,7 +103,7 @@ const HostCreateLeasePage: React.FC = () => {
             <label className="flex items-center gap-2"><Checkbox checked={f.furnished} onCheckedChange={(v) => setF({ ...f, furnished: !!v })} /> Furnished</label>
           </div>
           {f.pets_allowed && (
-            <Input type="number" placeholder="Pet deposit ($)" value={f.pet_deposit || ""} onChange={(e) => setF({ ...f, pet_deposit: +e.target.value })} className="bg-white/5 border-white/20" />
+            <Input type="number" placeholder="Pet deposit ($)" value={f.pet_deposit || ""} onChange={(e) => setF({ ...f, pet_deposit: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
           )}
 
           <div className="space-y-3 border-t border-white/10 pt-4">
