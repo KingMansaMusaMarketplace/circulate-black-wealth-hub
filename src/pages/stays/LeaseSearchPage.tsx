@@ -146,24 +146,26 @@ const LeaseSearchPage: React.FC = () => {
     [sorted, page, viewMode]
   );
 
-  const header = (
-    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-4">
-      <div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">Find your next home</h1>
-        <p className="text-white/85 mb-2 max-w-2xl">
-          Yearly leases on apartments, houses, condos, lofts and townhouses. Direct from landlords — no broker fees for tenants.
-        </p>
-        <p className="text-mansagold text-sm">Now live in <strong>Chicago</strong> and <strong>Atlanta</strong> · Listings available nationwide</p>
+  const heroBlock = (
+    <LeaseHero>
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-3 tracking-tight">Find your next home</h1>
+          <p className="text-white/90 mb-2 max-w-2xl text-lg">
+            Yearly leases on apartments, houses, condos, lofts and townhouses. Direct from landlords — no broker fees for tenants.
+          </p>
+          <p className="text-mansagold text-sm">Now live in <strong>Chicago</strong> and <strong>Atlanta</strong> · Listings available nationwide</p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+          <Button asChild variant="outline" size="lg" className="border-white/40 bg-black/30 text-white hover:bg-white/10 min-h-[48px] backdrop-blur">
+            <Link to="/stays/host/lease/dashboard">My Listings</Link>
+          </Button>
+          <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold shadow-lg min-h-[48px]">
+            <Link to="/stays/host/lease/new">List Your Property — Free</Link>
+          </Button>
+        </div>
       </div>
-      <div className="flex flex-col sm:flex-row gap-2 shrink-0">
-        <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10 min-h-[48px]">
-          <Link to="/stays/host/lease/dashboard">My Listings</Link>
-        </Button>
-        <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold shadow-lg min-h-[48px]">
-          <Link to="/stays/host/lease/new">List Your Property — Free</Link>
-        </Button>
-      </div>
-    </div>
+    </LeaseHero>
   );
 
   const searchRow = (
