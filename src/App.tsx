@@ -769,6 +769,8 @@ function App() {
                               <Route path="/stays/lease/condos" element={<LazyLeaseCategoryLandingPage />} />
                               <Route path="/stays/lease/lofts" element={<LazyLeaseCategoryLandingPage />} />
                               <Route path="/stays/lease/townhouses" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/office-space" element={<LazyLeaseCategoryLandingPage />} />
+                              <Route path="/stays/lease/warehouses" element={<LazyLeaseCategoryLandingPage />} />
                               <Route path="/stays/lease/chicago" element={<LazyLeaseCategoryLandingPage />} />
                               <Route path="/stays/lease/atlanta" element={<LazyLeaseCategoryLandingPage />} />
                               <Route path="/stays/lease/:city/:category" element={<LazyLeaseCategoryLandingPage />} />
