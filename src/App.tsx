@@ -763,6 +763,7 @@ function App() {
                               <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
                               <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
                               <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
+                              <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
                               <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
                               <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                               <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
@@ -1150,6 +1151,7 @@ function App() {
                         <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
                         <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
                         <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
+                        <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
                         <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
                         <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                         <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
