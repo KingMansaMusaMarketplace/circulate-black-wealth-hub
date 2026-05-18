@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Plus, Mail, Phone, Calendar, Copy, CheckCircle2, Clock, DollarSign, ExternalLink } from "lucide-react";
+import { Plus, Mail, Phone, Calendar, Copy, CheckCircle2, Clock, DollarSign, ExternalLink, Pencil, Camera } from "lucide-react";
 import { toast } from "sonner";
 import LeaseLegalFooter from "@/components/stays/lease/LeaseLegalFooter";
 
@@ -220,9 +220,9 @@ const HostLeaseDashboardPage: React.FC = () => {
                   {/* Backfill nudge: prompt host to confirm category for older listings (pre-2026-05-18) */}
                   {new Date(l.created_at) < new Date("2026-05-18") && (
                     <div className="mb-4 p-3 rounded-md bg-yellow-500/15 border border-yellow-500/40 text-yellow-100 text-sm flex items-center justify-between gap-3 flex-wrap">
-                      <span>Pick a property type (House, Condo, Loft…) so renters can find this listing.</span>
+                      <span>Pick a property type and upload photos so renters can find this listing.</span>
                       <Button asChild size="sm" className="bg-yellow-500 text-black hover:bg-yellow-500/90 font-bold">
-                        <Link to={`/stays/lease/${l.id}`}>Update now</Link>
+                        <Link to={`/stays/host/lease/edit/${l.id}`}>Update now</Link>
                       </Button>
                     </div>
                   )}
@@ -233,6 +233,7 @@ const HostLeaseDashboardPage: React.FC = () => {
                     </div>
                     <div className="flex gap-2 flex-wrap">
                       <Button asChild variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10"><Link to={`/stays/lease/${l.id}`}><ExternalLink className="w-3 h-3 mr-1" />View public page</Link></Button>
+                      <Button asChild variant="outline" size="sm" className="border-mansagold/60 text-mansagold hover:bg-mansagold/10"><Link to={`/stays/host/lease/edit/${l.id}`}><Camera className="w-3 h-3 mr-1" />Edit & Photos</Link></Button>
                       <Button onClick={() => openMarkLeased(l)} size="sm" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold"><CheckCircle2 className="w-4 h-4 mr-1" />Mark as Leased</Button>
                     </div>
                   </div>
