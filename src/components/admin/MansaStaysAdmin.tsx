@@ -32,6 +32,9 @@ interface Property {
   listing_mode: string | null;
   monthly_rent: number | null;
   property_type: string | null;
+  listing_status?: 'draft' | 'pending_review' | 'approved' | 'rejected' | null;
+  rejection_reason?: string | null;
+  reviewed_at?: string | null;
 }
 
 interface Booking {
