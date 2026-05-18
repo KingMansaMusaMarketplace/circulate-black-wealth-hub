@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import LeaseLegalFooter from "@/components/stays/lease/LeaseLegalFooter";
+import { findByValue } from "@/lib/lease/property-types";
 
 const LeaseListingDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -61,7 +62,10 @@ const LeaseListingDetailPage: React.FC = () => {
           <img src={listing.photos[0]} alt={listing.title} className="w-full aspect-video object-cover rounded-2xl mb-6" />
         )}
         <h1 className="text-3xl md:text-4xl font-bold">{listing.title}</h1>
-        <p className="text-white/60 mt-1">{listing.city}, {listing.state}</p>
+        <p className="text-white/60 mt-1">
+          {(() => { const t = findByValue(listing.property_type); return t ? <><span className="text-mansagold font-medium">{t.label}</span> · </> : null; })()}
+          {listing.city}, {listing.state}
+        </p>
         <p className="text-mansagold text-3xl font-bold mt-3">${Number(listing.monthly_rent).toLocaleString()}<span className="text-base text-white/50 font-normal">/month</span></p>
 
         <div className="grid md:grid-cols-3 gap-4 mt-6 text-sm">
