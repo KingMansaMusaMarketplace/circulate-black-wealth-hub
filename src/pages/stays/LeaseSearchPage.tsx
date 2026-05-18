@@ -100,9 +100,9 @@ const LeaseSearchPage: React.FC = () => {
           ) : listings.length === 0 ? (
             <Card className="p-8 bg-white/5 border-white/10 text-center">
               <p className="text-white/70 mb-4">No lease listings match your filters yet.</p>
-              <Link to="/stays/host/lease/new">
-                <Button className="bg-mansagold text-black hover:bg-mansagold/90">List your property — free</Button>
-              </Link>
+              <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold min-h-[48px]">
+                <Link to="/stays/host/lease/new">List Your Property — Free</Link>
+              </Button>
             </Card>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
