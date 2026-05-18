@@ -65,18 +65,25 @@ const LeaseSearchPage: React.FC = () => {
 
       <section className="border-b border-white/10 py-12 px-4">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-3">Find your next home</h1>
-          <p className="text-white/70 mb-2">
-            Yearly leases on apartments, condos, and houses. Direct from landlords — no broker fees for tenants.
-          </p>
-          <p className="text-mansagold text-sm">Now live in <strong>Chicago</strong> and <strong>Atlanta</strong> · Listings available nationwide</p>
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-4">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-3">Find your next home</h1>
+              <p className="text-white/70 mb-2">
+                Yearly leases on apartments, condos, and houses. Direct from landlords — no broker fees for tenants.
+              </p>
+              <p className="text-mansagold text-sm">Now live in <strong>Chicago</strong> and <strong>Atlanta</strong> · Listings available nationwide</p>
+            </div>
+            <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold shadow-lg min-h-[48px] shrink-0">
+              <Link to="/stays/host/lease/new">List Your Property — Free</Link>
+            </Button>
+          </div>
 
           <div className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-3">
-            <Input placeholder="City" value={filters.city} onChange={(e) => setFilters({ ...filters, city: e.target.value })} className="bg-white/5 border-white/20" />
-            <Input placeholder="Min rent" type="number" value={filters.minRent} onChange={(e) => setFilters({ ...filters, minRent: e.target.value })} className="bg-white/5 border-white/20" />
-            <Input placeholder="Max rent" type="number" value={filters.maxRent} onChange={(e) => setFilters({ ...filters, maxRent: e.target.value })} className="bg-white/5 border-white/20" />
-            <Input placeholder="Beds" type="number" value={filters.bedrooms} onChange={(e) => setFilters({ ...filters, bedrooms: e.target.value })} className="bg-white/5 border-white/20" />
-            <Button onClick={fetchListings} className="bg-mansagold text-black hover:bg-mansagold/90">Search</Button>
+            <Input placeholder="City" value={filters.city} onChange={(e) => setFilters({ ...filters, city: e.target.value })} className="bg-white/5 border-white/20 min-h-[48px]" />
+            <Input placeholder="Min rent" type="number" value={filters.minRent} onChange={(e) => setFilters({ ...filters, minRent: e.target.value })} className="bg-white/5 border-white/20 min-h-[48px]" />
+            <Input placeholder="Max rent" type="number" value={filters.maxRent} onChange={(e) => setFilters({ ...filters, maxRent: e.target.value })} className="bg-white/5 border-white/20 min-h-[48px]" />
+            <Input placeholder="Beds" type="number" value={filters.bedrooms} onChange={(e) => setFilters({ ...filters, bedrooms: e.target.value })} className="bg-white/5 border-white/20 min-h-[48px]" />
+            <Button onClick={fetchListings} size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold min-h-[48px]">Search</Button>
           </div>
           <div className="mt-3 flex flex-wrap gap-4 text-sm">
             <label className="flex items-center gap-2"><Checkbox checked={filters.pets} onCheckedChange={(v) => setFilters({ ...filters, pets: !!v })} /> Pets OK</label>
