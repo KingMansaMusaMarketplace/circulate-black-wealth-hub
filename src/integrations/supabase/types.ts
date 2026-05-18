@@ -9053,6 +9053,60 @@ export type Database = {
           },
         ]
       }
+      host_applications: {
+        Row: {
+          admin_notes: string | null
+          city: string | null
+          created_at: string
+          email: string
+          estimated_units: number | null
+          full_name: string
+          id: string
+          listing_mode: string | null
+          message: string | null
+          phone: string | null
+          property_type: string | null
+          state: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          city?: string | null
+          created_at?: string
+          email: string
+          estimated_units?: number | null
+          full_name: string
+          id?: string
+          listing_mode?: string | null
+          message?: string | null
+          phone?: string | null
+          property_type?: string | null
+          state?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          city?: string | null
+          created_at?: string
+          email?: string
+          estimated_units?: number | null
+          full_name?: string
+          id?: string
+          listing_mode?: string | null
+          message?: string | null
+          phone?: string | null
+          property_type?: string | null
+          state?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       host_circle_members: {
         Row: {
           circle_id: string
@@ -12293,6 +12347,7 @@ export type Database = {
       lease_agreements: {
         Row: {
           cancellation_reason: string | null
+          cancelled_at: string | null
           confirmed_at: string | null
           created_at: string
           fee_amount: number
@@ -12311,6 +12366,7 @@ export type Database = {
           status: string
           stripe_checkout_session_id: string | null
           stripe_payment_intent_id: string | null
+          stripe_refund_id: string | null
           tenant_confirm_token: string | null
           tenant_confirmed_at: string | null
           tenant_email: string
@@ -12320,6 +12376,7 @@ export type Database = {
         }
         Insert: {
           cancellation_reason?: string | null
+          cancelled_at?: string | null
           confirmed_at?: string | null
           created_at?: string
           fee_amount?: number
@@ -12338,6 +12395,7 @@ export type Database = {
           status?: string
           stripe_checkout_session_id?: string | null
           stripe_payment_intent_id?: string | null
+          stripe_refund_id?: string | null
           tenant_confirm_token?: string | null
           tenant_confirmed_at?: string | null
           tenant_email: string
@@ -12347,6 +12405,7 @@ export type Database = {
         }
         Update: {
           cancellation_reason?: string | null
+          cancelled_at?: string | null
           confirmed_at?: string | null
           created_at?: string
           fee_amount?: number
@@ -12365,6 +12424,7 @@ export type Database = {
           status?: string
           stripe_checkout_session_id?: string | null
           stripe_payment_intent_id?: string | null
+          stripe_refund_id?: string | null
           tenant_confirm_token?: string | null
           tenant_confirmed_at?: string | null
           tenant_email?: string
@@ -12547,6 +12607,39 @@ export type Database = {
           property_type?: string | null
           section_8_accepted?: boolean | null
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      legal_acceptances: {
+        Row: {
+          accepted_at: string
+          context: Json | null
+          document_type: string
+          document_version: string
+          id: string
+          ip_address: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          accepted_at?: string
+          context?: Json | null
+          document_type: string
+          document_version?: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          accepted_at?: string
+          context?: Json | null
+          document_type?: string
+          document_version?: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
           user_id?: string
         }
         Relationships: []
@@ -15822,6 +15915,9 @@ export type Database = {
             | null
           host_verified_at: string | null
           id: string
+          identity_session_id: string | null
+          identity_status: string | null
+          identity_verified_at: string | null
           is_founding_member: boolean | null
           is_hbcu_member: boolean | null
           is_verified_host: boolean | null
@@ -15867,6 +15963,9 @@ export type Database = {
             | null
           host_verified_at?: string | null
           id: string
+          identity_session_id?: string | null
+          identity_status?: string | null
+          identity_verified_at?: string | null
           is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
           is_verified_host?: boolean | null
@@ -15912,6 +16011,9 @@ export type Database = {
             | null
           host_verified_at?: string | null
           id?: string
+          identity_session_id?: string | null
+          identity_status?: string | null
+          identity_verified_at?: string | null
           is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
           is_verified_host?: boolean | null
@@ -22893,6 +22995,7 @@ export type Database = {
           latitude: number | null
           lease_term_months: number | null
           listing_mode: string
+          listing_status: Database["public"]["Enums"]["listing_status_enum"]
           longitude: number | null
           max_guests: number | null
           max_nights: number | null
@@ -22906,7 +23009,10 @@ export type Database = {
           pets_allowed: boolean | null
           photos: Json | null
           property_type: Database["public"]["Enums"]["property_type"] | null
+          rejection_reason: string | null
           review_count: number | null
+          reviewed_at: string | null
+          reviewed_by: string | null
           section_8_accepted: boolean | null
           security_deposit: number | null
           security_deposit_amount: number | null
@@ -22946,6 +23052,7 @@ export type Database = {
           latitude?: number | null
           lease_term_months?: number | null
           listing_mode?: string
+          listing_status?: Database["public"]["Enums"]["listing_status_enum"]
           longitude?: number | null
           max_guests?: number | null
           max_nights?: number | null
@@ -22959,7 +23066,10 @@ export type Database = {
           pets_allowed?: boolean | null
           photos?: Json | null
           property_type?: Database["public"]["Enums"]["property_type"] | null
+          rejection_reason?: string | null
           review_count?: number | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           section_8_accepted?: boolean | null
           security_deposit?: number | null
           security_deposit_amount?: number | null
@@ -22999,6 +23109,7 @@ export type Database = {
           latitude?: number | null
           lease_term_months?: number | null
           listing_mode?: string
+          listing_status?: Database["public"]["Enums"]["listing_status_enum"]
           longitude?: number | null
           max_guests?: number | null
           max_nights?: number | null
@@ -23012,7 +23123,10 @@ export type Database = {
           pets_allowed?: boolean | null
           photos?: Json | null
           property_type?: Database["public"]["Enums"]["property_type"] | null
+          rejection_reason?: string | null
           review_count?: number | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           section_8_accepted?: boolean | null
           security_deposit?: number | null
           security_deposit_amount?: number | null
@@ -26287,6 +26401,7 @@ export type Database = {
           latitude: number | null
           lease_term_months: number | null
           listing_mode: string
+          listing_status: Database["public"]["Enums"]["listing_status_enum"]
           longitude: number | null
           max_guests: number | null
           max_nights: number | null
@@ -26300,7 +26415,10 @@ export type Database = {
           pets_allowed: boolean | null
           photos: Json | null
           property_type: Database["public"]["Enums"]["property_type"] | null
+          rejection_reason: string | null
           review_count: number | null
+          reviewed_at: string | null
+          reviewed_by: string | null
           section_8_accepted: boolean | null
           security_deposit: number | null
           security_deposit_amount: number | null
@@ -26467,6 +26585,7 @@ export type Database = {
       developer_status: "pending" | "active" | "suspended"
       developer_tier: "free" | "pro" | "enterprise"
       hbcu_verification_status: "pending" | "approved" | "rejected"
+      listing_status_enum: "draft" | "pending_review" | "approved" | "rejected"
       marketing_material_category:
         | "social_media"
         | "email_templates"
@@ -26713,6 +26832,7 @@ export const Constants = {
       developer_status: ["pending", "active", "suspended"],
       developer_tier: ["free", "pro", "enterprise"],
       hbcu_verification_status: ["pending", "approved", "rejected"],
+      listing_status_enum: ["draft", "pending_review", "approved", "rejected"],
       marketing_material_category: [
         "social_media",
         "email_templates",
