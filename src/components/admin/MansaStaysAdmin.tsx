@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power, Settings2, Search, Download } from 'lucide-react';
+import { Home, Calendar, DollarSign, CheckCircle2, Loader2, Eye, ShieldCheck, Power, Settings2, Search, Download, Key } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -29,6 +29,9 @@ interface Property {
   bedrooms: number | null;
   max_guests: number | null;
   created_at: string;
+  listing_mode: string | null;
+  monthly_rent: number | null;
+  property_type: string | null;
 }
 
 interface Booking {
@@ -47,22 +50,56 @@ interface Booking {
   created_at: string;
 }
 
+interface LeaseInquiry {
+  id: string;
+  property_id: string;
+  tenant_name: string | null;
+  tenant_email: string | null;
+  tenant_phone: string | null;
+  desired_move_in: string | null;
+  message: string | null;
+  status: string;
+  created_at: string;
+}
+
+interface LeaseAgreement {
+  id: string;
+  property_id: string;
+  tenant_name: string | null;
+  tenant_email: string | null;
+  lease_start_date: string | null;
+  lease_end_date: string | null;
+  monthly_rent: number | null;
+  status: string;
+  fee_amount: number | null;
+  fee_charged_at: string | null;
+  refund_eligible_until: string | null;
+  refunded_at: string | null;
+  created_at: string;
+}
+
 const MansaStaysAdmin: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState<Property[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [leaseInquiries, setLeaseInquiries] = useState<LeaseInquiry[]>([]);
+  const [leaseAgreements, setLeaseAgreements] = useState<LeaseAgreement[]>([]);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
 
   const loadData = async () => {
-    const [{ data: p }, { data: b }] = await Promise.all([
+    const [{ data: p }, { data: b }, { data: li }, { data: la }] = await Promise.all([
       supabase.from('vacation_properties').select('*').order('created_at', { ascending: false }),
       supabase.from('vacation_bookings').select('*').order('created_at', { ascending: false }),
+      supabase.from('lease_inquiries').select('*').order('created_at', { ascending: false }),
+      supabase.from('lease_agreements').select('*').order('created_at', { ascending: false }),
     ]);
     setProperties((p as Property[]) ?? []);
     setBookings((b as Booking[]) ?? []);
+    setLeaseInquiries((li as LeaseInquiry[]) ?? []);
+    setLeaseAgreements((la as LeaseAgreement[]) ?? []);
     setLoading(false);
   };
 
@@ -91,12 +128,18 @@ const MansaStaysAdmin: React.FC = () => {
   // Filters / search
   const [propSearch, setPropSearch] = useState('');
   const [propStatus, setPropStatus] = useState<'all' | 'active' | 'inactive' | 'verified' | 'unverified'>('all');
+  const [propMode, setPropMode] = useState<'all' | 'vacation' | 'lease'>('all');
   const [bookingSearch, setBookingSearch] = useState('');
   const [bookingStatus, setBookingStatus] = useState<'all' | 'pending' | 'confirmed' | 'completed' | 'cancelled'>('all');
+  const [leaseSearch, setLeaseSearch] = useState('');
+
+  const isLease = (p: Property) => p.listing_mode === 'yearly_lease';
 
   const filteredProperties = useMemo(() => {
     const q = propSearch.trim().toLowerCase();
     return properties.filter(p => {
+      if (propMode === 'vacation' && isLease(p)) return false;
+      if (propMode === 'lease' && !isLease(p)) return false;
       if (propStatus === 'active' && !p.is_active) return false;
       if (propStatus === 'inactive' && p.is_active) return false;
       if (propStatus === 'verified' && !p.is_verified) return false;
@@ -104,7 +147,23 @@ const MansaStaysAdmin: React.FC = () => {
       if (!q) return true;
       return [p.title, p.city, p.state].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
     });
-  }, [properties, propSearch, propStatus]);
+  }, [properties, propSearch, propStatus, propMode]);
+
+  const filteredInquiries = useMemo(() => {
+    const q = leaseSearch.trim().toLowerCase();
+    if (!q) return leaseInquiries;
+    return leaseInquiries.filter(i =>
+      [i.tenant_name, i.tenant_email, i.tenant_phone].filter(Boolean).some(v => String(v).toLowerCase().includes(q))
+    );
+  }, [leaseInquiries, leaseSearch]);
+
+  const filteredAgreements = useMemo(() => {
+    const q = leaseSearch.trim().toLowerCase();
+    if (!q) return leaseAgreements;
+    return leaseAgreements.filter(a =>
+      [a.tenant_name, a.tenant_email].filter(Boolean).some(v => String(v).toLowerCase().includes(q))
+    );
+  }, [leaseAgreements, leaseSearch]);
 
   const filteredBookings = useMemo(() => {
     const q = bookingSearch.trim().toLowerCase();
@@ -156,8 +215,14 @@ const MansaStaysAdmin: React.FC = () => {
     );
   }
 
+  const vacationCount = properties.filter(p => p.listing_mode !== 'yearly_lease').length;
+  const leaseCount = properties.filter(p => p.listing_mode === 'yearly_lease').length;
   const activeProperties = properties.filter(p => p.is_active).length;
   const verifiedProperties = properties.filter(p => p.is_verified).length;
+  const signedAgreements = leaseAgreements.filter(a => ['confirmed', 'active', 'signed'].includes(a.status)).length;
+  const leaseFeesCollected = leaseAgreements
+    .filter(a => a.fee_charged_at && !a.refunded_at)
+    .reduce((s, a) => s + Number(a.fee_amount || 0), 0);
   const realized = bookings
     .filter(b => ['confirmed', 'completed'].includes(b.status))
     .reduce((sum, b) => sum + Number(b.platform_fee || 0), 0);
@@ -184,11 +249,11 @@ const MansaStaysAdmin: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-white">Mansa Stays</h2>
-        <p className="text-white/60 text-sm">Vacation rental properties, bookings, and host payouts.</p>
+        <p className="text-white/60 text-sm">Vacation rentals, yearly leases, bookings, host payouts, and lease agreements.</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
@@ -198,7 +263,20 @@ const MansaStaysAdmin: React.FC = () => {
             <CardTitle className="text-2xl text-white">{properties.length}</CardTitle>
           </CardHeader>
           <CardContent className="text-xs text-white/50">
-            {activeProperties} active · {verifiedProperties} verified
+            {vacationCount} vacation · {leaseCount} lease · {activeProperties} active
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/5 border-white/10">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardDescription className="text-white/60">Yearly Leases</CardDescription>
+              <Key className="h-4 w-4 text-mansagold" />
+            </div>
+            <CardTitle className="text-2xl text-white">{signedAgreements}</CardTitle>
+          </CardHeader>
+          <CardContent className="text-xs text-white/50">
+            {leaseInquiries.length} inquiries · {fmt(leaseFeesCollected)} fees
           </CardContent>
         </Card>
 
@@ -243,9 +321,11 @@ const MansaStaysAdmin: React.FC = () => {
       </div>
 
       <Tabs defaultValue="properties" className="w-full">
-        <TabsList className="bg-white/5 border border-white/10">
+        <TabsList className="bg-white/5 border border-white/10 flex-wrap h-auto">
           <TabsTrigger value="properties">Properties ({properties.length})</TabsTrigger>
           <TabsTrigger value="bookings">Bookings ({bookings.length})</TabsTrigger>
+          <TabsTrigger value="lease-inquiries">Lease Inquiries ({leaseInquiries.length})</TabsTrigger>
+          <TabsTrigger value="lease-agreements">Lease Agreements ({leaseAgreements.length})</TabsTrigger>
           <TabsTrigger value="hosts">Hosts</TabsTrigger>
           <TabsTrigger value="payouts">Payouts</TabsTrigger>
           <TabsTrigger value="reporting">Reporting</TabsTrigger>
@@ -262,6 +342,15 @@ const MansaStaysAdmin: React.FC = () => {
                 className="pl-9 bg-white/5 border-white/10 text-white"
               />
             </div>
+            <select
+              value={propMode}
+              onChange={e => setPropMode(e.target.value as any)}
+              className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-sm"
+            >
+              <option value="all">All Types</option>
+              <option value="vacation">Vacation Rentals</option>
+              <option value="lease">Yearly Leases</option>
+            </select>
             <select
               value={propStatus}
               onChange={e => setPropStatus(e.target.value as any)}
@@ -284,9 +373,10 @@ const MansaStaysAdmin: React.FC = () => {
                 <TableHeader>
                   <TableRow className="border-white/10">
                     <TableHead className="text-white/70">Title</TableHead>
+                    <TableHead className="text-white/70">Type</TableHead>
                     <TableHead className="text-white/70">Location</TableHead>
                     <TableHead className="text-white/70">Beds</TableHead>
-                    <TableHead className="text-white/70">Nightly</TableHead>
+                    <TableHead className="text-white/70">Rate</TableHead>
                     <TableHead className="text-white/70">Status</TableHead>
                     <TableHead className="text-white/70">Verified</TableHead>
                     <TableHead className="text-white/70 text-right">Actions</TableHead>
@@ -294,13 +384,24 @@ const MansaStaysAdmin: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {filteredProperties.length === 0 ? (
-                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No properties match.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No properties match.</TableCell></TableRow>
                   ) : filteredProperties.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white font-medium">{p.title}</TableCell>
+                      <TableCell>
+                        {isLease(p) ? (
+                          <Badge className="bg-mansablue/30 text-blue-200 border-blue-500/30">🔑 Yearly Lease</Badge>
+                        ) : (
+                          <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">🏖️ Vacation</Badge>
+                        )}
+                      </TableCell>
                       <TableCell className="text-white/70">{[p.city, p.state].filter(Boolean).join(', ') || '—'}</TableCell>
-                      <TableCell className="text-white/70">{p.bedrooms ?? '—'} bd · {p.max_guests ?? '—'} guests</TableCell>
-                      <TableCell className="text-white/70">{fmt(Number(p.base_nightly_rate || 0))}</TableCell>
+                      <TableCell className="text-white/70">{p.bedrooms ?? '—'} bd{!isLease(p) && p.max_guests ? ` · ${p.max_guests} guests` : ''}</TableCell>
+                      <TableCell className="text-white/70">
+                        {isLease(p)
+                          ? `${fmt(Number(p.monthly_rent || 0))}/mo`
+                          : `${fmt(Number(p.base_nightly_rate || 0))}/nt`}
+                      </TableCell>
                       <TableCell>
                         <Badge variant="outline" className={p.is_active ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-white/10 text-white/60'}>
                           {p.is_active ? 'Active' : 'Inactive'}
@@ -427,6 +528,120 @@ const MansaStaysAdmin: React.FC = () => {
                       </TableCell>
                     </TableRow>
                   ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="lease-inquiries" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search tenant, email, phone…"
+                value={leaseSearch}
+                onChange={e => setLeaseSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <div className="text-xs text-white/50 ml-auto">{filteredInquiries.length} of {leaseInquiries.length}</div>
+          </div>
+          <Card className="bg-white/5 border-white/10">
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-white/10">
+                    <TableHead className="text-white/70">Tenant</TableHead>
+                    <TableHead className="text-white/70">Property</TableHead>
+                    <TableHead className="text-white/70">Move-In</TableHead>
+                    <TableHead className="text-white/70">Message</TableHead>
+                    <TableHead className="text-white/70">Status</TableHead>
+                    <TableHead className="text-white/70">Received</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredInquiries.length === 0 ? (
+                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No lease inquiries yet.</TableCell></TableRow>
+                  ) : filteredInquiries.map(i => (
+                    <TableRow key={i.id} className="border-white/10">
+                      <TableCell className="text-white">
+                        <div className="font-medium">{i.tenant_name || '—'}</div>
+                        <div className="text-xs text-white/50">{i.tenant_email}</div>
+                        {i.tenant_phone && <div className="text-xs text-white/40">{i.tenant_phone}</div>}
+                      </TableCell>
+                      <TableCell className="text-white/70 text-sm">{propMap[i.property_id] || i.property_id.slice(0, 8)}</TableCell>
+                      <TableCell className="text-white/70 text-xs">{i.desired_move_in || '—'}</TableCell>
+                      <TableCell className="text-white/60 text-xs max-w-xs truncate" title={i.message || ''}>{i.message || '—'}</TableCell>
+                      <TableCell><Badge variant="outline" className={statusColor(i.status)}>{i.status}</Badge></TableCell>
+                      <TableCell className="text-xs text-white/50">{new Date(i.created_at).toLocaleDateString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="lease-agreements" className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative flex-1 min-w-[200px] max-w-md">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                placeholder="Search tenant, email…"
+                value={leaseSearch}
+                onChange={e => setLeaseSearch(e.target.value)}
+                className="pl-9 bg-white/5 border-white/10 text-white"
+              />
+            </div>
+            <div className="text-xs text-white/50 ml-auto">
+              {filteredAgreements.length} of {leaseAgreements.length} · {fmt(leaseFeesCollected)} fees collected
+            </div>
+          </div>
+          <Card className="bg-white/5 border-white/10">
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-white/10">
+                    <TableHead className="text-white/70">Tenant</TableHead>
+                    <TableHead className="text-white/70">Property</TableHead>
+                    <TableHead className="text-white/70">Term</TableHead>
+                    <TableHead className="text-white/70">Monthly Rent</TableHead>
+                    <TableHead className="text-white/70">$99 Fee</TableHead>
+                    <TableHead className="text-white/70">Refund Window</TableHead>
+                    <TableHead className="text-white/70">Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredAgreements.length === 0 ? (
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No lease agreements yet.</TableCell></TableRow>
+                  ) : filteredAgreements.map(a => {
+                    const refundOpen = a.refund_eligible_until && new Date(a.refund_eligible_until) > new Date() && !a.refunded_at;
+                    return (
+                      <TableRow key={a.id} className="border-white/10">
+                        <TableCell className="text-white">
+                          <div className="font-medium">{a.tenant_name || '—'}</div>
+                          <div className="text-xs text-white/50">{a.tenant_email}</div>
+                        </TableCell>
+                        <TableCell className="text-white/70 text-sm">{propMap[a.property_id] || a.property_id.slice(0, 8)}</TableCell>
+                        <TableCell className="text-white/70 text-xs">
+                          {a.lease_start_date || '—'} → {a.lease_end_date || '—'}
+                        </TableCell>
+                        <TableCell className="text-white/70">{fmt(Number(a.monthly_rent || 0))}</TableCell>
+                        <TableCell className="text-mansagold">
+                          {a.fee_charged_at ? fmt(Number(a.fee_amount || 0)) : <span className="text-white/40 text-xs">unpaid</span>}
+                          {a.refunded_at && <div className="text-xs text-red-300">refunded</div>}
+                        </TableCell>
+                        <TableCell className="text-xs text-white/60">
+                          {a.refund_eligible_until ? (
+                            refundOpen ? <span className="text-yellow-300">open · until {new Date(a.refund_eligible_until).toLocaleDateString()}</span>
+                            : <span className="text-white/40">closed</span>
+                          ) : '—'}
+                        </TableCell>
+                        <TableCell><Badge variant="outline" className={statusColor(a.status)}>{a.status}</Badge></TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </CardContent>
