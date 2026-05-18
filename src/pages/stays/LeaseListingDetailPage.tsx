@@ -252,7 +252,7 @@ const LeaseListingDetailPage: React.FC = () => {
           <p className="text-white/60 text-xs">{listing.bedrooms}bd · {listing.bathrooms}ba</p>
         </div>
         <Button
-          onClick={() => document.querySelector('aside input')?.scrollIntoView({ behavior: "smooth", block: "center" })}
+          onClick={() => (document.querySelector('aside input') as HTMLElement | null)?.scrollIntoView({ behavior: "smooth", block: "center" })}
           className="bg-mansagold text-black hover:bg-mansagold/90 font-bold flex-1 max-w-[200px]"
         >
           Contact landlord
