@@ -208,17 +208,29 @@ const LeaseSearchPage: React.FC = () => {
   );
 
   const sortControl = (
-    <select
-      value={sortBy}
-      onChange={(e) => setSortBy(e.target.value as SortBy)}
-      className="bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 text-sm min-h-[40px]"
-      aria-label="Sort results"
-    >
-      <option value="newest" className="bg-black">Newest</option>
-      <option value="price_low" className="bg-black">Price: low to high</option>
-      <option value="price_high" className="bg-black">Price: high to low</option>
-      <option value="beds" className="bg-black">Most bedrooms</option>
-    </select>
+    <div className="flex items-center gap-2">
+      <SaveSearchButton payload={{
+        city: filters.city || null,
+        min_rent: filters.minRent ? Number(filters.minRent) : null,
+        max_rent: filters.maxRent ? Number(filters.maxRent) : null,
+        bedrooms: filters.bedrooms ? Number(filters.bedrooms) : null,
+        property_type: propertyType,
+        pets_allowed: filters.pets || null,
+        section_8_accepted: filters.section8 || null,
+        furnished: filters.furnished || null,
+      }} />
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value as SortBy)}
+        className="bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 text-sm min-h-[40px]"
+        aria-label="Sort results"
+      >
+        <option value="newest" className="bg-black">Newest</option>
+        <option value="price_low" className="bg-black">Price: low to high</option>
+        <option value="price_high" className="bg-black">Price: high to low</option>
+        <option value="beds" className="bg-black">Most bedrooms</option>
+      </select>
+    </div>
   );
 
   const empty = !loading && sorted.length === 0;
