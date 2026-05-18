@@ -30,7 +30,7 @@ Deno.serve(async (req) => {
         const since = s.last_notified_at ?? s.created_at
         let q = supabase
           .from('vacation_properties')
-          .select('id,title,city,state,nightly_rate,monthly_rate,bedrooms,bathrooms,photos,listing_mode,property_type,created_at')
+          .select('id,title,city,state,base_nightly_rate,monthly_rent,bedrooms,bathrooms,photos,listing_mode,property_type,created_at')
           .eq('listing_mode', 'yearly_lease')
           .eq('is_verified', true)
           .gt('created_at', since)
@@ -40,8 +40,8 @@ Deno.serve(async (req) => {
         if (s.city) q = q.ilike('city', `%${s.city}%`)
         if (s.bedrooms != null) q = q.gte('bedrooms', s.bedrooms)
         if (s.property_type) q = q.eq('property_type', s.property_type)
-        if (s.min_rent != null) q = q.gte('monthly_rate', s.min_rent)
-        if (s.max_rent != null) q = q.lte('monthly_rate', s.max_rent)
+        if (s.min_rent != null) q = q.gte('monthly_rent', s.min_rent)
+        if (s.max_rent != null) q = q.lte('monthly_rent', s.max_rent)
 
         const { data: props, error: propErr } = await q
         if (propErr) throw propErr
@@ -63,7 +63,7 @@ Deno.serve(async (req) => {
           title: p.title,
           city: p.city,
           state: p.state,
-          rent: p.monthly_rate ?? p.nightly_rate,
+          rent: p.monthly_rent ?? p.base_nightly_rate,
           bedrooms: p.bedrooms,
           bathrooms: p.bathrooms,
           image: Array.isArray(p.photos) && p.photos[0] ? p.photos[0] : undefined,
