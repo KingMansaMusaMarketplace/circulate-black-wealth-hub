@@ -373,7 +373,9 @@ const PropertyDetailPage: React.FC = () => {
                   </Badge>
                 )}
                 {property.pets_allowed && (
-                  <Badge variant="outline">🐾 Pet Friendly</Badge>
+                  <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/30">
+                    <span className="mr-1">🐾</span> Pet Friendly
+                  </Badge>
                 )}
               </div>
             </div>
