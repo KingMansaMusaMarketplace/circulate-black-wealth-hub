@@ -29,14 +29,13 @@ const LeaseHero: React.FC<Props> = ({ children }) => {
           alt={`${s.city} skyline at dusk`}
           width={1920}
           height={800}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] ${
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] [filter:brightness(1.35)_saturate(1.15)_contrast(1.05)] ${
             i === idx ? "opacity-100" : "opacity-0"
           }`}
         />
       ))}
-      {/* Light overlay — skylines stay bright, text uses its own shadow for legibility */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/30" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
+      {/* Very light overlay — skylines stay bright; text uses its own shadow for legibility */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 px-4 py-12 md:py-16">
