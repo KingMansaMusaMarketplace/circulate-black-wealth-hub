@@ -215,6 +215,64 @@ const VacationRentalsPage: React.FC = () => {
         />
       </div>
 
+      {/* Yearly Leases Banner — entry point for long-term rentals */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="relative overflow-hidden rounded-2xl border border-mansagold/30 bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-mansablue/40 backdrop-blur-xl"
+        >
+          <div className="absolute -top-20 -right-20 w-64 h-64 bg-mansagold/20 rounded-full blur-3xl" />
+          <div className="relative p-6 md:p-8 grid md:grid-cols-2 gap-6 items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-mansagold bg-mansagold/10 border border-mansagold/30 px-3 py-1 rounded-full mb-3">
+                <Sparkles className="w-3 h-3" /> New on Mansa Stays
+              </span>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
+                Looking for a <span className="text-mansagold">yearly lease</span>?
+              </h2>
+              <p className="text-white/70 text-sm md:text-base mb-4">
+                Browse apartments, condos, and houses for rent by the year from non-bias property owners. Or list your own property — free to list, $99 only when you successfully lease.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  onClick={() => navigate('/stays/lease')}
+                  className="bg-mansagold text-slate-900 hover:bg-mansagold/90 font-bold"
+                >
+                  <Key className="w-4 h-4 mr-2" />
+                  Browse Yearly Leases
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+                <Button
+                  onClick={() => navigate('/stays/host/lease/new')}
+                  variant="outline"
+                  className="border-mansagold/40 text-white hover:bg-mansagold/10 hover:border-mansagold"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  List Your Rental
+                </Button>
+              </div>
+            </div>
+            <div className="hidden md:flex justify-end">
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <CalendarRange className="w-5 h-5 text-mansagold mb-2" />
+                  <p className="text-white font-semibold">12-month leases</p>
+                  <p className="text-white/60 text-xs mt-1">Apartments, condos & houses</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <Home className="w-5 h-5 text-mansagold mb-2" />
+                  <p className="text-white font-semibold">Free to list</p>
+                  <p className="text-white/60 text-xs mt-1">$99 success fee only</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
       {/* Filters Panel */}
       <PropertyFiltersPanel
         isOpen={filtersOpen}
