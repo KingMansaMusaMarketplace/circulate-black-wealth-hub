@@ -67,6 +67,7 @@ const LazyLeaseSearchPage = lazy(() => import('@/pages/stays/LeaseSearchPage'));
 const LazyLeaseListingDetailPage = lazy(() => import('@/pages/stays/LeaseListingDetailPage'));
 const LazyHostCreateLeasePage = lazy(() => import('@/pages/stays/HostCreateLeasePage'));
 const LazyTenantConfirmLeasePage = lazy(() => import('@/pages/stays/TenantConfirmLeasePage'));
+const LazyHostLeaseDashboardPage = lazy(() => import('@/pages/stays/HostLeaseDashboardPage'));
 
 // Coalition & B2B pages
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
@@ -762,6 +763,7 @@ function App() {
                               <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
                               <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
                               <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
+                              <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
                               <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
                               <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                               <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
@@ -1149,6 +1151,7 @@ function App() {
                         <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
                         <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
                         <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
+                        <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
                         <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
                         <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                         <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
