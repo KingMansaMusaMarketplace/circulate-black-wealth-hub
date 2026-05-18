@@ -99,6 +99,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
+          <Badge className="bg-mansagold/95 text-black font-bold shadow-md">
+            🏖️ Vacation Rental
+          </Badge>
           {property.service_tier === 'premium' && (
             <Badge className="bg-mansagold text-black font-semibold">
               <Crown className="w-3 h-3 mr-1" />
