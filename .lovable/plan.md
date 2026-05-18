@@ -1,107 +1,45 @@
-# Property Categories + SEO Landing Pages
+# Phase 3 — Unify Lease Search with Directory Look & Feel
 
-## What this does (plain English)
+Make `/stays/lease` feel like a sibling of `/directory`: same header band, search row, filter panel, view toggles, results summary, and pagination. Keep all lease-specific data (price, beds/baths, photos, Mapbox map) intact.
 
-Adds **5 property type categories** — Apartment, House, Condo, Loft, Townhouse — so renters can filter by what they actually want, and Google can index dedicated pages for each (huge for free traffic). Also nudges hosts to update older listings that are stuck on "apartment" by default.
+## What changes (in plain English)
 
----
+1. **Same page shell as the Directory.** The lease search page gets the Directory's header, search bar, filter button, view-mode tabs, results count line, and pagination styling — so the two pages feel like one product.
+2. **Three view tabs:** Grid (default) · List · Map — matching the Directory.
+3. **Filter panel** opens/closes like the Directory's, but the inputs stay lease-specific: city, price range, bedrooms, bathrooms, pets, Section 8, furnished, property type.
+4. **Cards keep their lease features** — photo carousel, price pill, "Verified" badge, "Updated 2d ago" stamp.
+5. **Map view stays Mapbox** with price-pill markers (already built); only the tab chrome around it changes to match Directory tabs.
+6. **New: price-tier jump rail** ($, $$, $$$, $$$$) — same idea as the Directory's A–Z letter rail, but for rent tiers. Helps users skim by budget.
 
-## Part 1 — Property type filter (the basics)
+## What does NOT change
 
-### a. Lease search page (`/stays/lease`)
-- Add a **"Property type" pill row** at the top of the filter bar with 5 toggles: All · Apartments · Houses · Condos · Lofts · Townhouses.
-- Tapping one re-runs the search and updates the URL (`?type=house`) so the filter is shareable and browser back-button friendly.
-- Show the active type as a removable chip in the existing active-filters bar.
+- Database, RLS, edge functions — untouched.
+- Landlord (host) dashboard, create/edit pages, photo uploader — untouched.
+- Listing detail page (`/stays/lease/:id`) — untouched.
+- Directory page — untouched.
 
-### b. Listing creation page (`/stays/host/lease/new`)
-- Replace the hidden hardcoded `"apartment"` with a **visible dropdown** labeled "Property type *" with the 5 options.
-- Default to Apartment but require the host to confirm by clicking.
+## Files
 
-### c. Listing detail page (`/stays/lease/:id`)
-- Show the property type prominently next to bedrooms/bathrooms (e.g. "House · 3bd · 2ba").
+**New**
+- `src/components/browse/BrowseLayout.tsx` — shared shell (header slot, search row, filter slot, tabs, results summary, pagination).
+- `src/components/stays/lease/LeasePriceRail.tsx` — price-tier jump rail.
+- `src/components/stays/lease/LeaseListRow.tsx` — list-view row (denser than the card).
 
-### d. Database
-- Add a database constraint so `property_type` for yearly leases can only be one of the 5 allowed values (prevents typos like "appartmnt").
-- Update the search function (`search_lease_listings`) to accept an optional `p_property_type` argument.
-
----
-
-## Part 2 — SEO landing pages (the traffic play)
-
-Build a single reusable page component that handles **all combinations** via URL params. Two URL shapes:
-
-```text
-/stays/lease/:category                       e.g. /stays/lease/houses
-/stays/lease/:city/:category                 e.g. /stays/lease/chicago/houses
-```
-
-Plus the existing `/stays/lease/chicago` and `/stays/lease/atlanta` (city-only) we'd planned for Phase 2.2.
-
-### What each landing page contains
-- **H1** (main heading): "Houses for Rent in Chicago" (auto-built from URL).
-- **Intro paragraph** with city + category context (e.g. neighborhoods, average rents).
-- **Listing grid** filtered to that category + city (re-uses the existing lease search component).
-- **FAQ block** (3–4 questions like "What's the average rent for a house in Chicago?") — great for Google's "People also ask" rankings.
-- **Title tag + meta description** (the snippet Google shows) auto-built per page.
-- **JSON-LD structured data** (`RealEstateListing` schema) so Google understands these are rental listings, not blog posts.
-- **Internal links** to sister pages (e.g. on `/chicago/houses`, link to `/chicago/condos` and `/atlanta/houses`).
-- Fallback message + "Be the first to list" CTA when the grid is empty.
-
-### Coverage at launch
-- **2 cities** (Chicago, Atlanta) × **5 categories** + **5 nationwide category pages** + **2 city-only pages** = **17 landing pages** from a single component.
-- Add all to `sitemap.xml` so Google can find them.
-
-### Routing
-- New routes in `App.tsx` (both router blocks for web + native):
-  - `/stays/lease/:category` — nationwide by type
-  - `/stays/lease/:city/:category` — city × type
-- The existing `/stays/lease/:id` (listing detail) keeps working because UUIDs (long random IDs) don't collide with our short category/city slugs — but we'll guard with a regex so `houses` never gets treated as a listing ID.
-
----
-
-## Part 3 — Backfill prompt for older listings (option B you picked)
-
-- On the **Host Dashboard** (`/stays/host/lease/dashboard`), any listing where `property_type` was never set by the host shows a yellow inline banner: *"Pick a category so renters can find you →"* with a one-click dropdown.
-- No automatic data change. We just flag the field as "needs review" by checking if the listing was created before today's migration date.
-
----
-
-## Files affected
-
-**New files (5):**
-- `src/pages/stays/LeaseCategoryLandingPage.tsx` — the reusable landing page (handles all 17+ URL combos)
-- `src/lib/lease/property-types.ts` — single source of truth for the 5 categories (label, slug, icon, SEO copy)
-- `src/lib/lease/city-data.ts` — Chicago/Atlanta context (neighborhoods, avg rent stub)
-- `src/components/stays/lease/PropertyTypeFilter.tsx` — the pill row
-- `supabase/migrations/<timestamp>_lease_property_types.sql` — constraint + RPC update
-
-**Edited files (5):**
-- `src/pages/stays/LeaseSearchPage.tsx` — wire in the pill filter + URL sync
-- `src/pages/stays/HostCreateLeasePage.tsx` — replace hidden type with dropdown
-- `src/pages/stays/LeaseListingDetailPage.tsx` — show type label
-- `src/pages/stays/HostLeaseDashboardPage.tsx` — backfill banner
-- `src/App.tsx` — 2 new routes in both router blocks
-- `public/sitemap.xml` (or sitemap generator) — add the 17 URLs
-
----
+**Edited**
+- `src/pages/stays/LeaseSearchPage.tsx` — rebuilt on top of `BrowseLayout`; keeps existing data hooks, filters state, and Mapbox toggle.
 
 ## Technical notes
 
-- **Slug map:** `apartments → apartment`, `houses → house`, `condos → condo`, `lofts → loft`, `townhouses → townhouse`. URL uses plurals (better for SEO).
-- **Single React component, many URLs:** the landing page reads `useParams()` for `city` and `category`, resolves them against the slug map, 404s on unknown slugs, then renders.
-- **SEO sitemap:** I'll regenerate `public/sitemap.xml` to include all new URLs so Google indexes them within ~1–2 weeks.
-- **No new Stripe / payment changes.** Pure schema + frontend.
+- Reuses Directory chrome patterns from `DirectorySearchBar`, `DirectoryResultsSummary`, `DirectoryPagination`, and the `Tabs` view-mode pattern in `DesktopContentRenderer`, but extracted into a generic `BrowseLayout` so we don't import directory-specific code into Stays.
+- Tailwind tokens only (MansaBlue / MansaGold / true black). No hard-coded colors.
+- No new packages, no new secrets, no schema changes.
+- Mobile: same responsive behavior as the Directory (filters collapse into a sheet, tabs become a sticky bar).
 
----
+## Effort & risk
 
-## What you (the user) need to do after this ships
+- ~1 focused build pass. Low risk — purely presentational refactor of one page.
+- Easy rollback: revert `LeaseSearchPage.tsx` to current version.
 
-1. Visit `/stays/lease/chicago/houses` and `/stays/lease/atlanta/condos` to spot-check.
-2. **Submit the updated sitemap to Google Search Console** (https://search.google.com/search-console) — paste `https://mansamusamarketplace.com/sitemap.xml`. Takes 30 seconds, makes Google find the pages faster.
-3. (Optional) Tell me later what avg rents look like in Chicago/Atlanta and I'll plug real numbers into the FAQ blocks.
+## Your next step
 
----
-
-## Cost
-
-~1 prompt to build all of this in one shot. After that, **Phase 2.3 (CSV bulk upload)** is the last item on the original Phase 2 list.
+Click **Implement plan**. After it ships I'll ask you to spot-check `/stays/lease` on desktop and mobile and confirm the Grid / List / Map tabs all feel right.
