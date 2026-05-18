@@ -1,45 +1,48 @@
-# Phase 3 — Unify Lease Search with Directory Look & Feel
+# Add Office Space & Warehouse Property Types
 
-Make `/stays/lease` feel like a sibling of `/directory`: same header band, search row, filter panel, view toggles, results summary, and pagination. Keep all lease-specific data (price, beds/baths, photos, Mapbox map) intact.
+Currently the lease platform offers 5 residential property types: Apartments, Houses, Condos, Lofts, Townhouses. This adds 2 commercial types so hosts can list — and renters can browse — **Office Space** and **Warehouse**.
 
-## What changes (in plain English)
+## Scope
 
-1. **Same page shell as the Directory.** The lease search page gets the Directory's header, search bar, filter button, view-mode tabs, results count line, and pagination styling — so the two pages feel like one product.
-2. **Three view tabs:** Grid (default) · List · Map — matching the Directory.
-3. **Filter panel** opens/closes like the Directory's, but the inputs stay lease-specific: city, price range, bedrooms, bathrooms, pets, Section 8, furnished, property type.
-4. **Cards keep their lease features** — photo carousel, price pill, "Verified" badge, "Updated 2d ago" stamp.
-5. **Map view stays Mapbox** with price-pill markers (already built); only the tab chrome around it changes to match Directory tabs.
-6. **New: price-tier jump rail** ($, $$, $$$, $$$$) — same idea as the Directory's A–Z letter rail, but for rent tiers. Helps users skim by budget.
+| Surface | What changes |
+|---|---|
+| Tabs on `/stays/lease` | 2 new tabs appear: "Office Space" + "Warehouse" |
+| Category landing pages | `/stays/lease/category/office-space` and `/warehouse` work with SEO copy |
+| Filters | Hosts can pick these types when creating/editing a listing |
+| Bulk upload | New values accepted in the CSV (comma-separated values) importer |
+| Detail pages | Type chip shows correctly |
+| Saved-search emails | These types flow through automatically (no extra work) |
 
-## What does NOT change
+## How it works
 
-- Database, RLS, edge functions — untouched.
-- Landlord (host) dashboard, create/edit pages, photo uploader — untouched.
-- Listing detail page (`/stays/lease/:id`) — untouched.
-- Directory page — untouched.
+There's one central file (`src/lib/lease/property-types.ts`) that drives every tab, icon, label, and SEO intro across the whole platform. Adding two entries there propagates everywhere automatically. The database also has an enum (a fixed list of allowed values) that needs the two new entries added.
 
-## Files
+## Steps
 
-**New**
-- `src/components/browse/BrowseLayout.tsx` — shared shell (header slot, search row, filter slot, tabs, results summary, pagination).
-- `src/components/stays/lease/LeasePriceRail.tsx` — price-tier jump rail.
-- `src/components/stays/lease/LeaseListRow.tsx` — list-view row (denser than the card).
+1. **Database migration** — extend the `property_type` enum to add `office_space` and `warehouse`.
+2. **Add 2 entries** to `PROPERTY_TYPES` in `src/lib/lease/property-types.ts`:
+   - **Office Space** — icon: Briefcase, slug: `office-space`, SEO copy for "lease office space from Black-owned commercial landlords"
+   - **Warehouse** — icon: Warehouse, slug: `warehouses`, SEO copy for "warehouse and industrial space lease"
+   - Swap the Townhouse icon (currently `Warehouse`, which was a fallback) to something more appropriate like `Building`
+3. **Update the TypeScript union types** (`PropertyTypeSlug` and `PropertyTypeValue`) to include the new values.
+4. **Spot-check** the create/edit lease pages to confirm the new options appear in dropdowns (they pull from `PROPERTY_TYPES` automatically — likely zero changes needed).
 
-**Edited**
-- `src/pages/stays/LeaseSearchPage.tsx` — rebuilt on top of `BrowseLayout`; keeps existing data hooks, filters state, and Mapbox toggle.
+## Files touched
 
-## Technical notes
+- `supabase/migrations/<new>.sql` — `ALTER TYPE property_type ADD VALUE`
+- `src/lib/lease/property-types.ts` — add 2 entries + update type unions
+- *(possibly)* `src/pages/stays/HostCreateLeasePage.tsx` / `HostEditLeasePage.tsx` if they hard-code the dropdown instead of reading from the central file — will verify and only edit if needed
 
-- Reuses Directory chrome patterns from `DirectorySearchBar`, `DirectoryResultsSummary`, `DirectoryPagination`, and the `Tabs` view-mode pattern in `DesktopContentRenderer`, but extracted into a generic `BrowseLayout` so we don't import directory-specific code into Stays.
-- Tailwind tokens only (MansaBlue / MansaGold / true black). No hard-coded colors.
-- No new packages, no new secrets, no schema changes.
-- Mobile: same responsive behavior as the Directory (filters collapse into a sheet, tabs become a sticky bar).
+## What you'll see after
 
-## Effort & risk
+- 7 tabs on `/stays/lease` instead of 5
+- Hosts can choose Office Space or Warehouse when listing a property
+- SEO-optimized landing pages at `/stays/lease/category/office-space` and `/warehouse`
+- No impact on existing listings — they keep their current type
 
-- ~1 focused build pass. Low risk — purely presentational refactor of one page.
-- Easy rollback: revert `LeaseSearchPage.tsx` to current version.
+## Open questions
 
-## Your next step
-
-Click **Implement plan**. After it ships I'll ask you to spot-check `/stays/lease` on desktop and mobile and confirm the Grid / List / Map tabs all feel right.
+1. **Pricing model** — commercial rent is usually quoted **per square foot per year** (e.g., "$22/sf/yr") rather than per month. Do you want me to:
+   - **(a)** keep using the existing monthly rent field for now (simplest, ships today), or
+   - **(b)** add a "Commercial rate type" field that lets hosts choose monthly vs. per-sf-per-year (cleaner, ~30 min extra work)?
+2. **Should warehouses get sub-types** later (flex space, distribution, cold storage)? Not in this plan — flagging for a future iteration.

@@ -26547,6 +26547,8 @@ export type Database = {
         | "loft"
         | "studio"
         | "other"
+        | "office_space"
+        | "warehouse"
       subscription_tier: "free" | "paid" | "business_starter"
       user_role: "customer" | "business" | "admin" | "sales_agent"
       vacation_booking_status:
@@ -26798,6 +26800,8 @@ export const Constants = {
         "loft",
         "studio",
         "other",
+        "office_space",
+        "warehouse",
       ],
       subscription_tier: ["free", "paid", "business_starter"],
       user_role: ["customer", "business", "admin", "sales_agent"],
