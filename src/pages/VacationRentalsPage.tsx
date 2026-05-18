@@ -62,7 +62,11 @@ const VacationRentalsPage: React.FC = () => {
   };
 
   // Get featured property (highest rated or first verified)
-  const featuredProperty = properties.find(p => p.is_verified) || properties[0];
+  const featuredProperties = (() => {
+    const verified = properties.filter(p => p.is_verified);
+    const pool = verified.length > 0 ? verified : properties.slice(0, 1);
+    return pool.slice(0, 5);
+  })();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
@@ -285,9 +289,9 @@ const VacationRentalsPage: React.FC = () => {
       />
 
       {/* Featured Property Spotlight */}
-      {!loading && featuredProperty && (
+      {!loading && featuredProperties.length > 0 && (
         <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <FeaturedPropertySpotlight property={featuredProperty} />
+          <FeaturedPropertySpotlight properties={featuredProperties} />
         </div>
       )}
 
