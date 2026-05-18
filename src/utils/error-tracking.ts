@@ -1,8 +1,10 @@
 /**
  * Error Tracking Utilities
  * Central place for error logging and tracking
- * Ready to integrate with services like Sentry, LogRocket, etc.
+ * Integrates with Sentry for production error reporting.
  */
+
+import * as Sentry from '@sentry/react';
 
 export interface ErrorContext {
   user?: {
@@ -47,7 +49,7 @@ class ErrorTracker {
     // Catch unhandled promise rejections
     window.addEventListener('unhandledrejection', (event) => {
       this.logError(
-        new Error(event.reason),
+        new Error(String(event.reason)),
         {
           component: 'Global',
           action: 'unhandledrejection',
@@ -75,7 +77,7 @@ class ErrorTracker {
   }
 
   /**
-   * Log an error
+   * Log an error locally AND send to Sentry if configured
    */
   logError(
     error: Error,
@@ -96,7 +98,7 @@ class ErrorTracker {
     }
 
     // Log to console in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.error('Error tracked:', {
         message: error.message,
         stack: error.stack,
@@ -105,8 +107,8 @@ class ErrorTracker {
       });
     }
 
-    // TODO: Send to error tracking service
-    // this.sendToService(errorLog);
+    // Send to Sentry
+    this.sendToSentry(errorLog);
   }
 
   /**
@@ -120,7 +122,7 @@ class ErrorTracker {
    * Log info for debugging
    */
   logInfo(message: string, metadata?: Record<string, any>) {
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.info('Info:', message, metadata);
     }
   }
@@ -140,29 +142,38 @@ class ErrorTracker {
   }
 
   /**
-   * Send error to external service (placeholder)
-   * Integrate with Sentry, LogRocket, etc.
+   * Send error to Sentry
    */
-  private sendToService(errorLog: ErrorLog) {
-    // Example Sentry integration:
-    // if (window.Sentry) {
-    //   window.Sentry.captureException(errorLog.error, {
-    //     level: errorLog.severity,
-    //     tags: {
-    //       component: errorLog.context.component,
-    //       route: errorLog.context.route,
-    //     },
-    //     user: errorLog.context.user,
-    //     extra: errorLog.context.metadata,
-    //   });
-    // }
+  private sendToSentry(errorLog: ErrorLog) {
+    try {
+      const levelMap: Record<string, Sentry.SeverityLevel> = {
+        low: 'warning',
+        medium: 'error',
+        high: 'error',
+        critical: 'fatal',
+      };
 
-    // Example LogRocket integration:
-    // if (window.LogRocket) {
-    //   window.LogRocket.captureException(errorLog.error, {
-    //     tags: errorLog.context,
-    //   });
-    // }
+      Sentry.captureException(errorLog.error, {
+        level: levelMap[errorLog.severity] || 'error',
+        tags: {
+          component: errorLog.context.component,
+          route: errorLog.context.route,
+          action: errorLog.context.action,
+        },
+        user: errorLog.context.user
+          ? {
+              id: errorLog.context.user.id,
+              email: errorLog.context.user.email,
+            }
+          : undefined,
+        extra: {
+          ...errorLog.context.metadata,
+          severity: errorLog.severity,
+        },
+      });
+    } catch {
+      // Sentry not initialized or failed — silently ignore
+    }
   }
 }
 
