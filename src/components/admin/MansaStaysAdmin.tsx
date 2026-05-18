@@ -263,7 +263,20 @@ const MansaStaysAdmin: React.FC = () => {
             <CardTitle className="text-2xl text-white">{properties.length}</CardTitle>
           </CardHeader>
           <CardContent className="text-xs text-white/50">
-            {activeProperties} active · {verifiedProperties} verified
+            {vacationCount} vacation · {leaseCount} lease · {activeProperties} active
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/5 border-white/10">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardDescription className="text-white/60">Yearly Leases</CardDescription>
+              <Key className="h-4 w-4 text-mansagold" />
+            </div>
+            <CardTitle className="text-2xl text-white">{signedAgreements}</CardTitle>
+          </CardHeader>
+          <CardContent className="text-xs text-white/50">
+            {leaseInquiries.length} inquiries · {fmt(leaseFeesCollected)} fees
           </CardContent>
         </Card>
 
