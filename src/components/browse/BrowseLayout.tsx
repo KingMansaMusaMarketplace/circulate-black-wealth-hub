@@ -72,7 +72,7 @@ const BrowseLayout: React.FC<BrowseLayoutProps> = ({
       </section>
 
       {/* Results header: count + sort + view tabs */}
-      <section className="py-5 px-4 border-b border-white/5 sticky top-0 z-30 bg-black/85 backdrop-blur">
+      <section className="py-5 px-4 border-b border-white/5 sticky top-0 z-30 bg-[#05060f]/85 backdrop-blur">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="min-h-[28px]">{resultsSummary}</div>
           <div className="flex items-center gap-2 flex-wrap">
