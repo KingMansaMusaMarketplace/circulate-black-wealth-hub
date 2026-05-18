@@ -75,6 +75,55 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
 
 const PAGE_SIZE = 24;
 
+const DIRECTORY_SELECT = 'id, business_name, name, description, category, address, city, state, zip_code, website, logo_url, banner_url, is_verified, average_rating, review_count, latitude, longitude, created_at, updated_at, listing_status, is_founding_member, is_founding_sponsor';
+
+const isStatementTimeout = (error: unknown) =>
+  Boolean(error && typeof error === 'object' && 'code' in error && (error as { code?: string }).code === '57014');
+
+const fetchDirectoryFallback = async (
+  searchTerm: string,
+  filterOptions: BusinessFilters,
+  limit: number,
+  offset: number
+): Promise<{ results: SupabaseBusiness[]; totalCount: number }> => {
+  let query = supabase
+    .from('businesses')
+    .select(DIRECTORY_SELECT, { count: 'estimated' })
+    .eq('listing_status', 'live');
+
+  if (searchTerm) {
+    const safeTerm = searchTerm.replace(/[%,]/g, ' ').trim();
+    if (safeTerm) {
+      query = query.or(`business_name.ilike.%${safeTerm}%,name.ilike.%${safeTerm}%,city.ilike.%${safeTerm}%,state.ilike.%${safeTerm}%,category.ilike.%${safeTerm}%`);
+    }
+  }
+
+  if (filterOptions.category && filterOptions.category !== 'all') {
+    query = query.eq('category', filterOptions.category);
+  }
+
+  if (filterOptions.minRating && filterOptions.minRating > 0) {
+    query = query.gte('average_rating', filterOptions.minRating);
+  }
+
+  const { data, error, count } = await query
+    .order('is_verified', { ascending: false })
+    .order('average_rating', { ascending: false, nullsFirst: false })
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (error) throw error;
+
+  const totalCount = count || data?.length || 0;
+  return {
+    results: ((data || []) as Omit<SupabaseBusiness, 'total_count'>[]).map((business) => ({
+      ...business,
+      total_count: totalCount,
+    })),
+    totalCount,
+  };
+};
+
 export const useSupabaseDirectory = () => {
   const queryClient = useQueryClient();
   const insertCountRef = useRef(0);
@@ -182,7 +231,13 @@ export const useSupabaseDirectory = () => {
         p_offset: offset,
       });
 
-      if (error) throw error;
+      if (error) {
+        if (isStatementTimeout(error)) {
+          console.warn('[Directory] Search timed out; loading fallback results.', error);
+          return fetchDirectoryFallback(searchTerm, filterOptions, PAGE_SIZE, offset);
+        }
+        throw error;
+      }
       
       const results = (data || []) as SupabaseBusiness[];
       const totalCount = results.length > 0 ? Number(results[0].total_count) : 0;
@@ -193,6 +248,8 @@ export const useSupabaseDirectory = () => {
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
+    retry: (failureCount, queryError) => isStatementTimeout(queryError) && failureCount < 2,
+    retryDelay: 800,
     refetchOnWindowFocus: false,
   });
 
