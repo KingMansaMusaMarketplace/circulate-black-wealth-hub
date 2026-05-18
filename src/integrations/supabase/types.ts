@@ -12224,6 +12224,213 @@ export type Database = {
           },
         ]
       }
+      lease_agreements: {
+        Row: {
+          cancellation_reason: string | null
+          confirmed_at: string | null
+          created_at: string
+          fee_amount: number
+          fee_charged_at: string | null
+          fee_currency: string
+          id: string
+          inquiry_id: string | null
+          landlord_confirmed_at: string | null
+          landlord_id: string
+          lease_end_date: string | null
+          lease_start_date: string
+          monthly_rent: number
+          property_id: string
+          refund_eligible_until: string | null
+          refunded_at: string | null
+          status: string
+          stripe_checkout_session_id: string | null
+          stripe_payment_intent_id: string | null
+          tenant_confirm_token: string | null
+          tenant_confirmed_at: string | null
+          tenant_email: string
+          tenant_id: string | null
+          tenant_name: string
+          updated_at: string
+        }
+        Insert: {
+          cancellation_reason?: string | null
+          confirmed_at?: string | null
+          created_at?: string
+          fee_amount?: number
+          fee_charged_at?: string | null
+          fee_currency?: string
+          id?: string
+          inquiry_id?: string | null
+          landlord_confirmed_at?: string | null
+          landlord_id: string
+          lease_end_date?: string | null
+          lease_start_date: string
+          monthly_rent: number
+          property_id: string
+          refund_eligible_until?: string | null
+          refunded_at?: string | null
+          status?: string
+          stripe_checkout_session_id?: string | null
+          stripe_payment_intent_id?: string | null
+          tenant_confirm_token?: string | null
+          tenant_confirmed_at?: string | null
+          tenant_email: string
+          tenant_id?: string | null
+          tenant_name: string
+          updated_at?: string
+        }
+        Update: {
+          cancellation_reason?: string | null
+          confirmed_at?: string | null
+          created_at?: string
+          fee_amount?: number
+          fee_charged_at?: string | null
+          fee_currency?: string
+          id?: string
+          inquiry_id?: string | null
+          landlord_confirmed_at?: string | null
+          landlord_id?: string
+          lease_end_date?: string | null
+          lease_start_date?: string
+          monthly_rent?: number
+          property_id?: string
+          refund_eligible_until?: string | null
+          refunded_at?: string | null
+          status?: string
+          stripe_checkout_session_id?: string | null
+          stripe_payment_intent_id?: string | null
+          tenant_confirm_token?: string | null
+          tenant_confirmed_at?: string | null
+          tenant_email?: string
+          tenant_id?: string | null
+          tenant_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lease_agreements_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "lease_inquiries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lease_agreements_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lease_agreements_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lease_fee_refunds: {
+        Row: {
+          created_at: string
+          currency: string
+          id: string
+          landlord_id: string
+          lease_agreement_id: string
+          reason: string | null
+          refund_amount: number
+          status: string
+          stripe_refund_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          id?: string
+          landlord_id: string
+          lease_agreement_id: string
+          reason?: string | null
+          refund_amount: number
+          status?: string
+          stripe_refund_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          id?: string
+          landlord_id?: string
+          lease_agreement_id?: string
+          reason?: string | null
+          refund_amount?: number
+          status?: string
+          stripe_refund_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lease_fee_refunds_lease_agreement_id_fkey"
+            columns: ["lease_agreement_id"]
+            isOneToOne: false
+            referencedRelation: "lease_agreements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lease_inquiries: {
+        Row: {
+          created_at: string
+          desired_move_in: string | null
+          id: string
+          message: string | null
+          property_id: string
+          status: string
+          tenant_email: string
+          tenant_id: string | null
+          tenant_name: string
+          tenant_phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          desired_move_in?: string | null
+          id?: string
+          message?: string | null
+          property_id: string
+          status?: string
+          tenant_email: string
+          tenant_id?: string | null
+          tenant_name: string
+          tenant_phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          desired_move_in?: string | null
+          id?: string
+          message?: string | null
+          property_id?: string
+          status?: string
+          tenant_email?: string
+          tenant_id?: string | null
+          tenant_name?: string
+          tenant_phone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lease_inquiries_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lease_inquiries_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       loyalty_engine_campaigns: {
         Row: {
           ai_reasoning: string | null
@@ -22542,6 +22749,7 @@ export type Database = {
         Row: {
           address: string
           amenities: Json | null
+          available_from: string | null
           average_rating: number | null
           base_monthly_rate: number | null
           base_nightly_rate: number
@@ -22555,6 +22763,7 @@ export type Database = {
           country: string | null
           created_at: string | null
           description: string | null
+          furnished: boolean | null
           host_id: string
           house_rules: string | null
           id: string
@@ -22562,28 +22771,37 @@ export type Database = {
           is_instant_book: boolean | null
           is_verified: boolean | null
           latitude: number | null
+          lease_term_months: number | null
           listing_mode: string
           longitude: number | null
           max_guests: number | null
           max_nights: number | null
+          min_credit_score: number | null
+          min_income_multiplier: number | null
           min_nights: number | null
+          monthly_rent: number | null
+          pet_deposit: number | null
           pet_fee: number | null
           pets_allowed: boolean | null
           photos: Json | null
           property_type: Database["public"]["Enums"]["property_type"] | null
           review_count: number | null
+          section_8_accepted: boolean | null
           security_deposit: number | null
+          security_deposit_amount: number | null
           service_fee_percent: number | null
           service_tier: string
           state: string
           title: string
           updated_at: string | null
+          utilities_included: string[] | null
           weekly_rate: number | null
           zip_code: string | null
         }
         Insert: {
           address: string
           amenities?: Json | null
+          available_from?: string | null
           average_rating?: number | null
           base_monthly_rate?: number | null
           base_nightly_rate: number
@@ -22597,6 +22815,7 @@ export type Database = {
           country?: string | null
           created_at?: string | null
           description?: string | null
+          furnished?: boolean | null
           host_id: string
           house_rules?: string | null
           id?: string
@@ -22604,28 +22823,37 @@ export type Database = {
           is_instant_book?: boolean | null
           is_verified?: boolean | null
           latitude?: number | null
+          lease_term_months?: number | null
           listing_mode?: string
           longitude?: number | null
           max_guests?: number | null
           max_nights?: number | null
+          min_credit_score?: number | null
+          min_income_multiplier?: number | null
           min_nights?: number | null
+          monthly_rent?: number | null
+          pet_deposit?: number | null
           pet_fee?: number | null
           pets_allowed?: boolean | null
           photos?: Json | null
           property_type?: Database["public"]["Enums"]["property_type"] | null
           review_count?: number | null
+          section_8_accepted?: boolean | null
           security_deposit?: number | null
+          security_deposit_amount?: number | null
           service_fee_percent?: number | null
           service_tier?: string
           state: string
           title: string
           updated_at?: string | null
+          utilities_included?: string[] | null
           weekly_rate?: number | null
           zip_code?: string | null
         }
         Update: {
           address?: string
           amenities?: Json | null
+          available_from?: string | null
           average_rating?: number | null
           base_monthly_rate?: number | null
           base_nightly_rate?: number
@@ -22639,6 +22867,7 @@ export type Database = {
           country?: string | null
           created_at?: string | null
           description?: string | null
+          furnished?: boolean | null
           host_id?: string
           house_rules?: string | null
           id?: string
@@ -22646,22 +22875,30 @@ export type Database = {
           is_instant_book?: boolean | null
           is_verified?: boolean | null
           latitude?: number | null
+          lease_term_months?: number | null
           listing_mode?: string
           longitude?: number | null
           max_guests?: number | null
           max_nights?: number | null
+          min_credit_score?: number | null
+          min_income_multiplier?: number | null
           min_nights?: number | null
+          monthly_rent?: number | null
+          pet_deposit?: number | null
           pet_fee?: number | null
           pets_allowed?: boolean | null
           photos?: Json | null
           property_type?: Database["public"]["Enums"]["property_type"] | null
           review_count?: number | null
+          section_8_accepted?: boolean | null
           security_deposit?: number | null
+          security_deposit_amount?: number | null
           service_fee_percent?: number | null
           service_tier?: string
           state?: string
           title?: string
           updated_at?: string | null
+          utilities_included?: string[] | null
           weekly_rate?: number | null
           zip_code?: string | null
         }
@@ -25885,6 +26122,79 @@ export type Database = {
               zip_code: string
             }[]
           }
+      search_lease_listings: {
+        Args: {
+          p_available_by?: string
+          p_bedrooms?: number
+          p_city?: string
+          p_furnished?: boolean
+          p_limit?: number
+          p_max_rent?: number
+          p_min_rent?: number
+          p_offset?: number
+          p_pets?: boolean
+          p_section_8?: boolean
+          p_state?: string
+        }
+        Returns: {
+          address: string
+          amenities: Json | null
+          available_from: string | null
+          average_rating: number | null
+          base_monthly_rate: number | null
+          base_nightly_rate: number
+          bathrooms: number | null
+          bedrooms: number | null
+          cancellation_policy: string | null
+          check_in_time: string | null
+          check_out_time: string | null
+          city: string
+          cleaning_fee: number | null
+          country: string | null
+          created_at: string | null
+          description: string | null
+          furnished: boolean | null
+          host_id: string
+          house_rules: string | null
+          id: string
+          is_active: boolean | null
+          is_instant_book: boolean | null
+          is_verified: boolean | null
+          latitude: number | null
+          lease_term_months: number | null
+          listing_mode: string
+          longitude: number | null
+          max_guests: number | null
+          max_nights: number | null
+          min_credit_score: number | null
+          min_income_multiplier: number | null
+          min_nights: number | null
+          monthly_rent: number | null
+          pet_deposit: number | null
+          pet_fee: number | null
+          pets_allowed: boolean | null
+          photos: Json | null
+          property_type: Database["public"]["Enums"]["property_type"] | null
+          review_count: number | null
+          section_8_accepted: boolean | null
+          security_deposit: number | null
+          security_deposit_amount: number | null
+          service_fee_percent: number | null
+          service_tier: string
+          state: string
+          title: string
+          updated_at: string | null
+          utilities_included: string[] | null
+          weekly_rate: number | null
+          zip_code: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "vacation_properties"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       search_public_businesses: {
         Args: {
           p_category?: string
