@@ -360,6 +360,9 @@ const PropertyDetailPage: React.FC = () => {
                   >
                     <Heart className={cn("w-4 h-4", id && isFavorited(id) && "fill-red-500")} />
                   </Button>
+                  {id && (
+                    <ReportContentButton contentType="property" contentId={id} variant="icon" />
+                  )}
                 </div>
               </div>
 
