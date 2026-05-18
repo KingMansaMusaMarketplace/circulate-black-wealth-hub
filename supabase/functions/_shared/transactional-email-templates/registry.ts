@@ -14,6 +14,7 @@ import { template as businessContactNotification } from './business-contact-noti
 import { template as bookingConfirmation } from './booking-confirmation.tsx'
 import { template as betaTesterWelcome } from './beta-tester-welcome.tsx'
 import { template as businessLiveConfirmation } from './business-live-confirmation.tsx'
+import { template as leaseSavedSearchMatches } from './lease-saved-search-matches.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'contact-confirmation': contactConfirmation,
@@ -21,4 +22,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'booking-confirmation': bookingConfirmation,
   'beta-tester-welcome': betaTesterWelcome,
   'business-live-confirmation': businessLiveConfirmation,
+  'lease-saved-search-matches': leaseSavedSearchMatches,
 }
