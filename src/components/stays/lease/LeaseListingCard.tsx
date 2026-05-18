@@ -40,7 +40,12 @@ const LeaseListingCard: React.FC<{ l: Listing }> = ({ l }) => {
   return (
     <Link to={`/stays/lease/${l.id}`} className="block group">
       <Card className="bg-white/5 border-white/10 overflow-hidden hover:border-mansagold/60 hover:shadow-[0_0_20px_rgba(255,179,0,0.15)] transition h-full flex flex-col">
-        <PhotoCarousel photos={l.photos || []} alt={l.title} className="aspect-[4/3]" />
+        <div className="relative">
+          <PhotoCarousel photos={l.photos || []} alt={l.title} className="aspect-[4/3]" />
+          <span className="absolute top-3 left-3 inline-flex items-center gap-1 bg-mansablue text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md border border-white/10">
+            🔑 Yearly Lease
+          </span>
+        </div>
         <div className="p-4 flex-1 flex flex-col">
           <div className="flex items-start justify-between gap-2">
             <p className="text-mansagold font-bold text-xl">
