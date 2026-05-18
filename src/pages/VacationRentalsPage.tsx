@@ -234,7 +234,7 @@ const VacationRentalsPage: React.FC = () => {
                 Looking for a <span className="text-mansagold">yearly lease</span>?
               </h2>
               <p className="text-white/70 text-sm md:text-base mb-4">
-                Browse apartments, condos, and houses for rent by the year from non-bias property owners. Or list your own property — free to list, $99 only when you successfully lease.
+                Browse apartments, condos, houses, office space and warehouses for rent by the year from non-bias property owners. Or list your own property — free to list, $99 only when you successfully lease.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button
