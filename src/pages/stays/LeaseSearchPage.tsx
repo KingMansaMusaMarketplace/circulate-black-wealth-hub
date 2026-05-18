@@ -152,7 +152,7 @@ const LeaseSearchPage: React.FC = () => {
         <div className="inline-block rounded-2xl bg-black/55 backdrop-blur-sm px-5 py-4 md:px-6 md:py-5 max-w-3xl">
           <h1 className="text-4xl md:text-6xl font-bold mb-3 tracking-tight text-white [text-shadow:_0_2px_18px_rgb(0_0_0_/_80%)]">Find your next home</h1>
           <p className="text-white mb-2 max-w-2xl text-lg [text-shadow:_0_1px_10px_rgb(0_0_0_/_85%)]">
-            Yearly leases on apartments, houses, condos, lofts and townhouses. Direct from landlords — no broker fees for tenants.
+            Yearly leases on apartments, houses, condos, lofts, townhouses, office space and warehouses. Direct from landlords — no broker fees for tenants.
           </p>
           <p className="text-mansagold text-sm font-medium [text-shadow:_0_1px_8px_rgb(0_0_0_/_90%)]">Now live in <strong>Chicago</strong> and <strong>Atlanta</strong> · Listings available nationwide</p>
         </div>
@@ -238,8 +238,8 @@ const LeaseSearchPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Lease an Apartment, House, Condo, Loft or Townhouse | Mansa Stays</title>
-        <meta name="description" content="Find yearly lease apartments, houses, condos, lofts and townhouses on Mansa Stays. Black-owned properties nationwide. Now live in Chicago and Atlanta." />
+        <title>Lease Apartments, Houses, Condos, Office Space & Warehouses | Mansa Stays</title>
+        <meta name="description" content="Find yearly leases on apartments, houses, condos, lofts, townhouses, office space and warehouses on Mansa Stays. Black-owned properties nationwide. Now live in Chicago and Atlanta." />
       </Helmet>
 
       {heroBlock}
