@@ -321,9 +321,11 @@ const MansaStaysAdmin: React.FC = () => {
       </div>
 
       <Tabs defaultValue="properties" className="w-full">
-        <TabsList className="bg-white/5 border border-white/10">
+        <TabsList className="bg-white/5 border border-white/10 flex-wrap h-auto">
           <TabsTrigger value="properties">Properties ({properties.length})</TabsTrigger>
           <TabsTrigger value="bookings">Bookings ({bookings.length})</TabsTrigger>
+          <TabsTrigger value="lease-inquiries">Lease Inquiries ({leaseInquiries.length})</TabsTrigger>
+          <TabsTrigger value="lease-agreements">Lease Agreements ({leaseAgreements.length})</TabsTrigger>
           <TabsTrigger value="hosts">Hosts</TabsTrigger>
           <TabsTrigger value="payouts">Payouts</TabsTrigger>
           <TabsTrigger value="reporting">Reporting</TabsTrigger>
