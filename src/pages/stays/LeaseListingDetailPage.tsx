@@ -14,6 +14,7 @@ import LightboxGallery from "@/components/stays/lease/LightboxGallery";
 import LeaseListingCard from "@/components/stays/lease/LeaseListingCard";
 import LeaseMapView from "@/components/stays/lease/LeaseMapView";
 import { findByValue } from "@/lib/lease/property-types";
+import ReportContentButton from "@/components/stays/ReportContentButton";
 
 const LeaseListingDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
