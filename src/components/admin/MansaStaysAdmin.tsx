@@ -328,6 +328,7 @@ const MansaStaysAdmin: React.FC = () => {
           <TabsTrigger value="lease-agreements">Lease Agreements ({leaseAgreements.length})</TabsTrigger>
           <TabsTrigger value="hosts">Hosts</TabsTrigger>
           <TabsTrigger value="payouts">Payouts</TabsTrigger>
+          <TabsTrigger value="reports">Reports ({reports.filter(r => r.status === 'pending').length})</TabsTrigger>
           <TabsTrigger value="reporting">Reporting</TabsTrigger>
         </TabsList>
 
