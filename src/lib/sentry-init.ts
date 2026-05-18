@@ -5,7 +5,6 @@
  * Must be imported and called BEFORE ReactDOM.createRoot in main.tsx.
  */
 import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/browser';
 
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
@@ -20,7 +19,7 @@ export function initSentry(): void {
   Sentry.init({
     dsn: SENTRY_DSN,
     integrations: [
-      new BrowserTracing(),
+      Sentry.browserTracingIntegration(),
       Sentry.replayIntegration({
         maskAllText: false,
         blockAllMedia: false,
