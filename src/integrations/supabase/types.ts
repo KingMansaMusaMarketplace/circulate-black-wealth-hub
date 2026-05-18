@@ -6589,6 +6589,72 @@ export type Database = {
           },
         ]
       }
+      content_reports: {
+        Row: {
+          admin_notes: string | null
+          content_id: string
+          content_type: string
+          created_at: string
+          details: string | null
+          id: string
+          photo_url: string | null
+          reason: string
+          reporter_email: string | null
+          reporter_id: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          content_id: string
+          content_type: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          photo_url?: string | null
+          reason: string
+          reporter_email?: string | null
+          reporter_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          content_id?: string
+          content_type?: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          photo_url?: string | null
+          reason?: string
+          reporter_email?: string | null
+          reporter_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_reports_reporter_id_fkey"
+            columns: ["reporter_id"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "content_reports_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       corporate_subscriptions: {
         Row: {
           admin_notes: string | null
@@ -22833,6 +22899,7 @@ export type Database = {
           min_credit_score: number | null
           min_income_multiplier: number | null
           min_nights: number | null
+          moderation_status: string
           monthly_rent: number | null
           pet_deposit: number | null
           pet_fee: number | null
@@ -22885,6 +22952,7 @@ export type Database = {
           min_credit_score?: number | null
           min_income_multiplier?: number | null
           min_nights?: number | null
+          moderation_status?: string
           monthly_rent?: number | null
           pet_deposit?: number | null
           pet_fee?: number | null
@@ -22937,6 +23005,7 @@ export type Database = {
           min_credit_score?: number | null
           min_income_multiplier?: number | null
           min_nights?: number | null
+          moderation_status?: string
           monthly_rent?: number | null
           pet_deposit?: number | null
           pet_fee?: number | null
@@ -26224,6 +26293,7 @@ export type Database = {
           min_credit_score: number | null
           min_income_multiplier: number | null
           min_nights: number | null
+          moderation_status: string
           monthly_rent: number | null
           pet_deposit: number | null
           pet_fee: number | null
