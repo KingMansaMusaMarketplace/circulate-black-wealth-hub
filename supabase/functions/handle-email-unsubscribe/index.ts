@@ -1,10 +1,5 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers':
-    'authorization, x-client-info, apikey, content-type, x-csrf-token',
-}
+import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors'
 
 function jsonResponse(data: Record<string, unknown>, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -67,7 +62,7 @@ Deno.serve(async (req) => {
     return jsonResponse({ error: 'Token is required' }, 400)
   }
 
-  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
   // Look up the token
   const { data: tokenRecord, error: lookupError } = await supabase
