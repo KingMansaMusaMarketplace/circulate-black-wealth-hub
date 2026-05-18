@@ -62,6 +62,12 @@ import {
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyPressPage = lazy(() => import('@/pages/PressPage'));
 
+// Mansa Stays — Yearly Leasing
+const LazyLeaseSearchPage = lazy(() => import('@/pages/stays/LeaseSearchPage'));
+const LazyLeaseListingDetailPage = lazy(() => import('@/pages/stays/LeaseListingDetailPage'));
+const LazyHostCreateLeasePage = lazy(() => import('@/pages/stays/HostCreateLeasePage'));
+const LazyTenantConfirmLeasePage = lazy(() => import('@/pages/stays/TenantConfirmLeasePage'));
+
 // Coalition & B2B pages
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
 const LazyB2BMarketplacePage = lazy(() => import('@/pages/B2BMarketplacePage'));
@@ -753,6 +759,10 @@ function App() {
                               <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
                               <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
                               <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
+                              <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
+                              <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
+                              <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
+                              <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
                               <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                               <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
                               <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
@@ -1136,6 +1146,10 @@ function App() {
                         <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
                         <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
                         <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
+                        <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
+                        <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
+                        <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
+                        <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
                         <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
                         <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
                         <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
