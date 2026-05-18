@@ -1,48 +1,20 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
+// Returns the public Mapbox token to the client.
+// pk.* tokens are safe to expose to the browser; we keep this in an edge
+// function only because Lovable secrets cannot use the VITE_ prefix.
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-csrf-token",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
-Deno.serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+Deno.serve((req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
   }
-
-  try {
-    // Public endpoint - Mapbox public tokens are designed for client-side use
-    // and are protected by domain restrictions configured in the Mapbox dashboard
-    const mapboxToken = Deno.env.get('MAPBOX_PUBLIC_TOKEN');
-    
-    if (!mapboxToken) {
-      console.error('MAPBOX_PUBLIC_TOKEN is not configured');
-      return new Response(
-        JSON.stringify({ error: 'Mapbox token not configured' }), 
-        { 
-          status: 500, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
-    }
-
-    console.log('Mapbox token requested');
-
-    return new Response(
-      JSON.stringify({ token: mapboxToken }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    );
-  } catch (error) {
-    console.error('Error getting Mapbox token:', error);
-    return new Response(
-      JSON.stringify({ error: 'Failed to get Mapbox token' }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    );
-  }
+  const token = Deno.env.get("MAPBOX_PUBLIC_TOKEN") ?? "";
+  return new Response(JSON.stringify({ token }), {
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    status: 200,
+  });
 });
