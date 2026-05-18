@@ -242,8 +242,10 @@ const LeaseSearchPage: React.FC = () => {
         <meta name="description" content="Find yearly lease apartments, houses, condos, lofts and townhouses on Mansa Stays. Black-owned properties nationwide. Now live in Chicago and Atlanta." />
       </Helmet>
 
+      {heroBlock}
+
       <BrowseLayout
-        header={header}
+        header={null}
         searchRow={searchRow}
         showFilters={showFilters}
         onToggleFilters={() => setShowFilters((s) => !s)}
@@ -262,12 +264,18 @@ const LeaseSearchPage: React.FC = () => {
         {loading ? (
           <p className="text-white/70">Loading listings…</p>
         ) : empty ? (
-          <Card className="p-8 bg-white/10 border-white/20 text-center">
-            <p className="text-white/90 mb-4">No lease listings match your filters yet.</p>
-            <Button asChild size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold min-h-[48px]">
-              <Link to="/stays/host/lease/new">List Your Property — Free</Link>
-            </Button>
-          </Card>
+          <SmartEmptyState
+            city={filters.city || undefined}
+            maxRent={filters.maxRent ? Number(filters.maxRent) : undefined}
+            onSuggestion={(patch) => {
+              setFilters((f) => ({
+                ...f,
+                ...(patch.city !== undefined ? { city: patch.city } : {}),
+                ...(patch.maxRent !== undefined ? { maxRent: patch.maxRent } : {}),
+              }));
+              setTimeout(() => fetchListings(), 0);
+            }}
+          />
         ) : viewMode === "map" ? (
           <div className="grid lg:grid-cols-5 gap-4">
             <div className="lg:col-span-3">
