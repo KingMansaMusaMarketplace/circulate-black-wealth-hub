@@ -1,61 +1,46 @@
-## Goal
+# Fix: Directory "Failed to load businesses" error
 
-Make sure new businesses and landing pages show up in Google within days — not whenever the next code deploy happens — without any manual work from you.
+## What's actually wrong (plain English)
 
-## What's there today
+The directory page calls two database functions to load the business list and the map pins. Both are timing out because the directory now has **~44,000 businesses** (39,467 with map coordinates), and the search functions weren't written to handle that volume. Postgres cancels them after a few seconds and the frontend shows the red "Something went wrong" card.
 
-Looking at your setup:
+This is a backend (database) issue, not a frontend bug. Refreshing won't help until the functions are fixed.
 
-- `businesses-sitemap.xml` and `landing-sitemap.xml` already **proxy live** to Supabase edge functions (via `public/_redirects`). These are always fresh — every time Google fetches them, they reflect the current database. ✅
-- `images-sitemap.xml` (and its 5 parts) is a **static file** generated at build time. Stale until the next deploy. ⚠️
-- `sitemap.xml` (the index) and `static-sitemap.xml` are also static — but they rarely change (just a list of sitemap names + ~94 core routes), so they don't need weekly refresh.
+## The two slow functions
 
-So the actual "freshness" problem is only:
-1. The **images sitemap** (43,703 images) goes stale between deploys.
-2. Google doesn't know to re-crawl unless something nudges it.
+1. **`search_directory_businesses`** — used for the paginated list. Does a `NOT EXISTS … ILIKE '%token%'` loop across 7 text columns. Postgres can't use the fast text indexes (`gin_trgm`) with that pattern, so it scans every row.
+2. **`get_directory_map_markers`** — used for the map. Returns **all 39k+ markers at once** with no limit, and uses the same slow `ILIKE` pattern for search.
 
-## The plan — 3 small changes
+## The fix
 
-### 1. Make the images sitemap live (no more staleness)
+Replace both functions via a database migration. No frontend changes needed.
 
-Add a proxy redirect in `public/_redirects` so `images-sitemap.xml` is served live from the existing `images-sitemap` edge function — same trick we already use for businesses and landing.
+### `search_directory_businesses`
+- Rewrite the search so the trigram (`gin_trgm`) indexes are actually used: combine the search columns into a single `ILIKE ANY` / `%>` similarity check against `business_name` and `city` (the two fields users actually search).
+- Drop the per-token `NOT EXISTS` subquery. Use a simpler `AND` chain of `ILIKE` against a precomputed search vector.
+- Keep the existing pagination (`p_limit`, `p_offset`) and the `COUNT(*) OVER()` total.
 
-Because images-sitemap is an index pointing to parts (`images-sitemap-1.xml` … `-5.xml`), we'll either:
-- (a) update the edge function to return a single non-chunked sitemap if under the 50k URL / 50MB limit, OR
-- (b) add part-file proxy rules too.
+### `get_directory_map_markers`
+- Add a hard cap (e.g. `LIMIT 2000`) so it never returns 39k rows.
+- Prefer verified + highly-rated markers first (matches what users see on the map anyway).
+- Same simplified search path as above.
 
-I'll pick whichever is simpler after inspecting the edge function output size.
+### Supporting index (if needed)
+- Add a combined trigram index on `(business_name || ' ' || coalesce(city,'') || ' ' || coalesce(category,''))` only if the rewritten query still isn't fast enough after testing.
 
-### 2. Weekly "ping" cron job inside Supabase
+## Verification
 
-Create a new edge function `refresh-sitemaps-weekly` that:
-- Calls each sitemap edge function once (warms cache, confirms healthy).
-- Pings **IndexNow** (one open API used by Bing, Yandex, DuckDuckGo, Naver) with the sitemap URLs — no auth, instant recrawl signal for ~30% of search traffic.
-- Logs success/failure to a small `sitemap_refresh_log` table so you can see it ran.
+After the migration:
+1. Reload `/directory` — the list and map should load in under 2 seconds.
+2. Try a search like "Chicago" or "salon" — results should appear quickly.
+3. Watch the Postgres logs for any remaining `statement timeout` errors.
 
-Schedule it via Supabase `pg_cron` to run every **Monday 6am Chicago time**.
+## What you (the user) need to do
 
-For Google specifically: Google deprecated the old "ping sitemap" endpoint in 2023. Google now auto-recrawls submitted sitemaps every few days on its own — no API ping needed. With option #1 (live images sitemap) above, every Google recrawl will see fresh data automatically.
+Nothing right now. Once you approve this plan, I'll write and run the database migration. You'll see an approval prompt for the SQL change — click approve and the directory will start working again.
 
-### 3. One IndexNow key file
+## Technical details (for reference)
 
-IndexNow needs a small text file at `public/<key>.txt` to verify ownership (just a UUID matching the one we send in the ping). One-time setup.
-
-## What you'll need to do
-
-- Approve this plan — I do everything in code.
-- After deploy, no further action. The cron runs itself.
-- (Optional, in ~1 week) glance at the `sitemap_refresh_log` table to confirm it's pinging.
-
-## Technical details (for the record)
-
-- New file: `supabase/functions/refresh-sitemaps-weekly/index.ts`
-- New file: `public/<indexnow-key>.txt`
-- DB migration: `sitemap_refresh_log` table + `pg_cron` schedule (uses Supabase insert for the cron `SELECT` since it contains the anon key).
-- Edit: `public/_redirects` to add images sitemap proxy.
-- Possible edit: `supabase/functions/images-sitemap/index.ts` if we go with single-file mode.
-- No changes to: existing build-time `scripts/generate-sitemaps.ts`, GSC config, or frontend code.
-
-## Why this is the right approach
-
-You don't have a GitHub-connected auto-deploy pipeline that we can trigger weekly, and Lovable hosting serves static files from the last build. Live edge-function proxying solves the freshness problem at its root, and IndexNow handles the "tell search engines to look again" part for free.
+- Table: `public.businesses`, 44,144 rows total, 44,105 `listing_status='live'`, 39,467 with lat/lng.
+- Existing indexes already include `gin_trgm_ops` on `business_name`, `name`, `city`, `state`, `category`, plus `idx_businesses_live_ranking` and `idx_businesses_live_geo` — they just aren't being used by the current function bodies.
+- Root error from `postgres_logs`: `canceling statement due to statement timeout` on both RPCs, repeating.
