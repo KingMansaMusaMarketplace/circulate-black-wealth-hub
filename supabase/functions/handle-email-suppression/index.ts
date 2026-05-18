@@ -31,15 +31,7 @@ function jsonResponse(data: Record<string, unknown>, status = 200): Response {
   })
 }
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
-}
-
 Deno.serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
-  }
   if (req.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
@@ -78,7 +70,7 @@ Deno.serve(async (req) => {
         default:
           console.error('Webhook verification failed', {
             code: error.code,
-            message: (error as Error).message,
+            message: error.message,
           })
           return jsonResponse({ error: 'Verification failed' }, 401)
       }
@@ -87,7 +79,7 @@ Deno.serve(async (req) => {
     return jsonResponse({ error: 'Internal error' }, 500)
   }
 
-  const supabase = createClient(supabaseUrl, supabaseServiceKey) as any
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
   const normalizedEmail = payload.email.toLowerCase()
 
   // 1. Upsert to suppressed_emails (idempotent — safe for retries)

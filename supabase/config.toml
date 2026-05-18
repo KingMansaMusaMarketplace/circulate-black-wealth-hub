@@ -286,3 +286,6 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.images-sitemap]
     verify_jwt = false
+
+  [functions.lease-saved-search-notify]
+    verify_jwt = false
