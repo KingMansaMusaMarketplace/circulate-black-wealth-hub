@@ -202,10 +202,10 @@ const ROIBlock = ({ delay, value, label, sub }: { delay: number; value: string; 
   const op = interpolate(frame - delay, [0, 25], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const y = interpolate(sp, [0, 1], [40, 0]);
   return (
-    <div style={{ opacity: op, transform: `translateY(${y}px)`, textAlign: "center", padding: "10px 20px" }}>
-      <div style={{ fontFamily: playfair, fontWeight: 900, fontSize: 130, color: GOLD, lineHeight: 1, letterSpacing: -2 }}>{value}</div>
-      <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 26, color: "#FFFFFF", letterSpacing: 4, textTransform: "uppercase", marginTop: 16 }}>{label}</div>
-      {sub && <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 22, color: "#CFD6E0", marginTop: 10 }}>{sub}</div>}
+    <div style={{ opacity: op, transform: `translateY(${y}px)`, textAlign: "center", padding: "10px 12px", minWidth: 0 }}>
+      <div style={{ fontFamily: playfair, fontWeight: 900, fontSize: 78, color: GOLD, lineHeight: 1, letterSpacing: -1, whiteSpace: "nowrap" }}>{value}</div>
+      <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 20, color: "#FFFFFF", letterSpacing: 3, textTransform: "uppercase", marginTop: 14 }}>{label}</div>
+      {sub && <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 18, color: "#CFD6E0", marginTop: 8 }}>{sub}</div>}
     </div>
   );
 };
@@ -216,18 +216,18 @@ export const SceneROI = () => {
   return (
     <AbsoluteFill style={{ background: BG }}>
       <AmbientGlow />
-      <AbsoluteFill style={{ padding: "100px 140px", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+      <AbsoluteFill style={{ padding: "100px 100px", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
         <div style={{ opacity: titleOp, marginBottom: 22, fontFamily: inter, fontWeight: 700, fontSize: 22, color: GOLD, letterSpacing: 10, textTransform: "uppercase" }}>
           ROI & Unit Economics
         </div>
         <div style={{ opacity: titleOp, fontFamily: playfair, fontWeight: 900, fontSize: 112, color: "#FFFFFF", lineHeight: 1, textAlign: "center", maxWidth: 1600, marginBottom: 90 }}>
           The math is <span style={{ color: GOLD }}>devastating.</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 60, width: "100%" }}>
-          <ROIBlock delay={80}  value="$19→$299" label="Monthly Plans" sub="Essentials to Pro" />
-          <ROIBlock delay={140} value="~4 Roles" label="Coverage Per Customer" sub="$12,100+/mo saved" />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 30, width: "100%", alignItems: "start" }}>
+          <ROIBlock delay={80}  value="$19–$299" label="Monthly Plans" sub="Essentials to Pro" />
+          <ROIBlock delay={140} value="~4 Roles" label="Coverage / Customer" sub="$12,100+/mo saved" />
           <ROIBlock delay={200} value="17.6×"    label="LTV / CAC" sub="Forbes-grade unit econ" />
-          <ROIBlock delay={260} value="$96M"     label="FY28 ARR Plan" sub="5 revenue streams" />
+          <ROIBlock delay={260} value="$96M"     label="FY28 ARR Plan" sub="16 revenue streams" />
         </div>
       </AbsoluteFill>
     </AbsoluteFill>
@@ -339,7 +339,7 @@ export const SceneMoat = () => {
         <div style={{ display: "flex", gap: 30, flexWrap: "wrap", justifyContent: "center" }}>
           <MoatCard delay={80}  value="27"  label="Patent Claims" />
           <MoatCard delay={130} value="USPTO" label="63 / 969,202" />
-          <MoatCard delay={180} value="5"   label="Revenue Streams" />
+          <MoatCard delay={180} value="16"  label="Revenue Streams" />
           <MoatCard delay={230} value="NDA" label="First Investor Portal" />
         </div>
         <div style={{ opacity: interpolate(frame, [340, 400], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), marginTop: 70, fontFamily: inter, fontWeight: 300, fontStyle: "italic", fontSize: 32, color: "#E8E8E8", textAlign: "center", maxWidth: 1500 }}>
@@ -369,9 +369,26 @@ export const SceneAsk = () => {
 
   const glow = interpolate(frame % 60, [0, 30, 60], [0.4, 0.8, 0.4]);
 
+  // Founder photo reveal near end
+  const photoOp = interpolate(frame, [720, 800], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const photoY = interpolate(frame, [720, 800], [40, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
   return (
     <AbsoluteFill style={{ background: BG }}>
       <AmbientGlow />
+      {/* Founder portrait — bottom right */}
+      <div style={{
+        position: "absolute",
+        bottom: 0,
+        right: 60,
+        height: 780,
+        opacity: photoOp,
+        transform: `translateY(${photoY}px)`,
+        filter: `drop-shadow(0 0 60px rgba(255,179,0,0.35))`,
+      }}>
+        <Img src={staticFile("images/founder.png")} style={{ height: "100%", width: "auto" }} />
+      </div>
+
       <AbsoluteFill style={{ padding: "80px 140px", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
         <div style={{ opacity: eyeOp, fontFamily: inter, fontWeight: 700, fontSize: 24, color: GOLD, letterSpacing: 12, textTransform: "uppercase", marginBottom: 40 }}>
           The Ask · Series A
