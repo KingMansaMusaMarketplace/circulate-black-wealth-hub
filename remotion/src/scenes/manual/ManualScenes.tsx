@@ -339,7 +339,7 @@ export const SceneMoat = () => {
         <div style={{ display: "flex", gap: 30, flexWrap: "wrap", justifyContent: "center" }}>
           <MoatCard delay={80}  value="27"  label="Patent Claims" />
           <MoatCard delay={130} value="USPTO" label="63 / 969,202" />
-          <MoatCard delay={180} value="5"   label="Revenue Streams" />
+          <MoatCard delay={180} value="16"  label="Revenue Streams" />
           <MoatCard delay={230} value="NDA" label="First Investor Portal" />
         </div>
         <div style={{ opacity: interpolate(frame, [340, 400], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), marginTop: 70, fontFamily: inter, fontWeight: 300, fontStyle: "italic", fontSize: 32, color: "#E8E8E8", textAlign: "center", maxWidth: 1500 }}>
