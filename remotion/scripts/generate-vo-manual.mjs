@@ -34,7 +34,7 @@ const segments = [
   { dur: 24,
     text: "And we're more than software. Mansa Stays — our short-term rental platform — is fully operational, with Stripe Connect host payouts and six hundred fifty optimized landing pages. Noire Rideshare — our driver network — runs at an eighty percent driver take-rate, with a B-to-B hotel concierge channel. Both are live. Both are growing." },
   { dur: 22,
-    text: "The moat is real. Twenty-seven patent claims under U-S-P-T-O sixty-three slash nine-six-nine, two-oh-two. An N-D-A first investor portal. Five revenue streams — SaaS, transaction fees, B-to-B match, sponsorships, and developer A-P-I. Production infrastructure — not slideware." },
+    text: "The moat is real. Twenty-seven patent claims under U-S-P-T-O sixty-three slash nine-six-nine, two-oh-two. An N-D-A first investor portal. Sixteen revenue streams — SaaS, transaction fees, B-to-B match, sponsorships, developer A-P-I, and more. Production infrastructure — not slideware." },
   { dur: 33,
     text: "Thirteen twenty-five A-I is raising thirty million dollars Series A at a one hundred million dollar post-money valuation. The agentic A-I standard for small business will be set in the next twenty-four months — and we intend to set it. From the desk of Thomas D. Bowling, Founder, Chairman, and Chief Architect. Visit thirteen twenty-five dot A-I — and meet your entire C-Suite today." },
 ];
