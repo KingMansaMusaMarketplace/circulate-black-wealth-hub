@@ -369,9 +369,26 @@ export const SceneAsk = () => {
 
   const glow = interpolate(frame % 60, [0, 30, 60], [0.4, 0.8, 0.4]);
 
+  // Founder photo reveal near end
+  const photoOp = interpolate(frame, [720, 800], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const photoY = interpolate(frame, [720, 800], [40, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
   return (
     <AbsoluteFill style={{ background: BG }}>
       <AmbientGlow />
+      {/* Founder portrait — bottom right */}
+      <div style={{
+        position: "absolute",
+        bottom: 0,
+        right: 60,
+        height: 780,
+        opacity: photoOp,
+        transform: `translateY(${photoY}px)`,
+        filter: `drop-shadow(0 0 60px rgba(255,179,0,0.35))`,
+      }}>
+        <Img src={staticFile("images/founder.png")} style={{ height: "100%", width: "auto" }} />
+      </div>
+
       <AbsoluteFill style={{ padding: "80px 140px", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
         <div style={{ opacity: eyeOp, fontFamily: inter, fontWeight: 700, fontSize: 24, color: GOLD, letterSpacing: 12, textTransform: "uppercase", marginBottom: 40 }}>
           The Ask · Series A
