@@ -7,7 +7,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
-const DIGEST_RECIPIENT = "contact@mansamusamarketplace.com";
+const DIGEST_RECIPIENT = Deno.env.get("DIGEST_EMAIL") || "obama4energy@gmail.com";
 const FROM_ADDRESS = "Kayla Ops <onboarding@resend.dev>";
 
 async function gatherDbMetrics(supabase: any) {
