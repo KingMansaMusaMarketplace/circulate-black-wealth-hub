@@ -120,23 +120,46 @@ Deno.serve(async (req) => {
       ...(metricsRaw.kayla_runs !== null ? [{ label: "Kayla agent runs", value: metricsRaw.kayla_runs }] : []),
     ];
 
-    // Send via Lovable Emails (send-transactional-email)
-    let emailStatus = "queued";
+    // Render simple HTML inline (Resend send)
+    const metricsHtml = metrics.map(m => `<tr><td>${m.label}</td><td style="text-align:right"><strong>${m.value}</strong></td></tr>`).join("");
+    const sentryHtml = sentry.enabled
+      ? (sentry.top_issues?.length ? `<ul>${sentry.top_issues.map((i: any) => `<li><a href="${i.permalink}">${i.title}</a> — ${i.count} events</li>`).join("")}</ul>` : `<p style="color:#888">No errors. 🎉</p>`)
+      : `<p style="color:#888">${sentry.note}</p>`;
+    const phHtml = posthog.enabled
+      ? (posthog.top_events?.length ? `<ul>${posthog.top_events.map((e: any) => `<li><strong>${e.event}</strong> — ${e.count.toLocaleString()}</li>`).join("")}</ul>` : `<p style="color:#888">No events.</p>`)
+      : `<p style="color:#888">${posthog.note}</p>`;
+    const html = `<!doctype html><html><body style="font-family:-apple-system,sans-serif;background:#fff;color:#111;padding:24px;max-width:640px;margin:auto">
+      <h1 style="color:#003366">🛡️ Daily Ops Digest</h1>
+      <p style="color:#888">${today} · 1325.AI</p>
+      <h2 style="color:#003366;font-size:18px">📊 Last 24h</h2>
+      <table style="width:100%;border-collapse:collapse">${metricsHtml}</table>
+      <h2 style="color:#003366;font-size:18px;margin-top:24px">🐞 Sentry — Top Errors</h2>${sentryHtml}
+      <h2 style="color:#003366;font-size:18px;margin-top:24px">📈 PostHog — Top Events</h2>${phHtml}
+      <p style="color:#aaa;font-size:11px;margin-top:32px;text-align:center">Sent by Kayla Ops · 1325.AI</p>
+    </body></html>`;
+
+    let emailStatus = "skipped";
     let emailError: string | null = null;
-    try {
-      const { error } = await supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "daily-ops-digest",
-          recipientEmail: DIGEST_RECIPIENT,
-          idempotencyKey: `daily-ops-digest-${today}`,
-          templateData: { date: today, metrics, sentry, posthog },
-        },
-      });
-      if (error) { emailStatus = "failed"; emailError = JSON.stringify(error); }
-    } catch (e) {
-      emailStatus = "failed";
-      emailError = (e as Error).message;
+    const resendKey = Deno.env.get("RESEND_API_KEY");
+    if (resendKey) {
+      try {
+        const resend = new Resend(resendKey);
+        const { error } = await resend.emails.send({
+          from: FROM_ADDRESS,
+          to: [DIGEST_RECIPIENT],
+          subject: `🛡️ 1325.AI Daily Ops Digest — ${today}`,
+          html,
+        });
+        emailStatus = error ? "failed" : "sent";
+        if (error) emailError = JSON.stringify(error);
+      } catch (e) {
+        emailStatus = "failed";
+        emailError = (e as Error).message;
+      }
+    } else {
+      emailError = "RESEND_API_KEY not configured";
     }
+
 
     await supabase.from("daily_ops_digests").upsert({
       digest_date: today,
