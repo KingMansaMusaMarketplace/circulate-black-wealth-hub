@@ -165,6 +165,62 @@ async function getAgentStats(
   };
 }
 
+// --- Web Research (Firecrawl) ---
+
+async function webResearch(args: {
+  mode?: "search" | "scrape" | "summarize";
+  query?: string;
+  url?: string;
+  limit?: number;
+}) {
+  const apiKey = Deno.env.get("FIRECRAWL_API_KEY");
+  if (!apiKey) throw new Error("FIRECRAWL_API_KEY is not configured");
+
+  const mode = args.mode || (args.url ? "scrape" : "search");
+  const base = "https://api.firecrawl.dev/v2";
+
+  if (mode === "search") {
+    if (!args.query) throw new Error("query is required for search mode");
+    const res = await fetch(`${base}/search`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ query: args.query, limit: Math.min(args.limit || 5, 10) }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `Firecrawl search failed [${res.status}]`);
+    const results = (data.data?.web || data.data || []).slice(0, 10).map((r: any) => ({
+      title: r.title,
+      url: r.url,
+      description: r.description || r.snippet,
+    }));
+    return { mode: "search", query: args.query, results, count: results.length };
+  }
+
+  if (mode === "scrape" || mode === "summarize") {
+    if (!args.url) throw new Error("url is required for scrape/summarize mode");
+    const formats = mode === "summarize" ? ["summary"] : ["markdown"];
+    const res = await fetch(`${base}/scrape`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ url: args.url, formats, onlyMainContent: true }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `Firecrawl scrape failed [${res.status}]`);
+    const doc = data.data || data;
+    const content = mode === "summarize"
+      ? (doc.summary || doc.data?.summary)
+      : (doc.markdown || doc.data?.markdown || "").slice(0, 8000);
+    return {
+      mode,
+      url: args.url,
+      title: doc.metadata?.title || doc.data?.metadata?.title,
+      content,
+    };
+  }
+
+  throw new Error(`Unknown web_research mode: ${mode}`);
+}
+
 // --- Determine user role ---
 
 async function getUserRole(supabase: any, userId: string) {
