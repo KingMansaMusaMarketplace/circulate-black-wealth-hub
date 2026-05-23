@@ -71,6 +71,87 @@ async function retrieveRAGContext(
   }
 }
 
+// Retrieve persistent personal memory for this user — pulls past session summaries
+// and any learnings Kayla has saved about the user's business. Returns a string
+// ready to append to the system prompt.
+async function retrievePersonalMemory(
+  userId: string,
+  supabase: any,
+  currentSessionId: string,
+): Promise<string> {
+  try {
+    // 1) Last 3 prior conversations (excluding current session)
+    const { data: priorSessions } = await supabase
+      .from('ai_chat_sessions')
+      .select('title, messages, updated_at')
+      .eq('user_id', userId)
+      .neq('id', currentSessionId)
+      .order('updated_at', { ascending: false })
+      .limit(3);
+
+    // 2) If this user owns a business, grab its context + recent learnings
+    const { data: business } = await supabase
+      .from('business_directory')
+      .select('id, business_name')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    let learnings: any[] = [];
+    let bizContext: any = null;
+    if (business?.id) {
+      const [{ data: l }, { data: ctx }] = await Promise.all([
+        supabase
+          .from('kayla_learnings')
+          .select('learning, agent_name, confidence, created_at')
+          .eq('business_id', business.id)
+          .gte('confidence', 0.6)
+          .order('created_at', { ascending: false })
+          .limit(8),
+        supabase
+          .from('kayla_business_context')
+          .select('summary, goals, preferences, key_metrics')
+          .eq('business_id', business.id)
+          .maybeSingle(),
+      ]);
+      learnings = l || [];
+      bizContext = ctx || null;
+    }
+
+    if (!priorSessions?.length && !learnings.length && !bizContext) return '';
+
+    const parts: string[] = ['\n\n[KAYLA PERSONAL MEMORY — what you remember about this user from prior interactions. Reference naturally when relevant.]'];
+
+    if (bizContext) {
+      parts.push(`\nBusiness context for ${business?.business_name || 'this user'}:`);
+      if (bizContext.summary) parts.push(`- Summary: ${bizContext.summary}`);
+      if (bizContext.goals) parts.push(`- Goals: ${JSON.stringify(bizContext.goals).slice(0, 300)}`);
+      if (bizContext.preferences) parts.push(`- Preferences: ${JSON.stringify(bizContext.preferences).slice(0, 300)}`);
+    }
+
+    if (learnings.length) {
+      parts.push(`\nThings you have learned about ${business?.business_name || 'them'}:`);
+      learnings.forEach((l) => parts.push(`- (${l.agent_name}) ${l.learning}`));
+    }
+
+    if (priorSessions?.length) {
+      parts.push(`\nPrior conversations (most recent first):`);
+      priorSessions.forEach((s: any) => {
+        const lastUser = Array.isArray(s.messages) ? s.messages.filter((m: any) => m.role === 'user').slice(-1)[0] : null;
+        const snippet = lastUser ? (typeof lastUser.content === 'string' ? lastUser.content : JSON.stringify(lastUser.content)).slice(0, 140) : s.title;
+        parts.push(`- ${new Date(s.updated_at).toLocaleDateString()}: "${snippet}"`);
+      });
+    }
+
+    console.log(`[Personal memory] Injected ${learnings.length} learnings, ${priorSessions?.length || 0} prior sessions`);
+    return parts.join('\n');
+  } catch (e) {
+    console.error('[Personal memory] retrieval failed (non-fatal):', e);
+    return '';
+  }
+}
+
+
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
@@ -690,6 +771,11 @@ Deno.serve(async (req) => {
         console.log("RAG context injected into system prompt");
       }
     }
+
+    // ========== PERSONAL MEMORY (prior sessions + learnings + business context) ==========
+    const personalMemory = await retrievePersonalMemory(user.id, supabase, sessionId);
+    if (personalMemory) systemPrompt += personalMemory;
+
 
     // ========== ROUTE TO PROVIDER(S) ==========
     let responseStream: Response;

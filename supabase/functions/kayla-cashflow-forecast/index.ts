@@ -91,7 +91,7 @@ Return forecasts for the next 3 months. Each forecast should include:
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-3.1-pro-preview",
         messages: [
           { role: "system", content: "You are a financial forecasting AI. Return structured data." },
           { role: "user", content: prompt },
