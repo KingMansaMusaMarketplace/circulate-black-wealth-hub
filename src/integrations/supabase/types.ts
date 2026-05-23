@@ -7161,6 +7161,39 @@ export type Database = {
           },
         ]
       }
+      daily_ops_digests: {
+        Row: {
+          created_at: string
+          digest_date: string
+          email_sent_to: string | null
+          email_status: string | null
+          id: string
+          metrics: Json
+          posthog_summary: Json | null
+          sentry_summary: Json | null
+        }
+        Insert: {
+          created_at?: string
+          digest_date: string
+          email_sent_to?: string | null
+          email_status?: string | null
+          id?: string
+          metrics?: Json
+          posthog_summary?: Json | null
+          sentry_summary?: Json | null
+        }
+        Update: {
+          created_at?: string
+          digest_date?: string
+          email_sent_to?: string | null
+          email_status?: string | null
+          id?: string
+          metrics?: Json
+          posthog_summary?: Json | null
+          sentry_summary?: Json | null
+        }
+        Relationships: []
+      }
       deal_scores: {
         Row: {
           ai_reasoning: string | null
