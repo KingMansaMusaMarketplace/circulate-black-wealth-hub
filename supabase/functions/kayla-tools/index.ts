@@ -295,6 +295,7 @@ Deno.serve(async (req) => {
       get_nearby_businesses: () => getNearbyBusinesses(supabase, toolArgs),
       check_loyalty_points: () => checkLoyaltyPoints(supabase, user.id),
       get_upcoming_bookings: () => getUpcomingBookings(supabase, user.id),
+      web_research: () => webResearch(toolArgs || {}),
     };
 
     // Business owner tools
