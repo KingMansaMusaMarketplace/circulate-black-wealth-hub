@@ -60,7 +60,7 @@ Create a complete, legally-informed template with placeholders in [BRACKETS] for
       method: "POST",
       headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-3.1-pro-preview",
         messages: [{ role: "user", content: prompt }],
         tools: [{
           type: "function",
