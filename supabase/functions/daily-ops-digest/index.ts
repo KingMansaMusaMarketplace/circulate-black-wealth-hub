@@ -7,7 +7,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
-const DIGEST_RECIPIENT = Deno.env.get("DIGEST_EMAIL") || "obama4energy@gmail.com";
+const DIGEST_RECIPIENT = Deno.env.get("DIGEST_EMAIL") || "Thomas@1325.ai";
 const FROM_ADDRESS = "Kayla Ops <onboarding@resend.dev>";
 
 async function gatherDbMetrics(supabase: any) {
@@ -29,7 +29,6 @@ async function gatherDbMetrics(supabase: any) {
   ]);
 
   return {
-    window_hours: 24,
     new_users: newUsers.count ?? 0,
     new_businesses: newBusinesses.count ?? 0,
     new_bookings: newBookings.count ?? 0,
@@ -96,43 +95,6 @@ async function fetchPostHog() {
   }
 }
 
-function renderHtml(date: string, metrics: any, sentry: any, posthog: any) {
-  const sentrySection = sentry.enabled
-    ? sentry.top_issues?.length
-      ? `<ul>${sentry.top_issues.map((i: any) => `<li><a href="${i.permalink}">${i.title}</a> — ${i.count} events, ${i.users} users (${i.level})</li>`).join("")}</ul>`
-      : `<p style="color:#888">No errors in the last 24h. 🎉</p>`
-    : `<p style="color:#888">${sentry.note || "Sentry not configured."}</p>`;
-
-  const phSection = posthog.enabled
-    ? posthog.top_events?.length
-      ? `<ul>${posthog.top_events.map((e: any) => `<li><strong>${e.event}</strong> — ${e.count.toLocaleString()}</li>`).join("")}</ul>`
-      : `<p style="color:#888">No events tracked.</p>`
-    : `<p style="color:#888">${posthog.note || "PostHog not configured."}</p>`;
-
-  return `<!doctype html><html><body style="font-family:-apple-system,system-ui,sans-serif;background:#0a0a0a;color:#fff;padding:24px;max-width:640px;margin:auto">
-  <h1 style="color:#FFB300;margin:0 0 8px">🛡️ Daily Ops Digest</h1>
-  <p style="color:#888;margin:0 0 24px">${date} · 1325.AI</p>
-
-  <h2 style="color:#FFB300;font-size:18px;border-bottom:1px solid #333;padding-bottom:6px">📊 Last 24h</h2>
-  <table style="width:100%;border-collapse:collapse">
-    <tr><td>New users</td><td style="text-align:right"><strong>${metrics.new_users}</strong></td></tr>
-    <tr><td>New businesses</td><td style="text-align:right"><strong>${metrics.new_businesses}</strong></td></tr>
-    <tr><td>New bookings</td><td style="text-align:right"><strong>${metrics.new_bookings}</strong></td></tr>
-    <tr><td>New reviews</td><td style="text-align:right"><strong>${metrics.new_reviews}</strong></td></tr>
-    ${metrics.qr_scans !== null ? `<tr><td>QR scans</td><td style="text-align:right"><strong>${metrics.qr_scans}</strong></td></tr>` : ""}
-    ${metrics.kayla_runs !== null ? `<tr><td>Kayla agent runs</td><td style="text-align:right"><strong>${metrics.kayla_runs}</strong></td></tr>` : ""}
-  </table>
-
-  <h2 style="color:#FFB300;font-size:18px;border-bottom:1px solid #333;padding-bottom:6px;margin-top:24px">🐞 Sentry — Top Errors</h2>
-  ${sentrySection}
-
-  <h2 style="color:#FFB300;font-size:18px;border-bottom:1px solid #333;padding-bottom:6px;margin-top:24px">📈 PostHog — Top Events</h2>
-  ${phSection}
-
-  <p style="color:#555;font-size:12px;margin-top:32px">Sent by Kayla Ops · 1325.AI</p>
-  </body></html>`;
-}
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -143,13 +105,38 @@ Deno.serve(async (req) => {
 
   try {
     const today = new Date().toISOString().split("T")[0];
-    const [metrics, sentry, posthog] = await Promise.all([
+    const [metricsRaw, sentry, posthog] = await Promise.all([
       gatherDbMetrics(supabase),
       fetchSentry(),
       fetchPostHog(),
     ]);
 
-    const html = renderHtml(today, metrics, sentry, posthog);
+    const metrics = [
+      { label: "New users", value: metricsRaw.new_users },
+      { label: "New businesses", value: metricsRaw.new_businesses },
+      { label: "New bookings", value: metricsRaw.new_bookings },
+      { label: "New reviews", value: metricsRaw.new_reviews },
+      ...(metricsRaw.qr_scans !== null ? [{ label: "QR scans", value: metricsRaw.qr_scans }] : []),
+      ...(metricsRaw.kayla_runs !== null ? [{ label: "Kayla agent runs", value: metricsRaw.kayla_runs }] : []),
+    ];
+
+    // Render simple HTML inline (Resend send)
+    const metricsHtml = metrics.map(m => `<tr><td>${m.label}</td><td style="text-align:right"><strong>${m.value}</strong></td></tr>`).join("");
+    const sentryHtml = sentry.enabled
+      ? (sentry.top_issues?.length ? `<ul>${sentry.top_issues.map((i: any) => `<li><a href="${i.permalink}">${i.title}</a> — ${i.count} events</li>`).join("")}</ul>` : `<p style="color:#888">No errors. 🎉</p>`)
+      : `<p style="color:#888">${sentry.note}</p>`;
+    const phHtml = posthog.enabled
+      ? (posthog.top_events?.length ? `<ul>${posthog.top_events.map((e: any) => `<li><strong>${e.event}</strong> — ${e.count.toLocaleString()}</li>`).join("")}</ul>` : `<p style="color:#888">No events.</p>`)
+      : `<p style="color:#888">${posthog.note}</p>`;
+    const html = `<!doctype html><html><body style="font-family:-apple-system,sans-serif;background:#fff;color:#111;padding:24px;max-width:640px;margin:auto">
+      <h1 style="color:#003366">🛡️ Daily Ops Digest</h1>
+      <p style="color:#888">${today} · 1325.AI</p>
+      <h2 style="color:#003366;font-size:18px">📊 Last 24h</h2>
+      <table style="width:100%;border-collapse:collapse">${metricsHtml}</table>
+      <h2 style="color:#003366;font-size:18px;margin-top:24px">🐞 Sentry — Top Errors</h2>${sentryHtml}
+      <h2 style="color:#003366;font-size:18px;margin-top:24px">📈 PostHog — Top Events</h2>${phHtml}
+      <p style="color:#aaa;font-size:11px;margin-top:32px;text-align:center">Sent by Kayla Ops · 1325.AI</p>
+    </body></html>`;
 
     let emailStatus = "skipped";
     let emailError: string | null = null;
@@ -173,9 +160,10 @@ Deno.serve(async (req) => {
       emailError = "RESEND_API_KEY not configured";
     }
 
+
     await supabase.from("daily_ops_digests").upsert({
       digest_date: today,
-      metrics,
+      metrics: metricsRaw,
       sentry_summary: sentry,
       posthog_summary: posthog,
       email_sent_to: DIGEST_RECIPIENT,
@@ -183,7 +171,7 @@ Deno.serve(async (req) => {
     }, { onConflict: "digest_date" });
 
     return new Response(
-      JSON.stringify({ ok: true, date: today, metrics, sentry, posthog, emailStatus, emailError }),
+      JSON.stringify({ ok: true, date: today, metrics: metricsRaw, sentry, posthog, emailStatus, emailError }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {
