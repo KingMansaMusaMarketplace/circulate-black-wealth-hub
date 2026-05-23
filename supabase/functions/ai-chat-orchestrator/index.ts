@@ -772,6 +772,11 @@ Deno.serve(async (req) => {
       }
     }
 
+    // ========== PERSONAL MEMORY (prior sessions + learnings + business context) ==========
+    const personalMemory = await retrievePersonalMemory(user.id, supabase, sessionId);
+    if (personalMemory) systemPrompt += personalMemory;
+
+
     // ========== ROUTE TO PROVIDER(S) ==========
     let responseStream: Response;
     let modelUsed = 'gemini';
