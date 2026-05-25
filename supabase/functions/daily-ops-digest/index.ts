@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 const DIGEST_RECIPIENT = Deno.env.get("DIGEST_EMAIL") || "Thomas@1325.ai";
-const FROM_ADDRESS = "Kayla Ops <onboarding@resend.dev>";
+const FROM_ADDRESS = "Kayla Ops <noreply@1325.ai>";
 
 async function gatherDbMetrics(supabase: any) {
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
