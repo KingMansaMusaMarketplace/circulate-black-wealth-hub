@@ -125,7 +125,7 @@ const handler = async (req: Request): Promise<Response> => {
       for (const recipient of recipients) {
         try {
           await resend.emails.send({
-            from: "Admin Notifications <onboarding@resend.dev>",
+            from: "Admin Notifications <noreply@1325.ai>",
             to: [recipient],
             subject: `${events.length} ${getNotificationTypeLabel(notificationType)} Notifications`,
             html: emailHtml,
@@ -200,7 +200,7 @@ async function sendIndividualNotification(supabase: any, resend: any, event: any
   for (const recipient of recipients) {
     try {
       await resend.emails.send({
-        from: "Admin Notifications <onboarding@resend.dev>",
+        from: "Admin Notifications <noreply@1325.ai>",
         to: [recipient],
         subject: getNotificationSubject(event.notification_type, event.event_data),
         html: emailHtml,

@@ -331,7 +331,7 @@ Deno.serve(async (req) => {
   try {
     const resend = new Resend(resendKey)
     const { data, error } = await resend.emails.send({
-      from: `${SITE_NAME} <onboarding@resend.dev>`, // TODO: switch to noreply@1325.ai once verified on Resend
+      from: `${SITE_NAME} <noreply@1325.ai>`, // TODO: switch to noreply@1325.ai once verified on Resend
       to: [effectiveRecipient],
       subject: resolvedSubject,
       html: htmlWithFooter,
