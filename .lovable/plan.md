@@ -1,51 +1,62 @@
-# Plan — Gemini Enterprise Sponsor Add-On (Option C)
+# Plan: Fix Items 1, 2, 3 from Manus.ai Audit
 
-Two PDF artifacts + one memory entry. Zero app code changes. Matches the v2 investor doc style (True Black, MansaBlue #003366, MansaGold #FFB300, Liberation Sans).
+## Item 1 — Sync business counts to "43,000+"
 
-## Deliverable 1 — Sponsor Deck Slide (PDF, 1 page)
+Replace every hardcoded "36,000+" and "50,000+" with **"43,000+"** across:
 
-File: `/mnt/documents/1325AI_Sponsor_AddOn_GeminiEnterprise.pdf`
+- `index.html` — `<title>`, meta description, OG tags, Twitter tags, JSON-LD blocks, noscript body
+- `src/utils/seoUtils.ts` — home, directory, about, signup page SEO
+- `src/components/Hero.tsx` — hero subtitle
+- `src/pages/DirectoryPage.tsx` — header count line
+- `src/pages/BusinessSignupPage.tsx` — meta + the "50,000+" stat card
+- `src/pages/InstitutionalAPIPage.tsx` — body copy
+- `src/components/SEO/WebsiteStructuredData.tsx` + `OrganizationStructuredData.tsx`
+- `src/components/AboutPage/InteractiveVisionTimeline.tsx`
+- `src/pages/developers/ShowcaseGalleryPage.tsx`
+- `public/llms.txt`
 
-Content:
-- Header: 1325.AI logo + "Corporate Sponsor Add-On"
-- Title: **Enterprise Knowledge Layer — Powered by Gemini Enterprise**
-- Tagline: "Phase 2 activation. Unlocks upon signed sponsor contract."
-- 3 benefit bullets:
-  1. Multimodal intake (receipts, contracts, photos, video) routed to your sponsor dashboard
-  2. Grounded search across your brand's owned content + 1325.AI directory signals
-  3. Custom agent actions inside Kayla's 33-agent ecosystem, scoped to your campaign
-- "What's included" mini-table (Setup / Monthly / SLA / Data residency)
-- Footer: USPTO 63/969,202 • Confidential • IL law
+Leaving the live "43,964+" counter on the directory page alone — it pulls the real DB number and is accurate.
 
-## Deliverable 2 — Internal Price Sheet (PDF, 1 page)
+## Item 2 — Fix Restaurants (and other popular-category chips) returning empty
 
-File: `/mnt/documents/1325AI_GeminiEnterprise_PriceSheet_INTERNAL.pdf`
+**Root cause:** chips send the label `"Restaurants"` (plural, group name) but the DB stores `"Restaurant"`, `"Soul Food Restaurant"`, `"Caribbean Restaurant"`, etc. The filter does a literal equality match → zero results.
 
-Marked **INTERNAL — DO NOT DISTRIBUTE** in header.
+**Fix:**
+1. In `src/lib/api/directory/fetch-businesses.ts`, when the incoming `category` filter matches a **group key** in `src/lib/seo/category-groups.ts`, expand it to the group's list of DB categories and filter with `.in('category', [...])` instead of `.eq('category', ...)`.
+2. Apply the same expansion in the non-authenticated `business_directory` query path.
+3. Apply to the `useCachedBusinesses` hook too so cached lookups stay consistent.
 
-Table:
-| Line item | Price | Notes |
-|---|---|---|
-| One-time setup | $25,000 | Provisioning, brand knowledge ingestion, agent wiring |
-| Monthly license | $8,000/mo | 12-mo min term |
-| Overage (query bursts) | $0.015/query >100k/mo | Pass-through + 30% margin |
-| White-glove onboarding | $5,000 (optional) | 2 workshops |
-| **Target blended margin** | **~62%** | After Google Cloud pass-through |
+Verification: after the fix, clicking "Restaurants" from the home page popular categories should land on `/directory?category=Restaurants` and immediately show thousands of results.
 
-Plus:
-- Trigger to build: signed PO + 50% setup paid
-- Kill switch: 30-day notice, data export included
-- Why this price: anchored to Salesforce Einstein / Glean enterprise tiers
+## Item 3 — Fix empty states (Stays + Blog)
 
-## Deliverable 3 — Project Memory Entry
+**Mansa Stays** (`src/pages/stays/LeaseSearchPage.tsx` and any landing page showing "0+ Properties"):
+- Add a prominent **"Beta — Launching Soon"** banner at the top (gold accent line, navy card, matches brand)
+- Replace the "0 properties found" empty result with a friendly "We're onboarding hosts now — join the beta waitlist" card with the existing CTA
+- Keep navigation working; no routes removed
 
-New file: `mem://features/gemini-enterprise-addon`
-- Rule: Do NOT build Gemini Enterprise integration on spec. Only activate after signed sponsor PO + 50% setup paid. Pricing: $25K setup + $8K/mo. SKU lives in internal price sheet.
-- Update `mem://index.md` Memories section to reference it.
+**Blog** (`src/pages/BlogPage.tsx`):
+- Hide the placeholder grid
+- Show a single centered "Articles coming soon — subscribe for the first issue" card with an email signup (or link to existing newsletter form if present)
+- Keep the route live so external links don't 404
+- Leave the footer link in place (it lands on the Coming Soon card, not a list of empty placeholders)
 
-## Out of scope (intentionally)
-- No Gemini API code, no edge functions, no UI changes, no public pricing page edits.
-- No changes to the v2 investor PDF.
+## What I'm NOT changing in this pass
 
-## Next step for you
-Approve this plan → I'll generate both PDFs, run visual QA on every page, save the memory, and drop the artifact links in chat.
+- Skeleton loaders (item 4 from Manus)
+- OG image self-hosting (item 6)
+- Contrast / mobile Kayla overlay (item 5)
+- Directory back-button behavior
+
+These are on the deferred list and can be a follow-up task.
+
+## Verification after build
+
+1. View `/` → hero says "43,000+"
+2. Click "Restaurants" chip → see thousands of restaurants
+3. View `/stays` → "Beta — Launching Soon" banner visible
+4. View `/blog` → single "Coming Soon" card, no broken placeholders
+
+---
+
+**Reply "go" to approve and I'll implement all three in one pass.**
