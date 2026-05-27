@@ -242,6 +242,21 @@ const LeaseSearchPage: React.FC = () => {
         <meta name="description" content="Find yearly leases on apartments, houses, condos, lofts, townhouses, office space and warehouses on Mansa Stays. Black-owned properties nationwide. Now live in Chicago and Atlanta." />
       </Helmet>
 
+      {/* Beta banner — Mansa Stays is onboarding hosts; sets honest expectations */}
+      <div className="bg-gradient-to-r from-mansablue via-mansablue to-mansablue/90 border-b border-mansagold/40">
+        <div className="container mx-auto px-4 py-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-mansagold text-mansablue text-xs font-bold uppercase tracking-wide">
+            <Sparkles className="h-3 w-3" /> Beta
+          </span>
+          <p className="text-sm text-white/95">
+            Mansa Stays is launching soon — we're onboarding Black-owned hosts now.{" "}
+            <Link to="/stays/become-host" className="font-semibold text-mansagold hover:underline">
+              List your property →
+            </Link>
+          </p>
+        </div>
+      </div>
+
       {heroBlock}
 
       <BrowseLayout

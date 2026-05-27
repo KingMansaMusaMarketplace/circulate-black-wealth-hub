@@ -140,47 +140,25 @@ const BlogPage = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                {comingSoonPosts.map((post, index) => {
-                  const gradients = [
-                    { badge: 'from-mansablue to-blue-600', icon: 'text-mansablue' },
-                    { badge: 'from-green-500 to-emerald-600', icon: 'text-green-400' },
-                    { badge: 'from-mansagold to-amber-500', icon: 'text-mansagold' }
-                  ];
-                  const style = gradients[index % gradients.length];
-                  
-                  return (
-                    <Card key={index} className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 hover:shadow-xl hover:shadow-mansagold/20 transition-all duration-300 hover:scale-105">
-                      <CardHeader>
-                        <div className="flex items-center justify-between mb-3">
-                          <span className={`text-xs font-bold text-white bg-gradient-to-r ${style.badge} px-3 py-1.5 rounded-full shadow-lg`}>
-                            {post.category}
-                          </span>
-                          <span className="text-xs font-semibold text-orange-300 bg-orange-500/20 border border-orange-500/30 px-2 py-1 rounded-full">Coming Soon</span>
-                        </div>
-                        <CardTitle className="text-lg text-white font-bold">
-                          {post.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-blue-100/90 text-sm mb-4 leading-relaxed">
-                          {post.excerpt}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-blue-200/70">
-                          <div className="flex items-center gap-1 font-medium">
-                            <User className="h-3 w-3" />
-                            {post.author}
-                          </div>
-                          <div className="flex items-center gap-1 font-medium">
-                            <Clock className="h-3 w-3" />
-                            {post.readTime}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
+              {/* Coming Soon hero card — replaces placeholder grid until real posts publish */}
+              <Card className="bg-slate-800/60 backdrop-blur-xl border-mansagold/30 mb-12">
+                <CardContent className="p-10 text-center">
+                  <div className="inline-block mb-4">
+                    <div className="p-4 bg-gradient-to-br from-mansagold/20 to-amber-500/20 rounded-full border border-mansagold/40">
+                      <BookOpen className="h-10 w-10 text-mansagold" />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                    First articles publishing soon
+                  </h3>
+                  <p className="text-blue-100/90 max-w-xl mx-auto text-base md:text-lg">
+                    Subscribe below and we'll email you the moment the first
+                    issue drops — stories on economic empowerment, founder
+                    journeys, and the data behind dollar circulation.
+                  </p>
+                </CardContent>
+              </Card>
+
 
               {/* Newsletter Signup */}
               <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:shadow-xl hover:shadow-mansagold/20 transition-all duration-300">
