@@ -25,7 +25,7 @@ export default function InstitutionalAPIPage() {
         <Badge className="mb-4">For Banks · Foundations · Researchers</Badge>
         <h1 className="text-5xl font-bold mb-4">Data & Insights API</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Tap into the largest anonymized dataset of dollar circulation across 50,000+ verified Black-owned businesses.
+          Tap into the largest anonymized dataset of dollar circulation across 43,000+ verified Black-owned businesses.
           CRA-compliant. Privacy-first. Patent-protected ledger.
         </p>
       </div>

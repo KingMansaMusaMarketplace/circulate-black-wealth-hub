@@ -5,6 +5,7 @@ import { Business } from '@/types/business';
 import { BusinessFilters, PaginationParams, BusinessQueryResult } from './types';
 import { calculateDistance } from './utils';
 import { mapSupabaseBusinessToBusiness } from './mappers';
+import { expandCategoryGroup } from './expand-category';
 
 export async function fetchBusinesses(
   filters?: BusinessFilters, 
@@ -18,8 +19,13 @@ export async function fetchBusinesses(
     const limit = pagination?.pageSize || 20;
     const offset = pagination ? (pagination.page - 1) * pagination.pageSize : 0;
 
-    if (!user) {
-      // Use business_directory view for non-authenticated users
+    // If the requested category is a category-group label/slug (e.g. "Restaurants"),
+    // expand it to the list of concrete DB categories so .in() matches all of them.
+    const expandedCategories = expandCategoryGroup(filters?.category);
+
+    if (!user || expandedCategories) {
+      // Use business_directory view for non-authenticated users, AND for any
+      // category-group lookup (the RPC only accepts a single category string).
       let query = supabase
         .from('business_directory')
         .select('*', { count: 'exact' });
@@ -28,7 +34,9 @@ export async function fetchBusinesses(
         query = query.or(`business_name.ilike.%${filters.searchTerm}%,category.ilike.%${filters.searchTerm}%`);
       }
       
-      if (filters?.category && filters.category !== 'all') {
+      if (expandedCategories) {
+        query = query.in('category', expandedCategories);
+      } else if (filters?.category && filters.category !== 'all') {
         query = query.eq('category', filters.category);
       }
       
@@ -58,7 +66,7 @@ export async function fetchBusinesses(
       return { businesses, totalCount, totalPages };
     }
     
-    // Authenticated users can use the RPC function for full functionality
+    // Authenticated users with a single concrete category use the RPC function.
     const { data, error } = await supabase
       .rpc('search_public_businesses', {
         p_search_term: filters?.searchTerm || null,

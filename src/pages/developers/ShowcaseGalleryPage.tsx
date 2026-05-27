@@ -17,7 +17,7 @@ const ShowcaseGalleryPage = () => {
       category: 'Marketplace',
       apisUsed: ['CMAL Engine', 'Fraud Detection'],
       metrics: {
-        users: '50,000+',
+        users: '43,000+',
         impact: '$2.3M tracked',
         rating: 4.8,
       },

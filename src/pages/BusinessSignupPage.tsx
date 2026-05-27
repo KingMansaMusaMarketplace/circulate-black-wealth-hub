@@ -251,7 +251,7 @@ const BusinessSignupPage: React.FC = () => {
     {
       icon: BarChart3,
       title: 'Business Profile & Directory',
-      description: 'Get discovered in our 50,000+ verified listings',
+      description: 'Get discovered in our 43,000+ verified listings',
       details: [
         'Public business listing',
         'Customer reviews & ratings',
@@ -421,9 +421,9 @@ const BusinessSignupPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative flex flex-col justify-center py-12">
       <Helmet>
         <title>List Your Black-Owned Business Free | 1325.AI</title>
-        <meta name="description" content="Add your Black-owned business to 1325.AI in 2 minutes. Get found by 36,000+ supporters and unlock Kayla, your free AI employee (~4 roles covered)." />
+        <meta name="description" content="Add your Black-owned business to 1325.AI in 2 minutes. Get found by 43,000+ supporters and unlock Kayla, your free AI employee (~4 roles covered)." />
         <meta property="og:title" content="List Your Black-Owned Business Free | 1325.AI" />
-        <meta property="og:description" content="Get found by 36,000+ supporters and unlock free AI-powered customer tools." />
+        <meta property="og:description" content="Get found by 43,000+ supporters and unlock free AI-powered customer tools." />
         <link rel="canonical" href="https://1325.ai/business-signup" />
       </Helmet>
 
@@ -609,7 +609,7 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
-                    <p className="text-3xl font-bold text-blue-400">50,000+</p>
+                    <p className="text-3xl font-bold text-blue-400">43,000+</p>
                     <p className="text-sm text-slate-400">Verified Listings</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />

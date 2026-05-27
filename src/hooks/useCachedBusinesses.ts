@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { expandCategoryGroup } from '@/lib/api/directory/expand-category';
 
 interface Business {
   id: string;
@@ -40,7 +41,12 @@ export const useCachedBusinesses = (filters?: BusinessFilters, limit = 20) => {
         .limit(limit);
 
       if (filters?.category && filters.category !== 'all') {
-        query = query.eq('category', filters.category);
+        const expanded = expandCategoryGroup(filters.category);
+        if (expanded) {
+          query = query.in('category', expanded);
+        } else {
+          query = query.eq('category', filters.category);
+        }
       }
 
       if (filters?.city) {
