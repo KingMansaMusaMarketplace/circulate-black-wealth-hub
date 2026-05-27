@@ -132,13 +132,14 @@ const Hero = () => {
         <div className="max-w-3xl lg:max-w-5xl mx-auto text-center">
           {/* Mission tagline */}
           <motion.p
-            className="text-sm md:text-base font-semibold text-mansagold uppercase tracking-widest mb-4"
+            className="text-xs md:text-sm font-medium text-mansagold/90 tracking-wide mb-4"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            The Economic Operating System for Community Wealth
+            1325 — the year Mansa Musa's pilgrimage reshaped global commerce
           </motion.p>
+
 
           {/* Brand mark — 1325.AI logo on web, Mansa Musa text on iOS App Store build */}
           {Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios' ? (
@@ -184,14 +185,24 @@ const Hero = () => {
           )}
           
           {/* Subhead — tightened for 3-second clarity */}
-          <motion.p 
-            className="text-base md:text-lg lg:text-xl text-blue-100/80 mb-5 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
+          <motion.h2
+            className="text-xl md:text-2xl lg:text-3xl text-white font-semibold mb-3 max-w-2xl lg:max-w-3xl mx-auto leading-snug"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+          >
+            Discover verified Black-owned businesses. Powered by AI.
+          </motion.h2>
+          <motion.p
+            className="text-sm md:text-base text-blue-100/80 mb-5 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            43,000+ verified businesses. Loyalty rewards on every purchase. Always free for consumers.
+            <span className="text-mansagold font-semibold">~4 Roles Covered · $12,100+/mo savings</span>
+            <span className="block mt-1 text-white/70">Answers customers 24/7 · Books appointments · Posts to social</span>
           </motion.p>
+
 
           {/* Search bar with autocomplete */}
           <motion.form
@@ -264,36 +275,30 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
-              <Link to="/signup" className="w-full sm:w-auto">
-                <Button 
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full">
+              <Link to="/directory" className="w-full sm:w-auto">
+                <Button
                   size="lg"
-                  className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-auto py-3 px-8 rounded-xl shadow-xl text-lg w-full sm:w-auto flex flex-col items-center gap-0"
+                  className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-auto py-4 px-10 rounded-xl shadow-xl text-base sm:text-lg w-full sm:w-auto flex items-center gap-2"
                 >
-                  <span className="flex items-center gap-2">
-                    <Users className="w-5 h-5" />
-                    I'm a Consumer
-                    <ArrowRight className="w-5 h-5" />
-                  </span>
-                  <span className="text-xs font-medium opacity-80">Free forever · Earn rewards</span>
+                  <Search className="w-5 h-5" />
+                  Find Black-Owned Businesses
+                  <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
 
               <Link to="/business-signup" className="w-full sm:w-auto">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="lg"
-                  className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 font-bold h-auto py-3 px-8 rounded-xl text-lg w-full sm:w-auto flex flex-col items-center gap-0"
+                  className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 font-semibold h-auto py-4 px-8 rounded-xl text-base sm:text-lg w-full sm:w-auto flex items-center gap-2"
                 >
-                  <span className="flex items-center gap-2">
-                    <Building2 className="w-5 h-5" />
-                    I'm a Business
-                    <ArrowRight className="w-5 h-5" />
-                  </span>
-                  <span className="text-xs font-medium opacity-70">33 AI employees · From $19/mo</span>
+                  <Building2 className="w-5 h-5" />
+                  Grow Your Business with AI
                 </Button>
               </Link>
             </div>
+
 
             {/* Trust stat bar */}
             {stats && (

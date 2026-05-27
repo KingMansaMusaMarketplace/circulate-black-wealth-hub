@@ -447,10 +447,10 @@ function App() {
     );
   }
 
-  // Show loading screen while app initializes
+  // appReady starts true — this branch is a defensive fallback only
   if (!appReady) {
     console.log('[APP INIT] Not ready, showing loader');
-    return <LoadingFallback message="Loading 1325.AI..." />;
+    return <LoadingFallback message="" />;
   }
   
   console.log('[APP INIT] Rendering main app');
