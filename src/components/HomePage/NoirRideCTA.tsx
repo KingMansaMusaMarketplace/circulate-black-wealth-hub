@@ -59,7 +59,7 @@ const NoirRideCTA: React.FC = () => {
                   className="bg-mansagold hover:bg-mansagold-dark text-slate-900 font-bold rounded-xl group"
                 >
                 <Link to="/noir/book">
-                    Book a Ride
+                    Join Rider Waitlist
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
