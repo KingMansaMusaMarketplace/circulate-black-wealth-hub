@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Car, MapPin, Navigation, Shield, Star, ArrowRight, ExternalLink,
   DollarSign, Users, Clock, Zap, CheckCircle, ChevronDown, ChevronUp,
-  Phone, Mail, Briefcase, Award, Globe, Radio
+  Phone, Mail, Briefcase, Award, Globe, Radio, Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { businesses } from '@/data/businessesData';
