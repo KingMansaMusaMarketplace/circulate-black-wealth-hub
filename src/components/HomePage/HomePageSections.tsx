@@ -76,10 +76,10 @@ const HomePageSections: React.FC = () => {
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* 4.5 Black-Owned Discovery — SEO landing page gateway */}
-      <SectionErrorBoundary sectionName="Black-Owned Discovery">
+      {/* 4.5 Black-Owned Discovery — hidden from homepage (kept in code for SEO landing pages) */}
+      {/* <SectionErrorBoundary sectionName="Black-Owned Discovery">
         <BlackOwnedDiscoverySection />
-      </SectionErrorBoundary>
+      </SectionErrorBoundary> */}
 
       {/* 5. CTA — hit while intent is hot */}
       <SectionErrorBoundary sectionName="Call to Action">
