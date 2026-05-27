@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Car, MapPin, Navigation, Shield, Star, ArrowRight, ExternalLink,
   DollarSign, Users, Clock, Zap, CheckCircle, ChevronDown, ChevronUp,
-  Phone, Mail, Briefcase, Award, Globe, Radio
+  Phone, Mail, Briefcase, Award, Globe, Radio, Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { businesses } from '@/data/businessesData';
@@ -85,8 +85,24 @@ const NoirLandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white">
 
+      {/* Beta banner — Noire is still onboarding drivers; sets honest expectations */}
+      <div className="bg-gradient-to-r from-mansablue via-mansablue to-mansablue/90 border-b border-mansagold/40">
+        <div className="container mx-auto px-4 py-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-mansagold text-mansablue text-xs font-bold uppercase tracking-wide">
+            <Sparkles className="h-3 w-3" /> Beta
+          </span>
+          <p className="text-sm text-white/95">
+            Noire Rideshare is launching in Chicago, Atlanta, Houston, DC, Detroit, NYC & LA — drivers wanted.{" "}
+            <Link to="/noir/drive/apply" className="font-semibold text-mansagold hover:underline">
+              Apply to drive →
+            </Link>
+          </p>
+        </div>
+      </div>
+
       {/* Hero */}
       <section className="relative pt-24 pb-20 md:pt-32 md:pb-28 overflow-hidden">
+
         <div className="absolute inset-0 bg-gradient-to-b from-mansagold/8 via-mansagold/3 to-transparent" />
         <div className="absolute top-20 right-10 w-96 h-96 bg-mansagold/5 rounded-full blur-[100px]" />
         <div className="absolute bottom-10 left-10 w-72 h-72 bg-amber-500/5 rounded-full blur-[80px]" />
@@ -117,7 +133,7 @@ const NoirLandingPage: React.FC = () => {
             {/* Primary 3-CTA bar — hotel/airport pivot */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-3xl mx-auto mb-10">
               <Button asChild size="lg" className="bg-mansagold hover:bg-amber-500 text-black font-bold rounded-xl px-8 flex-1">
-                <Link to="/noir/book">Book a Ride <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                <Link to="/noir/book">Join Rider Waitlist <ArrowRight className="ml-2 h-5 w-5" /></Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 rounded-xl px-8 flex-1">
                 <Link to="/noir/hotels">Hotel & Corporate Partners</Link>
