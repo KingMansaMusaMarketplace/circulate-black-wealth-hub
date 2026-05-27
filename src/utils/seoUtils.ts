@@ -109,18 +109,18 @@ export const updateMetaTags = (data: {
 // Pre-defined SEO configurations for common pages
 export const pageSEO = {
   home: {
-    title: 'Black-Owned Business Directory | 36,000+ | 1325.AI',
-    description: 'The largest verified Black-owned business directory. Find 36,000+ Black-owned restaurants, shops & services near you. Powered by 1325.AI.',
+    title: 'Black-Owned Business Directory | 43,000+ | 1325.AI',
+    description: 'The largest verified Black-owned business directory. Find 43,000+ Black-owned restaurants, shops & services near you. Powered by 1325.AI.',
     keywords: ['Black-owned business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
   },
   directory: {
     title: 'Black-Owned Business Directory Near You | 1325.AI',
-    description: 'Find verified Black-owned businesses near you — restaurants, shops, services & pros. Search 50,000+ listings free on 1325.AI.',
+    description: 'Find verified Black-owned businesses near you — restaurants, shops, services & pros. Search 43,000+ listings free on 1325.AI.',
     keywords: ['Black-owned business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
   about: {
     title: 'About 1325.AI | Circulate Black Dollars Intentionally',
-    description: 'Meet 1325.AI — the AI-powered platform helping you find, support and circulate dollars to 50,000+ Black-owned businesses nationwide.',
+    description: 'Meet 1325.AI — the AI-powered platform helping you find, support and circulate dollars to 43,000+ Black-owned businesses nationwide.',
     keywords: ['about 1325.AI', 'Black-owned business platform', 'Black economic empowerment', 'Black dollar circulation', 'support Black businesses'],
   },
   impact: {
@@ -140,7 +140,7 @@ export const pageSEO = {
   },
   businessSignup: {
     title: 'List Your Black-Owned Business Free | 1325.AI',
-    description: 'Add your Black-owned business to 1325.AI in 2 minutes. Get found by 36,000+ supporters and unlock free AI-powered customer tools.',
+    description: 'Add your Black-owned business to 1325.AI in 2 minutes. Get found by 43,000+ supporters and unlock free AI-powered customer tools.',
     keywords: ['list Black-owned business', 'register Black business', 'free business listing', 'Black-owned business signup'],
   },
   howItWorks: {

@@ -65,7 +65,7 @@ const yearMilestones = {
     "Partner with 3 community banks"
   ],
   "2029": [
-    "50,000+ verified businesses on platform",
+    "43,000+ verified businesses on platform",
     "$500M circulation within communities", 
     "Expand to international markets",
     "Introduce business capital funding program"
