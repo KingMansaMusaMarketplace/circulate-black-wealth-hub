@@ -91,6 +91,8 @@ const PricingPage: React.FC = () => {
             </div>
           </div>
         </section>
+
+        <ROICalculator />
       </div>
     </div>
   );
