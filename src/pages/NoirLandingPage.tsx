@@ -133,7 +133,7 @@ const NoirLandingPage: React.FC = () => {
             {/* Primary 3-CTA bar — hotel/airport pivot */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-3xl mx-auto mb-10">
               <Button asChild size="lg" className="bg-mansagold hover:bg-amber-500 text-black font-bold rounded-xl px-8 flex-1">
-                <Link to="/noir/book">Book a Ride <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                <Link to="/noir/book">Join Rider Waitlist <ArrowRight className="ml-2 h-5 w-5" /></Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 rounded-xl px-8 flex-1">
                 <Link to="/noir/hotels">Hotel & Corporate Partners</Link>
