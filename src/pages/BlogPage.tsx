@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, BookOpen, Clock, User } from 'lucide-react';
+import { ArrowRight, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -12,29 +12,8 @@ const BlogPage = () => {
   const [email, setEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
 
-  const comingSoonPosts = [
-    {
-      title: "The Economic Impact of Dollar Circulation",
-      excerpt: "Exploring how every dollar spent at local businesses creates a multiplier effect in our communities.",
-      author: "Economic Research Team",
-      readTime: "8 min read",
-      category: "Economic Impact"
-    },
-    {
-      title: "Success Stories: Businesses Thriving on 1325.AI",
-      excerpt: "Real stories from entrepreneurs who have grown their businesses through our platform.",
-      author: "Community Team",
-      readTime: "5 min read",
-      category: "Success Stories"
-    },
-    {
-      title: "Building Generational Wealth Through Community Business Support",
-      excerpt: "How supporting community businesses creates lasting economic change for future generations.",
-      author: "Wealth Building Team",
-      readTime: "10 min read",
-      category: "Wealth Building"
-    }
-  ];
+
+
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
