@@ -28,7 +28,6 @@ const PricingPage: React.FC = () => {
         </div>
 
         <PricingSection />
-        <ROICalculator />
 
         {/* Signup Section */}
         <section ref={signupRef} id="signup" className="py-16 md:py-24 relative">
@@ -92,6 +91,8 @@ const PricingPage: React.FC = () => {
             </div>
           </div>
         </section>
+
+        <ROICalculator />
       </div>
     </div>
   );
