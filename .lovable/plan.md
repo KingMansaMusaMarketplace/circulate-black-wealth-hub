@@ -1,38 +1,46 @@
-## Goal
+## Plan: "Category of One" slide + announcement post
 
-On `/pricing`, catch buyers at peak intent by putting the signup form **right after** the pricing cards (which end with "All included, no hidden fees"), instead of making them scroll past the ROI calculator first.
+### 1. Add "Category of One" page to the investor deck PDF
+Create a new page in the existing investor deck PDF (`/mnt/documents/`) that positions 1325.AI as the first and only Black-owned Economic Operating System.
 
-## Current order on Pricing page
+**Page content:**
+- **Title:** "Category of One: The First Black-Owned Economic Operating System"
+- **Subtitle:** "No other Black-owned platform combines what 1325.AI delivers."
+- **Comparison table** — 1325.AI vs. closest Black-owned players:
+  | Player | Type | What's Missing vs. 1325.AI |
+  |---|---|---|
+  | OBWS, EatOkra, Blapp | Directory apps | No AI, no loyalty, no B2B matching, no patent |
+  | WeBuyBlack, Miiriya | Marketplaces | E-commerce only, not infrastructure |
+  | ESUSU, MoCaFi | Fintech | Single-purpose, no ecosystem |
+  | STEMBoard, Hue | Services / community | Not software infrastructure |
+- **Four pillars that make 1325.AI unique:**
+  1. AI workforce — 33 agents led by Kayla
+  2. Patent IP — USPTO 63/969,202
+  3. Full-stack network — consumers + businesses + sponsors + investors
+  4. Boardroom analytics — ~4 Roles Covered, $12,100+/mo savings
+- **Closing line:** "1325.AI is not competing in a category. It is the category."
 
-1. Founding Member Offer
-2. **PricingSection** (ends with "All included, no hidden fees")
-3. ROI Calculator
-4. Signup section (form + benefits column)
+**Style:** Match existing deck — MansaBlue (#003366) headers, MansaGold (#FFB300) accents, True Black background, page number in footer (continuing the existing numbering).
 
-## New order
+**Output:** New versioned PDF (e.g. `1325AI_Investor_Deck_v[N+1].pdf`) in `/mnt/documents/` with the page inserted before the closing/contact page.
 
-1. Founding Member Offer
-2. **PricingSection**
-3. **Signup section** ← moved up
-4. ROI Calculator ← now acts as reinforcement for anyone who scrolled past
+### 2. Draft a press + LinkedIn announcement
+Deliver **two short text drafts** directly in chat (no file generation needed unless you want one):
 
-## What changes
+**a. Press release headline + opening (≈150 words)**
+- Headline: *"1325.AI Launches as the First Black-Owned AI-Powered Economic Operating System"*
+- Lede: founding context, what it is, patent reference, parent brand (Mansa Musa Marketplace), call-to-action for sponsors/investors.
 
-**File:** `src/pages/PricingPage.tsx` — swap the order of `<ROICalculator />` and the `<section ref={signupRef}>` block. No other files touched. No copy changes, no styling changes, no logic changes.
+**b. LinkedIn post (≈120 words, founder voice)**
+- Hook line ("There are great Black-owned tech companies. There is only one Black-owned Economic Operating System.")
+- The 4-pillar bullet list
+- Soft CTA: visit 1325.ai / DM for sponsor or investor info
+- Hashtags: #1325AI #BlackTech #EconomicEmpowerment #MansaMusaMarketplace
 
-The `signupRef` / `scrollToSignup` wiring keeps working because it's a `ref`, not a position.
+### Files touched
+- Read: latest investor deck PDF in `/mnt/documents/`
+- Write: new versioned PDF in `/mnt/documents/`
+- No code changes to the app.
 
-## Why this is safe
-
-- Pure layout reorder on one page.
-- Doesn't touch the homepage's $50 Black History Month quick-listing box (different offer, stays where it is).
-- Doesn't affect iOS payment flow, Stripe, or any tier logic.
-- No database, no edge functions, no auth changes.
-
-## What you'll see after
-
-Scrolling `/pricing` top-to-bottom: Founding offer → pricing cards → **signup form** → ROI calculator. Total scroll-to-form distance drops by roughly one full screen on desktop.
-
-## Next step for you
-
-Switch to **build mode** and I'll make the swap. Takes one edit.
+### What I need from you
+Just confirm and I'll build it. If you have a preferred filename for the current deck (so I version correctly), share it — otherwise I'll pick up the latest `_v*.pdf` automatically.
