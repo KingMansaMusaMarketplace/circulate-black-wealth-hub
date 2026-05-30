@@ -466,6 +466,27 @@ const Scene8 = () => {
 };
 
 // ---------- Root ----------
+const TitleStamp = () => {
+  const frame = useCurrentFrame();
+  const op = interpolate(frame, [0, 8, 55, 70], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const y = interpolate(frame, [0, 18], [30, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <AbsoluteFill style={{ background: "rgba(0,8,20,0.78)", justifyContent: "center", alignItems: "center", padding: 80, opacity: op }}>
+      <div style={{ transform: `translateY(${y}px)`, textAlign: "center" }}>
+        <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 28, color: "#FFB300", letterSpacing: 12, textTransform: "uppercase", marginBottom: 36 }}>
+          Mansa Stays • Host Guide
+        </div>
+        <div style={{ fontFamily: playfairItalic, fontWeight: 700, fontStyle: "italic", fontSize: 156, color: "#fff", lineHeight: 1.05, marginBottom: 32 }}>
+          How to List your Short-Term Rental
+        </div>
+        <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 36, color: "rgba(255,255,255,0.78)", letterSpacing: 2 }}>
+          A 2-minute walkthrough for nightly stays
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 export const MansaStaysVideo = () => {
   return (
     <AbsoluteFill style={{ background: "#000814" }}>
@@ -481,6 +502,7 @@ export const MansaStaysVideo = () => {
         <Series.Sequence durationInFrames={SCENE_LEN}><Scene7 /></Series.Sequence>
         <Series.Sequence durationInFrames={SCENE_LEN}><Scene8 /></Series.Sequence>
       </Series>
+      <Sequence from={0} durationInFrames={70} layout="none"><TitleStamp /></Sequence>
     </AbsoluteFill>
   );
 };
