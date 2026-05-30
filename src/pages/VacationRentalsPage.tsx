@@ -235,7 +235,7 @@ const VacationRentalsPage: React.FC = () => {
                 <Sparkles className="w-3 h-3" /> New on Mansa Stays
               </span>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
-                Looking for a <span className="text-mansagold">yearly Lease or Rental</span>?
+                Looking for a <span className="text-mansagold">yearly Lease or list your Rental</span>?
               </h2>
               <p className="text-white/70 text-sm md:text-base mb-4">
                 Browse apartments, condos, houses, office space and warehouses for rent by the year from non-bias property owners. Or list your own property — free to list, $99 only when you successfully lease.
