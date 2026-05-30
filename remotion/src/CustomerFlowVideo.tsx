@@ -17,14 +17,14 @@ const Eyebrow = ({ text, delay = 0 }: { text: string; delay?: number }) => {
   const frame = useCurrentFrame();
   const op = interpolate(frame - delay, [0, 16], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const y = interpolate(frame - delay, [0, 22], [20, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 22, color: "#FFB300", letterSpacing: 10, textTransform: "uppercase", opacity: op, transform: `translateY(${y}px)` }}>{text}</div>;
+  return <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 24, color: "#FFB300", letterSpacing: 8, textTransform: "uppercase", opacity: op, transform: `translateY(${y}px)` }}>{text}</div>;
 };
 
-const SubLine = ({ text, delay = 0, size = 28, maxWidth = 900 }: { text: string; delay?: number; size?: number; maxWidth?: number }) => {
+const SubLine = ({ text, delay = 0, size = 30, maxWidth = 900 }: { text: string; delay?: number; size?: number; maxWidth?: number }) => {
   const frame = useCurrentFrame();
   const op = interpolate(frame - delay, [0, 22], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const y = interpolate(frame - delay, [0, 26], [24, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return <div style={{ fontFamily: inter, fontWeight: 300, fontSize: size, color: "rgba(255,255,255,0.82)", lineHeight: 1.45, maxWidth, opacity: op, transform: `translateY(${y}px)` }}>{text}</div>;
+  return <div style={{ fontFamily: inter, fontWeight: 400, fontSize: size, color: "rgba(255,255,255,0.95)", lineHeight: 1.5, maxWidth, opacity: op, transform: `translateY(${y}px)` }}>{text}</div>;
 };
 
 const StepBadge = ({ step, total = 3, delay = 0 }: { step: number; total?: number; delay?: number }) => {
