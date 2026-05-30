@@ -54,6 +54,8 @@ serve(async (req) => {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
+
+    const { email } = await req.json();
     if (!email || typeof email !== "string") {
       return new Response(JSON.stringify({ error: "email required" }), {
         status: 400,
@@ -61,10 +63,6 @@ serve(async (req) => {
       });
     }
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
 
     // Find user
     const { data: list, error: listErr } = await supabase.auth.admin.listUsers({
