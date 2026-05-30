@@ -13,6 +13,7 @@ import { MansaStaysVideoVertical, MANSA_STAYS_V_TOTAL } from "./MansaStaysVideoV
 import { LeaseListingVideo, LEASE_TOTAL } from "./LeaseListingVideo";
 import { LeaseListingVideoVertical, LEASE_V_TOTAL } from "./LeaseListingVideoVertical";
 import { CustomerFlowVideo, CUSTOMER_FLOW_TOTAL } from "./CustomerFlowVideo";
+import { VendorOnboardingVideo, VENDOR_ONBOARDING_TOTAL } from "./VendorOnboardingVideo";
 
 export const RemotionRoot = () => (
   <>
@@ -30,5 +31,6 @@ export const RemotionRoot = () => (
     <Composition id="lease" component={LeaseListingVideo} durationInFrames={LEASE_TOTAL} fps={30} width={1920} height={1080} />
     <Composition id="lease-vertical" component={LeaseListingVideoVertical} durationInFrames={LEASE_V_TOTAL} fps={30} width={1080} height={1920} />
     <Composition id="customer-flow" component={CustomerFlowVideo} durationInFrames={CUSTOMER_FLOW_TOTAL} fps={30} width={1920} height={1080} />
+    <Composition id="vendor-onboarding" component={VendorOnboardingVideo} durationInFrames={VENDOR_ONBOARDING_TOTAL} fps={30} width={1920} height={1080} />
   </>
 );
