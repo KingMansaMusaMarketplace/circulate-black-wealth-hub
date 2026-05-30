@@ -234,7 +234,7 @@ const StepScene = ({
       </div>
     </div>
     <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-      <Sequence from={70}>{panel}</Sequence>
+      <Sequence from={70} layout="none">{panel}</Sequence>
     </div>
   </AbsoluteFill>
 );
@@ -253,7 +253,7 @@ const Scene2 = () => (
         <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 18, color: "rgba(255,255,255,0.6)", marginBottom: 28 }}>Sign in to begin your listing</div>
         <Field label="Email" value="susan@yourdomain.com" delay={20} />
         <Field label="Password" value="••••••••••" delay={60} />
-        <Sequence from={120}>
+        <Sequence from={120} layout="none">
           <div style={{ marginTop: 8, padding: "16px 22px", borderRadius: 12, background: "linear-gradient(90deg, #FFB300, #FFD66E)", color: "#001028", fontFamily: inter, fontWeight: 700, fontSize: 20, textAlign: "center", letterSpacing: 2 }}>
             CONTINUE  →
           </div>
@@ -277,9 +277,9 @@ const Scene3 = () => (
         <Field label="Listing Title" value="Sunlit Brownstone Retreat" delay={10} />
         <Field label="Property Type" value="Entire Home · Townhouse" delay={50} />
         <div style={{ display: "flex", gap: 14, marginTop: 6 }}>
-          <Sequence from={90}><Chip label="2 Bedrooms" active delay={0} /></Sequence>
-          <Sequence from={105}><Chip label="2 Baths" active delay={0} /></Sequence>
-          <Sequence from={120}><Chip label="Sleeps 6" active delay={0} /></Sequence>
+          <Sequence from={90} layout="none"><Chip label="2 Bedrooms" active delay={0} /></Sequence>
+          <Sequence from={105} layout="none"><Chip label="2 Baths" active delay={0} /></Sequence>
+          <Sequence from={120} layout="none"><Chip label="Sleeps 6" active delay={0} /></Sequence>
         </div>
       </UIPanel>
     }
@@ -302,7 +302,7 @@ const Scene4 = () => (
           <div style={{ flex: 1 }}><Field label="City" value="Chicago" delay={50} /></div>
           <div style={{ width: 160 }}><Field label="State" value="IL" delay={70} /></div>
         </div>
-        <Sequence from={120}>
+        <Sequence from={120} layout="none">
           <div style={{ marginTop: 6, height: 140, borderRadius: 12, background: "radial-gradient(circle at 50% 60%, rgba(255,179,0,0.25), rgba(0,116,217,0.15) 60%, transparent 80%)", border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div style={{ width: 22, height: 22, borderRadius: 999, background: "#FFB300", boxShadow: "0 0 0 8px rgba(255,179,0,0.25), 0 0 0 18px rgba(255,179,0,0.12)" }} />
           </div>
@@ -387,7 +387,7 @@ const Scene7 = () => (
             </Sequence>
           ))}
         </div>
-        <Sequence from={120}>
+        <Sequence from={120} layout="none">
           <div style={{ marginTop: 18, fontFamily: inter, fontWeight: 500, fontSize: 16, color: "#FFB300", letterSpacing: 2 }}>
             ✓  9 OF 20 UPLOADED
           </div>
@@ -433,7 +433,7 @@ const Scene8 = () => {
         <KineticTitle text="then you're live." size={96} color="#FFB300" italic delay={60} />
       </div>
 
-      <Sequence from={120}>
+      <Sequence from={120} layout="none">
         <div style={{ opacity: checkOp, display: "flex", gap: 36, marginTop: 24 }}>
           {["Basics ✓", "Location ✓", "Amenities ✓", "Pricing ✓", "Photos ✓"].map((t, i) => (
             <div key={t} style={{ fontFamily: inter, fontWeight: 500, fontSize: 22, color: "#FFB300", letterSpacing: 2 }}>
@@ -443,7 +443,7 @@ const Scene8 = () => {
         </div>
       </Sequence>
 
-      <Sequence from={220}>
+      <Sequence from={220} layout="none">
         <div style={{ opacity: welcomeOp, marginTop: 50, textAlign: "center" }}>
           <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 64, color: "#fff" }}>
             Welcome to <span style={{ color: "#FFB300", fontStyle: "italic", fontFamily: playfairItalic }}>Mansa Stays.</span>
@@ -455,7 +455,7 @@ const Scene8 = () => {
         </div>
       </Sequence>
 
-      <Sequence from={320}>
+      <Sequence from={320} layout="none">
         <div style={{ opacity: ctaOp, marginTop: 40, padding: "18px 40px", borderRadius: 999, border: "1px solid rgba(255,179,0,0.6)", background: "rgba(255,179,0,0.08)", fontFamily: inter, fontWeight: 600, fontSize: 22, color: "#FFB300", letterSpacing: 6 }}>
           MANSAMUSAMARKETPLACE.COM / STAYS
         </div>
