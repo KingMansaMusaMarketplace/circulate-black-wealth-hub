@@ -6,6 +6,7 @@ import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
 import CTASection from '@/components/HowItWorks/CTASection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
 import CustomerFlowVideoBanner from '@/components/HowItWorks/CustomerFlowVideoBanner';
+import VendorOnboardingVideoBanner from '@/components/HowItWorks/VendorOnboardingVideoBanner';
 import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
@@ -84,6 +85,7 @@ const HowItWorksPage = () => {
         <HeroSection />
         <PageNavigation sections={navSections} />
         <CustomerFlowVideoBanner />
+        <VendorOnboardingVideoBanner />
 
       {/* Interactive Demo Section */}
         <LazySection threshold={0.3} rootMargin="150px">
