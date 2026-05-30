@@ -96,7 +96,7 @@ const SceneHook = () => {
         <div style={{ marginTop: -30 }}>
           <KineticTitle text="Build community wealth." size={140} color="#FFB300" italic delay={50} />
         </div>
-        <div style={{ marginTop: 30, opacity: subOp, fontFamily: inter, fontWeight: 300, fontSize: 34, color: "rgba(255,255,255,0.92)", textAlign: "center", maxWidth: 1300, lineHeight: 1.4 }}>
+        <div style={{ marginTop: 30, opacity: subOp, fontFamily: inter, fontWeight: 400, fontSize: 34, color: "rgba(255,255,255,0.92)", textAlign: "center", maxWidth: 1300, lineHeight: 1.4 }}>
           How to save 5–30% at Black-owned businesses near you —
           <span style={{ color: "#FFB300", fontStyle: "italic", fontFamily: playfairItalic }}> in three simple steps.</span>
         </div>
@@ -172,7 +172,7 @@ const SceneStep1 = () => (
     panel={
       <UIPanel width={620}>
         <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 34, color: "#fff", marginBottom: 6 }}>Join 1325.AI</div>
-        <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 18, color: "rgba(255,255,255,0.82)", marginBottom: 28 }}>Free forever — community first.</div>
+        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 18, color: "rgba(255,255,255,0.82)", marginBottom: 28 }}>Free forever — community first.</div>
         <Field label="Email" value="you@example.com" delay={20} />
         <Field label="Password" value="••••••••••" delay={60} />
         <Sequence from={110} layout="none">
@@ -217,7 +217,7 @@ const SceneStep2 = () => (
     panel={
       <UIPanel width={680}>
         <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 30, color: "#fff", marginBottom: 6 }}>Directory · Chicago</div>
-        <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 16, color: "rgba(255,255,255,0.82)", marginBottom: 22 }}>247 businesses within 5 miles</div>
+        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 16, color: "rgba(255,255,255,0.82)", marginBottom: 22 }}>247 businesses within 5 miles</div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 22 }}>
           <Chip label="All" active delay={10} />
           <Chip label="Food" delay={20} />
@@ -255,7 +255,7 @@ const SceneStep3 = () => {
       panel={
         <UIPanel width={620}>
           <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 30, color: "#fff", marginBottom: 6 }}>Soul Kitchen</div>
-          <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 16, color: "rgba(255,255,255,0.82)", marginBottom: 22 }}>Scan to apply your discount</div>
+          <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 16, color: "rgba(255,255,255,0.82)", marginBottom: 22 }}>Scan to apply your discount</div>
 
           {/* QR code mock */}
           <div style={{ position: "relative", aspectRatio: "1/1", maxWidth: 280, margin: "0 auto 22px", padding: 18, borderRadius: 18, background: "#fff", boxShadow: "0 20px 60px rgba(255,179,0,0.25)" }}>
@@ -349,7 +349,7 @@ const TitleStamp = () => {
       <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 130, color: "#FFFFFF", textAlign: "center", lineHeight: 1.05, letterSpacing: -2, maxWidth: 1600 }}>
         How to Save in <span style={{ fontStyle: "italic", color: "#FFD66E", fontFamily: playfairItalic }}>3 Steps</span>
       </div>
-      <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 30, color: "rgba(255,255,255,0.75)", marginTop: 32, letterSpacing: 2 }}>
+      <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 30, color: "rgba(255,255,255,0.75)", marginTop: 32, letterSpacing: 2 }}>
         A 90-second walkthrough for new members
       </div>
     </AbsoluteFill>
