@@ -8,6 +8,7 @@ import { CapabilitiesVideoVertical } from "./CapabilitiesVideoVertical";
 import { DirectorsCutVideo, DC_TOTAL } from "./DirectorsCutVideo";
 import { ShortVideo, SHORT_TOTAL } from "./ShortVideo";
 import { ManualVideo, MANUAL_TOTAL } from "./ManualVideo";
+import { MansaStaysVideo, MANSA_STAYS_TOTAL } from "./MansaStaysVideo";
 
 export const RemotionRoot = () => (
   <>
