@@ -1,5 +1,5 @@
 // 1920x1080 — How to Save at a Black-Owned Business in 3 Steps (1325.AI)
-import { AbsoluteFill, Series, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence } from "remotion";
+import { AbsoluteFill, Series, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence, Audio, staticFile } from "remotion";
 import { loadFont as loadPlayfair } from "@remotion/google-fonts/PlayfairDisplay";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 import { CinematicBg } from "./components/CinematicBg";
