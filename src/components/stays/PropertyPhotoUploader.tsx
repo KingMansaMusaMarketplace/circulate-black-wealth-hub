@@ -11,7 +11,7 @@ interface PropertyPhotoUploaderProps {
 }
 
 const MAX_PHOTOS = 20;
-const MAX_SIZE_MB = 10;
+const MAX_SIZE_MB = 25;
 const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp'];
 
 const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
