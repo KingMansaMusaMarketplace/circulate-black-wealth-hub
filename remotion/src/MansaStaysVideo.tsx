@@ -328,9 +328,7 @@ const Scene5 = () => {
           <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 30, color: "#fff", marginBottom: 24 }}>Amenities</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
             {amenities.map((a, i) => (
-              <Sequence key={a} from={20 + i * 8}>
-                <Chip label={a} active delay={0} />
-              </Sequence>
+              <Chip key={a} label={a} active delay={20 + i * 8} />
             ))}
           </div>
         </UIPanel>
