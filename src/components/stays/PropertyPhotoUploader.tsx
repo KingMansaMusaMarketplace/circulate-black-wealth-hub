@@ -187,7 +187,7 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
         <input
           ref={inputRef}
           type="file"
-          accept={ACCEPTED.join(',')}
+          accept={ACCEPT_ATTR}
           multiple
           className="hidden"
           onChange={(e) => handleFiles(e.target.files)}
