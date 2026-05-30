@@ -10,6 +10,8 @@ import { ShortVideo, SHORT_TOTAL } from "./ShortVideo";
 import { ManualVideo, MANUAL_TOTAL } from "./ManualVideo";
 import { MansaStaysVideo, MANSA_STAYS_TOTAL } from "./MansaStaysVideo";
 import { MansaStaysVideoVertical, MANSA_STAYS_V_TOTAL } from "./MansaStaysVideoVertical";
+import { LeaseListingVideo, LEASE_TOTAL } from "./LeaseListingVideo";
+import { LeaseListingVideoVertical, LEASE_V_TOTAL } from "./LeaseListingVideoVertical";
 
 export const RemotionRoot = () => (
   <>
@@ -24,5 +26,7 @@ export const RemotionRoot = () => (
     <Composition id="manual" component={ManualVideo} durationInFrames={MANUAL_TOTAL} fps={30} width={1920} height={1080} />
     <Composition id="mansa-stays" component={MansaStaysVideo} durationInFrames={MANSA_STAYS_TOTAL} fps={30} width={1920} height={1080} />
     <Composition id="mansa-stays-vertical" component={MansaStaysVideoVertical} durationInFrames={MANSA_STAYS_V_TOTAL} fps={30} width={1080} height={1920} />
+    <Composition id="lease" component={LeaseListingVideo} durationInFrames={LEASE_TOTAL} fps={30} width={1920} height={1080} />
+    <Composition id="lease-vertical" component={LeaseListingVideoVertical} durationInFrames={LEASE_V_TOTAL} fps={30} width={1080} height={1920} />
   </>
 );
