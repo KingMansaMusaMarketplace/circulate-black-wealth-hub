@@ -392,12 +392,18 @@ const Scene7 = () => (
   />
 );
 
-const PhotoTile = ({ index }: { index: number }) => {
+const DelayedText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
+  const frame = useCurrentFrame();
+  const op = interpolate(frame - delay, [0, 18], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return <span style={{ opacity: op }}>{text}</span>;
+};
+
+const PhotoTile = ({ index, delay = 0 }: { index: number; delay?: number }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const sp = spring({ frame, fps, config: { damping: 18, stiffness: 130 } });
+  const sp = spring({ frame: frame - delay, fps, config: { damping: 18, stiffness: 130 } });
   const scale = interpolate(sp, [0, 1], [0.7, 1]);
-  const op = interpolate(frame, [0, 14], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const op = interpolate(frame - delay, [0, 14], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const hues = ["#003366", "#0a4a7a", "#FFB300", "#1a5a8a", "#c8951a", "#0a3a6a", "#FFD66E", "#0a2a4a", "#b8821a"];
   return (
     <div
