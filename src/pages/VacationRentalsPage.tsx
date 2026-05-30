@@ -240,6 +240,14 @@ const VacationRentalsPage: React.FC = () => {
               <p className="text-white/70 text-sm md:text-base mb-4">
                 Browse apartments, condos, houses, office space and warehouses for rent by the year from non-bias property owners. Or list your own property — free to list, $99 only when you successfully lease.
               </p>
+              <div className="flex flex-wrap gap-2 mb-4 text-xs">
+                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+                  <CalendarRange className="w-3.5 h-3.5 text-mansagold" /> 12-month leases
+                </span>
+                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+                  <Home className="w-3.5 h-3.5 text-mansagold" /> Free to list · $99 success fee only
+                </span>
+              </div>
               <div className="flex flex-wrap gap-3">
                 <Button
                   onClick={() => navigate('/stays/lease')}
@@ -259,19 +267,22 @@ const VacationRentalsPage: React.FC = () => {
                 </Button>
               </div>
             </div>
-            <div className="hidden md:flex justify-end">
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                  <CalendarRange className="w-5 h-5 text-mansagold mb-2" />
-                  <p className="text-white font-semibold">12-month leases</p>
-                  <p className="text-white/60 text-xs mt-1">Apartments, condos & houses</p>
+            <div className="flex justify-center md:justify-end">
+              <figure className="w-full max-w-md">
+                <div className="relative overflow-hidden rounded-xl border border-mansagold/40 bg-black shadow-2xl shadow-mansagold/10 aspect-video">
+                  <video
+                    src="/videos/MansaStays-LeaseListing-2min.mp4"
+                    controls
+                    preload="metadata"
+                    playsInline
+                    className="w-full h-full object-cover"
+                    aria-label="How to List your Leasing Property — 2 minute walkthrough"
+                  />
                 </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                  <Home className="w-5 h-5 text-mansagold mb-2" />
-                  <p className="text-white font-semibold">Free to list</p>
-                  <p className="text-white/60 text-xs mt-1">$99 success fee only</p>
-                </div>
-              </div>
+                <figcaption className="text-center text-xs text-white/70 mt-2">
+                  ▶ <span className="text-mansagold font-semibold">How to List your Leasing Property</span> — 2 min walkthrough
+                </figcaption>
+              </figure>
             </div>
           </div>
         </motion.div>
