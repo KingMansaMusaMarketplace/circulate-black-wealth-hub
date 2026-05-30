@@ -167,7 +167,10 @@ const HostCreateLeasePage: React.FC = () => {
               <label className="flex items-center gap-2"><Checkbox checked={f.furnished} onCheckedChange={(v) => setF({ ...f, furnished: !!v })} /> Furnished</label>
             </div>
             {f.pets_allowed && (
-              <Input type="number" placeholder="Pet deposit ($)" value={f.pet_deposit || ""} onChange={(e) => setF({ ...f, pet_deposit: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Pet deposit ($)</label>
+                <Input type="number" min={0} value={f.pet_deposit || ""} onChange={(e) => setF({ ...f, pet_deposit: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
             )}
           </div>
 
