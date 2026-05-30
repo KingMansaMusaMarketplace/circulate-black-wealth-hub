@@ -35,7 +35,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({ onBack }) => {
       const { error } = await supabase.auth.resetPasswordForEmail(
         validated.email,
         {
-          redirectTo: `${window.location.origin}/password-reset`,
+          redirectTo: `${window.location.origin}/reset-password`,
         }
       );
 
@@ -48,7 +48,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({ onBack }) => {
         await supabase.functions.invoke('send-password-reset', {
           body: {
             email: validated.email,
-            resetUrl: `${window.location.origin}/password-reset`,
+            resetUrl: `${window.location.origin}/reset-password`,
           },
         });
       } catch (emailError) {
