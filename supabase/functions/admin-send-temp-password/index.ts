@@ -24,15 +24,36 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    );
+
+    // AuthN: allow either CRON_SECRET header OR an authenticated admin user
     const adminSecret = req.headers.get("x-admin-secret");
-    if (!adminSecret || adminSecret !== Deno.env.get("CRON_SECRET")) {
+    let authorized = !!adminSecret && adminSecret === Deno.env.get("CRON_SECRET");
+
+    if (!authorized) {
+      const authHeader = req.headers.get("Authorization") || "";
+      const jwt = authHeader.replace(/^Bearer\s+/i, "");
+      if (jwt) {
+        const { data: userData } = await supabase.auth.getUser(jwt);
+        if (userData?.user) {
+          const { data: isAdmin } = await supabase.rpc("has_role", {
+            _user_id: userData.user.id,
+            _role: "admin",
+          });
+          if (isAdmin) authorized = true;
+        }
+      }
+    }
+
+    if (!authorized) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
-
-    const { email } = await req.json();
     if (!email || typeof email !== "string") {
       return new Response(JSON.stringify({ error: "email required" }), {
         status: 400,
