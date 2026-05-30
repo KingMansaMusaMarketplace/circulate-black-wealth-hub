@@ -12,6 +12,7 @@ import { MansaStaysVideo, MANSA_STAYS_TOTAL } from "./MansaStaysVideo";
 import { MansaStaysVideoVertical, MANSA_STAYS_V_TOTAL } from "./MansaStaysVideoVertical";
 import { LeaseListingVideo, LEASE_TOTAL } from "./LeaseListingVideo";
 import { LeaseListingVideoVertical, LEASE_V_TOTAL } from "./LeaseListingVideoVertical";
+import { CustomerFlowVideo, CUSTOMER_FLOW_TOTAL } from "./CustomerFlowVideo";
 
 export const RemotionRoot = () => (
   <>
