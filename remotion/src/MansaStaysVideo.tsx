@@ -470,7 +470,7 @@ export const MansaStaysVideo = () => {
   return (
     <AbsoluteFill style={{ background: "#000814" }}>
       <CinematicBg totalFrames={MANSA_STAYS_TOTAL} />
-      <Audio src={staticFile("audio/vo-mansa-stays.mp3")} volume={1} />
+      {/* VO muxed in post — system ffmpeg, native AAC */}
       <Series>
         <Series.Sequence durationInFrames={SCENE_LEN}><SceneHook /></Series.Sequence>
         <Series.Sequence durationInFrames={SCENE_LEN}><Scene2 /></Series.Sequence>
