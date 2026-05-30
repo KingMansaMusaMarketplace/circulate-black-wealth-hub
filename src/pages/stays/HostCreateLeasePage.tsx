@@ -87,6 +87,24 @@ const HostCreateLeasePage: React.FC = () => {
         </div>
         <p className="text-white/90 mt-2">Free to list. $99 success fee only when both you and your tenant confirm the lease in-app.</p>
 
+        {!user && (
+          <div className="mt-4 rounded-lg border border-mansagold/40 bg-mansagold/10 p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <Lock className="h-5 w-5 text-mansagold shrink-0 mt-0.5 sm:mt-0" />
+            <div className="flex-1">
+              <p className="text-white font-medium">Sign in required to list a property</p>
+              <p className="text-white/70 text-sm">Create an account or log in to publish your lease listing and manage it from your dashboard.</p>
+            </div>
+            <div className="flex gap-2 shrink-0 w-full sm:w-auto">
+              <Button asChild variant="outline" className="border-white/30 text-white hover:bg-white/10 flex-1 sm:flex-none">
+                <Link to="/login">Log In</Link>
+              </Button>
+              <Button asChild className="bg-mansagold text-black hover:bg-mansagold/90 flex-1 sm:flex-none">
+                <Link to="/signup">Sign Up</Link>
+              </Button>
+            </div>
+          </div>
+        )}
+
         <Card className="bg-white/10 border-white/20 p-6 mt-6 space-y-5">
           <div>
             <label className="text-sm text-white/90 font-medium mb-2 block">
