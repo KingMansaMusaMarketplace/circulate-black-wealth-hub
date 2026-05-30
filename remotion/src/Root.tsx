@@ -8,6 +8,7 @@ import { CapabilitiesVideoVertical } from "./CapabilitiesVideoVertical";
 import { DirectorsCutVideo, DC_TOTAL } from "./DirectorsCutVideo";
 import { ShortVideo, SHORT_TOTAL } from "./ShortVideo";
 import { ManualVideo, MANUAL_TOTAL } from "./ManualVideo";
+import { MansaStaysVideo, MANSA_STAYS_TOTAL } from "./MansaStaysVideo";
 
 export const RemotionRoot = () => (
   <>
@@ -20,5 +21,6 @@ export const RemotionRoot = () => (
     <Composition id="capabilities-vertical" component={CapabilitiesVideoVertical} durationInFrames={4192} fps={30} width={1080} height={1920} />
     <Composition id="directors-cut" component={DirectorsCutVideo} durationInFrames={DC_TOTAL} fps={30} width={1920} height={1080} />
     <Composition id="manual" component={ManualVideo} durationInFrames={MANUAL_TOTAL} fps={30} width={1920} height={1080} />
+    <Composition id="mansa-stays" component={MansaStaysVideo} durationInFrames={MANSA_STAYS_TOTAL} fps={30} width={1920} height={1080} />
   </>
 );
