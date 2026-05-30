@@ -314,6 +314,26 @@ const Scene8 = () => {
   );
 };
 
+const TitleStamp = () => {
+  const frame = useCurrentFrame();
+  // Hold full opacity 0-45, fade 45-65
+  const op = interpolate(frame, [0, 45, 65], [1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  if (op <= 0) return null;
+  return (
+    <AbsoluteFill style={{ background: "rgba(0,8,20,0.78)", opacity: op, alignItems: "center", justifyContent: "center", padding: 80 }}>
+      <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 26, color: "#FFB300", letterSpacing: 12, textTransform: "uppercase", marginBottom: 32 }}>
+        Mansa Stays • Landlord Guide
+      </div>
+      <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 140, color: "#FFFFFF", textAlign: "center", lineHeight: 1.05, letterSpacing: -2, maxWidth: 1600 }}>
+        How to List your <span style={{ fontStyle: "italic", color: "#FFD66E", fontFamily: playfairItalic }}>Leasing</span> Property
+      </div>
+      <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 30, color: "rgba(255,255,255,0.75)", marginTop: 32, letterSpacing: 2 }}>
+        A 2-minute walkthrough for yearly leases
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 export const LeaseListingVideo = () => (
   <AbsoluteFill style={{ background: "#000814" }}>
     <CinematicBg totalFrames={LEASE_TOTAL} />
@@ -327,5 +347,6 @@ export const LeaseListingVideo = () => (
       <Series.Sequence durationInFrames={SCENE_LEN}><Scene7 /></Series.Sequence>
       <Series.Sequence durationInFrames={SCENE_LEN}><Scene8 /></Series.Sequence>
     </Series>
+    <Sequence from={0} durationInFrames={70} layout="none"><TitleStamp /></Sequence>
   </AbsoluteFill>
 );
