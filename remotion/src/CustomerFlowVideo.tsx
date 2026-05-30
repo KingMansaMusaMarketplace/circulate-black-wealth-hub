@@ -359,6 +359,7 @@ const TitleStamp = () => {
 // ============ Root composition ============
 export const CustomerFlowVideo = () => (
   <AbsoluteFill style={{ background: "#000814" }}>
+    <Audio src={staticFile("audio/vo-customer-flow.mp3")} volume={1} />
     <CinematicBg totalFrames={CUSTOMER_FLOW_TOTAL} />
     <Series>
       <Series.Sequence durationInFrames={360}><SceneHook /></Series.Sequence>
