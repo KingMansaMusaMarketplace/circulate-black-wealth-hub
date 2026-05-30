@@ -116,20 +116,50 @@ const HostCreateLeasePage: React.FC = () => {
               <Input placeholder="ZIP" value={f.zip_code} onChange={(e) => setF({ ...f, zip_code: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
             </div>
             <div className="grid grid-cols-3 gap-3">
-              <Input type="number" placeholder="Bedrooms" value={f.bedrooms} onChange={(e) => setF({ ...f, bedrooms: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-              <Input type="number" placeholder="Bathrooms" value={f.bathrooms} onChange={(e) => setF({ ...f, bathrooms: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-              <Input type="number" placeholder="Max occupants" value={f.max_guests} onChange={(e) => setF({ ...f, max_guests: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Bedrooms</label>
+                <Input type="number" min={0} value={f.bedrooms} onChange={(e) => setF({ ...f, bedrooms: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Bathrooms</label>
+                <Input type="number" min={0} step="0.5" value={f.bathrooms} onChange={(e) => setF({ ...f, bathrooms: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Max occupants</label>
+                <Input type="number" min={1} value={f.max_guests} onChange={(e) => setF({ ...f, max_guests: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
             </div>
             <div className="grid sm:grid-cols-3 gap-3">
-              <Input type="number" placeholder="Monthly rent ($) *" value={f.monthly_rent || ""} onChange={(e) => setF({ ...f, monthly_rent: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-              <Input type="number" placeholder="Security deposit ($)" value={f.security_deposit_amount || ""} onChange={(e) => setF({ ...f, security_deposit_amount: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-              <Input type="number" placeholder="Lease term (months)" value={f.lease_term_months} onChange={(e) => setF({ ...f, lease_term_months: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Monthly rent ($) *</label>
+                <Input type="number" min={0} value={f.monthly_rent || ""} onChange={(e) => setF({ ...f, monthly_rent: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Security deposit ($)</label>
+                <Input type="number" min={0} value={f.security_deposit_amount || ""} onChange={(e) => setF({ ...f, security_deposit_amount: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Lease term (months)</label>
+                <Input type="number" min={1} value={f.lease_term_months} onChange={(e) => setF({ ...f, lease_term_months: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
             </div>
-            <Input type="date" placeholder="Available from" value={f.available_from} onChange={(e) => setF({ ...f, available_from: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-            <Input placeholder="Utilities included (comma-separated: water, gas, trash)" value={f.utilities_included} onChange={(e) => setF({ ...f, utilities_included: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <div>
+              <label className="text-sm text-white/90 font-medium mb-1 block">Available from (move-in date)</label>
+              <Input type="date" value={f.available_from} onChange={(e) => setF({ ...f, available_from: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            </div>
+            <div>
+              <label className="text-sm text-white/90 font-medium mb-1 block">Utilities included</label>
+              <Input placeholder="comma-separated: water, gas, trash" value={f.utilities_included} onChange={(e) => setF({ ...f, utilities_included: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            </div>
             <div className="grid sm:grid-cols-2 gap-3">
-              <Input type="number" placeholder="Min credit score" value={f.min_credit_score} onChange={(e) => setF({ ...f, min_credit_score: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-              <Input type="number" step="0.1" placeholder="Min income multiplier (e.g. 3)" value={f.min_income_multiplier} onChange={(e) => setF({ ...f, min_income_multiplier: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Min credit score</label>
+                <Input type="number" min={300} max={850} placeholder="e.g. 620" value={f.min_credit_score} onChange={(e) => setF({ ...f, min_credit_score: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Min income multiplier (rent × this number)</label>
+                <Input type="number" step="0.1" min={1} placeholder="e.g. 3" value={f.min_income_multiplier} onChange={(e) => setF({ ...f, min_income_multiplier: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
             </div>
             <div className="flex flex-wrap gap-4 text-sm text-white">
               <label className="flex items-center gap-2"><Checkbox checked={f.pets_allowed} onCheckedChange={(v) => setF({ ...f, pets_allowed: !!v })} /> Pets allowed</label>
@@ -137,7 +167,10 @@ const HostCreateLeasePage: React.FC = () => {
               <label className="flex items-center gap-2"><Checkbox checked={f.furnished} onCheckedChange={(v) => setF({ ...f, furnished: !!v })} /> Furnished</label>
             </div>
             {f.pets_allowed && (
-              <Input type="number" placeholder="Pet deposit ($)" value={f.pet_deposit || ""} onChange={(e) => setF({ ...f, pet_deposit: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              <div>
+                <label className="text-sm text-white/90 font-medium mb-1 block">Pet deposit ($)</label>
+                <Input type="number" min={0} value={f.pet_deposit || ""} onChange={(e) => setF({ ...f, pet_deposit: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              </div>
             )}
           </div>
 
