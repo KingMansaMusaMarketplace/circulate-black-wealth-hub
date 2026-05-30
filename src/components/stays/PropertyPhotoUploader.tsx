@@ -53,6 +53,17 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
 
   const handleFiles = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
+    if (!userId) {
+      toast.error("You need to be signed in to upload photos. Please log in and try again.");
+      return;
+    }
+    // Re-verify the active session matches the userId prop (RLS requires path starts with auth.uid())
+    const { data: sessionData } = await supabase.auth.getUser();
+    const activeId = sessionData?.user?.id;
+    if (!activeId || activeId !== userId) {
+      toast.error("Your session expired. Please sign out and sign back in, then try uploading again.");
+      return;
+    }
     if (photos.length + files.length > MAX_PHOTOS) {
       toast.error(`You can upload up to ${MAX_PHOTOS} photos.`);
       return;
