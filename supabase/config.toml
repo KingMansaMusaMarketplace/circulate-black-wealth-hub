@@ -1,6 +1,8 @@
 project_id = "agoclnqfyinwjxdmjnns"
 
 [functions]
+  [functions.admin-send-temp-password]
+    verify_jwt = false
   [functions.daily-ops-digest]
     verify_jwt = false
   [functions.geocode-businesses]
