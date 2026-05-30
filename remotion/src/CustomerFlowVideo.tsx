@@ -1,5 +1,5 @@
 // 1920x1080 — How to Save at a Black-Owned Business in 3 Steps (1325.AI)
-import { AbsoluteFill, Series, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence } from "remotion";
+import { AbsoluteFill, Series, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence, Audio, staticFile } from "remotion";
 import { loadFont as loadPlayfair } from "@remotion/google-fonts/PlayfairDisplay";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 import { CinematicBg } from "./components/CinematicBg";
@@ -17,14 +17,14 @@ const Eyebrow = ({ text, delay = 0 }: { text: string; delay?: number }) => {
   const frame = useCurrentFrame();
   const op = interpolate(frame - delay, [0, 16], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const y = interpolate(frame - delay, [0, 22], [20, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 22, color: "#FFB300", letterSpacing: 10, textTransform: "uppercase", opacity: op, transform: `translateY(${y}px)` }}>{text}</div>;
+  return <div style={{ fontFamily: inter, fontWeight: 700, fontSize: 24, color: "#FFB300", letterSpacing: 8, textTransform: "uppercase", opacity: op, transform: `translateY(${y}px)` }}>{text}</div>;
 };
 
-const SubLine = ({ text, delay = 0, size = 28, maxWidth = 900 }: { text: string; delay?: number; size?: number; maxWidth?: number }) => {
+const SubLine = ({ text, delay = 0, size = 30, maxWidth = 900 }: { text: string; delay?: number; size?: number; maxWidth?: number }) => {
   const frame = useCurrentFrame();
   const op = interpolate(frame - delay, [0, 22], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const y = interpolate(frame - delay, [0, 26], [24, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return <div style={{ fontFamily: inter, fontWeight: 300, fontSize: size, color: "rgba(255,255,255,0.82)", lineHeight: 1.45, maxWidth, opacity: op, transform: `translateY(${y}px)` }}>{text}</div>;
+  return <div style={{ fontFamily: inter, fontWeight: 400, fontSize: size, color: "rgba(255,255,255,0.95)", lineHeight: 1.5, maxWidth, opacity: op, transform: `translateY(${y}px)` }}>{text}</div>;
 };
 
 const StepBadge = ({ step, total = 3, delay = 0 }: { step: number; total?: number; delay?: number }) => {
@@ -37,7 +37,7 @@ const StepBadge = ({ step, total = 3, delay = 0 }: { step: number; total?: numbe
     <div style={{ display: "inline-flex", alignItems: "center", gap: 16, padding: "12px 26px", border: "1px solid rgba(255,179,0,0.55)", borderRadius: 999, background: "rgba(255,179,0,0.06)", opacity: op, transform: `scale(${scale})` }}>
       <span style={{ fontFamily: inter, fontWeight: 700, fontSize: 18, color: "#FFB300", letterSpacing: 4 }}>STEP {String(step).padStart(2, "0")}</span>
       <span style={{ width: 6, height: 6, borderRadius: 999, background: "#FFB300" }} />
-      <span style={{ fontFamily: inter, fontWeight: 400, fontSize: 18, color: "rgba(255,255,255,0.7)", letterSpacing: 4 }}>OF {String(total).padStart(2, "0")}</span>
+      <span style={{ fontFamily: inter, fontWeight: 400, fontSize: 18, color: "rgba(255,255,255,0.88)", letterSpacing: 4 }}>OF {String(total).padStart(2, "0")}</span>
     </div>
   );
 };
@@ -61,7 +61,7 @@ const Field = ({ label, value, delay = 0 }: { label: string; value: string; dela
   const showVal = interpolate(frame - delay, [10, 28], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <div style={{ marginBottom: 22 }}>
-      <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 14, color: "rgba(255,255,255,0.55)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>{label}</div>
+      <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 14, color: "rgba(255,255,255,0.92)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>{label}</div>
       <div style={{ position: "relative", padding: "14px 18px", background: "rgba(0,0,0,0.35)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 10, minHeight: 26 }}>
         <span style={{ fontFamily: inter, fontWeight: 400, fontSize: 22, color: "#fff", opacity: showVal }}>{value}</span>
         <div style={{ position: "absolute", left: 0, bottom: 0, height: 2, width: `${fillWidth}%`, background: "linear-gradient(90deg, #FFB300, #FFD66E)", borderRadius: 2 }} />
@@ -77,7 +77,7 @@ const Chip = ({ label, delay = 0, active = false }: { label: string; delay?: num
   const scale = interpolate(sp, [0, 1], [0.7, 1]);
   const op = interpolate(frame - delay, [0, 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <div style={{ padding: "12px 22px", borderRadius: 999, border: `1px solid ${active ? "rgba(255,179,0,0.7)" : "rgba(255,255,255,0.18)"}`, background: active ? "rgba(255,179,0,0.12)" : "rgba(255,255,255,0.04)", color: active ? "#FFD66E" : "rgba(255,255,255,0.85)", fontFamily: inter, fontWeight: 500, fontSize: 20, opacity: op, transform: `scale(${scale})`, whiteSpace: "nowrap" }}>
+    <div style={{ padding: "12px 22px", borderRadius: 999, border: `1px solid ${active ? "rgba(255,179,0,0.7)" : "rgba(255,255,255,0.18)"}`, background: active ? "rgba(255,179,0,0.12)" : "rgba(255,255,255,0.04)", color: active ? "#FFD66E" : "rgba(255,255,255,0.95)", fontFamily: inter, fontWeight: 500, fontSize: 20, opacity: op, transform: `scale(${scale})`, whiteSpace: "nowrap" }}>
       {label}
     </div>
   );
@@ -96,7 +96,7 @@ const SceneHook = () => {
         <div style={{ marginTop: -30 }}>
           <KineticTitle text="Build community wealth." size={140} color="#FFB300" italic delay={50} />
         </div>
-        <div style={{ marginTop: 30, opacity: subOp, fontFamily: inter, fontWeight: 300, fontSize: 34, color: "rgba(255,255,255,0.78)", textAlign: "center", maxWidth: 1300, lineHeight: 1.4 }}>
+        <div style={{ marginTop: 30, opacity: subOp, fontFamily: inter, fontWeight: 400, fontSize: 34, color: "rgba(255,255,255,0.92)", textAlign: "center", maxWidth: 1300, lineHeight: 1.4 }}>
           How to save 5–30% at Black-owned businesses near you —
           <span style={{ color: "#FFB300", fontStyle: "italic", fontFamily: playfairItalic }}> in three simple steps.</span>
         </div>
@@ -129,7 +129,7 @@ const SceneWhy = () => {
           return (
             <div key={s.label} style={{ opacity: op, transform: `translateY(${y}px)`, textAlign: "center" }}>
               <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 110, color: "#FFB300", lineHeight: 1 }}>{s.num}</div>
-              <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 18, color: "rgba(255,255,255,0.7)", letterSpacing: 4, marginTop: 12 }}>{s.label}</div>
+              <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 18, color: "rgba(255,255,255,0.88)", letterSpacing: 4, marginTop: 12 }}>{s.label}</div>
             </div>
           );
         })}
@@ -172,7 +172,7 @@ const SceneStep1 = () => (
     panel={
       <UIPanel width={620}>
         <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 34, color: "#fff", marginBottom: 6 }}>Join 1325.AI</div>
-        <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 18, color: "rgba(255,255,255,0.6)", marginBottom: 28 }}>Free forever — community first.</div>
+        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 18, color: "rgba(255,255,255,0.82)", marginBottom: 28 }}>Free forever — community first.</div>
         <Field label="Email" value="you@example.com" delay={20} />
         <Field label="Password" value="••••••••••" delay={60} />
         <Sequence from={110} layout="none">
@@ -203,7 +203,7 @@ const DirectoryCard = ({ delay, name, category, distance, discount }: { delay: n
       <div style={{ width: 56, height: 56, borderRadius: 12, background: "linear-gradient(135deg, #003366, #FFB300)", flexShrink: 0 }} />
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 22, color: "#fff" }}>{name}</div>
-        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 14, color: "rgba(255,255,255,0.6)", letterSpacing: 1 }}>{category} · {distance}</div>
+        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 14, color: "rgba(255,255,255,0.82)", letterSpacing: 1 }}>{category} · {distance}</div>
       </div>
       <div style={{ padding: "8px 14px", borderRadius: 999, background: "rgba(255,179,0,0.15)", border: "1px solid rgba(255,179,0,0.5)", fontFamily: inter, fontWeight: 700, fontSize: 16, color: "#FFD66E", letterSpacing: 1 }}>{discount}</div>
     </div>
@@ -217,7 +217,7 @@ const SceneStep2 = () => (
     panel={
       <UIPanel width={680}>
         <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 30, color: "#fff", marginBottom: 6 }}>Directory · Chicago</div>
-        <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 16, color: "rgba(255,255,255,0.6)", marginBottom: 22 }}>247 businesses within 5 miles</div>
+        <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 16, color: "rgba(255,255,255,0.82)", marginBottom: 22 }}>247 businesses within 5 miles</div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 22 }}>
           <Chip label="All" active delay={10} />
           <Chip label="Food" delay={20} />
@@ -255,7 +255,7 @@ const SceneStep3 = () => {
       panel={
         <UIPanel width={620}>
           <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 30, color: "#fff", marginBottom: 6 }}>Soul Kitchen</div>
-          <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 16, color: "rgba(255,255,255,0.6)", marginBottom: 22 }}>Scan to apply your discount</div>
+          <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 16, color: "rgba(255,255,255,0.82)", marginBottom: 22 }}>Scan to apply your discount</div>
 
           {/* QR code mock */}
           <div style={{ position: "relative", aspectRatio: "1/1", maxWidth: 280, margin: "0 auto 22px", padding: 18, borderRadius: 18, background: "#fff", boxShadow: "0 20px 60px rgba(255,179,0,0.25)" }}>
@@ -277,19 +277,19 @@ const SceneStep3 = () => {
 
           {/* Discount popup */}
           <div style={{ opacity: discountOp, transform: `translateY(${discountY}px)`, padding: "14px 18px", borderRadius: 12, background: "linear-gradient(90deg, rgba(255,179,0,0.18), rgba(255,179,0,0.06))", border: "1px solid rgba(255,179,0,0.55)", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <span style={{ fontFamily: inter, fontWeight: 500, fontSize: 18, color: "rgba(255,255,255,0.85)" }}>Discount applied</span>
+            <span style={{ fontFamily: inter, fontWeight: 500, fontSize: 18, color: "rgba(255,255,255,0.95)" }}>Discount applied</span>
             <span style={{ fontFamily: playfair, fontWeight: 700, fontSize: 28, color: "#FFD66E" }}>−15%</span>
           </div>
 
           {/* Points popup */}
           <div style={{ opacity: pointsOp, transform: `translateY(${pointsY}px)`, padding: "14px 18px", borderRadius: 12, background: "rgba(0,116,217,0.18)", border: "1px solid rgba(0,116,217,0.55)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontFamily: inter, fontWeight: 500, fontSize: 18, color: "rgba(255,255,255,0.85)" }}>Loyalty points earned</span>
+            <span style={{ fontFamily: inter, fontWeight: 500, fontSize: 18, color: "rgba(255,255,255,0.95)" }}>Loyalty points earned</span>
             <span style={{ fontFamily: playfair, fontWeight: 700, fontSize: 28, color: "#7ec1ff" }}>+25 pts</span>
           </div>
 
           {/* You saved */}
           <div style={{ opacity: savedOp, marginTop: 20, padding: "16px 18px", borderRadius: 12, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.15)", textAlign: "center" }}>
-            <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 14, color: "rgba(255,255,255,0.55)", letterSpacing: 3, textTransform: "uppercase", marginBottom: 6 }}>You saved today</div>
+            <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 14, color: "rgba(255,255,255,0.92)", letterSpacing: 3, textTransform: "uppercase", marginBottom: 6 }}>You saved today</div>
             <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 44, color: "#FFB300" }}>$7.50</div>
           </div>
         </UIPanel>
@@ -319,7 +319,7 @@ const SceneCTA = () => {
         ].map((s) => (
           <div key={s.n} style={{ padding: "20px 28px", borderRadius: 16, border: "1px solid rgba(255,179,0,0.4)", background: "rgba(255,179,0,0.06)", textAlign: "center", minWidth: 240 }}>
             <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 48, color: "#FFB300" }}>{s.n}</div>
-            <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 20, color: "rgba(255,255,255,0.85)", letterSpacing: 2, marginTop: 4 }}>{s.t}</div>
+            <div style={{ fontFamily: inter, fontWeight: 500, fontSize: 20, color: "rgba(255,255,255,0.95)", letterSpacing: 2, marginTop: 4 }}>{s.t}</div>
           </div>
         ))}
       </div>
@@ -349,7 +349,7 @@ const TitleStamp = () => {
       <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 130, color: "#FFFFFF", textAlign: "center", lineHeight: 1.05, letterSpacing: -2, maxWidth: 1600 }}>
         How to Save in <span style={{ fontStyle: "italic", color: "#FFD66E", fontFamily: playfairItalic }}>3 Steps</span>
       </div>
-      <div style={{ fontFamily: inter, fontWeight: 300, fontSize: 30, color: "rgba(255,255,255,0.75)", marginTop: 32, letterSpacing: 2 }}>
+      <div style={{ fontFamily: inter, fontWeight: 400, fontSize: 30, color: "rgba(255,255,255,0.75)", marginTop: 32, letterSpacing: 2 }}>
         A 90-second walkthrough for new members
       </div>
     </AbsoluteFill>
@@ -359,6 +359,7 @@ const TitleStamp = () => {
 // ============ Root composition ============
 export const CustomerFlowVideo = () => (
   <AbsoluteFill style={{ background: "#000814" }}>
+    <Audio src={staticFile("audio/vo-customer-flow.mp3")} volume={1} />
     <CinematicBg totalFrames={CUSTOMER_FLOW_TOTAL} />
     <Series>
       <Series.Sequence durationInFrames={360}><SceneHook /></Series.Sequence>

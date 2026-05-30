@@ -36,11 +36,17 @@ await renderMedia({
   concurrency: 2,
 });
 
-// Copy silent MP4 to both destinations (no VO needed)
+// Mux VO into the silent render
+const VO_PATH = path.resolve(__dirname, "../public/audio/vo-customer-flow.mp3");
+const totalSec = composition.durationInFrames / composition.fps;
 fs.mkdirSync(path.dirname(FINAL), { recursive: true });
 fs.mkdirSync(path.dirname(BACKUP), { recursive: true });
-fs.copyFileSync(SILENT, FINAL);
-fs.copyFileSync(SILENT, BACKUP);
+console.log(`Muxing VO -> ${FINAL}`);
+execSync(
+  `ffmpeg -y -i "${SILENT}" -i "${VO_PATH}" -c:v copy -c:a aac -b:a 192k -t ${totalSec} -shortest "${FINAL}"`,
+  { stdio: "inherit" }
+);
+fs.copyFileSync(FINAL, BACKUP);
 
 console.log("Done:", FINAL);
 console.log("Backup:", BACKUP);
