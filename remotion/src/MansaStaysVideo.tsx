@@ -381,16 +381,12 @@ const Scene7 = () => (
         <div style={{ fontFamily: playfair, fontWeight: 700, fontSize: 30, color: "#fff", marginBottom: 22 }}>Photos</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
           {Array.from({ length: 9 }).map((_, i) => (
-            <Sequence key={i} from={20 + i * 6}>
-              <PhotoTile index={i} />
-            </Sequence>
+            <PhotoTile key={i} index={i} delay={20 + i * 6} />
           ))}
         </div>
-        <Sequence from={120} layout="none">
-          <div style={{ marginTop: 18, fontFamily: inter, fontWeight: 500, fontSize: 16, color: "#FFB300", letterSpacing: 2 }}>
-            ✓  9 OF 20 UPLOADED
-          </div>
-        </Sequence>
+        <div style={{ marginTop: 18, fontFamily: inter, fontWeight: 500, fontSize: 16, color: "#FFB300", letterSpacing: 2, opacity: 1 }}>
+          <DelayedText text="✓  9 OF 20 UPLOADED" delay={120} />
+        </div>
       </UIPanel>
     }
   />
