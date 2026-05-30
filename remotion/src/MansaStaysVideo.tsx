@@ -160,6 +160,7 @@ const Chip = ({ label, delay = 0, active = false }: { label: string; delay?: num
         fontSize: 20,
         opacity: op,
         transform: `scale(${scale})`,
+        whiteSpace: "nowrap",
       }}
     >
       {label}
