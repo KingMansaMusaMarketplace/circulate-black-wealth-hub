@@ -1,11 +1,13 @@
 import { bundle } from "@remotion/bundler";
-import { renderMedia, selectComposition, openBrowser, renderStill } from "@remotion/renderer";
+import { renderMedia, selectComposition, openBrowser } from "@remotion/renderer";
+import { execSync } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const mode = process.argv[2] || "video"; // "still" or "video"
-const frame = parseInt(process.argv[3] || "1800", 10);
+const mode = process.argv[2] || "both"; // "video" | "vertical" | "both"
+
+const VO = path.resolve(__dirname, "../public/audio/vo-mansa-stays.mp3");
 
 console.log("Bundling...");
 const bundled = await bundle({
@@ -20,30 +22,31 @@ const browser = await openBrowser("chrome", {
   chromeMode: "chrome-for-testing",
 });
 
-const composition = await selectComposition({
-  serveUrl: bundled,
-  id: "mansa-stays",
-  puppeteerInstance: browser,
-});
-
-if (mode === "still") {
-  const out = `/tmp/ms-frame-${frame}.png`;
-  console.log(`Rendering still at frame ${frame} -> ${out}`);
-  await renderStill({ composition, serveUrl: bundled, output: out, frame, puppeteerInstance: browser });
-  console.log("Done:", out);
-} else {
-  const out = "/mnt/documents/MansaStays-HowToList-2min.mp4";
-  console.log(`Rendering ${composition.durationInFrames}f @ ${composition.fps}fps -> ${out}`);
+async function renderWithVO(id, finalOut) {
+  const composition = await selectComposition({ serveUrl: bundled, id, puppeteerInstance: browser });
+  const silent = `/tmp/${id}-silent.mp4`;
+  console.log(`Render ${id}: ${composition.durationInFrames}f ${composition.width}x${composition.height} -> ${silent}`);
   await renderMedia({
-    composition,
-    serveUrl: bundled,
-    codec: "h264",
-    outputLocation: out,
-    puppeteerInstance: browser,
-    muted: true,
-    concurrency: 2,
+    composition, serveUrl: bundled, codec: "h264",
+    outputLocation: silent, puppeteerInstance: browser,
+    muted: true, concurrency: 2,
   });
-  console.log("Done:", out);
+  const totalSec = composition.durationInFrames / composition.fps;
+  console.log(`Muxing VO -> ${finalOut}`);
+  execSync(
+    `ffmpeg -y -i "${silent}" -i "${VO}" -c:v copy -c:a aac -b:a 192k -shortest -t ${totalSec} "${finalOut}"`,
+    { stdio: "inherit" }
+  );
+  console.log("Done:", finalOut);
+}
+
+if (mode === "vertical") {
+  await renderWithVO("mansa-stays-vertical", "/mnt/documents/MansaStays-HowToList-2min-Vertical.mp4");
+} else if (mode === "video") {
+  await renderWithVO("mansa-stays", "/mnt/documents/MansaStays-HowToList-2min.mp4");
+} else {
+  await renderWithVO("mansa-stays", "/mnt/documents/MansaStays-HowToList-2min.mp4");
+  await renderWithVO("mansa-stays-vertical", "/mnt/documents/MansaStays-HowToList-2min-Vertical.mp4");
 }
 
 await browser.close({ silent: false });

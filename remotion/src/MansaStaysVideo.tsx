@@ -1,4 +1,4 @@
-import { AbsoluteFill, Series, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence } from "remotion";
+import { AbsoluteFill, Series, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence, Audio, staticFile } from "remotion";
 import { loadFont as loadPlayfair } from "@remotion/google-fonts/PlayfairDisplay";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 import { CinematicBg } from "./components/CinematicBg";
@@ -470,6 +470,7 @@ export const MansaStaysVideo = () => {
   return (
     <AbsoluteFill style={{ background: "#000814" }}>
       <CinematicBg totalFrames={MANSA_STAYS_TOTAL} />
+      <Audio src={staticFile("audio/vo-mansa-stays.mp3")} volume={1} />
       <Series>
         <Series.Sequence durationInFrames={SCENE_LEN}><SceneHook /></Series.Sequence>
         <Series.Sequence durationInFrames={SCENE_LEN}><Scene2 /></Series.Sequence>
