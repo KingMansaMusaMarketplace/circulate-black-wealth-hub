@@ -25,6 +25,7 @@ const HowItWorksPage = () => {
 
   const navSections = [
     { id: 'hero', label: 'Overview' },
+    { id: 'customer-flow', label: 'Start Here' },
     { id: 'interactive-demo', label: 'Demo' },
     { id: 'how-it-works', label: 'How It Works' },
     { id: 'videos', label: 'Videos' },
