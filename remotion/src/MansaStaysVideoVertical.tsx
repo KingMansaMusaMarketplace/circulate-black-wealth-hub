@@ -315,8 +315,8 @@ const Scene8 = () => {
 
 const TitleStampV = () => {
   const frame = useCurrentFrame();
-  const op = interpolate(frame, [0, 8, 55, 70], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const y = interpolate(frame, [0, 18], [30, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const op = interpolate(frame, [0, 45, 65], [1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const y = interpolate(frame, [0, 18], [0, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ background: "rgba(0,8,20,0.78)", justifyContent: "center", alignItems: "center", padding: 60, opacity: op }}>
       <div style={{ transform: `translateY(${y}px)`, textAlign: "center" }}>
