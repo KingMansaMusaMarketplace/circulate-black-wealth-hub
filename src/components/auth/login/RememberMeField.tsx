@@ -34,7 +34,7 @@ export const RememberMeField: React.FC<RememberMeFieldProps> = ({ form }) => {
         )}
       />
       <Link 
-        to="/reset-password"
+        to="/password-reset"
         className="text-sm text-mansagold hover:text-amber-300 transition-colors font-medium"
       >
         Forgot password?
