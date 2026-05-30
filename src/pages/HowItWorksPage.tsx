@@ -83,6 +83,9 @@ const HowItWorksPage = () => {
       <div className="relative z-10">
         <HeroSection />
         <PageNavigation sections={navSections} />
+        <CustomerFlowVideoBanner />
+      </section>
+      </>}
       
       {/* Interactive Demo Section */}
         <LazySection threshold={0.3} rootMargin="150px">
