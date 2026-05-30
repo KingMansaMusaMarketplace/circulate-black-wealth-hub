@@ -13,11 +13,17 @@ interface PropertyPhotoUploaderProps {
 const MAX_PHOTOS = 20;
 const MAX_SIZE_MB = 25;
 const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp'];
+const ACCEPT_ATTR = '.jpg,.jpeg,.png,.webp,image/jpeg,image/jpg,image/png,image/webp';
 
 const getImageMimeType = (file: File) => {
   const ext = file.name.split('.').pop()?.toLowerCase();
+  const reported = (file.type || '').toLowerCase();
 
-  if (file.type) return file.type.toLowerCase();
+  // Normalize non-standard "image/jpg" to "image/jpeg"
+  if (reported === 'image/jpg') return 'image/jpeg';
+  if (ACCEPTED.includes(reported)) return reported;
+
+  // Fall back to extension when the browser didn't set a MIME type
   if (ext === 'jpg' || ext === 'jpeg') return 'image/jpeg';
   if (ext === 'png') return 'image/png';
   if (ext === 'webp') return 'image/webp';
@@ -181,7 +187,7 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
         <input
           ref={inputRef}
           type="file"
-          accept={ACCEPTED.join(',')}
+          accept={ACCEPT_ATTR}
           multiple
           className="hidden"
           onChange={(e) => handleFiles(e.target.files)}
