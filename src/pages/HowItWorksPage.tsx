@@ -5,6 +5,7 @@ import HeroSection from '@/components/HowItWorks/HeroSection';
 import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
 import CTASection from '@/components/HowItWorks/CTASection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
+import CustomerFlowVideoBanner from '@/components/HowItWorks/CustomerFlowVideoBanner';
 import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
@@ -24,6 +25,7 @@ const HowItWorksPage = () => {
 
   const navSections = [
     { id: 'hero', label: 'Overview' },
+    { id: 'customer-flow', label: 'Start Here' },
     { id: 'interactive-demo', label: 'Demo' },
     { id: 'how-it-works', label: 'How It Works' },
     { id: 'videos', label: 'Videos' },
@@ -81,7 +83,8 @@ const HowItWorksPage = () => {
       <div className="relative z-10">
         <HeroSection />
         <PageNavigation sections={navSections} />
-      
+        <CustomerFlowVideoBanner />
+
       {/* Interactive Demo Section */}
         <LazySection threshold={0.3} rootMargin="150px">
           <section id="interactive-demo">
