@@ -288,6 +288,69 @@ const VacationRentalsPage: React.FC = () => {
         </motion.div>
       </div>
 
+      {/* Short-Term Rental Host Banner */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="relative overflow-hidden rounded-2xl border border-mansagold/30 bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-mansablue/40 backdrop-blur-xl"
+        >
+          <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-mansagold/20 rounded-full blur-3xl" />
+          <div className="relative p-6 md:p-8 grid md:grid-cols-2 gap-6 items-center">
+            <div className="md:order-2">
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-mansagold bg-mansagold/10 border border-mansagold/30 px-3 py-1 rounded-full mb-3">
+                <Sparkles className="w-3 h-3" /> Hosting on Mansa Stays
+              </span>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
+                Hosting <span className="text-mansagold">nightly stays</span>?
+              </h2>
+              <p className="text-white/70 text-sm md:text-base mb-4">
+                List your short-term rental in minutes. Keep 92.5% of every booking — we only charge a 7.5% platform fee, well below the 14–20% other platforms take.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-4 text-xs">
+                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+                  <Home className="w-3.5 h-3.5 text-mansagold" /> Nightly & weekly stays
+                </span>
+                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+                  <Luggage className="w-3.5 h-3.5 text-mansagold" /> 92.5% host payout
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  onClick={() => navigate('/stays/host')}
+                  className="bg-mansagold text-slate-900 hover:bg-mansagold/90 font-bold"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  List your Short-Term Rental
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
+            <div className="flex justify-center md:justify-start md:order-1">
+              <figure className="w-full max-w-md">
+                <div className="relative overflow-hidden rounded-xl border border-mansagold/40 bg-black shadow-2xl shadow-mansagold/10 aspect-video">
+                  <video
+                    src="/videos/MansaStays-HowToList-2min.mp4"
+                    controls
+                    preload="metadata"
+                    playsInline
+                    className="w-full h-full object-cover"
+                    aria-label="How to List your Short-Term Rental — 2 minute walkthrough"
+                  />
+                </div>
+                <figcaption className="text-center text-xs text-white/70 mt-2">
+                  ▶ <span className="text-mansagold font-semibold">How to List your Short-Term Rental</span> — 2 min walkthrough
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+
+
       {/* Filters Panel */}
       <PropertyFiltersPanel
         isOpen={filtersOpen}
