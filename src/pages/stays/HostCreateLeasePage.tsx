@@ -12,6 +12,9 @@ import { toast } from "sonner";
 import LeaseLegalFooter from "@/components/stays/lease/LeaseLegalFooter";
 import PropertyPhotoUploader from "@/components/stays/PropertyPhotoUploader";
 import { PROPERTY_TYPES } from "@/lib/lease/property-types";
+import { Lock } from "lucide-react";
+import { Link } from "react-router-dom";
+
 
 const HostCreateLeasePage: React.FC = () => {
   const { user } = useAuth();
