@@ -101,7 +101,10 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
 
       if (error) {
         console.error('Upload error:', error);
-        toast.error(`Failed to upload ${file.name}: ${error.message}`);
+        const msg = /row-level security|policy|unauthorized/i.test(error.message)
+          ? `Couldn't save ${file.name}: your account doesn't have permission. Please sign out, sign back in, and try again.`
+          : `Failed to upload ${file.name}: ${error.message}`;
+        toast.error(msg);
         continue;
       }
 
