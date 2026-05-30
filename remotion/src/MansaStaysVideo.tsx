@@ -278,9 +278,9 @@ const Scene3 = () => (
         <Field label="Listing Title" value="Sunlit Brownstone Retreat" delay={10} />
         <Field label="Property Type" value="Entire Home · Townhouse" delay={50} />
         <div style={{ display: "flex", gap: 14, marginTop: 6 }}>
-          <Sequence from={90} layout="none"><Chip label="2 Bedrooms" active delay={0} /></Sequence>
-          <Sequence from={105} layout="none"><Chip label="2 Baths" active delay={0} /></Sequence>
-          <Sequence from={120} layout="none"><Chip label="Sleeps 6" active delay={0} /></Sequence>
+          <Chip label="2 Bedrooms" active delay={90} />
+          <Chip label="2 Baths" active delay={105} />
+          <Chip label="Sleeps 6" active delay={120} />
         </div>
       </UIPanel>
     }
