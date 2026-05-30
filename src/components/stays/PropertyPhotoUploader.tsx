@@ -14,6 +14,17 @@ const MAX_PHOTOS = 20;
 const MAX_SIZE_MB = 25;
 const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp'];
 
+const getImageMimeType = (file: File) => {
+  const ext = file.name.split('.').pop()?.toLowerCase();
+
+  if (file.type) return file.type.toLowerCase();
+  if (ext === 'jpg' || ext === 'jpeg') return 'image/jpeg';
+  if (ext === 'png') return 'image/png';
+  if (ext === 'webp') return 'image/webp';
+
+  return '';
+};
+
 const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
   photos,
   onChange,
@@ -57,13 +68,15 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
       toast.error("You need to be signed in to upload photos. Please log in and try again.");
       return;
     }
-    // Re-verify the active session matches the userId prop (RLS requires path starts with auth.uid())
+    // Re-verify the active session and use that ID for the storage folder.
+    // RLS requires the first folder in the upload path to match auth.uid().
     const { data: sessionData } = await supabase.auth.getUser();
     const activeId = sessionData?.user?.id;
-    if (!activeId || activeId !== userId) {
+    if (!activeId) {
       toast.error("Your session expired. Please sign out and sign back in, then try uploading again.");
       return;
     }
+    const ownerId = activeId;
     if (photos.length + files.length > MAX_PHOTOS) {
       toast.error(`You can upload up to ${MAX_PHOTOS} photos.`);
       return;
@@ -73,7 +86,9 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
     const uploaded: string[] = [];
 
     for (const file of Array.from(files)) {
-      if (!ACCEPTED.includes(file.type)) {
+      const mimeType = getImageMimeType(file);
+
+      if (!ACCEPTED.includes(mimeType)) {
         toast.error(`${file.name}: only JPG, PNG, or WEBP allowed.`);
         continue;
       }
@@ -92,12 +107,13 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
         continue;
       }
 
-      const ext = file.name.split('.').pop() || 'jpg';
-      const filename = `${userId}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const originalExt = file.name.split('.').pop()?.toLowerCase();
+      const ext = originalExt && ['jpg', 'jpeg', 'png', 'webp'].includes(originalExt) ? originalExt : mimeType.split('/')[1] || 'jpg';
+      const filename = `${ownerId}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
       const { error } = await supabase.storage
         .from('property-photos')
-        .upload(filename, file, { cacheControl: '3600', upsert: false });
+        .upload(filename, file, { cacheControl: '3600', contentType: mimeType, upsert: false });
 
       if (error) {
         console.error('Upload error:', error);
