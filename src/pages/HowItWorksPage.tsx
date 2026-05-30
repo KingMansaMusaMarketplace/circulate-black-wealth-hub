@@ -5,6 +5,7 @@ import HeroSection from '@/components/HowItWorks/HeroSection';
 import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
 import CTASection from '@/components/HowItWorks/CTASection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
+import CustomerFlowVideoBanner from '@/components/HowItWorks/CustomerFlowVideoBanner';
 import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
