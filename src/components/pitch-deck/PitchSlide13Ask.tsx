@@ -23,7 +23,7 @@ const PitchSlide13Ask: React.FC = () => {
   const milestones = [
     { month: '6 months', milestone: '500 verified businesses on protocol', metric: '$75K MRR' },
     { month: '12 months', milestone: '2,000 businesses, 3 enterprise design partners', metric: '$250K MRR' },
-    { month: '18 months', milestone: 'Series A ready — protocol category leader', metric: '$750K MRR' },
+    { month: 'Q1 2027', milestone: 'Series A launch — protocol category leader', metric: '$750K MRR' },
   ];
 
   return (
