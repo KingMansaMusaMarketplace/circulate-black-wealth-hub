@@ -24,7 +24,8 @@ const PitchSlide9Traction: React.FC = () => {
     { phase: 'Q3 2025', milestone: 'First 50 Businesses', status: 'completed' },
     { phase: 'Q1 2026', milestone: 'Kayla AI Workforce Launch', status: 'completed' },
     { phase: 'Q2 2026', milestone: 'Enterprise & White-Label', status: 'in-progress' },
-    { phase: 'Q4 2026', milestone: 'Series A Readiness', status: 'upcoming' },
+    { phase: 'Q4 2026', milestone: 'Seed Extension & Scale', status: 'upcoming' },
+    { phase: 'Q1 2027', milestone: 'Series A Launch', status: 'upcoming' },
   ];
 
   return (
