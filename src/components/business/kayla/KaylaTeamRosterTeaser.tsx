@@ -37,7 +37,7 @@ export const KaylaTeamRosterTeaser: React.FC = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-9 gap-2">
           {SUMMARY.map(({ dept, icon: Icon, count, color }) => (
             <Link
               key={dept}
