@@ -228,7 +228,7 @@ const AI_EMPLOYEES: AIEmployee[] = [
     name: 'Kayla',
     role: 'Chief Executive — Master Orchestrator',
     department: 'EXECUTIVE',
-    description: 'Coordinates the full 33-agent team, holds shared business memory, and routes work to the right specialist.',
+    description: 'Coordinates the full 42-agent team, holds shared business memory, and routes work to the right specialist.',
     capabilities: ['Cross-agent orchestration', 'Shared business context', 'Decision logging', 'Weekly learnings digest'],
     status: 'active',
     savingsPerMonth: '$2,500',
