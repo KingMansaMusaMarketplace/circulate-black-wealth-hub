@@ -5,7 +5,8 @@ import {
   FileText, Gift, Handshake, Heart, Calendar, Receipt, QrCode, TrendingUp,
   BarChart3, Mic, Megaphone, Zap, UserPlus, CheckCircle2, Clock, Briefcase,
   ChevronDown, ChevronUp, Sparkles, Crown, ShieldCheck, Cpu, Rocket, Lock,
-  BookOpen, Boxes, Mail, Target, Building2, Newspaper, Sprout, Users
+  BookOpen, Boxes, Mail, Target, Building2, Newspaper, Sprout, Users,
+  Home, Car, Wrench, Workflow, Bell, Shield, Tag
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
