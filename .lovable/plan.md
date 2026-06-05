@@ -1,62 +1,45 @@
-# Redesign Slide 6: 17 Revenue Streams, Grouped by Strategic Priority
+# Cleaned-Up Strategic Memo → Downloadable DOCX
 
 ## Goal
-Update the pitch deck's Slide 6 (`src/components/pitch-deck/PitchSlide6BusinessModel.tsx`) so it accurately reflects all **17 revenue streams** — but visually grouped to show investor discipline rather than chaos.
+Produce a polished, board-ready one-page strategic memo for 1325.AI that fixes the red flags I previously flagged in Gemini's draft, and deliver it as a downloadable Word document (`.docx`) you can share with Doug.
 
-## What changes
+## Red Flags Being Fixed
 
-**Headline:**
-- Change "8 Revenue Streams" → "17 Revenue Streams"
-- New subtitle: "3 Launch Wedges · 14 Expansion Layers"
+1. **Specific SEC/CFTC citation (91 Fed. Reg. 13714)** — Removed. Replaced with softer counsel-safe language: *"under applicable SEC and CFTC frameworks, as interpreted by counsel."*
+2. **"Preserves 100% corporate equity"** — Removed. Replaced with: *"preserves a clean cap table and avoids token-related dilution at the Seed stage."*
+3. **"$15M pre-money valuation"** — Marked as `[TBD — confirm with counsel]` so it isn't accidentally circulated as a hard number.
+4. **"Six target markets"** — Marked as `[TBD — confirm target list]`.
+5. **"$150K–$300K compliance cost"** — Softened to *"estimated low-to-mid six figures, subject to counsel scoping."*
+6. **"Non-dilutive"** (used loosely) — Replaced with *"clean SAFE structure"* where appropriate.
 
-**New two-section layout:**
+## Memo Structure (one page)
 
-### Section 1 — Launch Wedge (Years 1–2) — 3 streams, prominent
-Larger cards, gold border, "WEDGE" badge:
-1. **Business Subscriptions** — $19–$899/mo tiers, $355 blended ARPU
-2. **Kayla AI Subscriptions** — 33 agentic employees, $12K+/mo overhead replaced
-3. **Corporate Sponsors** — $250K–$1M annually, non-dilutive runway
+1. **Header** — 1325.AI · Strategic Memo · Prepared for: Doug (Counsel) · Date: June 5, 2026 · Status: Internal / Privileged
+2. **Subject line** — Phased Capital Strategy: Seed-Stage SAFE, Deferred Token Layer
+3. **Executive Summary** (3–4 sentences)
+4. **Phase 1 — Seed (Now):** Clean SAFE round, software/ARR focus, patent + 33-agent ecosystem as proof
+5. **Phase 2 — Series A:** Scale ARR, expand corporate sponsors
+6. **Phase 3 — Token Layer (Deferred):** Activated only after revenue + regulatory clarity, under counsel guidance
+7. **Phase 4 — Global Expansion:** Across `[TBD]` target markets
+8. **Conclusion** — Build the engine first; supercharge later
 
-### Section 2 — Expansion Layer (Year 2+) — 14 streams, compact grid
-Smaller cards, muted border, labeled "EXPANSION":
-4. B2B Transaction Fees (1–3%)
-5. Featured Proximity Ads (CPM)
-6. Agent Commissions (referral network)
-7. White-Label Licensing (tenant-branded)
-8. Premium API / Developer Platform
-9. Loyalty Program Fees
-10. Marketplace Listing Boosts
-11. Data & Insights Licensing
-12. Event Sponsorships & Tickets
-13. Certifications & Training
-14. Embedded Financing / Capital Access
-15. Mansa Stays (vacation rental commissions)
-16. Noire Rideshare (ride commissions)
-17. Gemini Enterprise Add-On ($25K setup + $8K/mo)
+## Formatting
 
-**Bottom strip — keep the existing metrics bar but update:**
-- "Revenue Diversification = Resilience" → "Disciplined Wedge → 17-Stream Platform"
-- Keep: 86% Gross Margin · 142% NRR · 2.8-mo CAC Payback · $2.4M 2026 ARR · $355 ARPU
+- US Letter, 1" margins, Arial 11pt body / Arial bold headings
+- MansaBlue (#003366) headings, black body
+- Footer: "1325.AI · Confidential · Privileged Attorney-Client Communication"
+- Filename: `1325ai_strategic_memo_v1.docx`
+- Saved to `/mnt/documents/` and delivered via a `<presentation-artifact>` tag
 
-## Files touched
-- `src/components/pitch-deck/PitchSlide6BusinessModel.tsx` (only file edited)
+## Technical Approach
 
-## What I will NOT touch
-- Slides 9, 10, 13 (already-correct roadmap, market, ask slides)
-- `siteConfig`, pricing logic, IAP tiers, edge functions
-- The downloadable investor PDF (separate ask if you want it regenerated after)
+- Use the bundled `docx` skill (docx-js) to generate the file
+- QA by converting to PDF + image and visually inspecting before delivery
+- No changes to the app codebase — this is a one-off artifact
 
-## Design notes
-- Stays on-brand: True Black bg, MansaGold (#FFB300) accents for wedge, muted white/10 for expansion
-- Wedge cards: ~2x visual weight (larger icon, larger title, gold border-2)
-- Expansion grid: 14 cards in a 7×2 or responsive grid, small icon + 2-line label
-- All within one slide — no scrolling, fits 1920×1080
+## What You'll Need to Do After
 
-## After you approve
-Once I'm in build mode I'll:
-1. Rewrite the slide component
-2. Verify it renders cleanly in the preview at the pitch-deck route
-3. Ask if you want the downloadable PDF regenerated to match
+- Review the `[TBD]` placeholders and fill in (valuation, target markets) before sending to anyone outside you + Doug
+- Have Doug review the regulatory language before external circulation
 
-## Open question (answer in chat, no rebuild needed)
-The 14 expansion streams above are my best read of your business. If any are **wrong** or you'd swap one for something I missed (e.g., affiliate revenue, white-label app store, accelerator fees), tell me now and I'll fix the list before building.
+Shall I proceed?
