@@ -1,152 +1,174 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
-import { 
-  Building2, 
-  Users, 
-  DollarSign, 
+import {
+  Building2,
+  Users,
+  DollarSign,
   Target,
   Megaphone,
   UserPlus,
   Bot,
-  Layers
+  Layers,
+  Percent,
+  Code2,
+  Gift,
+  Star,
+  Database,
+  CalendarDays,
+  GraduationCap,
+  Landmark,
+  BedDouble,
+  Car,
+  Sparkles,
 } from 'lucide-react';
 
+const wedgeStreams = [
+  {
+    icon: Building2,
+    name: 'Business Subscriptions',
+    description: 'Essentials $19 · Starter $79 · Pro $299 · Enterprise $899/mo',
+    revenue: '$355 Blended ARPU',
+  },
+  {
+    icon: Bot,
+    name: 'Kayla AI Subscriptions',
+    description: '33 agentic AI employees · ~4 Roles Covered · $12,100+/mo savings',
+    revenue: 'Embedded in tiers',
+  },
+  {
+    icon: Users,
+    name: 'Corporate Sponsors',
+    description: 'Non-dilutive runway from Fortune 500 mission partners',
+    revenue: '$250K–$1M / yr',
+  },
+];
+
+const expansionStreams = [
+  { icon: DollarSign, name: 'B2B Transaction Fees', note: '1–3% commission' },
+  { icon: Target, name: 'Proximity Ads', note: 'CPM-based' },
+  { icon: UserPlus, name: 'Agent Commissions', note: 'Referral network' },
+  { icon: Layers, name: 'White-Label Licensing', note: 'Tenant-branded' },
+  { icon: Code2, name: 'Premium API', note: 'Developer platform' },
+  { icon: Gift, name: 'Loyalty Program Fees', note: 'Rewards engine' },
+  { icon: Star, name: 'Listing Boosts', note: 'Featured placement' },
+  { icon: Database, name: 'Data & Insights', note: 'Anonymized licensing' },
+  { icon: CalendarDays, name: 'Event Sponsorships', note: 'Tickets + brand' },
+  { icon: GraduationCap, name: 'Certifications', note: 'Training revenue' },
+  { icon: Landmark, name: 'Embedded Financing', note: 'Capital access' },
+  { icon: BedDouble, name: 'Mansa Stays', note: 'Rental commissions' },
+  { icon: Car, name: 'Noire Rideshare', note: 'Ride commissions' },
+  { icon: Sparkles, name: 'Gemini Enterprise', note: '$25K + $8K/mo' },
+];
+
 const PitchSlide6BusinessModel: React.FC = () => {
-  const revenueStreams = [
-    {
-      icon: Building2,
-      name: 'Business Subscriptions',
-      description: 'Essentials $19/mo · Starter $79/mo · Pro $299/mo · Enterprise $899/mo + $50/user',
-      revenue: '$355 Blended ARPU',
-      color: 'mansagold'
-    },
-    {
-      icon: Bot,
-      name: 'Kayla AI Subscriptions',
-      description: '33 agentic AI employees replacing $12K+/mo overhead per business',
-      revenue: 'Embedded in tiers',
-      color: 'cyan'
-    },
-    {
-      icon: Users,
-      name: 'Corporate Sponsors',
-      description: 'Major brands supporting Black business ecosystem',
-      revenue: '$250K-1M annually',
-      color: 'blue'
-    },
-    {
-      icon: DollarSign,
-      name: 'B2B Transaction Fees',
-      description: '1-3% commission on marketplace transactions',
-      revenue: 'Scales with volume',
-      color: 'green'
-    },
-    {
-      icon: Target,
-      name: 'Featured Proximity Ads',
-      description: 'Location-based promotional notifications',
-      revenue: 'CPM-based pricing',
-      color: 'purple'
-    },
-    {
-      icon: UserPlus,
-      name: 'Agent Commissions',
-      description: 'Sales agents earn recurring commissions on referrals',
-      revenue: 'Cost-effective acquisition',
-      color: 'orange'
-    },
-    {
-      icon: Layers,
-      name: 'White-Label Licensing',
-      description: 'Full tenant-branded deployments with custom domains, subdomain routing, branded CSS & APIs',
-      revenue: 'High-margin B2B licensing',
-      color: 'pink'
-    },
-    {
-      icon: Megaphone,
-      name: 'Premium Features',
-      description: 'Advanced analytics, API access, developer platform',
-      revenue: 'High-margin upsells',
-      color: 'yellow'
-    },
-  ];
-
-  const getColorClasses = (color: string) => {
-    switch (color) {
-      case 'mansagold': return 'bg-mansagold/20 text-mansagold';
-      case 'blue': return 'bg-blue-500/20 text-blue-400';
-      case 'green': return 'bg-green-500/20 text-green-400';
-      case 'purple': return 'bg-purple-500/20 text-purple-400';
-      case 'orange': return 'bg-orange-500/20 text-orange-400';
-      case 'pink': return 'bg-pink-500/20 text-pink-400';
-      case 'cyan': return 'bg-cyan-500/20 text-cyan-400';
-      case 'yellow': return 'bg-yellow-500/20 text-yellow-400';
-      default: return 'bg-white/20 text-white';
-    }
-  };
-
   return (
-    <div className="h-full flex items-center justify-center px-8 py-8">
-      <div className="max-w-6xl mx-auto w-full">
+    <div className="h-full flex items-center justify-center px-6 py-6">
+      <div className="max-w-7xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-6"
+          className="text-center mb-5"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-3">
-            <span className="text-mansagold">8</span> Revenue Streams
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">
+            <span className="text-mansagold">17</span> Revenue Streams
           </h2>
-          <p className="text-lg text-white/70 max-w-3xl mx-auto">
-            Diversified revenue model with enterprise pricing & white-label licensing
+          <p className="text-sm md:text-base text-white/70 max-w-3xl mx-auto">
+            <span className="text-mansagold font-semibold">3 Launch Wedges</span> drive years 1–2 ·
+            <span className="text-white/80 font-semibold"> 14 Expansion Layers</span> unlock the platform ceiling
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
-          {revenueStreams.map((stream, index) => {
-            const colorClasses = getColorClasses(stream.color);
-            return (
+        {/* WEDGE SECTION */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="h-px flex-1 bg-mansagold/40" />
+            <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-mansagold uppercase">
+              Launch Wedge · Years 1–2
+            </span>
+            <div className="h-px flex-1 bg-mansagold/40" />
+          </div>
+          <div className="grid md:grid-cols-3 gap-3">
+            {wedgeStreams.map((stream, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.06 }}
+                transition={{ delay: index * 0.08 }}
               >
-                <Card className="p-4 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full">
-                  <div className={`w-10 h-10 ${colorClasses.split(' ')[0]} rounded-lg flex items-center justify-center mb-3`}>
-                    <stream.icon className={`w-5 h-5 ${colorClasses.split(' ')[1]}`} />
+                <Card className="p-4 bg-gradient-to-br from-mansagold/15 to-black/80 border-2 border-mansagold h-full relative overflow-hidden">
+                  <div className="absolute top-2 right-2 text-[9px] font-black tracking-widest text-mansagold/80 bg-mansagold/10 px-2 py-0.5 rounded">
+                    WEDGE
                   </div>
-                  <h3 className="text-sm font-bold text-white mb-1">{stream.name}</h3>
-                  <p className="text-white/70 text-xs font-medium mb-2">{stream.description}</p>
-                  <div className={`text-xs font-bold ${colorClasses.split(' ')[1]}`}>
-                    {stream.revenue}
+                  <div className="w-12 h-12 bg-mansagold/20 rounded-xl flex items-center justify-center mb-3">
+                    <stream.icon className="w-6 h-6 text-mansagold" />
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-1.5">{stream.name}</h3>
+                  <p className="text-white/70 text-xs mb-2 leading-snug">{stream.description}</p>
+                  <div className="text-sm font-bold text-mansagold">{stream.revenue}</div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* EXPANSION SECTION */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="h-px flex-1 bg-white/20" />
+            <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-white/60 uppercase">
+              Expansion Layer · Year 2+
+            </span>
+            <div className="h-px flex-1 bg-white/20" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
+            {expansionStreams.map((stream, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + index * 0.03 }}
+              >
+                <Card className="p-2.5 bg-black/60 border border-white/15 hover:border-white/40 transition-all h-full">
+                  <div className="flex items-start gap-2">
+                    <div className="w-7 h-7 bg-white/10 rounded-md flex items-center justify-center flex-shrink-0">
+                      <stream.icon className="w-3.5 h-3.5 text-white/80" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[11px] font-bold text-white leading-tight">{stream.name}</div>
+                      <div className="text-[10px] text-white/50 leading-tight mt-0.5">{stream.note}</div>
+                    </div>
                   </div>
                 </Card>
               </motion.div>
-            );
-          })}
+            ))}
+          </div>
         </div>
 
+        {/* METRICS STRIP */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-4"
+          transition={{ delay: 0.8 }}
         >
-          <Card className="p-4 bg-black/80 border-2 border-mansagold">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <Card className="p-3 md:p-4 bg-black/80 border-2 border-mansagold">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-3">
               <div>
-                <h3 className="text-lg font-bold text-white mb-1">Revenue Diversification = Resilience</h3>
-                <p className="text-white/80 font-medium text-sm">86% Gross Margin · 142% NRR · 2.8-month CAC Payback</p>
+                <h3 className="text-base md:text-lg font-bold text-white mb-0.5">
+                  Disciplined Wedge → 17-Stream Platform
+                </h3>
+                <p className="text-white/70 font-medium text-xs">
+                  86% Gross Margin · 142% NRR · 2.8-mo CAC Payback
+                </p>
               </div>
               <div className="flex items-center gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-black text-mansagold">$2.4M</div>
-                  <div className="text-xs text-white font-semibold">2026 Target ARR</div>
+                  <div className="text-2xl md:text-3xl font-black text-mansagold">$2.4M</div>
+                  <div className="text-[10px] text-white font-semibold">2026 Target ARR</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-black text-white">$225</div>
-                  <div className="text-xs text-white/60 font-semibold">Blended ARPU</div>
+                  <div className="text-2xl md:text-3xl font-black text-white">$355</div>
+                  <div className="text-[10px] text-white/60 font-semibold">Blended ARPU</div>
                 </div>
               </div>
             </div>
