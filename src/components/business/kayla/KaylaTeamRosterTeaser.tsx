@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bot, ArrowRight, Crown, Megaphone, DollarSign, Briefcase, Heart } from 'lucide-react';
+import { Bot, ArrowRight, Crown, Megaphone, DollarSign, Briefcase, Heart, Home, Car, Workflow, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const SUMMARY = [
@@ -10,6 +10,10 @@ const SUMMARY = [
   { dept: 'Finance', icon: DollarSign, count: 6, color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' },
   { dept: 'Operations', icon: Briefcase, count: 6, color: 'text-slate-300 bg-slate-500/10 border-slate-500/30' },
   { dept: 'Community', icon: Heart, count: 5, color: 'text-red-400 bg-red-500/10 border-red-500/30' },
+  { dept: 'Hospitality', icon: Home, count: 3, color: 'text-amber-300 bg-amber-500/10 border-amber-500/30' },
+  { dept: 'Mobility', icon: Car, count: 1, color: 'text-blue-400 bg-blue-500/10 border-blue-500/30' },
+  { dept: 'Automation', icon: Workflow, count: 3, color: 'text-purple-400 bg-purple-500/10 border-purple-500/30' },
+  { dept: 'Risk', icon: Shield, count: 2, color: 'text-orange-400 bg-orange-500/10 border-orange-500/30' },
 ];
 
 /**
