@@ -1,45 +1,73 @@
-# Cleaned-Up Strategic Memo → Downloadable DOCX
+# 1325.AI Year One — Team Edition (Anniversary PDF)
 
-## Goal
-Produce a polished, board-ready one-page strategic memo for 1325.AI that fixes the red flags I previously flagged in Gemini's draft, and deliver it as a downloadable Word document (`.docx`) you can share with Doug.
+A celebratory, gift-style PDF for the friends & family team Craig and you brought along for the ride. Designed to make them feel **seen, proud, and bought-in** — without exposing the IP that protects everyone's future payday.
 
-## Red Flags Being Fixed
+---
 
-1. **Specific SEC/CFTC citation (91 Fed. Reg. 13714)** — Removed. Replaced with softer counsel-safe language: *"under applicable SEC and CFTC frameworks, as interpreted by counsel."*
-2. **"Preserves 100% corporate equity"** — Removed. Replaced with: *"preserves a clean cap table and avoids token-related dilution at the Seed stage."*
-3. **"$15M pre-money valuation"** — Marked as `[TBD — confirm with counsel]` so it isn't accidentally circulated as a hard number.
-4. **"Six target markets"** — Marked as `[TBD — confirm target list]`.
-5. **"$150K–$300K compliance cost"** — Softened to *"estimated low-to-mid six figures, subject to counsel scoping."*
-6. **"Non-dilutive"** (used loosely) — Replaced with *"clean SAFE structure"* where appropriate.
+## Tone & Feel
+- Warm, personal, founder-voice (not corporate)
+- True Black + MansaBlue (#003366) + MansaGold (#FFB300) — on-brand
+- Apple-like minimal: lots of whitespace, big typography, one idea per page
+- ~16–20 pages, landscape, gift-quality (printable)
 
-## Memo Structure (one page)
+---
 
-1. **Header** — 1325.AI · Strategic Memo · Prepared for: Doug (Counsel) · Date: June 5, 2026 · Status: Internal / Privileged
-2. **Subject line** — Phased Capital Strategy: Seed-Stage SAFE, Deferred Token Layer
-3. **Executive Summary** (3–4 sentences)
-4. **Phase 1 — Seed (Now):** Clean SAFE round, software/ARR focus, patent + 33-agent ecosystem as proof
-5. **Phase 2 — Series A:** Scale ARR, expand corporate sponsors
-6. **Phase 3 — Token Layer (Deferred):** Activated only after revenue + regulatory clarity, under counsel guidance
-7. **Phase 4 — Global Expansion:** Across `[TBD]` target markets
-8. **Conclusion** — Build the engine first; supercharge later
+## What's INCLUDED (safe to share)
 
-## Formatting
+**1. Cover** — "1325.AI · Year One · Built With Family" + anniversary date
 
-- US Letter, 1" margins, Arial 11pt body / Arial bold headings
-- MansaBlue (#003366) headings, black body
-- Footer: "1325.AI · Confidential · Privileged Attorney-Client Communication"
-- Filename: `1325ai_strategic_memo_v1.docx`
-- Saved to `/mnt/documents/` and delivered via a `<presentation-artifact>` tag
+**2. A Letter From the Founders** — Personal note from you & Craig. The "why," the gratitude, the journey from idea to today.
 
-## Technical Approach
+**3. The Origin Story** — How 1325.AI was born under the Mansa Musa Marketplace umbrella. The mission: circulate Black wealth through AI.
 
-- Use the bundled `docx` skill (docx-js) to generate the file
-- QA by converting to PDF + image and visually inspecting before delivery
-- No changes to the app codebase — this is a one-off artifact
+**4. Year One By The Numbers** *(non-sensitive)* — Months in build, agents created, pages shipped, lines of code, late nights, coffees consumed — fun, human metrics. **No revenue, no user counts, no financial projections.**
 
-## What You'll Need to Do After
+**5. Meet the 42** — Two-page spread introducing all 42 AI agents by name + one-line public-facing role description. (e.g., "Kayla — Your AI Business Partner"). **No architecture, no prompts, no routing logic.**
+   - Executive (9), Marketing (7), Finance (6), Operations (6), Community (5), Hospitality (3), Mobility (1), Automation (3), Risk (2)
 
-- Review the `[TBD]` placeholders and fill in (valuation, target markets) before sending to anyone outside you + Doug
-- Have Doug review the regulatory language before external circulation
+**6. The Human Team** — A page dedicated to each team member: photo, name, role, a personal thank-you from you & Craig. (Placeholder slots — you fill in names.)
 
-Shall I proceed?
+**7. What We Built This Year** — High-level milestones only: launched 1325.AI, built Kayla, partnered with X businesses, hit Y community moments. **Bullet-level, no metrics that reveal traction or lack thereof.**
+
+**8. The Vision for Year Two** — Aspirational, directional: "Where we're going." No specific revenue targets, no pricing, no patent details.
+
+**9. Why You Matter** — A page reminding the team that no money is coming in YET, but their belief is the currency that built this. Honest, motivating.
+
+**10. Closing Page** — "To the next 1,325 days. — Craig & [You]" + signatures
+
+---
+
+## What's EXCLUDED (protects the secret sauce)
+
+- ❌ Revenue model, pricing tiers, sponsor pricing ($25K/$8K Gemini, etc.)
+- ❌ Platform architecture (how agents route, learning loop, edge functions)
+- ❌ USPTO 63/969,202 patent claims
+- ❌ Financial projections, unit economics, CAC/LTV
+- ❌ Investor deck content
+- ❌ Strategic memo content
+- ❌ Database schema, tech stack details
+- ❌ Specific business partners or sponsor names (unless already public)
+- ❌ Any roadmap that competitors could copy
+
+---
+
+## Optional Add-On: 1-Page Friends & Family NDA
+A simple, warm-toned mutual NDA (non-disclosure agreement — a 1-page document saying "what's shared here stays here") you can ask each team member to sign before handing over the PDF. Takes 30 seconds, protects everyone. **I'll draft this alongside the PDF if you want.**
+
+---
+
+## Deliverable
+- `1325AI_Year_One_Team_Edition.pdf` — landscape, ~16–20 pages, gift-quality
+- (Optional) `1325AI_Team_NDA.pdf` — 1-page mutual NDA template
+- Saved to `/mnt/documents/` for you to download
+
+---
+
+## What I Need From You Before Building
+
+1. **Team member names + roles** (and photos if you want them included — otherwise I'll use elegant initial monograms)
+2. **A short personal note** you & Craig want on the founder letter page (or I can draft one for your approval)
+3. **Confirm**: include the optional NDA template? (Yes / No / Maybe later)
+4. **Anniversary date** to print on the cover
+
+Once you give me those four things (or say "you draft it all, I'll edit"), I'll switch to build mode and produce the PDF.
