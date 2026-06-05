@@ -36,10 +36,10 @@ const KaylaTeamPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Your AI Team — Kayla & 33 Agents | 1325.ai</title>
+        <title>Your AI Team — Kayla & 42 Agents | 1325.ai</title>
         <meta
           name="description"
-          content="Meet Kayla and her coordinated team of 33 specialized AI agents working 24/7 for your business — covering ~4 roles and saving $12,100+/mo."
+          content="Meet Kayla and her coordinated team of 42 specialized AI agents working 24/7 across 9 departments — covering ~4 roles and saving $12,100+/mo."
         />
         <link rel="canonical" href="https://1325.ai/kayla/team" />
       </Helmet>
@@ -60,9 +60,10 @@ const KaylaTeamPage: React.FC = () => {
               Your AI Team
             </h1>
             <p className="text-white/60 max-w-2xl">
-              Kayla orchestrates 33 specialized AI agents across Finance, Marketing,
-              Operations, Growth, and Community. They share one memory, learn from your
-              feedback, and coordinate so you don't have to.
+              Kayla orchestrates 42 specialized AI agents across Executive, Marketing,
+              Finance, Operations, Community, Hospitality, Mobility, Automation, and
+              Risk. They share one memory, learn from your feedback, and coordinate so
+              you don't have to.
             </p>
           </header>
 
