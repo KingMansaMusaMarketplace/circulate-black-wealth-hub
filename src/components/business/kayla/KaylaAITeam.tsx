@@ -5,7 +5,8 @@ import {
   FileText, Gift, Handshake, Heart, Calendar, Receipt, QrCode, TrendingUp,
   BarChart3, Mic, Megaphone, Zap, UserPlus, CheckCircle2, Clock, Briefcase,
   ChevronDown, ChevronUp, Sparkles, Crown, ShieldCheck, Cpu, Rocket, Lock,
-  BookOpen, Boxes, Mail, Target, Building2, Newspaper, Sprout, Users
+  BookOpen, Boxes, Mail, Target, Building2, Newspaper, Sprout, Users,
+  Home, Car, Wrench, Workflow, Bell, Shield, Tag
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -227,7 +228,7 @@ const AI_EMPLOYEES: AIEmployee[] = [
     name: 'Kayla',
     role: 'Chief Executive — Master Orchestrator',
     department: 'EXECUTIVE',
-    description: 'Coordinates the full 33-agent team, holds shared business memory, and routes work to the right specialist.',
+    description: 'Coordinates the full 42-agent team, holds shared business memory, and routes work to the right specialist.',
     capabilities: ['Cross-agent orchestration', 'Shared business context', 'Decision logging', 'Weekly learnings digest'],
     status: 'active',
     savingsPerMonth: '$2,500',
@@ -428,9 +429,121 @@ const AI_EMPLOYEES: AIEmployee[] = [
     savingsPerMonth: '$250',
     badge: 'COMMUNITY',
   },
+  // ============================================================
+  // EXPANSION TIER (v32 — Agents #34–#42): Hospitality, Mobility,
+  // Automation, and Risk specialists added June 2026.
+  // ============================================================
+  {
+    id: 'stays-concierge',
+    icon: Home,
+    name: 'Stays Concierge',
+    role: 'Guest Experience — Mansa Stays',
+    department: 'HOSPITALITY',
+    description: 'Handles guest messaging, check-in instructions, and 5-star recovery for every Mansa Stays booking.',
+    capabilities: ['24/7 guest messaging', 'Auto check-in / check-out flows', 'Review prompt timing', 'Issue triage & host alerts'],
+    status: 'active',
+    savingsPerMonth: '$650',
+    badge: 'HOSPITALITY',
+  },
+  {
+    id: 'pricing-optimizer',
+    icon: Tag,
+    name: 'Pricing Optimizer',
+    role: 'Dynamic Rate Engine',
+    department: 'HOSPITALITY',
+    description: 'Adjusts nightly rates based on demand, local events, comp-set, and seasonality to maximize RevPAR.',
+    capabilities: ['Demand forecasting', 'Event-driven surge pricing', 'Comp-set monitoring', 'Min-stay optimization'],
+    status: 'active',
+    savingsPerMonth: '$550',
+    badge: 'HOSPITALITY',
+  },
+  {
+    id: 'maintenance-reminder',
+    icon: Wrench,
+    name: 'Maintenance Reminder',
+    role: 'Property & Asset Upkeep',
+    department: 'HOSPITALITY',
+    description: 'Tracks recurring maintenance, cleaning turns, and inspection cycles so nothing slips between guests.',
+    capabilities: ['Turnover scheduling', 'Preventive maintenance alerts', 'Vendor dispatch', 'Photo-verified completions'],
+    status: 'active',
+    savingsPerMonth: '$300',
+    badge: 'HOSPITALITY',
+  },
+  {
+    id: 'driver-dispatcher',
+    icon: Car,
+    name: 'Driver Dispatcher',
+    role: 'Mobility — Noire Rideshare',
+    department: 'MOBILITY',
+    description: 'Matches riders to drivers, balances supply & demand, and routes airport / event surges in real time.',
+    capabilities: ['Real-time matching', 'Surge zone forecasting', 'Driver heatmaps', 'Incident escalation'],
+    status: 'active',
+    savingsPerMonth: '$800',
+    badge: 'MOBILITY',
+  },
+  {
+    id: 'calendar-sync',
+    icon: Calendar,
+    name: 'Calendar Sync',
+    role: 'Cross-Platform Scheduling',
+    department: 'AUTOMATION',
+    description: 'Keeps Google, Outlook, Stays, and booking calendars in sync to prevent double-bookings and missed slots.',
+    capabilities: ['Two-way calendar sync', 'Conflict resolution', 'Buffer-time rules', 'Multi-team visibility'],
+    status: 'active',
+    savingsPerMonth: '$250',
+    badge: 'AUTOMATION',
+  },
+  {
+    id: 'workflow-architect',
+    icon: Workflow,
+    name: 'Workflow Architect',
+    role: 'No-Code Automation Builder',
+    department: 'AUTOMATION',
+    description: 'Designs and deploys multi-step automations (Zapier-style) across your tools without writing code.',
+    capabilities: ['Visual workflow builder', 'Multi-app integrations', 'Conditional branching', 'Run history & rollback'],
+    status: 'active',
+    savingsPerMonth: '$700',
+    badge: 'AUTOMATION',
+  },
+  {
+    id: 'trigger-monitor',
+    icon: Bell,
+    name: 'Trigger Monitor',
+    role: 'Event-Driven Alerts',
+    department: 'AUTOMATION',
+    description: 'Watches signals — funding rounds, news mentions, inventory thresholds — and fires the right playbook.',
+    capabilities: ['Custom trigger rules', 'Signal aggregation', 'Auto-playbook execution', 'Slack / email notifications'],
+    status: 'active',
+    savingsPerMonth: '$400',
+    badge: 'AUTOMATION',
+  },
+  {
+    id: 'tax-risk-strategist',
+    icon: BarChart3,
+    name: 'Tax Risk Strategist',
+    role: 'Quarterly Tax & Audit Defense',
+    department: 'RISK',
+    description: 'Models quarterly tax exposure, flags audit-risk patterns, and prepares defensible documentation.',
+    capabilities: ['Quarterly estimate modeling', 'Audit-risk scoring', 'Document defensibility check', 'Nexus & multi-state alerts'],
+    status: 'active',
+    savingsPerMonth: '$550',
+    badge: 'RISK',
+  },
+  {
+    id: 'compliance-guardian',
+    icon: Shield,
+    name: 'Compliance Guardian',
+    role: 'Regulatory & Policy Watchdog',
+    department: 'RISK',
+    description: 'Continuously scans federal, state, and industry rules that affect your business and prepares response steps.',
+    capabilities: ['Reg change monitoring', 'Industry-specific rule sets', 'Policy update drafts', 'Filing deadline tracking'],
+    status: 'active',
+    savingsPerMonth: '$900',
+    badge: 'RISK',
+  },
 ];
 
-const DEPARTMENTS = ['ALL', 'EXECUTIVE', 'MARKETING', 'FINANCE', 'OPERATIONS', 'COMMUNITY'] as const;
+const DEPARTMENTS = ['ALL', 'EXECUTIVE', 'MARKETING', 'FINANCE', 'OPERATIONS', 'COMMUNITY', 'HOSPITALITY', 'MOBILITY', 'AUTOMATION', 'RISK'] as const;
 
 const departmentColors: Record<string, string> = {
   EXECUTIVE: 'bg-mansagold/20 text-mansagold border-mansagold/40',
@@ -438,6 +551,10 @@ const departmentColors: Record<string, string> = {
   FINANCE: 'bg-green-500/20 text-green-400 border-green-500/30',
   OPERATIONS: 'bg-slate-500/20 text-slate-300 border-slate-500/30',
   COMMUNITY: 'bg-red-500/20 text-red-400 border-red-500/30',
+  HOSPITALITY: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  MOBILITY: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+  AUTOMATION: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  RISK: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
 };
 
 const departmentIcons: Record<string, React.ElementType> = {
@@ -446,6 +563,10 @@ const departmentIcons: Record<string, React.ElementType> = {
   FINANCE: DollarSign,
   OPERATIONS: Briefcase,
   COMMUNITY: Heart,
+  HOSPITALITY: Home,
+  MOBILITY: Car,
+  AUTOMATION: Workflow,
+  RISK: Shield,
 };
 
 const statusColors: Record<string, string> = {
