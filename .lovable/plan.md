@@ -1,53 +1,62 @@
+# Redesign Slide 6: 17 Revenue Streams, Grouped by Strategic Priority
+
 ## Goal
-Generate a **90-second branded walkthrough video** explaining the 1325.AI 3-step customer flow (Sign Up → Discover → Scan & Save), render it to MP4, and drop it into `public/videos/1325AI-CustomerFlow-3Steps.mp4` so the banner on `/how-it-works` plays it automatically.
+Update the pitch deck's Slide 6 (`src/components/pitch-deck/PitchSlide6BusinessModel.tsx`) so it accurately reflects all **17 revenue streams** — but visually grouped to show investor discipline rather than chaos.
 
-## Tool I'll use
-The project already has **Remotion** (a code-based motion graphics tool) set up in the `/remotion` folder. I'll build a new composition there. No new dependencies needed.
+## What changes
 
-## Storyboard (90 sec, 1920×1080, 30 fps)
+**Headline:**
+- Change "8 Revenue Streams" → "17 Revenue Streams"
+- New subtitle: "3 Launch Wedges · 14 Expansion Layers"
 
-| Time | Scene | What you see |
-|---|---|---|
-| 0–8s | **Logo intro** | Black background, gold "1325.AI" logo fades in with a tagline: "Save money. Build community wealth." |
-| 8–18s | **The Hook** | Big kinetic text: "Shop Black-owned. Get 5–30% off. Earn loyalty points." with animated coins/dollar icons |
-| 18–38s | **Step 1 — Sign Up** | Gold "01" numeral, mock signup screen sliding in, badges: "Free", "No credit card", "30 seconds" |
-| 38–58s | **Step 2 — Discover** | Gold "02", animated map pin + directory cards with category icons (food, beauty, retail…) |
-| 58–78s | **Step 3 — Scan & Save** | Gold "03", phone scanning a QR code, "−15% applied!" popup, "+25 points earned" |
-| 78–90s | **Closing CTA** | "Start saving today" → "1325.AI" logo lock-up → URL: `1325.ai/how-it-works` |
+**New two-section layout:**
 
-Brand: True Black background, MansaBlue (#003366), MansaGold (#FFB300). Two fonts max (display + body, loaded from Google Fonts).
+### Section 1 — Launch Wedge (Years 1–2) — 3 streams, prominent
+Larger cards, gold border, "WEDGE" badge:
+1. **Business Subscriptions** — $19–$899/mo tiers, $355 blended ARPU
+2. **Kayla AI Subscriptions** — 33 agentic employees, $12K+/mo overhead replaced
+3. **Corporate Sponsors** — $250K–$1M annually, non-dilutive runway
 
-## Files I'll create
-1. `remotion/src/CustomerFlowVideo.tsx` — main composition (wires the 6 scenes together with smooth transitions)
-2. `remotion/src/scenes/customer/Scene01_LogoIntro.tsx`
-3. `remotion/src/scenes/customer/Scene02_Hook.tsx`
-4. `remotion/src/scenes/customer/Scene03_SignUp.tsx`
-5. `remotion/src/scenes/customer/Scene04_Discover.tsx`
-6. `remotion/src/scenes/customer/Scene05_ScanSave.tsx`
-7. `remotion/src/scenes/customer/Scene06_CTA.tsx`
-8. `remotion/scripts/render-customer-flow.mjs` — render script that outputs the MP4
-9. Register the composition in `remotion/src/Root.tsx`
+### Section 2 — Expansion Layer (Year 2+) — 14 streams, compact grid
+Smaller cards, muted border, labeled "EXPANSION":
+4. B2B Transaction Fees (1–3%)
+5. Featured Proximity Ads (CPM)
+6. Agent Commissions (referral network)
+7. White-Label Licensing (tenant-branded)
+8. Premium API / Developer Platform
+9. Loyalty Program Fees
+10. Marketplace Listing Boosts
+11. Data & Insights Licensing
+12. Event Sponsorships & Tickets
+13. Certifications & Training
+14. Embedded Financing / Capital Access
+15. Mansa Stays (vacation rental commissions)
+16. Noire Rideshare (ride commissions)
+17. Gemini Enterprise Add-On ($25K setup + $8K/mo)
 
-## Render & deliver
-After building, I'll run the render script. It outputs:
-- `public/videos/1325AI-CustomerFlow-3Steps.mp4` (directly into your site so the banner picks it up immediately)
-- A backup copy at `/mnt/documents/1325AI-CustomerFlow-3Steps.mp4` for you to download
+**Bottom strip — keep the existing metrics bar but update:**
+- "Revenue Diversification = Resilience" → "Disciplined Wedge → 17-Stream Platform"
+- Keep: 86% Gross Margin · 142% NRR · 2.8-mo CAC Payback · $2.4M 2026 ARR · $355 ARPU
 
-## Important heads-up (please read)
+## Files touched
+- `src/components/pitch-deck/PitchSlide6BusinessModel.tsx` (only file edited)
 
-**1. Render time / sandbox limit.** Rendering 90 seconds at 1080p typically takes 5–12 minutes. The sandbox caps single commands at 10 minutes. If the render times out, my fallback is to:
-   - Render in two halves (0–45s and 45–90s) and stitch with ffmpeg (already installed), OR
-   - Drop resolution to 720p (still looks crisp, renders ~2× faster)
+## What I will NOT touch
+- Slides 9, 10, 13 (already-correct roadmap, market, ask slides)
+- `siteConfig`, pricing logic, IAP tiers, edge functions
+- The downloadable investor PDF (separate ask if you want it regenerated after)
 
-I'll start at 1080p and fall back if needed — no action from you required.
+## Design notes
+- Stays on-brand: True Black bg, MansaGold (#FFB300) accents for wedge, muted white/10 for expansion
+- Wedge cards: ~2x visual weight (larger icon, larger title, gold border-2)
+- Expansion grid: 14 cards in a 7×2 or responsive grid, small icon + 2-line label
+- All within one slide — no scrolling, fits 1920×1080
 
-**2. Silent video (no voiceover, no music).** The video will be motion-graphics only with on-screen text. Adding AI-generated voiceover (ElevenLabs) or background music would need an API key and is a separate task. The on-screen text alone communicates the full message — that's how Apple/Stripe ship most of their explainer reels.
+## After you approve
+Once I'm in build mode I'll:
+1. Rewrite the slide component
+2. Verify it renders cleanly in the preview at the pitch-deck route
+3. Ask if you want the downloadable PDF regenerated to match
 
-**3. Style.** Modern, Apple-like, lots of negative space, gold accents on black. Matches your existing brand. Think "clean tech explainer" not "marketing infomercial."
-
-## What you need to do
-1. **Approve this plan** (click *Implement plan*). I'll build all the scenes, render the MP4, and the banner on `/how-it-works` will start playing it automatically — no upload needed from you.
-2. **(Optional, after you see v1):** If you want voiceover or background music added in a follow-up, just say so and I'll plan that as round 2.
-
-## Workflow tip
-The Remotion source code lives in your project, so once v1 is rendered you can ask me for tweaks like "change Step 2 background to blue" or "make the QR scan scene 2 seconds longer" and I'll just re-render — no starting from scratch.
+## Open question (answer in chat, no rebuild needed)
+The 14 expansion streams above are my best read of your business. If any are **wrong** or you'd swap one for something I missed (e.g., affiliate revenue, white-label app store, accelerator fees), tell me now and I'll fix the list before building.
