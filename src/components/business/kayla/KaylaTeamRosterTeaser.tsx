@@ -28,7 +28,7 @@ export const KaylaTeamRosterTeaser: React.FC = () => {
           <div className="flex items-center gap-2">
             <Bot className="h-4 w-4 text-mansagold" />
             <h3 className="text-sm font-semibold text-white">Your AI Team</h3>
-            <span className="text-xs text-white/40">— 33 agents working 24/7</span>
+            <span className="text-xs text-white/40">— 42 agents working 24/7</span>
           </div>
           <Button asChild size="sm" variant="ghost" className="text-mansagold hover:text-mansagold hover:bg-mansagold/10">
             <Link to="/kayla/team">
