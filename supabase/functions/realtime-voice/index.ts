@@ -22,6 +22,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 // @ts-ignore - npm specifier resolved at runtime
 import WebSocket from "https://esm.sh/ws@8.18.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -37,6 +38,33 @@ Deno.serve(async (req) => {
   const upgrade = req.headers.get("upgrade") || "";
   if (upgrade.toLowerCase() !== "websocket") {
     return new Response("Expected websocket", { status: 426 });
+  }
+
+  // Require an authenticated Supabase JWT before opening the expensive OpenAI bridge.
+  // Browsers cannot set custom headers on WebSocket, so accept token via query param
+  // or Authorization header.
+  const url = new URL(req.url);
+  const tokenFromQuery = url.searchParams.get("token");
+  const authHeader = req.headers.get("authorization") || "";
+  const token = tokenFromQuery || (authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "");
+
+  if (!token) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const authClient = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+    );
+    const { data, error } = await authClient.auth.getUser(token);
+    if (error || !data?.user?.id) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+    console.log(`[realtime-voice] Authenticated user ${data.user.id}`);
+  } catch (e) {
+    console.warn("[realtime-voice] Auth validation failed:", e);
+    return new Response("Unauthorized", { status: 401 });
   }
 
   const { socket, response } = Deno.upgradeWebSocket(req);
