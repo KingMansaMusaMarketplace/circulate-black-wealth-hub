@@ -137,9 +137,17 @@ export class RealtimeVoice {
 
       // Use hardcoded project reference (VITE_ env vars not supported in Lovable)
       const projectRef = 'agoclnqfyinwjxdmjnns';
-      const wsUrl = `wss://${projectRef}.supabase.co/functions/v1/realtime-voice`;
+      // Require authenticated session — pass JWT via query param since browser WebSocket
+      // cannot set Authorization headers.
+      const { supabase } = await import('@/integrations/supabase/client');
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData.session?.access_token;
+      if (!token) {
+        throw new Error('You must be signed in to use voice chat.');
+      }
+      const wsUrl = `wss://${projectRef}.supabase.co/functions/v1/realtime-voice?token=${encodeURIComponent(token)}`;
 
-      console.log('Connecting to:', wsUrl);
+      console.log('Connecting to voice service');
       this.ws = new WebSocket(wsUrl);
 
       this.ws.onopen = async () => {
