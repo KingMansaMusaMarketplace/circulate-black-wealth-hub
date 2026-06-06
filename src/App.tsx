@@ -61,6 +61,7 @@ import {
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyPressPage = lazy(() => import('@/pages/PressPage'));
+const LazyWhy1325Page = lazy(() => import('@/pages/Why1325Page'));
 
 // Mansa Stays — Yearly Leasing
 const LazyLeaseSearchPage = lazy(() => import('@/pages/stays/LeaseSearchPage'));
@@ -699,6 +700,7 @@ function App() {
                               {/* test routes removed */}
                               <Route path="/media-kit" element={<LazyMediaKitPage />} />
                               <Route path="/press" element={<LazyPressPage />} />
+                              <Route path="/why-1325" element={<LazyWhy1325Page />} />
                               <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
                               
@@ -1096,6 +1098,7 @@ function App() {
                         {/* /master-apple-review-test removed */}
                         <Route path="/media-kit" element={<LazyMediaKitPage />} />
                         <Route path="/press" element={<LazyPressPage />} />
+                        <Route path="/why-1325" element={<LazyWhy1325Page />} />
                         {/* /mobile-readiness-test removed */}
                         <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                         <Route path="/my-profile" element={<LazyUserProfilePage />} />
