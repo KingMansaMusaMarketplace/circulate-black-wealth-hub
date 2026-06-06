@@ -1,50 +1,65 @@
-# 1325.AI Year One: Team Edition — PDF Build Plan
+# Outdo-the-Directories: 4 Assets
 
-## What I'll produce
-A single polished PDF saved to `/mnt/documents/1325AI_Year_One_Team_Edition.pdf`, designed as a keepsake gift for the 26 founding teammates.
+I'll build all four pieces using the competitive analysis we just discussed. Here's exactly what you'll get and where each one lives.
 
-## Roster (26)
-**Leadership callouts on their own card:**
-- Thomas D. Bowling — Founder & Chief Architect
-- Craig Stevenson — Co-founder
-- Lisa Cooper Gavin — President
-- Maurice Howard — Chief Technology Officer
-- Clarence Smith — VP of Sales
+---
 
-**Founding Team Members (21):**
-Vaughn Hester, Napolean Paul, John Atwater, Keith McGregory, Desiree Bowling, Brett Telesford, Brandon Jones, Terry Thompson, Zay Barton, Donald Palm, Douglas Morrison, James Robinson Jr, Joseph Weaver, Dr James Carson, Eric Webb, Kayla Bruton, John Wasny, Kim Bates — plus any remaining names from your list I'll re-confirm at render time.
+## 1. Competitive Comparison PDF
+**File:** `/mnt/documents/1325ai-vs-directories.pdf`
+- Cover page with 1325.AI branding (MansaBlue + MansaGold)
+- Side-by-side table: 1325.AI vs the 18 directories (EatOkra, OBWS, ByBlack, etc.)
+- 6 positioning sections (Directory vs OS, AI-native, IP/patents, wealth circulation, monetization, brand)
+- One-line knockout quote on the closing page
+- Ready to email investors, partners, or press
 
-*(If I'm short a name when I build, I'll pause and ask before generating.)*
+**You can:** Download and send directly.
 
-## Document structure (~12 pages)
-1. **Cover** — "1325.AI — Year One: Team Edition" / Thomas D. Bowling, Founder & Chief Architect · Craig Stevenson, Co-founder / 2025–2026
-2. **Founder's Letter** — short, warm, from Thomas & Craig
-3. **The Journey** — 1 page: what we set out to do (high-level, no IP/pricing/architecture)
-4. **What We Built** — 1 page: plain-English milestones only (no patent #s, no revenue, no tech stack)
-5. **Leadership** — 1 page, 5 cards: monogram + name + title + 1-line thank-you
-6–8. **The Humans** (3 pages) — 21 teammates, 7 per page: monogram + name + "Founding Team Member" + Path A warm thank-you line drafted by me
-9. **Year Two Vision** — 1 page: high-level direction only
-10. **Why You Matter** — 1 page: gratitude statement
-11. **Closing** — signed Thomas D. Bowling & Craig Stevenson
+---
 
-## Design
-- True Black background, MansaGold (#FFB300) and MansaBlue (#003366) accents — matches 1325.AI brand
-- Clean serif headings + sans body; generous whitespace; gift-quality feel
-- Monogram circles (initials) instead of photos
-- **No emails printed** on the PDF
-- **No NDA** in this build (you didn't confirm — ask later if you want one)
+## 2. `/why-1325` Web Page
+**Route:** `/why-1325` (new page in the app)
+- Hero: "They list Black businesses. We run them."
+- Comparison table (same data as PDF, web-styled)
+- 6 positioning cards
+- CTAs: "Add your business" + "Investor portal"
+- SEO meta tags so it ranks for "best Black business directory" type searches
 
-## Protected (NOT in the PDF)
-- No pricing, no revenue, no ROI numbers
-- No patent number (63/969,202)
-- No agent architecture, no tech stack, no edge-function details
-- No investor-portal references
+**You can:** Link it from press kits, LinkedIn, partnership emails.
 
-## Tech approach
-- Python + reportlab (Platypus) for layout
-- Render → convert each page to JPG → visually QA every page → fix any clipping/overlap → re-render until clean
-- Final file: `/mnt/documents/1325AI_Year_One_Team_Edition.pdf`
-- Delivered via `<presentation-artifact>` tag so you can preview/download in chat
+---
+
+## 3. Partnership / Acquisition Email
+**File:** `/mnt/documents/tier1-founders-email.txt`
+- Plain-text email you can copy/paste
+- Tone: respectful peer-to-peer (not predatory), positions 1325.AI as the infrastructure layer they can plug into
+- One version, tweakable per founder (Mandy Bowman, Ron Busby, Edwards family, etc.)
+- Clear ask: 15-min intro call
+
+**You can:** Copy, personalize the first line, send.
+
+---
+
+## 4. Slide for Year One PDF
+**Insertion:** Adds a new "Why We Win" slide to the existing Year One: Team Edition PDF generator
+- Single-page layout, matches existing design (True Black, MansaBlue/MansaGold)
+- Title: "Why 1325.AI Outclasses Every Directory"
+- 2-column: "Them" (directory list) vs "Us" (5-job operating system)
+- Bottom tagline: the knockout one-liner
+
+**You can:** Re-export the Year One PDF and it'll include this slide.
+
+---
+
+## Order of work
+1. PDF (standalone, fastest validation)
+2. Partnership email (text file, instant)
+3. `/why-1325` web page (React component + route)
+4. Year One slide insertion (edits existing generator)
 
 ## What I need from you
-Just click **Implement plan** and I'll build it. If you want the F&F NDA included as a second PDF, say "go + NDA" instead.
+Nothing right now — I have all the content. After build, I'll:
+- Drop the PDF and email file in your documents (you'll see download links)
+- Tell you the URL for the new web page
+- Tell you where to re-trigger the Year One PDF export
+
+**Approve this plan and I'll start building.**
