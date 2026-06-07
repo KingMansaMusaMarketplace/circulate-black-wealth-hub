@@ -36,6 +36,7 @@ const Hero = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const { claimed, remaining, isFull, loading: foundingLoading } = useFoundingSlots();
 
   const { data: stats } = useQuery({
     queryKey: ['platform-stats-hero'],
