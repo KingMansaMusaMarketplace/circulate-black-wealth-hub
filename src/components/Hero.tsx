@@ -81,6 +81,7 @@ const Hero = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setShowSuggestions(false);
+    trackFunnelEvent('hero_search_submit', { query: searchQuery.trim() || null });
     if (searchQuery.trim()) {
       navigate(`/directory?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
@@ -91,6 +92,7 @@ const Hero = () => {
   const handleSelectSuggestion = (term: string) => {
     setSearchQuery(term);
     setShowSuggestions(false);
+    trackFunnelEvent('hero_search_suggestion_click', { term });
     navigate(`/directory?search=${encodeURIComponent(term)}`);
   };
 
