@@ -24,10 +24,11 @@
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.7'
+import { requireAdminOrCron } from '../_shared/auth-guard.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-cron-secret',
 }
 
 // Helper function to log errors to a table
@@ -67,6 +68,16 @@ Deno.serve(async (req) => {
   
   try {
     console.log(`[${requestId}] Starting process-referral function`);
+
+    // Restrict invocation to admins or scheduled cron jobs (commission processing is system-wide)
+    const authResult = await requireAdminOrCron(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return new Response(
+        JSON.stringify({ error: authResult.error || 'Unauthorized', request_id: requestId }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: authResult.status || 401 }
+      );
+    }
+
     
     // Create a Supabase client with the Auth context of the logged in user
     supabaseClient = createClient(
