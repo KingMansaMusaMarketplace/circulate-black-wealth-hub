@@ -36,11 +36,32 @@ const sanitizeHtmlContent = (content: string): string => {
     return content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
   }
   
-  // For content with HTML, just escape dangerous characters but keep structure
-  return content
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/on\w+="[^"]*"/gi, '')
-    .replace(/javascript:/gi, '');
+  // For content with HTML, strip disallowed tags entirely and remove dangerous attrs.
+  // Use a tag-allowlist approach rather than blacklisting specific patterns.
+  let sanitized = content
+    // Drop script/style/iframe/object/embed/link/meta blocks (content + tags)
+    .replace(/<\s*(script|style|iframe|object|embed|link|meta|svg|math|form|input|button|textarea|select|option)\b[\s\S]*?<\s*\/\s*\1\s*>/gi, '')
+    // Drop self-closing/void variants of those tags
+    .replace(/<\s*(script|style|iframe|object|embed|link|meta|svg|math|form|input|button|textarea|select|option)\b[^>]*\/?>/gi, '');
+
+  // Strip ALL event-handler attributes (on*=...), quoted or unquoted, single or double quotes
+  sanitized = sanitized.replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+
+  // Strip dangerous URL schemes in href/src (javascript:, data:, vbscript:), incl. HTML-encoded variants
+  sanitized = sanitized.replace(
+    /\s(href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*(?:javascript|data|vbscript)(?:&#\w+;|[^"])*"|'\s*(?:javascript|data|vbscript)(?:&#\w+;|[^'])*'|(?:javascript|data|vbscript)[^\s>]*)/gi,
+    ''
+  );
+
+  // Strip style attributes (can carry CSS expression(), url(javascript:...), etc.)
+  sanitized = sanitized.replace(/\sstyle\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+
+  // Strip any remaining tag that isn't in the allowlist
+  sanitized = sanitized.replace(/<\/?\s*([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>/g, (match, tag) => {
+    return allowedTags.has(tag.toLowerCase()) ? match : '';
+  });
+
+  return sanitized;
 };
 
 // Input validation schema
