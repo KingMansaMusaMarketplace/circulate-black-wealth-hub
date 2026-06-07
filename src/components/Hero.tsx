@@ -274,36 +274,78 @@ const Hero = () => {
             </div>
           </motion.form>
 
-          {/* Dual-path CTAs with micro-descriptions */}
+          {/* Founding 100 live counter banner */}
+          {!foundingLoading && (
+            <motion.div
+              className="max-w-2xl mx-auto mb-5"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.28 }}
+            >
+              <div className="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-full bg-mansagold/10 border border-mansagold/40 backdrop-blur-sm">
+                <Sparkles className="w-4 h-4 text-mansagold" />
+                <span className="text-mansagold font-semibold text-sm">
+                  {isFull
+                    ? `Founding ${FOUNDING_MEMBER_SLOT_CAP} sold out — join the waitlist`
+                    : `Founding ${FOUNDING_MEMBER_SLOT_CAP}: $149/mo locked forever`}
+                </span>
+                {!isFull && (
+                  <span className="text-white/80 text-sm">
+                    · <span className="font-bold text-white">{remaining}</span> of {FOUNDING_MEMBER_SLOT_CAP} spots left
+                  </span>
+                )}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Dual-path CTAs with chooser labels */}
           <motion.div 
             className="flex flex-col gap-5 items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full">
-              <Link to="/directory" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-auto py-4 px-10 rounded-xl shadow-xl text-base sm:text-lg w-full sm:w-auto flex items-center gap-2"
-                >
-                  <Search className="w-5 h-5" />
-                  Find Black-Owned Businesses
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full max-w-3xl">
+              <Link
+                to="/directory"
+                onClick={() => trackFunnelEvent('hero_cta_find_businesses_click', { claimed, remaining })}
+                className="group"
+              >
+                <div className="h-full rounded-2xl border border-white/15 bg-white/5 hover:bg-mansagold/10 hover:border-mansagold/50 transition-all p-4 sm:p-5 text-left">
+                  <div className="text-xs uppercase tracking-wider text-white/50 mb-1">I'm a customer</div>
+                  <Button
+                    size="lg"
+                    className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-auto py-3 px-5 rounded-xl shadow-xl text-base w-full flex items-center justify-center gap-2"
+                  >
+                    <Search className="w-5 h-5" />
+                    Find Black-Owned Businesses
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                  <p className="mt-2 text-xs text-white/60">Browse {(stats?.total_businesses ?? 0).toLocaleString()}+ verified businesses — always free.</p>
+                </div>
               </Link>
 
-              <Link to="/business-signup" className="w-full sm:w-auto">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 font-semibold h-auto py-4 px-8 rounded-xl text-base sm:text-lg w-full sm:w-auto flex items-center gap-2"
-                >
-                  <Building2 className="w-5 h-5" />
-                  Grow Your Business with AI
-                </Button>
+              <Link
+                to="/business-signup"
+                onClick={() => trackFunnelEvent('hero_cta_business_signup_click', { claimed, remaining })}
+                className="group"
+              >
+                <div className="h-full rounded-2xl border border-mansagold/30 bg-mansagold/5 hover:bg-mansagold/15 hover:border-mansagold/60 transition-all p-4 sm:p-5 text-left">
+                  <div className="text-xs uppercase tracking-wider text-mansagold mb-1">I own a business</div>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-mansagold/50 text-mansagold hover:bg-mansagold/20 font-semibold h-auto py-3 px-5 rounded-xl text-base w-full flex items-center justify-center gap-2 bg-black/30"
+                  >
+                    <Building2 className="w-5 h-5" />
+                    List Free & Get Kayla AI
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                  <p className="mt-2 text-xs text-white/70">Free listing · ~4 roles covered · $12,100+/mo savings.</p>
+                </div>
               </Link>
             </div>
+
 
 
             {/* Trust stat bar */}
