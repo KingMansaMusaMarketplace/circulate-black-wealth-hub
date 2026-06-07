@@ -1,11 +1,15 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AuthLayout from '@/components/auth/AuthLayout';
 import LoginContainer from '@/components/auth/LoginContainer';
 import SignupForm from '@/components/auth/SignupForm';
+import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 
 const SignupPage = () => {
+  useEffect(() => {
+    trackFunnelEvent('customer_signup_page_view');
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden flex flex-col justify-center py-12">
       {/* Animated background elements */}
