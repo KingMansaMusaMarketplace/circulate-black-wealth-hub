@@ -2,12 +2,15 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowRight, Users, Building2, TrendingUp, Search } from 'lucide-react';
+import { ArrowRight, Users, Building2, TrendingUp, Search, Sparkles } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Capacitor } from '@capacitor/core';
 import { supabase } from '@/integrations/supabase/client';
 import CountUpNumber from '@/components/animations/CountUpNumber';
 import logo1325 from '@/assets/1325-ai-logo.webp';
+import { useFoundingSlots } from '@/hooks/useFoundingSlots';
+import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
+import { FOUNDING_MEMBER_SLOT_CAP } from '@/lib/constants/founding-member';
 
 const SUGGESTION_TERMS = [
   'Restaurant', 'Barber', 'Barbershop', 'Beauty Salon', 'Hair Salon',
