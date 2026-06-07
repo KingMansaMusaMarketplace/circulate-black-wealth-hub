@@ -81,6 +81,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [startedTracked, setStartedTracked] = useState(false);
 
   const {
     register,
@@ -93,6 +94,15 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   });
 
   const passwordValue = watch('password', '');
+
+  const trackStartedOnce = React.useCallback(() => {
+    if (startedTracked) return;
+    setStartedTracked(true);
+    import('@/lib/analytics/funnel-tracker').then(({ trackFunnelEvent }) =>
+      trackFunnelEvent('business_signup_started', { ref: referralCode || null })
+    );
+  }, [startedTracked, referralCode]);
+
 
   const onSubmit = async (data: BusinessSignupFormData) => {
     setIsLoading(true);
