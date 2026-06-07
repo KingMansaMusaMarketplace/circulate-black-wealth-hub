@@ -1,22 +1,31 @@
+## Add Twin Power Mobile Carwash and Detailing to the Directory
 
-# Host Competitive Brief as a Permanent Hyperlink
+I'll insert this business into your Supabase `businesses` table as an unclaimed listing, marked **verified** so it shows the badge in the directory.
 
-## What I'll do
-1. Copy `1325AI_vs_Directories_Competitive_Brief_v12.pdf` into the project at `public/downloads/1325AI-Competitive-Brief.pdf` (clean filename, no version number — future updates won't break the link).
-2. That's it on the code side. The file becomes downloadable at a public URL.
+### Business details (pulled from tpmcd.com)
 
-## The link you'll share
-After you click **Publish → Update** in the editor, the brief will be live at:
+| Field | Value |
+|---|---|
+| Business name | Twin Power Mobile Carwash and Detailing |
+| Category | Mobile Auto Detailing |
+| City / State | New York, NY |
+| Phone | (716) 313-0556 |
+| Website | https://tpmcd.com |
+| Description | Professional mobile car detailing — exterior, interior, basic, and truck/SUV packages. They come to you for premium auto detailing at your convenience. Mon–Fri 9am–5pm. |
+| Logo | Logo URL from their site |
+| Verified | ✅ Yes |
+| Listing status | Active |
+| Owner | Placeholder owner (the same unclaimed-business owner used for 44k+ other directory listings) — can be claimed later if the real owner signs up |
 
-**https://www.1325.ai/downloads/1325AI-Competitive-Brief.pdf**
+### What this changes
 
-You can paste that into any email. To make it clickable text in Gmail/Outlook, highlight a phrase like "1325.AI vs. The Directories — Competitive Brief", click the link icon (🔗), and paste the URL.
+- One new row added to the `businesses` table — no schema changes, no code changes.
+- Business will appear in the directory search, filterable by **Mobile Auto Detailing** category and **New York** location.
+- Since it's marked verified, it gets the verified badge.
 
-## What you need to do
-1. Approve this plan.
-2. After I finish, click the **Publish** button (top-right) → **Update** to push the file live.
-3. Test the link in your browser, then email it to the team.
+### What you'll need to do after
 
-## Notes
-- If you ever update the brief, I'll replace that same file so the link stays the same — no need to resend a new URL to the team.
-- The file will be publicly accessible to anyone with the link (which is what you want for an email blast). It is not indexed by Google unless we link to it from another page.
+1. Open the directory page in the preview and search "Twin Power" — confirm it appears.
+2. If you want to claim it to a real owner later, just tell me the user's email and I'll reassign it.
+
+No code edits, no migrations — just a single data insert.
