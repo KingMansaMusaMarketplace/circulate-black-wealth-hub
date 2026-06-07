@@ -228,7 +228,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
               </div>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} onFocus={trackStartedOnce} onChange={trackStartedOnce} className="space-y-4">
               {error && (
                 <Alert className="border-0 bg-gradient-to-r from-red-500 to-orange-500 p-0.5">
                   <div className="bg-white rounded-lg p-4 flex items-start gap-3">
