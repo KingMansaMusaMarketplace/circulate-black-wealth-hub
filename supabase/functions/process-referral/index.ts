@@ -24,10 +24,11 @@
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.7'
+import { requireAdminOrCron } from '../_shared/auth-guard.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-cron-secret',
 }
 
 // Helper function to log errors to a table
