@@ -53,7 +53,7 @@ export const siteConfig = {
     twitter: 'https://twitter.com/1325ai',
     instagram: 'https://instagram.com/1325ai',
     linkedin: 'https://linkedin.com/company/1325ai',
-    youtube: 'https://youtube.com/@1325AI',
+    youtube: 'https://www.youtube.com/@1325AI',
   },
 
   // YouTube channel
