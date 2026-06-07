@@ -312,7 +312,7 @@ const Hero = () => {
                 className="group"
               >
                 <div className="h-full rounded-2xl border border-white/15 bg-white/5 hover:bg-mansagold/10 hover:border-mansagold/50 transition-all p-4 sm:p-5 text-left">
-                  <div className="text-xs uppercase tracking-wider text-white/50 mb-1">I'm a customer</div>
+                  <div className="text-xs uppercase tracking-wider text-white/90 mb-1">I'm a customer</div>
                   <Button
                     size="lg"
                     className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold h-auto py-3 px-5 rounded-xl shadow-xl text-base w-full flex items-center justify-center gap-2"
@@ -321,7 +321,7 @@ const Hero = () => {
                     Find Black-Owned Businesses
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
-                  <p className="mt-2 text-xs text-white/60">Browse {(stats?.total_businesses ?? 0).toLocaleString()}+ verified businesses — always free.</p>
+                  <p className="mt-2 text-xs text-white/90">Browse {(stats?.total_businesses ?? 0).toLocaleString()}+ verified businesses — always free.</p>
                 </div>
               </Link>
 
@@ -341,7 +341,7 @@ const Hero = () => {
                     List Free & Get Kayla AI
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
-                  <p className="mt-2 text-xs text-white/70">Free listing · ~4 roles covered · $12,100+/mo savings.</p>
+                  <p className="mt-2 text-xs text-white/90">Free listing · ~4 roles covered · $12,100+/mo savings.</p>
                 </div>
               </Link>
             </div>
