@@ -877,7 +877,6 @@ function App() {
                       </div>
                     </div>
                     <NativeFeaturesOnboarding />
-                    <AIChatWidget />
                     <Suspense fallback={null}><ShoppingAssistantChat /></Suspense>
                     <Toaster />
                     <Sonner />
@@ -1304,7 +1303,6 @@ function App() {
                   </div>
                 </div>
                 <NativeFeaturesOnboarding />
-                <AIChatWidget />
                 <Suspense fallback={null}><ShoppingAssistantChat /></Suspense>
                 <Toaster />
                 <Sonner />
