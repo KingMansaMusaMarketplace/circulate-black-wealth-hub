@@ -7,7 +7,6 @@ import BlackOwnedDiscoverySection from './BlackOwnedDiscoverySection';
 // Lazy load all non-critical sections
 const ConsumerBenefits = lazy(() => import('./ConsumerBenefits'));
 const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
-const CTASection = lazy(() => import('@/components/CTASection'));
 
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const PricingSection = lazy(() => import('./PricingSection'));
@@ -76,14 +75,7 @@ const HomePageSections: React.FC = () => {
         <BlackOwnedDiscoverySection />
       </SectionErrorBoundary> */}
 
-      {/* 5. CTA — hit while intent is hot */}
-      <SectionErrorBoundary sectionName="Call to Action">
-        <LazySection fallback={<SectionSkeleton height="h-32" />} minHeight="min-h-[150px]">
-          <section id="cta-section">
-            <CTASection />
-          </section>
-        </LazySection>
-      </SectionErrorBoundary>
+      {/* 5. CTA — removed per user request */}
 
       {/* Pricing — answers the cost objection first */}
       <SectionErrorBoundary sectionName="Pricing">
