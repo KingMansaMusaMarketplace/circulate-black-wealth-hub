@@ -51,15 +51,18 @@ const StickySignupBar = () => {
     >
       <div className="bg-gradient-to-r from-mansablue via-mansablue to-black/95 border-t border-mansagold/40 backdrop-blur-md shadow-2xl">
         <div className="container mx-auto px-4 py-3 flex items-center gap-3">
-          <Sparkles className="h-5 w-5 text-mansagold shrink-0 hidden sm:block" />
-          <div className="flex-1 min-w-0">
-            <p className="text-white font-semibold text-sm sm:text-base leading-tight truncate">
-              {headline}
-            </p>
-            <p className="text-mansagold text-xs sm:text-sm leading-tight truncate">
-              {subline}
-            </p>
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <Sparkles className="h-5 w-5 text-mansagold shrink-0 hidden sm:block" />
+            <div className="min-w-0">
+              <p className="text-white font-semibold text-sm sm:text-base leading-tight truncate">
+                {headline}
+              </p>
+              <p className="text-mansagold text-xs sm:text-sm leading-tight truncate">
+                {subline}
+              </p>
+            </div>
           </div>
+
           <Link
             to="/business-signup"
             onClick={() => trackFunnelEvent("sticky_cta_click", { remaining, isFull })}
@@ -68,13 +71,16 @@ const StickySignupBar = () => {
             Claim Spot
             <ArrowRight className="h-4 w-4" />
           </Link>
-          <button
-            onClick={handleDismiss}
-            aria-label="Dismiss"
-            className="text-white/60 hover:text-white p-1 shrink-0"
-          >
-            <X className="h-4 w-4" />
-          </button>
+
+          <div className="flex-1 flex justify-end">
+            <button
+              onClick={handleDismiss}
+              aria-label="Dismiss"
+              className="text-white/60 hover:text-white p-1 shrink-0"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
