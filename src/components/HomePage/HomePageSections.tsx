@@ -62,11 +62,7 @@ const HomePageSections: React.FC = () => {
       </SectionErrorBoundary>
 
       {/* 3. Trust Stat Strip — credibility beat for cold traffic before social proof */}
-      <SectionErrorBoundary sectionName="Trust Stat Strip">
-        <Suspense fallback={<SectionSkeleton height="h-24" />}>
-          <TrustStatStrip />
-        </Suspense>
-      </SectionErrorBoundary>
+      {/* Removed per user request */}
 
       {/* 4. Featured Businesses — strongest social proof, leads into CTA */}
       <SectionErrorBoundary sectionName="Featured Businesses">
