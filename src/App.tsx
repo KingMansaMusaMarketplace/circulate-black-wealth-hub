@@ -14,7 +14,6 @@ import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnboarding";
 import RequireAdmin from '@/components/auth/RequireAdmin';
-import { AIChatWidget } from "@/components/ai-chat/AIChatWidget";
 const ShoppingAssistantChat = lazy(() => import("@/components/ai/ShoppingAssistantChat"));
 import { HelmetProvider } from 'react-helmet-async';
 // initializeCapacitorPlugins is dynamically imported below to avoid dual static+dynamic import
@@ -877,7 +876,6 @@ function App() {
                       </div>
                     </div>
                     <NativeFeaturesOnboarding />
-                    <AIChatWidget />
                     <Suspense fallback={null}><ShoppingAssistantChat /></Suspense>
                     <Toaster />
                     <Sonner />
@@ -1304,7 +1302,6 @@ function App() {
                   </div>
                 </div>
                 <NativeFeaturesOnboarding />
-                <AIChatWidget />
                 <Suspense fallback={null}><ShoppingAssistantChat /></Suspense>
                 <Toaster />
                 <Sonner />
