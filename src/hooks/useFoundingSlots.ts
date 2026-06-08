@@ -19,12 +19,17 @@ export const useFoundingSlots = (): FoundingSlotsState => {
     let cancelled = false;
 
     const fetchCount = async () => {
-      const { data, error } = await supabase.rpc("get_founding_slots_claimed_count");
-      if (cancelled) return;
-      if (!error && typeof data === "number") {
-        setClaimed(data);
+      try {
+        const { data, error } = await supabase.rpc("get_founding_slots_claimed_count");
+        if (cancelled) return;
+        if (!error && typeof data === "number") {
+          setClaimed(data);
+        }
+      } catch (e) {
+        // Silently ignore RPC errors so UI doesn't crash
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchCount();
