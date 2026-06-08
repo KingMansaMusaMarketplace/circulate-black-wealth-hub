@@ -5,13 +5,13 @@ import { useFoundingSlots } from "@/hooks/useFoundingSlots";
 import { isNativeApp } from "@/utils/platform-utils";
 import { trackFunnelEvent } from "@/lib/analytics/funnel-tracker";
 
-const DISMISS_KEY = "sticky_cta_dismissed_v1";
+const DISMISS_KEY = "sticky_cta_dismissed_v2";
 const HIDDEN_PATHS = ["/business-signup", "/signup", "/login"];
 
 /**
- * Persistent bottom (mobile) / top (desktop) call-to-action bar that drives
- * visitors to the business signup page. Shows live Founding 100 counter.
- * Hidden on iOS native (per platform constraint) and on signup/login pages.
+ * Persistent bottom call-to-action bar that drives visitors to the
+ * business signup page. Shows live Founding 100 counter.
+ * Hidden on iOS native and on signup/login pages.
  */
 const StickySignupBar = () => {
   const { remaining, isFull, loading } = useFoundingSlots();
@@ -23,7 +23,7 @@ const StickySignupBar = () => {
     setDismissed(sessionStorage.getItem(DISMISS_KEY) === "1");
   }, []);
 
-  if (loading || dismissed || isNativeApp()) return null;
+  if (dismissed || isNativeApp()) return null;
   if (HIDDEN_PATHS.some((p) => pathname.startsWith(p))) return null;
 
   const handleDismiss = () => {
@@ -31,13 +31,17 @@ const StickySignupBar = () => {
     setDismissed(true);
   };
 
-  const headline = isFull
-    ? "Founding 100 sold out — join the waitlist"
-    : "List Your Business — Free";
+  const headline = loading
+    ? "List Your Business — Free"
+    : isFull
+      ? "Founding 100 sold out — join the waitlist"
+      : "List Your Business — Free";
 
-  const subline = isFull
-    ? "Get notified when new spots open"
-    : `Only ${remaining} of 100 Founding spots left`;
+  const subline = loading
+    ? "Join the Founding 100"
+    : isFull
+      ? "Get notified when new spots open"
+      : `Only ${remaining} of 100 Founding spots left`;
 
   return (
     <div
