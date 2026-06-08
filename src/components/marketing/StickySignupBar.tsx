@@ -31,13 +31,17 @@ const StickySignupBar = () => {
     setDismissed(true);
   };
 
-  const headline = isFull
-    ? "Founding 100 sold out — join the waitlist"
-    : "List Your Business — Free";
+  const headline = loading
+    ? "List Your Business — Free"
+    : isFull
+      ? "Founding 100 sold out — join the waitlist"
+      : "List Your Business — Free";
 
-  const subline = isFull
-    ? "Get notified when new spots open"
-    : `Only ${remaining} of 100 Founding spots left`;
+  const subline = loading
+    ? "Join the Founding 100"
+    : isFull
+      ? "Get notified when new spots open"
+      : `Only ${remaining} of 100 Founding spots left`;
 
   return (
     <div
