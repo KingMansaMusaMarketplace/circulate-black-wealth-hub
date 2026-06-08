@@ -8,7 +8,6 @@ import BlackOwnedDiscoverySection from './BlackOwnedDiscoverySection';
 const ConsumerBenefits = lazy(() => import('./ConsumerBenefits'));
 const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
 
-const MissionPreview = lazy(() => import('./MissionPreview'));
 const PricingSection = lazy(() => import('./PricingSection'));
 
 const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
@@ -46,12 +45,7 @@ const BusinessSkeleton = () => (
 const HomePageSections: React.FC = () => {
   return (
     <>
-      {/* 1. Mission Preview — immediately after Hero for instant clarity */}
-      <SectionErrorBoundary sectionName="Mission Preview">
-        <Suspense fallback={<SectionSkeleton height="h-24" />}>
-          <MissionPreview />
-        </Suspense>
-      </SectionErrorBoundary>
+      {/* 1. Mission Preview — removed per user request */}
 
       {/* 2. Consumer Benefits */}
       <SectionErrorBoundary sectionName="Consumer Benefits">
