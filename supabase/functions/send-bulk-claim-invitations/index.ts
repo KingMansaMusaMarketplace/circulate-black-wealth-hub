@@ -23,6 +23,14 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const auth = await requireAdminOrCron(req, corsHeaders);
+  if (!auth.authenticated) {
+    return new Response(JSON.stringify({ error: auth.error }), {
+      status: auth.status ?? 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   try {
     if (!resendApiKey) {
       throw new Error("RESEND_API_KEY is not configured");
