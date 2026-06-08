@@ -23,7 +23,7 @@ const StickySignupBar = () => {
     setDismissed(sessionStorage.getItem(DISMISS_KEY) === "1");
   }, []);
 
-  if (dismissed || isNativeApp()) return null;
+  if (dismissed) return null;
   if (HIDDEN_PATHS.some((p) => pathname.startsWith(p))) return null;
 
   const handleDismiss = () => {
