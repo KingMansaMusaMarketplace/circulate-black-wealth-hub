@@ -6,7 +6,6 @@ import BlackOwnedDiscoverySection from './BlackOwnedDiscoverySection';
 
 // Lazy load all non-critical sections
 const ConsumerBenefits = lazy(() => import('./ConsumerBenefits'));
-const TrustStatStrip = lazy(() => import('./TrustStatStrip'));
 const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
 const CTASection = lazy(() => import('@/components/CTASection'));
 
@@ -63,11 +62,7 @@ const HomePageSections: React.FC = () => {
       </SectionErrorBoundary>
 
       {/* 3. Trust Stat Strip — credibility beat for cold traffic before social proof */}
-      <SectionErrorBoundary sectionName="Trust Stat Strip">
-        <Suspense fallback={<SectionSkeleton height="h-24" />}>
-          <TrustStatStrip />
-        </Suspense>
-      </SectionErrorBoundary>
+      {/* Removed per user request */}
 
       {/* 4. Featured Businesses — strongest social proof, leads into CTA */}
       <SectionErrorBoundary sectionName="Featured Businesses">
