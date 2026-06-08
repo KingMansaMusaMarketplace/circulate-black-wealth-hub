@@ -32,7 +32,13 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
   const generateFlyer = async () => {
     setIsGenerating(true);
     try {
-      const qrCode = await QRCode.toDataURL(partner.referral_link, {
+      const safeReferralLink = sanitizeUrl(partner.referral_link ?? '') ?? '';
+      const safeName = escapeHtml(partner.directory_name ?? '');
+      const safeLinkText = escapeHtml(safeReferralLink);
+      const safeCode = escapeHtml(partner.referral_code ?? '');
+      const safeEmail = escapeHtml(partner.contact_email ?? '');
+
+      const qrCode = await QRCode.toDataURL(safeReferralLink || 'https://1325.ai', {
         width: 150,
         margin: 1,
         color: { dark: '#1B365D', light: '#FFFFFF' },
