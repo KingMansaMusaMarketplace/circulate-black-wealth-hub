@@ -5,7 +5,7 @@ import { useFoundingSlots } from "@/hooks/useFoundingSlots";
 import { isNativeApp } from "@/utils/platform-utils";
 import { trackFunnelEvent } from "@/lib/analytics/funnel-tracker";
 
-const DISMISS_KEY = "sticky_cta_dismissed_v1";
+const DISMISS_KEY = "sticky_cta_dismissed_v2";
 const HIDDEN_PATHS = ["/business-signup", "/signup", "/login"];
 
 /**
