@@ -116,6 +116,16 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Authorization: only admins may trigger admin notifications
+    const { data: isAdmin, error: adminCheckError } = await supabaseAuth.rpc('is_admin_secure');
+    if (adminCheckError || !isAdmin) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden: admin access required' }),
+        { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+
     const { type, data }: AdminNotificationRequest = await req.json();
     console.log(`Processing admin notification: ${type}`);
 
