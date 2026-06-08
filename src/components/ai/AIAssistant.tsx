@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import ReactMarkdown from 'react-markdown';
 import { Capacitor } from '@capacitor/core';
+import { SpeakMessageButton } from '@/components/ai/SpeakMessageButton';
 
 interface MessageContent {
   type: 'text' | 'image_url';
@@ -322,7 +323,12 @@ export const AIAssistant = () => {
                     <p className="text-sm whitespace-pre-wrap">{getTextContent(msg.content)}</p>
                   )}
                 </div>
-                {msg.role === 'assistant' && renderModelBadge(msg.modelUsed)}
+                {msg.role === 'assistant' && (
+                  <div className="flex items-center gap-2 mt-1">
+                    <SpeakMessageButton text={typeof msg.content === 'string' ? msg.content : (msg.content.find(c => c.type === 'text')?.text ?? '')} />
+                    {renderModelBadge(msg.modelUsed)}
+                  </div>
+                )}
               </div>
 
               {msg.role === 'user' && (

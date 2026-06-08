@@ -1,31 +1,42 @@
-## Add Twin Power Mobile Carwash and Detailing to the Directory
+## What you'll get
 
-I'll insert this business into your Supabase `businesses` table as an unclaimed listing, marked **verified** so it shows the badge in the directory.
+Next to every message Kayla types back (in the floating chat bubble and on the full Kayla page), a small speaker icon will appear. Click it → Kayla reads that message out loud in her voice. Click it again → it stops.
 
-### Business details (pulled from tpmcd.com)
+While the audio is loading, the icon spins. While it's playing, it changes to a "stop" icon.
 
-| Field | Value |
-|---|---|
-| Business name | Twin Power Mobile Carwash and Detailing |
-| Category | Mobile Auto Detailing |
-| City / State | New York, NY |
-| Phone | (716) 313-0556 |
-| Website | https://tpmcd.com |
-| Description | Professional mobile car detailing — exterior, interior, basic, and truck/SUV packages. They come to you for premium auto detailing at your convenience. Mon–Fri 9am–5pm. |
-| Logo | Logo URL from their site |
-| Verified | ✅ Yes |
-| Listing status | Active |
-| Owner | Placeholder owner (the same unclaimed-business owner used for 44k+ other directory listings) — can be claimed later if the real owner signs up |
+## Where it shows up
 
-### What this changes
+1. **Floating Kayla chat widget** (the bubble that pops up on most pages) — `src/components/ai-chat/AIChatWidget.tsx`
+2. **Full Kayla assistant page** (`/ai-assistant`) — `src/components/ai/AIAssistant.tsx`
 
-- One new row added to the `businesses` table — no schema changes, no code changes.
-- Business will appear in the directory search, filterable by **Mobile Auto Detailing** category and **New York** location.
-- Since it's marked verified, it gets the verified badge.
+Only Kayla's replies get the button — your own messages don't.
 
-### What you'll need to do after
+The widget is already hidden on iOS native (per existing rule), so nothing changes there.
 
-1. Open the directory page in the preview and search "Twin Power" — confirm it appears.
-2. If you want to claim it to a real owner later, just tell me the user's email and I'll reassign it.
+## How it works under the hood (plain English)
 
-No code edits, no migrations — just a single data insert.
+- We already have an edge function called `elevenlabs-tts` that converts text → spoken audio using Kayla's ElevenLabs voice ("Sarah" voice ID — the one she already uses elsewhere on the site). No new server code or new API keys needed.
+- We'll build a small reusable React component, `<SpeakMessageButton text={...} />`, that:
+  - Shows a speaker icon
+  - On click, calls the existing `elevenlabs-tts` edge function
+  - Plays the returned MP3 in the browser
+  - Tracks "only one message playing at a time" so clicking a different message stops the previous one
+- We drop that button next to each assistant message in the two chat components above.
+
+## Files touched
+
+- **NEW** `src/components/ai/SpeakMessageButton.tsx` — the reusable speaker button (~60 lines)
+- **EDIT** `src/components/ai-chat/AIChatWidget.tsx` — render the button under each assistant message
+- **EDIT** `src/components/ai/AIAssistant.tsx` — same, for the full page
+
+No database changes. No new secrets. No edge function changes.
+
+## What you'll need to do after
+
+Nothing — as long as the existing `ELEVEN_LABS_API_KEY` secret is still set (it is, since Kayla's voice already works elsewhere). Just click the speaker icon on any reply to test.
+
+## Heads-up on cost
+
+Each click of the speaker button sends text to ElevenLabs and counts against your ElevenLabs character quota — same as your existing voice features. Long replies cost more characters than short ones. If you'd like, I can add a max-length cap (e.g. only read the first 500 characters) to protect your quota — say the word and I'll add it.
+
+Ready to build?
