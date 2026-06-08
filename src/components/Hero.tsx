@@ -321,7 +321,7 @@ const Hero = () => {
                     Find Black-Owned Businesses
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
-                  <p className="mt-2 text-xs text-white/90">Browse {(stats?.total_businesses ?? 0).toLocaleString()}+ verified businesses — always free.</p>
+                  <p className="mt-2 text-xs text-white/90">Browse {(stats?.total_businesses ?? 44000).toLocaleString()}+ verified businesses — always free.</p>
                 </div>
               </Link>
 
