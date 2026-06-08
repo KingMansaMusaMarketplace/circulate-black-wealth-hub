@@ -107,8 +107,8 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
       <div class="cta-left">
         <h2>Founding 100 Offer</h2>
         <p>First 100 businesses lock in Pro at $149/mo — forever (regular $249/mo). Spots are limited.</p>
-        <div class="link">${partner.referral_link}</div>
-        <p style="margin-top: 12px; font-size: 0.875rem;">Partner Code: <strong>${partner.referral_code}</strong></p>
+        <div class="link">${safeLinkText}</div>
+        <p style="margin-top: 12px; font-size: 0.875rem;">Partner Code: <strong>${safeCode}</strong></p>
       </div>
       <div class="cta-right">
         <img src="${qrCode}" alt="Scan to join" width="120" />
