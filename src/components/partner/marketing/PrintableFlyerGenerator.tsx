@@ -85,7 +85,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
     <div class="header">
       <h1 style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</h1>
       <p>The Economic Operating System for Community Businesses</p>
-      <div class="partner-badge">Referred by ${partner.directory_name}</div>
+      <div class="partner-badge">Referred by ${safeName}</div>
     </div>
     
     <div class="value-box">
