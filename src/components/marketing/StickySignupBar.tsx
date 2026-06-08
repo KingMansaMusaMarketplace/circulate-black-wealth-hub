@@ -43,9 +43,9 @@ const StickySignupBar = () => {
     <div
       role="region"
       aria-label="Founding member signup"
-      className="fixed bottom-0 left-0 right-0 z-50 md:top-0 md:bottom-auto animate-fade-in"
+      className="fixed bottom-0 left-0 right-0 z-50 animate-fade-in"
     >
-      <div className="bg-gradient-to-r from-mansablue via-mansablue to-black/95 border-t md:border-t-0 md:border-b border-mansagold/40 backdrop-blur-md shadow-2xl">
+      <div className="bg-gradient-to-r from-mansablue via-mansablue to-black/95 border-t border-mansagold/40 backdrop-blur-md shadow-2xl">
         <div className="container mx-auto px-4 py-3 flex items-center gap-3">
           <Sparkles className="h-5 w-5 text-mansagold shrink-0 hidden sm:block" />
           <div className="flex-1 min-w-0">
