@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Download, Printer, Eye } from 'lucide-react';
 import { toast } from 'sonner';
 import QRCode from 'qrcode';
+import { escapeHtml, sanitizeUrl } from '@/lib/security/content-sanitizer';
 
 interface PrintableFlyerGeneratorProps {
   partner: DirectoryPartner;
@@ -31,7 +32,13 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
   const generateFlyer = async () => {
     setIsGenerating(true);
     try {
-      const qrCode = await QRCode.toDataURL(partner.referral_link, {
+      const safeReferralLink = sanitizeUrl(partner.referral_link ?? '') ?? '';
+      const safeName = escapeHtml(partner.directory_name ?? '');
+      const safeLinkText = escapeHtml(safeReferralLink);
+      const safeCode = escapeHtml(partner.referral_code ?? '');
+      const safeEmail = escapeHtml(partner.contact_email ?? '');
+
+      const qrCode = await QRCode.toDataURL(safeReferralLink || 'https://1325.ai', {
         width: 150,
         margin: 1,
         color: { dark: '#1B365D', light: '#FFFFFF' },
@@ -78,7 +85,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
     <div class="header">
       <h1 style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</h1>
       <p>The Economic Operating System for Community Businesses</p>
-      <div class="partner-badge">Referred by ${partner.directory_name}</div>
+      <div class="partner-badge">Referred by ${safeName}</div>
     </div>
     
     <div class="value-box">
@@ -100,8 +107,8 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
       <div class="cta-left">
         <h2>Founding 100 Offer</h2>
         <p>First 100 businesses lock in Pro at $149/mo — forever (regular $249/mo). Spots are limited.</p>
-        <div class="link">${partner.referral_link}</div>
-        <p style="margin-top: 12px; font-size: 0.875rem;">Partner Code: <strong>${partner.referral_code}</strong></p>
+        <div class="link">${safeLinkText}</div>
+        <p style="margin-top: 12px; font-size: 0.875rem;">Partner Code: <strong>${safeCode}</strong></p>
       </div>
       <div class="cta-right">
         <img src="${qrCode}" alt="Scan to join" width="120" />
@@ -110,7 +117,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
     </div>
     
     <div class="footer">
-      <p>Questions? Contact ${partner.contact_email} | © 2026 <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span> - U.S. Patent Pending 63/969,202</p>
+      <p>Questions? Contact ${safeEmail} | © 2026 <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span> - U.S. Patent Pending 63/969,202</p>
     </div>
   </div>
   <script>window.onload = function() { window.print(); }</script>
