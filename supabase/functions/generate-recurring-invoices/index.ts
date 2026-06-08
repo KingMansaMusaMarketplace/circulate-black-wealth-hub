@@ -12,6 +12,15 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const auth = await requireAdminOrCron(req, corsHeaders);
+  if (!auth.authenticated) {
+    return new Response(JSON.stringify({ error: auth.error }), {
+      status: auth.status ?? 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+
   try {
     console.log("[GENERATE-RECURRING] Function started");
 
