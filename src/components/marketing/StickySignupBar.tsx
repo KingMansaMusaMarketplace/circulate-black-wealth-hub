@@ -23,11 +23,6 @@ const StickySignupBar = () => {
     setDismissed(true);
   };
 
-  const handleDismiss = () => {
-    sessionStorage.setItem(DISMISS_KEY, "1");
-    setDismissed(true);
-  };
-
   const headline = loading
     ? "List Your Business — Free"
     : isFull
