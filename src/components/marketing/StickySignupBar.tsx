@@ -16,15 +16,12 @@ const HIDDEN_PATHS = ["/business-signup", "/signup", "/login"];
 const StickySignupBar = () => {
   const { remaining, isFull, loading } = useFoundingSlots();
   const { pathname } = useLocation();
-  const [dismissed, setDismissed] = useState(true); // start hidden to avoid flash
+  const [dismissed, setDismissed] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setDismissed(sessionStorage.getItem(DISMISS_KEY) === "1");
-  }, []);
-
-  if (dismissed) return null;
-  if (HIDDEN_PATHS.some((p) => pathname.startsWith(p))) return null;
+  const handleDismiss = () => {
+    sessionStorage.setItem(DISMISS_KEY, "1");
+    setDismissed(true);
+  };
 
   const handleDismiss = () => {
     sessionStorage.setItem(DISMISS_KEY, "1");
