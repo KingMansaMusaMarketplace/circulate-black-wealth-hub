@@ -13,6 +13,7 @@ import { useCapacitor } from '@/hooks/use-capacitor';
 import { KaylaOrchestratorChips } from '@/components/business/kayla/KaylaOrchestratorChips';
 import { routeAgents } from '@/lib/kayla-agent-router';
 import { AgentFeedbackButtons } from '@/components/ai/AgentFeedbackButtons';
+import { SpeakMessageButton } from '@/components/ai/SpeakMessageButton';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -298,19 +299,23 @@ const AIChatWidgetInner: React.FC = () => {
                         <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
                       </div>
                     ) : null}
-                    {msg.role === 'assistant' && msg.content && !isLoading && idx === messages.length - 1 && (
-                      <AgentFeedbackButtons
-                        agentName="kayla-orchestrator"
-                        decisionType="chat_response"
-                        decisionPayload={{
-                          session_id: msg.sessionId ?? sessionIdRef.current,
-                          model_used: msg.modelUsed,
-                          preview: msg.content.slice(0, 240),
-                        }}
-                        modelUsed={msg.modelUsed}
-                        compact
-                        className="pt-1"
-                      />
+                    {msg.role === 'assistant' && msg.content && (
+                      <div className="flex items-center gap-1 pt-1">
+                        <SpeakMessageButton text={msg.content} />
+                        {!isLoading && idx === messages.length - 1 && (
+                          <AgentFeedbackButtons
+                            agentName="kayla-orchestrator"
+                            decisionType="chat_response"
+                            decisionPayload={{
+                              session_id: msg.sessionId ?? sessionIdRef.current,
+                              model_used: msg.modelUsed,
+                              preview: msg.content.slice(0, 240),
+                            }}
+                            modelUsed={msg.modelUsed}
+                            compact
+                          />
+                        )}
+                      </div>
                     )}
                   </div>
                   {msg.role === 'user' && (
