@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Download, Printer, Eye } from 'lucide-react';
 import { toast } from 'sonner';
 import QRCode from 'qrcode';
+import { escapeHtml, sanitizeUrl } from '@/lib/security/content-sanitizer';
 
 interface PrintableFlyerGeneratorProps {
   partner: DirectoryPartner;
