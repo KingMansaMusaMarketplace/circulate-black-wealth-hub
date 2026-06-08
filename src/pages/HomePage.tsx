@@ -111,11 +111,6 @@ const HomePage = () => {
           <Hero key={animationKey} />
         </SectionErrorBoundary>
 
-        {/* Free Kayla Demo — try before signup */}
-        <SectionErrorBoundary sectionName="Kayla Demo">
-          <KaylaDemoSection />
-        </SectionErrorBoundary>
-
         {/* Essential Sections Only */}
         <SectionErrorBoundary sectionName="Content Sections">
           <HomePageSections />
