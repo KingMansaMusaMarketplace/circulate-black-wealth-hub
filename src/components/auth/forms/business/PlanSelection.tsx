@@ -122,10 +122,10 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
       name: 'Pro',
       price: 299,
       period: 'month',
-      description: 'Full suite of 33 AI-powered services',
+      description: 'Full suite of 42 AI-powered services',
       features: [
         'Everything in Starter',
-        'Full Kayla AI concierge suite (33 services)',
+        'Full Kayla AI concierge suite (42 services)',
         'B2B matchmaking & connections',
         'Advanced analytics dashboard',
         'Priority support',

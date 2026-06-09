@@ -148,7 +148,7 @@ export const FoundingMemberOffer = () => {
           </li>
           <li className="flex items-start gap-2">
             <Sparkles className="mt-0.5 h-4 w-4 text-mansagold" />
-            Full Pro access: all 33 AI agents, priority support, advanced analytics
+            Full Pro access: all 42 AI agents, priority support, advanced analytics
           </li>
         </ul>
         <Button

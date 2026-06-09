@@ -81,10 +81,10 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
       name: 'Pro',
       price: 299,
       period: 'month',
-      description: 'Full suite of 33 AI-powered services',
+      description: 'Full suite of 42 AI-powered services',
       features: [
         'Everything in Essentials & Starter',
-        'Full Kayla AI concierge (33 services)',
+        'Full Kayla AI concierge (42 services)',
         'B2B matchmaking & connections',
         'Advanced analytics dashboard',
         'Priority support',
