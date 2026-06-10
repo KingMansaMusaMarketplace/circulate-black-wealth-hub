@@ -101,6 +101,7 @@ const DirectoryPage: React.FC = () => {
     queryFn: async () => {
       // Pinned businesses to always include in Featured Spotlight
       const PINNED_FEATURED_IDS = [
+        'e89be587-eb45-4685-b577-6ffd332f51ae', // OSA Ortho Spine America - Dr. John G. Atwater
         'c188b47b-9d41-4e97-ba06-043e0b4c9b92', // Channing Capital Management (replaces Heritage)
         '56eea0b6-d1ec-4c68-af4a-191fc91d30a7', // Blavity.org
         'c9afd7c1-d37d-455d-9dcd-b11bb0c685cd', // The IT Architect Corporation (replaces Hot Grease)
