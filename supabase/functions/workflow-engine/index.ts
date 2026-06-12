@@ -114,6 +114,18 @@ async function executeAction(
         const { status, target_table, target_id_field } = action.action_config;
         const targetId = getNestedValue(context, target_id_field);
 
+        // SECURITY: hardcoded allowlist — workflows cannot touch admin/financial tables
+        const ALLOWED_STATUS_TABLES = new Set([
+          "customers",
+          "bookings",
+          "business_needs",
+          "b2b_connections",
+          "support_tickets",
+        ]);
+        if (!ALLOWED_STATUS_TABLES.has(target_table)) {
+          throw new Error(`Table '${target_table}' not allowed for status updates`);
+        }
+
         const { error } = await supabase
           .from(target_table)
           .update({ status })
@@ -155,6 +167,32 @@ async function executeAction(
       case "update_customer_field": {
         const { field, value, customer_id_field } = action.action_config;
         const customerId = getNestedValue(context, customer_id_field || "customer_id");
+
+        // SECURITY: only allow safe non-financial profile fields. Block wallet_balance,
+        // subscription_tier, economic_karma, is_founding_member, role columns, etc.
+        const SAFE_PROFILE_FIELDS = new Set([
+          "notes",
+          "city",
+          "state",
+          "zip_code",
+          "preferred_categories",
+          "bio",
+        ]);
+        if (!SAFE_PROFILE_FIELDS.has(field)) {
+          throw new Error(`Field '${field}' not allowed in workflows`);
+        }
+
+        // Restrict updates to customers that have interacted with this business
+        const { data: customerLink } = await supabase
+          .from("customers")
+          .select("id")
+          .eq("user_id", customerId)
+          .eq("business_id", businessId)
+          .maybeSingle();
+
+        if (!customerLink) {
+          throw new Error("Customer is not linked to this business");
+        }
 
         const { error } = await supabase
           .from("profiles")
