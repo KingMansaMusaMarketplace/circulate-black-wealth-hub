@@ -2885,6 +2885,108 @@ export type Database = {
           },
         ]
       }
+      backlink_competitor_snapshots: {
+        Row: {
+          authority_score: number | null
+          captured_at: string
+          competitor_domain: string
+          follow_backlinks: number | null
+          id: string
+          nofollow_backlinks: number | null
+          owner_domain: string
+          raw: Json | null
+          referring_domains: number | null
+          total_backlinks: number | null
+        }
+        Insert: {
+          authority_score?: number | null
+          captured_at?: string
+          competitor_domain: string
+          follow_backlinks?: number | null
+          id?: string
+          nofollow_backlinks?: number | null
+          owner_domain: string
+          raw?: Json | null
+          referring_domains?: number | null
+          total_backlinks?: number | null
+        }
+        Update: {
+          authority_score?: number | null
+          captured_at?: string
+          competitor_domain?: string
+          follow_backlinks?: number | null
+          id?: string
+          nofollow_backlinks?: number | null
+          owner_domain?: string
+          raw?: Json | null
+          referring_domains?: number | null
+          total_backlinks?: number | null
+        }
+        Relationships: []
+      }
+      backlink_competitors: {
+        Row: {
+          competitor_domain: string
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean
+          label: string | null
+          owner_domain: string
+        }
+        Insert: {
+          competitor_domain: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          label?: string | null
+          owner_domain: string
+        }
+        Update: {
+          competitor_domain?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          label?: string | null
+          owner_domain?: string
+        }
+        Relationships: []
+      }
+      backlink_gap_domains: {
+        Row: {
+          ascore: number | null
+          competitor_count: number
+          competitors: string[]
+          computed_at: string
+          id: string
+          last_seen: string | null
+          owner_domain: string
+          referring_domain: string
+        }
+        Insert: {
+          ascore?: number | null
+          competitor_count?: number
+          competitors?: string[]
+          computed_at?: string
+          id?: string
+          last_seen?: string | null
+          owner_domain: string
+          referring_domain: string
+        }
+        Update: {
+          ascore?: number | null
+          competitor_count?: number
+          competitors?: string[]
+          computed_at?: string
+          id?: string
+          last_seen?: string | null
+          owner_domain?: string
+          referring_domain?: string
+        }
+        Relationships: []
+      }
       backlink_referring_domains: {
         Row: {
           ascore: number | null
