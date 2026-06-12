@@ -11,13 +11,16 @@ import { VoiceWaveform } from '@/components/voice/VoiceWaveform';
 import { VoiceTranscript } from '@/components/voice/VoiceTranscript';
 
 // Mock framer-motion
-vi.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-    button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
-  },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
-}));
+vi.mock('framer-motion', async () => {
+  const React = await import('react');
+  return {
+    motion: {
+      div: React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => <div ref={ref} {...props}>{children}</div>),
+      button: React.forwardRef<HTMLButtonElement, any>(({ children, ...props }, ref) => <button ref={ref} {...props}>{children}</button>),
+    },
+    AnimatePresence: ({ children }: any) => <>{children}</>,
+  };
+});
 
 describe('Voice Interface', () => {
   describe('VoiceButton', () => {
