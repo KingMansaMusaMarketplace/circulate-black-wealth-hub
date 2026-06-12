@@ -24,7 +24,7 @@ function parseTranscript(raw: string): TranscriptEntry | null {
   return { id, speaker: 'system', text: raw };
 }
 
-export const VoiceTranscript: React.FC<VoiceTranscriptProps> = ({ transcript }) => {
+export const VoiceTranscript = React.forwardRef<HTMLDivElement, VoiceTranscriptProps>(({ transcript }, _forwardedRef) => {
   const entry = parseTranscript(transcript);
   const scrollRef = useRef<HTMLDivElement>(null);
 
