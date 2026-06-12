@@ -2844,6 +2844,148 @@ export type Database = {
           },
         ]
       }
+      backlink_anchors: {
+        Row: {
+          anchor: string
+          backlinks_num: number | null
+          domain: string
+          first_seen: string | null
+          id: string
+          last_seen: string | null
+          referring_domains_num: number | null
+          snapshot_id: string
+        }
+        Insert: {
+          anchor: string
+          backlinks_num?: number | null
+          domain: string
+          first_seen?: string | null
+          id?: string
+          last_seen?: string | null
+          referring_domains_num?: number | null
+          snapshot_id: string
+        }
+        Update: {
+          anchor?: string
+          backlinks_num?: number | null
+          domain?: string
+          first_seen?: string | null
+          id?: string
+          last_seen?: string | null
+          referring_domains_num?: number | null
+          snapshot_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "backlink_anchors_snapshot_id_fkey"
+            columns: ["snapshot_id"]
+            isOneToOne: false
+            referencedRelation: "backlink_snapshots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      backlink_referring_domains: {
+        Row: {
+          ascore: number | null
+          backlinks_num: number | null
+          country: string | null
+          domain: string
+          first_seen: string | null
+          id: string
+          ip_addresses_num: number | null
+          last_seen: string | null
+          rank: number | null
+          referring_domain: string
+          snapshot_id: string
+        }
+        Insert: {
+          ascore?: number | null
+          backlinks_num?: number | null
+          country?: string | null
+          domain: string
+          first_seen?: string | null
+          id?: string
+          ip_addresses_num?: number | null
+          last_seen?: string | null
+          rank?: number | null
+          referring_domain: string
+          snapshot_id: string
+        }
+        Update: {
+          ascore?: number | null
+          backlinks_num?: number | null
+          country?: string | null
+          domain?: string
+          first_seen?: string | null
+          id?: string
+          ip_addresses_num?: number | null
+          last_seen?: string | null
+          rank?: number | null
+          referring_domain?: string
+          snapshot_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "backlink_referring_domains_snapshot_id_fkey"
+            columns: ["snapshot_id"]
+            isOneToOne: false
+            referencedRelation: "backlink_snapshots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      backlink_snapshots: {
+        Row: {
+          authority_score: number | null
+          captured_at: string
+          created_by: string | null
+          domain: string
+          follow_backlinks: number | null
+          id: string
+          image_backlinks: number | null
+          nofollow_backlinks: number | null
+          raw: Json | null
+          referring_domains: number | null
+          referring_ips: number | null
+          source: string
+          text_backlinks: number | null
+          total_backlinks: number | null
+        }
+        Insert: {
+          authority_score?: number | null
+          captured_at?: string
+          created_by?: string | null
+          domain: string
+          follow_backlinks?: number | null
+          id?: string
+          image_backlinks?: number | null
+          nofollow_backlinks?: number | null
+          raw?: Json | null
+          referring_domains?: number | null
+          referring_ips?: number | null
+          source?: string
+          text_backlinks?: number | null
+          total_backlinks?: number | null
+        }
+        Update: {
+          authority_score?: number | null
+          captured_at?: string
+          created_by?: string | null
+          domain?: string
+          follow_backlinks?: number | null
+          id?: string
+          image_backlinks?: number | null
+          nofollow_backlinks?: number | null
+          raw?: Json | null
+          referring_domains?: number | null
+          referring_ips?: number | null
+          source?: string
+          text_backlinks?: number | null
+          total_backlinks?: number | null
+        }
+        Relationships: []
+      }
       bank_accounts: {
         Row: {
           account_name: string

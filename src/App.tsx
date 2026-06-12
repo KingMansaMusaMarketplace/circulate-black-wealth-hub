@@ -171,6 +171,7 @@ const LazyAPIDocsPage = lazy(() => import('@/pages/developer/APIDocsPage'));
 const LazyAdminPlatformRevenuePage = lazy(() => import('@/pages/admin/PlatformRevenuePage'));
 const LazyAdminAPIClientsPage = lazy(() => import('@/pages/admin/APIClientsPage'));
 const LazySEODashboard = lazy(() => import('@/pages/admin/SEODashboard'));
+const LazyBacklinksDashboard = lazy(() => import('@/pages/admin/BacklinksDashboard'));
 const LazyFunnelAnalyticsPage = lazy(() => import('@/pages/admin/FunnelAnalyticsPage'));
 
 // Unified Test Dashboard (consolidates all test pages)
@@ -516,6 +517,7 @@ function App() {
                               <Route path="/admin/revenue" element={<RequireAdmin><LazyAdminPlatformRevenuePage /></RequireAdmin>} />
                               <Route path="/admin/api-clients" element={<RequireAdmin><LazyAdminAPIClientsPage /></RequireAdmin>} />
                               <Route path="/admin/seo" element={<RequireAdmin><LazySEODashboard /></RequireAdmin>} />
+                              <Route path="/admin/backlinks" element={<RequireAdmin><LazyBacklinksDashboard /></RequireAdmin>} />
                               <Route path="/admin/funnel" element={<RequireAdmin><LazyFunnelAnalyticsPage /></RequireAdmin>} />
                               <Route path="/business/featured-placement" element={<LazyFeaturedPlacementPage />} />
                               <Route path="/institutional-api" element={<LazyInstitutionalAPIPage />} />
@@ -929,6 +931,7 @@ function App() {
                         <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                         <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                         <Route path="/admin/seo" element={<RequireAdmin><LazySEODashboard /></RequireAdmin>} />
+                        <Route path="/admin/backlinks" element={<RequireAdmin><LazyBacklinksDashboard /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
