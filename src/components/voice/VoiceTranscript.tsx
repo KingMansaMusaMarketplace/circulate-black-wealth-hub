@@ -62,6 +62,7 @@ export const VoiceTranscript = React.forwardRef<HTMLDivElement, VoiceTranscriptP
       )}
     </AnimatePresence>
   );
-};
+});
+VoiceTranscript.displayName = 'VoiceTranscript';
 
 export default VoiceTranscript;
