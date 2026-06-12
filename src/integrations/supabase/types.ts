@@ -26302,6 +26302,7 @@ export type Database = {
         }
         Returns: string
       }
+      redeem_beta_code: { Args: { p_beta_code: string }; Returns: Json }
       refill_expired_marketing_credits: { Args: never; Returns: Json }
       refund_marketing_credit: {
         Args: { p_bucket: string; p_business_id: string }
