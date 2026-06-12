@@ -931,6 +931,7 @@ function App() {
                         <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                         <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                         <Route path="/admin/seo" element={<RequireAdmin><LazySEODashboard /></RequireAdmin>} />
+                        <Route path="/admin/backlinks" element={<RequireAdmin><LazyBacklinksDashboard /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
