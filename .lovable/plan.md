@@ -1,64 +1,50 @@
+# Competitor Tracking & Link Gap Report
 
-🛡️ BOARD CHECK
-- Scope: New admin-only feature (internal SEO tool). No public copy, no pricing, no brand changes.
-- IP/Investor risk: None — internal dashboard.
-- Cost: Uses your Semrush subscription's API quota. Each weekly snapshot = ~2 API calls per domain tracked.
-- Recommend: Approve. Low risk, high strategic value (link-building roadmap from earlier conversation).
+Extend the existing admin Backlinks dashboard (`/admin/backlinks`) so you can track competitor domains and see exactly which sites link to them but not to you.
 
----
+## What you'll be able to do
 
-## What you'll get
+1. **Add competitors** for each of your domains (1325.ai, mansamusamarketplace.com). Up to ~5 per domain to keep Semrush API usage reasonable.
+2. **See competitor snapshots** side-by-side with yours: Authority Score, total backlinks, referring domains — so you know who's ahead and by how much.
+3. **Run a Link Gap report**: a ranked list of referring domains that link to one or more competitors but NOT to you. Each row shows which competitors it links to, the domain's authority score, and a "pitch priority" (high authority + links to multiple competitors = top priority).
+4. **Export the gap list to CSV** so your marketing/outreach person can work it as a pitch list.
+5. **Weekly auto-refresh**: the existing Monday cron will also refresh competitors and recompute the gap.
 
-A **Backlinks** page under the Admin area that shows, for your domains (1325.ai and mansamusamarketplace.com):
+## What I'll build
 
-1. **Headline numbers** — Authority Score, total backlinks, referring domains, follow/nofollow split
-2. **Top referring domains** — who's already linking to you, with their authority score
-3. **Anchor text breakdown** — what words people use when linking
-4. **Growth over time** — a line chart of referring domains week-over-week (built up automatically as snapshots accumulate)
-5. **New this week** — referring domains that appeared since the last snapshot
+### 1. Database (3 new tables, admin-only)
 
-## How it works (plain English)
+- `backlink_competitors` — which domains you're tracking as competitors for each of your domains (you/competitor pairing, label, active flag).
+- `backlink_competitor_snapshots` — weekly snapshot of each competitor's authority score, total backlinks, referring domains (mirrors your existing `backlink_snapshots` shape).
+- `backlink_gap_domains` — the computed gap list: referring domain, which competitors link to it, authority score, last seen. Recomputed on each refresh.
 
-- You connect your Semrush account once.
-- A button "Refresh now" pulls fresh data from Semrush.
-- A weekly background job automatically saves a snapshot every Monday so the trend chart fills in over time.
-- Everything is stored in your database, so the dashboard loads instantly without burning API calls on every visit.
+All three: admin-only RLS, service_role full access for the edge function.
 
-## Build steps
+### 2. Edge function updates
 
-1. **Connect Semrush** — trigger the connector modal so you can authorize your Semrush account.
-2. **Database** — 3 new admin-only tables:
-   - `backlink_snapshots` — weekly headline metrics per domain
-   - `referring_domains` — list of domains linking to you, per snapshot
-   - `backlink_anchors` — anchor text distribution, per snapshot
-   All locked down to admin role via RLS (Row-Level Security = database access rules).
-3. **Edge function** `refresh-backlinks` — calls Semrush via the connector gateway, writes a new snapshot. Callable from the UI button and from a weekly cron job.
-4. **Weekly cron** — runs every Monday 6am UTC to capture a snapshot automatically.
-5. **UI** — `/admin/backlinks` route with:
-   - Domain switcher (1325.ai / mansamusamarketplace.com)
-   - 4 metric cards up top
-   - Growth line chart (Recharts, already in the project)
-   - Two tables: top referring domains, top anchor texts
-   - "New since last snapshot" callout
+- Extend `refresh-backlinks` to also: pull each competitor's `backlinks_overview` + `backlinks_refdomains`, store snapshots, then compute the gap (referring domains that appear for ≥1 competitor and do NOT appear in your own referring domains).
+- Add a small `manage-competitors` function for add/remove (admin-only).
 
-## Technical notes
+### 3. UI: new "Competitors" tab on `/admin/backlinks`
 
-- Semrush methods used: `backlinks_overview`, `backlinks_refdomains`, `backlinks_anchors`, `domain_ranks` (for Authority Score). All within the connector's granted scopes.
-- Gateway calls go through `https://connector-gateway.lovable.dev/semrush/...` from the edge function with `LOVABLE_API_KEY` + `SEMRUSH_API_KEY`.
-- "New this week" computed by diffing latest two snapshots in `referring_domains`.
-- Access: gated by `has_role(auth.uid(), 'admin')`. Non-admins get a 403 from both the page and the edge function.
-- No new dependencies — Recharts and shadcn/ui already in the project.
+- **Competitors panel**: list with Add/Remove, side-by-side metrics card per competitor (vs. you).
+- **Link Gap table**: sortable by authority score, # of competitors linking, last seen. Filters: "links to 2+ competitors", "authority ≥ 40". CSV export button.
+- **Pitch priority badge**: High (AS ≥ 50 AND links to 2+ competitors), Medium, Low — purely a visual cue, computed client-side.
 
-## What I need from you after approval
+### 4. Cron
 
-1. Click **Connect** when the Semrush modal appears.
-2. That's it — everything else is automatic. First snapshot runs immediately after connection.
+The existing Monday 6am UTC cron already calls `refresh-backlinks` per domain — no new schedule needed. It will just do more work each run.
 
-## Out of scope (can add later)
+## Semrush API usage note
 
-- Competitor tracking
-- Target/outreach watchlist with status pipeline
-- Investor portal view
-- Email alerts when new high-authority links appear
+Each competitor refresh costs ~2 Semrush calls (overview + refdomains). 2 domains × 5 competitors × weekly = ~20 calls/week for competitor data, plus the gap computation is free (done in the edge function). Well within normal plan limits, but worth flagging.
 
-Reply **go** to build it.
+## What I'm NOT doing in this pass
+
+- Anchor-text gap (which anchors competitors get that you don't) — can add later.
+- Automated outreach emails — out of scope; the CSV export is the handoff point.
+- Historical gap trending — first version shows current state only.
+
+## Open question
+
+How many competitors per domain do you want to allow? I'd suggest **5 per domain** as a sensible cap (keeps the UI readable and API usage low). Say "go with 5" or give me a different number, and I'll build it.

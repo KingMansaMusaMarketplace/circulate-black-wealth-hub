@@ -216,12 +216,86 @@ Deno.serve(async (req) => {
       if (error) console.error("anchors insert:", error.message);
     }
 
+    // ---------- Competitor tracking + link gap ----------
+    const { data: competitors } = await admin
+      .from("backlink_competitors")
+      .select("competitor_domain")
+      .eq("owner_domain", domain)
+      .eq("is_active", true);
+
+    const ownRefSet = new Set(refRows.map((r) => r.referring_domain.toLowerCase()));
+    const gapMap = new Map<string, { ascore: number | null; competitors: Set<string>; last_seen: string | null }>();
+    let competitorsProcessed = 0;
+
+    for (const c of competitors ?? []) {
+      const cDomain = c.competitor_domain.toLowerCase();
+      try {
+        const cOverview = await semrushGet(
+          "/backlinks/backlinks_overview",
+          { target: cDomain, target_type: "root_domain", export_columns: "ascore,total,domains_num,follows_num,nofollows_num" },
+          SEMRUSH_API_KEY, LOVABLE_API_KEY,
+        );
+        const cOv = toRows(cOverview)[0] ?? {};
+        await admin.from("backlink_competitor_snapshots").insert({
+          owner_domain: domain,
+          competitor_domain: cDomain,
+          authority_score: num(cOv.ascore),
+          total_backlinks: num(cOv.total),
+          referring_domains: num(cOv.domains_num),
+          follow_backlinks: num(cOv.follows_num),
+          nofollow_backlinks: num(cOv.nofollows_num),
+          raw: cOv,
+        });
+
+        const cRefs = await semrushGet(
+          "/backlinks/backlinks_refdomains",
+          { target: cDomain, target_type: "root_domain", export_columns: "domain_ascore,domain,backlinks_num,last_seen", display_limit: "100" },
+          SEMRUSH_API_KEY, LOVABLE_API_KEY,
+        );
+
+        for (const r of toRows(cRefs)) {
+          const rd = (r.domain ?? "").toLowerCase();
+          if (!rd || ownRefSet.has(rd) || rd === domain || rd === cDomain) continue;
+          const entry = gapMap.get(rd) ?? { ascore: num(r.domain_ascore), competitors: new Set<string>(), last_seen: null as string | null };
+          entry.competitors.add(cDomain);
+          const a = num(r.domain_ascore);
+          if (a != null && (entry.ascore == null || a > entry.ascore)) entry.ascore = a;
+          const ls = dateOrNull(r.last_seen);
+          if (ls && (!entry.last_seen || ls > entry.last_seen)) entry.last_seen = ls;
+          gapMap.set(rd, entry);
+        }
+        competitorsProcessed++;
+      } catch (e) {
+        console.error(`competitor ${cDomain} failed:`, e);
+      }
+    }
+
+    if (competitorsProcessed > 0) {
+      await admin.from("backlink_gap_domains").delete().eq("owner_domain", domain);
+      const gapRows = Array.from(gapMap.entries()).map(([rd, v]) => ({
+        owner_domain: domain,
+        referring_domain: rd,
+        ascore: v.ascore,
+        competitors: Array.from(v.competitors),
+        competitor_count: v.competitors.size,
+        last_seen: v.last_seen,
+      }));
+      for (let i = 0; i < gapRows.length; i += 500) {
+        const chunk = gapRows.slice(i, i + 500);
+        if (chunk.length === 0) continue;
+        const { error } = await admin.from("backlink_gap_domains").insert(chunk);
+        if (error) console.error("gap insert:", error.message);
+      }
+    }
+
     return json({
       ok: true,
       snapshot_id: snapshotId,
       counts: {
         referring_domains: refRows.length,
         anchors: anchorRows.length,
+        competitors_processed: competitorsProcessed,
+        gap_domains: gapMap.size,
       },
     });
   } catch (e) {
