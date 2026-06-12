@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { requireAdmin } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -22,6 +23,14 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    const authResult = await requireAdmin(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return new Response(JSON.stringify({ error: authResult.error }), {
+        status: authResult.status,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
     const { recipientEmail, recipientName, ndaPdfBase64, coverLetterPdfBase64 }: TeamNDAEmailRequest = await req.json();
 
     if (!recipientEmail || !recipientName) {
@@ -149,7 +158,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error sending Team NDA email:", error);
     return new Response(
-      JSON.stringify({ error: (error as Error).message }),
+      JSON.stringify({ error: "An internal error occurred while sending the NDA email." }),
       { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }

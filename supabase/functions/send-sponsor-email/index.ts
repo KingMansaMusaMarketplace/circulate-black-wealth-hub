@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { requireAdmin } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -23,6 +24,14 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    const authResult = await requireAdmin(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return new Response(JSON.stringify({ error: authResult.error }), {
+        status: authResult.status,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") as any ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
@@ -105,7 +114,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-sponsor-email function:", error);
     return new Response(
-      JSON.stringify({ error: (error as Error).message }),
+      JSON.stringify({ error: "An internal error occurred while sending the email." }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

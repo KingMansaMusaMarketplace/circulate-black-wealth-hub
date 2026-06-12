@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { Resend } from "npm:resend@2.0.0";
+import { requireAdmin } from "../_shared/auth-guard.ts";
 
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -26,6 +27,14 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    const authResult = await requireAdmin(req, corsHeaders);
+    if (!authResult.authenticated) {
+      return new Response(JSON.stringify({ error: authResult.error }), {
+        status: authResult.status,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     if (!resendApiKey) {
       throw new Error("RESEND_API_KEY is not configured");
     }
@@ -144,7 +153,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("[send-sponsor-outreach-email] Error:", error);
     return new Response(
-      JSON.stringify({ error: (error as Error).message }),
+      JSON.stringify({ error: "An internal error occurred while sending the outreach email." }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
