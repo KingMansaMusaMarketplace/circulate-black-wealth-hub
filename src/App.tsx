@@ -642,6 +642,8 @@ function App() {
                               <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
                               <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
+                              <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
+                              <Route path="/minority-business-marketplace" element={<LazyBlackOwnedIndexPage />} />
                               <Route path="/black-owned/city/:slug" element={<LazyBlackOwnedCityPage />} />
                               <Route path="/black-owned/category/:slug" element={<LazyBlackOwnedCategoryPage />} />
                               <Route path="/black-owned/in/:citySlug/:categoryGroup" element={<LazyCityCategoryLandingPage />} />
