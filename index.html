@@ -179,6 +179,19 @@
   
   
   
+  <!-- Domain consolidation: redirect legacy mansamusamarketplace.com → 1325.ai (best-effort client-side 301-equivalent) -->
+  <script>
+    (function(){
+      try {
+        var h = window.location.hostname || '';
+        if (h === 'mansamusamarketplace.com' || h === 'www.mansamusamarketplace.com') {
+          var target = 'https://1325.ai' + window.location.pathname + window.location.search + window.location.hash;
+          window.location.replace(target);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Global resilient storage polyfill for iOS WKWebView/private mode -->
   <script>
     (function(){
