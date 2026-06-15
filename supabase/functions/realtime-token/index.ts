@@ -51,10 +51,7 @@ serve(async (req) => {
     }
 
     if (!userId) {
-      return new Response(
-        JSON.stringify({ error: 'Authentication required' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.log('[realtime-token] Guest session (no auth) — homepage demo');
     }
 
     // Check if user is admin
