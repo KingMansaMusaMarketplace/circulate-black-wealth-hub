@@ -55,6 +55,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // CRITICAL: Start with loading=false to NEVER block app render on iOS
   // Auth will update state when ready, but app shows content immediately
   const [loading, setLoading] = useState(false);
+  // Tracks whether the initial session restore finished (listener fired once
+  // OR getSession() resolved / timed out). Route guards should wait on THIS,
+  // not `loading`, to avoid bouncing a logged-in user to /login during a
+  // remount before Supabase rehydrates the session from storage.
+  const [authInitialized, setAuthInitialized] = useState(false);
   const [userType, setUserType] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [profile, setProfile] = useState<any>(null);
@@ -83,6 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           
           setSession(newSession);
           setUser(newSession?.user ?? null);
+          setAuthInitialized(true);
           
           // Fetch profile in background without blocking
           if (newSession?.user) {
@@ -99,6 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       subscription = data?.subscription;
     } catch (err) {
       console.error('[AUTH INIT] Failed to set up auth listener:', err);
+      setAuthInitialized(true);
     }
 
     // Check for existing session with AGGRESSIVE timeout for iOS
@@ -138,6 +145,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } catch (error) {
         console.error('[AUTH INIT] Error:', error);
         // Don't block on errors - app continues as guest
+      } finally {
+        if (isMounted) setAuthInitialized(true);
       }
     };
 
@@ -289,7 +298,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     userType,
     userRole,
-    authInitialized: !loading,
+    authInitialized,
     databaseInitialized: true,
     signUp,
     signIn,
