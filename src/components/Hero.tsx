@@ -360,15 +360,6 @@ const Hero = () => {
                     <div className="hidden sm:block w-px h-4 bg-white/20" />
                   </>
                 )}
-                <div className="flex items-center gap-1.5">
-                  <Building2 className="w-4 h-4 text-mansagold" />
-                  <CountUpNumber end={stats.total_businesses || 0} suffix="+ Businesses" className="font-semibold" />
-                </div>
-                <div className="hidden sm:block w-px h-4 bg-white/20" />
-                <div className="flex items-center gap-1.5">
-                  <TrendingUp className="w-4 h-4 text-mansagold" />
-                  <span className="font-semibold">Free to Join</span>
-                </div>
               </div>
             )}
           </motion.div>
