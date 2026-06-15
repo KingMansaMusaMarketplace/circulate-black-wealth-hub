@@ -45,18 +45,18 @@ const HomePageSections: React.FC = () => {
 
       {/* 5. CTA — removed per user request */}
 
-      {/* Pricing — answers the cost objection first */}
-      <SectionErrorBoundary sectionName="Pricing">
-        <Suspense fallback={<SectionSkeleton height="h-48" />}>
-          <PricingSection />
-        </Suspense>
-      </SectionErrorBoundary>
-
       {/* Meet Kayla — justifies the price with the feature deep-dive */}
       <SectionErrorBoundary sectionName="Meet Kayla">
         <LazySection fallback={<SectionSkeleton height="h-48" />} minHeight="min-h-[200px]">
           <MeetKaylaSection />
         </LazySection>
+      </SectionErrorBoundary>
+
+      {/* Pricing — answers the cost objection first */}
+      <SectionErrorBoundary sectionName="Pricing">
+        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <PricingSection />
+        </Suspense>
       </SectionErrorBoundary>
 
       {/* Mansa Stays — full-width section */}
