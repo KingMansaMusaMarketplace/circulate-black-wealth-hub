@@ -70,43 +70,8 @@ const MeetKaylaSectionInner: React.FC = () => {
           <p className="text-white/75 text-2xl md:text-3xl max-w-3xl mx-auto mb-6 leading-relaxed">
             More than a chatbot — Kayla takes action. She searches the live directory, checks your loyalty points, pulls your bookings, and delivers real answers — all by voice, in real time.
           </p>
-          {/* Differentiator badges */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            {differentiators.map((d) => (
-              <span key={d.label} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-mansagold bg-white/5 border border-white/10 backdrop-blur-sm">
-                <d.icon className="w-3.5 h-3.5" />
-                {d.label}
-              </span>
-            ))}
-          </div>
         </motion.div>
 
-        {/* Capability cards */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-        >
-          {capabilities.map((cap) => (
-            <div
-              key={cap.title}
-              className="card-premium p-5 md:p-7 text-center group relative bg-white/10 border border-white/20 backdrop-blur-md rounded-xl"
-            >
-              {'badge' in cap && cap.badge && (
-                <span className="absolute top-2 right-2 text-[11px] px-2 py-0.5 rounded-full bg-mansagold/20 text-mansagold font-bold border border-mansagold/40">
-                  {cap.badge}
-                </span>
-              )}
-              <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-mansagold/15 flex items-center justify-center group-hover:bg-mansagold/30 transition-colors">
-                <cap.icon className="w-6 h-6 text-mansagold" />
-              </div>
-              <h3 className="text-white font-bold text-base mb-1.5">{cap.title}</h3>
-              <p className="text-white/80 text-sm leading-relaxed">{cap.description}</p>
-            </div>
-          ))}
-        </motion.div>
 
         {/* CTA + Sound wave */}
         <motion.div
