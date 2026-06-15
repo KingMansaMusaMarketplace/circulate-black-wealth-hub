@@ -62,6 +62,7 @@ import {
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyPressPage = lazy(() => import('@/pages/PressPage'));
 const LazyWhy1325Page = lazy(() => import('@/pages/Why1325Page'));
+const LazyHeyGenStudioPage = lazy(() => import('@/pages/admin/HeyGenStudioPage'));
 
 // Mansa Stays — Yearly Leasing
 const LazyLeaseSearchPage = lazy(() => import('@/pages/stays/LeaseSearchPage'));
