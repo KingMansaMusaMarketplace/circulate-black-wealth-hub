@@ -40,7 +40,7 @@ const SLIDES = [
   { id: 3, title: 'The Solution', component: PitchSlide3Solution },
   { id: 4, title: '27 Patent Claims', component: PitchSlide4Technology },
   { id: 5, title: 'Platform Demo', component: PitchSlide5Platform },
-  { id: 6, title: '8 Revenue Streams', component: PitchSlide6BusinessModel },
+  { id: 6, title: '17 Revenue Streams', component: PitchSlide6BusinessModel },
   { id: 7, title: 'The Data Moat', component: PitchSlide7DataMoat },
   { id: 8, title: 'Competitive Landscape', component: PitchSlide8Competitive },
   { id: 9, title: 'Traction & Metrics', component: PitchSlide9Traction },

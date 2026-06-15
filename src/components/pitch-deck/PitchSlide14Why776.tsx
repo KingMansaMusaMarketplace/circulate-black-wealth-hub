@@ -97,7 +97,7 @@ const PitchSlide14WhyInvest: React.FC = () => {
                   { label: '27 Patent Claims', icon: Lock },
                   { label: 'Economic Data Graph', icon: TrendingUp },
                   { label: 'Integrated OS', icon: Zap },
-                  { label: '8 Revenue Streams', icon: Rocket },
+                  { label: '17 Revenue Streams', icon: Rocket },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 bg-mansagold/10 border border-mansagold/30 rounded-xl px-5 py-3">
                     <item.icon className="w-5 h-5 text-mansagold" />
