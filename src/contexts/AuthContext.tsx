@@ -88,6 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           
           setSession(newSession);
           setUser(newSession?.user ?? null);
+          setAuthInitialized(true);
           
           // Fetch profile in background without blocking
           if (newSession?.user) {
@@ -104,6 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       subscription = data?.subscription;
     } catch (err) {
       console.error('[AUTH INIT] Failed to set up auth listener:', err);
+      setAuthInitialized(true);
     }
 
     // Check for existing session with AGGRESSIVE timeout for iOS
