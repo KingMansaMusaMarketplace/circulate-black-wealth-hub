@@ -6,7 +6,6 @@ import BlackOwnedDiscoverySection from './BlackOwnedDiscoverySection';
 
 // Lazy load all non-critical sections
 const ConsumerBenefits = lazy(() => import('./ConsumerBenefits'));
-const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
 
 const PricingSection = lazy(() => import('./PricingSection'));
 
