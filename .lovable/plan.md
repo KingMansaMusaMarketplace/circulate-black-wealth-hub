@@ -1,50 +1,69 @@
-# Competitor Tracking & Link Gap Report
+# HeyGen Integration — Phase 1 (Admin-Only, No History)
 
-Extend the existing admin Backlinks dashboard (`/admin/backlinks`) so you can track competitor domains and see exactly which sites link to them but not to you.
+## Goal
+Let you (admin) generate spokesperson videos for 1325.AI from inside the app using your HeyGen API key, without exposing the key or burning credits on public users.
 
-## What you'll be able to do
+## What gets built
 
-1. **Add competitors** for each of your domains (1325.ai, mansamusamarketplace.com). Up to ~5 per domain to keep Semrush API usage reasonable.
-2. **See competitor snapshots** side-by-side with yours: Authority Score, total backlinks, referring domains — so you know who's ahead and by how much.
-3. **Run a Link Gap report**: a ranked list of referring domains that link to one or more competitors but NOT to you. Each row shows which competitors it links to, the domain's authority score, and a "pitch priority" (high authority + links to multiple competitors = top priority).
-4. **Export the gap list to CSV** so your marketing/outreach person can work it as a pitch list.
-5. **Weekly auto-refresh**: the existing Monday cron will also refresh competitors and recompute the gap.
+### 1. Secret storage
+- Add `HEYGEN_API_KEY` as a project secret (encrypted, server-only).
+- I'll trigger the secure prompt — you paste the key into a Lovable form, not into chat.
 
-## What I'll build
+### 2. Two edge functions (server-side middlemen)
+- **`heygen-generate-video`** — accepts `{ script, avatar_id, voice_id, title }`, calls HeyGen's `/v2/video/generate`, returns `{ video_id }`.
+- **`heygen-video-status`** — accepts `{ video_id }`, calls HeyGen's `/v1/video_status.get`, returns `{ status, video_url, thumbnail_url }`.
+- Both require an authenticated admin user (checked via `has_role(auth.uid(), 'admin')`).
+- Both include the standard CORS headers + `x-csrf-token` per project rules.
 
-### 1. Database (3 new tables, admin-only)
+### 3. Hidden admin page: `/admin/heygen`
+- Route guarded — redirects non-admins to `/`.
+- Not linked from public nav.
+- Form fields:
+  - **Title** (label only, for your reference on screen)
+  - **Script** (textarea, up to ~1500 chars — HeyGen's safe limit)
+  - **Avatar ID** (text input — you paste your HeyGen avatar ID; we can upgrade to a dropdown later)
+  - **Voice ID** (text input — same)
+- **Generate** button → calls `heygen-generate-video` → shows the returned `video_id`.
+- **Poll status** automatically every 8 seconds until status = `completed` or `failed`.
+- On completion: inline video player + **Download MP4** button + copy-link button.
+- Toast notifications for rate-limit / credit errors from HeyGen.
 
-- `backlink_competitors` — which domains you're tracking as competitors for each of your domains (you/competitor pairing, label, active flag).
-- `backlink_competitor_snapshots` — weekly snapshot of each competitor's authority score, total backlinks, referring domains (mirrors your existing `backlink_snapshots` shape).
-- `backlink_gap_domains` — the computed gap list: referring domain, which competitors link to it, authority score, last seen. Recomputed on each refresh.
+## What's NOT in this phase
+- No database table (no history saved — refresh = gone, as you requested).
+- No avatar/voice picker UI (you paste IDs from HeyGen dashboard).
+- No public access, no paid-tier access.
+- No auto-posting, no captions, no thumbnails generation.
 
-All three: admin-only RLS, service_role full access for the edge function.
+## Cost guardrail
+Admin role check on both edge functions = only you can spend HeyGen credits. Zero risk of public abuse.
 
-### 2. Edge function updates
+## Brand & compliance
+- No payment changes.
+- No public copy changes.
+- No IP/investor surface touched.
+- `1325.AI` branding only in any UI strings.
 
-- Extend `refresh-backlinks` to also: pull each competitor's `backlinks_overview` + `backlinks_refdomains`, store snapshots, then compute the gap (referring domains that appear for ≥1 competitor and do NOT appear in your own referring domains).
-- Add a small `manage-competitors` function for add/remove (admin-only).
+## Technical details (for reference)
+```text
+/admin/heygen (React route, admin-guarded)
+        │
+        ▼
+supabase.functions.invoke('heygen-generate-video')
+        │
+        ▼
+Edge Function — verifies JWT + admin role
+        │
+        ▼
+POST https://api.heygen.com/v2/video/generate
+   Header: X-Api-Key: HEYGEN_API_KEY
+        │
+        ▼
+returns { video_id }  →  client polls heygen-video-status every 8s
+```
 
-### 3. UI: new "Competitors" tab on `/admin/backlinks`
+## What I need from you to proceed
+1. Click "Implement plan."
+2. When the secure secret prompt appears, paste your HeyGen API key (from HeyGen → Space Settings → API).
+3. Have one **Avatar ID** and one **Voice ID** ready from your HeyGen account so we can test end-to-end (HeyGen → Avatars → click any avatar → copy ID; same for Voices).
 
-- **Competitors panel**: list with Add/Remove, side-by-side metrics card per competitor (vs. you).
-- **Link Gap table**: sortable by authority score, # of competitors linking, last seen. Filters: "links to 2+ competitors", "authority ≥ 40". CSV export button.
-- **Pitch priority badge**: High (AS ≥ 50 AND links to 2+ competitors), Medium, Low — purely a visual cue, computed client-side.
-
-### 4. Cron
-
-The existing Monday 6am UTC cron already calls `refresh-backlinks` per domain — no new schedule needed. It will just do more work each run.
-
-## Semrush API usage note
-
-Each competitor refresh costs ~2 Semrush calls (overview + refdomains). 2 domains × 5 competitors × weekly = ~20 calls/week for competitor data, plus the gap computation is free (done in the edge function). Well within normal plan limits, but worth flagging.
-
-## What I'm NOT doing in this pass
-
-- Anchor-text gap (which anchors competitors get that you don't) — can add later.
-- Automated outreach emails — out of scope; the CSV export is the handoff point.
-- Historical gap trending — first version shows current state only.
-
-## Open question
-
-How many competitors per domain do you want to allow? I'd suggest **5 per domain** as a sensible cap (keeps the UI readable and API usage low). Say "go with 5" or give me a different number, and I'll build it.
+That's it — once you click implement, I'll build all three pieces in one pass and we'll test together.
