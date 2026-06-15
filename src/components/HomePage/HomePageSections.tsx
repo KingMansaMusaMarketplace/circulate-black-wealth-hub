@@ -6,7 +6,6 @@ import BlackOwnedDiscoverySection from './BlackOwnedDiscoverySection';
 
 // Lazy load all non-critical sections
 const ConsumerBenefits = lazy(() => import('./ConsumerBenefits'));
-const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
 
 const PricingSection = lazy(() => import('./PricingSection'));
 
@@ -27,20 +26,6 @@ const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (
   </div>
 );
 
-const BusinessSkeleton = () => (
-  <div className="py-3 md:py-8">
-    <div className="max-w-7xl mx-auto px-4">
-      <div className="animate-pulse space-y-4">
-        <div className="h-6 bg-white/10 rounded w-1/3 mx-auto"></div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {[1,2,3].map(i => (
-            <div key={i} className="h-24 bg-white/5 rounded-xl"></div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 const HomePageSections: React.FC = () => {
   return (
@@ -57,12 +42,6 @@ const HomePageSections: React.FC = () => {
       {/* 3. Trust Stat Strip — credibility beat for cold traffic before social proof */}
       {/* Removed per user request */}
 
-      {/* 4. Featured Businesses — strongest social proof, leads into CTA */}
-      <SectionErrorBoundary sectionName="Featured Businesses">
-        <LazySection fallback={<BusinessSkeleton />} minHeight="min-h-[200px]">
-          <FeaturedBusinesses limit={3} />
-        </LazySection>
-      </SectionErrorBoundary>
 
       {/* 4.5 Black-Owned Discovery — hidden from homepage (kept in code for SEO landing pages) */}
       {/* <SectionErrorBoundary sectionName="Black-Owned Discovery">
