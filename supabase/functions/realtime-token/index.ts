@@ -51,27 +51,25 @@ serve(async (req) => {
     }
 
     if (!userId) {
-      return new Response(
-        JSON.stringify({ error: 'Authentication required' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.log('[realtime-token] Guest session (no auth) — homepage demo');
     }
 
-    // Check if user is admin
+    // Check if user is admin (only for authenticated users)
     let isAdmin = false;
-    try {
-      const { data: roleData } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", userId)
-        .eq("role", "admin")
-        .maybeSingle();
-      isAdmin = !!roleData;
-    } catch (e) {
-      console.log("Could not verify admin status:", e);
+    if (userId) {
+      try {
+        const { data: roleData } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", userId)
+          .eq("role", "admin")
+          .maybeSingle();
+        isAdmin = !!roleData;
+      } catch (e) {
+        console.log("Could not verify admin status:", e);
+      }
+      console.log(`[realtime-token] Authenticated user ${userId}`);
     }
-
-    console.log(`[realtime-token] Authenticated user ${userId}`);
 
     console.log('Requesting ephemeral token from OpenAI...');
 
