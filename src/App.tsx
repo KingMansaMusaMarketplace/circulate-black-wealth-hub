@@ -919,6 +919,7 @@ function App() {
                         <Route path="/admin" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
+                        <Route path="/admin/heygen" element={<RequireAdmin><LazyHeyGenStudioPage /></RequireAdmin>} />
                         <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
                         <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
                         <Route path="/admin/marketing-analytics" element={<RequireAdmin><LazyMarketingAnalyticsPage /></RequireAdmin>} />
