@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 import { useCapacitor } from '@/hooks/use-capacitor';
+import meetKaylaVideo from '@/assets/meet-kayla-video.mp4.asset.json';
 
 const capabilities = [
   { icon: Search, title: 'Live Directory Search', description: 'Ask for a restaurant nearby — she queries the real database and reads back results.' },
