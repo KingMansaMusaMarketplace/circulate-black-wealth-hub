@@ -8,6 +8,30 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
+// In-memory per-IP rate limit for guest (unauthenticated) sessions.
+// Safety net to cap worst-case OpenAI Realtime spend from the homepage demo.
+// Note: each edge function instance has its own map, so the effective cap
+// may be slightly higher across cold-started instances — that's acceptable.
+const GUEST_MAX_SESSIONS_PER_DAY = 2;
+const GUEST_WINDOW_MS = 24 * 60 * 60 * 1000;
+const guestRateMap: Map<string, { count: number; resetAt: number }> = (globalThis as any).__guestRateMap ?? new Map();
+(globalThis as any).__guestRateMap = guestRateMap;
+
+function checkGuestRateLimit(ip: string): { allowed: boolean; resetAt: number; count: number } {
+  const now = Date.now();
+  const entry = guestRateMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    const fresh = { count: 1, resetAt: now + GUEST_WINDOW_MS };
+    guestRateMap.set(ip, fresh);
+    return { allowed: true, resetAt: fresh.resetAt, count: 1 };
+  }
+  if (entry.count >= GUEST_MAX_SESSIONS_PER_DAY) {
+    return { allowed: false, resetAt: entry.resetAt, count: entry.count };
+  }
+  entry.count++;
+  return { allowed: true, resetAt: entry.resetAt, count: entry.count };
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
