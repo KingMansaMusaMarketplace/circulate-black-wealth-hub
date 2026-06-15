@@ -298,7 +298,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     userType,
     userRole,
-    authInitialized: !loading,
+    authInitialized,
     databaseInitialized: true,
     signUp,
     signIn,
