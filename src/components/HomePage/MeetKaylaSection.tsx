@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 import { useCapacitor } from '@/hooks/use-capacitor';
+import meetKaylaVideo from '@/assets/meet-kayla-video.mp4.asset.json';
 
 const capabilities = [
   { icon: Search, title: 'Live Directory Search', description: 'Ask for a restaurant nearby — she queries the real database and reads back results.' },
@@ -70,6 +71,16 @@ const MeetKaylaSectionInner: React.FC = () => {
             <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-mansagold/15 text-mansagold border border-mansagold/30 backdrop-blur-sm">
               Powered by Real-Time Tools
             </span>
+          </div>
+          {/* Meet Kayla intro video */}
+          <div className="max-w-3xl mx-auto mb-6 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <video
+              src={meetKaylaVideo.url}
+              controls
+              playsInline
+              className="w-full aspect-video"
+              poster=""
+            />
           </div>
           <p className="text-white/75 text-2xl md:text-3xl max-w-3xl mx-auto mb-6 leading-relaxed">
             More than a chatbot — Kayla takes action. She searches the live directory, checks your loyalty points, pulls your bookings, and delivers real answers — all by voice, in real time.
