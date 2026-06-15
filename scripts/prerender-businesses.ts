@@ -95,9 +95,11 @@ async function fetchBusinessPool(): Promise<Business[]> {
   ].join(",");
   const out: Business[] = [];
   let from = 0;
+  // Sort only by `id` (primary key, always indexed). Ordering by un-indexed
+  // columns over 44K rows triggers a statement_timeout (PostgREST 57014).
+  // We score and re-sort the pool in JS below.
   while (out.length < FETCH_POOL) {
-    const to = from + FETCH_PAGE_SIZE - 1;
-    const url = `${SUPABASE_URL}/rest/v1/businesses?select=${fields}&listing_status=eq.live&order=is_verified.desc.nullslast,updated_at.desc.nullslast&limit=${FETCH_PAGE_SIZE}&offset=${from}`;
+    const url = `${SUPABASE_URL}/rest/v1/businesses?select=${fields}&listing_status=eq.live&order=id.asc&limit=${FETCH_PAGE_SIZE}&offset=${from}`;
     const res = await fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
