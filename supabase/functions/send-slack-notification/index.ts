@@ -1,4 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { requireAdminOrCron, authErrorResponse } from '../_shared/auth-guard.ts';
+
 
 const GATEWAY_URL = 'https://connector-gateway.lovable.dev/slack/api';
 
@@ -134,7 +136,12 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Restrict to admin JWT or CRON_SECRET — internal callers should use one of those.
+  const auth = await requireAdminOrCron(req, corsHeaders);
+  if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
   try {
+
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY is not configured');
