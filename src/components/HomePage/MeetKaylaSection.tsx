@@ -1,26 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mic, Search, Home, Star, Calendar, TrendingUp, ShieldAlert, Database, Zap, Loader2 } from 'lucide-react';
+import { Mic, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import meetKaylaVideo from '@/assets/meet-kayla-video.mp4.asset.json';
-
-const capabilities = [
-  { icon: Search, title: 'Live Directory Search', description: 'Ask for a restaurant nearby — she queries the real database and reads back results.' },
-  { icon: Star, title: 'Check Loyalty Points', description: "Say 'How many points do I have?' — she pulls your balance instantly." },
-  { icon: Calendar, title: 'View Your Bookings', description: 'Ask about upcoming reservations — she checks your schedule.' },
-  { icon: Home, title: 'Find Vacation Rentals', description: 'Describe your ideal trip — she searches Mansa Stays listings.' },
-  { icon: TrendingUp, title: 'Lead Insights', description: "Ask 'How are my leads?' — she runs live qualification scoring.", badge: 'Business Owners' },
-  { icon: ShieldAlert, title: 'Churn Alerts', description: 'Ask about at-risk customers — she surfaces churn predictions.', badge: 'Business Owners' },
-];
-
-const differentiators = [
-  { icon: Database, label: 'Real-Time Data' },
-  { icon: Mic, label: 'Voice-First' },
-  { icon: Zap, label: 'Takes Action' },
-];
 
 // CRITICAL iOS: Completely skip mounting Kayla on iOS.
 // The WKWebView crashes when the WebRTC voice stack initializes,
