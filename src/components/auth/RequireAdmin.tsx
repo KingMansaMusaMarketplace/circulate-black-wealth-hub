@@ -11,14 +11,17 @@ interface RequireAdminProps {
 }
 
 const RequireAdmin: React.FC<RequireAdminProps> = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, authInitialized } = useAuth();
   const location = useLocation();
   
   // Server-side admin verification - this is the secure check
   const { isAdmin, isVerifying, error } = useServerAdminVerification();
 
-  // Show loading while checking authentication or admin status
-  if (loading || isVerifying) {
+  // Wait until the initial Supabase session restore has completed before
+  // making any auth decisions. Without this, a remount (e.g. during scroll-
+  // triggered re-renders or a silent token refresh) momentarily sees
+  // user=null and bounces the admin to /login.
+  if (!authInitialized || loading || isVerifying) {
     return <Loading fullScreen text="Verifying admin access..." />;
   }
 
