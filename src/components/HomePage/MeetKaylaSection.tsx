@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 import { useCapacitor } from '@/hooks/use-capacitor';
-import meetKaylaVideo from '@/assets/meet-kayla-video.mp4.asset.json';
+import meetKaylaVideo from '@/assets/meet-kayla-upgraded.mp4.asset.json';
 
 // CRITICAL iOS: Completely skip mounting Kayla on iOS.
 // The WKWebView crashes when the WebRTC voice stack initializes,
