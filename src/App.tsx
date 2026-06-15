@@ -62,6 +62,7 @@ import {
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyPressPage = lazy(() => import('@/pages/PressPage'));
 const LazyWhy1325Page = lazy(() => import('@/pages/Why1325Page'));
+const LazyHeyGenStudioPage = lazy(() => import('@/pages/admin/HeyGenStudioPage'));
 
 // Mansa Stays — Yearly Leasing
 const LazyLeaseSearchPage = lazy(() => import('@/pages/stays/LeaseSearchPage'));
@@ -499,6 +500,7 @@ function App() {
                               <Route path="/admin" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                               <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                               <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
+                              <Route path="/admin/heygen" element={<RequireAdmin><LazyHeyGenStudioPage /></RequireAdmin>} />
                               <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
                               <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                               <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
@@ -917,6 +919,7 @@ function App() {
                         <Route path="/admin" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
+                        <Route path="/admin/heygen" element={<RequireAdmin><LazyHeyGenStudioPage /></RequireAdmin>} />
                         <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
                         <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
                         <Route path="/admin/marketing-analytics" element={<RequireAdmin><LazyMarketingAnalyticsPage /></RequireAdmin>} />
