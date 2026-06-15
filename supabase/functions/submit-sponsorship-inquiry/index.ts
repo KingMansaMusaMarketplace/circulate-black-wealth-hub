@@ -133,20 +133,20 @@ serve(async (req) => {
           <div style="font-family: -apple-system, sans-serif; max-width: 640px;">
             <h2 style="color: #B8860B;">New Corporate Sponsorship Inquiry</h2>
             <table style="border-collapse: collapse; width: 100%;">
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Company</td><td style="padding:8px 12px;">${payload.companyName}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Contact</td><td style="padding:8px 12px;">${payload.contactName}${payload.title ? ` · ${payload.title}` : ""}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Email</td><td style="padding:8px 12px;"><a href="mailto:${payload.email}">${payload.email}</a></td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Phone</td><td style="padding:8px 12px;">${payload.phone}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Website</td><td style="padding:8px 12px;">${payload.website || "—"}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Industry</td><td style="padding:8px 12px;">${payload.industry}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Company Size</td><td style="padding:8px 12px;">${payload.companySize}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Budget</td><td style="padding:8px 12px;">${payload.budget}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Tier Interest</td><td style="padding:8px 12px;">${TIER_LABELS[payload.sponsorshipTier] ?? payload.sponsorshipTier}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Objective</td><td style="padding:8px 12px;">${payload.objective}</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Timeline</td><td style="padding:8px 12px;">${payload.timeline}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Company</td><td style="padding:8px 12px;">${esc(payload.companyName)}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Contact</td><td style="padding:8px 12px;">${esc(payload.contactName)}${payload.title ? ` · ${esc(payload.title)}` : ""}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Email</td><td style="padding:8px 12px;"><a href="mailto:${esc(payload.email)}">${esc(payload.email)}</a></td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Phone</td><td style="padding:8px 12px;">${esc(payload.phone)}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Website</td><td style="padding:8px 12px;">${payload.website ? esc(payload.website) : "—"}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Industry</td><td style="padding:8px 12px;">${esc(payload.industry)}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Company Size</td><td style="padding:8px 12px;">${esc(payload.companySize)}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Budget</td><td style="padding:8px 12px;">${esc(payload.budget)}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Tier Interest</td><td style="padding:8px 12px;">${esc(TIER_LABELS[payload.sponsorshipTier] ?? payload.sponsorshipTier)}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Objective</td><td style="padding:8px 12px;">${esc(payload.objective)}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f8f8f8;font-weight:600;">Timeline</td><td style="padding:8px 12px;">${esc(payload.timeline)}</td></tr>
             </table>
-            ${payload.message ? `<h3 style="margin-top:24px;">Additional Context</h3><p style="white-space:pre-wrap;background:#f8f8f8;padding:12px;border-radius:6px;">${payload.message}</p>` : ""}
-            <p style="margin-top:24px;color:#666;font-size:12px;">Prospect ID: ${prospect.id}</p>
+            ${payload.message ? `<h3 style="margin-top:24px;">Additional Context</h3><p style="white-space:pre-wrap;background:#f8f8f8;padding:12px;border-radius:6px;">${esc(payload.message)}</p>` : ""}
+            <p style="margin-top:24px;color:#666;font-size:12px;">Prospect ID: ${esc(prospect.id)}</p>
           </div>
         `,
       });
@@ -158,13 +158,14 @@ serve(async (req) => {
         subject: "We received your partnership inquiry — 1325.AI",
         html: `
           <div style="font-family: -apple-system, sans-serif; max-width: 600px;">
-            <h2 style="color:#B8860B;">Thank you, ${payload.contactName.split(" ")[0]}.</h2>
-            <p>We've received ${payload.companyName}'s partnership inquiry and a member of our Partnerships team will respond within <strong>1 business day</strong> to schedule your discovery call.</p>
+            <h2 style="color:#B8860B;">Thank you, ${esc(payload.contactName.split(" ")[0])}.</h2>
+            <p>We've received ${esc(payload.companyName)}'s partnership inquiry and a member of our Partnerships team will respond within <strong>1 business day</strong> to schedule your discovery call.</p>
             <p>In the meantime, you can review our institutional brief at <a href="https://1325.ai/corporate-sponsorship">1325.ai/corporate-sponsorship</a>.</p>
             <p style="margin-top:32px;color:#666;font-size:12px;">— The 1325.AI Partnerships Team<br/>U.S. Patent Pending 63/969,202</p>
           </div>
         `,
       });
+
     } catch (emailErr) {
       console.error("Email send failed (non-fatal):", emailErr);
       // Don't fail the request — the prospect record is saved
