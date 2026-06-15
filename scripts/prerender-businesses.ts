@@ -243,6 +243,9 @@ function buildHtml(template: string, b: Business): string {
   );
   // Remove the homepage canonical so the per-page one above is the only one.
   html = html.replace(/<link\s+rel=["']canonical["'][^>]*>/i, "");
+  // Strip the homepage <noscript> block — it carries a homepage-specific
+  // <h1> that would compete with this page's H1 in Google's view.
+  html = html.replace(/<noscript>[\s\S]*?<\/noscript>/i, "");
   // Inject SEO block before </head>.
   html = html.replace(/<\/head>/i, `${seoBlock}\n  </head>`);
   // Pre-render the article into #root.
@@ -252,6 +255,7 @@ function buildHtml(template: string, b: Business): string {
   );
   return html;
 }
+
 
 async function main() {
   const start = Date.now();
