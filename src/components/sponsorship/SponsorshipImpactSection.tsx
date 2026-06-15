@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const metrics = [
-  { value: '33', unit: 'AI Agents', detail: 'Autonomous workforce led by Kayla, our CEO agent.' },
+  { value: '42', unit: 'AI Agents', detail: 'Autonomous workforce led by Kayla, our CEO agent.' },
   { value: '8', unit: 'Revenue Streams', detail: 'Subscriptions, sponsorships, B2B, stays, rideshare and more.' },
   { value: '$12,100+', unit: '/mo Saved', detail: 'Operator savings vs. traditional staffing for an SMB.' },
   { value: '$1.8T', unit: 'Addressable', detail: 'Black-owned business economy we are building rails for.' },
@@ -19,7 +19,7 @@ const pillars = [
   },
   {
     title: 'Generational Infrastructure',
-    body: 'Patent-pending technology, an HBCU pipeline, and a 33-agent AI workforce building durable wealth — not short-term campaigns.',
+    body: 'Patent-pending technology, an HBCU pipeline, and a 42-agent AI workforce building durable wealth — not short-term campaigns.',
   },
 ];
 

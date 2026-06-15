@@ -28,11 +28,11 @@ const FOUNDER_LINKEDIN = 'https://www.linkedin.com/in/williamfostermansamusa/';
 const STATS = [
   { value: '47,000+', label: 'Black-Owned Businesses' },
   { value: '$1.6T', label: 'Market Opportunity' },
-  { value: '33', label: 'AI Agents Deployed' },
+  { value: '42', label: 'AI Agents Deployed' },
   { value: '27', label: 'Patent Claims Pending' },
 ];
 
-const BOILERPLATE = `1325.AI is the first AI-powered economic operating system built for the Black business community. With more than 47,000 verified Black-owned business listings across the United States, 33 deployed AI agents, and patent-pending technology (USPTO 63/969,202), 1325.AI helps consumers discover and support Black-owned businesses while giving owners the tools to grow. 1325.AI is a product of Mansa Musa Marketplace, founded in 2024 and headquartered in Illinois.`;
+const BOILERPLATE = `1325.AI is the first AI-powered economic operating system built for the Black business community. With more than 47,000 verified Black-owned business listings across the United States, 42 deployed AI agents, and patent-pending technology (USPTO 63/969,202), 1325.AI helps consumers discover and support Black-owned businesses while giving owners the tools to grow. 1325.AI is a product of Mansa Musa Marketplace, founded in 2024 and headquartered in Illinois.`;
 
 const PressPage: React.FC = () => {
   const [copied, setCopied] = useState(false);
