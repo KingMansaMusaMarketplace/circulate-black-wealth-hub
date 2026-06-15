@@ -1,4 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { requireAdminOrCron, authErrorResponse } from '../_shared/auth-guard.ts';
+
 
 const GATEWAY_URL = 'https://connector-gateway.lovable.dev/slack/api';
 
