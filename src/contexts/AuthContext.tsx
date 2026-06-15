@@ -145,6 +145,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } catch (error) {
         console.error('[AUTH INIT] Error:', error);
         // Don't block on errors - app continues as guest
+      } finally {
+        if (isMounted) setAuthInitialized(true);
       }
     };
 
