@@ -32,12 +32,7 @@ const HomePageSections: React.FC = () => {
     <>
       {/* 1. Mission Preview — removed per user request */}
 
-      {/* 2. Consumer Benefits */}
-      <SectionErrorBoundary sectionName="Consumer Benefits">
-        <Suspense fallback={<SectionSkeleton height="h-48" />}>
-          <ConsumerBenefits />
-        </Suspense>
-      </SectionErrorBoundary>
+      {/* 2. Consumer Benefits — removed per user request */}
 
       {/* 3. Trust Stat Strip — credibility beat for cold traffic before social proof */}
       {/* Removed per user request */}
