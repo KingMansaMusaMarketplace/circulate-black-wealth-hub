@@ -362,13 +362,39 @@ const BusinessDetailPage = () => {
     );
   }
 
+  // Build a unique, indexable description even when the listing is thin.
+  // Google demotes pages whose description is empty or boilerplate; this
+  // gives every business something specific to index on.
+  const locationLabel = [business.city, business.state].filter(Boolean).join(', ');
+  const categoryLabel = business.category || 'Black-owned business';
+  const fallbackDescription = `${business.business_name} is a Black-owned ${categoryLabel.toLowerCase()}${locationLabel ? ` located in ${locationLabel}` : ''}. Find contact info, hours, and reviews on 1325.AI's directory of 43,000+ Black-owned businesses.`;
+  const metaDescription = (business.description && business.description.trim().length > 40)
+    ? business.description.trim().slice(0, 300)
+    : fallbackDescription;
+  const canonicalUrl = `https://1325.ai/business/${business.id}`;
+  const ogImage = business.banner_url || business.logo_url || 'https://1325.ai/mmm-logo.png';
+  const pageTitle = locationLabel
+    ? `${business.business_name} — ${categoryLabel} in ${locationLabel} | 1325.AI`
+    : `${business.business_name} | 1325.AI`;
+
   return (
     <>
       <Helmet>
-        <title>{business.business_name} | 1325.AI</title>
-        <meta name="description" content={business.description} />
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="profile" />
+        <meta property="og:image" content={ogImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={ogImage} />
       </Helmet>
-      {business.is_verified && <BusinessStructuredData business={business} />}
+      {/* Emit LocalBusiness JSON-LD for every business (was previously gated on is_verified, which excluded ~44K pages from rich-result eligibility). */}
+      <BusinessStructuredData business={business} />
       <BreadcrumbStructuredData
         items={[
           { name: 'Home', url: '/' },
@@ -379,9 +405,11 @@ const BusinessDetailPage = () => {
           ...(business.city
             ? [{ name: business.city, url: `/black-owned/city/${encodeURIComponent(business.city.toLowerCase().replace(/\s+/g, '-'))}` }]
             : []),
-          { name: business.business_name, url: `/business/${business.id}` },
+          { name: business.business_name, url: canonicalUrl },
         ]}
       />
+
+
 
 
       <div className="min-h-screen bg-black relative overflow-hidden">
