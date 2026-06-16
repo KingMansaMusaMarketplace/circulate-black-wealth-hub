@@ -235,6 +235,65 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
                         </li>
                       ))}
                     </ul>
+
+                    {plan.id === 'kayla_pro' && (
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <button
+                          type="button"
+                          aria-expanded={showAllServices}
+                          aria-controls="kayla-42-services"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setShowAllServices((v) => !v);
+                          }}
+                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-mansablue hover:text-mansablue/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-mansablue/40 rounded"
+                        >
+                          {showAllServices ? 'Hide' : 'See all'} {KAYLA_SERVICE_TOTAL} services
+                          <ChevronDown
+                            className={`h-4 w-4 transition-transform motion-reduce:transition-none ${
+                              showAllServices ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+
+                        {showAllServices && (
+                          <div
+                            id="kayla-42-services"
+                            className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3"
+                          >
+                            {KAYLA_SERVICE_GROUPS.map((group) => (
+                              <div
+                                key={group.department}
+                                className="rounded-lg border border-gray-200 bg-gray-50/60 p-3"
+                              >
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-[11px] font-bold uppercase tracking-wider text-mansablue">
+                                    {group.label}
+                                  </span>
+                                  <Badge
+                                    variant="outline"
+                                    className="text-[10px] px-1.5 py-0 border-mansagold/40 text-mansablue bg-mansagold/10"
+                                  >
+                                    {group.services.length}
+                                  </Badge>
+                                </div>
+                                <ul className="space-y-1">
+                                  {group.services.map((svc) => (
+                                    <li
+                                      key={svc}
+                                      className="flex items-start gap-1.5 text-xs text-gray-700 leading-snug"
+                                    >
+                                      <Check className="h-3 w-3 text-green-500 flex-shrink-0 mt-0.5" />
+                                      <span>{svc}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
