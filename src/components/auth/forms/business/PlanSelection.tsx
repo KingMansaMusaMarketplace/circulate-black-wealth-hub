@@ -18,6 +18,7 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
   onTierChange
 }) => {
   const isIOS = shouldHideStripePayments();
+  const [showAllServices, setShowAllServices] = useState(false);
 
   // On iOS, automatically select free tier
   useEffect(() => {
