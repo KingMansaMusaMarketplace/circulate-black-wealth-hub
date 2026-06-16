@@ -43,7 +43,7 @@ export const B2BProGate: React.FC<B2BProGateProps> = ({ children }) => {
           <CardTitle className="text-white">Kayla AI Pro Required</CardTitle>
           <CardDescription className="text-slate-400">
             B2B matchmaking & connections are part of the Kayla AI Pro suite ($299/mo).
-            Start your 14-day free trial to unlock the full 28-service suite.
+            Start your 14-day free trial to unlock the full 42-service suite.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">

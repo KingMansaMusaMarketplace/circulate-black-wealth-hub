@@ -23,7 +23,7 @@ const PitchSlide14WhyInvest: React.FC = () => {
     },
     {
       title: 'AI Maturity Inflection',
-      description: 'Agentic AI is moving from experimental to production — 1325.AI has 28 deployed AI services today',
+      description: 'Agentic AI is moving from experimental to production — 1325.AI has 42 deployed AI services today',
       icon: Brain,
       color: 'purple'
     },

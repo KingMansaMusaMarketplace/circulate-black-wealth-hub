@@ -86,7 +86,7 @@ const TIER_BULLETS: Partial<Record<SubscriptionTier, string[]>> = {
   ],
   kayla_pro: [
     'Everything in Starter',
-    'Full Kayla AI Pro suite (28 services)',
+    'Full Kayla AI Pro suite (42 services)',
     'AI review responses & social media',
     'Tax prep & legal templates',
     'Investment readiness scoring',
@@ -95,7 +95,7 @@ const TIER_BULLETS: Partial<Record<SubscriptionTier, string[]>> = {
   ],
   kayla_pro_annual: [
     'Everything in Starter',
-    'Full Kayla AI Pro suite (28 services)',
+    'Full Kayla AI Pro suite (42 services)',
     'AI review responses & social media',
     'Tax prep & legal templates',
     'Investment readiness scoring',
@@ -103,7 +103,7 @@ const TIER_BULLETS: Partial<Record<SubscriptionTier, string[]>> = {
     '14-day free trial',
   ],
   kayla_pro_founders: [
-    'Full Kayla AI Pro suite (28 services)',
+    'Full Kayla AI Pro suite (42 services)',
     '$149/mo locked for life',
     'AI review responses & social media',
     'Tax prep & legal templates',
@@ -328,7 +328,7 @@ const FoundersLockBanner: React.FC<FoundersLockBannerProps> = ({
           <ul className="space-y-2 text-sm">
             <li className="flex items-start">
               <Check className="h-4 w-4 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" />
-              Full Kayla AI Pro suite (28 services)
+              Full Kayla AI Pro suite (42 services)
             </li>
             <li className="flex items-start">
               <Check className="h-4 w-4 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" />

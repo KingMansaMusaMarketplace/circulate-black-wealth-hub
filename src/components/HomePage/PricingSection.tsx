@@ -52,7 +52,7 @@ const PricingSection = () => {
       icon: Crown,
       monthlyPrice: 299,
       annualPrice: 2990,
-      description: 'Full suite of 28 AI-powered services — worth ~$560/mo if bought separately',
+      description: 'Full suite of 42 AI-powered services — worth ~$560/mo if bought separately',
       highlight: true,
       badge: 'Most Popular',
       trialText: '14-day free trial',
