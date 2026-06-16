@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { Rocket, Building, Star, Check } from 'lucide-react';
+import { Rocket, Building, Star, Check, ChevronDown } from 'lucide-react';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
+import { KAYLA_SERVICE_GROUPS, KAYLA_SERVICE_TOTAL } from './kayla-services';
 
 interface PlanSelectionProps {
   selectedTier: SubscriptionTier;
