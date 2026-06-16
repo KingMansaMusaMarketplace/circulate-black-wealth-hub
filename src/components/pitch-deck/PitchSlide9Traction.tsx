@@ -112,7 +112,7 @@ const PitchSlide9Traction: React.FC = () => {
         >
           <Card className="p-4 bg-black/80 border-2 border-green-500">
             <p className="text-green-400 font-bold">Current: Platform Live</p>
-            <p className="text-white font-medium text-sm">200+ pages, 294+ tables, 28 AI services, native apps ready</p>
+            <p className="text-white font-medium text-sm">200+ pages, 294+ tables, 42 AI services, native apps ready</p>
           </Card>
           <Card className="p-4 bg-black/80 border-2 border-mansagold">
             <p className="text-mansagold font-bold">Next: Enterprise Expansion</p>
