@@ -33,7 +33,7 @@ const wedgeStreams = [
   {
     icon: Bot,
     name: 'Kayla AI Subscriptions',
-    description: '42 agentic AI employees · ~4 Roles Covered · $12,100+/mo savings',
+    description: '42 agentic AI employees · ~4 Roles Covered · $18,000+/mo savings',
     revenue: 'Embedded in tiers',
   },
   {

@@ -39,7 +39,7 @@ const KaylaTeamPage: React.FC = () => {
         <title>Your AI Team — Kayla & 42 Agents | 1325.ai</title>
         <meta
           name="description"
-          content="Meet Kayla and her coordinated team of 42 specialized AI agents working 24/7 across 9 departments — covering ~4 roles and saving $12,100+/mo."
+          content="Meet Kayla and her coordinated team of 42 specialized AI agents working 24/7 across 9 departments — covering ~4 roles and saving $18,000+/mo."
         />
         <link rel="canonical" href="https://1325.ai/kayla/team" />
       </Helmet>

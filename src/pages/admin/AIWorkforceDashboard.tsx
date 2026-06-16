@@ -536,7 +536,7 @@ const AIWorkforceDashboard: React.FC = () => {
                 <Bot className="w-6 h-6 text-purple-400" />
                 <div>
                   <div className="text-white font-bold text-sm">Kayla AI Workforce — {AGENTIC_EMPLOYEES.length} Agentic Employees + 3 Strategic Agents</div>
-                  <div className="text-white/50 text-xs">Replacing ~$12,100/mo in human overhead • 52x ROI at Pro tier</div>
+                  <div className="text-white/50 text-xs">Replacing ~$18,000/mo in human overhead • 52x ROI at Pro tier</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">

@@ -33,7 +33,7 @@ const pillars = [
     icon: TrendingUp,
     title: "Wealth circulation, measured",
     them: '"Support Black business" as a hashtag.',
-    us: "Atomic QR loyalty pipeline, ~$12,100+/mo in savings per business, ~4 roles covered by Kayla, 7x average ROI.",
+    us: "Atomic QR loyalty pipeline, ~$18,000+/mo in savings per business, ~4 roles covered by Kayla, 7x average ROI.",
   },
   {
     icon: DollarSign,
