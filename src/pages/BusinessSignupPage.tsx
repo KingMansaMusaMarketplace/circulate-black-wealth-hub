@@ -462,7 +462,7 @@ const BusinessSignupPage: React.FC = () => {
                   42 Agentic AI Employees: Your AI Employee — Included Free
                 </p>
                 <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-                  42 autonomous services that save you <span className="text-mansagold font-bold">$12,100+/month</span> in time and overhead.
+                  42 autonomous services that save you <span className="text-mansagold font-bold">$18,000+/month</span> in time and overhead.
                   She handles your marketing, finances, operations, and community impact — so you can focus on what you do best.
                 </p>
                 
@@ -473,7 +473,7 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div className="text-center">
-                    <p className="text-3xl md:text-4xl font-extrabold text-green-400">$12,100+</p>
+                    <p className="text-3xl md:text-4xl font-extrabold text-green-400">$18,000+</p>
                     <p className="text-sm text-slate-400">Savings Per Month</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
@@ -622,7 +622,7 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
-                    <p className="text-3xl font-bold text-green-400">$12,100+</p>
+                    <p className="text-3xl font-bold text-green-400">$18,000+</p>
                     <p className="text-sm text-slate-400">Savings Per Month</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />

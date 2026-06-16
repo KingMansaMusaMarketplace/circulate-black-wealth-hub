@@ -148,7 +148,7 @@ const AdminOutreachCRMInner: React.FC = () => {
     );
     const body = encodeURIComponent(
       `Hi ${t.owner_name?.split(' ')[0] || 'there'},\n\n` +
-        `I run 1325.AI / Mansa Musa Marketplace. We've built an agentic AI layer (42 Agentic AI employees, ~4 roles covered, $12,100+/mo savings) that we white-label for Black business directories like ${t.directory_name}.\n\n` +
+        `I run 1325.AI / Mansa Musa Marketplace. We've built an agentic AI layer (42 Agentic AI employees, ~4 roles covered, $18,000+/mo savings) that we white-label for Black business directories like ${t.directory_name}.\n\n` +
         `Worth a 30-minute intro call to see if it's a fit?\n\n` +
         `Best,\nThomas`
     );

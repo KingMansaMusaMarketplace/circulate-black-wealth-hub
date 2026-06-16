@@ -54,7 +54,7 @@ export const KaylaTeamRosterTeaser: React.FC = () => {
         </div>
 
         <p className="text-[11px] text-white/40 mt-3">
-          Kayla coordinates the team — ~4 roles covered, $12,100+/mo in human labor saved.
+          Kayla coordinates the team — ~4 roles covered, $18,000+/mo in human labor saved.
         </p>
       </CardContent>
     </Card>
