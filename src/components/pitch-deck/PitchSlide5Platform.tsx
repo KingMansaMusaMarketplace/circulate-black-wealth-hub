@@ -18,7 +18,7 @@ const PitchSlide5Platform: React.FC = () => {
     { icon: FileCode2, value: '200+', label: 'Pages Built', color: 'mansagold' },
     { icon: Database, value: '294+', label: 'Database Tables', color: 'blue' },
     { icon: Cloud, value: '100+', label: 'Edge Functions', color: 'purple' },
-    { icon: Bot, value: '28', label: 'Agentic AI Services', color: 'orange' },
+    { icon: Bot, value: '42', label: 'Agentic AI Services', color: 'orange' },
     { icon: Smartphone, value: 'iOS + Android', label: 'Native Apps', color: 'green' },
   ];
 

@@ -459,16 +459,16 @@ const BusinessSignupPage: React.FC = () => {
                   <span className="bg-gradient-to-r from-mansagold via-amber-300 to-orange-400 bg-clip-text text-transparent font-['Playfair_Display']">Kayla</span>
                 </h1>
                 <p className="text-2xl md:text-3xl text-white font-bold mb-3">
-                  Your AI Employee — Included Free
+                  42 Agentic AI Employees: Your AI Employee — Included Free
                 </p>
                 <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-                  28 autonomous services that save you <span className="text-mansagold font-bold">$12,100+/month</span> in time and overhead. 
+                  42 autonomous services that save you <span className="text-mansagold font-bold">$12,100+/month</span> in time and overhead.
                   She handles your marketing, finances, operations, and community impact — so you can focus on what you do best.
                 </p>
                 
                 <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
                   <div className="text-center">
-                    <p className="text-3xl md:text-4xl font-extrabold text-mansagold">28</p>
+                    <p className="text-3xl md:text-4xl font-extrabold text-mansagold">42</p>
                     <p className="text-sm text-slate-400">AI Services</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
@@ -617,7 +617,7 @@ const BusinessSignupPage: React.FC = () => {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
                   <div>
-                    <p className="text-3xl font-bold text-mansagold">28</p>
+                    <p className="text-3xl font-bold text-mansagold">42</p>
                     <p className="text-sm text-slate-400">AI Services</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
