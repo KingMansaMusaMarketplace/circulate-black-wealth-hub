@@ -631,6 +631,54 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
         </div>
       </div>
 
+      {/* Persona Roster — named agents from the Complete Platform Manual */}
+      <div className="rounded-2xl border border-mansagold/20 bg-gradient-to-br from-mansagold/[0.04] to-transparent p-5">
+        <div className="flex items-center gap-2 mb-1">
+          <Crown className="w-4 h-4 text-mansagold" />
+          <h3 className="text-sm font-semibold text-white tracking-wide">
+            Meet the team by name — {PERSONA_COUNT} Agentic AI Employees
+          </h3>
+        </div>
+        <p className="text-xs text-white/50 mb-4">
+          Kayla orchestrates {ALL_PERSONAS.length - 1} named specialists across {Object.keys(personasByDepartment()).length} departments.
+          Each persona maps to a functional agent role in the platform.
+        </p>
+
+        {/* Kayla — featured */}
+        <div className="mb-4 p-3 rounded-xl border border-mansagold/40 bg-mansagold/10">
+          <div className="flex items-baseline gap-2">
+            <span className="text-mansagold font-bold text-base">{KAYLA.name}</span>
+            <span className="text-white/70 text-xs">· {KAYLA.role}</span>
+          </div>
+          <p className="text-white/60 text-xs mt-1">{KAYLA.tagline}</p>
+        </div>
+
+        {/* Specialists grouped by department */}
+        <div className="space-y-4">
+          {Object.entries(personasByDepartment())
+            .filter(([dept]) => dept !== 'Leadership')
+            .map(([dept, members]) => (
+              <div key={dept}>
+                <div className="text-[10px] uppercase tracking-widest text-mansagold/80 font-semibold mb-2">
+                  {dept} · {members.length}
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {members.map((p) => (
+                    <div
+                      key={p.id}
+                      title={p.tagline}
+                      className="p-2 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
+                    >
+                      <div className="text-white text-xs font-semibold">{p.name}</div>
+                      <div className="text-white/50 text-[10px] leading-tight mt-0.5">{p.role}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+
       {/* Employee Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <AnimatePresence mode="popLayout">
