@@ -12,6 +12,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { ALL_PERSONAS, KAYLA, personasByDepartment, PERSONA_COUNT } from '@/data/kayla-personas';
 
 interface AIEmployee {
   id: string;
