@@ -57,11 +57,10 @@ export const PERSONAS: Persona[] = [
   { id: 'ezra',  name: 'Ezra',  role: 'Email & Lifecycle',           department: 'Growth & Marketing', tagline: 'Drip campaigns, segmentation, deliverability monitoring — the highest-ROI channel for SMB.' },
   { id: 'iris',  name: 'Iris',  role: 'PR & Outreach',               department: 'Growth & Marketing', tagline: 'Press lists, pitch drafting, mention tracking. Industrializes earned media.' },
 
-  // Sales & Revenue (5)
+  // Sales & Revenue (4)
   { id: 'theo',  name: 'Theo',  role: 'Sales Development Rep',       department: 'Sales & Revenue',    tagline: 'Inbound qualification, meeting booking, CRM hygiene. Never misses the 5-minute SLA.' },
   { id: 'cole',  name: 'Cole',  role: 'Account Executive',           department: 'Sales & Revenue',    tagline: 'Pipeline progression, proposal drafts, follow-ups.' },
   { id: 'vera',  name: 'Vera',  role: 'Revenue Operations',          department: 'Sales & Revenue',    tagline: 'Forecasting, pipeline analytics, attribution reporting.' },
-  { id: 'sam',   name: 'Sam',   role: 'Partnerships',                department: 'Sales & Revenue',    tagline: 'Co-marketing, channel deals, referral pipelines.', routeId: 'b2b' },
   { id: 'quinn', name: 'Quinn', role: 'Pricing & Packaging',         department: 'Sales & Revenue',    tagline: 'A/B price tests, discount governance, churn-pricing experiments.', routeId: 'price-strategy' },
 
   // Customer Success (4)
@@ -95,21 +94,21 @@ export const PERSONAS: Persona[] = [
   { id: 'tor',   name: 'Tor',   role: 'Localization',                department: 'Brand, Legal & People', tagline: 'Multi-language content, regional compliance flags.' },
 
   // Hospitality (3) — v32 expansion
-  { id: 'stays-concierge',  name: 'Soli', role: 'Stays Concierge',  department: 'Hospitality', tagline: 'Guest messaging, check-in automation, host playbooks for Mansa Stays.', routeId: 'stays-concierge' },
-  { id: 'pricing-optimizer', name: 'Rev', role: 'Pricing Optimizer', department: 'Hospitality', tagline: 'Dynamic nightly + long-stay pricing tuned to occupancy and demand.', routeId: 'pricing' },
-  { id: 'calendar-sync',    name: 'Cal',  role: 'Calendar Sync',    department: 'Hospitality', tagline: 'iCal multi-platform reconciliation; prevents double-bookings.', routeId: 'calendar-sync' },
+  { id: 'soli',  name: 'Soli',  role: 'Stays Concierge',             department: 'Hospitality', tagline: 'Guest messaging, check-in automation, host playbooks for Mansa Stays.', routeId: 'stays-concierge' },
+  { id: 'rev',   name: 'Rev',   role: 'Pricing Optimizer',           department: 'Hospitality', tagline: 'Dynamic nightly + long-stay pricing tuned to occupancy and demand.', routeId: 'pricing' },
+  { id: 'cal',   name: 'Cal',   role: 'Calendar Sync',               department: 'Hospitality', tagline: 'iCal multi-platform reconciliation; prevents double-bookings.', routeId: 'calendar-sync' },
 
   // Mobility (3)
-  { id: 'driver-dispatch',  name: 'Dash', name_alt: undefined as any, role: 'Driver Dispatcher', department: 'Mobility', tagline: 'Route optimization and driver matching for Noire Rideshare.', routeId: 'driver-dispatch' } as Persona,
-  { id: 'tax-1099',         name: 'Tex',  role: 'Tax Prep (1099)',  department: 'Mobility',    tagline: 'Quarterly tax estimates for independent drivers.', routeId: 'tax' },
-  { id: 'maintenance',      name: 'Mech', role: 'Maintenance Reminder', department: 'Mobility', tagline: 'Vehicle service intervals and alerts.', routeId: 'maintenance' },
+  { id: 'dash',  name: 'Dash',  role: 'Driver Dispatcher',           department: 'Mobility',    tagline: 'Route optimization and driver matching for Noire Rideshare.', routeId: 'driver-dispatch' },
+  { id: 'tex',   name: 'Tex',   role: 'Tax Prep (1099)',             department: 'Mobility',    tagline: 'Quarterly tax estimates for independent drivers.', routeId: 'tax' },
+  { id: 'mech',  name: 'Mech',  role: 'Maintenance Reminder',        department: 'Mobility',    tagline: 'Vehicle service intervals and alerts.', routeId: 'maintenance' },
 
   // Automation (2)
-  { id: 'workflow-architect', name: 'Flo', role: 'Workflow Architect', department: 'Automation', tagline: 'Visual workflow generation and debugging — no-code playbooks.', routeId: 'workflow-architect' },
-  { id: 'trigger-monitor',    name: 'Trig', role: 'Trigger Monitor',   department: 'Automation', tagline: 'Webhook + cron + DB-event router. Always-on signal layer.', routeId: 'trigger-monitor' },
+  { id: 'flo',   name: 'Flo',   role: 'Workflow Architect',          department: 'Automation',  tagline: 'Visual workflow generation and debugging — no-code playbooks.', routeId: 'workflow-architect' },
+  { id: 'trig',  name: 'Trig',  role: 'Trigger Monitor',             department: 'Automation',  tagline: 'Webhook + cron + DB-event router. Always-on signal layer.', routeId: 'trigger-monitor' },
 
   // Risk (1)
-  { id: 'compliance-guardian', name: 'Gard', role: 'Compliance Guardian', department: 'Risk', tagline: 'KYC, W9, GDPR/CCPA, age-gate enforcement.', routeId: 'compliance-guardian' },
+  { id: 'gard',  name: 'Gard',  role: 'Compliance Guardian',         department: 'Risk',        tagline: 'KYC, W9, GDPR/CCPA, age-gate enforcement.', routeId: 'compliance-guardian' },
 ];
 
 export const ALL_PERSONAS: Persona[] = [KAYLA, ...PERSONAS];
