@@ -14,6 +14,7 @@ import { LeaseListingVideo, LEASE_TOTAL } from "./LeaseListingVideo";
 import { LeaseListingVideoVertical, LEASE_V_TOTAL } from "./LeaseListingVideoVertical";
 import { CustomerFlowVideo, CUSTOMER_FLOW_TOTAL } from "./CustomerFlowVideo";
 import { VendorOnboardingVideo, VENDOR_ONBOARDING_TOTAL } from "./VendorOnboardingVideo";
+import { ExplainerVideo, EXPLAINER_TOTAL } from "./ExplainerVideo";
 
 export const RemotionRoot = () => (
   <>
