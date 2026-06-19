@@ -33,5 +33,6 @@ export const RemotionRoot = () => (
     <Composition id="lease-vertical" component={LeaseListingVideoVertical} durationInFrames={LEASE_V_TOTAL} fps={30} width={1080} height={1920} />
     <Composition id="customer-flow" component={CustomerFlowVideo} durationInFrames={CUSTOMER_FLOW_TOTAL} fps={30} width={1920} height={1080} />
     <Composition id="vendor-onboarding" component={VendorOnboardingVideo} durationInFrames={VENDOR_ONBOARDING_TOTAL} fps={30} width={1920} height={1080} />
+    <Composition id="explainer-60s" component={ExplainerVideo} durationInFrames={EXPLAINER_TOTAL} fps={30} width={1920} height={1080} />
   </>
 );
