@@ -105,6 +105,7 @@ const DirectoryPage: React.FC = () => {
         'c188b47b-9d41-4e97-ba06-043e0b4c9b92', // Channing Capital Management (replaces Heritage)
         '56eea0b6-d1ec-4c68-af4a-191fc91d30a7', // Blavity.org
         'c9afd7c1-d37d-455d-9dcd-b11bb0c685cd', // The IT Architect Corporation (replaces Hot Grease)
+        '0c23893e-21a0-4672-a5c7-fa64e78b1323', // Atlanta Hustle (UFA)
       ];
       // Businesses to exclude from Featured Spotlight
       const EXCLUDED_FEATURED_IDS = [
