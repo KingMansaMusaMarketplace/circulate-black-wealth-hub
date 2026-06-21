@@ -1,39 +1,62 @@
-## Goal
+# Team Edition Manual v2 — Make It Feel Like 1325.AI
 
-Produce a shortened, share-safe PDF of the **1325.AI Complete Platform Manual** that you can send to your volunteer team along with your email — keeping the heart and vision intact, but leaving the "secret sauce" out.
+You're right — v1 reads generic because it has no visuals and the agents are just a list. v2 fixes that without exposing secret sauce.
 
-Output file: `/mnt/documents/1325AI_Team_Edition_v1.pdf` (roughly **10–12 pages**, designed to be skimmed in under 15 minutes).
+## What changes from v1
 
-## What's IN (team-safe)
+**1. Add real visuals (the biggest fix)**
+- Cover page: 1325.AI logo + brand mark, not just text
+- Capture 4–6 live screenshots from the running preview:
+  - Home/landing
+  - Directory page (with the featured business work we just did)
+  - A business detail page
+  - Kayla chat / Kayla Team page
+  - Loyalty / QR scan flow
+  - Investor portal entry (blurred if needed)
+- Each screenshot framed in a clean macOS-style window with a subtle MansaBlue→black gradient background (using the product-shot skill)
+- Brand divider bars in MansaGold between sections
+- A simple visual diagram of the ecosystem: **Customer ↔ Business ↔ Kayla + 41 Agents** (boxes and arrows, no architecture)
 
-1. **Personal letter from you** (cover page) — adapted from the email you wrote, in your same plain, honest voice. Sets the tone: sweat equity, gratitude, pulling back the curtain.
-2. **Vision & Mission** — what 1325.AI is and why it matters (Black wealth circulation, ~2% problem, the "operating system" idea).
-3. **The Big Picture** — high-level overview of what we're building (marketplace + AI team + loyalty), no architecture details.
-4. **Meet the 42 Agentic AI Employees** — Kayla + 41 specialists, grouped by department (Growth, Sales, Customer Success, Operations & Finance) with one-line role descriptions only. No routing logic, no memory/RLS internals.
-5. **What's Live Today** — directory, QR loyalty, iOS app, investor portal (named, not explained technically).
-6. **Roadmap & Goals** — the "10,000 businesses in 24 months" goal, key milestones, what we're driving toward.
-7. **How the Team Wins Together** — bi-weekly syncs as non-negotiable, why every voice matters, what's expected.
-8. **Closing thank-you** — gratitude + call to lock in.
+**2. Founder story section (new, 1 page)**
+- Why "1325" — the year and the meaning
+- The moment the vision clicked
+- Why this team, why now
+- Written in your voice from the email (plain, personal, gratitude-forward)
+- *I'll draft this from your email + memory; you edit before final*
 
-## What's OUT (kept private)
+**3. Customer scenarios (new, 1–2 pages)**
+Three short "a day in the life" vignettes, no tech jargon:
+- **Maya, the customer** — walks into a Black-owned coffee shop, scans the QR, earns points, gets a personalized rec from Kayla
+- **James, the business owner** — signs up, Kayla helps him write his listing, his first 5 customers come through the directory in week one
+- **The team** — bi-weekly sync, Kayla surfaces which businesses need attention, agents handle outreach overnight
 
-- **Technical architecture** — no Supabase schemas, RLS, agent routing logic, tenant boundaries, edge functions, security definers, or implementation details.
-- **Patent & IP details** — no USPTO number, no claim counts, no "27 independent / 56+ dependent claims," no Alice defense, no Illinois jurisdiction-as-IP-strategy framing.
-- Investor valuation, $100M Series A framing, pricing for the Gemini Enterprise add-on, and sponsor tier dollar amounts are also removed (these read as investor-only).
-- "Confidential · Investor Grade · USPTO" cover page is replaced with a clean "Team Edition" cover.
+**4. Agent personas (upgrade, not list)**
+Instead of 42 one-liners, feature **8–10 "headliner" agents** with:
+- Name + role + a one-sentence personality
+- A sample thing they'd say ("Hey, I noticed 3 new businesses in Atlanta haven't been verified — want me to start outreach?")
+- The other 32 grouped by department in a clean visual roster (still named, but compact)
 
-## Tone & design
+**5. Keep from v1**
+- Your personal letter (cover/intro)
+- Vision & mission
+- What's live today
+- Roadmap & team-wins section
+- All the same exclusions: no architecture, no patent/USPTO, no investor $ figures
 
-- **Personal intro:** Lifted in spirit from your email — first-person, plain English, gratitude-forward. No corporate voice.
-- **Visual style:** Matches the existing manual's brand (MansaBlue `#003366`, MansaGold `#FFB300`, true-black accents, clean Inter/Arial typography) so it feels like the same family of document, just lighter.
-- **Layout:** Cover → Letter → 6–8 content pages with headers, short paragraphs, and simple bullet lists. No dense tables, no footnotes.
+## Visual style
+- MansaBlue `#003366` + MansaGold `#FFB300` on near-black
+- Inter/Arial body, larger type than v1 (more breathing room)
+- Each section gets a hero strip with gold accent line
+- ~12–14 pages (slightly longer than v1 because of visuals, but easier to skim)
 
-## Technical details (for the build step)
+## Technical notes (for me)
+- Use Playwright headless against the local preview to capture screenshots → `/tmp/shots/`
+- Pipe each through the product-shot skill for the window-frame treatment
+- Build PDF with ReportLab (same as v1), embed PNGs as full-width figures
+- Output: `/mnt/documents/1325AI_Team_Edition_v2.pdf`
+- Visual QA pass: render every page to PNG and inspect before delivering
 
-- Generate with the **docx skill → PDF** route OR ReportLab directly; will choose ReportLab for tighter control of the cover + letter typography.
-- Output to `/mnt/documents/1325AI_Team_Edition_v1.pdf` and present via `<presentation-artifact>` so you can preview and download immediately.
-- I'll do a visual QA pass (render each page to an image, check for overflow, orphaned text, contrast issues) before handing it to you.
-
-## What I need from you to proceed
-
-Just a **"go"** — or tell me if you'd like to also strip out the $18,000/mo and "~4 roles covered" headline numbers (right now I plan to keep those because they're the rallying metric for the team, not secret sauce).
+## What I need from you
+Just a **"go"** and I'll build v2. Two optional tweaks you can call now:
+1. Want me to **pick the 8–10 headliner agents** myself (I'll choose the ones most visible to the team — Kayla, the outreach lead, the loyalty agent, etc.), or do you want to name them?
+2. Any screen you specifically **don't** want screenshotted (e.g. investor portal)?
