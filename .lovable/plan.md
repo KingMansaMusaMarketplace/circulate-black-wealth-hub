@@ -1,73 +1,68 @@
 
-# Onboarding: Dr. John Atwater — Orthopedic Specialists of the Atlantic (osamds.com)
+# Plan: Two PDFs for Dr. Atwater (Comped Full Office Automation)
 
-## What I observed from his site
-- **Practice:** Orthopedic Specialists of the Atlantic (OSA), Stuart, FL area
-- **Lead provider:** Dr. John Atwater, accepting new patients
-- **Specialties:** Head/Spine, Hip/Leg/Knee, Arm/Elbow, Hand/Wrist
-- **Primary CTAs:** Phone (772) 213-9809 + "Request an appointment online"
-- **Brand voice:** "Treating People, Not Symptoms" — personal, individualized
+Build two branded PDFs in the same visual style as the existing `Atwater_OSA_Full_Office_Automation.pdf` (MansaBlue `#003366`, MansaGold `#FFB300`, near-black body) using Python + reportlab. Save both to `/mnt/documents/` so you can preview and forward to Dr. Atwater.
 
-## Part 1 — Comp the Pro plan (team-member courtesy)
+---
 
-Two clean ways to do this; I'll do **Option A** unless you say otherwise:
+## Deliverable 1: `Atwater_OSA_Upgrade_Path.pdf` (~3 pages)
 
-- **Option A (recommended):** Create his business account on the **Pro tier** with a **100% lifetime comp coupon / team-member flag** so billing never runs. No Stripe charge, no expiration. Tag the account `team_comp = true` and note "Comp'd by Thomas — team member" in admin notes.
-- **Option B:** Issue a 12-month 100% discount that auto-reviews annually.
+**Purpose:** Show Dr. Atwater the full vision — what 1325.AI can do once HIPAA paperwork and EHR (electronic health record) integration are in place — and make clear you (Mansa Musa Marketplace) are comping everything as a gift to a friend.
 
-I'll need from you (one reply is fine):
-1. Email Dr. Atwater wants tied to the login
-2. Confirm "Option A — lifetime comp" is what you want
-3. The actual business name to display (Orthopedic Specialists of the Atlantic? or his personal practice name?)
+**Page 1 — Cover & Vision**
+- Header: "Full Office Automation — Upgrade Path"
+- Subhead: "Prepared exclusively for Dr. John Atwater, Orthopedic Specialists of the Atlantic, Stuart, FL"
+- Gold "COMPLIMENTARY — $0/MONTH FOR LIFE OF FRIENDSHIP" badge
+- 3-sentence framing: starts on $299/mo Pro (comped) → unlocks PHI + EHR + billing → ~$32K–$38K/mo in role coverage
 
-## Part 2 — Agentic AI onboarding plan (what Kayla + the team will execute)
+**Page 2 — The 3 Unlock Tiers Table**
+| Tier | What unlocks | What it normally costs | Your price |
+|---|---|---|---|
+| Tier 1 — BAA signed | PHI in calls/texts/reminders, patient-specific scheduling | Free | **Free** |
+| Tier 2 — EHR integration | Auto-intake into chart, appointment sync, call notes logged | $3,500–$8,000 one-time | **Comped** |
+| Tier 3 — Ledger Pro add-on | Insurance eligibility checks, AR chasing, billing reports | $200/mo | **Comped** |
 
-I'll have the agents auto-generate and queue this on his account the moment it's provisioned. Headline plays:
+Plus a clear "Always Human" box: clinical decisions, prescriptions, lab orders, claim submission — these stay with licensed staff (legal requirement, protects his license).
 
-**Atlas (Directory & Listings)**
-- Claim + build OSA listing in the orthopedic / medical category
-- Pull NAP (name/address/phone), hours, specialties, provider bio from osamds.com
-- Add the 4 specialty pages as sub-services with linked imagery
+**Page 3 — Before / After + Next Steps**
+- Side-by-side: current Pro coverage (~$19,500/mo) vs. Full Office Automation (~$32K–$38K/mo)
+- 4 next steps: (1) sign BAA, (2) tell us EHR vendor, (3) 30-min Kayla onboarding call, (4) go live
+- Footer: "A gift from Mansa Musa Marketplace / 1325.AI to a trusted friend of the practice."
 
-**Sage (Content & SEO)**
-- Generate 6 launch articles: "When to see an orthopedic surgeon for knee pain," "Rotator cuff vs. frozen shoulder," "Back pain red flags," etc.
-- Optimize for Stuart, FL + Treasure Coast geo terms
-- Schema markup: `MedicalBusiness` + `Physician` for Dr. Atwater
+---
 
-**Echo (Reviews & Reputation)**
-- Pull existing Google/Healthgrades reviews into the profile
-- Set up post-visit review request flow (SMS + email)
+## Deliverable 2: `Atwater_OSA_BAA_Cover_Letter.pdf` (1 page)
 
-**Vox (Outbound / Patient Acquisition)**
-- Draft a "new patient" welcome sequence
-- Referral-partner outreach list: local PCPs, PT clinics, urgent cares within 25 mi
+**Purpose:** Plain-English cover letter explaining what a BAA (Business Associate Agreement) is and why signing it unlocks the next phase. **Not the BAA itself** — the actual legal BAA should come from your attorney. This is the friendly letter that goes on top.
 
-**Mosaic (Community & Loyalty)**
-- Set up QR loyalty for returning patients (e.g., wellness check-ins, PT milestones — HIPAA-safe, no PHI)
+**Contents:**
+- 1325.AI letterhead (brand colors)
+- Date placeholder, addressed to Dr. Atwater at OSA Stuart FL
+- 3 short paragraphs:
+  1. "Thank you for trusting 1325.AI with OSA's operations."
+  2. Plain-English explanation: a BAA is a 1–2 page HIPAA contract that lets us legally handle patient health information (PHI). Without it we can only do non-PHI work (marketing, reviews, general scheduling). With it, our agents can do specific patient scheduling, intake, reminders, recalls.
+  3. "Please sign and return the attached BAA. Once received, we'll activate Tier 1 within 48 hours."
+- Signature block placeholder for you
+- Note at bottom: "Attach your legal BAA template here before sending."
 
-**Beacon (Brand / Social)**
-- Match OSA's existing blue/green palette in the profile
-- Auto-generate weekly social posts from the new articles
+---
 
-**Ledger (Reporting)**
-- Weekly digest to Dr. Atwater: new profile views, appointment-request clicks, top search terms, review velocity
+## Technical notes (for the AI to execute)
 
-**Kayla (Concierge)**
-- Personal onboarding call script + a "first 30 days" checklist sent to his email
+- Reuse the reportlab style/setup from the prior `Atwater_OSA_Full_Office_Automation.pdf` build (same fonts, brand colors, table styling) for visual consistency
+- Use `SimpleDocTemplate`, `Table`, `Paragraph`, `Spacer`, `PageBreak`
+- QA both PDFs with `pdftoppm` and inspect each page image for overflow, clipping, or color issues before delivering
+- Emit `<presentation-artifact>` tags for both files when done
 
-## Part 3 — Deliverables in this build
+---
 
-1. **Admin action:** Create the comp'd Pro account (manual SQL/admin insert; no Stripe charge)
-2. **One-page onboarding brief PDF** (`/mnt/documents/Atwater_OSA_Onboarding_Plan.pdf`) — the agent plan above, formatted in 1325.AI brand, that you can hand to Dr. Atwater on the welcome call
-3. **Internal Slack/email-ready note** for the team announcing OSA as a comp'd team-partner account so they don't try to bill him
+## What you'll need to do after
 
-## Out of scope (ask if you want these)
-- Building the actual listing page content (agents will do that post-provision, not in this build)
-- HIPAA BAA paperwork (legal track, separate)
-- Migrating any patient data (we don't touch PHI)
+1. **Forward the Upgrade Path PDF** to Dr. Atwater alongside the existing Full Office Automation addendum
+2. **Have your attorney prepare the actual BAA** (1–2 page HIPAA contract); attach it behind the cover letter before sending
+3. **Get his EHR vendor name** (Athena, eClinicalWorks, Epic, etc.) so the integration can be scoped
+4. **Reply here with his login email** so the comped Pro account can be created
 
-## Open questions before I build
-1. Right John Atwater? (Orthopedic surgeon in FL, not dental)
-2. Lifetime comp or annual-review comp?
-3. Login email + display business name
-4. Want me to draft the welcome email to Dr. Atwater too?
+---
+
+Reply **"go"** (or "approve") and I'll build both PDFs.
