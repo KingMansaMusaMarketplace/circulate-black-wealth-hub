@@ -1,62 +1,73 @@
-# Team Edition Manual v2 — Make It Feel Like 1325.AI
 
-You're right — v1 reads generic because it has no visuals and the agents are just a list. v2 fixes that without exposing secret sauce.
+# Onboarding: Dr. John Atwater — Orthopedic Specialists of the Atlantic (osamds.com)
 
-## What changes from v1
+## What I observed from his site
+- **Practice:** Orthopedic Specialists of the Atlantic (OSA), Stuart, FL area
+- **Lead provider:** Dr. John Atwater, accepting new patients
+- **Specialties:** Head/Spine, Hip/Leg/Knee, Arm/Elbow, Hand/Wrist
+- **Primary CTAs:** Phone (772) 213-9809 + "Request an appointment online"
+- **Brand voice:** "Treating People, Not Symptoms" — personal, individualized
 
-**1. Add real visuals (the biggest fix)**
-- Cover page: 1325.AI logo + brand mark, not just text
-- Capture 4–6 live screenshots from the running preview:
-  - Home/landing
-  - Directory page (with the featured business work we just did)
-  - A business detail page
-  - Kayla chat / Kayla Team page
-  - Loyalty / QR scan flow
-  - Investor portal entry (blurred if needed)
-- Each screenshot framed in a clean macOS-style window with a subtle MansaBlue→black gradient background (using the product-shot skill)
-- Brand divider bars in MansaGold between sections
-- A simple visual diagram of the ecosystem: **Customer ↔ Business ↔ Kayla + 41 Agents** (boxes and arrows, no architecture)
+## Part 1 — Comp the Pro plan (team-member courtesy)
 
-**2. Founder story section (new, 1 page)**
-- Why "1325" — the year and the meaning
-- The moment the vision clicked
-- Why this team, why now
-- Written in your voice from the email (plain, personal, gratitude-forward)
-- *I'll draft this from your email + memory; you edit before final*
+Two clean ways to do this; I'll do **Option A** unless you say otherwise:
 
-**3. Customer scenarios (new, 1–2 pages)**
-Three short "a day in the life" vignettes, no tech jargon:
-- **Maya, the customer** — walks into a Black-owned coffee shop, scans the QR, earns points, gets a personalized rec from Kayla
-- **James, the business owner** — signs up, Kayla helps him write his listing, his first 5 customers come through the directory in week one
-- **The team** — bi-weekly sync, Kayla surfaces which businesses need attention, agents handle outreach overnight
+- **Option A (recommended):** Create his business account on the **Pro tier** with a **100% lifetime comp coupon / team-member flag** so billing never runs. No Stripe charge, no expiration. Tag the account `team_comp = true` and note "Comp'd by Thomas — team member" in admin notes.
+- **Option B:** Issue a 12-month 100% discount that auto-reviews annually.
 
-**4. Agent personas (upgrade, not list)**
-Instead of 42 one-liners, feature **8–10 "headliner" agents** with:
-- Name + role + a one-sentence personality
-- A sample thing they'd say ("Hey, I noticed 3 new businesses in Atlanta haven't been verified — want me to start outreach?")
-- The other 32 grouped by department in a clean visual roster (still named, but compact)
+I'll need from you (one reply is fine):
+1. Email Dr. Atwater wants tied to the login
+2. Confirm "Option A — lifetime comp" is what you want
+3. The actual business name to display (Orthopedic Specialists of the Atlantic? or his personal practice name?)
 
-**5. Keep from v1**
-- Your personal letter (cover/intro)
-- Vision & mission
-- What's live today
-- Roadmap & team-wins section
-- All the same exclusions: no architecture, no patent/USPTO, no investor $ figures
+## Part 2 — Agentic AI onboarding plan (what Kayla + the team will execute)
 
-## Visual style
-- MansaBlue `#003366` + MansaGold `#FFB300` on near-black
-- Inter/Arial body, larger type than v1 (more breathing room)
-- Each section gets a hero strip with gold accent line
-- ~12–14 pages (slightly longer than v1 because of visuals, but easier to skim)
+I'll have the agents auto-generate and queue this on his account the moment it's provisioned. Headline plays:
 
-## Technical notes (for me)
-- Use Playwright headless against the local preview to capture screenshots → `/tmp/shots/`
-- Pipe each through the product-shot skill for the window-frame treatment
-- Build PDF with ReportLab (same as v1), embed PNGs as full-width figures
-- Output: `/mnt/documents/1325AI_Team_Edition_v2.pdf`
-- Visual QA pass: render every page to PNG and inspect before delivering
+**Atlas (Directory & Listings)**
+- Claim + build OSA listing in the orthopedic / medical category
+- Pull NAP (name/address/phone), hours, specialties, provider bio from osamds.com
+- Add the 4 specialty pages as sub-services with linked imagery
 
-## What I need from you
-Just a **"go"** and I'll build v2. Two optional tweaks you can call now:
-1. Want me to **pick the 8–10 headliner agents** myself (I'll choose the ones most visible to the team — Kayla, the outreach lead, the loyalty agent, etc.), or do you want to name them?
-2. Any screen you specifically **don't** want screenshotted (e.g. investor portal)?
+**Sage (Content & SEO)**
+- Generate 6 launch articles: "When to see an orthopedic surgeon for knee pain," "Rotator cuff vs. frozen shoulder," "Back pain red flags," etc.
+- Optimize for Stuart, FL + Treasure Coast geo terms
+- Schema markup: `MedicalBusiness` + `Physician` for Dr. Atwater
+
+**Echo (Reviews & Reputation)**
+- Pull existing Google/Healthgrades reviews into the profile
+- Set up post-visit review request flow (SMS + email)
+
+**Vox (Outbound / Patient Acquisition)**
+- Draft a "new patient" welcome sequence
+- Referral-partner outreach list: local PCPs, PT clinics, urgent cares within 25 mi
+
+**Mosaic (Community & Loyalty)**
+- Set up QR loyalty for returning patients (e.g., wellness check-ins, PT milestones — HIPAA-safe, no PHI)
+
+**Beacon (Brand / Social)**
+- Match OSA's existing blue/green palette in the profile
+- Auto-generate weekly social posts from the new articles
+
+**Ledger (Reporting)**
+- Weekly digest to Dr. Atwater: new profile views, appointment-request clicks, top search terms, review velocity
+
+**Kayla (Concierge)**
+- Personal onboarding call script + a "first 30 days" checklist sent to his email
+
+## Part 3 — Deliverables in this build
+
+1. **Admin action:** Create the comp'd Pro account (manual SQL/admin insert; no Stripe charge)
+2. **One-page onboarding brief PDF** (`/mnt/documents/Atwater_OSA_Onboarding_Plan.pdf`) — the agent plan above, formatted in 1325.AI brand, that you can hand to Dr. Atwater on the welcome call
+3. **Internal Slack/email-ready note** for the team announcing OSA as a comp'd team-partner account so they don't try to bill him
+
+## Out of scope (ask if you want these)
+- Building the actual listing page content (agents will do that post-provision, not in this build)
+- HIPAA BAA paperwork (legal track, separate)
+- Migrating any patient data (we don't touch PHI)
+
+## Open questions before I build
+1. Right John Atwater? (Orthopedic surgeon in FL, not dental)
+2. Lifetime comp or annual-review comp?
+3. Login email + display business name
+4. Want me to draft the welcome email to Dr. Atwater too?
