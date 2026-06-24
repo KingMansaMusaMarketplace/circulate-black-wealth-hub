@@ -692,133 +692,103 @@ SYSTEM CONFIGURATION:
 When helping admins, provide specific guidance on navigating the dashboard, understanding metrics, and performing administrative tasks effectively.`;
     }
 
-    // Request an ephemeral token from OpenAI
-    // Using "shimmer" voice - the most natural, warm, human-like female voice
-    const response = await fetch("https://api.openai.com/v1/realtime/sessions", {
+    // Request an ephemeral client secret from OpenAI's GA Realtime API.
+    // Endpoint: POST /v1/realtime/client_secrets (replaces deprecated /v1/realtime/sessions)
+    const tools = [
+      {
+        type: "function",
+        name: "search_businesses",
+        description: "Search the 1325.AI business directory by name, category, service type, or keyword. Also searches business descriptions. Use when a user asks to find businesses, restaurants, shops, services, plumbers, etc. When the user mentions a city, pass it as the 'city' parameter separately from the query.",
+        parameters: {
+          type: "object",
+          properties: {
+            query: { type: "string", description: "Search term (business name, service type, or keyword like 'plumber', 'salon', 'restaurant')" },
+            category: { type: "string", description: "Optional category filter like Restaurant, Salon, etc." },
+            city: { type: "string", description: "City to filter results by (e.g. 'Chicago', 'Atlanta')" },
+            limit: { type: "number", description: "Number of results (1-10, default 5)" }
+          },
+          required: ["query"]
+        }
+      },
+      {
+        type: "function",
+        name: "get_business_details",
+        description: "Get full details and recent reviews for a specific business by ID. Use after search to give more info.",
+        parameters: {
+          type: "object",
+          properties: { business_id: { type: "string", description: "The UUID of the business" } },
+          required: ["business_id"]
+        }
+      },
+      {
+        type: "function",
+        name: "get_nearby_businesses",
+        description: "Find businesses in a specific city. Also searches business descriptions for service types. Use when user mentions a location or asks for nearby businesses.",
+        parameters: {
+          type: "object",
+          properties: {
+            city: { type: "string", description: "City name to search in" },
+            category: { type: "string", description: "Optional category filter" },
+            limit: { type: "number", description: "Number of results (1-10, default 5)" }
+          },
+          required: ["city"]
+        }
+      },
+      { type: "function", name: "check_loyalty_points", description: "Check the current user's loyalty points balance, tier, and earning history.", parameters: { type: "object", properties: {}, required: [] } },
+      { type: "function", name: "get_upcoming_bookings", description: "Get the user's upcoming confirmed or pending bookings.", parameters: { type: "object", properties: {}, required: [] } },
+      { type: "function", name: "get_churn_alerts", description: "Get customers at high risk of churning for the business owner.", parameters: { type: "object", properties: {}, required: [] } },
+      { type: "function", name: "get_deal_pipeline", description: "Get B2B connection pipeline and deal scores. Business owners only.", parameters: { type: "object", properties: {}, required: [] } },
+      { type: "function", name: "get_agent_stats", description: "Get AI agent automation stats — active rules, recent actions. Business owners only.", parameters: { type: "object", properties: {}, required: [] } }
+    ];
+
+    const response = await fetch("https://api.openai.com/v1/realtime/client_secrets", {
       method: "POST",
       headers,
       body: JSON.stringify({
-        model: "gpt-4o-realtime-preview",
-        modalities: ["text", "audio"],
-        voice: "shimmer",
-        instructions: kaylaInstructions,
-        input_audio_format: "pcm16",
-        output_audio_format: "pcm16",
-        input_audio_transcription: {
-          model: "whisper-1"
+        session: {
+          type: "realtime",
+          model: "gpt-realtime",
+          instructions: kaylaInstructions,
+          audio: {
+            input: {
+              format: { type: "audio/pcm", rate: 24000 },
+              transcription: { model: "whisper-1" },
+              turn_detection: {
+                type: "server_vad",
+                threshold: 0.65,
+                prefix_padding_ms: 400,
+                silence_duration_ms: 1200,
+              },
+            },
+            output: {
+              format: { type: "audio/pcm", rate: 24000 },
+              voice: "shimmer",
+            },
+          },
+          tools,
         },
-        turn_detection: {
-          type: "server_vad",
-          threshold: 0.65,
-          prefix_padding_ms: 400,
-          silence_duration_ms: 1200
-        },
-        tools: [
-          {
-            type: "function",
-            name: "search_businesses",
-            description: "Search the 1325.AI business directory by name, category, service type, or keyword. Also searches business descriptions. Use when a user asks to find businesses, restaurants, shops, services, plumbers, etc. When the user mentions a city, pass it as the 'city' parameter separately from the query.",
-            parameters: {
-              type: "object",
-              properties: {
-                query: { type: "string", description: "Search term (business name, service type, or keyword like 'plumber', 'salon', 'restaurant')" },
-                category: { type: "string", description: "Optional category filter like Restaurant, Salon, etc." },
-                city: { type: "string", description: "City to filter results by (e.g. 'Chicago', 'Atlanta')" },
-                limit: { type: "number", description: "Number of results (1-10, default 5)" }
-              },
-              required: ["query"]
-            }
-          },
-          {
-            type: "function",
-            name: "get_business_details",
-            description: "Get full details and recent reviews for a specific business by ID. Use after search to give more info.",
-            parameters: {
-              type: "object",
-              properties: {
-                business_id: { type: "string", description: "The UUID of the business" }
-              },
-              required: ["business_id"]
-            }
-          },
-          {
-            type: "function",
-            name: "get_nearby_businesses",
-            description: "Find businesses in a specific city. Also searches business descriptions for service types. Use when user mentions a location or asks for nearby businesses.",
-            parameters: {
-              type: "object",
-              properties: {
-                city: { type: "string", description: "City name to search in" },
-                category: { type: "string", description: "Optional category filter" },
-                limit: { type: "number", description: "Number of results (1-10, default 5)" }
-              },
-              required: ["city"]
-            }
-          },
-          {
-            type: "function",
-            name: "check_loyalty_points",
-            description: "Check the current user's loyalty points balance, tier, and earning history. Use when user asks about points, rewards, or loyalty status.",
-            parameters: {
-              type: "object",
-              properties: {},
-              required: []
-            }
-          },
-          {
-            type: "function",
-            name: "get_upcoming_bookings",
-            description: "Get the user's upcoming confirmed or pending bookings. Use when user asks about their schedule or appointments.",
-            parameters: {
-              type: "object",
-              properties: {},
-              required: []
-            }
-          },
-          {
-            type: "function",
-            name: "get_churn_alerts",
-            description: "Get customers at high risk of churning for the business owner. Only available to business owners.",
-            parameters: {
-              type: "object",
-              properties: {},
-              required: []
-            }
-          },
-          {
-            type: "function",
-            name: "get_deal_pipeline",
-            description: "Get B2B connection pipeline and deal scores. Only available to business owners.",
-            parameters: {
-              type: "object",
-              properties: {},
-              required: []
-            }
-          },
-          {
-            type: "function",
-            name: "get_agent_stats",
-            description: "Get AI agent automation stats — active rules, recent actions, execution counts. Only available to business owners.",
-            parameters: {
-              type: "object",
-              properties: {},
-              required: []
-            }
-          }
-        ]
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenAI API error:', response.status, errorText);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
     }
 
     const data = await response.json();
     console.log("Session created successfully, admin:", isAdmin);
 
-    return new Response(JSON.stringify(data), {
+    // Normalize response to legacy shape { client_secret: { value, expires_at } }
+    // so the existing client code keeps working.
+    const secretValue = data?.value ?? data?.client_secret?.value;
+    const expiresAt = data?.expires_at ?? data?.client_secret?.expires_at;
+    const payload = {
+      ...data,
+      client_secret: { value: secretValue, expires_at: expiresAt },
+    };
+
+    return new Response(JSON.stringify(payload), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
