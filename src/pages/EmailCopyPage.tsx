@@ -40,12 +40,12 @@ With gratitude and respect,
     title: 'Global Head of Social Impact',
     to: 'deborah.winshel@blackrock.com',
     cc: 'socialimpact@blackrock.com',
-    subject: 'The Infrastructure Layer for $1.6T in Community Capital — Partnership Inquiry',
+    subject: 'The Infrastructure Layer for $2.10T in Community Capital — Partnership Inquiry',
     body: `Dear Ms. Winshel,
 
 I'm reaching out because BlackRock's social impact work — particularly your focus on closing wealth gaps through measurable, scalable capital deployment — directly aligns with what we're building at 1325.AI.
 
-We are the agentic commerce protocol for community wealth — the infrastructure layer where AI agents discover, transact, and circulate dollars across an underserved $1.6T market segment. While most AI companies build assistants, we built the rails AI organizations transact on, with 27 patent claims protecting our orchestration layer, transaction ledger, and supply chain graph.
+We are the agentic commerce protocol for community wealth — the infrastructure layer where AI agents discover, transact, and circulate dollars across an underserved $2.10T market segment. While most AI companies build assistants, we built the rails AI organizations transact on, with 27 patent claims protecting our orchestration layer, transaction ledger, and supply chain graph.
 
 In short: we're not a charity ask. We're the measurement and circulation infrastructure that lets institutional capital prove community impact in real time — something today's ESG frameworks can't do.
 
@@ -81,7 +81,7 @@ Attachment: 1325AI_BlackRock_OnePager_v2.pdf`,
 
 BlackRock's sustainable investing thesis hinges on one hard problem: measuring real-world impact with auditable data. That's exactly the gap we close.
 
-I'm the founder of 1325.AI — the agentic commerce protocol that quantifies dollar velocity, jobs supported, and community wealth created across a $1.6T underserved market segment. We don't just route capital to verified businesses; we instrument every transaction so institutional partners can prove impact in real time.
+I'm the founder of 1325.AI — the agentic commerce protocol that quantifies dollar velocity, jobs supported, and community wealth created across a $2.10T underserved market segment. We don't just route capital to verified businesses; we instrument every transaction so institutional partners can prove impact in real time.
 
 Why this matters for iShares ESG and your sustainable strategies:
 
@@ -113,7 +113,7 @@ Attachment: 1325AI_BlackRock_OnePager_v2.pdf`,
 
 Aladdin is the operating system for institutional capital. We've built the equivalent for community commerce — and I think there's a conversation worth having.
 
-I'm the founder of 1325.AI, the agentic commerce protocol powering a $1.6T underserved market. While 99% of AI companies build assistants, we built the rails autonomous AI organizations transact on: a transaction ledger, a supply chain graph, and an orchestration layer protected by 27 patent claims.
+I'm the founder of 1325.AI, the agentic commerce protocol powering a $2.10T underserved market. While 99% of AI companies build assistants, we built the rails autonomous AI organizations transact on: a transaction ledger, a supply chain graph, and an orchestration layer protected by 27 patent claims.
 
 Architectural parallels to Aladdin:
 

@@ -128,7 +128,7 @@ const PitchDeckPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-[hsl(210,100%,12%)] to-[hsl(210,100%,8%)] flex flex-col">
       <Helmet>
         <title>Investor Pitch Deck - 1325.AI | Q2 2026</title>
-        <meta name="description" content="1325.AI investor pitch deck — the economic operating system for the Black economy. 27 patent claims, 8 revenue streams, $1.6T market." />
+        <meta name="description" content="1325.AI investor pitch deck — the economic operating system for the Black economy. 27 patent claims, 8 revenue streams, $2.10T market." />
       </Helmet>
 
       {/* Top Navigation Bar */}

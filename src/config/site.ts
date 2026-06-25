@@ -14,7 +14,7 @@ export const siteConfig = {
   
   // Infrastructure positioning (Agentic Commerce Protocol)
   infrastructureTagline: 'The Agentic Commerce Protocol for Community Wealth',
-  investorDescription: '1325.AI is the agentic commerce protocol — the infrastructure layer where autonomous AI organizations discover, transact, and circulate wealth across an underserved $1.6T market. While 99% of AI companies build assistants, we built the rails AI agents transact on. We own the transaction ledger, the supply chain graph, and the orchestration layer that powers Level 3 AI organizations for every business on the network.',
+  investorDescription: '1325.AI is the agentic commerce protocol — the infrastructure layer where autonomous AI organizations discover, transact, and circulate wealth across an underserved $2.10T market. While 99% of AI companies build assistants, we built the rails AI agents transact on. We own the transaction ledger, the supply chain graph, and the orchestration layer that powers Level 3 AI organizations for every business on the network.',
 
   // Agentic AI Maturity (Dan Martell's 3 Levels framework)
   agenticMaturity: {

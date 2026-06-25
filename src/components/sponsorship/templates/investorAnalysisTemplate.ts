@@ -36,7 +36,7 @@ export const getInvestorAnalysisContent = (): string => {
           <h3 style="font-size: 16px; color: #000000; margin-bottom: 10px; font-weight: bold;">THE BILLION-DOLLAR VERDICT</h3>
           <p style="font-size: 14px; line-height: 1.6; margin: 0; color: #000000;">
             <strong>Yes, 1325.AI has legitimate billion-dollar potential.</strong> The platform addresses 
-            a $1.6 trillion market opportunity with a unique 4-sided marketplace model, comprehensive feature set, 
+            a $2.10 trillion market opportunity with a unique 4-sided marketplace model, comprehensive feature set, 
             and clear path to scale. With proper execution, strategic partnerships, and continued development, 
             this platform could achieve unicorn status within 5-7 years.
           </p>
@@ -57,7 +57,7 @@ export const getInvestorAnalysisContent = (): string => {
           </tr>
           <tr>
             <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Black Consumer Spending Power (Annual)</td>
-            <td style="padding: 12px; text-align: right; border: 1px solid #ddd; font-weight: bold; color: #000000;">$1.6 Trillion</td>
+            <td style="padding: 12px; text-align: right; border: 1px solid #ddd; font-weight: bold; color: #000000;">$2.10 Trillion</td>
           </tr>
           <tr style="background: #f8f9fa;">
             <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Community-Owned Businesses in U.S.</td>
@@ -69,7 +69,7 @@ export const getInvestorAnalysisContent = (): string => {
           </tr>
           <tr style="background: #f8f9fa;">
             <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Projected Black Spending Power by 2030</td>
-            <td style="padding: 12px; text-align: right; border: 1px solid #ddd; font-weight: bold; color: #000000;">$2.1 Trillion</td>
+            <td style="padding: 12px; text-align: right; border: 1px solid #ddd; font-weight: bold; color: #000000;">$2.7 Trillion</td>
           </tr>
         </table>
 
