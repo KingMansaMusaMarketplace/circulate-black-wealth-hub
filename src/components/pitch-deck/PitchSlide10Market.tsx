@@ -8,7 +8,7 @@ const PitchSlide10Market: React.FC = () => {
     {
       label: 'TAM',
       title: 'Total Addressable Market',
-      value: '$1.6T',
+      value: '$2.10T',
       description: 'Annual Black consumer spending power in the US',
       color: 'mansagold'
     },

@@ -13,7 +13,7 @@ const PitchSlide2Problem: React.FC = () => {
     },
     {
       icon: TrendingDown,
-      stat: '$1.6T',
+      stat: '$2.10T',
       title: 'Spending Power Lost',
       description: 'Massive economic potential with minimal internal recirculation'
     },
@@ -41,7 +41,7 @@ const PitchSlide2Problem: React.FC = () => {
             The Black Dollar Doesn't <span className="text-red-400">Circulate</span>
           </h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Despite $1.6 trillion in annual spending power, Black communities lack the economic infrastructure to keep wealth circulating internally
+            Despite $2.10 trillion in annual spending power, Black communities lack the economic infrastructure to keep wealth circulating internally
           </p>
         </motion.div>
 

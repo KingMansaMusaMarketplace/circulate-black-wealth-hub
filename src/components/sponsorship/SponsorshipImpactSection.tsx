@@ -5,7 +5,7 @@ const metrics = [
   { value: '42', unit: 'AI Agents', detail: 'Autonomous workforce led by Kayla, our CEO agent.' },
   { value: '17', unit: 'Revenue Streams', detail: 'Subscriptions, sponsorships, B2B, stays, rideshare and more.' },
   { value: '$18,000+', unit: '/mo Saved', detail: 'Operator savings vs. traditional staffing for an SMB.' },
-  { value: '$1.8T', unit: 'Addressable', detail: 'Black-owned business economy we are building rails for.' },
+  { value: '$2.10T', unit: 'Addressable', detail: 'Black-owned business economy we are building rails for.' },
 ];
 
 const pillars = [

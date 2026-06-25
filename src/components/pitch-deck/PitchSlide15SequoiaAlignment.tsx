@@ -3,7 +3,7 @@ import neuralBrainLogo from '@/assets/1325-neural-brain-logo.jpeg';
 
 const PitchSlide15Contact: React.FC = () => {
   const highlights = [
-    '$1.6T market',
+    '$2.10T market',
     '27 patent claims',
     '8 revenue streams',
     '0 direct competitors',
