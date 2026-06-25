@@ -83,10 +83,17 @@ async function executeAction(
 
       case "add_tag":
       case "remove_tag": {
-        const { tag, target_table = "profiles", target_id_field = "user_id" } = action.action_config;
+        const { tag, target_table = "customers", target_id_field = "user_id" } = action.action_config;
         const targetId = getNestedValue(context, target_id_field);
 
         if (!targetId) throw new Error(`Target ID not found in field: ${target_id_field}`);
+
+        // SECURITY: workflows may only tag customer-facing records they own.
+        const ALLOWED_TAG_TABLES = new Set(["customers", "bookings", "b2b_connections"]);
+        if (!ALLOWED_TAG_TABLES.has(target_table)) {
+          throw new Error(`Table '${target_table}' not allowed for tag operations`);
+        }
+
 
         const { data: current } = await supabase
           .from(target_table)
