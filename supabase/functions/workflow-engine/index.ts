@@ -227,21 +227,53 @@ async function executeAction(
       }
 
       case "webhook": {
-        const { url, method = "POST", headers = {}, body_template } = action.action_config;
+        const { url, method = "POST", body_template } = action.action_config;
+
+        // SECURITY: prevent SSRF — block private/loopback/link-local hosts and
+        // known cloud metadata endpoints. Only http(s) is allowed.
+        let parsedUrl: URL;
+        try {
+          parsedUrl = new URL(url);
+        } catch {
+          throw new Error("Webhook url is not a valid URL");
+        }
+        if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+          throw new Error("Webhook url must use http or https");
+        }
+        const hostname = parsedUrl.hostname.toLowerCase();
+        const PRIVATE_HOST_RE = /^(localhost|0\.0\.0\.0|127\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|::1|fc00:|fd00:|fe80:)/i;
+        const BLOCKED_HOSTS = new Set([
+          "metadata.google.internal",
+          "metadata.goog",
+          "instance-data",
+          "metadata",
+        ]);
+        if (PRIVATE_HOST_RE.test(hostname) || BLOCKED_HOSTS.has(hostname)) {
+          throw new Error("Webhook url targets a private or metadata address");
+        }
+
         const resolvedBody = body_template
           ? JSON.parse(resolveTemplate(JSON.stringify(body_template), context))
           : context;
 
-        const resp = await fetch(url, {
-          method,
-          headers: { "Content-Type": "application/json", ...headers },
-          body: JSON.stringify(resolvedBody),
+        // SECURITY: do NOT forward caller-controlled headers (Authorization, Cookie, etc.)
+        // to prevent credential relay / smuggling via webhook actions.
+        const safeMethod = ["GET", "POST", "PUT", "PATCH", "DELETE"].includes(String(method).toUpperCase())
+          ? String(method).toUpperCase()
+          : "POST";
+
+        const resp = await fetch(parsedUrl.toString(), {
+          method: safeMethod,
+          headers: { "Content-Type": "application/json" },
+          body: safeMethod === "GET" ? undefined : JSON.stringify(resolvedBody),
+          redirect: "manual",
         });
 
         if (!resp.ok) throw new Error(`Webhook failed: ${resp.status}`);
         const respData = await resp.json().catch(() => ({}));
         return { success: true, output: respData };
       }
+
 
       default:
         return { success: false, error: `Unknown action type: ${action.action_type}` };
