@@ -197,7 +197,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            Discover verified Black-owned businesses. Powered by AI.
+            Discover verified Black-owned businesses. Powered by Agentic AI.
           </motion.h2>
           <motion.p
             className="text-sm md:text-base text-blue-100/80 mb-5 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"

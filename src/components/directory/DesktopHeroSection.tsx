@@ -33,7 +33,7 @@ const DesktopHeroSection: React.FC<DesktopHeroSectionProps> = ({
           Discover Amazing Community Businesses
         </h1>
         <p className="text-white/80 max-w-2xl mx-auto mb-8 text-lg">
-          Powered by AI recommendations, smart filtering, and real-time location data
+          Powered by Agentic AI recommendations, smart filtering, and real-time location data
         </p>
         
         <div className="relative max-w-xl mx-auto mb-6">

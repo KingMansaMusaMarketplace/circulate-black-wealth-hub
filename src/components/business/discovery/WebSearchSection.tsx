@@ -92,7 +92,7 @@ export function WebSearchSection({ initialQuery = '' }: WebSearchSectionProps) {
             </h3>
             <p className="text-slate-300 max-w-2xl mx-auto">
               Search the web for community businesses that aren't on our platform yet. 
-              Powered by AI to help you discover amazing businesses everywhere.
+              Powered by Agentic AI to help you discover amazing businesses everywhere.
             </p>
           </div>
 
