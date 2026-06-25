@@ -362,7 +362,7 @@ function createMarketTable(): Table {
       createTableRow(["Community Consumer Spending Power (Annual)", "$2.10 Trillion"]),
       createTableRow(["Community-Owned Businesses in U.S.", "3.1 Million"]),
       createTableRow(["Average Annual Revenue per Community Business", "$142,000"]),
-      createTableRow(["Projected Community Spending Power by 2030", "$2.1 Trillion"]),
+      createTableRow(["Projected Community Spending Power by 2030", "$2.7 Trillion"]),
     ],
   });
 }

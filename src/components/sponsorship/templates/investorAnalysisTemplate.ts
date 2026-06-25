@@ -69,7 +69,7 @@ export const getInvestorAnalysisContent = (): string => {
           </tr>
           <tr style="background: #f8f9fa;">
             <td style="padding: 12px; border: 1px solid #ddd; color: #000000;">Projected Black Spending Power by 2030</td>
-            <td style="padding: 12px; text-align: right; border: 1px solid #ddd; font-weight: bold; color: #000000;">$2.1 Trillion</td>
+            <td style="padding: 12px; text-align: right; border: 1px solid #ddd; font-weight: bold; color: #000000;">$2.7 Trillion</td>
           </tr>
         </table>
 
