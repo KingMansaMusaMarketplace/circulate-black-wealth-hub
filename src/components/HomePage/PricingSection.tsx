@@ -97,6 +97,16 @@ const PricingSection = () => {
     <section className="py-12 md:py-20 relative z-10">
       <div className="max-w-7xl mx-auto px-4">
         <ScrollReveal>
+          <div className="max-w-4xl mx-auto mb-8 rounded-2xl overflow-hidden border border-mansagold/30 shadow-2xl shadow-mansagold/10 bg-black">
+            <video
+              src={deepDiveVideo.url}
+              controls
+              preload="metadata"
+              playsInline
+              className="w-full h-auto block"
+              aria-label="1325.AI Deep Dive: Investment & Partnership Blueprint"
+            />
+          </div>
           <div className="flex justify-center mb-8">
             <button
               onClick={() => navigate('/business-signup')}
