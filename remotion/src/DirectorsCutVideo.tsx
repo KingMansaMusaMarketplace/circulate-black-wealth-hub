@@ -135,7 +135,7 @@ function SceneHook() {
             lineHeight: 1, letterSpacing: -8, opacity: opNum * opNumOut, transform: `scale(${scale})`,
             textShadow: "0 0 120px rgba(255,179,0,0.5)",
           }}>
-            $1.6T
+            $2.10T
           </div>
           <div style={{ marginTop: 24, opacity: opNumOut }}>
             <FadeIn delay={70}>
@@ -207,7 +207,7 @@ function SceneProblem() {
         }} />
       </div>
       <div style={{ marginTop: 32, display: "flex", justifyContent: "space-between", width: 1100, fontFamily: inter, fontWeight: 500, fontSize: 24, color: "rgba(255,255,255,0.7)", letterSpacing: 4, opacity: op }}>
-        <span>$1.6T enters</span>
+        <span>$2.10T enters</span>
         <span style={{ color: GOLD }}>{`<2% remains`}</span>
       </div>
       <div style={{ marginTop: 60, opacity: labelOp, fontFamily: playfair, fontStyle: "italic", fontWeight: 700, fontSize: 56, color: GOLD, textAlign: "center" }}>
