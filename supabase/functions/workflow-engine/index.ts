@@ -83,10 +83,17 @@ async function executeAction(
 
       case "add_tag":
       case "remove_tag": {
-        const { tag, target_table = "profiles", target_id_field = "user_id" } = action.action_config;
+        const { tag, target_table = "customers", target_id_field = "user_id" } = action.action_config;
         const targetId = getNestedValue(context, target_id_field);
 
         if (!targetId) throw new Error(`Target ID not found in field: ${target_id_field}`);
+
+        // SECURITY: workflows may only tag customer-facing records they own.
+        const ALLOWED_TAG_TABLES = new Set(["customers", "bookings", "b2b_connections"]);
+        if (!ALLOWED_TAG_TABLES.has(target_table)) {
+          throw new Error(`Table '${target_table}' not allowed for tag operations`);
+        }
+
 
         const { data: current } = await supabase
           .from(target_table)
@@ -139,6 +146,21 @@ async function executeAction(
         const { user_id_field, title, message } = action.action_config;
         const userId = getNestedValue(context, user_id_field || "user_id");
 
+        if (!userId) throw new Error("notify_user requires a target user_id");
+
+        // SECURITY: only allow notifying users who are customers of this business.
+        // Prevents workflows from being abused to spam arbitrary users.
+        const { data: customerLink } = await supabase
+          .from("customers")
+          .select("id")
+          .eq("user_id", userId)
+          .eq("business_id", businessId)
+          .maybeSingle();
+
+        if (!customerLink) {
+          throw new Error("notify_user target is not a customer of this business");
+        }
+
         const { error } = await supabase.from("notifications").insert({
           user_id: userId,
           title: resolveTemplate(title, context),
@@ -149,6 +171,7 @@ async function executeAction(
         if (error) throw error;
         return { success: true, output: { notified_user: userId } };
       }
+
 
       case "create_task": {
         const { title, description, assignee_field } = action.action_config;
@@ -204,21 +227,53 @@ async function executeAction(
       }
 
       case "webhook": {
-        const { url, method = "POST", headers = {}, body_template } = action.action_config;
+        const { url, method = "POST", body_template } = action.action_config;
+
+        // SECURITY: prevent SSRF — block private/loopback/link-local hosts and
+        // known cloud metadata endpoints. Only http(s) is allowed.
+        let parsedUrl: URL;
+        try {
+          parsedUrl = new URL(url);
+        } catch {
+          throw new Error("Webhook url is not a valid URL");
+        }
+        if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+          throw new Error("Webhook url must use http or https");
+        }
+        const hostname = parsedUrl.hostname.toLowerCase();
+        const PRIVATE_HOST_RE = /^(localhost|0\.0\.0\.0|127\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|::1|fc00:|fd00:|fe80:)/i;
+        const BLOCKED_HOSTS = new Set([
+          "metadata.google.internal",
+          "metadata.goog",
+          "instance-data",
+          "metadata",
+        ]);
+        if (PRIVATE_HOST_RE.test(hostname) || BLOCKED_HOSTS.has(hostname)) {
+          throw new Error("Webhook url targets a private or metadata address");
+        }
+
         const resolvedBody = body_template
           ? JSON.parse(resolveTemplate(JSON.stringify(body_template), context))
           : context;
 
-        const resp = await fetch(url, {
-          method,
-          headers: { "Content-Type": "application/json", ...headers },
-          body: JSON.stringify(resolvedBody),
+        // SECURITY: do NOT forward caller-controlled headers (Authorization, Cookie, etc.)
+        // to prevent credential relay / smuggling via webhook actions.
+        const safeMethod = ["GET", "POST", "PUT", "PATCH", "DELETE"].includes(String(method).toUpperCase())
+          ? String(method).toUpperCase()
+          : "POST";
+
+        const resp = await fetch(parsedUrl.toString(), {
+          method: safeMethod,
+          headers: { "Content-Type": "application/json" },
+          body: safeMethod === "GET" ? undefined : JSON.stringify(resolvedBody),
+          redirect: "manual",
         });
 
         if (!resp.ok) throw new Error(`Webhook failed: ${resp.status}`);
         const respData = await resp.json().catch(() => ({}));
         return { success: true, output: respData };
       }
+
 
       default:
         return { success: false, error: `Unknown action type: ${action.action_type}` };
