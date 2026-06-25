@@ -146,6 +146,21 @@ async function executeAction(
         const { user_id_field, title, message } = action.action_config;
         const userId = getNestedValue(context, user_id_field || "user_id");
 
+        if (!userId) throw new Error("notify_user requires a target user_id");
+
+        // SECURITY: only allow notifying users who are customers of this business.
+        // Prevents workflows from being abused to spam arbitrary users.
+        const { data: customerLink } = await supabase
+          .from("customers")
+          .select("id")
+          .eq("user_id", userId)
+          .eq("business_id", businessId)
+          .maybeSingle();
+
+        if (!customerLink) {
+          throw new Error("notify_user target is not a customer of this business");
+        }
+
         const { error } = await supabase.from("notifications").insert({
           user_id: userId,
           title: resolveTemplate(title, context),
@@ -156,6 +171,7 @@ async function executeAction(
         if (error) throw error;
         return { success: true, output: { notified_user: userId } };
       }
+
 
       case "create_task": {
         const { title, description, assignee_field } = action.action_config;
