@@ -157,7 +157,7 @@ const SceneWhy: React.FC = () => {
           lineHeight: 1, letterSpacing: -10, opacity: numOp, transform: `scale(${numScale})`,
         }}
       >
-        $1.6T
+        $2.10T
       </div>
       <div
         style={{
