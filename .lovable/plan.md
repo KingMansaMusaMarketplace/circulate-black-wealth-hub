@@ -1,36 +1,46 @@
-# Plan: Unicorn Dossier v16 (Cooley Edition) — Hybrid Engineering Framing
+# Plan: Bobby Earles Question Prep 1-Pager
 
 ## Goal
-Update Section 23 (Use of Funds → Milestones) in the Cooley Edition to reflect the **hybrid engineering model** — keep IP in-house while signaling cost discipline to investors.
+Build a single-page PDF for Thomas's eyes only during tomorrow's 2 PM Cooley meeting with Bobby Earles. It is a conversation map and answer cheat-sheet — not a leave-behind, not a pitch deck.
 
-## Changes
+## Output
+`/mnt/documents/1325AI_Bobby_Earles_Question_Prep.pdf` (1 page, letter size, portrait)
 
-### 1. Section 23 — Use of Funds → Milestones (table update)
-Keep total Ask at **$2.5M**. Update the Engineering line and footnote:
+## Layout (top to bottom)
 
-| Category | Amount | Milestone Tied To |
-|---|---|---|
-| Engineering (2 Sr. in-house + specialist contractors) | $450K | Kayla v3, mobile GA, SOC 2 Type I readiness |
-| GTM (Enterprise + Sponsor BD) | $800K | 6 signed sponsors, 3 denominational LOIs |
-| IP & Legal (Cooley + USPTO conversion) | $300K | Convert 63/969,202 to non-provisional; file 2 CIPs |
-| Infrastructure (Supabase, AI Gateway, security) | $200K | 99.9% uptime SLA, pen-test pass |
-| Compliance & Audit (SOC 2, WCAG, FERPA prep) | $200K | SOC 2 Type I report |
-| Founder + Ops salaries (lean) | $150K | 24-month runway |
-| Working capital / reserve | $400K | Buffer + opportunistic hires |
-| **Total** | **$2.5M** | 24-month runway |
+1. **Header strip** — small navy bar: "BOBBY EARLES — COOLEY LLP | INTRO MEETING | THU 2:00 PM" + red "PRIVATE — THOMAS'S EYES ONLY" tag (per confidentiality rule).
 
-### 2. Add explanatory paragraph under the table
-Plain-English note (1 short paragraph):
+2. **Your 60-Second Mission Answer** (boxed, the one you open with)
+   > "1325.AI is the agentic AI operating system for the $2.10 trillion Black consumer economy. We've built 42 Agentic AI Employees — led by Kayla — that run marketing, ops, and revenue for Black-owned businesses, civic organizations like AAMES, and denominational networks. We hold U.S. Provisional Patent Application No. 63/969,202 with 27 claims pending, and we're raising a $2.5M seed on a $12M cap to convert the IP, sign 6 sponsors, and reach SOC 2 Type I in 24 months."
 
-> "Engineering is structured as a **hybrid model**: two senior in-house engineers own the agentic AI core and IP (USPTO 63/969,202 — 27 claims pending), supplemented by vetted specialist contractors for mobile builds, security audits, and design polish. This preserves all intellectual property within 1325.AI while keeping fixed payroll lean and giving investors flexible scaling on overflow work."
+3. **5 Anticipated Questions** (Keith's list) — each with a 3-sentence ready answer:
+   - Q1: *"Tell me about your traction."*
+   - Q2: *"Why agentic AI vs. a standard SaaS play?"*
+   - Q3: *"Who's on your cap table and what's the structure?"*
+   - Q4: *"What do you need from Cooley specifically?"*
+   - Q5: *"What's your moat against Salesforce / Microsoft / HubSpot?"*
 
-### 3. Footer / page count
-- Bump footer version to v16.
-- No other sections change.
+4. **Cooley Intelligence Reminders** (bullets, tiny font)
+   - $17.7B across 450+ AI deals in 2024 — he's seen everything.
+   - Harvey AI is a client — don't over-explain agentic AI.
+   - Be crisp, not comprehensive. 20 min talk / 20 min Q&A.
 
-## Out of Scope
-- No changes to the embedded legacy pie chart (Page A-3). Will flag in delivery note again; user can request a separate fix.
-- No changes to AAMES dossier.
+5. **Footer — The Question YOU Ask Bobby** (boxed in MansaGold, impossible to miss)
+   > "From Cooley's perspective, what separates the AI companies that successfully raise institutional capital from the ones that never get funded?"
 
-## Deliverable
-`1325AI_Why_We_Are_A_Global_Unicorn_v16_Cooley_Edition.pdf` + visual QA pass on Section 23.
+## Style
+- Liberation Sans TTF embedded (no kerning artifacts).
+- MansaBlue #003366 headers, MansaGold #FFB300 accents, ivory background.
+- Compact — must fit one page. Small body font (9–10pt), tight leading.
+- No 1325.AI logo (this is internal prep, not branded).
+- Red confidentiality tag in header per memory rule.
+
+## Build steps
+1. Write `/tmp/bobby_prep/build.py` using ReportLab Platypus.
+2. Render PDF, convert to JPG with pdftoppm, visually QA the single page for overflow / overlap / clipping.
+3. Fix and re-render until clean.
+4. Deliver to `/mnt/documents/` with `<presentation-artifact>` tag.
+
+## Out of scope
+- Not editing the v17 Dossier or the Meeting Brief.
+- No web app changes.
