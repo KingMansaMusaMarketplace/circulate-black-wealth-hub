@@ -180,7 +180,7 @@ const LegalIPDocuments: React.FC = () => {
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="border-green-500/50 text-green-400 bg-green-500/10">
             <Shield className="h-3 w-3 mr-1" />
-            U.S. Patent Pending 63/969,202
+            U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending
           </Badge>
           <Badge variant="outline" className="border-mansagold/50 text-mansagold bg-mansagold/10">
             <Globe className="h-3 w-3 mr-1" />

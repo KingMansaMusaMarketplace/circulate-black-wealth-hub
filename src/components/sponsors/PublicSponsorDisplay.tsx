@@ -265,7 +265,7 @@ export const PublicSponsorDisplay = () => {
         <div className="mt-24 pt-10 border-t border-mansagold/20">
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3">
             {[
-              'U.S. Patent Pending 63/969,202',
+              'U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending',
               'Verified Corporation',
               'HBCU Partner Network',
               '33-Agent AI Workforce',

@@ -547,7 +547,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
 
         {/* Patent Notice */}
         <div className="mt-12 text-center text-white/40 text-sm">
-          All APIs protected under USPTO Provisional Patent 63/969,202
+          All APIs protected under U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending
           <br />© 2024-2025 1325.AI - All Rights Reserved
         </div>
       </div>

@@ -64,7 +64,7 @@ Through this corporate sponsorship, ${companyName} will support verified Black-o
 
 \"We are proud to partner with 1325.AI and support their mission of creating a thriving ecosystem for Black-owned businesses,\" said [SPOKESPERSON NAME], [TITLE] at ${companyName}. \"This partnership reflects our commitment to diversity, equity, and economic empowerment.\"
 
-The 1325.AI platform uses proprietary technology (U.S. Patent Pending 63/969,202) to facilitate economic circulation within community networks, enabling businesses to grow through verified connections, smart recommendations, and data-driven insights.
+The 1325.AI platform uses proprietary technology (U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending) to facilitate economic circulation within community networks, enabling businesses to grow through verified connections, smart recommendations, and data-driven insights.
 
 About ${companyName}:
 [INSERT COMPANY BOILERPLATE]

@@ -768,7 +768,7 @@ export const GROWTH_PROGRAMS: GuideSection[] = [
         id: 'api-features',
         title: 'Available APIs',
         summary: 'Our technology at your fingertips',
-        details: 'Access our full suite of patented technologies through well-documented, secure APIs. All APIs are protected under USPTO Patent Pending 63/969,202.',
+        details: 'Access our full suite of patented technologies through well-documented, secure APIs. All APIs are protected under U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.',
         steps: [
           'CMAL API: Community Multiplier Algorithm for impact scoring',
           'Voice AI API: Kayla-powered conversational commerce',

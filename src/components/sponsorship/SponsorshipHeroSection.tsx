@@ -90,7 +90,7 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-[11px] md:text-xs text-white/70 tracking-[0.2em] uppercase"
           >
-            U.S. Patent Pending 63/969,202 · Verified Corporation · HBCU Partner Network
+            U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending · Verified Corporation · HBCU Partner Network
           </motion.div>
         </div>
       </div>
