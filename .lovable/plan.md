@@ -1,42 +1,69 @@
-# AAMES Dossier v18 — Polish Additions
+# Plan: Unicorn Dossier v9 — Investor-Ready Upgrade
 
-Build on v17 by adding 3 new pages and a navigable bookmark outline. Output: `AAMES_Enterprise_Partnership_Dossier_v18.pdf`.
+Add four new sections to `1325AI_Why_We_Are_A_Global_Unicorn_v8.pdf` to convert it from a strategic narrative into a fundable investor deck. All other pages stay intact. Cover, confidentiality block, photo, and competitor matrix preserved.
 
-## What gets added
+## New sections (inserted in this order)
 
-1. **Executive Summary (1 page, front of document)**
-   - Inserted as new page 2 (after cover, before existing Section I).
-   - 60-second read for a CEO/board member: Problem → Solution → 42 Agentic AI Employees → ~4 Roles Covered / $18,000+/mo savings → The Ask.
-   - Uses existing navy/gold brand styling; one compact "at-a-glance" stat band.
+### 1. Traction & Proof Points (new Section 4, after Foreword)
+Turns "potential" into "evidence." Includes:
+- USPTO Application 63/969,202 — filed, patent-pending status
+- Platform live at 1325.ai + circulate-black-wealth-hub.lovable.app
+- 42 Agentic AI Employees deployed in production
+- AAMES enterprise engagement in active discussion (Dr. Hill, Anthony Franklin, Clarence Wesley)
+- Lovable Cloud infrastructure live (Supabase, edge functions, RLS)
+- Stripe + Paddle + Apple IAP payment rails operational
+- Visual: traction milestones timeline (matplotlib horizontal bar)
 
-2. **Table of Contents (1 page)**
-   - Inserted as new page 3.
-   - Lists every section + page number, navy/gold styled, dotted leaders.
-   - Page numbers auto-recalculated after Exec Summary insertion.
+### 2. The Ask + Use of Funds (new Section 16)
+- Raise amount: **$2.5M seed** at **$12M post-money cap** (SAFE)
+- 18-month runway to Series A metrics ($1M ARR)
+- Use of Funds pie chart:
+  - Engineering & AI infra — 40%
+  - GTM / Enterprise sales — 25%
+  - Compliance, Legal, IP — 15%
+  - Founder + key hires — 15%
+  - Reserve — 5%
+- 30-day decision window language
 
-3. **PDF Bookmarks / Outline**
-   - Adds a clickable left-side outline in any PDF reader (Preview, Acrobat, Chrome).
-   - One bookmark per section heading, plus Exec Summary, TOC, and Security.
-   - Zero visual change — pure navigation upgrade.
+### 3. 5-Year Revenue Model + TAM/SAM/SOM (new Section 17)
+- **TAM:** $2.10T (2025 U.S. Black consumer economy)
+- **SAM:** ~$48B (faith orgs + Black-owned SMBs + civic institutions addressable by 42 agents)
+- **SOM:** $180M by Year 5 (0.4% of SAM)
+- ARR build table: Year 1–5, # sponsors × ARPU × retention
+  - Y1: 12 sponsors × $96K = $1.15M ARR
+  - Y3: 180 sponsors × $110K = $19.8M ARR
+  - Y5: 850 sponsors × $125K = $106M ARR
+- Sensitivity table (conservative / base / aggressive)
+- Visual: ARR stacked bar chart Y1–Y5
 
-4. **Security & Compliance page (1 page, near the end)**
-   - Inserted before the closing/contact page.
-   - Sections: Data Handling, Authentication & Access, Infrastructure, IP Protection (USPTO 63/969,202), Shared Responsibility note.
-   - Conservative wording — no certification claims (SOC2/HIPAA/etc.) unless you confirm them. I'll mark any unverified items as "in progress" or omit them.
+### 4. Investor Risk & Mitigation + Comparable Exits (new Section 18)
+**Risk matrix:**
+| Risk | Likelihood | Mitigation |
+|---|---|---|
+| Key-person (Bowling) | Medium | Advisory board (Hill, Wesley); succession doc; key-person insurance Y1 |
+| OpenAI model dependency | Medium | Multi-model abstraction (Lovable AI Gateway, Gemini, Anthropic) already in code |
+| Regulatory (faith/civic data) | Low-Med | SOC 2 roadmap; RLS; USPTO IP shield; IL trade-secret law |
+| Customer concentration (AAMES) | Medium | Pipeline diversification: AME Scouts → NAACP, NUL, Divine Nine, HBCUs |
+| AI commoditization | Low | Vertical wedge + patent moat + community trust = non-replicable |
 
-## Final page count
-v17 = 35 pages → v18 = **38 pages** + bookmark outline.
+**Comparable Exits anchor:**
+- Slack → Salesforce ($27.7B, 26x ARR)
+- Nuance → Microsoft ($19.7B, 13x ARR)
+- Cresta / Harness vertical-AI rounds at 30–50x ARR
+- Pushpay (faith vertical) → BGH Capital ($1.3B)
+- Implied 1325.AI Year-5 exit range: **$1.5B–$3.2B** at conservative 15–30x ARR
 
-## Technical details
-- Script: `/tmp/build_v18.py`
-- Uses `reportlab` to render the 3 new pages with the same slim navy header, gold rule, and footer system as v17.
-- Uses `pypdf` to: (a) splice the new pages into the v17 PDF at the right positions, (b) renumber the footer page numbers across the whole document, (c) add the bookmark outline via `writer.add_outline_item(...)`.
-- Liberation Sans TTF registered for consistent typography.
-- QA: render every page to JPEG at 130dpi via `pdftoppm` and visually inspect for clipping, overlap, and correct page numbering before delivering.
+## Renumbering
+TOC, bookmarks, and downstream section numbers updated. Old Sec 14 (Comparator Matrix) stays as Sec 14. Verdict and Appendix move to Sec 19 and 20.
 
-## One thing I need from you
-For the **Security page**, can you confirm any of these so I don't overclaim?
-- Do you currently hold (or are pursuing) SOC 2, HIPAA, or any other formal certification? If unsure, I'll leave it out.
-- Is the USPTO provisional 63/969,202 the only IP citation, or should I add the trademark filing for 1325.AI / Mansa Musa Marketplace?
+## Cover & confidentiality
+Unchanged. Red Fortune-50 block, USPTO citation, photo on page 2 — all preserved per memory rule.
 
-If you say "just do it conservatively," I'll write the page with only safe, verifiable claims (encryption in transit, role-based access, Supabase RLS, USPTO 63/969,202) and skip certifications entirely.
+## QA
+Render → convert each page to JPG → visual inspect every page for clipping, overlap, font issues, table wrap, chart legibility. Fix and re-render until clean.
+
+## Deliverable
+`/mnt/documents/1325AI_Why_We_Are_A_Global_Unicorn_v9.pdf` (24 pages, up from 21)
+
+## One decision needed before I build
+The raise numbers above (**$2.5M at $12M cap**, **$1.5B–$3.2B exit range**, **Y5 = 850 sponsors / $106M ARR**) are my best-judgment defaults based on comparable seed-stage agentic-AI raises. If you want different numbers, tell me and I'll plug them in — otherwise I'll use these.
