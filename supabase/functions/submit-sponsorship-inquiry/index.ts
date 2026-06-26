@@ -161,7 +161,7 @@ serve(async (req) => {
             <h2 style="color:#B8860B;">Thank you, ${esc(payload.contactName.split(" ")[0])}.</h2>
             <p>We've received ${esc(payload.companyName)}'s partnership inquiry and a member of our Partnerships team will respond within <strong>1 business day</strong> to schedule your discovery call.</p>
             <p>In the meantime, you can review our institutional brief at <a href="https://1325.ai/corporate-sponsorship">1325.ai/corporate-sponsorship</a>.</p>
-            <p style="margin-top:32px;color:#666;font-size:12px;">— The 1325.AI Partnerships Team<br/>U.S. Patent Pending 63/969,202</p>
+            <p style="margin-top:32px;color:#666;font-size:12px;">— The 1325.AI Partnerships Team<br/>U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending</p>
           </div>
         `,
       });

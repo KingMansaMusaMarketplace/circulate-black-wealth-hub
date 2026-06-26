@@ -84,7 +84,7 @@ export const getBriefPartnershipOverviewContent = (): string => {
 
       <!-- Footer -->
       <div style="text-align: center; margin-top: 20px; font-size: 13px; color: #000000;">
-        <p>© 2026 1325.AI • U.S. Patent Pending 63/969,202 • www.1325.ai</p>
+        <p>© 2026 1325.AI • U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending • www.1325.ai</p>
       </div>
     </div>
   `;

@@ -558,7 +558,7 @@ const TeamNDADocument: React.FC<TeamNDADocumentProps> = ({
 
       <div className="mt-8 text-center text-xs text-muted-foreground border-t pt-4">
         <p>CONFIDENTIAL — {companyName}</p>
-        <p>Patent Pending: USPTO Application No. 63/969,202</p>
+        <p>U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending</p>
         <p>© {new Date().getFullYear()} {companyName}. All rights reserved.</p>
       </div>
     </div>

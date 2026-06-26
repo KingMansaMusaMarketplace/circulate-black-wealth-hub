@@ -32,7 +32,7 @@ const STATS = [
   { value: '27', label: 'Patent Claims Pending' },
 ];
 
-const BOILERPLATE = `1325.AI is the first AI-powered economic operating system built for the Black business community. With more than 47,000 verified Black-owned business listings across the United States, 42 deployed AI agents, and patent-pending technology (USPTO 63/969,202), 1325.AI helps consumers discover and support Black-owned businesses while giving owners the tools to grow. 1325.AI is a product of Mansa Musa Marketplace, founded in 2024 and headquartered in Illinois.`;
+const BOILERPLATE = `1325.AI is the first AI-powered economic operating system built for the Black business community. With more than 47,000 verified Black-owned business listings across the United States, 42 deployed AI agents, and technology covered by U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending, 1325.AI helps consumers discover and support Black-owned businesses while giving owners the tools to grow. 1325.AI is a product of Mansa Musa Marketplace, founded in 2024 and headquartered in Illinois.`;
 
 const PressPage: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -178,7 +178,7 @@ const PressPage: React.FC = () => {
               <p className="text-white/80 leading-relaxed mb-4">
                 Thoma D Bowling is the founder of 1325.AI and Mansa Musa Marketplace, on a mission to build
                 the economic infrastructure for the $2.10T Black economy. With patent-pending technology
-                (USPTO 63/969,202) and 33 deployed AI agents, his work focuses on extending how long the
+                (U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending) and 33 deployed AI agents, his work focuses on extending how long the
                 Black dollar circulates and giving Black-owned businesses the tools larger companies take
                 for granted.
               </p>

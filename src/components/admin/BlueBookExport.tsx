@@ -837,7 +837,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
         // Legal footer line - positioned higher
         pdf.setFontSize(7);
         pdf.setTextColor(100, 100, 100);
-        pdf.text('1325.AI Blue Book - CONFIDENTIAL & PROPRIETARY - Patent Pending 63/969,202', pageWidth / 2, pageHeight - 15, { align: 'center' });
+        pdf.text('1325.AI Blue Book - CONFIDENTIAL & PROPRIETARY - U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending', pageWidth / 2, pageHeight - 15, { align: 'center' });
         
         // Page number - positioned below footer
         pdf.setFontSize(8);

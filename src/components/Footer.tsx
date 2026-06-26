@@ -320,7 +320,7 @@ const Footer = () => {
                   Open Safari to view advanced plans and manage your account.
                 </p>
               )}
-              <p className="font-heading font-bold text-lg bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">© 2026 1325.AI, Inc. All rights reserved. U.S. Patent Pending 63/969,202.</p>
+              <p className="font-heading font-bold text-lg bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">© 2026 1325.AI, Inc. All rights reserved. U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.</p>
               <p className="text-xs mt-2 text-white/60 font-medium">
                 Incorporated in Illinois • File #75201745 • Registered Agent: Thomas Bowling •{' '}
                 <a 

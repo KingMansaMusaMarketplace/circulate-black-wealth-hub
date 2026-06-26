@@ -117,7 +117,7 @@ const DeveloperLandingPage: React.FC = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <Badge variant="outline" className="mb-4 border-mansagold/50 text-mansagold bg-mansagold/10">
-              USPTO Provisional 63/969,202 Protected
+              U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending
             </Badge>
             
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
@@ -439,7 +439,7 @@ console.log(impact.multipliedImpact);
 
       {/* Footer */}
       <div className="py-8 text-center text-white/40 text-sm border-t border-white/10">
-        All APIs protected under USPTO Provisional Patent 63/969,202
+        All APIs protected under U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending
         <br />© 2024-2025 1325.AI - All Rights Reserved
       </div>
     </div>

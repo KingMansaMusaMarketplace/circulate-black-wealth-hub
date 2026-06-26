@@ -21,7 +21,7 @@ const susuFAQs = [
   },
   {
     question: "Is my money safe? How does escrow work?",
-    answer: "Absolutely. All contributions are held in our secure digital escrow system—protected by U.S. Patent Pending technology (63/969,202). Funds are only released to the designated recipient when all members have contributed for that round. No single person can access the pool prematurely.",
+    answer: "Absolutely. All contributions are held in our secure digital escrow system—protected by U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending. Funds are only released to the designated recipient when all members have contributed for that round. No single person can access the pool prematurely.",
     icon: Shield
   },
   {
