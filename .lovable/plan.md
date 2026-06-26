@@ -1,29 +1,36 @@
-## Adjustment: Engineering Hire Costs in Use of Funds
+# Plan: Unicorn Dossier v16 (Cooley Edition) — Hybrid Engineering Framing
 
-You're right — $900K for 2 senior engineers reads high for a seed round and can flag waste to Cooley/investors. Market rate for senior AI engineers (fully loaded with benefits/equity) is closer to **$220K–$260K each per year**.
+## Goal
+Update Section 23 (Use of Funds → Milestones) in the Cooley Edition to reflect the **hybrid engineering model** — keep IP in-house while signaling cost discipline to investors.
 
-### Proposed Revision (Unicorn Dossier v15 — Cooley Edition)
+## Changes
 
-Update the **Use of Funds → Milestones** table on the engineering line:
+### 1. Section 23 — Use of Funds → Milestones (table update)
+Keep total Ask at **$2.5M**. Update the Engineering line and footnote:
 
-**Current**
-- 2 Sr. Engineers (12 mo) — **$900,000**
+| Category | Amount | Milestone Tied To |
+|---|---|---|
+| Engineering (2 Sr. in-house + specialist contractors) | $450K | Kayla v3, mobile GA, SOC 2 Type I readiness |
+| GTM (Enterprise + Sponsor BD) | $800K | 6 signed sponsors, 3 denominational LOIs |
+| IP & Legal (Cooley + USPTO conversion) | $300K | Convert 63/969,202 to non-provisional; file 2 CIPs |
+| Infrastructure (Supabase, AI Gateway, security) | $200K | 99.9% uptime SLA, pen-test pass |
+| Compliance & Audit (SOC 2, WCAG, FERPA prep) | $200K | SOC 2 Type I report |
+| Founder + Ops salaries (lean) | $150K | 24-month runway |
+| Working capital / reserve | $400K | Buffer + opportunistic hires |
+| **Total** | **$2.5M** | 24-month runway |
 
-**Revised — pick one:**
+### 2. Add explanatory paragraph under the table
+Plain-English note (1 short paragraph):
 
-| Option | Headcount | Budget | Rationale |
-|---|---|---|---|
-| **A (Lean)** | 2 Sr. Engineers @ $225K | **$450,000** | Standard fully-loaded comp; frees $450K for GTM or runway |
-| **B (Balanced)** | 2 Sr. Engineers @ $250K + $50K tooling/cloud | **$550,000** | Slight premium for AI/agentic specialists + infra headroom |
-| **C (Expanded)** | 2 Sr. + 1 Mid Engineer | **$650,000** | Adds capacity without breaking $700K |
+> "Engineering is structured as a **hybrid model**: two senior in-house engineers own the agentic AI core and IP (USPTO 63/969,202 — 27 claims pending), supplemented by vetted specialist contractors for mobile builds, security audits, and design polish. This preserves all intellectual property within 1325.AI while keeping fixed payroll lean and giving investors flexible scaling on overflow work."
 
-### What Changes in the PDF
-1. Use of Funds table — engineering row updated
-2. Totals re-summed (the $2.5M Ask stays the same; freed dollars reallocated — you tell me where: GTM, runway extension, or compliance/IP)
-3. Any narrative mentions of the engineering spend updated for consistency
+### 3. Footer / page count
+- Bump footer version to v16.
+- No other sections change.
 
-### Two Questions Before I Build
-1. **Which option (A, B, or C)?**
-2. **Where do the freed dollars go?** (e.g., +GTM, +runway months, +IP/legal, +sponsor onboarding ops)
+## Out of Scope
+- No changes to the embedded legacy pie chart (Page A-3). Will flag in delivery note again; user can request a separate fix.
+- No changes to AAMES dossier.
 
-Once you answer, I'll generate **v15** and verify no overlapping text.
+## Deliverable
+`1325AI_Why_We_Are_A_Global_Unicorn_v16_Cooley_Edition.pdf` + visual QA pass on Section 23.
