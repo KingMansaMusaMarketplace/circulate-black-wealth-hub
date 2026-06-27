@@ -52,8 +52,9 @@
     <meta property="og:image:height" content="512">
     <meta property="og:image:alt" content="1325.AI - Discover and Support Community Businesses">
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://1325.ai/">
+    <!-- Canonical URL is set per-route via react-helmet-async (see PageSEO / BusinessDetailPage).
+         Do NOT add a static canonical here — <link> tags don't dedupe, so a hardcoded
+         homepage canonical caused 46,634 business pages to be marked as duplicates of "/". -->
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
