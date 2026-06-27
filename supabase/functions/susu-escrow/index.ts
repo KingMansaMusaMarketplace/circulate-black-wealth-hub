@@ -46,12 +46,39 @@ serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+
+    // Require a valid JWT — derive caller identity from the token, never the body
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
+      );
+    }
+    const token = authHeader.replace('Bearer ', '');
+    const authClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } },
+    });
+    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims?.sub) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
+      );
+    }
+    const callerId: string = claimsData.claims.sub;
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
 
-    const { action, circle_id, user_id, amount }: SusuAction = await req.json();
+    const body: SusuAction = await req.json();
+    const { action, circle_id, amount } = body;
+    // Always derive user_id from verified JWT — ignore body-supplied user_id
+    const user_id = callerId;
 
-    console.log(`[SUSU ESCROW] Action: ${action}, Circle: ${circle_id}`);
+    console.log(`[SUSU ESCROW] Action: ${action}, Circle: ${circle_id}, Caller: ${callerId}`);
+
 
     // Validate circle exists
     const { data: circle, error: circleError } = await supabase
