@@ -18,6 +18,8 @@ import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 import StickySignupBar from '@/components/marketing/StickySignupBar';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 import KaylaDemoSection from '@/components/homepage/KaylaDemoSection';
+import RebrandBanner from '@/components/HomePage/RebrandBanner';
+import FeaturedCommunities from '@/components/HomePage/FeaturedCommunities';
 
 const HomePage = () => {
   
@@ -101,6 +103,11 @@ const HomePage = () => {
         {/* Subtle gold accent line at top */}
         <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60 relative z-10" />
         
+        {/* Rebrand notice for returning Mansa Musa Marketplace visitors */}
+        <SectionErrorBoundary sectionName="Rebrand Banner">
+          <RebrandBanner />
+        </SectionErrorBoundary>
+
         {/* Sponsor Banner */}
         <SectionErrorBoundary sectionName="Sponsor Banner">
           <SponsorBanner />
@@ -114,6 +121,11 @@ const HomePage = () => {
         {/* Essential Sections Only */}
         <SectionErrorBoundary sectionName="Content Sections">
           <HomePageSections />
+        </SectionErrorBoundary>
+
+        {/* SEO internal-linking hub — city + category landing pages */}
+        <SectionErrorBoundary sectionName="Featured Communities">
+          <FeaturedCommunities />
         </SectionErrorBoundary>
 
         {/* Public Sponsor Display — deferred until near viewport */}

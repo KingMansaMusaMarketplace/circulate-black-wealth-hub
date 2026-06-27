@@ -11,6 +11,7 @@ const SITE_URL = "https://1325.ai";
 const IMAGE_SITEMAP_CHUNK_SIZE = 10000;
 
 const SITEMAPS = [
+  { fn: "priority-businesses-sitemap", file: "priority-businesses-sitemap.xml" },
   { fn: "businesses-sitemap", file: "businesses-sitemap.xml" },
   { fn: "landing-sitemap", file: "landing-sitemap.xml" },
   { fn: "images-sitemap", file: "images-sitemap.xml" },
