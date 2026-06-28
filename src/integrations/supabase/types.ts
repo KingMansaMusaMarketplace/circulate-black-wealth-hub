@@ -8457,8 +8457,6 @@ export type Database = {
           priority_score: number
           starts_at: string | null
           status: string
-          stripe_customer_id: string | null
-          stripe_subscription_id: string | null
           tier: string
           updated_at: string
         }
@@ -8473,8 +8471,6 @@ export type Database = {
           priority_score?: number
           starts_at?: string | null
           status?: string
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           tier: string
           updated_at?: string
         }
@@ -8489,12 +8485,45 @@ export type Database = {
           priority_score?: number
           starts_at?: string | null
           status?: string
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           tier?: string
           updated_at?: string
         }
         Relationships: []
+      }
+      featured_placements_private: {
+        Row: {
+          created_at: string
+          owner_user_id: string
+          placement_id: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          owner_user_id: string
+          placement_id: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          owner_user_id?: string
+          placement_id?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "featured_placements_private_placement_id_fkey"
+            columns: ["placement_id"]
+            isOneToOne: true
+            referencedRelation: "featured_placements"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       financial_audit_log: {
         Row: {
@@ -9945,7 +9974,6 @@ export type Database = {
           salary_max: number | null
           salary_min: number | null
           status: string
-          stripe_session_id: string | null
           title: string
           updated_at: string
         }
@@ -9969,7 +9997,6 @@ export type Database = {
           salary_max?: number | null
           salary_min?: number | null
           status?: string
-          stripe_session_id?: string | null
           title: string
           updated_at?: string
         }
@@ -9993,7 +10020,6 @@ export type Database = {
           salary_max?: number | null
           salary_min?: number | null
           status?: string
-          stripe_session_id?: string | null
           title?: string
           updated_at?: string
         }
@@ -10031,6 +10057,38 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_postings_private: {
+        Row: {
+          created_at: string
+          job_id: string
+          poster_user_id: string
+          stripe_session_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          job_id: string
+          poster_user_id: string
+          stripe_session_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          job_id?: string
+          poster_user_id?: string
+          stripe_session_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_postings_private_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: true
+            referencedRelation: "job_postings"
             referencedColumns: ["id"]
           },
         ]
