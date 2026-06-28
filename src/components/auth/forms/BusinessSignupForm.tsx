@@ -182,8 +182,15 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     } catch (err) {
       console.error('Business signup error:', err);
       const message = err instanceof Error ? err.message : 'An unexpected error occurred';
-      setError(message);
-      toast.error(message);
+      const lower = message.toLowerCase();
+      if (lower.includes('already exists') || lower.includes('already registered') || lower.includes('user already')) {
+        setEmailExists(true);
+        setExistingEmail(data.email);
+        setError(null);
+      } else {
+        setError(message);
+        toast.error(message);
+      }
     } finally {
       setIsLoading(false);
     }
