@@ -170,6 +170,44 @@ serve(async (req) => {
           }
         }
 
+        // 🎟️ Mark Kayla / Business subscribers as subscribed immediately
+        // (don't rely on the user landing on /payment-success for check-subscription to run)
+        if (session.subscription && (metadata?.userType === 'customer' || metadata?.userType === 'business')) {
+          try {
+            const tier = metadata?.tier || null;
+            const customerEmail = session.customer_details?.email || metadata?.email || null;
+            const customerId = (session.customer as string) || null;
+            if (customerEmail) {
+              const sub = await stripe.subscriptions.retrieve(session.subscription as string);
+              const periodEnd = sub.current_period_end
+                ? new Date(sub.current_period_end * 1000).toISOString()
+                : null;
+              const trialEnd = sub.trial_end
+                ? new Date(sub.trial_end * 1000).toISOString()
+                : null;
+              // Look up user id by email so the subscribers row links to auth
+              const { data: usersList } = await supabaseClient.auth.admin.listUsers();
+              const matchedUser = usersList?.users?.find((u: any) => u.email === customerEmail);
+              await supabaseClient.from('subscribers').upsert({
+                email: customerEmail,
+                user_id: matchedUser?.id ?? null,
+                stripe_customer_id: customerId,
+                subscribed: sub.status === 'active' || sub.status === 'trialing',
+                subscription_tier: tier,
+                subscription_end: periodEnd,
+                status: sub.status,
+                trial_end: trialEnd,
+                updated_at: new Date().toISOString(),
+              }, { onConflict: 'email' });
+              console.log(`✅ Subscribers upserted for ${customerEmail} (tier=${tier}, status=${sub.status})`);
+            }
+          } catch (subErr) {
+            console.error('Subscribers upsert from webhook failed:', subErr);
+          }
+        }
+
+
+
         // Handle BHM Quick Add payments
         if (metadata?.type === 'bhm_quick_add') {
           const businessUrl = metadata.business_url;
@@ -380,25 +418,39 @@ serve(async (req) => {
         if (metadata?.type === 'featured_placement' && session.subscription) {
           const businessId = metadata.businessId;
           const tier = metadata.tier;
+          const ownerUserId = metadata.ownerUserId;
           const subscriptionId = session.subscription as string;
           const customerId = session.customer as string;
           const sub = await stripe.subscriptions.retrieve(subscriptionId);
 
-          const { error: updErr } = await supabaseClient
+          // Activate the pending placement (no Stripe IDs on the public table)
+          const { data: activated, error: updErr } = await supabaseClient
             .from('featured_placements')
             .update({
               status: 'active',
-              stripe_subscription_id: subscriptionId,
-              stripe_customer_id: customerId,
               starts_at: new Date(sub.current_period_start * 1000).toISOString(),
               ends_at: new Date(sub.current_period_end * 1000).toISOString(),
             })
             .eq('business_id', businessId)
             .eq('tier', tier)
-            .eq('status', 'pending');
+            .eq('status', 'pending')
+            .select('id, owner_user_id')
+            .maybeSingle();
 
           if (updErr) console.error('Featured placement activation failed:', updErr);
-          else console.log(`Featured placement activated for business ${businessId} (${tier})`);
+          else if (activated) {
+            // Store Stripe IDs in private companion table
+            const { error: privErr } = await supabaseClient
+              .from('featured_placements_private')
+              .upsert({
+                placement_id: activated.id,
+                owner_user_id: activated.owner_user_id || ownerUserId,
+                stripe_customer_id: customerId,
+                stripe_subscription_id: subscriptionId,
+              }, { onConflict: 'placement_id' });
+            if (privErr) console.error('Featured placement private write failed:', privErr);
+            console.log(`Featured placement activated for business ${businessId} (${tier})`);
+          }
         }
 
         // Handle verification fast-track payments
@@ -435,6 +487,7 @@ serve(async (req) => {
         // Handle paid job board postings
         if (metadata?.type === 'job_post') {
           const jobPostingId = metadata.jobPostingId;
+          const posterUserId = metadata.userId;
           const durationDays = parseInt(metadata.durationDays || '30', 10);
           const expiresAt = new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000).toISOString();
           const { error: jErr } = await supabaseClient
@@ -443,11 +496,21 @@ serve(async (req) => {
               status: 'active',
               paid_at: new Date().toISOString(),
               expires_at: expiresAt,
-              stripe_session_id: session.id,
             })
             .eq('id', jobPostingId);
           if (jErr) console.error('Job posting activation failed:', jErr);
-          else console.log(`Job posting activated: ${jobPostingId} (expires ${expiresAt})`);
+          else {
+            // Store Stripe session id in the private companion table
+            const { error: jpErr } = await supabaseClient
+              .from('job_postings_private')
+              .upsert({
+                job_id: jobPostingId,
+                poster_user_id: posterUserId,
+                stripe_session_id: session.id,
+              }, { onConflict: 'job_id' });
+            if (jpErr) console.error('Job posting private write failed:', jpErr);
+            console.log(`Job posting activated: ${jobPostingId} (expires ${expiresAt})`);
+          }
         }
 
         // Handle marketing studio credit top-ups

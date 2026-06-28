@@ -73,17 +73,33 @@ serve(async (req) => {
       },
     });
 
-    // Insert pending placement row
-    await supabase.from("featured_placements").insert({
-      business_id: businessId,
-      owner_user_id: user.id,
-      tier,
-      category: category || null,
-      city: city || null,
-      priority_score: pricing.priority,
-      status: "pending",
-      stripe_customer_id: customerId || null,
-    });
+    // Insert pending placement row (no Stripe IDs on public table)
+    const { data: placement, error: placementErr } = await supabase
+      .from("featured_placements")
+      .insert({
+        business_id: businessId,
+        owner_user_id: user.id,
+        tier,
+        category: category || null,
+        city: city || null,
+        priority_score: pricing.priority,
+        status: "pending",
+      })
+      .select("id")
+      .single();
+    if (placementErr) throw new Error(placementErr.message);
+
+    // Store Stripe customer id in the private companion table
+    if (placement?.id && customerId) {
+      await supabase.from("featured_placements_private").upsert(
+        {
+          placement_id: placement.id,
+          owner_user_id: user.id,
+          stripe_customer_id: customerId,
+        },
+        { onConflict: "placement_id" }
+      );
+    }
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
