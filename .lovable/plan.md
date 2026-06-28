@@ -1,63 +1,41 @@
-# Plan: Unblock indexing of the 46,000 business pages
+# Add YouTube Channel to 1325.AI
 
-## What we're solving (plain English)
+Connect `https://www.youtube.com/@1325AI` to the site so Google treats it as an official 1325.AI property, and give visitors a clickable way to find the channel.
 
-Google now sees your business pages as unique (the canonical fix worked), but it has parked **46,073 of them in a "Discovered – not indexed" queue**. That means Google found the URLs in your sitemap but hasn't bothered to crawl them yet.
+## What this does (plain English)
+1. **Invisible SEO signal** — Tells Google "this YouTube channel belongs to 1325.AI." Over the next few weeks, branded searches ("1325.ai", "mansa musa marketplace") start showing your video carousel and Knowledge Panel on Google.
+2. **Visible footer icon** — A small YouTube icon appears in the site footer on every page so visitors can jump to your channel.
 
-Google crawls pages based on **two signals**: (1) how many other pages link to them, and (2) how "important" the sitemap says they are. Right now your business pages look like orphans — almost nothing on 1325.ai links *to* them except the sitemap itself. We need to fix that.
+## Changes
 
-We'll also add a small banner so the 32 monthly "mansa musa marketplace" searchers know they're in the right place.
+### 1. `index.html` — Organization JSON-LD
+Add the YouTube URL to the `sameAs` array inside the existing Organization structured data block. This is the standard Google-recognized way to claim a social profile.
 
----
+```json
+"sameAs": [
+  "https://www.youtube.com/@1325AI"
+]
+```
+(If a `sameAs` array already exists, append; don't duplicate.)
 
-## What I'll build
+### 2. Site footer component
+Locate the existing footer component (likely `src/components/Footer.tsx` or similar). Add a YouTube icon link:
+- Lucide `Youtube` icon
+- Opens `https://www.youtube.com/@1325AI` in a new tab
+- `aria-label="1325.AI on YouTube"` for accessibility
+- `rel="noopener noreferrer"` for security
+- Styled to match any existing social icons (if none exist, use brand colors: MansaGold hover on True Black background)
 
-### 1. Priority Sitemap (top 500 best business pages)
-- New edge function `priority-businesses-sitemap` returning the top 500 businesses ranked by: `is_verified` + `review_count` + `average_rating`.
-- Add it to `scripts/generate-sitemaps.ts` so it writes to `public/priority-businesses-sitemap.xml`.
-- Register it in `public/sitemap.xml` index with `<priority>1.0</priority>` and today's `lastmod`.
-- **Why this works:** Google prioritizes small, focused sitemaps. A 500-page sitemap with high priority signals "crawl these first" — typically gets 80-90% indexed within 30 days vs. the trickle we're seeing now.
+## What you'll see after publishing
+- **Immediately:** YouTube icon visible in the footer on every page.
+- **3–14 days:** Google re-crawls, picks up the `sameAs` signal, and starts associating your channel with the 1325.AI brand.
+- **30–60 days:** Video results from your channel begin appearing under branded searches; your Knowledge Panel on Google starts pulling in YouTube data (subscriber count, recent videos).
 
-### 2. Internal linking hub on the homepage
-- Add a new "Featured Communities" section on the homepage with **real HTML `<a>` links** (not just clickable cards) pointing to:
-  - 10 top city directory pages (e.g., `/directory/atlanta-ga`, `/directory/chicago-il`)
-  - 10 top category pages (e.g., `/directory/restaurants`, `/directory/beauty`)
-- Each hub page already exists in your `landing-sitemap.xml`, but the homepage doesn't link to them, so Google sees them as low-value.
-- **Why this works:** Every link from the homepage passes "authority" to the linked page. Linking to 20 hub pages, which each link to ~50 business pages, creates a clear path for Googlebot to crawl.
-
-### 3. "Formerly Mansa Musa Marketplace" banner
-- Subtle banner at top of homepage: *"Formerly Mansa Musa Marketplace — now 1325.AI"*.
-- Dismissible (saves to localStorage so returning visitors don't see it twice).
-- Styled in MansaGold (#FFB300) on True Black, matching brand.
-
-### 4. Fix the 2 small Search Console issues
-- Investigate the 1 "Soft 404" page (likely an empty category or business page).
-- Investigate the 1 "Page with redirect" (likely a legacy URL).
-
----
-
-## Technical details (for reference, not required reading)
-
-- New edge function: `supabase/functions/priority-businesses-sitemap/index.ts` (mirrors existing `businesses-sitemap` but with `.order('review_count', desc).order('average_rating', desc).limit(500)`).
-- Sitemap generator: add `{ fn: "priority-businesses-sitemap", file: "priority-businesses-sitemap.xml" }` to the `SITEMAPS` array in `scripts/generate-sitemaps.ts`.
-- Sitemap index: add a 5th `<sitemap>` entry to `public/sitemap.xml` (auto-regenerated on build).
-- Homepage section: new component `src/components/HomePage/FeaturedCommunities.tsx`, inserted above the pricing/video section.
-- Banner: new component `src/components/HomePage/RebrandBanner.tsx`, mounted at top of `HomePage`.
-
----
-
-## What you'll need to do after I ship
-
-1. **Wait 24 hours** for the new sitemap to be picked up.
-2. In Google Search Console → **Sitemaps**, click **"Add a new sitemap"** and submit: `priority-businesses-sitemap.xml`.
-3. **Monitor for 2 weeks** — the priority sitemap should start showing indexed pages within 7-14 days.
-
----
+## What you need to do
+1. Approve this plan.
+2. After it's built, click **Publish** so the change goes live.
+3. Optional but recommended: on YouTube, go to your channel's **Customization → Basic info → Links** and add `https://1325.ai` as a link. The two-way link is what makes Google fully trust the connection.
 
 ## Out of scope
-
-- Backlinks (only you can do those off-platform — happy to give you a checklist separately).
-- Server-side rendering (would help crawl speed dramatically but is a 2-3 week project).
-- Rewriting all 5 top-clicking pages for better titles — we can do that as a follow-up after this lands.
-
-Reply **"go"** to implement.
+- No homepage video embed (you chose "Both — SEO + footer icon," not the embed option).
+- No other social profiles (you chose YouTube only — easy to add more later).
