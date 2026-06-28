@@ -1,0 +1,1 @@
+REVOKE SELECT (total_revenue_tracked, transaction_count, referral_commission_paid, referral_code_used, referred_at) ON public.businesses FROM anon;
