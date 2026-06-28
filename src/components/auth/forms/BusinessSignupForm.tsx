@@ -109,6 +109,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const onSubmit = async (data: BusinessSignupFormData) => {
     setIsLoading(true);
     setError(null);
+    setEmailExists(false);
 
     try {
       const result = await secureSignUp(
