@@ -79,6 +79,8 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [emailExists, setEmailExists] = useState(false);
+  const [existingEmail, setExistingEmail] = useState<string>('');
   const [success, setSuccess] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [startedTracked, setStartedTracked] = useState(false);
@@ -107,6 +109,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const onSubmit = async (data: BusinessSignupFormData) => {
     setIsLoading(true);
     setError(null);
+    setEmailExists(false);
 
     try {
       const result = await secureSignUp(
@@ -179,8 +182,15 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     } catch (err) {
       console.error('Business signup error:', err);
       const message = err instanceof Error ? err.message : 'An unexpected error occurred';
-      setError(message);
-      toast.error(message);
+      const lower = message.toLowerCase();
+      if (lower.includes('already exists') || lower.includes('already registered') || lower.includes('user already')) {
+        setEmailExists(true);
+        setExistingEmail(data.email);
+        setError(null);
+      } else {
+        setError(message);
+        toast.error(message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -229,6 +239,40 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} onFocus={trackStartedOnce} onChange={trackStartedOnce} className="space-y-4">
+              {emailExists && (
+                <Alert className="border-0 bg-gradient-to-r from-blue-500 to-indigo-500 p-0.5 shadow-lg">
+                  <div className="bg-white rounded-lg p-5 space-y-3">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle className="h-6 w-6 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1">
+                        <p className="font-semibold text-gray-900 mb-1">
+                          You already have an account
+                        </p>
+                        <p className="text-sm text-gray-700">
+                          The email <strong>{existingEmail}</strong> is already registered with 1325.AI. Sign in instead, or reset your password if you forgot it.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-2 pl-9">
+                      <Button
+                        type="button"
+                        onClick={() => navigate(`/login?email=${encodeURIComponent(existingEmail)}`)}
+                        className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                      >
+                        Sign in instead →
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => navigate('/forgot-password')}
+                      >
+                        Forgot password?
+                      </Button>
+                    </div>
+                  </div>
+                </Alert>
+              )}
+
               {error && (
                 <Alert className="border-0 bg-gradient-to-r from-red-500 to-orange-500 p-0.5">
                   <div className="bg-white rounded-lg p-4 flex items-start gap-3">
