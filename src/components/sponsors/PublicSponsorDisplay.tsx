@@ -250,7 +250,7 @@ export const PublicSponsorDisplay = () => {
             By invitation and review
           </p>
           <h3 className="font-playfair text-2xl md:text-3xl font-semibold text-white mb-8 leading-snug">
-            Position your brand at the center of a $2.10 trillion economy.
+            Position your brand at the center of a $2.10 trillion U.S. and $9.1 trillion global economy.
           </h3>
           <a
             href="/corporate-sponsorship"

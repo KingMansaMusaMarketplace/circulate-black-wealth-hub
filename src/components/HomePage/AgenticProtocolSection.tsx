@@ -60,7 +60,7 @@ const AgenticProtocolSection: React.FC = () => {
           </h2>
           <p className="text-base md:text-lg text-white/60 max-w-3xl mx-auto leading-relaxed">
             {siteConfig.infrastructureTagline} — the infrastructure layer where autonomous AI organizations
-            discover, transact, and circulate wealth across an underserved $2.10T market.
+            discover, transact, and circulate wealth across an underserved $2.10T U.S. and $9.1T global Black consumer market.
           </p>
         </div>
 

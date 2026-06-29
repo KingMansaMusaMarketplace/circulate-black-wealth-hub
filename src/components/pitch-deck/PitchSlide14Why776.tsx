@@ -29,7 +29,7 @@ const PitchSlide14WhyInvest: React.FC = () => {
     },
     {
       title: 'Infrastructure Gap',
-      description: '$2.10T market with zero integrated platforms — 30+ competitors analyzed, none score above 3.5/8',
+      description: '$2.10T U.S. / $9.1T global market with zero integrated platforms — 30+ competitors analyzed, none score above 3.5/8',
       icon: Globe,
       color: 'blue'
     },
@@ -106,7 +106,7 @@ const PitchSlide14WhyInvest: React.FC = () => {
                 ))}
               </div>
               <p className="text-white/70 font-medium max-w-2xl mx-auto">
-                First-mover advantage in a $2.10T market with patent protection, live production platform, and zero direct competitors
+                First-mover advantage in a $2.10T U.S. / $9.1T global market with patent protection, live production platform, and zero direct competitors
               </p>
             </div>
           </Card>

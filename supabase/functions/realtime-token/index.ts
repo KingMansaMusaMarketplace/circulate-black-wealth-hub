@@ -165,7 +165,7 @@ FOUNDER:
 Thomas D. Bowling — Inventor, Founder & Chief Architect of Economic Infrastructure. With 40+ years of entrepreneurial experience since the 1980s, Thomas witnessed systemic barriers facing entrepreneurs and became obsessed with creating sustainable community-centered economic systems. His mission: "Leave blueprints, not breadcrumbs, for the next generation of builders."
 
 CORE IDENTITY — PLATFORM AS A SERVICE (PaaS):
-1325.AI is NOT just a directory or an app. It is an Economic Operating System — a PaaS (Platform as a Service) positioned as the "Stripe for circular economies." It is the intelligence layer and economic infrastructure powering wealth circulation — connecting consumers, businesses, and capital in one unified ecosystem. It serves an underserved $1.6 TRILLION market using a proprietary three-layer architecture: Infrastructure Layer, Data Platform Layer, and Application Layer.
+1325.AI is NOT just a directory or an app. It is an Economic Operating System — a PaaS (Platform as a Service) positioned as the "Stripe for circular economies." It is the intelligence layer and economic infrastructure powering wealth circulation — connecting consumers, businesses, and capital in one unified ecosystem. It serves an underserved $2.10 TRILLION U.S. Black consumer market (2025) and a $9.1 TRILLION global Black consumer market, using a proprietary three-layer architecture: Infrastructure Layer, Data Platform Layer, and Application Layer.
 
 CORE MISSION:
 1325.AI connects consumers with verified community businesses, enabling wealth circulation and economic empowerment through intelligent discovery, loyalty rewards, and community-driven commerce. The dollar currently circulates within the community for less than six hours, compared to 28+ days in other communities. This platform is the infrastructure to change that.
@@ -182,7 +182,7 @@ Businesses receive exceptional ROI — the platform delivers multiples of value 
 
 ===== COMPETITIVE POSITIONING =====
 
-1325.AI is the "Economic Super-App" — a functional superset that goes beyond simple directories or single-feature apps. Five Super-App Pillars: Discovery, Transactions, Banking, Community Finance, and Gamification. The platform serves a $1.6 TRILLION addressable market.
+1325.AI is the "Economic Super-App" — a functional superset that goes beyond simple directories or single-feature apps. Five Super-App Pillars: Discovery, Transactions, Banking, Community Finance, and Gamification. The platform serves a $2.10 TRILLION U.S. addressable market and a $9.1 TRILLION global Black consumer market.
 
 ===== WEB APPLICATION FEATURES =====
 

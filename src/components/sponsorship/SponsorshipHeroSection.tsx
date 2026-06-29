@@ -56,7 +56,7 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             Patent-pending technology. A 33-agent AI workforce. A verified national network of
-            Black-owned businesses. Partner with the platform building the rails of a $2.10T economy.
+            Black-owned businesses. Partner with the platform building the rails of a $2.10T U.S. and $9.1T global economy.
           </motion.p>
 
           <motion.div
