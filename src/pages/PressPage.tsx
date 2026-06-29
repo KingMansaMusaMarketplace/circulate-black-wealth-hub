@@ -27,7 +27,7 @@ const FOUNDER_LINKEDIN = 'https://www.linkedin.com/in/williamfostermansamusa/';
 
 const STATS = [
   { value: '47,000+', label: 'Black-Owned Businesses' },
-  { value: '$2.10T', label: 'Market Opportunity' },
+  { value: '$2.10T / $9.1T', label: 'U.S. / Global Market Opportunity' },
   { value: '42', label: 'AI Agents Deployed' },
   { value: '27', label: 'Patent Claims Pending' },
 ];
