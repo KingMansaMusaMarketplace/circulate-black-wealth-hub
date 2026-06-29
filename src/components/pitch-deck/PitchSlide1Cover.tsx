@@ -82,8 +82,8 @@ const PitchSlide1Cover: React.FC = () => {
             transition={{ delay: 0.6 }}
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-mansagold">$2.10T</div>
-              <div className="text-sm">Market Size</div>
+              <div className="text-3xl font-bold text-mansagold">$2.10T / $9.1T</div>
+              <div className="text-sm">U.S. / Global Market</div>
             </div>
             <div className="h-10 w-px bg-white/20" />
             <div className="text-center">
