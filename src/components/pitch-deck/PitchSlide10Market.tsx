@@ -8,8 +8,8 @@ const PitchSlide10Market: React.FC = () => {
     {
       label: 'TAM',
       title: 'Total Addressable Market',
-      value: '$2.10T',
-      description: 'Annual Black consumer spending power in the US',
+      value: '$2.10T US / $9.1T Global',
+      description: 'Annual Black consumer spending: $2.10T in the U.S. (2025) and $9.1T globally',
       color: 'mansagold'
     },
     {
