@@ -54,7 +54,7 @@ const MediaKitPage = () => {
   };
 
   const stats = [
-    { value: '$2.10T', label: 'Addressable Market', icon: DollarSign },
+    { value: '$2.10T / $9.1T', label: 'U.S. / Global Market', icon: DollarSign },
     { value: '130+', label: 'Application Pages', icon: Globe },
     { value: '110+', label: 'Database Tables', icon: Database },
     { value: '67', label: 'Edge Functions', icon: Zap },
