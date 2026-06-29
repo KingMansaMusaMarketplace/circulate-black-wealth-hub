@@ -182,7 +182,7 @@ Businesses receive exceptional ROI — the platform delivers multiples of value 
 
 ===== COMPETITIVE POSITIONING =====
 
-1325.AI is the "Economic Super-App" — a functional superset that goes beyond simple directories or single-feature apps. Five Super-App Pillars: Discovery, Transactions, Banking, Community Finance, and Gamification. The platform serves a $1.6 TRILLION addressable market.
+1325.AI is the "Economic Super-App" — a functional superset that goes beyond simple directories or single-feature apps. Five Super-App Pillars: Discovery, Transactions, Banking, Community Finance, and Gamification. The platform serves a $2.10 TRILLION U.S. addressable market and a $9.1 TRILLION global Black consumer market.
 
 ===== WEB APPLICATION FEATURES =====
 
