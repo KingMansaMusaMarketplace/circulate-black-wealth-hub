@@ -76,7 +76,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
               size: 24,
             }),
             new TextRun({
-              text: "Yes, 1325.AI has legitimate billion-dollar potential. The platform addresses a $2.10 trillion market opportunity with a unique 4-sided marketplace model, comprehensive feature set, and clear path to scale.",
+              text: "Yes, 1325.AI has legitimate billion-dollar potential. The platform addresses a $2.10 trillion U.S. and $9.1 trillion global market opportunity with a unique 4-sided marketplace model, comprehensive feature set, and clear path to scale.",
               size: 24,
             }),
           ],
@@ -359,7 +359,7 @@ function createMarketTable(): Table {
     width: { size: 100, type: WidthType.PERCENTAGE },
     rows: [
       createTableRow(["Market Segment", "Value"], true),
-      createTableRow(["Community Consumer Spending Power (Annual)", "$2.10 Trillion"]),
+      createTableRow(["Community Consumer Spending Power (Annual)", "$2.10T U.S. / $9.1T Global"]),
       createTableRow(["Community-Owned Businesses in U.S.", "3.1 Million"]),
       createTableRow(["Average Annual Revenue per Community Business", "$142,000"]),
       createTableRow(["Projected Community Spending Power by 2030", "$2.7 Trillion"]),
