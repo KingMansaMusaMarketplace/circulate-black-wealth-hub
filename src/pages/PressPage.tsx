@@ -177,7 +177,7 @@ const PressPage: React.FC = () => {
               <p className="text-mansagold mb-4 font-medium">Founder &amp; CEO, 1325.AI</p>
               <p className="text-white/80 leading-relaxed mb-4">
                 Thoma D Bowling is the founder of 1325.AI and Mansa Musa Marketplace, on a mission to build
-                the economic infrastructure for the $2.10T Black economy. With patent-pending technology
+                the economic infrastructure for the $2.10T U.S. and $9.1T global Black economy. With patent-pending technology
                 (U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending) and 33 deployed AI agents, his work focuses on extending how long the
                 Black dollar circulates and giving Black-owned businesses the tools larger companies take
                 for granted.
