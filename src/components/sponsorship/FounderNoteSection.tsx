@@ -20,7 +20,7 @@ const FounderNoteSection: React.FC = () => {
             <blockquote className="font-playfair text-xl md:text-2xl text-white leading-relaxed italic mb-8">
               "We built 1325.AI because the data is undeniable: a dollar circulates in the Black community
               for hours, not days. Sponsorship of this platform is not philanthropy — it is infrastructure
-              investment in a $2.10 trillion economy. I'd be honored to discuss how your brand fits in."
+              investment in a $2.10 trillion U.S. and $9.1 trillion global economy. I'd be honored to discuss how your brand fits in."
             </blockquote>
 
             <div className="flex items-center gap-4 pt-6 border-t border-mansagold/20">
