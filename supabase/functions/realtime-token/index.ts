@@ -762,7 +762,8 @@ When helping admins, provide specific guidance on navigating the dashboard, unde
             },
             output: {
               format: { type: "audio/pcm", rate: 24000 },
-              voice: "shimmer",
+              voice: "marin",
+              speed: 1.0,
             },
           },
           tools,
