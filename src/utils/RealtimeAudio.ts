@@ -544,11 +544,11 @@ export class RealtimeChat {
         await new Promise(r => setTimeout(r, 500));
       }
 
-      // Connect to OpenAI's Realtime API
-      const baseUrl = "https://api.openai.com/v1/realtime";
+      // Connect to OpenAI's Realtime API (GA WebRTC endpoint)
+      const baseUrl = "https://api.openai.com/v1/realtime/calls";
       const model = "gpt-realtime";
-      
-      console.log('Connecting to OpenAI Realtime API...');
+
+      console.log('Connecting to OpenAI Realtime API (GA /calls endpoint)...');
       const sdpResponse = await fetch(`${baseUrl}?model=${model}`, {
         method: "POST",
         body: offer.sdp,
