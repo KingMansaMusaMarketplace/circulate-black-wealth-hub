@@ -13,9 +13,9 @@ const PitchSlide2Problem: React.FC = () => {
     },
     {
       icon: TrendingDown,
-      stat: '$2.10T',
+      stat: '$2.10T US / $9.1T Global',
       title: 'Spending Power Lost',
-      description: 'Massive economic potential with minimal internal recirculation'
+      description: 'Massive economic potential — $2.10T in the U.S. and $9.1T globally — with minimal internal recirculation'
     },
     {
       icon: Unlink,
