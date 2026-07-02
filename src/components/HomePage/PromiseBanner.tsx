@@ -23,7 +23,7 @@ const PromiseBanner: React.FC = () => {
       >
         <p
           id="promise-banner-heading"
-          className="text-xs md:text-sm font-semibold tracking-[0.25em] text-mansagold uppercase mb-5"
+          className="text-lg md:text-2xl font-extrabold tracking-[0.25em] text-mansagold uppercase mb-5"
         >
           THE BENEFITS!!!!
         </p>
