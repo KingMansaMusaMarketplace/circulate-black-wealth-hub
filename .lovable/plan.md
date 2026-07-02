@@ -1,84 +1,38 @@
 
-# Stripe Subscription Audit
+## Where to put "The Promise"
 
-Plain-English read on what works today, what's broken right now, and what to harden before you let a real customer pay.
+**Recommendation:** Place it as its own **"Promise Banner"** section directly **below the Hero and above the rest of the homepage sections**. This is the highest-value real estate after the hero — visitors have just read the headline and are deciding whether to keep scrolling. A short, bold promise here answers the "so what?" question in one line.
 
----
+### Why not other spots
+- **Inside the Hero:** Would compete with the headline and search bar, making the hero feel crowded (the same overlap problem we just fixed on the dossier).
+- **Footer or mid-page:** Too far down. Most visitors never scroll that far, so the promise gets wasted.
+- **Homepage sub-sections:** Would blend in with feature copy instead of standing out as a brand pledge.
 
-## 🚨 CRITICAL — broken yesterday by the security fix
+### What it will look like (plain English)
+A full-width band with:
+- A subtle **dark navy → black gradient** background so it stands out from the hero above and the content below.
+- A **thin MansaGold top and bottom border** to frame it as a "statement."
+- The word **"The Promise"** in small gold uppercase (eyebrow label).
+- The full sentence in **large white serif-ish display type**, centered, max width ~900px so it reads like a pledge, not a paragraph.
+- One small **"Read our founding story →"** text link underneath (optional — points to /about or the investor page).
+- Fades in on scroll (same motion style as the rest of the homepage).
 
-Yesterday I moved 3 Stripe ID columns into private tables for security:
-- `featured_placements.stripe_customer_id` → moved to `featured_placements_private`
-- `featured_placements.stripe_subscription_id` → moved to `featured_placements_private`
-- `job_postings.stripe_session_id` → moved to `job_postings_private`
+### Where in the code it goes
+- New component: `src/components/HomePage/PromiseBanner.tsx`
+- Inserted in `src/pages/HomePage.tsx` **between `<Hero />` and `<HomePageSections />`**, wrapped in a `SectionErrorBoundary` like the other sections.
+- Uses only semantic design tokens (`bg-background`, `text-foreground`, `border-mansagold`) — no hardcoded colors, so it stays on-brand in dark mode.
 
-**But 4 places in the code still try to write to the old columns.** Any customer who pays for a Featured Placement or a Job Posting today will be charged by Stripe but their listing **will NOT activate** (webhook write will silently fail). I missed this when I made the security change.
+### Copy (exactly as you wrote it)
+> **The Promise**
+> 1325.AI helps Black-owned businesses make more money, save time, and keep wealth circulating — without hiring a full staff or learning new technology.
 
-| File | Line | What breaks |
-|---|---|---|
-| `supabase/functions/stripe-webhook/index.ts` | 391-392 | Featured placement won't flip to `active` after payment |
-| `supabase/functions/stripe-webhook/index.ts` | 446 | Job posting won't flip to `active` after payment |
-| `supabase/functions/create-featured-placement-checkout/index.ts` | 85 | Pending featured-placement row insert errors |
-| `supabase/functions/create-job-post-checkout/index.ts` | 101 | Pending job-posting update errors |
+### Optional add-ons (say yes/no)
+1. Add three small icon chips under the sentence: **💰 Make More** · **⏱ Save Time** · **🔄 Circulate Wealth** — reinforces the three benefits visually.
+2. Add a **"See how it works"** button that jumps to the Kayla demo section.
+3. Also surface the same promise on the **About page** hero and the **Business Signup** page for consistency.
 
-**Fix:** route those writes to the new `_private` tables (`featured_placements_private` keyed by `placement_id`, `job_postings_private` keyed by `job_id`). Subscription tiers (`kayla_*`, `business_*`, `corporate_*`) are **not affected** — those write to `subscribers` / `corporate_subscriptions`, which I did not touch.
-
----
-
-## ⚠️ HIGH — Stripe webhook is not wired to all subscription tiers
-
-The main `stripe-webhook` handles BHM, corporate, featured placements, verifications, job posts, and marketing top-ups. It does **NOT** insert a row into `subscribers` for Kayla / Business tier checkouts. Those tiers rely on `check-subscription` being called from the frontend after redirect to mark them subscribed.
-
-**Risk:** if the redirect fails (closed tab, network blip, app crash, mobile back-button), the user paid but the app thinks they are not subscribed until the next time they log in and the periodic `check-subscription` runs. That's usually fine but not ideal.
-
-**Fix:** add a `checkout.session.completed` branch that, when `metadata.tier` is a Kayla/Business tier, upserts into `subscribers` so the app knows immediately without waiting for the frontend.
-
----
-
-## ⚠️ MEDIUM — webhook secret is single-purpose
-
-You have one `STRIPE_WEBHOOK_SECRET` configured. Stripe lets you register multiple endpoints (live + test, plus the corporate one which uses `STRIPE_CORPORATE_WEBHOOK_SECRET`). 
-
-**Action item for you (no code):** in the Stripe Dashboard → Developers → Webhooks, confirm:
-1. There is exactly one endpoint pointed at `…/functions/v1/stripe-webhook` and its signing secret matches `STRIPE_WEBHOOK_SECRET`.
-2. The corporate endpoint points at `…/functions/v1/stripe-webhook-corporate` and matches `STRIPE_CORPORATE_WEBHOOK_SECRET`.
-3. The events selected include: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_failed`, `invoice.payment_succeeded`.
-
----
-
-## ✅ What's solid
-
-- **Checkout creation** (`create-checkout`): input validation, rate limiting, CORS allowlist, hardcoded Kayla price-IDs, trial-day logic — all good.
-- **Subscription check** (`check-subscription`): handles `active`, `trialing`, and surfaces `past_due` / `unpaid` / `canceled`. Auto-refresh on login and every minute is wired in `SubscriptionContext`.
-- **Customer portal** (`customer-portal` + `create-portal-session`): standard Stripe Billing Portal flow — cancel, change card, upgrade/downgrade all work through Stripe's hosted UI.
-- **Price IDs**: all 11 tier price IDs are stored as secrets, not hardcoded in client code (except Kayla, which is in the edge function — that's fine).
-- **iOS in-app purchase split**: Kayla Essentials and Starter monthly go through Apple StoreKit on iOS native; everything else stays web. Already implemented per memory rule.
-
----
-
-## 📋 Proposed fix order
-
-1. **(critical)** Patch the 4 files above to use the new `_private` tables. No DB migration needed — tables already exist with proper RLS.
-2. **(high)** Add a Kayla/Business `subscribers` upsert branch to `stripe-webhook` so paid tier activation doesn't depend on the user landing on `/payment-success`.
-3. **(you do, no code)** Verify Stripe Dashboard webhook endpoints and events as listed above.
-4. **(optional polish)** Add a one-time idempotency guard on webhook event IDs so retried webhooks don't double-write.
-
----
-
-## Technical detail
-
-The `_private` tables are keyed by `placement_id` / `job_id` referencing the parent row's `id`, with their own RLS scoped to the owner or admin. The patched writes will look like:
-
-```
-// Featured placement webhook
-await supabaseClient.from('featured_placements_private').upsert({
-  placement_id, owner_user_id, stripe_customer_id, stripe_subscription_id
-}, { onConflict: 'placement_id' });
-
-// Job posting webhook  
-await supabaseClient.from('job_postings_private').upsert({
-  job_id, poster_user_id, stripe_session_id
-}, { onConflict: 'job_id' });
-```
-
-The matching `create-*-checkout` functions get the same treatment at creation time (insert/upsert into the private table after the parent row is created).
+### What you need to do
+Just reply with:
+- **"Go"** to build it as described, or
+- **"Go + 1, 2, 3"** to include any of the optional add-ons, or
+- Tell me a different spot if you'd rather see it inside the hero or elsewhere.

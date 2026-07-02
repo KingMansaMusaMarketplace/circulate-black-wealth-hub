@@ -20,6 +20,7 @@ import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 import KaylaDemoSection from '@/components/homepage/KaylaDemoSection';
 import RebrandBanner from '@/components/HomePage/RebrandBanner';
 import FeaturedCommunities from '@/components/HomePage/FeaturedCommunities';
+import PromiseBanner from '@/components/HomePage/PromiseBanner';
 
 const HomePage = () => {
   
@@ -116,6 +117,11 @@ const HomePage = () => {
         {/* Hero Section - key forces animation replay on refresh */}
         <SectionErrorBoundary sectionName="Hero">
           <Hero key={animationKey} />
+        </SectionErrorBoundary>
+
+        {/* The Promise — brand pledge banner directly under hero */}
+        <SectionErrorBoundary sectionName="Promise Banner">
+          <PromiseBanner />
         </SectionErrorBoundary>
 
         {/* Essential Sections Only */}
