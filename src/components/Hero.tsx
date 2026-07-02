@@ -273,29 +273,7 @@ const Hero = () => {
             </div>
           </motion.form>
 
-          {/* Founding 100 live counter banner */}
-          {!foundingLoading && (
-            <motion.div
-              className="max-w-2xl mx-auto mb-5"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.28 }}
-            >
-              <div className="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-full bg-mansagold/10 border border-mansagold/40 backdrop-blur-sm">
-                <Sparkles className="w-4 h-4 text-mansagold" />
-                <span className="text-mansagold font-semibold text-sm">
-                  {isFull
-                    ? `Founding ${FOUNDING_MEMBER_SLOT_CAP} sold out — join the waitlist`
-                    : `Founding ${FOUNDING_MEMBER_SLOT_CAP}: $149/mo locked forever`}
-                </span>
-                {!isFull && (
-                  <span className="text-white/80 text-sm">
-                    · <span className="font-bold text-white">{remaining}</span> of {FOUNDING_MEMBER_SLOT_CAP} spots left
-                  </span>
-                )}
-              </div>
-            </motion.div>
-          )}
+          {/* Founding 100 banner removed per request */}
 
           {/* Dual-path CTAs with chooser labels */}
           <motion.div 
