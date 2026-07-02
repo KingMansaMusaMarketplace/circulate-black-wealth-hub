@@ -29,11 +29,11 @@ const PromiseBanner: React.FC = () => {
         </p>
 
         <p className="text-2xl md:text-4xl font-serif font-light leading-snug text-white">
-          <span className="font-semibold text-mansagold">1325.AI</span> helps
-          Black-owned businesses <span className="text-white">make more money</span>,{' '}
-          <span className="text-white">save time</span>, and{' '}
-          <span className="text-white">keep wealth circulating</span> — without hiring a
-          full staff or learning new technology.
+          <span className="font-semibold text-mansagold">1325.AI</span> gives every
+          Black-owned business a <span className="text-white">Fortune 500 back office</span> for the price of a phone bill — so owners can{' '}
+          <span className="text-white">make more money</span>,{' '}
+          <span className="text-white">work fewer hours</span>, and{' '}
+          <span className="text-white">build generational wealth</span>.
         </p>
 
         <Link
