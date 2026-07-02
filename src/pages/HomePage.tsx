@@ -119,6 +119,11 @@ const HomePage = () => {
           <Hero key={animationKey} />
         </SectionErrorBoundary>
 
+        {/* The Promise — brand pledge banner directly under hero */}
+        <SectionErrorBoundary sectionName="Promise Banner">
+          <PromiseBanner />
+        </SectionErrorBoundary>
+
         {/* Essential Sections Only */}
         <SectionErrorBoundary sectionName="Content Sections">
           <HomePageSections />
