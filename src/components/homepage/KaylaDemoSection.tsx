@@ -82,9 +82,7 @@ const KaylaDemoSection = () => {
             </span>
           </h2>
           <p className="text-blue-100/80 text-base sm:text-lg max-w-2xl mx-auto">
-            Ask her anything. Then imagine her working on your business 24/7 — handling{" "}
-            <span className="text-mansagold font-semibold">~4 key business functions</span> and unlocking{" "}
-            <span className="text-mansagold font-semibold">$18,000+/month</span> in team capacity.
+            Ask her anything. Then imagine her working on your business 24/7 — answering customers, booking appointments, and growing your brand.
           </p>
         </div>
 
