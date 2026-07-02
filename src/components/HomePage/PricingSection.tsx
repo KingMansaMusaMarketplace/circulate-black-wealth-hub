@@ -124,8 +124,7 @@ const PricingSection = () => {
               Power Your Business with <span className="text-mansagold">Kayla AI</span>
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
-              Unlock ~$18,000/mo in team capacity with Kayla's 42 Agentic AI employees covering ~4 key business functions.
-              Choose the plan that fits your growth stage.
+              Powered by Kayla's 42 Agentic AI employees. Choose the plan that fits your growth stage.
             </p>
 
             {/* Toggle */}

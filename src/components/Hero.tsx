@@ -205,8 +205,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <span className="text-mansagold font-semibold">~4 Roles Covered · $18,000+/mo savings</span>
-            <span className="block mt-1 text-white/70">Answers customers 24/7 · Books appointments · Posts to social</span>
+            <span className="text-white/70">Answers customers 24/7 · Books appointments · Posts to social</span>
           </motion.p>
 
 
@@ -341,7 +340,7 @@ const Hero = () => {
                     List Free & Get Kayla AI
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
-                  <p className="mt-2 text-xs text-white/90">Free listing · ~4 roles covered · $18,000+/mo savings.</p>
+                  <p className="mt-2 text-xs text-white/90">Free listing · Kayla AI included.</p>
                 </div>
               </Link>
             </div>
