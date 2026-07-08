@@ -1,0 +1,153 @@
+{
+  "version": 1,
+  "sdk_version": "0.20.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://agoclnqfyinwjxdmjnns.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "1325-ai-mcp",
+      "version": "0.1.0",
+      "title": "1325.AI"
+    },
+    "tools": [
+      {
+        "name": "search_directory",
+        "title": "Search 1325.AI directory",
+        "description": "Search the 1325.AI directory of Black-owned businesses. Filter by keyword, category, or city. Returns up to 20 matching businesses with name, category, city, and short description.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Keyword to match in business name or description.",
+              "type": "string",
+              "maxLength": 200
+            },
+            "category": {
+              "description": "Business category, e.g. 'restaurant', 'salon', 'retail'.",
+              "type": "string",
+              "maxLength": 100
+            },
+            "city": {
+              "description": "City name to filter by.",
+              "type": "string",
+              "maxLength": 100
+            },
+            "limit": {
+              "description": "Max results to return (1-20). Defaults to 10.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_business",
+        "title": "Get business details",
+        "description": "Fetch full details for one business in the 1325.AI directory by id. Returns name, category, description, address, contact info, and website.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "business_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "The UUID of the business."
+            }
+          },
+          "required": [
+            "business_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_rewards",
+        "title": "List loyalty rewards",
+        "description": "Browse active loyalty rewards available on 1325.AI. Returns rewards sorted by lowest point cost. Optionally filter to one business.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "business_id": {
+              "description": "Optional business id to filter to that business's rewards.",
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "limit": {
+              "description": "Max rewards to return (1-50). Defaults to 20.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_my_points_balance",
+        "title": "Get my loyalty points",
+        "description": "Return the signed-in 1325.AI user's total loyalty points and per-business balances. Requires the caller to be signed in.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_my_recent_scans",
+        "title": "Get my recent QR scans",
+        "description": "Return the signed-in user's most recent 1325.AI QR code scans (business visits that earned points).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "Max scans to return (1-50). Defaults to 20.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
