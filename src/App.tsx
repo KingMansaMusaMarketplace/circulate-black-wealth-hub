@@ -58,6 +58,7 @@ import {
   LazyAccessibilityPage,
 } from './components/LazyComponents';
 import OAuthConsentPage from './pages/OAuthConsentPage';
+const LazyConnectPage = lazy(() => import('./pages/ConnectPage'));
 
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
@@ -493,6 +494,7 @@ function App() {
                               <Route errorElement={<RouteErrorBoundary />}>
                               {/* Home */}
                               <Route path="/" element={<HomePage />} />
+                              <Route path="/connect" element={<LazyConnectPage />} />
                               
                               {/* A */}
                               <Route path="/about" element={<LazyAboutPage />} />
