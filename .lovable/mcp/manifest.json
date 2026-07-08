@@ -26,31 +26,32 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "query": {
-              "description": "Keyword to match in business name or description.",
               "type": "string",
-              "maxLength": 200
+              "maxLength": 200,
+              "description": "Keyword to match in business name or description."
             },
             "category": {
-              "description": "Business category, e.g. 'restaurant', 'salon', 'retail'.",
               "type": "string",
-              "maxLength": 100
+              "maxLength": 100,
+              "description": "Business category, e.g. 'restaurant', 'salon', 'retail'."
             },
             "city": {
-              "description": "City name to filter by.",
               "type": "string",
-              "maxLength": 100
+              "maxLength": 100,
+              "description": "City name to filter by."
             },
             "limit": {
-              "description": "Max results to return (1-20). Defaults to 10.",
               "type": "integer",
               "minimum": 1,
-              "maximum": 20
+              "maximum": 20,
+              "description": "Max results to return (1-20). Defaults to 10."
             }
-          }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
         },
         "outputSchema": null
       },
@@ -64,19 +65,19 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "business_id": {
               "type": "string",
               "format": "uuid",
-              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
               "description": "The UUID of the business."
             }
           },
           "required": [
             "business_id"
-          ]
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
         },
         "outputSchema": null
       },
@@ -90,22 +91,22 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "business_id": {
-              "description": "Optional business id to filter to that business's rewards.",
               "type": "string",
               "format": "uuid",
-              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              "description": "Optional business id to filter to that business's rewards."
             },
             "limit": {
-              "description": "Max rewards to return (1-50). Defaults to 20.",
               "type": "integer",
               "minimum": 1,
-              "maximum": 50
+              "maximum": 50,
+              "description": "Max rewards to return (1-50). Defaults to 20."
             }
-          }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
         },
         "outputSchema": null
       },
@@ -135,16 +136,17 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "limit": {
-              "description": "Max scans to return (1-50). Defaults to 20.",
               "type": "integer",
               "minimum": 1,
-              "maximum": 50
+              "maximum": 50,
+              "description": "Max scans to return (1-50). Defaults to 20."
             }
-          }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
         },
         "outputSchema": null
       }
