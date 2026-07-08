@@ -1,9 +1,13 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 /**
  * Send B2B Invitation Edge Function
- * Invites discovered businesses to join the 1325.AI platform
+ * Invites discovered businesses to join the 1325.AI platform.
+ * Requires an authenticated caller and applies a per-user hourly rate limit
+ * so the transactional-email pipeline cannot be used as an open relay.
  */
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
@@ -24,16 +28,43 @@ interface InvitationRequest {
   invitationToken?: string;
 }
 
+// Simple per-user rate limit: max 20 invitations/hour per authenticated caller.
+const RATE_LIMIT_PER_HOUR = 20;
+const rateLimitCache = new Map<string, { count: number; resetAt: number }>();
+function checkRateLimit(userId: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitCache.get(userId);
+  if (!entry || entry.resetAt < now) {
+    rateLimitCache.set(userId, { count: 1, resetAt: now + 60 * 60 * 1000 });
+    return true;
+  }
+  if (entry.count >= RATE_LIMIT_PER_HOUR) return false;
+  entry.count += 1;
+  return true;
+}
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { 
-      businessName, 
-      businessEmail, 
-      inviterName, 
+    // Require an authenticated caller
+    const authResult = await requireAuth(req, corsHeaders);
+    if (!authResult.authenticated || !authResult.userId) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
+    if (!checkRateLimit(authResult.userId)) {
+      return new Response(
+        JSON.stringify({ error: "Too many invitations sent. Please try again later." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const {
+      businessName,
+      businessEmail,
+      inviterName,
       inviterBusinessName,
       category,
       personalMessage,

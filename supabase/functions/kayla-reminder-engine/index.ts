@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -12,6 +13,12 @@ serve(async (req) => {
   try {
     const { businessId, action } = await req.json();
     if (!businessId) throw new Error("businessId is required");
+
+    // Require caller to be the owner (or admin) of this business
+    const authResult = await requireBusinessOwner(req, businessId, corsHeaders);
+    if (!authResult.authenticated) {
+      return authErrorResponse(authResult, corsHeaders);
+    }
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") as any,
