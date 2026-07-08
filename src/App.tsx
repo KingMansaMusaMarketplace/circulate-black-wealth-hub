@@ -58,6 +58,7 @@ import {
   LazyAccessibilityPage,
 } from './components/LazyComponents';
 import OAuthConsentPage from './pages/OAuthConsentPage';
+const LazyConnectPage = lazy(() => import('./pages/ConnectPage'));
 
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
