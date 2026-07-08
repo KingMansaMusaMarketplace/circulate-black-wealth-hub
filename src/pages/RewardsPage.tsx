@@ -143,8 +143,32 @@ const RewardsPage = () => {
     }
 
     setRedeeming(reward.id);
-    
+
     try {
+      // Points are earned per-business. Verify the customer has enough points
+      // at THIS reward's business before attempting to redeem — otherwise the
+      // server-side trigger will reject with "Insufficient loyalty points".
+      if (reward.business_id) {
+        const { data: bp, error: bpErr } = await supabase
+          .from('loyalty_points')
+          .select('points')
+          .eq('customer_id', user.id)
+          .eq('business_id', reward.business_id)
+          .maybeSingle();
+
+        if (bpErr) throw bpErr;
+
+        const businessBalance = bp?.points ?? 0;
+        if (businessBalance < reward.points_cost) {
+          toast.error(
+            `You have ${businessBalance} points at this business but need ${reward.points_cost}. Points are earned per business and can only be redeemed where they were earned.`,
+            { duration: 6000 }
+          );
+          setRedeeming(null);
+          return;
+        }
+      }
+
       const { error } = await supabase
         .from('redeemed_rewards')
         .insert({
@@ -165,9 +189,14 @@ const RewardsPage = () => {
       
       // Reload user points to reflect the redemption
       await loadUserPoints();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error redeeming reward:', error);
-      toast.error('Failed to redeem reward');
+      const msg = error?.message || '';
+      if (msg.includes('Insufficient loyalty points')) {
+        toast.error('Not enough points at this specific business. Points are earned and redeemed per business.');
+      } else {
+        toast.error(`Failed to redeem reward${msg ? ': ' + msg : ''}`);
+      }
     } finally {
       setRedeeming(null);
     }
