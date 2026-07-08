@@ -153,6 +153,15 @@ serve(async (req) => {
       }
 
       case 'release_payout': {
+        // Verify caller is a member of this circle (or the creator)
+        const callerMembership = circle.susu_memberships?.find((m: any) => m.user_id === callerId);
+        if (!callerMembership && circle.created_by !== callerId) {
+          return new Response(
+            JSON.stringify({ success: false, error: 'Forbidden: not a member of this circle' }),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 403 }
+          );
+        }
+
         // Get all held contributions for current round
         const { data: heldFunds, error: heldError } = await supabase
           .from('susu_escrow')
