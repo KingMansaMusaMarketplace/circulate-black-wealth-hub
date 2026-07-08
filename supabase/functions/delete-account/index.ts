@@ -61,27 +61,49 @@ serve(async (req) => {
       logStep("Error deleting profile", { error: profileError });
     }
 
-    // Step 2: Delete user's businesses (if they own any)
+    // Step 2: Delete user's businesses (owner_id is the correct column)
     logStep("Deleting user businesses");
     const { error: businessError } = await supabaseAdmin
       .from('businesses')
       .delete()
-      .eq('user_id', userId);
-    
+      .eq('owner_id', userId);
+
     if (businessError) {
       logStep("Error deleting businesses", { error: businessError });
     }
 
-    // Step 3: Delete user's transactions
+    // Step 3: Delete user's transactions (customer_id is the correct column)
     logStep("Deleting user transactions");
     const { error: transactionError } = await supabaseAdmin
       .from('transactions')
       .delete()
-      .eq('user_id', userId);
-    
+      .eq('customer_id', userId);
+
     if (transactionError) {
       logStep("Error deleting transactions", { error: transactionError });
     }
+
+    // Step 3b: Delete additional PII-bearing records tied to this user
+    const additionalTables: Array<{ table: string; column: string }> = [
+      { table: 'bookings', column: 'customer_id' },
+      { table: 'reviews', column: 'user_id' },
+      { table: 'property_reviews', column: 'reviewer_id' },
+      { table: 'business_reviews', column: 'customer_id' },
+      { table: 'customers', column: 'user_id' },
+      { table: 'notifications', column: 'user_id' },
+      { table: 'user_preferences', column: 'user_id' },
+      { table: 'user_roles', column: 'user_id' },
+      { table: 'loyalty_points', column: 'customer_id' },
+      { table: 'redeemed_rewards', column: 'customer_id' },
+      { table: 'search_history', column: 'user_id' },
+      { table: 'contact_submissions', column: 'user_id' },
+      { table: 'tracked_visits', column: 'customer_id' },
+    ];
+    for (const { table, column } of additionalTables) {
+      const { error } = await supabaseAdmin.from(table).delete().eq(column, userId);
+      if (error) logStep(`Error deleting from ${table}`, { error: error.message });
+    }
+
 
     // Step 4: Delete from auth.users using admin API
     logStep("Deleting auth user");
