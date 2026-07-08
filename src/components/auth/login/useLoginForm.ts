@@ -18,8 +18,16 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
   const [mfaData, setMfaData] = useState<{factorId: string, challengeId: string} | null>(null);
   const [email, setEmailCache] = useState('');
 
-  // Get the redirect path from location state or default to dashboard
-  const from = (location.state as any)?.from || '/dashboard';
+  // Get the redirect path from ?next= (validated same-origin relative path),
+  // location state, or default to dashboard. `?next=` is used by the OAuth
+  // consent flow (MCP / agent integrations) to bring the user back to the
+  // consent screen after signing in.
+  const nextParam = new URLSearchParams(location.search).get('next');
+  const safeNext =
+    nextParam && nextParam.startsWith('/') && !nextParam.startsWith('//')
+      ? nextParam
+      : null;
+  const from = safeNext || (location.state as any)?.from || '/dashboard';
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
