@@ -494,6 +494,7 @@ function App() {
                               <Route errorElement={<RouteErrorBoundary />}>
                               {/* Home */}
                               <Route path="/" element={<HomePage />} />
+                              <Route path="/connect" element={<LazyConnectPage />} />
                               
                               {/* A */}
                               <Route path="/about" element={<LazyAboutPage />} />
