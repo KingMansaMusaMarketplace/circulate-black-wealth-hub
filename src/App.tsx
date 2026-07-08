@@ -57,6 +57,7 @@ import {
   LazyHowItWorksPage,
   LazyAccessibilityPage,
 } from './components/LazyComponents';
+import OAuthConsentPage from './pages/OAuthConsentPage';
 
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
@@ -697,6 +698,7 @@ function App() {
                               {/* L */}
                               <Route path="/learning-hub" element={<LazyLearningHubPage />} />
                               <Route path="/login" element={<LazyLoginPage />} />
+                              <Route path="/.lovable/oauth/consent" element={<OAuthConsentPage />} />
                               <Route path="/loyalty" element={<LazyRewardsPage />} />
                               <Route path="/rewards" element={<LazyRewardsPage />} />
                               <Route path="/loyalty-program-guide" element={<LazyLoyaltyProgramGuidePage />} />
@@ -1099,6 +1101,7 @@ function App() {
                         {/* L */}
                         <Route path="/learning-hub" element={<LazyLearningHubPage />} />
                         <Route path="/login" element={<LazyLoginPage />} />
+                        <Route path="/.lovable/oauth/consent" element={<OAuthConsentPage />} />
                         <Route path="/loyalty" element={<LazyRewardsPage />} />
                         <Route path="/loyalty-program-guide" element={<LazyLoyaltyProgramGuidePage />} />
                         
