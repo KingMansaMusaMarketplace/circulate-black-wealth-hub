@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowRight, Users, Building2, TrendingUp, Search, Sparkles } from 'lucide-react';
+import { ArrowRight, Users, Building2, TrendingUp, Search, Sparkles, Zap } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Capacitor } from '@capacitor/core';
 import { supabase } from '@/integrations/supabase/client';
@@ -145,6 +145,30 @@ const Hero = () => {
           >
             1325 — the year Mansa Musa's pilgrimage reshaped global commerce
           </motion.p>
+
+          {/* MCP infrastructure badge — signals to investors/devs that 1325.AI is AI-agent-ready */}
+          {!Capacitor.isNativePlatform() && (
+            <motion.div
+              className="flex justify-center mb-4"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.05 }}
+            >
+              <Link
+                to="/connect"
+                className="group inline-flex items-center gap-2 rounded-full border border-mansagold/30 bg-mansagold/5 hover:bg-mansagold/10 hover:border-mansagold/50 px-3 py-1.5 text-[11px] md:text-xs text-mansagold/90 transition-colors"
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span className="font-medium">AI Infrastructure</span>
+                <span className="text-mansagold/50">·</span>
+                <span className="hidden sm:inline">MCP-ready for ChatGPT, Claude, Cursor &amp; Codex</span>
+                <span className="sm:hidden">MCP-ready</span>
+                <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </motion.div>
+          )}
+
+
 
 
           {/* Brand mark — 1325.AI logo on web, Mansa Musa text on iOS App Store build */}
