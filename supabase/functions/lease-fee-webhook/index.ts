@@ -12,11 +12,16 @@ serve(async (req) => {
   const sig = req.headers.get("stripe-signature");
   const body = await req.text();
   const secret = Deno.env.get("STRIPE_LEASE_WEBHOOK_SECRET");
+
+  // SECURITY: Reject requests without a verified Stripe signature.
+  if (!sig || !secret) {
+    console.error("Missing stripe-signature header or STRIPE_LEASE_WEBHOOK_SECRET");
+    return new Response(JSON.stringify({ error: "signature required" }), { status: 400 });
+  }
+
   let event: Stripe.Event;
   try {
-    event = secret && sig
-      ? await stripe.webhooks.constructEventAsync(body, sig, secret)
-      : JSON.parse(body);
+    event = await stripe.webhooks.constructEventAsync(body, sig, secret);
   } catch (e) {
     return new Response(`Webhook Error: ${(e as Error).message}`, { status: 400 });
   }

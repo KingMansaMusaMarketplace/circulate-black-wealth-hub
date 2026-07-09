@@ -16,16 +16,24 @@ serve(async (req) => {
   const webhookSecret = Deno.env.get("STRIPE_IDENTITY_WEBHOOK_SECRET");
   const body = await req.text();
 
+  // SECURITY: Reject requests that are not signed. Never fall back to unverified JSON.
+  if (!signature || !webhookSecret) {
+    console.error("Missing stripe-signature header or STRIPE_IDENTITY_WEBHOOK_SECRET");
+    return new Response(JSON.stringify({ error: "signature required" }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   let event: Stripe.Event;
   try {
-    if (signature && webhookSecret) {
-      event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
-    } else {
-      event = JSON.parse(body);
-    }
+    event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
   } catch (e) {
     console.error("Signature verification failed:", e);
-    return new Response(JSON.stringify({ error: "invalid signature" }), { status: 400 });
+    return new Response(JSON.stringify({ error: "invalid signature" }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   const admin = createClient(
