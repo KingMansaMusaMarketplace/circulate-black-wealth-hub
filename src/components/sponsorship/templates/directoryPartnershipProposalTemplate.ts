@@ -551,7 +551,7 @@ export const getDirectoryPartnershipProposalContent = (): string => {
         <div style="max-width: 500px; margin: 0 auto; text-align: center;">
           <div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; margin-bottom: 30px;">
             <p style="font-size: 18px; margin: 0 0 10px; color: #93c5fd;">Phone</p>
-            <p style="font-size: 28px; font-weight: bold; margin: 0; color: #fbbf24;">312.709.6006</p>
+            <p style="font-size: 28px; font-weight: bold; margin: 0; color: #fbbf24;">312.900.6004</p>
           </div>
           
           <div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; margin-bottom: 30px;">

@@ -69,7 +69,7 @@ export const getPartnershipGuideContent = (): string => {
         <p style="margin-bottom: 15px; font-size: 16px;">Powered by patent-pending economic circulation technology</p>
         <p style="margin-bottom: 15px; font-size: 16px;">Contact our partnership team to get started</p>
         <p style="font-size: 16px;"><strong>Email:</strong> Thomas@1325.AI</p>
-        <p style="font-size: 16px;"><strong>Phone:</strong> 312.709.6006</p>
+        <p style="font-size: 16px;"><strong>Phone:</strong> 312.900.6004</p>
       </div>
     </div>
   `;

@@ -10,7 +10,7 @@ const ContactSupportCard = () => {
   };
 
   const handlePhoneClick = () => {
-    window.location.href = 'tel:+13127096006';
+    window.location.href = 'tel:+13129006004';
   };
 
   const handleLiveChat = () => {
@@ -48,7 +48,7 @@ const ContactSupportCard = () => {
               onClick={handlePhoneClick}
               className="text-mansablue hover:text-mansablue-dark hover:underline text-left"
             >
-              312.709.6006
+              312.900.6004
             </button>
             <p className="text-sm text-gray-500">Mon-Fri 9AM-6PM CST</p>
           </div>

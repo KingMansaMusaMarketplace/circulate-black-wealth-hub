@@ -18,7 +18,7 @@ const Footer = () => {
   };
 
   const handlePhoneClick = () => {
-    window.location.href = 'tel:+1-312-709-6006';
+    window.location.href = 'tel:+1-312-900-6004';
   };
 
   const containerVariants = {
@@ -89,7 +89,7 @@ const Footer = () => {
                   onClick={handlePhoneClick}
                   className="text-white/90 hover:text-mansagold transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full font-medium"
                 >
-                  (312) 709-6006
+                  (312) 900-6004
                 </button>
               </div>
               <div className="flex items-center group cursor-pointer" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=1000+E.+111th+St.+Suite+1100+Chicago+Illinois+60628', '_blank')}>

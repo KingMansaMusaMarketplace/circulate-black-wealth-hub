@@ -25,7 +25,7 @@
 - `/support` route is fully functional in the app
 - Page includes:
   - Email support: support@mansamusamarketplace.com
-  - Phone support: 312.709.6006
+  - Phone support: 312.900.6004
   - Live chat information
   - FAQ sections
   - Business hours
@@ -145,7 +145,7 @@ We have replaced all placeholder icons with our final, custom-designed app icon 
 ### 2. Support URL (Guideline 1.5)  
 Support URL has been updated to https://mansamusamarketplace.com/support with full functionality including:
 - Email support: support@mansamusamarketplace.com
-- Phone support: 312.709.6006
+- Phone support: 312.900.6004
 - Live chat during business hours
 - Comprehensive FAQ sections
 - Contact information and service hours

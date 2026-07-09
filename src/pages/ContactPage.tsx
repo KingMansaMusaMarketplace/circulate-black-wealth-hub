@@ -140,8 +140,8 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-white mb-1">Call Us</p>
-                      <a href="tel:3127096006" className="text-green-300 hover:text-yellow-400 transition-colors">
-                        312.709.6006
+                      <a href="tel:3129006004" className="text-green-300 hover:text-yellow-400 transition-colors">
+                        312.900.6004
                       </a>
                     </div>
                   </div>

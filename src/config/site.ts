@@ -46,7 +46,7 @@ export const siteConfig = {
   contactEmail: 'contact@1325.ai',
   businessEmail: 'business@1325.ai',
   partnershipEmail: 'partners@1325.ai',
-  phone: '312.709.6006',
+  phone: '312.900.6004',
   
   // Social (to be updated)
   social: {

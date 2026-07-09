@@ -1199,7 +1199,7 @@ WHAT YOU KNOW:
 - QR check-ins: scan at businesses, get 25 points + 15% off
 - Susu circles: African rotating savings tradition
 - Coalition points: redeemable at any member business
-- Contact: 312.709.6006 or contact@mansamusamarketplace.com`,
+- Contact: 312.900.6004 or contact@mansamusamarketplace.com`,
   voice: 'shimmer',
   temperature: 0.8,
   turn_detection: {

@@ -13,7 +13,7 @@ const SponsorshipContact = () => {
   };
 
   const handleOfficePhoneClick = () => {
-    window.location.href = 'tel:+13127096006';
+    window.location.href = 'tel:+13129006004';
   };
 
   const handleMobilePhoneClick = () => {
@@ -77,7 +77,7 @@ const SponsorshipContact = () => {
                         onClick={handleOfficePhoneClick}
                         className="block text-mansablue hover:underline cursor-pointer font-medium"
                       >
-                        (312) 709-6006
+                        (312) 900-6004
                       </button>
                     </div>
                   </div>
