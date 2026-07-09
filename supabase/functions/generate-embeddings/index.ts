@@ -97,10 +97,11 @@ Deno.serve(async (req) => {
         return new Response(JSON.stringify({ error: "Unauthorized" }),
           { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
-      // Check admin via security-definer function
+      // Check admin via user_roles (has_role security-definer function)
       const adminCheck = createClient(supabaseUrl, supabaseServiceKey);
-      const { data: isAdmin } = await adminCheck.rpc("is_admin_secure", {
+      const { data: isAdmin } = await adminCheck.rpc("has_role", {
         _user_id: claimsData.claims.sub,
+        _role: "admin",
       });
       if (!isAdmin) {
         return new Response(JSON.stringify({ error: "Forbidden: admin only" }),
