@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowRight, Users, Building2, TrendingUp, Search, Sparkles } from 'lucide-react';
+import { ArrowRight, Users, Building2, TrendingUp, Search, Sparkles, Zap } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Capacitor } from '@capacitor/core';
 import { supabase } from '@/integrations/supabase/client';
