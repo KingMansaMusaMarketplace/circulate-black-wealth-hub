@@ -29,7 +29,7 @@ export const getImpactReportContent = (): string => {
         <p style="margin-bottom: 15px; font-size: 16px;">U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending • Economic Circulation Technology</p>
         <p style="margin-bottom: 15px; font-size: 16px;">Join us in creating lasting economic impact</p>
         <p style="font-size: 16px;"><strong>Email:</strong> Thomas@1325.AI</p>
-        <p style="font-size: 16px;"><strong>Phone:</strong> 312.709.6006</p>
+        <p style="font-size: 16px;"><strong>Phone:</strong> 312.900.6004</p>
       </div>
     </div>
   `;

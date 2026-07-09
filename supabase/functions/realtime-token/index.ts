@@ -606,7 +606,7 @@ PROFILE & SETTINGS:
 - /settings — email, password, notifications, privacy, payment methods
 
 ===== CONTACT INFORMATION =====
-- Phone: 312.709.6006
+- Phone: 312.900.6004
 - Email: contact@1325.ai
 - Support: support@1325.ai
 - Business inquiries: business@1325.ai

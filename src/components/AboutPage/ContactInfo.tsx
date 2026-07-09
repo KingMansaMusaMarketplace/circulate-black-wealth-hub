@@ -30,8 +30,8 @@ const ContactInfo = () => {
       id: 'phone',
       title: 'Telephone',
       icon: Phone,
-      value: '312.709.6006',
-      link: 'tel:3127096006',
+      value: '312.900.6004',
+      link: 'tel:3129006004',
       description: 'Available Monday to Friday from 9am to 5pm CST.'
     },
     {

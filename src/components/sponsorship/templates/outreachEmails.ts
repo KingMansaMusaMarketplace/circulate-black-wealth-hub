@@ -28,7 +28,7 @@ Best regards,
 [Your Name]
 [Your Title]
 1325.AI
-Phone: 312.709.6006
+Phone: 312.900.6004
 Email: Thomas@1325.AI
 Website: www.1325.ai
 
@@ -70,7 +70,7 @@ Warm regards,
 [Your Name]
 [Your Title]
 1325.AI
-Phone: 312.709.6006
+Phone: 312.900.6004
 Email: Thomas@1325.AI
 Website: www.1325.ai
 
@@ -116,7 +116,7 @@ Best,
 [Your Name]
 [Your Title]
 1325.AI
-Phone: 312.709.6006
+Phone: 312.900.6004
 Email: Thomas@1325.AI
 Website: www.1325.ai
 
@@ -145,7 +145,7 @@ Thank you for your time and consideration.
 Best regards,
 [Your Name]
 1325.AI
-Phone: 312.709.6006
+Phone: 312.900.6004
 Email: Thomas@1325.AI`
   },
 
@@ -183,7 +183,7 @@ Best regards,
 [Your Name]
 [Your Title]
 1325.AI
-Phone: 312.709.6006
+Phone: 312.900.6004
 Email: Thomas@1325.AI
 Website: www.1325.ai`
   }

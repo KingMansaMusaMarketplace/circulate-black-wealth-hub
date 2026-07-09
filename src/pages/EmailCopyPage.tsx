@@ -65,7 +65,7 @@ With respect and gratitude,
 
 [Your Full Name]
 Founder & CEO, 1325.AI
-[your email] · 312.709.6006
+[your email] · 312.900.6004
 1325.ai
 
 Attachment: 1325AI_BlackRock_OnePager_v2.pdf`,
@@ -97,7 +97,7 @@ With respect,
 
 [Your Full Name]
 Founder & CEO, 1325.AI
-[your email] · 312.709.6006
+[your email] · 312.900.6004
 1325.ai
 
 Attachment: 1325AI_BlackRock_OnePager_v2.pdf`,
@@ -137,7 +137,7 @@ With respect,
 
 [Your Full Name]
 Founder & CEO, 1325.AI
-[your email] · 312.709.6006
+[your email] · 312.900.6004
 1325.ai
 
 Attachment: 1325AI_BlackRock_OnePager_v2.pdf`,

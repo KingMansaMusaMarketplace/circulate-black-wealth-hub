@@ -385,14 +385,14 @@ const MediaKitPage = () => {
                     <p className="text-white text-sm text-center font-medium">Thomas@1325.AI</p>
                   </a>
                   <a 
-                    href="tel:+1-312-709-6006"
+                    href="tel:+1-312-900-6004"
                     className="flex flex-col items-center gap-4 p-6 bg-white/10 rounded-xl border border-mansagold/30 hover:border-mansagold hover:bg-mansagold/10 transition-all duration-300 group"
                   >
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-mansagold to-amber-500 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                       <Phone className="w-7 h-7 text-white" />
                     </div>
                     <p className="text-mansagold font-bold text-lg">Phone</p>
-                    <p className="text-white text-sm font-medium">(312) 709-6006</p>
+                    <p className="text-white text-sm font-medium">(312) 900-6004</p>
                   </a>
                   <div className="flex flex-col items-center gap-4 p-6 bg-white/10 rounded-xl border border-mansagold/30">
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-mansagold to-amber-500 flex items-center justify-center shadow-lg">

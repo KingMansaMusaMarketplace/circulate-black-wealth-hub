@@ -18,7 +18,7 @@ const SupportPage = () => {
       icon: <Phone className="h-6 w-6" />,
       title: "Phone Support",
       description: "Speak with our support team directly",
-      contact: "312.709.6006",
+      contact: "312.900.6004",
       action: "Call Now"
     },
     {

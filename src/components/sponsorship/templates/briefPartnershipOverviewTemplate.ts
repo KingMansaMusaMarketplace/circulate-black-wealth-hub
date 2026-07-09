@@ -78,7 +78,7 @@ export const getBriefPartnershipOverviewContent = (): string => {
         <p style="margin-bottom: 12px; font-size: 15px;">Join us in building economic empowerment for communities</p>
         <div style="font-size: 14px;">
           <p style="margin: 5px 0;"><strong>Email:</strong> Thomas@1325.AI</p>
-          <p style="margin: 5px 0;"><strong>Phone:</strong> 312.709.6006</p>
+          <p style="margin: 5px 0;"><strong>Phone:</strong> 312.900.6004</p>
         </div>
       </div>
 
