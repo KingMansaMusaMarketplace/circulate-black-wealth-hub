@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
-import { Check, Copy, Sparkles, ShieldCheck } from 'lucide-react';
+import { Check, Copy, Sparkles, ShieldCheck, ExternalLink } from 'lucide-react';
 
 const projectRef =
   (import.meta as any).env?.VITE_SUPABASE_PROJECT_ID ?? 'agoclnqfyinwjxdmjnns';
@@ -79,6 +79,46 @@ const ConnectPage: React.FC = () => {
             server, or MCP URL. You'll sign in with your 1325.AI account to
             approve the connection.
           </p>
+
+          <div className="mt-5 pt-5 border-t border-white/10">
+            <p className="text-white/70 text-sm mb-3">
+              One-tap shortcuts — opens the connector setup in a new tab:
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button
+                asChild
+                variant="outline"
+                className="border-white/20 bg-white/5 hover:bg-white/10 text-white"
+              >
+                <a
+                  href="https://claude.ai/customize/connectors?modal=add-custom-connector"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Open Claude connector setup
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="border-white/20 bg-white/5 hover:bg-white/10 text-white"
+              >
+                <a
+                  href="https://chatgpt.com/#settings/Connectors/Advanced"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Open ChatGPT connector setup
+                </a>
+              </Button>
+            </div>
+            <p className="text-white/40 text-xs mt-3">
+              Tip: click Copy URL first, then a shortcut — paste the URL when
+              the assistant asks for it.
+            </p>
+          </div>
         </section>
 
         {/* ChatGPT */}
