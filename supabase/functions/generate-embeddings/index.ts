@@ -66,15 +66,46 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Verify authorization (service role or admin)
-    const authHeader = req.headers.get("authorization");
+    // SECURITY: Require an authenticated admin caller OR a cron shared secret.
+    // Without this, anyone could trigger costly OpenAI embedding batches.
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
+    const CRON_SECRET = Deno.env.get("EMBEDDINGS_CRON_SECRET");
 
     if (!OPENAI_API_KEY) {
       return new Response(JSON.stringify({ error: "OPENAI_API_KEY not configured" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const cronHeader = req.headers.get("x-cron-secret");
+    const authHeader = req.headers.get("authorization") || "";
+    const isCron = !!CRON_SECRET && cronHeader === CRON_SECRET;
+
+    if (!isCron) {
+      if (!authHeader.startsWith("Bearer ")) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }),
+          { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+      const token = authHeader.replace("Bearer ", "");
+      const userClient = createClient(supabaseUrl, supabaseAnonKey, {
+        global: { headers: { Authorization: authHeader } },
+      });
+      const { data: claimsData, error: claimsErr } = await userClient.auth.getClaims(token);
+      if (claimsErr || !claimsData?.claims?.sub) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }),
+          { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+      // Check admin via security-definer function
+      const adminCheck = createClient(supabaseUrl, supabaseServiceKey);
+      const { data: isAdmin } = await adminCheck.rpc("is_admin_secure", {
+        _user_id: claimsData.claims.sub,
+      });
+      if (!isAdmin) {
+        return new Response(JSON.stringify({ error: "Forbidden: admin only" }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
     }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
