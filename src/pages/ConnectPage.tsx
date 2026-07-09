@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
-import { Check, Copy, Sparkles, ShieldCheck } from 'lucide-react';
+import { Check, Copy, Sparkles, ShieldCheck, ExternalLink } from 'lucide-react';
 
 const projectRef =
   (import.meta as any).env?.VITE_SUPABASE_PROJECT_ID ?? 'agoclnqfyinwjxdmjnns';
