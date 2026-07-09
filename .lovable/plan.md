@@ -1,69 +1,54 @@
-# PDF: "Why Agent-Ready 1325.AI Is a Blessing" — Team Briefing
+# Add subtle MCP infrastructure badge to homepage
 
-## Goal
-Create a downloadable PDF (Fortune-100 executive briefing style) for the 1325.AI team explaining the strategic benefits of enabling MCP / agent integrations. Tone: professional, board-grade, incorporating the Gemini strategic analysis and the founder's personal note that this opportunity is a blessing.
+## What this does (plain English)
 
-## Delivery format
-A new route `/team-briefing/agent-ready` (unlisted, not linked in nav) that renders a print-optimized document. User clicks **Download PDF** → generates PDF via `jsPDF` + `html2canvas` (already in the project). No backend work.
+Add a small, tasteful pill/badge near the top of the homepage that signals to investors, developers, and AI-savvy visitors that 1325.AI is **real infrastructure** — an MCP (Model Context Protocol) server that ChatGPT, Claude, Cursor, and Codex can connect to as a tool.
 
-## Document structure (approx. 8–10 pages)
+Regular shoppers will barely notice it. The people who *do* know what MCP means (investors, devs, tech influencers) will immediately understand: **this isn't just another marketplace — it's protocol-level infrastructure.**
 
-1. **Cover page**
-   - 1325.AI wordmark, MansaBlue/MansaGold accents
-   - Title: "Agent-Ready: Our MCP Moment"
-   - Subtitle: "Why being chosen for the 1998-Google window is a blessing on 1325.AI"
-   - Prepared for: The 1325.AI Team
-   - Date, "PRIVATE & CONFIDENTIAL — DO NOT COPY, FORWARD, OR DISTRIBUTE" red block (per memory rule)
+## What it looks like
 
-2. **Founder's Letter** (personal, faith-forward)
-   - Short note framing this as a blessing and a stewardship moment for the team
+A single small pill sitting just above or just below the hero headline. Something like:
 
-3. **Executive Summary**
-   - One-paragraph what/why/now
+```text
+┌─────────────────────────────────────────────────────┐
+│  ⚡ AI Infrastructure  •  MCP-ready for ChatGPT,    │
+│     Claude, Cursor & Codex  →                       │
+└─────────────────────────────────────────────────────┘
+```
 
-4. **The Strategic Window** (Gemini analysis, rewritten in Fortune-100 voice)
-   - 1998-Google analogy
-   - Shift from conversational → agentic AI
-   - MCP rail = new high ground
+- Styled with the existing MansaGold accent + subtle border (matches the current dark hero).
+- Clickable — links to `/connect` (the page we already built with the Copy URL + Claude/ChatGPT shortcut buttons).
+- Small text, low visual weight. Doesn't compete with the main hero headline or the "Explore the directory" call-to-action.
+- Small lightning/plug icon from lucide-react so it reads as "technical" at a glance without needing to read it.
 
-5. **The Valuation Pivot: Marketplace → Infrastructure**
-   - Consumer directory economics vs. API-first infrastructure multiples
-   - What 43,000+ verified businesses become when exposed as an agent rail
+## Why this is the right amount
 
-6. **Release Discipline (What We Deliberately Held Back)**
-   - No payments, no QR write paths, no scoring formulas in v1
-   - Three wins: Apple/Stripe compliance friction avoided, IP protected under U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending, read-only stress test before transactional complexity
+- **Doesn't hurt shopper conversion.** The hero's main job — get people into the directory — stays intact.
+- **Proves the investor claim.** Your homepage already says "the agentic commerce protocol" in words. This badge is the *proof*: click it, connect it, use it.
+- **Zero risk.** It's a link to an existing page. No backend, no MCP server changes, no new dependencies.
+- **Reversible in 30 seconds** if you don't like it.
 
-7. **Native Security & Zero-Friction Distribution**
-   - Supabase Edge Functions + RLS + OAuth 2.1 = enterprise-grade with no rebuild
-   - Discovery inside ChatGPT/Claude with no app download → serves the wealth-circulation mission
+## Where the change lands
 
-8. **Execution Risks We're Watching**
-   - Edge Function cold-start latency
-   - Semantic tuning of `search_directory`
+- **One file only:** `src/components/Hero.tsx` (I'll read it first to place the badge in the right spot without disturbing the existing layout).
+- **No new components, no new dependencies, no design-token changes.**
+- Uses `Link` from `react-router-dom` (already imported elsewhere) and an icon from `lucide-react` (already used across the site).
 
-9. **What This Means for the Team**
-   - Distribution surface area, not just a "tech upgrade"
-   - Talking points for partners, sponsors, investors
+## What I'd write (technical detail, safe to skip)
 
-10. **Next Steps (5-Step Activation Recap)**
-    - Publish, OAuth toggles, connector URLs into ChatGPT/Claude, pitch-deck update, partner outreach
+- Add a `<Link to="/connect">` element wrapping a pill styled with `border border-mansagold/30 bg-mansagold/5 text-mansagold text-xs` (matches existing dark-theme accents in `WhySection`, `HomePage`, and the sponsor banner).
+- Icon: `Zap` from lucide-react (already used elsewhere in the codebase).
+- Copy: **"AI Infrastructure · MCP-ready for ChatGPT, Claude, Cursor & Codex"** with an arrow.
+- Placed inside the existing hero container, above the H1, so it doesn't shift any spacing on mobile.
 
-11. **Back cover** — confidentiality block repeated, patent long-form footer
+## What you'll need to do
 
-## Technical section (for the build turn)
-- New file: `src/pages/TeamBriefingAgentReady.tsx` — one component that renders semantic HTML for both screen preview and print
-- New file: `src/lib/pdf/team-briefing-agent-ready.ts` — `generatePdf()` helper using existing `jspdf` + `html2canvas` pattern already in the codebase
-- Add lazy route in `src/App.tsx` at `/team-briefing/agent-ready` (no footer/nav link — private URL only)
-- Uses design tokens (MansaBlue #003366, MansaGold #FFB300, true-black background per core memory) — no hardcoded colors
-- Print CSS: A4/Letter page breaks, header/footer with confidentiality legal block on every page
-- Filename: `1325AI-Agent-Ready-Team-Briefing-2026.pdf`
+Nothing. Just approve the plan and I'll ship it. After it's live, click the badge yourself once to make sure it takes you to `/connect` — that's the whole QA step.
 
-## What YOU (the user) will need to do
-1. Approve this plan.
-2. After I build it, open `/team-briefing/agent-ready` on the preview and click **Download PDF**.
-3. Share with your team.
+## What I will NOT do
 
-## Out of scope
-- No email send, no team-management CRUD, no auth gating on the route (it's an unlisted URL; add auth-gating later if you want)
-- No changes to the MCP server, `/connect` page, or any live product surface
+- Not adding a full section, banner, or anything below the fold.
+- Not changing the hero headline, subhead, or CTAs.
+- Not touching the MCP server, edge functions, or `/connect` page.
+- Not changing colors, fonts, or the design system.
