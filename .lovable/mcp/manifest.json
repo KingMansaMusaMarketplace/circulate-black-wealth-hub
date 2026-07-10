@@ -19,7 +19,7 @@
       {
         "name": "search_directory",
         "title": "Search 1325.AI directory",
-        "description": "Search the 1325.AI directory of Black-owned businesses. Filter by keyword, category, or city. Returns up to 20 matching businesses with name, category, city, and short description.",
+        "description": "Search the 1325.AI community business directory. Filter by keyword, category, or city. Returns up to 20 matching businesses with name, category, city, and short description.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
