@@ -7,7 +7,7 @@ export default defineTool({
   name: "get_business",
   title: "Get 1325.AI business details",
   description:
-    "Fetch the full public directory profile for one 1325.AI business by id. Returns name, category, description, full address, website, logo, banner image, verified status, average rating, review count, and a direct link to the 1325.AI profile page. Use this after search_directory to give the user rich details about a specific Black-owned business.",
+    "Fetch the full public directory profile for one 1325.AI business by id. Returns name, category, description, full address, latitude/longitude, Google Maps and turn-by-turn directions links, website, logo, banner image, verified status, average rating, review count, and a direct link to the 1325.AI profile page. Use this after search_directory to give the user rich details about a specific Black-owned business.",
   inputSchema: {
     business_id: z
       .string()
@@ -30,7 +30,7 @@ export default defineTool({
     const { data, error } = await supabase
       .from("businesses")
       .select(
-        "id, slug, business_name, category, description, address, city, state, zip_code, website, logo_url, banner_url, is_verified, average_rating, review_count",
+        "id, slug, business_name, category, description, address, city, state, zip_code, latitude, longitude, website, logo_url, banner_url, is_verified, average_rating, review_count",
       )
       .eq("id", business_id)
       .maybeSingle();
@@ -54,6 +54,17 @@ export default defineTool({
       : `https://1325.ai/business/${data.id}`;
     const rating = data.average_rating ? Number(Number(data.average_rating).toFixed(1)) : null;
 
+    const fullAddress = [data.address, data.city, data.state, data.zip_code]
+      .filter(Boolean)
+      .join(", ");
+    const lat = data.latitude != null ? Number(data.latitude) : null;
+    const lng = data.longitude != null ? Number(data.longitude) : null;
+    const mapQuery = encodeURIComponent(
+      lat != null && lng != null ? `${lat},${lng}` : fullAddress || data.business_name,
+    );
+    const map_url = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+    const directions_url = `https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`;
+
     const business = {
       id: data.id,
       name: data.business_name,
@@ -63,6 +74,11 @@ export default defineTool({
       city: data.city,
       state: data.state,
       zip_code: data.zip_code,
+      full_address: fullAddress,
+      latitude: lat,
+      longitude: lng,
+      map_url,
+      directions_url,
       website: data.website,
       logo_url: data.logo_url,
       banner_url: data.banner_url,
@@ -77,9 +93,6 @@ export default defineTool({
       rating != null
         ? `★ ${rating} (${business.review_count} review${business.review_count === 1 ? "" : "s"})\n`
         : "";
-    const fullAddress = [business.address, business.city, business.state, business.zip_code]
-      .filter(Boolean)
-      .join(", ");
 
     const summary =
       `${business.name}${badge}\n` +
@@ -87,6 +100,8 @@ export default defineTool({
       ratingLine +
       (fullAddress ? `📍 ${fullAddress}\n` : "") +
       (business.website ? `🌐 ${business.website}\n` : "") +
+      `🗺️ Map: ${map_url}\n` +
+      `🧭 Directions: ${directions_url}\n` +
       `🔗 1325.AI profile: ${business.profile_url}\n` +
       (desc ? `\n${desc}` : "");
 
