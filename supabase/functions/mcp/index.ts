@@ -31,7 +31,7 @@ var search_directory_default = defineTool({
       { auth: { persistSession: false, autoRefreshToken: false } }
     );
     let q = supabase.from("businesses").select(
-      "id, slug, business_name, category, city, state, description, logo_url, banner_url, website, is_verified, average_rating, review_count"
+      "id, slug, business_name, category, address, city, state, zip_code, latitude, longitude, description, logo_url, banner_url, website, is_verified, average_rating, review_count"
     ).order("is_verified", { ascending: false, nullsFirst: false }).order("average_rating", { ascending: false, nullsFirst: false }).order("review_count", { ascending: false, nullsFirst: false }).limit(limit ?? 10);
     if (query) {
       q = q.or(

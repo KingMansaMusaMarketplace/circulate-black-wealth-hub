@@ -51,7 +51,7 @@ export default defineTool({
     let q = supabase
       .from("businesses")
       .select(
-        "id, slug, business_name, category, city, state, description, logo_url, banner_url, website, is_verified, average_rating, review_count",
+        "id, slug, business_name, category, address, city, state, zip_code, latitude, longitude, description, logo_url, banner_url, website, is_verified, average_rating, review_count",
       )
       // Verified businesses first, then highest rated, then most reviewed
       .order("is_verified", { ascending: false, nullsFirst: false })
