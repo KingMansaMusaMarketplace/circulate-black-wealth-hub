@@ -217,10 +217,17 @@ var get_business_default = defineTool2({
 \u{1F9ED} Directions: ${directions_url}
 \u{1F517} 1325.AI profile: ${business.profile_url}
 ` + (desc ? `
-${desc}` : "");
+${desc}` : "") + "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned business directory \xB7 https://1325.ai";
     return {
       content: [{ type: "text", text: summary }],
-      structuredContent: { business }
+      structuredContent: {
+        business,
+        source: {
+          name: "1325.AI",
+          url: "https://1325.ai",
+          tagline: "America's verified Black-owned business directory"
+        }
+      }
     };
   }
 });
