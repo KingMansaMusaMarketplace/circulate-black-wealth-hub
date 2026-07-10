@@ -41,35 +41,35 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const webhookSecret = Deno.env.get("RESEND_WEBHOOK_SECRET");
     const body = await req.text();
-    
-    // Verify webhook signature if secret is configured
-    let payload: ResendWebhookPayload;
-    if (webhookSecret) {
-      const svixId = req.headers.get("svix-id");
-      const svixTimestamp = req.headers.get("svix-timestamp");
-      const svixSignature = req.headers.get("svix-signature");
 
-      if (!svixId || !svixTimestamp || !svixSignature) {
-        console.error("Missing svix headers");
-        return new Response("Missing webhook headers", { status: 400, headers: corsHeaders });
-      }
-
-      const wh = new Webhook(webhookSecret);
-      try {
-        payload = wh.verify(body, {
-          "svix-id": svixId,
-          "svix-timestamp": svixTimestamp,
-          "svix-signature": svixSignature,
-        }) as ResendWebhookPayload;
-      } catch (err) {
-        console.error("Webhook signature verification failed:", err);
-        return new Response("Invalid signature", { status: 401, headers: corsHeaders });
-      }
-    } else {
-      // No secret configured, parse without verification (development mode)
-      console.warn("RESEND_WEBHOOK_SECRET not configured - skipping signature verification");
-      payload = JSON.parse(body);
+    // Fail-closed: require configured secret and valid signature for all payloads
+    if (!webhookSecret) {
+      console.error("RESEND_WEBHOOK_SECRET not configured - rejecting webhook");
+      return new Response("Webhook secret not configured", { status: 500, headers: corsHeaders });
     }
+
+    const svixId = req.headers.get("svix-id");
+    const svixTimestamp = req.headers.get("svix-timestamp");
+    const svixSignature = req.headers.get("svix-signature");
+
+    if (!svixId || !svixTimestamp || !svixSignature) {
+      console.error("Missing svix headers");
+      return new Response("Missing webhook headers", { status: 401, headers: corsHeaders });
+    }
+
+    let payload: ResendWebhookPayload;
+    const wh = new Webhook(webhookSecret);
+    try {
+      payload = wh.verify(body, {
+        "svix-id": svixId,
+        "svix-timestamp": svixTimestamp,
+        "svix-signature": svixSignature,
+      }) as ResendWebhookPayload;
+    } catch (err) {
+      console.error("Webhook signature verification failed:", err);
+      return new Response("Invalid signature", { status: 401, headers: corsHeaders });
+    }
+
     
     console.log("Received Resend webhook:", JSON.stringify(payload, null, 2));
 
