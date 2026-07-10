@@ -114,7 +114,7 @@ import { z as z2 } from "npm:zod@^3.23.8";
 var get_business_default = defineTool2({
   name: "get_business",
   title: "Get 1325.AI business details",
-  description: "Fetch the full public directory profile for one 1325.AI business by id. Returns name, category, description, full address, website, logo, banner image, verified status, average rating, review count, and a direct link to the 1325.AI profile page. Use this after search_directory to give the user rich details about a specific Black-owned business.",
+  description: "Fetch the full public directory profile for one 1325.AI business by id. Returns name, category, description, full address, latitude/longitude, Google Maps and turn-by-turn directions links, website, logo, banner image, verified status, average rating, review count, and a direct link to the 1325.AI profile page. Use this after search_directory to give the user rich details about a specific Black-owned business.",
   inputSchema: {
     business_id: z2.string().uuid().describe("The UUID of the business (returned by search_directory).")
   },
