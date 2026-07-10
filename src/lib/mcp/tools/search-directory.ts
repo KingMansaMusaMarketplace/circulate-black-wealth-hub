@@ -51,7 +51,7 @@ export default defineTool({
     let q = supabase
       .from("businesses")
       .select(
-        "id, business_name, category, city, state, description, logo_url, website",
+        "id, business_name, category, city, state, description, logo_url, banner_url, website",
       )
       .limit(limit ?? 10);
 
