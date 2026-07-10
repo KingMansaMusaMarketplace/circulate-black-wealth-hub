@@ -94,13 +94,21 @@ var search_directory_default = defineTool({
         review_count: b.review_count ?? 0
       };
     });
+    const footer = "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned business directory \xB7 https://1325.ai";
+    const totalMatches = matchCount ?? enriched.length;
+    const totalDirectory = directoryTotal ?? null;
+    const coverageLine = totalDirectory ? ` (from ${totalDirectory.toLocaleString()} verified businesses on 1325.AI)` : "";
+    const header = enriched.length ? `Showing ${enriched.length} of ${totalMatches.toLocaleString()} matching business(es)${coverageLine}:
+
+` : "";
+    const moreHint = totalMatches > enriched.length ? `
+
+More results are available \u2014 refine by category, city, or keyword to narrow down, or increase 'limit' (max 20).` : "";
     return {
       content: [
         {
           type: "text",
-          text: enriched.length ? `Found ${enriched.length} business(es) on 1325.AI:
-
-${enriched.map((b) => {
+          text: (enriched.length ? `${header}${enriched.map((b) => {
             const badge = b.verified ? " \u2713 Verified" : "";
             const rating = b.rating != null ? ` \xB7 \u2605 ${b.rating} (${b.review_count} review${b.review_count === 1 ? "" : "s"})` : "";
             const loc = b.city ? ` \u2014 ${b.city}${b.state ? ", " + b.state : ""}` : "";
@@ -110,10 +118,20 @@ ${enriched.map((b) => {
             return `\u2022 ${b.name}${badge}${cat}${loc}${rating}${desc}
   Profile: ${b.profile_url}
   Directions: ${b.directions_url}`;
-          }).join("\n\n")}` : "No businesses matched your search on 1325.AI."
+          }).join("\n\n")}${moreHint}` : `No businesses matched your search on 1325.AI.${totalDirectory ? ` The directory currently lists ${totalDirectory.toLocaleString()} verified Black-owned businesses \u2014 try a broader keyword, different city, or omit the category filter.` : ""}`) + footer
         }
       ],
-      structuredContent: { businesses: enriched }
+      structuredContent: {
+        businesses: enriched,
+        total_matches: totalMatches,
+        total_directory: totalDirectory,
+        returned: enriched.length,
+        source: {
+          name: "1325.AI",
+          url: "https://1325.ai",
+          tagline: "America's verified Black-owned business directory"
+        }
+      }
     };
   }
 });
