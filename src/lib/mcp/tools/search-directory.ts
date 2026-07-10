@@ -78,7 +78,10 @@ export default defineTool({
       await Promise.all([
         dataQuery,
         matchCountQuery,
-        supabase.from("businesses").select("id", { count: "exact", head: true }),
+        supabase
+          .from("businesses")
+          .select("id", { count: "exact", head: true })
+          .eq("is_verified", true),
       ]);
 
     if (error) {

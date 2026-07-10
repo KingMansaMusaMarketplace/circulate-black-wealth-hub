@@ -50,7 +50,7 @@ var search_directory_default = defineTool({
     const [{ data, error }, { count: matchCount }, { count: directoryTotal }] = await Promise.all([
       dataQuery,
       matchCountQuery,
-      supabase.from("businesses").select("id", { count: "exact", head: true })
+      supabase.from("businesses").select("id", { count: "exact", head: true }).eq("is_verified", true)
     ]);
     if (error) {
       return {
