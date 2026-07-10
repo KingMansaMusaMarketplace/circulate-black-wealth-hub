@@ -29,6 +29,10 @@ serve(async (req) => {
   }
 
   try {
+    // Require authenticated caller
+    const auth = await requireAuth(req, corsHeaders);
+    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
@@ -42,6 +46,29 @@ serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Authenticated user must match userId in payload
+    if (auth.userId !== userId) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Forbidden: user mismatch" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Verify ownership of the business (or location-manager)
+    const { data: ownedBiz } = await supabase
+      .from("businesses")
+      .select("id")
+      .eq("id", businessId)
+      .or(`owner_id.eq.${auth.userId},location_manager_id.eq.${auth.userId}`)
+      .maybeSingle();
+    if (!ownedBiz) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Forbidden: not business owner" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
 
     // Get the OTP record
     const { data: otpRecord, error: fetchError } = await supabase
