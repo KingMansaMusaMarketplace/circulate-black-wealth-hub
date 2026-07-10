@@ -131,6 +131,14 @@ var get_business_default = defineTool2({
     const desc = (data.description ?? "").replace(/\s+/g, " ").trim();
     const profile_url = data.slug ? `https://1325.ai/business/${data.slug}` : `https://1325.ai/business/${data.id}`;
     const rating = data.average_rating ? Number(Number(data.average_rating).toFixed(1)) : null;
+    const fullAddress = [data.address, data.city, data.state, data.zip_code].filter(Boolean).join(", ");
+    const lat = data.latitude != null ? Number(data.latitude) : null;
+    const lng = data.longitude != null ? Number(data.longitude) : null;
+    const mapQuery = encodeURIComponent(
+      lat != null && lng != null ? `${lat},${lng}` : fullAddress || data.business_name
+    );
+    const map_url = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+    const directions_url = `https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`;
     const business = {
       id: data.id,
       name: data.business_name,
@@ -140,6 +148,11 @@ var get_business_default = defineTool2({
       city: data.city,
       state: data.state,
       zip_code: data.zip_code,
+      full_address: fullAddress,
+      latitude: lat,
+      longitude: lng,
+      map_url,
+      directions_url,
       website: data.website,
       logo_url: data.logo_url,
       banner_url: data.banner_url,
@@ -151,12 +164,13 @@ var get_business_default = defineTool2({
     const badge = business.verified ? " \u2713 Verified" : "";
     const ratingLine = rating != null ? `\u2605 ${rating} (${business.review_count} review${business.review_count === 1 ? "" : "s"})
 ` : "";
-    const fullAddress = [business.address, business.city, business.state, business.zip_code].filter(Boolean).join(", ");
     const summary = `${business.name}${badge}
 ` + (business.category ? `${business.category}
 ` : "") + ratingLine + (fullAddress ? `\u{1F4CD} ${fullAddress}
 ` : "") + (business.website ? `\u{1F310} ${business.website}
-` : "") + `\u{1F517} 1325.AI profile: ${business.profile_url}
+` : "") + `\u{1F5FA}\uFE0F Map: ${map_url}
+\u{1F9ED} Directions: ${directions_url}
+\u{1F517} 1325.AI profile: ${business.profile_url}
 ` + (desc ? `
 ${desc}` : "");
     return {
