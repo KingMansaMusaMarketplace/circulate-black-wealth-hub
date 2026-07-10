@@ -59,6 +59,7 @@ import {
 } from './components/LazyComponents';
 import OAuthConsentPage from './pages/OAuthConsentPage';
 const LazyConnectPage = lazy(() => import('./pages/ConnectPage'));
+const LazyConnectChatGPTPage = lazy(() => import('./pages/ConnectChatGPTPage'));
 
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
@@ -495,6 +496,7 @@ function App() {
                               {/* Home */}
                               <Route path="/" element={<HomePage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
+                              <Route path="/connect-chatgpt" element={<LazyConnectChatGPTPage />} />
                               
                               {/* A */}
                               <Route path="/about" element={<LazyAboutPage />} />
