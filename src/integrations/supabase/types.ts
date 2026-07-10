@@ -26352,6 +26352,7 @@ export type Database = {
       insert_fraud_alerts_batch: { Args: { alerts: Json[] }; Returns: number }
       is_admin: { Args: never; Returns: boolean }
       is_admin_for_view: { Args: never; Returns: boolean }
+      is_admin_or_service: { Args: never; Returns: boolean }
       is_admin_secure: { Args: never; Returns: boolean }
       is_beta_tester: { Args: { p_email: string }; Returns: boolean }
       is_business_owner: {
