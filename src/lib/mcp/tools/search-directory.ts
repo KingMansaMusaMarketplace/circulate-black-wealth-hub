@@ -48,32 +48,44 @@ export default defineTool({
       { auth: { persistSession: false, autoRefreshToken: false } },
     );
 
-    let q = supabase
-      .from("businesses")
-      .select(
-        "id, slug, business_name, category, address, city, state, zip_code, latitude, longitude, description, logo_url, banner_url, website, is_verified, average_rating, review_count",
-      )
-      // Verified businesses first, then highest rated, then most reviewed
-      .order("is_verified", { ascending: false, nullsFirst: false })
-      .order("average_rating", { ascending: false, nullsFirst: false })
-      .order("review_count", { ascending: false, nullsFirst: false })
-      .limit(limit ?? 10);
+    const buildQuery = (opts: { countOnly: boolean }) => {
+      let base = opts.countOnly
+        ? supabase.from("businesses").select("id", { count: "exact", head: true })
+        : supabase
+            .from("businesses")
+            .select(
+              "id, slug, business_name, category, address, city, state, zip_code, latitude, longitude, description, logo_url, banner_url, website, is_verified, average_rating, review_count",
+            )
+            // Verified businesses first, then highest rated, then most reviewed
+            .order("is_verified", { ascending: false, nullsFirst: false })
+            .order("average_rating", { ascending: false, nullsFirst: false })
+            .order("review_count", { ascending: false, nullsFirst: false })
+            .limit(limit ?? 10);
 
-    if (query) {
-      q = q.or(
-        `business_name.ilike.%${query}%,description.ilike.%${query}%`,
-      );
-    }
-    if (category) q = q.ilike("category", `%${category}%`);
-    if (city) q = q.ilike("city", `%${city}%`);
+      if (query) {
+        base = base.or(
+          `business_name.ilike.%${query}%,description.ilike.%${query}%`,
+        );
+      }
+      if (category) base = base.ilike("category", `%${category}%`);
+      if (city) base = base.ilike("city", `%${city}%`);
+      return base;
+    };
 
-    const { data, error } = await q;
+    const [{ data, error }, { count: matchCount }, { count: directoryTotal }] =
+      await Promise.all([
+        buildQuery({ countOnly: false }),
+        buildQuery({ countOnly: true }),
+        supabase.from("businesses").select("id", { count: "exact", head: true }),
+      ]);
+
     if (error) {
       return {
         content: [{ type: "text", text: `Search failed: ${error.message}` }],
         isError: true,
       };
     }
+
 
     const enriched = (data ?? []).map((b) => {
       const desc = (b.description ?? "").replace(/\s+/g, " ").trim();
