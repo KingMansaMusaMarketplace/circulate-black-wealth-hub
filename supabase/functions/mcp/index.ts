@@ -71,7 +71,7 @@ import { z as z2 } from "npm:zod@^3.23.8";
 var get_business_default = defineTool2({
   name: "get_business",
   title: "Get business details",
-  description: "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, and hours.",
+  description: "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, banner image, and hours.",
   inputSchema: {
     business_id: z2.string().uuid().describe("The UUID of the business.")
   },

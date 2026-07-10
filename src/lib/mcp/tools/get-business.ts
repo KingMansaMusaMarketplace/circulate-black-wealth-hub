@@ -7,7 +7,7 @@ export default defineTool({
   name: "get_business",
   title: "Get business details",
   description:
-    "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, and hours.",
+    "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, banner image, and hours.",
   inputSchema: {
     business_id: z
       .string()
