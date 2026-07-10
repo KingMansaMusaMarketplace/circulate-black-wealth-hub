@@ -58,7 +58,7 @@
       {
         "name": "get_business",
         "title": "Get business details",
-        "description": "Fetch full details for one business in the 1325.AI directory by id. Returns name, category, description, address, contact info, and website.",
+        "description": "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, and hours.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
