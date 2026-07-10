@@ -97,10 +97,10 @@ import { createClient as createClient2 } from "npm:@supabase/supabase-js@^2.108.
 import { z as z2 } from "npm:zod@^3.23.8";
 var get_business_default = defineTool2({
   name: "get_business",
-  title: "Get business details",
-  description: "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, banner image, and hours.",
+  title: "Get 1325.AI business details",
+  description: "Fetch the full public directory profile for one 1325.AI business by id. Returns name, category, description, full address, website, logo, banner image, verified status, average rating, review count, and a direct link to the 1325.AI profile page. Use this after search_directory to give the user rich details about a specific Black-owned business.",
   inputSchema: {
-    business_id: z2.string().uuid().describe("The UUID of the business.")
+    business_id: z2.string().uuid().describe("The UUID of the business (returned by search_directory).")
   },
   annotations: {
     readOnlyHint: true,
@@ -114,7 +114,7 @@ var get_business_default = defineTool2({
       { auth: { persistSession: false, autoRefreshToken: false } }
     );
     const { data, error } = await supabase.from("businesses").select(
-      "id, business_name, category, description, address, city, state, zip_code, website, logo_url, banner_url, hours_of_operation"
+      "id, slug, business_name, category, description, address, city, state, zip_code, website, logo_url, banner_url, is_verified, average_rating, review_count"
     ).eq("id", business_id).maybeSingle();
     if (error) {
       return {
@@ -124,13 +124,44 @@ var get_business_default = defineTool2({
     }
     if (!data) {
       return {
-        content: [{ type: "text", text: "Business not found." }],
+        content: [{ type: "text", text: "Business not found on 1325.AI." }],
         isError: true
       };
     }
+    const desc = (data.description ?? "").replace(/\s+/g, " ").trim();
+    const profile_url = data.slug ? `https://1325.ai/business/${data.slug}` : `https://1325.ai/business/${data.id}`;
+    const rating = data.average_rating ? Number(Number(data.average_rating).toFixed(1)) : null;
+    const business = {
+      id: data.id,
+      name: data.business_name,
+      category: data.category,
+      description: desc,
+      address: data.address,
+      city: data.city,
+      state: data.state,
+      zip_code: data.zip_code,
+      website: data.website,
+      logo_url: data.logo_url,
+      banner_url: data.banner_url,
+      verified: !!data.is_verified,
+      rating,
+      review_count: data.review_count ?? 0,
+      profile_url
+    };
+    const badge = business.verified ? " \u2713 Verified" : "";
+    const ratingLine = rating != null ? `\u2605 ${rating} (${business.review_count} review${business.review_count === 1 ? "" : "s"})
+` : "";
+    const fullAddress = [business.address, business.city, business.state, business.zip_code].filter(Boolean).join(", ");
+    const summary = `${business.name}${badge}
+` + (business.category ? `${business.category}
+` : "") + ratingLine + (fullAddress ? `\u{1F4CD} ${fullAddress}
+` : "") + (business.website ? `\u{1F310} ${business.website}
+` : "") + `\u{1F517} 1325.AI profile: ${business.profile_url}
+` + (desc ? `
+${desc}` : "");
     return {
-      content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
-      structuredContent: { business: data }
+      content: [{ type: "text", text: summary }],
+      structuredContent: { business }
     };
   }
 });
