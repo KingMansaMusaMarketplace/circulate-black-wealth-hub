@@ -30,7 +30,7 @@ export default defineTool({
     const { data, error } = await supabase
       .from("businesses")
       .select(
-        "id, slug, business_name, category, description, address, city, state, zip_code, website, logo_url, banner_url, is_verified, average_rating, review_count",
+        "id, slug, business_name, category, description, address, city, state, zip_code, latitude, longitude, website, logo_url, banner_url, is_verified, average_rating, review_count",
       )
       .eq("id", business_id)
       .maybeSingle();
