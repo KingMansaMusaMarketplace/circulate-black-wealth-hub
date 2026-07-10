@@ -71,7 +71,7 @@ import { z as z2 } from "npm:zod@^3.23.8";
 var get_business_default = defineTool2({
   name: "get_business",
   title: "Get business details",
-  description: "Fetch full details for one business in the 1325.AI directory by id. Returns name, category, description, address, contact info, and website.",
+  description: "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, and hours.",
   inputSchema: {
     business_id: z2.string().uuid().describe("The UUID of the business.")
   },
@@ -87,7 +87,7 @@ var get_business_default = defineTool2({
       { auth: { persistSession: false, autoRefreshToken: false } }
     );
     const { data, error } = await supabase.from("businesses").select(
-      "id, business_name, category, description, address, city, state, zip_code, phone, email, website, logo_url, hours_of_operation"
+      "id, business_name, category, description, address, city, state, zip_code, website, logo_url, hours_of_operation"
     ).eq("id", business_id).maybeSingle();
     if (error) {
       return {
