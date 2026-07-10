@@ -16,7 +16,7 @@ export default defineMcp({
   title: "1325.AI",
   version: "0.1.0",
   instructions:
-    "Search the 1325.AI directory of Black-owned businesses, browse loyalty rewards, and view the signed-in user's points and recent QR scans. Read-only tools; no purchases or redemptions are performed here.",
+    "Search the 1325.AI community business directory, browse loyalty rewards, and view the signed-in user's points and recent QR scans. Read-only tools; no purchases or redemptions are performed here.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",

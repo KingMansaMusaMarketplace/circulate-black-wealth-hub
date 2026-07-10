@@ -12,7 +12,7 @@ import { z } from "npm:zod@^3.23.8";
 var search_directory_default = defineTool({
   name: "search_directory",
   title: "Search 1325.AI directory",
-  description: "Search the 1325.AI directory of Black-owned businesses. Filter by keyword, category, or city. Returns up to 20 matching businesses with name, category, city, and short description.",
+  description: "Search the 1325.AI community business directory. Filter by keyword, category, or city. Returns up to 20 matching businesses with name, category, city, and short description.",
   inputSchema: {
     query: z.string().trim().max(200).optional().describe("Keyword to match in business name or description."),
     category: z.string().trim().max(100).optional().describe("Business category, e.g. 'restaurant', 'salon', 'retail'."),
@@ -308,7 +308,7 @@ var mcp_default = defineMcp({
   name: "1325-ai-mcp",
   title: "1325.AI",
   version: "0.1.0",
-  instructions: "Search the 1325.AI directory of Black-owned businesses, browse loyalty rewards, and view the signed-in user's points and recent QR scans. Read-only tools; no purchases or redemptions are performed here.",
+  instructions: "Search the 1325.AI community business directory, browse loyalty rewards, and view the signed-in user's points and recent QR scans. Read-only tools; no purchases or redemptions are performed here.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated"
