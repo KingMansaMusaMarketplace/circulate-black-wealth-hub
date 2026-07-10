@@ -30,22 +30,26 @@ var search_directory_default = defineTool({
       Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY"),
       { auth: { persistSession: false, autoRefreshToken: false } }
     );
-    const buildQuery = (opts) => {
-      let base = opts.countOnly ? supabase.from("businesses").select("id", { count: "exact", head: true }) : supabase.from("businesses").select(
-        "id, slug, business_name, category, address, city, state, zip_code, latitude, longitude, description, logo_url, banner_url, website, is_verified, average_rating, review_count"
-      ).order("is_verified", { ascending: false, nullsFirst: false }).order("average_rating", { ascending: false, nullsFirst: false }).order("review_count", { ascending: false, nullsFirst: false }).limit(limit ?? 10);
+    const applyFilters = (base) => {
+      let b = base;
       if (query) {
-        base = base.or(
-          `business_name.ilike.%${query}%,description.ilike.%${query}%`
-        );
+        b = b.or(`business_name.ilike.%${query}%,description.ilike.%${query}%`);
       }
-      if (category) base = base.ilike("category", `%${category}%`);
-      if (city) base = base.ilike("city", `%${city}%`);
-      return base;
+      if (category) b = b.ilike("category", `%${category}%`);
+      if (city) b = b.ilike("city", `%${city}%`);
+      return b;
     };
+    const dataQuery = applyFilters(
+      supabase.from("businesses").select(
+        "id, slug, business_name, category, address, city, state, zip_code, latitude, longitude, description, logo_url, banner_url, website, is_verified, average_rating, review_count"
+      ).order("is_verified", { ascending: false, nullsFirst: false }).order("average_rating", { ascending: false, nullsFirst: false }).order("review_count", { ascending: false, nullsFirst: false }).limit(limit ?? 10)
+    );
+    const matchCountQuery = applyFilters(
+      supabase.from("businesses").select("id", { count: "exact", head: true })
+    );
     const [{ data, error }, { count: matchCount }, { count: directoryTotal }] = await Promise.all([
-      buildQuery({ countOnly: false }),
-      buildQuery({ countOnly: true }),
+      dataQuery,
+      matchCountQuery,
       supabase.from("businesses").select("id", { count: "exact", head: true })
     ]);
     if (error) {

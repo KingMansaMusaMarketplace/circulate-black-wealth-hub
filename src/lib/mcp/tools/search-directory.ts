@@ -48,34 +48,36 @@ export default defineTool({
       { auth: { persistSession: false, autoRefreshToken: false } },
     );
 
-    const buildQuery = (opts: { countOnly: boolean }) => {
-      let base = opts.countOnly
-        ? supabase.from("businesses").select("id", { count: "exact", head: true })
-        : supabase
-            .from("businesses")
-            .select(
-              "id, slug, business_name, category, address, city, state, zip_code, latitude, longitude, description, logo_url, banner_url, website, is_verified, average_rating, review_count",
-            )
-            // Verified businesses first, then highest rated, then most reviewed
-            .order("is_verified", { ascending: false, nullsFirst: false })
-            .order("average_rating", { ascending: false, nullsFirst: false })
-            .order("review_count", { ascending: false, nullsFirst: false })
-            .limit(limit ?? 10);
-
+    const applyFilters = <T extends { or: Function; ilike: Function }>(base: T): T => {
+      let b: any = base;
       if (query) {
-        base = base.or(
-          `business_name.ilike.%${query}%,description.ilike.%${query}%`,
-        );
+        b = b.or(`business_name.ilike.%${query}%,description.ilike.%${query}%`);
       }
-      if (category) base = base.ilike("category", `%${category}%`);
-      if (city) base = base.ilike("city", `%${city}%`);
-      return base;
+      if (category) b = b.ilike("category", `%${category}%`);
+      if (city) b = b.ilike("city", `%${city}%`);
+      return b as T;
     };
+
+    const dataQuery = applyFilters(
+      supabase
+        .from("businesses")
+        .select(
+          "id, slug, business_name, category, address, city, state, zip_code, latitude, longitude, description, logo_url, banner_url, website, is_verified, average_rating, review_count",
+        )
+        .order("is_verified", { ascending: false, nullsFirst: false })
+        .order("average_rating", { ascending: false, nullsFirst: false })
+        .order("review_count", { ascending: false, nullsFirst: false })
+        .limit(limit ?? 10),
+    );
+
+    const matchCountQuery = applyFilters(
+      supabase.from("businesses").select("id", { count: "exact", head: true }),
+    );
 
     const [{ data, error }, { count: matchCount }, { count: directoryTotal }] =
       await Promise.all([
-        buildQuery({ countOnly: false }),
-        buildQuery({ countOnly: true }),
+        dataQuery,
+        matchCountQuery,
         supabase.from("businesses").select("id", { count: "exact", head: true }),
       ]);
 
@@ -85,6 +87,7 @@ export default defineTool({
         isError: true,
       };
     }
+
 
 
     const enriched = (data ?? []).map((b) => {
