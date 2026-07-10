@@ -4,10 +4,34 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-csrf-token",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-csrf-token, x-twilio-signature",
 };
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/twilio";
+
+// Verify Twilio webhook signature (HMAC-SHA1 of full URL + sorted form params)
+async function verifyTwilioSignature(
+  authToken: string,
+  signatureHeader: string,
+  url: string,
+  params: Record<string, string>
+): Promise<boolean> {
+  const sortedKeys = Object.keys(params).sort();
+  let data = url;
+  for (const key of sortedKeys) data += key + params[key];
+
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(authToken),
+    { name: "HMAC", hash: "SHA-1" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, encoder.encode(data));
+  const expected = btoa(String.fromCharCode(...new Uint8Array(sig)));
+  return expected === signatureHeader;
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -31,17 +55,72 @@ serve(async (req) => {
     const contentType = req.headers.get("content-type") || "";
 
     if (contentType.includes("application/x-www-form-urlencoded")) {
-      const formData = await req.formData();
-      from = formData.get("From")?.toString() || "";
-      body = formData.get("Body")?.toString() || "";
-      to = formData.get("To")?.toString() || "";
+      // Twilio webhook: require valid signature
+      const TWILIO_AUTH_TOKEN = Deno.env.get("TWILIO_AUTH_TOKEN");
+      const signature = req.headers.get("x-twilio-signature");
+      if (!TWILIO_AUTH_TOKEN || !signature) {
+        console.error("Missing Twilio auth token or signature");
+        return new Response("Unauthorized", { status: 401, headers: corsHeaders });
+      }
+
+      const rawBody = await req.text();
+      const formParams: Record<string, string> = {};
+      for (const [k, v] of new URLSearchParams(rawBody)) formParams[k] = v;
+
+      // Use the exact URL Twilio signed (public function URL)
+      const publicUrl = `${SUPABASE_URL.replace(".supabase.co", ".functions.supabase.co")}/kayla-answering-service`;
+      const candidateUrls = [publicUrl, req.url];
+      let verified = false;
+      for (const u of candidateUrls) {
+        if (await verifyTwilioSignature(TWILIO_AUTH_TOKEN, signature, u, formParams)) {
+          verified = true;
+          break;
+        }
+      }
+      if (!verified) {
+        console.error("Invalid Twilio signature");
+        return new Response("Invalid signature", { status: 401, headers: corsHeaders });
+      }
+
+      from = formParams["From"] || "";
+      body = formParams["Body"] || "";
+      to = formParams["To"] || "";
     } else {
+      // JSON test path: require authenticated admin caller
+      const authHeader = req.headers.get("Authorization");
+      if (!authHeader?.startsWith("Bearer ")) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+      const userClient = createClient(SUPABASE_URL, anonKey, {
+        global: { headers: { Authorization: authHeader } },
+      });
+      const token = authHeader.replace("Bearer ", "");
+      const { data: claimsData, error: claimsError } = await userClient.auth.getClaims(token);
+      if (claimsError || !claimsData?.claims?.sub) {
+        return new Response(JSON.stringify({ error: "Invalid token" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const { data: isAdmin } = await userClient.rpc("is_admin_secure");
+      if (!isAdmin) {
+        return new Response(JSON.stringify({ error: "Forbidden: admin only" }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
       const json = await req.json();
       from = json.from || "";
       body = json.body || json.message || "";
       to = json.to || "";
       isTest = json.test === true;
     }
+
 
     if (!body.trim()) {
       return new Response(
