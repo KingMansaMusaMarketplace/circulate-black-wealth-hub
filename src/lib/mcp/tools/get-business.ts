@@ -7,7 +7,7 @@ export default defineTool({
   name: "get_business",
   title: "Get business details",
   description:
-    "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, and hours.",
+    "Fetch public directory details for one 1325.AI business by id. Returns the business name, category, description, location, website, logo, banner image, and hours.",
   inputSchema: {
     business_id: z
       .string()
@@ -30,7 +30,7 @@ export default defineTool({
     const { data, error } = await supabase
       .from("businesses")
       .select(
-        "id, business_name, category, description, address, city, state, zip_code, website, logo_url, hours_of_operation",
+        "id, business_name, category, description, address, city, state, zip_code, website, logo_url, banner_url, hours_of_operation",
       )
       .eq("id", business_id)
       .maybeSingle();
