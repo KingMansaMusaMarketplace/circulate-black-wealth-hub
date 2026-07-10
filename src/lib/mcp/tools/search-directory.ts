@@ -130,7 +130,7 @@ export default defineTool({
                     const loc = b.city ? ` — ${b.city}${b.state ? ", " + b.state : ""}` : "";
                     const cat = b.category ? ` · ${b.category}` : "";
                     const desc = b.description ? `\n  ${b.description}` : "";
-                    return `• ${b.name}${badge}${cat}${loc}${rating}${desc}\n  Profile: ${b.profile_url}`;
+                    return `• ${b.name}${badge}${cat}${loc}${rating}${desc}\n  Profile: ${b.profile_url}\n  Directions: ${b.directions_url}`;
                   })
                   .join("\n\n")}`
               : "No businesses matched your search on 1325.AI.",

@@ -97,7 +97,8 @@ ${enriched.map((b) => {
             const desc = b.description ? `
   ${b.description}` : "";
             return `\u2022 ${b.name}${badge}${cat}${loc}${rating}${desc}
-  Profile: ${b.profile_url}`;
+  Profile: ${b.profile_url}
+  Directions: ${b.directions_url}`;
           }).join("\n\n")}` : "No businesses matched your search on 1325.AI."
         }
       ],
