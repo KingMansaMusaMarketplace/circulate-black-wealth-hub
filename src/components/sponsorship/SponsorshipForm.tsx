@@ -343,8 +343,8 @@ const SponsorshipForm: React.FC = () => {
                 </div>
 
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </section>
