@@ -7,7 +7,7 @@ const marks = [
   { icon: ShieldCheck, label: 'Verified Corporation' },
   { icon: Building2, label: 'Illinois Registered LLC' },
   { icon: GraduationCap, label: 'HBCU Partner Network' },
-  { icon: Cpu, label: '33-Agent AI Workforce' },
+  { icon: Cpu, label: '42 Agentic AI Employees' },
   { icon: Award, label: 'SOC 2 Roadmap 2026' },
 ];
 

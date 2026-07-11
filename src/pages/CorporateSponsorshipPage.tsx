@@ -26,7 +26,7 @@ const CorporateSponsorshipPage: React.FC = () => {
         <title>Corporate Partnerships | 1325.AI</title>
         <meta
           name="description"
-          content="Partner with 1325.AI to invest in the infrastructure of Black economic circulation. Patent-pending technology, 33-agent AI workforce, verified national network."
+          content="Partner with 1325.AI to invest in the infrastructure of Black economic circulation. Patent-pending technology, 42 Agentic AI Employees, verified national network."
         />
       </Helmet>
 

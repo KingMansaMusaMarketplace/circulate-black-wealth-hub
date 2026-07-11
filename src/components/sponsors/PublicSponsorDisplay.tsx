@@ -268,7 +268,7 @@ export const PublicSponsorDisplay = () => {
               'U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending',
               'Verified Corporation',
               'HBCU Partner Network',
-              '33-Agent AI Workforce',
+              '42 Agentic AI Employees',
             ].map((item, i, arr) => (
               <span key={item} className="flex items-center gap-x-6">
                 <span className="text-[11px] md:text-xs text-white/85 tracking-[0.2em] uppercase font-medium">
