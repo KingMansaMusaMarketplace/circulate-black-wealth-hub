@@ -109,8 +109,8 @@ const SponsorshipForm: React.FC = () => {
     return (
       <section id="sponsorship-form" className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <Card className="max-w-2xl mx-auto text-center bg-black border-mansagold/30">
-            <CardContent className="pt-12 pb-12">
+          <div className="max-w-2xl mx-auto text-center bg-black border border-mansagold/30 rounded-lg text-white">
+            <div className="pt-12 pb-12 px-6">
               <CheckCircle className="h-12 w-12 text-mansagold mx-auto mb-6" />
               <h3 className="font-playfair text-3xl font-semibold text-white mb-4">
                 Brief request received.
@@ -126,8 +126,8 @@ const SponsorshipForm: React.FC = () => {
               >
                 Submit another inquiry
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
     );
