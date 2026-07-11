@@ -12,45 +12,46 @@ const SponsorshipTiers = () => {
     {
       name: "Silver",
       badge: "",
-      price: billingPeriod === 'monthly' ? "$15,000" : "$150,000",
-      description: "Perfect for medium-sized businesses looking to make an impact",
+      price: billingPeriod === 'monthly' ? "$15,000" : "$180,000",
+      description: "Elevated visibility and strategic engagement for growing brands",
       benefits: [
-        "Featured company logo on marketplace homepage",
-        "Access to business analytics dashboard",
-        "Monthly report on community economic impact",
-        "5 premium business listings",
-        "Quarterly sponsor spotlight"
+        "Logo in footer, sidebar & directory",
+        "Monthly newsletter feature",
+        "Social recognition (2×/mo)",
+        "Enhanced analytics reporting",
+        "Quarterly impact summary",
+        "Dedicated onboarding session"
       ]
     },
     {
       name: "Gold",
       badge: "Most Popular",
-      price: billingPeriod === 'monthly' ? "$25,000" : "$250,000",
-      description: "Ideal for larger corporations committed to community investment",
+      price: billingPeriod === 'monthly' ? "$25,000" : "$300,000",
+      description: "Recommended for national brands committed to measurable impact",
       benefits: [
         "All Silver benefits",
-        "Dedicated account manager",
-        "Quarterly spotlight in community newsletter",
-        "Co-branded marketing materials",
-        "10 premium business listings",
-        "Priority customer support",
-        "Access to community economic data"
+        "Premium directory placement",
+        "Rotating homepage banner",
+        "Social recognition (4×/mo)",
+        "Advanced analytics dashboard",
+        "Event speaking opportunities",
+        "Dedicated partnership manager"
       ]
     },
     {
       name: "Platinum",
       badge: "",
-      price: billingPeriod === 'monthly' ? "$50,000" : "$500,000",
-      description: "Our premier partnership for maximum impact and visibility",
+      price: billingPeriod === 'monthly' ? "$50,000" : "$600,000",
+      description: "Exclusive tier for transformational partners",
       benefits: [
         "All Gold benefits",
-        "Executive advisory board seat",
-        "Featured speaker opportunity at community events",
-        "Custom integration options",
-        "100 premium business listings",
-        "Direct access to leadership team",
-        "Custom impact reporting",
-        "First access to new marketplace features"
+        "Exclusive homepage takeover",
+        "Daily social media features",
+        "Custom branded landing page",
+        "Real-time analytics access",
+        "Press release & PR support",
+        "Annual impact summit VIP access",
+        "C-suite strategy sessions"
       ]
     }
   ];

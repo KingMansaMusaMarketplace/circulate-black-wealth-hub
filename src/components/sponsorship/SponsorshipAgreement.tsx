@@ -155,10 +155,10 @@ const SponsorshipAgreement = () => {
             <thead>
               <tr className="border-b border-gray-300">
                 <th className="py-2 text-left">Benefit</th>
-                <th className="py-2 text-center">Bronze<br /><span className="text-sm font-normal">$1,000/mo</span></th>
-                <th className="py-2 text-center">Silver<br /><span className="text-sm font-normal">$2,500/mo</span></th>
-                <th className="py-2 text-center">Gold<br /><span className="text-sm font-normal">$5,000/mo</span></th>
-                <th className="py-2 text-center">Platinum<br /><span className="text-sm font-normal">$10,000/mo</span></th>
+                <th className="py-2 text-center">Bronze<br /><span className="text-sm font-normal">$60K/yr</span></th>
+                <th className="py-2 text-center">Silver<br /><span className="text-sm font-normal">$180K/yr</span></th>
+                <th className="py-2 text-center">Gold<br /><span className="text-sm font-normal">$300K/yr</span></th>
+                <th className="py-2 text-center">Platinum<br /><span className="text-sm font-normal">$600K/yr</span></th>
               </tr>
             </thead>
             <tbody>
