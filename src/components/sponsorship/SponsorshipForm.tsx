@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
+
 import { CheckCircle, Loader2, Building2, UserRound, Target, ShieldCheck, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
@@ -109,8 +109,8 @@ const SponsorshipForm: React.FC = () => {
     return (
       <section id="sponsorship-form" className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <Card className="max-w-2xl mx-auto text-center bg-black border-mansagold/30">
-            <CardContent className="pt-12 pb-12">
+          <div className="max-w-2xl mx-auto text-center bg-black border border-mansagold/30 rounded-lg text-white">
+            <div className="pt-12 pb-12 px-6">
               <CheckCircle className="h-12 w-12 text-mansagold mx-auto mb-6" />
               <h3 className="font-playfair text-3xl font-semibold text-white mb-4">
                 Brief request received.
@@ -126,8 +126,8 @@ const SponsorshipForm: React.FC = () => {
               >
                 Submit another inquiry
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
     );
@@ -152,8 +152,8 @@ const SponsorshipForm: React.FC = () => {
             </p>
           </div>
 
-          <Card className="bg-gradient-to-b from-white/[0.02] to-transparent border-white/10 shadow-2xl shadow-black/40">
-            <CardContent className="p-8 md:p-12">
+          <div className="bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl shadow-black/60 text-white">
+            <div className="p-8 md:p-12">
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-14">
 
                 {/* SECTION 1 — Company */}
@@ -343,8 +343,8 @@ const SponsorshipForm: React.FC = () => {
                 </div>
 
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </section>
