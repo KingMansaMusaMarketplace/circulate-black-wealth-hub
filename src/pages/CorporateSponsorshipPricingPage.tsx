@@ -45,7 +45,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Founding Sponsor',
       tier: 'founding',
-      price: '$1,750',
+      price: '$21,000',
       description: 'Entry tier for regional brands building a community footprint',
       icon: <Star className="h-6 w-6 text-white" />,
       gradient: 'from-emerald-500 via-teal-500 to-cyan-600',
@@ -63,7 +63,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Bronze Partner',
       tier: 'bronze',
-      price: '$5,000',
+      price: '$60,000',
       description: 'Foundation-level support for community impact',
       icon: <Award className="h-6 w-6 text-white" />,
       gradient: 'from-amber-600 to-amber-700',
@@ -80,7 +80,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Silver Partner',
       tier: 'silver',
-      price: '$15,000',
+      price: '$180,000',
       description: 'Enhanced visibility for growing organizations',
       icon: <Sparkles className="h-6 w-6 text-white" />,
       gradient: 'from-slate-400 to-slate-500',
@@ -98,7 +98,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Gold Partner',
       tier: 'gold',
-      price: '$25,000',
+      price: '$300,000',
       description: 'Maximum impact for committed corporate partners',
       icon: <Crown className="h-6 w-6 text-white" />,
       popular: true,
@@ -119,7 +119,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     {
       name: 'Platinum Partner',
       tier: 'platinum',
-      price: '$50,000',
+      price: '$600,000',
       description: 'Premier partnership with maximum visibility and impact',
       icon: <Zap className="h-6 w-6 text-white" />,
       gradient: 'from-violet-400 via-purple-400 to-fuchsia-400',
@@ -385,7 +385,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                           <span className={`text-3xl xl:text-[28px] 2xl:text-3xl font-bold font-playfair bg-gradient-to-r ${tier.gradient} bg-clip-text text-transparent whitespace-nowrap`}>
                             {tier.price}
                           </span>
-                          <span className="text-blue-200/60 text-base font-medium font-playfair whitespace-nowrap">/month</span>
+                          <span className="text-blue-200/60 text-base font-medium font-playfair whitespace-nowrap">/year</span>
                         </div>
                       </div>
                     )}
