@@ -152,8 +152,8 @@ const SponsorshipForm: React.FC = () => {
             </p>
           </div>
 
-          <Card className="bg-gradient-to-b from-white/[0.02] to-transparent border-white/10 shadow-2xl shadow-black/40">
-            <CardContent className="p-8 md:p-12">
+          <div className="bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl shadow-black/60 text-white">
+            <div className="p-8 md:p-12">
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-14">
 
                 {/* SECTION 1 — Company */}
