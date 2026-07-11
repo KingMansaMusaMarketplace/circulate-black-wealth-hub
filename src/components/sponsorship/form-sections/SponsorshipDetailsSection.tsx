@@ -27,9 +27,12 @@ const SponsorshipDetailsSection: React.FC<SponsorshipDetailsSectionProps> = ({ c
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value="silver">Silver ($2,000/month)</SelectItem>
-                <SelectItem value="gold">Gold ($5,000/month)</SelectItem>
-                <SelectItem value="platinum">Platinum ($10,000/month)</SelectItem>
+                <SelectItem value="founding">Founding Sponsor — $21K/yr</SelectItem>
+                <SelectItem value="bronze">Bronze Partner — $60K/yr</SelectItem>
+                <SelectItem value="silver">Silver Partner — $180K/yr</SelectItem>
+                <SelectItem value="gold">Gold Partner — $300K/yr</SelectItem>
+                <SelectItem value="platinum">Platinum Partner — $600K/yr</SelectItem>
+                <SelectItem value="partner">Founding Partner — by invitation</SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />
