@@ -1,0 +1,2 @@
+ALTER TABLE public.businesses_private DROP CONSTRAINT businesses_private_business_id_fkey;
+ALTER TABLE public.businesses_private ADD CONSTRAINT businesses_private_business_id_fkey FOREIGN KEY (business_id) REFERENCES public.businesses(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
