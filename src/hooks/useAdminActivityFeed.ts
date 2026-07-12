@@ -54,7 +54,7 @@ export function useAdminActivityFeed(limit = 20) {
           .limit(perSource),
         supabase
           .from("activity_log")
-          .select("id, user_id, activity_type, details, created_at")
+          .select("id, user_id, activity_type, activity_data, created_at")
           .order("created_at", { ascending: false })
           .limit(perSource),
       ]);
