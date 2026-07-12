@@ -81,17 +81,17 @@ interface KpiProps {
 const Kpi: React.FC<KpiProps> = ({ label, value, hint, tone = 'neutral' }) => {
   const toneMap = {
     gold: 'text-mansagold',
-    blue: 'text-blue-300',
-    neutral: 'text-foreground',
+    blue: 'text-blue-200',
+    neutral: 'text-white',
     positive: 'text-emerald-300',
   };
   return (
-    <div className="flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm">
-      <div className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
-      <div className={`mt-3 text-3xl font-semibold tabular-nums tracking-tight ${toneMap[tone]}`}>
+    <div className="flex flex-col justify-between rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-xl">
+      <div className="text-xs font-medium uppercase tracking-widest text-white/70">{label}</div>
+      <div className={`mt-4 text-4xl font-bold tabular-nums tracking-tight ${toneMap[tone]}`}>
         {value}
       </div>
-      {hint && <div className="mt-1 text-xs text-muted-foreground">{hint}</div>}
+      {hint && <div className="mt-2 text-sm text-white/70">{hint}</div>}
     </div>
   );
 };
@@ -106,29 +106,29 @@ interface StreamProps {
   negative?: boolean;
 }
 const StreamTile: React.FC<StreamProps> = ({ icon, label, primary, secondary, meta, negative }) => (
-  <div className="group relative rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-white/20 hover:bg-white/[0.04]">
+  <div className="group relative rounded-2xl border border-white/20 bg-white/10 p-5 shadow-lg backdrop-blur-xl transition-all hover:border-mansagold/40 hover:bg-white/15">
     <div className="flex items-start justify-between">
-      <div className="flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-white/[0.03] text-muted-foreground group-hover:text-mansagold">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-mansagold/30 bg-mansagold/15 text-mansagold">
         {icon}
       </div>
       {negative ? (
-        <ArrowDownRight className="h-4 w-4 text-red-400/70" />
+        <ArrowDownRight className="h-5 w-5 text-red-400" />
       ) : (
-        <ArrowUpRight className="h-4 w-4 text-emerald-400/50" />
+        <ArrowUpRight className="h-5 w-5 text-emerald-400" />
       )}
     </div>
-    <div className="mt-3 text-sm font-medium text-foreground/90">{label}</div>
+    <div className="mt-4 text-sm font-semibold text-white">{label}</div>
     <div
-      className={`mt-1 text-2xl font-semibold tabular-nums tracking-tight ${
-        negative ? 'text-red-300' : 'text-foreground'
+      className={`mt-2 text-2xl font-bold tabular-nums tracking-tight ${
+        negative ? 'text-red-300' : 'text-white'
       }`}
     >
       {primary}
     </div>
     {secondary && (
-      <div className="mt-0.5 text-xs text-muted-foreground tabular-nums">{secondary}</div>
+      <div className="mt-1 text-sm text-white/75 tabular-nums">{secondary}</div>
     )}
-    {meta && <div className="mt-2 text-[11px] text-muted-foreground/70">{meta}</div>}
+    {meta && <div className="mt-2 text-xs text-white/60">{meta}</div>}
   </div>
 );
 
@@ -137,12 +137,12 @@ const SectionHeader: React.FC<{ eyebrow: string; title: string; hint?: string }>
   title,
   hint,
 }) => (
-  <div className="mb-4 flex items-baseline justify-between border-b border-white/5 pb-2">
+  <div className="mb-5 flex items-end justify-between border-b border-white/15 pb-3">
     <div>
-      <div className="text-[10px] uppercase tracking-[0.18em] text-mansagold/80">{eyebrow}</div>
-      <h2 className="mt-1 text-lg font-semibold text-foreground">{title}</h2>
+      <div className="text-xs font-semibold uppercase tracking-widest text-mansagold">{eyebrow}</div>
+      <h2 className="mt-1 text-2xl font-bold text-white">{title}</h2>
     </div>
-    {hint && <div className="text-xs text-muted-foreground">{hint}</div>}
+    {hint && <div className="text-sm text-white/70 tabular-nums">{hint}</div>}
   </div>
 );
 
@@ -444,36 +444,43 @@ export default function PlatformRevenuePage() {
   const dash = loading ? '—' : null;
 
   return (
-    <div className="min-h-screen bg-black text-foreground">
+    <div className="min-h-screen gradient-primary relative overflow-hidden">
       <Helmet>
         <title>Platform Revenue | Admin</title>
       </Helmet>
 
-      {/* Subtle brand glow — restrained, single layer */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-40 right-0 h-[520px] w-[520px] rounded-full bg-mansablue/10 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-mansagold/[0.04] blur-[100px]" />
+      {/* Animated gold/blue orbs — matches CommissionsPage admin style */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute top-10 left-10 h-72 w-72 rounded-full bg-mansagold/20 blur-3xl animate-float" />
+        <div
+          className="absolute bottom-20 right-10 h-96 w-96 rounded-full bg-mansagold/15 blur-3xl animate-float"
+          style={{ animationDelay: '2s' }}
+        />
+        <div
+          className="absolute top-1/2 left-1/3 h-64 w-64 rounded-full bg-white/5 blur-2xl animate-float"
+          style={{ animationDelay: '4s' }}
+        />
       </div>
 
-      <div className="relative mx-auto max-w-[1600px] px-6 py-10 lg:px-10 lg:py-14">
+      <div className="relative z-10 mx-auto max-w-[1600px] px-6 py-10 lg:px-10 lg:py-14">
         {/* Header */}
-        <div className="mb-10 flex items-end justify-between gap-6 border-b border-white/5 pb-6">
+        <div className="mb-10 flex flex-col gap-4 rounded-2xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-xl md:flex-row md:items-end md:justify-between md:p-8">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-mansagold/80">
+            <div className="text-xs font-semibold uppercase tracking-widest text-mansagold">
               Executive Dashboard
             </div>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight lg:text-4xl">
+            <h1 className="mt-2 font-display text-3xl font-bold text-white lg:text-4xl">
               Platform Revenue
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-2 text-base text-white/80">
               Live view of every 1325.AI revenue stream — recurring, transactional, ancillary.
             </p>
           </div>
-          <div className="hidden shrink-0 text-right lg:block">
-            <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="shrink-0 text-left md:text-right">
+            <div className="text-xs font-medium uppercase tracking-widest text-white/70">
               As of
             </div>
-            <div className="mt-1 text-sm text-foreground/80 tabular-nums">
+            <div className="mt-1 text-base font-medium text-white tabular-nums">
               {new Date().toLocaleString('en-US', {
                 month: 'short',
                 day: 'numeric',
@@ -665,15 +672,15 @@ export default function PlatformRevenuePage() {
         {(s.subscriptions.activeCount > 0 || s.featured.activeCount > 0) && (
           <section className="mb-12 grid grid-cols-1 gap-4 lg:grid-cols-2">
             {s.subscriptions.activeCount > 0 && (
-              <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+              <Card className="border-white/20 bg-white/10 shadow-xl backdrop-blur-xl">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-mansablue" />
-                    <CardTitle className="text-sm font-medium">
+                    <Users className="h-5 w-5 text-mansagold" />
+                    <CardTitle className="text-base font-semibold text-white">
                       Business Subscriptions by Tier
                     </CardTitle>
                   </div>
-                  <CardDescription className="text-xs">
+                  <CardDescription className="text-sm text-white/70">
                     Live business plans contributing to MRR
                   </CardDescription>
                 </CardHeader>
@@ -687,12 +694,12 @@ export default function PlatformRevenuePage() {
                         <Badge
                           key={t}
                           variant="outline"
-                          className="gap-2 border-white/15 bg-white/[0.03] px-3 py-1.5 text-xs capitalize"
+                          className="gap-2 border-mansagold/40 bg-mansagold/10 px-3 py-1.5 text-sm capitalize"
                         >
-                          <span className="text-foreground">
+                          <span className="text-white font-semibold">
                             {t} × {count}
                           </span>
-                          <span className="text-muted-foreground tabular-nums">
+                          <span className="text-mansagold tabular-nums">
                             {fmt(sub)}/mo
                           </span>
                         </Badge>
@@ -704,15 +711,15 @@ export default function PlatformRevenuePage() {
             )}
 
             {s.featured.activeCount > 0 && (
-              <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+              <Card className="border-white/20 bg-white/10 shadow-xl backdrop-blur-xl">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-mansagold" />
-                    <CardTitle className="text-sm font-medium">
+                    <Star className="h-5 w-5 text-mansagold" />
+                    <CardTitle className="text-base font-semibold text-white">
                       Featured Placements by Tier
                     </CardTitle>
                   </div>
-                  <CardDescription className="text-xs">
+                  <CardDescription className="text-sm text-white/70">
                     Live placements contributing to MRR
                   </CardDescription>
                 </CardHeader>
@@ -726,12 +733,12 @@ export default function PlatformRevenuePage() {
                         <Badge
                           key={t}
                           variant="outline"
-                          className="gap-2 border-white/15 bg-white/[0.03] px-3 py-1.5 text-xs capitalize"
+                          className="gap-2 border-mansagold/40 bg-mansagold/10 px-3 py-1.5 text-sm capitalize"
                         >
-                          <span className="text-foreground">
+                          <span className="text-white font-semibold">
                             {t} × {count}
                           </span>
-                          <span className="text-muted-foreground tabular-nums">
+                          <span className="text-mansagold tabular-nums">
                             {fmt(sub)}/mo
                           </span>
                         </Badge>
@@ -745,57 +752,57 @@ export default function PlatformRevenuePage() {
         )}
 
         {/* Revenue stack summary */}
-        <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+        <Card className="border-white/20 bg-white/10 shadow-2xl backdrop-blur-xl">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-mansagold" />
-              <CardTitle className="text-sm font-medium">Revenue Stack Summary</CardTitle>
+              <TrendingUp className="h-5 w-5 text-mansagold" />
+              <CardTitle className="text-lg font-bold text-white">Revenue Stack Summary</CardTitle>
             </div>
-            <CardDescription className="text-xs">
+            <CardDescription className="text-sm text-white/70">
               16 monetized streams tracked end-to-end. Agent commissions netted. Apple iOS
               subscriptions tracked but UI hidden per App Store policy.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <dl className="divide-y divide-white/5 text-sm">
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime transactional
+            <dl className="divide-y divide-white/15 text-base">
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <DollarSign className="h-4 w-4 text-mansagold" /> Lifetime transactional
                 </dt>
-                <dd className="font-semibold tabular-nums">{fmt(lifetimeTotal)}</dd>
+                <dd className="font-bold tabular-nums text-white">{fmt(lifetimeTotal)}</dd>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Monthly recurring (MRR)
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <DollarSign className="h-4 w-4 text-mansagold" /> Monthly recurring (MRR)
                 </dt>
-                <dd className="font-semibold tabular-nums">{fmt(totalMrr)}</dd>
+                <dd className="font-bold tabular-nums text-white">{fmt(totalMrr)}</dd>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Annualized run-rate
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <DollarSign className="h-4 w-4 text-mansagold" /> Annualized run-rate
                 </dt>
-                <dd className="font-semibold tabular-nums">{fmt(annualizedFromMrr)}</dd>
+                <dd className="font-bold tabular-nums text-white">{fmt(annualizedFromMrr)}</dd>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d gross (incl. MRR)
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <DollarSign className="h-4 w-4 text-mansagold" /> Last 30d gross (incl. MRR)
                 </dt>
-                <dd className="font-semibold tabular-nums">{fmt(last30Total + totalMrr)}</dd>
+                <dd className="font-bold tabular-nums text-white">{fmt(last30Total + totalMrr)}</dd>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <ArrowDownRight className="h-3.5 w-3.5 text-red-400" /> Agent commissions (30d)
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <ArrowDownRight className="h-4 w-4 text-red-400" /> Agent commissions (30d)
                 </dt>
-                <dd className="font-semibold tabular-nums text-red-300">
+                <dd className="font-bold tabular-nums text-red-300">
                   -{fmt(s.agentCommissions.last30)}
                 </dd>
               </div>
-              <div className="flex items-center justify-between pt-3">
-                <dt className="flex items-center gap-2 text-foreground">
-                  <ArrowUpRight className="h-4 w-4 text-emerald-400" />
-                  <span className="font-medium">Net last 30 days</span>
+              <div className="flex items-center justify-between pt-4">
+                <dt className="flex items-center gap-2 text-white">
+                  <ArrowUpRight className="h-5 w-5 text-emerald-400" />
+                  <span className="text-lg font-semibold">Net last 30 days</span>
                 </dt>
-                <dd className="text-lg font-bold tabular-nums text-emerald-300">
+                <dd className="text-2xl font-bold tabular-nums text-emerald-300">
                   {fmt(netLast30)}
                 </dd>
               </div>
