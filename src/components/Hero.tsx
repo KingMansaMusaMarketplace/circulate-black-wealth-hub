@@ -243,7 +243,7 @@ const Hero = () => {
           >
             <div className="relative" ref={wrapperRef}>
               <div className="relative flex items-center">
-                <Search className="absolute left-4 w-5 h-5 text-white/40 pointer-events-none" />
+                <Search className="absolute left-4 w-5 h-5 text-slate-500 pointer-events-none" />
                 <input
                   type="text"
                   value={searchQuery}
@@ -251,7 +251,12 @@ const Hero = () => {
                   onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
                   onKeyDown={handleKeyDown}
                   placeholder="Search businesses: restaurants, barbers, catering..."
-                  className="w-full h-13 pl-12 pr-28 rounded-full bg-white/8 border border-white/15 text-white placeholder:text-white/40 text-base focus:outline-none focus:ring-2 focus:ring-mansagold/50 focus:border-mansagold/40 transition-all duration-300"
+                  className="w-full h-13 pl-12 pr-28 rounded-full bg-white border border-mansagold/30 text-slate-900 placeholder:text-slate-500 text-base focus:outline-none focus:ring-2 focus:ring-mansagold/50 focus:border-mansagold/60 transition-all duration-300"
+                  style={{
+                    color: '#111827',
+                    WebkitTextFillColor: '#111827',
+                    caretColor: '#111827',
+                  }}
                   autoComplete="off"
                 />
                 <button
