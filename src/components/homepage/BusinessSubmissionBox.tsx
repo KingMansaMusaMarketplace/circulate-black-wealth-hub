@@ -280,21 +280,22 @@ const BusinessSubmissionBox: React.FC = () => {
 
     setSubmitting(true);
     try {
-      const { data: submission, error: insertError } = await supabase
-        .from('business_submissions')
-        .insert({
-          ...parsed.data,
-          attests_ownership: true,
-          attests_black_owned: true,
-          submitter_user_agent: navigator.userAgent.slice(0, 500),
-        })
-        .select('id')
-        .single();
+      const { data: submissionId, error: insertError } = await supabase.rpc('submit_business', {
+        p_business_name: parsed.data.business_name,
+        p_website: parsed.data.website,
+        p_email: parsed.data.email,
+        p_phone: parsed.data.phone,
+        p_owner_name: parsed.data.owner_name,
+        p_city: parsed.data.city,
+        p_state: parsed.data.state,
+        p_category: parsed.data.category,
+        p_user_agent: navigator.userAgent.slice(0, 500),
+      });
 
       if (insertError) throw insertError;
 
       supabase.functions
-        .invoke('verify-business-submission', { body: { submission_id: submission.id } })
+        .invoke('verify-business-submission', { body: { submission_id: submissionId } })
         .catch((err) => console.warn('Kayla verify kick-off failed:', err));
 
       setSubmitted(true);
