@@ -222,7 +222,7 @@ export async function fetchPropertyAvailability(
   endDate: string
 ): Promise<PropertyAvailability[]> {
   const { data, error } = await supabase
-    .from('property_availability')
+    .from('property_availability_public')
     .select('*')
     .eq('property_id', propertyId)
     .gte('date', startDate)
