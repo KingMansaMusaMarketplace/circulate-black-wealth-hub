@@ -3,6 +3,9 @@ import { KaylaAgentReports } from './KaylaAgentReports';
 import { KaylaImpactDashboard } from './KaylaImpactDashboard';
 import { AdminActivityFeed } from './AdminActivityFeed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Mail, Loader2 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import { 
   Users, 
   Building2, 
