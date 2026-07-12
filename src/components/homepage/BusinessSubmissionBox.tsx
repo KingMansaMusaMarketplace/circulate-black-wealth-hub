@@ -346,29 +346,29 @@ const BusinessSubmissionBox: React.FC = () => {
         style={{ border: '1px solid #e5e7eb' }}
       >
         {/* Corporate header band */}
-        <div style={{ background: '#003366' }} className="px-8 md:px-12 py-8 relative">
+        <div style={{ background: '#003366' }} className="px-6 md:px-8 py-6 relative">
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: '#FFB300' }} />
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-2">
             <div className="h-px w-8" style={{ background: '#FFB300' }} />
             <span className="text-[11px] font-semibold tracking-[0.2em] uppercase" style={{ color: '#FFB300' }}>
               Verified Business Registry
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-mansagold text-text-on-gold text-[11px] font-bold tracking-wide uppercase">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-mansagold text-text-on-gold text-[11px] font-bold tracking-wide uppercase">
               <Sparkles className="w-3 h-3" /> 100% Free
             </span>
           </div>
           <h2
             id="submit-business-heading"
-            className="text-3xl md:text-4xl font-semibold text-white tracking-tight leading-tight"
+            className="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-tight"
             style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
           >
             Register your Black-owned business for free.
           </h2>
-          <p className="mt-3 text-white/75 max-w-2xl leading-relaxed">
+          <p className="mt-2 text-white/75 max-w-2xl leading-relaxed text-sm md:text-base">
             Join the national directory trusted by intentional consumers and
             surfaced by leading AI assistants. Verification is <strong className="text-white">100% free</strong> — no credit card, no hidden fees, no listing cost. Most reviews are completed within 48 hours.
           </p>
-          <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-xs text-white/70">
+          <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs text-white/70">
             <span className="inline-flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> 100% free — no credit card required</span>
             <span className="inline-flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Human-reviewed by our compliance team</span>
             <span className="inline-flex items-center gap-1.5"><Lock className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Encrypted &amp; confidential</span>
