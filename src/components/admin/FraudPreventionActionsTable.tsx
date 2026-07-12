@@ -165,14 +165,15 @@ export const FraudPreventionActionsTable = () => {
         )}
       </div>
 
-      <AlertDialog open={reverseDialogOpen} onOpenChange={setReverseDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Reverse Prevention Action</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will undo the automatic prevention action. Please provide a reason for reversing this action.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
+      {/* Step 1: capture the reason */}
+      <Dialog open={reverseDialogOpen} onOpenChange={setReverseDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reverse Prevention Action</DialogTitle>
+            <DialogDescription>
+              This will undo an automatic fraud prevention action. First, tell us why — this reason is stored in the audit log.
+            </DialogDescription>
+          </DialogHeader>
           <div className="py-4">
             <Textarea
               placeholder="Explain why this action should be reversed..."
@@ -181,18 +182,49 @@ export const FraudPreventionActionsTable = () => {
               className="min-h-[100px]"
             />
           </div>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setReverseReason('')}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleReverseConfirm}
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setReverseDialogOpen(false);
+                setReverseReason('');
+                setSelectedAction(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleReverseProceed}
               disabled={!reverseReason.trim() || isReversing}
               className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
             >
-              {isReversing ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Confirm Reversal'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+              Continue
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Step 2: type-to-confirm because unblocking may re-enable fraud */}
+      <DangerConfirmDialog
+        open={dangerConfirmOpen}
+        onOpenChange={(open) => {
+          setDangerConfirmOpen(open);
+          if (!open && !isReversing) {
+            setSelectedAction(null);
+            setReverseReason('');
+          }
+        }}
+        title="Reverse fraud prevention action"
+        description="You're about to undo an automatic block. If the AI was right, this may re-enable fraud on the platform."
+        consequences={[
+          'The blocked account or QR code becomes active again immediately',
+          'The original fraud alert stays on record',
+          `Reason on record: "${reverseReason}"`,
+        ]}
+        confirmPhrase="REVERSE"
+        confirmButtonLabel="Reverse prevention action"
+        onConfirm={handleDangerConfirm}
+      />
     </>
   );
 };
