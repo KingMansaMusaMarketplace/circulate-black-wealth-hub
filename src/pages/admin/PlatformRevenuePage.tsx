@@ -672,15 +672,15 @@ export default function PlatformRevenuePage() {
         {(s.subscriptions.activeCount > 0 || s.featured.activeCount > 0) && (
           <section className="mb-12 grid grid-cols-1 gap-4 lg:grid-cols-2">
             {s.subscriptions.activeCount > 0 && (
-              <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+              <Card className="border-white/20 bg-white/10 shadow-xl backdrop-blur-xl">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-mansablue" />
-                    <CardTitle className="text-sm font-medium">
+                    <Users className="h-5 w-5 text-mansagold" />
+                    <CardTitle className="text-base font-semibold text-white">
                       Business Subscriptions by Tier
                     </CardTitle>
                   </div>
-                  <CardDescription className="text-xs">
+                  <CardDescription className="text-sm text-white/70">
                     Live business plans contributing to MRR
                   </CardDescription>
                 </CardHeader>
@@ -694,12 +694,12 @@ export default function PlatformRevenuePage() {
                         <Badge
                           key={t}
                           variant="outline"
-                          className="gap-2 border-white/15 bg-white/[0.03] px-3 py-1.5 text-xs capitalize"
+                          className="gap-2 border-mansagold/40 bg-mansagold/10 px-3 py-1.5 text-sm capitalize"
                         >
-                          <span className="text-foreground">
+                          <span className="text-white font-semibold">
                             {t} × {count}
                           </span>
-                          <span className="text-muted-foreground tabular-nums">
+                          <span className="text-mansagold tabular-nums">
                             {fmt(sub)}/mo
                           </span>
                         </Badge>
@@ -711,15 +711,15 @@ export default function PlatformRevenuePage() {
             )}
 
             {s.featured.activeCount > 0 && (
-              <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+              <Card className="border-white/20 bg-white/10 shadow-xl backdrop-blur-xl">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-mansagold" />
-                    <CardTitle className="text-sm font-medium">
+                    <Star className="h-5 w-5 text-mansagold" />
+                    <CardTitle className="text-base font-semibold text-white">
                       Featured Placements by Tier
                     </CardTitle>
                   </div>
-                  <CardDescription className="text-xs">
+                  <CardDescription className="text-sm text-white/70">
                     Live placements contributing to MRR
                   </CardDescription>
                 </CardHeader>
@@ -733,12 +733,12 @@ export default function PlatformRevenuePage() {
                         <Badge
                           key={t}
                           variant="outline"
-                          className="gap-2 border-white/15 bg-white/[0.03] px-3 py-1.5 text-xs capitalize"
+                          className="gap-2 border-mansagold/40 bg-mansagold/10 px-3 py-1.5 text-sm capitalize"
                         >
-                          <span className="text-foreground">
+                          <span className="text-white font-semibold">
                             {t} × {count}
                           </span>
-                          <span className="text-muted-foreground tabular-nums">
+                          <span className="text-mansagold tabular-nums">
                             {fmt(sub)}/mo
                           </span>
                         </Badge>
@@ -752,57 +752,57 @@ export default function PlatformRevenuePage() {
         )}
 
         {/* Revenue stack summary */}
-        <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+        <Card className="border-white/20 bg-white/10 shadow-2xl backdrop-blur-xl">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-mansagold" />
-              <CardTitle className="text-sm font-medium">Revenue Stack Summary</CardTitle>
+              <TrendingUp className="h-5 w-5 text-mansagold" />
+              <CardTitle className="text-lg font-bold text-white">Revenue Stack Summary</CardTitle>
             </div>
-            <CardDescription className="text-xs">
+            <CardDescription className="text-sm text-white/70">
               16 monetized streams tracked end-to-end. Agent commissions netted. Apple iOS
               subscriptions tracked but UI hidden per App Store policy.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <dl className="divide-y divide-white/5 text-sm">
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime transactional
+            <dl className="divide-y divide-white/15 text-base">
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <DollarSign className="h-4 w-4 text-mansagold" /> Lifetime transactional
                 </dt>
-                <dd className="font-semibold tabular-nums">{fmt(lifetimeTotal)}</dd>
+                <dd className="font-bold tabular-nums text-white">{fmt(lifetimeTotal)}</dd>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Monthly recurring (MRR)
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <DollarSign className="h-4 w-4 text-mansagold" /> Monthly recurring (MRR)
                 </dt>
-                <dd className="font-semibold tabular-nums">{fmt(totalMrr)}</dd>
+                <dd className="font-bold tabular-nums text-white">{fmt(totalMrr)}</dd>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Annualized run-rate
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <DollarSign className="h-4 w-4 text-mansagold" /> Annualized run-rate
                 </dt>
-                <dd className="font-semibold tabular-nums">{fmt(annualizedFromMrr)}</dd>
+                <dd className="font-bold tabular-nums text-white">{fmt(annualizedFromMrr)}</dd>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d gross (incl. MRR)
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <DollarSign className="h-4 w-4 text-mansagold" /> Last 30d gross (incl. MRR)
                 </dt>
-                <dd className="font-semibold tabular-nums">{fmt(last30Total + totalMrr)}</dd>
+                <dd className="font-bold tabular-nums text-white">{fmt(last30Total + totalMrr)}</dd>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <dt className="flex items-center gap-2 text-muted-foreground">
-                  <ArrowDownRight className="h-3.5 w-3.5 text-red-400" /> Agent commissions (30d)
+              <div className="flex items-center justify-between py-3">
+                <dt className="flex items-center gap-2 text-white/80">
+                  <ArrowDownRight className="h-4 w-4 text-red-400" /> Agent commissions (30d)
                 </dt>
-                <dd className="font-semibold tabular-nums text-red-300">
+                <dd className="font-bold tabular-nums text-red-300">
                   -{fmt(s.agentCommissions.last30)}
                 </dd>
               </div>
-              <div className="flex items-center justify-between pt-3">
-                <dt className="flex items-center gap-2 text-foreground">
-                  <ArrowUpRight className="h-4 w-4 text-emerald-400" />
-                  <span className="font-medium">Net last 30 days</span>
+              <div className="flex items-center justify-between pt-4">
+                <dt className="flex items-center gap-2 text-white">
+                  <ArrowUpRight className="h-5 w-5 text-emerald-400" />
+                  <span className="text-lg font-semibold">Net last 30 days</span>
                 </dt>
-                <dd className="text-lg font-bold tabular-nums text-emerald-300">
+                <dd className="text-2xl font-bold tabular-nums text-emerald-300">
                   {fmt(netLast30)}
                 </dd>
               </div>
