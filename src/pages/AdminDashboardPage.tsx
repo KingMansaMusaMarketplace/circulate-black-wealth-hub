@@ -246,6 +246,7 @@ const AdminDashboardPage: React.FC = () => {
                       <PlayCircle className="h-4 w-4" />
                       Tour
                     </Button>
+                    <AdminShadowModeToggle />
                     <div style={{ color: 'rgba(191, 219, 254, 0.9)' }} className="text-sm backdrop-blur-xl bg-white/5 border border-white/10 px-4 py-2 rounded-full shadow-lg">
                       <span className="text-mansagold">●</span> {user?.email}
                     </div>
