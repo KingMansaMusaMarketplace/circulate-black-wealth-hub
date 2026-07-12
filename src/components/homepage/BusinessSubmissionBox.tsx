@@ -337,12 +337,12 @@ const BusinessSubmissionBox: React.FC = () => {
   return (
     <section
       id="submit-business"
-      className="relative w-full py-20 px-4"
+      className="relative w-full py-12 px-4"
       style={{ background: '#0a0a0a', zIndex: 10, isolation: 'isolate' }}
       aria-labelledby="submit-business-heading"
     >
       <div
-        className="max-w-4xl mx-auto bg-white rounded-md shadow-2xl overflow-hidden"
+        className="max-w-3xl mx-auto bg-white rounded-md shadow-2xl overflow-hidden"
         style={{ border: '1px solid #e5e7eb' }}
       >
         {/* Corporate header band */}
