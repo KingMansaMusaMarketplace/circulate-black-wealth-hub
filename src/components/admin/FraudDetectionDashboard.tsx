@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Shield, AlertTriangle, CheckCircle, XCircle, Clock, Eye, Loader2, Play, ShieldCheck, Ban } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { FraudPreventionActionsTable } from './FraudPreventionActionsTable';
+import { DangerConfirmDialog } from './DangerConfirmDialog';
+import { useUndoableAction } from '@/hooks/useUndoableAction';
 
 export const FraudDetectionDashboard = () => {
   const { alerts, alertStats, isLoading, isRunningAnalysis, runAnalysis, updateAlertStatus } = useFraudDetection();
@@ -18,6 +20,8 @@ export const FraudDetectionDashboard = () => {
   const [selectedAlert, setSelectedAlert] = useState<FraudAlert | null>(null);
   const [resolutionNotes, setResolutionNotes] = useState('');
   const [newStatus, setNewStatus] = useState<FraudAlert['status']>('investigating');
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const runUndoable = useUndoableAction();
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -40,17 +44,43 @@ export const FraudDetectionDashboard = () => {
     }
   };
 
-  const handleUpdateStatus = () => {
+  const performStatusUpdate = () => {
     if (!selectedAlert) return;
-    
-    updateAlertStatus({
-      alertId: selectedAlert.id,
-      status: newStatus,
-      resolutionNotes: resolutionNotes
+    const previousStatus = selectedAlert.status;
+    const previousNotes = selectedAlert.resolution_notes;
+    const alertId = selectedAlert.id;
+    const nextStatus = newStatus;
+    const nextNotes = resolutionNotes;
+
+    runUndoable({
+      label: `Alert marked ${nextStatus.replace('_', ' ')} — click to undo`,
+      durationMs: 8000,
+      do: () => {
+        updateAlertStatus({ alertId, status: nextStatus, resolutionNotes: nextNotes });
+        return { alertId, previousStatus, previousNotes };
+      },
+      undo: ({ alertId, previousStatus, previousNotes }) => {
+        updateAlertStatus({
+          alertId,
+          status: previousStatus,
+          resolutionNotes: previousNotes || '',
+        });
+      },
     });
-    
+
     setSelectedAlert(null);
     setResolutionNotes('');
+  };
+
+  const handleUpdateStatus = () => {
+    if (!selectedAlert) return;
+    // Confirmed / false_positive are heavy: confirmed triggers real prevention
+    // actions, false_positive dismisses the alert. Require a typed confirm.
+    if (newStatus === 'confirmed' || newStatus === 'false_positive') {
+      setConfirmOpen(true);
+      return;
+    }
+    performStatusUpdate();
   };
 
   const filterAlertsByStatus = (status?: string) => {
@@ -311,6 +341,38 @@ export const FraudDetectionDashboard = () => {
       <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
         <FraudPreventionActionsTable />
       </div>
+
+      {/* Type-to-confirm for high-impact status changes */}
+      {selectedAlert && (
+        <DangerConfirmDialog
+          open={confirmOpen}
+          onOpenChange={setConfirmOpen}
+          title={newStatus === 'confirmed' ? 'Confirm this fraud alert' : 'Mark as false positive'}
+          description={
+            newStatus === 'confirmed'
+              ? `You're about to confirm this ${selectedAlert.severity.toUpperCase()} alert as real fraud. Automatic prevention actions may fire immediately.`
+              : `You're about to dismiss this alert as a false positive. The user or business will NOT be flagged.`
+          }
+          consequences={
+            newStatus === 'confirmed'
+              ? [
+                  'The system may auto-disable QR codes, restrict the account, or block transactions',
+                  'The user or business is added to the fraud history',
+                  'This action is written to the audit log',
+                ]
+              : [
+                  'The alert is closed and removed from active investigations',
+                  'The AI learns this pattern is safe (may reduce future alerts)',
+                  'Any auto-triggered prevention actions must be manually reversed',
+                ]
+          }
+          confirmPhrase={newStatus === 'confirmed' ? 'CONFIRM' : 'DISMISS'}
+          confirmButtonLabel={newStatus === 'confirmed' ? 'Confirm fraud' : 'Mark false positive'}
+          onConfirm={() => {
+            performStatusUpdate();
+          }}
+        />
+      )}
     </div>
   );
 };

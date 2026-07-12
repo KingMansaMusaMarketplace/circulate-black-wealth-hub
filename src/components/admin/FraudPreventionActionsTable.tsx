@@ -5,20 +5,20 @@ import { ShieldCheck, Ban, Flag, AlertCircle, Loader2, Undo2 } from 'lucide-reac
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
+import { DangerConfirmDialog } from './DangerConfirmDialog';
 
 export const FraudPreventionActionsTable = () => {
   const { actions, isLoading, reverseAction, isReversing } = useFraudPrevention();
   const [reverseDialogOpen, setReverseDialogOpen] = useState(false);
+  const [dangerConfirmOpen, setDangerConfirmOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
   const [reverseReason, setReverseReason] = useState('');
 
@@ -49,13 +49,18 @@ export const FraudPreventionActionsTable = () => {
     setReverseDialogOpen(true);
   };
 
-  const handleReverseConfirm = () => {
+  const handleReverseProceed = () => {
     if (selectedAction && reverseReason.trim()) {
-      reverseAction({ actionId: selectedAction, reason: reverseReason });
       setReverseDialogOpen(false);
-      setSelectedAction(null);
-      setReverseReason('');
+      setDangerConfirmOpen(true);
     }
+  };
+
+  const handleDangerConfirm = async () => {
+    if (!selectedAction) return;
+    reverseAction({ actionId: selectedAction, reason: reverseReason });
+    setSelectedAction(null);
+    setReverseReason('');
   };
 
   if (isLoading) {
@@ -160,14 +165,15 @@ export const FraudPreventionActionsTable = () => {
         )}
       </div>
 
-      <AlertDialog open={reverseDialogOpen} onOpenChange={setReverseDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Reverse Prevention Action</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will undo the automatic prevention action. Please provide a reason for reversing this action.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
+      {/* Step 1: capture the reason */}
+      <Dialog open={reverseDialogOpen} onOpenChange={setReverseDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reverse Prevention Action</DialogTitle>
+            <DialogDescription>
+              This will undo an automatic fraud prevention action. First, tell us why — this reason is stored in the audit log.
+            </DialogDescription>
+          </DialogHeader>
           <div className="py-4">
             <Textarea
               placeholder="Explain why this action should be reversed..."
@@ -176,18 +182,49 @@ export const FraudPreventionActionsTable = () => {
               className="min-h-[100px]"
             />
           </div>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setReverseReason('')}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleReverseConfirm}
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setReverseDialogOpen(false);
+                setReverseReason('');
+                setSelectedAction(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleReverseProceed}
               disabled={!reverseReason.trim() || isReversing}
               className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
             >
-              {isReversing ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Confirm Reversal'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+              Continue
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Step 2: type-to-confirm because unblocking may re-enable fraud */}
+      <DangerConfirmDialog
+        open={dangerConfirmOpen}
+        onOpenChange={(open) => {
+          setDangerConfirmOpen(open);
+          if (!open && !isReversing) {
+            setSelectedAction(null);
+            setReverseReason('');
+          }
+        }}
+        title="Reverse fraud prevention action"
+        description="You're about to undo an automatic block. If the AI was right, this may re-enable fraud on the platform."
+        consequences={[
+          'The blocked account or QR code becomes active again immediately',
+          'The original fraud alert stays on record',
+          `Reason on record: "${reverseReason}"`,
+        ]}
+        confirmPhrase="REVERSE"
+        confirmButtonLabel="Reverse prevention action"
+        onConfirm={handleDangerConfirm}
+      />
     </>
   );
 };

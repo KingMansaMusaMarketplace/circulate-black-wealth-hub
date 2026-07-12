@@ -8,16 +8,8 @@ import { Search, User, Mail, Calendar, Shield, RefreshCw, ShieldCheck, ShieldOff
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { DangerConfirmDialog } from './DangerConfirmDialog';
+import { useUndoableAction } from '@/hooks/useUndoableAction';
 
 interface UserProfile {
   id: string;
@@ -47,6 +39,8 @@ const AdminUsers: React.FC = () => {
     userName: string;
     action: 'grant' | 'revoke';
   }>({ open: false, userId: '', userName: '', action: 'grant' });
+
+  const runUndoable = useUndoableAction();
 
   useEffect(() => {
     fetchUsers();
@@ -99,14 +93,13 @@ const AdminUsers: React.FC = () => {
 
   const confirmAdminChange = async () => {
     const { userId, action } = confirmDialog;
-    
+
     try {
       if (action === 'grant') {
-        // Grant admin access
         const { error } = await supabase
           .from('user_roles')
           .insert({ user_id: userId, role: 'admin' });
-        
+
         if (error) {
           if (error.code === '23505') {
             toast.info('User already has admin access');
@@ -117,59 +110,69 @@ const AdminUsers: React.FC = () => {
           toast.success('Admin access granted successfully');
         }
       } else {
-        // Revoke admin access
         const { error } = await supabase
           .from('user_roles')
           .delete()
           .eq('user_id', userId)
           .eq('role', 'admin');
-        
+
         if (error) throw error;
         toast.success('Admin access revoked successfully');
       }
-      
+
       fetchUserRoles();
     } catch (error: any) {
       console.error('Error changing admin status:', error);
       toast.error(error.message || 'Failed to change admin status');
-    } finally {
-      setConfirmDialog({ open: false, userId: '', userName: '', action: 'grant' });
     }
   };
 
   const updateUserRole = async (userId: string, newRole: string) => {
-    try {
-      const { error } = await supabase.rpc('secure_change_user_role', {
-        target_user_id: userId,
-        new_role: newRole,
-        reason: 'Admin role change from dashboard'
-      });
+    const user = users.find(u => u.id === userId);
+    const previousRole = user?.role || 'customer';
+    if (previousRole === newRole) return;
+    const displayName = user?.full_name || user?.email || 'user';
 
-      if (error) throw error;
-      
-      toast.success('User role updated successfully');
-      fetchUsers();
-    } catch (error) {
-      console.error('Error updating role:', error);
-      toast.error('Failed to update user role');
-    }
+    await runUndoable({
+      label: `Changed ${displayName} to ${newRole}`,
+      durationMs: 6000,
+      do: async () => {
+        const { error } = await supabase.rpc('secure_change_user_role', {
+          target_user_id: userId,
+          new_role: newRole as any,
+          reason: 'Admin role change from dashboard',
+        });
+        if (error) throw error;
+        fetchUsers();
+        return { userId, previousRole };
+      },
+      undo: async ({ userId, previousRole }) => {
+        const { error } = await supabase.rpc('secure_change_user_role', {
+          target_user_id: userId,
+          new_role: previousRole as any,
+          reason: 'Undo role change from dashboard',
+        });
+        if (error) throw error;
+        fetchUsers();
+      },
+    });
   };
 
   const filteredUsers = users.filter(user => {
-    const matchesSearch = 
+    const matchesSearch =
       user.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     if (roleFilter === 'admin') {
       if (!isAdmin(user.id)) return false;
     } else if (roleFilter !== 'all' && user.role !== roleFilter) {
       return false;
     }
-    
+
     if (platformFilter !== 'all' && (user.signup_platform || 'web') !== platformFilter) {
       return false;
     }
-    
+
     return matchesSearch;
   });
 
@@ -252,15 +255,15 @@ const AdminUsers: React.FC = () => {
                   <div
                     key={user.id}
                     className={`flex flex-col md:flex-row md:items-center justify-between p-4 rounded-lg border gap-4 ${
-                      userIsAdmin 
-                        ? 'bg-red-500/10 border-red-500/30' 
+                      userIsAdmin
+                        ? 'bg-red-500/10 border-red-500/30'
                         : 'bg-white/5 border-white/10'
                     }`}
                   >
                     <div className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
-                        userIsAdmin 
-                          ? 'bg-gradient-to-br from-red-500 to-orange-500' 
+                        userIsAdmin
+                          ? 'bg-gradient-to-br from-red-500 to-orange-500'
                           : 'bg-gradient-to-br from-blue-500 to-purple-500'
                       }`}>
                         {user.full_name?.charAt(0) || user.email?.charAt(0) || '?'}
@@ -314,8 +317,8 @@ const AdminUsers: React.FC = () => {
                         variant={userIsAdmin ? "destructive" : "outline"}
                         size="sm"
                         onClick={() => handleAdminToggle(user.id, user.full_name || user.email || '', userIsAdmin)}
-                        className={userIsAdmin 
-                          ? "bg-red-600 hover:bg-red-700 text-white" 
+                        className={userIsAdmin
+                          ? "bg-red-600 hover:bg-red-700 text-white"
                           : "border-green-500/30 text-green-400 hover:bg-green-500/20"
                         }
                       >
@@ -345,36 +348,33 @@ const AdminUsers: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Confirmation Dialog */}
-      <AlertDialog open={confirmDialog.open} onOpenChange={(open) => setConfirmDialog(prev => ({ ...prev, open }))}>
-        <AlertDialogContent className="bg-slate-900 border-white/10">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">
-              {confirmDialog.action === 'grant' ? 'Grant Admin Access' : 'Revoke Admin Access'}
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-blue-300">
-              {confirmDialog.action === 'grant' 
-                ? `Are you sure you want to grant admin access to ${confirmDialog.userName}? They will have full access to the admin dashboard.`
-                : `Are you sure you want to revoke admin access from ${confirmDialog.userName}? They will no longer be able to access the admin dashboard.`
-              }
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-white/5 border-white/10 text-white hover:bg-white/10">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={confirmAdminChange}
-              className={confirmDialog.action === 'grant' 
-                ? "bg-green-600 hover:bg-green-700" 
-                : "bg-red-600 hover:bg-red-700"
-              }
-            >
-              {confirmDialog.action === 'grant' ? 'Grant Access' : 'Revoke Access'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Type-to-confirm dialog for granting/revoking admin */}
+      <DangerConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog(prev => ({ ...prev, open }))}
+        title={confirmDialog.action === 'grant' ? 'Grant Admin Access' : 'Revoke Admin Access'}
+        description={
+          confirmDialog.action === 'grant'
+            ? `You're about to give ${confirmDialog.userName} full admin powers. They'll be able to change roles, moderate content, and access every dashboard.`
+            : `You're about to remove ${confirmDialog.userName}'s admin access. They'll lose the ability to reach the admin dashboard immediately.`
+        }
+        consequences={
+          confirmDialog.action === 'grant'
+            ? [
+                'They can grant admin to other users',
+                'They can delete or suspend accounts',
+                'This change is logged in the audit trail',
+              ]
+            : [
+                'They will be signed out of the admin dashboard',
+                'Any in-flight admin actions will fail',
+                'This change is logged in the audit trail',
+              ]
+        }
+        confirmPhrase={confirmDialog.userName}
+        confirmButtonLabel={confirmDialog.action === 'grant' ? 'Grant admin access' : 'Revoke admin access'}
+        onConfirm={confirmAdminChange}
+      />
     </div>
   );
 };

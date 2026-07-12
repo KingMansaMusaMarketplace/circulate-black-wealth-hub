@@ -10,6 +10,8 @@ import { Search, Building2, CheckCircle, XCircle, Clock, RefreshCw, Eye, FileTex
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import { DangerConfirmDialog } from './DangerConfirmDialog';
+import { useUndoableAction } from '@/hooks/useUndoableAction';
 
 interface Business {
   id: string;
@@ -43,6 +45,8 @@ const AdminBusinesses: React.FC = () => {
   const [selectedVerification, setSelectedVerification] = useState<Verification | null>(null);
   const [adminNotes, setAdminNotes] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
+  const [rejectConfirmOpen, setRejectConfirmOpen] = useState(false);
+  const runUndoable = useUndoableAction();
 
   useEffect(() => {
     fetchData();
@@ -73,40 +77,67 @@ const AdminBusinesses: React.FC = () => {
     }
   };
 
-  const handleVerification = async (verificationId: string, status: 'approved' | 'rejected') => {
-    try {
-      const verification = verifications.find(v => v.id === verificationId);
-      if (!verification) return;
-
-      const { error: verificationError } = await supabase
-        .from('business_verifications')
-        .update({
-          verification_status: status,
-          admin_notes: adminNotes,
-          rejection_reason: status === 'rejected' ? rejectionReason : null,
-          verified_at: status === 'approved' ? new Date().toISOString() : null,
-        })
-        .eq('id', verificationId);
-
-      if (verificationError) throw verificationError;
-
-      if (status === 'approved') {
-        const { error: businessError } = await supabase
+  const approveVerification = async (verification: Verification, businessName: string) => {
+    await runUndoable({
+      label: `Approved ${businessName || 'business'} — click to undo`,
+      durationMs: 8000,
+      do: async () => {
+        const { error: vErr } = await supabase
+          .from('business_verifications')
+          .update({
+            verification_status: 'approved',
+            admin_notes: adminNotes,
+            rejection_reason: null,
+            verified_at: new Date().toISOString(),
+          })
+          .eq('id', verification.id);
+        if (vErr) throw vErr;
+        const { error: bErr } = await supabase
           .from('businesses')
           .update({ is_verified: true })
           .eq('id', verification.business_id);
+        if (bErr) throw bErr;
+        setSelectedVerification(null);
+        setAdminNotes('');
+        setRejectionReason('');
+        fetchData();
+        return verification;
+      },
+      undo: async (v) => {
+        await supabase
+          .from('business_verifications')
+          .update({ verification_status: 'pending', verified_at: null })
+          .eq('id', v.id);
+        await supabase
+          .from('businesses')
+          .update({ is_verified: false })
+          .eq('id', v.business_id);
+        fetchData();
+      },
+    });
+  };
 
-        if (businessError) throw businessError;
-      }
-
-      toast.success(`Business ${status === 'approved' ? 'approved' : 'rejected'} successfully`);
+  const rejectVerification = async () => {
+    if (!selectedVerification) return;
+    try {
+      const { error } = await supabase
+        .from('business_verifications')
+        .update({
+          verification_status: 'rejected',
+          admin_notes: adminNotes,
+          rejection_reason: rejectionReason,
+          verified_at: null,
+        })
+        .eq('id', selectedVerification.id);
+      if (error) throw error;
+      toast.success('Business rejected');
       setSelectedVerification(null);
       setAdminNotes('');
       setRejectionReason('');
       fetchData();
     } catch (error) {
-      console.error('Error updating verification:', error);
-      toast.error('Failed to update verification');
+      console.error('Error rejecting verification:', error);
+      toast.error('Failed to reject verification');
     }
   };
 
@@ -243,14 +274,17 @@ const AdminBusinesses: React.FC = () => {
 
                         <div className="flex gap-3 pt-4">
                           <Button
-                            onClick={() => handleVerification(verification.id, 'approved')}
+                            onClick={() => approveVerification(verification, business?.business_name || '')}
                             className="flex-1 bg-green-600 hover:bg-green-700"
                           >
                             <CheckCircle className="h-4 w-4 mr-2" />
-                            Approve
+                            Approve (with 8s undo)
                           </Button>
                           <Button
-                            onClick={() => handleVerification(verification.id, 'rejected')}
+                            onClick={() => {
+                              setSelectedVerification(verification);
+                              setRejectConfirmOpen(true);
+                            }}
                             variant="destructive"
                             className="flex-1"
                           >
@@ -353,6 +387,32 @@ const AdminBusinesses: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Type-to-confirm dialog for rejecting a verification */}
+      {selectedVerification && (
+        <DangerConfirmDialog
+          open={rejectConfirmOpen}
+          onOpenChange={setRejectConfirmOpen}
+          title="Reject business verification"
+          description={
+            <>
+              You're about to reject the verification for{' '}
+              <span className="font-semibold text-foreground">
+                {businesses.find(b => b.id === selectedVerification.business_id)?.business_name || 'this business'}
+              </span>
+              . They'll be notified and will need to resubmit documents.
+            </>
+          }
+          consequences={[
+            'The business owner is notified with your rejection reason',
+            'They cannot be marked as verified until they resubmit',
+            rejectionReason ? `Reason on record: "${rejectionReason}"` : 'No rejection reason entered — consider adding one before confirming',
+          ]}
+          confirmPhrase={businesses.find(b => b.id === selectedVerification.business_id)?.business_name || 'REJECT'}
+          confirmButtonLabel="Reject verification"
+          onConfirm={rejectVerification}
+        />
+      )}
     </div>
   );
 };
