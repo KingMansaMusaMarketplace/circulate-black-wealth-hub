@@ -190,6 +190,8 @@ const AdminDashboardPage: React.FC = () => {
 
   return (
     <RequireAdmin>
+      <AdminShadowModeProvider>
+      <AdminIdleLock />
       <SidebarProvider defaultOpen={true}>
         <div className="dark min-h-screen flex w-full bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
           {/* Animated gradient orbs */}
