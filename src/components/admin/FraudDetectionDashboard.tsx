@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Shield, AlertTriangle, CheckCircle, XCircle, Clock, Eye, Loader2, Play, ShieldCheck, Ban } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { FraudPreventionActionsTable } from './FraudPreventionActionsTable';
+import { DangerConfirmDialog } from './DangerConfirmDialog';
+import { useUndoableAction } from '@/hooks/useUndoableAction';
 
 export const FraudDetectionDashboard = () => {
   const { alerts, alertStats, isLoading, isRunningAnalysis, runAnalysis, updateAlertStatus } = useFraudDetection();
