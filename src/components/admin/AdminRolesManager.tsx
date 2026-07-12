@@ -286,11 +286,26 @@ const AdminRolesManager: React.FC = () => {
                         </span>
                       </div>
                       <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            setEditingRole(role);
+                            setSelectedPermissions(perms);
+                          }}
+                          className="text-mansagold hover:bg-mansagold/10"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
                         {role !== 'super_admin' && (
                           <Button
                             size="sm"
                             variant="ghost"
-                            onClick={() => deleteRoleMutation.mutate(role)}
+                            onClick={() => {
+                              if (confirm(`Delete role "${role.replace(/_/g, ' ')}"? This cannot be undone.`)) {
+                                deleteRoleMutation.mutate(role);
+                              }
+                            }}
                             className="text-red-400 hover:bg-red-500/10"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -346,6 +361,67 @@ const AdminRolesManager: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Edit Role Dialog */}
+      <Dialog
+        open={!!editingRole}
+        onOpenChange={(open) => {
+          if (!open) {
+            setEditingRole(null);
+            setSelectedPermissions([]);
+          }
+        }}
+      >
+        <DialogContent className="bg-mansablue-dark border-white/20 max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-white">
+              Edit Role: {editingRole?.replace(/_/g, ' ')}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Label className="text-white/80 mb-2 block">Permissions</Label>
+            <ScrollArea className="h-[300px] pr-4">
+              <div className="space-y-2">
+                {allPermissions.map((perm) => (
+                  <div
+                    key={perm.key}
+                    onClick={() => togglePermission(perm.key)}
+                    className={`p-3 rounded-lg border cursor-pointer transition-colors ${
+                      selectedPermissions.includes(perm.key)
+                        ? 'bg-mansagold/10 border-mansagold/50'
+                        : 'bg-white/5 border-white/10 hover:bg-white/10'
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <Checkbox
+                        checked={selectedPermissions.includes(perm.key)}
+                        className="mt-1"
+                      />
+                      <div>
+                        <p className="text-white font-medium">{perm.label}</p>
+                        <p className="text-white/60 text-sm">{perm.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+            <Button
+              onClick={() =>
+                editingRole &&
+                updateRoleMutation.mutate({
+                  role: editingRole,
+                  permissions: selectedPermissions,
+                })
+              }
+              disabled={selectedPermissions.length === 0 || updateRoleMutation.isPending}
+              className="w-full bg-mansagold hover:bg-mansagold/90 text-mansablue-dark"
+            >
+              {updateRoleMutation.isPending ? 'Saving...' : 'Save Changes'}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
