@@ -86,6 +86,7 @@ const AdminUsers: React.FC = () => {
   };
 
   const handleAdminToggle = (userId: string, userName: string, currentlyAdmin: boolean) => {
+    if (blockIfShadow(currentlyAdmin ? 'Revoke admin' : 'Grant admin')) return;
     setConfirmDialog({
       open: true,
       userId,
