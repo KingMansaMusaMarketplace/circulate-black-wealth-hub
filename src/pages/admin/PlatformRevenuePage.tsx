@@ -21,6 +21,8 @@ import {
   Building2,
   Calendar,
   HandCoins,
+  ArrowDownRight,
+  ArrowUpRight,
 } from 'lucide-react';
 
 // Featured Placement monthly pricing (USD) — must match create-featured-placement-checkout edge fn
@@ -40,7 +42,7 @@ const SUBSCRIPTION_MRR: Record<string, number> = {
   starter: 79,
   pro: 299,
   enterprise: 899,
-  founding_pro: 149, // Founders' Lock — first 100 businesses
+  founding_pro: 149,
   founding: 149,
 };
 
@@ -61,28 +63,87 @@ const SPONSOR_MRR: Record<string, number> = {
 };
 
 const fmt = (n: number) =>
-  n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+  n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
-interface StreamCardProps {
+const fmtCompact = (n: number) => {
+  if (Math.abs(n) >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+  if (Math.abs(n) >= 1_000) return `$${(n / 1_000).toFixed(1)}K`;
+  return fmt(n);
+};
+
+// ---------- KPI hero tile ----------
+interface KpiProps {
+  label: string;
+  value: string;
+  hint?: string;
+  tone?: 'gold' | 'blue' | 'neutral' | 'positive';
+}
+const Kpi: React.FC<KpiProps> = ({ label, value, hint, tone = 'neutral' }) => {
+  const toneMap = {
+    gold: 'text-mansagold',
+    blue: 'text-blue-300',
+    neutral: 'text-foreground',
+    positive: 'text-emerald-300',
+  };
+  return (
+    <div className="flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm">
+      <div className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
+      <div className={`mt-3 text-3xl font-semibold tabular-nums tracking-tight ${toneMap[tone]}`}>
+        {value}
+      </div>
+      {hint && <div className="mt-1 text-xs text-muted-foreground">{hint}</div>}
+    </div>
+  );
+};
+
+// ---------- Stream row (unified, no rainbow accents) ----------
+interface StreamProps {
   icon: React.ReactNode;
   label: string;
-  total: number;
-  sub: string;
-  accent?: string;
+  primary: string;
+  secondary?: string;
+  meta?: string;
+  negative?: boolean;
 }
-const StreamCard: React.FC<StreamCardProps> = ({ icon, label, total, sub, accent }) => (
-  <Card className="bg-card/40 backdrop-blur border-white/10">
-    <CardHeader className="pb-3">
-      <div className={`h-9 w-9 rounded-lg flex items-center justify-center mb-2 ${accent ?? 'bg-primary/15 text-primary'}`}>
+const StreamTile: React.FC<StreamProps> = ({ icon, label, primary, secondary, meta, negative }) => (
+  <div className="group relative rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-white/20 hover:bg-white/[0.04]">
+    <div className="flex items-start justify-between">
+      <div className="flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-white/[0.03] text-muted-foreground group-hover:text-mansagold">
         {icon}
       </div>
-      <CardTitle className="text-base font-medium">{label}</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <div className="text-2xl font-bold tracking-tight">{fmt(total)}</div>
-      <div className="text-xs text-muted-foreground mt-1">{sub}</div>
-    </CardContent>
-  </Card>
+      {negative ? (
+        <ArrowDownRight className="h-4 w-4 text-red-400/70" />
+      ) : (
+        <ArrowUpRight className="h-4 w-4 text-emerald-400/50" />
+      )}
+    </div>
+    <div className="mt-3 text-sm font-medium text-foreground/90">{label}</div>
+    <div
+      className={`mt-1 text-2xl font-semibold tabular-nums tracking-tight ${
+        negative ? 'text-red-300' : 'text-foreground'
+      }`}
+    >
+      {primary}
+    </div>
+    {secondary && (
+      <div className="mt-0.5 text-xs text-muted-foreground tabular-nums">{secondary}</div>
+    )}
+    {meta && <div className="mt-2 text-[11px] text-muted-foreground/70">{meta}</div>}
+  </div>
+);
+
+const SectionHeader: React.FC<{ eyebrow: string; title: string; hint?: string }> = ({
+  eyebrow,
+  title,
+  hint,
+}) => (
+  <div className="mb-4 flex items-baseline justify-between border-b border-white/5 pb-2">
+    <div>
+      <div className="text-[10px] uppercase tracking-[0.18em] text-mansagold/80">{eyebrow}</div>
+      <h2 className="mt-1 text-lg font-semibold text-foreground">{title}</h2>
+    </div>
+    {hint && <div className="text-xs text-muted-foreground">{hint}</div>}
+  </div>
 );
 
 interface RevenueState {
@@ -133,11 +194,12 @@ export default function PlatformRevenuePage() {
     (async () => {
       const now = new Date();
       const thirtyAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
-      const monthStart = new Date(); monthStart.setUTCDate(1); monthStart.setUTCHours(0, 0, 0, 0);
+      const monthStart = new Date();
+      monthStart.setUTCDate(1);
+      monthStart.setUTCHours(0, 0, 0, 0);
 
       const next: RevenueState = JSON.parse(JSON.stringify(EMPTY));
 
-      // QR transaction fees
       const { data: qrRows } = await supabase
         .from('platform_transactions')
         .select('amount_platform_fee, created_at')
@@ -149,7 +211,6 @@ export default function PlatformRevenuePage() {
         if (r.created_at >= thirtyAgo) next.qr.last30 += fee;
       });
 
-      // Featured placements (active = recurring MRR)
       const { data: fpRows } = await supabase
         .from('featured_placements')
         .select('tier, status')
@@ -161,7 +222,6 @@ export default function PlatformRevenuePage() {
         next.featured.byTier[r.tier] = (next.featured.byTier[r.tier] ?? 0) + 1;
       });
 
-      // Verification priority fast-track
       const { data: vpRows } = await supabase
         .from('verification_priority_payments')
         .select('amount_cents, paid_at, created_at');
@@ -173,7 +233,6 @@ export default function PlatformRevenuePage() {
         if (ts && ts >= thirtyAgo) next.verification.last30 += amt;
       });
 
-      // Job postings (one-time fees)
       const { data: jobRows } = await supabase
         .from('job_postings')
         .select('amount_cents, paid_at, status')
@@ -185,7 +244,6 @@ export default function PlatformRevenuePage() {
         if (r.paid_at && r.paid_at >= thirtyAgo) next.jobs.last30 += amt;
       });
 
-      // Marketing topups — derive USD from delta size
       const { data: mtRows } = await supabase
         .from('marketing_credit_ledger')
         .select('delta, created_at, bucket, stripe_session_id')
@@ -198,14 +256,12 @@ export default function PlatformRevenuePage() {
         if (r.created_at >= thirtyAgo) next.marketing.last30 += usd;
       });
 
-      // API usage
       const { count: ac } = await supabase
         .from('api_usage_logs')
         .select('*', { count: 'exact', head: true })
         .gte('request_timestamp', monthStart.toISOString());
       next.apiCalls = ac ?? 0;
 
-      // Business subscriptions (Essentials / Starter / Pro / Enterprise)
       const { data: subRows } = await supabase
         .from('subscribers')
         .select('subscription_tier, subscribed, status')
@@ -220,7 +276,6 @@ export default function PlatformRevenuePage() {
         }
       });
 
-      // Institutional Data API tiers
       const { data: devRows } = await supabase
         .from('developer_accounts')
         .select('tier, tier_price_cents, stripe_subscription_status')
@@ -235,7 +290,6 @@ export default function PlatformRevenuePage() {
         }
       });
 
-      // Kayla Answering Service (active deployments + 30d call volume)
       const { count: ansActive } = await supabase
         .from('business_answering_config')
         .select('*', { count: 'exact', head: true })
@@ -247,7 +301,6 @@ export default function PlatformRevenuePage() {
         .gte('created_at', thirtyAgo);
       next.answering.callsLast30 = ansCalls ?? 0;
 
-      // Mansa Stays — platform_fee on vacation_bookings
       const { data: stayRows } = await supabase
         .from('vacation_bookings')
         .select('platform_fee, created_at, status')
@@ -259,7 +312,6 @@ export default function PlatformRevenuePage() {
         if (r.created_at && r.created_at >= thirtyAgo) next.stays.last30 += fee;
       });
 
-      // Noire Rideshare — platform_fee on completed rides
       const { data: rideRows } = await supabase
         .from('noir_rides')
         .select('platform_fee, created_at, status');
@@ -270,7 +322,6 @@ export default function PlatformRevenuePage() {
         if (r.created_at && r.created_at >= thirtyAgo) next.noire.last30 += fee;
       });
 
-      // Corporate Sponsors — active sponsors by tier
       const { data: sponsorRows } = await supabase
         .from('sponsors')
         .select('sponsorship_tier, subscription_status')
@@ -285,7 +336,6 @@ export default function PlatformRevenuePage() {
         }
       });
 
-      // BHM Quick Add Listings — paid one-time fees
       const { data: bhmRows } = await supabase
         .from('b2b_external_leads')
         .select('payment_amount, paid_at')
@@ -298,7 +348,6 @@ export default function PlatformRevenuePage() {
         if (r.paid_at && r.paid_at >= thirtyAgo) next.bhm.last30 += amt;
       });
 
-      // Sales Agent Commissions (paid out — revenue COST/deduction)
       const { data: commRows } = await supabase
         .from('commission_payments')
         .select('amount, paid_at, status')
@@ -310,7 +359,6 @@ export default function PlatformRevenuePage() {
         if (r.paid_at && r.paid_at >= thirtyAgo) next.agentCommissions.last30 += amt;
       });
 
-      // Apple iOS in-app subscriptions (App Store) — match tier from product_id
       const { data: appleRows } = await supabase
         .from('apple_subscriptions')
         .select('product_id, status, expires_date')
@@ -319,7 +367,10 @@ export default function PlatformRevenuePage() {
         const pid = String(r.product_id ?? '').toLowerCase();
         let price = 0;
         for (const [tier, p] of Object.entries(SUBSCRIPTION_MRR)) {
-          if (pid.includes(tier)) { price = p; break; }
+          if (pid.includes(tier)) {
+            price = p;
+            break;
+          }
         }
         if (price > 0) {
           next.apple.mrr += price;
@@ -327,7 +378,6 @@ export default function PlatformRevenuePage() {
         }
       });
 
-      // Corporate B2B Subscriptions (separate from sponsors)
       const { data: corpRows } = await supabase
         .from('corporate_subscriptions')
         .select('tier, status')
@@ -342,7 +392,6 @@ export default function PlatformRevenuePage() {
         }
       });
 
-      // Service Bookings — platform_fee on bookings (in-platform booking system)
       const { data: bookRows } = await supabase
         .from('bookings')
         .select('platform_fee, created_at, status')
@@ -392,260 +441,365 @@ export default function PlatformRevenuePage() {
     s.corpSubs.mrr;
   const annualizedFromMrr = totalMrr * 12;
   const netLast30 = last30Total + totalMrr - s.agentCommissions.last30;
+  const dash = loading ? '—' : null;
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
-      <Helmet><title>Platform Revenue | Admin</title></Helmet>
+    <div className="min-h-screen bg-black text-foreground">
+      <Helmet>
+        <title>Platform Revenue | Admin</title>
+      </Helmet>
 
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-40 -right-32 h-[480px] w-[480px] rounded-full bg-mansablue/20 blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 -left-32 h-[420px] w-[420px] rounded-full bg-mansagold/10 blur-3xl animate-pulse" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
+      {/* Subtle brand glow — restrained, single layer */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -top-40 right-0 h-[520px] w-[520px] rounded-full bg-mansablue/10 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-mansagold/[0.04] blur-[100px]" />
       </div>
 
-      <div className="relative container max-w-7xl mx-auto py-12 px-4">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold tracking-tight">Platform Revenue</h1>
-          <p className="text-muted-foreground mt-2">
-            Real-time view of every revenue stream across 1325.AI.
-          </p>
-        </div>
-
-        {/* Hero totals */}
-        <div className="grid md:grid-cols-3 gap-4 mb-10">
-          <Card className="bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-mansagold/30">
-            <CardHeader className="pb-2">
-              <CardDescription className="text-mansagold/90 uppercase tracking-wider text-xs">
-                Lifetime transactional
-              </CardDescription>
-              <CardTitle className="text-3xl">{loading ? '—' : fmt(lifetimeTotal)}</CardTitle>
-            </CardHeader>
-            <CardContent className="text-xs text-muted-foreground">
-              QR + verification + jobs + marketing + stays + rideshare
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-mansablue/30 to-mansablue/5 border-mansablue/40">
-            <CardHeader className="pb-2">
-              <CardDescription className="text-blue-200/80 uppercase tracking-wider text-xs">
-                Total MRR
-              </CardDescription>
-              <CardTitle className="text-3xl">{loading ? '—' : fmt(totalMrr)}</CardTitle>
-            </CardHeader>
-            <CardContent className="text-xs text-muted-foreground">
-              Subs + Featured + API · {fmt(annualizedFromMrr)} ARR
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/40 backdrop-blur border-white/10">
-            <CardHeader className="pb-2">
-              <CardDescription className="uppercase tracking-wider text-xs">
-                Last 30 days
-              </CardDescription>
-              <CardTitle className="text-3xl">{loading ? '—' : fmt(last30Total + totalMrr)}</CardTitle>
-            </CardHeader>
-            <CardContent className="text-xs text-muted-foreground">
-              Includes 1× current MRR run-rate
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Per-stream breakdown */}
-        <h2 className="text-lg font-semibold mb-4 text-muted-foreground uppercase tracking-wider text-xs">
-          By revenue stream
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-          <StreamCard
-            icon={<Users className="h-5 w-5" />}
-            label="Business Subscriptions"
-            total={s.subscriptions.mrr}
-            sub={`${s.subscriptions.activeCount} active · MRR shown · ${fmt(s.subscriptions.mrr * 12)} ARR`}
-            accent="bg-mansablue/20 text-blue-300"
-          />
-          <StreamCard
-            icon={<Crown className="h-5 w-5" />}
-            label="Featured Placements"
-            total={s.featured.mrr}
-            sub={`${s.featured.activeCount} active · MRR · ${fmt(s.featured.mrr * 12)} ARR`}
-            accent="bg-mansagold/20 text-mansagold"
-          />
-          <StreamCard
-            icon={<Code2 className="h-5 w-5" />}
-            label="Institutional Data API"
-            total={s.apiTiers.mrr}
-            sub={`${s.apiTiers.activeCount} paid devs · ${s.apiCalls.toLocaleString()} calls this month`}
-            accent="bg-cyan-500/15 text-cyan-300"
-          />
-          <StreamCard
-            icon={<QrCode className="h-5 w-5" />}
-            label="QR Transaction Fees (1.5%)"
-            total={s.qr.total}
-            sub={`${s.qr.count} txns · ${fmt(s.qr.last30)} last 30d`}
-          />
-          <StreamCard
-            icon={<Zap className="h-5 w-5" />}
-            label="Verification Fast-Track"
-            total={s.verification.total}
-            sub={`${s.verification.count} purchases · ${fmt(s.verification.last30)} last 30d`}
-            accent="bg-amber-500/15 text-amber-400"
-          />
-          <StreamCard
-            icon={<Briefcase className="h-5 w-5" />}
-            label="Job Board Postings"
-            total={s.jobs.total}
-            sub={`${s.jobs.count} paid posts · ${fmt(s.jobs.last30)} last 30d`}
-            accent="bg-emerald-500/15 text-emerald-400"
-          />
-          <StreamCard
-            icon={<Sparkles className="h-5 w-5" />}
-            label="Marketing Studio Top-ups"
-            total={s.marketing.total}
-            sub={`${s.marketing.count} packs · ${fmt(s.marketing.last30)} last 30d`}
-            accent="bg-purple-500/15 text-purple-400"
-          />
-          <StreamCard
-            icon={<Home className="h-5 w-5" />}
-            label="Mansa Stays (commission)"
-            total={s.stays.total}
-            sub={`${s.stays.count} bookings · ${fmt(s.stays.last30)} last 30d`}
-            accent="bg-rose-500/15 text-rose-300"
-          />
-          <StreamCard
-            icon={<Car className="h-5 w-5" />}
-            label="Noire Rideshare (platform fee)"
-            total={s.noire.total}
-            sub={`${s.noire.count} rides · ${fmt(s.noire.last30)} last 30d`}
-            accent="bg-indigo-500/15 text-indigo-300"
-          />
-          <StreamCard
-            icon={<PhoneCall className="h-5 w-5" />}
-            label="Kayla Answering Service"
-            total={0}
-            sub={`${s.answering.activeCount} active · ${s.answering.callsLast30.toLocaleString()} calls 30d · bundled in plans`}
-            accent="bg-teal-500/15 text-teal-300"
-          />
-          <StreamCard
-            icon={<Building2 className="h-5 w-5" />}
-            label="Corporate Sponsors"
-            total={s.sponsors.mrr}
-            sub={`${s.sponsors.activeCount} active · MRR estimate · ${fmt(s.sponsors.mrr * 12)} ARR`}
-            accent="bg-mansagold/20 text-mansagold"
-          />
-          <StreamCard
-            icon={<Calendar className="h-5 w-5" />}
-            label="BHM Quick-Add Listings"
-            total={s.bhm.total}
-            sub={`${s.bhm.count} paid listings · ${fmt(s.bhm.last30)} last 30d`}
-            accent="bg-orange-500/15 text-orange-300"
-          />
-          <StreamCard
-            icon={<HandCoins className="h-5 w-5" />}
-            label="Sales Agent Commissions (cost)"
-            total={-s.agentCommissions.total}
-            sub={`${s.agentCommissions.count} payouts · -${fmt(s.agentCommissions.last30)} last 30d`}
-            accent="bg-red-500/15 text-red-300"
-          />
-          <StreamCard
-            icon={<Users className="h-5 w-5" />}
-            label="Apple iOS Subscriptions"
-            total={s.apple.mrr}
-            sub={`${s.apple.activeCount} active · MRR · ${fmt(s.apple.mrr * 12)} ARR`}
-            accent="bg-zinc-500/15 text-zinc-300"
-          />
-          <StreamCard
-            icon={<Building2 className="h-5 w-5" />}
-            label="Corporate B2B Subscriptions"
-            total={s.corpSubs.mrr}
-            sub={`${s.corpSubs.activeCount} active · MRR · ${fmt(s.corpSubs.mrr * 12)} ARR`}
-            accent="bg-violet-500/15 text-violet-300"
-          />
-          <StreamCard
-            icon={<Calendar className="h-5 w-5" />}
-            label="Service Bookings (platform fee)"
-            total={s.serviceBookings.total}
-            sub={`${s.serviceBookings.count} bookings · ${fmt(s.serviceBookings.last30)} last 30d`}
-            accent="bg-pink-500/15 text-pink-300"
-          />
-          <StreamCard
-            icon={<Activity className="h-5 w-5" />}
-            label="API Calls (this month)"
-            total={0}
-            sub={`${s.apiCalls.toLocaleString()} requests · metered against tier`}
-            accent="bg-slate-500/15 text-slate-300"
-          />
-        </div>
-
-        {/* Subscription breakdown */}
-        {s.subscriptions.activeCount > 0 && (
-          <Card className="bg-card/40 backdrop-blur border-white/10 mb-6">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-blue-300" />
-                <CardTitle className="text-base">Business Subscriptions by Tier</CardTitle>
-              </div>
-              <CardDescription>Live business plans contributing to MRR</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-3">
-                {(['essentials', 'starter', 'pro', 'enterprise'] as const).map((t) => {
-                  const count = s.subscriptions.byTier[t] ?? 0;
-                  const sub = count * (SUBSCRIPTION_MRR[t] ?? 0);
-                  if (count === 0) return null;
-                  return (
-                    <Badge key={t} variant="outline" className="px-3 py-1.5 capitalize gap-2 text-sm">
-                      {t} × {count}
-                      <span className="text-muted-foreground">· {fmt(sub)}/mo</span>
-                    </Badge>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Featured Placement breakdown */}
-        {s.featured.activeCount > 0 && (
-          <Card className="bg-card/40 backdrop-blur border-white/10 mb-10">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <Star className="h-5 w-5 text-mansagold" />
-                <CardTitle className="text-base">Featured Placements by Tier</CardTitle>
-              </div>
-              <CardDescription>Live subscriptions contributing to MRR</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-3">
-                {(['bronze', 'silver', 'gold', 'platinum'] as const).map((t) => {
-                  const count = s.featured.byTier[t] ?? 0;
-                  const sub = count * (FEATURED_MRR[t] ?? 0);
-                  if (count === 0) return null;
-                  return (
-                    <Badge key={t} variant="outline" className="px-3 py-1.5 capitalize gap-2 text-sm">
-                      {t} × {count}
-                      <span className="text-muted-foreground">· {fmt(sub)}/mo</span>
-                    </Badge>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Note */}
-        <Card className="bg-card/30 backdrop-blur border-white/10">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" />
-              <CardTitle className="text-base">Revenue stack</CardTitle>
+      <div className="relative mx-auto max-w-[1600px] px-6 py-10 lg:px-10 lg:py-14">
+        {/* Header */}
+        <div className="mb-10 flex items-end justify-between gap-6 border-b border-white/5 pb-6">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-mansagold/80">
+              Executive Dashboard
             </div>
-            <CardDescription>16 monetized streams tracked end-to-end. Sales agent commissions netted out. Apple iOS subscriptions tracked but UI hidden per App Store policy.</CardDescription>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight lg:text-4xl">
+              Platform Revenue
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Live view of every 1325.AI revenue stream — recurring, transactional, ancillary.
+            </p>
+          </div>
+          <div className="hidden shrink-0 text-right lg:block">
+            <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+              As of
+            </div>
+            <div className="mt-1 text-sm text-foreground/80 tabular-nums">
+              {new Date().toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* KPI hero strip */}
+        <div className="mb-12 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <Kpi
+            label="Net Last 30 Days"
+            value={dash ?? fmt(netLast30)}
+            hint="Transactional + MRR – agent commissions"
+            tone="positive"
+          />
+          <Kpi
+            label="Monthly Recurring"
+            value={dash ?? fmt(totalMrr)}
+            hint={`${fmt(annualizedFromMrr)} annualized`}
+            tone="blue"
+          />
+          <Kpi
+            label="Annualized Run-Rate"
+            value={dash ?? fmtCompact(annualizedFromMrr)}
+            hint="MRR × 12"
+            tone="gold"
+          />
+          <Kpi
+            label="Lifetime Transactional"
+            value={dash ?? fmt(lifetimeTotal)}
+            hint="All one-time fees, all-time"
+          />
+        </div>
+
+        {/* Recurring MRR streams */}
+        <section className="mb-12">
+          <SectionHeader
+            eyebrow="Recurring"
+            title="MRR Streams"
+            hint={`${fmt(totalMrr)}/mo total`}
+          />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <StreamTile
+              icon={<Users className="h-4 w-4" />}
+              label="Business Subscriptions"
+              primary={dash ?? fmt(s.subscriptions.mrr) + '/mo'}
+              secondary={`${s.subscriptions.activeCount} active plans`}
+              meta={`${fmt(s.subscriptions.mrr * 12)} ARR`}
+            />
+            <StreamTile
+              icon={<Crown className="h-4 w-4" />}
+              label="Featured Placements"
+              primary={dash ?? fmt(s.featured.mrr) + '/mo'}
+              secondary={`${s.featured.activeCount} active`}
+              meta={`${fmt(s.featured.mrr * 12)} ARR`}
+            />
+            <StreamTile
+              icon={<Building2 className="h-4 w-4" />}
+              label="Corporate Sponsors"
+              primary={dash ?? fmt(s.sponsors.mrr) + '/mo'}
+              secondary={`${s.sponsors.activeCount} active`}
+              meta={`${fmt(s.sponsors.mrr * 12)} ARR`}
+            />
+            <StreamTile
+              icon={<Building2 className="h-4 w-4" />}
+              label="Corporate B2B Subs"
+              primary={dash ?? fmt(s.corpSubs.mrr) + '/mo'}
+              secondary={`${s.corpSubs.activeCount} active`}
+              meta={`${fmt(s.corpSubs.mrr * 12)} ARR`}
+            />
+            <StreamTile
+              icon={<Code2 className="h-4 w-4" />}
+              label="Institutional Data API"
+              primary={dash ?? fmt(s.apiTiers.mrr) + '/mo'}
+              secondary={`${s.apiTiers.activeCount} paid developers`}
+              meta={`${s.apiCalls.toLocaleString()} calls this month`}
+            />
+            <StreamTile
+              icon={<Users className="h-4 w-4" />}
+              label="Apple iOS Subscriptions"
+              primary={dash ?? fmt(s.apple.mrr) + '/mo'}
+              secondary={`${s.apple.activeCount} active`}
+              meta={`${fmt(s.apple.mrr * 12)} ARR · UI hidden per App Store`}
+            />
+          </div>
+        </section>
+
+        {/* Transactional */}
+        <section className="mb-12">
+          <SectionHeader
+            eyebrow="Transactional"
+            title="One-Time & Per-Event Revenue"
+            hint={`${fmt(last30Total)} last 30d · ${fmt(lifetimeTotal)} lifetime`}
+          />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <StreamTile
+              icon={<QrCode className="h-4 w-4" />}
+              label="QR Transaction Fees (1.5%)"
+              primary={dash ?? fmt(s.qr.total)}
+              secondary={`${s.qr.count.toLocaleString()} transactions`}
+              meta={`${fmt(s.qr.last30)} last 30d`}
+            />
+            <StreamTile
+              icon={<Zap className="h-4 w-4" />}
+              label="Verification Fast-Track"
+              primary={dash ?? fmt(s.verification.total)}
+              secondary={`${s.verification.count} purchases`}
+              meta={`${fmt(s.verification.last30)} last 30d`}
+            />
+            <StreamTile
+              icon={<Briefcase className="h-4 w-4" />}
+              label="Job Board Postings"
+              primary={dash ?? fmt(s.jobs.total)}
+              secondary={`${s.jobs.count} paid posts`}
+              meta={`${fmt(s.jobs.last30)} last 30d`}
+            />
+            <StreamTile
+              icon={<Sparkles className="h-4 w-4" />}
+              label="Marketing Studio Top-ups"
+              primary={dash ?? fmt(s.marketing.total)}
+              secondary={`${s.marketing.count} packs`}
+              meta={`${fmt(s.marketing.last30)} last 30d`}
+            />
+            <StreamTile
+              icon={<Calendar className="h-4 w-4" />}
+              label="BHM Quick-Add Listings"
+              primary={dash ?? fmt(s.bhm.total)}
+              secondary={`${s.bhm.count} paid listings`}
+              meta={`${fmt(s.bhm.last30)} last 30d`}
+            />
+            <StreamTile
+              icon={<Calendar className="h-4 w-4" />}
+              label="Service Bookings (fee)"
+              primary={dash ?? fmt(s.serviceBookings.total)}
+              secondary={`${s.serviceBookings.count} bookings`}
+              meta={`${fmt(s.serviceBookings.last30)} last 30d`}
+            />
+          </div>
+        </section>
+
+        {/* Ancillary + Costs */}
+        <section className="mb-12">
+          <SectionHeader eyebrow="Ancillary" title="Marketplaces, Services & Costs" />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <StreamTile
+              icon={<Home className="h-4 w-4" />}
+              label="Mansa Stays (commission)"
+              primary={dash ?? fmt(s.stays.total)}
+              secondary={`${s.stays.count} bookings`}
+              meta={`${fmt(s.stays.last30)} last 30d`}
+            />
+            <StreamTile
+              icon={<Car className="h-4 w-4" />}
+              label="Noire Rideshare (platform fee)"
+              primary={dash ?? fmt(s.noire.total)}
+              secondary={`${s.noire.count} rides`}
+              meta={`${fmt(s.noire.last30)} last 30d`}
+            />
+            <StreamTile
+              icon={<PhoneCall className="h-4 w-4" />}
+              label="Kayla Answering Service"
+              primary={`${s.answering.activeCount} active`}
+              secondary={`${s.answering.callsLast30.toLocaleString()} calls / 30d`}
+              meta="Bundled in plans — no direct MRR"
+            />
+            <StreamTile
+              icon={<Activity className="h-4 w-4" />}
+              label="API Calls This Month"
+              primary={s.apiCalls.toLocaleString()}
+              secondary="Metered against tier"
+              meta="Volume signal, not revenue"
+            />
+            <StreamTile
+              icon={<HandCoins className="h-4 w-4" />}
+              label="Agent Commissions Paid"
+              primary={dash ?? `-${fmt(s.agentCommissions.total)}`}
+              secondary={`${s.agentCommissions.count} payouts`}
+              meta={`-${fmt(s.agentCommissions.last30)} last 30d`}
+              negative
+            />
+          </div>
+        </section>
+
+        {/* Breakdown tables */}
+        {(s.subscriptions.activeCount > 0 || s.featured.activeCount > 0) && (
+          <section className="mb-12 grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {s.subscriptions.activeCount > 0 && (
+              <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-mansablue" />
+                    <CardTitle className="text-sm font-medium">
+                      Business Subscriptions by Tier
+                    </CardTitle>
+                  </div>
+                  <CardDescription className="text-xs">
+                    Live business plans contributing to MRR
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {(['essentials', 'starter', 'pro', 'enterprise'] as const).map((t) => {
+                      const count = s.subscriptions.byTier[t] ?? 0;
+                      const sub = count * (SUBSCRIPTION_MRR[t] ?? 0);
+                      if (count === 0) return null;
+                      return (
+                        <Badge
+                          key={t}
+                          variant="outline"
+                          className="gap-2 border-white/15 bg-white/[0.03] px-3 py-1.5 text-xs capitalize"
+                        >
+                          <span className="text-foreground">
+                            {t} × {count}
+                          </span>
+                          <span className="text-muted-foreground tabular-nums">
+                            {fmt(sub)}/mo
+                          </span>
+                        </Badge>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {s.featured.activeCount > 0 && (
+              <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <Star className="h-4 w-4 text-mansagold" />
+                    <CardTitle className="text-sm font-medium">
+                      Featured Placements by Tier
+                    </CardTitle>
+                  </div>
+                  <CardDescription className="text-xs">
+                    Live placements contributing to MRR
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {(['bronze', 'silver', 'gold', 'platinum'] as const).map((t) => {
+                      const count = s.featured.byTier[t] ?? 0;
+                      const sub = count * (FEATURED_MRR[t] ?? 0);
+                      if (count === 0) return null;
+                      return (
+                        <Badge
+                          key={t}
+                          variant="outline"
+                          className="gap-2 border-white/15 bg-white/[0.03] px-3 py-1.5 text-xs capitalize"
+                        >
+                          <span className="text-foreground">
+                            {t} × {count}
+                          </span>
+                          <span className="text-muted-foreground tabular-nums">
+                            {fmt(sub)}/mo
+                          </span>
+                        </Badge>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </section>
+        )}
+
+        {/* Revenue stack summary */}
+        <Card className="border-white/10 bg-white/[0.02] backdrop-blur-sm">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-mansagold" />
+              <CardTitle className="text-sm font-medium">Revenue Stack Summary</CardTitle>
+            </div>
+            <CardDescription className="text-xs">
+              16 monetized streams tracked end-to-end. Agent commissions netted. Apple iOS
+              subscriptions tracked but UI hidden per App Store policy.
+            </CardDescription>
           </CardHeader>
-          <CardContent className="text-sm text-muted-foreground space-y-1.5">
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime transactional: <span className="text-foreground font-semibold">{fmt(lifetimeTotal)}</span></div>
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> MRR: <span className="text-foreground font-semibold">{fmt(totalMrr)}</span> · ARR: <span className="text-foreground font-semibold">{fmt(annualizedFromMrr)}</span></div>
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d gross (incl. MRR): <span className="text-foreground font-semibold">{fmt(last30Total + totalMrr)}</span></div>
-            <div className="flex items-center gap-2"><DollarSign className="h-3.5 w-3.5 text-red-400" /> – Agent commissions paid (30d): <span className="text-foreground font-semibold">-{fmt(s.agentCommissions.last30)}</span></div>
-            <div className="flex items-center gap-2 pt-1 border-t border-white/5"><DollarSign className="h-4 w-4 text-emerald-400" /> <span className="text-foreground">Net last 30d:</span> <span className="text-emerald-300 font-bold">{fmt(netLast30)}</span></div>
+          <CardContent>
+            <dl className="divide-y divide-white/5 text-sm">
+              <div className="flex items-center justify-between py-2.5">
+                <dt className="flex items-center gap-2 text-muted-foreground">
+                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Lifetime transactional
+                </dt>
+                <dd className="font-semibold tabular-nums">{fmt(lifetimeTotal)}</dd>
+              </div>
+              <div className="flex items-center justify-between py-2.5">
+                <dt className="flex items-center gap-2 text-muted-foreground">
+                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Monthly recurring (MRR)
+                </dt>
+                <dd className="font-semibold tabular-nums">{fmt(totalMrr)}</dd>
+              </div>
+              <div className="flex items-center justify-between py-2.5">
+                <dt className="flex items-center gap-2 text-muted-foreground">
+                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Annualized run-rate
+                </dt>
+                <dd className="font-semibold tabular-nums">{fmt(annualizedFromMrr)}</dd>
+              </div>
+              <div className="flex items-center justify-between py-2.5">
+                <dt className="flex items-center gap-2 text-muted-foreground">
+                  <DollarSign className="h-3.5 w-3.5 text-mansagold" /> Last 30d gross (incl. MRR)
+                </dt>
+                <dd className="font-semibold tabular-nums">{fmt(last30Total + totalMrr)}</dd>
+              </div>
+              <div className="flex items-center justify-between py-2.5">
+                <dt className="flex items-center gap-2 text-muted-foreground">
+                  <ArrowDownRight className="h-3.5 w-3.5 text-red-400" /> Agent commissions (30d)
+                </dt>
+                <dd className="font-semibold tabular-nums text-red-300">
+                  -{fmt(s.agentCommissions.last30)}
+                </dd>
+              </div>
+              <div className="flex items-center justify-between pt-3">
+                <dt className="flex items-center gap-2 text-foreground">
+                  <ArrowUpRight className="h-4 w-4 text-emerald-400" />
+                  <span className="font-medium">Net last 30 days</span>
+                </dt>
+                <dd className="text-lg font-bold tabular-nums text-emerald-300">
+                  {fmt(netLast30)}
+                </dd>
+              </div>
+            </dl>
           </CardContent>
         </Card>
       </div>
