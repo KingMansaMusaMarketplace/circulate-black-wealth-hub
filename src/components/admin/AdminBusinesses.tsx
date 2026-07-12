@@ -77,40 +77,67 @@ const AdminBusinesses: React.FC = () => {
     }
   };
 
-  const handleVerification = async (verificationId: string, status: 'approved' | 'rejected') => {
-    try {
-      const verification = verifications.find(v => v.id === verificationId);
-      if (!verification) return;
-
-      const { error: verificationError } = await supabase
-        .from('business_verifications')
-        .update({
-          verification_status: status,
-          admin_notes: adminNotes,
-          rejection_reason: status === 'rejected' ? rejectionReason : null,
-          verified_at: status === 'approved' ? new Date().toISOString() : null,
-        })
-        .eq('id', verificationId);
-
-      if (verificationError) throw verificationError;
-
-      if (status === 'approved') {
-        const { error: businessError } = await supabase
+  const approveVerification = async (verification: Verification, businessName: string) => {
+    await runUndoable({
+      label: `Approved ${businessName || 'business'} — click to undo`,
+      durationMs: 8000,
+      do: async () => {
+        const { error: vErr } = await supabase
+          .from('business_verifications')
+          .update({
+            verification_status: 'approved',
+            admin_notes: adminNotes,
+            rejection_reason: null,
+            verified_at: new Date().toISOString(),
+          })
+          .eq('id', verification.id);
+        if (vErr) throw vErr;
+        const { error: bErr } = await supabase
           .from('businesses')
           .update({ is_verified: true })
           .eq('id', verification.business_id);
+        if (bErr) throw bErr;
+        setSelectedVerification(null);
+        setAdminNotes('');
+        setRejectionReason('');
+        fetchData();
+        return verification;
+      },
+      undo: async (v) => {
+        await supabase
+          .from('business_verifications')
+          .update({ verification_status: 'pending', verified_at: null })
+          .eq('id', v.id);
+        await supabase
+          .from('businesses')
+          .update({ is_verified: false })
+          .eq('id', v.business_id);
+        fetchData();
+      },
+    });
+  };
 
-        if (businessError) throw businessError;
-      }
-
-      toast.success(`Business ${status === 'approved' ? 'approved' : 'rejected'} successfully`);
+  const rejectVerification = async () => {
+    if (!selectedVerification) return;
+    try {
+      const { error } = await supabase
+        .from('business_verifications')
+        .update({
+          verification_status: 'rejected',
+          admin_notes: adminNotes,
+          rejection_reason: rejectionReason,
+          verified_at: null,
+        })
+        .eq('id', selectedVerification.id);
+      if (error) throw error;
+      toast.success('Business rejected');
       setSelectedVerification(null);
       setAdminNotes('');
       setRejectionReason('');
       fetchData();
     } catch (error) {
-      console.error('Error updating verification:', error);
-      toast.error('Failed to update verification');
+      console.error('Error rejecting verification:', error);
+      toast.error('Failed to reject verification');
     }
   };
 
