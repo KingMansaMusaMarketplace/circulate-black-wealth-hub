@@ -21,6 +21,7 @@ import KaylaDemoSection from '@/components/homepage/KaylaDemoSection';
 import RebrandBanner from '@/components/HomePage/RebrandBanner';
 import FeaturedCommunities from '@/components/HomePage/FeaturedCommunities';
 import PromiseBanner from '@/components/HomePage/PromiseBanner';
+import BusinessSubmissionBox from '@/components/homepage/BusinessSubmissionBox';
 
 const HomePage = () => {
   
@@ -119,7 +120,12 @@ const HomePage = () => {
           <Hero key={animationKey} />
         </SectionErrorBoundary>
 
-        {/* The Promise — brand pledge banner directly under hero */}
+        {/* Submit-your-business box — directly under hero for max visibility */}
+        <SectionErrorBoundary sectionName="Business Submission">
+          <BusinessSubmissionBox />
+        </SectionErrorBoundary>
+
+        {/* The Promise — brand pledge banner */}
         <SectionErrorBoundary sectionName="Promise Banner">
           <PromiseBanner />
         </SectionErrorBoundary>
