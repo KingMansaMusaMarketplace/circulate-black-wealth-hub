@@ -123,7 +123,8 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
               placeholder="Try 'soul food near me' or 'brunch spots downtown'"
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="pl-10 pr-10 text-lg md:text-xl bg-background text-foreground placeholder:text-muted-foreground"
+              style={{ WebkitTextFillColor: '#111827', color: '#111827', caretColor: '#111827' }}
+              className="pl-10 pr-10 text-lg md:text-xl bg-white text-gray-900 placeholder:text-gray-500"
             />
             {isNaturalLanguageQuery && (
               <Badge 
