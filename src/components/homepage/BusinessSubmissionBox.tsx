@@ -9,7 +9,7 @@ import {
   Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle2, Loader2, ShieldCheck, Lock, Clock } from 'lucide-react';
+import { CheckCircle2, Loader2, ShieldCheck, Lock, Clock, Sparkles } from 'lucide-react';
 
 // Fortune-100-grade category taxonomy, grouped for scannability.
 const CATEGORY_GROUPS: { label: string; items: string[] }[] = [
