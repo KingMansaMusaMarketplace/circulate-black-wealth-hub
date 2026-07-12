@@ -140,6 +140,7 @@ const AdminUsers: React.FC = () => {
   };
 
   const updateUserRole = async (userId: string, newRole: string) => {
+    if (blockIfShadow('Change role')) return;
     const user = users.find(u => u.id === userId);
     const previousRole = user?.role || 'customer';
     if (previousRole === newRole) return;
