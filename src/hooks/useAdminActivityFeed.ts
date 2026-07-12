@@ -38,7 +38,7 @@ export function useAdminActivityFeed(limit = 20) {
           .limit(perSource),
         supabase
           .from("security_audit_log")
-          .select("id, user_id, event_type, timestamp, details")
+          .select("id, user_id, action, table_name, record_id, timestamp")
           .order("timestamp", { ascending: false })
           .limit(perSource),
         supabase
