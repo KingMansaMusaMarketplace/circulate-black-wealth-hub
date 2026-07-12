@@ -255,7 +255,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
               </CollapsibleContent>
             </SidebarGroup>
           </Collapsible>
-        ))}
+          );
+        })}
       </SidebarContent>
 
       <SidebarFooter className="border-t border-white/10 p-4">
