@@ -175,24 +175,39 @@ const BusinessSubmissionBox: React.FC = () => {
   return (
     <section
       id="submit-business"
-      className="w-full py-16 px-4 bg-gradient-to-b from-black via-mansablue/10 to-black"
+      className="w-full py-16 px-4"
+      style={{ background: '#0a0a0a' }}
       aria-labelledby="submit-business-heading"
     >
-      <div className="max-w-4xl mx-auto rounded-2xl border-2 border-mansagold/60 bg-neutral-900 p-6 md:p-10 shadow-[0_0_60px_rgba(255,179,0,0.15)]">
+      <div
+        className="max-w-4xl mx-auto rounded-2xl p-6 md:p-10"
+        style={{
+          background: '#ffffff',
+          border: '4px solid #FFB300',
+          boxShadow: '0 20px 60px rgba(255, 179, 0, 0.35)',
+        }}
+      >
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 rounded-full bg-mansagold/20 px-4 py-1.5 mb-4">
-            <Sparkles className="w-4 h-4 text-mansagold" />
-            <span className="text-mansagold text-sm font-semibold tracking-wide uppercase">
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4"
+            style={{ background: '#003366', color: '#FFB300' }}
+          >
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-semibold tracking-wide uppercase">
               Free Verified Listing
             </span>
           </div>
           <h2
             id="submit-business-heading"
-            className="text-3xl md:text-4xl font-bold text-white mb-3"
+            className="text-3xl md:text-4xl font-bold mb-3"
+            style={{ color: '#0a0a0a' }}
           >
             Own a Black-owned business? Add it free.
           </h2>
-          <p className="text-white/70 max-w-2xl mx-auto text-base md:text-lg">
+          <p
+            className="max-w-2xl mx-auto text-base md:text-lg"
+            style={{ color: '#4a4a4a' }}
+          >
             Get discovered by thousands of intentional shoppers — and by AI
             assistants like ChatGPT and Claude through our directory.
           </p>
