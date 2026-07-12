@@ -175,24 +175,39 @@ const BusinessSubmissionBox: React.FC = () => {
   return (
     <section
       id="submit-business"
-      className="w-full py-12 px-4"
+      className="relative w-full py-16 px-4"
+      style={{ background: '#0a0a0a', zIndex: 10, isolation: 'isolate' }}
       aria-labelledby="submit-business-heading"
     >
-      <div className="max-w-4xl mx-auto rounded-2xl border border-mansagold/40 bg-gradient-to-br from-black via-mansablue/20 to-black p-6 md:p-10 shadow-2xl">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 rounded-full bg-mansagold/20 px-4 py-1.5 mb-3">
-            <Sparkles className="w-4 h-4 text-mansagold" />
-            <span className="text-mansagold text-sm font-semibold tracking-wide uppercase">
-              Free listing
+      <div
+        className="max-w-4xl mx-auto rounded-2xl p-6 md:p-10"
+        style={{
+          background: '#ffffff',
+          border: '4px solid #FFB300',
+          boxShadow: '0 20px 60px rgba(255, 179, 0, 0.35)',
+        }}
+      >
+        <div className="text-center mb-8">
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4"
+            style={{ background: '#003366', color: '#FFB300' }}
+          >
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-semibold tracking-wide uppercase">
+              Free Verified Listing
             </span>
           </div>
           <h2
             id="submit-business-heading"
-            className="text-2xl md:text-4xl font-bold text-white mb-2"
+            className="text-3xl md:text-4xl font-bold mb-3"
+            style={{ color: '#0a0a0a' }}
           >
             Own a Black-owned business? Add it free.
           </h2>
-          <p className="text-white/70 max-w-2xl mx-auto">
+          <p
+            className="max-w-2xl mx-auto text-base md:text-lg"
+            style={{ color: '#4a4a4a' }}
+          >
             Get discovered by thousands of intentional shoppers — and by AI
             assistants like ChatGPT and Claude through our directory.
           </p>
@@ -212,7 +227,7 @@ const BusinessSubmissionBox: React.FC = () => {
           />
 
           <div className="md:col-span-2">
-            <Label htmlFor="business_name" className="text-white">Business Name *</Label>
+            <Label htmlFor="business_name" className="text-neutral-900 font-semibold">Business Name *</Label>
             <Input
               id="business_name"
               value={form.business_name}
@@ -220,13 +235,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="e.g. Sweet Auburn Bakery"
               maxLength={200}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.business_name && <p className="text-red-400 text-xs mt-1">{errors.business_name}</p>}
           </div>
 
           <div className="md:col-span-2">
-            <Label htmlFor="website" className="text-white">Website URL *</Label>
+            <Label htmlFor="website" className="text-neutral-900 font-semibold">Website URL *</Label>
             <Input
               id="website"
               type="url"
@@ -235,13 +250,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="https://yourbusiness.com"
               maxLength={500}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.website && <p className="text-red-400 text-xs mt-1">{errors.website}</p>}
           </div>
 
           <div>
-            <Label htmlFor="email" className="text-white">Business Email *</Label>
+            <Label htmlFor="email" className="text-neutral-900 font-semibold">Business Email *</Label>
             <Input
               id="email"
               type="email"
@@ -250,13 +265,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="owner@yourbusiness.com"
               maxLength={255}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
           </div>
 
           <div>
-            <Label htmlFor="phone" className="text-white">Phone Number *</Label>
+            <Label htmlFor="phone" className="text-neutral-900 font-semibold">Phone Number *</Label>
             <Input
               id="phone"
               type="tel"
@@ -265,13 +280,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="(555) 123-4567"
               maxLength={30}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
           </div>
 
           <div className="md:col-span-2">
-            <Label htmlFor="owner_name" className="text-white">Owner Full Name *</Label>
+            <Label htmlFor="owner_name" className="text-neutral-900 font-semibold">Owner Full Name *</Label>
             <Input
               id="owner_name"
               value={form.owner_name}
@@ -279,13 +294,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="Your full legal name"
               maxLength={200}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.owner_name && <p className="text-red-400 text-xs mt-1">{errors.owner_name}</p>}
           </div>
 
           <div>
-            <Label htmlFor="city" className="text-white">City *</Label>
+            <Label htmlFor="city" className="text-neutral-900 font-semibold">City *</Label>
             <Input
               id="city"
               value={form.city}
@@ -293,13 +308,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="Atlanta"
               maxLength={100}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city}</p>}
           </div>
 
           <div>
-            <Label htmlFor="state" className="text-white">State *</Label>
+            <Label htmlFor="state" className="text-neutral-900 font-semibold">State *</Label>
             <Input
               id="state"
               value={form.state}
@@ -307,15 +322,15 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="GA"
               maxLength={100}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.state && <p className="text-red-400 text-xs mt-1">{errors.state}</p>}
           </div>
 
           <div className="md:col-span-2">
-            <Label htmlFor="category" className="text-white">Category *</Label>
+            <Label htmlFor="category" className="text-neutral-900 font-semibold">Category *</Label>
             <Select value={form.category} onValueChange={setField('category')}>
-              <SelectTrigger className="bg-white/10 border-white/20 text-white">
+              <SelectTrigger className="bg-white border-neutral-300 text-neutral-900">
                 <SelectValue placeholder="Choose a category" />
               </SelectTrigger>
               <SelectContent>
@@ -328,16 +343,16 @@ const BusinessSubmissionBox: React.FC = () => {
           </div>
 
           {/* Legal attestations */}
-          <div className="md:col-span-2 space-y-4 mt-2 p-4 rounded-lg bg-black/40 border border-white/10">
+          <div className="md:col-span-2 space-y-4 mt-2 p-4 rounded-lg bg-neutral-100 border border-neutral-300">
             <div className="flex items-start gap-3">
               <Checkbox
                 id="ownership"
                 checked={ownershipChecked}
                 onCheckedChange={(v) => setOwnershipChecked(v === true)}
-                className="mt-1 border-mansagold data-[state=checked]:bg-mansagold data-[state=checked]:text-black"
+                className="mt-1 border-mansablue data-[state=checked]:bg-mansablue data-[state=checked]:text-white"
               />
-              <Label htmlFor="ownership" className="text-white/90 text-sm leading-relaxed cursor-pointer">
-                <strong className="text-mansagold">Ownership.</strong>{' '}
+              <Label htmlFor="ownership" className="text-neutral-800 text-sm leading-relaxed cursor-pointer">
+                <strong className="text-mansablue">Ownership.</strong>{' '}
                 I confirm that I am the legal owner or authorized representative
                 of this business and have the right to submit it to the directory.
               </Label>
@@ -348,10 +363,10 @@ const BusinessSubmissionBox: React.FC = () => {
                 id="attest"
                 checked={attestChecked}
                 onCheckedChange={(v) => setAttestChecked(v === true)}
-                className="mt-1 border-mansagold data-[state=checked]:bg-mansagold data-[state=checked]:text-black"
+                className="mt-1 border-mansablue data-[state=checked]:bg-mansablue data-[state=checked]:text-white"
               />
-              <Label htmlFor="attest" className="text-white/90 text-sm leading-relaxed cursor-pointer">
-                <strong className="text-mansagold">Legal attestation.</strong>{' '}
+              <Label htmlFor="attest" className="text-neutral-800 text-sm leading-relaxed cursor-pointer">
+                <strong className="text-mansablue">Legal attestation.</strong>{' '}
                 I attest under penalty of perjury that this business is
                 Black-owned and that all information I have provided is accurate
                 and truthful. I understand that submitting false information may
@@ -376,7 +391,7 @@ const BusinessSubmissionBox: React.FC = () => {
                 'Submit My Business for Verification'
               )}
             </Button>
-            <p className="text-white/50 text-xs text-center mt-3">
+            <p className="text-neutral-500 text-xs text-center mt-3">
               Kayla, our AI verification agent, will review your submission and
               our team will approve it within 48 hours.
             </p>
