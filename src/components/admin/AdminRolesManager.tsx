@@ -286,11 +286,26 @@ const AdminRolesManager: React.FC = () => {
                         </span>
                       </div>
                       <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            setEditingRole(role);
+                            setSelectedPermissions(perms);
+                          }}
+                          className="text-mansagold hover:bg-mansagold/10"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
                         {role !== 'super_admin' && (
                           <Button
                             size="sm"
                             variant="ghost"
-                            onClick={() => deleteRoleMutation.mutate(role)}
+                            onClick={() => {
+                              if (confirm(`Delete role "${role.replace(/_/g, ' ')}"? This cannot be undone.`)) {
+                                deleteRoleMutation.mutate(role);
+                              }
+                            }}
                             className="text-red-400 hover:bg-red-500/10"
                           >
                             <Trash2 className="h-4 w-4" />
