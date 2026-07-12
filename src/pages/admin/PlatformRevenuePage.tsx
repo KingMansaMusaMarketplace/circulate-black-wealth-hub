@@ -81,17 +81,17 @@ interface KpiProps {
 const Kpi: React.FC<KpiProps> = ({ label, value, hint, tone = 'neutral' }) => {
   const toneMap = {
     gold: 'text-mansagold',
-    blue: 'text-blue-300',
-    neutral: 'text-foreground',
+    blue: 'text-blue-200',
+    neutral: 'text-white',
     positive: 'text-emerald-300',
   };
   return (
-    <div className="flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm">
-      <div className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
-      <div className={`mt-3 text-3xl font-semibold tabular-nums tracking-tight ${toneMap[tone]}`}>
+    <div className="flex flex-col justify-between rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-xl">
+      <div className="text-xs font-medium uppercase tracking-widest text-white/70">{label}</div>
+      <div className={`mt-4 text-4xl font-bold tabular-nums tracking-tight ${toneMap[tone]}`}>
         {value}
       </div>
-      {hint && <div className="mt-1 text-xs text-muted-foreground">{hint}</div>}
+      {hint && <div className="mt-2 text-sm text-white/70">{hint}</div>}
     </div>
   );
 };
@@ -106,29 +106,29 @@ interface StreamProps {
   negative?: boolean;
 }
 const StreamTile: React.FC<StreamProps> = ({ icon, label, primary, secondary, meta, negative }) => (
-  <div className="group relative rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-white/20 hover:bg-white/[0.04]">
+  <div className="group relative rounded-2xl border border-white/20 bg-white/10 p-5 shadow-lg backdrop-blur-xl transition-all hover:border-mansagold/40 hover:bg-white/15">
     <div className="flex items-start justify-between">
-      <div className="flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-white/[0.03] text-muted-foreground group-hover:text-mansagold">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-mansagold/30 bg-mansagold/15 text-mansagold">
         {icon}
       </div>
       {negative ? (
-        <ArrowDownRight className="h-4 w-4 text-red-400/70" />
+        <ArrowDownRight className="h-5 w-5 text-red-400" />
       ) : (
-        <ArrowUpRight className="h-4 w-4 text-emerald-400/50" />
+        <ArrowUpRight className="h-5 w-5 text-emerald-400" />
       )}
     </div>
-    <div className="mt-3 text-sm font-medium text-foreground/90">{label}</div>
+    <div className="mt-4 text-sm font-semibold text-white">{label}</div>
     <div
-      className={`mt-1 text-2xl font-semibold tabular-nums tracking-tight ${
-        negative ? 'text-red-300' : 'text-foreground'
+      className={`mt-2 text-2xl font-bold tabular-nums tracking-tight ${
+        negative ? 'text-red-300' : 'text-white'
       }`}
     >
       {primary}
     </div>
     {secondary && (
-      <div className="mt-0.5 text-xs text-muted-foreground tabular-nums">{secondary}</div>
+      <div className="mt-1 text-sm text-white/75 tabular-nums">{secondary}</div>
     )}
-    {meta && <div className="mt-2 text-[11px] text-muted-foreground/70">{meta}</div>}
+    {meta && <div className="mt-2 text-xs text-white/60">{meta}</div>}
   </div>
 );
 
@@ -137,12 +137,12 @@ const SectionHeader: React.FC<{ eyebrow: string; title: string; hint?: string }>
   title,
   hint,
 }) => (
-  <div className="mb-4 flex items-baseline justify-between border-b border-white/5 pb-2">
+  <div className="mb-5 flex items-end justify-between border-b border-white/15 pb-3">
     <div>
-      <div className="text-[10px] uppercase tracking-[0.18em] text-mansagold/80">{eyebrow}</div>
-      <h2 className="mt-1 text-lg font-semibold text-foreground">{title}</h2>
+      <div className="text-xs font-semibold uppercase tracking-widest text-mansagold">{eyebrow}</div>
+      <h2 className="mt-1 text-2xl font-bold text-white">{title}</h2>
     </div>
-    {hint && <div className="text-xs text-muted-foreground">{hint}</div>}
+    {hint && <div className="text-sm text-white/70 tabular-nums">{hint}</div>}
   </div>
 );
 
