@@ -51,18 +51,33 @@ const menuGroups: {
     ]
   },
   {
+    label: '⚡ Needs Attention',
+    items: [
+      { id: 'admin-submissions', label: 'Business Submissions', icon: ClipboardList, route: '/admin/submissions', badgeKey: 'submissions' },
+      { id: 'verifications', label: 'Verifications', icon: ShieldCheck, badgeKey: 'verifications' },
+      { id: 'business-review', label: 'Business Review', icon: ListChecks, route: '/admin/business-review' },
+      { id: 'moderation', label: 'Moderation', icon: Shield, badgeKey: 'moderation' },
+      { id: 'support', label: 'Support Tickets', icon: Ticket, badgeKey: 'supportTickets' },
+      { id: 'admin-fraud', label: 'Fraud Detection', icon: AlertTriangle, route: '/admin/fraud-detection', badgeKey: 'fraudAlerts' },
+    ]
+  },
+  {
     label: 'Dashboard',
     items: [
       { id: 'overview', label: 'Overview', icon: BarChart3 },
       { id: 'valuation', label: 'Valuation Metrics', icon: Gem },
       { id: 'growth', label: 'Growth Dashboard', icon: Rocket },
+      { id: 'admin-revenue', label: 'Platform Revenue', icon: DollarSign, route: '/admin/revenue' },
     ]
   },
   {
-    label: 'Analytics',
+    label: 'Analytics & SEO',
     items: [
       { id: 'retention', label: 'Retention', icon: TrendingUp },
       { id: 'geographic', label: 'Geographic', icon: MapPin },
+      { id: 'admin-funnel', label: 'Funnel Analytics', icon: Filter, route: '/admin/funnel' },
+      { id: 'admin-seo', label: 'SEO Dashboard', icon: SearchIcon, route: '/admin/seo' },
+      { id: 'admin-backlinks', label: 'Backlinks', icon: Link2, route: '/admin/backlinks' },
       { id: 'partner-success', label: 'Partner Stories', icon: Trophy },
     ]
   },
@@ -79,30 +94,33 @@ const menuGroups: {
     label: 'Content & Support',
     items: [
       { id: 'audit', label: 'Audit Log', icon: History },
-      { id: 'moderation', label: 'Moderation', icon: Shield },
-      { id: 'support', label: 'Support Tickets', icon: Ticket },
     ]
   },
   {
-    label: 'Business',
+    label: 'Business & Directory',
     items: [
-      { id: 'verifications', label: 'Verifications', icon: ShieldCheck },
       { id: 'listing-queue', label: 'Listing Queue', icon: ListChecks },
+      { id: 'admin-import', label: 'Business Import', icon: Upload, route: '/admin/business-import' },
       { id: 'agents', label: 'Sales Agents', icon: Users },
+      { id: 'admin-commissions', label: 'Commissions', icon: DollarSign, route: '/admin/commissions' },
+      { id: 'financial', label: 'Financial', icon: DollarSign },
+      { id: 'subscriptions', label: 'Subscriptions', icon: CreditCard },
+      { id: 'loyalty', label: 'Loyalty Program', icon: Award },
+      { id: 'qr-fraud', label: 'QR Fraud Monitor', icon: ScanLine },
       { id: 'partners', label: 'Partners', icon: Handshake },
       { id: 'partner-onboarding', label: 'Partner Onboarding', icon: Route },
+      { id: 'developers', label: 'Developers', icon: Code2 },
+      { id: 'admin-api-clients', label: 'API Clients', icon: Key, route: '/admin/api-clients' },
+    ]
+  },
+  {
+    label: 'Sponsors & Outreach',
+    items: [
       { id: 'sponsorship', label: 'Sponsorship (Public)', icon: Award, route: '/corporate-sponsorship' },
       { id: 'sponsors-manage', label: 'Sponsors (Manage)', icon: Award, route: '/admin/sponsors' },
       { id: 'sponsor-crm', label: 'Sponsor CRM', icon: Handshake, route: '/admin/sponsor-crm' },
-      { id: 'outreach-crm', label: 'Directory Outreach', icon: Handshake, route: '/admin/outreach' },
+      { id: 'outreach-crm', label: 'Directory Outreach', icon: Megaphone, route: '/admin/outreach' },
       { id: 'investor-portal-admin', label: 'Investor Portal', icon: Shield, route: '/admin/investor-portal' },
-      { id: 'developers', label: 'Developers', icon: Code2 },
-      { id: 'financial', label: 'Financial', icon: DollarSign },
-      { id: 'subscriptions', label: 'Subscriptions', icon: CreditCard },
-      { id: 'mansa-stays', label: 'Mansa Stays', icon: Home },
-      { id: 'noire-rideshare', label: 'Noire Rideshare', icon: Car },
-      { id: 'loyalty', label: 'Loyalty Program', icon: Award },
-      { id: 'qr-fraud', label: 'QR Fraud Monitor', icon: ScanLine },
     ]
   },
   {
@@ -111,7 +129,19 @@ const menuGroups: {
       { id: 'promos', label: 'Promo Codes', icon: Tag },
       { id: 'flags', label: 'Feature Flags', icon: Flag },
       { id: 'broadcasts', label: 'Broadcasts', icon: Megaphone },
+      { id: 'admin-email-list', label: 'Email List', icon: Mail, route: '/admin/email-list' },
       { id: 'email-analytics', label: 'Email Analytics', icon: Mail, route: '/admin/emails' },
+      { id: 'admin-marketing-analytics', label: 'Marketing Analytics', icon: BarChart3, route: '/admin/marketing-analytics' },
+      { id: 'admin-marketing-materials', label: 'Marketing Materials', icon: FileText, route: '/admin/marketing-materials' },
+      { id: 'admin-sentiment', label: 'Sentiment Analysis', icon: Sparkles, route: '/admin/sentiment-analysis' },
+      { id: 'admin-heygen', label: 'HeyGen Studio', icon: Video, route: '/admin/heygen' },
+    ]
+  },
+  {
+    label: 'Mansa Stays & Rides',
+    items: [
+      { id: 'mansa-stays', label: 'Mansa Stays', icon: Home },
+      { id: 'noire-rideshare', label: 'Noire Rideshare', icon: Car },
     ]
   },
   {
@@ -128,6 +158,7 @@ const menuGroups: {
     items: [
       { id: 'system', label: 'Settings', icon: Sliders },
       { id: 'ai', label: 'AI Tools', icon: Bot },
+      { id: 'admin-ai-workforce', label: 'AI Workforce', icon: Bot, route: '/admin/ai-workforce' },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge },
       { id: 'system-health', label: 'System Health', icon: Activity },
       { id: 'webhooks', label: 'Webhooks', icon: Webhook },
