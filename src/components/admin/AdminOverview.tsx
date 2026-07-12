@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { KaylaAgentReports } from './KaylaAgentReports';
 import { KaylaImpactDashboard } from './KaylaImpactDashboard';
+import { AdminActivityFeed } from './AdminActivityFeed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
   Users, 
