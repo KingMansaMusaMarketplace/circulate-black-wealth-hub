@@ -343,16 +343,16 @@ const BusinessSubmissionBox: React.FC = () => {
           </div>
 
           {/* Legal attestations */}
-          <div className="md:col-span-2 space-y-4 mt-2 p-4 rounded-lg bg-black/40 border border-white/10">
+          <div className="md:col-span-2 space-y-4 mt-2 p-4 rounded-lg bg-neutral-100 border border-neutral-300">
             <div className="flex items-start gap-3">
               <Checkbox
                 id="ownership"
                 checked={ownershipChecked}
                 onCheckedChange={(v) => setOwnershipChecked(v === true)}
-                className="mt-1 border-mansagold data-[state=checked]:bg-mansagold data-[state=checked]:text-black"
+                className="mt-1 border-mansablue data-[state=checked]:bg-mansablue data-[state=checked]:text-white"
               />
-              <Label htmlFor="ownership" className="text-white/90 text-sm leading-relaxed cursor-pointer">
-                <strong className="text-mansagold">Ownership.</strong>{' '}
+              <Label htmlFor="ownership" className="text-neutral-800 text-sm leading-relaxed cursor-pointer">
+                <strong className="text-mansablue">Ownership.</strong>{' '}
                 I confirm that I am the legal owner or authorized representative
                 of this business and have the right to submit it to the directory.
               </Label>
@@ -363,10 +363,10 @@ const BusinessSubmissionBox: React.FC = () => {
                 id="attest"
                 checked={attestChecked}
                 onCheckedChange={(v) => setAttestChecked(v === true)}
-                className="mt-1 border-mansagold data-[state=checked]:bg-mansagold data-[state=checked]:text-black"
+                className="mt-1 border-mansablue data-[state=checked]:bg-mansablue data-[state=checked]:text-white"
               />
-              <Label htmlFor="attest" className="text-white/90 text-sm leading-relaxed cursor-pointer">
-                <strong className="text-mansagold">Legal attestation.</strong>{' '}
+              <Label htmlFor="attest" className="text-neutral-800 text-sm leading-relaxed cursor-pointer">
+                <strong className="text-mansablue">Legal attestation.</strong>{' '}
                 I attest under penalty of perjury that this business is
                 Black-owned and that all information I have provided is accurate
                 and truthful. I understand that submitting false information may
@@ -391,7 +391,7 @@ const BusinessSubmissionBox: React.FC = () => {
                 'Submit My Business for Verification'
               )}
             </Button>
-            <p className="text-white/50 text-xs text-center mt-3">
+            <p className="text-neutral-500 text-xs text-center mt-3">
               Kayla, our AI verification agent, will review your submission and
               our team will approve it within 48 hours.
             </p>
