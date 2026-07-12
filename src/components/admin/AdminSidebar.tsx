@@ -34,7 +34,16 @@ interface AdminSidebarProps {
   onTabChange: (tab: string) => void;
 }
 
-const menuGroups = [
+const menuGroups: {
+  label: string;
+  items: {
+    id: string;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    route?: string;
+    badgeKey?: 'submissions' | 'verifications' | 'fraudAlerts' | 'supportTickets' | 'moderation';
+  }[];
+}[] = [
   {
     label: 'Home',
     items: [
