@@ -26950,6 +26950,20 @@ export type Database = {
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
       slugify: { Args: { input: string }; Returns: string }
+      submit_business: {
+        Args: {
+          p_business_name: string
+          p_category: string
+          p_city: string
+          p_email: string
+          p_owner_name: string
+          p_phone: string
+          p_state: string
+          p_user_agent?: string
+          p_website: string
+        }
+        Returns: string
+      }
       track_material_download: {
         Args: { p_material_id: string; p_user_id: string }
         Returns: undefined
