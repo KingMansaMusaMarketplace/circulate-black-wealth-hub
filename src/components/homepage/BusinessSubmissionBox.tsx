@@ -9,7 +9,7 @@ import {
   Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle2, Loader2, ShieldCheck, Lock, Clock } from 'lucide-react';
+import { CheckCircle2, Loader2, ShieldCheck, Lock, Clock, Sparkles } from 'lucide-react';
 
 // Fortune-100-grade category taxonomy, grouped for scannability.
 const CATEGORY_GROUPS: { label: string; items: string[] }[] = [
@@ -348,10 +348,13 @@ const BusinessSubmissionBox: React.FC = () => {
         {/* Corporate header band */}
         <div style={{ background: '#003366' }} className="px-8 md:px-12 py-8 relative">
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: '#FFB300' }} />
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-3 mb-3">
             <div className="h-px w-8" style={{ background: '#FFB300' }} />
             <span className="text-[11px] font-semibold tracking-[0.2em] uppercase" style={{ color: '#FFB300' }}>
               Verified Business Registry
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-mansagold text-text-on-gold text-[11px] font-bold tracking-wide uppercase">
+              <Sparkles className="w-3 h-3" /> 100% Free
             </span>
           </div>
           <h2
@@ -359,14 +362,14 @@ const BusinessSubmissionBox: React.FC = () => {
             className="text-3xl md:text-4xl font-semibold text-white tracking-tight leading-tight"
             style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
           >
-            Register your Black-owned business.
+            Register your Black-owned business for free.
           </h2>
           <p className="mt-3 text-white/75 max-w-2xl leading-relaxed">
             Join the national directory trusted by intentional consumers and
-            surfaced by leading AI assistants. Verification is free and typically
-            completed within 48 hours.
+            surfaced by leading AI assistants. Verification is <strong className="text-white">100% free</strong> — no credit card, no hidden fees, no listing cost. Most reviews are completed within 48 hours.
           </p>
           <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-xs text-white/70">
+            <span className="inline-flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> 100% free — no credit card required</span>
             <span className="inline-flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Human-reviewed by our compliance team</span>
             <span className="inline-flex items-center gap-1.5"><Lock className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Encrypted &amp; confidential</span>
             <span className="inline-flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> 48-hour turnaround</span>
@@ -552,13 +555,14 @@ const BusinessSubmissionBox: React.FC = () => {
               {submitting ? (
                 <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Submitting…</>
               ) : (
-                'Submit for Verification'
+                'Submit for Free Verification'
               )}
             </Button>
             <p className="text-neutral-500 text-xs text-center mt-4 leading-relaxed">
-              By submitting, you agree to our verification process. Your
+              By submitting, you agree to our free verification process. Your
               information is encrypted in transit and reviewed by Kayla, our AI
-              verification agent, followed by human approval.
+              verification agent, followed by human approval. There is never a charge
+              for a standard directory listing.
             </p>
           </div>
         </form>
