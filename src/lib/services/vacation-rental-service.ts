@@ -222,7 +222,7 @@ export async function fetchPropertyAvailability(
   endDate: string
 ): Promise<PropertyAvailability[]> {
   const { data, error } = await supabase
-    .from('property_availability')
+    .from('property_availability_public')
     .select('*')
     .eq('property_id', propertyId)
     .gte('date', startDate)
@@ -234,7 +234,14 @@ export async function fetchPropertyAvailability(
     throw error;
   }
 
-  return data || [];
+  return (data || []).map((r: any) => ({
+    id: r.id,
+    property_id: r.property_id,
+    date: r.date,
+    is_available: r.is_available,
+    custom_price: null,
+    notes: null,
+  }));
 }
 
 // Check if dates are available
@@ -244,7 +251,7 @@ export async function checkAvailability(
   checkOut: string
 ): Promise<boolean> {
   const { data, error } = await supabase
-    .from('property_availability')
+    .from('property_availability_public')
     .select('date')
     .eq('property_id', propertyId)
     .eq('is_available', false)
