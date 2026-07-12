@@ -227,7 +227,7 @@ const BusinessSubmissionBox: React.FC = () => {
           />
 
           <div className="md:col-span-2">
-            <Label htmlFor="business_name" className="text-white">Business Name *</Label>
+            <Label htmlFor="business_name" className="text-neutral-900 font-semibold">Business Name *</Label>
             <Input
               id="business_name"
               value={form.business_name}
@@ -235,13 +235,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="e.g. Sweet Auburn Bakery"
               maxLength={200}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.business_name && <p className="text-red-400 text-xs mt-1">{errors.business_name}</p>}
           </div>
 
           <div className="md:col-span-2">
-            <Label htmlFor="website" className="text-white">Website URL *</Label>
+            <Label htmlFor="website" className="text-neutral-900 font-semibold">Website URL *</Label>
             <Input
               id="website"
               type="url"
@@ -250,13 +250,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="https://yourbusiness.com"
               maxLength={500}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.website && <p className="text-red-400 text-xs mt-1">{errors.website}</p>}
           </div>
 
           <div>
-            <Label htmlFor="email" className="text-white">Business Email *</Label>
+            <Label htmlFor="email" className="text-neutral-900 font-semibold">Business Email *</Label>
             <Input
               id="email"
               type="email"
@@ -265,13 +265,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="owner@yourbusiness.com"
               maxLength={255}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
           </div>
 
           <div>
-            <Label htmlFor="phone" className="text-white">Phone Number *</Label>
+            <Label htmlFor="phone" className="text-neutral-900 font-semibold">Phone Number *</Label>
             <Input
               id="phone"
               type="tel"
@@ -280,13 +280,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="(555) 123-4567"
               maxLength={30}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
           </div>
 
           <div className="md:col-span-2">
-            <Label htmlFor="owner_name" className="text-white">Owner Full Name *</Label>
+            <Label htmlFor="owner_name" className="text-neutral-900 font-semibold">Owner Full Name *</Label>
             <Input
               id="owner_name"
               value={form.owner_name}
@@ -294,13 +294,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="Your full legal name"
               maxLength={200}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.owner_name && <p className="text-red-400 text-xs mt-1">{errors.owner_name}</p>}
           </div>
 
           <div>
-            <Label htmlFor="city" className="text-white">City *</Label>
+            <Label htmlFor="city" className="text-neutral-900 font-semibold">City *</Label>
             <Input
               id="city"
               value={form.city}
@@ -308,13 +308,13 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="Atlanta"
               maxLength={100}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city}</p>}
           </div>
 
           <div>
-            <Label htmlFor="state" className="text-white">State *</Label>
+            <Label htmlFor="state" className="text-neutral-900 font-semibold">State *</Label>
             <Input
               id="state"
               value={form.state}
@@ -322,15 +322,15 @@ const BusinessSubmissionBox: React.FC = () => {
               placeholder="GA"
               maxLength={100}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              className="bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400"
             />
             {errors.state && <p className="text-red-400 text-xs mt-1">{errors.state}</p>}
           </div>
 
           <div className="md:col-span-2">
-            <Label htmlFor="category" className="text-white">Category *</Label>
+            <Label htmlFor="category" className="text-neutral-900 font-semibold">Category *</Label>
             <Select value={form.category} onValueChange={setField('category')}>
-              <SelectTrigger className="bg-white/10 border-white/20 text-white">
+              <SelectTrigger className="bg-white border-neutral-300 text-neutral-900">
                 <SelectValue placeholder="Choose a category" />
               </SelectTrigger>
               <SelectContent>
