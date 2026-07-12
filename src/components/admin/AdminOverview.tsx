@@ -163,8 +163,20 @@ const AdminOverview: React.FC = () => {
 
       {/* Quick Actions */}
       <Card className="backdrop-blur-xl bg-white/5 border-white/10">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-white">Quick Actions Needed</CardTitle>
+          <Button
+            onClick={handleSendTestReport}
+            disabled={sendingTest}
+            size="sm"
+            className="bg-mansagold hover:bg-mansagold/90 text-black font-medium"
+          >
+            {sendingTest ? (
+              <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending…</>
+            ) : (
+              <><Mail className="h-4 w-4 mr-2" /> Send test report</>
+            )}
+          </Button>
         </CardHeader>
         <CardContent className="space-y-3">
           {stats.pendingVerifications > 0 && (
