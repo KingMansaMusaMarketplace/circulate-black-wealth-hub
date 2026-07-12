@@ -444,36 +444,43 @@ export default function PlatformRevenuePage() {
   const dash = loading ? '—' : null;
 
   return (
-    <div className="min-h-screen bg-black text-foreground">
+    <div className="min-h-screen gradient-primary relative overflow-hidden">
       <Helmet>
         <title>Platform Revenue | Admin</title>
       </Helmet>
 
-      {/* Subtle brand glow — restrained, single layer */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-40 right-0 h-[520px] w-[520px] rounded-full bg-mansablue/10 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-mansagold/[0.04] blur-[100px]" />
+      {/* Animated gold/blue orbs — matches CommissionsPage admin style */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute top-10 left-10 h-72 w-72 rounded-full bg-mansagold/20 blur-3xl animate-float" />
+        <div
+          className="absolute bottom-20 right-10 h-96 w-96 rounded-full bg-mansagold/15 blur-3xl animate-float"
+          style={{ animationDelay: '2s' }}
+        />
+        <div
+          className="absolute top-1/2 left-1/3 h-64 w-64 rounded-full bg-white/5 blur-2xl animate-float"
+          style={{ animationDelay: '4s' }}
+        />
       </div>
 
-      <div className="relative mx-auto max-w-[1600px] px-6 py-10 lg:px-10 lg:py-14">
+      <div className="relative z-10 mx-auto max-w-[1600px] px-6 py-10 lg:px-10 lg:py-14">
         {/* Header */}
-        <div className="mb-10 flex items-end justify-between gap-6 border-b border-white/5 pb-6">
+        <div className="mb-10 flex flex-col gap-4 rounded-2xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-xl md:flex-row md:items-end md:justify-between md:p-8">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-mansagold/80">
+            <div className="text-xs font-semibold uppercase tracking-widest text-mansagold">
               Executive Dashboard
             </div>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight lg:text-4xl">
+            <h1 className="mt-2 font-display text-3xl font-bold text-white lg:text-4xl">
               Platform Revenue
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-2 text-base text-white/80">
               Live view of every 1325.AI revenue stream — recurring, transactional, ancillary.
             </p>
           </div>
-          <div className="hidden shrink-0 text-right lg:block">
-            <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="shrink-0 text-left md:text-right">
+            <div className="text-xs font-medium uppercase tracking-widest text-white/70">
               As of
             </div>
-            <div className="mt-1 text-sm text-foreground/80 tabular-nums">
+            <div className="mt-1 text-base font-medium text-white tabular-nums">
               {new Date().toLocaleString('en-US', {
                 month: 'short',
                 day: 'numeric',
