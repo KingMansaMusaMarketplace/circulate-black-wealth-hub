@@ -45,6 +45,8 @@ const AdminBusinesses: React.FC = () => {
   const [selectedVerification, setSelectedVerification] = useState<Verification | null>(null);
   const [adminNotes, setAdminNotes] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
+  const [rejectConfirmOpen, setRejectConfirmOpen] = useState(false);
+  const runUndoable = useUndoableAction();
 
   useEffect(() => {
     fetchData();
