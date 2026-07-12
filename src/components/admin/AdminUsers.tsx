@@ -43,6 +43,7 @@ const AdminUsers: React.FC = () => {
   }>({ open: false, userId: '', userName: '', action: 'grant' });
 
   const runUndoable = useUndoableAction();
+  const { blockIfShadow } = useAdminShadowMode();
 
   useEffect(() => {
     fetchUsers();
