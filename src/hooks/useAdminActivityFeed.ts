@@ -152,9 +152,9 @@ export function useAdminActivityFeed(limit = 20) {
           actorLabel: label(r.user_id),
           action: r.activity_type?.replace(/_/g, " ") || "Activity",
           detail:
-            typeof r.details === "object" && r.details
-              ? JSON.stringify(r.details).slice(0, 140)
-              : String(r.details || ""),
+            typeof r.activity_data === "object" && r.activity_data
+              ? JSON.stringify(r.activity_data).slice(0, 140)
+              : String(r.activity_data || ""),
           severity: r.activity_type?.startsWith("nuclear_") ? "danger" : "info",
         });
       });
