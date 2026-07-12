@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { KaylaAgentReports } from './KaylaAgentReports';
 import { KaylaImpactDashboard } from './KaylaImpactDashboard';
+import { AdminActivityFeed } from './AdminActivityFeed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
   Users, 
@@ -167,6 +168,10 @@ const AdminOverview: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* "What changed recently" — glanceable audit feed */}
+      <AdminActivityFeed />
+
       {/* Kayla Autonomous Agent Reports */}
       <KaylaAgentReports />
       {/* Kayla Adaptive Intelligence Dashboard */}

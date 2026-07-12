@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { DangerConfirmDialog } from './DangerConfirmDialog';
 import { useUndoableAction } from '@/hooks/useUndoableAction';
+import { useAdminShadowMode } from '@/contexts/AdminShadowModeContext';
+import { logNuclearAction, NUCLEAR_ACTIONS } from '@/lib/security/nuclear-action-logger';
 
 interface UserProfile {
   id: string;
@@ -41,6 +43,7 @@ const AdminUsers: React.FC = () => {
   }>({ open: false, userId: '', userName: '', action: 'grant' });
 
   const runUndoable = useUndoableAction();
+  const { blockIfShadow } = useAdminShadowMode();
 
   useEffect(() => {
     fetchUsers();
@@ -83,6 +86,7 @@ const AdminUsers: React.FC = () => {
   };
 
   const handleAdminToggle = (userId: string, userName: string, currentlyAdmin: boolean) => {
+    if (blockIfShadow(currentlyAdmin ? 'Revoke admin' : 'Grant admin')) return;
     setConfirmDialog({
       open: true,
       userId,
@@ -92,7 +96,7 @@ const AdminUsers: React.FC = () => {
   };
 
   const confirmAdminChange = async () => {
-    const { userId, action } = confirmDialog;
+    const { userId, userName, action } = confirmDialog;
 
     try {
       if (action === 'grant') {
@@ -108,6 +112,10 @@ const AdminUsers: React.FC = () => {
           }
         } else {
           toast.success('Admin access granted successfully');
+          await logNuclearAction(NUCLEAR_ACTIONS.GRANT_ADMIN, {
+            target_user_id: userId,
+            target_display: userName,
+          });
         }
       } else {
         const { error } = await supabase
@@ -118,6 +126,10 @@ const AdminUsers: React.FC = () => {
 
         if (error) throw error;
         toast.success('Admin access revoked successfully');
+        await logNuclearAction(NUCLEAR_ACTIONS.REVOKE_ADMIN, {
+          target_user_id: userId,
+          target_display: userName,
+        });
       }
 
       fetchUserRoles();
@@ -128,6 +140,7 @@ const AdminUsers: React.FC = () => {
   };
 
   const updateUserRole = async (userId: string, newRole: string) => {
+    if (blockIfShadow('Change role')) return;
     const user = users.find(u => u.id === userId);
     const previousRole = user?.role || 'customer';
     if (previousRole === newRole) return;

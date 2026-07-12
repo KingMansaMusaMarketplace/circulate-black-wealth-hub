@@ -48,6 +48,9 @@ import QRScanFraudMonitor from '@/components/admin/QRScanFraudMonitor';
 import KaylaAgentCostMeter from '@/components/admin/KaylaAgentCostMeter';
 import BroadcastAnnouncements from '@/components/admin/BroadcastAnnouncements';
 import BackupRestorePanel from '@/components/admin/BackupRestorePanel';
+import { AdminIdleLock } from '@/components/admin/AdminIdleLock';
+import { AdminShadowModeProvider } from '@/contexts/AdminShadowModeContext';
+import { AdminShadowModeToggle } from '@/components/admin/AdminShadowModeToggle';
 import WebhookManager from '@/components/admin/WebhookManager';
 import APITokenManager from '@/components/admin/APITokenManager';
 import SystemHealthDashboard from '@/components/admin/SystemHealthDashboard';
@@ -187,6 +190,8 @@ const AdminDashboardPage: React.FC = () => {
 
   return (
     <RequireAdmin>
+      <AdminShadowModeProvider>
+      <AdminIdleLock />
       <SidebarProvider defaultOpen={true}>
         <div className="dark min-h-screen flex w-full bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
           {/* Animated gradient orbs */}
@@ -241,6 +246,7 @@ const AdminDashboardPage: React.FC = () => {
                       <PlayCircle className="h-4 w-4" />
                       Tour
                     </Button>
+                    <AdminShadowModeToggle />
                     <div style={{ color: 'rgba(191, 219, 254, 0.9)' }} className="text-sm backdrop-blur-xl bg-white/5 border border-white/10 px-4 py-2 rounded-full shadow-lg">
                       <span className="text-mansagold">●</span> {user?.email}
                     </div>
@@ -353,6 +359,7 @@ const AdminDashboardPage: React.FC = () => {
           stroke: rgba(255, 255, 255, 0.1) !important;
         }
       `}</style>
+      </AdminShadowModeProvider>
     </RequireAdmin>
   );
 };
