@@ -5145,6 +5145,127 @@ export type Database = {
           },
         ]
       }
+      business_submissions: {
+        Row: {
+          admin_notes: string | null
+          approved_business_id: string | null
+          attested_at: string
+          attests_black_owned: boolean
+          attests_ownership: boolean
+          business_name: string
+          category: string
+          city: string
+          confidence_score: number | null
+          created_at: string
+          email: string
+          id: string
+          kayla_report: Json | null
+          owner_name: string
+          phone: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          state: string
+          status: Database["public"]["Enums"]["business_submission_status"]
+          submitter_ip: string | null
+          submitter_user_agent: string | null
+          updated_at: string
+          website: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          approved_business_id?: string | null
+          attested_at?: string
+          attests_black_owned?: boolean
+          attests_ownership?: boolean
+          business_name: string
+          category: string
+          city: string
+          confidence_score?: number | null
+          created_at?: string
+          email: string
+          id?: string
+          kayla_report?: Json | null
+          owner_name: string
+          phone: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          state: string
+          status?: Database["public"]["Enums"]["business_submission_status"]
+          submitter_ip?: string | null
+          submitter_user_agent?: string | null
+          updated_at?: string
+          website: string
+        }
+        Update: {
+          admin_notes?: string | null
+          approved_business_id?: string | null
+          attested_at?: string
+          attests_black_owned?: boolean
+          attests_ownership?: boolean
+          business_name?: string
+          category?: string
+          city?: string
+          confidence_score?: number | null
+          created_at?: string
+          email?: string
+          id?: string
+          kayla_report?: Json | null
+          owner_name?: string
+          phone?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          state?: string
+          status?: Database["public"]["Enums"]["business_submission_status"]
+          submitter_ip?: string | null
+          submitter_user_agent?: string | null
+          updated_at?: string
+          website?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_submissions_approved_business_id_fkey"
+            columns: ["approved_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_submissions_approved_business_id_fkey"
+            columns: ["approved_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_submissions_approved_business_id_fkey"
+            columns: ["approved_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_submissions_approved_business_id_fkey"
+            columns: ["approved_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_submissions_approved_business_id_fkey"
+            columns: ["approved_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_submissions_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       business_tax_rates: {
         Row: {
           business_id: string
@@ -26907,6 +27028,12 @@ export type Database = {
       app_role: "admin" | "customer" | "business" | "sales_agent"
       badge_category: "referrals" | "earnings" | "recruitment" | "special"
       badge_tier: "bronze" | "silver" | "gold" | "platinum" | "diamond"
+      business_submission_status:
+        | "pending_verification"
+        | "pending_review"
+        | "approved"
+        | "rejected"
+        | "needs_more_info"
       cancellation_policy_type: "flexible" | "moderate" | "strict"
       developer_status: "pending" | "active" | "suspended"
       developer_tier: "free" | "pro" | "enterprise"
@@ -27154,6 +27281,13 @@ export const Constants = {
       app_role: ["admin", "customer", "business", "sales_agent"],
       badge_category: ["referrals", "earnings", "recruitment", "special"],
       badge_tier: ["bronze", "silver", "gold", "platinum", "diamond"],
+      business_submission_status: [
+        "pending_verification",
+        "pending_review",
+        "approved",
+        "rejected",
+        "needs_more_info",
+      ],
       cancellation_policy_type: ["flexible", "moderate", "strict"],
       developer_status: ["pending", "active", "suspended"],
       developer_tier: ["free", "pro", "enterprise"],
