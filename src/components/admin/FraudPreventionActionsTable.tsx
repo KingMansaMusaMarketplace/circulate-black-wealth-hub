@@ -18,6 +18,7 @@ import { DangerConfirmDialog } from './DangerConfirmDialog';
 export const FraudPreventionActionsTable = () => {
   const { actions, isLoading, reverseAction, isReversing } = useFraudPrevention();
   const [reverseDialogOpen, setReverseDialogOpen] = useState(false);
+  const [dangerConfirmOpen, setDangerConfirmOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
   const [reverseReason, setReverseReason] = useState('');
 
