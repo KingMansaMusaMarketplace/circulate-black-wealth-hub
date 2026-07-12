@@ -5,16 +5,15 @@ import { ShieldCheck, Ban, Flag, AlertCircle, Loader2, Undo2 } from 'lucide-reac
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
+import { DangerConfirmDialog } from './DangerConfirmDialog';
 
 export const FraudPreventionActionsTable = () => {
   const { actions, isLoading, reverseAction, isReversing } = useFraudPrevention();
