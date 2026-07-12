@@ -3,6 +3,9 @@ import { KaylaAgentReports } from './KaylaAgentReports';
 import { KaylaImpactDashboard } from './KaylaImpactDashboard';
 import { AdminActivityFeed } from './AdminActivityFeed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Mail, Loader2 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import { 
   Users, 
   Building2, 
@@ -42,6 +45,28 @@ const AdminOverview: React.FC = () => {
     activeToday: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [sendingTest, setSendingTest] = useState(false);
+
+  const handleSendTestReport = async () => {
+    setSendingTest(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-weekly-health-email');
+      if (error) throw error;
+      toast({
+        title: '✅ Test report sent',
+        description: 'Check Thomas@1325.AI inbox in the next minute.',
+      });
+      console.log('Weekly health email response:', data);
+    } catch (err: any) {
+      toast({
+        title: 'Failed to send test report',
+        description: err?.message || 'Check edge function logs for details.',
+        variant: 'destructive',
+      });
+    } finally {
+      setSendingTest(false);
+    }
+  };
 
   useEffect(() => {
     fetchStats();
@@ -138,8 +163,20 @@ const AdminOverview: React.FC = () => {
 
       {/* Quick Actions */}
       <Card className="backdrop-blur-xl bg-white/5 border-white/10">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-white">Quick Actions Needed</CardTitle>
+          <Button
+            onClick={handleSendTestReport}
+            disabled={sendingTest}
+            size="sm"
+            className="bg-mansagold hover:bg-mansagold/90 text-black font-medium"
+          >
+            {sendingTest ? (
+              <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending…</>
+            ) : (
+              <><Mail className="h-4 w-4 mr-2" /> Send test report</>
+            )}
+          </Button>
         </CardHeader>
         <CardContent className="space-y-3">
           {stats.pendingVerifications > 0 && (
