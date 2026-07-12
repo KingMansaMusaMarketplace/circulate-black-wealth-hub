@@ -203,7 +203,7 @@ const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePa
 const LazyFeaturedPlacementPage = lazy(() => import('@/pages/business/FeaturedPlacementPage'));
 const LazyInstitutionalAPIPage = lazy(() => import('@/pages/InstitutionalAPIPage'));
 const LazyAPIDocsPage = lazy(() => import('@/pages/developer/APIDocsPage'));
-const LazyAdminPlatformRevenuePage = lazy(() => import('@/pages/admin/PlatformRevenuePage'));
+const LazyAdminPlatformRevenuePage = lazyWithReload(() => import('@/pages/admin/PlatformRevenuePage'));
 const LazyAdminAPIClientsPage = lazy(() => import('@/pages/admin/APIClientsPage'));
 const LazySEODashboard = lazy(() => import('@/pages/admin/SEODashboard'));
 const LazyBacklinksDashboard = lazy(() => import('@/pages/admin/BacklinksDashboard'));
