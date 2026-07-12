@@ -316,14 +316,14 @@ const BusinessSubmissionBox: React.FC = () => {
 
   if (submitted) {
     return (
-      <section className="relative w-full py-12 px-4" style={{ background: '#0a0a0a', zIndex: 10, isolation: 'isolate' }}>
+      <section className="relative w-full py-8 px-4" style={{ background: '#0a0a0a', zIndex: 10, isolation: 'isolate' }}>
         <div className="max-w-3xl mx-auto rounded-md bg-white p-8 text-center shadow-2xl border border-neutral-200">
           <div className="h-1 w-14 mx-auto mb-4" style={{ background: '#FFB300' }} />
           <CheckCircle2 className="w-12 h-12 mx-auto mb-3" style={{ color: '#003366' }} />
           <h3 className="text-xl md:text-2xl font-semibold text-neutral-900 mb-2 tracking-tight">
             Thank you — your submission is in review.
           </h3>
-          <p className="text-neutral-600 max-w-xl mx-auto leading-relaxed text-sm md:text-base">
+          <p className="text-neutral-600 max-w-xl mx-auto leading-relaxed text-sm">
             Kayla, our AI verification agent, is confirming your business details.
             Once approved, your listing goes live in the directory and becomes
             discoverable by AI assistants like ChatGPT and Claude. You'll receive
@@ -337,7 +337,7 @@ const BusinessSubmissionBox: React.FC = () => {
   return (
     <section
       id="submit-business"
-      className="relative w-full py-12 px-4"
+      className="relative w-full py-8 px-4"
       style={{ background: '#0a0a0a', zIndex: 10, isolation: 'isolate' }}
       aria-labelledby="submit-business-heading"
     >
@@ -346,7 +346,7 @@ const BusinessSubmissionBox: React.FC = () => {
         style={{ border: '1px solid #e5e7eb' }}
       >
         {/* Corporate header band */}
-        <div style={{ background: '#003366' }} className="px-6 md:px-8 py-6 relative">
+        <div style={{ background: '#003366' }} className="px-6 md:px-8 py-5 relative">
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: '#FFB300' }} />
           <div className="flex items-center gap-3 mb-2">
             <div className="h-px w-8" style={{ background: '#FFB300' }} />
@@ -364,11 +364,11 @@ const BusinessSubmissionBox: React.FC = () => {
           >
             Register your Black-owned business for free.
           </h2>
-          <p className="mt-2 text-white/75 max-w-2xl leading-relaxed text-sm md:text-base">
+          <p className="mt-1.5 text-white/75 max-w-2xl leading-relaxed text-sm">
             Join the national directory trusted by intentional consumers and
             surfaced by leading AI assistants. Verification is <strong className="text-white">100% free</strong> — no credit card, no hidden fees, no listing cost. Most reviews are completed within 48 hours.
           </p>
-          <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs text-white/70">
+          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-white/70">
             <span className="inline-flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> 100% free — no credit card required</span>
             <span className="inline-flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Human-reviewed by our compliance team</span>
             <span className="inline-flex items-center gap-1.5"><Lock className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Encrypted &amp; confidential</span>
