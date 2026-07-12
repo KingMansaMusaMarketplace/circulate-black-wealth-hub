@@ -164,6 +164,7 @@ const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAIWorkforceDashboard = lazy(() => import('@/pages/admin/AIWorkforceDashboard'));
 const LazyBusinessReviewQueue = lazy(() => import('@/pages/admin/BusinessReviewQueue'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
+const LazyAdminSubmissionsQueue = lazy(() => import('@/pages/admin/SubmissionsQueue'));
 const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
 const LazyQRCodeGeneratorPage = lazy(() => import('@/pages/QRCodeGeneratorPage'));
@@ -515,6 +516,7 @@ function App() {
                               <Route path="/admin/sponsors" element={<RequireAdmin><LazyAdminSponsorsPage /></RequireAdmin>} />
                               <Route path="/admin/sponsors/:id" element={<RequireAdmin><LazyAdminSponsorDetailPage /></RequireAdmin>} />
                               <Route path="/admin/verification" element={<RequireAdmin><LazyAdminVerificationPage /></RequireAdmin>} />
+                              <Route path="/admin/submissions" element={<RequireAdmin><LazyAdminSubmissionsQueue /></RequireAdmin>} />
                               <Route path="/admin/business-import" element={<RequireAdmin><LazyAdminBusinessImport /></RequireAdmin>} />
                               <Route path="/admin/sponsor-crm" element={<RequireAdmin><LazyAdminSponsorCRM /></RequireAdmin>} />
                               <Route path="/admin/outreach" element={<RequireAdmin><LazyAdminOutreachCRM /></RequireAdmin>} />
