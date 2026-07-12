@@ -44,17 +44,43 @@ export const FraudDetectionDashboard = () => {
     }
   };
 
-  const handleUpdateStatus = () => {
+  const performStatusUpdate = () => {
     if (!selectedAlert) return;
-    
-    updateAlertStatus({
-      alertId: selectedAlert.id,
-      status: newStatus,
-      resolutionNotes: resolutionNotes
+    const previousStatus = selectedAlert.status;
+    const previousNotes = selectedAlert.resolution_notes;
+    const alertId = selectedAlert.id;
+    const nextStatus = newStatus;
+    const nextNotes = resolutionNotes;
+
+    runUndoable({
+      label: `Alert marked ${nextStatus.replace('_', ' ')} — click to undo`,
+      durationMs: 8000,
+      do: () => {
+        updateAlertStatus({ alertId, status: nextStatus, resolutionNotes: nextNotes });
+        return { alertId, previousStatus, previousNotes };
+      },
+      undo: ({ alertId, previousStatus, previousNotes }) => {
+        updateAlertStatus({
+          alertId,
+          status: previousStatus,
+          resolutionNotes: previousNotes || '',
+        });
+      },
     });
-    
+
     setSelectedAlert(null);
     setResolutionNotes('');
+  };
+
+  const handleUpdateStatus = () => {
+    if (!selectedAlert) return;
+    // Confirmed / false_positive are heavy: confirmed triggers real prevention
+    // actions, false_positive dismisses the alert. Require a typed confirm.
+    if (newStatus === 'confirmed' || newStatus === 'false_positive') {
+      setConfirmOpen(true);
+      return;
+    }
+    performStatusUpdate();
   };
 
   const filterAlertsByStatus = (status?: string) => {
