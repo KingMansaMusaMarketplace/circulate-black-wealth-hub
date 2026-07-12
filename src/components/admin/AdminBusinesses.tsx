@@ -274,14 +274,17 @@ const AdminBusinesses: React.FC = () => {
 
                         <div className="flex gap-3 pt-4">
                           <Button
-                            onClick={() => handleVerification(verification.id, 'approved')}
+                            onClick={() => approveVerification(verification, business?.business_name || '')}
                             className="flex-1 bg-green-600 hover:bg-green-700"
                           >
                             <CheckCircle className="h-4 w-4 mr-2" />
-                            Approve
+                            Approve (with 8s undo)
                           </Button>
                           <Button
-                            onClick={() => handleVerification(verification.id, 'rejected')}
+                            onClick={() => {
+                              setSelectedVerification(verification);
+                              setRejectConfirmOpen(true);
+                            }}
                             variant="destructive"
                             className="flex-1"
                           >
