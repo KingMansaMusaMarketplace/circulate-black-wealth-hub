@@ -234,7 +234,14 @@ export async function fetchPropertyAvailability(
     throw error;
   }
 
-  return data || [];
+  return (data || []).map((r: any) => ({
+    id: r.id,
+    property_id: r.property_id,
+    date: r.date,
+    is_available: r.is_available,
+    custom_price: null,
+    notes: null,
+  }));
 }
 
 // Check if dates are available
