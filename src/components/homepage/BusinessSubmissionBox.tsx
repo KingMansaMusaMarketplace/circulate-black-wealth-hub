@@ -316,14 +316,14 @@ const BusinessSubmissionBox: React.FC = () => {
 
   if (submitted) {
     return (
-      <section className="relative w-full py-16 px-4" style={{ background: '#0a0a0a', zIndex: 10, isolation: 'isolate' }}>
-        <div className="max-w-3xl mx-auto rounded-md bg-white p-10 text-center shadow-2xl border border-neutral-200">
-          <div className="h-1 w-16 mx-auto mb-6" style={{ background: '#FFB300' }} />
-          <CheckCircle2 className="w-14 h-14 mx-auto mb-4" style={{ color: '#003366' }} />
-          <h3 className="text-2xl md:text-3xl font-semibold text-neutral-900 mb-3 tracking-tight">
+      <section className="relative w-full py-12 px-4" style={{ background: '#0a0a0a', zIndex: 10, isolation: 'isolate' }}>
+        <div className="max-w-3xl mx-auto rounded-md bg-white p-8 text-center shadow-2xl border border-neutral-200">
+          <div className="h-1 w-14 mx-auto mb-4" style={{ background: '#FFB300' }} />
+          <CheckCircle2 className="w-12 h-12 mx-auto mb-3" style={{ color: '#003366' }} />
+          <h3 className="text-xl md:text-2xl font-semibold text-neutral-900 mb-2 tracking-tight">
             Thank you — your submission is in review.
           </h3>
-          <p className="text-neutral-600 max-w-xl mx-auto leading-relaxed">
+          <p className="text-neutral-600 max-w-xl mx-auto leading-relaxed text-sm md:text-base">
             Kayla, our AI verification agent, is confirming your business details.
             Once approved, your listing goes live in the directory and becomes
             discoverable by AI assistants like ChatGPT and Claude. You'll receive
