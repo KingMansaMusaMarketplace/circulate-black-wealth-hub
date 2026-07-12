@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { DangerConfirmDialog } from './DangerConfirmDialog';
 import { useUndoableAction } from '@/hooks/useUndoableAction';
+import { useAdminShadowMode } from '@/contexts/AdminShadowModeContext';
+import { logNuclearAction, NUCLEAR_ACTIONS } from '@/lib/security/nuclear-action-logger';
 
 interface UserProfile {
   id: string;
