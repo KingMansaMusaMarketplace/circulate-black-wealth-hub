@@ -45,6 +45,28 @@ const AdminOverview: React.FC = () => {
     activeToday: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [sendingTest, setSendingTest] = useState(false);
+
+  const handleSendTestReport = async () => {
+    setSendingTest(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-weekly-health-email');
+      if (error) throw error;
+      toast({
+        title: '✅ Test report sent',
+        description: 'Check Thomas@1325.AI inbox in the next minute.',
+      });
+      console.log('Weekly health email response:', data);
+    } catch (err: any) {
+      toast({
+        title: 'Failed to send test report',
+        description: err?.message || 'Check edge function logs for details.',
+        variant: 'destructive',
+      });
+    } finally {
+      setSendingTest(false);
+    }
+  };
 
   useEffect(() => {
     fetchStats();
