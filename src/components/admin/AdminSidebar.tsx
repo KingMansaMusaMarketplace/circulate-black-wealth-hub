@@ -179,6 +179,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === 'collapsed';
   const navigate = useNavigate();
+  const { data: badges } = useAdminBadgeCounts();
 
   const handleItemClick = (item: { id: string; route?: string }) => {
     if (item.route) {
