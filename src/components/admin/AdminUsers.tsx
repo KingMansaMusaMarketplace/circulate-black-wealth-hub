@@ -96,7 +96,7 @@ const AdminUsers: React.FC = () => {
   };
 
   const confirmAdminChange = async () => {
-    const { userId, action } = confirmDialog;
+    const { userId, userName, action } = confirmDialog;
 
     try {
       if (action === 'grant') {
@@ -112,6 +112,10 @@ const AdminUsers: React.FC = () => {
           }
         } else {
           toast.success('Admin access granted successfully');
+          await logNuclearAction(NUCLEAR_ACTIONS.GRANT_ADMIN, {
+            target_user_id: userId,
+            target_display: userName,
+          });
         }
       } else {
         const { error } = await supabase
@@ -122,6 +126,10 @@ const AdminUsers: React.FC = () => {
 
         if (error) throw error;
         toast.success('Admin access revoked successfully');
+        await logNuclearAction(NUCLEAR_ACTIONS.REVOKE_ADMIN, {
+          target_user_id: userId,
+          target_display: userName,
+        });
       }
 
       fetchUserRoles();
