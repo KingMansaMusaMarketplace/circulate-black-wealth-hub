@@ -175,8 +175,8 @@ const BusinessSubmissionBox: React.FC = () => {
   return (
     <section
       id="submit-business"
-      className="w-full py-16 px-4"
-      style={{ background: '#0a0a0a' }}
+      className="relative w-full py-16 px-4"
+      style={{ background: '#0a0a0a', zIndex: 10, isolation: 'isolate' }}
       aria-labelledby="submit-business-heading"
     >
       <div
