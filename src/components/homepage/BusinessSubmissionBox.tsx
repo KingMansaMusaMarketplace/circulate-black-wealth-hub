@@ -175,24 +175,24 @@ const BusinessSubmissionBox: React.FC = () => {
   return (
     <section
       id="submit-business"
-      className="w-full py-12 px-4"
+      className="w-full py-16 px-4 bg-gradient-to-b from-black via-mansablue/10 to-black"
       aria-labelledby="submit-business-heading"
     >
-      <div className="max-w-4xl mx-auto rounded-2xl border border-mansagold/40 bg-gradient-to-br from-black via-mansablue/20 to-black p-6 md:p-10 shadow-2xl">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 rounded-full bg-mansagold/20 px-4 py-1.5 mb-3">
+      <div className="max-w-4xl mx-auto rounded-2xl border-2 border-mansagold/60 bg-neutral-900 p-6 md:p-10 shadow-[0_0_60px_rgba(255,179,0,0.15)]">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full bg-mansagold/20 px-4 py-1.5 mb-4">
             <Sparkles className="w-4 h-4 text-mansagold" />
             <span className="text-mansagold text-sm font-semibold tracking-wide uppercase">
-              Free listing
+              Free Verified Listing
             </span>
           </div>
           <h2
             id="submit-business-heading"
-            className="text-2xl md:text-4xl font-bold text-white mb-2"
+            className="text-3xl md:text-4xl font-bold text-white mb-3"
           >
             Own a Black-owned business? Add it free.
           </h2>
-          <p className="text-white/70 max-w-2xl mx-auto">
+          <p className="text-white/70 max-w-2xl mx-auto text-base md:text-lg">
             Get discovered by thousands of intentional shoppers — and by AI
             assistants like ChatGPT and Claude through our directory.
           </p>
