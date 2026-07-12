@@ -20,6 +20,8 @@ export const FraudDetectionDashboard = () => {
   const [selectedAlert, setSelectedAlert] = useState<FraudAlert | null>(null);
   const [resolutionNotes, setResolutionNotes] = useState('');
   const [newStatus, setNewStatus] = useState<FraudAlert['status']>('investigating');
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const runUndoable = useUndoableAction();
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
