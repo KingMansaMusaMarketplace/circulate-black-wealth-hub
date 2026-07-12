@@ -244,7 +244,7 @@ export async function checkAvailability(
   checkOut: string
 ): Promise<boolean> {
   const { data, error } = await supabase
-    .from('property_availability')
+    .from('property_availability_public')
     .select('date')
     .eq('property_id', propertyId)
     .eq('is_available', false)
