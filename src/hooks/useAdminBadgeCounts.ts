@@ -25,7 +25,7 @@ export function useAdminBadgeCounts() {
         supabase
           .from('business_verifications')
           .select('id', { count: 'exact', head: true })
-          .eq('status', 'pending'),
+          .eq('verification_status', 'pending'),
         supabase
           .from('fraud_alerts')
           .select('id', { count: 'exact', head: true })
