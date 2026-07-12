@@ -37,15 +37,25 @@ export async function logNuclearAction(
       data: { user },
     } = await supabase.auth.getUser();
 
-    await supabase.from("activity_log").insert({
-      user_id: user?.id ?? null,
+    // activity_log.user_id is NOT NULL — refuse to silently drop the audit
+    // record. If there is no authenticated user, surface it loudly instead.
+    if (!user?.id) {
+      console.error("[nuclear-log] cannot record action without authenticated user", action);
+      return;
+    }
+
+    const { error } = await supabase.from("activity_log").insert({
+      user_id: user.id,
       activity_type: action,
-      details: {
+      activity_data: {
         ...details,
         sole_operator_mode: SOLO_MODE,
         logged_at: new Date().toISOString(),
       },
-    } as any);
+    });
+    if (error) {
+      console.error("[nuclear-log] insert failed", action, error);
+    }
   } catch (err) {
     // Never block a real action because logging failed — but do surface it.
     console.error("[nuclear-log] failed to record action", action, err);

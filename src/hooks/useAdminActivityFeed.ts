@@ -38,7 +38,7 @@ export function useAdminActivityFeed(limit = 20) {
           .limit(perSource),
         supabase
           .from("security_audit_log")
-          .select("id, user_id, event_type, timestamp, details")
+          .select("id, user_id, action, table_name, record_id, timestamp")
           .order("timestamp", { ascending: false })
           .limit(perSource),
         supabase
@@ -54,7 +54,7 @@ export function useAdminActivityFeed(limit = 20) {
           .limit(perSource),
         supabase
           .from("activity_log")
-          .select("id, user_id, activity_type, details, created_at")
+          .select("id, user_id, activity_type, activity_data, created_at")
           .order("created_at", { ascending: false })
           .limit(perSource),
       ]);
@@ -100,18 +100,18 @@ export function useAdminActivityFeed(limit = 20) {
       });
 
       (secRes.data || []).forEach((r: any) => {
+        const actionLabel = String(r.action || "Security event");
         events.push({
           id: `sec-${r.id}`,
           source: "security",
           timestamp: r.timestamp,
           actorId: r.user_id,
           actorLabel: label(r.user_id),
-          action: r.event_type?.replace(/_/g, " ") || "Security event",
-          detail:
-            typeof r.details === "object" && r.details
-              ? JSON.stringify(r.details).slice(0, 140)
-              : String(r.details || ""),
-          severity: /fail|denied|breach|nuclear/i.test(r.event_type || "")
+          action: actionLabel.replace(/_/g, " "),
+          detail: [r.table_name, r.record_id ? String(r.record_id).slice(0, 8) : null]
+            .filter(Boolean)
+            .join(" · "),
+          severity: /fail|denied|breach|nuclear|delete|revoke/i.test(actionLabel)
             ? "danger"
             : "info",
         });
@@ -152,9 +152,9 @@ export function useAdminActivityFeed(limit = 20) {
           actorLabel: label(r.user_id),
           action: r.activity_type?.replace(/_/g, " ") || "Activity",
           detail:
-            typeof r.details === "object" && r.details
-              ? JSON.stringify(r.details).slice(0, 140)
-              : String(r.details || ""),
+            typeof r.activity_data === "object" && r.activity_data
+              ? JSON.stringify(r.activity_data).slice(0, 140)
+              : String(r.activity_data || ""),
           severity: r.activity_type?.startsWith("nuclear_") ? "danger" : "info",
         });
       });
