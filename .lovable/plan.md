@@ -1,54 +1,93 @@
-# Add subtle MCP infrastructure badge to homepage
+# 🛡️ BOARD CHECK — Homepage Business Submission
 
-## What this does (plain English)
+**What we're building:** A "Submit Your Black-Owned Business" box directly under the hero on the homepage. Owners self-submit → Kayla auto-verifies → you (admin) approve → business goes live in the directory + MCP.
 
-Add a small, tasteful pill/badge near the top of the homepage that signals to investors, developers, and AI-savvy visitors that 1325.AI is **real infrastructure** — an MCP (Model Context Protocol) server that ChatGPT, Claude, Cursor, and Codex can connect to as a tool.
+**Why it matters:** Turns the homepage into a growth engine. Every approved listing = a new entry in the MCP (Model Context Protocol) directory that AI assistants can surface.
 
-Regular shoppers will barely notice it. The people who *do* know what MCP means (investors, devs, tech influencers) will immediately understand: **this isn't just another marketplace — it's protocol-level infrastructure.**
+---
 
-## What it looks like
+## 1. Homepage submission box (under hero)
 
-A single small pill sitting just above or just below the hero headline. Something like:
+A compact card titled **"Own a Black-owned business? Add it free."** with:
 
-```text
-┌─────────────────────────────────────────────────────┐
-│  ⚡ AI Infrastructure  •  MCP-ready for ChatGPT,    │
-│     Claude, Cursor & Codex  →                       │
-└─────────────────────────────────────────────────────┘
-```
+- Business Name
+- Website URL
+- Business Email
+- Phone Number
+- Owner Full Name
+- City / State
+- Category (dropdown: Food, Beauty, Tech, Retail, Services, Health, Auto, Professional, Other)
+- ☑️ **Checkbox 1 (Ownership):** "I confirm that I am the legal owner or authorized representative of this business."
+- ☑️ **Checkbox 2 (Legal attestation):** "I attest under penalty of perjury that this business is Black-owned and that all information provided is accurate. I understand that submitting false information may result in permanent removal and legal action."
 
-- Styled with the existing MansaGold accent + subtle border (matches the current dark hero).
-- Clickable — links to `/connect` (the page we already built with the Copy URL + Claude/ChatGPT shortcut buttons).
-- Small text, low visual weight. Doesn't compete with the main hero headline or the "Explore the directory" call-to-action.
-- Small lightning/plug icon from lucide-react so it reads as "technical" at a glance without needing to read it.
+Both boxes required. On submit → success message: *"Thank you! Kayla is now verifying your business. You'll hear from us within 48 hours."*
 
-## Why this is the right amount
+## 2. Database — new table `business_submissions`
 
-- **Doesn't hurt shopper conversion.** The hero's main job — get people into the directory — stays intact.
-- **Proves the investor claim.** Your homepage already says "the agentic commerce protocol" in words. This badge is the *proof*: click it, connect it, use it.
-- **Zero risk.** It's a link to an existing page. No backend, no MCP server changes, no new dependencies.
-- **Reversible in 30 seconds** if you don't like it.
+Stores: business info, both attestation timestamps, submitter IP + user agent (fraud trail), Kayla's verification report (JSON), a confidence score (0–100), status (`pending_verification` → `pending_review` → `approved` / `rejected`), and admin notes. RLS: only admins can read; anyone can insert (with rate limiting).
 
-## Where the change lands
+## 3. Kayla auto-verification (edge function, runs on submit)
 
-- **One file only:** `src/components/Hero.tsx` (I'll read it first to place the badge in the right spot without disturbing the existing layout).
-- **No new components, no new dependencies, no design-token changes.**
-- Uses `Link` from `react-router-dom` (already imported elsewhere) and an icon from `lucide-react` (already used across the site).
+Kayla (using Lovable AI Gateway + web search) checks:
 
-## What I'd write (technical detail, safe to skip)
+1. **Website is live** (HTTP 200 check)
+2. **Address / phone / website match** across the web
+3. **Black-owned signals** — searches for the business + terms like "Black-owned," directory listings (Official Black Wall Street, US Black Chambers, EatOkra, etc.), press mentions, owner bio
+4. **Category sanity check** (does the site actually sell what they claimed?)
+5. **Fraud flags** — duplicate submissions, disposable email domains, mismatched info
 
-- Add a `<Link to="/connect">` element wrapping a pill styled with `border border-mansagold/30 bg-mansagold/5 text-mansagold text-xs` (matches existing dark-theme accents in `WhySection`, `HomePage`, and the sponsor banner).
-- Icon: `Zap` from lucide-react (already used elsewhere in the codebase).
-- Copy: **"AI Infrastructure · MCP-ready for ChatGPT, Claude, Cursor & Codex"** with an arrow.
-- Placed inside the existing hero container, above the H1, so it doesn't shift any spacing on mobile.
+Kayla writes a **verification report** + confidence score to the submission row, then sets status to `pending_review`.
 
-## What you'll need to do
+## 4. Admin approval queue (`/admin/submissions`)
 
-Nothing. Just approve the plan and I'll ship it. After it's live, click the badge yourself once to make sure it takes you to `/connect` — that's the whole QA step.
+A page (admin-only) showing all pending submissions sorted by Kayla's confidence score. Each row shows:
 
-## What I will NOT do
+- Business info
+- Kayla's report (green ✅ / yellow ⚠️ / red ❌ flags)
+- Confidence score
+- **[Approve]** / **[Reject]** / **[Request more info]** buttons
 
-- Not adding a full section, banner, or anything below the fold.
-- Not changing the hero headline, subhead, or CTAs.
-- Not touching the MCP server, edge functions, or `/connect` page.
-- Not changing colors, fonts, or the design system.
+## 5. After you approve
+
+Automatically:
+- ✅ Create a public listing in the `businesses` directory table (visible in search + MCP)
+- ✅ Email the owner: "Your listing is live" + link to view it + link to claim their account
+- ✅ Show a soft upsell in the email: **"Want premium placement? Become a Founding Sponsor →"** (links to sponsor tier page)
+
+On reject → email with reason.
+
+---
+
+## Anti-abuse safeguards
+
+- **Rate limit:** 1 submission per IP per hour, 3 per day
+- **Honeypot field** to block bots
+- **Duplicate URL check** — if the domain is already submitted or already listed, block with a friendly message
+- **Disposable email block** (gmail/yahoo allowed; tempmail blocked)
+
+---
+
+## Technical details
+
+**Files to create/edit:**
+- New: `src/components/homepage/BusinessSubmissionBox.tsx`
+- Edit: homepage (`src/pages/Index.tsx` or equivalent) — insert component right under hero
+- New: migration for `business_submissions` table + RLS + grants
+- New: edge function `verify-business-submission` (calls Lovable AI + web search)
+- New: edge function `approve-business-submission` (admin action → creates listing, sends email)
+- New: `src/pages/admin/SubmissionsQueue.tsx`
+
+**Uses:** Lovable AI Gateway (Kayla), Lovable Emails, existing admin role system.
+
+**Not touched:** existing directory, existing sponsor flow, existing MCP definitions (approved businesses flow into the directory Kayla's MCP tools already read from — no MCP code change needed).
+
+---
+
+## What you'll need to do after I build it
+
+1. Test one submission yourself using a real Black-owned business URL
+2. Approve it from `/admin/submissions`
+3. Confirm it shows up in the directory
+4. Then we announce it (homepage banner, email your list)
+
+Approve this plan and I'll build it.
