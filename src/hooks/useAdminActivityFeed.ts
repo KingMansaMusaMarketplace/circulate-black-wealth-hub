@@ -100,18 +100,18 @@ export function useAdminActivityFeed(limit = 20) {
       });
 
       (secRes.data || []).forEach((r: any) => {
+        const actionLabel = String(r.action || "Security event");
         events.push({
           id: `sec-${r.id}`,
           source: "security",
           timestamp: r.timestamp,
           actorId: r.user_id,
           actorLabel: label(r.user_id),
-          action: r.event_type?.replace(/_/g, " ") || "Security event",
-          detail:
-            typeof r.details === "object" && r.details
-              ? JSON.stringify(r.details).slice(0, 140)
-              : String(r.details || ""),
-          severity: /fail|denied|breach|nuclear/i.test(r.event_type || "")
+          action: actionLabel.replace(/_/g, " "),
+          detail: [r.table_name, r.record_id ? String(r.record_id).slice(0, 8) : null]
+            .filter(Boolean)
+            .join(" · "),
+          severity: /fail|denied|breach|nuclear|delete|revoke/i.test(actionLabel)
             ? "danger"
             : "info",
         });
