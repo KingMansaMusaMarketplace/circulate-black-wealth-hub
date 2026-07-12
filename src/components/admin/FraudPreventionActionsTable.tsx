@@ -49,13 +49,18 @@ export const FraudPreventionActionsTable = () => {
     setReverseDialogOpen(true);
   };
 
-  const handleReverseConfirm = () => {
+  const handleReverseProceed = () => {
     if (selectedAction && reverseReason.trim()) {
-      reverseAction({ actionId: selectedAction, reason: reverseReason });
       setReverseDialogOpen(false);
-      setSelectedAction(null);
-      setReverseReason('');
+      setDangerConfirmOpen(true);
     }
+  };
+
+  const handleDangerConfirm = async () => {
+    if (!selectedAction) return;
+    reverseAction({ actionId: selectedAction, reason: reverseReason });
+    setSelectedAction(null);
+    setReverseReason('');
   };
 
   if (isLoading) {
