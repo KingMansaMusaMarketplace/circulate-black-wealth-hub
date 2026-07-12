@@ -194,15 +194,28 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
       </SidebarHeader>
 
       <SidebarContent className="p-2">
-        {menuGroups.map((group) => (
-          <Collapsible key={group.label} defaultOpen className="group/collapsible">
+        {menuGroups.map((group) => {
+          const groupCount = group.items.reduce((sum, i) => {
+            return sum + (i.badgeKey ? (badges?.[i.badgeKey] ?? 0) : 0);
+          }, 0);
+          return (
+          <Collapsible key={group.label} defaultOpen={group.defaultOpen ?? false} className="group/collapsible">
             <SidebarGroup>
               <CollapsibleTrigger asChild>
                 <SidebarGroupLabel 
                   className="flex items-center justify-between cursor-pointer hover:bg-white/5 rounded-md px-2 py-1"
                   style={{ color: 'rgba(148, 163, 184, 0.9)' }}
                 >
-                  {!isCollapsed && <span className="text-xs font-medium uppercase tracking-wider">{group.label}</span>}
+                  {!isCollapsed && (
+                    <span className="text-xs font-medium uppercase tracking-wider flex items-center gap-2">
+                      {group.label}
+                      {groupCount > 0 && (
+                        <Badge className="bg-mansagold text-slate-900 font-bold border-0 h-4 min-w-4 px-1 text-[10px]">
+                          {groupCount}
+                        </Badge>
+                      )}
+                    </span>
+                  )}
                   {!isCollapsed && <ChevronDown className="h-3 w-3 transition-transform group-data-[state=open]/collapsible:rotate-180" />}
                 </SidebarGroupLabel>
               </CollapsibleTrigger>
