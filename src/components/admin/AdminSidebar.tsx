@@ -234,25 +234,34 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
               <CollapsibleContent>
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {group.items.map((item) => (
-                      <SidebarMenuItem key={item.id}>
-                        <SidebarMenuButton
-                          onClick={() => handleItemClick(item)}
-                          isActive={activeTab === item.id}
-                          tooltip={isCollapsed ? item.label : undefined}
-                          className={`
-                            w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all
-                            ${activeTab === item.id 
-                              ? 'bg-mansagold text-slate-900 font-medium' 
-                              : 'text-white/70 hover:text-white hover:bg-white/10'
-                            }
-                          `}
-                        >
-                          <item.icon className="h-4 w-4 shrink-0" />
-                          {!isCollapsed && <span className="text-sm">{item.label}</span>}
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
+                    {group.items.map((item) => {
+                      const count = item.badgeKey ? badges?.[item.badgeKey] ?? 0 : 0;
+                      const showBadge = item.badgeKey && count > 0;
+                      return (
+                        <SidebarMenuItem key={item.id}>
+                          <SidebarMenuButton
+                            onClick={() => handleItemClick(item)}
+                            isActive={activeTab === item.id}
+                            tooltip={isCollapsed ? item.label : undefined}
+                            className={`
+                              w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all
+                              ${activeTab === item.id
+                                ? 'bg-mansagold text-slate-900 font-medium'
+                                : 'text-white/70 hover:text-white hover:bg-white/10'
+                              }
+                            `}
+                          >
+                            <item.icon className="h-4 w-4 shrink-0" />
+                            {!isCollapsed && <span className="text-sm flex-1">{item.label}</span>}
+                            {!isCollapsed && showBadge && (
+                              <Badge className="bg-mansagold text-slate-900 font-bold border-0 h-5 min-w-5 px-1.5 text-[10px]">
+                                {count}
+                              </Badge>
+                            )}
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
                   </SidebarMenu>
                 </SidebarGroupContent>
               </CollapsibleContent>
