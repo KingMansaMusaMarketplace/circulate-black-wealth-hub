@@ -377,7 +377,7 @@ const BusinessSubmissionBox: React.FC = () => {
         </div>
 
         {/* Form body */}
-        <form onSubmit={handleSubmit} className="px-6 md:px-8 py-8 space-y-8">
+        <form onSubmit={handleSubmit} className="px-6 md:px-8 py-6 space-y-5">
           {/* Honeypot */}
           <input
             type="text" name="company_website_url" value={honeypot}
@@ -386,7 +386,7 @@ const BusinessSubmissionBox: React.FC = () => {
           />
 
           {/* Section: Business */}
-          <fieldset className="space-y-4">
+          <fieldset className="space-y-3">
             <legend className="text-[11px] font-semibold tracking-[0.18em] uppercase text-neutral-500 mb-0.5">
               Section 01 — Business Information
             </legend>
@@ -398,7 +398,7 @@ const BusinessSubmissionBox: React.FC = () => {
                 onChange={(e) => setField('business_name')(e.target.value)}
                 placeholder="e.g. Sweet Auburn Bakery, LLC"
                 maxLength={200} required
-                className="mt-1 h-11 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
+                className="mt-0.5 h-10 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
               />
               {errors.business_name && <p className="text-red-600 text-xs mt-1">{errors.business_name}</p>}
             </div>
@@ -410,7 +410,7 @@ const BusinessSubmissionBox: React.FC = () => {
                 onChange={(e) => setField('website')(e.target.value)}
                 placeholder="https://yourbusiness.com"
                 maxLength={500} required
-                className="mt-1 h-11 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
+                className="mt-0.5 h-10 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
               />
               {errors.website && <p className="text-red-600 text-xs mt-1">{errors.website}</p>}
             </div>
@@ -418,7 +418,7 @@ const BusinessSubmissionBox: React.FC = () => {
             <div>
               <Label htmlFor="category" className="text-neutral-900 text-sm font-medium">Industry Category</Label>
               <Select value={form.category} onValueChange={setField('category')}>
-                <SelectTrigger className="mt-1 h-11 bg-white border-neutral-300 text-neutral-900 rounded-sm focus:ring-1 focus:ring-offset-0 focus:ring-[#003366]">
+                <SelectTrigger className="mt-0.5 h-10 bg-white border-neutral-300 text-neutral-900 rounded-sm focus:ring-1 focus:ring-offset-0 focus:ring-[#003366]">
                   <SelectValue placeholder="Select the category that best describes your business" />
                 </SelectTrigger>
                 <SelectContent className="max-h-80">
@@ -437,14 +437,14 @@ const BusinessSubmissionBox: React.FC = () => {
               {errors.category && <p className="text-red-600 text-xs mt-1">{errors.category}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
                 <Label htmlFor="city" className="text-neutral-900 text-sm font-medium">City</Label>
                 <Input
                   id="city" value={form.city}
                   onChange={(e) => setField('city')(e.target.value)}
                   placeholder="Atlanta" maxLength={100} required
-                  className="mt-1 h-11 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
+                  className="mt-0.5 h-10 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
                 />
                 {errors.city && <p className="text-red-600 text-xs mt-1">{errors.city}</p>}
               </div>
@@ -454,7 +454,7 @@ const BusinessSubmissionBox: React.FC = () => {
                   id="state" value={form.state}
                   onChange={(e) => setField('state')(e.target.value)}
                   placeholder="GA" maxLength={100} required
-                  className="mt-1 h-11 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
+                  className="mt-0.5 h-10 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
                 />
                 {errors.state && <p className="text-red-600 text-xs mt-1">{errors.state}</p>}
               </div>
@@ -464,7 +464,7 @@ const BusinessSubmissionBox: React.FC = () => {
           <div className="h-px bg-neutral-200" />
 
           {/* Section: Owner */}
-          <fieldset className="space-y-4">
+          <fieldset className="space-y-3">
             <legend className="text-[11px] font-semibold tracking-[0.18em] uppercase text-neutral-500 mb-0.5">
               Section 02 — Owner &amp; Contact
             </legend>
@@ -475,19 +475,19 @@ const BusinessSubmissionBox: React.FC = () => {
                 id="owner_name" value={form.owner_name}
                 onChange={(e) => setField('owner_name')(e.target.value)}
                 placeholder="First and last name" maxLength={200} required
-                className="mt-1 h-11 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
+                className="mt-0.5 h-10 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
               />
               {errors.owner_name && <p className="text-red-600 text-xs mt-1">{errors.owner_name}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
                 <Label htmlFor="email" className="text-neutral-900 text-sm font-medium">Business Email</Label>
                 <Input
                   id="email" type="email" value={form.email}
                   onChange={(e) => setField('email')(e.target.value)}
                   placeholder="owner@yourbusiness.com" maxLength={255} required
-                  className="mt-1 h-11 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
+                  className="mt-0.5 h-10 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
                 />
                 {errors.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
               </div>
@@ -497,7 +497,7 @@ const BusinessSubmissionBox: React.FC = () => {
                   id="phone" type="tel" value={form.phone}
                   onChange={(e) => setField('phone')(e.target.value)}
                   placeholder="(555) 123-4567" maxLength={30} required
-                  className="mt-1 h-11 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
+                  className="mt-0.5 h-10 bg-white border-neutral-300 text-neutral-900 placeholder:text-neutral-400 rounded-sm focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-[#003366] focus-visible:border-[#003366]"
                 />
                 {errors.phone && <p className="text-red-600 text-xs mt-1">{errors.phone}</p>}
               </div>
@@ -507,12 +507,12 @@ const BusinessSubmissionBox: React.FC = () => {
           <div className="h-px bg-neutral-200" />
 
           {/* Section: Attestations */}
-          <fieldset className="space-y-4">
+          <fieldset className="space-y-3">
             <legend className="text-[11px] font-semibold tracking-[0.18em] uppercase text-neutral-500 mb-0.5">
               Section 03 — Legal Attestations
             </legend>
 
-            <div className="rounded-sm border border-neutral-300 bg-neutral-50 p-4 space-y-3">
+            <div className="rounded-sm border border-neutral-300 bg-neutral-50 p-3 space-y-2">
               <div className="flex items-start gap-3">
                 <Checkbox
                   id="ownership" checked={ownershipChecked}
@@ -549,7 +549,7 @@ const BusinessSubmissionBox: React.FC = () => {
             <Button
               type="submit"
               disabled={submitting || !ownershipChecked || !attestChecked}
-              className="w-full h-11 rounded-sm text-white font-semibold text-sm tracking-wide uppercase disabled:opacity-50"
+              className="w-full h-10 rounded-sm text-white font-semibold text-sm tracking-wide uppercase disabled:opacity-50"
               style={{ background: '#003366' }}
             >
               {submitting ? (
@@ -558,7 +558,7 @@ const BusinessSubmissionBox: React.FC = () => {
                 'Submit for Free Verification'
               )}
             </Button>
-            <p className="text-neutral-500 text-xs text-center mt-3 leading-relaxed">
+            <p className="text-neutral-500 text-xs text-center mt-2 leading-relaxed">
               By submitting, you agree to our free verification process. Your
               information is encrypted in transit and reviewed by Kayla, our AI
               verification agent, followed by human approval. There is never a charge
