@@ -1,11 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
-  MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
+import {
+  BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp,
+  MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database,
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
-  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car, CreditCard, ListChecks, ScanLine, Gauge, Megaphone, Webhook, Key, Activity, Route
+  Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car, CreditCard, ListChecks, ScanLine, Gauge, Megaphone, Webhook, Key, Activity, Route,
+  ClipboardList, Upload, Search as SearchIcon, Link2, Filter, Sparkles, Video, AlertTriangle
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { useAdminBadgeCounts } from '@/hooks/useAdminBadgeCounts';
 import {
   Sidebar,
   SidebarContent,
