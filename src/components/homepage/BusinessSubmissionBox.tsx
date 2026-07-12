@@ -555,13 +555,14 @@ const BusinessSubmissionBox: React.FC = () => {
               {submitting ? (
                 <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Submitting…</>
               ) : (
-                'Submit for Verification'
+                'Submit for Free Verification'
               )}
             </Button>
             <p className="text-neutral-500 text-xs text-center mt-4 leading-relaxed">
-              By submitting, you agree to our verification process. Your
+              By submitting, you agree to our free verification process. Your
               information is encrypted in transit and reviewed by Kayla, our AI
-              verification agent, followed by human approval.
+              verification agent, followed by human approval. There is never a charge
+              for a standard directory listing.
             </p>
           </div>
         </form>
