@@ -341,6 +341,38 @@ export const FraudDetectionDashboard = () => {
       <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
         <FraudPreventionActionsTable />
       </div>
+
+      {/* Type-to-confirm for high-impact status changes */}
+      {selectedAlert && (
+        <DangerConfirmDialog
+          open={confirmOpen}
+          onOpenChange={setConfirmOpen}
+          title={newStatus === 'confirmed' ? 'Confirm this fraud alert' : 'Mark as false positive'}
+          description={
+            newStatus === 'confirmed'
+              ? `You're about to confirm this ${selectedAlert.severity.toUpperCase()} alert as real fraud. Automatic prevention actions may fire immediately.`
+              : `You're about to dismiss this alert as a false positive. The user or business will NOT be flagged.`
+          }
+          consequences={
+            newStatus === 'confirmed'
+              ? [
+                  'The system may auto-disable QR codes, restrict the account, or block transactions',
+                  'The user or business is added to the fraud history',
+                  'This action is written to the audit log',
+                ]
+              : [
+                  'The alert is closed and removed from active investigations',
+                  'The AI learns this pattern is safe (may reduce future alerts)',
+                  'Any auto-triggered prevention actions must be manually reversed',
+                ]
+          }
+          confirmPhrase={newStatus === 'confirmed' ? 'CONFIRM' : 'DISMISS'}
+          confirmButtonLabel={newStatus === 'confirmed' ? 'Confirm fraud' : 'Mark false positive'}
+          onConfirm={() => {
+            performStatusUpdate();
+          }}
+        />
+      )}
     </div>
   );
 };
