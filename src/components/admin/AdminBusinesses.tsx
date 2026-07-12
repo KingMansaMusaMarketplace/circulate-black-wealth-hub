@@ -387,6 +387,32 @@ const AdminBusinesses: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Type-to-confirm dialog for rejecting a verification */}
+      {selectedVerification && (
+        <DangerConfirmDialog
+          open={rejectConfirmOpen}
+          onOpenChange={setRejectConfirmOpen}
+          title="Reject business verification"
+          description={
+            <>
+              You're about to reject the verification for{' '}
+              <span className="font-semibold text-foreground">
+                {businesses.find(b => b.id === selectedVerification.business_id)?.business_name || 'this business'}
+              </span>
+              . They'll be notified and will need to resubmit documents.
+            </>
+          }
+          consequences={[
+            'The business owner is notified with your rejection reason',
+            'They cannot be marked as verified until they resubmit',
+            rejectionReason ? `Reason on record: "${rejectionReason}"` : 'No rejection reason entered — consider adding one before confirming',
+          ]}
+          confirmPhrase={businesses.find(b => b.id === selectedVerification.business_id)?.business_name || 'REJECT'}
+          confirmButtonLabel="Reject verification"
+          onConfirm={rejectVerification}
+        />
+      )}
     </div>
   );
 };
