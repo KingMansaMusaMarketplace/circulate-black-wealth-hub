@@ -85,7 +85,7 @@ const SponsorshipTiers = () => {
                     : 'text-gray-500 hover:text-gray-700'
                 }`}
               >
-                Yearly (Save 15%)
+                Yearly
               </button>
             </div>
           </div>
