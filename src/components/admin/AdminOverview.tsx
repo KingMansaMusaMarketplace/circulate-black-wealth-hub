@@ -168,6 +168,10 @@ const AdminOverview: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* "What changed recently" — glanceable audit feed */}
+      <AdminActivityFeed />
+
       {/* Kayla Autonomous Agent Reports */}
       <KaylaAgentReports />
       {/* Kayla Adaptive Intelligence Dashboard */}
