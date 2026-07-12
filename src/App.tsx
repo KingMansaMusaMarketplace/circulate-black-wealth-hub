@@ -31,6 +31,36 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { useCartSync } from "@/hooks/useCartSync";
 import "./index.css";
 
+// Wraps React.lazy so that when a code-split chunk 404s (typical after a
+// redeploy while the user still has the old index.html cached), we force
+// one reload to fetch the new chunk manifest instead of showing a blank
+// error page. sessionStorage guards against reload loops.
+function lazyWithReload<T extends React.ComponentType<any>>(
+  factory: () => Promise<{ default: T }>
+) {
+  return lazy(async () => {
+    try {
+      return await factory();
+    } catch (err: any) {
+      const msg = String(err?.message || err);
+      const isChunkError =
+        msg.includes('Failed to fetch dynamically imported module') ||
+        msg.includes('Importing a module script failed') ||
+        msg.includes('error loading dynamically imported module');
+      if (isChunkError && typeof window !== 'undefined') {
+        const key = '__chunk_reload_attempted__';
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, '1');
+          window.location.reload();
+          // Return a stub while the reload happens
+          return { default: (() => null) as unknown as T };
+        }
+      }
+      throw err;
+    }
+  });
+}
+
 // Critical components (loaded immediately)
 import HomePage from './pages/HomePage';
 import NotFound from './pages/NotFound';
@@ -173,7 +203,7 @@ const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePa
 const LazyFeaturedPlacementPage = lazy(() => import('@/pages/business/FeaturedPlacementPage'));
 const LazyInstitutionalAPIPage = lazy(() => import('@/pages/InstitutionalAPIPage'));
 const LazyAPIDocsPage = lazy(() => import('@/pages/developer/APIDocsPage'));
-const LazyAdminPlatformRevenuePage = lazy(() => import('@/pages/admin/PlatformRevenuePage'));
+const LazyAdminPlatformRevenuePage = lazyWithReload(() => import('@/pages/admin/PlatformRevenuePage'));
 const LazyAdminAPIClientsPage = lazy(() => import('@/pages/admin/APIClientsPage'));
 const LazySEODashboard = lazy(() => import('@/pages/admin/SEODashboard'));
 const LazyBacklinksDashboard = lazy(() => import('@/pages/admin/BacklinksDashboard'));
