@@ -1,93 +1,104 @@
-# 🛡️ BOARD CHECK — Homepage Business Submission
+# Plan: "Powered by 1325.AI" Embeddable Search Widget
 
-**What we're building:** A "Submit Your Black-Owned Business" box directly under the hero on the homepage. Owners self-submit → Kayla auto-verifies → you (admin) approve → business goes live in the directory + MCP.
+## The Big Idea (Plain English)
 
-**Why it matters:** Turns the homepage into a growth engine. Every approved listing = a new entry in the MCP (Model Context Protocol) directory that AI assistants can surface.
+We give any other Black business directory a tiny piece of code (2 lines) they paste into their website. Once pasted, a search box appears on **their** site. When their visitors type in it — "hair salon near Atlanta", "Black-owned coffee shop" — the search is powered by our AI and shows results from **our** 1325.AI directory.
 
----
+Every result has:
+- A "Powered by 1325.AI" badge
+- A "See more on 1325.AI" button that sends the visitor to our site
 
-## 1. Homepage submission box (under hero)
+**Why the directory owner says yes:** their site instantly gets AI search they never had to build. Their visitors get more value. They look smarter.
 
-A compact card titled **"Own a Black-owned business? Add it free."** with:
-
-- Business Name
-- Website URL
-- Business Email
-- Phone Number
-- Owner Full Name
-- City / State
-- Category (dropdown: Food, Beauty, Tech, Retail, Services, Health, Auto, Professional, Other)
-- ☑️ **Checkbox 1 (Ownership):** "I confirm that I am the legal owner or authorized representative of this business."
-- ☑️ **Checkbox 2 (Legal attestation):** "I attest under penalty of perjury that this business is Black-owned and that all information provided is accurate. I understand that submitting false information may result in permanent removal and legal action."
-
-Both boxes required. On submit → success message: *"Thank you! Kayla is now verifying your business. You'll hear from us within 48 hours."*
-
-## 2. Database — new table `business_submissions`
-
-Stores: business info, both attestation timestamps, submitter IP + user agent (fraud trail), Kayla's verification report (JSON), a confidence score (0–100), status (`pending_verification` → `pending_review` → `approved` / `rejected`), and admin notes. RLS: only admins can read; anyone can insert (with rate limiting).
-
-## 3. Kayla auto-verification (edge function, runs on submit)
-
-Kayla (using Lovable AI Gateway + web search) checks:
-
-1. **Website is live** (HTTP 200 check)
-2. **Address / phone / website match** across the web
-3. **Black-owned signals** — searches for the business + terms like "Black-owned," directory listings (Official Black Wall Street, US Black Chambers, EatOkra, etc.), press mentions, owner bio
-4. **Category sanity check** (does the site actually sell what they claimed?)
-5. **Fraud flags** — duplicate submissions, disposable email domains, mismatched info
-
-Kayla writes a **verification report** + confidence score to the submission row, then sets status to `pending_review`.
-
-## 4. Admin approval queue (`/admin/submissions`)
-
-A page (admin-only) showing all pending submissions sorted by Kayla's confidence score. Each row shows:
-
-- Business info
-- Kayla's report (green ✅ / yellow ⚠️ / red ❌ flags)
-- Confidence score
-- **[Approve]** / **[Reject]** / **[Request more info]** buttons
-
-## 5. After you approve
-
-Automatically:
-- ✅ Create a public listing in the `businesses` directory table (visible in search + MCP)
-- ✅ Email the owner: "Your listing is live" + link to view it + link to claim their account
-- ✅ Show a soft upsell in the email: **"Want premium placement? Become a Founding Sponsor →"** (links to sponsor tier page)
-
-On reject → email with reason.
+**Why we win:** every partner site becomes a funnel that sends their users to us. We track which partner sent which visitor, so we can show them "you sent us 400 users this month" — building goodwill and data.
 
 ---
 
-## Anti-abuse safeguards
+## What Gets Built (4 pieces)
 
-- **Rate limit:** 1 submission per IP per hour, 3 per day
-- **Honeypot field** to block bots
-- **Duplicate URL check** — if the domain is already submitted or already listed, block with a friendly message
-- **Disposable email block** (gmail/yahoo allowed; tempmail blocked)
+### 1. The Widget (what partners embed)
+A tiny standalone JavaScript file hosted at `https://1325.ai/widget.js`. Partners paste this into their site:
+
+```html
+<div id="mansa-search" data-partner="eatokra"></div>
+<script src="https://1325.ai/widget.js"></script>
+```
+
+That's it. A branded search box appears, styled to blend into their site (light/dark mode, custom accent color optional).
+
+### 2. The Widget Backend (an API endpoint)
+A new Supabase edge function `widget-search` that:
+- Accepts search queries from partner sites
+- Runs them through our existing AI search (reuses `parse-search-query` + `search_public_businesses`)
+- Returns results as clean JSON
+- Records which partner sent the query (for analytics)
+- Rate-limits abuse
+
+### 3. Partner Portal (a new admin page on 1325.AI)
+A page at `/partners/widget` where a directory owner can:
+- Sign up for a free partner account
+- Get their unique partner ID (e.g., `eatokra`, `officialbws`)
+- Copy their embed code
+- See a dashboard: searches this month, clicks to 1325.AI, top search terms
+- Optionally customize colors and logo
+
+### 4. Attribution + Conversion Tracking
+When a widget user clicks "See more on 1325.AI", we tag the link with `?ref=eatokra`. If they sign up or claim a business later, we credit the partner. This lets us later offer revenue share or affiliate rewards to top partners.
 
 ---
 
-## Technical details
+## Rollout Plan (What Happens When)
 
-**Files to create/edit:**
-- New: `src/components/homepage/BusinessSubmissionBox.tsx`
-- Edit: homepage (`src/pages/Index.tsx` or equivalent) — insert component right under hero
-- New: migration for `business_submissions` table + RLS + grants
-- New: edge function `verify-business-submission` (calls Lovable AI + web search)
-- New: edge function `approve-business-submission` (admin action → creates listing, sends email)
-- New: `src/pages/admin/SubmissionsQueue.tsx`
+**Phase 1 — Minimum Viable Widget (fastest path to test the idea)**
+- Build the widget file + backend endpoint
+- No partner portal yet — we manually give the first 3 partners their embed code
+- Target: Support Black Owned, ByBlack, one regional directory from the spreadsheet
+- Goal: prove partners will actually embed it
 
-**Uses:** Lovable AI Gateway (Kayla), Lovable Emails, existing admin role system.
+**Phase 2 — Self-Serve Partner Portal**
+- Public signup page at `/partners/widget`
+- Self-serve dashboard with analytics
+- Automated onboarding email with embed code
 
-**Not touched:** existing directory, existing sponsor flow, existing MCP definitions (approved businesses flow into the directory Kayla's MCP tools already read from — no MCP code change needed).
+**Phase 3 — Scale + Monetize**
+- Revenue share for top partners (they earn when their referred users convert to paid)
+- White-label version (partner's own branding, small fee)
+- Data partnership tier (listings sync both ways)
 
 ---
 
-## What you'll need to do after I build it
+## Technical Details (for the record — skip if not technical)
 
-1. Test one submission yourself using a real Black-owned business URL
-2. Approve it from `/admin/submissions`
-3. Confirm it shows up in the directory
-4. Then we announce it (homepage banner, email your list)
+- **Widget file:** vanilla JavaScript, ~15 KB, no framework dependencies, mounts inside a Shadow DOM so it never conflicts with the partner site's CSS
+- **Backend:** new Supabase edge function `widget-search`; reuses `parse-search-query` and the existing `search_public_businesses` RPC
+- **Auth:** partners get a public `partner_id` (safe in browser code) + a secret `partner_key` used only for dashboard access
+- **New tables:** `widget_partners`, `widget_search_events`, `widget_referrals`
+- **CORS:** endpoint must allow requests from any origin (partner sites won't be on our domain), rate-limited per partner
+- **Attribution:** UTM-style `?ref=<partner_id>` on outbound links; cookie set for 30 days
+- **Analytics:** aggregate daily via a scheduled function; surface in partner dashboard + our admin
 
-Approve this plan and I'll build it.
+---
+
+## What You'd Need to Do (Your Homework)
+
+Nothing yet — I just need your green light. Once you approve:
+
+1. **You pick the first 3 partner directories** to pitch (from your spreadsheet). I'd suggest 1 big national + 1 regional + 1 niche.
+2. **I build Phase 1** (widget + backend endpoint) — probably 1 build session.
+3. **You send outreach emails** to those 3 partners with the embed code. I can draft the emails.
+4. We watch what happens for 2 weeks, then decide whether to build the self-serve portal (Phase 2).
+
+---
+
+## What This Plan Does *Not* Include
+
+- Actually reaching out to partners (that's your relationship-building)
+- White-label version (that's Phase 3)
+- Two-way data sync / listings import (separate future project)
+- Paid tier for partners (Phase 3)
+
+---
+
+## Approve to build Phase 1?
+
+If yes, I'll build the widget, the backend endpoint, and give you a working embed code you can paste into any test site to demo — all in the next session.
