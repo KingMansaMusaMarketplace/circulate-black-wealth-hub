@@ -16,7 +16,7 @@ export default function WidgetDemoPage() {
   useEffect(() => {
     if (!token || !mountRef.current) return;
     mountRef.current.innerHTML = `<div id="mansa-search" data-token="${token}"></div>`;
-    // @ts-expect-error - dynamic remount
+    // dynamic remount of widget script
     document.querySelectorAll("script[data-mansa]").forEach((s) => s.remove());
     const s = document.createElement("script");
     s.src = "/widget.js";
