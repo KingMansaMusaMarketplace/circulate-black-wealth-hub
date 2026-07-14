@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import PropertyCard from '@/components/vacation-rentals/PropertyCard';
-import PropertyMap from '@/components/stays/PropertyMap';
+
+const PropertyMap = lazy(() => import('@/components/stays/PropertyMap'));
 import PremiumPropertySearchBar from '@/components/stays/PremiumPropertySearchBar';
 import PropertyFiltersPanel from '@/components/stays/PropertyFiltersPanel';
 import ActiveFiltersBar from '@/components/stays/ActiveFiltersBar';
@@ -427,18 +428,20 @@ const VacationRentalsPage: React.FC = () => {
           <div className="flex flex-col lg:flex-row gap-6" style={{ minHeight: '600px' }}>
             {/* Map (shown on top for mobile, sticky on desktop) */}
             <div className="w-full lg:w-[60%] lg:order-2 lg:sticky lg:top-4 lg:self-start rounded-xl overflow-hidden border-2 border-mansagold/30 shadow-lg shadow-mansagold/10">
-              <PropertyMap 
-                properties={properties}
-                selectedPropertyId={selectedPropertyId}
-                onSelectProperty={(id) => {
-                  setSelectedPropertyId(id);
-                  const element = document.getElementById(`property-${id}`);
-                  if (element && listRef.current) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }
-                }}
-                height="400px"
-              />
+              <Suspense fallback={<div className="w-full h-[400px] bg-slate-800/40 animate-pulse flex items-center justify-center"><Loader2 className="h-8 w-8 text-mansagold animate-spin" /></div>}>
+                <PropertyMap 
+                  properties={properties}
+                  selectedPropertyId={selectedPropertyId}
+                  onSelectProperty={(id) => {
+                    setSelectedPropertyId(id);
+                    const element = document.getElementById(`property-${id}`);
+                    if (element && listRef.current) {
+                      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                  }}
+                  height="400px"
+                />
+              </Suspense>
             </div>
 
             {/* Property List (scrollable on desktop) */}

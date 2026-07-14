@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, memo } from 'react';
+import React, { useState, useEffect, useMemo, memo, lazy, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { 
@@ -34,7 +34,7 @@ import AIReviewSummary from '@/components/business/AIReviewSummary';
 import { useNavigate } from 'react-router-dom';
 // Sample business data removed - all data comes from Supabase
 import { getBusinessBanner } from '@/utils/businessBanners';
-import BusinessLocationMap from '@/components/business-detail/BusinessLocationMap';
+const BusinessLocationMap = lazy(() => import('@/components/business-detail/BusinessLocationMap'));
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
 import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
 import { getRememberedDirectoryUrl } from '@/utils/directoryReturn';
@@ -640,14 +640,16 @@ const BusinessDetailPage = () => {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <BusinessLocationMap
-                          lat={business.latitude || 0}
-                          lng={business.longitude || 0}
-                          businessName={business.business_name}
-                          address={business.address || ''}
-                          city={business.city}
-                          state={business.state}
-                        />
+                        <Suspense fallback={<div className="h-64 w-full bg-slate-800/40 rounded-lg animate-pulse" />}>
+                          <BusinessLocationMap
+                            lat={business.latitude || 0}
+                            lng={business.longitude || 0}
+                            businessName={business.business_name}
+                            address={business.address || ''}
+                            city={business.city}
+                            state={business.state}
+                          />
+                        </Suspense>
                         <div className="text-center mt-4 space-y-2">
                           <p className="text-slate-300 text-sm">
                             {business.address ? `${business.address}, ` : ''}{business.city}, {business.state} {business.zip_code}

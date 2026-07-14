@@ -1,9 +1,16 @@
 
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { MapContainerProps } from './types';
 import MapboxApiKey from './MapboxApiKey';
-import MapboxMap from './MapboxMap';
+
+const MapboxMap = lazy(() => import('./MapboxMap'));
+
+const MapLoadingFallback = () => (
+  <div className="h-full w-full flex items-center justify-center bg-slate-50">
+    <Loader2 className="h-8 w-8 text-mansablue animate-spin" />
+  </div>
+);
 
 const MapContainer: React.FC<MapContainerProps> = ({ 
   userLocation, 
@@ -59,12 +66,14 @@ const MapContainer: React.FC<MapContainerProps> = ({
           {/* Right Side - Interactive Mapbox Map */}
           <div className="flex-grow">
             {mapboxApiKey ? (
-              <MapboxMap
-                apiKey={mapboxApiKey}
-                userLocation={userLocation}
-                businesses={nearbyBusinesses}
-                onBusinessClick={onSelectBusiness}
-              />
+              <Suspense fallback={<MapLoadingFallback />}>
+                <MapboxMap
+                  apiKey={mapboxApiKey}
+                  userLocation={userLocation}
+                  businesses={nearbyBusinesses}
+                  onBusinessClick={onSelectBusiness}
+                />
+              </Suspense>
             ) : (
               <div className="h-full flex items-center justify-center bg-gray-50">
                 <div className="text-center">

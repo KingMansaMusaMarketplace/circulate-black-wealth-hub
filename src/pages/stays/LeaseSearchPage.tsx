@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, lazy, Suspense } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,7 +11,7 @@ import LeaseLegalFooter from "@/components/stays/lease/LeaseLegalFooter";
 import PropertyTypeFilter from "@/components/stays/lease/PropertyTypeFilter";
 import LeaseListingCard from "@/components/stays/lease/LeaseListingCard";
 import LeaseListRow from "@/components/stays/lease/LeaseListRow";
-import LeaseMapView from "@/components/stays/lease/LeaseMapView";
+const LeaseMapView = lazy(() => import("@/components/stays/lease/LeaseMapView"));
 import LeaseHero from "@/components/stays/lease/LeaseHero";
 import SaveSearchButton from "@/components/stays/lease/SaveSearchButton";
 import SmartEmptyState from "@/components/stays/lease/SmartEmptyState";
@@ -294,7 +294,9 @@ const LeaseSearchPage: React.FC = () => {
         ) : viewMode === "map" ? (
           <div className="grid lg:grid-cols-5 gap-4">
             <div className="lg:col-span-3">
-              <LeaseMapView listings={sorted} height="calc(100vh - 320px)" />
+              <Suspense fallback={<div className="w-full bg-slate-800/40 animate-pulse rounded-lg" style={{ height: 'calc(100vh - 320px)' }} />}>
+                <LeaseMapView listings={sorted} height="calc(100vh - 320px)" />
+              </Suspense>
             </div>
             <div className="lg:col-span-2 max-h-[calc(100vh-320px)] overflow-y-auto space-y-3 pr-1">
               {sorted.map((l) => <LeaseListingCard key={l.id} l={l} />)}

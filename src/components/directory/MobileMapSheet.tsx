@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { X, Navigation } from 'lucide-react';
+import React, { useState, lazy, Suspense } from 'react';
+import { X, Navigation, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Business } from '@/types/business';
 import { BusinessLocation } from '@/components/MapView/types';
-import MapboxMap from '@/components/MapView/MapboxMap';
 import CompactBusinessCard from './CompactBusinessCard';
 import { cn } from '@/lib/utils';
+
+const MapboxMap = lazy(() => import('@/components/MapView/MapboxMap'));
 
 interface MobileMapSheetProps {
   isOpen: boolean;
@@ -93,15 +94,22 @@ const MobileMapSheet: React.FC<MobileMapSheetProps> = ({
 
             {/* Map Container */}
             <div className="flex-1 relative">
-              <MapboxMap
-                apiKey={mapApiKey}
-                userLocation={userLocation}
-                businesses={mapData}
-                onBusinessClick={handleMarkerClick}
-                highlightedBusinessId={highlightedBusinessId || selectedBusinessId}
-                onMarkerHover={() => {}}
-                flyToOnClick
-              />
+              <Suspense fallback={
+                <div className="h-full w-full flex items-center justify-center bg-slate-900">
+                  <Loader2 className="h-8 w-8 text-white animate-spin" />
+                </div>
+              }>
+                <MapboxMap
+                  apiKey={mapApiKey}
+                  userLocation={userLocation}
+                  businesses={mapData}
+                  onBusinessClick={handleMarkerClick}
+                  highlightedBusinessId={highlightedBusinessId || selectedBusinessId}
+                  onMarkerHover={() => {}}
+                  flyToOnClick
+                />
+              </Suspense>
+
 
               {/* Selected Business Preview Card */}
               <AnimatePresence>
