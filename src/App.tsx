@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { isCapacitorPlatform } from '@/utils/capacitor-platform-check';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -525,8 +525,9 @@ function App() {
                             <Routes>
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
-                              {/* Home */}
-                              <Route path="/" element={<HomePage />} />
+                              {/* Home — Directory is the landing page */}
+                              <Route path="/" element={<LazyDirectoryPage />} />
+                              <Route path="/about-1325" element={<HomePage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect-chatgpt" element={<LazyConnectChatGPTPage />} />
                               
@@ -680,7 +681,7 @@ function App() {
                               <Route path="/developers/pricing" element={<LazyComingSoonPage />} />
                               <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
                               <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
-                              <Route path="/directory" element={<LazyDirectoryPage />} />
+                              <Route path="/directory" element={<Navigate to="/" replace />} />
                               <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
                               <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
                               <Route path="/minority-business-marketplace" element={<LazyBlackOwnedIndexPage />} />
@@ -950,8 +951,9 @@ function App() {
                         <Suspense fallback={<LoadingFallback />}>
                         <Layout>
                           <Routes>
-                        {/* Home */}
-                        <Route path="/" element={<HomePage />} />
+                        {/* Home — Directory is the landing page */}
+                        <Route path="/" element={<LazyDirectoryPage />} />
+                        <Route path="/about-1325" element={<HomePage />} />
                         
                         {/* A */}
                         <Route path="/about" element={<LazyAboutPage />} />
@@ -1096,7 +1098,7 @@ function App() {
                         <Route path="/developers/pricing" element={<LazyComingSoonPage />} />
                         <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
                         <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
-                        <Route path="/directory" element={<LazyDirectoryPage />} />
+                        <Route path="/directory" element={<Navigate to="/" replace />} />
                         <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
                         <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
                         <Route path="/minority-business-marketplace" element={<LazyBlackOwnedIndexPage />} />
