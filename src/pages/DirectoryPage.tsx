@@ -37,6 +37,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
 import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 import HomeSignupStrip from '@/components/directory/HomeSignupStrip';
+import WhyBand from '@/components/directory/WhyBand';
 
 const DirectoryPage: React.FC = () => {
   
@@ -550,6 +551,8 @@ const DirectoryPage: React.FC = () => {
             </motion.div>
           )}
         </div>
+
+        {isHome && <WhyBand />}
         
         <ScrollToTopButton />
         
