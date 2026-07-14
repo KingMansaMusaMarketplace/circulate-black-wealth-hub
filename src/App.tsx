@@ -951,8 +951,9 @@ function App() {
                         <Suspense fallback={<LoadingFallback />}>
                         <Layout>
                           <Routes>
-                        {/* Home */}
-                        <Route path="/" element={<HomePage />} />
+                        {/* Home — Directory is the landing page */}
+                        <Route path="/" element={<LazyDirectoryPage />} />
+                        <Route path="/about-1325" element={<HomePage />} />
                         
                         {/* A */}
                         <Route path="/about" element={<LazyAboutPage />} />
