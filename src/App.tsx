@@ -525,8 +525,9 @@ function App() {
                             <Routes>
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
-                              {/* Home */}
-                              <Route path="/" element={<HomePage />} />
+                              {/* Home — Directory is the landing page */}
+                              <Route path="/" element={<LazyDirectoryPage />} />
+                              <Route path="/about-1325" element={<HomePage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect-chatgpt" element={<LazyConnectChatGPTPage />} />
                               
