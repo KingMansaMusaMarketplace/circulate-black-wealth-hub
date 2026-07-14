@@ -36,6 +36,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { useIsMobile } from '@/hooks/use-mobile';
 import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
 import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
+import HomeSignupStrip from '@/components/directory/HomeSignupStrip';
 
 const DirectoryPage: React.FC = () => {
   
