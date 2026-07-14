@@ -67,12 +67,12 @@ const NavLinks: React.FC = () => {
           <NavigationMenuContent>
             <ul className={dropdownUlClass}>
               <li>
-                <Link to="/about" className={itemClass}>
+                <Link to="/about-1325" className={itemClass}>
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-gradient-to-br from-mansagold to-amber-600 shadow-sm">
                       <Sparkles className="h-3.5 w-3.5 text-white" />
                     </div>
-                    <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">About Us</div>
+                    <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">About 1325.AI</div>
                   </div>
                   <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
                     Learn about our mission to build Black wealth

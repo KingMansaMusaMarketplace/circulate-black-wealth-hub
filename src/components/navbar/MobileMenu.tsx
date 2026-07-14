@@ -62,7 +62,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
     { to: '/share-impact', label: 'Share My Impact 📸' },
     { to: '/social-proof', label: 'Success Stories 🌟' },
     { to: '/network', label: 'My Network 👥' },
-    { to: '/about', label: 'About Us' },
+    { to: '/about-1325', label: 'About 1325.AI' },
     { to: '/scanner', label: 'QR Scanner', dataTour: 'qr-scanner' },
     { to: '/loyalty', label: 'Rewards' },
     { to: '/community-impact', label: 'Community Impact' },
