@@ -268,16 +268,31 @@ const DirectoryPage: React.FC = () => {
     return <DirectoryErrorState error={error instanceof Error ? error.message : 'Failed to load businesses'} />;
   }
 
+  const isHome = routerLocation.pathname === '/';
+  const seoTitle = isHome
+    ? '1325.AI — The Global Black-Owned Business Directory'
+    : pageSEO.directory.title;
+  const seoDescription = isHome
+    ? 'Discover verified Black-owned businesses worldwide. Search by city, category, or name — and support the movement circulating community wealth.'
+    : pageSEO.directory.description;
+  const canonicalUrl = isHome ? 'https://1325.ai/' : 'https://1325.ai/directory';
+
   return (
     <ErrorBoundary>
       <Helmet>
-        <title>{pageSEO.directory.title}</title>
-        <meta name="description" content={pageSEO.directory.description} />
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
         <meta name="keywords" content={pageSEO.directory.keywords.join(', ')} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
       </Helmet>
       
       <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
       <DirectoryStructuredData totalBusinesses={totalBusinesses || 12000} />
+      {isHome && <HomeSignupStrip />}
       
       <div className="min-h-screen relative overflow-x-hidden">
         {/* Modern dark gradient mesh background */}
