@@ -551,6 +551,8 @@ const DirectoryPage: React.FC = () => {
             </motion.div>
           )}
         </div>
+
+        {isHome && <WhyBand />}
         
         <ScrollToTopButton />
         
