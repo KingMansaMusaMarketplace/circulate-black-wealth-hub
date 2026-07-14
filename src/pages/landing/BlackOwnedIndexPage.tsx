@@ -26,9 +26,9 @@ export default function BlackOwnedIndexPage() {
   const collectionSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Black-Owned Business Directory",
+    name: "Black-Owned Global Business Directory",
     description:
-      "The largest verified Black-owned business directory in the United States. Find Black-owned restaurants, salons, barbershops, contractors and more by city and category.",
+      "The largest verified Black-owned global business directory in the United States. Find Black-owned restaurants, salons, barbershops, contractors and more by city and category.",
     url: "https://1325.ai/black-owned",
     isPartOf: { "@type": "WebSite", name: "1325.AI", url: "https://1325.ai/" },
     mainEntity: {
@@ -46,11 +46,11 @@ export default function BlackOwnedIndexPage() {
   return (
     <>
       <Helmet>
-        <title>Black-Owned Business Directory | 43,000+ Verified Listings | 1325.AI</title>
-        <meta name="description" content="The largest verified Black-owned business directory. Find 43,000+ Black-owned restaurants, salons, barbershops, contractors & services near you. Free on 1325.AI." />
-        <meta name="keywords" content="Black-owned business directory, Black-owned businesses near me, find Black-owned businesses, Black business directory, minority business marketplace, African American business directory, support Black-owned businesses" />
+        <title>Black-Owned Global Business Directory | 43,000+ Verified Listings | 1325.AI</title>
+        <meta name="description" content="The largest verified Black-owned global business directory. Find 43,000+ Black-owned restaurants, salons, barbershops, contractors & services near you. Free on 1325.AI." />
+        <meta name="keywords" content="Black-owned global business directory, Black-owned businesses near me, find Black-owned businesses, Black business directory, minority business marketplace, African American business directory, support Black-owned businesses" />
         <link rel="canonical" href="https://1325.ai/black-owned" />
-        <meta property="og:title" content="Black-Owned Business Directory | 43,000+ Verified Listings" />
+        <meta property="og:title" content="Black-Owned Global Business Directory | 43,000+ Verified Listings" />
         <meta property="og:description" content="Find 43,000+ verified Black-owned businesses by city and category on 1325.AI." />
         <meta property="og:url" content="https://1325.ai/black-owned" />
         <meta property="og:type" content="website" />
@@ -59,12 +59,12 @@ export default function BlackOwnedIndexPage() {
 
       <main className="dark container mx-auto px-4 py-12 bg-background text-foreground min-h-screen">
         <header className="mb-10 text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Black-Owned Business Directory</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Black-Owned Global Business Directory</h1>
           <p className="text-muted-foreground text-lg mb-2">
             Find <strong>{(totalCount || 43000).toLocaleString()}+</strong> verified Black-owned businesses near you — restaurants, salons, barbershops, contractors and services across the United States.
           </p>
           <p className="text-sm text-muted-foreground">
-            The largest Black-owned business directory and minority business marketplace, powered by 1325.AI.
+            The largest Black-owned global business directory and minority business marketplace, powered by 1325.AI.
           </p>
         </header>
 

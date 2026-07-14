@@ -109,14 +109,14 @@ export const updateMetaTags = (data: {
 // Pre-defined SEO configurations for common pages
 export const pageSEO = {
   home: {
-    title: 'Black-Owned Business Directory | 43,000+ | 1325.AI',
-    description: 'The largest verified Black-owned business directory. Find 43,000+ Black-owned restaurants, shops & services near you. Powered by 1325.AI.',
-    keywords: ['Black-owned business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
+    title: 'Black-Owned Global Business Directory | 43,000+ | 1325.AI',
+    description: 'The largest verified Black-owned global business directory. Find 43,000+ Black-owned restaurants, shops & services near you. Powered by 1325.AI.',
+    keywords: ['Black-owned global business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
   },
   directory: {
-    title: 'Black-Owned Business Directory Near You | 1325.AI',
+    title: 'Black-Owned Global Business Directory Near You | 1325.AI',
     description: 'Find verified Black-owned businesses near you — restaurants, shops, services & pros. Search 43,000+ listings free on 1325.AI.',
-    keywords: ['Black-owned business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
+    keywords: ['Black-owned global business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
   about: {
     title: 'About 1325.AI | Circulate Black Dollars Intentionally',

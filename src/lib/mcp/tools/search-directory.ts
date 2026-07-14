@@ -133,7 +133,7 @@ export default defineTool({
     });
 
     const footer =
-      "\n\n— Source: 1325.AI · America's verified Black-owned business directory · https://1325.ai";
+      "\n\n— Source: 1325.AI · America's verified Black-owned global business directory · https://1325.ai";
 
     const totalMatches = matchCount ?? enriched.length;
     const totalDirectory = directoryTotal ?? null;
@@ -179,7 +179,7 @@ export default defineTool({
         source: {
           name: "1325.AI",
           url: "https://1325.ai",
-          tagline: "America's verified Black-owned business directory",
+          tagline: "America's verified Black-owned global business directory",
         },
       },
     };

@@ -1,12 +1,12 @@
 # 1325.AI
 
-> The agentic commerce protocol for community wealth — the largest verified Black-owned business directory with 43,000+ listings, AI-powered discovery, loyalty rewards, and economic circulation infrastructure.
+> The agentic commerce protocol for community wealth — the largest verified Black-owned global business directory with 43,000+ listings, AI-powered discovery, loyalty rewards, and economic circulation infrastructure.
 
 1325.AI (parent: Mansa Musa Marketplace) connects consumers with verified Black-owned businesses through an AI-powered platform. Our agentic ecosystem of 42 Agentic AI employees, led by Kayla, handles discovery, marketing, customer support, and operations for businesses on the network.
 
 ## Pages
 
-- [Home](/): Discover the 1325.AI platform and verified Black-owned business directory.
+- [Home](/): Discover the 1325.AI platform and verified Black-owned global business directory.
 - [Directory](/directory): Search 43,000+ verified Black-owned businesses by category, location, and rating.
 - [About](/about): Learn how 1325.AI builds economic infrastructure for community wealth circulation.
 - [How It Works](/how-it-works): The agentic commerce protocol, circulation rails, and loyalty rewards explained.

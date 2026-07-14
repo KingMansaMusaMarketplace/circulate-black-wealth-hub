@@ -104,7 +104,7 @@ export default defineTool({
       `🧭 Directions: ${directions_url}\n` +
       `🔗 1325.AI profile: ${business.profile_url}\n` +
       (desc ? `\n${desc}` : "") +
-      "\n\n— Source: 1325.AI · America's verified Black-owned business directory · https://1325.ai";
+      "\n\n— Source: 1325.AI · America's verified Black-owned global business directory · https://1325.ai";
 
     return {
       content: [{ type: "text", text: summary }],
@@ -113,7 +113,7 @@ export default defineTool({
         source: {
           name: "1325.AI",
           url: "https://1325.ai",
-          tagline: "America's verified Black-owned business directory",
+          tagline: "America's verified Black-owned global business directory",
         },
       },
     };

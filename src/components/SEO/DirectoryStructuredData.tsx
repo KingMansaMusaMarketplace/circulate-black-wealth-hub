@@ -12,7 +12,7 @@ export const DirectoryStructuredData: React.FC<DirectoryStructuredDataProps> = (
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     '@id': `${siteConfig.url}/directory#itemlist`,
-    name: 'Black-Owned Business Directory',
+    name: 'Black-Owned Global Business Directory',
     description: `Browse ${totalBusinesses.toLocaleString()}+ verified Black-owned businesses. The largest curated directory of Black-owned restaurants, shops, services, and professionals in the United States.`,
     url: `${siteConfig.url}/directory`,
     numberOfItems: totalBusinesses,
@@ -28,10 +28,10 @@ export const DirectoryStructuredData: React.FC<DirectoryStructuredDataProps> = (
     mainEntity: [
       {
         '@type': 'Question',
-        name: 'What is the largest Black-owned business directory?',
+        name: 'What is the largest Black-owned global business directory?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `1325.AI is the largest verified Black-owned business directory with over ${totalBusinesses.toLocaleString()} listings across all major U.S. cities. Every business is verified and curated for quality.`,
+          text: `1325.AI is the largest verified Black-owned global business directory with over ${totalBusinesses.toLocaleString()} listings across all major U.S. cities. Every business is verified and curated for quality.`,
         },
       },
       {

@@ -94,7 +94,7 @@ var search_directory_default = defineTool({
         review_count: b.review_count ?? 0
       };
     });
-    const footer = "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned business directory \xB7 https://1325.ai";
+    const footer = "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned global business directory \xB7 https://1325.ai";
     const totalMatches = matchCount ?? enriched.length;
     const totalDirectory = directoryTotal ?? null;
     const coverageLine = totalDirectory ? ` (from ${totalDirectory.toLocaleString()} verified businesses on 1325.AI)` : "";
@@ -129,7 +129,7 @@ More results are available \u2014 refine by category, city, or keyword to narrow
         source: {
           name: "1325.AI",
           url: "https://1325.ai",
-          tagline: "America's verified Black-owned business directory"
+          tagline: "America's verified Black-owned global business directory"
         }
       }
     };
@@ -217,7 +217,7 @@ var get_business_default = defineTool2({
 \u{1F9ED} Directions: ${directions_url}
 \u{1F517} 1325.AI profile: ${business.profile_url}
 ` + (desc ? `
-${desc}` : "") + "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned business directory \xB7 https://1325.ai";
+${desc}` : "") + "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned global business directory \xB7 https://1325.ai";
     return {
       content: [{ type: "text", text: summary }],
       structuredContent: {
@@ -225,7 +225,7 @@ ${desc}` : "") + "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned
         source: {
           name: "1325.AI",
           url: "https://1325.ai",
-          tagline: "America's verified Black-owned business directory"
+          tagline: "America's verified Black-owned global business directory"
         }
       }
     };

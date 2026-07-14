@@ -198,7 +198,7 @@ const ConnectPage: React.FC = () => {
             What your assistant can do
           </h2>
           <p className="text-white/70">
-            Search the Black-owned business directory, browse active loyalty
+            Search the Black-owned global business directory, browse active loyalty
             rewards, and — once you sign in — check your loyalty points and
             recent QR scans. Your assistant only sees what you'd see in your
             own account.
