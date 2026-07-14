@@ -51,11 +51,11 @@ const HomePage = () => {
     ];
     preloadCriticalImages(criticalImages);
     
-    // SEO optimizations
+    // SEO optimizations — this page now lives at /about-1325
     updateMetaTags({
-      title: pageSEO.home.title,
-      description: pageSEO.home.description,
-      path: '/',
+      title: 'About 1325.AI — Our Mission & The Movement',
+      description: 'Learn about 1325.AI — the global Black-owned business directory and Economic Operating System circulating community wealth. Meet Kayla and our 42 Agentic AI Employees.',
+      path: '/about-1325',
       keywords: pageSEO.home.keywords,
     });
 
