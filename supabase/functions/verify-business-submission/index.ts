@@ -19,6 +19,83 @@ interface KaylaCheck {
   detail: string;
 }
 
+// SSRF guard: only allow public http(s) hosts. Block private/loopback/
+// link-local ranges and cloud metadata endpoints. Resolves DNS and re-checks
+// each resolved IP so DNS-rebinding tricks can't slip past.
+function isPrivateIPv4(ip: string): boolean {
+  const parts = ip.split(".").map((p) => parseInt(p, 10));
+  if (parts.length !== 4 || parts.some((n) => Number.isNaN(n))) return true;
+  const [a, b] = parts;
+  if (a === 10) return true;
+  if (a === 127) return true;
+  if (a === 0) return true;
+  if (a === 169 && b === 254) return true; // link-local + AWS/GCP metadata
+  if (a === 172 && b >= 16 && b <= 31) return true;
+  if (a === 192 && b === 168) return true;
+  if (a === 100 && b >= 64 && b <= 127) return true; // CGNAT
+  if (a >= 224) return true; // multicast/reserved
+  return false;
+}
+
+function isPrivateIPv6(ip: string): boolean {
+  const lower = ip.toLowerCase();
+  if (lower === "::1" || lower === "::") return true;
+  if (lower.startsWith("fc") || lower.startsWith("fd")) return true; // ULA
+  if (lower.startsWith("fe80")) return true; // link-local
+  if (lower.startsWith("::ffff:")) {
+    // IPv4-mapped
+    const v4 = lower.split("::ffff:")[1];
+    return isPrivateIPv4(v4);
+  }
+  return false;
+}
+
+async function assertPublicUrl(rawUrl: string): Promise<void> {
+  let u: URL;
+  try {
+    u = new URL(rawUrl);
+  } catch {
+    throw new Error("Invalid URL");
+  }
+  if (u.protocol !== "http:" && u.protocol !== "https:") {
+    throw new Error("Only http(s) URLs are allowed");
+  }
+  const host = u.hostname.toLowerCase();
+  if (
+    host === "localhost" ||
+    host.endsWith(".localhost") ||
+    host === "metadata.google.internal" ||
+    host.endsWith(".internal")
+  ) {
+    throw new Error("Host is not publicly reachable");
+  }
+  // Resolve DNS and verify every resolved address is public
+  try {
+    const records = await Promise.allSettled([
+      Deno.resolveDns(host, "A"),
+      Deno.resolveDns(host, "AAAA"),
+    ]);
+    const ips: string[] = [];
+    for (const r of records) {
+      if (r.status === "fulfilled") ips.push(...r.value);
+    }
+    if (ips.length === 0) {
+      // Host might already be a literal IP
+      if (/^\d+\.\d+\.\d+\.\d+$/.test(host)) ips.push(host);
+      else if (host.includes(":")) ips.push(host);
+      else throw new Error("Could not resolve host");
+    }
+    for (const ip of ips) {
+      if (ip.includes(":") ? isPrivateIPv6(ip) : isPrivateIPv4(ip)) {
+        throw new Error("Host resolves to a private/internal address");
+      }
+    }
+  } catch (err: any) {
+    throw new Error(err?.message ?? "DNS resolution failed");
+  }
+}
+
+
 async function checkWebsiteLive(url: string): Promise<KaylaCheck> {
   try {
     const ctrl = new AbortController();
