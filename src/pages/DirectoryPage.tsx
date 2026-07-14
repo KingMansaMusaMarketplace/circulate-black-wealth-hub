@@ -313,7 +313,7 @@ const DirectoryPage: React.FC = () => {
         {/* Subtle gold accent line at top */}
         <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60 relative z-10" />
         
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+        <div className="max-w-[1600px] mx-auto pl-4 pr-9 sm:px-6 lg:px-8 py-10 sm:py-16 relative z-10">
           {/* Premium Header */}
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
@@ -322,17 +322,17 @@ const DirectoryPage: React.FC = () => {
             className="text-center mb-12"
           >
             <div className="inline-block mb-4">
-              <span className="text-mansagold text-sm font-mono tracking-widest uppercase bg-mansagold/10 px-4 py-2 rounded-full border border-mansagold/20">
+              <span className="text-mansagold text-xs sm:text-sm font-mono tracking-widest uppercase bg-mansagold/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-mansagold/20">
                 ✦ Discover • Support • Thrive ✦
               </span>
             </div>
-             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-display">
+             <h1 className="text-[28px] leading-tight sm:text-4xl md:text-6xl font-bold text-white mb-6 font-display">
                The Global Directory of
                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-mansagold via-amber-400 to-mansagold">
                  Black-Owned Businesses
                </span>
              </h1>
-             <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl">
+             <p className="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg md:text-xl">
                {totalBusinesses
                  ? `${totalBusinesses.toLocaleString()}+ verified businesses`
                  : isLoading

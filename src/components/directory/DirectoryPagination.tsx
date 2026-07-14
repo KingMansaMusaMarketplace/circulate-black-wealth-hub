@@ -59,12 +59,12 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
   
   return (
     <Pagination className="mt-8">
-      <PaginationContent className="gap-2">
+      <PaginationContent className="gap-1 sm:gap-2 flex-wrap justify-center">
         <PaginationItem>
           <PaginationPrevious 
             onClick={() => onPageChange(Math.max(1, currentPage - 1))}
             className={cn(
-              'cursor-pointer text-base font-medium px-4 py-2 h-auto text-white/90 hover:text-white',
+              'cursor-pointer text-sm sm:text-base font-medium px-2 sm:px-4 py-2 h-auto text-white/90 hover:text-white',
               currentPage === 1 ? 'pointer-events-none opacity-40' : 'hover:bg-white/10'
             )}
             aria-disabled={currentPage === 1}
@@ -75,7 +75,7 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
           if (page === 'ellipsis-start' || page === 'ellipsis-end') {
             return (
               <PaginationItem key={`ellipsis-${index}`}>
-                <PaginationEllipsis className="h-10 w-10 text-white/60" />
+                <PaginationEllipsis className="h-9 w-9 sm:h-10 sm:w-10 text-white/60" />
               </PaginationItem>
             );
           }
@@ -87,7 +87,7 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
                 onClick={() => onPageChange(page as number)}
                 size="default"
                 className={cn(
-                  'cursor-pointer min-w-[2.75rem] h-10 text-base font-semibold rounded-lg',
+                  'cursor-pointer min-w-[2.25rem] sm:min-w-[2.75rem] h-9 sm:h-10 text-sm sm:text-base font-semibold rounded-lg px-2 sm:px-3',
                   currentPage === page
                     ? 'bg-mansagold text-black border-mansagold hover:bg-mansagold/90 hover:text-black'
                     : 'hover:bg-white/10 text-white/90 hover:text-white'
@@ -103,7 +103,7 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
           <PaginationNext 
             onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
             className={cn(
-              'cursor-pointer text-base font-medium px-4 py-2 h-auto text-white/90 hover:text-white',
+              'cursor-pointer text-sm sm:text-base font-medium px-2 sm:px-4 py-2 h-auto text-white/90 hover:text-white',
               currentPage === totalPages ? 'pointer-events-none opacity-40' : 'hover:bg-white/10'
             )}
             aria-disabled={currentPage === totalPages}

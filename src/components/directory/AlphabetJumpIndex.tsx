@@ -78,13 +78,13 @@ const AlphabetJumpIndex: React.FC<AlphabetJumpIndexProps> = ({ activeLetters, on
       {/* Alphabet strip */}
       <div
         ref={containerRef}
-        className="fixed right-0.5 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center py-1 select-none touch-none"
+        className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center py-1 select-none touch-none"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchCancel}
       >
-        <div className="bg-slate-900/90 backdrop-blur-sm rounded-full py-1 px-0.5 border border-mansagold/30">
+        <div className="bg-slate-900/90 backdrop-blur-sm rounded-l-full py-1 pl-1 pr-0.5 border border-r-0 border-mansagold/30">
           {ALPHABET.map((letter) => {
             const isActive = activeLetters.has(letter);
             const isCurrent = letter === activeLetter;
@@ -100,7 +100,7 @@ const AlphabetJumpIndex: React.FC<AlphabetJumpIndexProps> = ({ activeLetters, on
                     setTimeout(() => setActiveLetter(null), 600);
                   }
                 }}
-                className={`block w-6 text-center text-[10px] leading-[15px] font-bold transition-all duration-150 rounded-full
+                className={`block w-5 text-center text-[9px] leading-[13px] font-bold transition-all duration-150 rounded-full
                   ${isCurrent ? 'bg-mansagold text-slate-900 scale-150 -translate-x-2' : ''}
                   ${isActive && !isCurrent ? 'text-mansagold' : ''}
                   ${!isActive ? 'text-gray-600/40' : ''}

@@ -160,17 +160,17 @@ const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ business, busines
           <>
             <button
               onClick={goPrev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-slate-900/70 hover:bg-mansagold/30 border border-mansagold/30 rounded-full p-2 transition-colors"
+              className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-30 bg-slate-900/80 hover:bg-mansagold/30 border border-mansagold/30 rounded-full p-1.5 sm:p-2 transition-colors"
               aria-label="Previous featured business"
             >
-              <ChevronLeft className="h-5 w-5 text-mansagold" />
+              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5 text-mansagold" />
             </button>
             <button
               onClick={goNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-slate-900/70 hover:bg-mansagold/30 border border-mansagold/30 rounded-full p-2 transition-colors"
+              className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-30 bg-slate-900/80 hover:bg-mansagold/30 border border-mansagold/30 rounded-full p-1.5 sm:p-2 transition-colors"
               aria-label="Next featured business"
             >
-              <ChevronRight className="h-5 w-5 text-mansagold" />
+              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 text-mansagold" />
             </button>
 
             {/* Dot indicators */}
