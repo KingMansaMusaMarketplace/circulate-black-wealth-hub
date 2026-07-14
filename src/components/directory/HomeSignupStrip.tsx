@@ -39,7 +39,7 @@ const HomeSignupStrip: React.FC = () => {
             Add your business
           </Link>
           <Link
-            to="/signup"
+            to="/business-signup"
             className="text-xs md:text-sm px-3 py-1.5 rounded-md border border-white/30 text-white font-medium hover:bg-white/10 transition"
           >
             Sign up free
