@@ -114,7 +114,7 @@ export const pageSEO = {
     keywords: ['Black-owned global business directory', 'Black-owned businesses near me', 'Black business directory', 'support Black-owned businesses', 'African American business directory', 'buy Black', 'Black-owned restaurants', 'Black-owned shops', '1325 AI', 'Mansa Musa Marketplace'],
   },
   directory: {
-    title: 'Black-Owned Global Business Directory Near You | 1325.AI',
+    title: 'The Global Directory of Black-Owned Businesses | 1325.AI',
     description: 'Find verified Black-owned businesses near you — restaurants, shops, services & pros. Search 43,000+ listings free on 1325.AI.',
     keywords: ['Black-owned global business directory', 'Black businesses near me', 'find Black-owned businesses', 'verified Black businesses', 'Black-owned restaurants near me', 'Black-owned services'],
   },
