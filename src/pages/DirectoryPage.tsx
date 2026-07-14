@@ -310,9 +310,9 @@ const DirectoryPage: React.FC = () => {
               </span>
             </div>
              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-display">
-               Black-Owned Business
+               The Global Directory of
                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-mansagold via-amber-400 to-mansagold">
-                 Directory
+                 Black-Owned Businesses
                </span>
              </h1>
              <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl">
