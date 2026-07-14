@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,7 +12,7 @@ import { Bed, Bath, MapPin, Calendar, DollarSign, ShieldCheck, BadgeCheck, PawPr
 import LeaseLegalFooter from "@/components/stays/lease/LeaseLegalFooter";
 import LightboxGallery from "@/components/stays/lease/LightboxGallery";
 import LeaseListingCard from "@/components/stays/lease/LeaseListingCard";
-import LeaseMapView from "@/components/stays/lease/LeaseMapView";
+const LeaseMapView = lazy(() => import("@/components/stays/lease/LeaseMapView"));
 import { findByValue } from "@/lib/lease/property-types";
 import ReportContentButton from "@/components/stays/ReportContentButton";
 
@@ -183,21 +183,23 @@ const LeaseListingDetailPage: React.FC = () => {
             {/* Location map */}
             <div className="mt-8">
               <h2 className="text-2xl font-semibold mb-3">Location</h2>
-              <LeaseMapView
-                listings={[{
-                  id: listing.id,
-                  title: listing.title,
-                  city: listing.city,
-                  state: listing.state,
-                  monthly_rent: listing.monthly_rent,
-                  bedrooms: listing.bedrooms,
-                  bathrooms: listing.bathrooms,
-                  photos: listing.photos,
-                  latitude: listing.latitude,
-                  longitude: listing.longitude,
-                }]}
-                height="360px"
-              />
+              <Suspense fallback={<div className="w-full bg-slate-800/40 animate-pulse rounded-lg" style={{ height: '360px' }} />}>
+                <LeaseMapView
+                  listings={[{
+                    id: listing.id,
+                    title: listing.title,
+                    city: listing.city,
+                    state: listing.state,
+                    monthly_rent: listing.monthly_rent,
+                    bedrooms: listing.bedrooms,
+                    bathrooms: listing.bathrooms,
+                    photos: listing.photos,
+                    latitude: listing.latitude,
+                    longitude: listing.longitude,
+                  }]}
+                  height="360px"
+                />
+              </Suspense>
               <p className="text-xs text-white/40 mt-2">Approximate location shown. Exact address shared after the landlord accepts your inquiry.</p>
             </div>
 

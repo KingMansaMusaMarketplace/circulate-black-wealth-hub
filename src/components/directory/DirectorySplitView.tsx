@@ -1,6 +1,6 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useMemo, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Map, List, X, Navigation, Star, MapPin } from 'lucide-react';
+import { Map, List, X, Navigation, Star, MapPin, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Business } from '@/types/business';
@@ -8,10 +8,11 @@ import { BusinessLocation } from '@/components/MapView/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import CompactBusinessCard from './CompactBusinessCard';
 import MobileMapSheet from './MobileMapSheet';
-import MapboxMap from '@/components/MapView/MapboxMap';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import DirectoryEmptyState from './DirectoryEmptyState';
+
+const MapboxMap = lazy(() => import('@/components/MapView/MapboxMap'));
 
 interface DirectorySplitViewProps {
   businesses: Business[];
@@ -237,15 +238,21 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
 
           {/* Right Panel - Map */}
           <div className="flex-1 rounded-xl overflow-hidden border border-white/5 relative">
-            <MapboxMap
-              apiKey={mapApiKey}
-              userLocation={userLocation}
-              businesses={mapData}
-              onBusinessClick={handleMarkerClick}
-              highlightedBusinessId={highlightedBusinessId}
-              onMarkerHover={handleCardHover}
-              flyToOnClick
-            />
+            <Suspense fallback={
+              <div className="h-full w-full flex items-center justify-center bg-slate-900/50">
+                <Loader2 className="h-8 w-8 text-white animate-spin" />
+              </div>
+            }>
+              <MapboxMap
+                apiKey={mapApiKey}
+                userLocation={userLocation}
+                businesses={mapData}
+                onBusinessClick={handleMarkerClick}
+                highlightedBusinessId={highlightedBusinessId}
+                onMarkerHover={handleCardHover}
+                flyToOnClick
+              />
+            </Suspense>
             
             {/* Map overlay gradient at top */}
             <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-slate-900/40 to-transparent pointer-events-none z-10" />
