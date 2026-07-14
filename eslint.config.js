@@ -54,6 +54,8 @@ export default tseslint.config(
       "getter-return": "warn",
       "valid-typeof": "warn",
       "no-import-assign": "warn",
+      "react-hooks/rules-of-hooks": "warn",
+      "@typescript-eslint/triple-slash-reference": "warn",
     },
   }
 );
