@@ -14,6 +14,27 @@ interface VerificationEmailRequest {
   userType: string;
 }
 
+// Only allow verification links pointing to our own domains — blocks phishing
+// via this endpoint with attacker-controlled URLs.
+const ALLOWED_URL_HOSTS = [
+  "1325.ai",
+  "www.1325.ai",
+  "circulate-black-wealth-hub.lovable.app",
+];
+const ALLOWED_HOST_SUFFIXES = [".lovable.app", ".1325.ai"];
+
+function isAllowedUrl(rawUrl: string): boolean {
+  try {
+    const u = new URL(rawUrl);
+    if (u.protocol !== "https:" && u.protocol !== "http:") return false;
+    const host = u.hostname.toLowerCase();
+    if (ALLOWED_URL_HOSTS.includes(host)) return true;
+    return ALLOWED_HOST_SUFFIXES.some((suf) => host.endsWith(suf));
+  } catch {
+    return false;
+  }
+}
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -21,6 +42,13 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const { email, confirmationUrl, userType }: VerificationEmailRequest = await req.json();
+
+    if (!email || !confirmationUrl || !isAllowedUrl(confirmationUrl)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email or confirmation URL" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
 
     console.log("Sending verification email to:", email);
 
