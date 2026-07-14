@@ -33,13 +33,13 @@ const HomeSignupStrip: React.FC = () => {
         </div>
         <div className="flex items-center gap-2">
           <Link
-            to="/business-signup"
+            to="/about-1325#submit-business"
             className="text-xs md:text-sm px-3 py-1.5 rounded-md bg-mansagold text-black font-semibold hover:opacity-90 transition"
           >
             Add your business
           </Link>
           <Link
-            to="/business-signup"
+            to="/about-1325#submit-business"
             className="text-xs md:text-sm px-3 py-1.5 rounded-md border border-white/30 text-white font-medium hover:bg-white/10 transition"
           >
             Sign up free

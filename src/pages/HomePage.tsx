@@ -67,6 +67,23 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   }, [queryClient]);
 
+  // Scroll to the business submission form when navigating via hash link
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (!hash) return;
+      const element = document.getElementById(hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
   return (
     <>
       <OrganizationStructuredData />
