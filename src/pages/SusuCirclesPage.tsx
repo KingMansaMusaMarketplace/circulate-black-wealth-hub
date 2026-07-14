@@ -20,6 +20,7 @@ import CircleInviteLink from '@/components/susu/CircleInviteLink';
 import CircleMemberList from '@/components/susu/CircleMemberList';
 import RoundStatusTracker from '@/components/susu/RoundStatusTracker';
 import SusuFAQ from '@/components/susu/SusuFAQ';
+import SusuSafetySection from '@/components/susu/SusuSafetySection';
 
 interface SusuCircle {
   id: string;
@@ -759,7 +760,8 @@ const SusuCirclesPage: React.FC = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="faq" className="mt-6">
+          <TabsContent value="faq" className="mt-6 space-y-6">
+            <SusuSafetySection />
             <SusuFAQ />
           </TabsContent>
         </Tabs>
