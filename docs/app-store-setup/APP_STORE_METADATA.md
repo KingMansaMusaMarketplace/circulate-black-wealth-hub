@@ -39,7 +39,7 @@ Mansa Musa Marketplace connects you with incredible Black-owned businesses while
 • Share achievements with friends
 
 ✨ KEY FEATURES
-• Verified Black-owned business directory
+• Verified Black-owned global business directory
 • QR code loyalty system
 • Location-based business discovery
 • Secure user profiles

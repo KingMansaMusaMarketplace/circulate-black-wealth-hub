@@ -5,7 +5,7 @@ const steps = [
   {
     icon: Search,
     title: 'Discover',
-    description: 'Find verified businesses near you in the largest Black-owned business directory.',
+    description: 'Find verified businesses near you in the largest Black-owned global business directory.',
   },
   {
     icon: ShoppingBag,
