@@ -24,23 +24,25 @@ const HomeSignupStrip: React.FC = () => {
 
   return (
     <div className="relative z-20 border-b border-mansagold/30 bg-gradient-to-r from-mansablue/40 via-black/40 to-mansablue/40 backdrop-blur">
-      <div className="container mx-auto px-4 py-2.5 flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-2 text-sm text-white/90 min-w-0">
+      <div className="container mx-auto px-3 sm:px-4 py-2 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-white/90 min-w-0 flex-1">
           <Globe className="w-4 h-4 text-mansagold flex-shrink-0" />
           <span className="truncate">
-            <strong className="text-mansagold">1325.AI</strong> — The Global Black-Owned Business Directory
+            <strong className="text-mansagold">1325.AI</strong>
+            <span className="hidden sm:inline"> — The Global Black-Owned Business Directory</span>
+            <span className="sm:hidden"> — Black-Owned Directory</span>
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <Link
             to="/about-1325#submit-business"
-            className="text-xs md:text-sm px-3 py-1.5 rounded-md bg-mansagold text-black font-semibold hover:opacity-90 transition"
+            className="text-xs md:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-md bg-mansagold text-black font-semibold hover:opacity-90 transition whitespace-nowrap"
           >
-            Add your business
+            Add business
           </Link>
           <Link
             to="/about-1325#submit-business"
-            className="text-xs md:text-sm px-3 py-1.5 rounded-md border border-white/30 text-white font-medium hover:bg-white/10 transition"
+            className="hidden sm:inline-flex text-xs md:text-sm px-3 py-1.5 rounded-md border border-white/30 text-white font-medium hover:bg-white/10 transition"
           >
             Sign up free
           </Link>
