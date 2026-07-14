@@ -302,6 +302,59 @@ serve(async (req) => {
       });
     }
 
+    // Prevent unauthenticated re-runs: once a submission has been verified,
+    // only authenticated admins can trigger another run (protects LLM spend).
+    if (submission.kayla_report) {
+      const authHeader = req.headers.get("Authorization");
+      let isAdmin = false;
+      if (authHeader?.startsWith("Bearer ")) {
+        try {
+          const token = authHeader.slice(7);
+          const { data: userData } = await supabase.auth.getUser(token);
+          if (userData?.user) {
+            const { data: roleRow } = await supabase
+              .from("user_roles")
+              .select("role")
+              .eq("user_id", userData.user.id)
+              .eq("role", "admin")
+              .maybeSingle();
+            isAdmin = !!roleRow;
+          }
+        } catch (_) { /* fall through */ }
+      }
+      if (!isAdmin) {
+        return new Response(
+          JSON.stringify({ error: "Already verified" }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+    }
+
+    // SSRF guard: refuse to fetch non-public URLs before any outbound request.
+    try {
+      await assertPublicUrl(submission.website);
+    } catch (err: any) {
+      const report = {
+        checks: [{
+          name: "Website is live",
+          status: "fail" as const,
+          detail: `Website URL rejected: ${err?.message ?? "not a public URL"}`,
+        }],
+        llm_summary: "Submission rejected — website URL is not a public http(s) address.",
+        heuristic_score: 0,
+        llm_score: null,
+        verified_at: new Date().toISOString(),
+      };
+      await supabase
+        .from("business_submissions")
+        .update({ kayla_report: report, confidence_score: 0, status: "rejected" })
+        .eq("id", submission_id);
+      return new Response(
+        JSON.stringify({ ok: false, error: "Website URL is not publicly reachable", report }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     // Duplicate check — has this website already been submitted or listed?
     const { data: dupes } = await supabase
       .from("business_submissions")
@@ -328,6 +381,7 @@ serve(async (req) => {
     const duplicateCheck: KaylaCheck = isDuplicate
       ? { name: "Duplicate check", status: "fail", detail: "This website is already submitted or listed." }
       : { name: "Duplicate check", status: "pass", detail: "No duplicate submissions or listings found." };
+
 
     // Ask Kayla LLM for overall verdict
     const kaylaVerdict = await askKaylaForVerdict(submission, siteText);
