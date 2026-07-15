@@ -66,7 +66,7 @@ const CookieConsentBanner: React.FC = () => {
               <p className="hidden sm:block">
                 We use cookies to enhance your experience, analyze traffic, and personalize content.
                 By clicking "Accept," you consent to our use of cookies. See our{' '}
-                <Link to="/cookie-policy" className="text-primary underline hover:text-primary/80">
+                <Link to="/privacy" className="text-primary underline hover:text-primary/80">
                   Cookie Policy
                 </Link>{' '}
                 and{' '}
@@ -76,7 +76,7 @@ const CookieConsentBanner: React.FC = () => {
               </p>
               <p className="sm:hidden">
                 We use cookies to improve your experience.{' '}
-                <Link to="/cookie-policy" className="text-primary underline">Learn more</Link>.
+                <Link to="/privacy" className="text-primary underline">Learn more</Link>.
               </p>
             </div>
 
