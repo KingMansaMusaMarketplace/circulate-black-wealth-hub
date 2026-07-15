@@ -12,9 +12,9 @@ const CommunityFinancePage: React.FC = () => {
       
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl" style={{ animationDelay: '2s' }}></div>
       </div>
 
       {/* Subtle grid overlay */}
@@ -25,12 +25,12 @@ const CommunityFinancePage: React.FC = () => {
         <div className="mb-10 animate-fade-in">
           <div className="relative inline-block w-full max-w-4xl mx-auto">
             {/* Animated glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-mansablue/40 via-mansagold/40 to-blue-600/40 rounded-3xl blur-2xl animate-pulse"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-mansablue/40 via-mansagold/40 to-blue-600/40 rounded-3xl blur-2xl"></div>
             
             {/* Glass card */}
             <div className="relative bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/10 overflow-hidden">
               {/* Shimmer effect on top border */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-mansagold to-transparent animate-pulse"></div>
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-mansagold to-transparent"></div>
               
               {/* Gradient orb decoration */}
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-mansagold/30 to-transparent rounded-full blur-3xl"></div>
