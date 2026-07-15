@@ -40,7 +40,7 @@ const WhyBand: React.FC = () => {
 
           {/* Kayla AI */}
           <Link
-            to="/kayla-ai"
+            to="/what-kayla-does"
             className="group rounded-2xl border border-white/10 hover:border-mansagold/50 bg-white/[0.03] hover:bg-white/[0.06] p-6 transition"
           >
             <div className="w-11 h-11 rounded-xl bg-mansagold/15 flex items-center justify-center mb-4">
