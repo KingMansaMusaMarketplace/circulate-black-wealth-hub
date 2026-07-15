@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.submit_business(text, text, text, text, text, text, text, text, text) TO anon, authenticated;
