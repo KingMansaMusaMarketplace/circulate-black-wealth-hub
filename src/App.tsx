@@ -701,6 +701,7 @@ function App() {
                               <Route path="/kayla-gtm-kit" element={<LazyKaylaGTMKitPage />} />
                               <Route path="/kayla-announcement" element={<LazyKaylaGTMKitPage />} />
                               <Route path="/kayla-onboarding-sequence" element={<LazyKaylaGTMKitPage />} />
+                              <Route path="/kayla-ai" element={<Navigate to="/what-kayla-does" replace />} />
                               <Route path="/what-kayla-does" element={<LazyWhatKaylaDoesPage />} />
                               <Route path="/kayla/team" element={<LazyKaylaTeamPage />} />
                               <Route path="/error" element={<LazyErrorPage />} />
@@ -1119,6 +1120,7 @@ function App() {
                         <Route path="/kayla-gtm-kit" element={<LazyKaylaGTMKitPage />} />
                         <Route path="/kayla-announcement" element={<LazyKaylaGTMKitPage />} />
                         <Route path="/kayla-onboarding-sequence" element={<LazyKaylaGTMKitPage />} />
+                        <Route path="/kayla-ai" element={<Navigate to="/what-kayla-does" replace />} />
                         <Route path="/what-kayla-does" element={<LazyWhatKaylaDoesPage />} />
                         <Route path="/kayla/team" element={<LazyKaylaTeamPage />} />
                         <Route path="/error" element={<LazyErrorPage />} />
