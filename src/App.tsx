@@ -954,6 +954,9 @@ function App() {
                         {/* Home — Directory is the landing page */}
                         <Route path="/" element={<LazyDirectoryPage />} />
                         <Route path="/about-1325" element={<HomePage />} />
+                        <Route path="/connect" element={<LazyConnectPage />} />
+                        <Route path="/connect-chatgpt" element={<LazyConnectChatGPTPage />} />
+                        <Route path="/institutional-api" element={<LazyInstitutionalAPIPage />} />
                         
                         {/* A */}
                         <Route path="/about" element={<LazyAboutPage />} />

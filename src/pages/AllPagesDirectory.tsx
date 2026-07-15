@@ -97,7 +97,7 @@ const AllPagesContent = () => {
     { path: '/sponsor-success', name: 'Sponsor Success', icon: Trophy, category: 'Corporate', description: 'Success stories' },
     { path: '/coalition', name: 'Coalition', icon: Users, category: 'Corporate', description: 'Join the coalition' },
     { path: '/partnership-framework', name: 'Partnerships', icon: Handshake, category: 'Corporate', description: 'Partnership info' },
-    { path: '/investor', name: 'Investor Info', icon: TrendingUp, category: 'Corporate', description: 'Investment opportunities' },
+    { path: '/investor-portal', name: 'Investor Info', icon: TrendingUp, category: 'Corporate', description: 'Investment opportunities' },
     
     // Analytics & Impact
     { path: '/impact', name: 'Impact Dashboard', icon: TrendingUp, category: 'Analytics', description: 'Economic impact' },
@@ -130,7 +130,7 @@ const AllPagesContent = () => {
     { path: '/help-center', name: 'Help Center', icon: HelpCircle, category: 'Support', description: 'Support articles' },
     { path: '/support', name: 'Support', icon: MessagesSquare, category: 'Support', description: 'Customer support' },
     { path: '/submit-ticket', name: 'Submit Ticket', icon: Ticket, category: 'Support', description: 'Create support ticket' },
-    { path: '/team-contact', name: 'Team Contact', icon: Users, category: 'Support', description: 'Contact team' },
+    { path: '/contact', name: 'Team Contact', icon: Users, category: 'Support', description: 'Contact team' },
     
     // Admin
     { path: '/admin', name: 'Admin Panel', icon: Shield, category: 'Admin', description: 'Admin dashboard' },
