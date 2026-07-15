@@ -13,9 +13,9 @@ const CommunityPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl" style={{ animationDelay: '2s' }}></div>
       </div>
 
       {/* Subtle grid overlay */}
@@ -28,8 +28,8 @@ const CommunityPage: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-mansablue/20 via-blue-600/20 to-mansagold/20" />
             
             {/* Animated decorative elements */}
-            <div className="absolute top-8 right-10 w-32 h-32 bg-mansagold/20 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-8 left-10 w-40 h-40 bg-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-8 right-10 w-32 h-32 bg-mansagold/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-8 left-10 w-40 h-40 bg-mansablue/20 rounded-full blur-3xl" style={{ animationDelay: '1s' }} />
             
             <div className="relative px-8 py-12">
               <h1 className="text-5xl font-bold mb-4 animate-fade-in-up text-white">
