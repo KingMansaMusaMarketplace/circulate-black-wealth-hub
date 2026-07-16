@@ -295,6 +295,7 @@ const DirectoryPage: React.FC = () => {
       <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
       <DirectoryStructuredData totalBusinesses={totalBusinesses || 12000} />
       {isHome && <HomeSignupStrip />}
+      {isHome && <MeetFounderStrip />}
       
       <div className="min-h-screen relative overflow-x-hidden">
         {/* Modern dark gradient mesh background */}
@@ -554,7 +555,6 @@ const DirectoryPage: React.FC = () => {
         </div>
 
         {isHome && <WhyBand />}
-        {isHome && <MeetFounderStrip />}
         
         <ScrollToTopButton />
         

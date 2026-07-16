@@ -17,7 +17,8 @@ const MeetFounderStrip: React.FC = () => {
             <img
               src="/lovable-uploads/1dd9f7bc-bb83-4c92-b250-e11f63790f8c.png"
               alt="Thomas D. Bowling, Founder of 1325.AI"
-              className="relative w-40 h-48 sm:w-48 sm:h-56 object-cover rounded-2xl border-2 border-white/20 shadow-2xl"
+              style={{ objectPosition: 'center top' }}
+              className="relative w-40 h-48 sm:w-56 sm:h-64 object-cover rounded-2xl border-2 border-white/20 shadow-2xl"
             />
           </div>
 
