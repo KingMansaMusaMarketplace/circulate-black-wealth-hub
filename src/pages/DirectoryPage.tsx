@@ -555,7 +555,6 @@ const DirectoryPage: React.FC = () => {
         </div>
 
         {isHome && <WhyBand />}
-        {isHome && <MeetFounderStrip />}
         
         <ScrollToTopButton />
         
