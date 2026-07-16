@@ -10,20 +10,9 @@ const MeetFounderStrip: React.FC = () => {
   return (
     <section className="relative z-10 border-t border-white/10 bg-gradient-to-br from-mansablue/20 via-black/60 to-mansablue/10 backdrop-blur">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-          {/* Founder photo */}
-          <div className="shrink-0 relative">
-            <div className="absolute -inset-1 bg-gradient-to-r from-mansagold via-amber-400 to-mansagold rounded-2xl blur-md opacity-60" />
-            <img
-              src="/lovable-uploads/1dd9f7bc-bb83-4c92-b250-e11f63790f8c.png"
-              alt="Thomas D. Bowling, Founder of 1325.AI"
-              style={{ objectPosition: 'center top' }}
-              className="relative w-40 h-48 sm:w-56 sm:h-64 object-cover rounded-2xl border-2 border-white/20 shadow-2xl"
-            />
-          </div>
-
+        <div className="flex flex-col items-center text-center">
           {/* Content */}
-          <div className="flex-1 text-center lg:text-left">
+          <div className="max-w-3xl">
             <span className="text-mansagold text-xs font-mono tracking-widest uppercase">
               Meet the Founder
             </span>
