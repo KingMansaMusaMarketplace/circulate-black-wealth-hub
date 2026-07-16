@@ -38,6 +38,7 @@ import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
 import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 import HomeSignupStrip from '@/components/directory/HomeSignupStrip';
 import WhyBand from '@/components/directory/WhyBand';
+import MeetFounderStrip from '@/components/directory/MeetFounderStrip';
 
 const DirectoryPage: React.FC = () => {
   
@@ -553,6 +554,7 @@ const DirectoryPage: React.FC = () => {
         </div>
 
         {isHome && <WhyBand />}
+        {isHome && <MeetFounderStrip />}
         
         <ScrollToTopButton />
         
