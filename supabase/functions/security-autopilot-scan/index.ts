@@ -25,48 +25,9 @@ type Finding = {
 };
 
 async function runScan(supabase: any): Promise<Finding[]> {
-  const findings: Finding[] = [];
-
-  // 1. Tables in public schema without RLS enabled
-  const { data: noRls } = await supabase.rpc("exec_sql_safe", {}).catch(() => ({ data: null }));
-  // Fallback: query directly using service role
-  const { data: tables } = await supabase
-    .from("pg_tables_view" as any)
-    .select("*")
-    .limit(1)
-    .maybeSingle()
-    .catch(() => ({ data: null }));
-
-  // Use a direct query via service_role for pg_catalog
-  try {
-    const { data, error } = await supabase.rpc("security_autopilot_snapshot" as any);
-    if (!error && Array.isArray(data)) {
-      for (const row of data) {
-        findings.push(row as Finding);
-      }
-      return findings;
-    }
-  } catch (_) {
-    // fall through
-  }
-
-  // If no dedicated RPC exists, do inline queries:
-  // Tables without RLS
-  const publicTablesNoRls = await supabase.rpc("_autopilot_tables_without_rls" as any).catch(() => ({ data: null }));
-  if (Array.isArray(publicTablesNoRls?.data)) {
-    for (const t of publicTablesNoRls.data) {
-      findings.push({
-        id: `no_rls_${t.tablename}`,
-        category: "Row-Level Security",
-        severity: "high",
-        title: `Table has no Row-Level Security`,
-        detail: `Table public.${t.tablename} is exposed via the API without RLS.`,
-        table_or_function: t.tablename,
-      });
-    }
-  }
-
-  return findings;
+  const { data, error } = await supabase.rpc("security_autopilot_snapshot");
+  if (error) throw new Error(error.message);
+  return Array.isArray(data) ? (data as Finding[]) : [];
 }
 
 function summarize(findings: Finding[]) {
