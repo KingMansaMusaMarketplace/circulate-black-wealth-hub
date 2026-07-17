@@ -23,6 +23,9 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const authResult = await requireAuth(req, corsHeaders);
+  if (!authResult.authenticated) return authErrorResponse(authResult, corsHeaders);
+
   try {
     const { bookingId, recipientType }: BookingConfirmationRequest = await req.json();
     console.log(`Sending ${recipientType} confirmation for booking:`, bookingId);
@@ -34,7 +37,7 @@ const handler = async (req: Request): Promise<Response> => {
       .from('bookings')
       .select(`
         *,
-        business:businesses(business_name, phone, email, address, city, state),
+        business:businesses(business_name, owner_id, phone, email, address, city, state),
         service:business_services(name, description, price, duration_minutes)
       `)
       .eq('id', bookingId)
@@ -42,6 +45,20 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (bookingError || !booking) {
       throw new Error(`Booking not found: ${bookingError?.message}`);
+    }
+
+    // Verify caller is the booking's customer, the business owner, or an admin
+    const { data: isAdmin } = await authResult.supabaseAuth!.rpc('is_admin_secure');
+    const callerId = authResult.userId;
+    const allowed =
+      isAdmin ||
+      callerId === booking.customer_id ||
+      callerId === booking.business?.owner_id;
+    if (!allowed) {
+      return new Response(JSON.stringify({ error: 'Forbidden' }), {
+        status: 403,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
 
     const bookingDate = new Date(booking.booking_date);
