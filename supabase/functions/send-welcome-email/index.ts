@@ -24,6 +24,10 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Require authenticated caller
+  const authResult = await requireAuth(req, corsHeaders);
+  if (!authResult.authenticated) return authErrorResponse(authResult, corsHeaders);
+
   try {
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') as any ?? '',
@@ -31,15 +35,29 @@ const handler = async (req: Request): Promise<Response> => {
     );
 
     const { userId, email, fullName, userType }: WelcomeEmailRequest = await req.json();
-    console.log('Processing welcome email for:', { userId, email, fullName, userType });
 
+    // Caller must be the target user, or an admin
+    const { data: isAdmin } = await authResult.supabaseAuth!.rpc('is_admin_secure');
+    if (authResult.userId !== userId && !isAdmin) {
+      return new Response(JSON.stringify({ error: 'Forbidden' }), {
+        status: 403,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    // Fetch profile and verify the recipient email matches the profile's email (prevents arbitrary-recipient abuse)
     const { data: profile } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .single();
 
-    console.log('User profile data:', profile);
+    if (!profile || (profile.email && profile.email.toLowerCase() !== String(email).toLowerCase())) {
+      return new Response(JSON.stringify({ error: 'Recipient does not match profile' }), {
+        status: 403,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
     const html = generateWelcomeEmailHTML({
       fullName: fullName || 'New User',
