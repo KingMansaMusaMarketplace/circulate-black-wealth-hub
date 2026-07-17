@@ -35,6 +35,9 @@ function extractDomain(url?: string | null): string | null {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  const authResult = await requireAdminOrCron(req, corsHeaders);
+  if (!authResult.authenticated) return authErrorResponse(authResult, corsHeaders);
+
   const handlerStart = Date.now();
   const stats = {
     processed: 0,
