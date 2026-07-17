@@ -26998,6 +26998,17 @@ export type Database = {
         }
         Returns: Json
       }
+      security_autopilot_snapshot: {
+        Args: never
+        Returns: {
+          category: string
+          detail: string
+          id: string
+          severity: string
+          table_or_function: string
+          title: string
+        }[]
+      }
       set_cashier_pin: {
         Args: { p_business_id: string; p_pin: string }
         Returns: undefined
