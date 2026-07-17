@@ -25309,6 +25309,7 @@ export type Database = {
       }
     }
     Functions: {
+      _is_admin_current_user: { Args: never; Returns: boolean }
       access_personal_data_secure: {
         Args: {
           access_reason: string
