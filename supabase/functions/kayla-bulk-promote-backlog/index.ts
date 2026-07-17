@@ -2,6 +2,7 @@
 // enforcing dedup on website_domain and (normalized_name, city). Skips strict Firecrawl checks.
 // Processes synchronously for up to ~45 seconds, then returns a continuation flag.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
