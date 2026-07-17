@@ -208,6 +208,7 @@ const LazyAdminAPIClientsPage = lazy(() => import('@/pages/admin/APIClientsPage'
 const LazySEODashboard = lazy(() => import('@/pages/admin/SEODashboard'));
 const LazyBacklinksDashboard = lazy(() => import('@/pages/admin/BacklinksDashboard'));
 const LazyFunnelAnalyticsPage = lazy(() => import('@/pages/admin/FunnelAnalyticsPage'));
+const LazySecurityAutopilotPage = lazy(() => import('@/pages/admin/SecurityAutopilotPage'));
 
 // Unified Test Dashboard (consolidates all test pages)
 const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard'));
@@ -539,6 +540,7 @@ function App() {
                               <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                               <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
                               <Route path="/admin/heygen" element={<RequireAdmin><LazyHeyGenStudioPage /></RequireAdmin>} />
+                              <Route path="/admin/security-autopilot" element={<RequireAdmin><LazySecurityAutopilotPage /></RequireAdmin>} />
                               <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
                               <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                               <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
