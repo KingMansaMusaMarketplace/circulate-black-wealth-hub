@@ -19226,6 +19226,60 @@ export type Database = {
           },
         ]
       }
+      security_autopilot_runs: {
+        Row: {
+          created_at: string
+          critical_count: number
+          duration_ms: number | null
+          email_error: string | null
+          email_sent: boolean
+          findings: Json
+          high_count: number
+          id: string
+          low_count: number
+          medium_count: number
+          ran_at: string
+          summary: string | null
+          total_findings: number
+          triggered_by: string
+          triggered_by_user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          critical_count?: number
+          duration_ms?: number | null
+          email_error?: string | null
+          email_sent?: boolean
+          findings?: Json
+          high_count?: number
+          id?: string
+          low_count?: number
+          medium_count?: number
+          ran_at?: string
+          summary?: string | null
+          total_findings?: number
+          triggered_by?: string
+          triggered_by_user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          critical_count?: number
+          duration_ms?: number | null
+          email_error?: string | null
+          email_sent?: boolean
+          findings?: Json
+          high_count?: number
+          id?: string
+          low_count?: number
+          medium_count?: number
+          ran_at?: string
+          summary?: string | null
+          total_findings?: number
+          triggered_by?: string
+          triggered_by_user_id?: string | null
+        }
+        Relationships: []
+      }
       security_deposit_holds: {
         Row: {
           amount_deducted: number
