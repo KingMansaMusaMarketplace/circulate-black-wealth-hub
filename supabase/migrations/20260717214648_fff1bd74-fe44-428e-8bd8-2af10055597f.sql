@@ -1,0 +1,1 @@
+update public.businesses set banner_url = '/__l5e/assets-v1/5422be2d-b78f-4d17-8782-b039ad9fc100/natasha-somalia-salon-banner.jpg' where id = '5c800cfc-aa3d-4bc7-b6ec-83f015e38de9';
