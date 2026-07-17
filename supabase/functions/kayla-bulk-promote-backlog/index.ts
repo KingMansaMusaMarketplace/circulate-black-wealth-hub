@@ -2,6 +2,7 @@
 // enforcing dedup on website_domain and (normalized_name, city). Skips strict Firecrawl checks.
 // Processes synchronously for up to ~45 seconds, then returns a continuation flag.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -33,6 +34,9 @@ function extractDomain(url?: string | null): string | null {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+
+  const authResult = await requireAdminOrCron(req, corsHeaders);
+  if (!authResult.authenticated) return authErrorResponse(authResult, corsHeaders);
 
   const handlerStart = Date.now();
   const stats = {
