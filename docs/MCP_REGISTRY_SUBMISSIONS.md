@@ -26,7 +26,7 @@ Prepared for Thomas Bowling to submit under 1325.AI, Inc.
 >
 > **Short description (140 chars):** Search verified Black-owned businesses, book services, redeem loyalty QR rewards, and access Kayla AI — the 1325.AI directory.
 >
-> **Long description:** 1325.AI is the largest verified directory of Black-owned businesses in the United States, with 3,400+ live listings across 50 states. This connector lets ChatGPT search the directory, surface businesses by city / category / rating, retrieve business profiles, check loyalty balances, and hand off to Kayla — our AI concierge — for bookings and support. All tools respect user identity via OAuth; per-user data is protected by row-level security.
+> **Long description:** 1325.AI is the largest verified directory of Black-owned businesses in the United States, with 44,000+ live listings across 50 states. This connector lets ChatGPT search the directory, surface businesses by city / category / rating, retrieve business profiles, check loyalty balances, and hand off to Kayla — our AI concierge — for bookings and support. All tools respect user identity via OAuth; per-user data is protected by row-level security.
 >
 > **Verified MCP Registry entry:** ai.1325/mcp — https://registry.modelcontextprotocol.io/v0.1/servers?search=ai.1325/mcp
 
