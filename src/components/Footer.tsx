@@ -286,6 +286,26 @@ const Footer = () => {
           />
         </motion.div>
 
+        {/* MCP Registry badge — proof of official listing */}
+        <motion.div variants={itemVariants} className="mb-6">
+          <a
+            href="https://registry.modelcontextprotocol.io/v0.1/servers?search=ai.1325/mcp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 bg-gradient-to-r from-mansagold/10 via-amber-400/10 to-mansagold/10 border border-mansagold/40 rounded-2xl p-4 hover:border-mansagold transition-all group"
+            aria-label="Verified in the Official MCP Registry"
+          >
+            <span className="inline-flex items-center gap-2 text-mansagold font-bold text-sm sm:text-base">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              Verified in the Official MCP Registry
+            </span>
+            <span className="text-white/70 text-xs sm:text-sm">
+              <code className="text-mansagold">ai.1325/mcp</code> · status: <span className="text-green-400 font-semibold">active</span>
+            </span>
+            <span className="text-white/50 text-xs group-hover:text-mansagold transition-colors">View listing →</span>
+          </a>
+        </motion.div>
+
         {/* Social Media & Copyright */}
         <motion.div variants={itemVariants} className="border-t border-white/10 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center bg-white/5 backdrop-blur-sm rounded-2xl p-6">
           <div className="flex gap-4 mb-4 md:mb-0">
