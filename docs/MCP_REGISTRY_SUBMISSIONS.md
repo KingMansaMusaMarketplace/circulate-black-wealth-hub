@@ -83,8 +83,9 @@ The Claude Connectors Directory is **separate from the open MCP Registry**. Clau
 
 ## What Thomas needs to do
 
-1. Log in to OpenAI Platform with a 1325.AI business account and submit form #1.
-2. Log in to Cursor with a 1325.AI business account and submit form #2.
-3. (Optional) Stand up the branded `1325.ai/mcp` proxy — I can wire the Cloudflare Worker code on request, but the DNS/Worker deploy must be done by whoever owns the 1325.ai Cloudflare account.
+1. Log in to **OpenAI Platform** with a 1325.AI business account and submit form #1.
+2. Log in to **Cursor** with a 1325.AI business account and submit form #2.
+3. Log in to **Claude.ai** with a 1325.AI **Team or Enterprise** admin account and submit form #3 at https://claude.ai/admin-settings/directory/submissions/new. (Individual Claude plans cannot submit.)
+4. (Optional) Stand up the branded `1325.ai/mcp` proxy — I can wire the Cloudflare Worker code on request, but the DNS/Worker deploy must be done by whoever owns the 1325.ai Cloudflare account.
 
-Typical review windows: OpenAI 2–6 weeks · Cursor 1–3 weeks.
+Typical review windows: OpenAI 2–6 weeks · Cursor 1–3 weeks · Anthropic Claude 2–6 weeks.
