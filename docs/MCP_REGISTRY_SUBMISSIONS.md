@@ -49,9 +49,35 @@ Prepared for Thomas Bowling to submit under 1325.AI, Inc.
 
 ---
 
-## 3) Anthropic Claude — Desktop Extensions / Connectors
+## 3) Anthropic Claude — Connectors Directory
 
-Claude Desktop auto-discovers from the official MCP Registry, so `ai.1325/mcp` should already appear when a user searches "1325" in **Settings → Connectors → Add**. No separate submission required. If Anthropic launches a curated directory beyond the open registry, use the same copy as OpenAI above.
+The Claude Connectors Directory is **separate from the open MCP Registry**. Claude does **not** auto-discover from the open registry; it only shows connectors that are manually submitted to and approved by Anthropic.
+
+- **Where to submit:** https://claude.ai/admin-settings/directory/submissions/new
+- **Who can submit:** A Claude.ai **Team or Enterprise** organization owner, or someone with Directory management access.
+- **Server URL:** https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/mcp
+- **Transport:** Streamable HTTP
+- **Auth:** OAuth 2.1 (dynamic client registration via Supabase Auth)
+
+**Application copy (paste-ready):**
+
+> **Server name:** 1325.AI
+> **Tagline (55 chars):** Search verified Black-owned businesses in the U.S.
+> **Description:** 1325.AI is the largest verified directory of Black-owned businesses in the United States, with 44,000+ live listings across 50 states. This connector lets Claude search the directory, find businesses by city / category / rating, retrieve rich business profiles, check loyalty balances, and hand off to Kayla — our AI concierge — for bookings and support. All tools use OAuth and respect user identity; per-user data is protected by row-level security.
+> **Categories:** Directory, Commerce, Local business, Community
+> **Documentation URL:** https://1325.ai
+> **Privacy policy URL:** https://1325.ai/privacy
+> **Support contact:** support@1325.ai
+> **Icon:** Use the 1325.AI logo / favicon
+
+**What you need before submitting:**
+- A Claude.ai **Team or Enterprise** organization under 1325.AI, Inc.
+- A published privacy policy at a URL you control (https://1325.ai/privacy is live).
+- A test account the reviewer can use to authenticate and run the tools end-to-end.
+- You must run every tool yourself first (via MCP Inspector or as a custom connector) and confirm it works.
+- Read the review criteria first: https://claude.com/docs/connectors/building/review-criteria
+
+**Review window:** Anthropic typically reviews in 2–6 weeks, depending on queue.
 
 ---
 
