@@ -363,9 +363,9 @@ const WhatKaylaDoesPage: React.FC = () => {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-mansablue-dark/40 to-[#030712]" />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-mansablue/20 to-mansablue-light/10 rounded-full blur-3xl animate-float" />
-        <div className="absolute top-1/4 -right-32 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/15 to-mansagold-light/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] bg-gradient-to-tr from-mansablue-dark/15 to-mansablue/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-mansablue/10 to-mansablue-light/5 rounded-full blur-3xl animate-float" />
+        <div className="absolute top-1/4 -right-32 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/8 to-mansagold-light/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] bg-gradient-to-tr from-mansablue-dark/8 to-mansablue/8 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
       </div>
       
 
