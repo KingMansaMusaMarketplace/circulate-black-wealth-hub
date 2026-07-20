@@ -38,8 +38,8 @@ const NavLinks: React.FC = () => {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link to="/about-1325" className={goldLinkClassName}>
-              About 1325.AI
+            <Link to="/directory" className={goldLinkClassName}>
+              Directory
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
