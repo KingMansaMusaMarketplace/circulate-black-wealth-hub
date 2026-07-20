@@ -361,13 +361,8 @@ const WhatKaylaDoesPage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden dark">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-mansablue-dark/40 to-[#030712]" />
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-mansablue/20 to-mansablue-light/10 rounded-full blur-3xl animate-float" />
-        <div className="absolute top-1/4 -right-32 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/15 to-mansagold-light/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] bg-gradient-to-tr from-mansablue-dark/15 to-mansablue/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-      </div>
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]" />
+      
 
       {/* Gold top accent */}
       <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60 relative z-10" />
