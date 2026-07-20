@@ -74,7 +74,7 @@ const HomePage: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
-              to="/kayla"
+              to="/what-kayla-does"
               className="px-8 py-4 bg-mansagold text-black font-semibold rounded-sm hover:bg-mansagold-dark transition-colors duration-300 min-w-[200px]"
             >
               Deploy Kayla
