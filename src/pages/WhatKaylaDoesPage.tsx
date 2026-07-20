@@ -389,7 +389,7 @@ const WhatKaylaDoesPage: React.FC = () => {
             Meet <span className="text-mansagold" style={{ fontFamily: "'Playfair Display', serif" }}>Kayla</span>
           </h1>
           <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-6">
-            {AI_EMPLOYEES.length} Agentic AI employees working 24/7 across {DEPARTMENTS.length - 1} departments — 
+            42 Agentic AI employees working 24/7 across {DEPARTMENTS.length - 1} departments — 
             replacing <span className="text-mansagold font-bold">${totalSavings.toLocaleString()}/mo</span> in operational costs.
           </p>
           <p className="text-white/50 max-w-2xl mx-auto text-sm md:text-base">
@@ -405,7 +405,7 @@ const WhatKaylaDoesPage: React.FC = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 md:mb-16"
         >
           {[
-            { label: 'AI Employees', value: AI_EMPLOYEES.length.toString(), icon: Bot },
+            { label: 'AI Employees', value: '42', icon: Bot },
             { label: 'Departments', value: (DEPARTMENTS.length - 1).toString(), icon: Layers },
             { label: 'Monthly Savings', value: `$${totalSavings.toLocaleString()}`, icon: Wallet },
             { label: 'Annual ROI', value: `${Math.round((totalSavings * 12) / (299 * 12))}x`, icon: TrendingUp },
