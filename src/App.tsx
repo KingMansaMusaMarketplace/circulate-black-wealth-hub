@@ -526,8 +526,8 @@ function App() {
                             <Routes>
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
-                              {/* Home — Directory is the landing page */}
-                              <Route path="/" element={<LazyDirectoryPage />} />
+                              {/* Home — Kayla-led front door is the landing page */}
+                              <Route path="/" element={<HomePage />} />
                               <Route path="/about-1325" element={<HomePage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect-chatgpt" element={<LazyConnectChatGPTPage />} />
@@ -683,7 +683,7 @@ function App() {
                               <Route path="/developers/pricing" element={<LazyComingSoonPage />} />
                               <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
                               <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
-                              <Route path="/directory" element={<Navigate to="/" replace />} />
+                              <Route path="/directory" element={<LazyDirectoryPage />} />
                               <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
                               <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
                               <Route path="/minority-business-marketplace" element={<LazyBlackOwnedIndexPage />} />
@@ -954,8 +954,8 @@ function App() {
                         <Suspense fallback={<LoadingFallback />}>
                         <Layout>
                           <Routes>
-                        {/* Home — Directory is the landing page */}
-                        <Route path="/" element={<LazyDirectoryPage />} />
+                        {/* Home — Kayla-led front door is the landing page */}
+                        <Route path="/" element={<HomePage />} />
                         <Route path="/about-1325" element={<HomePage />} />
                         <Route path="/connect" element={<LazyConnectPage />} />
                         <Route path="/connect-chatgpt" element={<LazyConnectChatGPTPage />} />
@@ -1104,7 +1104,7 @@ function App() {
                         <Route path="/developers/pricing" element={<LazyComingSoonPage />} />
                         <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
                         <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
-                        <Route path="/directory" element={<Navigate to="/" replace />} />
+                        <Route path="/directory" element={<LazyDirectoryPage />} />
                         <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
                         <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
                         <Route path="/minority-business-marketplace" element={<LazyBlackOwnedIndexPage />} />
