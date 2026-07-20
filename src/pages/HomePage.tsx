@@ -128,7 +128,7 @@ const HomePage: React.FC = () => {
                 },
               ].map((a) => (
                 <div key={a.code} className="bg-black p-8 group hover:bg-zinc-950 transition-colors">
-                  <span className="font-mono text-[10px] text-mansablue-light drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] mb-4 block">{a.code}</span>
+                  <span className="font-mono text-sm text-mansablue-light drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] mb-4 block">{a.code}</span>
                   <h3 className="text-xl font-medium mb-3 text-white">{a.name}</h3>
                   <p className="text-zinc-500 text-sm leading-relaxed mb-6">{a.desc}</p>
                   <div className="h-1 w-0 group-hover:w-full bg-mansagold transition-all duration-500" />
