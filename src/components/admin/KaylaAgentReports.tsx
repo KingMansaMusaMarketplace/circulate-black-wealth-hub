@@ -170,7 +170,7 @@ export function KaylaAgentReports() {
             </div>
             <div>
               <CardTitle className="text-lg">Kayla — Autonomous Agent</CardTitle>
-              <p className="text-sm text-muted-foreground">8 agentic services • Health checks every 4 hours</p>
+              <p className="text-sm text-muted-foreground">42 Agentic AI Employees • Health checks every 4 hours across 8 core services</p>
             </div>
           </div>
           {latestCheck && (
