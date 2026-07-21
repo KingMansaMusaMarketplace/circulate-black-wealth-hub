@@ -314,9 +314,53 @@ const AI_EMPLOYEES: AIEmployee[] = [
     capabilities: ['Growth opportunity scoring', 'Competitive landscape analysis', 'Strategic action plans', 'Performance benchmarking'],
     savingsPerMonth: '$450',
   },
+
+  // SPECIALISTS — the rest of the 42 Agentic AI Employee roster
+  { id: 'aria', icon: FileText, name: 'Aria', role: 'Brand & Content Strategist', department: 'SPECIALISTS',
+    description: 'Owns brand voice, content calendar, and long-form drafts — the verbal identity every other agent inherits.',
+    capabilities: ['Brand voice guardrails', 'Editorial calendar', 'Long-form drafts', 'Cross-agent style sync'], savingsPerMonth: '$500' },
+  { id: 'theo', icon: UserPlus, name: 'Theo', role: 'Sales Development Rep', department: 'SPECIALISTS',
+    description: 'Inbound qualification, meeting booking, and CRM hygiene — never misses the 5-minute SLA.',
+    capabilities: ['Instant lead qualification', 'Auto meeting booking', 'CRM enrichment', '5-min SLA guarantee'], savingsPerMonth: '$650' },
+  { id: 'cole', icon: Handshake, name: 'Cole', role: 'Account Executive', department: 'SPECIALISTS',
+    description: 'Pipeline progression, proposal drafts, and follow-ups — closes deals while you sleep.',
+    capabilities: ['Proposal drafting', 'Follow-up sequences', 'Deal-stage nudges', 'Pipeline hygiene'], savingsPerMonth: '$800' },
+  { id: 'maya', icon: Heart, name: 'Maya', role: 'Customer Success Manager', department: 'SPECIALISTS',
+    description: 'Onboarding, health scoring, and expansion playbooks — keeps customers activated and renewing.',
+    capabilities: ['Onboarding automation', 'Health scoring', 'Expansion signals', 'Churn early-warning'], savingsPerMonth: '$550' },
+  { id: 'owen', icon: LineChart, name: 'Owen', role: 'Financial Planning & Analysis', department: 'SPECIALISTS',
+    description: 'Forecast modeling, variance analysis, and cash-runway alerts — a fractional CFO on demand.',
+    capabilities: ['Rolling forecast', 'Variance analysis', 'Cash-runway alerts', 'Scenario modeling'], savingsPerMonth: '$900' },
+  { id: 'hugo', icon: Scale, name: 'Hugo', role: 'Legal Drafting', department: 'SPECIALISTS',
+    description: 'Contract templates, NDA flow, and policy review — first-pass legal for a fraction of the cost.',
+    capabilities: ['Contract templates', 'NDA e-sign flow', 'Policy review', 'Clause library'], savingsPerMonth: '$700' },
+  { id: 'ines', icon: UserPlus, name: 'Ines', role: 'Talent & Recruiting', department: 'SPECIALISTS',
+    description: 'Job description drafting, candidate screening, and interview kits — a recruiter that scales.',
+    capabilities: ['JD drafting', 'Resume screening', 'Interview kits', 'Offer letters'], savingsPerMonth: '$600' },
+  { id: 'pace', icon: ClipboardCheck, name: 'Pace', role: 'Executive Assistant', department: 'SPECIALISTS',
+    description: 'Calendar, travel, and briefing notes for the owner — a full chief-of-staff function.',
+    capabilities: ['Calendar management', 'Travel booking', 'Briefing prep', 'Inbox triage'], savingsPerMonth: '$400' },
+  { id: 'rae', icon: BarChart3, name: 'Rae', role: 'Investor Relations', department: 'SPECIALISTS',
+    description: 'Monthly update drafts, KPI snapshots, and an NDA-gated data room — investor-ready every month.',
+    capabilities: ['Monthly investor update', 'KPI snapshots', 'Data-room curation', 'NDA gating'], savingsPerMonth: '$550' },
+  { id: 'soli', icon: Calendar, name: 'Soli', role: 'Stays Concierge', department: 'SPECIALISTS',
+    description: 'Guest messaging, check-in automation, and host playbooks for Mansa Stays properties.',
+    capabilities: ['Guest messaging', 'Check-in automation', 'House manual delivery', 'Review requests'], savingsPerMonth: '$450' },
+  { id: 'dash', icon: Zap, name: 'Dash', role: 'Driver Dispatcher', department: 'SPECIALISTS',
+    description: 'Route optimization and driver matching for Noire Rideshare — always-on dispatch layer.',
+    capabilities: ['Route optimization', 'Driver matching', 'ETA prediction', 'Surge alerts'], savingsPerMonth: '$500' },
+  { id: 'flo', icon: Layers, name: 'Flo', role: 'Workflow Architect', department: 'SPECIALISTS',
+    description: 'Visual workflow generation and debugging — turns plain English into no-code playbooks.',
+    capabilities: ['Visual workflow builder', 'No-code playbooks', 'Debugging assistant', 'Trigger routing'], savingsPerMonth: '$450' },
+  { id: 'gard', icon: ShieldCheck, name: 'Gard', role: 'Compliance Guardian', department: 'SPECIALISTS',
+    description: 'KYC, W9, GDPR/CCPA, and age-gate enforcement — keeps the platform audit-ready.',
+    capabilities: ['KYC verification', 'W9 collection', 'GDPR/CCPA controls', 'Age-gate enforcement'], savingsPerMonth: '$700' },
+  { id: 'june', icon: Target, name: 'June', role: 'ML & Personalization', department: 'SPECIALISTS',
+    description: 'Recommendation tuning, ranking models, and A/B harness — the personalization brain.',
+    capabilities: ['Recommendation tuning', 'Ranking models', 'A/B experiment harness', 'Cohort personalization'], savingsPerMonth: '$600' },
 ];
 
-const DEPARTMENTS = ['ALL', 'MARKETING', 'FINANCE', 'OPERATIONS', 'COMMUNITY', 'TOOLS'] as const;
+const DEPARTMENTS = ['ALL', 'MARKETING', 'FINANCE', 'OPERATIONS', 'COMMUNITY', 'TOOLS', 'SPECIALISTS'] as const;
 
 const departmentColors: Record<string, string> = {
   MARKETING: 'bg-mansagold/20 text-mansagold border-mansagold/30',
@@ -324,6 +368,7 @@ const departmentColors: Record<string, string> = {
   OPERATIONS: 'bg-mansagold-light/20 text-mansagold-light border-mansagold-light/30',
   COMMUNITY: 'bg-mansagold-dark/20 text-mansagold border-mansagold-dark/30',
   TOOLS: 'bg-mansablue/20 text-mansablue-light border-mansablue/30',
+  SPECIALISTS: 'bg-mansagold/15 text-mansagold-light border-mansagold/30',
 };
 
 const departmentDescriptions: Record<string, string> = {
@@ -332,6 +377,7 @@ const departmentDescriptions: Record<string, string> = {
   OPERATIONS: 'Run lean with automated scheduling, inventory, and compliance.',
   COMMUNITY: 'Measure and amplify your community impact.',
   TOOLS: 'Intelligence tools that keep you ahead of the curve.',
+  SPECIALISTS: 'The rest of your AI executive team — sales, legal, HR, hospitality, mobility, and more.',
 };
 
 const departmentIcons: Record<string, React.ElementType> = {
@@ -340,6 +386,7 @@ const departmentIcons: Record<string, React.ElementType> = {
   OPERATIONS: Briefcase,
   COMMUNITY: Heart,
   TOOLS: Zap,
+  SPECIALISTS: Sparkles,
 };
 
 const WhatKaylaDoesPage: React.FC = () => {
