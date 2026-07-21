@@ -145,7 +145,7 @@ const HomePage: React.FC = () => {
               <h2 className="text-6xl md:text-8xl font-light text-white mb-6 italic">44,000+</h2>
               <p className="text-xl text-zinc-400 font-light leading-relaxed">
                 Verified listings making 1325.AI the definitive platform for Black-owned
-                enterprise. Scaled by AI, built for legacy.
+                enterprise. Scaled by AI Agentic, built for legacy.
               </p>
             </div>
 
