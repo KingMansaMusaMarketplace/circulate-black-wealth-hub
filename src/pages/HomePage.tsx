@@ -67,9 +67,11 @@ const HomePage: React.FC = () => {
             <br className="hidden md:block" /> 42 Agentic AI Employees.
           </h1>
 
-          <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
-            Orchestrating the world's largest verified Black-owned business directory. 44,000+
-            listings powered by institutional-grade intelligence.
+          <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto mb-4 font-light leading-relaxed">
+            The Global Directory of Black-Owned Businesses.
+          </p>
+          <p className="text-xs uppercase tracking-[0.2em] text-mansablue-light mb-12 font-medium">
+            Powered by the MCP open protocol
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
