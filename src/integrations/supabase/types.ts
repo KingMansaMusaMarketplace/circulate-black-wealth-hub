@@ -5694,6 +5694,7 @@ export type Database = {
       }
       businesses_private: {
         Row: {
+          address: string | null
           business_id: string
           created_at: string
           email: string | null
@@ -5706,6 +5707,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          address?: string | null
           business_id: string
           created_at?: string
           email?: string | null
@@ -5718,6 +5720,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          address?: string | null
           business_id?: string
           created_at?: string
           email?: string | null
@@ -25898,6 +25901,17 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: {
           email: string
+          phone: string
+        }[]
+      }
+      get_business_private_fields: {
+        Args: { _business_id: string }
+        Returns: {
+          address: string
+          business_id: string
+          email: string
+          latitude: number
+          longitude: number
           phone: string
         }[]
       }
