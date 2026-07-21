@@ -25652,6 +25652,10 @@ export type Database = {
       }
       delete_user_account: { Args: { user_id: string }; Returns: undefined }
       delete_user_account_immediate: { Args: never; Returns: Json }
+      enforce_admin_only_columns: {
+        Args: { _cols: string[] }
+        Returns: undefined
+      }
       expire_challenges: { Args: never; Returns: undefined }
       generate_api_key_prefix: {
         Args: {
