@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Briefcase, MapPin, DollarSign, ExternalLink, Plus } from 'lucide-react';
+import { Briefcase, MapPin, DollarSign, ExternalLink, Plus, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 
 type Job = {
@@ -20,7 +20,6 @@ type Job = {
   salary_currency: string;
   description: string;
   apply_url: string | null;
-  apply_email: string | null;
   created_at: string;
   expires_at: string | null;
 };
@@ -127,15 +126,33 @@ const JobsPage: React.FC = () => {
                       )}
                     </div>
                     <p className="text-sm whitespace-pre-wrap line-clamp-4 mb-4">{j.description}</p>
-                    <Button asChild size="sm">
-                      <a
-                        href={j.apply_url || `mailto:${j.apply_email}`}
-                        target={j.apply_url ? '_blank' : undefined}
-                        rel="noopener noreferrer"
+                    {j.apply_url ? (
+                      <Button asChild size="sm">
+                        <a href={j.apply_url} target="_blank" rel="noopener noreferrer">
+                          Apply <ExternalLink className="h-3 w-3 ml-2" />
+                        </a>
+                      </Button>
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={async () => {
+                          const { data: userRes } = await supabase.auth.getUser();
+                          if (!userRes.user) {
+                            toast.info('Please sign in to view the application email.');
+                            return;
+                          }
+                          const { data, error } = await supabase.rpc('get_job_apply_email', { _job_id: j.id });
+                          if (error || !data) {
+                            toast.error('Could not load the application email.');
+                            return;
+                          }
+                          window.location.href = `mailto:${data}?subject=${encodeURIComponent('Application: ' + j.title)}`;
+                        }}
                       >
-                        Apply <ExternalLink className="h-3 w-3 ml-2" />
-                      </a>
-                    </Button>
+                        <Mail className="h-3 w-3 mr-2" /> Apply by email
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
               );
