@@ -95,12 +95,13 @@ serve(async (req) => {
       },
     });
 
-    // Stripe session id is stored in the private companion table (kept off public job_postings)
+    // Stripe session id + apply_email are stored in the private companion table (kept off public job_postings)
     await supabase.from("job_postings_private").upsert(
       {
         job_id: posting.id,
         poster_user_id: user.id,
         stripe_session_id: session.id,
+        apply_email: apply_email ?? null,
       },
       { onConflict: "job_id" }
     );
