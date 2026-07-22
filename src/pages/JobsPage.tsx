@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Briefcase, MapPin, DollarSign, ExternalLink, Plus } from 'lucide-react';
+import { Briefcase, MapPin, DollarSign, ExternalLink, Plus, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 
 type Job = {
