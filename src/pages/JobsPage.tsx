@@ -126,15 +126,19 @@ const JobsPage: React.FC = () => {
                       )}
                     </div>
                     <p className="text-sm whitespace-pre-wrap line-clamp-4 mb-4">{j.description}</p>
-                    <Button asChild size="sm">
-                      <a
-                        href={j.apply_url || `mailto:${j.apply_email}`}
-                        target={j.apply_url ? '_blank' : undefined}
-                        rel="noopener noreferrer"
-                      >
-                        Apply <ExternalLink className="h-3 w-3 ml-2" />
-                      </a>
-                    </Button>
+                    {j.apply_url ? (
+                      <Button asChild size="sm">
+                        <a href={j.apply_url} target="_blank" rel="noopener noreferrer">
+                          Apply <ExternalLink className="h-3 w-3 ml-2" />
+                        </a>
+                      </Button>
+                    ) : (
+                      <Button asChild size="sm" variant="secondary">
+                        <Link to={`/jobs/${j.id}/apply`}>
+                          <Mail className="h-3 w-3 mr-2" /> Sign in to apply
+                        </Link>
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
               );
