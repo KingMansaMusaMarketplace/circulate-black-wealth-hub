@@ -133,10 +133,24 @@ const JobsPage: React.FC = () => {
                         </a>
                       </Button>
                     ) : (
-                      <Button asChild size="sm" variant="secondary">
-                        <Link to={`/jobs/${j.id}/apply`}>
-                          <Mail className="h-3 w-3 mr-2" /> Sign in to apply
-                        </Link>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={async () => {
+                          const { data: userRes } = await supabase.auth.getUser();
+                          if (!userRes.user) {
+                            toast.info('Please sign in to view the application email.');
+                            return;
+                          }
+                          const { data, error } = await supabase.rpc('get_job_apply_email', { _job_id: j.id });
+                          if (error || !data) {
+                            toast.error('Could not load the application email.');
+                            return;
+                          }
+                          window.location.href = `mailto:${data}?subject=${encodeURIComponent('Application: ' + j.title)}`;
+                        }}
+                      >
+                        <Mail className="h-3 w-3 mr-2" /> Apply by email
                       </Button>
                     )}
                   </CardContent>
