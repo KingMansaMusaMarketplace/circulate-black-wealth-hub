@@ -20,7 +20,6 @@ type Job = {
   salary_currency: string;
   description: string;
   apply_url: string | null;
-  apply_email: string | null;
   created_at: string;
   expires_at: string | null;
 };
