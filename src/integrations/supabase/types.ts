@@ -10080,7 +10080,6 @@ export type Database = {
       job_postings: {
         Row: {
           amount_cents: number
-          apply_email: string | null
           apply_url: string | null
           business_id: string | null
           company_name: string
@@ -10103,7 +10102,6 @@ export type Database = {
         }
         Insert: {
           amount_cents?: number
-          apply_email?: string | null
           apply_url?: string | null
           business_id?: string | null
           company_name: string
@@ -10126,7 +10124,6 @@ export type Database = {
         }
         Update: {
           amount_cents?: number
-          apply_email?: string | null
           apply_url?: string | null
           business_id?: string | null
           company_name?: string
@@ -10187,6 +10184,7 @@ export type Database = {
       }
       job_postings_private: {
         Row: {
+          apply_email: string | null
           created_at: string
           job_id: string
           poster_user_id: string
@@ -10194,6 +10192,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          apply_email?: string | null
           created_at?: string
           job_id: string
           poster_user_id: string
@@ -10201,6 +10200,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          apply_email?: string | null
           created_at?: string
           job_id?: string
           poster_user_id?: string
@@ -26189,6 +26189,7 @@ export type Database = {
           status: string
         }[]
       }
+      get_job_apply_email: { Args: { _job_id: string }; Returns: string }
       get_material_analytics: {
         Args: { p_end_date?: string; p_start_date?: string }
         Returns: {
