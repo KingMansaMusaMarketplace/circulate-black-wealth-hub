@@ -39,7 +39,7 @@ serve(async (req) => {
       throw new Error("Provide an apply_url or apply_email");
     }
 
-    // Insert pending posting
+    // Insert pending posting (apply_email is stored in the private companion table only)
     const { data: posting, error: insErr } = await supabase
       .from("job_postings")
       .insert({
@@ -55,7 +55,6 @@ serve(async (req) => {
         salary_currency: salary_currency ?? "USD",
         description,
         apply_url: apply_url ?? null,
-        apply_email: apply_email ?? null,
         status: "pending_payment",
         amount_cents: JOB_POST_PRICE_CENTS,
       })
