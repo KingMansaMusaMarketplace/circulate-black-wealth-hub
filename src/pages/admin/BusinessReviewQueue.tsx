@@ -178,7 +178,7 @@ const BusinessReviewQueue: React.FC = () => {
             <TabsList className="bg-slate-900/60 border border-white/10">
               {STATUS_COUNT_KEYS.map(s => (
                 <TabsTrigger key={s} value={s} className="capitalize">
-                  {s.replace('_', ' ')} <Badge variant="secondary" className="ml-2">{counts[s]}</Badge>
+                  {STATUS_LABEL[s]} <Badge variant="secondary" className="ml-2">{counts[s]}</Badge>
                 </TabsTrigger>
               ))}
             </TabsList>
