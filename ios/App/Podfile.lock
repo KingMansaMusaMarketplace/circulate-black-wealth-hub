@@ -93,7 +93,7 @@ SPEC CHECKSUMS:
   CapacitorShare: 051c3ceee0ddf3bb54574851a622bbb317eed5bd
   CapacitorSplashScreen: 19cd3573e57507e02d6f34597a8c421e00931487
   CapacitorStatusBar: 7d8fcbd6768db014bd721d75e246590b014928e8
-  CordovaPlugins: b753601ff5a96f51842c21e25503eead2a6979fb
+  CordovaPlugins: 7719c7a654fb45f9f9a9f6a9430a6c4a2d3ad2a8
   IONGeolocationLib: 81f33f88d025846946de2cf63b0c7628e7c6bc9d
 
 PODFILE CHECKSUM: f87696db534a3dd3d86a093cce2022c45b3eb998
