@@ -26256,6 +26256,18 @@ export type Database = {
         }[]
       }
       get_job_apply_email: { Args: { _job_id: string }; Returns: string }
+      get_leads_needing_enrichment: {
+        Args: { p_limit?: number }
+        Returns: {
+          business_name: string
+          contact_info: Json
+          enrichment_attempts: number
+          id: string
+          owner_email: string
+          phone_number: string
+          website_url: string
+        }[]
+      }
       get_material_analytics: {
         Args: { p_end_date?: string; p_start_date?: string }
         Returns: {
