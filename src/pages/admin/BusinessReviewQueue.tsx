@@ -29,9 +29,16 @@ type Lead = {
   created_at: string;
 };
 
-type StatusFilter = 'needs_review' | 'pending' | 'verified' | 'rejected';
+type StatusFilter = 'needs_review' | 'pending' | 'promoted' | 'rejected';
 
-const STATUS_COUNT_KEYS: StatusFilter[] = ['needs_review', 'pending', 'verified', 'rejected'];
+const STATUS_COUNT_KEYS: StatusFilter[] = ['needs_review', 'pending', 'promoted', 'rejected'];
+
+const STATUS_LABEL: Record<StatusFilter, string> = {
+  needs_review: 'needs review',
+  pending: 'pending',
+  promoted: 'live in directory',
+  rejected: 'rejected',
+};
 
 const BusinessReviewQueue: React.FC = () => {
   const [status, setStatus] = useState<StatusFilter>('needs_review');
