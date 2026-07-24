@@ -29,9 +29,16 @@ type Lead = {
   created_at: string;
 };
 
-type StatusFilter = 'needs_review' | 'pending' | 'verified' | 'rejected';
+type StatusFilter = 'needs_review' | 'pending' | 'promoted' | 'rejected';
 
-const STATUS_COUNT_KEYS: StatusFilter[] = ['needs_review', 'pending', 'verified', 'rejected'];
+const STATUS_COUNT_KEYS: StatusFilter[] = ['needs_review', 'pending', 'promoted', 'rejected'];
+
+const STATUS_LABEL: Record<StatusFilter, string> = {
+  needs_review: 'needs review',
+  pending: 'pending',
+  promoted: 'live in directory',
+  rejected: 'rejected',
+};
 
 const BusinessReviewQueue: React.FC = () => {
   const [status, setStatus] = useState<StatusFilter>('needs_review');
@@ -39,7 +46,7 @@ const BusinessReviewQueue: React.FC = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [counts, setCounts] = useState<Record<StatusFilter, number>>({
-    needs_review: 0, pending: 0, verified: 0, rejected: 0,
+    needs_review: 0, pending: 0, promoted: 0, rejected: 0,
   });
   const [actingId, setActingId] = useState<string | null>(null);
 
@@ -91,7 +98,7 @@ const BusinessReviewQueue: React.FC = () => {
       if (insErr) throw insErr;
       const { error: updErr } = await supabase
         .from('b2b_external_leads')
-        .update({ verification_status: 'verified', verified_at: new Date().toISOString() } as any)
+        .update({ verification_status: 'promoted', verified_at: new Date().toISOString() } as any)
         .eq('id', lead.id);
       if (updErr) throw updErr;
       toast.success(`Approved & published: ${lead.business_name}`);
@@ -138,7 +145,7 @@ const BusinessReviewQueue: React.FC = () => {
   };
 
   const summary = useMemo(() => {
-    const total = counts.needs_review + counts.pending + counts.verified + counts.rejected;
+    const total = counts.needs_review + counts.pending + counts.promoted + counts.rejected;
     return { total };
   }, [counts]);
 
@@ -171,7 +178,7 @@ const BusinessReviewQueue: React.FC = () => {
             <TabsList className="bg-slate-900/60 border border-white/10">
               {STATUS_COUNT_KEYS.map(s => (
                 <TabsTrigger key={s} value={s} className="capitalize">
-                  {s.replace('_', ' ')} <Badge variant="secondary" className="ml-2">{counts[s]}</Badge>
+                  {STATUS_LABEL[s]} <Badge variant="secondary" className="ml-2">{counts[s]}</Badge>
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -194,7 +201,7 @@ const BusinessReviewQueue: React.FC = () => {
           ) : leads.length === 0 ? (
             <Card className="bg-slate-900/60 border-white/10">
               <CardContent className="p-10 text-center text-white/60">
-                Nothing in “{status.replace('_', ' ')}”. 🎉
+                Nothing in “{STATUS_LABEL[status]}”. 🎉
               </CardContent>
             </Card>
           ) : (

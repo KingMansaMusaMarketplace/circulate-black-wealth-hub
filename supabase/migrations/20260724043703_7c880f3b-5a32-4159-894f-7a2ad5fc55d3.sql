@@ -1,0 +1,1 @@
+CREATE POLICY "Admins can update leads" ON public.b2b_external_leads FOR UPDATE TO authenticated USING (public.is_admin_secure()) WITH CHECK (public.is_admin_secure());
