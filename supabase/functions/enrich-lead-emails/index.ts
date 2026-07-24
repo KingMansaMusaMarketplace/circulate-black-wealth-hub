@@ -191,18 +191,22 @@ serve(async (req) => {
     let query = supabase
       .from('b2b_external_leads')
       .select('id, business_name, website_url, owner_email, phone_number, contact_info, enrichment_attempts')
-      .order('enrichment_attempts', { ascending: true })
+      .order('enrichment_attempts', { ascending: true, nullsFirst: true })
       .order('created_at', { ascending: true });
 
     if (lead_ids && lead_ids.length > 0) {
       query = query.in('id', lead_ids);
     } else if (enrich_missing_only) {
+      // Robust filter: website present AND (owner_email IS NULL OR owner_email = '')
+      // Supabase JS .or() syntax with proper empty-string handling
       query = query
         .not('website_url', 'is', null)
-        .or('owner_email.is.null,owner_email.eq.');
+        .or('owner_email.is.null,owner_email.eq.""');
     }
 
-    const { data: leads, error: fetchError } = await query.limit(Math.min(limit, 500));
+    const { data: leads, error: fetchError, count } = await query.limit(Math.min(limit, 500));
+
+    console.log(`[Kayla Enrichment] query matched count=${count ?? 'unknown'} error=${fetchError ? fetchError.message : 'none'}`);
 
     if (fetchError) throw fetchError;
 
