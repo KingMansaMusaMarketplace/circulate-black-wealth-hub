@@ -188,21 +188,34 @@ serve(async (req) => {
 
     console.log(`[Kayla Enrichment] run=${runId} ids=${lead_ids?.length || 'auto'} limit=${limit}`);
 
-    let query = supabase
-      .from('b2b_external_leads')
-      .select('id, business_name, website_url, owner_email, phone_number, contact_info, enrichment_attempts')
-      .order('enrichment_attempts', { ascending: true })
-      .order('created_at', { ascending: true });
+    let leads: any[] | null = null;
+    let fetchError: any = null;
 
     if (lead_ids && lead_ids.length > 0) {
-      query = query.in('id', lead_ids);
+      const res = await supabase
+        .from('b2b_external_leads')
+        .select('id, business_name, website_url, owner_email, phone_number, contact_info, enrichment_attempts')
+        .in('id', lead_ids)
+        .limit(Math.min(limit, 500));
+      leads = res.data;
+      fetchError = res.error;
     } else if (enrich_missing_only) {
-      query = query
-        .not('website_url', 'is', null)
-        .or('owner_email.is.null,owner_email.eq.');
+      // Use the dedicated RPC helper for reliable filtering.
+      const res = await supabase.rpc('get_leads_needing_enrichment', {
+        p_limit: Math.min(limit, 500),
+      });
+      leads = res.data;
+      fetchError = res.error;
+    } else {
+      const res = await supabase
+        .from('b2b_external_leads')
+        .select('id, business_name, website_url, owner_email, phone_number, contact_info, enrichment_attempts')
+        .limit(Math.min(limit, 500));
+      leads = res.data;
+      fetchError = res.error;
     }
 
-    const { data: leads, error: fetchError } = await query.limit(Math.min(limit, 500));
+    console.log(`[Kayla Enrichment] matched ${leads?.length ?? 0} leads error=${fetchError ? fetchError.message : 'none'}`);
 
     if (fetchError) throw fetchError;
 
