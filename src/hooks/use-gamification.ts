@@ -47,37 +47,27 @@ export const useGamification = () => {
     queryKey: ['leaderboard', 'weekly'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('leaderboard')
+        .from('leaderboard_public' as any)
         .select('*')
         .eq('period', 'weekly')
         .order('rank', { ascending: true })
         .limit(10);
 
       if (error) throw error;
-      
-      // Fetch profiles separately
-      const userIds = [...new Set((data || []).map(l => l.user_id).filter(Boolean))];
-      let profilesData: any[] = [];
-      
-      if (userIds.length > 0) {
-        const { data: profiles } = await supabase
-          .from('profiles')
-          .select('id, full_name')
-          .in('id', userIds);
-        profilesData = profiles || [];
-      }
-      
-      const profilesMap = new Map(profilesData.map(p => [p.id, p]));
-      
-      return (data || []).map(l => ({
+
+      return (data || []).map((l: any) => ({
         ...l,
-        profiles: profilesMap.get(l.user_id) || null
+        profiles: {
+          full_name: l.display_name || 'Anonymous User',
+          avatar_url: l.avatar_url || null,
+        },
       }));
     },
-    staleTime: 30000, // Consider data fresh for 30 seconds
-    retry: 2, // Retry failed requests twice
+    staleTime: 30000,
+    retry: 2,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
   });
+
 
   // Update streak
   const updateStreakMutation = useMutation({
