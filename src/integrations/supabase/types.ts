@@ -25097,6 +25097,19 @@ export type Database = {
         }
         Relationships: []
       }
+      leaderboard_public: {
+        Row: {
+          avatar_url: string | null
+          category: string | null
+          display_name: string | null
+          id: string | null
+          period: string | null
+          rank: number | null
+          score: number | null
+          updated_at: string | null
+        }
+        Relationships: []
+      }
       noir_drivers_public: {
         Row: {
           created_at: string | null
@@ -25284,6 +25297,39 @@ export type Database = {
           current_tier?: string | null
           rank?: number | null
           total_referrals?: number | null
+        }
+        Relationships: []
+      }
+      sales_agent_tests_public: {
+        Row: {
+          created_at: string | null
+          id: string | null
+          is_active: boolean | null
+          option_a: string | null
+          option_b: string | null
+          option_c: string | null
+          option_d: string | null
+          question: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          option_a?: string | null
+          option_b?: string | null
+          option_c?: string | null
+          option_d?: string | null
+          question?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          option_a?: string | null
+          option_b?: string | null
+          option_c?: string | null
+          option_d?: string | null
+          question?: string | null
         }
         Relationships: []
       }
