@@ -8,7 +8,7 @@
 - [ ] Build Number: 27
 
 ## 2. Signing & Capabilities
-- [ ] Apple Developer Team selected (Team ID: M7KLSAJR69)
+- [ ] Apple Developer Team selected: **Mansa Musa Marketplace, Inc.** (Team ID: M7KLSAJR69)
 - [ ] Automatically manage signing enabled
 - [ ] Provisioning profile configured
 - [ ] Required capabilities added:

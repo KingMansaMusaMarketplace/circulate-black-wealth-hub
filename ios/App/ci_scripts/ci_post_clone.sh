@@ -36,6 +36,10 @@ echo "✅ NPM version: $(npm -v)"
 # Change to repository root
 cd /Volumes/workspace/repository
 
+# Avoid stale CocoaPods sandbox/Manifest.lock mismatches in Xcode Cloud
+echo "🧹 Clearing stale CocoaPods sandbox"
+rm -rf ios/App/Pods
+
 # Install dependencies
 echo "📦 Installing npm dependencies"
 # Xcode Cloud maxsockets fix for reliability
@@ -58,6 +62,9 @@ echo "📱 Installing iOS dependencies"
 cd /Volumes/workspace/repository/ios/App
 pwd
 ls -la
-pod install
+pod install --repo-update
+
+echo "🔎 Verifying CocoaPods sandbox is in sync"
+diff Podfile.lock Pods/Manifest.lock
 
 echo "✅ Post-clone script completed successfully"
