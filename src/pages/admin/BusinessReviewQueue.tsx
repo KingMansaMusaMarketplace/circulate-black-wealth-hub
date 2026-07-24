@@ -145,7 +145,7 @@ const BusinessReviewQueue: React.FC = () => {
   };
 
   const summary = useMemo(() => {
-    const total = counts.needs_review + counts.pending + counts.verified + counts.rejected;
+    const total = counts.needs_review + counts.pending + counts.promoted + counts.rejected;
     return { total };
   }, [counts]);
 
