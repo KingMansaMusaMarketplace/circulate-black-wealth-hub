@@ -25300,39 +25300,6 @@ export type Database = {
         }
         Relationships: []
       }
-      sales_agent_tests_public: {
-        Row: {
-          created_at: string | null
-          id: string | null
-          is_active: boolean | null
-          option_a: string | null
-          option_b: string | null
-          option_c: string | null
-          option_d: string | null
-          question: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string | null
-          is_active?: boolean | null
-          option_a?: string | null
-          option_b?: string | null
-          option_c?: string | null
-          option_d?: string | null
-          question?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          id?: string | null
-          is_active?: boolean | null
-          option_a?: string | null
-          option_b?: string | null
-          option_c?: string | null
-          option_d?: string | null
-          question?: string | null
-        }
-        Relationships: []
-      }
       vacation_properties_public: {
         Row: {
           amenities: Json | null
