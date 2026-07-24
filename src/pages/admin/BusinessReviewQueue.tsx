@@ -236,6 +236,48 @@ const BusinessReviewQueue: React.FC = () => {
             </p>
           </header>
 
+          <Card className="bg-slate-900/60 border-white/10">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Mail className="h-4 w-4 text-mansagold" /> Kayla Contact Enrichment Pass
+              </CardTitle>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={runEnrichment}
+                disabled={enriching}
+                className="border-white/10 text-white hover:bg-white/10"
+              >
+                {enriching ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <RefreshCw className="h-4 w-4 mr-1" />}
+                Enrich 50 now
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div className="bg-black/30 rounded p-3">
+                  <div className="text-white/40 text-xs uppercase">Missing emails</div>
+                  <div className="text-xl font-bold text-mansagold">{enrichment.total_missing_email.toLocaleString()}</div>
+                </div>
+                <div className="bg-black/30 rounded p-3">
+                  <div className="text-white/40 text-xs uppercase">Total enriched</div>
+                  <div className="text-xl font-bold text-white">{enrichment.total_enriched.toLocaleString()}</div>
+                </div>
+                <div className="bg-black/30 rounded p-3">
+                  <div className="text-white/40 text-xs uppercase">Enriched 24h</div>
+                  <div className="text-xl font-bold text-green-400">{enrichment.enriched_24h.toLocaleString()}</div>
+                </div>
+                <div className="bg-black/30 rounded p-3">
+                  <div className="text-white/40 text-xs uppercase">Runs today</div>
+                  <div className="text-xl font-bold text-white/80">{enrichment.run_today.toLocaleString()}</div>
+                </div>
+              </div>
+              <p className="text-xs text-white/50 mt-3">
+                Kayla scrapes public business websites and uses AI to extract owner/operator emails with confidence scores.
+                Auto-runs daily at ~500 leads/day. Manual runs process 50 leads.
+              </p>
+            </CardContent>
+          </Card>
+
           <Tabs value={status} onValueChange={(v) => setStatus(v as StatusFilter)}>
             <TabsList className="bg-slate-900/60 border border-white/10">
               {STATUS_COUNT_KEYS.map(s => (
