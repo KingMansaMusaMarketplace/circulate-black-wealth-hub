@@ -25097,6 +25097,19 @@ export type Database = {
         }
         Relationships: []
       }
+      leaderboard_public: {
+        Row: {
+          avatar_url: string | null
+          category: string | null
+          display_name: string | null
+          id: string | null
+          period: string | null
+          rank: number | null
+          score: number | null
+          updated_at: string | null
+        }
+        Relationships: []
+      }
       noir_drivers_public: {
         Row: {
           created_at: string | null
