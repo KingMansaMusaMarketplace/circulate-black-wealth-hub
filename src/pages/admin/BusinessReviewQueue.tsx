@@ -46,7 +46,7 @@ const BusinessReviewQueue: React.FC = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [counts, setCounts] = useState<Record<StatusFilter, number>>({
-    needs_review: 0, pending: 0, verified: 0, rejected: 0,
+    needs_review: 0, pending: 0, promoted: 0, rejected: 0,
   });
   const [actingId, setActingId] = useState<string | null>(null);
 
