@@ -90,7 +90,34 @@ const BusinessReviewQueue: React.FC = () => {
     setLoading(false);
   }, [status, search]);
 
-  useEffect(() => { fetchLeads(); fetchCounts(); }, [fetchLeads, fetchCounts]);
+  const fetchEnrichmentStats = useCallback(async () => {
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const startOfDay = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+
+    const [missing, enriched, lastDay, today] = await Promise.all([
+      supabase.from('b2b_external_leads').select('id', { count: 'exact', head: true })
+        .not('website_url', 'is', null)
+        .or('owner_email.is.null,owner_email.eq.'),
+      supabase.from('b2b_external_leads').select('id', { count: 'exact', head: true })
+        .not('owner_email', 'is', null)
+        .neq('owner_email', ''),
+      supabase.from('b2b_external_leads').select('id', { count: 'exact', head: true })
+        .not('owner_email', 'is', null)
+        .neq('owner_email', '')
+        .gte('last_enriched_at', oneDayAgo),
+      supabase.from('kayla_enrichment_log').select('id', { count: 'exact', head: true })
+        .gte('created_at', startOfDay),
+    ]);
+
+    setEnrichment({
+      total_missing_email: missing.count ?? 0,
+      total_enriched: enriched.count ?? 0,
+      enriched_24h: lastDay.count ?? 0,
+      run_today: today.count ?? 0,
+    });
+  }, []);
+
+  useEffect(() => { fetchLeads(); fetchCounts(); fetchEnrichmentStats(); }, [fetchLeads, fetchCounts, fetchEnrichmentStats]);
 
   const approve = async (lead: Lead) => {
     setActingId(lead.id);
