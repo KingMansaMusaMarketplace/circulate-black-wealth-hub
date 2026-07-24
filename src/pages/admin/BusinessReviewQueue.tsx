@@ -40,6 +40,13 @@ const STATUS_LABEL: Record<StatusFilter, string> = {
   rejected: 'rejected',
 };
 
+type EnrichmentStats = {
+  total_missing_email: number;
+  total_enriched: number;
+  enriched_24h: number;
+  run_today: number;
+};
+
 const BusinessReviewQueue: React.FC = () => {
   const [status, setStatus] = useState<StatusFilter>('needs_review');
   const [search, setSearch] = useState('');
@@ -49,6 +56,13 @@ const BusinessReviewQueue: React.FC = () => {
     needs_review: 0, pending: 0, promoted: 0, rejected: 0,
   });
   const [actingId, setActingId] = useState<string | null>(null);
+  const [enrichment, setEnrichment] = useState<EnrichmentStats>({
+    total_missing_email: 0,
+    total_enriched: 0,
+    enriched_24h: 0,
+    run_today: 0,
+  });
+  const [enriching, setEnriching] = useState(false);
 
   const fetchCounts = useCallback(async () => {
     const results = await Promise.all(STATUS_COUNT_KEYS.map(async (s) => {
