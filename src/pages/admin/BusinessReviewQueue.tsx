@@ -201,7 +201,7 @@ const BusinessReviewQueue: React.FC = () => {
           ) : leads.length === 0 ? (
             <Card className="bg-slate-900/60 border-white/10">
               <CardContent className="p-10 text-center text-white/60">
-                Nothing in “{status.replace('_', ' ')}”. 🎉
+                Nothing in “{STATUS_LABEL[status]}”. 🎉
               </CardContent>
             </Card>
           ) : (
