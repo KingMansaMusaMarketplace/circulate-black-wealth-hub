@@ -1365,6 +1365,8 @@ function App() {
                         <Route path="/admin/funnel" element={<RequireAdmin><LazyFunnelAnalyticsPage /></RequireAdmin>} />
                         <Route path="/admin/seo" element={<RequireAdmin><LazySEODashboard /></RequireAdmin>} />
                         <Route path="/admin/backlinks" element={<RequireAdmin><LazyBacklinksDashboard /></RequireAdmin>} />
+                        <Route path="/admin/security-autopilot" element={<RequireAdmin><LazySecurityAutopilotPage /></RequireAdmin>} />
+                        <Route path="/admin/jobs" element={<RequireAdmin><LazyAdminJobsPage /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
