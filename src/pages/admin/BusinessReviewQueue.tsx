@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, XCircle, ExternalLink, RefreshCw, AlertTriangle, Loader2, Search } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, XCircle, ExternalLink, RefreshCw, AlertTriangle, Loader2, Search, Mail } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,6 +40,13 @@ const STATUS_LABEL: Record<StatusFilter, string> = {
   rejected: 'rejected',
 };
 
+type EnrichmentStats = {
+  total_missing_email: number;
+  total_enriched: number;
+  enriched_24h: number;
+  run_today: number;
+};
+
 const BusinessReviewQueue: React.FC = () => {
   const [status, setStatus] = useState<StatusFilter>('needs_review');
   const [search, setSearch] = useState('');
@@ -49,6 +56,13 @@ const BusinessReviewQueue: React.FC = () => {
     needs_review: 0, pending: 0, promoted: 0, rejected: 0,
   });
   const [actingId, setActingId] = useState<string | null>(null);
+  const [enrichment, setEnrichment] = useState<EnrichmentStats>({
+    total_missing_email: 0,
+    total_enriched: 0,
+    enriched_24h: 0,
+    run_today: 0,
+  });
+  const [enriching, setEnriching] = useState(false);
 
   const fetchCounts = useCallback(async () => {
     const results = await Promise.all(STATUS_COUNT_KEYS.map(async (s) => {
@@ -76,7 +90,34 @@ const BusinessReviewQueue: React.FC = () => {
     setLoading(false);
   }, [status, search]);
 
-  useEffect(() => { fetchLeads(); fetchCounts(); }, [fetchLeads, fetchCounts]);
+  const fetchEnrichmentStats = useCallback(async () => {
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const startOfDay = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+
+    const [missing, enriched, lastDay, today] = await Promise.all([
+      supabase.from('b2b_external_leads').select('id', { count: 'exact', head: true })
+        .not('website_url', 'is', null)
+        .or('owner_email.is.null,owner_email.eq.'),
+      supabase.from('b2b_external_leads').select('id', { count: 'exact', head: true })
+        .not('owner_email', 'is', null)
+        .neq('owner_email', ''),
+      supabase.from('b2b_external_leads').select('id', { count: 'exact', head: true })
+        .not('owner_email', 'is', null)
+        .neq('owner_email', '')
+        .gte('last_enriched_at', oneDayAgo),
+      supabase.from('kayla_enrichment_log').select('id', { count: 'exact', head: true })
+        .gte('created_at', startOfDay),
+    ]);
+
+    setEnrichment({
+      total_missing_email: missing.count ?? 0,
+      total_enriched: enriched.count ?? 0,
+      enriched_24h: lastDay.count ?? 0,
+      run_today: today.count ?? 0,
+    });
+  }, []);
+
+  useEffect(() => { fetchLeads(); fetchCounts(); fetchEnrichmentStats(); }, [fetchLeads, fetchCounts, fetchEnrichmentStats]);
 
   const approve = async (lead: Lead) => {
     setActingId(lead.id);
@@ -144,6 +185,27 @@ const BusinessReviewQueue: React.FC = () => {
     }
   };
 
+  const runEnrichment = async () => {
+    setEnriching(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('enrich-lead-emails', {
+        body: { limit: 50 },
+      });
+      if (error) {
+        const details = error instanceof Error && (error as any).context
+          ? await (error as any).context.text()
+          : error.message;
+        throw new Error(details || error.message);
+      }
+      toast.success(`Kayla enriched ${data?.emails_found ?? 0} emails / ${data?.phones_found ?? 0} phones`);
+      await fetchEnrichmentStats();
+    } catch (e: any) {
+      toast.error(e.message || 'Enrichment failed');
+    } finally {
+      setEnriching(false);
+    }
+  };
+
   const summary = useMemo(() => {
     const total = counts.needs_review + counts.pending + counts.promoted + counts.rejected;
     return { total };
@@ -173,6 +235,48 @@ const BusinessReviewQueue: React.FC = () => {
               {summary.total.toLocaleString()} leads in pipeline · Kayla's discoveries are staged here before going live.
             </p>
           </header>
+
+          <Card className="bg-slate-900/60 border-white/10">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Mail className="h-4 w-4 text-mansagold" /> Kayla Contact Enrichment Pass
+              </CardTitle>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={runEnrichment}
+                disabled={enriching}
+                className="border-white/10 text-white hover:bg-white/10"
+              >
+                {enriching ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <RefreshCw className="h-4 w-4 mr-1" />}
+                Enrich 50 now
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div className="bg-black/30 rounded p-3">
+                  <div className="text-white/40 text-xs uppercase">Missing emails</div>
+                  <div className="text-xl font-bold text-mansagold">{enrichment.total_missing_email.toLocaleString()}</div>
+                </div>
+                <div className="bg-black/30 rounded p-3">
+                  <div className="text-white/40 text-xs uppercase">Total enriched</div>
+                  <div className="text-xl font-bold text-white">{enrichment.total_enriched.toLocaleString()}</div>
+                </div>
+                <div className="bg-black/30 rounded p-3">
+                  <div className="text-white/40 text-xs uppercase">Enriched 24h</div>
+                  <div className="text-xl font-bold text-green-400">{enrichment.enriched_24h.toLocaleString()}</div>
+                </div>
+                <div className="bg-black/30 rounded p-3">
+                  <div className="text-white/40 text-xs uppercase">Runs today</div>
+                  <div className="text-xl font-bold text-white/80">{enrichment.run_today.toLocaleString()}</div>
+                </div>
+              </div>
+              <p className="text-xs text-white/50 mt-3">
+                Kayla scrapes public business websites and uses AI to extract owner/operator emails with confidence scores.
+                Auto-runs daily at ~500 leads/day. Manual runs process 50 leads.
+              </p>
+            </CardContent>
+          </Card>
 
           <Tabs value={status} onValueChange={(v) => setStatus(v as StatusFilter)}>
             <TabsList className="bg-slate-900/60 border border-white/10">
