@@ -2132,6 +2132,9 @@ export type Database = {
           discovered_by_business_id: string | null
           discovered_by_user_id: string | null
           email_status: string | null
+          enrichment_attempts: number | null
+          enrichment_details: Json | null
+          enrichment_source: string | null
           id: string
           import_job_id: string | null
           invitation_clicked_at: string | null
@@ -2205,6 +2208,9 @@ export type Database = {
           discovered_by_business_id?: string | null
           discovered_by_user_id?: string | null
           email_status?: string | null
+          enrichment_attempts?: number | null
+          enrichment_details?: Json | null
+          enrichment_source?: string | null
           id?: string
           import_job_id?: string | null
           invitation_clicked_at?: string | null
@@ -2278,6 +2284,9 @@ export type Database = {
           discovered_by_business_id?: string | null
           discovered_by_user_id?: string | null
           email_status?: string | null
+          enrichment_attempts?: number | null
+          enrichment_details?: Json | null
+          enrichment_source?: string | null
           id?: string
           import_job_id?: string | null
           invitation_clicked_at?: string | null
@@ -10944,6 +10953,63 @@ export type Database = {
             columns: ["campaign_id"]
             isOneToOne: false
             referencedRelation: "kayla_email_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kayla_enrichment_log: {
+        Row: {
+          confidence_score: number | null
+          created_at: string | null
+          emails_found: string[] | null
+          error_message: string | null
+          extraction_method: string | null
+          id: string
+          lead_id: string | null
+          owner_email: string | null
+          owner_name: string | null
+          run_id: string | null
+          source_url: string | null
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string | null
+          emails_found?: string[] | null
+          error_message?: string | null
+          extraction_method?: string | null
+          id?: string
+          lead_id?: string | null
+          owner_email?: string | null
+          owner_name?: string | null
+          run_id?: string | null
+          source_url?: string | null
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string | null
+          emails_found?: string[] | null
+          error_message?: string | null
+          extraction_method?: string | null
+          id?: string
+          lead_id?: string | null
+          owner_email?: string | null
+          owner_name?: string | null
+          run_id?: string | null
+          source_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_enrichment_log_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_external_leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_enrichment_log_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_external_leads_public"
             referencedColumns: ["id"]
           },
         ]
