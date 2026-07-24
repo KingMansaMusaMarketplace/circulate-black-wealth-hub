@@ -185,6 +185,27 @@ const BusinessReviewQueue: React.FC = () => {
     }
   };
 
+  const runEnrichment = async () => {
+    setEnriching(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('enrich-lead-emails', {
+        body: { limit: 50 },
+      });
+      if (error) {
+        const details = error instanceof Error && (error as any).context
+          ? await (error as any).context.text()
+          : error.message;
+        throw new Error(details || error.message);
+      }
+      toast.success(`Kayla enriched ${data?.emails_found ?? 0} emails / ${data?.phones_found ?? 0} phones`);
+      await fetchEnrichmentStats();
+    } catch (e: any) {
+      toast.error(e.message || 'Enrichment failed');
+    } finally {
+      setEnriching(false);
+    }
+  };
+
   const summary = useMemo(() => {
     const total = counts.needs_review + counts.pending + counts.promoted + counts.rejected;
     return { total };
