@@ -37,8 +37,8 @@ npx cap open ios
 3. **Distribute App**: Follow the App Store distribution flow
 
 ### 6. Update Build Number
-- Increment the build number in Xcode (e.g., from 1 to 2)
-- Keep version as 1.0.0 unless making a version bump
+- Build: **27**
+- Version: **25.0.0** (must be higher than the previously approved version 24.x)
 
 ## Testing Before Submission
 

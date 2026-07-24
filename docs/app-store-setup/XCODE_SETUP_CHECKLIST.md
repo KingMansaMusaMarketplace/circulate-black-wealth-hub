@@ -4,8 +4,8 @@
 ## 1. Project Settings
 - [ ] Bundle Identifier: `com.mansamusamarketplace.app`
 - [ ] Display Name: "Mansa Musa Marketplace"
-- [ ] Version: 1.0.0
-- [ ] Build Number: 1
+- [ ] Version: 25.0.0
+- [ ] Build Number: 27
 
 ## 2. Signing & Capabilities
 - [ ] Apple Developer Team selected (Team ID: M7KLSAJR69)
