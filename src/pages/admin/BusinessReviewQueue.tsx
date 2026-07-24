@@ -98,7 +98,7 @@ const BusinessReviewQueue: React.FC = () => {
       if (insErr) throw insErr;
       const { error: updErr } = await supabase
         .from('b2b_external_leads')
-        .update({ verification_status: 'verified', verified_at: new Date().toISOString() } as any)
+        .update({ verification_status: 'promoted', verified_at: new Date().toISOString() } as any)
         .eq('id', lead.id);
       if (updErr) throw updErr;
       toast.success(`Approved & published: ${lead.business_name}`);
