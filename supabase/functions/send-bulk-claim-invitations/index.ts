@@ -128,7 +128,8 @@ const handler = async (req: Request): Promise<Response> => {
 
         // Send the email
         const { error: emailError } = await resend.emails.send({
-          from: "1325.AI <hello@1325.ai>",
+          from: "Thomas at 1325.AI <Thomas@1325.ai>",
+          reply_to: "Thomas@1325.ai",
           to: [lead.owner_email],
           subject: personalizedSubject,
           html: personalizedBody,
