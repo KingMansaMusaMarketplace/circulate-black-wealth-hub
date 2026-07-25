@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Loader2, Check, X, Search, ListChecks, Image as ImageIcon, ExternalLink,
+  Loader2, Check, X, Search, ListChecks, Image as ImageIcon, ExternalLink, Mail,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -116,6 +116,27 @@ const ListingApprovalsQueue: React.FC = () => {
     load();
   };
 
+  const sendVerificationInvite = (b: Business) => {
+    if (!b.email) return toast.error('No email on file for this business');
+    const subject = `Complete your 1325.AI verification — ${b.name}`;
+    const body =
+`Hi ${b.name},
+
+Welcome to 1325.AI! To finish getting your Verified Black-Owned badge, please complete the short ownership attestation here:
+
+https://1325.ai/business-signup
+
+Sign in with the same email (${b.email}) and it will link to your existing listing. It takes about 2 minutes.
+
+Thank you,
+The 1325.AI Team`;
+    window.open(
+      `mailto:${encodeURIComponent(b.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
+      '_blank'
+    );
+    toast.success('Opened email draft');
+  };
+
   return (
     <div className="space-y-4 text-white">
       <Card className="bg-black border-white/10">
@@ -204,6 +225,17 @@ const ListingApprovalsQueue: React.FC = () => {
                         {tab !== 'rejected' && (
                           <Button size="sm" variant="destructive" onClick={() => setRejectFor(b)} disabled={busy}>
                             <X className="h-3 w-3 mr-1" /> Reject
+                          </Button>
+                        )}
+                        {tab === 'unverified' && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => sendVerificationInvite(b)}
+                            disabled={!b.email}
+                            title={b.email ? `Email ${b.email}` : 'No email on file'}
+                          >
+                            <Mail className="h-3 w-3 mr-1" /> Send Invite
                           </Button>
                         )}
                         {tab === 'rejected' && (
