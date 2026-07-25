@@ -207,7 +207,11 @@ Respond with a JSON object:
     }
 
     if (action === "check_expirations") {
-      // Find documents expiring within 30 days that haven't been alerted
+      // Admin or scheduled cron only — this scans all businesses' documents
+      const adminCheck = await requireAdminOrCron(req, corsHeaders);
+      if (!adminCheck.authenticated) {
+        return authErrorResponse(adminCheck, corsHeaders);
+      }
       const thirtyDaysFromNow = new Date();
       thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 
