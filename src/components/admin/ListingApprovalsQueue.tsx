@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Loader2, Check, X, Search, ListChecks, Image as ImageIcon, ExternalLink,
+  Loader2, Check, X, Search, ListChecks, Image as ImageIcon, ExternalLink, Mail,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
