@@ -227,6 +227,23 @@ The 1325.AI Team`;
                             <X className="h-3 w-3 mr-1" /> Reject
                           </Button>
                         )}
+                        {tab === 'unverified' && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => sendVerificationInvite(b)}
+                            disabled={!b.email}
+                            title={b.email ? `Email ${b.email}` : 'No email on file'}
+                          >
+                            <Mail className="h-3 w-3 mr-1" /> Send Invite
+                          </Button>
+                        )}
+                        {tab === 'rejected' && (
+                          <Button size="sm" variant="outline" onClick={() => approve([b.id])} disabled={busy}>
+                            Reinstate
+                          </Button>
+                        )}
+                      </div>
                         {tab === 'rejected' && (
                           <Button size="sm" variant="outline" onClick={() => approve([b.id])} disabled={busy}>
                             Reinstate
