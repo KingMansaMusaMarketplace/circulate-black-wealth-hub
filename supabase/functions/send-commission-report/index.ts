@@ -231,15 +231,7 @@ const handler = async (req: Request): Promise<Response> => {
         results.push({
           businessId: business.id,
           businessName: business.business_name,
-          email: business.email,
           success: true,
-          metrics: {
-            totalCommission,
-            totalVolume,
-            totalTransactions,
-            commissionTrend,
-            volumeTrend
-          }
         });
 
       } catch (error: any) {
@@ -257,7 +249,7 @@ const handler = async (req: Request): Promise<Response> => {
       JSON.stringify({
         success: true,
         message: `Processed ${results.length} businesses`,
-        results
+        count: results.length,
       }),
       {
         status: 200,
