@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { Resend } from "npm:resend@2.0.0";
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -8,7 +9,7 @@ const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-cron-secret",
 };
 
 interface CommissionReportRequest {
@@ -22,6 +23,12 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Admin or scheduled cron only — this exposes per-business financial data and sends emails
+    const authCheck = await requireAdminOrCron(req, corsHeaders);
+    if (!authCheck.authenticated) {
+      return authErrorResponse(authCheck, corsHeaders);
+    }
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
     const { businessId, month }: CommissionReportRequest = await req.json();
 
