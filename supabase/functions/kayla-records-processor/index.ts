@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { requireBusinessOwner, requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -10,28 +11,27 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader) throw new Error("Missing authorization header");
-
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey) as any;
 
-    // Verify user
-    const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!);
-    const { data: { user }, error: authError } = await anonClient.auth.getUser(authHeader.replace("Bearer ", ""));
-    if (authError || !user) throw new Error("Unauthorized");
-
     const { action, documentId, businessId } = await req.json();
 
     if (action === "process") {
-      // Fetch document record
+      // Fetch document record first to know which business owns it
       const { data: doc, error: docErr } = await supabase
         .from("document_records")
         .select("*")
         .eq("id", documentId)
         .single();
       if (docErr || !doc) throw new Error("Document not found");
+
+      // Enforce ownership: only the owning business (or admin) may process this document
+      const ownerCheck = await requireBusinessOwner(req, doc.business_id, corsHeaders);
+      if (!ownerCheck.authenticated) {
+        return authErrorResponse(ownerCheck, corsHeaders);
+      }
+      const user = { id: ownerCheck.userId! };
 
       // Update status to processing
       await supabase
@@ -207,7 +207,11 @@ Respond with a JSON object:
     }
 
     if (action === "check_expirations") {
-      // Find documents expiring within 30 days that haven't been alerted
+      // Admin or scheduled cron only — this scans all businesses' documents
+      const adminCheck = await requireAdminOrCron(req, corsHeaders);
+      if (!adminCheck.authenticated) {
+        return authErrorResponse(adminCheck, corsHeaders);
+      }
       const thirtyDaysFromNow = new Date();
       thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 

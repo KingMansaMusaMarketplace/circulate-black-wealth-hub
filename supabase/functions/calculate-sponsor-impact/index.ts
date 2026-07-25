@@ -24,10 +24,11 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-cron-secret",
 };
 
 interface ImpactMetrics {
@@ -43,27 +44,10 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Authenticate the caller and verify admin
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    const supabaseAuth = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      { global: { headers: { Authorization: authHeader } } }
-    );
-    const token = authHeader.replace('Bearer ', '');
-    const { data: claims, error: authError } = await supabaseAuth.auth.getUser(token);
-    if (authError || !claims?.user) {
-      return new Response(
-        JSON.stringify({ error: 'Authentication failed' }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    // Admin or scheduled cron only — this triggers a bulk platform-wide recompute
+    const authCheck = await requireAdminOrCron(req, corsHeaders);
+    if (!authCheck.authenticated) {
+      return authErrorResponse(authCheck, corsHeaders);
     }
 
     const supabaseClient = createClient(
