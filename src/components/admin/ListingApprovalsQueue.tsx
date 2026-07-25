@@ -116,6 +116,27 @@ const ListingApprovalsQueue: React.FC = () => {
     load();
   };
 
+  const sendVerificationInvite = (b: Business) => {
+    if (!b.email) return toast.error('No email on file for this business');
+    const subject = `Complete your 1325.AI verification — ${b.name}`;
+    const body =
+`Hi ${b.name},
+
+Welcome to 1325.AI! To finish getting your Verified Black-Owned badge, please complete the short ownership attestation here:
+
+https://1325.ai/business-signup
+
+Sign in with the same email (${b.email}) and it will link to your existing listing. It takes about 2 minutes.
+
+Thank you,
+The 1325.AI Team`;
+    window.open(
+      `mailto:${encodeURIComponent(b.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
+      '_blank'
+    );
+    toast.success('Opened email draft');
+  };
+
   return (
     <div className="space-y-4 text-white">
       <Card className="bg-black border-white/10">
