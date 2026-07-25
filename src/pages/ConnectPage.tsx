@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
-import { Check, Copy, Sparkles, ShieldCheck, ExternalLink } from 'lucide-react';
+import {
+  Check,
+  Copy,
+  Sparkles,
+  ShieldCheck,
+  ExternalLink,
+  RefreshCw,
+  MessageSquare,
+  Bot,
+  Code,
+} from 'lucide-react';
 
 const projectRef =
   (import.meta as any).env?.VITE_SUPABASE_PROJECT_ID ?? 'agoclnqfyinwjxdmjnns';
@@ -23,10 +33,10 @@ const ConnectPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-[#050a18] to-[#030712] text-white">
       <Helmet>
-        <title>Connect 1325.AI to ChatGPT & Claude | 1325.AI</title>
+        <title>Connect 1325.AI to ChatGPT, Claude & Cursor | 1325.AI</title>
         <meta
           name="description"
-          content="Connect the 1325.AI directory and loyalty tools to ChatGPT, Claude, and other AI assistants in a few clicks."
+          content="Connect the 1325.AI directory and loyalty tools to ChatGPT, Claude, Cursor, and other AI assistants in a few clicks."
         />
       </Helmet>
 
@@ -41,7 +51,7 @@ const ConnectPage: React.FC = () => {
           Connect 1325.AI to your AI assistant
         </h1>
         <p className="text-white/70 mb-8 md:text-lg">
-          Let ChatGPT, Claude, and other AI assistants search the 1325.AI
+          Let ChatGPT, Claude, Cursor, and other AI assistants search the 1325.AI
           directory, browse rewards, and check your loyalty points — on your
           behalf, after you sign in.
         </p>
@@ -84,7 +94,7 @@ const ConnectPage: React.FC = () => {
             <p className="text-white/70 text-sm mb-3">
               One-tap shortcuts — opens the connector setup in a new tab:
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
               <Button
                 asChild
                 variant="outline"
@@ -96,7 +106,7 @@ const ConnectPage: React.FC = () => {
                   rel="noreferrer noopener"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  Open Claude connector setup
+                  Open Claude
                 </a>
               </Button>
               <Button
@@ -110,7 +120,21 @@ const ConnectPage: React.FC = () => {
                   rel="noreferrer noopener"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  Open ChatGPT connector setup
+                  Open ChatGPT
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="border-white/20 bg-white/5 hover:bg-white/10 text-white"
+              >
+                <a
+                  href="https://www.cursor.com/settings"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Open Cursor
                 </a>
               </Button>
             </div>
@@ -123,7 +147,8 @@ const ConnectPage: React.FC = () => {
 
         {/* ChatGPT */}
         <section className="mb-10">
-          <h2 className="text-xl md:text-2xl font-bold mb-4">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 flex items-center gap-2">
+            <MessageSquare className="w-5 h-5 text-mansagold" />
             Connect from ChatGPT
           </h2>
           <ol className="space-y-3 list-decimal pl-5 text-white/80">
@@ -163,7 +188,8 @@ const ConnectPage: React.FC = () => {
 
         {/* Claude */}
         <section className="mb-10">
-          <h2 className="text-xl md:text-2xl font-bold mb-4">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 flex items-center gap-2">
+            <Bot className="w-5 h-5 text-mansagold" />
             Connect from Claude
           </h2>
           <ol className="space-y-3 list-decimal pl-5 text-white/80">
@@ -190,6 +216,73 @@ const ConnectPage: React.FC = () => {
               <em>“Using 1325.AI, what's my loyalty points balance?”</em>
             </li>
           </ol>
+        </section>
+
+        {/* Cursor */}
+        <section className="mb-10">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 flex items-center gap-2">
+            <Code className="w-5 h-5 text-mansagold" />
+            Connect from Cursor
+          </h2>
+          <ol className="space-y-3 list-decimal pl-5 text-white/80">
+            <li>
+              Open Cursor and go to{' '}
+              <strong>Settings → MCP</strong> (or open the command palette and
+              search for “MCP”).
+            </li>
+            <li>
+              Click <strong>Add new MCP server</strong>.
+            </li>
+            <li>
+              Name it <em>1325.AI</em>, set the transport to{' '}
+              <strong>HTTP / SSE</strong>, and paste the server URL above.
+            </li>
+            <li>
+              Save the server. Cursor will show a green check when it connects.
+            </li>
+            <li>
+              Sign in with your 1325.AI account and approve the connection.
+            </li>
+            <li>
+              In Composer, mention the 1325.AI tool and ask something like{' '}
+              <em>“Find Black-owned restaurants in Chicago using 1325.AI.”</em>
+            </li>
+          </ol>
+        </section>
+
+        {/* Refresh */}
+        <section className="mb-10">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 flex items-center gap-2">
+            <RefreshCw className="w-5 h-5 text-mansagold" />
+            Refresh after the app changes
+          </h2>
+          <p className="text-white/70 mb-4">
+            AI assistants cache the tool list. After 1325.AI adds or updates
+            tools, refresh the connector to get the latest features.
+          </p>
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <h3 className="font-semibold mb-2">ChatGPT</h3>
+              <p className="text-white/70 text-sm">
+                Open ChatGPT's app preferences, find 1325.AI under Enabled apps,
+                and click <strong>Refresh</strong> next to Information.
+              </p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <h3 className="font-semibold mb-2">Claude</h3>
+              <p className="text-white/70 text-sm">
+                Open the Connectors page, select the 1325.AI connector, and click{' '}
+                <strong>Refresh tools</strong>.
+              </p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <h3 className="font-semibold mb-2">Cursor</h3>
+              <p className="text-white/70 text-sm">
+                Open Settings → MCP, select the 1325.AI server, and click{' '}
+                <strong>Refresh</strong>.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* What it can do */}
