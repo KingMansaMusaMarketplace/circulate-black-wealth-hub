@@ -5,12 +5,13 @@ const config: CapacitorConfig = {
   appId: 'com.mansamusamarketplace.app',
   appName: 'Mansa Musa Marketplace',
   webDir: 'dist',
-  // LOCAL MODE: Load from bundled assets for instant startup
-  // To re-enable remote loading, uncomment the server block below
-  // server: {
-  //   url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
-  //   cleartext: true
-  // },
+  // REMOTE MODE: Load the live 1325.AI web app so iOS matches web exactly
+  server: {
+    url: 'https://1325.ai?forceHideBadge=true',
+    cleartext: false,
+    androidScheme: 'https',
+    iosScheme: 'https'
+  },
   plugins: {
     SplashScreen: {
       launchShowDuration: 0,
