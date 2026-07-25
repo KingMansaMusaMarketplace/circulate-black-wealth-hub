@@ -51,8 +51,8 @@ const ListingApprovalsQueue: React.FC = () => {
       .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason')
       .order('created_at', { ascending: false })
       .limit(100);
-    if (tab === 'new') q = q.eq('listing_status', 'draft');
-    else if (tab === 'unverified') q = q.eq('listing_status', 'live').eq('is_verified', false);
+    if (tab === 'new') q = q.in('listing_status', ['draft', 'pending', 'pending_review']);
+    else if (tab === 'unverified') q = q.in('listing_status', ['live', 'pending']).eq('is_verified', false);
     else q = q.eq('listing_status', 'rejected');
 
     const { data, error } = await q;
