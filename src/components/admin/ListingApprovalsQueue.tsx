@@ -244,12 +244,6 @@ The 1325.AI Team`;
                           </Button>
                         )}
                       </div>
-                        {tab === 'rejected' && (
-                          <Button size="sm" variant="outline" onClick={() => approve([b.id])} disabled={busy}>
-                            Reinstate
-                          </Button>
-                        )}
-                      </div>
                     </div>
                   ))}
                 </div>
