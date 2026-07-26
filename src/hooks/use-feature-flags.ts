@@ -93,7 +93,7 @@ export function useFeatureFlags(): UseFeatureFlagsReturn {
 
   // Check if a flag is enabled for the current user
   const isEnabled = useCallback((flagKey: string): boolean => {
-    const flag = flags.find(f => f.key === flagKey);
+    const flag = flags.find(f => f.flag_key === flagKey);
     
     // Flag not found - default to disabled
     if (!flag) {
