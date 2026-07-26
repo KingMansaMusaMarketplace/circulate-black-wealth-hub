@@ -25,10 +25,12 @@ export const PreLaunchRoute: React.FC<PreLaunchRouteProps> = ({
     <FeatureGate
       flag={flag}
       inverted
+      showWhileLoading
       fallback={<Navigate to="/coming-soon" replace />}
     >
       {children}
     </FeatureGate>
+
   );
 };
 
