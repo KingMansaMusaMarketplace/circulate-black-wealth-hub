@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Home, Shield, Percent } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { FeatureGate } from '@/components/feature-flags';
 
 const VacationRentalsCTA: React.FC = () => {
   return (
+    <FeatureGate flag="hide_mansa_stays" inverted>
     <section className="py-0 md:py-4 relative overflow-hidden">
       {/* Background accent */}
       <div className="absolute inset-0 bg-gradient-to-r from-mansagold/5 via-transparent to-mansagold/5" />
@@ -89,6 +91,7 @@ const VacationRentalsCTA: React.FC = () => {
         </motion.div>
       </div>
     </section>
+    </FeatureGate>
   );
 };
 

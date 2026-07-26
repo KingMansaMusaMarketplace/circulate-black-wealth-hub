@@ -1,48 +1,69 @@
-## Manual v66 — Diligence-Ready Pass
+# Tighten-Up Plan for 1325.AI
 
-Goal: ship a version of the Complete Platform Manual that a lawyer, banker, or Series A investor can open without noticing any patched-in artifacts, stale headers, or duplicated sections.
+This addresses the main risk: the platform is powerful but has too many moving parts to all be launch-ready at once. The plan focuses on reducing the surface area that can break, hardening the core money loop, and adding safety nets.
 
-### What changes
+## Phase 1: Define the Core Loop (This Week)
 
-1. **Header/footer sweep**
-   - Replace any lingering "v63" running headers or footer version strings with "v66".
-   - Verify every page footer shows consistent pagination and the confidential legal block.
+Decide the single path every user must complete successfully. Everything else is secondary.
 
-2. **Unify the two Series A sections**
-   - Consolidate the front-matter Series A summary and the deeper "Series A / Financing" section into one canonical source of numbers ($30M @ $180M pre, 18-mo runway, $96M FY28 ARR, 14.29% dilution, 85.71% founder retention).
-   - Remove the stale "$130M pre-money, 23.1% dilution" parenthetical still living on ~p104.
-   - Cross-reference (not duplicate) between the executive summary and the financing section.
+- **Proposed core loop:** Discover a business → View its profile → Contact / Subscribe / Book → Trust the result.
+- **Action:** Audit every route and button in that loop with end-to-end browser tests.
+- **Action:** Remove or hide every feature that is not in the core loop from the main navigation (can stay in admin/ investor portals).
 
-3. **Rebuild — not overlay — the cap table and term sheet**
-   - Regenerate PDF page 113 (cap table) and page 176 (term sheet) as fresh reportlab pages using the v65 corrected math, then splice them in cleanly so there are no overlay ghosts, font mismatches, or double-printed rows.
-   - Cap table columns: Holder · Shares · % Today · % Post-Series A.
-   - Term sheet: Founder Equity Retained = 100% today · 85.71% post-Series A (pre-ESOP). No ">60%" language anywhere.
+## Phase 2: Feature Freeze & Risk Hide (2–3 Days)
 
-4. **Add an Acknowledgment / NDA page**
-   - New page inserted right after the cover / confidentiality block.
-   - Fields: Recipient Name, Firm, Date, Signature.
-   - Language: recipient acknowledges receipt, confidentiality, no-forward, and that projections are forward-looking statements.
+Temporarily hide modules that are not fully wired or recently had broken-button fixes.
 
-5. **Add a v65 → v66 changelog page**
-   - Placed at the back of the front matter (before Part I).
-   - Bullet list of what changed since v63.9 (valuation, runway, ARR, pricing, cap table truth-up, agent count, MCP, iOS 1.4.1) so a diligence reader can trust the version.
+- **Hide candidates from public nav:**
+  - Susu / community banking features
+  - Noir Rideshare booking
+  - Mansa Stays booking
+  - Sales agent application portal
+  - Enterprise / corporate dashboard
+  - Some advanced Kayla tools that rely on undeployed edge functions
+- **Keep them in code** so they can be re-enabled after launch; just gate them behind a feature flag or admin-only route.
+- **Action:** Add a `pre_launch_hide` feature flag set and wrap those public entry points.
 
-6. **QA pass**
-   - Render every rebuilt/edited page to JPEG and eyeball for clipping, overlay ghosts, font mismatch, or duplicated blocks.
-   - Text-extract search for known stale strings: `$100M pre`, `24 mo`, `$42M ARR`, `> 60%`, `$29/mo`, `$130M pre`, `v63`. Must all return zero hits before shipping.
+## Phase 3: Harden the Core Loop (3–4 Days)
 
-### What does NOT change
+- **Directory search:** Ensure search, filters, alphabet jump, and featured business cards load in under 2 seconds.
+- **Business profiles:** Verify every real business record has a working image, address, and contact flow.
+- **Business signup:** Route new signups to the admin review queue and stop auto-verify.
+- **Payments:** Test Stripe checkout on web and Apple IAP on iOS for Essentials and Starter tiers.
+- **Auth:** Verify signup, login, password reset, and iOS handoff work without dead ends.
 
-- Cover art, color system, typography, department structure, and body copy stay identical to v65.
-- Agent roster, patent language, MCP messaging, iOS pricing — all unchanged.
-- No new sections beyond the Acknowledgment page and the changelog page.
+## Phase 4: Add Monitoring & Alerts (2 Days)
 
-### Deliverable
+- **Frontend:** Connect Sentry error tracking to capture runtime crashes and bad routes.
+- **Backend:** Add a daily health check edge function that reports critical table counts, failed signups, and stuck verification-queue items.
+- **Alerts:** Send a daily launch-pulse email to the admin team with top 3 issues.
 
-`/mnt/documents/1325AI_Complete_Platform_Manual_v66.pdf` — same ~180-page length (+2 pages for acknowledgment + changelog), diligence-ready.
+## Phase 5: Create a Rollback Runbook (1 Day)
 
-### Technical notes
+- Document how to quickly hide a broken feature via feature flag.
+- Document how to revert a bad migration or deploy.
+- List the 5 things that, if broken, would block launch.
 
-- Use `pypdf` to splice, `reportlab` (DejaVu Sans registered) to render replacement pages, `pypdfium2` for QA renders.
-- Rebuild pages 113 and 176 from scratch rather than overlaying, to eliminate the v65 overlay artifacts you'd otherwise see under scrutiny.
-- Keep the smart-alignment rule from v63.9 (center short pages, 54pt top margin on dense pages).
+## Phase 6: Final Pre-Launch Checklist (1 Day)
+
+- Run the full Vitest suite and fix any failing tests.
+- Run a broken-link scan across all public pages.
+- Run a mobile-responsive check on iPhone and iPad viewports.
+- Confirm the App Store build matches the live web version.
+- Confirm Apple review copy and demo accounts are ready.
+
+## Deliverables
+
+1. Feature-flag list of hidden modules.
+2. Core-loop end-to-end test report.
+3. Sentry / health-check wiring.
+4. Rollback runbook markdown file.
+5. Pre-launch checklist document.
+
+## What I Need From You
+
+- Confirm the core loop I proposed, or tell me the exact 3-step user journey you want to protect.
+- Confirm which public modules I should hide for launch (I can do this without deleting code).
+- Confirm whether you want me to start with Phase 1 and 2, or do all phases together.
+
+This is a large, multi-file change. I recommend doing it in phases so we can verify each step before moving on.

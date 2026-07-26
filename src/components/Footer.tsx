@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FeatureGate } from '@/components/feature-flags';
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import logo1325 from '@/assets/1325-ai-logo.webp';
@@ -172,11 +173,13 @@ const Footer = () => {
                   Learning Hub
                 </Link>
               </li>
-              <li>
-                <Link to="/sales-agent" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
-                  Sales Agent
-                </Link>
-              </li>
+              <FeatureGate flag="hide_sales_agent_portal" inverted>
+                <li>
+                  <Link to="/sales-agent" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                    Sales Agent
+                  </Link>
+                </li>
+              </FeatureGate>
               <li>
                 <Link to="/scanner" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   QR Scanner
@@ -187,21 +190,27 @@ const Footer = () => {
                   Rewards
                 </Link>
               </li>
-              <li>
-                <Link to="/stays" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
-                  Mansa Stays
-                </Link>
-              </li>
-              <li>
-                <Link to="/stays/become-a-host" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
-                  Become a Host
-                </Link>
-              </li>
-              <li>
-                <Link to="/sponsor-pricing" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
-                  Become a Sponsor
-                </Link>
-              </li>
+              <FeatureGate flag="hide_mansa_stays" inverted>
+                <li>
+                  <Link to="/stays" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                    Mansa Stays
+                  </Link>
+                </li>
+              </FeatureGate>
+              <FeatureGate flag="hide_mansa_stays" inverted>
+                <li>
+                  <Link to="/stays/become-a-host" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                    Become a Host
+                  </Link>
+                </li>
+              </FeatureGate>
+              <FeatureGate flag="hide_enterprise_corporate" inverted>
+                <li>
+                  <Link to="/sponsor-pricing" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                    Become a Sponsor
+                  </Link>
+                </li>
+              </FeatureGate>
               <li>
                 <Link to="/media-kit" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Media Kit

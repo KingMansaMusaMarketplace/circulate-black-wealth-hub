@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useFeatureFlags } from '@/hooks/use-feature-flags';
+
+interface MenuItem {
+  to: string;
+  label: string;
+  alwaysGold?: boolean;
+  dataTour?: string;
+  featureFlag?: string;
+}
 
 interface MobileMenuProps {
   onNavigate: () => void;
@@ -11,6 +20,8 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => {
+  const { isEnabled } = useFeatureFlags();
+
   const handleLinkClick = (e: React.MouseEvent) => {
     // Ensure the click event propagates properly
     e.stopPropagation();
@@ -23,15 +34,22 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
     onSearchOpen?.();
   };
 
-  const businessItems = [
+  const filterVisible = (items: MenuItem[]) =>
+    items.filter((item) => {
+      if (!item.featureFlag) return true;
+      // featureFlag is the HIDE flag; if enabled, hide the item (return false)
+      return !isEnabled(item.featureFlag);
+    });
+
+  const businessItems: MenuItem[] = [
     { to: '/directory', label: 'Business Directory' },
     { to: '/signup?type=business', label: 'Business Signup' },
     { to: '/business/how-it-works', label: 'How Payments Work' },
-    { to: '/corporate-sponsorship', label: 'Sponsorship' },
-    { to: '/sales-agent', label: 'Sales Agent Program' },
+    { to: '/corporate-sponsorship', label: 'Sponsorship', featureFlag: 'hide_enterprise_corporate' },
+    { to: '/sales-agent', label: 'Sales Agent Program', featureFlag: 'hide_sales_agent_portal' },
   ];
 
-  const resourceItems = [
+  const resourceItems: MenuItem[] = [
     { to: '/education', label: 'Education Center' },
     { to: '/mentorship', label: 'Mentorship' },
     { to: '/how-it-works', label: 'How It Works' },
@@ -42,21 +60,21 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
     { to: '/blog', label: 'Blog' },
   ];
 
-  const mainItems = [
+  const mainItems: MenuItem[] = [
     { to: '/', label: 'Home', alwaysGold: true },
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/directory', label: 'Business Directory', alwaysGold: true },
-    { to: '/stays', label: 'Vacation Rentals', alwaysGold: true },
+    { to: '/stays', label: 'Vacation Rentals', alwaysGold: true, featureFlag: 'hide_mansa_stays' },
     { to: '/ai-assistant', label: '🤖 Kayla AI', alwaysGold: true },
-    { to: '/partner-portal', label: '🤝 Partner Program', alwaysGold: true },
-    { to: '/karma', label: '✨ Karma Dashboard', alwaysGold: true },
-    { to: '/susu-circles', label: '💰 Susu Circles', alwaysGold: true },
+    { to: '/partner-portal', label: '🤝 Partner Program', alwaysGold: true, featureFlag: 'hide_enterprise_corporate' },
+    { to: '/karma', label: '✨ Karma Dashboard', alwaysGold: true, featureFlag: 'hide_susu_karma_wallet' },
+    { to: '/susu-circles', label: '💰 Susu Circles', alwaysGold: true, featureFlag: 'hide_susu_karma_wallet' },
     { to: '/recommendations', label: 'Discover & Achieve' },
     { to: '/impact', label: '❤️ My Impact', alwaysGold: true },
     // { to: '/merch', label: '🛍️ Shop Merch', alwaysGold: true }, // hidden temporarily
     { to: '/features', label: 'Features ⚡' },
     { to: '/community', label: 'Community' },
-    { to: '/community-finance', label: 'Community Finance' },
+    { to: '/community-finance', label: 'Community Finance', featureFlag: 'hide_susu_karma_wallet' },
     { to: '/challenges', label: 'Group Challenges' },
     { to: '/referrals', label: 'Earn Rewards 🎁' },
     { to: '/share-impact', label: 'Share My Impact 📸' },
@@ -68,6 +86,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
     { to: '/community-impact', label: 'Community Impact' },
     { to: '/contact', label: 'Contact' },
   ];
+
+  const visibleBusinessItems = filterVisible(businessItems);
+  const visibleResourceItems = filterVisible(resourceItems);
+  const visibleMainItems = filterVisible(mainItems);
 
   return (
     <div className="w-full" data-mobile-menu>
@@ -87,7 +109,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
           
           <nav className="space-y-2">
             {/* Main Navigation */}
-            {mainItems.map((item) => (
+            {visibleMainItems.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
@@ -100,45 +122,53 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
               </Link>
             ))}
             
-            <Separator className="my-3" />
+            {visibleBusinessItems.length > 0 && (
+              <>
+                <Separator className="my-3" />
+                
+                {/* For Businesses Section */}
+                <div className="px-3 py-1">
+                  <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
+                    For Businesses
+                  </h3>
+                </div>
+                {visibleBusinessItems.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={handleLinkClick}
+                    className="block px-6 py-3 text-base font-medium text-black hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
+                    style={{ minHeight: '44px' }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </>
+            )}
             
-            {/* For Businesses Section */}
-            <div className="px-3 py-1">
-              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
-                For Businesses
-              </h3>
-            </div>
-            {businessItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={handleLinkClick}
-                className="block px-6 py-3 text-base font-medium text-black hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
-                style={{ minHeight: '44px' }}
-              >
-                {item.label}
-              </Link>
-            ))}
-            
-            <Separator className="my-3" />
-            
-            {/* Resources Section */}
-            <div className="px-3 py-1">
-              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
-                Resources
-              </h3>
-            </div>
-            {resourceItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={handleLinkClick}
-                className="block px-6 py-3 text-base font-medium text-black hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
-                style={{ minHeight: '44px' }}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {visibleResourceItems.length > 0 && (
+              <>
+                <Separator className="my-3" />
+                
+                {/* Resources Section */}
+                <div className="px-3 py-1">
+                  <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
+                    Resources
+                  </h3>
+                </div>
+                {visibleResourceItems.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={handleLinkClick}
+                    className="block px-6 py-3 text-base font-medium text-black hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
+                    style={{ minHeight: '44px' }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </>
+            )}
           </nav>
         </CardContent>
       </Card>
