@@ -1120,6 +1120,14 @@ function App() {
                               {/* Business Onboarding */}
                               <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
                               
+                              {/* Legacy/speculative path redirects — keep investor & press links working */}
+                              <Route path="/founding-100" element={<Navigate to="/pricing#founding-100" replace />} />
+                              <Route path="/noir-ride" element={<Navigate to="/noir" replace />} />
+                              <Route path="/enterprise" element={<Navigate to="/pricing#enterprise" replace />} />
+                              <Route path="/partnerships" element={<Navigate to="/partners" replace />} />
+                              <Route path="/legal/terms" element={<Navigate to="/terms" replace />} />
+                              <Route path="/legal/privacy" element={<Navigate to="/privacy" replace />} />
+
                               {/* 404 */}
                               <Route path="*" element={<NotFound />} />
                               </Route>
@@ -1772,6 +1780,14 @@ function App() {
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
                         
+                        {/* Legacy/speculative path redirects */}
+                        <Route path="/founding-100" element={<Navigate to="/pricing#founding-100" replace />} />
+                        <Route path="/noir-ride" element={<Navigate to="/noir" replace />} />
+                        <Route path="/enterprise" element={<Navigate to="/pricing#enterprise" replace />} />
+                        <Route path="/partnerships" element={<Navigate to="/partners" replace />} />
+                        <Route path="/legal/terms" element={<Navigate to="/terms" replace />} />
+                        <Route path="/legal/privacy" element={<Navigate to="/privacy" replace />} />
+
                         {/* 404 */}
                         <Route path="*" element={<NotFound />} />
                           </Routes>
