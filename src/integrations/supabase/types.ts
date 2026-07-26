@@ -9921,6 +9921,71 @@ export type Database = {
         }
         Relationships: []
       }
+      investor_access_requests: {
+        Row: {
+          admin_notes: string | null
+          aum: string | null
+          created_at: string
+          email: string
+          firm: string
+          id: string
+          ip_address: string | null
+          linkedin_url: string | null
+          name: string
+          reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          title: string | null
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          aum?: string | null
+          created_at?: string
+          email: string
+          firm: string
+          id?: string
+          ip_address?: string | null
+          linkedin_url?: string | null
+          name: string
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          title?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          aum?: string | null
+          created_at?: string
+          email?: string
+          firm?: string
+          id?: string
+          ip_address?: string | null
+          linkedin_url?: string | null
+          name?: string
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          title?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investor_access_requests_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "consumer_emails"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       invitation_templates: {
         Row: {
           body: string
