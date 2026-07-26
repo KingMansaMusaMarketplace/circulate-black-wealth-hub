@@ -1125,6 +1125,8 @@ function App() {
                               <Route path="/noir-ride" element={<Navigate to="/noir" replace />} />
                               <Route path="/enterprise" element={<Navigate to="/pricing#enterprise" replace />} />
                               <Route path="/partnerships" element={<Navigate to="/partnership-framework" replace />} />
+                              <Route path="/partners" element={<Navigate to="/partnership-framework" replace />} />
+                              <Route path="/vacation-rentals" element={<Navigate to="/stays" replace />} />
                               <Route path="/legal/terms" element={<Navigate to="/terms" replace />} />
                               <Route path="/legal/privacy" element={<Navigate to="/privacy" replace />} />
 
@@ -1785,6 +1787,8 @@ function App() {
                         <Route path="/noir-ride" element={<Navigate to="/noir" replace />} />
                         <Route path="/enterprise" element={<Navigate to="/pricing#enterprise" replace />} />
                         <Route path="/partnerships" element={<Navigate to="/partnership-framework" replace />} />
+                              <Route path="/partners" element={<Navigate to="/partnership-framework" replace />} />
+                              <Route path="/vacation-rentals" element={<Navigate to="/stays" replace />} />
                         <Route path="/legal/terms" element={<Navigate to="/terms" replace />} />
                         <Route path="/legal/privacy" element={<Navigate to="/privacy" replace />} />
 
