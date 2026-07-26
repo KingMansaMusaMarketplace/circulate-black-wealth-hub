@@ -69,13 +69,13 @@ const HomePage: React.FC = () => {
           </h1>
 
           {/* TAM proof strip */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-xs md:text-sm font-mono text-zinc-500">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-xs md:text-sm font-mono text-zinc-400">
             <span><span className="text-mansagold">$2.1T</span> U.S.</span>
-            <span className="text-zinc-700">·</span>
+            <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">$9.1T</span> Global</span>
-            <span className="text-zinc-700">·</span>
+            <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">44,000+</span> Verified Businesses</span>
-            <span className="text-zinc-700">·</span>
+            <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">27</span> Patent Claims</span>
           </div>
 
