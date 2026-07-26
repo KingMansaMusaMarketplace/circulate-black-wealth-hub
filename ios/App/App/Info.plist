@@ -28,7 +28,7 @@
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
-		<string>armv7</string>
+		<string>arm64</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
@@ -46,18 +46,18 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Mansa Musa Marketplace uses your location to display nearby Black-owned businesses on the map, calculate accurate distances, and process location-based loyalty rewards when you scan QR codes at participating businesses.</string>
+	<string>1325.AI uses your location to display nearby Black-owned businesses on the map, calculate accurate distances, and process location-based loyalty rewards when you scan QR codes at participating businesses.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Mansa Musa Marketplace uses your location to display nearby Black-owned businesses on the map, calculate accurate distances, and process location-based loyalty rewards when you scan QR codes at participating businesses.</string>
+	<string>1325.AI uses your location to display nearby Black-owned businesses on the map, calculate accurate distances, and process location-based loyalty rewards when you scan QR codes at participating businesses.</string>
 	<key>GKGameCenterFoundationEnabled</key>
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>Mansa Musa Marketplace needs camera access to scan QR codes at participating businesses to earn loyalty points and discounts.</string>
+	<string>1325.AI needs camera access to scan QR codes at participating businesses to earn loyalty points and discounts.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Mansa Musa Marketplace needs photo library access to upload profile pictures and business logos.</string>
+	<string>1325.AI needs photo library access to upload profile pictures and business logos.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Mansa Musa Marketplace needs permission to save QR codes and receipts to your photo library.</string>
+	<string>1325.AI needs permission to save QR codes and receipts to your photo library.</string>
 </dict>
 </plist>
