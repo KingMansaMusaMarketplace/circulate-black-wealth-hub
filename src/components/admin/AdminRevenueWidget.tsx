@@ -161,7 +161,7 @@ const AdminRevenueWidget: React.FC = () => {
   }, []);
 
   return (
-    <Link to="/admin/platform-revenue" className="block group">
+    <Link to="/admin/revenue" className="block group">
       <Card className="bg-gradient-to-br from-mansagold/15 via-mansagold/5 to-mansablue/10 border-mansagold/30 hover:border-mansagold/60 transition-all overflow-hidden relative">
         <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-mansagold/15 blur-3xl pointer-events-none" />
         <CardContent className="p-5 relative">
