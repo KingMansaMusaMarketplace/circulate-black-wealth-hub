@@ -173,7 +173,7 @@ const HomePage: React.FC = () => {
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
             <div className="max-w-xl">
               <h2 className="text-6xl md:text-8xl font-light text-white mb-6 italic">44,000+</h2>
-              <p className="text-xl text-zinc-400 font-light leading-relaxed">
+              <p className="text-xl text-zinc-300 font-light leading-relaxed">
                 Verified listings making 1325.AI the definitive platform for Black-owned
                 enterprise. Scaled by AI Agentic, built for legacy.
               </p>
