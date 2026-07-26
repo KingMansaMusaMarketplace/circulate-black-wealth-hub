@@ -53,7 +53,11 @@ export const FoundingMemberOffer = () => {
         return;
       }
       if (data?.url) {
-        window.location.href = data.url;
+        const win = window.open(data.url, "_blank", "noopener,noreferrer");
+        if (!win) {
+          // Popup blocked — fall back to top-level navigation (breaks out of iframe)
+          window.top ? (window.top.location.href = data.url) : (window.location.href = data.url);
+        }
         return;
       }
       throw new Error(data?.error ?? "Could not start checkout");
