@@ -99,6 +99,10 @@ async function fetchPostHog() {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  const authResult = await requireAdminOrCron(req, corsHeaders);
+  if (!authResult.authenticated) return authErrorResponse(authResult, corsHeaders);
+
+
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
