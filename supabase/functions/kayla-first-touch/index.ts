@@ -4,7 +4,7 @@
 // kayla_business_baseline + a personalized welcome message in ai_chat_sessions.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
+import { requireAuth, requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
