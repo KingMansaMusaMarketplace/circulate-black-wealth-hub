@@ -125,7 +125,7 @@ export function useFeatureFlags(): UseFeatureFlagsReturn {
 
   // Get a specific flag by key
   const getFlag = useCallback((flagKey: string): FeatureFlag | undefined => {
-    return flags.find(f => f.key === flagKey);
+    return flags.find(f => f.flag_key === flagKey);
   }, [flags]);
 
   return {
