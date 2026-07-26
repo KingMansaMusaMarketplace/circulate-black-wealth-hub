@@ -117,7 +117,7 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
           style={orbitStyle}
         >
           $
-        </motion.text>
+        </text>
       </svg>
       
       {/* Entities along the path */}
