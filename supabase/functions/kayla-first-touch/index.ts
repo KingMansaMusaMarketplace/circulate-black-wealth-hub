@@ -4,7 +4,7 @@
 // kayla_business_baseline + a personalized welcome message in ai_chat_sessions.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
+import { requireAuth, requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -26,15 +26,9 @@ Deno.serve(async (req) => {
   const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
   const CRON_SECRET = Deno.env.get("CRON_SECRET");
 
-  // Auth: accept either CRON_SECRET (DB trigger path) or authenticated user (UI path)
+  // Auth: accept either CRON_SECRET (DB trigger path) or authenticated business owner (UI path)
   const cronHeader = req.headers.get("x-cron-secret");
   const isCron = !!CRON_SECRET && cronHeader === CRON_SECRET;
-  let callerUserId: string | null = null;
-  if (!isCron) {
-    const auth = await requireAuth(req, corsHeaders);
-    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
-    callerUserId = auth.userId ?? null;
-  }
 
   try {
     const { businessId, force }: FirstTouchRequest = await req.json();
@@ -43,6 +37,13 @@ Deno.serve(async (req) => {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    let callerUserId: string | null = null;
+    if (!isCron) {
+      const auth = await requireBusinessOwner(req, businessId, corsHeaders);
+      if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+      callerUserId = auth.userId ?? null;
     }
 
     const admin = createClient(SUPABASE_URL, SERVICE_KEY);

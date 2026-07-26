@@ -139,7 +139,16 @@ Deno.serve(async (req) => {
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-    console.log(`Authenticated user: ${user.id}`);
+
+    // Admin-only: this endpoint mutates internal B2B lead data and issues outbound fetches
+    const { data: isAdmin, error: adminError } = await supabaseAuth.rpc('is_admin_secure');
+    if (adminError || !isAdmin) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Forbidden: admin access required' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    console.log(`Authenticated admin user: ${user.id}`);
     // ========== END AUTHENTICATION CHECK ==========
 
     const { lead_ids, validate_all } = await req.json();
