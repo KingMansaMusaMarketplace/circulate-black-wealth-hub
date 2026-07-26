@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Share2, Image, Mail, MessageSquare, FileText, ArrowLeft, Filter } from 'lucide-react';
+import { Download, Share2, Image, Mail, MessageSquare, FileText, ArrowLeft, Filter, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { nativeShare, copyToClipboard } from '@/utils/social-share';
 import { getMarketingMaterials } from '@/lib/api/marketing-materials-api';
 import { MarketingMaterial, MaterialType } from '@/types/marketing-material';
@@ -16,6 +16,8 @@ import { getCategories, getTags, getMaterialsWithFilters } from '@/lib/api/mater
 import { MaterialCategory, MaterialTag, MaterialWithCategoriesAndTags } from '@/types/material-category';
 import MaterialFilters from '@/components/marketing/MaterialFilters';
 import { MaterialRecommendations } from '@/components/marketing/MaterialRecommendations';
+import { useAuth } from '@/contexts/AuthContext';
+
 
 
 const getIconForType = (type: MaterialType) => {
