@@ -37,6 +37,7 @@ const getIconForType = (type: MaterialType) => {
 
 const MarketingMaterialsPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, isLoading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<string>('all');
   const [materials, setMaterials] = useState<MaterialWithCategoriesAndTags[]>([]);
   const [categories, setCategories] = useState<MaterialCategory[]>([]);
@@ -47,12 +48,15 @@ const MarketingMaterialsPage: React.FC = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
+    if (!user) return;
     loadFilters();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
+    if (!user) { setLoading(false); return; }
     loadMaterials();
-  }, [selectedCategories, selectedTags, activeTab]);
+  }, [selectedCategories, selectedTags, activeTab, user]);
+
 
   const loadFilters = async () => {
     try {
