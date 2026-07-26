@@ -173,6 +173,7 @@ const InvestorRequestsPage: React.FC = () => {
                       </Button>
                     </div>
                   </>
+                )}
                 {r.status === 'approved' && (
                   <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/5">
                     <div className="text-xs text-slate-400 flex items-center gap-2">
