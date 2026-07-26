@@ -5,6 +5,8 @@ Disallow: /dashboard
 Disallow: /business-dashboard
 Disallow: /app-functionality-test
 Disallow: /api/
+Disallow: /investor-portal
+Disallow: /investor-requests
 
 # Block aggressive scrapers
 User-agent: AhrefsBot
