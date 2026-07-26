@@ -59,7 +59,7 @@ const config: CapacitorConfig = {
   ios: {
     contentInset: "always",
     scheme: "App",
-    backgroundColor: "#000000",
+    backgroundColor: "#FFFFFF",
     preferredContentMode: "mobile",
     statusBarStyle: "dark",
     preferredStatusBarStyle: "darkContent",
