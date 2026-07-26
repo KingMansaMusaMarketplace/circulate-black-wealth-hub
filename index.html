@@ -250,11 +250,14 @@
       </div>
     </noscript>
     <div id="root"></div>
-    <div id="boot-fallback" style="display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;background:#0b1020;color:#fff;text-align:center;padding:24px;">
+    <!-- Branded pre-boot splash: visible IMMEDIATELY on first paint so users
+         never see a raw black WebView while the JS bundle loads. Removed the
+         instant React mounts. -->
+    <div id="boot-fallback" style="display:flex;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;background:#000000;color:#fff;text-align:center;padding:24px;">
       <div style="max-width:560px;">
-        <div style="margin:0 auto 16px;width:40px;height:40px;border:3px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-        <h2 style="margin:0 0 8px;font-size:20px;">Loading 1325.AI</h2>
-        <p style="opacity:0.7;margin:0;font-size:14px;">Please wait...</p>
+        <div style="margin:0 auto 20px;width:56px;height:56px;border:4px solid rgba(255,179,0,0.2);border-top-color:#FFB300;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+        <h2 style="margin:0 0 8px;font-size:22px;font-weight:600;letter-spacing:0.5px;color:#FFB300;">1325.AI</h2>
+        <p style="opacity:0.7;margin:0;font-size:14px;">Loading the Black-Owned Business Directory…</p>
       </div>
     </div>
     <style>
@@ -267,36 +270,28 @@
         try {
           const root = document.getElementById('root');
           const fb = document.getElementById('boot-fallback');
-          let shown = false;
-          const HIDE = () => { if (fb) fb.style.display = 'none'; };
+          const HIDE = () => { if (fb) { fb.style.display = 'none'; } };
 
-          const show = () => { 
-            if (shown) return; 
-            shown = true; 
-            if (fb) fb.style.display = 'flex'; 
-          };
-
-          // Hide loader ASAP if React already mounted
+          // Hide immediately if React is already mounted
           if (window.__reactMounted || (root && root.childElementCount > 0)) {
             HIDE();
           }
 
-          // Show loading screen after 500ms if React hasn't mounted
-          setTimeout(() => {
-            try { 
-              if (!root || root.childElementCount === 0) show(); 
-            } catch { 
-              show(); 
-            }
-          }, 500);
-
-          // Keep checking every 200ms to hide once React mounts
+          // Poll every 100ms and hide as soon as React paints
           const hideInterval = setInterval(() => {
             if (window.__reactMounted || (root && root.childElementCount > 0)) {
               HIDE();
               clearInterval(hideInterval);
             }
-          }, 200);
+          }, 100);
+
+          // Safety net: force-hide after 12 seconds no matter what
+          setTimeout(() => {
+            HIDE();
+            clearInterval(hideInterval);
+          }, 12000);
+
+
 
           // Safety net: force-hide spinner after 8 seconds no matter what
           setTimeout(() => {
