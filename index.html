@@ -293,11 +293,8 @@
 
 
 
-          // Safety net: force-hide spinner after 8 seconds no matter what
-          setTimeout(() => {
-            HIDE();
-            clearInterval(hideInterval);
-          }, 8000);
+          // (Safety net already handled above)
+
 
 
           // Global helper to force-refresh with optional cache clear
