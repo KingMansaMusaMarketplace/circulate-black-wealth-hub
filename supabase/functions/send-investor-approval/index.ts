@@ -146,9 +146,27 @@ Deno.serve(async (req) => {
       }),
     });
 
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null;
+    const ua = req.headers.get('user-agent') ?? null;
+    const alreadySent = !!(reqRow as any).approval_email_sent_at;
+
     if (!emailRes.ok) {
       const body = await emailRes.text();
       console.error('Resend error', emailRes.status, body);
+      await admin.from('investor_access_log').insert({
+        investor_name: reqRow.name,
+        investor_email: reqRow.email,
+        investor_firm: reqRow.firm ?? null,
+        action_type: 'approval_email_failed',
+        ip_address: ip,
+        user_agent: ua,
+        metadata: {
+          request_id,
+          approved_by: userData.user.id,
+          resend_status: emailRes.status,
+          error: body.slice(0, 500),
+        },
+      });
       return new Response(
         JSON.stringify({ error: 'Email send failed', status: emailRes.status, details: body }),
         { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
@@ -159,6 +177,20 @@ Deno.serve(async (req) => {
       .from('investor_access_requests')
       .update({ approval_email_sent_at: new Date().toISOString() })
       .eq('id', request_id);
+
+    await admin.from('investor_access_log').insert({
+      investor_name: reqRow.name,
+      investor_email: reqRow.email,
+      investor_firm: reqRow.firm ?? null,
+      action_type: alreadySent ? 'approval_email_resent' : 'approval_email_sent',
+      ip_address: ip,
+      user_agent: ua,
+      metadata: {
+        request_id,
+        approved_by: userData.user.id,
+        portal_url: portalUrl,
+      },
+    });
 
     return new Response(JSON.stringify({ ok: true }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
