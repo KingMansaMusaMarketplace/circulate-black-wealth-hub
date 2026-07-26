@@ -50,7 +50,7 @@ export function useFeatureFlags(): UseFeatureFlagsReturn {
       const { data, error } = await supabase
         .from('feature_flags')
         .select('*')
-        .order('name', { ascending: true });
+        .order('flag_name', { ascending: true });
 
       if (error) {
         console.error('Error fetching feature flags:', error);
