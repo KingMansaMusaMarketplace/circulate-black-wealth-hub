@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle2, XCircle, ExternalLink } from 'lucide-react';
+import { Loader2, CheckCircle2, XCircle, ExternalLink, Mail } from 'lucide-react';
 
 interface Row {
   id: string;
@@ -21,6 +21,7 @@ interface Row {
   admin_notes: string | null;
   created_at: string;
   reviewed_at: string | null;
+  approval_email_sent_at: string | null;
 }
 
 const InvestorRequestsPage: React.FC = () => {
@@ -57,8 +58,42 @@ const InvestorRequestsPage: React.FC = () => {
       })
       .eq('id', id);
     if (error) return toast({ title: 'Update failed', description: error.message, variant: 'destructive' });
-    toast({ title: status === 'approved' ? 'Approved' : 'Denied' });
+
+    if (status === 'approved') {
+      toast({ title: 'Approved — sending NDA email…' });
+      const { data: sendData, error: sendErr } = await supabase.functions.invoke('send-investor-approval', {
+        body: { request_id: id },
+      });
+      if (sendErr || (sendData as any)?.error) {
+        toast({
+          title: 'Approved, but email failed',
+          description: (sendData as any)?.error ?? sendErr?.message ?? 'Unknown error',
+          variant: 'destructive',
+        });
+      } else {
+        toast({ title: 'NDA + passcode emailed to investor' });
+      }
+    } else {
+      toast({ title: 'Denied' });
+    }
     load();
+  };
+
+  const resendEmail = async (id: string) => {
+    toast({ title: 'Sending NDA email…' });
+    const { data: sendData, error: sendErr } = await supabase.functions.invoke('send-investor-approval', {
+      body: { request_id: id },
+    });
+    if (sendErr || (sendData as any)?.error) {
+      toast({
+        title: 'Email failed',
+        description: (sendData as any)?.error ?? sendErr?.message ?? 'Unknown error',
+        variant: 'destructive',
+      });
+    } else {
+      toast({ title: 'NDA + passcode re-sent' });
+      load();
+    }
   };
 
   const statusBadge = (s: Row['status']) => {
@@ -138,6 +173,22 @@ const InvestorRequestsPage: React.FC = () => {
                       </Button>
                     </div>
                   </>
+                )}
+                {r.status === 'approved' && (
+                  <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/5">
+                    <div className="text-xs text-slate-400 flex items-center gap-2">
+                      <Mail className="h-3.5 w-3.5" />
+                      {r.approval_email_sent_at
+                        ? <>NDA + passcode emailed {new Date(r.approval_email_sent_at).toLocaleString()}</>
+                        : <span className="text-yellow-400">Approval email not sent yet</span>}
+                    </div>
+                    <Button size="sm" variant="outline"
+                      onClick={() => resendEmail(r.id)}
+                      className="border-white/20 text-white hover:bg-white/10">
+                      <Mail className="h-3.5 w-3.5 mr-1.5" />
+                      {r.approval_email_sent_at ? 'Resend NDA email' : 'Send NDA email'}
+                    </Button>
+                  </div>
                 )}
               </Card>
             ))}

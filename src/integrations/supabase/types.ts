@@ -9924,6 +9924,7 @@ export type Database = {
       investor_access_requests: {
         Row: {
           admin_notes: string | null
+          approval_email_sent_at: string | null
           aum: string | null
           created_at: string
           email: string
@@ -9942,6 +9943,7 @@ export type Database = {
         }
         Insert: {
           admin_notes?: string | null
+          approval_email_sent_at?: string | null
           aum?: string | null
           created_at?: string
           email: string
@@ -9960,6 +9962,7 @@ export type Database = {
         }
         Update: {
           admin_notes?: string | null
+          approval_email_sent_at?: string | null
           aum?: string | null
           created_at?: string
           email?: string
