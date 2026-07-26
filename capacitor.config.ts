@@ -3,7 +3,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.mansamusamarketplace.app',
-  appName: 'Mansa Musa Marketplace',
+  appName: '1325.AI',
   webDir: 'dist',
   // REMOTE MODE: Load the live 1325.AI web app so iOS matches web exactly
   server: {
