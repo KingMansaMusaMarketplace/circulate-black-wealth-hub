@@ -656,7 +656,6 @@ function App() {
                               <Route path="/claim-business" element={<LazyClaimBusinessPage />} />
                               <Route path="/coalition" element={<LazyCoalitionPage />} />
                               <Route path="/community" element={<LazyCommunityPage />} />
-                              <Route path="/community" element={<LazyCommunityPage />} />
                               <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                               <Route path="/community-impact" element={<LazyImpactPage />} />
                               <Route path="/economic-impact" element={<LazyImpactPage />} />

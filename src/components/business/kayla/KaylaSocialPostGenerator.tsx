@@ -20,19 +20,8 @@ export const KaylaSocialPostGenerator: React.FC<Props> = ({ businessId }) => {
   const [copied, setCopied] = useState(false);
 
   const generate = async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('kayla-generate-social-post', {
-        body: { businessId, platform, topic: topic || undefined },
-      });
-      if (error) throw error;
-      setPost(data?.post || data?.content || JSON.stringify(data));
-      toast.success('Post generated!');
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to generate post');
-    } finally {
-      setLoading(false);
-    }
+    // Coming soon — AI social post generator not yet deployed
+    toast.info("Kayla's social post generator launches next week. We'll email you when it's live.");
   };
 
   const copyPost = () => {

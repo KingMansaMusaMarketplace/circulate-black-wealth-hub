@@ -23,19 +23,8 @@ export const KaylaCustomerSegments: React.FC<Props> = ({ businessId }) => {
   const [loading, setLoading] = useState(false);
 
   const analyze = async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('kayla-segment-analyzer', {
-        body: { businessId },
-      });
-      if (error) throw error;
-      setSegments(data?.segments || []);
-      toast.success('Customer segments analyzed!');
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to analyze segments');
-    } finally {
-      setLoading(false);
-    }
+    // Coming soon — customer segment analyzer not yet deployed
+    toast.info("Kayla's customer segment analyzer launches next week. We'll email you when it's live.");
   };
 
   const colors = ['text-emerald-400 bg-emerald-400/10', 'text-blue-400 bg-blue-400/10', 'text-purple-400 bg-purple-400/10', 'text-amber-400 bg-amber-400/10', 'text-pink-400 bg-pink-400/10'];

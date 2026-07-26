@@ -84,7 +84,7 @@ export function CoalitionJoinCTA() {
       </Card>
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <Link to="/auth/register">
+        <Link to="/signup">
           <Button 
             size="lg" 
             className="w-full sm:w-auto bg-[hsl(45,93%,47%)] hover:bg-[hsl(45,93%,42%)] text-[hsl(222,47%,11%)] font-semibold"
@@ -93,7 +93,7 @@ export function CoalitionJoinCTA() {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
-        <Link to="/auth/login">
+        <Link to="/login">
           <Button 
             variant="outline" 
             size="lg" 

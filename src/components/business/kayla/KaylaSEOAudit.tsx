@@ -21,19 +21,8 @@ export const KaylaSEOAudit: React.FC<Props> = ({ businessId }) => {
   const [loading, setLoading] = useState(false);
 
   const runAudit = async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('kayla-seo-audit', {
-        body: { businessId },
-      });
-      if (error) throw error;
-      setResult(data);
-      toast.success('SEO audit complete!');
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to run audit');
-    } finally {
-      setLoading(false);
-    }
+    // Coming soon — SEO audit engine not yet deployed
+    toast.info("Kayla's SEO audit launches next week. We'll notify you when it's ready.");
   };
 
   const getScoreColor = (score: number) => {

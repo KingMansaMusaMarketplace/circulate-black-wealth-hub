@@ -58,7 +58,7 @@ export default function EnterpriseWhiteLabelPage() {
         <meta name="description" content="Configure your white-label branding, custom domain, and API access with Kayla AI Enterprise." />
       </Helmet>
       <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
-        <Link to="/business/dashboard">
+        <Link to="/business-dashboard">
           <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white">
             <ArrowLeft className="h-4 w-4 mr-2" /> Back to Dashboard
           </Button>

@@ -83,7 +83,7 @@ const FoundersWallPage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                  <Link to="/register-business">
+                  <Link to="/business-signup">
                     <Button 
                       size="lg"
                       className="bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 hover:from-amber-500 hover:via-yellow-500 hover:to-orange-500 text-slate-900 font-bold px-8 py-6 rounded-xl shadow-lg shadow-mansagold/25"
@@ -195,7 +195,7 @@ const FoundersWallPage = () => {
                   transition={{ delay: 0.5 + i * 0.05 }}
                   className="relative"
                 >
-                  <Link to="/register-business">
+                  <Link to="/business-signup">
                     <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border-2 border-dashed border-white/20 hover:border-mansagold/50 transition-all duration-300 hover:scale-[1.02] h-full min-h-[160px] flex flex-col items-center justify-center text-center group">
                       <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-3 group-hover:bg-mansagold/20 transition-colors">
                         <span className="text-2xl font-bold text-white/50 group-hover:text-mansagold transition-colors">
@@ -218,7 +218,7 @@ const FoundersWallPage = () => {
               <Building2 className="w-16 h-16 text-blue-200/30 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Be the First!</h3>
               <p className="text-blue-200/70 mb-6">No founding members yet. Claim the #1 spot!</p>
-              <Link to="/register-business">
+              <Link to="/business-signup">
                 <Button className="bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 text-slate-900 font-bold">
                   Register Your Business
                 </Button>
