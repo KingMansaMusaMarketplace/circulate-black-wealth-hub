@@ -98,6 +98,27 @@ const KarmaDashboardPage: React.FC = () => {
   const positiveTransactions = transactions?.filter(t => t.change_amount > 0) || [];
   const negativeTransactions = transactions?.filter(t => t.change_amount < 0) || [];
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] flex items-center justify-center px-4">
+        <Card className="max-w-md w-full bg-black/60 border-mansagold/40">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-mansagold">
+              <Sparkles className="w-5 h-5" /> Sign in to view your Economic Karma
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-slate-300">
+            <p>Your karma score, history, and leaderboard rank live inside your account. Sign in or create a free account to see yours.</p>
+            <div className="flex gap-3">
+              <a href="/auth" className="inline-flex items-center justify-center rounded-md bg-mansagold px-4 py-2 text-black font-semibold hover:bg-amber-400 transition">Sign in</a>
+              <a href="/auth?mode=signup" className="inline-flex items-center justify-center rounded-md border border-mansagold/50 px-4 py-2 text-mansagold hover:bg-mansagold/10 transition">Create account</a>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
       {/* Animated background elements */}
