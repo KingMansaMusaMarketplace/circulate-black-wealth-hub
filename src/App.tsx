@@ -1496,6 +1496,8 @@ function App() {
                             <LazySusuCirclesPage />
                           </PreLaunchRoute>
                         }/>
+                        <Route path="/susu" element={<Navigate to="/susu-circles" replace />} />
+                        <Route path="/coming-soon" element={<LazyComingSoonPage />} />
                         <Route path="/stays" element={
                           <PreLaunchRoute flag="hide_mansa_stays">
                             <LazyVacationRentalsPage />
