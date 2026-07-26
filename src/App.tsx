@@ -215,6 +215,7 @@ const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard
 
 // Coming Soon page (for archived features)
 const LazyComingSoonPage = lazy(() => import('@/pages/ComingSoonPage'));
+const LazyUnauthorizedPage = lazy(() => import('@/pages/UnauthorizedPage'));
 const LazyClaimBusinessPage = lazy(() => import('@/pages/ClaimBusinessPage'));
 
 // PWA Install page
