@@ -14,12 +14,16 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 0,
+      // Keep splash visible while the remote 1325.ai site loads in WKWebView.
+      // Without this, users see a black WebView for 1-3s before the site paints.
+      launchShowDuration: 3500,
       launchAutoHide: true,
+      launchFadeOutDuration: 400,
       backgroundColor: "#000000",
-      showSpinner: false,
+      showSpinner: true,
+      spinnerColor: "#FFB300",
       androidSplashResourceName: "splash",
-      iosSpinnerStyle: "small",
+      iosSpinnerStyle: "large",
     },
     Geolocation: {
       androidPermissions: [
@@ -55,7 +59,7 @@ const config: CapacitorConfig = {
   ios: {
     contentInset: "always",
     scheme: "App",
-    backgroundColor: "#000000",
+    backgroundColor: "#FFFFFF",
     preferredContentMode: "mobile",
     statusBarStyle: "dark",
     preferredStatusBarStyle: "darkContent",
