@@ -37,19 +37,8 @@ export const KaylaFollowupAutomation: React.FC<Props> = ({ businessId }) => {
   };
 
   const generateRules = async () => {
-    setLoading(true);
-    try {
-      const { error } = await supabase.functions.invoke('kayla-followup-processor', {
-        body: { businessId, action: 'generate_rules' },
-      });
-      if (error) throw error;
-      toast.success('Follow-up rules generated!');
-      await fetchRules();
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to generate rules');
-    } finally {
-      setLoading(false);
-    }
+    // Coming soon — backend automation not yet deployed
+    toast.info("Follow-up automation launches next week — you'll get an email when it's live.");
   };
 
   const toggleRule = async (id: string, isActive: boolean) => {
