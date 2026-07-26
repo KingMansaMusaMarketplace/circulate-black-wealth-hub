@@ -47,7 +47,7 @@ const HomePageConsumer: React.FC = () => {
       <OrganizationStructuredData />
       <WebsiteStructuredData />
 
-      <div className="bg-background text-foreground selection:bg-mansagold/30 min-h-screen">
+      <div className="bg-black text-zinc-100 selection:bg-mansagold/30 min-h-screen">
         {/* Screen 1 — Hero (Consumer-first) */}
         <section className="flex flex-col items-center justify-center px-6 py-24 md:py-32 text-center max-w-6xl mx-auto min-h-[92vh]">
           <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 border border-mansagold/30 rounded-full bg-mansagold/5">
@@ -61,26 +61,26 @@ const HomePageConsumer: React.FC = () => {
           </div>
 
           {/* Consumer headline — the benefit first */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-6 leading-[1.05] text-foreground">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-6 leading-[1.05] text-white">
             Discover, support, and{' '}
             <span className="text-mansagold italic font-normal">circulate wealth</span>
             <br className="hidden md:block" /> with Black-owned businesses worldwide.
           </h1>
 
           {/* Consumer subhead */}
-          <p className="text-lg md:text-2xl text-foreground font-light leading-relaxed mb-2 max-w-3xl mx-auto">
+          <p className="text-lg md:text-2xl text-white font-light leading-relaxed mb-2 max-w-3xl mx-auto">
             The global directory of verified Black-owned businesses — powered by{' '}
             <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees.
           </p>
 
           {/* TAM proof strip — credibility beneath the consumer promise */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-xs md:text-sm font-mono text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-xs md:text-sm font-mono text-zinc-500">
             <span><span className="text-mansagold">$2.1T</span> U.S.</span>
-            <span className="text-border">·</span>
+            <span className="text-zinc-700">·</span>
             <span><span className="text-mansagold">$9.1T</span> Global</span>
-            <span className="text-border">·</span>
+            <span className="text-zinc-700">·</span>
             <span><span className="text-mansagold">44,000+</span> Verified Businesses</span>
-            <span className="text-border">·</span>
+            <span className="text-zinc-700">·</span>
             <span><span className="text-mansagold">27</span> Patent Claims</span>
           </div>
 
@@ -88,33 +88,33 @@ const HomePageConsumer: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
             <Link
               to="/directory"
-              className="px-8 py-4 bg-mansagold text-text-on-gold font-semibold rounded-sm hover:bg-mansagold-dark transition-colors duration-300 min-w-[220px]"
+              className="px-8 py-4 bg-mansagold text-black font-semibold rounded-sm hover:bg-mansagold-dark transition-colors duration-300 min-w-[220px]"
             >
               Shop Black-Owned
             </Link>
             <Link
               to="/what-kayla-does"
-              className="px-8 py-4 text-foreground border border-border hover:border-mansagold transition-all duration-300 min-w-[220px]"
+              className="px-8 py-4 text-white border border-zinc-700 hover:border-mansagold transition-all duration-300 min-w-[220px]"
             >
               Deploy Kayla
             </Link>
             <Link
               to="/investors"
-              className="px-8 py-4 text-muted-foreground border border-input hover:border-border hover:text-foreground transition-all duration-300 min-w-[220px]"
+              className="px-8 py-4 text-zinc-400 border border-zinc-800 hover:border-zinc-600 hover:text-white transition-all duration-300 min-w-[220px]"
             >
               For Investors →
             </Link>
           </div>
 
           {/* Protocol credibility line */}
-          <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mt-8 font-mono">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-600 mt-8 font-mono">
             Agentic Commerce Protocol · MCP Endpoint Live · OAuth 2.1 · Patent Pending 63/969,202
           </p>
 
           <div className="mt-16">
             <a
               href="#submit-business"
-              className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-mansagold transition-colors"
+              className="text-xs uppercase tracking-[0.2em] text-zinc-600 hover:text-mansagold transition-colors"
             >
               Submit your business →
             </a>
@@ -122,18 +122,18 @@ const HomePageConsumer: React.FC = () => {
         </section>
 
         {/* Screen 2 — The Workforce */}
-        <section className="px-6 py-24 border-t border-border">
+        <section className="px-6 py-24 border-t border-zinc-900">
           <div className="max-w-6xl mx-auto">
             <div className="mb-16">
               <h2 className="text-sm uppercase tracking-[0.3em] text-mansagold font-medium mb-4">
                 The Workforce
               </h2>
-              <p className="text-3xl font-light text-foreground">
+              <p className="text-3xl font-light text-white">
                 Specialized Intelligence. Unified Mission.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-900 border border-zinc-900">
               {[
                 {
                   code: 'AGENT_01',
@@ -151,10 +151,10 @@ const HomePageConsumer: React.FC = () => {
                   desc: 'Autonomous relationship manager matching directory listings with procurement opportunities and strategic partners.',
                 },
               ].map((a) => (
-                <div key={a.code} className="bg-background p-8 group hover:bg-muted/20 transition-colors">
+                <div key={a.code} className="bg-black p-8 group hover:bg-zinc-950 transition-colors">
                   <span className="font-mono text-sm text-mansablue-light drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] mb-4 block">{a.code}</span>
-                  <h3 className="text-xl font-medium mb-3 text-foreground">{a.name}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">{a.desc}</p>
+                  <h3 className="text-xl font-medium mb-3 text-white">{a.name}</h3>
+                  <p className="text-zinc-500 text-sm leading-relaxed mb-6">{a.desc}</p>
                   <div className="h-1 w-0 group-hover:w-full bg-mansagold transition-all duration-500" />
                 </div>
               ))}
@@ -163,22 +163,22 @@ const HomePageConsumer: React.FC = () => {
         </section>
 
         {/* Screen 3 — Scale + Submit */}
-        <section className="px-6 py-24 md:py-32 border-t border-border">
+        <section className="px-6 py-24 md:py-32 border-t border-zinc-900">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
             <div className="max-w-xl">
-              <h2 className="text-6xl md:text-8xl font-light text-foreground mb-6 italic">44,000+</h2>
-              <p className="text-xl text-muted-foreground font-light leading-relaxed">
+              <h2 className="text-6xl md:text-8xl font-light text-white mb-6 italic">44,000+</h2>
+              <p className="text-xl text-zinc-400 font-light leading-relaxed">
                 Verified listings making 1325.AI the definitive platform for Black-owned
                 enterprise. Scaled by AI Agentic, built for legacy.
               </p>
             </div>
 
             <div id="submit-business" className="w-full md:max-w-md scroll-mt-24">
-              <div className="p-6 border border-border bg-card/50 backdrop-blur-sm">
+              <div className="p-6 border border-zinc-900 bg-zinc-950/50 backdrop-blur-sm">
                 <h4 className="text-sm uppercase tracking-widest text-mansagold mb-4">
                   Add your business
                 </h4>
-                <div className="h-px bg-border w-full mb-4" />
+                <div className="h-px bg-zinc-800 w-full mb-4" />
                 <SectionErrorBoundary sectionName="Business Submission">
                   <BusinessSubmissionBox />
                 </SectionErrorBoundary>
