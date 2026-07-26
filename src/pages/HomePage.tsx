@@ -85,7 +85,7 @@ const HomePage: React.FC = () => {
               The global directory of Black-owned businesses — powered by{' '}
               <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees.
             </p>
-            <p className="text-sm md:text-base text-zinc-500 font-light">
+            <p className="text-sm md:text-base text-zinc-300 font-light">
               Discover, support, and circulate wealth across 44,000+ verified businesses worldwide.
             </p>
           </div>
