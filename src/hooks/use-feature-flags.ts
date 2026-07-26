@@ -5,8 +5,8 @@ import { useMemo, useCallback } from 'react';
 
 export interface FeatureFlag {
   id: string;
-  name: string;
-  key: string;
+  flag_name: string;
+  flag_key: string;
   description: string | null;
   is_enabled: boolean;
   rollout_percentage: number;
