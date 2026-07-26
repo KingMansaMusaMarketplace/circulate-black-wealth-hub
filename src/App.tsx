@@ -64,6 +64,7 @@ function lazyWithReload<T extends React.ComponentType<any>>(
 
 // Critical components (loaded immediately)
 import HomePage from './pages/HomePage';
+import HomePageConsumer from './pages/HomePageConsumer';
 import NotFound from './pages/NotFound';
 const RedeemBetaCodePage = lazy(() => import('./pages/RedeemBetaCodePage'));
 
