@@ -120,7 +120,7 @@ const HomePage: React.FC = () => {
           <div className="mt-16">
             <a
               href="#submit-business"
-              className="text-xs uppercase tracking-[0.2em] text-zinc-600 hover:text-mansagold transition-colors"
+              className="text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-mansagold transition-colors"
             >
               Submit your business →
             </a>
