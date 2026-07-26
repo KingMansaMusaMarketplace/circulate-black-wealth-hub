@@ -34,9 +34,9 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
   };
 
   const dollarAnimation = {
-    init: { offsetDistance: "0%" },
-    animate: { 
-      offsetDistance: "100%", 
+    init: { transform: "translate(0px, 0px)" },
+    animate: {
+      offsetDistance: ["0%", "100%"],
       transition: { duration: 8, repeat: Infinity, ease: "linear" }
     }
   };
