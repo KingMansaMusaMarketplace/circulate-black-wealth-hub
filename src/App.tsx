@@ -226,6 +226,7 @@ const LazyAdminBusinessImport = lazy(() => import('@/pages/AdminBusinessImport')
 const LazyAdminSponsorCRM = lazy(() => import('@/pages/AdminSponsorCRM'));
 const LazyAdminOutreachCRM = lazy(() => import('@/pages/AdminOutreachCRM'));
 const LazyAdminInvestorPortalPage = lazy(() => import('@/pages/AdminInvestorPortalPage'));
+const LazyAdminInvestorRequestsPage = lazy(() => import('@/pages/admin/InvestorRequestsPage'));
 
 // Investor & Ambassador pages
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
