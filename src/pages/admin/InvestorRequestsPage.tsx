@@ -173,6 +173,21 @@ const InvestorRequestsPage: React.FC = () => {
                       </Button>
                     </div>
                   </>
+                {r.status === 'approved' && (
+                  <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/5">
+                    <div className="text-xs text-slate-400 flex items-center gap-2">
+                      <Mail className="h-3.5 w-3.5" />
+                      {r.approval_email_sent_at
+                        ? <>NDA + passcode emailed {new Date(r.approval_email_sent_at).toLocaleString()}</>
+                        : <span className="text-yellow-400">Approval email not sent yet</span>}
+                    </div>
+                    <Button size="sm" variant="outline"
+                      onClick={() => resendEmail(r.id)}
+                      className="border-white/20 text-white hover:bg-white/10">
+                      <Mail className="h-3.5 w-3.5 mr-1.5" />
+                      {r.approval_email_sent_at ? 'Resend NDA email' : 'Send NDA email'}
+                    </Button>
+                  </div>
                 )}
               </Card>
             ))}
