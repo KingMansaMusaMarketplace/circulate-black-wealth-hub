@@ -37,7 +37,7 @@ const getIconForType = (type: MaterialType) => {
 
 const MarketingMaterialsPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user, isLoading: authLoading } = useAuth();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<string>('all');
   const [materials, setMaterials] = useState<MaterialWithCategoriesAndTags[]>([]);
   const [categories, setCategories] = useState<MaterialCategory[]>([]);
