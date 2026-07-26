@@ -184,6 +184,32 @@ const MarketingMaterialsPage: React.FC = () => {
     );
   }
 
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] p-4">
+        <Card className="max-w-md w-full bg-slate-900/60 border border-white/10 backdrop-blur-xl">
+          <CardHeader className="text-center">
+            <div className="w-16 h-16 rounded-2xl mx-auto mb-3 flex items-center justify-center bg-mansagold/20 border border-mansagold/40">
+              <Lock className="h-8 w-8 text-mansagold" />
+            </div>
+            <CardTitle className="text-white text-2xl">Sign in required</CardTitle>
+            <CardDescription className="text-white/70">
+              Marketing materials are available to signed-in sales agents and ambassadors.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3">
+            <Button asChild className="w-full bg-mansagold text-black hover:bg-amber-400">
+              <Link to="/login">Sign in</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+              <Link to="/">Back to home</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen relative">
       {/* Animated Background */}
