@@ -69,13 +69,13 @@ const HomePage: React.FC = () => {
           </h1>
 
           {/* TAM proof strip */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-xs md:text-sm font-mono text-zinc-500">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-xs md:text-sm font-mono text-zinc-400">
             <span><span className="text-mansagold">$2.1T</span> U.S.</span>
-            <span className="text-zinc-700">·</span>
+            <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">$9.1T</span> Global</span>
-            <span className="text-zinc-700">·</span>
+            <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">44,000+</span> Verified Businesses</span>
-            <span className="text-zinc-700">·</span>
+            <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">27</span> Patent Claims</span>
           </div>
 
@@ -85,7 +85,7 @@ const HomePage: React.FC = () => {
               The global directory of Black-owned businesses — powered by{' '}
               <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees.
             </p>
-            <p className="text-sm md:text-base text-zinc-500 font-light">
+            <p className="text-sm md:text-base text-zinc-300 font-light">
               Discover, support, and circulate wealth across 44,000+ verified businesses worldwide.
             </p>
           </div>
@@ -113,14 +113,14 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Protocol credibility line */}
-          <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-600 mt-8 font-mono">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-400 mt-8 font-mono">
             Agentic Commerce Protocol · MCP Endpoint Live · OAuth 2.1 · Patent Pending 63/969,202
           </p>
 
           <div className="mt-16">
             <a
               href="#submit-business"
-              className="text-xs uppercase tracking-[0.2em] text-zinc-600 hover:text-mansagold transition-colors"
+              className="text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-mansagold transition-colors"
             >
               Submit your business →
             </a>
@@ -160,7 +160,7 @@ const HomePage: React.FC = () => {
                 <div key={a.code} className="bg-black p-8 group hover:bg-zinc-950 transition-colors">
                   <span className="font-mono text-sm text-mansablue-light drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] mb-4 block">{a.code}</span>
                   <h3 className="text-xl font-medium mb-3 text-white">{a.name}</h3>
-                  <p className="text-zinc-500 text-sm leading-relaxed mb-6">{a.desc}</p>
+                  <p className="text-zinc-400 text-sm leading-relaxed mb-6">{a.desc}</p>
                   <div className="h-1 w-0 group-hover:w-full bg-mansagold transition-all duration-500" />
                 </div>
               ))}
@@ -173,7 +173,7 @@ const HomePage: React.FC = () => {
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
             <div className="max-w-xl">
               <h2 className="text-6xl md:text-8xl font-light text-white mb-6 italic">44,000+</h2>
-              <p className="text-xl text-zinc-400 font-light leading-relaxed">
+              <p className="text-xl text-zinc-300 font-light leading-relaxed">
                 Verified listings making 1325.AI the definitive platform for Black-owned
                 enterprise. Scaled by AI Agentic, built for legacy.
               </p>
