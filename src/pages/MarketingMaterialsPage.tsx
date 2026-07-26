@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Share2, Image, Mail, MessageSquare, FileText, ArrowLeft, Filter } from 'lucide-react';
+import { Download, Share2, Image, Mail, MessageSquare, FileText, ArrowLeft, Filter, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { nativeShare, copyToClipboard } from '@/utils/social-share';
 import { getMarketingMaterials } from '@/lib/api/marketing-materials-api';
 import { MarketingMaterial, MaterialType } from '@/types/marketing-material';
@@ -16,6 +16,8 @@ import { getCategories, getTags, getMaterialsWithFilters } from '@/lib/api/mater
 import { MaterialCategory, MaterialTag, MaterialWithCategoriesAndTags } from '@/types/material-category';
 import MaterialFilters from '@/components/marketing/MaterialFilters';
 import { MaterialRecommendations } from '@/components/marketing/MaterialRecommendations';
+import { useAuth } from '@/contexts/AuthContext';
+
 
 
 const getIconForType = (type: MaterialType) => {
@@ -35,6 +37,7 @@ const getIconForType = (type: MaterialType) => {
 
 const MarketingMaterialsPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<string>('all');
   const [materials, setMaterials] = useState<MaterialWithCategoriesAndTags[]>([]);
   const [categories, setCategories] = useState<MaterialCategory[]>([]);
@@ -45,12 +48,15 @@ const MarketingMaterialsPage: React.FC = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
+    if (!user) return;
     loadFilters();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
+    if (!user) { setLoading(false); return; }
     loadMaterials();
-  }, [selectedCategories, selectedTags, activeTab]);
+  }, [selectedCategories, selectedTags, activeTab, user]);
+
 
   const loadFilters = async () => {
     try {
@@ -174,6 +180,32 @@ const MarketingMaterialsPage: React.FC = () => {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold"></div>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] p-4">
+        <Card className="max-w-md w-full bg-slate-900/60 border border-white/10 backdrop-blur-xl">
+          <CardHeader className="text-center">
+            <div className="w-16 h-16 rounded-2xl mx-auto mb-3 flex items-center justify-center bg-mansagold/20 border border-mansagold/40">
+              <Lock className="h-8 w-8 text-mansagold" />
+            </div>
+            <CardTitle className="text-white text-2xl">Sign in required</CardTitle>
+            <CardDescription className="text-white/70">
+              Marketing materials are available to signed-in sales agents and ambassadors.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3">
+            <Button asChild className="w-full bg-mansagold text-black hover:bg-amber-400">
+              <Link to="/login">Sign in</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+              <Link to="/">Back to home</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }

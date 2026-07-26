@@ -1654,11 +1654,17 @@ function App() {
                           </PreLaunchRoute>
                         }/>
                         <Route path="/directory/soul-food-restaurants-near-me" element={<LazySoulFoodNearMePage />} />
+                        <Route path="/stays/become-a-host" element={<LazyBecomeHostPage />} />
                         <Route path="/stays/:id" element={
                           <PreLaunchRoute flag="hide_mansa_stays">
                             <LazyPropertyDetailPage />
                           </PreLaunchRoute>
                         }/>
+                        <Route path="/rewards" element={<LazyRewardsPage />} />
+                        <Route path="/developer/api-docs" element={<LazyAPIDocsPage />} />
+                        <Route path="/legal/hosting-agreement" element={<LazyHostingAgreementPage />} />
+                        <Route path="/legal/tenant-terms" element={<LazyTenantTermsPage />} />
+                        <Route path="/legal/photo-consent" element={<LazyPhotoConsentPage />} />
                         <Route path="/wallet" element={<LazyWalletPage />} />
                         <Route path="/settings" element={<LazyUserSettingsPage />} />
                         <Route path="/share-impact" element={<LazyShareImpactPage />} />

@@ -1,23 +1,17 @@
 import React from 'react';
-import { useRouteError, isRouteErrorResponse, Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { AlertTriangle, Home, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const ErrorPage: React.FC = () => {
-  const error = useRouteError();
-  
-  let errorMessage = 'An unexpected error occurred';
-  let errorStatus = 500;
-  
-  if (isRouteErrorResponse(error)) {
-    errorMessage = error.statusText || error.data?.message || errorMessage;
-    errorStatus = error.status;
-  } else if (error instanceof Error) {
-    errorMessage = error.message;
-  }
-
+  const location = useLocation();
+  // Read optional ?code=500 / ?message=... for programmatic navigation
+  const params = new URLSearchParams(location.search);
+  const errorStatus = Number(params.get('code')) || 404;
+  const errorMessage = params.get('message') || 'The page you are looking for could not be found.';
   const is404 = errorStatus === 404;
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden p-4">
