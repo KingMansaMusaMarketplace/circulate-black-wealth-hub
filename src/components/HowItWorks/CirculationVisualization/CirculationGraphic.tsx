@@ -33,12 +33,10 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
     }
   };
 
-  const dollarAnimation = {
-    init: { offsetDistance: "0%" },
-    animate: { 
-      offsetDistance: "100%", 
-      transition: { duration: 8, repeat: Infinity, ease: "linear" }
-    }
+  // CSS keyframe animation for offset-distance (framer-motion leaks it as a DOM attr on SVG)
+  const orbitStyle: React.CSSProperties = {
+    offsetPath: "path('M200,50 C300,50 350,150 350,200 C350,250 300,350 200,350 C100,350 50,250 50,200 C50,150 100,50 200,50')",
+    animation: isVisible ? "circulation-orbit 8s linear infinite" : "none",
   };
 
   const scaleAnimation = {
@@ -101,17 +99,14 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
         />
         
         {/* Animated dollar symbol */}
-        <motion.circle 
-          cx="0" 
-          cy="0" 
-          r="15" 
+        <circle
+          cx="0"
+          cy="0"
+          r="15"
           fill="#FFD700"
-          variants={dollarAnimation}
-          initial="init"
-          animate={isVisible ? "animate" : "init"}
-          style={{ offsetPath: "path('M200,50 C300,50 350,150 350,200 C350,250 300,350 200,350 C100,350 50,250 50,200 C50,150 100,50 200,50')" }}
+          style={orbitStyle}
         />
-        <motion.text
+        <text
           x="0"
           y="0"
           textAnchor="middle"
@@ -119,19 +114,10 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
           fill="white"
           fontSize="12"
           fontWeight="bold"
-          variants={dollarAnimation}
-          initial="init"
-          animate={isVisible ? "animate" : "init"}
-          style={{ offsetPath: "path('M200,50 C300,50 350,150 350,200 C350,250 300,350 200,350 C100,350 50,250 50,200 C50,150 100,50 200,50')" }}
-          transition={{ 
-            duration: 8, 
-            repeat: Infinity, 
-            ease: "linear",
-            delay: 0.1
-          }}
+          style={orbitStyle}
         >
           $
-        </motion.text>
+        </text>
       </svg>
       
       {/* Entities along the path */}
