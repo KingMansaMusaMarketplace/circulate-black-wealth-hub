@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Home, Car } from 'lucide-react';
+import { FeatureGate } from '@/components/feature-flags';
 
 const AlsoFromStrip: React.FC = () => {
   return (
@@ -13,52 +14,56 @@ const AlsoFromStrip: React.FC = () => {
 
         <div className="grid md:grid-cols-2 gap-4">
           {/* Mansa Stays */}
-          <Link
-            to="/stays"
-            className="group bg-gradient-to-br from-slate-900/80 to-slate-800/50 backdrop-blur-sm rounded-2xl border border-white/10 p-5 hover:border-mansagold/40 transition-all"
-          >
-            <div className="flex items-start gap-4">
-              <div className="shrink-0 w-12 h-12 rounded-xl bg-mansagold/10 border border-mansagold/30 flex items-center justify-center">
-                <Home className="h-6 w-6 text-mansagold" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-lg font-bold text-white">Mansa Stays</h3>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">Live</span>
+          <FeatureGate flag="hide_mansa_stays" inverted>
+            <Link
+              to="/stays"
+              className="group bg-gradient-to-br from-slate-900/80 to-slate-800/50 backdrop-blur-sm rounded-2xl border border-white/10 p-5 hover:border-mansagold/40 transition-all"
+            >
+              <div className="flex items-start gap-4">
+                <div className="shrink-0 w-12 h-12 rounded-xl bg-mansagold/10 border border-mansagold/30 flex items-center justify-center">
+                  <Home className="h-6 w-6 text-mansagold" />
                 </div>
-                <p className="text-sm text-blue-200/70 mb-2">
-                  Vacation rentals from non-bias property owners. 92.5% host payouts.
-                </p>
-                <span className="text-sm font-semibold text-mansagold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Browse Stays <ArrowRight className="h-4 w-4" />
-                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-lg font-bold text-white">Mansa Stays</h3>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">Live</span>
+                  </div>
+                  <p className="text-sm text-blue-200/70 mb-2">
+                    Vacation rentals from non-bias property owners. 92.5% host payouts.
+                  </p>
+                  <span className="text-sm font-semibold text-mansagold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Browse Stays <ArrowRight className="h-4 w-4" />
+                  </span>
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </FeatureGate>
 
           {/* Noire Rideshare */}
-          <Link
-            to="/noir/book"
-            className="group bg-gradient-to-br from-black/90 to-slate-900/80 backdrop-blur-sm rounded-2xl border border-mansagold/20 p-5 hover:border-mansagold/50 transition-all"
-          >
-            <div className="flex items-start gap-4">
-              <div className="shrink-0 w-12 h-12 rounded-xl bg-mansagold/10 border border-mansagold/30 flex items-center justify-center">
-                <Car className="h-6 w-6 text-mansagold" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-lg font-bold text-white">Noire Rideshare</h3>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-mansagold bg-mansagold/10 px-2 py-0.5 rounded-full">Soon</span>
+          <FeatureGate flag="hide_noir_rideshare" inverted>
+            <Link
+              to="/noir/book"
+              className="group bg-gradient-to-br from-black/90 to-slate-900/80 backdrop-blur-sm rounded-2xl border border-mansagold/20 p-5 hover:border-mansagold/50 transition-all"
+            >
+              <div className="flex items-start gap-4">
+                <div className="shrink-0 w-12 h-12 rounded-xl bg-mansagold/10 border border-mansagold/30 flex items-center justify-center">
+                  <Car className="h-6 w-6 text-mansagold" />
                 </div>
-                <p className="text-sm text-blue-200/70 mb-2">
-                  Premium hotel & airport transport in Chicago. Drivers keep 80%.
-                </p>
-                <span className="text-sm font-semibold text-mansagold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Book a Ride <ArrowRight className="h-4 w-4" />
-                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-lg font-bold text-white">Noire Rideshare</h3>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-mansagold bg-mansagold/10 px-2 py-0.5 rounded-full">Soon</span>
+                  </div>
+                  <p className="text-sm text-blue-200/70 mb-2">
+                    Premium hotel & airport transport in Chicago. Drivers keep 80%.
+                  </p>
+                  <span className="text-sm font-semibold text-mansagold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Book a Ride <ArrowRight className="h-4 w-4" />
+                  </span>
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </FeatureGate>
         </div>
       </div>
     </section>

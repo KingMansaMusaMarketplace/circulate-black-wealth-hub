@@ -22,6 +22,7 @@ import Layout from "@/components/Layout";
 import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
 import { RouteErrorBoundary } from "@/components/error-boundary/RouteErrorBoundary";
 import IOSProtectedRoute from "@/components/routing/IOSProtectedRoute";
+import PreLaunchRoute from "@/components/routing/PreLaunchRoute";
 import FloatingNav from "@/components/navigation/FloatingNav";
 import BusinessProfilePrompt from "@/components/business/BusinessProfilePrompt";
 import { GlobalErrorRecovery } from "@/components/error-recovery/GlobalErrorRecovery";
@@ -656,18 +657,26 @@ function App() {
                               <Route path="/claim-business" element={<LazyClaimBusinessPage />} />
                               <Route path="/coalition" element={<LazyCoalitionPage />} />
                               <Route path="/community" element={<LazyCommunityPage />} />
-                              <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
+                              <Route path="/community-finance" element={
+                                <PreLaunchRoute flag="hide_susu_karma_wallet">
+                                  <LazyCommunityFinancePage />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/community-impact" element={<LazyImpactPage />} />
                               <Route path="/economic-impact" element={<LazyImpactPage />} />
                               {/* test routes removed */}
                               <Route path="/contact" element={<LazyContactPage />} />
                               <Route path="/cookies" element={<LazyCookiePolicyPage />} />
-                              <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
+                              <Route path="/corporate-dashboard" element={
+                                <PreLaunchRoute flag="hide_enterprise_corporate">
+                                  <LazyCorporateDashboardPage />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/corporate-sponsorship" element={
-                                <IOSProtectedRoute>
+                                <PreLaunchRoute flag="hide_enterprise_corporate">
                                   <LazyCorporateSponsorshipPage />
-                                </IOSProtectedRoute>
-                              } />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/customers" element={<LazyCustomersPage />} />
                               <Route path="/customers/new" element={<LazyNewCustomerPage />} />
@@ -733,7 +742,11 @@ function App() {
                               
                               {/* K */}
                               <Route path="/knowledge-base" element={<LazyKnowledgeBasePage />} />
-                              <Route path="/karma" element={<LazyKarmaDashboardPage />} />
+                              <Route path="/karma" element={
+                                <PreLaunchRoute flag="hide_susu_karma_wallet">
+                                  <LazyKarmaDashboardPage />
+                                </PreLaunchRoute>
+                              }/>
                               
                               {/* L */}
                               <Route path="/learning-hub" element={<LazyLearningHubPage />} />
@@ -755,18 +768,42 @@ function App() {
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
                               
                               {/* N */}
-                              <Route path="/noir" element={<LazyNoirLandingPage />} />
-                              <Route path="/noir/book" element={<LazyNoirBookRidePage />} />
-                              <Route path="/noir/hotels" element={<LazyNoirHotelPartnersPage />} />
-                              <Route path="/noir/concierge" element={<LazyNoirConciergePortalPage />} />
-                              <Route path="/noir/drive/apply" element={<LazyDriverApplyPage />} />
+                              <Route path="/noir" element={
+                                <PreLaunchRoute flag="hide_noir_rideshare">
+                                  <LazyNoirLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/noir/book" element={
+                                <PreLaunchRoute flag="hide_noir_rideshare">
+                                  <LazyNoirBookRidePage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/noir/hotels" element={
+                                <PreLaunchRoute flag="hide_noir_rideshare">
+                                  <LazyNoirHotelPartnersPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/noir/concierge" element={
+                                <PreLaunchRoute flag="hide_noir_rideshare">
+                                  <LazyNoirConciergePortalPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/noir/drive/apply" element={
+                                <PreLaunchRoute flag="hide_noir_rideshare">
+                                  <LazyDriverApplyPage />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                               <Route path="/network" element={<LazyNetworkPage />} />
                               
                               {/* P */}
                               <Route path="/partner/eatokra" element={<LazyEatOkraPartnershipPage />} />
-                              <Route path="/partner-portal" element={<LazyPartnerPortal />} />
+                              <Route path="/partner-portal" element={
+                                <PreLaunchRoute flag="hide_enterprise_corporate">
+                                  <LazyPartnerPortal />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/widget-demo" element={<LazyWidgetDemoPage />} />
                               <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                               <Route path="/payment-success" element={
@@ -803,51 +840,211 @@ function App() {
                               <Route path="/reset-password" element={<LazyResetPasswordPage />} />
                               
                               {/* S */}
-                              <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
-                              <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
-                              <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
-                              <Route path="/sales-agent-code-of-conduct" element={<LazySalesAgentCodeOfConductPage />} />
-                              <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
-                              <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
+                              <Route path="/sales-agent" element={
+                                <PreLaunchRoute flag="hide_sales_agent_portal">
+                                  <LazySalesAgentSignupPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/sales-agent-dashboard" element={
+                                <PreLaunchRoute flag="hide_sales_agent_portal">
+                                  <LazySalesAgentDashboardPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/sales-agent-guide" element={
+                                <PreLaunchRoute flag="hide_sales_agent_portal">
+                                  <LazySalesAgentGuidePage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/sales-agent-code-of-conduct" element={
+                                <PreLaunchRoute flag="hide_sales_agent_portal">
+                                  <LazySalesAgentCodeOfConductPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/sales-agent-leaderboard" element={
+                                <PreLaunchRoute flag="hide_sales_agent_portal">
+                                  <LazyLeaderboardPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/sales-agent-signup" element={
+                                <PreLaunchRoute flag="hide_sales_agent_portal">
+                                  <LazySalesAgentSignupPage />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/scanner" element={<LazyQRScannerPage />} />
-                              <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
-                              <Route path="/stays" element={<LazyVacationRentalsPage />} />
-                              <Route path="/stays/list-property" element={<LazyPropertyListingPage />} />
-                              <Route path="/stays/host" element={<LazyHostDashboardPage />} />
-                              <Route path="/stays/my-bookings" element={<LazyGuestBookingsPage />} />
-                              <Route path="/stays/messages" element={<LazyStaysMessagesPage />} />
-                              <Route path="/stays/favorites" element={<LazyWishlistPage />} />
-                              <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
-                              <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
-                              <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
-                              <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
-                              <Route path="/stays/lease/apartments" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/houses" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/condos" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/lofts" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/townhouses" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/office-space" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/warehouses" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/chicago" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/atlanta" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/:city/:category" element={<LazyLeaseCategoryLandingPage />} />
-                              <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
-                             <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
-                             <Route path="/stays/host/lease/edit/:id" element={<LazyHostEditLeasePage />} />
-                             <Route path="/stays/host/lease/bulk-upload" element={<LazyHostBulkUploadLeasesPage />} />
-                             <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
-                              <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
-                              <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
-                              <Route path="/stays/become-a-host" element={<LazyBecomeHostPage />} />
+                              <Route path="/susu-circles" element={
+                                <PreLaunchRoute flag="hide_susu_karma_wallet">
+                                  <LazySusuCirclesPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyVacationRentalsPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/list-property" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyPropertyListingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/host" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyHostDashboardPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/my-bookings" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyGuestBookingsPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/messages" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyStaysMessagesPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/favorites" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyWishlistPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/cohost-accept" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyCoHostAcceptPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/experiences" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyExperiencesPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/experiences/new" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyCreateExperiencePage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseSearchPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/apartments" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/houses" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/condos" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/lofts" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/townhouses" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/office-space" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/warehouses" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/chicago" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/atlanta" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/:city/:category" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseCategoryLandingPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/lease/:id" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyLeaseListingDetailPage />
+                                </PreLaunchRoute>
+                              }/>
+                             <Route path="/stays/host/lease/new" element={
+                               <PreLaunchRoute flag="hide_mansa_stays">
+                                 <LazyHostCreateLeasePage />
+                               </PreLaunchRoute>
+                             }/>
+                             <Route path="/stays/host/lease/edit/:id" element={
+                               <PreLaunchRoute flag="hide_mansa_stays">
+                                 <LazyHostEditLeasePage />
+                               </PreLaunchRoute>
+                             }/>
+                             <Route path="/stays/host/lease/bulk-upload" element={
+                               <PreLaunchRoute flag="hide_mansa_stays">
+                                 <LazyHostBulkUploadLeasesPage />
+                               </PreLaunchRoute>
+                             }/>
+                             <Route path="/stays/host/lease/dashboard" element={
+                               <PreLaunchRoute flag="hide_mansa_stays">
+                                 <LazyHostLeaseDashboardPage />
+                               </PreLaunchRoute>
+                             }/>
+                              <Route path="/stays/tenant/confirm-lease/:token" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyTenantConfirmLeasePage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/join-beta" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyJoinStaysBetaPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/become-a-host" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyBecomeHostPage />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/legal/hosting-agreement" element={<LazyHostingAgreementPage />} />
                               <Route path="/legal/tenant-terms" element={<LazyTenantTermsPage />} />
                               <Route path="/legal/photo-consent" element={<LazyPhotoConsentPage />} />
-                              <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
-                              <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
-                              <Route path="/stays/black-owned-vacation-rentals" element={<LazyBlackOwnedVacationRentalsPage />} />
-                              <Route path="/stays/black-owned-hotels/:stateSlug" element={<LazyBlackOwnedHotelsByStatePage />} />
+                              <Route path="/stays/black-owned-hotels" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyBlackOwnedHotelsPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/black-owned-resorts" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyBlackOwnedResortsPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/black-owned-vacation-rentals" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyBlackOwnedVacationRentalsPage />
+                                </PreLaunchRoute>
+                              }/>
+                              <Route path="/stays/black-owned-hotels/:stateSlug" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyBlackOwnedHotelsByStatePage />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/directory/soul-food-restaurants-near-me" element={<LazySoulFoodNearMePage />} />
-                              <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
+                              <Route path="/stays/:id" element={
+                                <PreLaunchRoute flag="hide_mansa_stays">
+                                  <LazyPropertyDetailPage />
+                                </PreLaunchRoute>
+                              }/>
                               <Route path="/wallet" element={<LazyWalletPage />} />
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
                               <Route path="/workflow-builder" element={<LazyWorkflowBuilderPage />} />
@@ -1075,22 +1272,28 @@ function App() {
                         <Route path="/claim-business" element={<LazyClaimBusinessPage />} />
                         <Route path="/coalition" element={<LazyCoalitionPage />} />
                         <Route path="/community" element={<LazyCommunityPage />} />
-                        <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
+                        <Route path="/community-finance" element={
+                          <PreLaunchRoute flag="hide_susu_karma_wallet">
+                            <LazyCommunityFinancePage />
+                          </PreLaunchRoute>
+                        }/>
                         <Route path="/community-impact" element={<LazyImpactPage />} />
                         <Route path="/economic-impact" element={<LazyImpactPage />} />
                         {/* /community-impact-test, /comprehensive-test removed */}
                         <Route path="/contact" element={<LazyContactPage />} />
                         <Route path="/cookies" element={<LazyCookiePolicyPage />} />
                         <Route path="/corporate-dashboard" element={
-                          <IOSProtectedRoute>
-                            <LazyCorporateDashboardPage />
-                          </IOSProtectedRoute>
+                          <PreLaunchRoute flag="hide_enterprise_corporate">
+                            <IOSProtectedRoute>
+                              <LazyCorporateDashboardPage />
+                            </IOSProtectedRoute>
+                          </PreLaunchRoute>
                         } />
                         <Route path="/corporate-sponsorship" element={
-                          <IOSProtectedRoute>
+                          <PreLaunchRoute flag="hide_enterprise_corporate">
                             <LazyCorporateSponsorshipPage />
-                          </IOSProtectedRoute>
-                        } />
+                          </PreLaunchRoute>
+                        }/>
                         <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                         <Route path="/customers" element={<LazyCustomersPage />} />
                         <Route path="/customers/new" element={<LazyNewCustomerPage />} />
@@ -1147,7 +1350,11 @@ function App() {
                         <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                         
                         {/* K */}
-                        <Route path="/karma" element={<LazyKarmaDashboardPage />} />
+                        <Route path="/karma" element={
+                          <PreLaunchRoute flag="hide_susu_karma_wallet">
+                            <LazyKarmaDashboardPage />
+                          </PreLaunchRoute>
+                        }/>
                         <Route path="/knowledge-base" element={<LazyKnowledgeBasePage />} />
                         
                         {/* L */}
@@ -1171,18 +1378,42 @@ function App() {
                         <Route path="/my-tickets" element={<LazyMyTicketsPage />} />
                         
                         {/* N */}
-                        <Route path="/noir" element={<LazyNoirLandingPage />} />
-                        <Route path="/noir/book" element={<LazyNoirBookRidePage />} />
-                        <Route path="/noir/hotels" element={<LazyNoirHotelPartnersPage />} />
-                        <Route path="/noir/concierge" element={<LazyNoirConciergePortalPage />} />
-                        <Route path="/noir/drive/apply" element={<LazyDriverApplyPage />} />
+                        <Route path="/noir" element={
+                          <PreLaunchRoute flag="hide_noir_rideshare">
+                            <LazyNoirLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/noir/book" element={
+                          <PreLaunchRoute flag="hide_noir_rideshare">
+                            <LazyNoirBookRidePage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/noir/hotels" element={
+                          <PreLaunchRoute flag="hide_noir_rideshare">
+                            <LazyNoirHotelPartnersPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/noir/concierge" element={
+                          <PreLaunchRoute flag="hide_noir_rideshare">
+                            <LazyNoirConciergePortalPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/noir/drive/apply" element={
+                          <PreLaunchRoute flag="hide_noir_rideshare">
+                            <LazyDriverApplyPage />
+                          </PreLaunchRoute>
+                        }/>
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                         <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                         <Route path="/network" element={<LazyNetworkPage />} />
                         
                         {/* P */}
                         <Route path="/partner/eatokra" element={<LazyEatOkraPartnershipPage />} />
-                        <Route path="/partner-portal" element={<LazyPartnerPortal />} />
+                        <Route path="/partner-portal" element={
+                          <PreLaunchRoute flag="hide_enterprise_corporate">
+                            <LazyPartnerPortal />
+                          </PreLaunchRoute>
+                        }/>
                         <Route path="/widget-demo" element={<LazyWidgetDemoPage />} />
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
@@ -1224,47 +1455,203 @@ function App() {
                         <Route path="/reset-password" element={<LazyResetPasswordPage />} />
                         
                         {/* S */}
-                        <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
-                        <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
-                        <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
-                        <Route path="/sales-agent-code-of-conduct" element={<LazySalesAgentCodeOfConductPage />} />
-                        <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
-                        <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
+                        <Route path="/sales-agent" element={
+                          <PreLaunchRoute flag="hide_sales_agent_portal">
+                            <LazySalesAgentSignupPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/sales-agent-dashboard" element={
+                          <PreLaunchRoute flag="hide_sales_agent_portal">
+                            <LazySalesAgentDashboardPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/sales-agent-guide" element={
+                          <PreLaunchRoute flag="hide_sales_agent_portal">
+                            <LazySalesAgentGuidePage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/sales-agent-code-of-conduct" element={
+                          <PreLaunchRoute flag="hide_sales_agent_portal">
+                            <LazySalesAgentCodeOfConductPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/sales-agent-leaderboard" element={
+                          <PreLaunchRoute flag="hide_sales_agent_portal">
+                            <LazyLeaderboardPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/sales-agent-signup" element={
+                          <PreLaunchRoute flag="hide_sales_agent_portal">
+                            <LazySalesAgentSignupPage />
+                          </PreLaunchRoute>
+                        }/>
                         <Route path="/scanner" element={<LazyQRScannerPage />} />
-                        <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
-                        <Route path="/stays" element={<LazyVacationRentalsPage />} />
-                        <Route path="/stays/list-property" element={<LazyPropertyListingPage />} />
-                        <Route path="/stays/host" element={<LazyHostDashboardPage />} />
-                        <Route path="/stays/my-bookings" element={<LazyGuestBookingsPage />} />
-                        <Route path="/stays/messages" element={<LazyStaysMessagesPage />} />
-                        <Route path="/stays/favorites" element={<LazyWishlistPage />} />
-                        <Route path="/stays/cohost-accept" element={<LazyCoHostAcceptPage />} />
-                        <Route path="/stays/experiences" element={<LazyExperiencesPage />} />
-                        <Route path="/stays/experiences/new" element={<LazyCreateExperiencePage />} />
-                        <Route path="/stays/lease" element={<LazyLeaseSearchPage />} />
-                        <Route path="/stays/lease/apartments" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/houses" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/condos" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/lofts" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/townhouses" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/office-space" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/warehouses" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/chicago" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/atlanta" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/:city/:category" element={<LazyLeaseCategoryLandingPage />} />
-                        <Route path="/stays/lease/:id" element={<LazyLeaseListingDetailPage />} />
-                       <Route path="/stays/host/lease/new" element={<LazyHostCreateLeasePage />} />
-                       <Route path="/stays/host/lease/edit/:id" element={<LazyHostEditLeasePage />} />
-                       <Route path="/stays/host/lease/bulk-upload" element={<LazyHostBulkUploadLeasesPage />} />
-                       <Route path="/stays/host/lease/dashboard" element={<LazyHostLeaseDashboardPage />} />
-                        <Route path="/stays/tenant/confirm-lease/:token" element={<LazyTenantConfirmLeasePage />} />
-                        <Route path="/stays/join-beta" element={<LazyJoinStaysBetaPage />} />
-                        <Route path="/stays/black-owned-hotels" element={<LazyBlackOwnedHotelsPage />} />
-                        <Route path="/stays/black-owned-resorts" element={<LazyBlackOwnedResortsPage />} />
-                        <Route path="/stays/black-owned-vacation-rentals" element={<LazyBlackOwnedVacationRentalsPage />} />
-                        <Route path="/stays/black-owned-hotels/:stateSlug" element={<LazyBlackOwnedHotelsByStatePage />} />
+                        <Route path="/susu-circles" element={
+                          <PreLaunchRoute flag="hide_susu_karma_wallet">
+                            <LazySusuCirclesPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyVacationRentalsPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/list-property" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyPropertyListingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/host" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyHostDashboardPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/my-bookings" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyGuestBookingsPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/messages" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyStaysMessagesPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/favorites" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyWishlistPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/cohost-accept" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyCoHostAcceptPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/experiences" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyExperiencesPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/experiences/new" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyCreateExperiencePage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseSearchPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/apartments" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/houses" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/condos" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/lofts" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/townhouses" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/office-space" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/warehouses" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/chicago" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/atlanta" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/:city/:category" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseCategoryLandingPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/lease/:id" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyLeaseListingDetailPage />
+                          </PreLaunchRoute>
+                        }/>
+                       <Route path="/stays/host/lease/new" element={
+                         <PreLaunchRoute flag="hide_mansa_stays">
+                           <LazyHostCreateLeasePage />
+                         </PreLaunchRoute>
+                       }/>
+                       <Route path="/stays/host/lease/edit/:id" element={
+                         <PreLaunchRoute flag="hide_mansa_stays">
+                           <LazyHostEditLeasePage />
+                         </PreLaunchRoute>
+                       }/>
+                       <Route path="/stays/host/lease/bulk-upload" element={
+                         <PreLaunchRoute flag="hide_mansa_stays">
+                           <LazyHostBulkUploadLeasesPage />
+                         </PreLaunchRoute>
+                       }/>
+                       <Route path="/stays/host/lease/dashboard" element={
+                         <PreLaunchRoute flag="hide_mansa_stays">
+                           <LazyHostLeaseDashboardPage />
+                         </PreLaunchRoute>
+                       }/>
+                        <Route path="/stays/tenant/confirm-lease/:token" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyTenantConfirmLeasePage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/join-beta" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyJoinStaysBetaPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/black-owned-hotels" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyBlackOwnedHotelsPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/black-owned-resorts" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyBlackOwnedResortsPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/black-owned-vacation-rentals" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyBlackOwnedVacationRentalsPage />
+                          </PreLaunchRoute>
+                        }/>
+                        <Route path="/stays/black-owned-hotels/:stateSlug" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyBlackOwnedHotelsByStatePage />
+                          </PreLaunchRoute>
+                        }/>
                         <Route path="/directory/soul-food-restaurants-near-me" element={<LazySoulFoodNearMePage />} />
-                        <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
+                        <Route path="/stays/:id" element={
+                          <PreLaunchRoute flag="hide_mansa_stays">
+                            <LazyPropertyDetailPage />
+                          </PreLaunchRoute>
+                        }/>
                         <Route path="/wallet" element={<LazyWalletPage />} />
                         <Route path="/settings" element={<LazyUserSettingsPage />} />
                         <Route path="/share-impact" element={<LazyShareImpactPage />} />

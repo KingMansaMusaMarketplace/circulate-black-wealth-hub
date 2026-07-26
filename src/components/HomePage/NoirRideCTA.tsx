@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Car, Shield, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { FeatureGate } from '@/components/feature-flags';
 import noirLogo from '@/assets/noir-rideshare-logo.png';
 
 const NoirRideCTA: React.FC = () => {
   return (
+    <FeatureGate flag="hide_noir_rideshare" inverted>
     <section className="py-0 md:py-4 relative overflow-hidden">
       {/* Background accent */}
       <div className="absolute inset-0 bg-gradient-to-r from-mansagold/5 via-transparent to-mansagold/5" />
@@ -92,6 +94,7 @@ const NoirRideCTA: React.FC = () => {
         </motion.div>
       </div>
     </section>
+    </FeatureGate>
   );
 };
 

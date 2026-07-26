@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FeatureGate } from '@/components/feature-flags';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -44,13 +45,15 @@ const NavLinks: React.FC = () => {
           </NavigationMenuLink>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link to="/stays" className={goldLinkClassName}>
-              Stays
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+        <FeatureGate flag="hide_mansa_stays" inverted>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link to="/stays" className={goldLinkClassName}>
+                Stays
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </FeatureGate>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
@@ -179,58 +182,66 @@ const NavLinks: React.FC = () => {
                   </p>
                 </Link>
               </li>
-              <li>
-                <Link to="/karma" className={featuredItemClass}>
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-purple-500 to-violet-500 shadow-sm">
-                      <Sparkles className="h-3.5 w-3.5 text-white" />
+              <FeatureGate flag="hide_susu_karma_wallet" inverted>
+                <li>
+                  <Link to="/karma" className={featuredItemClass}>
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-purple-500 to-violet-500 shadow-sm">
+                        <Sparkles className="h-3.5 w-3.5 text-white" />
+                      </div>
+                      <div className="text-sm font-semibold text-mansagold">Karma Dashboard ✨</div>
                     </div>
-                    <div className="text-sm font-semibold text-mansagold">Karma Dashboard ✨</div>
-                  </div>
-                  <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
-                    Track your economic impact score
-                  </p>
-                </Link>
-              </li>
-              <li>
-                <Link to="/susu-circles" className={featuredItemClass}>
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 shadow-sm">
-                      <CircleDollarSign className="h-3.5 w-3.5 text-white" />
+                    <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
+                      Track your economic impact score
+                    </p>
+                  </Link>
+                </li>
+              </FeatureGate>
+              <FeatureGate flag="hide_susu_karma_wallet" inverted>
+                <li>
+                  <Link to="/susu-circles" className={featuredItemClass}>
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 shadow-sm">
+                        <CircleDollarSign className="h-3.5 w-3.5 text-white" />
+                      </div>
+                      <div className="text-sm font-semibold text-mansagold">Susu Circles 💰</div>
                     </div>
-                    <div className="text-sm font-semibold text-mansagold">Susu Circles 💰</div>
-                  </div>
-                  <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
-                    Join community savings groups
-                  </p>
-                </Link>
-              </li>
-              <li>
-                <Link to="/community-finance" className={itemClass}>
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-500 shadow-sm">
-                      <Users className="h-3.5 w-3.5 text-white" />
+                    <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
+                      Join community savings groups
+                    </p>
+                  </Link>
+                </li>
+              </FeatureGate>
+              <FeatureGate flag="hide_susu_karma_wallet" inverted>
+                <li>
+                  <Link to="/community-finance" className={itemClass}>
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-500 shadow-sm">
+                        <Users className="h-3.5 w-3.5 text-white" />
+                      </div>
+                      <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">Community Finance</div>
                     </div>
-                    <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">Community Finance</div>
-                  </div>
-                  <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
-                    Savings circles and community investments
-                  </p>
-                </Link>
-              </li>
-              <li>
-                <Link to="/sponsor-pricing" className={itemClass}>
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-sky-500 to-blue-600 shadow-sm">
-                      <Building2 className="h-3.5 w-3.5 text-white" />
+                    <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
+                      Savings circles and community investments
+                    </p>
+                  </Link>
+                </li>
+              </FeatureGate>
+              <FeatureGate flag="hide_enterprise_corporate" inverted>
+                <li>
+                  <Link to="/sponsor-pricing" className={itemClass}>
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-sky-500 to-blue-600 shadow-sm">
+                        <Building2 className="h-3.5 w-3.5 text-white" />
+                      </div>
+                      <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">Corporate Sponsorship</div>
                     </div>
-                    <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">Corporate Sponsorship</div>
-                  </div>
-                  <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
-                    Partner with us to support Black businesses
-                  </p>
-                </Link>
-              </li>
+                    <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
+                      Partner with us to support Black businesses
+                    </p>
+                  </Link>
+                </li>
+              </FeatureGate>
               <li>
                 <Link to="/scanner" className={itemClass} data-tour="qr-scanner">
                   <div className="flex items-center gap-2">
@@ -257,19 +268,21 @@ const NavLinks: React.FC = () => {
                   </p>
                 </Link>
               </li>
-              <li>
-                <Link to="/sales-agent" className={itemClass}>
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-500 shadow-sm">
-                      <TrendingUp className="h-3.5 w-3.5 text-white" />
+              <FeatureGate flag="hide_sales_agent_portal" inverted>
+                <li>
+                  <Link to="/sales-agent" className={itemClass}>
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-500 shadow-sm">
+                        <TrendingUp className="h-3.5 w-3.5 text-white" />
+                      </div>
+                      <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">Sales Agent</div>
                     </div>
-                    <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">Sales Agent</div>
-                  </div>
-                  <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
-                    Earn commissions by referring businesses
-                  </p>
-                </Link>
-              </li>
+                    <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
+                      Earn commissions by referring businesses
+                    </p>
+                  </Link>
+                </li>
+              </FeatureGate>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -279,19 +292,21 @@ const NavLinks: React.FC = () => {
           <NavigationMenuTrigger className={triggerClassName}>Community & Support</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className={dropdownUlClass}>
-              <li>
-                <Link to="/partner-portal" className={featuredItemClass}>
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-mansagold to-amber-600 shadow-sm">
-                      <Handshake className="h-3.5 w-3.5 text-white" />
+              <FeatureGate flag="hide_enterprise_corporate" inverted>
+                <li>
+                  <Link to="/partner-portal" className={featuredItemClass}>
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-mansagold to-amber-600 shadow-sm">
+                        <Handshake className="h-3.5 w-3.5 text-white" />
+                      </div>
+                      <div className="text-sm font-semibold text-mansagold">Partner Portal 🤝</div>
                     </div>
-                    <div className="text-sm font-semibold text-mansagold">Partner Portal 🤝</div>
-                  </div>
-                  <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
-                    Join as a partner and grow with us
-                  </p>
-                </Link>
-              </li>
+                    <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
+                      Join as a partner and grow with us
+                    </p>
+                  </Link>
+                </li>
+              </FeatureGate>
               <li>
                 <Link to="/impact" className={featuredItemClass}>
                   <div className="flex items-center gap-2">
