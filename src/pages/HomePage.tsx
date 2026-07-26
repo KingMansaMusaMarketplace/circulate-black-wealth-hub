@@ -50,46 +50,74 @@ const HomePage: React.FC = () => {
       <WebsiteStructuredData />
 
       <div className="bg-black text-zinc-100 selection:bg-mansagold/30 min-h-screen">
-        {/* Screen 1 — Hero */}
-        <section className="flex flex-col items-center justify-center px-6 py-24 md:py-32 text-center max-w-5xl mx-auto min-h-[92vh]">
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 border border-zinc-800 rounded-full bg-zinc-900/50">
+        {/* Screen 1 — Hero (Layered: Infrastructure headline + Consumer subhead) */}
+        <section className="flex flex-col items-center justify-center px-6 py-24 md:py-32 text-center max-w-6xl mx-auto min-h-[92vh]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 border border-mansagold/30 rounded-full bg-mansagold/5">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mansagold opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-mansagold" />
             </span>
-            <span className="text-[10px] uppercase tracking-widest font-medium text-zinc-400 font-mono">
-              System Status: Fully Operational
+            <span className="text-[10px] uppercase tracking-widest font-medium text-mansagold font-mono">
+              Live on the Model Context Protocol Registry
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-light tracking-tight mb-8 leading-[1.1]">
-            Meet <span className="text-mansagold italic font-normal">Kayla</span> and the
-            <br className="hidden md:block" /> 42 Agentic AI Employees.
+          {/* Investor headline — the infrastructure story */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-6 leading-[1.05] text-white">
+            The <span className="text-mansagold italic font-normal">MCP infrastructure layer</span>
+            <br className="hidden md:block" /> for the $12T global Black economy.
           </h1>
 
-          <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto mb-4 font-light leading-relaxed">
-            The Global Directory of Black-Owned Businesses.
-          </p>
-          <p className="text-xs uppercase tracking-[0.2em] text-mansablue-light mb-12 font-medium">
-            Powered by the MCP open protocol
-          </p>
+          {/* TAM proof strip */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-xs md:text-sm font-mono text-zinc-500">
+            <span><span className="text-mansagold">$2.1T</span> U.S.</span>
+            <span className="text-zinc-700">·</span>
+            <span><span className="text-mansagold">$9.1T</span> Global</span>
+            <span className="text-zinc-700">·</span>
+            <span><span className="text-mansagold">44,000+</span> Verified Businesses</span>
+            <span className="text-zinc-700">·</span>
+            <span><span className="text-mansagold">27</span> Patent Claims</span>
+          </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          {/* Consumer subhead — keeps "buy Black" mission alive */}
+          <div className="max-w-3xl mx-auto mb-12 border-t border-zinc-900 pt-8">
+            <p className="text-lg md:text-2xl text-white font-light leading-relaxed mb-2">
+              The global directory of Black-owned businesses — powered by{' '}
+              <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees.
+            </p>
+            <p className="text-sm md:text-base text-zinc-500 font-light">
+              Discover, support, and circulate wealth across 44,000+ verified businesses worldwide.
+            </p>
+          </div>
+
+          {/* Dual-audience CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+            <Link
+              to="/directory"
+              className="px-8 py-4 bg-mansagold text-black font-semibold rounded-sm hover:bg-mansagold-dark transition-colors duration-300 min-w-[220px]"
+            >
+              Shop Black-Owned
+            </Link>
             <Link
               to="/what-kayla-does"
-              className="px-8 py-4 bg-mansagold text-black font-semibold rounded-sm hover:bg-mansagold-dark transition-colors duration-300 min-w-[200px]"
+              className="px-8 py-4 text-white border border-zinc-700 hover:border-mansagold transition-all duration-300 min-w-[220px]"
             >
               Deploy Kayla
             </Link>
             <Link
-              to="/directory"
-              className="px-8 py-4 text-zinc-400 border border-zinc-800 hover:border-zinc-600 transition-all duration-300 min-w-[200px] hover:text-white"
+              to="/investors"
+              className="px-8 py-4 text-zinc-400 border border-zinc-800 hover:border-zinc-600 hover:text-white transition-all duration-300 min-w-[220px]"
             >
-              View Directory
+              For Investors →
             </Link>
           </div>
 
-          <div className="mt-20">
+          {/* Protocol credibility line */}
+          <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-600 mt-8 font-mono">
+            Agentic Commerce Protocol · MCP Endpoint Live · OAuth 2.1 · Patent Pending 63/969,202
+          </p>
+
+          <div className="mt-16">
             <a
               href="#submit-business"
               className="text-xs uppercase tracking-[0.2em] text-zinc-600 hover:text-mansagold transition-colors"
