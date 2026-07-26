@@ -250,7 +250,7 @@ const LeaseSearchPage: React.FC = () => {
           </span>
           <p className="text-sm text-white/95">
             Mansa Stays is launching soon — we're onboarding Black-owned hosts now.{" "}
-            <Link to="/stays/become-host" className="font-semibold text-mansagold hover:underline">
+            <Link to="/stays/list-property" className="font-semibold text-mansagold hover:underline">
               List your property →
             </Link>
           </p>

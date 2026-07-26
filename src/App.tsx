@@ -215,6 +215,7 @@ const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard
 
 // Coming Soon page (for archived features)
 const LazyComingSoonPage = lazy(() => import('@/pages/ComingSoonPage'));
+const LazyUnauthorizedPage = lazy(() => import('@/pages/UnauthorizedPage'));
 const LazyClaimBusinessPage = lazy(() => import('@/pages/ClaimBusinessPage'));
 
 // PWA Install page
@@ -649,6 +650,7 @@ function App() {
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               {/* /button-test removed */}
                               <Route path="/b2b-marketplace" element={<LazyComingSoonPage />} />
+                              <Route path="/unauthorized" element={<LazyUnauthorizedPage />} />
                               <Route path="/leads-dashboard" element={<LazyComingSoonPage />} />
                               
                               {/* C */}
@@ -876,6 +878,8 @@ function App() {
                                   <LazySusuCirclesPage />
                                 </PreLaunchRoute>
                               }/>
+                              <Route path="/susu" element={<Navigate to="/susu-circles" replace />} />
+                              <Route path="/coming-soon" element={<LazyComingSoonPage />} />
                               <Route path="/stays" element={
                                 <PreLaunchRoute flag="hide_mansa_stays">
                                   <LazyVacationRentalsPage />
@@ -1264,6 +1268,7 @@ function App() {
                         
                         {/* /button-test removed */}
                         <Route path="/b2b-marketplace" element={<LazyComingSoonPage />} />
+                        <Route path="/unauthorized" element={<LazyUnauthorizedPage />} />
                         <Route path="/leads-dashboard" element={<LazyComingSoonPage />} />
                         
                         {/* C */}
@@ -1491,6 +1496,8 @@ function App() {
                             <LazySusuCirclesPage />
                           </PreLaunchRoute>
                         }/>
+                        <Route path="/susu" element={<Navigate to="/susu-circles" replace />} />
+                        <Route path="/coming-soon" element={<LazyComingSoonPage />} />
                         <Route path="/stays" element={
                           <PreLaunchRoute flag="hide_mansa_stays">
                             <LazyVacationRentalsPage />

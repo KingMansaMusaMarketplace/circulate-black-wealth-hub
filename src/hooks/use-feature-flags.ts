@@ -5,8 +5,8 @@ import { useMemo, useCallback } from 'react';
 
 export interface FeatureFlag {
   id: string;
-  name: string;
-  key: string;
+  flag_name: string;
+  flag_key: string;
   description: string | null;
   is_enabled: boolean;
   rollout_percentage: number;
@@ -50,7 +50,7 @@ export function useFeatureFlags(): UseFeatureFlagsReturn {
       const { data, error } = await supabase
         .from('feature_flags')
         .select('*')
-        .order('name', { ascending: true });
+        .order('flag_name', { ascending: true });
 
       if (error) {
         console.error('Error fetching feature flags:', error);
@@ -93,7 +93,7 @@ export function useFeatureFlags(): UseFeatureFlagsReturn {
 
   // Check if a flag is enabled for the current user
   const isEnabled = useCallback((flagKey: string): boolean => {
-    const flag = flags.find(f => f.key === flagKey);
+    const flag = flags.find(f => f.flag_key === flagKey);
     
     // Flag not found - default to disabled
     if (!flag) {
@@ -125,7 +125,7 @@ export function useFeatureFlags(): UseFeatureFlagsReturn {
 
   // Get a specific flag by key
   const getFlag = useCallback((flagKey: string): FeatureFlag | undefined => {
-    return flags.find(f => f.key === flagKey);
+    return flags.find(f => f.flag_key === flagKey);
   }, [flags]);
 
   return {
