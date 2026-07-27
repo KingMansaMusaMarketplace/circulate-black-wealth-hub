@@ -63,9 +63,9 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Investor headline — the infrastructure story */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-6 leading-[1.05] text-white">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-6 leading-[1.15] text-white">
             The <span className="text-mansagold italic font-normal">MCP infrastructure layer</span>
-            <br className="hidden md:block" /> for the $12T global Black economy.
+            <span className="block mt-2 md:mt-3">for the $12T global Black economy.</span>
           </h1>
 
           {/* TAM proof strip */}
