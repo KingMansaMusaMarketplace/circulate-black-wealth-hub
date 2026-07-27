@@ -120,9 +120,9 @@ const HomePage: React.FC = () => {
           <div className="mt-16">
             <a
               href="#submit-business"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-green-500 text-black font-bold text-sm uppercase tracking-[0.1em] hover:bg-green-400 transition-colors shadow-[0_0_20px_rgba(34,197,94,0.35)] hover:shadow-[0_0_28px_rgba(34,197,94,0.55)]"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-success text-success-foreground font-bold text-sm uppercase tracking-[0.1em] hover:bg-success/90 transition-colors shadow-[0_0_20px_hsl(var(--success)/35%)] hover:shadow-[0_0_28px_hsl(var(--success)/55%)]"
             >
-              Submit your business for <span className="text-black font-black">"FREE"</span> →
+              Submit your business for <span className="font-black">"FREE"</span> →
             </a>
           </div>
         </section>
