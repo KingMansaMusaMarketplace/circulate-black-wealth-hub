@@ -114,7 +114,7 @@ const HomePage: React.FC = () => {
 
           {/* Protocol credibility line */}
           <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-zinc-300 mt-8 font-mono">
-            Agentic Commerce Protocol · MCP Endpoint Live · OAuth 2.1 · USPTO Provisional 63/969,202 — 27 claims pending
+            Agentic Commerce Protocol · MCP Endpoint Live · OAuth 2.1 · USPTO Provisional 63/969,202
           </p>
 
           <div className="mt-16">
