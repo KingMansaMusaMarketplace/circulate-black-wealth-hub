@@ -7,19 +7,23 @@ const config: CapacitorConfig = {
   webDir: 'dist',
   // REMOTE MODE: Load the live 1325.AI web app so iOS matches web exactly
   server: {
-    url: 'https://1325.ai?forceHideBadge=true',
+    // Keep this as a plain origin URL. Query strings in Capacitor's remote URL
+    // can prevent the native WebView bridge from injecting correctly.
+    url: 'https://1325.ai',
+    errorPath: 'native-load-error.html',
+    allowNavigation: ['1325.ai', 'www.1325.ai', '*.supabase.co', '*.stripe.com'],
     cleartext: false,
     androidScheme: 'https',
-    iosScheme: 'https'
+    iosScheme: 'capacitor'
   },
   plugins: {
     SplashScreen: {
       // Keep splash visible while the remote 1325.ai site loads in WKWebView.
       // Without this, users see a black WebView for 1-3s before the site paints.
-      launchShowDuration: 3500,
-      launchAutoHide: true,
+      launchShowDuration: 0,
+      launchAutoHide: false,
       launchFadeOutDuration: 400,
-      backgroundColor: "#000000",
+      backgroundColor: "#FFFFFF",
       showSpinner: true,
       spinnerColor: "#FFB300",
       androidSplashResourceName: "splash",
