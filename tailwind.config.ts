@@ -54,6 +54,10 @@ export default {
         "text-on-blue": "hsl(var(--text-on-blue))",
         "text-on-gold": "hsl(var(--text-on-gold))",
         "text-on-light": "hsl(var(--text-on-light))",
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
