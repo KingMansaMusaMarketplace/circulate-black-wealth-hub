@@ -27,6 +27,7 @@ type Member = {
   email?: string;
   objectPosition?: string;
   photoScale?: number;
+  photoOffsetY?: string;
 };
 
 // NOTE: Titles/bios are placeholders — send Kayla the finals and we'll swap them in.
@@ -40,7 +41,7 @@ const founder: Member = {
 
 const leadership: Member[] = [
   { name: 'Craig Stevenson', title: 'Co-Founder', photo: craig.url },
-  { name: 'Lisa Gavin', title: 'President', photo: lisa.url, photoScale: 1.05, objectPosition: 'center 20%' },
+  { name: 'Lisa Gavin', title: 'President', photo: lisa.url, photoScale: 1.05, photoOffsetY: '4%' },
   { name: 'Clarence Smith', title: 'Vice President of Sales', photo: clarence.url, objectPosition: 'center 30%', photoScale: 1.25 },
   { name: 'Maurice G. Howard', title: 'Executive Advisor', photo: maurice.url },
   { name: 'Judith Fitzgerald', title: 'Executive Advisor', photo: judith.url },
@@ -71,7 +72,7 @@ const MemberCard = ({ member, index }: { member: Member; index: number }) => (
             loading="lazy"
             style={{
               objectPosition: member.objectPosition ?? 'center top',
-              transform: `scale(${member.photoScale ?? 1})`,
+              transform: `translateY(${member.photoOffsetY ?? '0'}) scale(${member.photoScale ?? 1})`,
             }}
             className="w-full h-full object-cover"
           />
