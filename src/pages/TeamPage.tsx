@@ -51,7 +51,7 @@ const leadership: Member[] = [
   { name: 'James Carson', title: 'Executive Advisor', photo: james },
   { name: 'Dakarai Mosley', title: 'Executive Advisor', photo: dakarai.url },
   { name: 'Stephen Hughes', title: 'Executive Advisor', photo: stephen.url },
-  { name: 'Napolean Paul', title: 'Executive Advisor', photo: napolean.url },
+  { name: 'Napolean Paul', title: 'Executive Advisor', photo: napolean },
   { name: 'Brandon Jones', title: 'Executive Advisor', photo: brandon.url },
 ];
 
