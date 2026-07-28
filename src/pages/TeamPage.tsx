@@ -163,7 +163,10 @@ const TeamPage = () => {
                     src={founder.photo}
                     alt={founder.name}
                     loading="lazy"
-                    style={{ objectPosition: founder.objectPosition ?? 'center top' }}
+                    style={{
+                      objectPosition: founder.objectPosition ?? 'center top',
+                      transform: `translateY(${founder.photoOffsetY ?? '0'}) scale(${founder.photoScale ?? 1})`,
+                    }}
                     className="w-full h-full object-cover"
                   />
                 ) : (
