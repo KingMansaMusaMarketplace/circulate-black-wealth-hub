@@ -24,6 +24,7 @@ type Member = {
   bio?: string;
   linkedin?: string;
   email?: string;
+  objectPosition?: string;
 };
 
 // NOTE: Titles/bios are placeholders — send Kayla the finals and we'll swap them in.
