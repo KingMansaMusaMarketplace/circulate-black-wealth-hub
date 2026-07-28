@@ -45,6 +45,9 @@ const leadership: Member[] = [
   { name: 'James Carson', title: 'Executive Advisor', photo: james.url },
   { name: 'Craig Stevenson', title: 'Executive Advisor', photo: craig.url },
   { name: 'Dakarai Mosley', title: 'Executive Advisor', photo: dakarai.url },
+  { name: 'Stephen Hughes', title: 'Executive Advisor', photo: stephen.url },
+  { name: 'Napolean Paul', title: 'Executive Advisor', photo: napolean.url },
+  { name: 'Brandon Jones', title: 'Executive Advisor', photo: brandon.url },
 ];
 
 const MemberCard = ({ member, index }: { member: Member; index: number }) => (
