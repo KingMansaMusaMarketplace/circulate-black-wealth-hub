@@ -73,7 +73,7 @@ const MemberCard = ({ member, index }: { member: Member; index: number }) => (
               objectPosition: member.objectPosition ?? 'center top',
               transform: `scale(${member.photoScale ?? 1})`,
             }}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            className="w-full h-full object-cover"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-mansagold/60 text-6xl font-serif">
