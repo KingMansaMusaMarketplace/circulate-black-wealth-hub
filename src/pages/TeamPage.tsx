@@ -15,7 +15,7 @@ import lisa from '@/assets/team/Lisa_Gavin_pic.asset.json';
 import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
 import napolean from '@/assets/team/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/Stephen_Hughes.asset.json';
-import thomas from '@/assets/team/Thomas_D_Bowling.asset.json';
+import thomas from '@/assets/team/Thomas_D_Bowling_headshot.jpg';
 import brandon from '@/assets/team/Brandon_Jones.asset.json';
 
 type Member = {
@@ -34,8 +34,8 @@ type Member = {
 const founder: Member = {
   name: 'Thomas D. Bowling',
   title: 'Founder & Chief Architect',
-  photo: thomas.url,
-  objectPosition: 'center top',
+  photo: thomas,
+
   bio: 'Inventor of the 1325.AI operating system and the MCP infrastructure layer for the $12T global Black economy. USPTO Provisional 63/969,202 — 27 claims pending.',
 };
 
