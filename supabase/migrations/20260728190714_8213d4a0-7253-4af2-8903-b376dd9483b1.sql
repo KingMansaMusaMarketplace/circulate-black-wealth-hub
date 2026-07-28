@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Authenticated can read active test questions" ON public.sales_agent_tests;
