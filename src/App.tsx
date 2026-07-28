@@ -719,6 +719,8 @@ function App() {
                               <Route path="/kayla-ai" element={<Navigate to="/what-kayla-does" replace />} />
                               <Route path="/what-kayla-does" element={<LazyWhatKaylaDoesPage />} />
                               <Route path="/kayla/team" element={<LazyKaylaTeamPage />} />
+                              <Route path="/team" element={<LazyTeamPage />} />
+                              <Route path="/leadership" element={<LazyTeamPage />} />
                               <Route path="/error" element={<LazyErrorPage />} />
                               
                               {/* F */}
