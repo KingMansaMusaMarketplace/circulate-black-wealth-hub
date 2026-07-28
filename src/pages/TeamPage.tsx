@@ -40,7 +40,7 @@ const founder: Member = {
 
 const leadership: Member[] = [
   { name: 'Craig Stevenson', title: 'Co-Founder', photo: craig.url },
-  { name: 'Lisa Gavin', title: 'President', photo: lisa.url, photoScale: 1.05 },
+  { name: 'Lisa Gavin', title: 'President', photo: lisa.url, photoScale: 1.05, objectPosition: 'center 10%' },
   { name: 'Clarence Smith', title: 'Vice President of Sales', photo: clarence.url, objectPosition: 'center 30%', photoScale: 1.25 },
   { name: 'Maurice G. Howard', title: 'Executive Advisor', photo: maurice.url },
   { name: 'Judith Fitzgerald', title: 'Executive Advisor', photo: judith.url },
