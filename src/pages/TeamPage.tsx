@@ -10,7 +10,7 @@ import eric from '@/assets/team/Eric_Webb.asset.json';
 import james from '@/assets/team/James_Carson_headshot.jpg';
 import judith from '@/assets/team/Judith_Fitzgerald.asset.json';
 import keith from '@/assets/team/Keith_McGregory.asset.json';
-import kimberly from '@/assets/team/Kimberly_Bates.asset.json';
+import kimberly from '@/assets/team/Kimberly_Bates_headshot.jpg';
 import lisa from '@/assets/team/Lisa_Gavin_pic.asset.json';
 import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
 import napolean from '@/assets/team/Napolean_Paul.asset.json';
@@ -47,7 +47,7 @@ const leadership: Member[] = [
   { name: 'Judith Fitzgerald', title: 'Executive Advisor', photo: judith.url },
   { name: 'Keith McGregory', title: 'Executive Advisor', photo: keith.url },
   { name: 'Eric Webb', title: 'Executive Advisor', photo: eric.url },
-  { name: 'Kimberly Bates', title: 'Executive Advisor', photo: kimberly.url },
+  { name: 'Kimberly Bates', title: 'Executive Advisor', photo: kimberly },
   { name: 'James Carson', title: 'Executive Advisor', photo: james },
   { name: 'Dakarai Mosley', title: 'Executive Advisor', photo: dakarai.url },
   { name: 'Stephen Hughes', title: 'Executive Advisor', photo: stephen.url },
