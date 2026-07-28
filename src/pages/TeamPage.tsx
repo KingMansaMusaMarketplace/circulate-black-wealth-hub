@@ -7,7 +7,7 @@ import clarence from '@/assets/team/Clarence_Smith.asset.json';
 import craig from '@/assets/team/Craig_Stevenson.asset.json';
 import dakarai from '@/assets/team/Dakarai_Mosley.asset.json';
 import eric from '@/assets/team/Eric_Webb.asset.json';
-import james from '@/assets/team/James_Carson.asset.json';
+import james from '@/assets/team/James_Carson_headshot.jpg';
 import judith from '@/assets/team/Judith_Fitzgerald.asset.json';
 import keith from '@/assets/team/Keith_McGregory.asset.json';
 import kimberly from '@/assets/team/Kimberly_Bates.asset.json';
