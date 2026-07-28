@@ -69,7 +69,10 @@ const MemberCard = ({ member, index }: { member: Member; index: number }) => (
             src={member.photo}
             alt={member.name}
             loading="lazy"
-            style={{ objectPosition: member.objectPosition ?? 'center top' }}
+            style={{
+              objectPosition: member.objectPosition ?? 'center top',
+              transform: `scale(${member.photoScale ?? 1})`,
+            }}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
         ) : (
