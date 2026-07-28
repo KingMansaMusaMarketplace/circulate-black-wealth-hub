@@ -5,7 +5,7 @@ import { Linkedin, Mail } from 'lucide-react';
 
 import clarence from '@/assets/team/Clarence_Smith.asset.json';
 import craig from '@/assets/team/Craig_Stevenson.asset.json';
-import dakarai from '@/assets/team/Dakarai_Mosley.asset.json';
+import dakarai from '@/assets/team/Dakarai_Mosley_headshot.jpg';
 import eric from '@/assets/team/Eric_Webb.asset.json';
 import james from '@/assets/team/James_Carson_headshot.jpg';
 import judith from '@/assets/team/Judith_Fitzgerald.asset.json';
