@@ -13,8 +13,9 @@ import keith from '@/assets/team/Keith_McGregory.asset.json';
 import kimberly from '@/assets/team/Kimberly_Bates.asset.json';
 import lisa from '@/assets/team/Lisa_Gavin_pic.asset.json';
 import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
-import stephen from '@/assets/team/Stephen_Hughes.asset.json';
 import napolean from '@/assets/team/Napolean_Paul.asset.json';
+import stephen from '@/assets/team/Stephen_Hughes.asset.json';
+import thomas from '@/assets/team/Thomas_D_Bowling.asset.json';
 import brandon from '@/assets/team/Brandon_Jones.asset.json';
 
 type Member = {
@@ -31,7 +32,7 @@ type Member = {
 const founder: Member = {
   name: 'Thomas D. Bowling',
   title: 'Founder & Chief Architect',
-  photo: '',
+  photo: thomas.url,
   bio: 'Inventor of the 1325.AI operating system and the MCP infrastructure layer for the $12T global Black economy. USPTO Provisional 63/969,202 — 27 claims pending.',
 };
 
@@ -149,8 +150,19 @@ const TeamPage = () => {
           </div>
           <div className="grid md:grid-cols-3 gap-8 items-start">
             <div className="md:col-span-1">
-              <div className="aspect-[4/5] rounded-2xl bg-gradient-to-br from-mansablue/60 to-black border border-mansagold/30 flex items-center justify-center">
-                <span className="text-mansagold/70 text-7xl font-serif italic">TB</span>
+              <div className="aspect-[4/5] rounded-2xl bg-gradient-to-br from-mansablue/60 to-black border border-mansagold/30 overflow-hidden">
+                {founder.photo ? (
+                  <img
+                    src={founder.photo}
+                    alt={founder.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-mansagold/70 text-7xl font-serif italic">TB</span>
+                  </div>
+                )}
               </div>
             </div>
             <div className="md:col-span-2">
