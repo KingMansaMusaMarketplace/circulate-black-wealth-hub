@@ -33,6 +33,7 @@ const founder: Member = {
   name: 'Thomas D. Bowling',
   title: 'Founder & Chief Architect',
   photo: thomas.url,
+  objectPosition: 'center top',
   bio: 'Inventor of the 1325.AI operating system and the MCP infrastructure layer for the $12T global Black economy. USPTO Provisional 63/969,202 — 27 claims pending.',
 };
 
@@ -156,6 +157,7 @@ const TeamPage = () => {
                     src={founder.photo}
                     alt={founder.name}
                     loading="lazy"
+                    style={{ objectPosition: founder.objectPosition ?? 'center top' }}
                     className="w-full h-full object-cover"
                   />
                 ) : (
