@@ -36,7 +36,7 @@ const founder: Member = {
 };
 
 const leadership: Member[] = [
-  { name: 'Clarence Smith', title: 'Vice President of Sales', photo: clarence.url },
+  { name: 'Clarence Smith', title: 'Vice President of Sales', photo: clarence.url, objectPosition: 'center 30%' },
   { name: 'Maurice G. Howard', title: 'Executive Advisor', photo: maurice.url },
   { name: 'Judith Fitzgerald', title: 'Executive Advisor', photo: judith.url },
   { name: 'Keith McGregory', title: 'Executive Advisor', photo: keith.url },
