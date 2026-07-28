@@ -26,6 +26,7 @@ type Member = {
   linkedin?: string;
   email?: string;
   objectPosition?: string;
+  photoScale?: number;
 };
 
 // NOTE: Titles/bios are placeholders — send Kayla the finals and we'll swap them in.
