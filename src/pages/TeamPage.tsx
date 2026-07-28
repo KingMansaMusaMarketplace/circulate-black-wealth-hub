@@ -13,6 +13,9 @@ import keith from '@/assets/team/Keith_McGregory.asset.json';
 import kimberly from '@/assets/team/Kimberly_Bates.asset.json';
 import lisa from '@/assets/team/Lisa_Gavin_pic.asset.json';
 import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
+import stephen from '@/assets/team/Stephen_Hughes.asset.json';
+import napolean from '@/assets/team/Napolean_Paul.asset.json';
+import brandon from '@/assets/team/Brandon_Jones.asset.json';
 
 type Member = {
   name: string;
@@ -42,6 +45,9 @@ const leadership: Member[] = [
   { name: 'James Carson', title: 'Executive Advisor', photo: james.url },
   { name: 'Craig Stevenson', title: 'Executive Advisor', photo: craig.url },
   { name: 'Dakarai Mosley', title: 'Executive Advisor', photo: dakarai.url },
+  { name: 'Stephen Hughes', title: 'Executive Advisor', photo: stephen.url },
+  { name: 'Napolean Paul', title: 'Executive Advisor', photo: napolean.url },
+  { name: 'Brandon Jones', title: 'Executive Advisor', photo: brandon.url },
 ];
 
 const MemberCard = ({ member, index }: { member: Member; index: number }) => (
