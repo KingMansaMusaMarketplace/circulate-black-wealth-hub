@@ -34,8 +34,8 @@ type Member = {
 const founder: Member = {
   name: 'Thomas D. Bowling',
   title: 'Founder & Chief Architect',
-  photo: thomas.url,
-  objectPosition: 'center top',
+  photo: thomas,
+
   bio: 'Inventor of the 1325.AI operating system and the MCP infrastructure layer for the $12T global Black economy. USPTO Provisional 63/969,202 — 27 claims pending.',
 };
 
