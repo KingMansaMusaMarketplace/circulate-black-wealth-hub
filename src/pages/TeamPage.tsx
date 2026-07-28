@@ -15,7 +15,7 @@ import lisa from '@/assets/team/Lisa_Gavin_pic.asset.json';
 import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
 import napolean from '@/assets/team/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/Stephen_Hughes.asset.json';
-import thomas from '@/assets/team/Thomas_D_Bowling_headshot.jpg';
+import thomas from '@/assets/team/Thomas_D_Bowling.asset.json';
 import brandon from '@/assets/team/Brandon_Jones.asset.json';
 
 type Member = {
