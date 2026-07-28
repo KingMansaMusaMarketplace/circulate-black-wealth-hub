@@ -183,6 +183,7 @@ const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
 const LazyKaylaGTMKitPage = lazy(() => import('@/pages/KaylaGTMKitPage'));
 const LazyWhatKaylaDoesPage = lazy(() => import('@/pages/WhatKaylaDoesPage'));
 const LazyKaylaTeamPage = lazy(() => import('@/pages/KaylaTeamPage'));
+const LazyTeamPage = lazy(() => import('@/pages/TeamPage'));
 const LazyAIAssistantPage = lazy(() => import('@/pages/AIAssistantPage'));
 const LazyMarketingStudio = lazy(() => import('@/pages/MarketingStudio'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
