@@ -13,6 +13,9 @@ import keith from '@/assets/team/Keith_McGregory.asset.json';
 import kimberly from '@/assets/team/Kimberly_Bates.asset.json';
 import lisa from '@/assets/team/Lisa_Gavin_pic.asset.json';
 import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
+import stephen from '@/assets/team/Stephen_Hughes.asset.json';
+import napolean from '@/assets/team/Napolean_Paul.asset.json';
+import brandon from '@/assets/team/Brandon_Jones.asset.json';
 
 type Member = {
   name: string;
