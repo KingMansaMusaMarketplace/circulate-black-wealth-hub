@@ -74,7 +74,7 @@ const leadership: Member[] = [
   { name: 'Donald Palm, Ph.D.', title: 'Executive Advisor', photo: donald },
   { name: 'Corey Mays', title: 'Executive Advisor', photo: corey, photoScale: 1.35, photoOffsetY: '12%' },
   { name: 'Kayla Bruton', title: 'Executive Advisor', photo: kayla },
-  { name: 'Douglas K. Morrison', title: 'Executive Advisor', photo: douglas, photoScale: 0.92 },
+  { name: 'Douglas K. Morrison', title: 'Executive Advisor', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Executive Advisor', photo: robert },
 ];
 
