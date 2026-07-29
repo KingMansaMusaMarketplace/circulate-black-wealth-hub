@@ -30,6 +30,7 @@ import corey from '@/assets/team/navy_bg/Corey_Mays_headshot.jpg';
 import kayla from '@/assets/team/Kayla_Bruton_headshot.jpg';
 import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
 import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
+import charlotte from '@/assets/team/Charlotte_Farmer_headshot.jpg.asset.json';
 
 type Member = {
   name: string;
@@ -76,6 +77,7 @@ const leadership: Member[] = [
   { name: 'Kayla Bruton', title: 'Executive Advisor', photo: kayla },
   { name: 'Douglas K. Morrison', title: 'Executive Advisor', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Executive Advisor', photo: robert },
+  { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte.url },
 ];
 
 const MemberCard = ({ member, index }: { member: Member; index: number }) => (
