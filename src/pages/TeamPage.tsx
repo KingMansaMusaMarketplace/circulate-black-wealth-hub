@@ -11,7 +11,7 @@ import james from '@/assets/team/James_Carson_headshot.jpg';
 import judith from '@/assets/team/Judith_Fitzgerald.asset.json';
 import keith from '@/assets/team/Keith_McGregory.asset.json';
 import kimberly from '@/assets/team/Kimberly_Bates_headshot.jpg';
-import lisa from '@/assets/team/Lisa_Gavin_headshot.jpg';
+import lisa from '@/assets/team/Lisa_Gavin_pic.asset.json';
 import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
 import napolean from '@/assets/team/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/Stephen_Hughes.asset.json';
@@ -44,7 +44,7 @@ const founder: Member = {
 
 const leadership: Member[] = [
   { name: 'Craig Stevenson', title: 'Co-Founder', photo: craig.url },
-  { name: 'Lisa Gavin', title: 'President', photo: lisa, photoScale: 1.05, photoOffsetY: '4%' },
+  { name: 'Lisa Gavin', title: 'President', photo: lisa.url, photoScale: 1.05, photoOffsetY: '4%' },
   { name: 'Clarence Smith', title: 'Vice President of Sales', photo: clarence.url, objectPosition: 'center 30%', photoScale: 1.25 },
   { name: 'Maurice G. Howard', title: 'Executive Advisor', photo: maurice.url },
   { name: 'Judith Fitzgerald', title: 'Executive Advisor', photo: judith.url },
