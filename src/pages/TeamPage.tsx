@@ -30,7 +30,7 @@ import corey from '@/assets/team/navy_bg/Corey_Mays_headshot.jpg';
 import kayla from '@/assets/team/Kayla_Bruton_headshot.jpg';
 import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
 import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
-import charlotte from '@/assets/team/Charlotte_Farmer_headshot.jpg.asset.json';
+import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_headshot.jpg';
 
 type Member = {
   name: string;
