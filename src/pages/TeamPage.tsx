@@ -77,7 +77,7 @@ const MemberCard = ({ member, index }: { member: Member; index: number }) => (
     className="group relative"
   >
     <div className="relative overflow-hidden rounded-2xl bg-white/[0.03] border border-white/10 hover:border-mansagold/40 transition-all duration-500">
-      <div className="aspect-[4/5] overflow-hidden bg-gradient-to-br from-mansablue/40 to-black">
+      <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-mansablue/40 to-black">
         {member.photo ? (
           <img
             src={member.photo}
