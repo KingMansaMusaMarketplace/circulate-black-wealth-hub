@@ -87,10 +87,10 @@ const MemberCard = ({ member, index }: { member: Member; index: number }) => (
               objectPosition: member.objectPosition ?? 'center top',
               transform: `translateY(${member.photoOffsetY ?? '0'}) scale(${member.photoScale ?? 1})`,
             }}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-2xl"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-mansagold/60 text-6xl font-serif">
+          <div className="w-full h-full flex items-center justify-center text-mansagold/60 text-6xl font-serif rounded-2xl">
             {member.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
           </div>
         )}
@@ -179,10 +179,10 @@ const TeamPage = () => {
                       objectPosition: founder.objectPosition ?? 'center top',
                       transform: `translateY(${founder.photoOffsetY ?? '0'}) scale(${founder.photoScale ?? 1})`,
                     }}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-2xl"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-full h-full flex items-center justify-center rounded-2xl">
                     <span className="text-mansagold/70 text-7xl font-serif italic">TB</span>
                   </div>
                 )}
