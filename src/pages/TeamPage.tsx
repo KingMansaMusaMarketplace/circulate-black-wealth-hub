@@ -11,7 +11,7 @@ import james from '@/assets/team/James_Carson_headshot.jpg';
 import judith from '@/assets/team/Judith_Fitzgerald.asset.json';
 import keith from '@/assets/team/Keith_McGregory.asset.json';
 import kimberly from '@/assets/team/Kimberly_Bates_headshot.jpg';
-import lisa from '@/assets/team/Lisa_Gavin_pic.asset.json';
+import lisa from '@/assets/team/Lisa_Gavin_headshot.jpg';
 import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
 import napolean from '@/assets/team/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/Stephen_Hughes.asset.json';
