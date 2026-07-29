@@ -3,31 +3,33 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Linkedin, Mail } from 'lucide-react';
 
-import clarence from '@/assets/team/Clarence_Smith.asset.json';
-import craig from '@/assets/team/Craig_Stevenson.asset.json';
-import dakarai from '@/assets/team/Dakarai_Mosley_headshot.jpg';
-import eric from '@/assets/team/Eric_Webb.asset.json';
-import james from '@/assets/team/James_Carson_headshot.jpg';
-import judith from '@/assets/team/Judith_Fitzgerald.asset.json';
-import keith from '@/assets/team/Keith_McGregory.asset.json';
-import kimberly from '@/assets/team/Kimberly_Bates_corporate.jpg.asset.json';
-import lisa from '@/assets/team/Lisa_Gavin_enhanced.jpg.asset.json';
-import maurice from '@/assets/team/Maurice_G._Howard.asset.json';
-import napolean from '@/assets/team/Napolean_Paul_headshot.jpg';
-import stephen from '@/assets/team/Stephen_Hughes.asset.json';
-import thomas from '@/assets/team/Thomas_D_Bowling_headshot.jpg';
-import brandon from '@/assets/team/Brandon_Jones.asset.json';
-import vaughn from '@/assets/team/Vaughn_Hester.asset.json';
-import terry from '@/assets/team/Terry_Thompson.png.asset.json';
-import john from '@/assets/team/John_Atwater.png.asset.json';
-import zay from '@/assets/team/Zay_Barton.png.asset.json';
-import sharif from '@/assets/team/Sharif_Abdus_Salaam_headshot.jpg.asset.json';
-import brando from '@/assets/team/Brando_Palm_headshot.jpg.asset.json';
-import donald from '@/assets/team/Donald_Palm_PhD.png.asset.json';
-import corey from '@/assets/team/Corey_Mays_headshot.jpg';
+// Background-only pass: all headshots re-composited onto Kayla's navy (#0D1D30)
+// so the leadership grid reads as one deliberate gallery. Subjects unchanged.
+import clarence from '@/assets/team/navy_bg/Clarence_Smith.jpg';
+import craig from '@/assets/team/navy_bg/Craig_Stevenson.jpg';
+import dakarai from '@/assets/team/navy_bg/Dakarai_Mosley_headshot.jpg';
+import eric from '@/assets/team/navy_bg/Eric_Webb.jpg';
+import james from '@/assets/team/navy_bg/James_Carson_headshot.jpg';
+import judith from '@/assets/team/navy_bg/Judith_Fitzgerald.jpg';
+import keith from '@/assets/team/navy_bg/Keith_McGregory.jpg';
+import kimberly from '@/assets/team/navy_bg/Kimberly_Bates_corporate.jpg';
+import lisa from '@/assets/team/navy_bg/Lisa_Gavin_enhanced.jpg';
+import maurice from '@/assets/team/navy_bg/Maurice_G.jpg';
+import napolean from '@/assets/team/navy_bg/Napolean_Paul_headshot.jpg';
+import stephen from '@/assets/team/navy_bg/Stephen_Hughes.jpg';
+import thomas from '@/assets/team/navy_bg/Thomas_D_Bowling_headshot.jpg';
+import brandon from '@/assets/team/navy_bg/Brandon_Jones.jpg';
+import vaughn from '@/assets/team/navy_bg/Vaughn_Hester.jpg';
+import terry from '@/assets/team/navy_bg/Terry_Thompson.jpg';
+import john from '@/assets/team/navy_bg/John_Atwater.jpg';
+import zay from '@/assets/team/navy_bg/Zay_Barton.jpg';
+import sharif from '@/assets/team/navy_bg/Sharif_Abdus_Salaam_headshot.jpg';
+import brando from '@/assets/team/navy_bg/Brando_Palm_headshot.jpg';
+import donald from '@/assets/team/navy_bg/Donald_Palm_PhD.jpg';
+import corey from '@/assets/team/navy_bg/Corey_Mays_headshot.jpg';
 import kayla from '@/assets/team/Kayla_Bruton_headshot.jpg';
-import douglas from '@/assets/team/Douglas_Morrison_headshot.jpg';
-import robert from '@/assets/team/Robert_Wilson_headshot.jpg';
+import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
+import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
 
 type Member = {
   name: string;
@@ -50,26 +52,26 @@ const founder: Member = {
 };
 
 const leadership: Member[] = [
-  { name: 'Craig Stevenson', title: 'Co-Founder', photo: craig.url },
-  { name: 'Lisa Gavin', title: 'President', photo: lisa.url, photoScale: 1.05, photoOffsetY: '4%' },
-  { name: 'Clarence Smith', title: 'Vice President of Sales', photo: clarence.url, objectPosition: 'center 30%', photoScale: 1.25 },
-  { name: 'Maurice G. Howard', title: 'Executive Advisor', photo: maurice.url },
-  { name: 'Judith Fitzgerald', title: 'Executive Advisor', photo: judith.url },
-  { name: 'Keith McGregory', title: 'Executive Advisor', photo: keith.url },
-  { name: 'Eric Webb', title: 'Executive Advisor', photo: eric.url },
-  { name: 'Kimberly Bates', title: 'Executive Advisor', photo: kimberly.url },
+  { name: 'Craig Stevenson', title: 'Co-Founder', photo: craig },
+  { name: 'Lisa Gavin', title: 'President', photo: lisa, photoScale: 1.05, photoOffsetY: '4%' },
+  { name: 'Clarence Smith', title: 'Vice President of Sales', photo: clarence, objectPosition: 'center 30%', photoScale: 1.25 },
+  { name: 'Maurice G. Howard', title: 'Executive Advisor', photo: maurice },
+  { name: 'Judith Fitzgerald', title: 'Executive Advisor', photo: judith },
+  { name: 'Keith McGregory', title: 'Executive Advisor', photo: keith },
+  { name: 'Eric Webb', title: 'Executive Advisor', photo: eric },
+  { name: 'Kimberly Bates', title: 'Executive Advisor', photo: kimberly },
   { name: 'James Carson, M.D.', title: 'Executive Advisor', photo: james, photoScale: 1.3, photoOffsetY: '12%' },
   { name: 'Dakarai Mosley', title: 'Executive Advisor', photo: dakarai },
-  { name: 'Stephen Hughes', title: 'Executive Advisor', photo: stephen.url },
+  { name: 'Stephen Hughes', title: 'Executive Advisor', photo: stephen },
   { name: 'Napolean Paul', title: 'Executive Advisor', photo: napolean },
-  { name: 'Brandon Jones, Ph.D.', title: 'Executive Advisor', photo: brandon.url },
-  { name: 'Vaughn Hester', title: 'Executive Advisor', photo: vaughn.url, objectPosition: 'center 25%', photoScale: 1.15 },
-  { name: 'Terry Thompson, M.D.', title: 'Executive Advisor', photo: terry.url, objectPosition: 'center top', photoScale: 0.92 },
-  { name: 'John G. Atwater, M.D.', title: 'Executive Advisor', photo: john.url },
-  { name: 'Zay Barton', title: 'Executive Advisor', photo: zay.url, photoScale: 1.5, objectPosition: 'center 35%' },
-  { name: 'Sharif Abdus-Salaam, M.D.', title: 'Executive Advisor', photo: sharif.url },
-  { name: 'Brando Palm', title: 'Executive Advisor', photo: brando.url },
-  { name: 'Donald Palm, Ph.D.', title: 'Executive Advisor', photo: donald.url },
+  { name: 'Brandon Jones, Ph.D.', title: 'Executive Advisor', photo: brandon },
+  { name: 'Vaughn Hester', title: 'Executive Advisor', photo: vaughn, objectPosition: 'center 25%', photoScale: 1.15 },
+  { name: 'Terry Thompson, M.D.', title: 'Executive Advisor', photo: terry, objectPosition: 'center top', photoScale: 0.92 },
+  { name: 'John G. Atwater, M.D.', title: 'Executive Advisor', photo: john },
+  { name: 'Zay Barton', title: 'Executive Advisor', photo: zay, photoScale: 1.5, objectPosition: 'center 35%' },
+  { name: 'Sharif Abdus-Salaam, M.D.', title: 'Executive Advisor', photo: sharif },
+  { name: 'Brando Palm', title: 'Executive Advisor', photo: brando },
+  { name: 'Donald Palm, Ph.D.', title: 'Executive Advisor', photo: donald },
   { name: 'Corey Mays', title: 'Executive Advisor', photo: corey, photoScale: 1.35, photoOffsetY: '12%' },
   { name: 'Kayla Bruton', title: 'Executive Advisor', photo: kayla },
   { name: 'Douglas K. Morrison', title: 'Executive Advisor', photo: douglas },
