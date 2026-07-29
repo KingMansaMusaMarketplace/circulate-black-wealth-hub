@@ -18,6 +18,7 @@ import stephen from '@/assets/team/Stephen_Hughes.asset.json';
 import thomas from '@/assets/team/Thomas_D_Bowling_headshot.jpg';
 import brandon from '@/assets/team/Brandon_Jones.asset.json';
 import vaughn from '@/assets/team/Vaughn_Hester.asset.json';
+import terry from '@/assets/team/Terry_Thompson.png.asset.json';
 
 type Member = {
   name: string;
