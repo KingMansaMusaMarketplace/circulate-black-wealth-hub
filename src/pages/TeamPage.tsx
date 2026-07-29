@@ -17,6 +17,7 @@ import napolean from '@/assets/team/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/Stephen_Hughes.asset.json';
 import thomas from '@/assets/team/Thomas_D_Bowling_headshot.jpg';
 import brandon from '@/assets/team/Brandon_Jones.asset.json';
+import vaughn from '@/assets/team/Vaughn_Hester.asset.json';
 
 type Member = {
   name: string;
@@ -52,6 +53,7 @@ const leadership: Member[] = [
   { name: 'Stephen Hughes', title: 'Executive Advisor', photo: stephen.url },
   { name: 'Napolean Paul', title: 'Executive Advisor', photo: napolean },
   { name: 'Brandon Jones', title: 'Executive Advisor', photo: brandon.url },
+  { name: 'Vaughn Hester', title: 'Executive Advisor', photo: vaughn.url, objectPosition: 'center 25%' },
 ];
 
 const MemberCard = ({ member, index }: { member: Member; index: number }) => (
