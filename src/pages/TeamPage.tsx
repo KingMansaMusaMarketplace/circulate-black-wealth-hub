@@ -79,6 +79,7 @@ const leadership: Member[] = [
   { name: 'Douglas K. Morrison', title: 'Executive Advisor', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Executive Advisor', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte, photoScale: 1.6, photoOffsetY: '22%' },
+  { name: 'Joseph Weaver', title: 'Executive Advisor', photo: joseph, photoScale: 1.05 },
 ];
 
 const MemberCard = ({ member, index }: { member: Member; index: number }) => (
