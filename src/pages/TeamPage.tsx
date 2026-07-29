@@ -24,7 +24,7 @@ import zay from '@/assets/team/Zay_Barton.png.asset.json';
 import sharif from '@/assets/team/Sharif_Abdus_Salaam_headshot.jpg.asset.json';
 import brando from '@/assets/team/Brando_Palm_headshot.jpg.asset.json';
 import donald from '@/assets/team/Donald_Palm_PhD.png.asset.json';
-import corey from '@/assets/team/Corey_Mays.asset.json';
+import corey from '@/assets/team/Corey_Mays_generated.jpg';
 
 type Member = {
   name: string;
