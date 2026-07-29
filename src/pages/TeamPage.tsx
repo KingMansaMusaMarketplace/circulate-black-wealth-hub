@@ -67,7 +67,7 @@ const leadership: Member[] = [
   { name: 'Sharif Abdus-Salaam, M.D.', title: 'Executive Advisor', photo: sharif.url },
   { name: 'Brando Palm', title: 'Executive Advisor', photo: brando.url },
   { name: 'Donald Palm, Ph.D.', title: 'Executive Advisor', photo: donald.url },
-  { name: 'Corey Mays', title: 'Executive Advisor', photo: corey.url },
+  { name: 'Corey Mays', title: 'Executive Advisor', photo: corey },
 ];
 
 const MemberCard = ({ member, index }: { member: Member; index: number }) => (
