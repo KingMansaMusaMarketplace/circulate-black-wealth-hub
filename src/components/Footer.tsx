@@ -362,6 +362,7 @@ const Footer = () => {
               </p>
               <p className="text-xs mt-3 text-white/60 font-medium">
                 © 2026 1325.AI, Inc. All rights reserved.
+              </p>
               <p className="text-xs mt-2 text-white/60 font-medium">
                 Incorporated in Illinois • File #75201745 • Registered Agent: Thomas Bowling •{' '}
                 <a 
