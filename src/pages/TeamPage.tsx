@@ -32,6 +32,7 @@ import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
 import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
 import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_headshot.jpg';
 import joseph from '@/assets/team/navy_bg/Joseph_Weaver.jpg';
+import johnClyburn from '@/assets/team/navy_bg/John_Clyburn.jpg';
 
 
 type Member = {
