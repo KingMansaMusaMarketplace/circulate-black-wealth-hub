@@ -22,7 +22,7 @@ import brandon from '@/assets/team/navy_bg/Brandon_Jones.jpg';
 import vaughn from '@/assets/team/navy_bg/Vaughn_Hester.jpg';
 import terry from '@/assets/team/navy_bg/Terry_Thompson.jpg';
 import john from '@/assets/team/navy_bg/John_Atwater.jpg';
-import zay from '@/assets/team/navy_bg/Zay_Barton.jpg';
+import zay from '@/assets/team/navy_bg/Zay_Barton_v3.jpg';
 import sharif from '@/assets/team/navy_bg/Sharif_Abdus_Salaam_headshot.jpg';
 import brando from '@/assets/team/navy_bg/Brando_Palm_headshot.jpg';
 import donald from '@/assets/team/navy_bg/Donald_Palm_PhD.jpg';
@@ -74,7 +74,7 @@ const leadership: Member[] = [
   { name: 'Vaughn Hester', title: 'Executive Advisor', photo: vaughn, objectPosition: 'center 25%', photoScale: 1.15 },
   { name: 'Terry Thompson, M.D.', title: 'Executive Advisor', photo: terry, objectPosition: 'center top', photoScale: 0.92 },
   { name: 'John G. Atwater, M.D.', title: 'Executive Advisor', photo: john },
-  { name: 'Zay Barton', title: 'Executive Advisor', photo: zay, photoScale: 1.5, objectPosition: 'center 35%' },
+  { name: 'Zay Barton', title: 'Executive Advisor', photo: zay, photoScale: 1, objectPosition: 'center 20%' },
   { name: 'Sharif Abdus-Salaam, M.D.', title: 'Executive Advisor', photo: sharif },
   { name: 'Brando Palm', title: 'Executive Advisor', photo: brando, photoScale: 1.15 },
   { name: 'Donald Palm, Ph.D.', title: 'Executive Advisor', photo: donald },
