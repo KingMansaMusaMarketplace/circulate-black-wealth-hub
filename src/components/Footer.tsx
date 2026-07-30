@@ -354,7 +354,15 @@ const Footer = () => {
                   Open Safari to view advanced plans and manage your account.
                 </p>
               )}
-              <p className="font-heading font-bold text-lg bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">© 2026 1325.AI, Inc. All rights reserved. U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.</p>
+              <p className="font-heading font-bold text-base md:text-lg bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent leading-relaxed max-w-3xl md:max-w-xl ml-auto">
+                “For too long, we have been divided economically. 1325.AI is the MCP infrastructure layer that turns Black-owned business into global-scale enterprise.”
+              </p>
+              <p className="font-heading text-sm mt-2 bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">
+                — Thomas D. Bowling, Founder & Chief Architect
+              </p>
+              <p className="text-xs mt-3 text-white/60 font-medium">
+                © 2026 1325.AI, Inc. All rights reserved.
+              </p>
               <p className="text-xs mt-2 text-white/60 font-medium">
                 Incorporated in Illinois • File #75201745 • Registered Agent: Thomas Bowling •{' '}
                 <a 

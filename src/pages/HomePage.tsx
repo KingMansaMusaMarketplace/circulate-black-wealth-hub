@@ -112,10 +112,15 @@ const HomePage: React.FC = () => {
             </Link>
           </div>
 
-          {/* Protocol credibility line */}
-          <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-zinc-300 mt-8 font-mono">
-            Agentic Commerce Protocol · MCP Endpoint Live · OAuth 2.1 · USPTO Provisional 63/969,202
-          </p>
+          {/* Founder quote */}
+          <blockquote className="max-w-4xl mx-auto mt-8 text-center">
+            <p className="text-sm md:text-base lg:text-lg font-medium italic leading-relaxed text-mansagold">
+              “For too long, we have been divided economically. 1325.AI is the MCP infrastructure layer that turns Black-owned business into global-scale enterprise.”
+            </p>
+            <cite className="block mt-3 text-xs md:text-sm uppercase tracking-[0.2em] text-zinc-300 font-mono not-italic">
+              — Thomas D. Bowling, Founder & Chief Architect
+            </cite>
+          </blockquote>
 
           <div className="mt-16">
             <a
