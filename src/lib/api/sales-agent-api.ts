@@ -239,6 +239,10 @@ export const validateTestAnswers = async (answers: {[key: string]: string}): Pro
   }
 };
 
+// NOTE: test_score / test_passed are written server-side by the
+// `validate_test_answers` grading function. Clients must never write them
+// directly — the database blocks non-admin writes to those columns.
+
 export const submitTestResults = async (testScore: number): Promise<{ success: boolean; error?: any }> => {
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -246,16 +250,22 @@ export const submitTestResults = async (testScore: number): Promise<{ success: b
       throw new Error('User not authenticated');
     }
 
+    // Confirm the graded score was recorded by the server-side grader
     const { data, error } = await supabase
       .from('sales_agent_applications')
-      .update({ test_score: testScore, test_passed: testScore >= 70 })
+      .select('test_score, test_passed')
       .eq('user_id', user.id)
-      .select()
-      .single();
+      .maybeSingle();
 
     if (error) {
-      console.error('Error submitting test results:', error);
+      console.error('Error confirming test results:', error);
       return { success: false, error };
+    }
+
+    if (!data || data.test_score === null || data.test_score === undefined) {
+      const err = new Error('Test results were not recorded. Please retake the test.');
+      toast.error(err.message);
+      return { success: false, error: err };
     }
 
     toast.success('Test results submitted successfully!');
@@ -284,27 +294,15 @@ export const submitTestAttempt = async (attemptData: {
     });
 
   if (error) throw error;
-
-  // Update the application with test results
-  await supabase
-    .from('sales_agent_applications')
-    .update({
-      test_score: attemptData.score,
-      test_passed: attemptData.passed
-    })
-    .eq('id', attemptData.application_id);
+  // Application test_score/test_passed are set server-side during grading.
 };
 
-export const updateApplicationAfterTest = async (applicationId: string, testData: {
+export const updateApplicationAfterTest = async (_applicationId: string, _testData: {
   test_score: number;
   test_passed: boolean;
 }): Promise<void> => {
-  const { error } = await supabase
-    .from('sales_agent_applications')
-    .update(testData)
-    .eq('id', applicationId);
+  // No-op: scores are recorded server-side by `validate_test_answers`.
 
-  if (error) throw error;
 };
 
 export const getAgentReferrals = async (agentId: string) => {
