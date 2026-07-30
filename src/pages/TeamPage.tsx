@@ -27,7 +27,7 @@ import sharif from '@/assets/team/navy_bg/Sharif_Abdus_Salaam_headshot.jpg';
 import brando from '@/assets/team/navy_bg/Brando_Palm_headshot.jpg';
 import donald from '@/assets/team/navy_bg/Donald_Palm_PhD.jpg';
 import corey from '@/assets/team/navy_bg/Corey_Mays_headshot.jpg';
-import kayla from '@/assets/team/navy_bg/Kayla_Bruton_headshot_v2.jpg';
+import kayla from '@/assets/team/navy_bg/Kayla_Bruton_headshot_v3.jpg';
 import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
 import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
 import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_headshot.jpg';
@@ -80,7 +80,7 @@ const leadership: Member[] = [
   { name: 'Brando Palm', title: 'Executive Advisor', photo: brando, photoScale: 1.15 },
   { name: 'Donald Palm, Ph.D.', title: 'Executive Advisor', photo: donald },
   { name: 'Corey Mays', title: 'Executive Advisor', photo: corey, photoScale: 1.35, photoOffsetY: '12%' },
-  { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla, objectPosition: 'center top', photoScale: 0.9, photoOffsetY: '7%', fixedPhotoBackground: true },
+  { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla, objectPosition: 'center top', photoScale: 1 },
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Executive Advisor', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte, photoScale: 1.6, photoOffsetY: '22%' },
