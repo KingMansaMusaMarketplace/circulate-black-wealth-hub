@@ -50,7 +50,7 @@ const founder: Member = {
   name: 'Thomas D. Bowling',
   title: 'Founder & Chief Architect',
   photo: thomas,
-  bio: 'Inventor of the 1325.AI operating system and the MCP infrastructure layer for the $12T global Black economy. USPTO Provisional 63/969,202 — 27 claims pending.',
+  bio: 'Inventor of the 1325.AI operating system and the MCP infrastructure layer for the $12T global Black economy.',
   photoScale: 1,
   photoOffsetY: '0%',
 };
@@ -210,9 +210,11 @@ const TeamPage = () => {
               <h2 className="text-3xl md:text-4xl font-serif font-light mb-3">{founder.name}</h2>
               <p className="text-mansagold uppercase tracking-widest text-sm mb-6">{founder.title}</p>
               <p className="text-blue-100/80 text-lg leading-relaxed">{founder.bio}</p>
-              <p className="text-blue-100/50 text-sm mt-6 italic">
-                U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.
-              </p>
+              <blockquote className="mt-8 pl-6 border-l-2 border-mansagold/60">
+                <p className="text-blue-100/90 text-lg italic leading-relaxed">
+                  "For too long, we have been divided economically. 1325.AI is the MCP infrastructure layer that turns Black-owned business into global-scale enterprise."
+                </p>
+              </blockquote>
             </div>
           </div>
         </section>
