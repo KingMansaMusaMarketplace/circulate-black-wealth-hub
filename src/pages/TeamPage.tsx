@@ -31,6 +31,7 @@ import kayla from '@/assets/team/navy_bg/Kayla_Bruton_headshot_v6.jpg';
 import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
 import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
 import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_headshot.jpg';
+import joseph from '@/assets/team/navy_bg/Joseph_Weaver.jpg';
 
 
 type Member = {
@@ -84,6 +85,7 @@ const leadership: Member[] = [
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Executive Advisor', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte, photoScale: 1.6, photoOffsetY: '22%' },
+  { name: 'Joseph Weaver', title: 'Executive Advisor', photo: joseph },
   
 ];
 
