@@ -43,6 +43,7 @@ type Member = {
   objectPosition?: string;
   photoScale?: number;
   photoOffsetY?: string;
+  fixedPhotoBackground?: boolean;
 };
 
 // NOTE: Titles/bios are placeholders — send Kayla the finals and we'll swap them in.
@@ -79,7 +80,7 @@ const leadership: Member[] = [
   { name: 'Brando Palm', title: 'Executive Advisor', photo: brando, photoScale: 1.15 },
   { name: 'Donald Palm, Ph.D.', title: 'Executive Advisor', photo: donald },
   { name: 'Corey Mays', title: 'Executive Advisor', photo: corey, photoScale: 1.35, photoOffsetY: '12%' },
-  { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla, objectPosition: 'center top', photoScale: 1, photoOffsetY: '4%' },
+  { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla, objectPosition: 'center top', photoScale: 1, photoOffsetY: '4%', fixedPhotoBackground: true },
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Executive Advisor', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte, photoScale: 1.6, photoOffsetY: '22%' },
@@ -95,7 +96,7 @@ const MemberCard = ({ member, index }: { member: Member; index: number }) => (
     className="group relative"
   >
     <div className="relative overflow-hidden rounded-2xl bg-white/[0.03] border border-white/10 hover:border-mansagold/40 transition-all duration-500">
-      <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-mansablue/40 to-black">
+      <div className={`aspect-[4/5] overflow-hidden rounded-2xl ${member.fixedPhotoBackground ? 'bg-[hsl(var(--team-photo-background))]' : 'bg-gradient-to-br from-mansablue/40 to-black'}`}>
         {member.photo ? (
           <img
             src={member.photo}
