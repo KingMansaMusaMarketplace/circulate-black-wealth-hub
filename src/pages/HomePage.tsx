@@ -122,13 +122,19 @@ const HomePage: React.FC = () => {
             </cite>
           </blockquote>
 
-          <div className="mt-16">
+          <div className="mt-16 flex flex-col items-center gap-3">
             <a
               href="#submit-business"
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-success text-success-foreground font-bold text-sm uppercase tracking-[0.1em] hover:bg-success/90 transition-colors shadow-[0_0_20px_hsl(var(--success)/35%)] hover:shadow-[0_0_28px_hsl(var(--success)/55%)]"
             >
               Submit your business for <span className="font-black">"FREE"</span> →
             </a>
+            <Link
+              to="/team"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full border border-mansagold/40 text-mansagold font-bold text-sm uppercase tracking-[0.1em] hover:bg-mansagold/10 hover:border-mansagold transition-colors"
+            >
+              Meet The 1325.AI Team →
+            </Link>
           </div>
         </section>
 
