@@ -25515,6 +25515,7 @@ export type Database = {
     Functions: {
       _is_admin_current_user: { Args: never; Returns: boolean }
       _is_admin_or_service: { Args: never; Returns: boolean }
+      _sales_agent_grading_active: { Args: never; Returns: boolean }
       _sec_is_admin_or_system: { Args: never; Returns: boolean }
       access_personal_data_secure: {
         Args: {
