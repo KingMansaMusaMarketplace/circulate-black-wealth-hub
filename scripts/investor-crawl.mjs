@@ -34,7 +34,7 @@ const shouldIgnoreConsole = (t) => IGNORE_CONSOLE.some((k) => t.includes(k));
 
 const results = [];
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ headless: true, executablePath: process.env.CRAWL_CHROME || undefined });
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 1800 } });
 
 for (const route of ROUTES) {
