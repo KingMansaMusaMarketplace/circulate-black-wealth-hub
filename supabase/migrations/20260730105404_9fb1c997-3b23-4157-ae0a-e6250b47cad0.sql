@@ -1,0 +1,1 @@
+ALTER FUNCTION public._sales_agent_grading_active() SET search_path = public, pg_temp;
