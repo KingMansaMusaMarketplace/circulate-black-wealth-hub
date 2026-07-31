@@ -67,7 +67,7 @@ const leadership: Member[] = [
   { name: 'Maurice G. Howard', title: 'VP of Technology', photo: maurice },
   { name: 'Keith McGregory', title: 'VP of Corporate Development', photo: keith },
   { name: 'Judith Fitzgerald', title: 'Executive Advisor', photo: judith },
-  { name: 'Eric Webb', title: 'Executive Advisor', photo: eric },
+  { name: 'Eric Christopher Webb, DDiv.', title: 'Executive Advisor', photo: eric },
   { name: 'Kimberly Bates', title: 'Chief of Staff', photo: kimberly },
   { name: 'James Carson, M.D.', title: 'Executive Advisor', photo: james, photoScale: 1.3, photoOffsetY: '12%' },
   { name: 'Dakarai Mosley', title: 'Executive Advisor', photo: dakarai },
