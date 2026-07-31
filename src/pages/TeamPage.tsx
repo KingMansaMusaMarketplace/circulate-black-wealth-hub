@@ -77,7 +77,7 @@ const leadership: Member[] = [
   { name: 'Vaughn Hester', title: 'Executive Advisor', photo: vaughn, objectPosition: 'center 25%', photoScale: 1.15 },
   { name: 'Terry Thompson, M.D.', title: 'Chief Communication Officer', photo: terry, objectPosition: 'center top', photoScale: 0.92 },
   { name: 'John G. Atwater, M.D.', title: 'Chief Business Development Officer', photo: john },
-  { name: 'Zay Barton', title: 'Executive Advisor', photo: zay, objectPosition: 'center 75%', photoScale: 1.15, photoOffsetY: '4%' },
+  { name: 'Zay Barton', title: 'Director of Youth Entrepreneurship and Curriculum Development', photo: zay, objectPosition: 'center 75%', photoScale: 1.15, photoOffsetY: '4%' },
   { name: 'Sharif Abdus-Salaam, M.D.', title: 'Executive Advisor', photo: sharif },
   { name: 'Brando Palm', title: 'Executive Advisor', photo: brando, photoScale: 1.15 },
   { name: 'Donald Palm, Ph.D.', title: 'Chief Education Officer', photo: donald },
