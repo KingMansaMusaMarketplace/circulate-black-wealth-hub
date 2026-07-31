@@ -71,7 +71,7 @@ const leadership: Member[] = [
   { name: 'Kimberly Bates', title: 'Chief of Staff', photo: kimberly },
   { name: 'James Carson, M.D.', title: 'Executive Advisor', photo: james, photoScale: 1.3, photoOffsetY: '12%' },
   { name: 'Dakarai Mosley', title: 'Senior Director of Entertainment', photo: dakarai },
-  { name: 'Stephen Hughes', title: 'Executive Advisor', photo: stephen },
+  { name: 'Stephen Hughes', title: 'Chief Strategy Officer', photo: stephen },
   { name: 'Napolean Paul', title: 'VP of Media Production & Content Strategy', photo: napolean },
   { name: 'Brandon Jones, Ph.D.', title: 'Chief Grants Officer', photo: brandon },
   { name: 'Vaughn Hester', title: 'Senior Director of Veteran Affairs', photo: vaughn, objectPosition: 'center 25%', photoScale: 1.15 },
