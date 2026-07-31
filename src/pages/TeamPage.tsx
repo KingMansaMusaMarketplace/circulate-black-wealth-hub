@@ -87,7 +87,7 @@ const leadership: Member[] = [
   { name: 'Robert H. Wilson, M.D.', title: 'Executive Advisor', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte, photoScale: 1.6, photoOffsetY: '22%' },
   { name: 'Joseph Weaver', title: 'Executive Advisor', photo: joseph },
-  { name: 'John Clyburn', title: 'Executive Advisor', photo: johnClyburn },
+  { name: 'John Clyburn', title: 'Chief Public Policy Officer', photo: johnClyburn },
 
   
 ];
