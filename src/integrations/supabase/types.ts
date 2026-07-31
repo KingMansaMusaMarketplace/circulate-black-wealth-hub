@@ -5540,8 +5540,6 @@ export type Database = {
           subscription_end_date: string | null
           subscription_start_date: string | null
           subscription_status: string | null
-          total_revenue_tracked: number | null
-          transaction_count: number | null
           updated_at: string | null
           website: string | null
           website_domain: string | null
@@ -5591,8 +5589,6 @@ export type Database = {
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
-          total_revenue_tracked?: number | null
-          transaction_count?: number | null
           updated_at?: string | null
           website?: string | null
           website_domain?: string | null
@@ -5642,8 +5638,6 @@ export type Database = {
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
-          total_revenue_tracked?: number | null
-          transaction_count?: number | null
           updated_at?: string | null
           website?: string | null
           website_domain?: string | null
