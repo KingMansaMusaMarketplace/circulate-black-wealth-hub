@@ -71,7 +71,7 @@ const leadership: Member[] = [
   { name: 'Kimberly Bates', title: 'Chief of Staff', photo: kimberly },
   { name: 'James Carson, M.D.', title: 'Chief Economic Empowerment Officer', photo: james, photoScale: 1.3, photoOffsetY: '12%' },
   { name: 'Dakarai Mosley', title: 'Senior Director of Entertainment', photo: dakarai },
-  { name: 'Stephen Hughes', title: 'Chief Strategy Officer', photo: stephen },
+  { name: 'Stephen Hughes', title: 'VP of Marketing', photo: stephen },
   { name: 'Napolean Paul', title: 'VP of Media Production & Content Strategy', photo: napolean },
   { name: 'Brandon Jones, Ph.D.', title: 'Chief Grants Officer', photo: brandon },
   { name: 'Vaughn Hester', title: 'Senior Director of Veteran Affairs', photo: vaughn, objectPosition: 'center 25%', photoScale: 1.15 },
@@ -86,7 +86,7 @@ const leadership: Member[] = [
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Chief International Officer', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte, photoScale: 1.6, photoOffsetY: '22%' },
-  { name: 'Joseph Weaver', title: 'VP of Marketing', photo: joseph },
+  { name: 'Joseph Weaver', title: 'Chief Strategy Officer', photo: joseph },
   { name: 'John Clyburn', title: 'Chief Public Policy Officer', photo: johnClyburn },
 
   
