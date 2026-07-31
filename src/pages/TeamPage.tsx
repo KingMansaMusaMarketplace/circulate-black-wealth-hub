@@ -24,7 +24,7 @@ import terry from '@/assets/team/navy_bg/Terry_Thompson.jpg';
 import john from '@/assets/team/navy_bg/John_Atwater.jpg';
 import zay from '@/assets/team/navy_bg/Zay_Barton_v3.jpg';
 import sharif from '@/assets/team/navy_bg/Sharif_Abdus_Salaam_headshot.jpg';
-import brando from '@/assets/team/navy_bg/Brando_Palm_headshot.jpg';
+import brandonPalm from '@/assets/team/navy_bg/Brando_Palm_headshot.jpg';
 import donald from '@/assets/team/navy_bg/Donald_Palm_PhD.jpg';
 import corey from '@/assets/team/navy_bg/Corey_Mays_headshot.jpg';
 import kayla from '@/assets/team/navy_bg/Kayla_Bruton_headshot_v6.jpg';
