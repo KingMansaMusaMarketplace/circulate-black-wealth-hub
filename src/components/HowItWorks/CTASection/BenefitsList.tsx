@@ -1,12 +1,12 @@
 
 import React from 'react';
-import { motion, AnimationControls } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import { Users, Star, CircleDollarSign } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface BenefitsListProps {
   isVisible: boolean;
-  controls: AnimationControls;
+  controls: ReturnType<typeof useAnimation>;
 }
 
 export const BenefitsList: React.FC<BenefitsListProps> = ({ isVisible, controls }) => {

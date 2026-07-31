@@ -25,7 +25,7 @@ const pageTransition = {
   type: 'tween',
   ease: 'easeOut',
   duration: 0.25,
-};
+} as const;
 
 /**
  * Wraps page content with smooth fade + slide animation
