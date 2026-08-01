@@ -64,7 +64,7 @@ const leadership: Member[] = [
   { name: 'Craig Stevenson', title: 'Co-Founder', photo: craig },
   { name: 'Lisa Cooper Gavin', title: 'President', photo: lisa, photoScale: 1.15, photoOffsetY: '0%' },
   { name: 'Clarence Smith', title: 'VP of Sales', photo: clarence, objectPosition: 'center 30%', photoScale: 1.25 },
-  { name: 'Maurice G. Howard', title: 'VP of Technology', photo: maurice },
+  { name: 'Maurice G. Howard', title: 'VP of Technology', photo: maurice, photoScale: 0.9 },
   { name: 'Keith McGregory', title: 'VP of Corporate Development', photo: keith },
   { name: 'Judith Fitzgerald, J.D./MPhil', title: 'Legal Counsel', photo: judith },
   { name: 'Eric Christopher Webb, DDiv.', title: 'VP of Outreach', photo: eric },
