@@ -15,7 +15,7 @@ import keith from '@/assets/team/navy_bg/Keith_McGregory.jpg';
 import kimberly from '@/assets/team/navy_bg/Kimberly_Bates_corporate.jpg';
 import lisa from '@/assets/team/Lisa_Gavin_navy_v5.jpg';
 import maurice from '@/assets/team/navy_bg/Maurice_G.jpg';
-import napolean from '@/assets/team/navy_bg/Napolean_Paul_headshot.jpg';
+import napoleon from '@/assets/team/navy_bg/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/navy_bg/Stephen_Hughes.jpg';
 import thomas from '@/assets/team/navy_bg/Thomas_D_Bowling_headshot.jpg';
 import brandon from '@/assets/team/navy_bg/Brandon_Jones.jpg';
@@ -72,7 +72,7 @@ const leadership: Member[] = [
   { name: 'James Carson, M.D.', title: 'Chief Social Media Officer', photo: james, photoScale: 1.3, photoOffsetY: '12%' },
   { name: 'Dakarai Mosley', title: 'Senior Director of Entertainment', photo: dakarai },
   { name: 'Stephen Hughes', title: 'VP of Marketing', photo: stephen },
-  { name: 'Napolean Paul', title: 'VP of Media Production & Content Strategy', photo: napolean },
+  { name: 'Napoleon Paul', title: 'VP of Media Production & Content Strategy', photo: napoleon },
   { name: 'Brandon Jones, Ph.D.', title: 'Chief Grants Officer', photo: brandon },
   { name: 'Vaughn Hester', title: 'Senior Director of Veteran Affairs', photo: vaughn, objectPosition: 'center 25%', photoScale: 1.15 },
   { name: 'Terry Thompson, M.D.', title: 'Chief Communication Officer', photo: terry, objectPosition: 'center top', photoScale: 0.92 },
