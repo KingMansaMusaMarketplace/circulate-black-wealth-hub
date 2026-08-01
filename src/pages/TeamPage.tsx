@@ -15,7 +15,7 @@ import keith from '@/assets/team/navy_bg/Keith_McGregory.jpg';
 import kimberly from '@/assets/team/navy_bg/Kimberly_Bates_corporate.jpg';
 import lisa from '@/assets/team/Lisa_Gavin_navy_v5.jpg';
 import maurice from '@/assets/team/navy_bg/Maurice_G.jpg';
-import napolean from '@/assets/team/navy_bg/Napolean_Paul_headshot.jpg';
+import napoleon from '@/assets/team/navy_bg/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/navy_bg/Stephen_Hughes.jpg';
 import thomas from '@/assets/team/navy_bg/Thomas_D_Bowling_headshot.jpg';
 import brandon from '@/assets/team/navy_bg/Brandon_Jones.jpg';
