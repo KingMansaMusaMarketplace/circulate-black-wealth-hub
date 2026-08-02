@@ -27,8 +27,8 @@ const PartnershipFrameworkPage: React.FC = () => {
   const partnershipOptions = [
     {
       type: 'Strategic Advisory',
-      description: 'Marlon joins advisory board and facilitates 776 introduction',
-      valueToMMM: ['776 VC access', 'Regional market expertise', 'Community credibility'],
+      description: 'Marlon joins advisory board and facilitates strategic introductions',
+      valueToMMM: ['Investor network access', 'Regional market expertise', 'Community credibility'],
       valueToPartner: ['Advisory equity/fees', 'Access to MMM technology', 'Platform presence'],
       structure: '6-month agreement with defined milestones',
       risk: 'low',
@@ -65,9 +65,9 @@ const PartnershipFrameworkPage: React.FC = () => {
 
   const negotiationTerms = [
     {
-      term: '776 Introduction Timeline',
+      term: 'Strategic Introduction Timeline',
       recommendation: 'Concrete milestone within 30 days of agreement',
-      rationale: 'The 776 connection is the primary strategic value'
+      rationale: 'Strategic introductions are a primary value driver'
     },
     {
       term: 'Exclusivity Period',
@@ -87,10 +87,10 @@ const PartnershipFrameworkPage: React.FC = () => {
   ];
 
   const dueDiligence = [
-    { category: '776 Connection', questions: [
-      "What is Marlon Jr.'s specific role at 776?",
-      "Has he mentioned MMM or Together We Save to 776?",
-      "Can he facilitate a direct introduction to investment partners?"
+    { category: 'Strategic Connections', questions: [
+      "What is the partner's specific network and reach within the investor community?",
+      "Has the partner introduced MMM or Together We Save to aligned investment partners?",
+      "Can they facilitate direct introductions with clear milestones and accountability?"
     ]},
     { category: 'TWS Business', questions: [
       "How many active businesses are on Together We Save?",
@@ -105,7 +105,7 @@ const PartnershipFrameworkPage: React.FC = () => {
   ];
 
   const redFlags = [
-    "Vague promises about 776 introduction without specifics",
+    "Vague promises about strategic introductions without specifics",
     "Requests for significant equity without clear value delivery",
     "Pressure to move quickly without due diligence",
     "Unwillingness to put terms in writing"
