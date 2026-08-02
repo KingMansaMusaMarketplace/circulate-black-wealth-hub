@@ -229,8 +229,20 @@ serve(async (req) => {
 
         if (heldError) throw heldError;
 
-        const memberCount = circle.susu_memberships?.length || 0;
-        const contributionCount = heldFunds?.length || 0;
+        const memberIds = new Set((circle.susu_memberships || []).map((m: any) => m.user_id));
+        const memberCount = memberIds.size;
+        // Only count paid contributions (wallet-debited) from distinct actual members
+        const validContributors = new Set(
+          (heldFunds || [])
+            .filter((f: any) =>
+              f.payment_reference &&
+              memberIds.has(f.contributor_id) &&
+              Number(f.amount) === Number(circle.contribution_amount)
+            )
+            .map((f: any) => f.contributor_id)
+        );
+        const contributionCount = validContributors.size;
+
 
         // Verify all members have contributed before releasing
         if (contributionCount < memberCount) {
