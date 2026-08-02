@@ -7,6 +7,7 @@ import { Loader2, Send, Bot, User, Sparkles, Zap, Brain, Search, ImagePlus, Came
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import ReactMarkdown from 'react-markdown';
+import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
 import { Capacitor } from '@capacitor/core';
 
 
@@ -317,7 +318,7 @@ export const AIAssistant = () => {
                 >
                   {msg.role === 'assistant' ? (
                     <div className="text-base prose prose-base prose-invert max-w-none [&_p]:my-1.5 [&_ul]:my-1.5 [&_ol]:my-1.5 [&_li]:my-1 [&_h1]:text-lg [&_h2]:text-base [&_h3]:text-base [&_a]:text-mansagold [&_strong]:text-mansagold">
-                      <ReactMarkdown>{getTextContent(msg.content)}</ReactMarkdown>
+                      <ReactMarkdown>{linkifyMarkdown(getTextContent(msg.content))}</ReactMarkdown>
                     </div>
                   ) : (
                     <p className="text-sm whitespace-pre-wrap">{getTextContent(msg.content)}</p>

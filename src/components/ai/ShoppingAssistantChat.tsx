@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import ReactMarkdown from 'react-markdown';
+import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
 import { useToast } from '@/hooks/use-toast';
 import { useCapacitor } from '@/hooks/use-capacitor';
 
@@ -269,7 +270,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
               >
                 {msg.role === 'assistant' ? (
                   <div className="prose prose-sm max-w-none dark:prose-invert">
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <ReactMarkdown>{linkifyMarkdown(msg.content)}</ReactMarkdown>
                   </div>
                 ) : (
                   msg.content
