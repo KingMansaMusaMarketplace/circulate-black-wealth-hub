@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,8 @@ import {
   Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle2, Loader2, ShieldCheck, Lock, Clock, Sparkles } from 'lucide-react';
+import { CheckCircle2, Loader2, ShieldCheck, Lock, Clock, Sparkles, ChevronDown } from 'lucide-react';
+
 
 // Fortune-100-grade category taxonomy, grouped for scannability.
 const CATEGORY_GROUPS: { label: string; items: string[] }[] = [
