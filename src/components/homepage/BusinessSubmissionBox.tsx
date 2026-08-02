@@ -248,6 +248,26 @@ const BusinessSubmissionBox: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [open, setOpen] = useState(false);
+
+  // Auto-open when the user follows a #submit-business link from the hero.
+  useEffect(() => {
+    const openFromHash = () => {
+      if (window.location.hash === '#submit-business') setOpen(true);
+    };
+    openFromHash();
+    const onDocClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement)?.closest?.('a[href="#submit-business"]');
+      if (anchor) setOpen(true);
+    };
+    window.addEventListener('hashchange', openFromHash);
+    document.addEventListener('click', onDocClick);
+    return () => {
+      window.removeEventListener('hashchange', openFromHash);
+      document.removeEventListener('click', onDocClick);
+    };
+  }, []);
+
 
   const setField = (k: keyof FormState) => (v: string) =>
     setForm((f) => ({ ...f, [k]: v }));
