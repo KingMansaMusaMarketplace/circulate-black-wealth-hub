@@ -27,8 +27,8 @@ const PartnershipFrameworkPage: React.FC = () => {
   const partnershipOptions = [
     {
       type: 'Strategic Advisory',
-      description: 'Marlon joins advisory board and facilitates 776 introduction',
-      valueToMMM: ['776 VC access', 'Regional market expertise', 'Community credibility'],
+      description: 'Marlon joins advisory board and facilitates strategic introductions',
+      valueToMMM: ['Investor network access', 'Regional market expertise', 'Community credibility'],
       valueToPartner: ['Advisory equity/fees', 'Access to MMM technology', 'Platform presence'],
       structure: '6-month agreement with defined milestones',
       risk: 'low',
@@ -65,9 +65,9 @@ const PartnershipFrameworkPage: React.FC = () => {
 
   const negotiationTerms = [
     {
-      term: '776 Introduction Timeline',
+      term: 'Strategic Introduction Timeline',
       recommendation: 'Concrete milestone within 30 days of agreement',
-      rationale: 'The 776 connection is the primary strategic value'
+      rationale: 'Strategic introductions are a primary value driver'
     },
     {
       term: 'Exclusivity Period',
@@ -87,10 +87,10 @@ const PartnershipFrameworkPage: React.FC = () => {
   ];
 
   const dueDiligence = [
-    { category: '776 Connection', questions: [
-      "What is Marlon Jr.'s specific role at 776?",
-      "Has he mentioned MMM or Together We Save to 776?",
-      "Can he facilitate a direct introduction to investment partners?"
+    { category: 'Strategic Connections', questions: [
+      "What is the partner's specific network and reach within the investor community?",
+      "Has the partner introduced MMM or Together We Save to aligned investment partners?",
+      "Can they facilitate direct introductions with clear milestones and accountability?"
     ]},
     { category: 'TWS Business', questions: [
       "How many active businesses are on Together We Save?",
@@ -105,7 +105,7 @@ const PartnershipFrameworkPage: React.FC = () => {
   ];
 
   const redFlags = [
-    "Vague promises about 776 introduction without specifics",
+    "Vague promises about strategic introductions without specifics",
     "Requests for significant equity without clear value delivery",
     "Pressure to move quickly without due diligence",
     "Unwillingness to put terms in writing"
@@ -175,15 +175,16 @@ const PartnershipFrameworkPage: React.FC = () => {
               <div>
                 <h3 className="text-lg font-semibold text-mansagold mb-2">The Opportunity</h3>
                 <p className="text-white/80">
-                  Marlon Primous of Together We Save has expressed interest in collaboration. His son Marlon Jr. 
-                  works at Seven Seven Six (776), Alexis Ohanian's venture capital firm with ~$1B AUM.
+                  Marlon Primous of Together We Save has expressed interest in collaboration. 
+                  His network includes relationships with venture capital and strategic partners 
+                  that can support MMM's growth.
                 </p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-mansagold mb-2">Strategic Priority</h3>
                 <p className="text-white/80">
-                  The primary value is the potential 776 introduction. Structure any partnership to ensure this 
-                  connection is facilitated with clear milestones and accountability.
+                  The primary value is the potential introduction to aligned investors and strategic partners. 
+                  Structure any partnership to ensure these connections are facilitated with clear milestones and accountability.
                 </p>
               </div>
             </div>
@@ -360,10 +361,10 @@ const PartnershipFrameworkPage: React.FC = () => {
             <ol className="space-y-4">
               {[
                 'Take the meeting with openness but clear objectives',
-                'Lead with Strategic Advisory option — lowest risk, clearest path to 776',
-                'Get specifics on Marlon Jr.\'s role and willingness to make introduction',
-                'Tie any agreement to concrete milestones with the 776 introduction as primary',
-                'Avoid equity discussions until 776 value is demonstrated',
+                'Lead with Strategic Advisory option — lowest risk, clearest path to investor introductions',
+                'Get specifics on the partner\'s network and willingness to make introductions',
+                'Tie any agreement to concrete milestones with strategic introductions as primary',
+                'Avoid equity discussions until introductions and value are demonstrated',
                 'Put everything in writing before proceeding'
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-3 text-white">
