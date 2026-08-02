@@ -269,9 +269,12 @@ serve(async (req) => {
           );
         }
 
-        // Calculate total payout
-        const totalAmount = heldFunds.reduce((sum: number, f: any) => sum + Number(f.amount), 0);
-        const totalPlatformFee = heldFunds.reduce((sum: number, f: any) => sum + Number(f.platform_fee), 0);
+        // Calculate total payout from verified (paid) contributions only
+        const paidFunds = (heldFunds || []).filter(
+          (f: any) => f.payment_reference && validContributors.has(f.contributor_id)
+        );
+        const totalAmount = paidFunds.reduce((sum: number, f: any) => sum + Number(f.amount), 0);
+        const totalPlatformFee = paidFunds.reduce((sum: number, f: any) => sum + Number(f.platform_fee), 0);
         const netPayout = totalAmount - totalPlatformFee;
 
         // Release all held funds
