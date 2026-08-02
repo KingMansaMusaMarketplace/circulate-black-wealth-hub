@@ -23,6 +23,26 @@ import {
   Database,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+
+const PARTNER_EMAIL = 'Partner@1325.AI';
+
+const openMail = (subject?: string) => (e: React.MouseEvent) => {
+  e.preventDefault();
+  const href = `mailto:${PARTNER_EMAIL}${subject ? `?subject=${encodeURIComponent(subject)}` : ''}`;
+  try {
+    const w = window.open(href, '_blank');
+    if (!w) {
+      (window.top ?? window).location.href = href;
+    }
+  } catch {
+    // ignore — fall through to clipboard
+  }
+  navigator.clipboard?.writeText(PARTNER_EMAIL).then(
+    () => toast.success(`${PARTNER_EMAIL} copied to your clipboard`),
+    () => undefined
+  );
+};
 
 const PartnershipFrameworkPage: React.FC = () => {
   const navigate = useNavigate();
