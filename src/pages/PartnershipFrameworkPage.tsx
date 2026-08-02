@@ -236,7 +236,7 @@ const PartnershipFrameworkPage: React.FC = () => {
             </p>
           </Card>
           <Card className="p-8 bg-white/5 border-mansagold/30">
-            <h2 className="text-xl font-bold text-white mb-3">The Solution</h2>
+            <h2 className="text-xl font-bold text-mansagold mb-3">The Solution</h2>
             <p className="text-white/85 leading-relaxed">
               1325.AI deploys 42 Agentic AI Employees — autonomous workers organized into 7 divisions,
               each reporting through Kayla to a named leader on your side. They draft grants, run member
