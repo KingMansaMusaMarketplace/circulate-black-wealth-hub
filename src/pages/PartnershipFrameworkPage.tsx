@@ -27,7 +27,7 @@ const PartnershipFrameworkPage: React.FC = () => {
   const partnershipOptions = [
     {
       type: 'Strategic Advisory',
-      description: 'Marlon joins advisory board and facilitates strategic introductions',
+      description: 'Partner joins advisory board and facilitates strategic introductions',
       valueToMMM: ['Investor network access', 'Regional market expertise', 'Community credibility'],
       valueToPartner: ['Advisory equity/fees', 'Access to MMM technology', 'Platform presence'],
       structure: '6-month agreement with defined milestones',
@@ -36,7 +36,7 @@ const PartnershipFrameworkPage: React.FC = () => {
     },
     {
       type: 'Affiliate Partnership',
-      description: 'Together We Save becomes MMM affiliate in Chicago market',
+      description: 'Partner becomes MMM affiliate in their local market',
       valueToMMM: ['Local business referrals', 'Community trust', 'Market expansion'],
       valueToPartner: ['Commission on signups', 'Loyalty program access', 'Co-branding'],
       structure: 'Revenue share model (15-25% of subscription fees)',
@@ -45,7 +45,7 @@ const PartnershipFrameworkPage: React.FC = () => {
     },
     {
       type: 'White-Label / Technology Partner',
-      description: 'MMM provides technology backbone for Together We Save',
+      description: 'MMM provides technology backbone for the partner platform',
       valueToMMM: ['Additional revenue stream', 'Expanded reach', 'Market validation'],
       valueToPartner: ['Modern platform upgrade', 'All features access', 'Technical support'],
       structure: 'Technology licensing fee (SaaS model)',
@@ -54,8 +54,8 @@ const PartnershipFrameworkPage: React.FC = () => {
     },
     {
       type: 'Merger Consideration',
-      description: 'Full integration of Together We Save into MMM',
-      valueToMMM: ['Chicago market presence', 'Primous network', 'User base'],
+      description: 'Full integration of the partner into MMM',
+      valueToMMM: ['Local market presence', 'Partner network', 'User base'],
       valueToPartner: ['Equity stake in MMM', 'Continued leadership', 'Larger platform'],
       structure: 'Equity + earnout based on performance',
       risk: 'high',
@@ -89,11 +89,11 @@ const PartnershipFrameworkPage: React.FC = () => {
   const dueDiligence = [
     { category: 'Strategic Connections', questions: [
       "What is the partner's specific network and reach within the investor community?",
-      "Has the partner introduced MMM or Together We Save to aligned investment partners?",
+      "Has the partner introduced MMM to aligned investment partners?",
       "Can they facilitate direct introductions with clear milestones and accountability?"
     ]},
-    { category: 'TWS Business', questions: [
-      "How many active businesses are on Together We Save?",
+    { category: 'Partner Business', questions: [
+      "How many active businesses are in the partner network?",
       "What is their current revenue model?",
       "What technology stack are they using?"
     ]},
