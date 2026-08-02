@@ -7,6 +7,7 @@ import { Loader2, Send, Bot, User, Sparkles, Zap, Brain, Search, ImagePlus, Came
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import ReactMarkdown from 'react-markdown';
+import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
 import { Capacitor } from '@capacitor/core';
 
 
