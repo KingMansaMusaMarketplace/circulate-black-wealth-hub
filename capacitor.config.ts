@@ -5,11 +5,10 @@ const config: CapacitorConfig = {
   appId: 'com.mansamusamarketplace.app',
   appName: '1325.AI',
   webDir: 'dist',
-  // REMOTE MODE: Load the live 1325.AI web app so iOS matches web exactly
+  // BUNDLED MODE: the app ships a full copy of the site inside the binary, so it
+  // opens instantly and never shows a blank screen when the network is slow or
+  // offline. Live data (Supabase, Stripe, AI) still comes from the internet.
   server: {
-    // Keep this as a plain origin URL. Query strings in Capacitor's remote URL
-    // can prevent the native WebView bridge from injecting correctly.
-    url: 'https://1325.ai',
     errorPath: 'native-load-error.html',
     allowNavigation: [
       '1325.ai',
@@ -25,6 +24,7 @@ const config: CapacitorConfig = {
     androidScheme: 'https',
     iosScheme: 'capacitor'
   },
+
   plugins: {
     SplashScreen: {
       // Keep splash visible while the remote 1325.ai site loads in WKWebView.
