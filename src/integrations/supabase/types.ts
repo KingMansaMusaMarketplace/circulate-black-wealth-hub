@@ -22443,6 +22443,7 @@ export type Database = {
           created_at: string | null
           held_at: string | null
           id: string
+          payment_reference: string | null
           platform_fee: number
           recipient_id: string | null
           released_at: string | null
@@ -22458,6 +22459,7 @@ export type Database = {
           created_at?: string | null
           held_at?: string | null
           id?: string
+          payment_reference?: string | null
           platform_fee?: number
           recipient_id?: string | null
           released_at?: string | null
@@ -22473,6 +22475,7 @@ export type Database = {
           created_at?: string | null
           held_at?: string | null
           id?: string
+          payment_reference?: string | null
           platform_fee?: number
           recipient_id?: string | null
           released_at?: string | null
