@@ -377,8 +377,36 @@ const BusinessSubmissionBox: React.FC = () => {
           </div>
         </div>
 
+        {/* Toggle — keeps the homepage tight until the user opts in */}
+        <div className="px-6 md:px-8 py-5 bg-white">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="business-registration-form"
+            className="w-full flex items-center justify-center gap-2 h-11 rounded-sm text-white font-semibold text-sm tracking-wide uppercase transition-opacity hover:opacity-90"
+            style={{ background: '#003366' }}
+          >
+            {open ? 'Hide Registration Form' : 'Register & Get Approved'}
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+            />
+          </button>
+          {!open && (
+            <p className="mt-2 text-center text-xs text-neutral-500">
+              Takes about 2 minutes · Free · Reviewed within 48 hours
+            </p>
+          )}
+        </div>
+
         {/* Form body */}
-        <form onSubmit={handleSubmit} className="px-6 md:px-8 py-6 space-y-5">
+        <form
+          id="business-registration-form"
+          onSubmit={handleSubmit}
+          hidden={!open}
+          className="px-6 md:px-8 pb-6 space-y-5 border-t border-neutral-200"
+        >
+
           {/* Honeypot */}
           <input
             type="text" name="company_website_url" value={honeypot}
