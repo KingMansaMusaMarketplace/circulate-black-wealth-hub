@@ -152,11 +152,18 @@ const PartnershipFrameworkPage: React.FC = () => {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Together We Save <span className="text-mansagold">Partnership Framework</span>
+            1325.AI <span className="text-mansagold">Partnership Framework</span>
           </h1>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Strategic options and negotiation framework for partnership with Marlon Primous
+            Strategic options and negotiation framework for aligned partners
           </p>
+          <a
+            href="mailto:Partner@1325.AI"
+            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-mansagold text-mansablue-dark font-bold rounded-full hover:bg-mansagold/90 transition-colors"
+          >
+            <MessageSquare className="w-4 h-4" />
+            Send partnership request to Partner@1325.AI
+          </a>
         </motion.div>
 
         {/* Executive Summary */}
@@ -175,8 +182,8 @@ const PartnershipFrameworkPage: React.FC = () => {
               <div>
                 <h3 className="text-lg font-semibold text-mansagold mb-2">The Opportunity</h3>
                 <p className="text-white/80">
-                  Marlon Primous of Together We Save has expressed interest in collaboration. 
-                  His network includes relationships with venture capital and strategic partners 
+                  Aligned partners have expressed interest in collaboration. 
+                  Their networks include relationships with venture capital and strategic partners 
                   that can support MMM's growth.
                 </p>
               </div>
