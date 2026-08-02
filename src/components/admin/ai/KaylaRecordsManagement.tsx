@@ -11,6 +11,7 @@ import { format, differenceInDays } from 'date-fns';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import ReactMarkdown from 'react-markdown';
+import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
 
 interface DocumentRecord {
   id: string;
