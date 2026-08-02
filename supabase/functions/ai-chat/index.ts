@@ -221,7 +221,7 @@ Flagship feature at /directory. Economic Operating System for verified businesse
 - View modes: Grid (photo cards), List (compact), Map (interactive). 16 per page.
 - Verified businesses first, then newest. Only verified/live listings shown.
 - Each listing: name, category badge, verified checkmark, star rating, banner + logo, address, phone, website, hours, description, services, photo gallery, reviews with AI sentiment, interactive map, QR code, "Get Directions", social links, discount %.
-- Getting listed: /business/register → 4-step process → admin review → first month FREE!
+- [Get listed on 1325.AI](https://1325.ai/business/register) — 4-step process → admin review → first month FREE!
 - Business Dashboard: views, scans, bookings, revenue, customer analytics, QR management, review responses, financial tools, multi-location support, workflow automation.
 
 **SUSU SAVINGS CIRCLES:**
