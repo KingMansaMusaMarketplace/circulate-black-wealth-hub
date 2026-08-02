@@ -21,6 +21,7 @@ import {
   Lock,
   Sparkles,
   Database,
+  Network,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -289,6 +290,47 @@ const PartnershipFrameworkPage: React.FC = () => {
                 <p className="text-sm text-white/65 leading-relaxed">{d.focus}</p>
               </Card>
             ))}
+          </div>
+        </motion.div>
+
+        {/* Discoverability via MCP */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.28 }}
+          className="mb-14"
+        >
+          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+            <Network className="w-6 h-6 text-mansagold" />
+            Discovery Through AI
+          </h2>
+          <p className="text-white/60 mb-6">
+            Because 1325.AI is built as an MCP server, your members and businesses get found inside the
+            AI tools people already use every day.
+          </p>
+          <div className="grid md:grid-cols-3 gap-5">
+            <Card className="p-6 bg-white/5 border-white/10">
+              <h3 className="text-lg font-bold text-white mb-2">Searchable by ChatGPT, Claude & Cursor</h3>
+              <p className="text-white/70 text-sm leading-relaxed">
+                Members can ask their AI assistant: “Find me a Black-owned barber in Atlanta,” or “Who can
+                handle bookkeeping for my church?” — and it pulls real businesses from your partnership
+                network.
+              </p>
+            </Card>
+            <Card className="p-6 bg-white/5 border-white/10">
+              <h3 className="text-lg font-bold text-white mb-2">Built-In Distribution</h3>
+              <p className="text-white/70 text-sm leading-relaxed">
+                Your businesses show up where people are already asking. No separate ad campaign, no extra
+                marketing spend, no new app to download.
+              </p>
+            </Card>
+            <Card className="p-6 bg-white/5 border-white/10">
+              <h3 className="text-lg font-bold text-white mb-2">A Live Connector for Your Members</h3>
+              <p className="text-white/70 text-sm leading-relaxed">
+                The partnership is not just a directory — it is a live AI connection. Your members can reach
+                the platform directly from the AI assistants they already use.
+              </p>
+            </Card>
           </div>
         </motion.div>
 
