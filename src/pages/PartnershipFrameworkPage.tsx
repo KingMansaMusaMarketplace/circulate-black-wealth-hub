@@ -227,7 +227,7 @@ const PartnershipFrameworkPage: React.FC = () => {
           className="grid md:grid-cols-2 gap-6 mb-14"
         >
           <Card className="p-8 bg-white/5 border-white/10">
-            <h2 className="text-xl font-bold text-white mb-3">The Problem</h2>
+            <h2 className="text-xl font-bold text-destructive mb-3">The Problem</h2>
             <p className="text-white/75 leading-relaxed">
               Legacy institutions carry decades of mission on the shoulders of a small executive team
               and a volunteer board. Grants slip through the cracks. Members lapse without follow-up.
