@@ -11,7 +11,16 @@ const config: CapacitorConfig = {
     // can prevent the native WebView bridge from injecting correctly.
     url: 'https://1325.ai',
     errorPath: 'native-load-error.html',
-    allowNavigation: ['1325.ai', 'www.1325.ai', '*.supabase.co', '*.stripe.com'],
+    allowNavigation: [
+      '1325.ai',
+      '*.1325.ai',
+      'www.1325.ai',
+      '*.supabase.co',
+      '*.stripe.com',
+      'accounts.google.com',
+      '*.googleapis.com',
+      '*.lovable.app'
+    ],
     cleartext: false,
     androidScheme: 'https',
     iosScheme: 'capacitor'
@@ -19,9 +28,11 @@ const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
       // Keep splash visible while the remote 1325.ai site loads in WKWebView.
-      // Without this, users see a black WebView for 1-3s before the site paints.
-      launchShowDuration: 0,
-      launchAutoHide: false,
+      // Safety net: auto-hide after 8s so a slow/blocked network can never
+      // leave the user staring at a frozen splash or a black screen forever.
+      launchShowDuration: 8000,
+      launchAutoHide: true,
+      launchFadeOutDuration: 400,
       launchFadeOutDuration: 400,
       backgroundColor: "#FFFFFF",
       showSpinner: true,
