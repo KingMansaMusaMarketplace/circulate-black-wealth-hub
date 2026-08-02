@@ -225,7 +225,7 @@ const PartnershipFrameworkPage: React.FC = () => {
               administrative capacity the budget cannot afford.
             </p>
           </Card>
-          <Card className="p-8 bg-gradient-to-r from-mansagold/20 to-white/5 border-mansagold/30">
+          <Card className="p-8 bg-white/5 border-mansagold/30">
             <h2 className="text-xl font-bold text-white mb-3">The Solution</h2>
             <p className="text-white/85 leading-relaxed">
               1325.AI deploys 42 Agentic AI Employees — autonomous workers organized into 7 divisions,
