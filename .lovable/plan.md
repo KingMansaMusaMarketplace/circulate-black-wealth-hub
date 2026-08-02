@@ -1,61 +1,49 @@
-# 🛡️ BOARD CHECK — Investor Manual Fixes (v74)
+# Homepage: Fold the Registration Form + Add Multi-Site Revenue Sharing CTA
 
-**Scope:** Series A diligence document (public-facing to investors under NDA). Touches financial claims, brand copy, patent language.
-**Risk if wrong:** Loss of investor credibility, potential securities-disclosure issues.
-**Requesting your "go" before I make any edits.**
+Clarence's note is a good call. The registration form (Section 01 → Section 03 → Verification) currently sits fully open on the homepage and eats most of the last screen. Folding it behind a click keeps the page tight and turns registration into a deliberate action.
 
----
+## What changes
 
-## Goal
+### 1. Collapse the registration form
+Replace the always-open form with a compact bar:
 
-Produce **v74** of `1325AI_Complete_Platform_Manual` — same 182-page structure, but scrubbed so every number, date, and claim is consistent with our **pre-revenue, $100M Series A, Sep 1, 2026 launch** posture.
+```text
+┌──────────────────────────────────────────────┐
+│  VERIFIED BUSINESS REGISTRY     [100% FREE]  │
+│  Register your Black-owned business.         │
+│  Free · 48-hour review · Human verified      │
+│                                              │
+│  [ Register & Get Approved  ▾ ]              │
+└──────────────────────────────────────────────┘
+```
 
-## Issues to fix (grouped by severity)
+Clicking the button expands the full existing form in place (smooth open, no page jump). Clicking again collapses it. Nothing about the form itself, its fields, validation, or submission changes — only whether it is shown.
 
-### 1. Consistency & version hygiene (must-fix)
-- Sweep every page footer, header, and cover for stale version numbers (v67–v72 references) → force to **v73 → v74**.
-- Every date reference audited against **Sep 1, 2026 GA launch**.
-- Confirm founder name is **Thomas D. Bowling, Founder & Chief Architect** everywhere (no other titles).
+The `#submit-business` link in the hero ("Submit your Business for FREE") will scroll down **and** auto-open the form, so that path still works in one click.
 
-### 2. Pre-revenue language (must-fix — investor red flag)
-- Remove any residual "live revenue", "current MRR", "customers today", "trailing" language.
-- Reframe all financial figures as **pro-forma / projected** with clear labels ("Projected — Year 1 post-launch", etc.).
-- **Delete Rule-of-40, LTV/CAC, and payback-period claims** that require live revenue data. Replace with "Target at Year 2" framing where useful.
+### 2. New card below it — Multi-Site / National Organizations
+A second collapsible card in the same style:
 
-### 3. Cap table & Series A math (must-fix)
-- Reconfirm: Founder 15,000,000 common shares, 100% pre-money, ~70.6% post-money at $41.45/share, $780M pre / $880M post.
-- Ensure the option pool, SAFE conversions (if any), and pro-forma waterfall all foot to the same totals on every page they appear.
-- Add a footnote on the cap table page: "Clean cap table — no prior institutional investors, no outstanding SAFEs or convertible notes."
+```text
+┌──────────────────────────────────────────────┐
+│  MULTI-SITE / NATIONAL ORGANIZATIONS         │
+│  Franchises, church networks, associations,  │
+│  and multi-location brands.                  │
+│                                              │
+│  [ Revenue Sharing Opportunities  ▾ ]        │
+└──────────────────────────────────────────────┘
+```
 
-### 4. Patent language (must-fix — memory rule)
-- Every mention → **"U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending"** (long form on first mention per section, short form "USPTO Provisional 63/969,202" only when space forces it).
+Expanding it shows a short explainer (bulk onboarding of member locations, shared revenue on subscriptions and transactions, dedicated Kayla deployment) plus a "Request Information" button linking to the existing partnership page at `/partnership-framework`.
 
-### 5. TAM & market claims (should-fix)
-- Every "$12T Black global economy" claim gets a source footnote (Brookings, McKinsey, or Nielsen — I will confirm which we've used before).
-- Any "42 Agentic AI Employees" reference double-checked (never "AI agents" or a different number).
+## Technical notes
 
-### 6. Confidentiality & legal (must-fix — memory rule)
-- Confirm the red **"PRIVATE & CONFIDENTIAL — DO NOT COPY, FORWARD, OR DISTRIBUTE"** block is on the cover and every section divider.
-- Add a one-page **Forward-Looking Statements** disclaimer near the front (standard S-1-style language) — protects us on projections.
-
-### 7. Visual QA sweep (should-fix)
-- Re-render pages 3, 18, 26, 33, 41, 44, 47, 50, 63 and any page touched by edits.
-- Confirm no double-borders, no clipped text, no blank pages, no font-glyph boxes.
-
-## Out of scope
-- No new sections, no new charts, no design overhaul. This is a **truth & consistency pass only**.
-- No changes to the website, app, or any code outside `/tmp/` build scripts and `/mnt/documents/`.
-
-## Deliverable
-- `1325AI_Complete_Platform_Manual_v74.pdf` in `/mnt/documents/`
-- A short **change log** listing every page I edited and what I changed, so you (or Clarence) can spot-check.
-
-## How I'll work
-1. Extract v73 text → build a diff list of every violation.
-2. Show you the diff list for approval **before** rebuilding.
-3. Rebuild v74, run full visual QA, deliver.
+- Edit `src/components/homepage/BusinessSubmissionBox.tsx`: wrap the header + form in a controlled open/closed state, defaulting to closed, with an accessible toggle button (`aria-expanded`, `aria-controls`). Keep the header band as the always-visible summary in condensed form.
+- Add `src/components/homepage/MultiSiteRevenueShareCard.tsx` — same collapsible pattern, static copy, CTA to `/partnership-framework`.
+- Render the new card under the submission box in `src/pages/HomePage.tsx` (Screen 3).
+- Extend the existing hash handler in `HomePage.tsx` so `#submit-business` sets the box open.
+- Styling uses existing tokens (mansablue header band, mansagold accent) — no new colors.
 
 ## What I need from you
-- **"Go"** to start the audit + diff list, OR
-- **"Just do it"** to skip the diff-list checkpoint and ship v74 in one pass, OR
-- Any additions to the fix list above.
+
+The revenue-sharing card currently points to the existing `/partnership-framework` page. If you'd rather it collect leads through a dedicated form (name, organization, number of locations), say so and I'll add that instead.
