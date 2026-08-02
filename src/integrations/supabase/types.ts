@@ -8310,6 +8310,314 @@ export type Database = {
         }
         Relationships: []
       }
+      enterprise_org_chapters: {
+        Row: {
+          city: string | null
+          contact_email: string | null
+          created_at: string
+          id: string
+          name: string
+          org_id: string
+          state: string | null
+          updated_at: string
+        }
+        Insert: {
+          city?: string | null
+          contact_email?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          org_id: string
+          state?: string | null
+          updated_at?: string
+        }
+        Update: {
+          city?: string | null
+          contact_email?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          org_id?: string
+          state?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enterprise_org_chapters_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "enterprise_orgs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enterprise_org_leaders: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          division: string | null
+          id: string
+          is_active: boolean
+          org_id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          division?: string | null
+          id?: string
+          is_active?: boolean
+          org_id: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          division?: string | null
+          id?: string
+          is_active?: boolean
+          org_id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enterprise_org_leaders_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "enterprise_orgs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enterprise_org_members: {
+        Row: {
+          business_id: string | null
+          chapter_id: string | null
+          created_at: string
+          id: string
+          member_type: string
+          org_id: string
+          source: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          business_id?: string | null
+          chapter_id?: string | null
+          created_at?: string
+          id?: string
+          member_type?: string
+          org_id: string
+          source?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          business_id?: string | null
+          chapter_id?: string | null
+          created_at?: string
+          id?: string
+          member_type?: string
+          org_id?: string
+          source?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enterprise_org_members_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "enterprise_org_chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enterprise_org_members_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "enterprise_orgs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enterprise_org_onboarding_tasks: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          division: string | null
+          due_date: string | null
+          id: string
+          org_id: string
+          owner_side: string
+          sort_order: number
+          status: string
+          title: string
+          updated_at: string
+          week_number: number
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          division?: string | null
+          due_date?: string | null
+          id?: string
+          org_id: string
+          owner_side?: string
+          sort_order?: number
+          status?: string
+          title: string
+          updated_at?: string
+          week_number?: number
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          division?: string | null
+          due_date?: string | null
+          id?: string
+          org_id?: string
+          owner_side?: string
+          sort_order?: number
+          status?: string
+          title?: string
+          updated_at?: string
+          week_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enterprise_org_onboarding_tasks_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "enterprise_orgs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enterprise_org_revenue_events: {
+        Row: {
+          business_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          gross_amount_cents: number
+          id: string
+          occurred_at: string
+          org_id: string
+          share_amount_cents: number
+          share_pct: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          business_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          gross_amount_cents?: number
+          id?: string
+          occurred_at?: string
+          org_id: string
+          share_amount_cents?: number
+          share_pct?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          business_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          gross_amount_cents?: number
+          id?: string
+          occurred_at?: string
+          org_id?: string
+          share_amount_cents?: number
+          share_pct?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enterprise_org_revenue_events_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "enterprise_orgs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enterprise_orgs: {
+        Row: {
+          accent_color: string
+          created_at: string
+          id: string
+          invite_code: string | null
+          is_public: boolean
+          launch_date: string | null
+          logo_url: string | null
+          member_reach: number | null
+          name: string
+          primary_color: string
+          revenue_share_pct: number
+          short_name: string | null
+          slug: string
+          status: string
+          tagline: string | null
+          term_years: number
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          accent_color?: string
+          created_at?: string
+          id?: string
+          invite_code?: string | null
+          is_public?: boolean
+          launch_date?: string | null
+          logo_url?: string | null
+          member_reach?: number | null
+          name: string
+          primary_color?: string
+          revenue_share_pct?: number
+          short_name?: string | null
+          slug: string
+          status?: string
+          tagline?: string | null
+          term_years?: number
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          accent_color?: string
+          created_at?: string
+          id?: string
+          invite_code?: string | null
+          is_public?: boolean
+          launch_date?: string | null
+          logo_url?: string | null
+          member_reach?: number | null
+          name?: string
+          primary_color?: string
+          revenue_share_pct?: number
+          short_name?: string | null
+          slug?: string
+          status?: string
+          tagline?: string | null
+          term_years?: number
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       enterprise_seats: {
         Row: {
           created_at: string
@@ -26735,6 +27043,14 @@ export type Database = {
       }
       is_noir_concierge_for: {
         Args: { _hotel_partner_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_org_leader: {
+        Args: { _org_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_org_member: {
+        Args: { _org_id: string; _user_id: string }
         Returns: boolean
       }
       is_savings_circle_creator: {
