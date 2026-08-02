@@ -133,7 +133,7 @@ const HomePage: React.FC = () => {
             </a>
             <Link
               to="/team"
-              className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-mansagold via-mansagold-light to-mansagold text-on-gold font-bold text-sm uppercase tracking-[0.12em] shadow-lg shadow-mansagold/15 hover:shadow-xl hover:shadow-mansagold/25 hover:brightness-105 transition-all duration-300"
+              className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-mansagold-dark via-mansagold to-mansagold-dark text-on-gold font-bold text-sm uppercase tracking-[0.12em] shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30 transition-all duration-300"
             >
               <span>Meet The 1325.AI Team</span>
               <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
