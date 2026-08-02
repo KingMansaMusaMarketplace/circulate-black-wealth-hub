@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,8 @@ import {
   Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle2, Loader2, ShieldCheck, Lock, Clock, Sparkles } from 'lucide-react';
+import { CheckCircle2, Loader2, ShieldCheck, Lock, Clock, Sparkles, ChevronDown } from 'lucide-react';
+
 
 // Fortune-100-grade category taxonomy, grouped for scannability.
 const CATEGORY_GROUPS: { label: string; items: string[] }[] = [
@@ -247,6 +248,26 @@ const BusinessSubmissionBox: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [open, setOpen] = useState(false);
+
+  // Auto-open when the user follows a #submit-business link from the hero.
+  useEffect(() => {
+    const openFromHash = () => {
+      if (window.location.hash === '#submit-business') setOpen(true);
+    };
+    openFromHash();
+    const onDocClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement)?.closest?.('a[href="#submit-business"]');
+      if (anchor) setOpen(true);
+    };
+    window.addEventListener('hashchange', openFromHash);
+    document.addEventListener('click', onDocClick);
+    return () => {
+      window.removeEventListener('hashchange', openFromHash);
+      document.removeEventListener('click', onDocClick);
+    };
+  }, []);
+
 
   const setField = (k: keyof FormState) => (v: string) =>
     setForm((f) => ({ ...f, [k]: v }));
@@ -377,8 +398,36 @@ const BusinessSubmissionBox: React.FC = () => {
           </div>
         </div>
 
+        {/* Toggle — keeps the homepage tight until the user opts in */}
+        <div className="px-6 md:px-8 py-5 bg-white">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="business-registration-form"
+            className="w-full flex items-center justify-center gap-2 h-11 rounded-sm text-white font-semibold text-sm tracking-wide uppercase transition-opacity hover:opacity-90"
+            style={{ background: '#003366' }}
+          >
+            {open ? 'Hide Registration Form' : 'Register & Get Approved'}
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+            />
+          </button>
+          {!open && (
+            <p className="mt-2 text-center text-xs text-neutral-500">
+              Takes about 2 minutes · Free · Reviewed within 48 hours
+            </p>
+          )}
+        </div>
+
         {/* Form body */}
-        <form onSubmit={handleSubmit} className="px-6 md:px-8 py-6 space-y-5">
+        <form
+          id="business-registration-form"
+          onSubmit={handleSubmit}
+          hidden={!open}
+          className="px-6 md:px-8 pb-6 space-y-5 border-t border-neutral-200"
+        >
+
           {/* Honeypot */}
           <input
             type="text" name="company_website_url" value={honeypot}
