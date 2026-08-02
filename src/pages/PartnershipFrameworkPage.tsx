@@ -175,15 +175,16 @@ const PartnershipFrameworkPage: React.FC = () => {
               <div>
                 <h3 className="text-lg font-semibold text-mansagold mb-2">The Opportunity</h3>
                 <p className="text-white/80">
-                  Marlon Primous of Together We Save has expressed interest in collaboration. His son Marlon Jr. 
-                  works at Seven Seven Six (776), Alexis Ohanian's venture capital firm with ~$1B AUM.
+                  Marlon Primous of Together We Save has expressed interest in collaboration. 
+                  His network includes relationships with venture capital and strategic partners 
+                  that can support MMM's growth.
                 </p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-mansagold mb-2">Strategic Priority</h3>
                 <p className="text-white/80">
-                  The primary value is the potential 776 introduction. Structure any partnership to ensure this 
-                  connection is facilitated with clear milestones and accountability.
+                  The primary value is the potential introduction to aligned investors and strategic partners. 
+                  Structure any partnership to ensure these connections are facilitated with clear milestones and accountability.
                 </p>
               </div>
             </div>
@@ -360,10 +361,10 @@ const PartnershipFrameworkPage: React.FC = () => {
             <ol className="space-y-4">
               {[
                 'Take the meeting with openness but clear objectives',
-                'Lead with Strategic Advisory option — lowest risk, clearest path to 776',
-                'Get specifics on Marlon Jr.\'s role and willingness to make introduction',
-                'Tie any agreement to concrete milestones with the 776 introduction as primary',
-                'Avoid equity discussions until 776 value is demonstrated',
+                'Lead with Strategic Advisory option — lowest risk, clearest path to investor introductions',
+                'Get specifics on the partner\'s network and willingness to make introductions',
+                'Tie any agreement to concrete milestones with strategic introductions as primary',
+                'Avoid equity discussions until introductions and value are demonstrated',
                 'Put everything in writing before proceeding'
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-3 text-white">
