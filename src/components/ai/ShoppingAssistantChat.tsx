@@ -270,7 +270,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
               >
                 {msg.role === 'assistant' ? (
                   <div className="prose prose-sm max-w-none dark:prose-invert">
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <ReactMarkdown>{linkifyMarkdown(msg.content)}</ReactMarkdown>
                   </div>
                 ) : (
                   msg.content

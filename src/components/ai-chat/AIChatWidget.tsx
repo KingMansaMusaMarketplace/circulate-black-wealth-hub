@@ -287,7 +287,7 @@ const AIChatWidgetInner: React.FC = () => {
                     {msg.content ? (
                       msg.role === 'assistant' ? (
                         <div className="prose prose-sm dark:prose-invert max-w-none text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-                          <ReactMarkdown>{msg.content}</ReactMarkdown>
+                          <ReactMarkdown>{linkifyMarkdown(msg.content || '')}</ReactMarkdown>
                         </div>
                       ) : (
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>

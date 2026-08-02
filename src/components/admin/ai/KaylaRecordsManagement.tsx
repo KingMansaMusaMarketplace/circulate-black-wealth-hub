@@ -437,7 +437,7 @@ const KaylaRecordsManagement: React.FC = () => {
                   }`}>
                     {msg.role === 'assistant' ? (
                       <div className="prose prose-sm dark:prose-invert max-w-none">
-                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        <ReactMarkdown>{linkifyMarkdown(msg.content)}</ReactMarkdown>
                       </div>
                     ) : msg.content}
                   </div>
