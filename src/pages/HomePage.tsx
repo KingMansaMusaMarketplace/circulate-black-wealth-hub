@@ -7,6 +7,8 @@ import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructu
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import BusinessSubmissionBox from '@/components/homepage/BusinessSubmissionBox';
+import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueShareCard';
+
 
 /**
  * HomePage — Kayla-led institutional front door.
