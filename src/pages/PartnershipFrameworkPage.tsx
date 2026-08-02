@@ -150,6 +150,7 @@ const PartnershipFrameworkPage: React.FC = () => {
           </div>
           <a
             href="mailto:Partner@1325.AI"
+            onClick={openMail()}
             className="hidden sm:inline-flex items-center gap-2 text-sm text-mansagold hover:text-mansagold/80"
           >
             <MessageSquare className="w-4 h-4" />
@@ -176,6 +177,7 @@ const PartnershipFrameworkPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a
               href="mailto:Partner@1325.AI?subject=Enterprise%20Partnership%20Inquiry"
+              onClick={openMail('Enterprise Partnership Inquiry')}
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-mansagold text-mansablue-dark font-bold rounded-full hover:bg-mansagold/90 transition-colors"
             >
               <MessageSquare className="w-4 h-4" />
@@ -183,6 +185,7 @@ const PartnershipFrameworkPage: React.FC = () => {
             </a>
             <a
               href="mailto:Partner@1325.AI?subject=Revenue%20Share%20Details"
+              onClick={openMail('Revenue Share Details')}
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/25 text-white font-semibold rounded-full hover:bg-white/10 transition-colors"
             >
               Ask about revenue sharing
@@ -372,6 +375,7 @@ const PartnershipFrameworkPage: React.FC = () => {
             </p>
             <a
               href="mailto:Partner@1325.AI?subject=Enterprise%20Partnership%20Inquiry"
+              onClick={openMail('Enterprise Partnership Inquiry')}
               className="inline-flex items-center gap-2 px-8 py-4 bg-mansagold text-mansablue-dark font-bold rounded-full hover:bg-mansagold/90 transition-colors"
             >
               <MessageSquare className="w-5 h-5" />
