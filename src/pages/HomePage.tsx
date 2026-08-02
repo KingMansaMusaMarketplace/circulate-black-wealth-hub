@@ -199,8 +199,12 @@ const HomePage: React.FC = () => {
                 <SectionErrorBoundary sectionName="Business Submission">
                   <BusinessSubmissionBox />
                 </SectionErrorBoundary>
+                <SectionErrorBoundary sectionName="Multi-Site Revenue Sharing">
+                  <MultiSiteRevenueShareCard />
+                </SectionErrorBoundary>
               </div>
             </div>
+
           </div>
         </section>
       </div>
