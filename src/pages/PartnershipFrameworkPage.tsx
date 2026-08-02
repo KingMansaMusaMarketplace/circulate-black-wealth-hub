@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import PartnershipInquiryDialog from '@/components/partnership/PartnershipInquiryDialog';
 
 const PARTNER_EMAIL = 'Partner@1325.AI';
 
@@ -47,6 +48,14 @@ const openMail = (subject?: string) => (e: React.MouseEvent) => {
 
 const PartnershipFrameworkPage: React.FC = () => {
   const navigate = useNavigate();
+  const [inquiryOpen, setInquiryOpen] = React.useState(false);
+  const [inquiryTopic, setInquiryTopic] = React.useState('Enterprise Partnership Inquiry');
+
+  const openInquiry = (topic: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    setInquiryTopic(topic);
+    setInquiryOpen(true);
+  };
 
   const headlineStats = [
     { value: '42', label: 'Agentic AI Employees' },
@@ -178,7 +187,7 @@ const PartnershipFrameworkPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a
               href="mailto:Partner@1325.AI?subject=Enterprise%20Partnership%20Inquiry"
-              onClick={openMail('Enterprise Partnership Inquiry')}
+              onClick={openInquiry('Enterprise Partnership Inquiry')}
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-mansagold text-mansablue-dark font-bold rounded-full hover:bg-mansagold/90 transition-colors"
             >
               <MessageSquare className="w-4 h-4" />
@@ -186,7 +195,7 @@ const PartnershipFrameworkPage: React.FC = () => {
             </a>
             <a
               href="mailto:Partner@1325.AI?subject=Revenue%20Share%20Details"
-              onClick={openMail('Revenue Share Details')}
+              onClick={openInquiry('Revenue Share Details')}
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/25 text-white font-semibold rounded-full hover:bg-white/10 transition-colors"
             >
               Ask about revenue sharing
@@ -417,7 +426,7 @@ const PartnershipFrameworkPage: React.FC = () => {
             </p>
             <a
               href="mailto:Partner@1325.AI?subject=Enterprise%20Partnership%20Inquiry"
-              onClick={openMail('Enterprise Partnership Inquiry')}
+              onClick={openInquiry('Enterprise Partnership Inquiry')}
               className="inline-flex items-center gap-2 px-8 py-4 bg-mansagold text-mansablue-dark font-bold rounded-full hover:bg-mansagold/90 transition-colors"
             >
               <MessageSquare className="w-5 h-5" />
@@ -430,6 +439,8 @@ const PartnershipFrameworkPage: React.FC = () => {
           </Card>
         </motion.div>
       </main>
+
+      <PartnershipInquiryDialog open={inquiryOpen} onOpenChange={setInquiryOpen} topic={inquiryTopic} />
     </div>
   );
 };
