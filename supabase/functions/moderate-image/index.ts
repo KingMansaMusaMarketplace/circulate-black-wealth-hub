@@ -1,5 +1,8 @@
 // Image moderation using Lovable AI Gateway (Gemini vision).
 // Returns { safe, reason, categories } so the frontend can block bad uploads.
+// Requires an authenticated caller — this endpoint spends paid AI credits.
+
+import { createClient } from 'npm:@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,6 +11,9 @@ const corsHeaders = {
 };
 
 const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+
+// ~8 MB of base64 payload ceiling to stop oversized/abusive submissions.
+const MAX_BASE64_CHARS = 8 * 1024 * 1024;
 
 interface ModerationResult {
   safe: boolean;
@@ -24,12 +30,33 @@ interface ModerationResult {
   };
 }
 
+function unauthorized() {
+  return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    status: 401,
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+  });
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // --- Require a valid logged-in session before touching the paid AI gateway ---
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) return unauthorized();
+
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_ANON_KEY')!,
+      { global: { headers: { Authorization: authHeader } } },
+    );
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims?.sub) return unauthorized();
+
     if (!LOVABLE_API_KEY) {
       return new Response(JSON.stringify({ error: 'AI gateway not configured' }), {
         status: 500,
@@ -50,6 +77,21 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
+
+    if (typeof imageBase64 === 'string' && imageBase64.length > MAX_BASE64_CHARS) {
+      return new Response(JSON.stringify({ error: 'Image too large' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (typeof imageUrl === 'string' && !/^https:\/\//i.test(imageUrl)) {
+      return new Response(JSON.stringify({ error: 'imageUrl must be an https URL' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
 
     // Build the image part for the model
     const imagePart = imageBase64
