@@ -5,11 +5,10 @@ const config: CapacitorConfig = {
   appId: 'com.mansamusamarketplace.app',
   appName: '1325.AI',
   webDir: 'dist',
-  // REMOTE MODE: Load the live 1325.AI web app so iOS matches web exactly
+  // BUNDLED MODE: the app ships a full copy of the site inside the binary, so it
+  // opens instantly and never shows a blank screen when the network is slow or
+  // offline. Live data (Supabase, Stripe, AI) still comes from the internet.
   server: {
-    // Keep this as a plain origin URL. Query strings in Capacitor's remote URL
-    // can prevent the native WebView bridge from injecting correctly.
-    url: 'https://1325.ai',
     errorPath: 'native-load-error.html',
     allowNavigation: [
       '1325.ai',
@@ -25,15 +24,15 @@ const config: CapacitorConfig = {
     androidScheme: 'https',
     iosScheme: 'capacitor'
   },
+
   plugins: {
     SplashScreen: {
-      // Keep splash visible while the remote 1325.ai site loads in WKWebView.
-      // Safety net: auto-hide after 8s so a slow/blocked network can never
-      // leave the user staring at a frozen splash or a black screen forever.
-      launchShowDuration: 8000,
+      // Bundled assets load in well under a second, so the splash only needs a
+      // short hold. Auto-hide guarantees it can never freeze on screen.
+      launchShowDuration: 2000,
       launchAutoHide: true,
       launchFadeOutDuration: 400,
-      launchFadeOutDuration: 400,
+
       backgroundColor: "#FFFFFF",
       showSpinner: true,
       spinnerColor: "#FFB300",
