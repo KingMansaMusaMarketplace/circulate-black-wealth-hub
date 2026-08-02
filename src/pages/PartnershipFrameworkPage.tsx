@@ -4,127 +4,118 @@ import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { 
-  Handshake, 
-  Users, 
-  Building2, 
+import {
+  Handshake,
+  Users,
+  Building2,
   DollarSign,
   CheckCircle,
-  AlertTriangle,
   ArrowRight,
-  FileText,
-  Target,
-  Clock,
+  Calendar,
   Shield,
   MessageSquare,
-  Home
+  Home,
+  Briefcase,
+  Megaphone,
+  GraduationCap,
+  Lock,
+  Sparkles,
+  Database,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const PartnershipFrameworkPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const partnershipOptions = [
+  const headlineStats = [
+    { value: '42', label: 'Agentic AI Employees' },
+    { value: '7', label: 'Operating Divisions' },
+    { value: '~4', label: 'Roles Covered' },
+    { value: '$18K+', label: 'Monthly Salary Equivalent' },
+    { value: '$1.04M', label: '5-Year Cumulative Value' },
+  ];
+
+  const dealTerms = [
     {
-      type: 'Strategic Advisory',
-      description: 'Partner joins advisory board and facilitates strategic introductions',
-      valueToMMM: ['Investor network access', 'Regional market expertise', 'Community credibility'],
-      valueToPartner: ['Advisory equity/fees', 'Access to MMM technology', 'Platform presence'],
-      structure: '6-month agreement with defined milestones',
-      risk: 'low',
-      priority: 'high'
+      icon: <DollarSign className="w-6 h-6" />,
+      title: '20% Recurring Revenue Share',
+      body: 'Your organization earns 20% of member-business revenue routed through your community — for the full five-year term.',
     },
     {
-      type: 'Affiliate Partnership',
-      description: 'Partner becomes MMM affiliate in their local market',
-      valueToMMM: ['Local business referrals', 'Community trust', 'Market expansion'],
-      valueToPartner: ['Commission on signups', 'Loyalty program access', 'Co-branding'],
-      structure: 'Revenue share model (15-25% of subscription fees)',
-      risk: 'low',
-      priority: 'medium'
+      icon: <Calendar className="w-6 h-6" />,
+      title: 'Revenue Starts Day 60',
+      body: 'Your share begins the day the workforce goes live, at the close of the 60-day onboarding window.',
     },
     {
-      type: 'White-Label / Technology Partner',
-      description: 'MMM provides technology backbone for the partner platform',
-      valueToMMM: ['Additional revenue stream', 'Expanded reach', 'Market validation'],
-      valueToPartner: ['Modern platform upgrade', 'All features access', 'Technical support'],
-      structure: 'Technology licensing fee (SaaS model)',
-      risk: 'medium',
-      priority: 'medium'
+      icon: <Shield className="w-6 h-6" />,
+      title: 'Not Billed Against Your Budget',
+      body: 'The agentic workforce is delivered as part of the partnership. Our success is tied to yours, not to an invoice.',
     },
     {
-      type: 'Merger Consideration',
-      description: 'Full integration of the partner into MMM',
-      valueToMMM: ['Local market presence', 'Partner network', 'User base'],
-      valueToPartner: ['Equity stake in MMM', 'Continued leadership', 'Larger platform'],
-      structure: 'Equity + earnout based on performance',
-      risk: 'high',
-      priority: 'low'
+      icon: <Handshake className="w-6 h-6" />,
+      title: '5-Year Operating Partnership',
+      body: 'Two months to launch, fifty-eight months to compound results — grants, member growth, and shared revenue.',
     },
   ];
 
-  const negotiationTerms = [
-    {
-      term: 'Strategic Introduction Timeline',
-      recommendation: 'Concrete milestone within 30 days of agreement',
-      rationale: 'Strategic introductions are a primary value driver'
-    },
-    {
-      term: 'Exclusivity Period',
-      recommendation: 'Non-exclusive or limited geographic exclusivity',
-      rationale: 'Maintain flexibility for other partnerships'
-    },
-    {
-      term: 'Performance Milestones',
-      recommendation: 'Tie benefits to measurable outcomes',
-      rationale: 'Ensures both parties deliver value'
-    },
-    {
-      term: 'IP Protection',
-      recommendation: 'Clear ownership of patent-pending technology',
-      rationale: 'CMAL and other innovations must remain MMM property'
-    },
+  const divisions = [
+    { icon: <Briefcase className="w-5 h-5" />, name: 'Executive Office', count: 9, focus: 'Daily leadership briefs, decisions log, institutional memory' },
+    { icon: <DollarSign className="w-5 h-5" />, name: 'Finance & Stewardship', count: 8, focus: 'Grant sourcing and drafting, budgets, giving reports' },
+    { icon: <Users className="w-5 h-5" />, name: 'Member Operations', count: 6, focus: 'Renewals, onboarding, lapse recovery, member records' },
+    { icon: <Megaphone className="w-5 h-5" />, name: 'Communications', count: 6, focus: 'Weekly newsletter, announcements, social, press' },
+    { icon: <GraduationCap className="w-5 h-5" />, name: 'Youth & Programs', count: 5, focus: 'Program logistics, event prep, youth engagement tracking' },
+    { icon: <Lock className="w-5 h-5" />, name: 'Security & Compliance', count: 5, focus: 'Monthly compliance log, filings calendar, access control' },
+    { icon: <Sparkles className="w-5 h-5" />, name: 'Impact & Digital Equity', count: 3, focus: 'Outcome reporting, impact dashboards, digital access' },
   ];
 
-  const dueDiligence = [
-    { category: 'Strategic Connections', questions: [
-      "What is the partner's specific network and reach within the investor community?",
-      "Has the partner introduced MMM to aligned investment partners?",
-      "Can they facilitate direct introductions with clear milestones and accountability?"
-    ]},
-    { category: 'Partner Business', questions: [
-      "How many active businesses are in the partner network?",
-      "What is their current revenue model?",
-      "What technology stack are they using?"
-    ]},
-    { category: 'Partnership Intent', questions: [
-      "What does 'working together' mean specifically to you?",
-      "Are you looking for technology, merger, or referral relationship?",
-      "What timeline are you envisioning?"
-    ]},
+  const onboarding = [
+    { window: 'Days 1–14', title: 'Discovery & Mapping', body: 'We meet your leaders, inventory your forms and systems, and map each division to a named person on your side.' },
+    { window: 'Days 15–30', title: 'Build & Train', body: 'Agents are configured on your data, your voice, and your calendar. First draft outputs come back for review.' },
+    { window: 'Days 31–45', title: 'Live Pilot', body: 'Grants, renewals, and the weekly newsletter run for real, with your leaders approving every send.' },
+    { window: 'Days 46–60', title: 'Full Deployment', body: 'All 42 Agentic AI Employees live across 7 divisions. Directory goes live. Revenue share begins.' },
   ];
 
-  const redFlags = [
-    "Vague promises about strategic introductions without specifics",
-    "Requests for significant equity without clear value delivery",
-    "Pressure to move quickly without due diligence",
-    "Unwillingness to put terms in writing"
+  const governance = [
+    'Your organization owns its data end-to-end — members, donors, documents, and outputs.',
+    'Full export in open formats at any time, on request, at no cost.',
+    'Clean exit: no penalty, no lock-in, no hostage data.',
+    'Encrypted at rest and in transit; role-based access tied to your named leaders.',
+    'Built on patent-pending technology — U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.',
+  ];
+
+  const whoFor = [
+    'Denominations & church networks',
+    'Chambers of commerce',
+    'Fraternal orders & civic bodies',
+    'Trade & professional associations',
+    'Franchise systems',
+    'Multi-location brands',
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-[hsl(210,100%,12%)] to-[hsl(210,100%,8%)]">
       <Helmet>
-        <title>Partnership Framework - 1325.AI</title>
-        <meta name="description" content="Strategic partnership framework for 1325.AI business development." />
+        <title>Enterprise Partnership | 20% Revenue Share — 1325.AI</title>
+        <meta
+          name="description"
+          content="A five-year operating partnership powered by Kayla and 42 Agentic AI Employees, with a 20% recurring revenue share for your organization. 60-day onboarding."
+        />
+        <meta property="og:title" content="Enterprise Partnership | 20% Revenue Share — 1325.AI" />
+        <meta
+          property="og:description"
+          content="Kayla and 42 Agentic AI Employees run your back office. Your organization earns 20% recurring revenue share."
+        />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       {/* Header */}
       <header className="bg-black/30 backdrop-blur-sm border-b border-white/10 px-4 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => navigate('/')}
               className="text-white/70 hover:text-white"
             >
@@ -134,254 +125,242 @@ const PartnershipFrameworkPage: React.FC = () => {
             <div className="h-4 w-px bg-white/20" />
             <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">
               <Handshake className="w-3 h-3 mr-1" />
-              Partnership Framework
+              Enterprise Partnership
             </Badge>
           </div>
-          <Badge variant="outline" className="border-white/30 text-white/70">
-            <FileText className="w-3 h-3 mr-1" />
-            Internal Document
-          </Badge>
+          <a
+            href="mailto:Partner@1325.AI"
+            className="hidden sm:inline-flex items-center gap-2 text-sm text-mansagold hover:text-mansagold/80"
+          >
+            <MessageSquare className="w-4 h-4" />
+            Partner@1325.AI
+          </a>
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-12">
-        {/* Title Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            1325.AI <span className="text-mansagold">Partnership Framework</span>
-          </h1>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Strategic options and negotiation framework for aligned partners
+        {/* Hero */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-14">
+          <p className="text-mansagold text-xs font-semibold tracking-[0.25em] uppercase mb-4">
+            Enterprise Partnership Framework
           </p>
-          <a
-            href="mailto:Partner@1325.AI"
-            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-mansagold text-mansablue-dark font-bold rounded-full hover:bg-mansagold/90 transition-colors"
-          >
-            <MessageSquare className="w-4 h-4" />
-            Send partnership request to Partner@1325.AI
-          </a>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight max-w-4xl mx-auto">
+            We run your back office.
+            <br />
+            <span className="text-mansagold">You earn 20% of the revenue.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-white/75 max-w-3xl mx-auto">
+            A five-year operating partnership powered by Kayla and 42 Agentic AI Employees — live inside
+            60 days, with a recurring revenue share paid to your organization.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
+            <a
+              href="mailto:Partner@1325.AI?subject=Enterprise%20Partnership%20Inquiry"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-mansagold text-mansablue-dark font-bold rounded-full hover:bg-mansagold/90 transition-colors"
+            >
+              <MessageSquare className="w-4 h-4" />
+              Request a Partnership Briefing
+            </a>
+            <a
+              href="mailto:Partner@1325.AI?subject=Revenue%20Share%20Details"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/25 text-white font-semibold rounded-full hover:bg-white/10 transition-colors"
+            >
+              Ask about revenue sharing
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
         </motion.div>
 
-        {/* Executive Summary */}
+        {/* Headline stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mb-12"
+          className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-14"
         >
+          {headlineStats.map((s) => (
+            <Card key={s.label} className="p-5 text-center bg-white/5 border-mansagold/25">
+              <div className="text-3xl font-bold text-mansagold mb-1">{s.value}</div>
+              <div className="text-xs text-white/70 leading-snug">{s.label}</div>
+            </Card>
+          ))}
+        </motion.div>
+
+        {/* Problem / Solution */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="grid md:grid-cols-2 gap-6 mb-14"
+        >
+          <Card className="p-8 bg-white/5 border-white/10">
+            <h2 className="text-xl font-bold text-white mb-3">The Problem</h2>
+            <p className="text-white/75 leading-relaxed">
+              Legacy institutions carry decades of mission on the shoulders of a small executive team
+              and a volunteer board. Grants slip through the cracks. Members lapse without follow-up.
+              Communications stall and compliance work piles up — not for lack of will, but for lack of
+              administrative capacity the budget cannot afford.
+            </p>
+          </Card>
           <Card className="p-8 bg-gradient-to-r from-mansagold/20 to-white/5 border-mansagold/30">
-            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-              <Target className="w-6 h-6 text-mansagold" />
-              Executive Summary
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-mansagold mb-2">The Opportunity</h3>
-                <p className="text-white/80">
-                  Aligned partners have expressed interest in collaboration. 
-                  Their networks include relationships with venture capital and strategic partners 
-                  that can support MMM's growth.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-mansagold mb-2">Strategic Priority</h3>
-                <p className="text-white/80">
-                  The primary value is the potential introduction to aligned investors and strategic partners. 
-                  Structure any partnership to ensure these connections are facilitated with clear milestones and accountability.
-                </p>
-              </div>
-            </div>
+            <h2 className="text-xl font-bold text-white mb-3">The Solution</h2>
+            <p className="text-white/85 leading-relaxed">
+              1325.AI deploys 42 Agentic AI Employees — autonomous workers organized into 7 divisions,
+              each reporting through Kayla to a named leader on your side. They draft grants, run member
+              renewals, produce the weekly newsletter, maintain the compliance log, and brief leadership
+              daily. No chatbots. No widgets. A working administrative staff whose outputs you own.
+            </p>
           </Card>
         </motion.div>
 
-        {/* Partnership Options */}
+        {/* The Deal */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="mb-12"
+          className="mb-14"
         >
           <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-            <Building2 className="w-6 h-6 text-mansagold" />
-            Partnership Options Matrix
+            <DollarSign className="w-6 h-6 text-mansagold" />
+            The Deal
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
-            {partnershipOptions.map((option, index) => (
-              <Card 
-                key={index} 
-                className={`p-6 bg-white/5 border-white/10 ${
-                  option.priority === 'high' ? 'ring-2 ring-mansagold/50' : ''
-                }`}
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-bold text-white">{option.type}</h3>
-                  <div className="flex gap-2">
-                    <Badge className={`${
-                      option.priority === 'high' ? 'bg-green-500/20 text-green-400' :
-                      option.priority === 'medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                      'bg-white/10 text-white/60'
-                    }`}>
-                      {option.priority} priority
-                    </Badge>
-                    <Badge className={`${
-                      option.risk === 'low' ? 'bg-green-500/20 text-green-400' :
-                      option.risk === 'medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                      'bg-red-500/20 text-red-400'
-                    }`}>
-                      {option.risk} risk
-                    </Badge>
-                  </div>
+            {dealTerms.map((t) => (
+              <Card key={t.title} className="p-6 bg-white/5 border-white/10">
+                <div className="w-11 h-11 rounded-lg bg-mansagold/20 flex items-center justify-center text-mansagold mb-4">
+                  {t.icon}
                 </div>
-                <p className="text-white/70 mb-4">{option.description}</p>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <h4 className="text-sm font-semibold text-mansagold mb-2">Value to MMM</h4>
-                    <ul className="space-y-1">
-                      {option.valueToMMM.map((v, i) => (
-                        <li key={i} className="text-sm text-white/70 flex items-center gap-1">
-                          <CheckCircle className="w-3 h-3 text-green-400" /> {v}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-mansagold mb-2">Value to Partner</h4>
-                    <ul className="space-y-1">
-                      {option.valueToPartner.map((v, i) => (
-                        <li key={i} className="text-sm text-white/70 flex items-center gap-1">
-                          <CheckCircle className="w-3 h-3 text-blue-400" /> {v}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-                
-                <div className="pt-4 border-t border-white/10">
-                  <p className="text-sm text-white/60">
-                    <span className="font-semibold text-white">Structure:</span> {option.structure}
-                  </p>
-                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{t.title}</h3>
+                <p className="text-white/70 text-sm leading-relaxed">{t.body}</p>
               </Card>
             ))}
           </div>
         </motion.div>
 
-        {/* Key Terms to Negotiate */}
+        {/* Divisions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mb-14"
+        >
+          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+            <Building2 className="w-6 h-6 text-mansagold" />
+            42 Agentic AI Employees, 7 Divisions
+          </h2>
+          <p className="text-white/60 mb-6">
+            Every division reports through Kayla to a named leader in your organization.
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {divisions.map((d) => (
+              <Card key={d.name} className="p-5 bg-white/5 border-white/10 hover:border-mansagold/40 transition-colors">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-mansagold/20 flex items-center justify-center text-mansagold">
+                    {d.icon}
+                  </div>
+                  <Badge className="bg-mansagold/15 text-mansagold border-mansagold/30">
+                    {d.count} agents
+                  </Badge>
+                </div>
+                <h3 className="font-bold text-white mb-1">{d.name}</h3>
+                <p className="text-sm text-white/65 leading-relaxed">{d.focus}</p>
+              </Card>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Onboarding */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="mb-12"
+          className="mb-14"
         >
           <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-            <Shield className="w-6 h-6 text-mansagold" />
-            Key Terms to Negotiate
+            <Calendar className="w-6 h-6 text-mansagold" />
+            60-Day Onboarding, Inside the 5-Year Term
           </h2>
-          <Card className="p-6 bg-white/5 border-white/10">
+          <Card className="p-6 md:p-8 bg-white/5 border-white/10">
             <div className="space-y-6">
-              {negotiationTerms.map((item, index) => (
-                <div key={index} className="flex items-start gap-4 pb-4 border-b border-white/10 last:border-0 last:pb-0">
-                  <div className="w-8 h-8 bg-mansagold/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-mansagold font-bold">{index + 1}</span>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-white mb-1">{item.term}</h3>
-                    <p className="text-mansagold mb-1">
-                      <ArrowRight className="w-4 h-4 inline mr-1" />
-                      {item.recommendation}
-                    </p>
-                    <p className="text-white/60 text-sm">{item.rationale}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Due Diligence */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mb-12"
-        >
-          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-            <MessageSquare className="w-6 h-6 text-mansagold" />
-            Meeting Preparation: Questions to Ask
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {dueDiligence.map((category, index) => (
-              <Card key={index} className="p-6 bg-white/5 border-white/10">
-                <h3 className="text-lg font-semibold text-mansagold mb-4">{category.category}</h3>
-                <ul className="space-y-3">
-                  {category.questions.map((q, i) => (
-                    <li key={i} className="text-white/80 text-sm flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-mansagold mt-2 flex-shrink-0" />
-                      {q}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Red Flags */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mb-12"
-        >
-          <Card className="p-6 bg-red-500/10 border-red-500/30">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5 text-red-400" />
-              Red Flags to Watch For
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {redFlags.map((flag, index) => (
-                <div key={index} className="flex items-start gap-2 text-white/80">
-                  <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
-                  {flag}
-                </div>
-              ))}
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Recommended Approach */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          <Card className="p-8 bg-gradient-to-r from-mansablue to-mansablue-dark border-mansagold/20">
-            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-              <CheckCircle className="w-6 h-6 text-mansagold" />
-              Recommended Approach
-            </h2>
-            <ol className="space-y-4">
-              {[
-                'Take the meeting with openness but clear objectives',
-                'Lead with Strategic Advisory option — lowest risk, clearest path to investor introductions',
-                'Get specifics on the partner\'s network and willingness to make introductions',
-                'Tie any agreement to concrete milestones with strategic introductions as primary',
-                'Avoid equity discussions until introductions and value are demonstrated',
-                'Put everything in writing before proceeding'
-              ].map((step, i) => (
-                <li key={i} className="flex items-start gap-3 text-white">
-                  <span className="w-6 h-6 bg-mansagold/20 rounded-full flex items-center justify-center text-mansagold font-bold text-sm flex-shrink-0">
+              {onboarding.map((step, i) => (
+                <div key={step.window} className="flex items-start gap-4 pb-6 border-b border-white/10 last:border-0 last:pb-0">
+                  <div className="w-9 h-9 rounded-full bg-mansagold/20 flex items-center justify-center text-mansagold font-bold text-sm flex-shrink-0">
                     {i + 1}
-                  </span>
-                  {step}
+                  </div>
+                  <div>
+                    <div className="text-mansagold text-xs font-semibold tracking-widest uppercase mb-1">
+                      {step.window}
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-1">{step.title}</h3>
+                    <p className="text-white/70 text-sm leading-relaxed">{step.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </motion.div>
+
+        {/* Governance */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="grid md:grid-cols-2 gap-6 mb-14"
+        >
+          <Card className="p-8 bg-white/5 border-white/10">
+            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <Database className="w-5 h-5 text-mansagold" />
+              Data Governance & Exit Terms
+            </h2>
+            <ul className="space-y-3">
+              {governance.map((g) => (
+                <li key={g} className="flex items-start gap-2 text-white/75 text-sm leading-relaxed">
+                  <CheckCircle className="w-4 h-4 text-mansagold mt-0.5 flex-shrink-0" />
+                  {g}
                 </li>
               ))}
-            </ol>
+            </ul>
+          </Card>
+          <Card className="p-8 bg-white/5 border-white/10">
+            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <Users className="w-5 h-5 text-mansagold" />
+              Who This Is For
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {whoFor.map((w) => (
+                <div key={w} className="flex items-start gap-2 text-white/75 text-sm">
+                  <ArrowRight className="w-4 h-4 text-mansagold mt-0.5 flex-shrink-0" />
+                  {w}
+                </div>
+              ))}
+            </div>
+            <p className="text-white/55 text-xs mt-5 leading-relaxed">
+              Terms are set per organization based on network size, category mix, and member volume.
+            </p>
+          </Card>
+        </motion.div>
+
+        {/* Close */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+          <Card className="p-8 md:p-10 text-center bg-gradient-to-r from-mansablue to-mansablue-dark border-mansagold/30">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+              Let's build this together.
+            </h2>
+            <p className="text-white/75 max-w-2xl mx-auto mb-7">
+              Send us your organization, your member count, and the work that keeps falling through the
+              cracks. We'll come back with a partnership blueprint built around your leaders.
+            </p>
+            <a
+              href="mailto:Partner@1325.AI?subject=Enterprise%20Partnership%20Inquiry"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-mansagold text-mansablue-dark font-bold rounded-full hover:bg-mansagold/90 transition-colors"
+            >
+              <MessageSquare className="w-5 h-5" />
+              Partner@1325.AI
+            </a>
+            <p className="text-white/50 text-xs mt-6">
+              1325.AI — a Mansa Musa Marketplace company • U.S. Provisional Patent Application No.
+              63/969,202 — 27 claims pending
+            </p>
           </Card>
         </motion.div>
       </main>
