@@ -11,7 +11,16 @@ const config: CapacitorConfig = {
     // can prevent the native WebView bridge from injecting correctly.
     url: 'https://1325.ai',
     errorPath: 'native-load-error.html',
-    allowNavigation: ['1325.ai', 'www.1325.ai', '*.supabase.co', '*.stripe.com'],
+    allowNavigation: [
+      '1325.ai',
+      '*.1325.ai',
+      'www.1325.ai',
+      '*.supabase.co',
+      '*.stripe.com',
+      'accounts.google.com',
+      '*.googleapis.com',
+      '*.lovable.app'
+    ],
     cleartext: false,
     androidScheme: 'https',
     iosScheme: 'capacitor'
