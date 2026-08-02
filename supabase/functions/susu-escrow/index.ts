@@ -112,10 +112,54 @@ serve(async (req) => {
           );
         }
 
+        // Amount must exactly match the circle's fixed contribution amount
+        const expectedAmount = Number(circle.contribution_amount);
+        if (!Number.isFinite(Number(amount)) || Number(amount) !== expectedAmount) {
+          return new Response(
+            JSON.stringify({ success: false, error: `Contribution must be exactly $${expectedAmount}` }),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+          );
+        }
+
+        // One contribution per member per round
+        const { data: existing } = await supabase
+          .from('susu_escrow')
+          .select('id')
+          .eq('circle_id', circle_id)
+          .eq('round_number', circle.current_round)
+          .eq('contributor_id', user_id)
+          .maybeSingle();
+
+        if (existing) {
+          return new Response(
+            JSON.stringify({ success: false, error: 'You have already contributed to this round' }),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 409 }
+          );
+        }
+
         // Find recipient for current round
         const recipient = circle.susu_memberships?.find(
           (m: any) => m.payout_position === circle.current_round
         );
+
+        // REAL money movement: debit the contributor's wallet before holding escrow.
+        // Escrow rows are never created without a corresponding wallet debit.
+        const { data: debitRef, error: debitError } = await supabase.rpc('debit_wallet', {
+          p_user_id: user_id,
+          p_amount: expectedAmount,
+          p_source: 'susu_contribution',
+          p_description: `Susu contribution - ${circle.name} Round ${circle.current_round}`,
+          p_reference_id: circle_id,
+          p_reference_type: 'susu_circle',
+        });
+
+        if (debitError) {
+          console.error('[SUSU ESCROW] Wallet debit failed:', debitError);
+          return new Response(
+            JSON.stringify({ success: false, error: 'Insufficient wallet balance for this contribution' }),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
+          );
+        }
 
         // Create escrow record (funds held)
         const { data: escrowRecord, error: escrowError } = await supabase
@@ -125,20 +169,33 @@ serve(async (req) => {
             round_number: circle.current_round,
             contributor_id: user_id,
             recipient_id: recipient?.user_id || null,
-            amount,
-            platform_fee: amount * SUSU_PLATFORM_FEE,
+            amount: expectedAmount,
+            platform_fee: expectedAmount * SUSU_PLATFORM_FEE,
             status: 'held',
             held_at: new Date().toISOString(),
+            payment_reference: String(debitRef ?? ''),
           })
           .select()
           .single();
 
         if (escrowError) {
-          console.error('[SUSU ESCROW] Contribution error:', escrowError);
-          throw escrowError;
+          console.error('[SUSU ESCROW] Contribution error — refunding wallet debit:', escrowError);
+          await supabase.rpc('credit_wallet', {
+            p_user_id: user_id,
+            p_amount: expectedAmount,
+            p_source: 'susu_contribution_reversal',
+            p_description: `Reversed failed Susu contribution - ${circle.name}`,
+            p_reference_id: circle_id,
+            p_reference_type: 'susu_circle',
+          });
+          return new Response(
+            JSON.stringify({ success: false, error: 'Contribution could not be recorded' }),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+          );
         }
 
-        console.log(`[SUSU ESCROW] Contribution held: ${amount} from user ${user_id}`);
+        console.log(`[SUSU ESCROW] Contribution held: ${expectedAmount} from user ${user_id}`);
+
 
         return new Response(
           JSON.stringify({
@@ -172,8 +229,20 @@ serve(async (req) => {
 
         if (heldError) throw heldError;
 
-        const memberCount = circle.susu_memberships?.length || 0;
-        const contributionCount = heldFunds?.length || 0;
+        const memberIds = new Set((circle.susu_memberships || []).map((m: any) => m.user_id));
+        const memberCount = memberIds.size;
+        // Only count paid contributions (wallet-debited) from distinct actual members
+        const validContributors = new Set(
+          (heldFunds || [])
+            .filter((f: any) =>
+              f.payment_reference &&
+              memberIds.has(f.contributor_id) &&
+              Number(f.amount) === Number(circle.contribution_amount)
+            )
+            .map((f: any) => f.contributor_id)
+        );
+        const contributionCount = validContributors.size;
+
 
         // Verify all members have contributed before releasing
         if (contributionCount < memberCount) {
@@ -200,9 +269,12 @@ serve(async (req) => {
           );
         }
 
-        // Calculate total payout
-        const totalAmount = heldFunds.reduce((sum: number, f: any) => sum + Number(f.amount), 0);
-        const totalPlatformFee = heldFunds.reduce((sum: number, f: any) => sum + Number(f.platform_fee), 0);
+        // Calculate total payout from verified (paid) contributions only
+        const paidFunds = (heldFunds || []).filter(
+          (f: any) => f.payment_reference && validContributors.has(f.contributor_id)
+        );
+        const totalAmount = paidFunds.reduce((sum: number, f: any) => sum + Number(f.amount), 0);
+        const totalPlatformFee = paidFunds.reduce((sum: number, f: any) => sum + Number(f.platform_fee), 0);
         const netPayout = totalAmount - totalPlatformFee;
 
         // Release all held funds
