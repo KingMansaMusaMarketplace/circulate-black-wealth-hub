@@ -17,7 +17,7 @@ import PitchSlide10Market from '@/components/pitch-deck/PitchSlide10Market';
 import PitchSlide11Vision from '@/components/pitch-deck/PitchSlide11Vision';
 import PitchSlide12Team from '@/components/pitch-deck/PitchSlide12Team';
 import PitchSlide13Ask from '@/components/pitch-deck/PitchSlide13Ask';
-import PitchSlide14Why776 from '@/components/pitch-deck/PitchSlide14Why776';
+import PitchSlide14WhyInvest from '@/components/pitch-deck/PitchSlide14WhyInvest';
 import PitchSlide15SequoiaAlignment from '@/components/pitch-deck/PitchSlide15SequoiaAlignment';
 
 const SLIDE_COMPONENTS = [
@@ -34,7 +34,7 @@ const SLIDE_COMPONENTS = [
   PitchSlide11Vision,
   PitchSlide12Team,
   PitchSlide13Ask,
-  PitchSlide14Why776,
+  PitchSlide14WhyInvest,
   PitchSlide15SequoiaAlignment,
 ];
 
