@@ -210,6 +210,8 @@ const LazySEODashboard = lazy(() => import('@/pages/admin/SEODashboard'));
 const LazyBacklinksDashboard = lazy(() => import('@/pages/admin/BacklinksDashboard'));
 const LazyFunnelAnalyticsPage = lazy(() => import('@/pages/admin/FunnelAnalyticsPage'));
 const LazySecurityAutopilotPage = lazy(() => import('@/pages/admin/SecurityAutopilotPage'));
+const LazyEnterprisePartnersAdminPage = lazy(() => import('@/pages/admin/EnterprisePartnersAdminPage'));
+const LazyEnterpriseOrgKitPage = lazy(() => import('@/pages/EnterpriseOrgKitPage'));
 
 // Unified Test Dashboard (consolidates all test pages)
 const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard'));
@@ -547,6 +549,7 @@ function App() {
                               <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
                               <Route path="/admin/heygen" element={<RequireAdmin><LazyHeyGenStudioPage /></RequireAdmin>} />
                               <Route path="/admin/security-autopilot" element={<RequireAdmin><LazySecurityAutopilotPage /></RequireAdmin>} />
+<Route path="/admin/enterprise-partners" element={<RequireAdmin><LazyEnterprisePartnersAdminPage /></RequireAdmin>} />
                               <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
                               <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                               <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
@@ -749,6 +752,8 @@ function App() {
                               <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
                               <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                               <Route path="/aames" element={<LazyEnterpriseOrgLandingPage />} />
+<Route path="/aames/kit" element={<LazyEnterpriseOrgKitPage />} />
+<Route path="/enterprise/:slug/kit" element={<LazyEnterpriseOrgKitPage />} />
                               <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
                               <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                               
@@ -1212,6 +1217,7 @@ function App() {
                         <Route path="/admin/seo" element={<RequireAdmin><LazySEODashboard /></RequireAdmin>} />
                         <Route path="/admin/backlinks" element={<RequireAdmin><LazyBacklinksDashboard /></RequireAdmin>} />
                         <Route path="/admin/security-autopilot" element={<RequireAdmin><LazySecurityAutopilotPage /></RequireAdmin>} />
+<Route path="/admin/enterprise-partners" element={<RequireAdmin><LazyEnterprisePartnersAdminPage /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
@@ -1445,6 +1451,8 @@ function App() {
                         <Route path="/widget-demo" element={<LazyWidgetDemoPage />} />
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/aames" element={<LazyEnterpriseOrgLandingPage />} />
+<Route path="/aames/kit" element={<LazyEnterpriseOrgKitPage />} />
+<Route path="/enterprise/:slug/kit" element={<LazyEnterpriseOrgKitPage />} />
                         <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
                         <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
@@ -1793,6 +1801,7 @@ function App() {
                         <Route path="/admin/seo" element={<RequireAdmin><LazySEODashboard /></RequireAdmin>} />
                         <Route path="/admin/backlinks" element={<RequireAdmin><LazyBacklinksDashboard /></RequireAdmin>} />
                         <Route path="/admin/security-autopilot" element={<RequireAdmin><LazySecurityAutopilotPage /></RequireAdmin>} />
+<Route path="/admin/enterprise-partners" element={<RequireAdmin><LazyEnterprisePartnersAdminPage /></RequireAdmin>} />
                         <Route path="/admin/jobs" element={<RequireAdmin><LazyAdminJobsPage /></RequireAdmin>} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/marketing-studio" element={<LazyMarketingStudio />} />

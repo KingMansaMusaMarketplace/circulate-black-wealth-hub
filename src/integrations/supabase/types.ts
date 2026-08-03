@@ -8353,37 +8353,43 @@ export type Database = {
       }
       enterprise_org_leaders: {
         Row: {
+          claimed_at: string | null
           created_at: string
           display_name: string | null
           division: string | null
           id: string
+          invite_email: string | null
           is_active: boolean
           org_id: string
           title: string
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
+          claimed_at?: string | null
           created_at?: string
           display_name?: string | null
           division?: string | null
           id?: string
+          invite_email?: string | null
           is_active?: boolean
           org_id: string
           title: string
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
+          claimed_at?: string | null
           created_at?: string
           display_name?: string | null
           division?: string | null
           id?: string
+          invite_email?: string | null
           is_active?: boolean
           org_id?: string
           title?: string
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -26004,6 +26010,7 @@ export type Database = {
         Args: { p_token: string; p_user_id: string }
         Returns: Json
       }
+      claim_enterprise_leader_seats: { Args: never; Returns: number }
       claim_founding_slot: {
         Args: {
           _business_id: string
@@ -27246,6 +27253,15 @@ export type Database = {
           p_business_id: string
           p_transaction_id: string
           p_transaction_type?: string
+        }
+        Returns: string
+      }
+      record_enterprise_revenue_share: {
+        Args: {
+          _business_id: string
+          _description?: string
+          _event_type?: string
+          _gross_amount_cents: number
         }
         Returns: string
       }

@@ -88,6 +88,9 @@ export const useOrgLeader = (orgId?: string) => {
     queryKey: ['enterprise-org-leader', orgId, user?.id],
     enabled: !!orgId && !!user?.id,
     queryFn: async () => {
+      // Bind any seat that was invited by email before this account existed.
+      await supabase.rpc('claim_enterprise_leader_seats');
+
       const { data, error } = await supabase
         .from('enterprise_org_leaders')
         .select('*')
@@ -100,6 +103,25 @@ export const useOrgLeader = (orgId?: string) => {
     },
   });
 };
+
+/** Partner-side onboarding task completion (leaders only, their own tasks). */
+export const useToggleOrgTask = (orgId?: string) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (params: { id: string; complete: boolean }) => {
+      const { error } = await supabase
+        .from('enterprise_org_onboarding_tasks')
+        .update({
+          status: params.complete ? 'completed' : 'pending',
+          completed_at: params.complete ? new Date().toISOString() : null,
+        })
+        .eq('id', params.id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['enterprise-org-dashboard', orgId] }),
+  });
+};
+
 
 export const useJoinOrg = () => {
   const { user } = useAuth();

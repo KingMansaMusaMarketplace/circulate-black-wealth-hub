@@ -23,6 +23,7 @@ import {
   useEnterpriseOrg,
   useOrgDashboard,
   useOrgLeader,
+  useToggleOrgTask,
 } from '@/hooks/use-enterprise-org';
 import { AGENT_DIVISIONS, TOTAL_AGENTS } from '@/lib/enterprise/agent-divisions';
 
@@ -37,6 +38,7 @@ const EnterpriseOrgDashboardPage: React.FC = () => {
   const { data: org, isLoading: orgLoading } = useEnterpriseOrg(slug);
   const { data: leader, isLoading: leaderLoading } = useOrgLeader(org?.id);
   const { data, isLoading: dataLoading } = useOrgDashboard(org?.id, !!leader);
+  const toggleTask = useToggleOrgTask(org?.id);
 
   if (authLoading || orgLoading || (user && leaderLoading)) {
     return (
@@ -168,7 +170,21 @@ const EnterpriseOrgDashboardPage: React.FC = () => {
                         key={t.id}
                         className="flex items-start gap-3 rounded-lg border border-white/10 bg-black/20 p-4"
                       >
-                        {done ? (
+                        {t.owner_side !== '1325' ? (
+                          <button
+                            type="button"
+                            aria-label={done ? 'Mark task as not done' : 'Mark task complete'}
+                            disabled={toggleTask.isPending}
+                            onClick={() => toggleTask.mutate({ id: t.id, complete: !done })}
+                            className="mt-0.5 shrink-0"
+                          >
+                            {done ? (
+                              <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+                            ) : (
+                              <Circle className="h-5 w-5 text-slate-500 hover:text-mansagold" />
+                            )}
+                          </button>
+                        ) : done ? (
                           <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
                         ) : active ? (
                           <Clock className="mt-0.5 h-5 w-5 shrink-0 text-mansagold" />

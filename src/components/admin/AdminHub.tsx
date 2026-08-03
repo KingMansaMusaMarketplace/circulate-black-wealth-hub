@@ -82,6 +82,7 @@ const sections: { group: string; items: HubItem[] }[] = [
       { id: 'admin-import', label: 'Business Import', icon: Upload, description: 'Bulk import businesses & geocode', route: '/admin/business-import' },
       { id: 'agents', label: 'Sales Agents', icon: Users, description: 'Manage sales agent network' },
       { id: 'admin-commissions', label: 'Commissions', icon: DollarSign, description: 'Agent commission payouts', route: '/admin/commissions' },
+      { id: 'admin-enterprise-partners', label: 'Enterprise Partners', icon: Users, description: 'AAMES leadership seats & chapters', route: '/admin/enterprise-partners' },
       { id: 'financial', label: 'Financial', icon: DollarSign, description: 'Financial reports and payouts' },
       { id: 'subscriptions', label: 'Subscriptions', icon: CreditCard, description: 'Manage user subscriptions' },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award, description: 'Points, tiers, and rewards' },
