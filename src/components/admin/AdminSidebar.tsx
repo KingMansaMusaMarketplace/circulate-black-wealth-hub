@@ -85,6 +85,7 @@ const menuGroups: MenuGroup[] = [
     items: [
       { id: 'admin-revenue', label: 'Platform Revenue', icon: DollarSign, route: '/admin/revenue' },
       { id: 'admin-commissions', label: 'Commissions', icon: DollarSign, route: '/admin/commissions' },
+      { id: 'admin-enterprise-partners', label: 'Enterprise Partners', icon: Users, route: '/admin/enterprise-partners' },
       { id: 'financial', label: 'Financial', icon: DollarSign },
       { id: 'subscriptions', label: 'Subscriptions', icon: CreditCard },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award },
