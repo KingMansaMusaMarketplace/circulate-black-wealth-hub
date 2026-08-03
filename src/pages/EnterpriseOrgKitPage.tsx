@@ -6,7 +6,7 @@ import { Download, Loader2, Printer } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { useEnterpriseOrg } from '@/hooks/use-enterprise-org';
-import aamesLogo from '@/assets/aames-logo.png';
+import aamesLogo from '@/assets/aames-logo.png.asset.json';
 
 const DEFAULT_SLUG = 'aames';
 
@@ -63,7 +63,7 @@ const EnterpriseOrgKitPage: React.FC = () => {
           <div className="flex items-center justify-between gap-6 border-b border-slate-200 pb-6">
             <div className="flex items-center gap-4">
               {isAames && (
-                <img src={aamesLogo} alt={`${shortName} logo`} className="h-16 w-16 object-contain" />
+                <img src={aamesLogo.url} alt={`${shortName} logo`} className="h-16 w-16 object-contain" />
               )}
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
