@@ -83,7 +83,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
           <React.Fragment key={business.id}>
             {/* Inline sponsor card after 3rd regular business (mobile/tablet only) */}
             {index === 3 && (
-              <div className="lg:hidden col-span-1 md:col-span-2 row-auto">
+              <div className="lg:hidden empty:hidden col-span-1 md:col-span-2 row-auto">
                 <InlineSponsorCard />
               </div>
             )}
