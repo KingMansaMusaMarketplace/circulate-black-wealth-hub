@@ -7,8 +7,11 @@ import {
   ArrowRight,
   Building2,
   CheckCircle2,
+  Clock,
   Loader2,
+  Mail,
   Network,
+  Phone,
   Sparkles,
   Users,
 } from 'lucide-react';
@@ -303,6 +306,39 @@ const EnterpriseOrgLandingPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* AAMES contact */}
+      {isAames && (
+        <section className="px-4 pb-8 pt-6">
+          <div className="container mx-auto max-w-3xl">
+            <Card className="border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm">
+              <h3 className="mb-4 text-center text-lg font-semibold text-white">
+                Questions? Contact AAMES directly
+              </h3>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <a
+                  href="tel:+12022532993"
+                  className="flex flex-col items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] p-4 text-center transition-colors hover:border-mansagold/40"
+                >
+                  <Phone className="h-5 w-5 text-mansagold" />
+                  <span className="text-sm font-medium text-white">(202) 253-2993</span>
+                </a>
+                <a
+                  href="mailto:web@amescouts.org"
+                  className="flex flex-col items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] p-4 text-center transition-colors hover:border-mansagold/40"
+                >
+                  <Mail className="h-5 w-5 text-mansagold" />
+                  <span className="text-sm font-medium text-white">web@amescouts.org</span>
+                </a>
+                <div className="flex flex-col items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] p-4 text-center">
+                  <Clock className="h-5 w-5 text-mansagold" />
+                  <span className="text-sm font-medium text-white">Mon–Fri: 9am–5pm</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </section>
+      )}
 
       {/* Closing CTA */}
       <section className="px-4 pb-20 pt-6">
