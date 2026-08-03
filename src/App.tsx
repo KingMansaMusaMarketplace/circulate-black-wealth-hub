@@ -235,6 +235,8 @@ const LazyInvestorPortalPage = lazy(() => import('@/pages/InvestorPortalPage'));
 const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
 const LazyPitchDeckPage = lazy(() => import('@/pages/PitchDeckPage'));
 const LazyPartnershipFrameworkPage = lazy(() => import('@/pages/PartnershipFrameworkPage'));
+const LazyEnterpriseOrgLandingPage = lazy(() => import('@/pages/EnterpriseOrgLandingPage'));
+const LazyEnterpriseOrgDashboardPage = lazy(() => import('@/pages/EnterpriseOrgDashboardPage'));
 const LazyPartnerPortal = lazy(() => import('@/pages/PartnerPortal'));
 const LazyWidgetDemoPage = lazy(() => import('@/pages/WidgetDemoPage'));
 
