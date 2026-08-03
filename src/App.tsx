@@ -211,6 +211,7 @@ const LazyBacklinksDashboard = lazy(() => import('@/pages/admin/BacklinksDashboa
 const LazyFunnelAnalyticsPage = lazy(() => import('@/pages/admin/FunnelAnalyticsPage'));
 const LazySecurityAutopilotPage = lazy(() => import('@/pages/admin/SecurityAutopilotPage'));
 const LazyEnterprisePartnersAdminPage = lazy(() => import('@/pages/admin/EnterprisePartnersAdminPage'));
+const LazyEnterpriseOrgKitPage = lazy(() => import('@/pages/EnterpriseOrgKitPage'));
 
 // Unified Test Dashboard (consolidates all test pages)
 const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard'));
@@ -751,6 +752,8 @@ function App() {
                               <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
                               <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                               <Route path="/aames" element={<LazyEnterpriseOrgLandingPage />} />
+<Route path="/aames/kit" element={<LazyEnterpriseOrgKitPage />} />
+<Route path="/enterprise/:slug/kit" element={<LazyEnterpriseOrgKitPage />} />
                               <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
                               <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                               
@@ -1448,6 +1451,8 @@ function App() {
                         <Route path="/widget-demo" element={<LazyWidgetDemoPage />} />
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/aames" element={<LazyEnterpriseOrgLandingPage />} />
+<Route path="/aames/kit" element={<LazyEnterpriseOrgKitPage />} />
+<Route path="/enterprise/:slug/kit" element={<LazyEnterpriseOrgKitPage />} />
                         <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
                         <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
