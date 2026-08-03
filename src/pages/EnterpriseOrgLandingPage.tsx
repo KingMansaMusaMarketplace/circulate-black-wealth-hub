@@ -25,6 +25,8 @@ import {
 } from '@/hooks/use-enterprise-org';
 import { AGENT_DIVISIONS, TOTAL_AGENTS } from '@/lib/enterprise/agent-divisions';
 
+import aamesLogo from '@/assets/aames-logo.png.asset.json';
+
 const DEFAULT_SLUG = 'aames';
 
 const EnterpriseOrgLandingPage: React.FC = () => {
@@ -38,6 +40,7 @@ const EnterpriseOrgLandingPage: React.FC = () => {
   const { data: membership } = useOrgMembership(org?.id);
   const joinOrg = useJoinOrg();
 
+  const isAames = (org?.slug || DEFAULT_SLUG) === 'aames';
   const shortName = org?.short_name || org?.name || 'Your organization';
 
   // If the visitor was sent to sign up and has now returned signed in,
@@ -157,17 +160,27 @@ const EnterpriseOrgLandingPage: React.FC = () => {
           >
             {/* Co-brand lock-up */}
             <div className="mb-8 flex items-center justify-center gap-4 sm:gap-6">
-              <span
-                className="rounded-xl border px-4 py-2 text-lg font-bold tracking-wide text-white sm:text-2xl"
-                style={{ ...brand, backgroundColor: `${org.primary_color}33` }}
-              >
-                {shortName}
-              </span>
+              {isAames ? (
+                <img
+                  src={aamesLogo.url}
+                  alt="The Association of African Methodist Episcopal Scouts logo"
+                  className="h-20 w-20 rounded-full bg-white p-1 sm:h-28 sm:w-28"
+                  loading="eager"
+                />
+              ) : (
+                <span
+                  className="rounded-xl border px-4 py-2 text-lg font-bold tracking-wide text-white sm:text-2xl"
+                  style={{ ...brand, backgroundColor: `${org.primary_color}33` }}
+                >
+                  {shortName}
+                </span>
+              )}
               <span className="text-xl text-white/40 sm:text-2xl">×</span>
               <span className="font-mono text-lg tracking-wider text-mansagold sm:text-2xl">
                 1325.AI
               </span>
             </div>
+
 
             <Badge
               variant="outline"
