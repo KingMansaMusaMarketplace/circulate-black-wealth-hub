@@ -1441,6 +1441,9 @@ function App() {
                         }/>
                         <Route path="/widget-demo" element={<LazyWidgetDemoPage />} />
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
+                        <Route path="/aames" element={<LazyEnterpriseOrgLandingPage />} />
+                        <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
+                        <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                         <Route path="/payment-success" element={
                           <IOSProtectedRoute>
