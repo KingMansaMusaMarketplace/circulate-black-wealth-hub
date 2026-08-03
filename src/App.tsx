@@ -748,6 +748,9 @@ function App() {
                               {/* P - New Pitch & Partnership routes */}
                               <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
                               <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
+                              <Route path="/aames" element={<LazyEnterpriseOrgLandingPage />} />
+                              <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
+                              <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                               
                               {/* K */}
                               <Route path="/knowledge-base" element={<LazyKnowledgeBasePage />} />
