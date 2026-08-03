@@ -235,6 +235,8 @@ const LazyInvestorPortalPage = lazy(() => import('@/pages/InvestorPortalPage'));
 const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
 const LazyPitchDeckPage = lazy(() => import('@/pages/PitchDeckPage'));
 const LazyPartnershipFrameworkPage = lazy(() => import('@/pages/PartnershipFrameworkPage'));
+const LazyEnterpriseOrgLandingPage = lazy(() => import('@/pages/EnterpriseOrgLandingPage'));
+const LazyEnterpriseOrgDashboardPage = lazy(() => import('@/pages/EnterpriseOrgDashboardPage'));
 const LazyPartnerPortal = lazy(() => import('@/pages/PartnerPortal'));
 const LazyWidgetDemoPage = lazy(() => import('@/pages/WidgetDemoPage'));
 
@@ -746,6 +748,9 @@ function App() {
                               {/* P - New Pitch & Partnership routes */}
                               <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
                               <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
+                              <Route path="/aames" element={<LazyEnterpriseOrgLandingPage />} />
+                              <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
+                              <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                               
                               {/* K */}
                               <Route path="/knowledge-base" element={<LazyKnowledgeBasePage />} />
@@ -1439,6 +1444,9 @@ function App() {
                         }/>
                         <Route path="/widget-demo" element={<LazyWidgetDemoPage />} />
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
+                        <Route path="/aames" element={<LazyEnterpriseOrgLandingPage />} />
+                        <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
+                        <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
                         <Route path="/payment-success" element={
                           <IOSProtectedRoute>
