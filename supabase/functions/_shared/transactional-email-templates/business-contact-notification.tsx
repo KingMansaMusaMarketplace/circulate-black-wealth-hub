@@ -38,7 +38,7 @@ const BusinessContactNotificationEmail = ({ businessName, senderName, subject }:
             Log in to your dashboard to view the full message and respond.
           </Text>
           <Section style={{ textAlign: 'center' as const, padding: '10px 0' }}>
-            <Button style={button} href="https://1325.ai/business/dashboard">
+            <Button style={button} href="https://1325.ai/business-dashboard">
               View Message
             </Button>
           </Section>
