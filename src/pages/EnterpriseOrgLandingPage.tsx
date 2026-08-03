@@ -294,7 +294,7 @@ const EnterpriseOrgLandingPage: React.FC = () => {
       {/* Closing CTA */}
       <section className="px-4 pb-20 pt-6">
         <div className="container mx-auto max-w-3xl">
-          <Card className="border-mansagold/25 bg-gradient-to-br from-mansagold/10 to-transparent p-8 text-center">
+          <Card className="border-mansagold/25 bg-white/[0.04] p-8 text-center backdrop-blur-sm">
             <h2 className="text-2xl font-bold text-white">Claim your free membership</h2>
             <p className="mx-auto mt-3 max-w-xl text-slate-300">
               It takes under two minutes. Business owners can list right after signing up.
