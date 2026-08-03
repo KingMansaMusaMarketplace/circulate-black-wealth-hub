@@ -199,7 +199,7 @@ const EnterpriseOrgLandingPage: React.FC = () => {
                 ) : (
                   <Users className="mr-2 h-4 w-4" />
                 )}
-                I’m a {shortName} member
+                I’m a member of {shortName}
               </Button>
               <Button
                 size="lg"
