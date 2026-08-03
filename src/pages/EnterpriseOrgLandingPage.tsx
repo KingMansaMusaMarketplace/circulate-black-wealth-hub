@@ -25,6 +25,8 @@ import {
 } from '@/hooks/use-enterprise-org';
 import { AGENT_DIVISIONS, TOTAL_AGENTS } from '@/lib/enterprise/agent-divisions';
 
+import aamesLogo from '@/assets/aames-logo.png.asset.json';
+
 const DEFAULT_SLUG = 'aames';
 
 const EnterpriseOrgLandingPage: React.FC = () => {
@@ -38,6 +40,7 @@ const EnterpriseOrgLandingPage: React.FC = () => {
   const { data: membership } = useOrgMembership(org?.id);
   const joinOrg = useJoinOrg();
 
+  const isAames = (org?.slug || DEFAULT_SLUG) === 'aames';
   const shortName = org?.short_name || org?.name || 'Your organization';
 
   // If the visitor was sent to sign up and has now returned signed in,
