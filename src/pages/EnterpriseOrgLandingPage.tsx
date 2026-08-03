@@ -7,8 +7,11 @@ import {
   ArrowRight,
   Building2,
   CheckCircle2,
+  Clock,
   Loader2,
+  Mail,
   Network,
+  Phone,
   Sparkles,
   Users,
 } from 'lucide-react';
