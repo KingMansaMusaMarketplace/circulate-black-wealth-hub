@@ -112,7 +112,7 @@ export const useToggleOrgTask = (orgId?: string) => {
       const { error } = await supabase
         .from('enterprise_org_onboarding_tasks')
         .update({
-          status: params.complete ? 'complete' : 'pending',
+          status: params.complete ? 'completed' : 'pending',
           completed_at: params.complete ? new Date().toISOString() : null,
         })
         .eq('id', params.id);
