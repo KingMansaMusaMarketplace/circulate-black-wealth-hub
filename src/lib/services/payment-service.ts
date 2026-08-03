@@ -60,8 +60,8 @@ export const paymentService = {
         },
         body: {
           businessId,
-          refreshUrl: `${window.location.origin}/business/dashboard`,
-          returnUrl: `${window.location.origin}/business/dashboard?setup=complete`,
+          refreshUrl: `${window.location.origin}/business-dashboard`,
+          returnUrl: `${window.location.origin}/business-dashboard?setup=complete`,
         },
       });
 
