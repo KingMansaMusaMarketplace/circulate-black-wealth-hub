@@ -22,6 +22,8 @@ type Lead = {
   logo_url: string | null;
   banner_url: string | null;
   confidence_score: number | null;
+  black_owned_confidence: number | null;
+  black_owned_evidence: string | null;
   verification_status: string | null;
   verification_notes: any;
   verified_phone: string | null;
@@ -79,7 +81,7 @@ const BusinessReviewQueue: React.FC = () => {
     setLoading(true);
     let q = supabase
       .from('b2b_external_leads')
-      .select('id,business_name,category,city,state,website_url,phone_number,business_description,logo_url,banner_url,confidence_score,verification_status,verification_notes,verified_phone,verified_address,created_at')
+      .select('id,business_name,category,city,state,website_url,phone_number,business_description,logo_url,banner_url,confidence_score,black_owned_confidence,black_owned_evidence,verification_status,verification_notes,verified_phone,verified_address,created_at')
       .eq('verification_status', status)
       .order('created_at', { ascending: false })
       .limit(50);
@@ -191,6 +193,29 @@ const BusinessReviewQueue: React.FC = () => {
     }
   };
 
+  // Bulk-dismiss every lead in the current tab that has no cited proof of Black ownership.
+  const [bulkRejecting, setBulkRejecting] = useState(false);
+  const bulkRejectUnverifiedOwnership = async () => {
+    if (!window.confirm(
+      `Reject ALL "${STATUS_LABEL[status]}" leads that have no cited evidence of Black ownership? This cannot be undone in bulk.`
+    )) return;
+    setBulkRejecting(true);
+    try {
+      const { error, count } = await supabase
+        .from('b2b_external_leads')
+        .update({ verification_status: 'rejected' } as any, { count: 'exact' })
+        .eq('verification_status', status)
+        .is('black_owned_evidence', null);
+      if (error) throw error;
+      toast.success(`Rejected ${count ?? 0} leads with no ownership evidence.`);
+      await Promise.all([fetchLeads(), fetchCounts()]);
+    } catch (e: any) {
+      toast.error(e.message || 'Bulk reject failed');
+    } finally {
+      setBulkRejecting(false);
+    }
+  };
+
   const runEnrichment = async () => {
     setEnriching(true);
     try {
@@ -294,15 +319,32 @@ const BusinessReviewQueue: React.FC = () => {
             </TabsList>
           </Tabs>
 
-          <div className="relative max-w-sm">
-            <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-            <Input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name…"
-              className="pl-9 bg-slate-900/60 border-white/10"
-            />
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="relative max-w-sm flex-1 min-w-[220px]">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search by name…"
+                className="pl-9 bg-slate-900/60 border-white/10"
+              />
+            </div>
+            {(status === 'needs_review' || status === 'pending') && (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={bulkRejecting}
+                onClick={bulkRejectUnverifiedOwnership}
+                className="border-red-400/40 text-red-200 hover:bg-red-500/10"
+              >
+                {bulkRejecting
+                  ? <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                  : <AlertTriangle className="h-4 w-4 mr-1" />}
+                Reject all with no ownership evidence
+              </Button>
+            )}
           </div>
+
 
           {loading ? (
             <div className="flex items-center justify-center py-16 text-white/60">
@@ -320,6 +362,9 @@ const BusinessReviewQueue: React.FC = () => {
                 const notes = (lead.verification_notes && typeof lead.verification_notes === 'object')
                   ? (lead.verification_notes as Record<string, unknown>) : {};
                 const reasons = Array.isArray((notes as any).reasons) ? (notes as any).reasons as string[] : [];
+                const ownershipOk = lead.black_owned_confidence !== null
+                  && Number(lead.black_owned_confidence) >= 0.7
+                  && !!lead.black_owned_evidence;
                 return (
                   <Card key={lead.id} className="bg-slate-900/60 border-white/10">
                     <CardHeader className="flex flex-row items-start justify-between gap-4">
@@ -344,17 +389,42 @@ const BusinessReviewQueue: React.FC = () => {
                           )}
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right space-y-1 shrink-0">
                         {lead.confidence_score !== null && (
-                          <Badge variant="outline" className="text-xs text-white border-white/30">
-                            confidence {(Number(lead.confidence_score) * 100).toFixed(0)}%
+                          <Badge variant="outline" className="text-xs text-white border-white/30 block">
+                            real business {(Number(lead.confidence_score) * 100).toFixed(0)}%
                           </Badge>
                         )}
+                        <Badge
+                          variant="outline"
+                          className={
+                            ownershipOk
+                              ? 'text-xs text-emerald-200 border-emerald-400/50 bg-emerald-500/10 block'
+                              : 'text-xs text-red-200 border-red-400/50 bg-red-500/10 block'
+                          }
+                        >
+                          {lead.black_owned_confidence !== null
+                            ? `Black-owned ${(Number(lead.black_owned_confidence) * 100).toFixed(0)}%`
+                            : 'Black-owned: unverified'}
+                        </Badge>
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       {lead.business_description && (
                         <p className="text-sm text-white/70">{lead.business_description}</p>
+                      )}
+                      {ownershipOk ? (
+                        <p className="text-xs text-emerald-200/90 bg-emerald-500/10 border border-emerald-500/30 rounded p-2">
+                          <span className="text-white/50">Ownership evidence:</span> {lead.black_owned_evidence}
+                        </p>
+                      ) : (
+                        <div className="flex items-start gap-2 text-sm bg-red-500/10 border border-red-500/30 rounded p-2">
+                          <AlertTriangle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                          <p className="text-red-200/90">
+                            No cited evidence that this business is Black-owned. The score on the left only means
+                            the business is real and open. Verify manually before publishing, or reject.
+                          </p>
+                        </div>
                       )}
                       {reasons.length > 0 && (
                         <div className="flex items-start gap-2 text-sm bg-amber-500/10 border border-amber-500/30 rounded p-2">

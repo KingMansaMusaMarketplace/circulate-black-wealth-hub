@@ -384,6 +384,9 @@ const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 const NUM_SEARCHES = 120;
 const PER_QUERY_LIMIT = 15;
 const MIN_CONFIDENCE = 0.7;
+// Separate gate: how sure we must be that the business is actually Black-owned.
+// MIN_CONFIDENCE above only measures "is this a real, currently open business".
+const MIN_BLACK_OWNED_CONFIDENCE = 0.7;
 const SCRAPE_BATCH_SIZE = 60;
 
 // === Category-specific stock banner pools ===
@@ -1081,7 +1084,9 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address (number + street name), working phone number with area code, actual website URL, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot find a phone number, address, or website for a business, DO NOT include that business at all. CRITICAL: Every business MUST have a working website URL, a real phone number, AND a complete street address — skip any business missing these three.`,
+                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address (number + street name), working phone number with area code, actual website URL, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot find a phone number, address, or website for a business, DO NOT include that business at all. CRITICAL: Every business MUST have a working website URL, a real phone number, AND a complete street address — skip any business missing these three.
+
+BLACK OWNERSHIP IS THE POINT OF THIS DIRECTORY. Never include a business just because it matches the category and city. For every business you MUST separately report how confident you are that it is Black-owned and cite the specific evidence you found (e.g. "listed on Official Black Wall Street", "owner bio on About page identifies as Black-owned", "certified MBE with the Georgia MSDC", "featured in an Atlanta Black-owned business roundup"). If you cannot cite real evidence of Black ownership, set black_owned_confidence below 0.5 and leave black_owned_evidence empty — do NOT guess or infer ownership from the owner's name, neighborhood, or business type.`,
               },
               {
                 role: "user",
@@ -1100,8 +1105,10 @@ For EACH business provide ALL of the following:
 - Website URL (full URL including https:// — REQUIRED, must be the business's own website)
 - Price range (one of: $, $$, $$$, $$$$)
 - Your confidence level (0 to 1) that this business exists and is currently operating
+- black_owned_confidence (0 to 1): how confident you are the business is BLACK-OWNED, judged ONLY on cited evidence
+- black_owned_evidence: one short sentence naming the source that confirms Black ownership. Leave empty if you have none.
 
-Only include businesses you are highly confident (0.7+) are real and currently open WITH their own website. Quality over quantity.`,
+Only include businesses you are highly confident (0.7+) are real and currently open WITH their own website, AND that you have real cited evidence are Black-owned. Quality over quantity — returning 3 confirmed Black-owned businesses is far better than 10 unverified ones.`,
               },
             ],
             temperature: 0.1,
@@ -1129,8 +1136,10 @@ Only include businesses you are highly confident (0.7+) are real and currently o
                           website: { type: "string", description: "Full website URL — REQUIRED" },
                           price_range: { type: "string", description: "One of: $, $$, $$$, $$$$" },
                           confidence: { type: "number", description: "0-1 confidence this is a real business" },
+                          black_owned_confidence: { type: "number", description: "0-1 confidence this business is BLACK-OWNED, based only on cited evidence" },
+                          black_owned_evidence: { type: "string", description: "Short cited source confirming Black ownership; empty string if none found" },
                         },
-                        required: ["name", "description", "category", "address", "city", "state", "zip_code", "phone", "website"],
+                        required: ["name", "description", "category", "address", "city", "state", "zip_code", "phone", "website", "black_owned_confidence"],
                       },
                     },
                   },
@@ -1195,6 +1204,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     let skippedNoWebsite = 0;
     let skippedNoPhone = 0;
     let skippedNoAddress = 0;
+    let skippedNotBlackOwned = 0;
     const viableCandidates: typeof allCandidates = [];
 
     for (const candidate of allCandidates) {
@@ -1206,6 +1216,19 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         skippedLowConfidence++;
         continue;
       }
+
+      // === BLACK OWNERSHIP GATE ===
+      // confidence above only measures "is this a real, open business".
+      // Ownership is scored separately and MUST be backed by cited evidence.
+      const blackOwnedConfidence = typeof biz.black_owned_confidence === "number"
+        ? biz.black_owned_confidence
+        : 0;
+      const blackOwnedEvidence = (biz.black_owned_evidence || "").trim();
+      if (blackOwnedConfidence < MIN_BLACK_OWNED_CONFIDENCE || blackOwnedEvidence.length < 10) {
+        skippedNotBlackOwned++;
+        continue;
+      }
+
 
       const websiteUrl = biz.website && biz.website.match(/^https?:\/\/|^www\./) ? biz.website.trim() : null;
       if (!websiteUrl) {
@@ -1375,6 +1398,8 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           source_query: `${catFocus} in ${targetCity.city}, ${targetCity.state}`,
           source_citations: [],
           confidence_score: biz.confidence ?? 0.5,
+          black_owned_confidence: typeof biz.black_owned_confidence === "number" ? biz.black_owned_confidence : null,
+          black_owned_evidence: (biz.black_owned_evidence || "").trim() || null,
           logo_url: finalLogoUrl,
           banner_url: finalBannerUrl,
           price_range: biz.price_range || null,
@@ -1436,15 +1461,17 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       skipped_no_website: skippedNoWebsite,
       skipped_no_phone: skippedNoPhone,
       skipped_no_address: skippedNoAddress,
+      skipped_not_black_owned: skippedNotBlackOwned,
       skipped_no_images: skippedNoImages,
       duration_ms: durationMs,
       min_confidence: MIN_CONFIDENCE,
+      min_black_owned_confidence: MIN_BLACK_OWNED_CONFIDENCE,
     };
 
     const reportData = {
       report_type: "auto_discover",
       status: "completed",
-      summary: `Expanded discovery: ${NUM_SEARCHES} queries across ${uniqueCategories.length} unique categories. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, No website: ${skippedNoWebsite}, No phone: ${skippedNoPhone}, No address: ${skippedNoAddress}. Duration: ${durationMs}ms.`,
+      summary: `Expanded discovery: ${NUM_SEARCHES} queries across ${uniqueCategories.length} unique categories. ${allCandidates.length} candidates total. Inserted: ${inserted}, Duplicates: ${skippedDuplicates}, Low confidence: ${skippedLowConfidence}, Not verifiably Black-owned: ${skippedNotBlackOwned}, No website: ${skippedNoWebsite}, No phone: ${skippedNoPhone}, No address: ${skippedNoAddress}. Duration: ${durationMs}ms.`,
       details: {
         ...runDetails,
         searches: searchCombosSummary,

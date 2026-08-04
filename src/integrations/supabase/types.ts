@@ -2112,6 +2112,8 @@ export type Database = {
         Row: {
           address: string | null
           banner_url: string | null
+          black_owned_confidence: number | null
+          black_owned_evidence: string | null
           business_description: string | null
           business_name: string
           call_notes: string | null
@@ -2188,6 +2190,8 @@ export type Database = {
         Insert: {
           address?: string | null
           banner_url?: string | null
+          black_owned_confidence?: number | null
+          black_owned_evidence?: string | null
           business_description?: string | null
           business_name: string
           call_notes?: string | null
@@ -2264,6 +2268,8 @@ export type Database = {
         Update: {
           address?: string | null
           banner_url?: string | null
+          black_owned_confidence?: number | null
+          black_owned_evidence?: string | null
           business_description?: string | null
           business_name?: string
           call_notes?: string | null
