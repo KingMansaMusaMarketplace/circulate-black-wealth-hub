@@ -193,6 +193,29 @@ const BusinessReviewQueue: React.FC = () => {
     }
   };
 
+  // Bulk-dismiss every lead in the current tab that has no cited proof of Black ownership.
+  const [bulkRejecting, setBulkRejecting] = useState(false);
+  const bulkRejectUnverifiedOwnership = async () => {
+    if (!window.confirm(
+      `Reject ALL "${STATUS_LABEL[status]}" leads that have no cited evidence of Black ownership? This cannot be undone in bulk.`
+    )) return;
+    setBulkRejecting(true);
+    try {
+      const { error, count } = await supabase
+        .from('b2b_external_leads')
+        .update({ verification_status: 'rejected' } as any, { count: 'exact' })
+        .eq('verification_status', status)
+        .is('black_owned_evidence', null);
+      if (error) throw error;
+      toast.success(`Rejected ${count ?? 0} leads with no ownership evidence.`);
+      await Promise.all([fetchLeads(), fetchCounts()]);
+    } catch (e: any) {
+      toast.error(e.message || 'Bulk reject failed');
+    } finally {
+      setBulkRejecting(false);
+    }
+  };
+
   const runEnrichment = async () => {
     setEnriching(true);
     try {
