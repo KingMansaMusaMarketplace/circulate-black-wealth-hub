@@ -115,7 +115,7 @@ export const AGREEMENT_SECTIONS: AgreementSection[] = [
   },
   {
     heading: '10. Termination and Refunds',
-    body: 'Either party may terminate for material breach that remains uncured thirty (30) (30) days after written notice. Amounts paid for benefits already delivered are non-refundable. Where 1325.AI terminates without cause, Sponsor shall receive a pro-rata refund of prepaid fees for undelivered benefits.',
+    body: 'Either party may terminate for material breach that remains uncured thirty (30) days after written notice. Amounts paid for benefits already delivered are non-refundable. Where 1325.AI terminates without cause, Sponsor shall receive a pro-rata refund of prepaid fees for undelivered benefits.',
   },
   {
     heading: '11. Limitation of Liability and Indemnification',

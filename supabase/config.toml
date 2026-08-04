@@ -302,3 +302,7 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = true
   [functions.stripe-identity-webhook]
     verify_jwt = false
+  [functions.sign-sponsor-agreement]
+    verify_jwt = false
+  [functions.send-sponsor-invoice]
+    verify_jwt = false
