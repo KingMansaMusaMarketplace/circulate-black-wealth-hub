@@ -1000,14 +1000,41 @@ serve(async (req) => {
       "Savannah", "Columbia", "Greensboro", "Norfolk", "Hampton", "Baton Rouge",
     ]);
 
+    // === FOCUS REGION SWITCH ===
+    // When system_settings.auto_discover_focus_region = "atlanta_metro",
+    // every search targets Atlanta and its surrounding metro cities.
+    let focusRegion: string | null = null;
+    try {
+      const { data: focusSetting } = await supabase
+        .from("system_settings")
+        .select("setting_value")
+        .eq("setting_key", "auto_discover_focus_region")
+        .maybeSingle();
+      const raw = focusSetting?.setting_value;
+      const val = typeof raw === "string" ? raw : (raw as any)?.toString?.() ?? null;
+      focusRegion = val && val !== "none" && val !== "null" ? val.replace(/"/g, "") : null;
+    } catch (_e) { /* setting optional */ }
+
+    const cityPool = focusRegion === "atlanta_metro" ? ATLANTA_METRO_CITIES : TARGET_CITIES;
+    if (focusRegion === "atlanta_metro") {
+      console.log(`[Kayla Auto-Discover] FOCUS MODE: Atlanta metro (${cityPool.length} cities)`);
+    }
+
     // Build weighted city pool: US majors 5x, other US 2x, international 1x
     const weightedCities: typeof TARGET_CITIES = [];
-    for (const city of TARGET_CITIES) {
+    for (const city of cityPool) {
+      if (focusRegion === "atlanta_metro") {
+        // Atlanta proper gets extra weight, suburbs still get solid coverage
+        const weight = city.city === "Atlanta" ? 4 : 1;
+        for (let w = 0; w < weight; w++) weightedCities.push(city);
+        continue;
+      }
       const isUSMajor = US_MAJOR_CITIES.has(city.city);
       const isIntl = isGhana(city.state) || isCaribbean(city.state) || isUK(city.state) || isMexican(city.state) || isCanadian(city.state);
       const weight = isUSMajor ? 5 : isIntl ? 1 : 2;
       for (let w = 0; w < weight; w++) weightedCities.push(city);
     }
+
 
     // Pick unique combos, preferring those NOT recently searched
     const searchCombos: { city: typeof TARGET_CITIES[0]; category: string; queryPattern: number }[] = [];
