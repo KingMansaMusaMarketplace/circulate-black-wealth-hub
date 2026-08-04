@@ -8,7 +8,8 @@ import {
   ShieldQuestion, ThumbsUp, ThumbsDown, ExternalLink, Loader2, RefreshCw, CheckCircle2,
 } from 'lucide-react';
 
-const MIN = 0.85;
+const THRESHOLDS = [0.85, 0.9, 0.95] as const;
+const DEFAULT_MIN = 0.95;
 const SAMPLE_SIZE = 50;
 
 type SampleLead = {
