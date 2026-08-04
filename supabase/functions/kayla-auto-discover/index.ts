@@ -361,19 +361,41 @@ const ethnicLabel = (state: string) =>
   isMexican(state) ? 'Afro-Mexican' : 
   isCanadian(state) ? 'Black Canadian' : 'African American';
 
+// Trusted Black-owned business directories / certifiers.
+// Used as a Perplexity search_domain_filter so most searches only read sources
+// that already vet Black ownership — this stops credits burning on generic
+// "best barbershops in Atlanta" listicles.
+const BLACK_OWNED_SOURCE_DOMAINS = [
+  "officialblackwallstreet.com",
+  "webuyblack.com",
+  "supportblackowned.com",
+  "eatokra.com",
+  "blackownedeverything.com",
+  "nmsdc.org",
+  "gmsdc.org",
+  "blackbusinessgreenbook.com",
+  "shoppeblack.us",
+  "atlantablackchambers.org",
+];
+
 // Alternate search query patterns to avoid repetition and find more results
 const QUERY_PATTERNS = [
   (cat: string, city: string, state: string) => 
-    `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${cat} businesses in ${locationLabel(city, state)}.`,
+    `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${cat} businesses in ${locationLabel(city, state)} that are listed in a Black-owned business directory or are certified minority-owned.`,
   (cat: string, city: string, state: string) => 
-    `List Black-owned ${cat} businesses near ${locationLabel(city, state)} area with websites and contact info.`,
+    `List Black-owned ${cat} businesses near ${locationLabel(city, state)} that appear on a Black-owned business directory, with websites and contact info.`,
   (cat: string, city: string, state: string) => 
-    `What are some popular ${ethnicLabel(state)} owned ${cat} businesses in the ${locationLabel(city, state)} metropolitan area?`,
+    `What ${ethnicLabel(state)} owned ${cat} businesses in the ${locationLabel(city, state)} metropolitan area are named in published Black-owned business guides or chamber directories?`,
   (cat: string, city: string, state: string) => 
-    `Find Black entrepreneurs running ${cat} businesses in and around ${locationLabel(city, state)}. Include newer and established businesses.`,
+    `Find Black entrepreneurs running ${cat} businesses in and around ${locationLabel(city, state)} where the owner is publicly identified as Black on the business's own About page or in press coverage.`,
   (cat: string, city: string, state: string) => 
-    `Discover lesser-known Black-owned ${cat} businesses in ${locationLabel(city, state)} that have their own website.`,
+    `Discover lesser-known Black-owned ${cat} businesses in ${locationLabel(city, state)} that have their own website and a verifiable Black-ownership source.`,
 ];
+
+// Patterns 0-2 are directory-sourced: restrict them to the vetted domains.
+// Patterns 3-4 stay open-web so we can still read owner bios and press coverage.
+const DOMAIN_FILTERED_PATTERNS = new Set([0, 1, 2]);
+
 
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
