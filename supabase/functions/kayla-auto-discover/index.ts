@@ -384,6 +384,9 @@ const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 const NUM_SEARCHES = 120;
 const PER_QUERY_LIMIT = 15;
 const MIN_CONFIDENCE = 0.7;
+// Separate gate: how sure we must be that the business is actually Black-owned.
+// MIN_CONFIDENCE above only measures "is this a real, currently open business".
+const MIN_BLACK_OWNED_CONFIDENCE = 0.7;
 const SCRAPE_BATCH_SIZE = 60;
 
 // === Category-specific stock banner pools ===
