@@ -322,6 +322,9 @@ const BusinessReviewQueue: React.FC = () => {
                 const notes = (lead.verification_notes && typeof lead.verification_notes === 'object')
                   ? (lead.verification_notes as Record<string, unknown>) : {};
                 const reasons = Array.isArray((notes as any).reasons) ? (notes as any).reasons as string[] : [];
+                const ownershipOk = lead.black_owned_confidence !== null
+                  && Number(lead.black_owned_confidence) >= 0.7
+                  && !!lead.black_owned_evidence;
                 return (
                   <Card key={lead.id} className="bg-slate-900/60 border-white/10">
                     <CardHeader className="flex flex-row items-start justify-between gap-4">
