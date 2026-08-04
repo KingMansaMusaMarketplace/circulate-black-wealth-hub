@@ -319,15 +319,32 @@ const BusinessReviewQueue: React.FC = () => {
             </TabsList>
           </Tabs>
 
-          <div className="relative max-w-sm">
-            <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-            <Input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name…"
-              className="pl-9 bg-slate-900/60 border-white/10"
-            />
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="relative max-w-sm flex-1 min-w-[220px]">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search by name…"
+                className="pl-9 bg-slate-900/60 border-white/10"
+              />
+            </div>
+            {(status === 'needs_review' || status === 'pending') && (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={bulkRejecting}
+                onClick={bulkRejectUnverifiedOwnership}
+                className="border-red-400/40 text-red-200 hover:bg-red-500/10"
+              >
+                {bulkRejecting
+                  ? <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                  : <AlertTriangle className="h-4 w-4 mr-1" />}
+                Reject all with no ownership evidence
+              </Button>
+            )}
           </div>
+
 
           {loading ? (
             <div className="flex items-center justify-center py-16 text-white/60">
