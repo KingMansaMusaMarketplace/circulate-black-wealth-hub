@@ -6,7 +6,32 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-csrf-token, x-cron-secret",
 };
 
+// Atlanta metro focus pool — Atlanta plus the surrounding metro cities/suburbs.
+// Used when the `auto_discover_focus_region` setting is set to "atlanta_metro".
+const ATLANTA_METRO_CITIES = [
+  { city: "Atlanta", state: "GA" }, { city: "Decatur", state: "GA" }, { city: "East Point", state: "GA" },
+  { city: "College Park", state: "GA" }, { city: "Marietta", state: "GA" }, { city: "Smyrna", state: "GA" },
+  { city: "Stonecrest", state: "GA" }, { city: "Stone Mountain", state: "GA" }, { city: "Lithonia", state: "GA" },
+  { city: "Union City", state: "GA" }, { city: "Fairburn", state: "GA" }, { city: "Riverdale", state: "GA" },
+  { city: "Jonesboro", state: "GA" }, { city: "Forest Park", state: "GA" }, { city: "Morrow", state: "GA" },
+  { city: "Conyers", state: "GA" }, { city: "Covington", state: "GA" }, { city: "Douglasville", state: "GA" },
+  { city: "Lithia Springs", state: "GA" }, { city: "Austell", state: "GA" }, { city: "Powder Springs", state: "GA" },
+  { city: "Mableton", state: "GA" }, { city: "Sandy Springs", state: "GA" }, { city: "Dunwoody", state: "GA" },
+  { city: "Brookhaven", state: "GA" }, { city: "Chamblee", state: "GA" }, { city: "Doraville", state: "GA" },
+  { city: "Tucker", state: "GA" }, { city: "Norcross", state: "GA" }, { city: "Lawrenceville", state: "GA" },
+  { city: "Duluth", state: "GA" }, { city: "Snellville", state: "GA" }, { city: "Lilburn", state: "GA" },
+  { city: "Stockbridge", state: "GA" }, { city: "McDonough", state: "GA" }, { city: "Hampton", state: "GA" },
+  { city: "Fayetteville", state: "GA" }, { city: "Peachtree City", state: "GA" }, { city: "Newnan", state: "GA" },
+  { city: "Kennesaw", state: "GA" }, { city: "Acworth", state: "GA" }, { city: "Woodstock", state: "GA" },
+  { city: "Roswell", state: "GA" }, { city: "Alpharetta", state: "GA" }, { city: "Johns Creek", state: "GA" },
+  { city: "Suwanee", state: "GA" }, { city: "Buford", state: "GA" }, { city: "Villa Rica", state: "GA" },
+  { city: "Ellenwood", state: "GA" }, { city: "Rex", state: "GA" }, { city: "Palmetto", state: "GA" },
+  { city: "South Fulton", state: "GA" }, { city: "Hapeville", state: "GA" }, { city: "Avondale Estates", state: "GA" },
+  { city: "Clarkston", state: "GA" }, { city: "Grayson", state: "GA" }, { city: "Loganville", state: "GA" },
+];
+
 const TARGET_CITIES = [
+
   // Georgia
   { city: "Atlanta", state: "GA" }, { city: "Savannah", state: "GA" }, { city: "Augusta", state: "GA" }, { city: "Macon", state: "GA" }, { city: "Columbus", state: "GA" },
   { city: "Albany", state: "GA" }, { city: "Valdosta", state: "GA" }, { city: "Athens", state: "GA" }, { city: "Marietta", state: "GA" }, { city: "Decatur", state: "GA" },
