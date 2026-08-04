@@ -319,6 +319,9 @@ const BusinessReviewQueue: React.FC = () => {
             </TabsList>
           </Tabs>
 
+          <OwnershipAuditCard />
+
+
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative max-w-sm flex-1 min-w-[220px]">
               <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
