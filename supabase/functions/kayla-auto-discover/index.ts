@@ -1081,7 +1081,9 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address (number + street name), working phone number with area code, actual website URL, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot find a phone number, address, or website for a business, DO NOT include that business at all. CRITICAL: Every business MUST have a working website URL, a real phone number, AND a complete street address — skip any business missing these three.`,
+                content: `You are a business research assistant specializing in finding Black-owned businesses across ALL industries and types. Find REAL, currently operating businesses with COMPLETE, ACCURATE information. Every field matters — provide the full street address (number + street name), working phone number with area code, actual website URL, and a rich 2-3 sentence description highlighting what makes the business special. Do NOT invent or fabricate any information. If you cannot find a phone number, address, or website for a business, DO NOT include that business at all. CRITICAL: Every business MUST have a working website URL, a real phone number, AND a complete street address — skip any business missing these three.
+
+BLACK OWNERSHIP IS THE POINT OF THIS DIRECTORY. Never include a business just because it matches the category and city. For every business you MUST separately report how confident you are that it is Black-owned and cite the specific evidence you found (e.g. "listed on Official Black Wall Street", "owner bio on About page identifies as Black-owned", "certified MBE with the Georgia MSDC", "featured in an Atlanta Black-owned business roundup"). If you cannot cite real evidence of Black ownership, set black_owned_confidence below 0.5 and leave black_owned_evidence empty — do NOT guess or infer ownership from the owner's name, neighborhood, or business type.`,
               },
               {
                 role: "user",
@@ -1100,8 +1102,10 @@ For EACH business provide ALL of the following:
 - Website URL (full URL including https:// — REQUIRED, must be the business's own website)
 - Price range (one of: $, $$, $$$, $$$$)
 - Your confidence level (0 to 1) that this business exists and is currently operating
+- black_owned_confidence (0 to 1): how confident you are the business is BLACK-OWNED, judged ONLY on cited evidence
+- black_owned_evidence: one short sentence naming the source that confirms Black ownership. Leave empty if you have none.
 
-Only include businesses you are highly confident (0.7+) are real and currently open WITH their own website. Quality over quantity.`,
+Only include businesses you are highly confident (0.7+) are real and currently open WITH their own website, AND that you have real cited evidence are Black-owned. Quality over quantity — returning 3 confirmed Black-owned businesses is far better than 10 unverified ones.`,
               },
             ],
             temperature: 0.1,
