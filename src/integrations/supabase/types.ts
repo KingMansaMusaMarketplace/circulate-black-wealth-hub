@@ -5506,6 +5506,8 @@ export type Database = {
           address: string | null
           average_rating: number | null
           banner_url: string | null
+          black_owned_confidence: number | null
+          black_owned_evidence: string | null
           business_name: string
           category: string | null
           city: string | null
@@ -5533,6 +5535,8 @@ export type Database = {
           normalized_name: string | null
           onboarding_completed_at: string | null
           owner_id: string
+          ownership_flagged: boolean
+          ownership_reviewed_at: string | null
           parent_business_id: string | null
           phone: string | null
           qr_code_id: string | null
@@ -5555,6 +5559,8 @@ export type Database = {
           address?: string | null
           average_rating?: number | null
           banner_url?: string | null
+          black_owned_confidence?: number | null
+          black_owned_evidence?: string | null
           business_name: string
           category?: string | null
           city?: string | null
@@ -5582,6 +5588,8 @@ export type Database = {
           normalized_name?: string | null
           onboarding_completed_at?: string | null
           owner_id: string
+          ownership_flagged?: boolean
+          ownership_reviewed_at?: string | null
           parent_business_id?: string | null
           phone?: string | null
           qr_code_id?: string | null
@@ -5604,6 +5612,8 @@ export type Database = {
           address?: string | null
           average_rating?: number | null
           banner_url?: string | null
+          black_owned_confidence?: number | null
+          black_owned_evidence?: string | null
           business_name?: string
           category?: string | null
           city?: string | null
@@ -5631,6 +5641,8 @@ export type Database = {
           normalized_name?: string | null
           onboarding_completed_at?: string | null
           owner_id?: string
+          ownership_flagged?: boolean
+          ownership_reviewed_at?: string | null
           parent_business_id?: string | null
           phone?: string | null
           qr_code_id?: string | null
