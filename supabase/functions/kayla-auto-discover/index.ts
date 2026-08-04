@@ -361,41 +361,19 @@ const ethnicLabel = (state: string) =>
   isMexican(state) ? 'Afro-Mexican' : 
   isCanadian(state) ? 'Black Canadian' : 'African American';
 
-// Trusted Black-owned business directories / certifiers.
-// Used as a Perplexity search_domain_filter so most searches only read sources
-// that already vet Black ownership — this stops credits burning on generic
-// "best barbershops in Atlanta" listicles.
-const BLACK_OWNED_SOURCE_DOMAINS = [
-  "officialblackwallstreet.com",
-  "webuyblack.com",
-  "supportblackowned.com",
-  "eatokra.com",
-  "blackownedeverything.com",
-  "nmsdc.org",
-  "gmsdc.org",
-  "blackbusinessgreenbook.com",
-  "shoppeblack.us",
-  "atlantablackchambers.org",
-];
-
 // Alternate search query patterns to avoid repetition and find more results
 const QUERY_PATTERNS = [
-  (cat: string, city: string, state: string) => 
-    `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${cat} businesses in ${locationLabel(city, state)} that are listed in a Black-owned business directory or are certified minority-owned.`,
-  (cat: string, city: string, state: string) => 
-    `List Black-owned ${cat} businesses near ${locationLabel(city, state)} that appear on a Black-owned business directory, with websites and contact info.`,
-  (cat: string, city: string, state: string) => 
-    `What ${ethnicLabel(state)} owned ${cat} businesses in the ${locationLabel(city, state)} metropolitan area are named in published Black-owned business guides or chamber directories?`,
-  (cat: string, city: string, state: string) => 
-    `Find Black entrepreneurs running ${cat} businesses in and around ${locationLabel(city, state)} where the owner is publicly identified as Black on the business's own About page or in press coverage.`,
-  (cat: string, city: string, state: string) => 
-    `Discover lesser-known Black-owned ${cat} businesses in ${locationLabel(city, state)} that have their own website and a verifiable Black-ownership source.`,
+  (cat: string, city: string, state: string) =>
+    `Find ${PER_QUERY_LIMIT} real, currently operating Black-owned ${cat} businesses in ${locationLabel(city, state)} with complete contact information.`,
+  (cat: string, city: string, state: string) =>
+    `List the best Black-owned ${cat} businesses near ${locationLabel(city, state)} with their websites and contact info.`,
+  (cat: string, city: string, state: string) =>
+    `What ${ethnicLabel(state)} owned ${cat} businesses operate in the ${locationLabel(city, state)} metropolitan area?`,
+  (cat: string, city: string, state: string) =>
+    `Find Black entrepreneurs running ${cat} businesses in and around ${locationLabel(city, state)}.`,
+  (cat: string, city: string, state: string) =>
+    `Discover lesser-known Black-owned ${cat} businesses in ${locationLabel(city, state)} that have their own website.`,
 ];
-
-// Patterns 0-2 are directory-sourced: restrict them to the vetted domains.
-// Patterns 3-4 stay open-web so we can still read owner bios and press coverage.
-const DOMAIN_FILTERED_PATTERNS = new Set([0, 1, 2]);
-
 
 const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 
@@ -403,12 +381,12 @@ const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 // Lower volume per run, higher confidence threshold. Verification happens in
 // kayla-verify-and-promote before anything reaches the live directory.
 // Scaled up for the 100k push — accuracy gate still enforced by kayla-verify-and-promote
-const NUM_SEARCHES = 120;
+const NUM_SEARCHES = 25;
 const PER_QUERY_LIMIT = 15;
 const MIN_CONFIDENCE = 0.7;
 // Separate gate: how sure we must be that the business is actually Black-owned.
 // MIN_CONFIDENCE above only measures "is this a real, currently open business".
-const MIN_BLACK_OWNED_CONFIDENCE = 0.7;
+const MIN_BLACK_OWNED_CONFIDENCE = 0.5;
 const SCRAPE_BATCH_SIZE = 60;
 
 // === Category-specific stock banner pools ===
@@ -1130,13 +1108,10 @@ For EACH business provide ALL of the following:
 - black_owned_confidence (0 to 1): how confident you are the business is BLACK-OWNED, judged ONLY on cited evidence
 - black_owned_evidence: one short sentence naming the source that confirms Black ownership. Leave empty if you have none.
 
-Only include businesses you are highly confident (0.7+) are real and currently open WITH their own website, AND that you have real cited evidence are Black-owned. Quality over quantity — returning 3 confirmed Black-owned businesses is far better than 10 unverified ones.`,
+Only include businesses you are highly confident (0.7+) are real, currently open, and Black-owned WITH their own website. Always fill in black_owned_confidence, and add black_owned_evidence whenever you have a source.`,
               },
             ],
             temperature: 0.1,
-            ...(DOMAIN_FILTERED_PATTERNS.has(queryPattern)
-              ? { search_domain_filter: BLACK_OWNED_SOURCE_DOMAINS }
-              : {}),
             response_format: {
               type: "json_schema",
               json_schema: {
@@ -1249,7 +1224,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         ? biz.black_owned_confidence
         : 0;
       const blackOwnedEvidence = (biz.black_owned_evidence || "").trim();
-      if (blackOwnedConfidence < MIN_BLACK_OWNED_CONFIDENCE || blackOwnedEvidence.length < 10) {
+      if (blackOwnedConfidence < MIN_BLACK_OWNED_CONFIDENCE) {
         skippedNotBlackOwned++;
         continue;
       }
