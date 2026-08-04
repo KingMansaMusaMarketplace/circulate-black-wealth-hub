@@ -346,17 +346,42 @@ const BusinessReviewQueue: React.FC = () => {
                           )}
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right space-y-1 shrink-0">
                         {lead.confidence_score !== null && (
-                          <Badge variant="outline" className="text-xs text-white border-white/30">
-                            confidence {(Number(lead.confidence_score) * 100).toFixed(0)}%
+                          <Badge variant="outline" className="text-xs text-white border-white/30 block">
+                            real business {(Number(lead.confidence_score) * 100).toFixed(0)}%
                           </Badge>
                         )}
+                        <Badge
+                          variant="outline"
+                          className={
+                            ownershipOk
+                              ? 'text-xs text-emerald-200 border-emerald-400/50 bg-emerald-500/10 block'
+                              : 'text-xs text-red-200 border-red-400/50 bg-red-500/10 block'
+                          }
+                        >
+                          {lead.black_owned_confidence !== null
+                            ? `Black-owned ${(Number(lead.black_owned_confidence) * 100).toFixed(0)}%`
+                            : 'Black-owned: unverified'}
+                        </Badge>
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       {lead.business_description && (
                         <p className="text-sm text-white/70">{lead.business_description}</p>
+                      )}
+                      {ownershipOk ? (
+                        <p className="text-xs text-emerald-200/90 bg-emerald-500/10 border border-emerald-500/30 rounded p-2">
+                          <span className="text-white/50">Ownership evidence:</span> {lead.black_owned_evidence}
+                        </p>
+                      ) : (
+                        <div className="flex items-start gap-2 text-sm bg-red-500/10 border border-red-500/30 rounded p-2">
+                          <AlertTriangle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                          <p className="text-red-200/90">
+                            No cited evidence that this business is Black-owned. The score on the left only means
+                            the business is real and open. Verify manually before publishing, or reject.
+                          </p>
+                        </div>
                       )}
                       {reasons.length > 0 && (
                         <div className="flex items-start gap-2 text-sm bg-amber-500/10 border border-amber-500/30 rounded p-2">
