@@ -1134,6 +1134,9 @@ Only include businesses you are highly confident (0.7+) are real and currently o
               },
             ],
             temperature: 0.1,
+            ...(DOMAIN_FILTERED_PATTERNS.has(queryPattern)
+              ? { search_domain_filter: BLACK_OWNED_SOURCE_DOMAINS }
+              : {}),
             response_format: {
               type: "json_schema",
               json_schema: {
