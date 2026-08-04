@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
+import OwnershipAuditCard from '@/components/admin/OwnershipAuditCard';
 
 type Lead = {
   id: string;
