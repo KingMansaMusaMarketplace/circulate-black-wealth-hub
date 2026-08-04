@@ -1398,6 +1398,8 @@ Only include businesses you are highly confident (0.7+) are real and currently o
           source_query: `${catFocus} in ${targetCity.city}, ${targetCity.state}`,
           source_citations: [],
           confidence_score: biz.confidence ?? 0.5,
+          black_owned_confidence: typeof biz.black_owned_confidence === "number" ? biz.black_owned_confidence : null,
+          black_owned_evidence: (biz.black_owned_evidence || "").trim() || null,
           logo_url: finalLogoUrl,
           banner_url: finalBannerUrl,
           price_range: biz.price_range || null,
