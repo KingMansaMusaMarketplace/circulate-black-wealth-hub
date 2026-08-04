@@ -22,6 +22,8 @@ type Lead = {
   logo_url: string | null;
   banner_url: string | null;
   confidence_score: number | null;
+  black_owned_confidence: number | null;
+  black_owned_evidence: string | null;
   verification_status: string | null;
   verification_notes: any;
   verified_phone: string | null;
