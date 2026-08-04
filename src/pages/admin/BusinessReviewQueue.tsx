@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import OwnershipAuditCard from '@/components/admin/OwnershipAuditCard';
+import DeadLinkAuditCard from '@/components/admin/DeadLinkAuditCard';
 
 type Lead = {
   id: string;
