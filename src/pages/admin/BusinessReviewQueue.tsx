@@ -122,8 +122,14 @@ const BusinessReviewQueue: React.FC = () => {
   const approve = async (lead: Lead) => {
     setActingId(lead.id);
     try {
+      const { data: authData } = await supabase.auth.getUser();
+      const ownerId = authData?.user?.id;
+      if (!ownerId) throw new Error('You must be signed in as an admin to approve.');
+
       const { error: insErr } = await supabase.from('businesses').insert({
+        owner_id: ownerId,
         name: lead.business_name,
+        business_name: lead.business_name,
         category: lead.category,
         city: lead.city,
         state: lead.state,
