@@ -6,7 +6,32 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-csrf-token, x-cron-secret",
 };
 
+// Atlanta metro focus pool — Atlanta plus the surrounding metro cities/suburbs.
+// Used when the `auto_discover_focus_region` setting is set to "atlanta_metro".
+const ATLANTA_METRO_CITIES = [
+  { city: "Atlanta", state: "GA" }, { city: "Decatur", state: "GA" }, { city: "East Point", state: "GA" },
+  { city: "College Park", state: "GA" }, { city: "Marietta", state: "GA" }, { city: "Smyrna", state: "GA" },
+  { city: "Stonecrest", state: "GA" }, { city: "Stone Mountain", state: "GA" }, { city: "Lithonia", state: "GA" },
+  { city: "Union City", state: "GA" }, { city: "Fairburn", state: "GA" }, { city: "Riverdale", state: "GA" },
+  { city: "Jonesboro", state: "GA" }, { city: "Forest Park", state: "GA" }, { city: "Morrow", state: "GA" },
+  { city: "Conyers", state: "GA" }, { city: "Covington", state: "GA" }, { city: "Douglasville", state: "GA" },
+  { city: "Lithia Springs", state: "GA" }, { city: "Austell", state: "GA" }, { city: "Powder Springs", state: "GA" },
+  { city: "Mableton", state: "GA" }, { city: "Sandy Springs", state: "GA" }, { city: "Dunwoody", state: "GA" },
+  { city: "Brookhaven", state: "GA" }, { city: "Chamblee", state: "GA" }, { city: "Doraville", state: "GA" },
+  { city: "Tucker", state: "GA" }, { city: "Norcross", state: "GA" }, { city: "Lawrenceville", state: "GA" },
+  { city: "Duluth", state: "GA" }, { city: "Snellville", state: "GA" }, { city: "Lilburn", state: "GA" },
+  { city: "Stockbridge", state: "GA" }, { city: "McDonough", state: "GA" }, { city: "Hampton", state: "GA" },
+  { city: "Fayetteville", state: "GA" }, { city: "Peachtree City", state: "GA" }, { city: "Newnan", state: "GA" },
+  { city: "Kennesaw", state: "GA" }, { city: "Acworth", state: "GA" }, { city: "Woodstock", state: "GA" },
+  { city: "Roswell", state: "GA" }, { city: "Alpharetta", state: "GA" }, { city: "Johns Creek", state: "GA" },
+  { city: "Suwanee", state: "GA" }, { city: "Buford", state: "GA" }, { city: "Villa Rica", state: "GA" },
+  { city: "Ellenwood", state: "GA" }, { city: "Rex", state: "GA" }, { city: "Palmetto", state: "GA" },
+  { city: "South Fulton", state: "GA" }, { city: "Hapeville", state: "GA" }, { city: "Avondale Estates", state: "GA" },
+  { city: "Clarkston", state: "GA" }, { city: "Grayson", state: "GA" }, { city: "Loganville", state: "GA" },
+];
+
 const TARGET_CITIES = [
+
   // Georgia
   { city: "Atlanta", state: "GA" }, { city: "Savannah", state: "GA" }, { city: "Augusta", state: "GA" }, { city: "Macon", state: "GA" }, { city: "Columbus", state: "GA" },
   { city: "Albany", state: "GA" }, { city: "Valdosta", state: "GA" }, { city: "Athens", state: "GA" }, { city: "Marietta", state: "GA" }, { city: "Decatur", state: "GA" },
@@ -975,14 +1000,41 @@ serve(async (req) => {
       "Savannah", "Columbia", "Greensboro", "Norfolk", "Hampton", "Baton Rouge",
     ]);
 
+    // === FOCUS REGION SWITCH ===
+    // When system_settings.auto_discover_focus_region = "atlanta_metro",
+    // every search targets Atlanta and its surrounding metro cities.
+    let focusRegion: string | null = null;
+    try {
+      const { data: focusSetting } = await supabase
+        .from("system_settings")
+        .select("setting_value")
+        .eq("setting_key", "auto_discover_focus_region")
+        .maybeSingle();
+      const raw = focusSetting?.setting_value;
+      const val = typeof raw === "string" ? raw : (raw as any)?.toString?.() ?? null;
+      focusRegion = val && val !== "none" && val !== "null" ? val.replace(/"/g, "") : null;
+    } catch (_e) { /* setting optional */ }
+
+    const cityPool = focusRegion === "atlanta_metro" ? ATLANTA_METRO_CITIES : TARGET_CITIES;
+    if (focusRegion === "atlanta_metro") {
+      console.log(`[Kayla Auto-Discover] FOCUS MODE: Atlanta metro (${cityPool.length} cities)`);
+    }
+
     // Build weighted city pool: US majors 5x, other US 2x, international 1x
     const weightedCities: typeof TARGET_CITIES = [];
-    for (const city of TARGET_CITIES) {
+    for (const city of cityPool) {
+      if (focusRegion === "atlanta_metro") {
+        // Atlanta proper gets extra weight, suburbs still get solid coverage
+        const weight = city.city === "Atlanta" ? 4 : 1;
+        for (let w = 0; w < weight; w++) weightedCities.push(city);
+        continue;
+      }
       const isUSMajor = US_MAJOR_CITIES.has(city.city);
       const isIntl = isGhana(city.state) || isCaribbean(city.state) || isUK(city.state) || isMexican(city.state) || isCanadian(city.state);
       const weight = isUSMajor ? 5 : isIntl ? 1 : 2;
       for (let w = 0; w < weight; w++) weightedCities.push(city);
     }
+
 
     // Pick unique combos, preferring those NOT recently searched
     const searchCombos: { city: typeof TARGET_CITIES[0]; category: string; queryPattern: number }[] = [];
