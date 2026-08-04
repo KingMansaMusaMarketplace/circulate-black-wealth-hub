@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import OwnershipAuditCard from '@/components/admin/OwnershipAuditCard';
+import DeadLinkAuditCard from '@/components/admin/DeadLinkAuditCard';
 
 type Lead = {
   id: string;
@@ -321,6 +322,10 @@ const BusinessReviewQueue: React.FC = () => {
           </Tabs>
 
           <OwnershipAuditCard />
+
+          <DeadLinkAuditCard />
+
+
 
 
           <div className="flex flex-wrap items-center gap-3">

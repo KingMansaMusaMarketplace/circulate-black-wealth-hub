@@ -5552,7 +5552,11 @@ export type Database = {
           subscription_status: string | null
           updated_at: string | null
           website: string | null
+          website_checked_at: string | null
           website_domain: string | null
+          website_fail_count: number
+          website_status: string
+          website_status_code: number | null
           zip_code: string | null
         }
         Insert: {
@@ -5605,7 +5609,11 @@ export type Database = {
           subscription_status?: string | null
           updated_at?: string | null
           website?: string | null
+          website_checked_at?: string | null
           website_domain?: string | null
+          website_fail_count?: number
+          website_status?: string
+          website_status_code?: number | null
           zip_code?: string | null
         }
         Update: {
@@ -5658,7 +5666,11 @@ export type Database = {
           subscription_status?: string | null
           updated_at?: string | null
           website?: string | null
+          website_checked_at?: string | null
           website_domain?: string | null
+          website_fail_count?: number
+          website_status?: string
+          website_status_code?: number | null
           zip_code?: string | null
         }
         Relationships: [
