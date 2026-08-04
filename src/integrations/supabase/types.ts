@@ -20324,6 +20324,114 @@ export type Database = {
           },
         ]
       }
+      sponsor_agreements: {
+        Row: {
+          admin_notes: string | null
+          agreed_terms: boolean
+          agreement_version: string
+          annual_amount_cents: number
+          billing_address: string
+          category_exclusivity: boolean
+          company_name: string
+          company_website: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string | null
+          contact_title: string | null
+          created_at: string
+          id: string
+          installment_amount_cents: number
+          invoice_sent_at: string | null
+          ip_address: string | null
+          paid_at: string | null
+          payment_schedule: string
+          po_number: string | null
+          signature_typed_name: string
+          signed_at: string
+          signer_name: string
+          signer_title: string | null
+          status: string
+          stripe_customer_id: string | null
+          stripe_invoice_id: string | null
+          stripe_invoice_number: string | null
+          stripe_invoice_url: string | null
+          tier_key: string
+          tier_name: string
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          agreed_terms?: boolean
+          agreement_version: string
+          annual_amount_cents?: number
+          billing_address: string
+          category_exclusivity?: boolean
+          company_name: string
+          company_website?: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone?: string | null
+          contact_title?: string | null
+          created_at?: string
+          id?: string
+          installment_amount_cents?: number
+          invoice_sent_at?: string | null
+          ip_address?: string | null
+          paid_at?: string | null
+          payment_schedule?: string
+          po_number?: string | null
+          signature_typed_name: string
+          signed_at?: string
+          signer_name: string
+          signer_title?: string | null
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_invoice_id?: string | null
+          stripe_invoice_number?: string | null
+          stripe_invoice_url?: string | null
+          tier_key: string
+          tier_name: string
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          agreed_terms?: boolean
+          agreement_version?: string
+          annual_amount_cents?: number
+          billing_address?: string
+          category_exclusivity?: boolean
+          company_name?: string
+          company_website?: string | null
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string | null
+          contact_title?: string | null
+          created_at?: string
+          id?: string
+          installment_amount_cents?: number
+          invoice_sent_at?: string | null
+          ip_address?: string | null
+          paid_at?: string | null
+          payment_schedule?: string
+          po_number?: string | null
+          signature_typed_name?: string
+          signed_at?: string
+          signer_name?: string
+          signer_title?: string | null
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_invoice_id?: string | null
+          stripe_invoice_number?: string | null
+          stripe_invoice_url?: string | null
+          tier_key?: string
+          tier_name?: string
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       sponsor_benefits: {
         Row: {
           benefit_type: string
