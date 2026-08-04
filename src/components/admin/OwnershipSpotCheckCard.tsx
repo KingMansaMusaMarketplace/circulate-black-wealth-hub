@@ -8,7 +8,8 @@ import {
   ShieldQuestion, ThumbsUp, ThumbsDown, ExternalLink, Loader2, RefreshCw, CheckCircle2,
 } from 'lucide-react';
 
-const MIN = 0.85;
+const THRESHOLDS = [0.85, 0.9, 0.95] as const;
+const DEFAULT_MIN = 0.95;
 const SAMPLE_SIZE = 50;
 
 type SampleLead = {
@@ -32,6 +33,7 @@ const pct = (n: number | null) => (n == null ? '—' : `${Math.round(n * 100)}%`
  * 85% gate is before considering any auto-approval.
  */
 const OwnershipSpotCheckCard: React.FC = () => {
+  const [min, setMin] = useState<number>(DEFAULT_MIN);
   const [qualifying, setQualifying] = useState<number | null>(null);
   const [sample, setSample] = useState<SampleLead[]>([]);
   const [loading, setLoading] = useState(false);
@@ -39,15 +41,18 @@ const OwnershipSpotCheckCard: React.FC = () => {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
 
+  const minLabel = `${Math.round(min * 100)}%`;
+
   const baseFilter = useCallback(
     (q: any) =>
       q
-        .gte('confidence_score', MIN)
-        .gte('black_owned_confidence', MIN)
+        .gte('confidence_score', min)
+        .gte('black_owned_confidence', min)
         .eq('is_converted', false)
         .in('verification_status', ['needs_review', 'pending']),
-    []
+    [min]
   );
+
 
   const fetchCount = useCallback(async () => {
     const { count, error } = await baseFilter(
@@ -74,7 +79,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
       setQualifying(total);
       if (total === 0) {
         setSample([]);
-        toast.info('No leads currently clear both 85% bars.');
+        toast.info(`No leads currently clear both ${minLabel} bars.`);
         return;
       }
       const maxOffset = Math.max(0, total - SAMPLE_SIZE);
@@ -157,12 +162,14 @@ const OwnershipSpotCheckCard: React.FC = () => {
   const judged = correct + wrong;
   const accuracy = judged ? Math.round((correct / judged) * 100) : null;
 
+  const nextStep = min >= 0.95 ? 'the bar is already at its highest — keep review manual' : `raise the bar to ${Math.round((min + 0.05) * 100)}% and retest`;
+
   let verdict: { tone: string; text: string } | null = null;
   if (judged >= 20) {
-    if (wrong === 0) verdict = { tone: 'text-emerald-400', text: 'Excellent so far — the 85% gate looks trustworthy.' };
+    if (wrong === 0) verdict = { tone: 'text-emerald-400', text: `Excellent so far — the ${minLabel} gate looks trustworthy.` };
     else if (wrong <= 2) verdict = { tone: 'text-emerald-400', text: 'Looking good — a small error rate at this level is acceptable.' };
-    else if (wrong <= 4) verdict = { tone: 'text-amber-400', text: 'Borderline — consider raising the bar to 90% before automating.' };
-    else verdict = { tone: 'text-red-400', text: 'Too many misses — do NOT auto-approve at 85%. Raise the bar and retest.' };
+    else if (wrong <= 4) verdict = { tone: 'text-amber-400', text: `Borderline — consider raising the bar before automating (${nextStep}).` };
+    else verdict = { tone: 'text-red-400', text: `Too many misses — do NOT auto-approve at ${minLabel}. Next: ${nextStep}.` };
   }
 
   return (
@@ -170,15 +177,39 @@ const OwnershipSpotCheckCard: React.FC = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-white">
           <ShieldQuestion className="h-5 w-5 text-mansagold" />
-          Ownership Spot Check (85%+ / 85%+)
+          Ownership Spot Check ({minLabel}+ / {minLabel}+)
         </CardTitle>
         <p className="text-sm text-white/60">
-          Draw a random sample of leads that score 85%+ on both "real business" and "Black-owned".
-          Judge them quickly to find out whether the 85% line is safe enough to auto-approve.
+          Draw a random sample of leads that score {minLabel}+ on both "real business" and "Black-owned".
+          Judge them quickly to find out whether the {minLabel} line is safe enough to auto-approve.
+          The 85% line missed too often, so the bar now starts at 95%.
         </p>
       </CardHeader>
 
       <CardContent className="space-y-5">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs text-white/60 mr-1">Confidence bar:</span>
+          {THRESHOLDS.map((t) => (
+            <Button
+              key={t}
+              size="sm"
+              variant={t === min ? 'default' : 'outline'}
+              disabled={loading}
+              onClick={() => {
+                setMin(t);
+                setSample([]);
+                setCorrect(0);
+                setWrong(0);
+              }}
+              className={t === min
+                ? 'bg-mansagold text-mansablue hover:bg-mansagold/90'
+                : 'border-white/20 text-white/80 hover:bg-white/10'}
+            >
+              {Math.round(t * 100)}%
+            </Button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div className="rounded-lg bg-white/5 border border-white/10 p-3">
             <div className="text-xs text-white/60">Qualifying leads</div>
@@ -197,6 +228,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
             <div className="text-2xl font-semibold text-red-300">{wrong}</div>
           </div>
         </div>
+
 
         <div className="flex flex-wrap items-center gap-3">
           <Button onClick={drawSample} disabled={loading} className="bg-mansagold text-mansablue hover:bg-mansagold/90">
