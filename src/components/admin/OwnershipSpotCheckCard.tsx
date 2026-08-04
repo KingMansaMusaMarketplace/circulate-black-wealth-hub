@@ -33,6 +33,7 @@ const pct = (n: number | null) => (n == null ? '—' : `${Math.round(n * 100)}%`
  * 85% gate is before considering any auto-approval.
  */
 const OwnershipSpotCheckCard: React.FC = () => {
+  const [min, setMin] = useState<number>(DEFAULT_MIN);
   const [qualifying, setQualifying] = useState<number | null>(null);
   const [sample, setSample] = useState<SampleLead[]>([]);
   const [loading, setLoading] = useState(false);
@@ -40,15 +41,18 @@ const OwnershipSpotCheckCard: React.FC = () => {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
 
+  const minLabel = `${Math.round(min * 100)}%`;
+
   const baseFilter = useCallback(
     (q: any) =>
       q
-        .gte('confidence_score', MIN)
-        .gte('black_owned_confidence', MIN)
+        .gte('confidence_score', min)
+        .gte('black_owned_confidence', min)
         .eq('is_converted', false)
         .in('verification_status', ['needs_review', 'pending']),
-    []
+    [min]
   );
+
 
   const fetchCount = useCallback(async () => {
     const { count, error } = await baseFilter(
