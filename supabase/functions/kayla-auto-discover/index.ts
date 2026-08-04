@@ -1461,9 +1461,11 @@ Only include businesses you are highly confident (0.7+) are real and currently o
       skipped_no_website: skippedNoWebsite,
       skipped_no_phone: skippedNoPhone,
       skipped_no_address: skippedNoAddress,
+      skipped_not_black_owned: skippedNotBlackOwned,
       skipped_no_images: skippedNoImages,
       duration_ms: durationMs,
       min_confidence: MIN_CONFIDENCE,
+      min_black_owned_confidence: MIN_BLACK_OWNED_CONFIDENCE,
     };
 
     const reportData = {
