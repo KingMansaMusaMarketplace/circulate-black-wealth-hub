@@ -1201,6 +1201,7 @@ Only include businesses you are highly confident (0.7+) are real and currently o
     let skippedNoWebsite = 0;
     let skippedNoPhone = 0;
     let skippedNoAddress = 0;
+    let skippedNotBlackOwned = 0;
     const viableCandidates: typeof allCandidates = [];
 
     for (const candidate of allCandidates) {
@@ -1212,6 +1213,19 @@ Only include businesses you are highly confident (0.7+) are real and currently o
         skippedLowConfidence++;
         continue;
       }
+
+      // === BLACK OWNERSHIP GATE ===
+      // confidence above only measures "is this a real, open business".
+      // Ownership is scored separately and MUST be backed by cited evidence.
+      const blackOwnedConfidence = typeof biz.black_owned_confidence === "number"
+        ? biz.black_owned_confidence
+        : 0;
+      const blackOwnedEvidence = (biz.black_owned_evidence || "").trim();
+      if (blackOwnedConfidence < MIN_BLACK_OWNED_CONFIDENCE || blackOwnedEvidence.length < 10) {
+        skippedNotBlackOwned++;
+        continue;
+      }
+
 
       const websiteUrl = biz.website && biz.website.match(/^https?:\/\/|^www\./) ? biz.website.trim() : null;
       if (!websiteUrl) {
