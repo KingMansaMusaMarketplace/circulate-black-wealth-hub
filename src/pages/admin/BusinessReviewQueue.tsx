@@ -322,6 +322,10 @@ const BusinessReviewQueue: React.FC = () => {
 
           <OwnershipAuditCard />
 
+          <DeadLinkAuditCard />
+
+
+
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative max-w-sm flex-1 min-w-[220px]">
