@@ -81,7 +81,7 @@ const BusinessReviewQueue: React.FC = () => {
     setLoading(true);
     let q = supabase
       .from('b2b_external_leads')
-      .select('id,business_name,category,city,state,website_url,phone_number,business_description,logo_url,banner_url,confidence_score,verification_status,verification_notes,verified_phone,verified_address,created_at')
+      .select('id,business_name,category,city,state,website_url,phone_number,business_description,logo_url,banner_url,confidence_score,black_owned_confidence,black_owned_evidence,verification_status,verification_notes,verified_phone,verified_address,created_at')
       .eq('verification_status', status)
       .order('created_at', { ascending: false })
       .limit(50);
