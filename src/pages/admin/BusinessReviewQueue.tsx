@@ -11,6 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import OwnershipAuditCard from '@/components/admin/OwnershipAuditCard';
 import DeadLinkAuditCard from '@/components/admin/DeadLinkAuditCard';
+import OwnershipSpotCheckCard from '@/components/admin/OwnershipSpotCheckCard';
 
 type Lead = {
   id: string;
@@ -320,6 +321,8 @@ const BusinessReviewQueue: React.FC = () => {
               ))}
             </TabsList>
           </Tabs>
+
+          <OwnershipSpotCheckCard />
 
           <OwnershipAuditCard />
 
