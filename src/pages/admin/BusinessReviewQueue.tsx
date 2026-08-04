@@ -340,7 +340,7 @@ const BusinessReviewQueue: React.FC = () => {
                       </div>
                       <div className="text-right">
                         {lead.confidence_score !== null && (
-                          <Badge variant="outline" className="text-xs">
+                          <Badge variant="outline" className="text-xs text-white border-white/30">
                             confidence {(Number(lead.confidence_score) * 100).toFixed(0)}%
                           </Badge>
                         )}
