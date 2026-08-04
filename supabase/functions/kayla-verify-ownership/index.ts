@@ -38,13 +38,16 @@ serve(async (req) => {
     if (!isCron) {
       const authHeader = req.headers.get("Authorization") || "";
       const token = authHeader.replace("Bearer ", "").trim();
+      console.log(`[verify-ownership] auth header present: ${!!authHeader}, token length: ${token.length}`);
       if (!token) {
-        return json({ error: "Unauthorized" }, 401);
+        return json({ error: "Unauthorized", reason: "no_token" }, 401);
       }
       const { data: userData, error: userErr } = await supabase.auth.getUser(token);
       if (userErr || !userData?.user) {
-        return json({ error: "Unauthorized" }, 401);
+        console.log(`[verify-ownership] getUser failed: ${userErr?.message}`);
+        return json({ error: "Unauthorized", reason: "invalid_token" }, 401);
       }
+
       const { data: isAdmin } = await supabase.rpc("has_role", {
         _user_id: userData.user.id,
         _role: "admin",
