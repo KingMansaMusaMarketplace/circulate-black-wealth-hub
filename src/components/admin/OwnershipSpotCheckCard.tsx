@@ -79,7 +79,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
       setQualifying(total);
       if (total === 0) {
         setSample([]);
-        toast.info('No leads currently clear both 85% bars.');
+        toast.info(`No leads currently clear both ${minLabel} bars.`);
         return;
       }
       const maxOffset = Math.max(0, total - SAMPLE_SIZE);
