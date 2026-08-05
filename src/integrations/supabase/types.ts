@@ -4253,6 +4253,142 @@ export type Database = {
           },
         ]
       }
+      business_claim_campaigns: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          daily_limit: number
+          id: string
+          last_run_at: string | null
+          name: string
+          status: string
+          target_category: string | null
+          target_city: string | null
+          target_state: string | null
+          total_claimed: number
+          total_opened: number
+          total_sent: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          daily_limit?: number
+          id?: string
+          last_run_at?: string | null
+          name: string
+          status?: string
+          target_category?: string | null
+          target_city?: string | null
+          target_state?: string | null
+          total_claimed?: number
+          total_opened?: number
+          total_sent?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          daily_limit?: number
+          id?: string
+          last_run_at?: string | null
+          name?: string
+          status?: string
+          target_category?: string | null
+          target_city?: string | null
+          target_state?: string | null
+          total_claimed?: number
+          total_opened?: number
+          total_sent?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      business_claim_invites: {
+        Row: {
+          business_id: string
+          campaign_id: string | null
+          claimed_at: string | null
+          created_at: string
+          email: string
+          error_message: string | null
+          id: string
+          opened_at: string | null
+          sent_at: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          campaign_id?: string | null
+          claimed_at?: string | null
+          created_at?: string
+          email: string
+          error_message?: string | null
+          id?: string
+          opened_at?: string | null
+          sent_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          campaign_id?: string | null
+          claimed_at?: string | null
+          created_at?: string
+          email?: string
+          error_message?: string | null
+          id?: string
+          opened_at?: string | null
+          sent_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_claim_invites_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_claim_invites_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_claim_invites_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_claim_invites_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_claim_invites_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_claim_invites_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "business_claim_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_contact_requests: {
         Row: {
           business_id: string
@@ -5511,6 +5647,11 @@ export type Database = {
           business_name: string
           category: string | null
           city: string | null
+          claim_invited_at: string | null
+          claim_status: string
+          claim_token: string | null
+          claim_token_expires_at: string | null
+          claimed_at: string | null
           created_at: string | null
           description: string | null
           email: string | null
@@ -5568,6 +5709,11 @@ export type Database = {
           business_name: string
           category?: string | null
           city?: string | null
+          claim_invited_at?: string | null
+          claim_status?: string
+          claim_token?: string | null
+          claim_token_expires_at?: string | null
+          claimed_at?: string | null
           created_at?: string | null
           description?: string | null
           email?: string | null
@@ -5625,6 +5771,11 @@ export type Database = {
           business_name?: string
           category?: string | null
           city?: string | null
+          claim_invited_at?: string | null
+          claim_status?: string
+          claim_token?: string | null
+          claim_token_expires_at?: string | null
+          claimed_at?: string | null
           created_at?: string | null
           description?: string | null
           email?: string | null
@@ -6062,6 +6213,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      claim_email_optouts: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          reason: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          reason?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          reason?: string | null
+        }
+        Relationships: []
       }
       coalition_members: {
         Row: {
@@ -26148,6 +26320,8 @@ export type Database = {
         Args: { p_token: string; p_user_id: string }
         Returns: Json
       }
+      claim_directory_business: { Args: { p_token: string }; Returns: Json }
+      claim_email_unsubscribe: { Args: { p_email: string }; Returns: Json }
       claim_enterprise_leader_seats: { Args: never; Returns: number }
       claim_founding_slot: {
         Args: {
@@ -27736,6 +27910,18 @@ export type Database = {
       }
       validate_test_answers: { Args: { answer_data: Json }; Returns: Json }
       validate_uuid_input: { Args: { input_uuid: string }; Returns: boolean }
+      verify_business_claim_token: {
+        Args: { p_token: string }
+        Returns: {
+          business_id: string
+          business_name: string
+          category: string
+          city: string
+          is_expired: boolean
+          is_valid: boolean
+          state: string
+        }[]
+      }
       verify_cashier_pin: {
         Args: { p_business_id: string; p_pin: string }
         Returns: boolean
