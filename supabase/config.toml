@@ -306,3 +306,5 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.send-sponsor-invoice]
     verify_jwt = false
+  [functions.send-claim-invitations]
+    verify_jwt = false
