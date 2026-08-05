@@ -28,6 +28,7 @@ const ClaimBusinessPage: React.FC = () => {
   const [claiming, setClaiming] = useState(false);
 
   const token = searchParams.get('token');
+  const isDirectory = searchParams.get('type') === 'directory';
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -38,6 +39,31 @@ const ClaimBusinessPage: React.FC = () => {
       }
 
       try {
+        if (isDirectory) {
+          const { data, error: fetchError } = await supabase
+            .rpc('verify_business_claim_token', { p_token: token });
+          const biz = Array.isArray(data) ? data[0] : null;
+
+          if (fetchError || !biz) {
+            setStatus('error');
+            setError('Invalid or expired claim link');
+            return;
+          }
+          if (biz.is_expired) {
+            setStatus('expired');
+            setError('This claim link has expired');
+            return;
+          }
+          if (!biz.is_valid) {
+            setStatus('error');
+            setError('This business has already been claimed or the link is invalid');
+            return;
+          }
+          setBusinessName(biz.business_name);
+          setStatus('ready');
+          return;
+        }
+
         // Securely verify token via SECURITY DEFINER RPC (claim_token column not directly readable)
         const { data, error: fetchError } = await supabase
           .rpc('verify_claim_token', { p_token: token });
@@ -72,23 +98,22 @@ const ClaimBusinessPage: React.FC = () => {
     };
 
     verifyToken();
-  }, [token]);
+  }, [token, isDirectory]);
 
   const handleClaim = async () => {
     if (!user) {
       // Redirect to login with return URL
-      navigate(`/login?redirect=/claim-business?token=${token}`);
+      const returnUrl = `/claim-business?token=${token}${isDirectory ? '&type=directory' : ''}`;
+      navigate(`/login?redirect=${encodeURIComponent(returnUrl)}`);
       return;
     }
 
     setClaiming(true);
 
     try {
-      const { data, error: claimError } = await supabase
-        .rpc('claim_business_lead', {
-          p_token: token,
-          p_user_id: user.id
-        });
+      const { data, error: claimError } = isDirectory
+        ? await supabase.rpc('claim_directory_business', { p_token: token })
+        : await supabase.rpc('claim_business_lead', { p_token: token, p_user_id: user.id });
 
       if (claimError) throw claimError;
 
@@ -109,6 +134,7 @@ const ClaimBusinessPage: React.FC = () => {
       setClaiming(false);
     }
   };
+
 
   return (
     <>
