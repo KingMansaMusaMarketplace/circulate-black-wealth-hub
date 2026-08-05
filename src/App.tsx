@@ -331,19 +331,46 @@ const LazyApiPricingPage = lazy(() => import('@/pages/developers/ApiPricingPage'
 const LazySdkDocumentationPage = lazy(() => import('@/pages/developers/SdkDocumentationPage'));
 const LazyShowcaseGalleryPage = lazy(() => import('@/pages/developers/ShowcaseGalleryPage'));
 
-// Loading fallback component
+// Loading fallback component — self-healing: never spins forever.
+// If a page chunk fails to download (offline / slow network / iPad WebView),
+// we surface a Retry button after 8 seconds instead of an endless indicator.
 const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => {
-  console.log('[LOADING FALLBACK] Showing loading screen:', message);
+  const [stalled, setStalled] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setStalled(true), 8000);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (stalled) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <div className="text-center space-y-4 max-w-sm">
+          <h2 className="text-lg font-semibold text-foreground">Still loading…</h2>
+          <p className="text-sm text-muted-foreground">
+            This page is taking longer than expected. Check your connection and try again.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center space-y-4">
-        <p className="text-gray-600">{message}</p>
+        <p className="text-muted-foreground">{message}</p>
         <Progress value={75} className="w-64 mx-auto" />
-        <p className="text-xs text-gray-400 mt-4">v2025.01 - {new Date().toISOString()}</p>
       </div>
     </div>
   );
 };
+
 
 // Optimized QueryClient configuration for performance
 const queryClient = new QueryClient({
