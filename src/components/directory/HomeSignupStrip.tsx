@@ -35,14 +35,14 @@ const HomeSignupStrip: React.FC = () => {
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <Link
-            to="/about-1325#submit-business"
+            to="/business-signup"
             className="text-xs md:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-md bg-mansagold text-black font-semibold hover:opacity-90 transition whitespace-nowrap"
           >
             Add business
           </Link>
           <Link
-            to="/about-1325#submit-business"
-            className="hidden sm:inline-flex text-xs md:text-sm px-3 py-1.5 rounded-md border border-white/30 text-white font-medium hover:bg-white/10 transition"
+            to="/signup"
+            className="inline-flex text-xs md:text-sm px-3 py-1.5 rounded-md border border-white/30 text-white font-medium hover:bg-white/10 transition"
           >
             Sign up free
           </Link>
