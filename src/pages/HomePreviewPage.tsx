@@ -293,7 +293,7 @@ const HomePreviewPage: React.FC = () => {
               <Link
                 to="/team"
                 onClick={() => trackFunnelEvent('home_preview_cta_team_click', { placement: 'hero' })}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/5 px-6 py-4 text-base font-semibold text-white transition-colors hover:bg-white/10 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-mansablue-light/30 bg-mansablue/15 px-6 py-4 text-base font-semibold text-white transition-colors hover:bg-mansablue/25 sm:w-auto"
               >
                 Meet the 1325.AI Team
               </Link>
