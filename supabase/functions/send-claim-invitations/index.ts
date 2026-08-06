@@ -159,15 +159,22 @@ serve(async (req: Request): Promise<Response> => {
         const claimUrl = `${SITE_URL}/claim-business?token=${token}&type=directory`;
         const unsubUrl = `${SITE_URL}/email-unsubscribe?email=${encodeURIComponent(email)}`;
 
+        // Claim tokens live in a private, admin-only table (never publicly readable)
         const { error: tokErr } = await supabase
-          .from("businesses")
-          .update({
+          .from("businesses_claim_tokens")
+          .upsert({
+            business_id: biz.id,
             claim_token: token,
             claim_token_expires_at: expires,
-            claim_invited_at: new Date().toISOString(),
-          })
-          .eq("id", biz.id);
+          }, { onConflict: "business_id" });
         if (tokErr) throw new Error(tokErr.message);
+
+        const { error: invErr } = await supabase
+          .from("businesses")
+          .update({ claim_invited_at: new Date().toISOString() })
+          .eq("id", biz.id);
+        if (invErr) throw new Error(invErr.message);
+
 
         const { error: sendErr } = await resend.emails.send({
           from: FROM,
