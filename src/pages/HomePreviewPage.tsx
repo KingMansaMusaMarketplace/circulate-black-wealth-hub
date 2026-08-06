@@ -157,7 +157,7 @@ const HomePreviewPage: React.FC = () => {
               alt="1325.AI"
               width={512}
               height={512}
-              fetchPriority="high"
+              loading="eager"
               decoding="async"
               className="mx-auto h-24 w-auto object-contain drop-shadow-[0_0_24px_hsl(var(--mansagold)/0.5)] sm:h-28 md:h-32"
               initial={{ opacity: 0, y: 12 }}
