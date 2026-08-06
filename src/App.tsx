@@ -64,6 +64,7 @@ function lazyWithReload<T extends React.ComponentType<any>>(
 
 // Critical components (loaded immediately)
 import HomePage from './pages/HomePage';
+const LazyHomePreviewPage = lazy(() => import('./pages/HomePreviewPage'));
 import NotFound from './pages/NotFound';
 const RedeemBetaCodePage = lazy(() => import('./pages/RedeemBetaCodePage'));
 
@@ -567,6 +568,7 @@ function App() {
                               {/* Home — Kayla-led front door is the landing page */}
                               <Route path="/" element={<HomePage />} />
                               <Route path="/about-1325" element={<HomePage />} />
+                              <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
                               <Route path="/mcp" element={<Navigate to="/connect" replace />} />
@@ -1218,6 +1220,7 @@ function App() {
                           {/* Home — Kayla-led front door is the landing page */}
                           <Route path="/" element={<HomePage />} />
                           <Route path="/about-1325" element={<HomePage />} />
+                              <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                         <Route path="/connect" element={<LazyConnectPage />} />
                         <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
                         <Route path="/mcp" element={<Navigate to="/connect" replace />} />
