@@ -320,6 +320,32 @@ const HomePreviewPage: React.FC = () => {
           </div>
         </section>
 
+        {/* WHAT MAKES US DIFFERENT */}
+        <section className="relative border-t border-white/10 px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="text-center font-playfair text-2xl font-bold text-white sm:text-3xl">
+              What makes us different from other directories
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-center text-sm leading-relaxed text-blue-100/70 sm:text-base">
+              We are not just a list. We are an economic operating system that helps Black-owned businesses get found, get paid, and grow.
+            </p>
+            <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {DIFFERENTIATORS.map(({ icon: Icon, title, body }) => (
+                <div
+                  key={title}
+                  className="rounded-2xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-mansagold/30"
+                >
+                  <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-mansagold/15">
+                    <Icon className="h-5 w-5 text-mansagold" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-blue-100/70">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* BENEFITS */}
         <section className="relative border-t border-white/10 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-5xl">
