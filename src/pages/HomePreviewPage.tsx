@@ -199,7 +199,7 @@ const HomePreviewPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
             >
-              Find Black-owned businesses near you
+              Find Black-owned businesses in the largest verified global network
             </motion.h1>
 
             <motion.p
@@ -208,8 +208,8 @@ const HomePreviewPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              Join free to unlock member discounts of 5–30%, earn loyalty points, and save the
-              businesses you love. No cost, no credit card.
+              Search verified Black-owned businesses in your city — from Atlanta to Accra,
+              Chicago to the Caribbean. Join free to unlock member discounts and earn loyalty points.
             </motion.p>
 
             {/* Search */}
