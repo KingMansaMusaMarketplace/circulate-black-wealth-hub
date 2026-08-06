@@ -524,7 +524,7 @@ const BusinessSignupPage: React.FC = () => {
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-mansagold/20 border border-mansagold/30 rounded-full mb-6">
                 <Shield className="w-6 h-6 text-mansagold" />
-                <span className="text-lg md:text-xl font-bold text-mansagold">All Included — No Hidden Fees</span>
+                <span className="text-lg md:text-xl font-bold text-mansagold">Free to List — Upgrade for More Tools</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-5">
                 What Kayla Does For Your Business
