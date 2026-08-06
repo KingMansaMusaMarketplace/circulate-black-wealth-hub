@@ -459,11 +459,11 @@ const BusinessSignupPage: React.FC = () => {
                   <span className="bg-gradient-to-r from-mansagold via-amber-300 to-orange-400 bg-clip-text text-transparent font-['Playfair_Display']">Kayla</span>
                 </h1>
                 <p className="text-2xl md:text-3xl text-white font-bold mb-3">
-                  42 Agentic AI Employees: Your AI Employee — Included Free
+                  Start Free, Upgrade When You’re Ready
                 </p>
                 <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-                  42 autonomous services that save you <span className="text-mansagold font-bold">$18,000+/month</span> in time and overhead.
-                  She handles your marketing, finances, operations, and community impact — so you can focus on what you do best.
+                  Every business gets a <span className="text-mansagold font-bold">free directory listing</span>.
+                  Add Kayla AI tools, analytics, and growth features with clear, tiered plans — no surprise charges, no locked-in contracts.
                 </p>
                 
                 <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
@@ -524,13 +524,13 @@ const BusinessSignupPage: React.FC = () => {
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-mansagold/20 border border-mansagold/30 rounded-full mb-6">
                 <Shield className="w-6 h-6 text-mansagold" />
-                <span className="text-lg md:text-xl font-bold text-mansagold">All Included — No Hidden Fees</span>
+                <span className="text-lg md:text-xl font-bold text-mansagold">Free to List — Upgrade for More Tools</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-5">
-                What Kayla Does For Your Business
+                What Kayla Can Do For Your Business
               </h2>
               <p className="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-                From AI-powered marketing to autonomous financial management — Kayla handles it all while you grow.
+                Your free listing gets you discovered. Unlock the full AI-powered toolkit below with a paid plan that fits your stage.
               </p>
             </div>
 
