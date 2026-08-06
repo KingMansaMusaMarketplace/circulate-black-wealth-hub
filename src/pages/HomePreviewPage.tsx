@@ -270,7 +270,7 @@ const HomePreviewPage: React.FC = () => {
 
             {/* Primary CTAs */}
             <motion.div
-              className="mx-auto mt-7 flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:justify-center"
+              className="mx-auto mt-7 flex w-full max-w-2xl flex-col gap-3 sm:flex-row sm:justify-center"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -289,6 +289,13 @@ const HomePreviewPage: React.FC = () => {
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/5 px-6 py-4 text-base font-semibold text-white transition-colors hover:bg-white/10 sm:w-auto"
               >
                 Browse the directory
+              </Link>
+              <Link
+                to="/team"
+                onClick={() => trackFunnelEvent('home_preview_cta_team_click', { placement: 'hero' })}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/5 px-6 py-4 text-base font-semibold text-white transition-colors hover:bg-white/10 sm:w-auto"
+              >
+                Meet the 1325.AI Team
               </Link>
             </motion.div>
 
