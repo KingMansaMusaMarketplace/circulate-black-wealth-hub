@@ -181,7 +181,20 @@ const OwnershipAuditCard: React.FC = () => {
                     {b.black_owned_confidence !== null &&
                       ` • ownership ${(Number(b.black_owned_confidence) * 100).toFixed(0)}%`}
                   </div>
+                  {b.website ? (
+                    <a
+                      href={b.website.startsWith('http') ? b.website : `https://${b.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-300 underline underline-offset-2 hover:text-blue-200 break-all"
+                    >
+                      {b.website.replace(/^https?:\/\//, '')}
+                    </a>
+                  ) : (
+                    <div className="text-xs text-white/30 italic">No website on file</div>
+                  )}
                 </div>
+
                 <div className="flex gap-2 shrink-0">
                   <Button size="sm" variant="outline" onClick={() => markOk(b)}
                     className="border-green-400/40 text-green-200 hover:bg-green-500/10">
