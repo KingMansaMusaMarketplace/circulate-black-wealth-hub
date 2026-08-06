@@ -179,7 +179,35 @@ const BusinessReviewQueue: React.FC = () => {
     }
   };
 
+  // Admin manual verification of Black ownership (click the "Black-owned" badge)
+  const markBlackOwned = async (lead: Lead) => {
+    const confirmed = window.confirm(
+      `Confirm you have manually verified that "${lead.business_name}" is Black-owned (51%+)?`
+    );
+    if (!confirmed) return;
+    setActingId(lead.id);
+    try {
+      const { data: authData } = await supabase.auth.getUser();
+      const email = authData?.user?.email || 'admin';
+      const { error } = await supabase
+        .from('b2b_external_leads')
+        .update({
+          black_owned_confidence: 1.0,
+          black_owned_evidence: `Manually verified by ${email} on ${new Date().toLocaleDateString()}.`,
+        } as any)
+        .eq('id', lead.id);
+      if (error) throw error;
+      toast.success(`Marked as verified Black-owned: ${lead.business_name}`);
+      await Promise.all([fetchLeads(), fetchCounts()]);
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to mark as Black-owned');
+    } finally {
+      setActingId(null);
+    }
+  };
+
   const requeue = async (lead: Lead) => {
+
     setActingId(lead.id);
     try {
       const { error } = await supabase
