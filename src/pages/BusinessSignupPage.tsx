@@ -527,10 +527,10 @@ const BusinessSignupPage: React.FC = () => {
                 <span className="text-lg md:text-xl font-bold text-mansagold">Free to List — Upgrade for More Tools</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-5">
-                What Kayla Does For Your Business
+                What Kayla Can Do For Your Business
               </h2>
               <p className="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-                From AI-powered marketing to autonomous financial management — Kayla handles it all while you grow.
+                Your free listing gets you discovered. Unlock the full AI-powered toolkit below with a paid plan that fits your stage.
               </p>
             </div>
 
