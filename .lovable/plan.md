@@ -10,13 +10,21 @@ Make the primary job of the site clear and easy: get visitors to **sign up for f
 - `HomeSignupStrip.tsx` (the only directory signup prompt) links to `/about-1325#submit-business` instead of `/signup`.
 - A consumer-friendly hero component with dual customer/business CTAs and directory search exists in the codebase but is not wired to any route.
 
+## Approach: preview first, no changes to the live homepage
+
+Nothing on your current homepage changes in this round. The new directory-first homepage gets built at a **separate preview address: `/home-preview`**. You open it, look at it, and only if you like it do we swap it in as the real homepage (a one-line change later).
+
+The smaller fixes below (broken signup link, signup page cleanup) are safe and unrelated to the homepage look, so those get done now.
+
 ## Proposed Changes
 
-### 1. Homepage becomes directory-first
-- Replace the hero with a consumer-focused message: discover Black-owned businesses, get 5–30% discounts, earn loyalty points, free to join.
-- Add a prominent **"Sign up free"** primary button and a secondary **"Browse directory"** button.
-- Embed a directory search bar in the hero so visitors can immediately search businesses by city/category.
-- Keep the business submission path available but visually secondary (e.g., "Own a business? List it free" in the navbar or footer).
+### 1. New directory-first homepage — built at `/home-preview` for review
+- Consumer-focused message: discover Black-owned businesses, get 5–30% discounts, earn loyalty points, free to join.
+- Prominent **"Sign up free"** primary button and a secondary **"Browse directory"** button.
+- Directory search bar in the hero so visitors can immediately search businesses by city/category.
+- Business submission path kept, but visually secondary ("Own a business? List it free").
+- The current homepage at `/` stays exactly as it is until you say go.
+
 
 ### 2. Fix the signup strip
 - Update `HomeSignupStrip.tsx` so its "Sign up free" button points to `/signup` and is visible on mobile.
@@ -41,25 +49,25 @@ Make the primary job of the site clear and easy: get visitors to **sign up for f
 - Avoid adding a new analytics service; instrument the existing event pipeline if available.
 
 ## Technical Approach
-- Reuse the orphaned `src/components/Hero.tsx` pattern or rebuild it in `src/pages/HomePage.tsx` with a directory search input.
-- Update `src/components/directory/HomeSignupStrip.tsx` links and responsive styling.
+- Create `src/pages/HomePreviewPage.tsx` and register a `/home-preview` route in `src/App.tsx`. `src/pages/HomePage.tsx` and the `/` route are left untouched.
+- Build the new hero from the pattern in the currently unused `src/components/Hero.tsx`, with a directory search input.
+- Update `src/components/directory/HomeSignupStrip.tsx` links (point to `/signup`) and responsive styling.
 - Modify `src/components/auth/forms/EnhancedSignupForm.tsx` to lead with the customer tab and de-emphasize business signup.
+- Remove the $149/mo Founding 100 banner from `src/pages/SignupPage.tsx` (it belongs on the business flow).
 - Add OAuth buttons to `CustomerSignupTab.tsx` and `SignupPromptModal.tsx` using the existing Supabase client.
-- Optionally add a one-step `email-only` customer signup variant to test conversion lift.
-- Wire new CTA click events to `funnel_events` or `AnalyticsContext`.
+- Track CTA clicks with the existing `trackFunnelEvent` helper in `src/lib/analytics/funnel-tracker.ts`.
 
 ## Out of Scope
+- No change to the live homepage at `/` in this round.
 - No changes to business signup pricing or business submission flow.
 - No changes to investor portal, AAMES, or corporate sponsor pages.
-- No database schema changes unless email-only signup is chosen.
+- No database schema changes.
 
-## Success Metrics
-- "Sign up free" CTA is visible above the fold on `/` and `/directory`.
-- Customer signups per week increase (tracked via existing analytics).
-- Directory signup strip links correctly to `/signup` and works on mobile.
-- Signup page no longer shows the $149/mo business banner to consumer signups.
+## What you do after the build
+1. Open `/home-preview` and review it.
+2. If you like it, say "make it the homepage" and I swap the `/` route over in one small change.
+3. If you don't, we iterate on the preview page — the live site is never affected.
 
 ## Open Questions
-1. Do you want to keep the current institutional homepage content somewhere (e.g., `/about-1325` or `/company`), or replace it entirely?
-2. Should we prioritize one-click social signup first, or also test an email-only lightweight signup?
-3. Are you okay with making the homepage entirely consumer/directory-focused, with business signup moved to a secondary path?
+1. If you approve the new homepage later, should the current institutional page stay reachable at `/about-1325`?
+2. Should social login (Google/Apple) be part of this round, or a follow-up?
