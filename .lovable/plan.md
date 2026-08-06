@@ -10,13 +10,21 @@ Make the primary job of the site clear and easy: get visitors to **sign up for f
 - `HomeSignupStrip.tsx` (the only directory signup prompt) links to `/about-1325#submit-business` instead of `/signup`.
 - A consumer-friendly hero component with dual customer/business CTAs and directory search exists in the codebase but is not wired to any route.
 
+## Approach: preview first, no changes to the live homepage
+
+Nothing on your current homepage changes in this round. The new directory-first homepage gets built at a **separate preview address: `/home-preview`**. You open it, look at it, and only if you like it do we swap it in as the real homepage (a one-line change later).
+
+The smaller fixes below (broken signup link, signup page cleanup) are safe and unrelated to the homepage look, so those get done now.
+
 ## Proposed Changes
 
-### 1. Homepage becomes directory-first
-- Replace the hero with a consumer-focused message: discover Black-owned businesses, get 5–30% discounts, earn loyalty points, free to join.
-- Add a prominent **"Sign up free"** primary button and a secondary **"Browse directory"** button.
-- Embed a directory search bar in the hero so visitors can immediately search businesses by city/category.
-- Keep the business submission path available but visually secondary (e.g., "Own a business? List it free" in the navbar or footer).
+### 1. New directory-first homepage — built at `/home-preview` for review
+- Consumer-focused message: discover Black-owned businesses, get 5–30% discounts, earn loyalty points, free to join.
+- Prominent **"Sign up free"** primary button and a secondary **"Browse directory"** button.
+- Directory search bar in the hero so visitors can immediately search businesses by city/category.
+- Business submission path kept, but visually secondary ("Own a business? List it free").
+- The current homepage at `/` stays exactly as it is until you say go.
+
 
 ### 2. Fix the signup strip
 - Update `HomeSignupStrip.tsx` so its "Sign up free" button points to `/signup` and is visible on mobile.
