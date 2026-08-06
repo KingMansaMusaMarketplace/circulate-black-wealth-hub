@@ -57,6 +57,28 @@ Deno.serve(async (req) => {
     const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
     if (claimsError || !claimsData?.claims?.sub) return unauthorized();
 
+    // --- Per-user rate limit: 20 moderation calls per 15 minutes ---
+    const { data: rl, error: rlError } = await supabase.rpc('check_rate_limit_secure', {
+      operation_name: 'moderate_image',
+      max_attempts: 20,
+      window_minutes: 15,
+    });
+    if (rlError) {
+      console.error('rate limit check failed', rlError.message);
+      return new Response(JSON.stringify({ error: 'Rate limit check failed' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    if (rl && (rl as { allowed?: boolean }).allowed === false) {
+      return new Response(
+        JSON.stringify({ error: 'Too many moderation requests. Please try again later.' }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
+    }
+
+
+
     if (!LOVABLE_API_KEY) {
       return new Response(JSON.stringify({ error: 'AI gateway not configured' }), {
         status: 500,
