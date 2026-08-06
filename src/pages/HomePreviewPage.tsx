@@ -50,6 +50,34 @@ const BENEFITS = [
   },
 ];
 
+const DIFFERENTIATORS = [
+  {
+    icon: Sparkles,
+    title: 'AI-powered discovery',
+    body: 'Kayla and our 42 Agentic AI Employees actively match you with the right businesses — not a static list you have to scroll.',
+  },
+  {
+    icon: Network,
+    title: 'MCP infrastructure',
+    body: 'We are building the protocol that lets AI assistants and other platforms discover Black-owned businesses anywhere, not just inside our app.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Verified ownership confidence',
+    body: 'Every listing is reviewed for real ownership and an active website before it goes live — no guessing.',
+  },
+  {
+    icon: Gift,
+    title: 'Earn while you support',
+    body: 'Members get discounts, scan QR codes, and collect loyalty points so doing the right thing also pays you back.',
+  },
+  {
+    icon: Award,
+    title: 'Patent-pending technology',
+    body: 'U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.',
+  },
+];
+
 const HomePreviewPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
