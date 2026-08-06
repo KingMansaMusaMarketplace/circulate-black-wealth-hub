@@ -5649,8 +5649,6 @@ export type Database = {
           city: string | null
           claim_invited_at: string | null
           claim_status: string
-          claim_token: string | null
-          claim_token_expires_at: string | null
           claimed_at: string | null
           created_at: string | null
           description: string | null
@@ -5711,8 +5709,6 @@ export type Database = {
           city?: string | null
           claim_invited_at?: string | null
           claim_status?: string
-          claim_token?: string | null
-          claim_token_expires_at?: string | null
           claimed_at?: string | null
           created_at?: string | null
           description?: string | null
@@ -5773,8 +5769,6 @@ export type Database = {
           city?: string | null
           claim_invited_at?: string | null
           claim_status?: string
-          claim_token?: string | null
-          claim_token_expires_at?: string | null
           claimed_at?: string | null
           created_at?: string | null
           description?: string | null
@@ -5871,6 +5865,66 @@ export type Database = {
             foreignKeyName: "businesses_parent_business_id_fkey"
             columns: ["parent_business_id"]
             isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      businesses_claim_tokens: {
+        Row: {
+          business_id: string
+          claim_token: string | null
+          claim_token_expires_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          claim_token?: string | null
+          claim_token_expires_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          claim_token?: string | null
+          claim_token_expires_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "businesses_claim_tokens_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_claim_tokens_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_claim_tokens_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_claim_tokens_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_claim_tokens_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
             referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
@@ -27913,10 +27967,10 @@ export type Database = {
       verify_business_claim_token: {
         Args: { p_token: string }
         Returns: {
-          business_id: string
           business_name: string
           category: string
           city: string
+          id: string
           is_expired: boolean
           is_valid: boolean
           state: string
