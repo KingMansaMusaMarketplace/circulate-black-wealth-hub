@@ -179,7 +179,35 @@ const BusinessReviewQueue: React.FC = () => {
     }
   };
 
+  // Admin manual verification of Black ownership (click the "Black-owned" badge)
+  const markBlackOwned = async (lead: Lead) => {
+    const confirmed = window.confirm(
+      `Confirm you have manually verified that "${lead.business_name}" is Black-owned (51%+)?`
+    );
+    if (!confirmed) return;
+    setActingId(lead.id);
+    try {
+      const { data: authData } = await supabase.auth.getUser();
+      const email = authData?.user?.email || 'admin';
+      const { error } = await supabase
+        .from('b2b_external_leads')
+        .update({
+          black_owned_confidence: 1.0,
+          black_owned_evidence: `Manually verified by ${email} on ${new Date().toLocaleDateString()}.`,
+        } as any)
+        .eq('id', lead.id);
+      if (error) throw error;
+      toast.success(`Marked as verified Black-owned: ${lead.business_name}`);
+      await Promise.all([fetchLeads(), fetchCounts()]);
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to mark as Black-owned');
+    } finally {
+      setActingId(null);
+    }
+  };
+
   const requeue = async (lead: Lead) => {
+
     setActingId(lead.id);
     try {
       const { error } = await supabase
@@ -407,18 +435,27 @@ const BusinessReviewQueue: React.FC = () => {
                             real business {(Number(lead.confidence_score) * 100).toFixed(0)}%
                           </Badge>
                         )}
-                        <Badge
-                          variant="outline"
-                          className={
-                            ownershipOk
-                              ? 'text-xs text-emerald-200 border-emerald-400/50 bg-emerald-500/10 block'
-                              : 'text-xs text-red-200 border-red-400/50 bg-red-500/10 block'
-                          }
+                        <button
+                          type="button"
+                          onClick={() => markBlackOwned(lead)}
+                          disabled={actingId === lead.id}
+                          title={ownershipOk ? 'Ownership verified' : 'Click to mark as verified Black-owned'}
+                          className="block w-full disabled:opacity-50"
                         >
-                          {lead.black_owned_confidence !== null
-                            ? `Black-owned ${(Number(lead.black_owned_confidence) * 100).toFixed(0)}%`
-                            : 'Black-owned: unverified'}
-                        </Badge>
+                          <Badge
+                            variant="outline"
+                            className={
+                              ownershipOk
+                                ? 'text-xs text-emerald-200 border-emerald-400/50 bg-emerald-500/10 block cursor-pointer hover:bg-emerald-500/20'
+                                : 'text-xs text-red-200 border-red-400/50 bg-red-500/10 block cursor-pointer hover:bg-red-500/20'
+                            }
+                          >
+                            {lead.black_owned_confidence !== null
+                              ? `Black-owned ${(Number(lead.black_owned_confidence) * 100).toFixed(0)}%`
+                              : 'Black-owned: unverified'}
+                          </Badge>
+                        </button>
+
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
