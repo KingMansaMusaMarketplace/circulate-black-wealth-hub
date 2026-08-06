@@ -407,18 +407,27 @@ const BusinessReviewQueue: React.FC = () => {
                             real business {(Number(lead.confidence_score) * 100).toFixed(0)}%
                           </Badge>
                         )}
-                        <Badge
-                          variant="outline"
-                          className={
-                            ownershipOk
-                              ? 'text-xs text-emerald-200 border-emerald-400/50 bg-emerald-500/10 block'
-                              : 'text-xs text-red-200 border-red-400/50 bg-red-500/10 block'
-                          }
+                        <button
+                          type="button"
+                          onClick={() => markBlackOwned(lead)}
+                          disabled={actingId === lead.id}
+                          title={ownershipOk ? 'Ownership verified' : 'Click to mark as verified Black-owned'}
+                          className="block w-full disabled:opacity-50"
                         >
-                          {lead.black_owned_confidence !== null
-                            ? `Black-owned ${(Number(lead.black_owned_confidence) * 100).toFixed(0)}%`
-                            : 'Black-owned: unverified'}
-                        </Badge>
+                          <Badge
+                            variant="outline"
+                            className={
+                              ownershipOk
+                                ? 'text-xs text-emerald-200 border-emerald-400/50 bg-emerald-500/10 block cursor-pointer hover:bg-emerald-500/20'
+                                : 'text-xs text-red-200 border-red-400/50 bg-red-500/10 block cursor-pointer hover:bg-red-500/20'
+                            }
+                          >
+                            {lead.black_owned_confidence !== null
+                              ? `Black-owned ${(Number(lead.black_owned_confidence) * 100).toFixed(0)}%`
+                              : 'Black-owned: unverified'}
+                          </Badge>
+                        </button>
+
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
