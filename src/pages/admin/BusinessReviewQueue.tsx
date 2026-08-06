@@ -181,11 +181,8 @@ const BusinessReviewQueue: React.FC = () => {
 
   // Admin manual verification of Black ownership (click the "Black-owned" badge)
   const markBlackOwned = async (lead: Lead) => {
-    const confirmed = window.confirm(
-      `Confirm you have manually verified that "${lead.business_name}" is Black-owned (51%+)?`
-    );
-    if (!confirmed) return;
     setActingId(lead.id);
+
     try {
       const { data: authData } = await supabase.auth.getUser();
       const email = authData?.user?.email || 'admin';
