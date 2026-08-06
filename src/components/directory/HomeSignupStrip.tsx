@@ -29,23 +29,24 @@ const HomeSignupStrip: React.FC = () => {
           <Globe className="w-4 h-4 text-mansagold flex-shrink-0" />
           <span className="truncate">
             <strong className="text-mansagold">1325.AI</strong>
-            <span className="hidden sm:inline"> — The Global Black-Owned Business Directory</span>
-            <span className="sm:hidden"> — Black-Owned Directory</span>
+            <span className="hidden sm:inline"> — Join 10,000+ people saving money and supporting Black-owned businesses</span>
+            <span className="sm:hidden"> — Save at Black-owned businesses</span>
           </span>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <Link
-            to="/business-signup"
-            className="text-xs md:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-md bg-mansagold text-black font-semibold hover:opacity-90 transition whitespace-nowrap"
-          >
-            Add business
-          </Link>
-          <Link
             to="/signup"
-            className="inline-flex text-xs md:text-sm px-3 py-1.5 rounded-md border border-white/30 text-white font-medium hover:bg-white/10 transition"
+            className="text-xs md:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-md bg-mansagold text-black font-semibold hover:opacity-90 transition whitespace-nowrap"
           >
             Sign up free
           </Link>
+          <Link
+            to="/business-signup"
+            className="hidden sm:inline-flex text-xs md:text-sm px-3 py-1.5 rounded-md border border-white/30 text-white font-medium hover:bg-white/10 transition whitespace-nowrap"
+          >
+            Add business
+          </Link>
+
           <button
             onClick={handleDismiss}
             aria-label="Dismiss"
