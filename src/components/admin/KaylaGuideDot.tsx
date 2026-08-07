@@ -77,11 +77,27 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
           <div className="w-9 h-9 rounded-full bg-mansagold/20 border border-mansagold/40 flex items-center justify-center font-bold text-mansagold">
             K
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-white leading-tight">Kayla, Ph.D.</p>
             <p className="text-xs text-white/50 truncate">on {label}</p>
           </div>
+          <button
+            type="button"
+            onClick={handleSpeak}
+            aria-label={isSpeaking ? 'Stop Kayla' : 'Hear Kayla say this'}
+            title={isSpeaking ? 'Stop' : 'Hear it in Kayla’s voice'}
+            className="shrink-0 rounded-full p-2 text-mansagold hover:bg-mansagold/15 transition-colors focus:outline-none focus:ring-2 focus:ring-mansagold/50"
+          >
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : isSpeaking ? (
+              <Square className="w-4 h-4" />
+            ) : (
+              <Volume2 className="w-4 h-4" />
+            )}
+          </button>
         </div>
+
 
         {entry ? (
           <div className="space-y-3 text-sm">
