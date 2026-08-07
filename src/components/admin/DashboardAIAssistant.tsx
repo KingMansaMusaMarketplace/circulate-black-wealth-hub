@@ -10,8 +10,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Bot, Send, Loader2, Sparkles } from 'lucide-react';
+import { Bot, Send, Loader2, Sparkles, Volume2, Square } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useTextToSpeech } from '@/hooks/use-text-to-speech';
 
 interface Message {
   role: 'user' | 'assistant';
