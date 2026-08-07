@@ -206,7 +206,7 @@ const AdminInvestorPortalPage: React.FC = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">Investor Roster</CardTitle>
-                  <Button size="sm" variant="outline" onClick={() => exportCsv(investors.map((i) => ({ ...i, documents: [...i.documents].join('|') })), 'investors.csv')}>
+                  <Button size="sm" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 hover:text-mansagold" onClick={() => exportCsv(investors.map((i) => ({ ...i, documents: [...i.documents].join('|') })), 'investors.csv')}>
                     <Download className="h-3 w-3 mr-1" /> Export CSV
                   </Button>
                 </div>
@@ -218,13 +218,13 @@ const AdminInvestorPortalPage: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Firm</TableHead>
-                        <TableHead>NDA</TableHead>
-                        <TableHead>Visits</TableHead>
-                        <TableHead>Documents</TableHead>
-                        <TableHead>Last Seen</TableHead>
+                        <TableHead className="text-white/70">Name</TableHead>
+                        <TableHead className="text-white/70">Email</TableHead>
+                        <TableHead className="text-white/70">Firm</TableHead>
+                        <TableHead className="text-white/70">NDA</TableHead>
+                        <TableHead className="text-white/70">Visits</TableHead>
+                        <TableHead className="text-white/70">Documents</TableHead>
+                        <TableHead className="text-white/70">Last Seen</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -254,8 +254,8 @@ const AdminInvestorPortalPage: React.FC = () => {
                 <div className="flex items-center justify-between gap-4">
                   <CardTitle className="text-base">Access Log</CardTitle>
                   <div className="flex gap-2">
-                    <Input placeholder="Search…" value={search} onChange={(e) => setSearch(e.target.value)} className="w-64" />
-                    <Button size="sm" variant="outline" onClick={() => exportCsv(filteredLogs, 'investor-access-log.csv')}>
+                    <Input placeholder="Search…" value={search} onChange={(e) => setSearch(e.target.value)} className="w-64 bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <Button size="sm" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 hover:text-mansagold" onClick={() => exportCsv(filteredLogs, 'investor-access-log.csv')}>
                       <Download className="h-3 w-3 mr-1" /> Export
                     </Button>
                   </div>
@@ -265,11 +265,11 @@ const AdminInvestorPortalPage: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>When</TableHead>
-                      <TableHead>Investor</TableHead>
-                      <TableHead>Action</TableHead>
-                      <TableHead>Document</TableHead>
-                      <TableHead>IP</TableHead>
+                      <TableHead className="text-white/70">When</TableHead>
+                      <TableHead className="text-white/70">Investor</TableHead>
+                      <TableHead className="text-white/70">Action</TableHead>
+                      <TableHead className="text-white/70">Document</TableHead>
+                      <TableHead className="text-white/70">IP</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -296,7 +296,7 @@ const AdminInvestorPortalPage: React.FC = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">Team NDA Signatures</CardTitle>
-                  <Button size="sm" variant="outline" onClick={() => exportCsv(ndas, 'nda-signatures.csv')}>
+                  <Button size="sm" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 hover:text-mansagold" onClick={() => exportCsv(ndas, 'nda-signatures.csv')}>
                     <Download className="h-3 w-3 mr-1" /> Export
                   </Button>
                 </div>
@@ -308,12 +308,12 @@ const AdminInvestorPortalPage: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Signed</TableHead>
+                        <TableHead className="text-white/70">Name</TableHead>
+                        <TableHead className="text-white/70">Email</TableHead>
+                        <TableHead className="text-white/70">Role</TableHead>
+                        <TableHead className="text-white/70">Type</TableHead>
+                        <TableHead className="text-white/70">Status</TableHead>
+                        <TableHead className="text-white/70">Signed</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
