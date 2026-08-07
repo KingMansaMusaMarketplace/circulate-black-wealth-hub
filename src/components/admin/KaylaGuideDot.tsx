@@ -29,12 +29,28 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
   className,
 }) => {
   const entry = getKaylaGuide(featureId);
+  const { speak, stop: stopSpeaking, isSpeaking, isLoading } = useTextToSpeech();
 
   if (!entry && !fallback) return null;
 
   const stop = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation();
   };
+
+  const spokenText = entry
+    ? `${entry.what} ${entry.why} Here's what I'd do: ${entry.doThis}`
+    : (fallback ?? '');
+
+  const handleSpeak = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isSpeaking) {
+      stopSpeaking();
+    } else {
+      void speak(spokenText);
+    }
+  };
+
+
 
   return (
     <Popover>
