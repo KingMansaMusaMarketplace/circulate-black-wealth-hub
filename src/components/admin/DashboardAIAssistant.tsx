@@ -152,10 +152,10 @@ Answer questions about these features helpfully and concisely.
   };
 
   const suggestedQuestions = [
-    "How do I search for a user?",
-    "What do the health indicators mean?",
-    "How can I export data?",
-    "What keyboard shortcuts are available?",
+    "What should I handle first today?",
+    "What does the Verification Queue do?",
+    "How do I export data?",
+    "Explain the numbers on the Overview screen",
   ];
 
   return (
@@ -163,23 +163,24 @@ Answer questions about these features helpfully and concisely.
       <SheetTrigger asChild>
         <Button
           variant="outline"
-          size="icon"
-          className="border-purple-500/30 text-purple-400 hover:text-white hover:bg-purple-500/20 hover:border-purple-500/50 relative"
+          size="sm"
+          className="border-mansagold/40 text-mansagold hover:text-white hover:bg-mansagold/20 hover:border-mansagold bg-white/5 backdrop-blur-sm relative flex items-center gap-2"
           data-tour="ai-assistant"
-          title="AI Assistant"
+          title="Ask Kayla — your admin assistant"
         >
-          <Bot className="h-5 w-5" />
+          <Bot className="h-4 w-4" />
+          Ask Kayla
           <Sparkles className="h-2.5 w-2.5 text-yellow-400 absolute -top-1 -right-1" />
         </Button>
       </SheetTrigger>
       <SheetContent className="w-96 bg-slate-900 border-white/10 flex flex-col">
         <SheetHeader>
           <SheetTitle className="text-white flex items-center gap-2">
-            <Bot className="h-5 w-5 text-yellow-400" />
-            Dashboard Assistant
+            <Bot className="h-5 w-5 text-mansagold" />
+            Kayla, Ph.D.
           </SheetTitle>
           <SheetDescription className="text-blue-200/70">
-            Ask me anything about the admin dashboard
+            Your admin assistant — ask about any feature, number, or next step
           </SheetDescription>
         </SheetHeader>
 
