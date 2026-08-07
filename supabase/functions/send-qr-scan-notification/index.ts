@@ -25,8 +25,68 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
-    const { salesAgentId, scanId, notificationType }: NotificationRequest = await req.json();
+    const body = await req.json().catch(() => ({}));
+    const { scanId, notificationType }: NotificationRequest = body;
 
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!scanId || !UUID_RE.test(String(scanId)) ||
+        (notificationType !== 'scan' && notificationType !== 'conversion')) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request' }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // SECURITY: never trust a caller-supplied agent id. Resolve the recipient from
+    // the scan record itself, and only for scans that were just created — this
+    // prevents anyone from emailing arbitrary agents by enumerating ids.
+    const { data: scanRow } = await supabase
+      .from('qr_code_scans')
+      .select('*')
+      .eq('id', scanId)
+      .maybeSingle();
+
+    if (!scanRow) {
+      // Generic response: do not confirm whether the id exists.
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const anchorTs = notificationType === 'conversion'
+      ? (scanRow.converted_at ?? scanRow.scanned_at)
+      : scanRow.scanned_at;
+    const ageMs = Date.now() - new Date(anchorTs).getTime();
+    if (!(ageMs >= 0 && ageMs < 10 * 60 * 1000)) {
+      console.log('Ignoring stale/replayed QR notification request');
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    if (notificationType === 'conversion' && !scanRow.converted) {
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const { data: resolvedAgent } = await supabase
+      .from('sales_agents')
+      .select('id')
+      .eq('referral_code', scanRow.referral_code)
+      .maybeSingle();
+
+    if (!resolvedAgent) {
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const salesAgentId = resolvedAgent.id;
     console.log('Processing QR notification:', { salesAgentId, scanId, notificationType });
 
     // Get agent details
@@ -39,10 +99,11 @@ const handler = async (req: Request): Promise<Response> => {
     if (agentError || !agent) {
       console.error('Error fetching agent:', agentError);
       return new Response(
-        JSON.stringify({ error: 'Agent not found' }),
-        { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
+
 
     // Check notification preferences
     const { data: preferences } = await supabase
