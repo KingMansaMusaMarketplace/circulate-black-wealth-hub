@@ -1,5 +1,5 @@
 import React from 'react';
-import { HelpCircle, Volume2, Square, Loader2 } from 'lucide-react';
+import { HelpCircle, Volume2, Square, Loader2, Lightbulb, AlertTriangle } from 'lucide-react';
 import {
   Popover,
   PopoverContent,
@@ -38,8 +38,17 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
   };
 
   const spokenText = entry
-    ? `${entry.what} ${entry.why} Here's what I'd do: ${entry.doThis}`
+    ? [
+        entry.what,
+        entry.why,
+        `Here's what I'd do: ${entry.doThis}`,
+        entry.proTip ? `A deeper tip: ${entry.proTip}` : '',
+        entry.watchOut ? `And watch out for this: ${entry.watchOut}` : '',
+      ]
+        .filter(Boolean)
+        .join(' ')
     : (fallback ?? '');
+
 
   const handleSpeak = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -71,7 +80,7 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
       <PopoverContent
         align="end"
         onClick={stop}
-        className="w-80 bg-slate-950/95 backdrop-blur-xl border border-mansagold/30 text-white shadow-2xl shadow-black/40"
+        className="w-96 max-h-[70vh] overflow-y-auto bg-slate-950/95 backdrop-blur-xl border border-mansagold/30 text-white shadow-2xl shadow-black/40"
       >
         <div className="flex items-center gap-3 pb-3 mb-3 border-b border-white/10">
           <div className="w-9 h-9 rounded-full bg-mansagold/20 border border-mansagold/40 flex items-center justify-center font-bold text-mansagold">
@@ -109,6 +118,26 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
               </p>
               <p className="text-white/90 leading-relaxed">{entry.doThis}</p>
             </div>
+
+            {entry.proTip && (
+              <div className="rounded-lg bg-white/5 border border-white/10 px-3 py-2">
+                <p className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-mansagold/80 font-semibold mb-1">
+                  <Lightbulb className="w-3.5 h-3.5" />
+                  Kayla's pro tip
+                </p>
+                <p className="text-white/80 leading-relaxed">{entry.proTip}</p>
+              </div>
+            )}
+
+            {entry.watchOut && (
+              <div className="rounded-lg bg-red-500/10 border border-red-400/25 px-3 py-2">
+                <p className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-red-300 font-semibold mb-1">
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  Watch out for
+                </p>
+                <p className="text-white/80 leading-relaxed">{entry.watchOut}</p>
+              </div>
+            )}
           </div>
         ) : (
           <p className="text-sm text-white/80 leading-relaxed">{fallback}</p>
