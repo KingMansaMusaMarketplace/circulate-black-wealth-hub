@@ -32,7 +32,11 @@ export function useTextToSpeech() {
 
     setIsLoading(true);
     try {
-      // Use OpenAI TTS (shimmer voice is closest to Sarah)
+      // Prefer the signed-in user's session token (the function requires auth)
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData?.session?.access_token || SUPABASE_ANON_KEY;
+
+      // Use OpenAI TTS (shimmer voice is closest to Kayla)
       const response = await fetch(
         `${SUPABASE_URL}/functions/v1/text-to-speech`,
         {
@@ -40,11 +44,12 @@ export function useTextToSpeech() {
           headers: {
             'Content-Type': 'application/json',
             'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({ text: text.trim(), voice: 'shimmer' }),
         }
       );
+
 
       if (!response.ok) {
         const error = await response.json();
