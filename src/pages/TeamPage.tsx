@@ -247,10 +247,10 @@ const TeamPage = () => {
               infrastructure layer for the global Black economy.
             </p>
             <a
-              href="mailto:careers@1325.ai"
+              href="mailto:Partner@1325.AI"
               className="inline-flex items-center gap-2 bg-mansagold text-black font-semibold px-8 py-4 rounded-full hover:bg-mansagold/90 transition-colors"
             >
-              <Mail className="w-4 h-4" /> careers@1325.ai
+              <Mail className="w-4 h-4" /> Partner@1325.AI
             </a>
           </div>
         </section>
