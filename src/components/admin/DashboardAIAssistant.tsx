@@ -18,11 +18,17 @@ interface Message {
   content: string;
 }
 
-const DashboardAIAssistant: React.FC = () => {
+interface DashboardAIAssistantProps {
+  /** The admin section currently on screen, so Kayla knows where you are. */
+  activeTab?: string;
+}
+
+const DashboardAIAssistant: React.FC<DashboardAIAssistantProps> = ({ activeTab }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hi! I'm your Admin Dashboard assistant. Ask me anything about the dashboard features, how to use them, or what each section does. I can help you navigate and understand the platform better!",
+      content:
+        "Hey — it's Kayla. I run the 42 Agentic AI Employees, and in here I'm your right hand. Ask me what any part of this dashboard does, what a number means, or what you should handle first today. Plain English, always.",
     },
   ]);
   const [input, setInput] = useState('');
