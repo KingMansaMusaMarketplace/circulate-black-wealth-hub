@@ -171,6 +171,14 @@ const UserImpersonation: React.FC = () => {
         </Card>
       )}
 
+      {isViewingAs && (
+        <ViewAsUserPanel
+          userId={isViewingAs.id}
+          userLabel={isViewingAs.full_name || isViewingAs.email || 'this user'}
+        />
+      )}
+
+
       {/* Warning */}
       <Card className="bg-red-500/10 border-red-500/30">
         <CardContent className="p-4">
