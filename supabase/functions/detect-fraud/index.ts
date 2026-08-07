@@ -40,21 +40,43 @@ const getAllowedOrigins = (): string[] => {
     'https://agoclnqfyinwjxdmjnns.lovableproject.com',
     'https://lovable.dev',
     'http://localhost:5173',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'http://localhost:8080',
   ];
+};
+
+// Trusted first-party hosts (previews, published app, custom domains)
+const isTrustedOrigin = (origin: string): boolean => {
+  try {
+    const { protocol, hostname } = new URL(origin);
+    if (protocol !== 'https:' && hostname !== 'localhost') return false;
+    return (
+      hostname.endsWith('.lovable.app') ||
+      hostname.endsWith('.lovableproject.com') ||
+      hostname.endsWith('.lovable.dev') ||
+      hostname === '1325.ai' ||
+      hostname.endsWith('.1325.ai') ||
+      hostname === 'localhost'
+    );
+  } catch {
+    return false;
+  }
 };
 
 const getCorsHeaders = (req: Request): Record<string, string> => {
   const origin = req.headers.get('origin') || '';
   const allowedOrigins = getAllowedOrigins();
-  const isAllowed = allowedOrigins.includes(origin) || allowedOrigins.includes('*');
-  
+  const isAllowed =
+    allowedOrigins.includes(origin) || allowedOrigins.includes('*') || isTrustedOrigin(origin);
+
   return {
     'Access-Control-Allow-Origin': isAllowed ? origin : allowedOrigins[0],
+    'Vary': 'Origin',
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
   };
 };
+
 
 interface FraudAlert {
   alert_type: string;
