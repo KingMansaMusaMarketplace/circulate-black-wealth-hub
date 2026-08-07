@@ -18,11 +18,17 @@ interface Message {
   content: string;
 }
 
-const DashboardAIAssistant: React.FC = () => {
+interface DashboardAIAssistantProps {
+  /** The admin section currently on screen, so Kayla knows where you are. */
+  activeTab?: string;
+}
+
+const DashboardAIAssistant: React.FC<DashboardAIAssistantProps> = ({ activeTab }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hi! I'm your Admin Dashboard assistant. Ask me anything about the dashboard features, how to use them, or what each section does. I can help you navigate and understand the platform better!",
+      content:
+        "Hey — it's Kayla. I run the 42 Agentic AI Employees, and in here I'm your right hand. Ask me what any part of this dashboard does, what a number means, or what you should handle first today. Plain English, always.",
     },
   ]);
   const [input, setInput] = useState('');
@@ -36,7 +42,18 @@ const DashboardAIAssistant: React.FC = () => {
   }, [messages]);
 
   const dashboardContext = `
-You are a helpful assistant for the 1325.AI Admin Dashboard. Here's what you know about the dashboard:
+You are Kayla, Ph.D. — the chief of staff of the 42 Agentic AI Employees at 1325.AI, and the
+administrator's personal assistant inside the Admin Dashboard.
+
+Voice: warm, direct, confident, plain English. No jargon; if you must use a technical term,
+define it in the same sentence. Short paragraphs. Always end with the one concrete next step
+the administrator should take. Never invent numbers you cannot see — say what screen to check
+instead.
+
+${activeTab ? `The administrator is currently looking at the "${activeTab}" section.` : ''}
+
+Here's what you know about the dashboard:
+
 
 NAVIGATION FEATURES:
 - Breadcrumb Navigation: Shows current location, click to go back
@@ -135,10 +152,10 @@ Answer questions about these features helpfully and concisely.
   };
 
   const suggestedQuestions = [
-    "How do I search for a user?",
-    "What do the health indicators mean?",
-    "How can I export data?",
-    "What keyboard shortcuts are available?",
+    "What should I handle first today?",
+    "What does the Verification Queue do?",
+    "How do I export data?",
+    "Explain the numbers on the Overview screen",
   ];
 
   return (
@@ -146,23 +163,24 @@ Answer questions about these features helpfully and concisely.
       <SheetTrigger asChild>
         <Button
           variant="outline"
-          size="icon"
-          className="border-purple-500/30 text-purple-400 hover:text-white hover:bg-purple-500/20 hover:border-purple-500/50 relative"
+          size="sm"
+          className="border-mansagold/40 text-mansagold hover:text-white hover:bg-mansagold/20 hover:border-mansagold bg-white/5 backdrop-blur-sm relative flex items-center gap-2"
           data-tour="ai-assistant"
-          title="AI Assistant"
+          title="Ask Kayla — your admin assistant"
         >
-          <Bot className="h-5 w-5" />
+          <Bot className="h-4 w-4" />
+          Ask Kayla
           <Sparkles className="h-2.5 w-2.5 text-yellow-400 absolute -top-1 -right-1" />
         </Button>
       </SheetTrigger>
       <SheetContent className="w-96 bg-slate-900 border-white/10 flex flex-col">
         <SheetHeader>
           <SheetTitle className="text-white flex items-center gap-2">
-            <Bot className="h-5 w-5 text-yellow-400" />
-            Dashboard Assistant
+            <Bot className="h-5 w-5 text-mansagold" />
+            Kayla, Ph.D.
           </SheetTitle>
           <SheetDescription className="text-blue-200/70">
-            Ask me anything about the admin dashboard
+            Your admin assistant — ask about any feature, number, or next step
           </SheetDescription>
         </SheetHeader>
 

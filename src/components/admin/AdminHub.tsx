@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import AdminRevenueWidget from './AdminRevenueWidget';
 import { useAdminBadgeCounts } from '@/hooks/useAdminBadgeCounts';
+import KaylaGuideDot from './KaylaGuideDot';
 
 interface AdminHubProps {
   onNavigate: (tab: string) => void;
@@ -230,12 +231,20 @@ const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
                       )} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className={cn(
-                        "font-semibold transition-colors truncate",
-                        item.highlight ? "text-mansagold" : "text-white group-hover:text-mansagold"
-                      )}>
-                        {item.label}
-                      </h4>
+                      <div className="flex items-start gap-2">
+                        <h4 className={cn(
+                          "font-semibold transition-colors truncate flex-1",
+                          item.highlight ? "text-mansagold" : "text-white group-hover:text-mansagold"
+                        )}>
+                          {item.label}
+                        </h4>
+                        <KaylaGuideDot
+                          featureId={item.id}
+                          label={item.label}
+                          fallback={item.description}
+                          className={showBadge ? 'mr-8' : undefined}
+                        />
+                      </div>
                       <p className="text-sm text-white/50 line-clamp-2 mt-0.5">
                         {item.description}
                       </p>

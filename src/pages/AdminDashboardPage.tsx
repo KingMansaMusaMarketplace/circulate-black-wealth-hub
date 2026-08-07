@@ -236,7 +236,7 @@ const AdminDashboardPage: React.FC = () => {
                       </Button>
                     )}
                     <HelpPanel />
-                    <DashboardAIAssistant />
+                    <DashboardAIAssistant activeTab={activeTab} />
                     <Button
                       variant="outline"
                       size="sm"
