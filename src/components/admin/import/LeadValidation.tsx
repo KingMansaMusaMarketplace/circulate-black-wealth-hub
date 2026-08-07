@@ -77,7 +77,13 @@ export const LeadValidation: React.FC<LeadValidationProps> = ({ onClose }) => {
       // Direct fetch with longer timeout (2 minutes) to avoid client's 15s default
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
       const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-      
+
+      // The function verifies the signed-in admin, so send the user's session token
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        throw new Error('Your session expired. Please sign in again.');
+      }
+
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minute timeout
 
@@ -85,7 +91,7 @@ export const LeadValidation: React.FC<LeadValidationProps> = ({ onClose }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabaseKey}`,
+          'Authorization': `Bearer ${session.access_token}`,
           'apikey': supabaseKey,
         },
         body: JSON.stringify({ validate_all: true }),
