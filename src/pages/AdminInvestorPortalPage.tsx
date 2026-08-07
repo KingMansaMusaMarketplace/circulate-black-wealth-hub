@@ -9,6 +9,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import { toast } from 'sonner';
 import { Download, RefreshCw, Shield, Users, FileText, Activity, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 type AccessLog = {
   id: string;
@@ -118,64 +119,94 @@ const AdminInvestorPortalPage: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  const statCards = [
+    { icon: Users, label: 'Unique Investors', value: stats.uniqueInvestors, gold: false },
+    { icon: FileText, label: 'NDA Signed', value: stats.signed, gold: true },
+    { icon: Activity, label: 'Visits (24h)', value: stats.visitsToday, gold: false },
+    { icon: Shield, label: 'Internal NDAs', value: stats.ndaSignatures, gold: false },
+  ];
+
+  const tabTriggerClass =
+    'flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70';
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/admin')} className="text-white/60 mb-2">
-              <ArrowLeft className="h-4 w-4 mr-1" /> Admin
-            </Button>
-            <h1 className="text-3xl font-bold flex items-center gap-2">
-              <Shield className="h-7 w-7 text-mansagold" /> Investor Portal Admin
-            </h1>
-            <p className="text-sm text-white/60 mt-1">USPTO Patent 63/969,202 · IL law · NDA-first access</p>
-          </div>
-          <Button onClick={load} variant="outline" disabled={loading}>
-            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} /> Refresh
+    <div className="min-h-screen gradient-primary relative overflow-hidden text-white">
+      <Helmet>
+        <title>Investor Portal - Admin Dashboard</title>
+        <meta name="description" content="Manage investor access, NDAs, and data room activity" />
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+
+      {/* Animated Gradient Orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-mansagold/20 blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-mansagold/15 blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-white/5 blur-2xl animate-float" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute bottom-1/4 left-1/4 w-48 h-48 rounded-full bg-mansagold/10 blur-2xl animate-float" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8 relative z-10 space-y-8">
+        {/* Header */}
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-2xl animate-fade-in">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/admin')} className="text-white/60 hover:text-white mb-4 -ml-2">
+            <ArrowLeft className="h-4 w-4 mr-1" /> Back to Admin
           </Button>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-mansagold/20 border border-mansagold/30 shrink-0">
+                <Shield className="h-7 w-7 text-mansagold" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-white font-display">Investor Portal</h1>
+                <p className="text-white/70 text-sm mt-1">
+                  U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending · Illinois law · NDA-first access
+                </p>
+              </div>
+            </div>
+            <Button
+              onClick={load}
+              disabled={loading}
+              className="bg-mansagold text-mansablue hover:bg-mansagold/90 shrink-0"
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} /> Refresh
+            </Button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 text-white/60 text-xs"><Users className="h-3 w-3" /> Unique Investors</div>
-              <div className="text-2xl font-bold mt-1">{stats.uniqueInvestors}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 text-white/60 text-xs"><FileText className="h-3 w-3" /> NDA Signed</div>
-              <div className="text-2xl font-bold text-mansagold mt-1">{stats.signed}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 text-white/60 text-xs"><Activity className="h-3 w-3" /> Visits (24h)</div>
-              <div className="text-2xl font-bold mt-1">{stats.visitsToday}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 text-white/60 text-xs"><Shield className="h-3 w-3" /> Internal NDAs</div>
-              <div className="text-2xl font-bold mt-1">{stats.ndaSignatures}</div>
-            </CardContent>
-          </Card>
+        {/* Stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in" style={{ animationDelay: '0.05s' }}>
+          {statCards.map(({ icon: Icon, label, value, gold }) => (
+            <div
+              key={label}
+              className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-5 shadow-xl hover:bg-white/[0.14] transition-colors"
+            >
+              <div className="flex items-center gap-2 text-white/70 text-xs uppercase tracking-wide">
+                <Icon className="h-3.5 w-3.5 text-mansagold" /> {label}
+              </div>
+              <div className={`text-3xl font-bold mt-2 ${gold ? 'text-mansagold' : 'text-white'}`}>{value}</div>
+            </div>
+          ))}
         </div>
 
-        <Tabs defaultValue="investors">
-          <TabsList>
-            <TabsTrigger value="investors">Investors</TabsTrigger>
-            <TabsTrigger value="activity">Activity Log</TabsTrigger>
-            <TabsTrigger value="ndas">Internal NDAs</TabsTrigger>
+        <Tabs defaultValue="investors" className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <TabsList className="backdrop-blur-xl bg-white/10 border border-white/20 mb-6">
+            <TabsTrigger value="investors" className={tabTriggerClass}>
+              <Users className="h-4 w-4" /> Investors
+            </TabsTrigger>
+            <TabsTrigger value="activity" className={tabTriggerClass}>
+              <Activity className="h-4 w-4" /> Activity Log
+            </TabsTrigger>
+            <TabsTrigger value="ndas" className={tabTriggerClass}>
+              <FileText className="h-4 w-4" /> Internal NDAs
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="investors">
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/10 border-white/20 shadow-xl text-white">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">Investor Roster</CardTitle>
-                  <Button size="sm" variant="outline" onClick={() => exportCsv(investors.map((i) => ({ ...i, documents: [...i.documents].join('|') })), 'investors.csv')}>
+                  <Button size="sm" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 hover:text-mansagold" onClick={() => exportCsv(investors.map((i) => ({ ...i, documents: [...i.documents].join('|') })), 'investors.csv')}>
                     <Download className="h-3 w-3 mr-1" /> Export CSV
                   </Button>
                 </div>
@@ -187,13 +218,13 @@ const AdminInvestorPortalPage: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Firm</TableHead>
-                        <TableHead>NDA</TableHead>
-                        <TableHead>Visits</TableHead>
-                        <TableHead>Documents</TableHead>
-                        <TableHead>Last Seen</TableHead>
+                        <TableHead className="text-white/70">Name</TableHead>
+                        <TableHead className="text-white/70">Email</TableHead>
+                        <TableHead className="text-white/70">Firm</TableHead>
+                        <TableHead className="text-white/70">NDA</TableHead>
+                        <TableHead className="text-white/70">Visits</TableHead>
+                        <TableHead className="text-white/70">Documents</TableHead>
+                        <TableHead className="text-white/70">Last Seen</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -218,13 +249,13 @@ const AdminInvestorPortalPage: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="activity">
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/10 border-white/20 shadow-xl text-white">
               <CardHeader>
                 <div className="flex items-center justify-between gap-4">
                   <CardTitle className="text-base">Access Log</CardTitle>
                   <div className="flex gap-2">
-                    <Input placeholder="Search…" value={search} onChange={(e) => setSearch(e.target.value)} className="w-64" />
-                    <Button size="sm" variant="outline" onClick={() => exportCsv(filteredLogs, 'investor-access-log.csv')}>
+                    <Input placeholder="Search…" value={search} onChange={(e) => setSearch(e.target.value)} className="w-64 bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                    <Button size="sm" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 hover:text-mansagold" onClick={() => exportCsv(filteredLogs, 'investor-access-log.csv')}>
                       <Download className="h-3 w-3 mr-1" /> Export
                     </Button>
                   </div>
@@ -234,11 +265,11 @@ const AdminInvestorPortalPage: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>When</TableHead>
-                      <TableHead>Investor</TableHead>
-                      <TableHead>Action</TableHead>
-                      <TableHead>Document</TableHead>
-                      <TableHead>IP</TableHead>
+                      <TableHead className="text-white/70">When</TableHead>
+                      <TableHead className="text-white/70">Investor</TableHead>
+                      <TableHead className="text-white/70">Action</TableHead>
+                      <TableHead className="text-white/70">Document</TableHead>
+                      <TableHead className="text-white/70">IP</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -261,11 +292,11 @@ const AdminInvestorPortalPage: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="ndas">
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/10 border-white/20 shadow-xl text-white">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">Team NDA Signatures</CardTitle>
-                  <Button size="sm" variant="outline" onClick={() => exportCsv(ndas, 'nda-signatures.csv')}>
+                  <Button size="sm" variant="outline" className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 hover:text-mansagold" onClick={() => exportCsv(ndas, 'nda-signatures.csv')}>
                     <Download className="h-3 w-3 mr-1" /> Export
                   </Button>
                 </div>
@@ -277,12 +308,12 @@ const AdminInvestorPortalPage: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Signed</TableHead>
+                        <TableHead className="text-white/70">Name</TableHead>
+                        <TableHead className="text-white/70">Email</TableHead>
+                        <TableHead className="text-white/70">Role</TableHead>
+                        <TableHead className="text-white/70">Type</TableHead>
+                        <TableHead className="text-white/70">Status</TableHead>
+                        <TableHead className="text-white/70">Signed</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
