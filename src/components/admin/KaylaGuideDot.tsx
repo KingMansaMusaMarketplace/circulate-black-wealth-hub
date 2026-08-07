@@ -1,11 +1,12 @@
 import React from 'react';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, Volume2, Square, Loader2 } from 'lucide-react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { getKaylaGuide } from '@/lib/admin/kayla-guide';
+import { useTextToSpeech } from '@/hooks/use-text-to-speech';
 
 interface KaylaGuideDotProps {
   /** Hub item id — must match a key in the Kayla guide. */
