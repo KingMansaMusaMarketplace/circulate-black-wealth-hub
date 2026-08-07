@@ -202,7 +202,7 @@ const AdminInvestorPortalPage: React.FC = () => {
           </TabsList>
 
           <TabsContent value="investors">
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/10 border-white/20 shadow-xl text-white">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">Investor Roster</CardTitle>
@@ -249,7 +249,7 @@ const AdminInvestorPortalPage: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="activity">
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/10 border-white/20 shadow-xl text-white">
               <CardHeader>
                 <div className="flex items-center justify-between gap-4">
                   <CardTitle className="text-base">Access Log</CardTitle>
@@ -292,7 +292,7 @@ const AdminInvestorPortalPage: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="ndas">
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/10 border-white/20 shadow-xl text-white">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">Team NDA Signatures</CardTitle>
