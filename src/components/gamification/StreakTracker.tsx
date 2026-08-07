@@ -61,7 +61,7 @@ export const StreakTracker: React.FC = () => {
             </div>
             <Progress 
               value={((shoppingStreak?.current_streak || 0) % 7) * (100 / 7)} 
-              className="h-3 [&>div]:bg-gradient-to-r [&>div]:from-mansablue [&>div]:to-mansagold"
+              className="h-2.5 bg-white/10 [&>div]:bg-gradient-to-r [&>div]:from-mansablue [&>div]:to-mansagold"
             />
           </div>
 
