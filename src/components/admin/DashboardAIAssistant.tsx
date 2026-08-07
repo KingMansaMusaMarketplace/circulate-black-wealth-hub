@@ -35,6 +35,24 @@ const DashboardAIAssistant: React.FC<DashboardAIAssistantProps> = ({ activeTab }
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [speakingIndex, setSpeakingIndex] = useState<number | null>(null);
+  const {
+    speak,
+    stop: stopTts,
+    isSpeaking,
+    isLoading: ttsLoading,
+  } = useTextToSpeech();
+
+  const stopSpeaking = () => {
+    stopTts();
+    setSpeakingIndex(null);
+  };
+
+  const handleSpeak = (index: number, text: string) => {
+    setSpeakingIndex(index);
+    void speak(text);
+  };
+
 
   useEffect(() => {
     if (scrollRef.current) {
