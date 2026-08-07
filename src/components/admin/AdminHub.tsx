@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import AdminRevenueWidget from './AdminRevenueWidget';
 import { useAdminBadgeCounts } from '@/hooks/useAdminBadgeCounts';
+import KaylaGuideDot from './KaylaGuideDot';
 
 interface AdminHubProps {
   onNavigate: (tab: string) => void;
