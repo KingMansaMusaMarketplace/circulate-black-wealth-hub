@@ -126,9 +126,14 @@ const UserImpersonation: React.FC = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['impersonation-sessions'] });
+      sessionStorage.removeItem('admin_view_as_user');
       toast.success('Impersonation session ended');
       setIsViewingAs(null);
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Failed to end session');
     }
+
   });
 
   const getRoleBadge = (role: string) => {
