@@ -65,6 +65,16 @@ serve(async (req) => {
       });
     }
 
+    if (!canGenerate) {
+      // Anonymous caller with no fresh cache: serve any stale summary, never spend AI credits.
+      return new Response(
+        JSON.stringify({ summary: cached?.summary ?? null, review_count: cached?.review_count ?? null, cached: true }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+
+
     // Get business name
     const { data: business } = await supabase
       .from("businesses")
