@@ -146,7 +146,7 @@ const UnifiedDashboard: React.FC = () => {
         </section>
 
         {/* Promote Your Business CTA */}
-        <Card className="relative overflow-hidden border border-mansagold/30 rounded-2xl bg-gradient-to-br from-mansagold/10 via-amber-500/5 to-transparent">
+        <Card className="relative overflow-hidden border border-mansagold/30 rounded-2xl bg-slate-900/60 bg-gradient-to-br from-mansagold/10 via-amber-500/[0.04] to-transparent">
           <div
             aria-hidden
             className="absolute -top-24 -right-16 w-64 h-64 rounded-full bg-mansagold/10 blur-3xl pointer-events-none"
