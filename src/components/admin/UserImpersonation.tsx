@@ -13,6 +13,8 @@ import { UserCog, Eye, Search, Clock, AlertTriangle, User, X } from 'lucide-reac
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import ViewAsUserPanel from './ViewAsUserPanel';
+
 
 interface ImpersonationSession {
   id: string;
@@ -74,28 +76,44 @@ const UserImpersonation: React.FC = () => {
 
   const startSessionMutation = useMutation({
     mutationFn: async () => {
-      if (!selectedUser || !reason.trim()) return;
-      
-      const { error } = await supabase
+      if (!selectedUser) throw new Error('Pick a user first');
+      if (!reason.trim()) throw new Error('A reason is required for the audit log');
+      if (!user?.id) throw new Error('Your admin session expired — please sign in again');
+
+      const { data, error } = await supabase
         .from('impersonation_sessions')
         .insert({
-          admin_id: user?.id,
+          admin_id: user.id,
           target_user_id: selectedUser.id,
           reason: reason.trim()
-        });
+        })
+        .select()
+        .single();
       if (error) throw error;
+      return data;
     },
     onSuccess: () => {
+      const target = selectedUser;
       queryClient.invalidateQueries({ queryKey: ['impersonation-sessions'] });
-      setIsViewingAs(selectedUser);
+      setIsViewingAs(target);
+      sessionStorage.setItem('admin_view_as_user', JSON.stringify(target));
       setSelectedUser(null);
       setReason('');
-      toast.success(`Now viewing as ${selectedUser?.full_name || selectedUser?.email}`);
+      toast.success(`Now viewing as ${target?.full_name || target?.email}`);
     },
     onError: (error: any) => {
       toast.error(error.message || 'Failed to start session');
     }
   });
+
+  // Restore an in-progress "View As" after a page refresh
+  React.useEffect(() => {
+    const stored = sessionStorage.getItem('admin_view_as_user');
+    if (stored) {
+      try { setIsViewingAs(JSON.parse(stored)); } catch { /* ignore */ }
+    }
+  }, []);
+
 
   const endSessionMutation = useMutation({
     mutationFn: async () => {
@@ -110,9 +128,14 @@ const UserImpersonation: React.FC = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['impersonation-sessions'] });
+      sessionStorage.removeItem('admin_view_as_user');
       toast.success('Impersonation session ended');
       setIsViewingAs(null);
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Failed to end session');
     }
+
   });
 
   const getRoleBadge = (role: string) => {
@@ -149,6 +172,14 @@ const UserImpersonation: React.FC = () => {
           </CardContent>
         </Card>
       )}
+
+      {isViewingAs && (
+        <ViewAsUserPanel
+          userId={isViewingAs.id}
+          userLabel={isViewingAs.full_name || isViewingAs.email || 'this user'}
+        />
+      )}
+
 
       {/* Warning */}
       <Card className="bg-red-500/10 border-red-500/30">
