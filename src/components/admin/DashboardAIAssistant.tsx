@@ -10,8 +10,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Bot, Send, Loader2, Sparkles } from 'lucide-react';
+import { Bot, Send, Loader2, Sparkles, Volume2, Square } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useTextToSpeech } from '@/hooks/use-text-to-speech';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -34,6 +35,24 @@ const DashboardAIAssistant: React.FC<DashboardAIAssistantProps> = ({ activeTab }
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [speakingIndex, setSpeakingIndex] = useState<number | null>(null);
+  const {
+    speak,
+    stop: stopTts,
+    isSpeaking,
+    isLoading: ttsLoading,
+  } = useTextToSpeech();
+
+  const stopSpeaking = () => {
+    stopTts();
+    setSpeakingIndex(null);
+  };
+
+  const handleSpeak = (index: number, text: string) => {
+    setSpeakingIndex(index);
+    void speak(text);
+  };
+
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -199,7 +218,26 @@ Answer questions about these features helpfully and concisely.
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  {message.role === 'assistant' && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        speakingIndex === index ? stopSpeaking() : handleSpeak(index, message.content)
+                      }
+                      className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-mansagold hover:text-yellow-300 transition-colors"
+                    >
+                      {ttsLoading && speakingIndex === index ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : speakingIndex === index && isSpeaking ? (
+                        <Square className="h-3 w-3" />
+                      ) : (
+                        <Volume2 className="h-3 w-3" />
+                      )}
+                      {speakingIndex === index && isSpeaking ? 'Stop' : 'Hear Kayla'}
+                    </button>
+                  )}
                 </div>
+
               </div>
             ))}
             
