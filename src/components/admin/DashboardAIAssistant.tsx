@@ -199,7 +199,26 @@ Answer questions about these features helpfully and concisely.
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  {message.role === 'assistant' && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        speakingIndex === index ? stopSpeaking() : handleSpeak(index, message.content)
+                      }
+                      className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-mansagold hover:text-yellow-300 transition-colors"
+                    >
+                      {ttsLoading && speakingIndex === index ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : speakingIndex === index && isSpeaking ? (
+                        <Square className="h-3 w-3" />
+                      ) : (
+                        <Volume2 className="h-3 w-3" />
+                      )}
+                      {speakingIndex === index && isSpeaking ? 'Stop' : 'Hear Kayla'}
+                    </button>
+                  )}
                 </div>
+
               </div>
             ))}
             
