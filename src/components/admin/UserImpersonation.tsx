@@ -13,6 +13,8 @@ import { UserCog, Eye, Search, Clock, AlertTriangle, User, X } from 'lucide-reac
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import ViewAsUserPanel from './ViewAsUserPanel';
+
 
 interface ImpersonationSession {
   id: string;
