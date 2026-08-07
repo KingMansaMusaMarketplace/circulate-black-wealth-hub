@@ -38,8 +38,17 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
   };
 
   const spokenText = entry
-    ? `${entry.what} ${entry.why} Here's what I'd do: ${entry.doThis}`
+    ? [
+        entry.what,
+        entry.why,
+        `Here's what I'd do: ${entry.doThis}`,
+        entry.proTip ? `A deeper tip: ${entry.proTip}` : '',
+        entry.watchOut ? `And watch out for this: ${entry.watchOut}` : '',
+      ]
+        .filter(Boolean)
+        .join(' ')
     : (fallback ?? '');
+
 
   const handleSpeak = (e: React.MouseEvent) => {
     e.stopPropagation();
