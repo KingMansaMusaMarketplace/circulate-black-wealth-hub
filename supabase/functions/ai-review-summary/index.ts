@@ -12,15 +12,22 @@ serve(async (req) => {
 
   try {
     const { business_id } = await req.json();
-    if (!business_id) {
-      return new Response(JSON.stringify({ error: "business_id is required" }), {
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!business_id || typeof business_id !== "string" || !UUID_RE.test(business_id)) {
+      return new Response(JSON.stringify({ error: "A valid business_id is required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
+    // Cached summaries stay readable by anyone (they're shown on public listings),
+    // but only signed-in users may trigger a new paid AI generation.
+    const authResult = await requireAuth(req, corsHeaders);
+    const canGenerate = authResult.authenticated;
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
