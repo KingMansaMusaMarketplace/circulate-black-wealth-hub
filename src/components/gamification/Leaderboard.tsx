@@ -80,7 +80,7 @@ export const Leaderboard: React.FC = () => {
   );
 
   return (
-    <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
+    <Card className="border border-white/10 bg-slate-900/40 rounded-2xl shadow-lg overflow-hidden">
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-mansagold/10 to-transparent rounded-full blur-2xl" />
       <CardHeader className="relative z-10">
         <div className="flex items-center gap-2">

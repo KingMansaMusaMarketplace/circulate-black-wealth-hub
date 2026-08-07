@@ -48,6 +48,20 @@ const UnifiedDashboard: React.FC = () => {
     return cleaned ? cleaned.charAt(0).toUpperCase() + cleaned.slice(1) : '';
   };
 
+  const today = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  const stats = [
+    { label: 'AI Recommendations', value: 'Ready', hint: 'Personalized picks', Icon: Sparkles, tone: 'gold' as const },
+    { label: 'Achievements', value: 'Track', hint: 'Milestones earned', Icon: Award, tone: 'gold' as const },
+    { label: 'Savings Circles', value: String(circles?.length || 0), hint: 'Active circles', Icon: Landmark, tone: 'blue' as const },
+    { label: 'Investments', value: String(investments?.length || 0), hint: 'Community stakes', Icon: TrendingUp, tone: 'blue' as const },
+  ];
+
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
       {/* Subtle ambient accent */}
@@ -60,119 +74,107 @@ const UnifiedDashboard: React.FC = () => {
         }}
       />
 
-      <div className="container mx-auto px-4 py-8 space-y-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 space-y-10 relative z-10 max-w-7xl">
         {/* Welcome Header */}
-        <div className="flex flex-col md:flex-row items-start justify-between gap-4">
-          <div className="space-y-2">
-            <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white animate-fade-in">
-              {getGreeting()}{user ? `, ${getDisplayName()}` : ''}
-            </h1>
-            <p className="text-slate-400 text-lg">
-              Your personalized hub for community impact and growth
-            </p>
+        <header className="relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-transparent p-6 md:p-8 overflow-hidden">
+          <div
+            aria-hidden
+            className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-mansagold/60 to-transparent"
+          />
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-3">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-mansagold/80 font-medium">
+                {today}
+              </p>
+              <h1 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white animate-fade-in">
+                {getGreeting()}{user ? `, ${getDisplayName()}` : ''}
+              </h1>
+              <p className="text-slate-400 text-base md:text-lg max-w-xl">
+                Your personalized hub for community impact and growth
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Button
+                onClick={() => navigate('/features')}
+                variant="outline"
+                className="border-white/15 bg-transparent text-slate-200 hover:bg-white/5 hover:text-white hover:border-mansagold/40 transition-colors"
+                data-tour="features-btn"
+              >
+                <Lightbulb className="w-4 h-4 mr-2" />
+                Discover Features
+              </Button>
+              <Button
+                onClick={() => navigate('/share-impact')}
+                className="bg-mansagold text-black hover:bg-mansagold/90 font-medium transition-colors"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Share Impact
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button
-              onClick={() => navigate('/features')}
-              variant="outline"
-              className="border-white/15 bg-transparent text-slate-200 hover:bg-white/5 hover:text-white hover:border-mansagold/40 transition-colors"
-              data-tour="features-btn"
-            >
-              <Lightbulb className="w-4 h-4 mr-2" />
-              Discover Features
-            </Button>
-            <Button
-              onClick={() => navigate('/share-impact')}
-              className="bg-mansagold text-black hover:bg-mansagold/90 font-medium transition-colors"
-            >
-              <Share2 className="w-4 h-4 mr-2" />
-              Share Impact
-            </Button>
-          </div>
-        </div>
+        </header>
 
         {/* Quick Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="border border-white/10 bg-slate-900/40 transition-colors hover:border-mansagold/30">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl">
-                  <Sparkles className="w-6 h-6 text-mansagold" />
+        <section aria-label="Overview" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          {stats.map(({ label, value, hint, Icon, tone }) => (
+            <Card
+              key={label}
+              className="group border border-white/10 bg-slate-900/40 rounded-2xl transition-all duration-300 hover:border-mansagold/30 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-16px_hsl(var(--mansagold)/0.35)]"
+            >
+              <CardContent className="p-5 md:p-6">
+                <div className="flex items-start gap-4">
+                  <div
+                    className={`p-3 rounded-xl ring-1 transition-colors ${
+                      tone === 'gold'
+                        ? 'bg-mansagold/10 ring-mansagold/30 group-hover:bg-mansagold/15'
+                        : 'bg-mansablue/15 ring-mansablue/40 group-hover:bg-mansablue/25'
+                    }`}
+                  >
+                    <Icon className={`w-5 h-5 ${tone === 'gold' ? 'text-mansagold' : 'text-blue-300'}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold truncate">
+                      {label}
+                    </p>
+                    <p className="text-2xl md:text-3xl font-bold text-white leading-tight mt-1">{value}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">{hint}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-slate-400 font-medium">AI Recommendations</p>
-                  <p className="text-2xl font-bold text-white">Ready</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-white/10 bg-slate-900/40 transition-colors hover:border-mansagold/30">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-mansagold/10 ring-1 ring-mansagold/30 rounded-xl">
-                  <Award className="w-6 h-6 text-mansagold" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400 font-medium">Achievements</p>
-                  <p className="text-2xl font-bold text-white">Track</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-white/10 bg-slate-900/40 transition-colors hover:border-mansagold/30">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-mansablue/15 ring-1 ring-mansablue/40 rounded-xl">
-                  <Landmark className="w-6 h-6 text-blue-300" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400 font-medium">Savings Circles</p>
-                  <p className="text-2xl font-bold text-white">{circles?.length || 0}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-white/10 bg-slate-900/40 transition-colors hover:border-mansagold/30">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-mansablue/15 ring-1 ring-mansablue/40 rounded-xl">
-                  <TrendingUp className="w-6 h-6 text-blue-300" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400 font-medium">Investments</p>
-                  <p className="text-2xl font-bold text-white">{investments?.length || 0}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
 
         {/* Promote Your Business CTA */}
-        <Card className="border border-mansagold/30 bg-gradient-to-br from-mansagold/10 via-amber-500/5 to-transparent">
-          <CardContent className="p-6 flex flex-col md:flex-row items-start md:items-center gap-4 justify-between">
+        <Card className="relative overflow-hidden border border-mansagold/30 rounded-2xl bg-slate-900/60 bg-gradient-to-br from-mansagold/10 via-amber-500/[0.04] to-transparent">
+          <div
+            aria-hidden
+            className="absolute -top-24 -right-16 w-64 h-64 rounded-full bg-mansagold/10 blur-3xl pointer-events-none"
+          />
+          <CardContent className="p-6 md:p-7 flex flex-col md:flex-row items-start md:items-center gap-5 justify-between relative">
             <div className="flex items-start gap-4">
-              <div className="p-3 bg-mansagold/15 ring-1 ring-mansagold/40 rounded-xl">
+              <div className="p-3 bg-mansagold/15 ring-1 ring-mansagold/40 rounded-xl shrink-0">
                 <Megaphone className="w-6 h-6 text-mansagold" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white">Promote your business</h3>
-                <p className="text-sm text-slate-400 max-w-xl">
+                <h3 className="text-lg md:text-xl font-semibold text-white font-display tracking-tight">
+                  Promote your business
+                </h3>
+                <p className="text-sm text-slate-400 max-w-xl mt-1">
                   Pin your listing at the top of category and city searches. Featured Placements start at $20/month — cancel anytime.
                 </p>
               </div>
             </div>
             <Button
               onClick={() => navigate('/business/featured-placement')}
-              className="bg-mansagold text-black hover:bg-mansagold/90 font-medium whitespace-nowrap"
+              className="bg-mansagold text-black hover:bg-mansagold/90 font-medium whitespace-nowrap group"
             >
               Get Featured
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" />
             </Button>
           </CardContent>
         </Card>
+
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
