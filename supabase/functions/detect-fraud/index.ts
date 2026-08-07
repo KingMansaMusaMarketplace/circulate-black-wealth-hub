@@ -208,7 +208,7 @@ Deno.serve(async (req) => {
     const [qrScansResult, transactionsResult, activityLogResult] = await Promise.all([
       supabase
         .from('qr_scans')
-        .select('id, customer_id, business_id, scan_date, points_earned')
+        .select('id, customer_id, business_id, scan_date, points_awarded')
         .gte('scan_date', lookbackWindow.toISOString())
         .order('scan_date', { ascending: false })
         .limit(500),
