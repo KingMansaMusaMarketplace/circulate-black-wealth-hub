@@ -64,11 +64,34 @@ serve(async (req) => {
   }
 
   try {
-    const { audio } = await req.json();
-    
-    if (!audio) {
-      throw new Error('No audio data provided');
+    // Require a signed-in user before spending any OpenAI credits
+    const auth = await requireAuth(req, corsHeaders);
+    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
+    if (!checkRateLimit(auth.userId!, 20, 60000)) {
+      console.log('Transcription rate limit exceeded for user:', auth.userId);
+      return new Response(
+        JSON.stringify({ error: 'Too many transcription requests. Please wait a moment.' }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
+
+    const { audio } = await req.json();
+
+    if (!audio || typeof audio !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'No audio data provided' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (audio.length > MAX_AUDIO_BASE64_LENGTH) {
+      return new Response(
+        JSON.stringify({ error: 'Audio clip too large' }),
+        { status: 413, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
 
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
     const OPENAI_ORG_ID = Deno.env.get('OPENAI_ORG_ID');
