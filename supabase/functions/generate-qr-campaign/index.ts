@@ -89,6 +89,16 @@ Deno.serve(async (req) => {
     }
 
     const { businessId, campaignType, currentQRData } = parseResult.data;
+
+    // --- Ownership check: the caller must own (or manage, or be admin over) this business ---
+    const ownership = await requireBusinessOwner(req, businessId, corsHeaders);
+    if (!ownership.authenticated) {
+      console.log('Ownership check failed for business:', businessId);
+      return authErrorResponse(ownership, corsHeaders);
+    }
+    // --- End ownership check ---
+
+
     
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
