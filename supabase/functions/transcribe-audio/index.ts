@@ -64,17 +64,28 @@ serve(async (req) => {
   }
 
   try {
-    // Require a signed-in user before spending any OpenAI credits
-    const auth = await requireAuth(req, corsHeaders);
-    if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+    // Trusted internal callers (e.g. the voice-api function) present the service-role key.
+    const bearer = req.headers.get('Authorization')?.replace('Bearer ', '').trim();
+    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    const isInternalCall = !!serviceRoleKey && bearer === serviceRoleKey;
 
-    if (!checkRateLimit(auth.userId!, 20, 60000)) {
-      console.log('Transcription rate limit exceeded for user:', auth.userId);
+    let rateLimitKey = 'internal';
+
+    if (!isInternalCall) {
+      // Require a signed-in user before spending any OpenAI credits
+      const auth = await requireAuth(req, corsHeaders);
+      if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+      rateLimitKey = auth.userId!;
+    }
+
+    if (!checkRateLimit(rateLimitKey, isInternalCall ? 200 : 20, 60000)) {
+      console.log('Transcription rate limit exceeded for:', rateLimitKey);
       return new Response(
         JSON.stringify({ error: 'Too many transcription requests. Please wait a moment.' }),
         { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
 
     const { audio } = await req.json();
 
