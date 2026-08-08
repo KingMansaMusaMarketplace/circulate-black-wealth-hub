@@ -1,10 +1,32 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
 };
+
+// Per-user rate limiting (in-memory, resets on cold start)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(userId: string, maxRequests = 20, windowMs = 60000): boolean {
+  const now = Date.now();
+  const entry = rateLimitStore.get(userId);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitStore.set(userId, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+
+  if (entry.count >= maxRequests) return false;
+  entry.count++;
+  return true;
+}
+
+// Reject oversized payloads before spending any OpenAI budget (~10 MB base64)
+const MAX_AUDIO_BASE64_LENGTH = 10 * 1024 * 1024;
+
 
 // Process base64 in chunks to prevent memory issues
 function processBase64Chunks(base64String: string, chunkSize = 32768) {
@@ -42,11 +64,45 @@ serve(async (req) => {
   }
 
   try {
-    const { audio } = await req.json();
-    
-    if (!audio) {
-      throw new Error('No audio data provided');
+    // Trusted internal callers (e.g. the voice-api function) present the service-role key.
+    const bearer = req.headers.get('Authorization')?.replace('Bearer ', '').trim();
+    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    const isInternalCall = !!serviceRoleKey && bearer === serviceRoleKey;
+
+    let rateLimitKey = 'internal';
+
+    if (!isInternalCall) {
+      // Require a signed-in user before spending any OpenAI credits
+      const auth = await requireAuth(req, corsHeaders);
+      if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+      rateLimitKey = auth.userId!;
     }
+
+    if (!checkRateLimit(rateLimitKey, isInternalCall ? 200 : 20, 60000)) {
+      console.log('Transcription rate limit exceeded for:', rateLimitKey);
+      return new Response(
+        JSON.stringify({ error: 'Too many transcription requests. Please wait a moment.' }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+
+    const { audio } = await req.json();
+
+    if (!audio || typeof audio !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'No audio data provided' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (audio.length > MAX_AUDIO_BASE64_LENGTH) {
+      return new Response(
+        JSON.stringify({ error: 'Audio clip too large' }),
+        { status: 413, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
 
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
     const OPENAI_ORG_ID = Deno.env.get('OPENAI_ORG_ID');

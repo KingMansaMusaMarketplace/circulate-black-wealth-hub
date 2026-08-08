@@ -1,5 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
+import { requireBusinessOwner, authErrorResponse } from '../_shared/auth-guard.ts';
 import { z } from 'https://esm.sh/zod@3.23.8';
 
 const corsHeaders = {
@@ -88,6 +89,16 @@ Deno.serve(async (req) => {
     }
 
     const { businessId, campaignType, currentQRData } = parseResult.data;
+
+    // --- Ownership check: the caller must own (or manage, or be admin over) this business ---
+    const ownership = await requireBusinessOwner(req, businessId, corsHeaders);
+    if (!ownership.authenticated) {
+      console.log('Ownership check failed for business:', businessId);
+      return authErrorResponse(ownership, corsHeaders);
+    }
+    // --- End ownership check ---
+
+
     
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
