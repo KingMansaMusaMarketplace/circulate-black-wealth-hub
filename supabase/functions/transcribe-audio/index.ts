@@ -1,10 +1,32 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
 };
+
+// Per-user rate limiting (in-memory, resets on cold start)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(userId: string, maxRequests = 20, windowMs = 60000): boolean {
+  const now = Date.now();
+  const entry = rateLimitStore.get(userId);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitStore.set(userId, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+
+  if (entry.count >= maxRequests) return false;
+  entry.count++;
+  return true;
+}
+
+// Reject oversized payloads before spending any OpenAI budget (~10 MB base64)
+const MAX_AUDIO_BASE64_LENGTH = 10 * 1024 * 1024;
+
 
 // Process base64 in chunks to prevent memory issues
 function processBase64Chunks(base64String: string, chunkSize = 32768) {
