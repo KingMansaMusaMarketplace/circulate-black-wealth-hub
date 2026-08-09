@@ -30,8 +30,6 @@ For a single founder protecting patent IP, **Business is the practical next step
 | **Enterprise** | Workspace excluded + SCIM, audit logs, self-hosted options | Maximum control and compliance | Consider later |
 
 
-For your patents and backend, **Business is likely enough**. Enterprise is worth it if you want audit logs, single sign-on, or the option to eventually self-host the code.
-
 ## What this plan will do
 
 1. **Upgrade the workspace** (you do this in Lovable settings).
