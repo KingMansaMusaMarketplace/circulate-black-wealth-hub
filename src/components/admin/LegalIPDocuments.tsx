@@ -608,7 +608,7 @@ const LegalIPDocuments: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Generated Patent Documents */}
+          {/* Generated Patent Documents — ARCHIVED OFFLINE */}
           <Card className="bg-white/5 border-white/10">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
@@ -616,52 +616,44 @@ const LegalIPDocuments: React.FC = () => {
                 Generated Patent Documents
               </CardTitle>
               <CardDescription className="text-blue-200/60">
-                System-generated claim documentation and specifications
+                Moved to private offline storage on August 9, 2026
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-4">
+            <CardContent className="space-y-4">
+              <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4">
+                <p className="text-sm font-semibold text-destructive">
+                  PRIVATE &amp; CONFIDENTIAL — DO NOT COPY, FORWARD, OR DISTRIBUTE
+                </p>
+                <p className="text-sm text-blue-200/80 mt-2">
+                  The full patent claim language, specifications, system diagrams and security
+                  architecture audits are no longer stored inside this application. They live in the
+                  private archive <span className="text-white font-medium">1325AI_Patent_Legal_Archive_2026-08-09</span>,
+                  held outside the build workspace. Request access from Thomas D. Bowling or patent
+                  counsel (Allgaier Patent Solutions).
+                </p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-3">
                 {patentDocuments.map((doc) => (
-                  <div 
+                  <div
                     key={doc.file}
-                    className="flex items-start gap-4 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-mansagold/30 transition-colors"
+                    className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10"
                   >
-                    <div className={`p-2 rounded-lg ${
-                      doc.type === 'primary' ? 'bg-mansagold/20' :
-                      doc.type === 'claims' ? 'bg-purple-500/20' :
-                      doc.type === 'diagrams' ? 'bg-blue-500/20' :
-                      'bg-white/10'
-                    }`}>
-                      <FileText className={`h-5 w-5 ${
-                        doc.type === 'primary' ? 'text-mansagold' :
-                        doc.type === 'claims' ? 'text-purple-400' :
-                        doc.type === 'diagrams' ? 'text-blue-400' :
-                        'text-white/70'
-                      }`} />
+                    <div className="p-2 rounded-lg bg-white/10">
+                      <FileText className="h-4 w-4 text-white/50" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-white font-medium">{doc.name}</h4>
-                      <p className="text-sm text-blue-200/60 mt-1">{doc.description}</p>
-                      <div className="flex items-center gap-3 mt-3">
-                        <Badge variant="outline" className="text-xs border-white/20 text-white/60">
-                          {doc.pages}
-                        </Badge>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="h-7 text-xs text-mansagold hover:text-mansagold hover:bg-mansagold/10"
-                          onClick={() => handleViewDocument(doc.file)}
-                        >
-                          <ExternalLink className="h-3 w-3 mr-1" />
-                          View
-                        </Button>
-                      </div>
+                      <h4 className="text-white/80 font-medium text-sm">{doc.name}</h4>
+                      <p className="text-xs text-blue-200/50 mt-1">{doc.description}</p>
+                      <Badge variant="outline" className="text-xs border-white/20 text-white/50 mt-2">
+                        Archived offline
+                      </Badge>
                     </div>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
+
         </TabsContent>
 
         {/* Partner System Tab - NEW */}
