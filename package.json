@@ -147,6 +147,18 @@
     "vitest": "^3.2.4"
   },
   "overrides": {
-    "tar": "7.5.22"
+    "tar": "7.5.22",
+    "minimatch@3": "3.1.5",
+    "minimatch@5": "5.1.9",
+    "minimatch@9": "9.0.9",
+    "minimatch@10": "10.2.6",
+    "picomatch@2": "2.3.2",
+    "picomatch@4": "4.0.5",
+    "brace-expansion@1": "1.1.18",
+    "brace-expansion@2": "2.1.4",
+    "glob@10": "10.5.0",
+    "glob@11": "11.1.0",
+    "fast-uri@3": "3.1.5",
+    "@babel/plugin-transform-modules-systemjs@7": "7.29.8"
   }
 }
