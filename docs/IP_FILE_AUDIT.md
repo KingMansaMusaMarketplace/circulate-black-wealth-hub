@@ -91,3 +91,13 @@ Recommendation: remove any comments that include patent numbers, filing dates, o
 ## Reminder
 
 This document is part of a workspace-hardening plan. The most important protection is the **Business plan upgrade**, which excludes the remaining workspace data from Lovable AI training. Moving these files reduces the amount of IP exposed inside the workspace even further.
+
+---
+
+## STATUS: COMPLETE — August 9, 2026
+
+All 17 sensitive files listed above were packaged into `1325AI_Patent_Legal_Archive_2026-08-09.zip`, downloaded and stored privately by Thomas D. Bowling, and deleted from this project.
+
+The Admin > Legal & IP page no longer links to them; it shows an "Archived offline" notice instead.
+
+Do not re-create patent claim language, USPTO specifications, or security-definer audit maps inside this workspace.
