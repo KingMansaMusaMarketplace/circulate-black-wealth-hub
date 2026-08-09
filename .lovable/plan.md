@@ -1,52 +1,88 @@
-# Clear Apple's China (Guideline 5) Notice — No Code Changes
+# Protect 1325.AI IP and Backend on Lovable
 
-Apple flagged the words "ChatGPT" / "GPT" in the App Store listing. Chinese law requires a government license for AI services like ChatGPT, so the app can't ship on the China mainland store with those references. The fix chosen: remove China mainland from availability. Everywhere else stays exactly as-is.
+You are currently on a **Pro plan**. Your project is published as **public** and the Lovable badge is already hidden. The goal is to make sure your source code, patent material, and backend architecture are not exposed to Lovable's AI training or to the public.
 
-Nothing in the app, the website, or Kayla changes. No new build is required.
+## What is already true today
 
-## What you need to do in App Store Connect
+- **Your backend is NOT on Lovable.** It lives in your own Supabase project (`agoclnqfyinwjxdmjnns`). Lovable does not host your database, users, transactions, or business data. Supabase does.
+- **Your source code IS visible to Lovable.** While you build, the Lovable editor and AI can read your project files, code, prompts, and generated outputs. On a Pro plan, that content may be used for AI model training unless you opt out.
+- **Your published website is public.** Anyone with the URL can visit it, but they cannot see your source code or backend.
+- **Your patent documents are in the project.** Files like `docs/PATENT_CLAIM_2_TEMPORAL_FOUNDING_STATUS.md` are in the Lovable workspace, so they are visible to the Lovable editor.
 
-1. Open App Store Connect → **My Apps** → **1325.AI**.
-2. In the left sidebar, click **Pricing and Availability**.
-3. Under **Availability**, click **Edit** (or "Set up availability").
-4. Uncheck **China mainland**. Leave every other country checked.
-5. Click **Done**, then **Save** in the top right.
-6. Go back to the flagged submission (ID 9fd838fa-3341-4c8d-90c4-d6fcd7489547) and open **Review Notes**. Add the note below.
-7. Reply to Apple's message in App Store Connect with the reply below.
-8. Click **Add for Review** / **Submit for Review** to resubmit the same build (25.1.2, build 34). You do not need a new build from Xcode.
+## Recommended path: upgrade to Business or Enterprise
 
-## Review Notes to add
+Because you want maximum privacy and are willing to pay for it, the plan is to upgrade your Lovable workspace to **Business** or **Enterprise**. On those plans, workspace data is excluded from AI model training by default.
 
-```text
-This app is not distributed on the China mainland App Store. China mainland
-has been deselected in Pricing and Availability. All ChatGPT/OpenAI-related
-functionality and metadata references apply only to storefronts outside of
-China, per Guideline 5 - Legal.
-```
+| Plan | Training Data | Best For |
+|------|---------------|----------|
+| **Pro** | Must opt out per individual | Current plan |
+| **Business** | Workspace excluded from training by default | Teams that need privacy + role controls |
+| **Enterprise** | Workspace excluded + SCIM, audit logs, self-hosted options | Maximum control and compliance |
 
-## Reply to send to App Review
+For your patents and backend, **Business is likely enough**. Enterprise is worth it if you want audit logs, single sign-on, or the option to eventually self-host the code.
 
-```text
-Hello,
+## What this plan will do
 
-Thank you for the review and for flagging this.
+1. **Upgrade the workspace** (you do this in Lovable settings).
+2. **Lock down the project** after upgrade: make the published site private, restrict editor access, and set workspace roles.
+3. **Audit sensitive files** in `docs/` and `src/` to decide what should stay, move, or be removed from the Lovable workspace.
+4. **Document the backend sovereignty** so it is clear that user data and transactions live on Supabase, not Lovable.
+5. **Turn on individual training opt-out** for every workspace member until the upgrade is complete.
 
-We have deselected China mainland in the app's Availability settings in App
-Store Connect. 1325.AI is no longer distributed on the China mainland App
-Store, so the ChatGPT/OpenAI references in our metadata and the associated
-functionality are not offered to users in China.
+## Steps
 
-We have also updated the Review Notes to confirm this. The submission is
-otherwise unchanged and ready for review.
+### Step 1: Upgrade the Lovable workspace
 
-Please let us know if anything further is needed.
+- Go to **Settings → Plans & credits** in your Lovable workspace.
+- Choose **Business** or **Enterprise** and complete the upgrade.
+- If you choose Enterprise, contact Lovable sales to discuss the Data Processing Agreement and any self-hosted options.
 
-Best regards,
-Thomas Bowling
-1325.AI
-```
+### Step 2: Lock down project visibility and access
 
-## Notes
+After the upgrade is active:
 
-- Keep this in mind for future releases: if you ever want the China storefront back, the app would need the ChatGPT/OpenAI wording removed from the listing and those AI features disabled for Chinese users, plus local legal advice.
-- The `/connect` and `/connect-chatgpt` pages on the website are unaffected — Apple's notice is about the App Store listing and the China storefront only.
+- Set the **published site** to **private** so only workspace members can view it.
+- Set **project editor access** to **Restricted** so only the owner and invited collaborators can open or edit the project.
+- Configure workspace roles: Owner, Admin, Editor, and Viewer.
+
+### Step 3: Audit sensitive IP files
+
+I will review files in the project that contain patent claims, proprietary logic, or confidential business information. For each file, we will decide one of three actions:
+
+- **Keep** in Lovable because it is part of the deployed app.
+- **Move** to an external private repository (e.g., a private GitHub repo or legal document store) if it is not needed for the app to run.
+- **Remove** from the project if it is outdated or no longer needed.
+
+High-priority files to review:
+
+- `docs/PATENT_CLAIM_2_TEMPORAL_FOUNDING_STATUS.md`
+- `docs/SECURITY_DEFINER_AUDIT_MAY_2026.md`
+- `docs/SECURITY_DEFINER_VIEW_ANALYSIS.md`
+- `docs/MAURICE_ISSUES_FIX.md`
+- `docs/SPONSOR_METRICS_AUTOMATION.md`
+- Any other documents marked confidential or containing patent language.
+
+### Step 4: Document backend sovereignty
+
+I will create a short internal document in the project that explains:
+
+- The app is a React frontend built in Lovable.
+- The backend is Supabase (`agoclnqfyinwjxdmjnns`), not Lovable.
+- User data, transactions, and business records live in Supabase and are protected by Row Level Security (RLS) policies.
+- Lovable does not have access to the Supabase database or service-role key.
+
+This document is useful for investors, partners, and your own legal team.
+
+### Step 5: Enable individual training opt-out until upgrade completes
+
+Until the workspace upgrade is confirmed, every workspace member should go to **Account Settings → Privacy** and turn on **Data collection opt out**. This is a free, immediate step that prevents Lovable from using that individual's prompts and code for AI training.
+
+## What this plan will NOT do
+
+- It will not move your Supabase backend. Your backend is already external and under your control.
+- It will not guarantee that the public internet cannot see your published website. After the upgrade, we will make the published site private.
+- It will not give you full self-hosting of the code. If you want the code to leave Lovable entirely, that requires a separate migration plan.
+
+## Next decision
+
+After you approve this plan, I will first confirm the workspace upgrade is in place, then make the visibility changes and start the sensitive-file audit. If you prefer to skip the upgrade and instead move the code to a private GitHub repo, tell me and I will write a different plan.
