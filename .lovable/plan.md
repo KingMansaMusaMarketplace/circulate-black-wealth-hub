@@ -13,11 +13,22 @@ You are currently on a **Pro plan**. Your project is published as **public** and
 
 Because you want maximum privacy and are willing to pay for it, the plan is to upgrade your Lovable workspace to **Business** or **Enterprise**. On those plans, workspace data is excluded from AI model training by default.
 
-| Plan | Training Data | Best For |
-|------|---------------|----------|
-| **Pro** | Must opt out per individual | Current plan |
-| **Business** | Workspace excluded from training by default | Teams that need privacy + role controls |
-| **Enterprise** | Workspace excluded + SCIM, audit logs, self-hosted options | Maximum control and compliance |
+For your situation, **Business is the right choice for now**. It solves the immediate problem: your workspace data is excluded from AI training by default, and you can make the project private with restricted access. It is also less expensive than Enterprise while still giving you the core protections you need.
+
+**Choose Enterprise only if** one of these is true:
+- You need audit logs for compliance or investor due diligence.
+- You want single sign-on (SSO) or automatic user provisioning for a larger team.
+- You want the option to self-host the code or keep data in a specific region.
+- You want a dedicated Lovable account team for support and contract negotiation.
+
+For a single founder protecting patent IP, **Business is the practical next step**. You can upgrade to Enterprise later if your team or compliance needs grow.
+
+| Plan | Training Data | Best For | Recommendation |
+|------|---------------|----------|----------------|
+| **Pro** | Must opt out per individual | Current plan | Not enough for your IP risk |
+| **Business** | Workspace excluded from training by default | Teams that need privacy + role controls | **Get this now** |
+| **Enterprise** | Workspace excluded + SCIM, audit logs, self-hosted options | Maximum control and compliance | Consider later |
+
 
 For your patents and backend, **Business is likely enough**. Enterprise is worth it if you want audit logs, single sign-on, or the option to eventually self-host the code.
 
