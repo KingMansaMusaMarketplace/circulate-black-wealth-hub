@@ -29,8 +29,23 @@ For a single founder protecting patent IP, **Business is the practical next step
 | **Business** | Workspace excluded from training by default | Teams that need privacy + role controls | **Get this now** |
 | **Enterprise** | Workspace excluded + SCIM, audit logs, self-hosted options | Maximum control and compliance | Consider later |
 
+## Which Business tier to choose
+
+Your workspace used about **953 credits** this billing period. Your current Pro plan costs **$705/month** and includes 3,000 credits, so you have a lot of unused headroom right now.
+
+For the Business plan, the best fit is **1,200 credits/month**:
+
+- **Cost:** $588/month (or $490/month if billed annually).
+- **Coverage:** 1,200 credits is enough for your current ~953 credit usage plus some growth.
+- **Savings:** This is cheaper than your current Pro plan.
+- **Privacy:** You get the same core protection: workspace data excluded from AI training, private publishing, and restricted project access.
+
+If you expect your team to grow quickly or you plan to use a lot more AI/Cloud features, the **2,000 credits/month** tier ($960/month, $800/month annual) gives more room. But for a single founder protecting patent IP, **1,200 is the practical starting point**.
+
+You can change tiers anytime if your usage grows.
 
 ## What this plan will do
+
 
 1. **Upgrade the workspace** (you do this in Lovable settings).
 2. **Lock down the project** after upgrade: make the published site private, restrict editor access, and set workspace roles.
