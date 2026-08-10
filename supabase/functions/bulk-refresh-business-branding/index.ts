@@ -231,14 +231,17 @@ serve(async (req) => {
       .select("id, name, website, logo_url, banner_url")
       .not("website", "is", null)
       .neq("website", "")
-      .or("logo_url.is.null,banner_url.is.null,logo_url.eq.,banner_url.eq.,logo_url.ilike.%placeholder%,banner_url.ilike.%placeholder%,logo_url.ilike.%default%,banner_url.ilike.%default%,logo_url.ilike.%unsplash%,banner_url.ilike.%unsplash%")
       .order("updated_at", { ascending: true, nullsFirst: true });
 
     if (ids) {
+      // Explicit ids (e.g. right after approval): trust the caller, needsField() still guards
       query = query.in("id", ids);
     } else {
-      query = query.range(offset, offset + batchSize - 1);
+      query = query
+        .or("logo_url.is.null,banner_url.is.null,logo_url.eq.,banner_url.eq.,logo_url.ilike.%placeholder%,banner_url.ilike.%placeholder%,logo_url.ilike.%default%,banner_url.ilike.%default%,logo_url.ilike.%unsplash%,banner_url.ilike.%unsplash%")
+        .range(offset, offset + batchSize - 1);
     }
+
 
     const { data: businesses, error: fetchError } = await query;
 
