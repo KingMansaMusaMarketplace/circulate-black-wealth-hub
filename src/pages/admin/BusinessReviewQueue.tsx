@@ -371,7 +371,6 @@ const BusinessReviewQueue: React.FC = () => {
 
           <DeadLinkAuditCard />
 
-          <PhotoBackfillCard />
 
 
 
