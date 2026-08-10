@@ -29,15 +29,15 @@ const config: CapacitorConfig = {
     SplashScreen: {
       // Bundled assets load in well under a second, so the splash only needs a
       // short hold. Auto-hide guarantees it can never freeze on screen.
-      launchShowDuration: 2000,
+      launchShowDuration: 1200,
       launchAutoHide: true,
-      launchFadeOutDuration: 400,
+      launchFadeOutDuration: 300,
 
-      backgroundColor: "#FFFFFF",
-      showSpinner: true,
-      spinnerColor: "#FFB300",
+      // Branded 1325.AI launch screen (navy matches the logo artwork).
+      // No spinner: Apple flags indefinite activity indicators on launch.
+      backgroundColor: "#0C1B34",
+      showSpinner: false,
       androidSplashResourceName: "splash",
-      iosSpinnerStyle: "large",
     },
     Geolocation: {
       androidPermissions: [
