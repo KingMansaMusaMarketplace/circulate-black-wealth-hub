@@ -29,7 +29,7 @@ const GENERIC_ASSET_PATTERNS = [
   "site.webmanifest",
 ];
 
-const INVALID_IMAGE_PATTERNS = ["${", "{{", "/images/businesses/", "placeholder", "placehold.co", "images.unsplash.com", "unsplash.com/", "default-banner", "default-logo"];
+const INVALID_IMAGE_PATTERNS = ["${", "{{", "/images/businesses/", "placeholder", "placehold.co", "images.unsplash.com", "unsplash.com/", "/unsplash/", "default-banner", "default-logo"];
 
 const WEBSITE_TIMEOUT_MS = 12000;
 
