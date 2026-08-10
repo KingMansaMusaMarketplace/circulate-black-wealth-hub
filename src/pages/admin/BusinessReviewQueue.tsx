@@ -564,17 +564,31 @@ const BusinessReviewQueue: React.FC = () => {
             </Card>
           ) : (
             <div className="grid gap-4">
-              {leads.map(lead => {
+              {leads.map((lead, idx) => {
                 const notes = (lead.verification_notes && typeof lead.verification_notes === 'object')
                   ? (lead.verification_notes as Record<string, unknown>) : {};
                 const reasons = Array.isArray((notes as any).reasons) ? (notes as any).reasons as string[] : [];
                 const ownershipOk = lead.black_owned_confidence !== null
                   && Number(lead.black_owned_confidence) >= 0.7
                   && !!lead.black_owned_evidence;
+                const isFocused = idx === Math.min(focusIdx, leads.length - 1);
                 return (
-                  <Card key={lead.id} className="bg-slate-900/60 border-white/10">
+                  <Card
+                    key={lead.id}
+                    onClick={() => setFocusIdx(idx)}
+                    className={`bg-slate-900/60 border-white/10 ${isFocused ? 'ring-2 ring-mansagold/70' : ''}`}
+                  >
                     <CardHeader className="flex flex-row items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          className="h-4 w-4 mt-1 accent-[#FFB300] shrink-0"
+                          checked={selected.has(lead.id)}
+                          onChange={() => toggleSelected(lead.id)}
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label={`Select ${lead.business_name}`}
+                        />
+
                         {lead.logo_url ? (
                           <img src={lead.logo_url} alt="" className="h-12 w-12 rounded object-contain bg-white/5" />
                         ) : (
