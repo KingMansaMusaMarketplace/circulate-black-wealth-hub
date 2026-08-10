@@ -29,9 +29,26 @@ const GENERIC_ASSET_PATTERNS = [
   "site.webmanifest",
 ];
 
-const INVALID_IMAGE_PATTERNS = ["${", "{{", "/images/businesses/", "placeholder", "placehold.co", "images.unsplash.com", "default-banner", "default-logo"];
+const INVALID_IMAGE_PATTERNS = ["${", "{{", "/images/businesses/", "placeholder", "placehold.co", "images.unsplash.com", "unsplash.com/", "/unsplash/", "default-banner", "default-logo"];
 
 const WEBSITE_TIMEOUT_MS = 12000;
+
+// Decode HTML entities (&#x3A; &amp; &#38; etc.) that appear inside markup attributes
+const decodeEntities = (input: string) =>
+  input
+    .replace(/&#x([0-9a-f]+);/gi, (_m, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_m, dec) => String.fromCodePoint(parseInt(dec, 10)))
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/g, "'")
+    .trim();
+
+// Reject favicon-sized artwork like ...-32x32.png or ...-64x64.jpg
+const isTinyImage = (url: string) => {
+  const match = url.toLowerCase().match(/[-_](\d{2,4})x(\d{2,4})\.(png|jpe?g|webp|gif)/);
+  if (!match) return false;
+  return Number(match[1]) <= 100 || Number(match[2]) <= 100;
+};
 
 const normalizeWebsite = (website: string) => {
   const trimmed = website.trim();
@@ -42,7 +59,7 @@ const normalizeWebsite = (website: string) => {
 
 const toAbsoluteUrl = (rawUrl: string, baseUrl: string): string => {
   try {
-    return new URL(rawUrl, baseUrl).toString();
+    return new URL(decodeEntities(rawUrl), baseUrl).toString();
   } catch {
     return "";
   }
@@ -53,8 +70,10 @@ const isValidImageUrl = (url: string) => {
   const lc = url.toLowerCase();
   if (!lc.startsWith("http://") && !lc.startsWith("https://")) return false;
   if (INVALID_IMAGE_PATTERNS.some((p) => lc.includes(p))) return false;
+  if (isTinyImage(lc)) return false;
   return true;
 };
+
 
 const isGenericAsset = (url: string) => {
   const lc = url.toLowerCase();
@@ -212,14 +231,17 @@ serve(async (req) => {
       .select("id, name, website, logo_url, banner_url")
       .not("website", "is", null)
       .neq("website", "")
-      .or("logo_url.is.null,banner_url.is.null,logo_url.eq.,banner_url.eq.,logo_url.ilike.%placeholder%,banner_url.ilike.%placeholder%,logo_url.ilike.%default%,banner_url.ilike.%default%,logo_url.ilike.%unsplash%,banner_url.ilike.%unsplash%")
       .order("updated_at", { ascending: true, nullsFirst: true });
 
     if (ids) {
+      // Explicit ids (e.g. right after approval): trust the caller, needsField() still guards
       query = query.in("id", ids);
     } else {
-      query = query.range(offset, offset + batchSize - 1);
+      query = query
+        .or("logo_url.is.null,banner_url.is.null,logo_url.eq.,banner_url.eq.,logo_url.ilike.%placeholder%,banner_url.ilike.%placeholder%,logo_url.ilike.%default%,banner_url.ilike.%default%,logo_url.ilike.%unsplash%,banner_url.ilike.%unsplash%")
+        .range(offset, offset + batchSize - 1);
     }
+
 
     const { data: businesses, error: fetchError } = await query;
 
