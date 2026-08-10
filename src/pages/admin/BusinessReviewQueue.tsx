@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import OwnershipAuditCard from '@/components/admin/OwnershipAuditCard';
 import DeadLinkAuditCard from '@/components/admin/DeadLinkAuditCard';
 import OwnershipSpotCheckCard from '@/components/admin/OwnershipSpotCheckCard';
+import PhotoBackfillCard from '@/components/admin/PhotoBackfillCard';
 
 type Lead = {
   id: string;
