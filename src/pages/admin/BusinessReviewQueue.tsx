@@ -125,6 +125,61 @@ const BusinessReviewQueue: React.FC = () => {
 
   useEffect(() => { fetchLeads(); fetchCounts(); fetchEnrichmentStats(); }, [fetchLeads, fetchCounts, fetchEnrichmentStats]);
 
+  // --- selection + keyboard fast lane state ---
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkApproving, setBulkApproving] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState({ done: 0, total: 0 });
+  const [focusIdx, setFocusIdx] = useState(0);
+
+  const toggleSelected = (id: string) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  // Publishes one lead. Returns the new business id (or throws).
+  const publishLead = async (lead: Lead, ownerId: string, pullPhotos = true) => {
+    const { data: inserted, error: insErr } = await supabase.from('businesses').insert({
+      owner_id: ownerId,
+      name: lead.business_name,
+      business_name: lead.business_name,
+      category: lead.category,
+      city: lead.city,
+      state: lead.state,
+      website: lead.website_url,
+      phone: lead.verified_phone || lead.phone_number,
+      description: lead.business_description,
+      logo_url: lead.logo_url,
+      banner_url: lead.banner_url,
+      address: lead.verified_address,
+      is_verified: true,
+      listing_status: 'live',
+    } as any).select('id').single();
+    if (insErr) throw insErr;
+
+    let photosPulled = false;
+    if (pullPhotos && inserted?.id && lead.website_url) {
+      try {
+        const { data: branding } = await supabase.functions.invoke('bulk-refresh-business-branding', {
+          body: { ids: [inserted.id] },
+        });
+        photosPulled = branding?.results?.[0]?.status === 'updated';
+      } catch (brandErr) {
+        console.warn('Branding refresh failed', brandErr);
+      }
+    }
+
+    const { error: updErr } = await supabase
+      .from('b2b_external_leads')
+      .update({ verification_status: 'promoted', verified_at: new Date().toISOString() } as any)
+      .eq('id', lead.id);
+    if (updErr) throw updErr;
+
+    return { businessId: inserted?.id as string | undefined, photosPulled };
+  };
+
   const approve = async (lead: Lead) => {
     setActingId(lead.id);
     try {
@@ -132,51 +187,63 @@ const BusinessReviewQueue: React.FC = () => {
       const ownerId = authData?.user?.id;
       if (!ownerId) throw new Error('You must be signed in as an admin to approve.');
 
-      const { data: inserted, error: insErr } = await supabase.from('businesses').insert({
-        owner_id: ownerId,
-        name: lead.business_name,
-        business_name: lead.business_name,
-        category: lead.category,
-        city: lead.city,
-        state: lead.state,
-        website: lead.website_url,
-        phone: lead.verified_phone || lead.phone_number,
-        description: lead.business_description,
-        logo_url: lead.logo_url,
-        banner_url: lead.banner_url,
-        address: lead.verified_address,
-        is_verified: true,
-        listing_status: 'live',
-      } as any).select('id').single();
-      if (insErr) throw insErr;
+      const { businessId, photosPulled } = await publishLead(lead, ownerId);
+      if (photosPulled) toast.success(`Pulled real photos from ${lead.business_name}'s website`);
 
-      // Try to replace stock/placeholder art with the business's own website imagery
-      if (inserted?.id && lead.website_url) {
-        try {
-          const { data: branding } = await supabase.functions.invoke('bulk-refresh-business-branding', {
-            body: { ids: [inserted.id] },
-          });
-          const result = branding?.results?.[0];
-          if (result?.status === 'updated') {
-            toast.success(`Pulled real photos from ${lead.business_name}'s website`);
-          }
-        } catch (brandErr) {
-          console.warn('Branding refresh failed', brandErr);
-        }
-      }
-
-      const { error: updErr } = await supabase
-        .from('b2b_external_leads')
-        .update({ verification_status: 'promoted', verified_at: new Date().toISOString() } as any)
-        .eq('id', lead.id);
-      if (updErr) throw updErr;
-
-      toast.success(`Approved & published: ${lead.business_name}`);
+      toast.success(`Approved & published: ${lead.business_name}`, {
+        duration: 10000,
+        action: businessId ? {
+          label: 'Undo',
+          onClick: async () => {
+            await supabase.from('businesses').update({ listing_status: 'draft', is_verified: false } as any).eq('id', businessId);
+            await supabase.from('b2b_external_leads').update({ verification_status: 'needs_review' } as any).eq('id', lead.id);
+            toast.success(`Unpublished ${lead.business_name}`);
+            await Promise.all([fetchLeads(), fetchCounts()]);
+          },
+        } : undefined,
+      });
       await Promise.all([fetchLeads(), fetchCounts()]);
     } catch (e: any) {
       toast.error(e.message || 'Failed to approve');
     } finally {
       setActingId(null);
+    }
+  };
+
+  // Bulk approve every checked lead in one pass.
+  const bulkApprove = async () => {
+    const targets = leads.filter(l => selected.has(l.id));
+    if (targets.length === 0) return;
+    if (!window.confirm(`Approve & publish ${targets.length} businesses to the live directory?`)) return;
+
+    setBulkApproving(true);
+    setBulkProgress({ done: 0, total: targets.length });
+    let ok = 0;
+    const failures: string[] = [];
+    try {
+      const { data: authData } = await supabase.auth.getUser();
+      const ownerId = authData?.user?.id;
+      if (!ownerId) throw new Error('You must be signed in as an admin to approve.');
+
+      for (const lead of targets) {
+        try {
+          await publishLead(lead, ownerId);
+          ok++;
+        } catch (e: any) {
+          failures.push(`${lead.business_name}: ${e.message || 'failed'}`);
+        }
+        setBulkProgress(p => ({ ...p, done: p.done + 1 }));
+      }
+
+      toast.success(`Published ${ok} of ${targets.length} businesses`);
+      if (failures.length) toast.error(`${failures.length} failed — ${failures[0]}`);
+      setSelected(new Set());
+      await Promise.all([fetchLeads(), fetchCounts()]);
+    } catch (e: any) {
+      toast.error(e.message || 'Bulk approve failed');
+    } finally {
+      setBulkApproving(false);
+      setBulkProgress({ done: 0, total: 0 });
     }
   };
 
@@ -196,6 +263,7 @@ const BusinessReviewQueue: React.FC = () => {
       setActingId(null);
     }
   };
+
 
   // Admin manual verification of Black ownership (click the "Black-owned" badge)
   const markBlackOwned = async (lead: Lead) => {
