@@ -131,7 +131,7 @@ const BusinessReviewQueue: React.FC = () => {
       const ownerId = authData?.user?.id;
       if (!ownerId) throw new Error('You must be signed in as an admin to approve.');
 
-      const { error: insErr } = await supabase.from('businesses').insert({
+      const { data: inserted, error: insErr } = await supabase.from('businesses').insert({
         owner_id: ownerId,
         name: lead.business_name,
         business_name: lead.business_name,
@@ -146,13 +146,30 @@ const BusinessReviewQueue: React.FC = () => {
         address: lead.verified_address,
         is_verified: true,
         listing_status: 'live',
-      } as any);
+      } as any).select('id').single();
       if (insErr) throw insErr;
+
+      // Try to replace stock/placeholder art with the business's own website imagery
+      if (inserted?.id && lead.website_url) {
+        try {
+          const { data: branding } = await supabase.functions.invoke('bulk-refresh-business-branding', {
+            body: { ids: [inserted.id] },
+          });
+          const result = branding?.results?.[0];
+          if (result?.status === 'updated') {
+            toast.success(`Pulled real photos from ${lead.business_name}'s website`);
+          }
+        } catch (brandErr) {
+          console.warn('Branding refresh failed', brandErr);
+        }
+      }
+
       const { error: updErr } = await supabase
         .from('b2b_external_leads')
         .update({ verification_status: 'promoted', verified_at: new Date().toISOString() } as any)
         .eq('id', lead.id);
       if (updErr) throw updErr;
+
       toast.success(`Approved & published: ${lead.business_name}`);
       await Promise.all([fetchLeads(), fetchCounts()]);
     } catch (e: any) {
