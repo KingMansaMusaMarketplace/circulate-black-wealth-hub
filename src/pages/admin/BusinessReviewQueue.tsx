@@ -356,6 +356,36 @@ const BusinessReviewQueue: React.FC = () => {
     return { total };
   }, [counts]);
 
+  // Reset selection + focus whenever the tab or search changes
+  useEffect(() => { setSelected(new Set()); setFocusIdx(0); }, [status, search]);
+
+  // Keyboard fast lane: A = approve, R = reject, ↑/↓ = move, Space = select
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (!leads.length || bulkApproving) return;
+      const lead = leads[Math.min(focusIdx, leads.length - 1)];
+      const key = e.key.toLowerCase();
+      if (key === 'arrowdown' || key === 'j') {
+        e.preventDefault(); setFocusIdx(i => Math.min(i + 1, leads.length - 1));
+      } else if (key === 'arrowup' || key === 'k') {
+        e.preventDefault(); setFocusIdx(i => Math.max(i - 1, 0));
+      } else if (key === 'a' && lead) {
+        e.preventDefault(); approve(lead);
+      } else if (key === 'r' && lead) {
+        e.preventDefault(); reject(lead);
+      } else if (key === ' ' && lead) {
+        e.preventDefault(); toggleSelected(lead.id);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [leads, focusIdx, bulkApproving]);
+
+
+
   return (
     <>
       <Helmet>
