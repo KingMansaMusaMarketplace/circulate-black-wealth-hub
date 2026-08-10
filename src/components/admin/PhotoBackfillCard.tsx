@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 const STOCK_FILTER =
-  'banner_url.ilike.%unsplash%,logo_url.ilike.%placehold%,banner_url.ilike.%placeholder%,logo_url.ilike.%placeholder%';
+  'banner_url.ilike.%unsplash%,logo_url.ilike.%unsplash%,logo_url.ilike.%placehold%,banner_url.ilike.%placehold%,banner_url.ilike.%placeholder%,logo_url.ilike.%placeholder%,logo_url.is.null,banner_url.is.null';
 
 const BATCH_SIZE = 20;
 
