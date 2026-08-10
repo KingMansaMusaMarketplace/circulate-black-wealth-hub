@@ -503,6 +503,54 @@ const BusinessReviewQueue: React.FC = () => {
             )}
           </div>
 
+          {(status === 'needs_review' || status === 'pending') && leads.length > 0 && (
+            <div className="flex flex-wrap items-center gap-3 rounded-lg border border-mansagold/30 bg-mansagold/5 p-3">
+              <label className="flex items-center gap-2 text-sm text-white/80 cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-[#FFB300]"
+                  checked={selected.size > 0 && selected.size === leads.length}
+                  onChange={(e) => setSelected(e.target.checked ? new Set(leads.map(l => l.id)) : new Set())}
+                />
+                Select all on page ({leads.length})
+              </label>
+
+              <Button
+                size="sm"
+                className="bg-mansagold text-black hover:bg-mansagold/90"
+                disabled={selected.size === 0 || bulkApproving}
+                onClick={bulkApprove}
+              >
+                {bulkApproving
+                  ? <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                  : <CheckCircle2 className="h-4 w-4 mr-1" />}
+                {bulkApproving
+                  ? `Publishing ${bulkProgress.done}/${bulkProgress.total}…`
+                  : `Approve & Publish (${selected.size})`}
+              </Button>
+
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={bulkApproving}
+                onClick={() => setSelected(new Set(
+                  leads.filter(l => Number(l.black_owned_confidence ?? 0) >= 0.95 && !!l.black_owned_evidence).map(l => l.id)
+                ))}
+              >
+                Select high-confidence (95%+)
+              </Button>
+
+              <span className="text-xs text-white/50 ml-auto">
+                Keyboard: <kbd className="px-1 bg-white/10 rounded">A</kbd> approve ·{' '}
+                <kbd className="px-1 bg-white/10 rounded">R</kbd> reject ·{' '}
+                <kbd className="px-1 bg-white/10 rounded">↑↓</kbd> move ·{' '}
+                <kbd className="px-1 bg-white/10 rounded">Space</kbd> select
+              </span>
+            </div>
+          )}
+
+
+
 
           {loading ? (
             <div className="flex items-center justify-center py-16 text-white/60">
