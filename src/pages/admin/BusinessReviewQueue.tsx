@@ -125,6 +125,61 @@ const BusinessReviewQueue: React.FC = () => {
 
   useEffect(() => { fetchLeads(); fetchCounts(); fetchEnrichmentStats(); }, [fetchLeads, fetchCounts, fetchEnrichmentStats]);
 
+  // --- selection + keyboard fast lane state ---
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkApproving, setBulkApproving] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState({ done: 0, total: 0 });
+  const [focusIdx, setFocusIdx] = useState(0);
+
+  const toggleSelected = (id: string) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  // Publishes one lead. Returns the new business id (or throws).
+  const publishLead = async (lead: Lead, ownerId: string, pullPhotos = true) => {
+    const { data: inserted, error: insErr } = await supabase.from('businesses').insert({
+      owner_id: ownerId,
+      name: lead.business_name,
+      business_name: lead.business_name,
+      category: lead.category,
+      city: lead.city,
+      state: lead.state,
+      website: lead.website_url,
+      phone: lead.verified_phone || lead.phone_number,
+      description: lead.business_description,
+      logo_url: lead.logo_url,
+      banner_url: lead.banner_url,
+      address: lead.verified_address,
+      is_verified: true,
+      listing_status: 'live',
+    } as any).select('id').single();
+    if (insErr) throw insErr;
+
+    let photosPulled = false;
+    if (pullPhotos && inserted?.id && lead.website_url) {
+      try {
+        const { data: branding } = await supabase.functions.invoke('bulk-refresh-business-branding', {
+          body: { ids: [inserted.id] },
+        });
+        photosPulled = branding?.results?.[0]?.status === 'updated';
+      } catch (brandErr) {
+        console.warn('Branding refresh failed', brandErr);
+      }
+    }
+
+    const { error: updErr } = await supabase
+      .from('b2b_external_leads')
+      .update({ verification_status: 'promoted', verified_at: new Date().toISOString() } as any)
+      .eq('id', lead.id);
+    if (updErr) throw updErr;
+
+    return { businessId: inserted?.id as string | undefined, photosPulled };
+  };
+
   const approve = async (lead: Lead) => {
     setActingId(lead.id);
     try {
@@ -132,51 +187,63 @@ const BusinessReviewQueue: React.FC = () => {
       const ownerId = authData?.user?.id;
       if (!ownerId) throw new Error('You must be signed in as an admin to approve.');
 
-      const { data: inserted, error: insErr } = await supabase.from('businesses').insert({
-        owner_id: ownerId,
-        name: lead.business_name,
-        business_name: lead.business_name,
-        category: lead.category,
-        city: lead.city,
-        state: lead.state,
-        website: lead.website_url,
-        phone: lead.verified_phone || lead.phone_number,
-        description: lead.business_description,
-        logo_url: lead.logo_url,
-        banner_url: lead.banner_url,
-        address: lead.verified_address,
-        is_verified: true,
-        listing_status: 'live',
-      } as any).select('id').single();
-      if (insErr) throw insErr;
+      const { businessId, photosPulled } = await publishLead(lead, ownerId);
+      if (photosPulled) toast.success(`Pulled real photos from ${lead.business_name}'s website`);
 
-      // Try to replace stock/placeholder art with the business's own website imagery
-      if (inserted?.id && lead.website_url) {
-        try {
-          const { data: branding } = await supabase.functions.invoke('bulk-refresh-business-branding', {
-            body: { ids: [inserted.id] },
-          });
-          const result = branding?.results?.[0];
-          if (result?.status === 'updated') {
-            toast.success(`Pulled real photos from ${lead.business_name}'s website`);
-          }
-        } catch (brandErr) {
-          console.warn('Branding refresh failed', brandErr);
-        }
-      }
-
-      const { error: updErr } = await supabase
-        .from('b2b_external_leads')
-        .update({ verification_status: 'promoted', verified_at: new Date().toISOString() } as any)
-        .eq('id', lead.id);
-      if (updErr) throw updErr;
-
-      toast.success(`Approved & published: ${lead.business_name}`);
+      toast.success(`Approved & published: ${lead.business_name}`, {
+        duration: 10000,
+        action: businessId ? {
+          label: 'Undo',
+          onClick: async () => {
+            await supabase.from('businesses').update({ listing_status: 'draft', is_verified: false } as any).eq('id', businessId);
+            await supabase.from('b2b_external_leads').update({ verification_status: 'needs_review' } as any).eq('id', lead.id);
+            toast.success(`Unpublished ${lead.business_name}`);
+            await Promise.all([fetchLeads(), fetchCounts()]);
+          },
+        } : undefined,
+      });
       await Promise.all([fetchLeads(), fetchCounts()]);
     } catch (e: any) {
       toast.error(e.message || 'Failed to approve');
     } finally {
       setActingId(null);
+    }
+  };
+
+  // Bulk approve every checked lead in one pass.
+  const bulkApprove = async () => {
+    const targets = leads.filter(l => selected.has(l.id));
+    if (targets.length === 0) return;
+    if (!window.confirm(`Approve & publish ${targets.length} businesses to the live directory?`)) return;
+
+    setBulkApproving(true);
+    setBulkProgress({ done: 0, total: targets.length });
+    let ok = 0;
+    const failures: string[] = [];
+    try {
+      const { data: authData } = await supabase.auth.getUser();
+      const ownerId = authData?.user?.id;
+      if (!ownerId) throw new Error('You must be signed in as an admin to approve.');
+
+      for (const lead of targets) {
+        try {
+          await publishLead(lead, ownerId);
+          ok++;
+        } catch (e: any) {
+          failures.push(`${lead.business_name}: ${e.message || 'failed'}`);
+        }
+        setBulkProgress(p => ({ ...p, done: p.done + 1 }));
+      }
+
+      toast.success(`Published ${ok} of ${targets.length} businesses`);
+      if (failures.length) toast.error(`${failures.length} failed — ${failures[0]}`);
+      setSelected(new Set());
+      await Promise.all([fetchLeads(), fetchCounts()]);
+    } catch (e: any) {
+      toast.error(e.message || 'Bulk approve failed');
+    } finally {
+      setBulkApproving(false);
+      setBulkProgress({ done: 0, total: 0 });
     }
   };
 
@@ -196,6 +263,7 @@ const BusinessReviewQueue: React.FC = () => {
       setActingId(null);
     }
   };
+
 
   // Admin manual verification of Black ownership (click the "Black-owned" badge)
   const markBlackOwned = async (lead: Lead) => {
@@ -287,6 +355,36 @@ const BusinessReviewQueue: React.FC = () => {
     const total = counts.needs_review + counts.pending + counts.promoted + counts.rejected;
     return { total };
   }, [counts]);
+
+  // Reset selection + focus whenever the tab or search changes
+  useEffect(() => { setSelected(new Set()); setFocusIdx(0); }, [status, search]);
+
+  // Keyboard fast lane: A = approve, R = reject, ↑/↓ = move, Space = select
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (!leads.length || bulkApproving) return;
+      const lead = leads[Math.min(focusIdx, leads.length - 1)];
+      const key = e.key.toLowerCase();
+      if (key === 'arrowdown' || key === 'j') {
+        e.preventDefault(); setFocusIdx(i => Math.min(i + 1, leads.length - 1));
+      } else if (key === 'arrowup' || key === 'k') {
+        e.preventDefault(); setFocusIdx(i => Math.max(i - 1, 0));
+      } else if (key === 'a' && lead) {
+        e.preventDefault(); approve(lead);
+      } else if (key === 'r' && lead) {
+        e.preventDefault(); reject(lead);
+      } else if (key === ' ' && lead) {
+        e.preventDefault(); toggleSelected(lead.id);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [leads, focusIdx, bulkApproving]);
+
+
 
   return (
     <>
@@ -405,6 +503,54 @@ const BusinessReviewQueue: React.FC = () => {
             )}
           </div>
 
+          {(status === 'needs_review' || status === 'pending') && leads.length > 0 && (
+            <div className="flex flex-wrap items-center gap-3 rounded-lg border border-mansagold/30 bg-mansagold/5 p-3">
+              <label className="flex items-center gap-2 text-sm text-white/80 cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-[#FFB300]"
+                  checked={selected.size > 0 && selected.size === leads.length}
+                  onChange={(e) => setSelected(e.target.checked ? new Set(leads.map(l => l.id)) : new Set())}
+                />
+                Select all on page ({leads.length})
+              </label>
+
+              <Button
+                size="sm"
+                className="bg-mansagold text-black hover:bg-mansagold/90"
+                disabled={selected.size === 0 || bulkApproving}
+                onClick={bulkApprove}
+              >
+                {bulkApproving
+                  ? <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                  : <CheckCircle2 className="h-4 w-4 mr-1" />}
+                {bulkApproving
+                  ? `Publishing ${bulkProgress.done}/${bulkProgress.total}…`
+                  : `Approve & Publish (${selected.size})`}
+              </Button>
+
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={bulkApproving}
+                onClick={() => setSelected(new Set(
+                  leads.filter(l => Number(l.black_owned_confidence ?? 0) >= 0.95 && !!l.black_owned_evidence).map(l => l.id)
+                ))}
+              >
+                Select high-confidence (95%+)
+              </Button>
+
+              <span className="text-xs text-white/50 ml-auto">
+                Keyboard: <kbd className="px-1 bg-white/10 rounded">A</kbd> approve ·{' '}
+                <kbd className="px-1 bg-white/10 rounded">R</kbd> reject ·{' '}
+                <kbd className="px-1 bg-white/10 rounded">↑↓</kbd> move ·{' '}
+                <kbd className="px-1 bg-white/10 rounded">Space</kbd> select
+              </span>
+            </div>
+          )}
+
+
+
 
           {loading ? (
             <div className="flex items-center justify-center py-16 text-white/60">
@@ -418,17 +564,31 @@ const BusinessReviewQueue: React.FC = () => {
             </Card>
           ) : (
             <div className="grid gap-4">
-              {leads.map(lead => {
+              {leads.map((lead, idx) => {
                 const notes = (lead.verification_notes && typeof lead.verification_notes === 'object')
                   ? (lead.verification_notes as Record<string, unknown>) : {};
                 const reasons = Array.isArray((notes as any).reasons) ? (notes as any).reasons as string[] : [];
                 const ownershipOk = lead.black_owned_confidence !== null
                   && Number(lead.black_owned_confidence) >= 0.7
                   && !!lead.black_owned_evidence;
+                const isFocused = idx === Math.min(focusIdx, leads.length - 1);
                 return (
-                  <Card key={lead.id} className="bg-slate-900/60 border-white/10">
+                  <Card
+                    key={lead.id}
+                    onClick={() => setFocusIdx(idx)}
+                    className={`bg-slate-900/60 border-white/10 ${isFocused ? 'ring-2 ring-mansagold/70' : ''}`}
+                  >
                     <CardHeader className="flex flex-row items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          className="h-4 w-4 mt-1 accent-[#FFB300] shrink-0"
+                          checked={selected.has(lead.id)}
+                          onChange={() => toggleSelected(lead.id)}
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label={`Select ${lead.business_name}`}
+                        />
+
                         {lead.logo_url ? (
                           <img src={lead.logo_url} alt="" className="h-12 w-12 rounded object-contain bg-white/5" />
                         ) : (
