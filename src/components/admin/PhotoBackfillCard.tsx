@@ -44,17 +44,20 @@ const PhotoBackfillCard: React.FC = () => {
     setProcessed(0);
     setNotFound(0);
 
+    const attempted = new Set<string>();
+    let offset = 0;
+    const MAX_BATCHES = 500;
+
     try {
-      // Loop batches until nothing is left or the admin stops it
-      // eslint-disable-next-line no-constant-condition
-      while (!stopRef.current) {
+      for (let i = 0; i < MAX_BATCHES && !stopRef.current; i++) {
         const { data: batch, error: batchErr } = await supabase
           .from('businesses')
           .select('id')
           .not('website', 'is', null)
           .neq('website', '')
           .or(STOCK_FILTER)
-          .limit(BATCH_SIZE);
+          .order('id', { ascending: true })
+          .range(offset, offset + BATCH_SIZE - 1);
 
         if (batchErr) throw batchErr;
         if (!batch?.length) {
@@ -62,20 +65,30 @@ const PhotoBackfillCard: React.FC = () => {
           break;
         }
 
-        const ids = batch.map((b: any) => b.id);
+        // Never re-send a listing we already tried in this run
+        const ids = batch.map((b: any) => b.id).filter((id: string) => !attempted.has(id));
+        if (!ids.length) {
+          offset += BATCH_SIZE;
+          continue;
+        }
+        ids.forEach((id: string) => attempted.add(id));
+
         const { data, error } = await supabase.functions.invoke('bulk-refresh-business-branding', {
           body: { ids },
         });
         if (error) throw error;
 
         const results: any[] = data?.results ?? [];
+        const updatedCount = results.filter((r) => r.status === 'updated').length;
         setProcessed((p) => p + results.length);
-        setUpdated((u) => u + results.filter((r) => r.status === 'updated').length);
-        setNotFound((n) => n + results.filter((r) => r.status !== 'updated').length);
+        setUpdated((u) => u + updatedCount);
+        setNotFound((n) => n + (results.length - updatedCount));
 
-        if (!results.some((r) => r.status === 'updated')) {
-          // Nothing usable in this batch; keep going but avoid hammering
-          await new Promise((r) => setTimeout(r, 500));
+        // Rows we couldn't fix still match the filter, so step past them
+        offset += ids.length - updatedCount;
+
+        if (i === MAX_BATCHES - 1) {
+          toast.info('Reached this run\'s safety limit. Press "Pull real photos" again to continue.');
         }
       }
     } catch (e: any) {
@@ -88,6 +101,7 @@ const PhotoBackfillCard: React.FC = () => {
   };
 
   const pct = processed > 0 && remaining ? Math.min(100, Math.round((processed / remaining) * 100)) : 0;
+
 
   return (
     <Card className="bg-slate-900/60 border-white/10">
