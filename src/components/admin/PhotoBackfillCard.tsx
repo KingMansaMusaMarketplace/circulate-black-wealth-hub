@@ -150,8 +150,8 @@ const PhotoBackfillCard: React.FC = () => {
           <div className="space-y-2">
             <Progress value={pct} className="h-2" />
             <p className="flex items-center gap-2 text-xs text-white/50">
-              <Loader2 className="h-3 w-3 animate-spin" /> Working through listings in batches of {BATCH_SIZE}. You can
-              leave this page open — press Stop any time.
+              <Loader2 className="h-3 w-3 animate-spin" /> Working through listings in batches of {BATCH_SIZE}. Each
+              listing is tried once per run, and the run stops on its own when every listing has been checked.
             </p>
           </div>
         )}
