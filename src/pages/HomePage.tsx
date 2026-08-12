@@ -138,6 +138,15 @@ const HomePage: React.FC = () => {
               <span>Meet The 1325.AI Team</span>
               <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
             </Link>
+            <a
+              href="https://www.1325.ai/ultimate-deep-dive.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 px-8 py-4 rounded-full border border-mansagold/50 text-mansagold text-sm uppercase tracking-[0.12em] font-semibold hover:bg-mansagold/10 hover:border-mansagold transition-all duration-300"
+            >
+              <span>A Video From Our Founder</span>
+              <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+            </a>
           </div>
         </section>
 
