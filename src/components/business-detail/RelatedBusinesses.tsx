@@ -60,6 +60,7 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
             .select(baseSelect)
             .eq('category', category)
             .eq('city', city)
+            .eq('listing_status', 'live')
             .neq('id', currentBusinessId)
             .limit(limit);
           if (data && data.length) {
@@ -75,6 +76,7 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
             .from('businesses')
             .select(baseSelect)
             .eq('category', category)
+            .eq('listing_status', 'live')
             .neq('id', currentBusinessId)
             .not('id', 'in', `(${[currentBusinessId, ...collected.map(b => b.id)].map(id => `"${id}"`).join(',')})`)
             .limit(need);
@@ -89,6 +91,7 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
           const { data } = await supabase
             .from('businesses')
             .select(baseSelect)
+            .eq('listing_status', 'live')
             .neq('id', currentBusinessId)
             .order('average_rating', { ascending: false })
             .limit(limit);
@@ -149,13 +152,13 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
               <Link
                 key={business.id}
                 to={href}
-                aria-label={`${business.business_name} in ${business.city}`}
+                aria-label={business.city ? `${business.business_name} in ${business.city}` : business.business_name}
                 className="group cursor-pointer bg-slate-800/50 rounded-lg overflow-hidden border border-white/5 hover:border-yellow-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10 block"
               >
                 <div className="relative h-32 overflow-hidden">
                   <img
                     src={bannerUrl}
-                    alt={`${business.business_name} — ${business.category} in ${business.city}`}
+                    alt={`${business.business_name} — ${business.category}${business.city ? ` in ${business.city}` : ''}`}
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     onError={(e) => {
@@ -179,10 +182,12 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
                       <h4 className="font-semibold text-white truncate group-hover:text-yellow-300 transition-colors">
                         {business.business_name}
                       </h4>
-                      <div className="flex items-center gap-1 text-blue-300 text-xs mt-1">
-                        <MapPin className="h-3 w-3" />
-                        <span>{business.city}{business.state ? `, ${business.state}` : ''}</span>
-                      </div>
+                      {(business.city || business.state) && (
+                        <div className="flex items-center gap-1 text-blue-300 text-xs mt-1">
+                          <MapPin className="h-3 w-3" />
+                          <span>{[business.city, business.state].filter(Boolean).join(', ')}</span>
+                        </div>
+                      )}
                     </div>
                     <ArrowRight className="h-4 w-4 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
                   </div>
