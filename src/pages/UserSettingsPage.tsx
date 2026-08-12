@@ -199,7 +199,7 @@ const UserSettingsPage: React.FC = () => {
                         </p>
                         <button 
                           className="text-mansagold hover:text-mansagold/80 text-sm font-medium transition-colors"
-                          onClick={() => window.open('mailto:Thomas@1325.AI?subject=Data Export Request', '_blank')}
+                          onClick={() => window.open('mailto:Partner@1325.AI?subject=Data Export Request', '_blank')}
                         >
                           Request Data Export →
                         </button>

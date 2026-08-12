@@ -54,7 +54,7 @@ const AdminOverview: React.FC = () => {
       if (error) throw error;
       toast({
         title: '✅ Test report sent',
-        description: 'Check Thomas@1325.AI inbox in the next minute.',
+        description: 'Check Partner@1325.AI inbox in the next minute.',
       });
       console.log('Weekly health email response:', data);
     } catch (err: any) {

@@ -282,7 +282,7 @@ export const exportUserGuideToPDF = async () => {
     pdf.setFont('helvetica', 'normal');
     const supportInfo = [
       'Visit our Help Center: www.1325.AI/help',
-      'Email Support: Thomas@1325.AI',
+      'Email Support: Partner@1325.AI',
       'Contact Form: www.1325.AI/contact',
       '',
       'Our support team typically responds within 24 hours.',

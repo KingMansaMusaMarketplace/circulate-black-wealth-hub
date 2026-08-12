@@ -130,7 +130,7 @@ Deno.serve(async (req) => {
           </p>
           <p style="font-size:11px;color:#888;text-align:center;">
             All materials reference U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.<br/>
-            Questions? Reply to this email or contact Thomas@1325.AI.
+            Questions? Reply to this email or contact Partner@1325.AI.
           </p>
         </div>
       </div>
@@ -142,8 +142,8 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         from: '1325.AI Investor Relations <noreply@1325.ai>',
         to: [reqRow.email],
-        bcc: ['Thomas@1325.AI'],
-        reply_to: 'Thomas@1325.AI',
+        bcc: ['Partner@1325.AI'],
+        reply_to: 'Partner@1325.AI',
         subject: '1325.AI — Investor Data Room Access Approved',
         html,
       }),

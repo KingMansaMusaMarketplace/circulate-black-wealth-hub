@@ -15,7 +15,7 @@ const Footer = () => {
   const isIOS = platform === 'ios';
 
   const handleEmailClick = () => {
-    window.location.href = 'mailto:Thomas@1325.AI';
+    window.location.href = 'mailto:Partner@1325.AI';
   };
 
   const handlePhoneClick = () => {
@@ -79,7 +79,7 @@ const Footer = () => {
                   onClick={handleEmailClick}
                   className="text-white/90 hover:text-mansagold transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full font-medium"
                 >
-                  Thomas@1325.AI
+                  Partner@1325.AI
                 </button>
               </div>
               <div className="flex items-center group">

@@ -6,7 +6,7 @@ import { Mail, Phone } from 'lucide-react';
 
 const StillNeedHelpSection = () => {
   const handleEmailSupport = () => {
-    window.location.href = 'mailto:Thomas@1325.AI';
+    window.location.href = 'mailto:Partner@1325.AI';
   };
 
   const handlePhoneSupport = () => {

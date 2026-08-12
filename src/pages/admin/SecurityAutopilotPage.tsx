@@ -90,7 +90,7 @@ export default function SecurityAutopilotPage() {
             Security Autopilot
           </h1>
           <p className="text-muted-foreground mt-1">
-            Automated weekly scan every Monday at 8am ET. Emailed to Thomas@1325.AI.
+            Automated weekly scan every Monday at 8am ET. Emailed to Partner@1325.AI.
           </p>
         </div>
         <Button onClick={runNow} disabled={running} size="lg">

@@ -18,7 +18,7 @@ Prepared for Thomas Bowling to submit under 1325.AI, Inc.
 
 > **Connector name:** 1325.AI Directory
 > **Publisher:** 1325.AI, Inc. (Illinois File #75201745)
-> **Contact:** Thomas@1325.AI · +1 (312) 900-6004
+> **Contact:** Partner@1325.AI · +1 (312) 900-6004
 > **Website:** https://1325.ai
 > **MCP server URL:** https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/mcp
 > **Auth:** OAuth 2.1 (Supabase Auth authorization server, dynamic client registration)
