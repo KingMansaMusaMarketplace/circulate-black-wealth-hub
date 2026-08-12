@@ -315,38 +315,9 @@ const Footer = () => {
           </a>
         </motion.div>
 
-        {/* Social Media & Copyright */}
+        {/* Copyright */}
         <motion.div variants={itemVariants} className="border-t border-white/10 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center bg-white/5 backdrop-blur-sm rounded-2xl p-6">
-          <div className="flex gap-4 mb-4 md:mb-0">
-            <button 
-              onClick={() => window.open(siteConfig.social.twitter, '_blank')}
-              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl border border-white/10"
-              aria-label="Visit us on X (Twitter)"
-            >
-              <Twitter className="h-5 w-5 text-white" />
-            </button>
-            <button 
-              onClick={() => window.open(siteConfig.social.instagram, '_blank')}
-              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl border border-white/10"
-              aria-label="Visit us on Instagram"
-            >
-              <Instagram className="h-5 w-5 text-white" />
-            </button>
-            <button 
-              onClick={() => window.open(siteConfig.social.linkedin, '_blank')}
-              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl border border-white/10"
-              aria-label="Visit us on LinkedIn"
-            >
-              <Linkedin className="h-5 w-5 text-white" />
-            </button>
-            <button 
-              onClick={() => window.open(siteConfig.social.youtube, '_blank')}
-              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl border border-white/10"
-              aria-label="Visit our YouTube channel"
-            >
-              <Youtube className="h-5 w-5 text-white" />
-            </button>
-          </div>
+
           <div className="text-white text-sm text-center md:text-right">
               {isIOS && (
                 <p className="text-xs mb-2 text-white/70 leading-relaxed">
