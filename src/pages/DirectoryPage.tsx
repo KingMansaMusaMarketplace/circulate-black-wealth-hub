@@ -105,6 +105,7 @@ const DirectoryPage: React.FC = () => {
     queryFn: async () => {
       // Pinned businesses to always include in Featured Spotlight
       const PINNED_FEATURED_IDS = [
+        '37173eb6-c8e7-46a8-be27-83a671360e85', // Martha's Vineyard Comedy Fest
         'ba298158-c785-48bf-87f2-830ae35f96a6', // DropTV (drop.tv)
         'e89be587-eb45-4685-b577-6ffd332f51ae', // OSA Ortho Spine America - Dr. John G. Atwater
         'c188b47b-9d41-4e97-ba06-043e0b4c9b92', // Channing Capital Management (replaces Heritage)
