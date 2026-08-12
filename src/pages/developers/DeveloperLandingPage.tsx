@@ -117,7 +117,7 @@ const DeveloperLandingPage: React.FC = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <Badge variant="outline" className="mb-4 border-mansagold/50 text-mansagold bg-mansagold/10">
-              U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending
+              U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending
             </Badge>
             
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
@@ -132,7 +132,7 @@ const DeveloperLandingPage: React.FC = () => {
             
             <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
               License our patented economic engines to power your marketplace. 
-              27 patent claims protecting the infrastructure that measures, multiplies, 
+              45 patent claims protecting the infrastructure that measures, multiplies, 
               and attributes community economic impact.
             </p>
             
@@ -403,7 +403,7 @@ console.log(impact.multipliedImpact);
               </div>
               <h3 className="font-semibold text-white mb-2">Patent Protected</h3>
               <p className="text-sm text-white/60">
-                27 claims filed under USPTO Provisional 63/969,202.
+                45 claims filed under USPTO Provisional 63/969,202.
               </p>
             </div>
             
@@ -439,7 +439,7 @@ console.log(impact.multipliedImpact);
 
       {/* Footer */}
       <div className="py-8 text-center text-white/40 text-sm border-t border-white/10">
-        All APIs protected under U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending
+        All APIs protected under U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending
         <br />© 2024-2025 1325.AI - All Rights Reserved
       </div>
     </div>

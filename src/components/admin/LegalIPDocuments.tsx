@@ -134,7 +134,7 @@ const usptoOfficialDocuments = [
   {
     name: 'USPTO Provisional Patent Application',
     file: '/documents/patents/USPTO-Provisional-Patent-Application-63969202.pdf',
-    description: 'Complete provisional patent application with all 27 claims',
+    description: 'Complete provisional patent application with all 45 claims',
     date: 'January 27, 2026',
     type: 'application',
     isExternal: true
@@ -180,7 +180,7 @@ const LegalIPDocuments: React.FC = () => {
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="border-green-500/50 text-green-400 bg-green-500/10">
             <Shield className="h-3 w-3 mr-1" />
-            U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending
+            U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending
           </Badge>
           <Badge variant="outline" className="border-mansagold/50 text-mansagold bg-mansagold/10">
             <Globe className="h-3 w-3 mr-1" />
@@ -399,7 +399,7 @@ const LegalIPDocuments: React.FC = () => {
               </CardTitle>
               <CardDescription className="text-blue-200/70">
                 The comprehensive 180+ page technical reference manual documenting the entire platform architecture, 
-                all 27 patent claims, database schemas, RLS policies, and system implementations.
+                all 45 patent claims, database schemas, RLS policies, and system implementations.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -734,7 +734,7 @@ const LegalIPDocuments: React.FC = () => {
                   variant="outline" 
                   className="border-mansagold/50 text-mansagold hover:bg-mansagold/10"
                   onClick={() => {
-                    toast.info("NDA covers all 27 patent claims", {
+                    toast.info("NDA covers all 45 patent claims", {
                       description: "USPTO Application 63/969,202 - CMAL, Voice AI, Susu, Economic Karma, and more"
                     });
                   }}

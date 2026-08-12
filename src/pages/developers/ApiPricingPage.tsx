@@ -223,7 +223,7 @@ const ApiPricingPage = () => {
             <div>
               <h4 className="text-white font-medium mb-2">What about patent licensing?</h4>
               <p className="text-white/60 text-sm">
-                API usage includes a license to use our patented technology (U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending) within your
+                API usage includes a license to use our patented technology (U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending) within your
                 applications. Enterprise customers can negotiate white-label and sublicensing terms.
               </p>
             </div>
@@ -279,7 +279,7 @@ const ApiPricingPage = () => {
 
         {/* Patent Notice */}
         <div className="mt-12 text-center text-white/40 text-sm">
-          All APIs protected under U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending
+          All APIs protected under U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending
           <br />© 2024-2025 1325.AI - All Rights Reserved
         </div>
       </div>

@@ -107,7 +107,7 @@ const TeamNDADocument: React.FC<TeamNDADocumentProps> = ({
         
         <li>(c) <strong>Proprietary Systems:</strong> The Community Marketplace Attribution Language (CMAL), 
         Voice AI architecture, Susu Circle savings infrastructure, Economic Karma scoring algorithms, 
-        Fraud Detection systems, API Gateway architecture, and all 27 patent claims documented in USPTO 
+        Fraud Detection systems, API Gateway architecture, and all 45 patent claims documented in USPTO 
         Application 63/969,202;</li>
         
         <li>(d) <strong>Trade Secrets:</strong> Any information that derives independent economic value from 
@@ -558,7 +558,7 @@ const TeamNDADocument: React.FC<TeamNDADocumentProps> = ({
 
       <div className="mt-8 text-center text-xs text-muted-foreground border-t pt-4">
         <p>CONFIDENTIAL — {companyName}</p>
-        <p>U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending</p>
+        <p>U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending</p>
         <p>© {new Date().getFullYear()} {companyName}. All rights reserved.</p>
       </div>
     </div>

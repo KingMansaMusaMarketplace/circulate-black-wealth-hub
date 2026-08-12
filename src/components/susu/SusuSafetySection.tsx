@@ -6,7 +6,7 @@ const pillars = [
   {
     icon: Lock,
     title: 'No person ever holds the pool',
-    body: 'Every contribution goes into a digital escrow account — not a "banker\'s" wallet or personal bank account. Funds only release when the circle\'s rules are met. Protected under U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.'
+    body: 'Every contribution goes into a digital escrow account — not a "banker\'s" wallet or personal bank account. Funds only release when the circle\'s rules are met. Protected under U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.'
   },
   {
     icon: UserCheck,
@@ -111,7 +111,7 @@ const SusuSafetySection: React.FC = () => {
             <div>
               <p className="text-white font-semibold">Patent-Pending Digital Escrow</p>
               <p className="text-slate-400 text-sm mt-1 leading-relaxed">
-                Our Susu escrow technology is protected under U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.
+                Our Susu escrow technology is protected under U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.
                 Your money is held by verified, auditable software — not by any single person.
               </p>
             </div>

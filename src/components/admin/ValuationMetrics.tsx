@@ -267,7 +267,7 @@ const ValuationMetrics: React.FC = () => {
       <Card className="bg-white/5 border-white/10">
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Growth Milestones → Target Valuation</CardTitle>
-          <CardDescription>Based on patent-protected infrastructure (27 claims, USPTO 63/969,202)</CardDescription>
+          <CardDescription>Based on patent-protected infrastructure (45 claims, USPTO 63/969,202)</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">

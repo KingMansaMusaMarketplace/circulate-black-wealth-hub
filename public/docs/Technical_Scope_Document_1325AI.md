@@ -39,7 +39,7 @@
 |---|---|
 | **Database Tables** | 250+ |
 | **Edge Functions (Deno)** | 110+ |
-| **Patent Claims** | 27 (documented in 180+ page Blue Book) |
+| **Patent Claims** | 45 (documented in 180+ page Blue Book) |
 | **Third-Party Integrations** | 10+ (Stripe, Mapbox, OpenAI, Gemini, ElevenLabs, Resend, PostHog, Perplexity, Firecrawl, Apple IAP) |
 
 ---
@@ -172,7 +172,7 @@ Based on the platform's architecture, three core roles are required:
 
 ## 9. INTELLECTUAL PROPERTY NOTICE
 
-This platform contains **27 patent claims** filed under USPTO 63/969,202. All development partners must sign an NDA before receiving codebase access. Key patent-protected systems include:
+This platform contains **45 patent claims** filed under USPTO 63/969,202. All development partners must sign an NDA before receiving codebase access. Key patent-protected systems include:
 
 - CMAL (Community Marketplace AI Logic) Engine
 - Economic Karma scoring system

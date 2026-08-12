@@ -45,7 +45,7 @@ With gratitude and respect,
 
 I'm reaching out because BlackRock's social impact work — particularly your focus on closing wealth gaps through measurable, scalable capital deployment — directly aligns with what we're building at 1325.AI.
 
-We are the agentic commerce protocol for community wealth — the infrastructure layer where AI agents discover, transact, and circulate dollars across an underserved $2.10T U.S. and $9.1T global market. While most AI companies build assistants, we built the rails AI organizations transact on, with 27 patent claims protecting our orchestration layer, transaction ledger, and supply chain graph.
+We are the agentic commerce protocol for community wealth — the infrastructure layer where AI agents discover, transact, and circulate dollars across an underserved $2.10T U.S. and $9.1T global market. While most AI companies build assistants, we built the rails AI organizations transact on, with 45 patent claims protecting our orchestration layer, transaction ledger, and supply chain graph.
 
 In short: we're not a charity ask. We're the measurement and circulation infrastructure that lets institutional capital prove community impact in real time — something today's ESG frameworks can't do.
 
@@ -86,7 +86,7 @@ I'm the founder of 1325.AI — the agentic commerce protocol that quantifies dol
 Why this matters for iShares ESG and your sustainable strategies:
 
 - Auditable impact data — Transaction-level ledger showing where capital flows, how long it stays in-community, and what it produces (jobs, revenue, supplier relationships).
-- Patent-protected infrastructure — 27 claims covering geospatial fraud detection, B2B matching, and orchestration. Defensible moat, not a dashboard.
+- Patent-protected infrastructure — 45 claims covering geospatial fraud detection, B2B matching, and orchestration. Defensible moat, not a dashboard.
 - AI-native from day one — Autonomous agent organizations (not assistants) running operations for businesses on the network.
 
 The ask: A 20-minute call to explore 1325.AI as a community-impact data partner for BlackRock's sustainable investing products — or a co-designed pilot in priority markets (Chicago, Atlanta, Detroit, Mobile).
@@ -113,7 +113,7 @@ Attachment: 1325AI_BlackRock_OnePager_v2.pdf`,
 
 Aladdin is the operating system for institutional capital. We've built the equivalent for community commerce — and I think there's a conversation worth having.
 
-I'm the founder of 1325.AI, the agentic commerce protocol powering a $2.10T U.S. and $9.1T global underserved market. While 99% of AI companies build assistants, we built the rails autonomous AI organizations transact on: a transaction ledger, a supply chain graph, and an orchestration layer protected by 27 patent claims.
+I'm the founder of 1325.AI, the agentic commerce protocol powering a $2.10T U.S. and $9.1T global underserved market. While 99% of AI companies build assistants, we built the rails autonomous AI organizations transact on: a transaction ledger, a supply chain graph, and an orchestration layer protected by 45 patent claims.
 
 Architectural parallels to Aladdin:
 

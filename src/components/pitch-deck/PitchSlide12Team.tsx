@@ -51,7 +51,7 @@ const PitchSlide12Team: React.FC = () => {
       icon: Shield, 
       name: 'Kayla IP Shield', 
       role: 'AI Patent & IP Strategist',
-      detail: '27 patent claims monitoring, competitive filing surveillance, claim amendments'
+      detail: '45 patent claims monitoring, competitive filing surveillance, claim amendments'
     },
     { 
       icon: BarChart3, 

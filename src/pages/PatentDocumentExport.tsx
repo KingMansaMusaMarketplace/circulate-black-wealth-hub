@@ -208,7 +208,7 @@ const PatentDocumentExport = () => {
         <CardContent>
           <p className="text-muted-foreground mb-4">
             The comprehensive 180+ page technical reference manual documenting the entire platform architecture, 
-            all 27 patent claims, database schemas, RLS policies, and system implementations.
+            all 45 patent claims, database schemas, RLS policies, and system implementations.
           </p>
           <div className="flex flex-wrap gap-3">
             <Button 
