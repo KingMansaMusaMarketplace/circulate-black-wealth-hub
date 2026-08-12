@@ -141,12 +141,27 @@ const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ business, busines
     setCurrentIndex(prev => (prev - 1 + allFeatured.length) % allFeatured.length);
   }, [allFeatured.length]);
 
+  // Warm every featured banner up front so rotating slides render instantly
+  useEffect(() => {
+    const urls = allFeatured
+      .map(b => getBusinessBanner(b.id, b.bannerUrl, b.website) || b.imageUrl || '')
+      .filter(Boolean);
+    const imgs = urls.map(url => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.src = url;
+      return img;
+    });
+    return () => { imgs.forEach(i => { i.onload = null; i.src = ''; }); };
+  }, [allFeatured]);
+
   // Auto-rotate every 6 seconds
   useEffect(() => {
     if (allFeatured.length <= 1 || isPaused) return;
     const timer = setInterval(goNext, 6000);
     return () => clearInterval(timer);
   }, [allFeatured.length, isPaused, goNext]);
+
 
   if (allFeatured.length === 0) return null;
 
