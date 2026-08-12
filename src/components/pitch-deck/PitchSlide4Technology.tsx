@@ -93,7 +93,7 @@ const PitchSlide4Technology: React.FC = () => {
               USPTO 63/969,202
             </Badge>
             <Badge className="bg-purple-500/20 text-purple-400 border-purple-400/30 text-base px-5 py-2">
-              27 Patent Claims Filed
+              45 Patent Claims Filed
             </Badge>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">

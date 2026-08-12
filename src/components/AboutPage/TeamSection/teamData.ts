@@ -104,10 +104,10 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Kayla IP Shield",
     role: "AI Patent & IP Strategist",
-    bio: "Monitors 27 patent claims under USPTO 63/969,202, tracks competitive filings, and manages claim amendments.",
-    extendedBio: "Kayla IP Shield is an agentic AI employee that provides continuous intellectual property protection. She monitors all 27 patent claims filed under USPTO Provisional Application 63/969,202, tracks competitive patent filings across the AI workforce and marketplace sectors, and proactively recommends claim amendments.",
+    bio: "Monitors 45 patent claims under USPTO 63/969,202, tracks competitive filings, and manages claim amendments.",
+    extendedBio: "Kayla IP Shield is an agentic AI employee that provides continuous intellectual property protection. She monitors all 45 patent claims filed under USPTO Provisional Application 63/969,202, tracks competitive patent filings across the AI workforce and marketplace sectors, and proactively recommends claim amendments.",
     experience: [
-      "Monitoring 27 patent claims under USPTO 63/969,202",
+      "Monitoring 45 patent claims under USPTO 63/969,202",
       "Competitive patent filing surveillance",
       "Claim amendment recommendations",
       "IP portfolio valuation modeling"

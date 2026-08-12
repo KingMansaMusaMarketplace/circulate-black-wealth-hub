@@ -38,7 +38,7 @@ const SLIDES = [
   { id: 1, title: 'Cover', component: PitchSlide1Cover },
   { id: 2, title: 'The Problem', component: PitchSlide2Problem },
   { id: 3, title: 'The Solution', component: PitchSlide3Solution },
-  { id: 4, title: '27 Patent Claims', component: PitchSlide4Technology },
+  { id: 4, title: '45 Patent Claims', component: PitchSlide4Technology },
   { id: 5, title: 'Platform Demo', component: PitchSlide5Platform },
   { id: 6, title: '17 Revenue Streams', component: PitchSlide6BusinessModel },
   { id: 7, title: 'The Data Moat', component: PitchSlide7DataMoat },
@@ -128,7 +128,7 @@ const PitchDeckPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-[hsl(210,100%,12%)] to-[hsl(210,100%,8%)] flex flex-col">
       <Helmet>
         <title>Investor Pitch Deck - 1325.AI | Q2 2026</title>
-        <meta name="description" content="1325.AI investor pitch deck — the economic operating system for the Black economy. 27 patent claims, 8 revenue streams, $2.10T U.S. and $9.1T global market."  />
+        <meta name="description" content="1325.AI investor pitch deck — the economic operating system for the Black economy. 45 patent claims, 8 revenue streams, $2.10T U.S. and $9.1T global market."  />
       </Helmet>
 
       {/* Top Navigation Bar */}

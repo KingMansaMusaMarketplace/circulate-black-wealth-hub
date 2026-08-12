@@ -172,7 +172,7 @@ Based on the platform's architecture, three core roles are required:
 
 ## 9. INTELLECTUAL PROPERTY NOTICE
 
-This platform contains **27 patent claims** filed under USPTO 63/969,202. All development partners must sign an NDA before receiving codebase access. Key patent-protected systems include:
+This platform contains **45 patent claims** filed under USPTO 63/969,202. All development partners must sign an NDA before receiving codebase access. Key patent-protected systems include:
 
 - CMAL (Community Marketplace AI Logic) Engine
 - Economic Karma scoring system

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const items = [
-  'U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending',
+  'U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending',
   'Verified Corporation',
   'Illinois LLC',
   'GDPR-Aware Data Handling',

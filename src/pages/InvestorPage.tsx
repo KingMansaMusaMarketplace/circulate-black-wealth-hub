@@ -89,7 +89,7 @@ const InvestorPage: React.FC = () => {
         {[
           { icon: Shield, title: 'Category', body: 'AI infrastructure + vertical marketplace. Live MCP server in the official registry.' },
           { icon: FileText, title: 'Stage', body: 'Pre-revenue infrastructure play. Raising to accelerate distribution, not to prove the tech.' },
-          { icon: Lock, title: 'Protection', body: 'U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.' },
+          { icon: Lock, title: 'Protection', body: 'U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.' },
         ].map(({ icon: Icon, title, body }) => (
           <Card key={title} className="bg-white/[0.03] border-white/10 p-6">
             <Icon className="h-6 w-6 text-mansagold mb-3" />

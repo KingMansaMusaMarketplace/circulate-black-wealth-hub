@@ -94,7 +94,7 @@ const PitchSlide14WhyInvest: React.FC = () => {
               <h3 className="text-2xl font-bold text-white mb-6">The Defensibility Stack</h3>
               <div className="flex flex-wrap justify-center gap-4 mb-6">
                 {[
-                  { label: '27 Patent Claims', icon: Lock },
+                  { label: '45 Patent Claims', icon: Lock },
                   { label: 'Economic Data Graph', icon: TrendingUp },
                   { label: 'Integrated OS', icon: Zap },
                   { label: '17 Revenue Streams', icon: Rocket },

@@ -74,7 +74,7 @@ const DIFFERENTIATORS = [
   {
     icon: Award,
     title: 'Patent-pending technology',
-    body: 'U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.',
+    body: 'U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.',
   },
 ];
 

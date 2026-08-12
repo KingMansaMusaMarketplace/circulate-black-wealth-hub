@@ -99,7 +99,7 @@ export const AGREEMENT_SECTIONS: AgreementSection[] = [
   },
   {
     heading: '6. Intellectual Property',
-    body: 'All platform technology, software, data models, and related intellectual property remain the exclusive property of 1325.AI, including subject matter disclosed in U.S. Provisional Patent Application No. 63/969,202 \u2014 27 claims pending. Nothing in this Agreement conveys any license to that intellectual property beyond the limited brand license in Section 5.',
+    body: 'All platform technology, software, data models, and related intellectual property remain the exclusive property of 1325.AI, including subject matter disclosed in U.S. Provisional Patent Application No. 63/969,202 \u2014 45 claims pending. Nothing in this Agreement conveys any license to that intellectual property beyond the limited brand license in Section 5.',
   },
   {
     heading: '7. Data and Privacy',

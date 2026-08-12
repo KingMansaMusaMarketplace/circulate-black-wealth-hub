@@ -87,7 +87,7 @@ const PitchSlide1Cover: React.FC = () => {
             </div>
             <div className="h-10 w-px bg-white/20" />
             <div className="text-center">
-              <div className="text-3xl font-bold text-white">27 Claims</div>
+              <div className="text-3xl font-bold text-white">45 Claims</div>
               <div className="text-sm">Patent Pending</div>
             </div>
             <div className="h-10 w-px bg-white/20" />

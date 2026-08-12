@@ -159,7 +159,7 @@ const AdminInvestorPortalPage: React.FC = () => {
               <div>
                 <h1 className="text-3xl font-bold text-white font-display">Investor Portal</h1>
                 <p className="text-white/70 text-sm mt-1">
-                  U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending · Illinois law · NDA-first access
+                  U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending · Illinois law · NDA-first access
                 </p>
               </div>
             </div>

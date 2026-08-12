@@ -32,7 +32,7 @@ export const siteConfig = {
   
   // Patent portfolio
   patentPortfolio: {
-    claimsCount: 27,
+    claimsCount: 45,
     status: 'Provisional Patent Filed',
     keyProtections: ['Geospatial Fraud Detection', 'B2B Matching Algorithms', 'Voice AI Integration'],
   },

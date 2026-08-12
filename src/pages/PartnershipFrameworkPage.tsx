@@ -110,7 +110,7 @@ const PartnershipFrameworkPage: React.FC = () => {
     'Full export in open formats at any time, on request, at no cost.',
     'Clean exit: no penalty, no lock-in, no hostage data.',
     'Encrypted at rest and in transit; role-based access tied to your named leaders.',
-    'Built on patent-pending technology — U.S. Provisional Patent Application No. 63/969,202 — 27 claims pending.',
+    'Built on patent-pending technology — U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.',
   ];
 
   const whoFor = [
@@ -434,7 +434,7 @@ const PartnershipFrameworkPage: React.FC = () => {
             </a>
             <p className="text-white/50 text-xs mt-6">
               1325.AI — a Mansa Musa Marketplace company • U.S. Provisional Patent Application No.
-              63/969,202 — 27 claims pending
+              63/969,202 — 45 claims pending
             </p>
           </Card>
         </motion.div>
