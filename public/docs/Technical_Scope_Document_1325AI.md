@@ -39,7 +39,7 @@
 |---|---|
 | **Database Tables** | 250+ |
 | **Edge Functions (Deno)** | 110+ |
-| **Patent Claims** | 27 (documented in 180+ page Blue Book) |
+| **Patent Claims** | 45 (documented in 180+ page Blue Book) |
 | **Third-Party Integrations** | 10+ (Stripe, Mapbox, OpenAI, Gemini, ElevenLabs, Resend, PostHog, Perplexity, Firecrawl, Apple IAP) |
 
 ---
