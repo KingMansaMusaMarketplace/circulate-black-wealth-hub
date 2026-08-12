@@ -78,7 +78,7 @@ const HomePage: React.FC = () => {
             <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">44,000+</span> Verified Businesses</span>
             <span className="text-zinc-600">·</span>
-            <span><span className="text-mansagold">27</span> Patent Claims</span>
+            <span><span className="text-mansagold">45</span> Patent Claims</span>
           </div>
 
           {/* Consumer subhead — keeps "buy Black" mission alive */}
