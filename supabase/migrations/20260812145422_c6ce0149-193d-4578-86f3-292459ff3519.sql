@@ -1,0 +1,3 @@
+INSERT INTO public.businesses (owner_id, name, business_name, description, category, city, state, website, banner_url, average_rating, review_count, is_verified, listing_status)
+SELECT 'bd72a75e-1310-4f40-9c74-380443b09d9b'::uuid,'DropTV','DropTV','DropTV is a culture-first streaming network where creators become their own channels — distributed across 500M+ connected TV devices, with fans paying creators directly and creators keeping 85% of fan revenue.','Entertainment','Los Angeles','CA','https://drop.tv/','https://drop.tv/images/hero.jpg',5.00,1,true,'live'
+WHERE NOT EXISTS (SELECT 1 FROM public.businesses WHERE website ILIKE '%drop.tv%');
