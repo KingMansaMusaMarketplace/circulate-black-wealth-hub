@@ -14,6 +14,8 @@ interface FeaturedSpotlightProps {
   businesses?: Business[];
 }
 
+const isSlowScreenshot = (url: string) => url.includes('image.thum.io');
+
 const FeaturedSpotlightCard: React.FC<{ business: Business }> = ({ business }) => {
   const resolvedBanner = getBusinessBanner(business.id, business.bannerUrl, business.website);
   const primarySrc = resolvedBanner || business.imageUrl || business.bannerUrl || '';
@@ -21,6 +23,25 @@ const FeaturedSpotlightCard: React.FC<{ business: Business }> = ({ business }) =
     ? `https://image.thum.io/get/width/1200/crop/630/noanimate/${business.website}` 
     : '';
   const placeholderSrc = generatePlaceholder(600, 400, business.name);
+
+  // On-demand website screenshots (thum.io) can take many seconds to render.
+  // Show the instant branded placeholder first, then swap in the screenshot
+  // once it has actually finished downloading.
+  const slow = !!primarySrc && isSlowScreenshot(primarySrc);
+  const [slowReady, setSlowReady] = useState(!slow);
+
+  useEffect(() => {
+    if (!slow) { setSlowReady(true); return; }
+    setSlowReady(false);
+    const img = new Image();
+    img.onload = () => setSlowReady(true);
+    img.src = primarySrc;
+    return () => { img.onload = null; };
+  }, [slow, primarySrc]);
+
+  const displaySrc = slow && !slowReady
+    ? placeholderSrc
+    : (primarySrc || websiteFallback || placeholderSrc);
 
   return (
     <div className="relative bg-slate-900/80 backdrop-blur-xl border border-mansagold/30 rounded-2xl overflow-hidden">
@@ -36,13 +57,14 @@ const FeaturedSpotlightCard: React.FC<{ business: Business }> = ({ business }) =
       <div className="grid md:grid-cols-2 gap-0">
         <div className="relative h-64 md:h-80 overflow-hidden">
           <OptimizedImage 
-            src={primarySrc || websiteFallback || placeholderSrc} 
+            src={displaySrc} 
             alt={business.name}
             className="w-full h-full object-cover"
-            fallbackSrc={websiteFallback || placeholderSrc}
+            fallbackSrc={placeholderSrc}
             quality="high"
             lazy={false}
           />
+
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-slate-900/90" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent md:hidden" />
           <div className="absolute top-8 right-8 hidden md:block">
