@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
           headers: { Authorization: `Bearer ${resend}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
             from: '1325.AI <noreply@1325.ai>',
-            to: ['Thomas@1325.AI'],
+            to: ['Partner@1325.AI'],
             reply_to: d.email,
             subject: `Investor access request — ${d.firm}`,
             html: `

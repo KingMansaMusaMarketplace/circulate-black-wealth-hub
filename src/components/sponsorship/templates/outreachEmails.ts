@@ -29,7 +29,7 @@ Best regards,
 [Your Title]
 1325.AI
 Phone: 312.900.6004
-Email: Thomas@1325.AI
+Email: Partner@1325.AI
 Website: www.1325.ai
 
 P.S. I've attached our brief partnership overview that outlines specific collaboration opportunities and mutual benefits.`
@@ -71,7 +71,7 @@ Warm regards,
 [Your Title]
 1325.AI
 Phone: 312.900.6004
-Email: Thomas@1325.AI
+Email: Partner@1325.AI
 Website: www.1325.ai
 
 Best,
@@ -117,7 +117,7 @@ Best,
 [Your Title]
 1325.AI
 Phone: 312.900.6004
-Email: Thomas@1325.AI
+Email: Partner@1325.AI
 Website: www.1325.ai
 
 P.S. Happy to send over our media kit and partnership overview for your review.`
@@ -146,7 +146,7 @@ Best regards,
 [Your Name]
 1325.AI
 Phone: 312.900.6004
-Email: Thomas@1325.AI`
+Email: Partner@1325.AI`
   },
 
   customizable: {
@@ -184,7 +184,7 @@ Best regards,
 [Your Title]
 1325.AI
 Phone: 312.900.6004
-Email: Thomas@1325.AI
+Email: Partner@1325.AI
 Website: www.1325.ai`
   }
 };

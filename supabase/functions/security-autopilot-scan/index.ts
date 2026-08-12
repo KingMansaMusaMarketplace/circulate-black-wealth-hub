@@ -11,7 +11,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-csrf-token, x-cron-secret",
 };
 
-const RECIPIENT = Deno.env.get("ADMIN_EMAIL") || "Thomas@1325.AI";
+const RECIPIENT = Deno.env.get("ADMIN_EMAIL") || "Partner@1325.AI";
 const FROM = "1325.AI Security <noreply@1325.ai>";
 const AUTOPILOT_TOKEN = Deno.env.get("SEC_AUTOPILOT_TOKEN");
 

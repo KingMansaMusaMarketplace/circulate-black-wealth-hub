@@ -142,7 +142,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const emailResponse = await resend.emails.send({
-      from: "1325.AI <Thomas@1325.AI>",
+      from: "1325.AI <Partner@1325.AI>",
       to: [recipientEmail],
       subject: "Important: 1325.AI Team NDA Summary & Action Items",
       html: emailHtml,

@@ -237,7 +237,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
         new Paragraph({
           children: [
             new TextRun({
-              text: 'Contact: Thomas@1325.AI',
+              text: 'Contact: Partner@1325.AI',
               size: 14,
               color: '718096',
             }),
@@ -338,7 +338,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
         new Paragraph({
           children: [
             new TextRun({
-              text: 'This document must be returned to 1325.AI or securely destroyed upon request, termination of business relationship, or when no longer needed for its intended purpose. Destruction must be by shredding or secure digital deletion with written confirmation provided to Thomas@1325.AI.',
+              text: 'This document must be returned to 1325.AI or securely destroyed upon request, termination of business relationship, or when no longer needed for its intended purpose. Destruction must be by shredding or secure digital deletion with written confirmation provided to Partner@1325.AI.',
               size: 20,
             }),
           ],
@@ -925,7 +925,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       
       pdf.setFontSize(8);
       pdf.setTextColor(80);
-      pdf.text('(c) 2024-2026 1325.AI - All Rights Reserved | Contact: Thomas@1325.AI', pageWidth / 2, pageHeight - 16, { align: 'center' });
+      pdf.text('(c) 2024-2026 1325.AI - All Rights Reserved | Contact: Partner@1325.AI', pageWidth / 2, pageHeight - 16, { align: 'center' });
 
       // Document Control Page
       pdf.addPage();
@@ -971,7 +971,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(50);
       const returnText = pdf.splitTextToSize(
-        'This document must be returned to 1325.AI or securely destroyed upon request, termination of business relationship, or when no longer needed for its intended purpose. Destruction must be by shredding or secure digital deletion with written confirmation provided to Thomas@1325.AI.',
+        'This document must be returned to 1325.AI or securely destroyed upon request, termination of business relationship, or when no longer needed for its intended purpose. Destruction must be by shredding or secure digital deletion with written confirmation provided to Partner@1325.AI.',
         contentWidth
       );
       pdf.text(returnText, margin, y);

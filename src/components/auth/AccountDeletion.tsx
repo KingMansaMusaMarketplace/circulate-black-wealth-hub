@@ -185,8 +185,8 @@ const AccountDeletion: React.FC = () => {
           <p className="text-sm text-muted-foreground">
             If you're having issues with your account or have questions about deletion, 
             please contact our support team at{' '}
-            <a href="mailto:Thomas@1325.AI" className="text-primary hover:underline">
-              Thomas@1325.AI
+            <a href="mailto:Partner@1325.AI" className="text-primary hover:underline">
+              Partner@1325.AI
             </a>
           </p>
         </div>

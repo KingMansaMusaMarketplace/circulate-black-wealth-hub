@@ -120,12 +120,12 @@ serve(async (req) => {
     }
 
     // Email the partnerships team
-    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "Thomas@1325.AI";
+    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "Partner@1325.AI";
     const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
     try {
       await resend.emails.send({
-        from: "Partnerships <Thomas@1325.AI>",
+        from: "Partnerships <Partner@1325.AI>",
         to: [adminEmail],
         reply_to: payload.email,
         subject: `New Partnership Inquiry — ${payload.companyName} (${TIER_LABELS[payload.sponsorshipTier] ?? payload.sponsorshipTier})`,
@@ -153,7 +153,7 @@ serve(async (req) => {
 
       // Acknowledgement to the prospect
       await resend.emails.send({
-        from: "1325.AI Partnerships <Thomas@1325.AI>",
+        from: "1325.AI Partnerships <Partner@1325.AI>",
         to: [payload.email],
         subject: "We received your partnership inquiry — 1325.AI",
         html: `

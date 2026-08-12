@@ -11,7 +11,7 @@ const SupportPage = () => {
       icon: <Mail className="h-6 w-6" />,
       title: "Email Support",
       description: "Get help via email within 24 hours",
-      contact: "Thomas@1325.AI",
+      contact: "Partner@1325.AI",
       action: "Send Email"
     },
     {
@@ -298,7 +298,7 @@ const SupportPage = () => {
                     <div>
                       <p className="font-bold text-white mb-1">General Inquiries</p>
                       <p className="text-sm text-slate-300 font-medium break-words">
-                        Thomas@1325.AI
+                        Partner@1325.AI
                       </p>
                     </div>
                   </div>

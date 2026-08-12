@@ -891,7 +891,7 @@ export const ACCOUNT_SUPPORT: GuideSection[] = [
         summary: 'Reach our support team',
         details: 'Our support team is available to help with any questions or issues. We typically respond within 24 hours during business days.',
         steps: [
-          'Email: Thomas@1325.AI',
+          'Email: Partner@1325.AI',
           'Contact form: Available on the Contact page',
           'In-app support: Use the Help button in the app',
           'Provide as much detail as possible about your issue',

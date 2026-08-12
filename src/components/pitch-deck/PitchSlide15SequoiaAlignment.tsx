@@ -160,7 +160,7 @@ const PitchSlide15Contact: React.FC = () => {
             }}
           >
             <span style={{ fontSize: '22px', lineHeight: 1 }}>✉</span>
-            <span>Thomas@1325.AI</span>
+            <span>Partner@1325.AI</span>
             <span style={{ fontSize: '22px', lineHeight: 1 }}>→</span>
           </div>
 

@@ -50,7 +50,7 @@ const defaultConfig: AppConfig = {
     sessionTimeoutMinutes: 60,
   },
   contactInfo: {
-    supportEmail: 'Thomas@1325.AI',
+    supportEmail: 'Partner@1325.AI',
     privacyPolicyUrl: '/privacy-policy',
     termsOfServiceUrl: '/terms-of-service',
   },

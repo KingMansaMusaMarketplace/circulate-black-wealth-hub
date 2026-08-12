@@ -6,7 +6,7 @@ import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 
 const ContactSupportCard = () => {
   const handleEmailClick = () => {
-    window.location.href = 'mailto:Thomas@1325.AI';
+    window.location.href = 'mailto:Partner@1325.AI';
   };
 
   const handlePhoneClick = () => {
@@ -15,7 +15,7 @@ const ContactSupportCard = () => {
 
   const handleLiveChat = () => {
     // For now, redirect to email - can be updated with actual chat service later
-    window.location.href = 'mailto:Thomas@1325.AI?subject=Live Chat Support Request';
+    window.location.href = 'mailto:Partner@1325.AI?subject=Live Chat Support Request';
   };
 
   return (
@@ -35,7 +35,7 @@ const ContactSupportCard = () => {
               onClick={handleEmailClick}
               className="text-mansablue hover:text-mansablue-dark break-all text-left hover:underline"
             >
-              Thomas@1325.AI
+              Partner@1325.AI
             </button>
           </div>
         </div>

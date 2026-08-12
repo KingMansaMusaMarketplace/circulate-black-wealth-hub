@@ -7,7 +7,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
-const RECIPIENT = Deno.env.get("ADMIN_EMAIL") || "Thomas@1325.AI";
+const RECIPIENT = Deno.env.get("ADMIN_EMAIL") || "Partner@1325.AI";
 const FROM = "1325.AI Admin <noreply@1325.ai>";
 
 async function count(supabase: any, table: string, since: string, col = "created_at") {

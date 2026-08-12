@@ -208,7 +208,7 @@ With gratitude,
 
 
 1325.AI
-Thomas@1325.AI`;
+Partner@1325.AI`;
 
       const splitBody = doc.splitTextToSize(body, pageWidth - (margin * 2));
       doc.text(splitBody, margin, 100);
