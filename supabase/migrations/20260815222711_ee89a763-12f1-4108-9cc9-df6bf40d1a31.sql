@@ -1,0 +1,1 @@
+ALTER TABLE public.outreach_targets ADD COLUMN IF NOT EXISTS lists text[] NOT NULL DEFAULT '{}';
