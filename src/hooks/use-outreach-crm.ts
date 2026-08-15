@@ -29,6 +29,7 @@ export interface OutreachTarget {
   id: string;
   directory_name: string;
   list_name: string;
+  lists?: string[] | null;
   tier: OutreachTier;
   owner_name: string | null;
   owner_title: string | null;

@@ -74,11 +74,15 @@ const AdminOutreachCRMInner: React.FC = () => {
   const [listFilter, setListFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
 
+  const listsOf = (t: OutreachTarget): string[] =>
+    t.lists && t.lists.length > 0
+      ? t.lists
+      : [t.list_name || 'Black Business Directories'];
+
   const lists = useMemo(() => {
-    const names = Array.from(
-      new Set(targets.map((t) => t.list_name || 'Black Business Directories'))
-    );
-    return names.sort();
+    const names = new Set<string>();
+    targets.forEach((t) => listsOf(t).forEach((n) => names.add(n)));
+    return Array.from(names).sort();
   }, [targets]);
 
   const [form, setForm] = useState({
@@ -115,8 +119,7 @@ const AdminOutreachCRMInner: React.FC = () => {
   const filtered = useMemo(() => {
     return targets.filter((t) => {
       if (filter !== 'all' && t.status !== filter) return false;
-      if (listFilter !== 'all' && (t.list_name || 'Black Business Directories') !== listFilter)
-        return false;
+      if (listFilter !== 'all' && !listsOf(t).includes(listFilter)) return false;
       if (search) {
         const q = search.toLowerCase();
         return (
@@ -217,9 +220,7 @@ const AdminOutreachCRMInner: React.FC = () => {
             All ({targets.length})
           </Button>
           {lists.map((name) => {
-            const count = targets.filter(
-              (t) => (t.list_name || 'Black Business Directories') === name
-            ).length;
+            const count = targets.filter((t) => listsOf(t).includes(name)).length;
             const active = listFilter === name;
             return (
               <Button
@@ -327,6 +328,17 @@ const AdminOutreachCRMInner: React.FC = () => {
                             <ExternalLink className="h-3 w-3" /> {t.website}
                           </a>
                         )}
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {listsOf(t).map((name) => (
+                            <Badge
+                              key={name}
+                              variant="outline"
+                              className="text-[10px] text-blue-200/80 border-white/15 bg-white/5"
+                            >
+                              {name}
+                            </Badge>
+                          ))}
+                        </div>
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className="text-blue-200 border-white/20">
