@@ -113,6 +113,7 @@ export function useOutreachTargets() {
         .insert({
           directory_name: input.directory_name!,
           tier: input.tier ?? 'tier_2',
+          list_name: input.list_name ?? 'Black Business Directories',
           owner_name: input.owner_name ?? null,
           owner_title: input.owner_title ?? null,
           website: input.website ?? null,
