@@ -342,7 +342,7 @@ const DirectoryPage: React.FC = () => {
                  ? `${totalBusinesses.toLocaleString()}+ verified businesses`
                  : isLoading
                    ? 'Loading verified businesses…'
-                   : '43,000+ verified businesses'} — discover, support, and earn loyalty points
+                   : `${liveCount} verified businesses`} — discover, support, and earn loyalty points
             </p>
           </motion.div>
           

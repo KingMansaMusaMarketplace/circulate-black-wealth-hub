@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Tag } from 'lucide-react';
+import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 
 /**
  * SEO internal-linking hub.
@@ -55,7 +56,7 @@ const FeaturedCommunities = () => {
             Explore the Directory
           </h2>
           <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto">
-            43,000+ verified Black-owned businesses across the United States.
+            {liveCount} verified Black-owned businesses across the United States.
             Browse by city or category.
           </p>
         </div>

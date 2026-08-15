@@ -251,7 +251,7 @@ const BusinessSignupPage: React.FC = () => {
     {
       icon: BarChart3,
       title: 'Business Profile & Directory',
-      description: 'Get discovered in our 43,000+ verified listings',
+      description: `Get discovered in our ${liveCount} verified listings`,
       details: [
         'Public business listing',
         'Customer reviews & ratings',
@@ -627,7 +627,7 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
-                    <p className="text-3xl font-bold text-blue-400">43,000+</p>
+                    <p className="text-3xl font-bold text-blue-400">{liveCount}</p>
                     <p className="text-sm text-slate-400">Verified Listings</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
