@@ -127,7 +127,7 @@ const AdminOutreachCRMInner: React.FC = () => {
       }
       return true;
     });
-  }, [targets, filter, search]);
+  }, [targets, filter, listFilter, search]);
 
   const activeTarget = targets.find((t) => t.id === activeTargetId) || null;
 
