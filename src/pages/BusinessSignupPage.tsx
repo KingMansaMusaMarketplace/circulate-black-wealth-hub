@@ -8,6 +8,7 @@ import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 import { 
+import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
   Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, 
   Wallet, BarChart3, Shield, Star, Sparkles, MessageSquare, Gift, 
   Brain, Search, FileText, Handshake, Globe, Mic, 
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react';
 
 const BusinessSignupPage: React.FC = () => {
+  const { rounded: liveCount } = useLiveBusinessCount();
   const [searchParams] = useSearchParams();
   const referralCode = searchParams.get('ref') || '';
   const betaMode = searchParams.get('beta') === 'true';

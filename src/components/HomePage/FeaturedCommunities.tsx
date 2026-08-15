@@ -45,6 +45,7 @@ const TOP_CATEGORIES: { slug: string; label: string }[] = [
 ];
 
 const FeaturedCommunities = () => {
+  const { rounded: liveCount } = useLiveBusinessCount();
   return (
     <section
       aria-label="Browse Black-owned businesses by city and category"

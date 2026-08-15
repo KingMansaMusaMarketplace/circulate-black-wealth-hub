@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Database, Shield, BarChart3, Building2, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { RequestAPIAccessDialog } from '@/components/api/RequestAPIAccessDialog';
+import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 
 const TIERS = [
   { id: 'starter',    name: 'Starter',    price: 99,  quota: '1,000 calls/mo',     features: ['All public endpoints', 'Email support', 'CSV export'] },
@@ -14,6 +15,7 @@ const TIERS = [
 ];
 
 export default function InstitutionalAPIPage() {
+  const { rounded: liveCount } = useLiveBusinessCount();
   return (
     <div className="container max-w-6xl mx-auto py-16 px-4">
       <Helmet>
