@@ -220,9 +220,7 @@ const AdminOutreachCRMInner: React.FC = () => {
             All ({targets.length})
           </Button>
           {lists.map((name) => {
-            const count = targets.filter(
-              (t) => (t.list_name || 'Black Business Directories') === name
-            ).length;
+            const count = targets.filter((t) => listsOf(t).includes(name)).length;
             const active = listFilter === name;
             return (
               <Button
