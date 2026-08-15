@@ -35,6 +35,7 @@ export interface OutreachTarget {
   contact_method: OutreachChannel | null;
   contact_value: string | null;
   linkedin_url: string | null;
+  phone: string | null;
   location: string | null;
   status: OutreachStatus;
   priority: number;
@@ -117,6 +118,7 @@ export function useOutreachTargets() {
           contact_method: input.contact_method ?? null,
           contact_value: input.contact_value ?? null,
           linkedin_url: input.linkedin_url ?? null,
+          phone: input.phone ?? null,
           location: input.location ?? null,
           status: input.status ?? 'researched',
           priority: input.priority ?? 3,

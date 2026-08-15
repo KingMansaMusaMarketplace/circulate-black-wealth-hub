@@ -15908,6 +15908,7 @@ export type Database = {
           notes: string | null
           owner_name: string | null
           owner_title: string | null
+          phone: string | null
           priority: number
           status: Database["public"]["Enums"]["outreach_status"]
           tier: Database["public"]["Enums"]["outreach_tier"]
@@ -15931,6 +15932,7 @@ export type Database = {
           notes?: string | null
           owner_name?: string | null
           owner_title?: string | null
+          phone?: string | null
           priority?: number
           status?: Database["public"]["Enums"]["outreach_status"]
           tier?: Database["public"]["Enums"]["outreach_tier"]
@@ -15954,6 +15956,7 @@ export type Database = {
           notes?: string | null
           owner_name?: string | null
           owner_title?: string | null
+          phone?: string | null
           priority?: number
           status?: Database["public"]["Enums"]["outreach_status"]
           tier?: Database["public"]["Enums"]["outreach_tier"]
