@@ -33,7 +33,7 @@ export default function BlackOwnedIndexPage() {
     isPartOf: { "@type": "WebSite", name: "1325.AI", url: "https://1325.ai/" },
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: totalCount || 43000,
+      numberOfItems: totalCount || 46000,
       itemListElement: cities.slice(0, 20).map((c, i) => ({
         "@type": "ListItem",
         position: i + 1,
@@ -46,12 +46,12 @@ export default function BlackOwnedIndexPage() {
   return (
     <>
       <Helmet>
-        <title>Black-Owned Global Business Directory | 43,000+ Verified Listings | 1325.AI</title>
-        <meta name="description" content="The largest verified Black-owned global business directory. Find 43,000+ Black-owned restaurants, salons, barbershops, contractors & services near you. Free on 1325.AI." />
+        <title>Black-Owned Global Business Directory | 46,000+ Verified Listings | 1325.AI</title>
+        <meta name="description" content="The largest verified Black-owned global business directory. Find 46,000+ Black-owned restaurants, salons, barbershops, contractors & services near you. Free on 1325.AI." />
         <meta name="keywords" content="Black-owned global business directory, Black-owned businesses near me, find Black-owned businesses, Black business directory, minority business marketplace, African American business directory, support Black-owned businesses" />
         <link rel="canonical" href="https://1325.ai/black-owned" />
-        <meta property="og:title" content="Black-Owned Global Business Directory | 43,000+ Verified Listings" />
-        <meta property="og:description" content="Find 43,000+ verified Black-owned businesses by city and category on 1325.AI." />
+        <meta property="og:title" content="Black-Owned Global Business Directory | 46,000+ Verified Listings" />
+        <meta property="og:description" content="Find 46,000+ verified Black-owned businesses by city and category on 1325.AI." />
         <meta property="og:url" content="https://1325.ai/black-owned" />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{JSON.stringify(collectionSchema)}</script>
@@ -61,7 +61,7 @@ export default function BlackOwnedIndexPage() {
         <header className="mb-10 text-center max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Black-Owned Global Business Directory</h1>
           <p className="text-muted-foreground text-lg mb-2">
-            Find <strong>{(totalCount || 43000).toLocaleString()}+</strong> verified Black-owned businesses near you — restaurants, salons, barbershops, contractors and services across the United States.
+            Find <strong>{(totalCount || 46000).toLocaleString()}+</strong> verified Black-owned businesses near you — restaurants, salons, barbershops, contractors and services across the United States.
           </p>
           <p className="text-sm text-muted-foreground">
             The largest Black-owned global business directory and minority business marketplace, powered by 1325.AI.

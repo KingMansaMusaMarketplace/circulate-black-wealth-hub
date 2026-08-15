@@ -367,7 +367,7 @@ const BusinessDetailPage = () => {
   // gives every business something specific to index on.
   const locationLabel = [business.city, business.state].filter(Boolean).join(', ');
   const categoryLabel = business.category || 'Black-owned business';
-  const fallbackDescription = `${business.business_name} is a Black-owned ${categoryLabel.toLowerCase()}${locationLabel ? ` located in ${locationLabel}` : ''}. Find contact info, hours, and reviews on 1325.AI's directory of 43,000+ Black-owned businesses.`;
+  const fallbackDescription = `${business.business_name} is a Black-owned ${categoryLabel.toLowerCase()}${locationLabel ? ` located in ${locationLabel}` : ''}. Find contact info, hours, and reviews on 1325.AI's directory of 46,000+ Black-owned businesses.`;
   const metaDescription = (business.description && business.description.trim().length > 40)
     ? business.description.trim().slice(0, 300)
     : fallbackDescription;
