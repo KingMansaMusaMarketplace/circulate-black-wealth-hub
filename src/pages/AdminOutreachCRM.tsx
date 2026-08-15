@@ -50,6 +50,7 @@ import {
   type OutreachChannel,
 } from '@/hooks/use-outreach-crm';
 import PartnershipLetterGenerator from '@/components/admin/PartnershipLetterGenerator';
+import OutreachContactFinder from '@/components/admin/OutreachContactFinder';
 
 
 const STATUS_COLORS: Record<OutreachStatus, string> = {
