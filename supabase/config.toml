@@ -79,6 +79,8 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.enrich-lead-emails]
     verify_jwt = true
+  [functions.enrich-outreach-contacts]
+    verify_jwt = true
   [functions.fraud-api]
     verify_jwt = false
   [functions.fraud-consensus-review]
