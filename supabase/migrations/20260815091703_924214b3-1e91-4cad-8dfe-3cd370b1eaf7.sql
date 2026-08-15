@@ -1,0 +1,2 @@
+ALTER TABLE public.outreach_targets ADD COLUMN IF NOT EXISTS list_name text NOT NULL DEFAULT 'Black Business Directories';
+CREATE INDEX IF NOT EXISTS idx_outreach_targets_list_name ON public.outreach_targets(list_name);

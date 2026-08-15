@@ -15902,6 +15902,7 @@ export type Database = {
           directory_name: string
           id: string
           linkedin_url: string | null
+          list_name: string
           location: string | null
           next_action: string | null
           next_action_date: string | null
@@ -15926,6 +15927,7 @@ export type Database = {
           directory_name: string
           id?: string
           linkedin_url?: string | null
+          list_name?: string
           location?: string | null
           next_action?: string | null
           next_action_date?: string | null
@@ -15950,6 +15952,7 @@ export type Database = {
           directory_name?: string
           id?: string
           linkedin_url?: string | null
+          list_name?: string
           location?: string | null
           next_action?: string | null
           next_action_date?: string | null
