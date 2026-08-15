@@ -310,7 +310,7 @@ const ValuationMetrics: React.FC = () => {
         <CardContent>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: 'Patent Protection', desc: '27-claim USPTO Patent 63/969,202 covering CMAL, Susu, Voice AI, Fraud Detection', icon: '🛡️' },
+              { title: 'Patent Protection', desc: '45-claim USPTO Patent 63/969,202 covering CMAL, Susu, Voice AI, Fraud Detection', icon: '🛡️' },
               { title: 'Data Moat', desc: 'Non-portable reputation, financial history, B2B relationships create high switching costs', icon: '🔒' },
               { title: 'PaaS Infrastructure', desc: '"Stripe for circular economies" — licensable APIs justify infrastructure-grade multiples', icon: '⚡' },
               { title: 'Network Effects', desc: '2.3x CMAL multiplier + Karma decay create compounding community value', icon: '🌐' },
