@@ -7,8 +7,8 @@ import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
-import { 
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
+import { 
   Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, 
   Wallet, BarChart3, Shield, Star, Sparkles, MessageSquare, Gift, 
   Brain, Search, FileText, Handshake, Globe, Mic, 
