@@ -199,6 +199,11 @@ const AdminOutreachCRMInner: React.FC = () => {
           ))}
         </div>
 
+        {/* Reusable partnership letter */}
+        <PartnershipLetterGenerator />
+
+
+
         {/* Filters */}
         <div className="flex flex-wrap gap-3 items-center">
           <Input
