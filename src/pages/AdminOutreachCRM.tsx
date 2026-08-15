@@ -74,11 +74,15 @@ const AdminOutreachCRMInner: React.FC = () => {
   const [listFilter, setListFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
 
+  const listsOf = (t: OutreachTarget): string[] =>
+    t.lists && t.lists.length > 0
+      ? t.lists
+      : [t.list_name || 'Black Business Directories'];
+
   const lists = useMemo(() => {
-    const names = Array.from(
-      new Set(targets.map((t) => t.list_name || 'Black Business Directories'))
-    );
-    return names.sort();
+    const names = new Set<string>();
+    targets.forEach((t) => listsOf(t).forEach((n) => names.add(n)));
+    return Array.from(names).sort();
   }, [targets]);
 
   const [form, setForm] = useState({
