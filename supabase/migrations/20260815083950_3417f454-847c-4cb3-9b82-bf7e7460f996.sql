@@ -1,0 +1,2 @@
+ALTER TABLE public.outreach_targets ADD COLUMN IF NOT EXISTS phone text;
+UPDATE public.outreach_targets SET phone = contact_value WHERE phone IS NULL AND contact_method = 'phone' AND contact_value IS NOT NULL;
