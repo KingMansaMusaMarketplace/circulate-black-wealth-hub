@@ -223,6 +223,36 @@ const AdminOutreachCRMInner: React.FC = () => {
 
 
 
+        {/* Lists */}
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-sm text-blue-200/60 mr-1">Lists:</span>
+          <Button
+            size="sm"
+            variant={listFilter === 'all' ? 'default' : 'outline'}
+            onClick={() => setListFilter('all')}
+            className={listFilter === 'all' ? 'bg-mansagold text-slate-900 font-semibold hover:bg-amber-400' : ''}
+          >
+            All ({targets.length})
+          </Button>
+          {lists.map((name) => {
+            const count = targets.filter(
+              (t) => (t.list_name || 'Black Business Directories') === name
+            ).length;
+            const active = listFilter === name;
+            return (
+              <Button
+                key={name}
+                size="sm"
+                variant={active ? 'default' : 'outline'}
+                onClick={() => setListFilter(active ? 'all' : name)}
+                className={active ? 'bg-mansagold text-slate-900 font-semibold hover:bg-amber-400' : ''}
+              >
+                {name} ({count})
+              </Button>
+            );
+          })}
+        </div>
+
         {/* Filters */}
         <div className="flex flex-wrap gap-3 items-center">
           <Input
