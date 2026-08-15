@@ -118,7 +118,7 @@ const AIWorkforceDashboard: React.FC = () => {
           estimatedMRR: (subsRes.count || 0) * 149, // Pro tier average
         },
         ipShield: {
-          totalClaims: 27,
+          totalClaims: 45,
           categories: [
             { name: 'Fraud Detection', count: 4 },
             { name: 'Loyalty System', count: 5 },
@@ -135,7 +135,7 @@ const AIWorkforceDashboard: React.FC = () => {
           totalUsers: 0, // Would need auth query
           activeSubscriptions: subsRes.count || 0,
           platformAge: '8 months',
-          patentsClaimed: 27,
+          patentsClaimed: 45,
         },
       });
       setLastRefresh(new Date());
@@ -327,7 +327,7 @@ const AIWorkforceDashboard: React.FC = () => {
                     <FileText className="w-4 h-4 text-blue-400" />
                   </div>
                   <div className="text-2xl font-bold text-blue-400">
-                    {metrics?.ipShield.totalClaims || 27}
+                    {metrics?.ipShield.totalClaims || 45}
                   </div>
                   <div className="text-white/40 text-xs mt-1">{metrics?.ipShield.applicationNumber}</div>
                 </div>

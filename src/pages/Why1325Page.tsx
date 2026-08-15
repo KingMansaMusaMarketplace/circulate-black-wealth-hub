@@ -27,7 +27,7 @@ const pillars = [
     icon: Shield,
     title: "Patent-protected infrastructure",
     them: "No defensible IP. Listings are easy to copy.",
-    us: "27 USPTO patent claims filed (63/969,202) covering geospatial fraud detection, B2B matching, voice AI, and agentic orchestration.",
+    us: "45 USPTO patent claims filed (63/969,202) covering geospatial fraud detection, B2B matching, voice AI, and agentic orchestration.",
   },
   {
     icon: TrendingUp,
@@ -134,7 +134,7 @@ export default function Why1325Page() {
                 <li className="flex gap-2"><Check className="h-4 w-4 text-mansagold flex-shrink-0 mt-0.5" /> B2B matching marketplace</li>
                 <li className="flex gap-2"><Check className="h-4 w-4 text-mansagold flex-shrink-0 mt-0.5" /> QR loyalty + wealth circulation engine</li>
                 <li className="flex gap-2"><Check className="h-4 w-4 text-mansagold flex-shrink-0 mt-0.5" /> Mansa Stays (rentals) + Noire Rideshare</li>
-                <li className="flex gap-2"><Check className="h-4 w-4 text-mansagold flex-shrink-0 mt-0.5" /> 27 USPTO patent claims filed</li>
+                <li className="flex gap-2"><Check className="h-4 w-4 text-mansagold flex-shrink-0 mt-0.5" /> 45 USPTO patent claims filed</li>
                 <li className="flex gap-2"><Check className="h-4 w-4 text-mansagold flex-shrink-0 mt-0.5" /> Native iOS app, voice AI, edge infrastructure</li>
               </ul>
               <p className="text-xs text-mansagold/80 mt-4 italic">

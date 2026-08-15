@@ -16,7 +16,7 @@ import {
 const PitchSlide14WhyInvest: React.FC = () => {
   const reasons = [
     {
-      title: '27-Claim Patent Moat',
+      title: '45-Claim Patent Moat',
       description: 'USPTO 63/969,202 with strategic amendment — $15–20M and 3–4 years for any competitor to replicate',
       icon: Lock,
       color: 'mansagold'
