@@ -15903,6 +15903,7 @@ export type Database = {
           id: string
           linkedin_url: string | null
           list_name: string
+          lists: string[]
           location: string | null
           next_action: string | null
           next_action_date: string | null
@@ -15928,6 +15929,7 @@ export type Database = {
           id?: string
           linkedin_url?: string | null
           list_name?: string
+          lists?: string[]
           location?: string | null
           next_action?: string | null
           next_action_date?: string | null
@@ -15953,6 +15955,7 @@ export type Database = {
           id?: string
           linkedin_url?: string | null
           list_name?: string
+          lists?: string[]
           location?: string | null
           next_action?: string | null
           next_action_date?: string | null
