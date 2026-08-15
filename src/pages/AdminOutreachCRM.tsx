@@ -70,7 +70,15 @@ const AdminOutreachCRMInner: React.FC = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [activeTargetId, setActiveTargetId] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | OutreachStatus>('all');
+  const [listFilter, setListFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
+
+  const lists = useMemo(() => {
+    const names = Array.from(
+      new Set(targets.map((t) => t.list_name || 'Black Business Directories'))
+    );
+    return names.sort();
+  }, [targets]);
 
   const [form, setForm] = useState({
     directory_name: '',
