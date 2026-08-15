@@ -205,9 +205,13 @@ const AdminOutreachCRMInner: React.FC = () => {
           <span className="text-sm font-semibold text-mansagold mr-1">Lists:</span>
           <Button
             size="sm"
-            variant={listFilter === 'all' ? 'default' : 'outline'}
+            variant="outline"
             onClick={() => setListFilter('all')}
-            className={listFilter === 'all' ? 'bg-mansagold text-slate-900 font-semibold hover:bg-amber-400' : ''}
+            className={
+              listFilter === 'all'
+                ? 'bg-mansagold text-slate-900 font-semibold border-mansagold hover:bg-amber-400 hover:text-slate-900'
+                : 'bg-slate-800 text-white border-white/25 hover:bg-slate-700 hover:text-white'
+            }
           >
             All ({targets.length})
           </Button>
@@ -220,9 +224,13 @@ const AdminOutreachCRMInner: React.FC = () => {
               <Button
                 key={name}
                 size="sm"
-                variant={active ? 'default' : 'outline'}
+                variant="outline"
                 onClick={() => setListFilter(active ? 'all' : name)}
-                className={active ? 'bg-mansagold text-slate-900 font-semibold hover:bg-amber-400' : ''}
+                className={
+                  active
+                    ? 'bg-mansagold text-slate-900 font-semibold border-mansagold hover:bg-amber-400 hover:text-slate-900'
+                    : 'bg-slate-800 text-white border-white/25 hover:bg-slate-700 hover:text-white'
+                }
               >
                 {name} ({count})
               </Button>
