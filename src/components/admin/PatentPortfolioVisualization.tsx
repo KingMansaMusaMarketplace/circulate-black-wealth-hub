@@ -444,7 +444,7 @@ const PatentPortfolioVisualization: React.FC = () => {
             <div>
               <h3 className="text-lg font-bold text-white mb-1">Strategic Valuation Impact</h3>
               <p className="text-sm text-blue-200/80 mb-3">
-                This 27-claim portfolio positions 1325.AI as <span className="text-mansagold font-semibold">"Self-Scaling Infrastructure"</span> with 
+                This 45-claim portfolio positions 1325.AI as <span className="text-mansagold font-semibold">"Self-Scaling Infrastructure"</span> with 
                 estimated buyout potential in the <span className="text-green-400 font-semibold">$1B+ "Unicorn" territory</span> for strategic acquirers 
                 like Visa, Chase, or Block (Square).
               </p>
