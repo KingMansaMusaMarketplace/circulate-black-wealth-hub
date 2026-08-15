@@ -8,6 +8,7 @@ import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import BusinessSubmissionBox from '@/components/homepage/BusinessSubmissionBox';
 import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueShareCard';
+import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 
 
 /**
@@ -20,6 +21,7 @@ import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueSha
  */
 const HomePage: React.FC = () => {
   const queryClient = useQueryClient();
+  const { rounded: liveCount, formatted: liveExact } = useLiveBusinessCount();
 
   useEffect(() => {
     trackFunnelEvent('homepage_view');
@@ -27,11 +29,11 @@ const HomePage: React.FC = () => {
     updateMetaTags({
       title: 'About 1325.AI — Kayla & 42 Agentic AI Employees',
       description:
-        "1325.AI orchestrates the world's largest verified Black-owned business directory — 44,000+ listings powered by Kayla and 42 Agentic AI Employees.",
+        `1325.AI orchestrates the world's largest verified Black-owned business directory — ${liveCount} listings powered by Kayla and 42 Agentic AI Employees.`,
       path: '/about-1325',
       keywords: pageSEO.home.keywords,
     });
-  }, [queryClient]);
+  }, [queryClient, liveCount]);
 
   // Smooth-scroll to #submit-business when navigated via hash link.
   useEffect(() => {
@@ -76,7 +78,7 @@ const HomePage: React.FC = () => {
             <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">$9.1T</span> Global</span>
             <span className="text-zinc-600">·</span>
-            <span><span className="text-mansagold">44,000+</span> Verified Businesses</span>
+            <span><span className="text-mansagold">{liveCount}</span> Verified Businesses</span>
             <span className="text-zinc-600">·</span>
             <span><span className="text-mansagold">45</span> Patent Claims</span>
           </div>
@@ -88,7 +90,7 @@ const HomePage: React.FC = () => {
               <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees.
             </p>
             <p className="text-sm md:text-base text-zinc-300 font-light">
-              Discover, support, and circulate wealth across 44,000+ verified businesses worldwide.
+              Discover, support, and circulate wealth across {liveCount} verified businesses worldwide.
             </p>
           </div>
 
@@ -167,12 +169,12 @@ const HomePage: React.FC = () => {
                 {
                   code: 'AGENT_01',
                   name: 'Kayla',
-                  desc: 'Chief Orchestrator. Directs the fleet of 42 agents to curate, verify, and connect 44,000+ businesses to global capital.',
+                  desc: `Chief Orchestrator. Directs the fleet of 42 agents to curate, verify, and connect ${liveCount} businesses to global capital.`,
                 },
                 {
                   code: 'AGENT_02',
                   name: 'The Verifier',
-                  desc: 'Ensuring every entry in our 44,000+ directory meets institutional standards for ownership and operational status.',
+                  desc: `Ensuring every entry in our ${liveCount} directory meets institutional standards for ownership and operational status.`,
                 },
                 {
                   code: 'AGENT_42',
@@ -195,7 +197,7 @@ const HomePage: React.FC = () => {
         <section className="px-6 py-24 md:py-32 border-t border-zinc-900">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
             <div className="max-w-xl">
-              <h2 className="text-6xl md:text-8xl font-light text-white mb-6 italic">44,000+</h2>
+              <h2 className="text-6xl md:text-8xl font-light text-white mb-6 italic" title={`${liveExact} verified businesses`}>{liveCount}</h2>
               <p className="text-xl text-zinc-300 font-light leading-relaxed">
                 Verified listings making 1325.AI the definitive platform for Black-owned
                 enterprise. Scaled by AI Agentic, built for legacy.

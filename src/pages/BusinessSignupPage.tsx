@@ -7,6 +7,7 @@ import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
+import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 import { 
   Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, 
   Wallet, BarChart3, Shield, Star, Sparkles, MessageSquare, Gift, 
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react';
 
 const BusinessSignupPage: React.FC = () => {
+  const { rounded: liveCount } = useLiveBusinessCount();
   const [searchParams] = useSearchParams();
   const referralCode = searchParams.get('ref') || '';
   const betaMode = searchParams.get('beta') === 'true';
@@ -251,7 +253,7 @@ const BusinessSignupPage: React.FC = () => {
     {
       icon: BarChart3,
       title: 'Business Profile & Directory',
-      description: 'Get discovered in our 43,000+ verified listings',
+      description: `Get discovered in our ${liveCount} verified listings`,
       details: [
         'Public business listing',
         'Customer reviews & ratings',
@@ -627,7 +629,7 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
-                    <p className="text-3xl font-bold text-blue-400">43,000+</p>
+                    <p className="text-3xl font-bold text-blue-400">{liveCount}</p>
                     <p className="text-sm text-slate-400">Verified Listings</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />

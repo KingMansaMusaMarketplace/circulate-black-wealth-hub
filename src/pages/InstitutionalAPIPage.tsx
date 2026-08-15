@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Database, Shield, BarChart3, Building2, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { RequestAPIAccessDialog } from '@/components/api/RequestAPIAccessDialog';
+import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 
 const TIERS = [
   { id: 'starter',    name: 'Starter',    price: 99,  quota: '1,000 calls/mo',     features: ['All public endpoints', 'Email support', 'CSV export'] },
@@ -14,6 +15,7 @@ const TIERS = [
 ];
 
 export default function InstitutionalAPIPage() {
+  const { rounded: liveCount } = useLiveBusinessCount();
   return (
     <div className="container max-w-6xl mx-auto py-16 px-4">
       <Helmet>
@@ -25,7 +27,7 @@ export default function InstitutionalAPIPage() {
         <Badge className="mb-4">For Banks · Foundations · Researchers</Badge>
         <h1 className="text-5xl font-bold mb-4">Data & Insights API</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Tap into the largest anonymized dataset of dollar circulation across 43,000+ verified Black-owned businesses.
+          Tap into the largest anonymized dataset of dollar circulation across {liveCount} verified Black-owned businesses.
           CRA-compliant. Privacy-first. Patent-protected ledger.
         </p>
       </div>

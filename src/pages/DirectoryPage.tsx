@@ -38,10 +38,12 @@ import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
 import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 import HomeSignupStrip from '@/components/directory/HomeSignupStrip';
 import WhyBand from '@/components/directory/WhyBand';
+import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 
 
 
 const DirectoryPage: React.FC = () => {
+  const { rounded: liveCount } = useLiveBusinessCount();
   
   const { user } = useAuth();
   const { recordBusinessView, recordAttemptedAction, showSignupPrompt, setShowSignupPrompt, lastAttemptedAction } = useGuest();
@@ -342,7 +344,7 @@ const DirectoryPage: React.FC = () => {
                  ? `${totalBusinesses.toLocaleString()}+ verified businesses`
                  : isLoading
                    ? 'Loading verified businesses…'
-                   : '43,000+ verified businesses'} — discover, support, and earn loyalty points
+                   : `${liveCount} verified businesses`} — discover, support, and earn loyalty points
             </p>
           </motion.div>
           
