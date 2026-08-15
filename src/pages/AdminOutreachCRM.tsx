@@ -200,32 +200,9 @@ const AdminOutreachCRMInner: React.FC = () => {
           </Button>
         </div>
 
-        {/* Funnel */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
-          {(Object.keys(STATUS_LABELS) as OutreachStatus[]).map((s) => (
-            <Card
-              key={s}
-              onClick={() => setFilter(filter === s ? 'all' : s)}
-              className={`cursor-pointer bg-slate-800/60 backdrop-blur-xl border transition-all hover:scale-105 ${
-                filter === s ? 'border-mansagold' : 'border-white/10'
-              }`}
-            >
-              <CardContent className="p-4">
-                <div className="text-2xl font-bold text-white">{funnel[s]}</div>
-                <div className="text-xs text-blue-200/70 mt-1">{STATUS_LABELS[s]}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Reusable partnership letter */}
-        <PartnershipLetterGenerator />
-
-
-
         {/* Lists */}
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm text-blue-200/60 mr-1">Lists:</span>
+        <div className="flex flex-wrap gap-2 items-center rounded-xl border border-mansagold/30 bg-slate-900/60 p-3">
+          <span className="text-sm font-semibold text-mansagold mr-1">Lists:</span>
           <Button
             size="sm"
             variant={listFilter === 'all' ? 'default' : 'outline'}
@@ -252,6 +229,28 @@ const AdminOutreachCRMInner: React.FC = () => {
             );
           })}
         </div>
+
+        {/* Funnel */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+          {(Object.keys(STATUS_LABELS) as OutreachStatus[]).map((s) => (
+            <Card
+              key={s}
+              onClick={() => setFilter(filter === s ? 'all' : s)}
+              className={`cursor-pointer bg-slate-800/60 backdrop-blur-xl border transition-all hover:scale-105 ${
+                filter === s ? 'border-mansagold' : 'border-white/10'
+              }`}
+            >
+              <CardContent className="p-4">
+                <div className="text-2xl font-bold text-white">{funnel[s]}</div>
+                <div className="text-xs text-blue-200/70 mt-1">{STATUS_LABELS[s]}</div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Reusable partnership letter */}
+        <PartnershipLetterGenerator />
+
 
         {/* Filters */}
         <div className="flex flex-wrap gap-3 items-center">
