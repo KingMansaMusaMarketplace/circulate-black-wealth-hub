@@ -28,6 +28,7 @@ export type OutreachDirection = 'outbound' | 'inbound';
 export interface OutreachTarget {
   id: string;
   directory_name: string;
+  list_name: string;
   tier: OutreachTier;
   owner_name: string | null;
   owner_title: string | null;
@@ -112,6 +113,7 @@ export function useOutreachTargets() {
         .insert({
           directory_name: input.directory_name!,
           tier: input.tier ?? 'tier_2',
+          list_name: input.list_name ?? 'Black Business Directories',
           owner_name: input.owner_name ?? null,
           owner_title: input.owner_title ?? null,
           website: input.website ?? null,

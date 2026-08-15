@@ -70,7 +70,15 @@ const AdminOutreachCRMInner: React.FC = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [activeTargetId, setActiveTargetId] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | OutreachStatus>('all');
+  const [listFilter, setListFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
+
+  const lists = useMemo(() => {
+    const names = Array.from(
+      new Set(targets.map((t) => t.list_name || 'Black Business Directories'))
+    );
+    return names.sort();
+  }, [targets]);
 
   const [form, setForm] = useState({
     directory_name: '',
@@ -106,6 +114,8 @@ const AdminOutreachCRMInner: React.FC = () => {
   const filtered = useMemo(() => {
     return targets.filter((t) => {
       if (filter !== 'all' && t.status !== filter) return false;
+      if (listFilter !== 'all' && (t.list_name || 'Black Business Directories') !== listFilter)
+        return false;
       if (search) {
         const q = search.toLowerCase();
         return (
@@ -117,7 +127,7 @@ const AdminOutreachCRMInner: React.FC = () => {
       }
       return true;
     });
-  }, [targets, filter, search]);
+  }, [targets, filter, listFilter, search]);
 
   const activeTarget = targets.find((t) => t.id === activeTargetId) || null;
 
@@ -212,6 +222,36 @@ const AdminOutreachCRMInner: React.FC = () => {
         <PartnershipLetterGenerator />
 
 
+
+        {/* Lists */}
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-sm text-blue-200/60 mr-1">Lists:</span>
+          <Button
+            size="sm"
+            variant={listFilter === 'all' ? 'default' : 'outline'}
+            onClick={() => setListFilter('all')}
+            className={listFilter === 'all' ? 'bg-mansagold text-slate-900 font-semibold hover:bg-amber-400' : ''}
+          >
+            All ({targets.length})
+          </Button>
+          {lists.map((name) => {
+            const count = targets.filter(
+              (t) => (t.list_name || 'Black Business Directories') === name
+            ).length;
+            const active = listFilter === name;
+            return (
+              <Button
+                key={name}
+                size="sm"
+                variant={active ? 'default' : 'outline'}
+                onClick={() => setListFilter(active ? 'all' : name)}
+                className={active ? 'bg-mansagold text-slate-900 font-semibold hover:bg-amber-400' : ''}
+              >
+                {name} ({count})
+              </Button>
+            );
+          })}
+        </div>
 
         {/* Filters */}
         <div className="flex flex-wrap gap-3 items-center">
