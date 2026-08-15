@@ -32,6 +32,7 @@ import {
 import {
   Plus,
   Mail,
+  Phone,
   ExternalLink,
   Trash2,
   MessageSquarePlus,
@@ -80,6 +81,7 @@ const AdminOutreachCRMInner: React.FC = () => {
     contact_method: 'email' as OutreachChannel,
     contact_value: '',
     linkedin_url: '',
+    phone: '',
     location: '',
     notes: '',
   });
@@ -109,6 +111,7 @@ const AdminOutreachCRMInner: React.FC = () => {
         return (
           t.directory_name.toLowerCase().includes(q) ||
           (t.owner_name?.toLowerCase().includes(q) ?? false) ||
+          (t.phone?.toLowerCase().includes(q) ?? false) ||
           (t.notes?.toLowerCase().includes(q) ?? false)
         );
       }
@@ -134,6 +137,7 @@ const AdminOutreachCRMInner: React.FC = () => {
             contact_method: 'email',
             contact_value: '',
             linkedin_url: '',
+            phone: '',
             location: '',
             notes: '',
           });
@@ -141,6 +145,9 @@ const AdminOutreachCRMInner: React.FC = () => {
       }
     );
   };
+
+  const getPhone = (t: OutreachTarget) =>
+    t.phone || (t.contact_method === 'phone' ? t.contact_value : null);
 
   const buildMailto = (t: OutreachTarget) => {
     const isEmail = t.contact_method === 'email' && t.contact_value;
@@ -280,6 +287,14 @@ const AdminOutreachCRMInner: React.FC = () => {
                         {t.owner_title && (
                           <div className="text-xs text-blue-200/60">{t.owner_title}</div>
                         )}
+                        {getPhone(t) && (
+                          <a
+                            href={`tel:${getPhone(t)!.replace(/[^+\d]/g, '')}`}
+                            className="text-xs text-mansagold hover:underline inline-flex items-center gap-1"
+                          >
+                            <Phone className="h-3 w-3" /> {getPhone(t)}
+                          </a>
+                        )}
                       </TableCell>
                       <TableCell>
                         <Select
@@ -322,6 +337,13 @@ const AdminOutreachCRMInner: React.FC = () => {
                             >
                               <a href={mailto}>
                                 <Mail className="h-4 w-4 text-mansagold" />
+                              </a>
+                            </Button>
+                          )}
+                          {getPhone(t) && (
+                            <Button size="icon" variant="ghost" asChild title="Call this organization">
+                              <a href={`tel:${getPhone(t)!.replace(/[^+\d]/g, '')}`}>
+                                <Phone className="h-4 w-4 text-emerald-300" />
                               </a>
                             </Button>
                           )}
@@ -439,6 +461,14 @@ const AdminOutreachCRMInner: React.FC = () => {
                 value={form.linkedin_url}
                 onChange={(e) => setForm({ ...form, linkedin_url: e.target.value })}
                 placeholder="linkedin.com/in/…"
+              />
+            </div>
+            <div>
+              <Label>Phone</Label>
+              <Input
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                placeholder="(404) 555-0123"
               />
             </div>
             <div>
