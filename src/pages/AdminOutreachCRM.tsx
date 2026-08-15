@@ -328,6 +328,17 @@ const AdminOutreachCRMInner: React.FC = () => {
                             <ExternalLink className="h-3 w-3" /> {t.website}
                           </a>
                         )}
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {listsOf(t).map((name) => (
+                            <Badge
+                              key={name}
+                              variant="outline"
+                              className="text-[10px] text-blue-200/80 border-white/15 bg-white/5"
+                            >
+                              {name}
+                            </Badge>
+                          ))}
+                        </div>
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className="text-blue-200 border-white/20">
