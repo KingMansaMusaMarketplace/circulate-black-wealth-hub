@@ -256,6 +256,9 @@ const AdminOutreachCRMInner: React.FC = () => {
           ))}
         </div>
 
+        {/* Kayla contact finder */}
+        <OutreachContactFinder lists={lists} activeList={listFilter} />
+
         {/* Reusable partnership letter */}
         <PartnershipLetterGenerator />
 
