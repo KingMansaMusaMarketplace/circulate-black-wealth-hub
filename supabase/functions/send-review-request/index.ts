@@ -1,13 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@4.0.0";
+import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-cron-secret, x-csrf-token',
 };
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -17,8 +20,11 @@ serve(async (req) => {
   try {
     const { bookingId } = await req.json();
 
-    if (!bookingId) {
-      throw new Error('Booking ID is required');
+    if (!bookingId || typeof bookingId !== 'string' || !UUID_RE.test(bookingId)) {
+      return new Response(
+        JSON.stringify({ error: 'A valid booking ID is required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     const supabase = createClient(
@@ -42,6 +48,35 @@ serve(async (req) => {
 
     if (bookingError) throw bookingError;
     if (!booking) throw new Error('Booking not found');
+
+    // Authorization: cron secret, admin, or the business owner/manager of this booking
+    const cronSecret = Deno.env.get('CRON_SECRET');
+    const providedSecret = req.headers.get('x-cron-secret');
+    const isCron = !!cronSecret && providedSecret === cronSecret;
+
+    if (!isCron) {
+      const authResult = await requireAuth(req, corsHeaders);
+      if (!authResult.authenticated) return authErrorResponse(authResult, corsHeaders);
+
+      const { data: isAdmin } = await authResult.supabaseAuth!.rpc('is_admin_secure');
+      if (!isAdmin) {
+        const { data: owned } = await supabase
+          .from('businesses')
+          .select('id')
+          .eq('id', booking.business_id)
+          .or(`owner_id.eq.${authResult.userId},location_manager_id.eq.${authResult.userId}`)
+          .maybeSingle();
+
+        if (!owned) {
+          return new Response(
+            JSON.stringify({ error: 'Forbidden: not the business owner for this booking' }),
+            { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+      }
+    }
+
+
 
     // Only send review requests for completed bookings
     if (booking.status !== 'completed') {
