@@ -48,6 +48,8 @@ import {
   type OutreachTier,
   type OutreachChannel,
 } from '@/hooks/use-outreach-crm';
+import PartnershipLetterGenerator from '@/components/admin/PartnershipLetterGenerator';
+
 
 const STATUS_COLORS: Record<OutreachStatus, string> = {
   researched: 'bg-slate-500/20 text-slate-200 border-slate-500/40',
