@@ -28,6 +28,7 @@ export type OutreachDirection = 'outbound' | 'inbound';
 export interface OutreachTarget {
   id: string;
   directory_name: string;
+  list_name: string;
   tier: OutreachTier;
   owner_name: string | null;
   owner_title: string | null;
