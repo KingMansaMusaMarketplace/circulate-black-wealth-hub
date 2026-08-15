@@ -114,6 +114,8 @@ const AdminOutreachCRMInner: React.FC = () => {
   const filtered = useMemo(() => {
     return targets.filter((t) => {
       if (filter !== 'all' && t.status !== filter) return false;
+      if (listFilter !== 'all' && (t.list_name || 'Black Business Directories') !== listFilter)
+        return false;
       if (search) {
         const q = search.toLowerCase();
         return (
