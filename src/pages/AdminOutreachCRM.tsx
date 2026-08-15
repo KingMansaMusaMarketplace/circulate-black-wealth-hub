@@ -50,6 +50,7 @@ import {
   type OutreachChannel,
 } from '@/hooks/use-outreach-crm';
 import PartnershipLetterGenerator from '@/components/admin/PartnershipLetterGenerator';
+import OutreachContactFinder from '@/components/admin/OutreachContactFinder';
 
 
 const STATUS_COLORS: Record<OutreachStatus, string> = {
@@ -255,6 +256,9 @@ const AdminOutreachCRMInner: React.FC = () => {
             </Card>
           ))}
         </div>
+
+        {/* Kayla contact finder */}
+        <OutreachContactFinder lists={lists} activeList={listFilter} />
 
         {/* Reusable partnership letter */}
         <PartnershipLetterGenerator />
