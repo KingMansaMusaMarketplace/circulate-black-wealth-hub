@@ -27480,6 +27480,17 @@ export type Database = {
           state: string
         }[]
       }
+      list_partner_directories: {
+        Args: never
+        Returns: {
+          banner_url: string
+          description: string
+          id: string
+          logo_url: string
+          name: string
+          website: string
+        }[]
+      }
       log_activity: {
         Args: {
           activity_details?: Json
