@@ -74,16 +74,31 @@ const AdminOutreachCRMInner: React.FC = () => {
   const [listFilter, setListFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
 
-  const listsOf = (t: OutreachTarget): string[] =>
-    t.lists && t.lists.length > 0
-      ? t.lists
-      : [t.list_name || 'Black Business Directories'];
+  const tableRef = React.useRef<HTMLDivElement | null>(null);
+
+  const listsOf = (t: OutreachTarget): string[] => {
+    const raw =
+      t.lists && t.lists.length > 0 ? t.lists : [t.list_name || 'Black Business Directories'];
+    const all = [...raw, t.list_name || ''];
+    return Array.from(
+      new Set(all.map((n) => (n || '').trim()).filter(Boolean))
+    );
+  };
+
+  const matchesList = (t: OutreachTarget, name: string) =>
+    listsOf(t).some((n) => n.toLowerCase() === name.trim().toLowerCase());
 
   const lists = useMemo(() => {
     const names = new Set<string>();
     targets.forEach((t) => listsOf(t).forEach((n) => names.add(n)));
     return Array.from(names).sort();
   }, [targets]);
+
+  const selectList = (name: string) => {
+    setListFilter(name);
+    setTimeout(() => tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  };
+
 
   const [form, setForm] = useState({
     directory_name: '',
