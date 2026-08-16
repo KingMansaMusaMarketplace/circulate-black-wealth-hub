@@ -37,7 +37,7 @@ const PhotoBackfillCard: React.FC = () => {
     stopRef.current = true;
   };
 
-  const run = async () => {
+  const run = async (partnersOnly = false) => {
     setRunning(true);
     stopRef.current = false;
     setUpdated(0);
@@ -50,12 +50,18 @@ const PhotoBackfillCard: React.FC = () => {
 
     try {
       for (let i = 0; i < MAX_BATCHES && !stopRef.current; i++) {
-        const { data: batch, error: batchErr } = await supabase
+        let batchQuery = supabase
           .from('businesses')
           .select('id')
           .not('website', 'is', null)
           .neq('website', '')
-          .or(STOCK_FILTER)
+          .or(STOCK_FILTER);
+
+        if (partnersOnly) {
+          batchQuery = batchQuery.eq('category', 'Partner Directory & Chamber');
+        }
+
+        const { data: batch, error: batchErr } = await batchQuery
           .order('id', { ascending: true })
           .range(offset, offset + BATCH_SIZE - 1);
 
