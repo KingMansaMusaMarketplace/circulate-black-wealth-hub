@@ -121,14 +121,24 @@ const PhotoBackfillCard: React.FC = () => {
               <StopCircle className="h-4 w-4 mr-1" /> Stop
             </Button>
           ) : (
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={run}
-              className="border-white/10 text-white hover:bg-white/10"
-            >
-              <RefreshCw className="h-4 w-4 mr-1" /> Pull real photos
-            </Button>
+            <>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => run(false)}
+                className="border-white/10 text-white hover:bg-white/10"
+              >
+                <RefreshCw className="h-4 w-4 mr-1" /> Pull real photos
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => run(true)}
+                className="border-mansagold/40 text-mansagold hover:bg-mansagold/10"
+              >
+                <RefreshCw className="h-4 w-4 mr-1" /> Partner directories only
+              </Button>
+            </>
           )}
         </div>
       </CardHeader>
