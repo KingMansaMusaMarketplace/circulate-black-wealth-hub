@@ -1224,6 +1224,7 @@ function App() {
                           <Route path="/" element={<HomePage />} />
                           <Route path="/about-1325" element={<HomePage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
+                              <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
                         <Route path="/connect" element={<LazyConnectPage />} />
                         <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
                         <Route path="/mcp" element={<Navigate to="/connect" replace />} />
