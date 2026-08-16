@@ -134,7 +134,7 @@ const AdminOutreachCRMInner: React.FC = () => {
   const filtered = useMemo(() => {
     return targets.filter((t) => {
       if (filter !== 'all' && t.status !== filter) return false;
-      if (listFilter !== 'all' && !listsOf(t).includes(listFilter)) return false;
+      if (listFilter !== 'all' && !matchesList(t, listFilter)) return false;
       if (search) {
         const q = search.toLowerCase();
         return (
@@ -235,14 +235,14 @@ const AdminOutreachCRMInner: React.FC = () => {
             All ({targets.length})
           </Button>
           {lists.map((name) => {
-            const count = targets.filter((t) => listsOf(t).includes(name)).length;
+            const count = targets.filter((t) => matchesList(t, name)).length;
             const active = listFilter === name;
             return (
               <Button
                 key={name}
                 size="sm"
                 variant="outline"
-                onClick={() => setListFilter(active ? 'all' : name)}
+                onClick={() => selectList(active ? 'all' : name)}
                 className={
                   active
                     ? 'bg-mansagold text-slate-900 font-semibold border-mansagold hover:bg-amber-400 hover:text-slate-900'
@@ -281,13 +281,23 @@ const AdminOutreachCRMInner: React.FC = () => {
 
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-3 items-center">
+        <div ref={tableRef} className="flex flex-wrap gap-3 items-center scroll-mt-24">
           <Input
             placeholder="Search directory, owner, notes…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="max-w-sm bg-slate-800/60 border-white/10 text-white"
           />
+          {listFilter !== 'all' && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setListFilter('all')}
+              className="bg-mansagold text-slate-900 font-semibold border-mansagold hover:bg-amber-400 hover:text-slate-900"
+            >
+              List: {listFilter} — show all
+            </Button>
+          )}
           {filter !== 'all' && (
             <Button variant="outline" size="sm" onClick={() => setFilter('all')}>
               Clear filter: {STATUS_LABELS[filter]}
