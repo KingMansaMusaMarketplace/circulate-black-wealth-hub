@@ -107,6 +107,7 @@ const DirectoryPage: React.FC = () => {
     queryFn: async () => {
       // Pinned businesses to always include in Featured Spotlight
       const PINNED_FEATURED_IDS = [
+        'f2751beb-d2f7-4990-93b4-606caaeaf1d5', // Kipani's Kloset
         '63b178aa-f944-4b93-83ba-5ebdb8a5b0eb', // Kimi Ellen, CPA
         '37173eb6-c8e7-46a8-be27-83a671360e85', // Martha's Vineyard Comedy Fest
         'ba298158-c785-48bf-87f2-830ae35f96a6', // DropTV (drop.tv)
