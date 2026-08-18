@@ -111,6 +111,7 @@ const PaymentConfirmationPage: React.FC = () => {
 
       setStatus(data as CheckoutStatus);
       if (data?.paid) {
+        await claimFoundingSlot();
         await refreshSubscription().catch(() => undefined);
       }
       return Boolean(data?.paid && data?.access_unlocked);
@@ -118,7 +119,8 @@ const PaymentConfirmationPage: React.FC = () => {
       console.warn('[PaymentConfirmation] status check failed', err);
       return false;
     }
-  }, [sessionId, refreshSubscription]);
+  }, [sessionId, refreshSubscription, claimFoundingSlot]);
+
 
   useEffect(() => {
     if (authLoading || !user) return;
