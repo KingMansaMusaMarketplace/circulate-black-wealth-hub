@@ -208,7 +208,21 @@ const PaymentConfirmationPage: React.FC = () => {
           </CardHeader>
 
           <CardContent className="space-y-6">
+            {foundingSlot !== null && (
+              <div className="rounded-xl border border-amber-400/40 bg-gradient-to-r from-amber-400/15 to-yellow-500/5 p-4 text-center">
+                <p className="text-xs uppercase tracking-widest text-amber-300/80">
+                  Founders' Lock secured
+                </p>
+                <p className="text-2xl font-semibold text-white mt-1">
+                  Founding Member #{foundingSlot}
+                </p>
+                <p className="text-xs text-slate-300 mt-1">
+                  Your $149/mo rate is locked in for life.
+                </p>
+              </div>
+            )}
             {/* The amount that must clear */}
+
             <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 p-5 text-center">
               <p className="text-xs uppercase tracking-widest text-amber-300/80 mb-2">
                 Amount that must clear
