@@ -144,6 +144,7 @@ const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyErrorPage = lazy(() => import('@/pages/ErrorPage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
+const LazyPaymentConfirmationPage = lazy(() => import('@/pages/PaymentConfirmationPage'));
 const LazyFoundingSuccessPage = lazy(() => import('@/pages/FoundingSuccessPage'));
 const LazyListingSuccessPage = lazy(() => import('@/pages/ListingSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
@@ -864,6 +865,7 @@ function App() {
                               }/>
                               <Route path="/widget-demo" element={<LazyWidgetDemoPage />} />
                               <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
+                              <Route path="/payment-confirmation" element={<LazyPaymentConfirmationPage />} />
                               <Route path="/payment-success" element={
                                 <IOSProtectedRoute>
                                   <LazyPaymentSuccessPage />
@@ -1505,7 +1507,8 @@ function App() {
                         <Route path="/enterprise/:slug" element={<LazyEnterpriseOrgLandingPage />} />
                         <Route path="/enterprise/:slug/dashboard" element={<LazyEnterpriseOrgDashboardPage />} />
                         <Route path="/password-reset" element={<LazyPasswordResetRequestPage />} />
-                        <Route path="/payment-success" element={
+                        <Route path="/payment-confirmation" element={<LazyPaymentConfirmationPage />} />
+                              <Route path="/payment-success" element={
                           <IOSProtectedRoute>
                             <LazyPaymentSuccessPage />
                           </IOSProtectedRoute>

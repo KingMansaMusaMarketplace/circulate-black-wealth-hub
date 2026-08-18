@@ -303,7 +303,7 @@ serve(async (req) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "subscription",
-      success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}&user_type=${userType}`,
+      success_url: `${req.headers.get("origin")}/payment-confirmation?session_id={CHECKOUT_SESSION_ID}&user_type=${userType}`,
       cancel_url: `${req.headers.get("origin")}/${userType === 'corporate' ? 'corporate-sponsorship' : 'signup'}`,
       metadata: {
         userType,

@@ -57,7 +57,7 @@ serve(async (req) => {
       payment_method_types: ["card"],
       line_items: [{ price: REGULAR_PRO_PRICE_ID, quantity: 1 }],
       mode: "subscription",
-      success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&tier=pro`,
+      success_url: `${origin}/payment-confirmation?session_id={CHECKOUT_SESSION_ID}&tier=pro`,
       cancel_url: `${origin}/pricing`,
       metadata: { user_id: user.id, tier: "kayla_pro", userType: "business", email: user.email },
       subscription_data: {
