@@ -114,7 +114,7 @@ serve(async (req) => {
       payment_method_types: ["card"],
       line_items: [{ price: FOUNDING_PRICE_ID, quantity: 1 }],
       mode: "subscription",
-      success_url: `${origin}/founding-success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/payment-confirmation?session_id={CHECKOUT_SESSION_ID}&tier=founding`,
       cancel_url: `${origin}/pricing`,
       metadata: {
         user_id: user.id,

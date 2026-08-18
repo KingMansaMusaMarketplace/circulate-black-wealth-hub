@@ -60,10 +60,42 @@ const PaymentConfirmationPage: React.FC = () => {
   const { refreshSubscription } = useSubscription();
 
   const sessionId = searchParams.get('session_id');
+  const isFounding = searchParams.get('tier') === 'founding';
   const [status, setStatus] = useState<CheckoutStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [foundingSlot, setFoundingSlot] = useState<number | null>(null);
+  const foundingClaimed = useRef(false);
   const stopped = useRef(false);
+
+  // Founders' Lock: claim the numbered slot once the payment has cleared.
+  const claimFoundingSlot = useCallback(async () => {
+    if (!isFounding || !sessionId || foundingClaimed.current) return;
+    foundingClaimed.current = true;
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+      if (!accessToken) {
+        foundingClaimed.current = false;
+        return;
+      }
+      const { data, error: fnError } = await supabase.functions.invoke(
+        'verify-founding-checkout',
+        {
+          body: { session_id: sessionId },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
+      );
+      if (!fnError && data?.success) {
+        setFoundingSlot(data.slot_number ?? null);
+      } else {
+        foundingClaimed.current = false;
+      }
+    } catch {
+      foundingClaimed.current = false;
+    }
+  }, [isFounding, sessionId]);
+
 
   const fetchStatus = useCallback(async () => {
     if (!sessionId) {
@@ -79,6 +111,7 @@ const PaymentConfirmationPage: React.FC = () => {
 
       setStatus(data as CheckoutStatus);
       if (data?.paid) {
+        await claimFoundingSlot();
         await refreshSubscription().catch(() => undefined);
       }
       return Boolean(data?.paid && data?.access_unlocked);
@@ -86,7 +119,8 @@ const PaymentConfirmationPage: React.FC = () => {
       console.warn('[PaymentConfirmation] status check failed', err);
       return false;
     }
-  }, [sessionId, refreshSubscription]);
+  }, [sessionId, refreshSubscription, claimFoundingSlot]);
+
 
   useEffect(() => {
     if (authLoading || !user) return;
@@ -174,7 +208,21 @@ const PaymentConfirmationPage: React.FC = () => {
           </CardHeader>
 
           <CardContent className="space-y-6">
+            {foundingSlot !== null && (
+              <div className="rounded-xl border border-amber-400/40 bg-gradient-to-r from-amber-400/15 to-yellow-500/5 p-4 text-center">
+                <p className="text-xs uppercase tracking-widest text-amber-300/80">
+                  Founders' Lock secured
+                </p>
+                <p className="text-2xl font-semibold text-white mt-1">
+                  Founding Member #{foundingSlot}
+                </p>
+                <p className="text-xs text-slate-300 mt-1">
+                  Your $149/mo rate is locked in for life.
+                </p>
+              </div>
+            )}
             {/* The amount that must clear */}
+
             <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 p-5 text-center">
               <p className="text-xs uppercase tracking-widest text-amber-300/80 mb-2">
                 Amount that must clear
