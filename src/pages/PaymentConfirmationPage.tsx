@@ -60,10 +60,42 @@ const PaymentConfirmationPage: React.FC = () => {
   const { refreshSubscription } = useSubscription();
 
   const sessionId = searchParams.get('session_id');
+  const isFounding = searchParams.get('tier') === 'founding';
   const [status, setStatus] = useState<CheckoutStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [foundingSlot, setFoundingSlot] = useState<number | null>(null);
+  const foundingClaimed = useRef(false);
   const stopped = useRef(false);
+
+  // Founders' Lock: claim the numbered slot once the payment has cleared.
+  const claimFoundingSlot = useCallback(async () => {
+    if (!isFounding || !sessionId || foundingClaimed.current) return;
+    foundingClaimed.current = true;
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+      if (!accessToken) {
+        foundingClaimed.current = false;
+        return;
+      }
+      const { data, error: fnError } = await supabase.functions.invoke(
+        'verify-founding-checkout',
+        {
+          body: { session_id: sessionId },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
+      );
+      if (!fnError && data?.success) {
+        setFoundingSlot(data.slot_number ?? null);
+      } else {
+        foundingClaimed.current = false;
+      }
+    } catch {
+      foundingClaimed.current = false;
+    }
+  }, [isFounding, sessionId]);
+
 
   const fetchStatus = useCallback(async () => {
     if (!sessionId) {
