@@ -119,13 +119,17 @@ serve(async (req) => {
       metadata: {
         user_id: user.id,
         business_id: businessId ?? "",
-        tier: "founding_pro",
+        tier: "kayla_pro_founders",
+        userType: "business",
+        email: user.email,
       },
       subscription_data: {
         metadata: {
           user_id: user.id,
           business_id: businessId ?? "",
-          tier: "founding_pro",
+          tier: "kayla_pro_founders",
+        userType: "business",
+        email: user.email,
         },
       },
     });
