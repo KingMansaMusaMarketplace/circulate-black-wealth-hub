@@ -26,15 +26,29 @@ serve(async (req) => {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("No authorization header");
 
-    const supabaseAnon = createClient(
+    const supabaseAuthClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { persistSession: false } },
     );
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userError } =
-      await supabaseAnon.auth.getUser(token);
-    if (userError || !userData.user) throw new Error("Not authenticated");
+      await supabaseAuthClient.auth.getUser(token);
+    if (userError || !userData.user) {
+      log("Auth failed", { userError: userError?.message });
+      return new Response(
+        JSON.stringify({
+          error:
+            "We couldn't confirm your sign-in. Please sign in again and reload this page — your payment is safe.",
+        }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
+    }
     const user = userData.user;
+
 
     const body = await req.json().catch(() => ({}));
     const sessionId = body?.session_id as string | undefined;

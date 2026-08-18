@@ -16,26 +16,64 @@ const FoundingSuccessPage = () => {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
+    let cancelled = false;
+
+    const waitForSession = async () => {
+      for (let i = 0; i < 20; i++) {
+        const { data } = await supabase.auth.getSession();
+        if (data.session?.access_token) return data.session.access_token;
+        await new Promise((r) => setTimeout(r, 500));
+      }
+      return null;
+    };
+
     const verify = async () => {
       if (!sessionId) {
         setStatus("error");
         setErrorMsg("Missing session id.");
         return;
       }
-      const { data, error } = await supabase.functions.invoke(
-        "verify-founding-checkout",
-        { body: { session_id: sessionId } },
-      );
-      if (error || data?.error) {
+
+      const accessToken = await waitForSession();
+      if (cancelled) return;
+      if (!accessToken) {
         setStatus("error");
-        setErrorMsg(data?.error ?? error?.message ?? "Verification failed");
+        setErrorMsg(
+          "We couldn't confirm you're signed in. Please sign in and reload this page — your payment is safe.",
+        );
         return;
       }
-      setSlot(data.slot_number);
-      setStatus("success");
+
+      // Retry a few times: Stripe can take a moment to finalize the subscription.
+      let lastError = "Verification failed";
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const { data, error } = await supabase.functions.invoke(
+          "verify-founding-checkout",
+          {
+            body: { session_id: sessionId },
+            headers: { Authorization: `Bearer ${accessToken}` },
+          },
+        );
+        if (cancelled) return;
+        if (!error && data?.success) {
+          setSlot(data.slot_number);
+          setStatus("success");
+          return;
+        }
+        lastError = data?.error ?? error?.message ?? lastError;
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+
+      setStatus("error");
+      setErrorMsg(lastError);
     };
+
     verify();
+    return () => {
+      cancelled = true;
+    };
   }, [sessionId]);
+
 
   return (
     <div className="container mx-auto flex min-h-[70vh] items-center justify-center px-4 py-12">
