@@ -59,9 +59,9 @@ serve(async (req) => {
       mode: "subscription",
       success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&tier=pro`,
       cancel_url: `${origin}/pricing`,
-      metadata: { user_id: user.id, tier: "pro" },
+      metadata: { user_id: user.id, tier: "kayla_pro", userType: "business", email: user.email },
       subscription_data: {
-        metadata: { user_id: user.id, tier: "pro" },
+        metadata: { user_id: user.id, tier: "kayla_pro", userType: "business", email: user.email },
       },
     });
 
