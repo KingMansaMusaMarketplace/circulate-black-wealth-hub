@@ -569,7 +569,7 @@ function App() {
                               <Route errorElement={<RouteErrorBoundary />}>
                               {/* Home — Kayla-led front door is the landing page */}
                               <Route path="/" element={<HomePage />} />
-                              <Route path="/about-1325" element={<HomePage />} />
+                              <Route path="/about-1325" element={<LazyAboutPage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
@@ -1224,7 +1224,7 @@ function App() {
                           <Routes>
                           {/* Home — Kayla-led front door is the landing page */}
                           <Route path="/" element={<HomePage />} />
-                          <Route path="/about-1325" element={<HomePage />} />
+                          <Route path="/about-1325" element={<LazyAboutPage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
                         <Route path="/connect" element={<LazyConnectPage />} />
