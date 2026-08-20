@@ -1,5 +1,5 @@
 /// <reference path="../deno.d.ts" />
-import { defineTool } from "@lovable.dev/mcp-js";
+import { defineTool, type ToolContext } from "@lovable.dev/mcp-js";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
@@ -27,12 +27,18 @@ export default defineTool({
     idempotentHint: true,
     openWorldHint: false,
   },
-  handler: async ({ business_id, limit }) => {
+  handler: async ({ business_id, limit }, ctx: ToolContext) => {
+    const token = ctx?.isAuthenticated?.() ? ctx.getToken() : null;
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ??
         Deno.env.get("SUPABASE_ANON_KEY")!,
-      { auth: { persistSession: false, autoRefreshToken: false } },
+      {
+        ...(token
+          ? { global: { headers: { Authorization: `Bearer ${token}` } } }
+          : {}),
+        auth: { persistSession: false, autoRefreshToken: false },
+      },
     );
 
     let q = supabase
