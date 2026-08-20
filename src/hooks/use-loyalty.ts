@@ -73,15 +73,15 @@ export const useLoyalty = () => {
         .from('qr_scans')
         .select(`
           id,
-          scanned_at,
-          points_earned,
+          scan_date,
+          points_awarded,
           business_id,
           businesses (
             business_name
           )
         `)
         .eq('customer_id', user.id)
-        .order('scanned_at', { ascending: false })
+        .order('scan_date', { ascending: false })
         .limit(20);
 
       if (scansError) {
