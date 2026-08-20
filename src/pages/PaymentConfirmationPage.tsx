@@ -12,8 +12,11 @@ interface CheckoutStatus {
   paid: boolean;
   payment_status: string;
   amount_total: number;
+  recurring_amount?: number | null;
+  is_trial?: boolean;
   currency: string;
   interval: string | null;
+
   tier: string | null;
   subscription_status: string | null;
   current_period_end: string | null;
