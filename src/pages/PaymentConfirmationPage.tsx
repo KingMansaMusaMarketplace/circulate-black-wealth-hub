@@ -271,7 +271,12 @@ const PaymentConfirmationPage: React.FC = () => {
                   detail: status?.customer_email ? `Receipt goes to ${status.customer_email}` : '',
                 },
                 {
-                  label: amount ? `${amount} clears your card issuer` : 'Payment clears your card issuer',
+                  label: isTrial
+                    ? 'Your card is verified (no charge today)'
+                    : amount
+                      ? `${amount} clears your card issuer`
+                      : 'Payment clears your card issuer',
+
                   done: paid,
                   detail: paid
                     ? 'Cleared'
