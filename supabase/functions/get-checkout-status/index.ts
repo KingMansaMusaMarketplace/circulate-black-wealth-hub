@@ -127,6 +127,9 @@ serve(async (req) => {
       currency: (session.currency ?? "usd").toUpperCase(),
       mode: session.mode,
       interval,
+      recurring_amount: recurringAmount,
+      is_trial: subscriptionStatus === "trialing" || !!trialEnd,
+
       tier: (session.metadata?.tier as string | undefined) ?? null,
       subscription_status: subscriptionStatus,
       current_period_end: currentPeriodEnd,
