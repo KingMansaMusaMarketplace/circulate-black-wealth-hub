@@ -146,12 +146,17 @@ const PaymentConfirmationPage: React.FC = () => {
 
   const paid = !!status?.paid;
   const unlocked = paid && !!status?.access_unlocked;
-  const amount = status ? formatMoney(status.amount_total, status.currency) : null;
+  const isTrial = !!status?.is_trial;
+  const planPrice =
+    status && status.recurring_amount ? formatMoney(status.recurring_amount, status.currency) : null;
+  const dueNow = status ? formatMoney(status.amount_total, status.currency) : null;
+  const amount = isTrial ? planPrice ?? dueNow : dueNow;
   const planName = status?.tier ? TIER_LABELS[status.tier] ?? 'your plan' : 'your plan';
   const intervalLabel =
     status?.interval === 'year' ? 'per year' : status?.interval === 'month' ? 'per month' : '';
   const renewDate = formatDate(status?.current_period_end ?? null);
   const trialDate = formatDate(status?.trial_end ?? null);
+
 
   if (!authLoading && !user) {
     return (
