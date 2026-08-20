@@ -25116,6 +25116,30 @@ export type Database = {
         }
         Relationships: []
       }
+      zip_centroids: {
+        Row: {
+          city: string | null
+          lat: number
+          lon: number
+          state: string | null
+          zip: string
+        }
+        Insert: {
+          city?: string | null
+          lat: number
+          lon: number
+          state?: string | null
+          zip: string
+        }
+        Update: {
+          city?: string | null
+          lat?: number
+          lon?: number
+          state?: string | null
+          zip?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       activity_log_safe: {
