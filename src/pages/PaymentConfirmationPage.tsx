@@ -12,8 +12,11 @@ interface CheckoutStatus {
   paid: boolean;
   payment_status: string;
   amount_total: number;
+  recurring_amount?: number | null;
+  is_trial?: boolean;
   currency: string;
   interval: string | null;
+
   tier: string | null;
   subscription_status: string | null;
   current_period_end: string | null;
@@ -143,12 +146,17 @@ const PaymentConfirmationPage: React.FC = () => {
 
   const paid = !!status?.paid;
   const unlocked = paid && !!status?.access_unlocked;
-  const amount = status ? formatMoney(status.amount_total, status.currency) : null;
+  const isTrial = !!status?.is_trial;
+  const planPrice =
+    status && status.recurring_amount ? formatMoney(status.recurring_amount, status.currency) : null;
+  const dueNow = status ? formatMoney(status.amount_total, status.currency) : null;
+  const amount = isTrial ? planPrice ?? dueNow : dueNow;
   const planName = status?.tier ? TIER_LABELS[status.tier] ?? 'your plan' : 'your plan';
   const intervalLabel =
     status?.interval === 'year' ? 'per year' : status?.interval === 'month' ? 'per month' : '';
   const renewDate = formatDate(status?.current_period_end ?? null);
   const trialDate = formatDate(status?.trial_end ?? null);
+
 
   if (!authLoading && !user) {
     return (
@@ -225,7 +233,7 @@ const PaymentConfirmationPage: React.FC = () => {
 
             <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 p-5 text-center">
               <p className="text-xs uppercase tracking-widest text-amber-300/80 mb-2">
-                Amount that must clear
+                {isTrial ? 'Your plan price after the free trial' : 'Amount that must clear'}
               </p>
               <p className="text-4xl font-semibold text-white">
                 {amount ?? <Loader2 className="h-7 w-7 animate-spin text-amber-400 mx-auto" />}
@@ -237,9 +245,21 @@ const PaymentConfirmationPage: React.FC = () => {
                 </p>
               )}
               <p className="text-xs text-slate-400 mt-3">
-                Nothing else is charged today. Your access unlocks only after this exact amount
-                clears your bank or card issuer.
+                {isTrial ? (
+                  <>
+                    You pay <span className="text-white">{dueNow ?? '$0.00'}</span> today — your free
+                    trial starts as soon as your card is verified. The amount above is what bills
+                    when the trial ends{trialDate ? ` on ${trialDate}` : ''}, and you can cancel
+                    before then at no charge.
+                  </>
+                ) : (
+                  <>
+                    Nothing else is charged today. Your access unlocks only after this exact amount
+                    clears your bank or card issuer.
+                  </>
+                )}
               </p>
+
             </div>
 
             {/* Step tracker */}
@@ -251,7 +271,12 @@ const PaymentConfirmationPage: React.FC = () => {
                   detail: status?.customer_email ? `Receipt goes to ${status.customer_email}` : '',
                 },
                 {
-                  label: amount ? `${amount} clears your card issuer` : 'Payment clears your card issuer',
+                  label: isTrial
+                    ? 'Your card is verified (no charge today)'
+                    : amount
+                      ? `${amount} clears your card issuer`
+                      : 'Payment clears your card issuer',
+
                   done: paid,
                   detail: paid
                     ? 'Cleared'
@@ -296,7 +321,7 @@ const PaymentConfirmationPage: React.FC = () => {
                 )}
                 {renewDate && (
                   <div className="flex justify-between text-slate-300">
-                    <span>Next charge of {amount}</span>
+                    <span>{isTrial ? 'First charge of' : 'Next charge of'} {planPrice ?? amount}</span>
                     <span className="text-white">{renewDate}</span>
                   </div>
                 )}

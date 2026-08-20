@@ -69,6 +69,7 @@ serve(async (req) => {
     let currentPeriodEnd: string | null = null;
     let trialEnd: string | null = null;
     let interval: string | null = null;
+    let recurringAmount: number | null = null;
     const subscriptionId =
       typeof session.subscription === "string"
         ? session.subscription
@@ -82,7 +83,27 @@ serve(async (req) => {
         : null;
       trialEnd = sub.trial_end ? new Date(sub.trial_end * 1000).toISOString() : null;
       interval = sub.items.data[0]?.price?.recurring?.interval ?? null;
+      recurringAmount = sub.items.data.reduce((total, item) => {
+        const unit = item.price?.unit_amount ?? 0;
+        return total + unit * (item.quantity ?? 1);
+      }, 0) / 100;
     }
+
+    // Fall back to the session line items when the subscription is not readable yet
+    if (recurringAmount === null || recurringAmount === 0) {
+      try {
+        const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 20 });
+        const fromLines = lineItems.data.reduce((total, li) => {
+          const unit = li.price?.unit_amount ?? 0;
+          return total + unit * (li.quantity ?? 1);
+        }, 0) / 100;
+        if (fromLines > 0) recurringAmount = fromLines;
+        if (!interval) interval = lineItems.data[0]?.price?.recurring?.interval ?? null;
+      } catch (_e) {
+        // non-fatal
+      }
+    }
+
 
     // Has our own database recorded them as subscribed yet?
     let accessUnlocked = false;
@@ -106,6 +127,9 @@ serve(async (req) => {
       currency: (session.currency ?? "usd").toUpperCase(),
       mode: session.mode,
       interval,
+      recurring_amount: recurringAmount,
+      is_trial: subscriptionStatus === "trialing" || !!trialEnd,
+
       tier: (session.metadata?.tier as string | undefined) ?? null,
       subscription_status: subscriptionStatus,
       current_period_end: currentPeriodEnd,
