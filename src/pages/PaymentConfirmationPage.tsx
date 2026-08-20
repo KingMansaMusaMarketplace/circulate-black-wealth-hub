@@ -233,7 +233,7 @@ const PaymentConfirmationPage: React.FC = () => {
 
             <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 p-5 text-center">
               <p className="text-xs uppercase tracking-widest text-amber-300/80 mb-2">
-                Amount that must clear
+                {isTrial ? 'Your plan price after the free trial' : 'Amount that must clear'}
               </p>
               <p className="text-4xl font-semibold text-white">
                 {amount ?? <Loader2 className="h-7 w-7 animate-spin text-amber-400 mx-auto" />}
@@ -245,9 +245,21 @@ const PaymentConfirmationPage: React.FC = () => {
                 </p>
               )}
               <p className="text-xs text-slate-400 mt-3">
-                Nothing else is charged today. Your access unlocks only after this exact amount
-                clears your bank or card issuer.
+                {isTrial ? (
+                  <>
+                    You pay <span className="text-white">{dueNow ?? '$0.00'}</span> today — your free
+                    trial starts as soon as your card is verified. The amount above is what bills
+                    when the trial ends{trialDate ? ` on ${trialDate}` : ''}, and you can cancel
+                    before then at no charge.
+                  </>
+                ) : (
+                  <>
+                    Nothing else is charged today. Your access unlocks only after this exact amount
+                    clears your bank or card issuer.
+                  </>
+                )}
               </p>
+
             </div>
 
             {/* Step tracker */}
