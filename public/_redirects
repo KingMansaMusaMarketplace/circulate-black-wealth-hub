@@ -2,4 +2,11 @@
 /businesses-sitemap.xml    https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/businesses-sitemap    200
 /landing-sitemap.xml       https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/landing-sitemap    200
 /images-sitemap.xml        https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/images-sitemap    200
+
+# Branded MCP endpoint: https://1325.ai/mcp -> Supabase edge function
+/.well-known/oauth-protected-resource/mcp    https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/mcp/.well-known/oauth-protected-resource    200
+/.well-known/oauth-protected-resource        https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/mcp/.well-known/oauth-protected-resource    200
+/mcp/*    https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/mcp/:splat    200
+/mcp      https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/mcp    200
+
 /*    /index.html   200
