@@ -321,7 +321,7 @@ const PaymentConfirmationPage: React.FC = () => {
                 )}
                 {renewDate && (
                   <div className="flex justify-between text-slate-300">
-                    <span>Next charge of {amount}</span>
+                    <span>{isTrial ? 'First charge of' : 'Next charge of'} {planPrice ?? amount}</span>
                     <span className="text-white">{renewDate}</span>
                   </div>
                 )}
