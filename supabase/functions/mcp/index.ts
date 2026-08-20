@@ -400,8 +400,8 @@ var get_my_recent_scans_default = defineTool5({
     }
     const supabase = supabaseForUser2(ctx);
     const { data, error } = await supabase.from("qr_scans").select(
-      "id, business_id, points_awarded, scanned_at, businesses(business_name)"
-    ).eq("customer_id", ctx.getUserId()).order("scanned_at", { ascending: false }).limit(limit ?? 20);
+      "id, business_id, points_awarded, scan_date, businesses(business_name)"
+    ).eq("customer_id", ctx.getUserId()).order("scan_date", { ascending: false }).limit(limit ?? 20);
     if (error) {
       return {
         content: [
@@ -421,7 +421,7 @@ var get_my_recent_scans_default = defineTool5({
           text: rows.length ? `Last ${rows.length} scan(s):
 
 ${rows.map(
-            (r) => `\u2022 ${r.businesses?.business_name ?? r.business_id} \u2014 ${r.points_awarded ?? 0} pts (${new Date(r.scanned_at).toLocaleString()})`
+            (r) => `\u2022 ${r.businesses?.business_name ?? r.business_id} \u2014 ${r.points_awarded ?? 0} pts (${new Date(r.scan_date).toLocaleString()})`
           ).join("\n")}` : "No QR scans yet."
         }
       ],

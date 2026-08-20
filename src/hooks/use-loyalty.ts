@@ -73,15 +73,15 @@ export const useLoyalty = () => {
         .from('qr_scans')
         .select(`
           id,
-          scanned_at,
-          points_earned,
+          scan_date,
+          points_awarded,
           business_id,
           businesses (
             business_name
           )
         `)
         .eq('customer_id', user.id)
-        .order('scanned_at', { ascending: false })
+        .order('scan_date', { ascending: false })
         .limit(20);
 
       if (scansError) {
@@ -118,9 +118,9 @@ export const useLoyalty = () => {
         scansData.forEach(scan => {
           history.push({
             id: `scan-${scan.id}`,
-            points: scan.points_earned || 0,
+            points: scan.points_awarded || 0,
             type: 'earned',
-            date: scan.scanned_at,
+            date: scan.scan_date,
             business_name: (scan.businesses as any)?.business_name || 'Unknown Business'
           });
         });
