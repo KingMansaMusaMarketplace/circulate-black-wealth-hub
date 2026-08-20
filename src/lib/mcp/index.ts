@@ -1,5 +1,6 @@
 import { auth, defineMcp } from "@lovable.dev/mcp-js";
 import searchDirectoryTool from "./tools/search-directory";
+import listCategoriesTool from "./tools/list-categories";
 import getBusinessTool from "./tools/get-business";
 import listRewardsTool from "./tools/list-rewards";
 import getMyPointsBalanceTool from "./tools/get-my-points-balance";
