@@ -7,7 +7,7 @@ export default defineTool({
   name: "list_categories",
   title: "List 1325.AI business categories",
   description:
-    "List the business categories available in the 1325.AI directory, with how many verified Black-owned businesses are in each. Call this FIRST when the user asks something broad like 'what kinds of Black-owned businesses are near me' or when you are unsure which category value to pass to search_directory. Optionally scope the counts to one city or state.",
+    "List the business categories present in the 1325.AI directory with the number of verified businesses in each. Useful for discovering valid category values to pass to search_directory. Counts can be scoped to one city or state.",
   inputSchema: {
     city: z
       .string()
