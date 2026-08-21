@@ -19,15 +19,32 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
   const signature = req.headers.get("stripe-signature");
-  const webhookSecret = Deno.env.get("STRIPE_CORPORATE_WEBHOOK_SECRET");
+  const candidateSecrets = [
+    Deno.env.get("STRIPE_CORPORATE_WEBHOOK_SECRET"),
+    Deno.env.get("STRIPE_WEBHOOK_SECRET"),
+  ].filter((s): s is string => !!s && s.trim().length > 0);
 
-  if (!signature || !webhookSecret) {
+  if (!signature || candidateSecrets.length === 0) {
     return new Response("Missing signature or webhook secret", { status: 400 });
   }
 
   try {
     const body = await req.text();
-    const event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
+    let event: Stripe.Event | null = null;
+    let lastVerifyError = "";
+    for (const secret of candidateSecrets) {
+      try {
+        event = await stripe.webhooks.constructEventAsync(body, signature, secret);
+        break;
+      } catch (e) {
+        lastVerifyError = e instanceof Error ? e.message : String(e);
+      }
+    }
+    if (!event) {
+      console.error(`Signature verification failed: ${lastVerifyError}`);
+      return new Response(`Signature verification failed: ${lastVerifyError}`, { status: 400 });
+    }
+
 
     console.log("Processing webhook event:", event.type);
 
