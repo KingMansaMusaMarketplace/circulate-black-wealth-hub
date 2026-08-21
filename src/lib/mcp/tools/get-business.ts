@@ -15,7 +15,6 @@ export default defineTool({
       .describe("The UUID of the business (returned by search_directory)."),
   },
   annotations: {
-    title: "Get 1325.AI business details",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,

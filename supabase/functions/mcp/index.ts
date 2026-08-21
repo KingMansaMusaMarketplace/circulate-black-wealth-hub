@@ -37,7 +37,6 @@ var search_directory_default = defineTool({
     limit: z.number().int().min(1).max(20).optional().describe("Max results to return (1-20). Defaults to 10.")
   },
   annotations: {
-    title: "Search 1325.AI directory",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
@@ -240,7 +239,6 @@ var list_categories_default = defineTool2({
     limit: z2.number().int().min(1).max(60).optional().describe("Max categories to return (1-60). Defaults to 30.")
   },
   annotations: {
-    title: "List 1325.AI business categories",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
@@ -300,7 +298,6 @@ var get_business_default = defineTool3({
     business_id: z3.string().uuid().describe("The UUID of the business (returned by search_directory).")
   },
   annotations: {
-    title: "Get 1325.AI business details",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
@@ -398,7 +395,6 @@ var list_rewards_default = defineTool4({
     limit: z4.number().int().min(1).max(50).optional().describe("Max rewards to return (1-50). Defaults to 20.")
   },
   annotations: {
-    title: "List loyalty rewards",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
@@ -462,7 +458,6 @@ var get_my_points_balance_default = defineTool5({
   description: "Return the signed-in 1325.AI user's total loyalty points and per-business balances. Requires the caller to be signed in.",
   inputSchema: {},
   annotations: {
-    title: "Get my loyalty points",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
@@ -537,7 +532,6 @@ var get_my_recent_scans_default = defineTool6({
     limit: z5.number().int().min(1).max(50).optional().describe("Max scans to return (1-50). Defaults to 20.")
   },
   annotations: {
-    title: "Get my recent QR scans",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
