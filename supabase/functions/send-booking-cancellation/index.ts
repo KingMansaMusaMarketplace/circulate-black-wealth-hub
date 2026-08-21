@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
+import { requireAuth, isServiceRoleCaller, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -32,7 +33,7 @@ const handler = async (req: Request): Promise<Response> => {
       .from('bookings')
       .select(`
         *,
-        business:businesses(business_name, phone, email),
+        business:businesses(business_name, phone, email, owner_id),
         service:business_services!service_id(name)
       `)
       .eq('id', bookingId)
@@ -40,6 +41,23 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (bookingError || !booking) {
       throw new Error(`Booking not found: ${bookingError?.message}`);
+    }
+
+    // Only the booking's customer, the business owner, an admin, or an internal
+    // service call may trigger this email.
+    if (!isServiceRoleCaller(req)) {
+      const auth = await requireAuth(req, corsHeaders);
+      if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
+      const { data: isAdmin } = await (auth as any).supabaseAuth.rpc('is_admin_secure');
+      const isCustomer = booking.customer_id && booking.customer_id === auth.userId;
+      const isOwner = booking.business?.owner_id && booking.business.owner_id === auth.userId;
+      if (!isAdmin && !isCustomer && !isOwner) {
+        return new Response(
+          JSON.stringify({ error: 'Forbidden' }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
     }
 
     const bookingDate = new Date(booking.booking_date);

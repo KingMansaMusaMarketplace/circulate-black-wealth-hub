@@ -97,7 +97,25 @@ const handler = async (req: Request): Promise<Response> => {
     );
 
     const notificationRequest: NotificationRequest = await req.json();
-    console.log('Processing notification:', notificationRequest);
+
+    // Only admins may send notifications to other people; everyone else can
+    // only send to their own account.
+    const { data: isAdmin } = await supabaseAuth.rpc('is_admin_secure');
+    if (!isAdmin) {
+      const callerEmail = (claims.user.email || '').toLowerCase();
+      const targetUserId = (notificationRequest as any).userId;
+      const targetEmail = ((notificationRequest as any).email || '').toLowerCase();
+      const selfById = targetUserId ? targetUserId === claims.user.id : false;
+      const selfByEmail = targetEmail ? targetEmail === callerEmail : false;
+      if (!selfById && !selfByEmail) {
+        return new Response(
+          JSON.stringify({ error: 'Forbidden' }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    }
+
+    console.log('Processing notification type:', notificationRequest.type);
 
     const html = generateNotificationEmailHTML({
       type: notificationRequest.type,

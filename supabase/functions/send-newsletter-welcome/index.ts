@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { isServiceRoleCaller } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -19,12 +21,39 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const { email }: NewsletterWelcomeRequest = await req.json();
+    const cleanEmail = String(email || "").trim().toLowerCase();
 
-    console.log('Sending newsletter welcome email to:', email);
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(cleanEmail)) {
+      return new Response(JSON.stringify({ error: "Invalid email" }), {
+        status: 400, headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    // Only send to addresses that just subscribed — blocks using this endpoint as a mail relay.
+    if (!isServiceRoleCaller(req)) {
+      const admin = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      ) as any;
+      const cutoff = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+      const { data: sub } = await admin
+        .from("email_subscriptions")
+        .select("id")
+        .ilike("email", cleanEmail)
+        .gte("created_at", cutoff)
+        .maybeSingle();
+      if (!sub) {
+        return new Response(JSON.stringify({ error: "No recent subscription found for this address" }), {
+          status: 403, headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+    }
+
+    console.log('Sending newsletter welcome email to:', cleanEmail);
 
     const emailResponse = await resend.emails.send({
       from: "1325.AI <newsletter@1325.ai>",
-      to: [email],
+      to: [cleanEmail],
       subject: "Welcome to 1325.AI Newsletter! 🎉",
       html: `
         <!DOCTYPE html>

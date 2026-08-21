@@ -59,9 +59,37 @@ export async function requireAdmin(req: Request, corsHeaders: Record<string, str
 }
 
 /**
- * Validate JWT + admin role OR CRON_SECRET header (for scheduled jobs).
+ * True when the caller presents the project's service-role key (server-to-server calls
+ * from other edge functions, webhooks, or pg_net jobs).
+ */
+export function isServiceRoleCaller(req: Request): boolean {
+  const authHeader = req.headers.get('Authorization') || '';
+  const token = authHeader.replace('Bearer ', '').trim();
+  const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  return !!key && token.length > 0 && token === key;
+}
+
+/**
+ * Escape untrusted text before interpolating it into email HTML.
+ */
+export function escapeHtml(value: unknown): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
+ * Validate JWT + admin role OR CRON_SECRET header (for scheduled jobs) OR service-role key.
  */
 export async function requireAdminOrCron(req: Request, corsHeaders: Record<string, string>): Promise<AuthResult> {
+  // Internal server-to-server callers
+  if (isServiceRoleCaller(req)) {
+    return { authenticated: true, userId: 'service' };
+  }
+
   // Check for cron secret first
   const cronSecret = Deno.env.get('CRON_SECRET');
   const providedSecret = req.headers.get('x-cron-secret');
@@ -72,6 +100,7 @@ export async function requireAdminOrCron(req: Request, corsHeaders: Record<strin
   // Fall back to admin JWT auth
   return requireAdmin(req, corsHeaders);
 }
+
 
 /**
  * Validate JWT + business ownership for the given businessId.

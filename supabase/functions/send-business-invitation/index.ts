@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireAuth, isServiceRoleCaller, authErrorResponse, escapeHtml } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -24,9 +25,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { invitationId, email, businessName, message, inviterName }: InvitationRequest = await req.json();
-
-    console.log("Sending business invitation to:", email);
+    const { invitationId, inviterName }: InvitationRequest = await req.json();
 
     // Create Supabase client to get invitation details
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -36,20 +35,40 @@ const handler = async (req: Request): Promise<Response> => {
     // Get the invitation token
     const { data: invitation, error: invError } = await supabase
       .from("business_invitations")
-      .select("invitation_token")
+      .select("invitation_token, invitee_email, invitee_business_name, message, inviter_user_id")
       .eq("id", invitationId)
       .single();
 
-    if (invError) {
+    if (invError || !invitation) {
       console.error("Error fetching invitation:", invError);
       throw new Error("Failed to fetch invitation details");
     }
+
+    // Only the person who created the invitation (or an internal service call) can send it.
+    if (!isServiceRoleCaller(req)) {
+      const auth = await requireAuth(req, corsHeaders);
+      if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+      if (invitation.inviter_user_id !== auth.userId) {
+        return new Response(
+          JSON.stringify({ error: "Forbidden" }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    }
+
+    // Recipient and content come from the stored invitation, never from the request body.
+    const email = invitation.invitee_email as string;
+    const businessName = invitation.invitee_business_name
+      ? escapeHtml(invitation.invitee_business_name)
+      : undefined;
+    const message = invitation.message ? escapeHtml(invitation.message) : undefined;
+    console.log("Sending business invitation to:", email);
 
     const signupUrl = `${Deno.env.get("SITE_URL") || "https://1325.ai"}/business-signup?invite=${invitation.invitation_token}`;
 
     const personalMessage = message 
       ? `<p style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; border-left: 4px solid #d4a017; margin: 20px 0;">
-          <strong>Personal message from ${inviterName || "a community member"}:</strong><br/>
+          <strong>Personal message from ${escapeHtml(inviterName || "a community member")}:</strong><br/>
           ${message}
         </p>`
       : "";

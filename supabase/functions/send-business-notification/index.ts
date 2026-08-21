@@ -55,6 +55,28 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { type, businessId, userId, recipientEmail, businessName, customerName, companyName, tier, rejectionReason }: NotificationRequest = await req.json();
 
+    // Privileged notification types are admin-only; the rest may only be sent
+    // by the signed-in user to their own address.
+    const adminOnlyTypes = ['verification_approved', 'sponsor_welcome', 'sponsor_rejected'];
+    const { data: isAdmin } = await supabaseAuth.rpc('is_admin_secure');
+
+    if (adminOnlyTypes.includes(type)) {
+      if (!isAdmin) {
+        return new Response(
+          JSON.stringify({ error: 'Forbidden' }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    } else if (!isAdmin) {
+      const callerEmail = (claims.user.email || '').toLowerCase();
+      if (userId !== claims.user.id || (recipientEmail || '').toLowerCase() !== callerEmail) {
+        return new Response(
+          JSON.stringify({ error: 'Forbidden' }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    }
+
     let subject = "";
     let htmlContent = "";
 
