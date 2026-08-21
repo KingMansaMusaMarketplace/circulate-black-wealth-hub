@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { requireAdminOrCron, authErrorResponse, escapeHtml } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -19,8 +20,19 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const auth = await requireAdminOrCron(req, corsHeaders);
+  if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
+
   try {
-    const { email, companyName, tier }: WelcomeEmailRequest = await req.json();
+    const body: WelcomeEmailRequest = await req.json();
+    const email = String(body.email || "").trim();
+    const companyName = escapeHtml(body.companyName);
+    const tier = String(body.tier || "").toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      return new Response(JSON.stringify({ error: "Invalid email" }), {
+        status: 400, headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
     console.log('Sending corporate welcome email to:', email);
 
