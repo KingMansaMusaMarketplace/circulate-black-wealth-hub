@@ -213,7 +213,7 @@ const handler = async (req: Request): Promise<Response> => {
           founding: { name: 'Founding Partner', revenueShare: '15%', flatFee: '$25' },
           premium: { name: 'Premium Partner', revenueShare: '12%', flatFee: '$20' },
           standard: { name: 'Standard Partner', revenueShare: '10%', flatFee: '$15' },
-        }[tier || 'standard'];
+        }[tier as 'founding' | 'premium' | 'standard'] ?? { name: 'Standard Partner', revenueShare: '10%', flatFee: '$15' };
 
         emailResponse = await resend.emails.send({
           from: "1325.ai Partners <partners@1325.ai>",
