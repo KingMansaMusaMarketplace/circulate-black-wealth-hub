@@ -30,6 +30,7 @@ export default defineTool({
       .describe("Max categories to return (1-60). Defaults to 30."),
   },
   annotations: {
+    title: "List 1325.AI business categories",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,

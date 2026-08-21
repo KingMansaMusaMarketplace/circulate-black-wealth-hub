@@ -30,6 +30,7 @@ export default defineTool({
       .describe("Max scans to return (1-50). Defaults to 20."),
   },
   annotations: {
+    title: "Get my recent QR scans",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,
