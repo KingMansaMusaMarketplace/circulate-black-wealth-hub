@@ -132,6 +132,19 @@ const ConnectPage: React.FC = () => {
               </Button>
               <Button
                 asChild
+                className="bg-mansagold text-black hover:bg-mansagold/90 font-semibold"
+              >
+                <a
+                  href="https://cursor.com/en/install-mcp?name=1325ai&config=eyJ1cmwiOiJodHRwczovL2Fnb2NsbnFmeWlud2p4ZG1qbm5zLnN1cGFiYXNlLmNvL2Z1bmN0aW9ucy92MS9tY3AifQ%3D%3D"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <Code className="w-4 h-4 mr-2" />
+                  Add to Cursor (1 click)
+                </a>
+              </Button>
+              <Button
+                asChild
                 variant="outline"
                 className="border-white/20 bg-white/5 hover:bg-white/10 text-white"
               >
@@ -147,8 +160,19 @@ const ConnectPage: React.FC = () => {
             </div>
             <p className="text-white/40 text-xs mt-3">
               Tip: click Copy URL first, then a shortcut — paste the URL when
-              the assistant asks for it.
+              the assistant asks for it. Cursor users can skip that with the
+              one-click button, or install from our{' '}
+              <a
+                href="https://cursor.directory/plugins/1325ai"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-mansagold underline underline-offset-2"
+              >
+                cursor.directory listing
+              </a>
+              .
             </p>
+
           </div>
         </section>
 
