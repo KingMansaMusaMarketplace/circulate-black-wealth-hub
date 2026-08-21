@@ -84,6 +84,7 @@ const menuGroups: MenuGroup[] = [
     defaultOpen: true,
     items: [
       { id: 'admin-revenue', label: 'Platform Revenue', icon: DollarSign, route: '/admin/revenue' },
+      { id: 'admin-abandoned-checkouts', label: 'Abandoned Checkouts', icon: CreditCard, route: '/admin/abandoned-checkouts' },
       { id: 'admin-commissions', label: 'Commissions', icon: DollarSign, route: '/admin/commissions' },
       { id: 'admin-enterprise-partners', label: 'Enterprise Partners', icon: Users, route: '/admin/enterprise-partners' },
       { id: 'financial', label: 'Financial', icon: DollarSign },
