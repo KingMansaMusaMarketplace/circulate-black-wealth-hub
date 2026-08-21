@@ -55,6 +55,13 @@ const ConnectPage: React.FC = () => {
           directory, browse rewards, and check your loyalty points — on your
           behalf, after you sign in.
         </p>
+        <p className="text-white/60 mb-8 text-sm">
+          Looking for technical details?{' '}
+          <a href="/connect/docs" className="text-mansagold hover:underline">
+            Read the connector documentation
+          </a>
+          .
+        </p>
 
         {/* Server URL card */}
         <section
