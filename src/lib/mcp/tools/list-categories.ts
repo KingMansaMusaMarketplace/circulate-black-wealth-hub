@@ -2,7 +2,14 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import { withTitle } from "../annotations";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ANNOTATIONS: any = {
+  title: "List 1325.AI business categories",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false,
+};
 
 export default defineTool({
   name: "list_categories",
@@ -30,11 +37,7 @@ export default defineTool({
       .optional()
       .describe("Max categories to return (1-60). Defaults to 30."),
   },
-  annotations: withTitle("List 1325.AI business categories", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false,
-  }),
+  annotations: ANNOTATIONS,
   handler: async ({ city, state, limit }) => {
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,

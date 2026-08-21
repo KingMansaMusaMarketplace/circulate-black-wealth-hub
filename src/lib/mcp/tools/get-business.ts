@@ -2,7 +2,14 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import { withTitle } from "../annotations";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ANNOTATIONS: any = {
+  title: "Get 1325.AI business details",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false,
+};
 
 export default defineTool({
   name: "get_business",
@@ -15,11 +22,7 @@ export default defineTool({
       .uuid()
       .describe("The UUID of the business (returned by search_directory)."),
   },
-  annotations: withTitle("Get 1325.AI business details", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false,
-  }),
+  annotations: ANNOTATIONS,
   handler: async ({ business_id }) => {
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,

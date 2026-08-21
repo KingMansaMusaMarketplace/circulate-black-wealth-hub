@@ -9,13 +9,6 @@ import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { defineTool } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient } from "npm:@supabase/supabase-js@^2.108.2";
 import { z } from "npm:zod@^3.23.8";
-
-// src/lib/mcp/annotations.ts
-function withTitle2(title, annotations) {
-  return { title, ...annotations };
-}
-
-// src/lib/mcp/tools/search-directory.ts
 var EARTH_MI = 3958.8;
 function haversineMiles(lat1, lng1, lat2, lng2) {
   const toRad = (d) => d * Math.PI / 180;
@@ -24,6 +17,12 @@ function haversineMiles(lat1, lng1, lat2, lng2) {
   const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
   return 2 * EARTH_MI * Math.asin(Math.sqrt(a));
 }
+var ANNOTATIONS = {
+  title: "Search 1325.AI directory",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false
+};
 var search_directory_default = defineTool({
   name: "search_directory",
   title: "Search 1325.AI directory",
@@ -43,11 +42,7 @@ var search_directory_default = defineTool({
     ),
     limit: z.number().int().min(1).max(20).optional().describe("Max results to return (1-20). Defaults to 10.")
   },
-  annotations: withTitle2("Search 1325.AI directory", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false
-  }),
+  annotations: ANNOTATIONS,
   handler: async ({
     query,
     category,
@@ -236,6 +231,12 @@ More results are available \u2014 refine by category, city, state, or keyword, o
 import { defineTool as defineTool2 } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient as createClient2 } from "npm:@supabase/supabase-js@^2.108.2";
 import { z as z2 } from "npm:zod@^3.23.8";
+var ANNOTATIONS2 = {
+  title: "List 1325.AI business categories",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false
+};
 var list_categories_default = defineTool2({
   name: "list_categories",
   title: "List 1325.AI business categories",
@@ -245,11 +246,7 @@ var list_categories_default = defineTool2({
     state: z2.string().trim().max(50).optional().describe("Optional state (name or 2-letter code) to scope counts to."),
     limit: z2.number().int().min(1).max(60).optional().describe("Max categories to return (1-60). Defaults to 30.")
   },
-  annotations: withTitle2("List 1325.AI business categories", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false
-  }),
+  annotations: ANNOTATIONS2,
   handler: async ({ city, state, limit }) => {
     const supabase = createClient2(
       Deno.env.get("SUPABASE_URL"),
@@ -297,6 +294,12 @@ var list_categories_default = defineTool2({
 import { defineTool as defineTool3 } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient as createClient3 } from "npm:@supabase/supabase-js@^2.108.2";
 import { z as z3 } from "npm:zod@^3.23.8";
+var ANNOTATIONS3 = {
+  title: "Get 1325.AI business details",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false
+};
 var get_business_default = defineTool3({
   name: "get_business",
   title: "Get 1325.AI business details",
@@ -304,11 +307,7 @@ var get_business_default = defineTool3({
   inputSchema: {
     business_id: z3.string().uuid().describe("The UUID of the business (returned by search_directory).")
   },
-  annotations: withTitle2("Get 1325.AI business details", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false
-  }),
+  annotations: ANNOTATIONS3,
   handler: async ({ business_id }) => {
     const supabase = createClient3(
       Deno.env.get("SUPABASE_URL"),
@@ -393,6 +392,12 @@ ${desc}` : "") + "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned
 import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient as createClient4 } from "npm:@supabase/supabase-js@^2.108.2";
 import { z as z4 } from "npm:zod@^3.23.8";
+var ANNOTATIONS4 = {
+  title: "List loyalty rewards",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false
+};
 var list_rewards_default = defineTool4({
   name: "list_rewards",
   title: "List loyalty rewards",
@@ -401,11 +406,7 @@ var list_rewards_default = defineTool4({
     business_id: z4.string().uuid().optional().describe("Optional business id to filter to that business's rewards."),
     limit: z4.number().int().min(1).max(50).optional().describe("Max rewards to return (1-50). Defaults to 20.")
   },
-  annotations: withTitle2("List loyalty rewards", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false
-  }),
+  annotations: ANNOTATIONS4,
   handler: async ({ business_id, limit }, ctx) => {
     const token = ctx?.isAuthenticated?.() ? ctx.getToken() : null;
     const supabase = createClient4(
@@ -459,16 +460,18 @@ function supabaseForUser(ctx) {
     }
   );
 }
+var ANNOTATIONS5 = {
+  title: "Get my loyalty points",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false
+};
 var get_my_points_balance_default = defineTool5({
   name: "get_my_points_balance",
   title: "Get my loyalty points",
   description: "Return the signed-in 1325.AI user's total loyalty points and per-business balances. Requires the caller to be signed in.",
   inputSchema: {},
-  annotations: withTitle("Get my loyalty points", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false
-  }),
+  annotations: ANNOTATIONS5,
   handler: async (_input, ctx) => {
     if (!ctx.isAuthenticated()) {
       return {
@@ -531,6 +534,12 @@ function supabaseForUser2(ctx) {
     }
   );
 }
+var ANNOTATIONS6 = {
+  title: "Get my recent QR scans",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false
+};
 var get_my_recent_scans_default = defineTool6({
   name: "get_my_recent_scans",
   title: "Get my recent QR scans",
@@ -538,11 +547,7 @@ var get_my_recent_scans_default = defineTool6({
   inputSchema: {
     limit: z5.number().int().min(1).max(50).optional().describe("Max scans to return (1-50). Defaults to 20.")
   },
-  annotations: withTitle2("Get my recent QR scans", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false
-  }),
+  annotations: ANNOTATIONS6,
   handler: async ({ limit }, ctx) => {
     if (!ctx.isAuthenticated()) {
       return {

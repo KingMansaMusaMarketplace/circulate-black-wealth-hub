@@ -2,7 +2,6 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import { withTitle } from "../annotations";
 
 const EARTH_MI = 3958.8;
 
@@ -20,6 +19,14 @@ function haversineMiles(
     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
   return 2 * EARTH_MI * Math.asin(Math.sqrt(a));
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ANNOTATIONS: any = {
+  title: "Search 1325.AI directory",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false,
+};
 
 export default defineTool({
   name: "search_directory",
@@ -93,11 +100,7 @@ export default defineTool({
       .optional()
       .describe("Max results to return (1-20). Defaults to 10."),
   },
-  annotations: withTitle("Search 1325.AI directory", {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false,
-  }),
+  annotations: ANNOTATIONS,
   handler: async ({
     query,
     category,
