@@ -20,11 +20,11 @@ export default defineTool({
   description:
     "Return the signed-in 1325.AI user's total loyalty points and per-business balances. Requires the caller to be signed in.",
   inputSchema: {},
-  annotations: {
+  annotations: withTitle("Get my loyalty points", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,
-  },
+  }),
   handler: async (_input, ctx) => {
     if (!ctx.isAuthenticated()) {
       return {

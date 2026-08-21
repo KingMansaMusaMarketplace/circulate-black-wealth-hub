@@ -2,6 +2,7 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { withTitle } from "../annotations";
 
 export default defineTool({
   name: "list_categories",
@@ -29,11 +30,11 @@ export default defineTool({
       .optional()
       .describe("Max categories to return (1-60). Defaults to 30."),
   },
-  annotations: {
+  annotations: withTitle("List 1325.AI business categories", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,
-  },
+  }),
   handler: async ({ city, state, limit }) => {
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,

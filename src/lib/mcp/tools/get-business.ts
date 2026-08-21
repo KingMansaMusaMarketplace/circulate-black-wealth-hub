@@ -2,6 +2,7 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { withTitle } from "../annotations";
 
 export default defineTool({
   name: "get_business",
@@ -14,11 +15,11 @@ export default defineTool({
       .uuid()
       .describe("The UUID of the business (returned by search_directory)."),
   },
-  annotations: {
+  annotations: withTitle("Get 1325.AI business details", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,
-  },
+  }),
   handler: async ({ business_id }) => {
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,

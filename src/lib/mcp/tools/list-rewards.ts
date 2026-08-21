@@ -2,6 +2,7 @@
 import { defineTool, type ToolContext } from "@lovable.dev/mcp-js";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { withTitle } from "../annotations";
 
 export default defineTool({
   name: "list_rewards",
@@ -22,11 +23,11 @@ export default defineTool({
       .optional()
       .describe("Max rewards to return (1-50). Defaults to 20."),
   },
-  annotations: {
+  annotations: withTitle("List loyalty rewards", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,
-  },
+  }),
   handler: async ({ business_id, limit }, ctx: ToolContext) => {
     const token = ctx?.isAuthenticated?.() ? ctx.getToken() : null;
     const supabase = createClient(

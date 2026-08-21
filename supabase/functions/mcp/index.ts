@@ -9,6 +9,13 @@ import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { defineTool } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient } from "npm:@supabase/supabase-js@^2.108.2";
 import { z } from "npm:zod@^3.23.8";
+
+// src/lib/mcp/annotations.ts
+function withTitle2(title, annotations) {
+  return { title, ...annotations };
+}
+
+// src/lib/mcp/tools/search-directory.ts
 var EARTH_MI = 3958.8;
 function haversineMiles(lat1, lng1, lat2, lng2) {
   const toRad = (d) => d * Math.PI / 180;
@@ -36,11 +43,11 @@ var search_directory_default = defineTool({
     ),
     limit: z.number().int().min(1).max(20).optional().describe("Max results to return (1-20). Defaults to 10.")
   },
-  annotations: {
+  annotations: withTitle2("Search 1325.AI directory", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
-  },
+  }),
   handler: async ({
     query,
     category,
@@ -238,11 +245,11 @@ var list_categories_default = defineTool2({
     state: z2.string().trim().max(50).optional().describe("Optional state (name or 2-letter code) to scope counts to."),
     limit: z2.number().int().min(1).max(60).optional().describe("Max categories to return (1-60). Defaults to 30.")
   },
-  annotations: {
+  annotations: withTitle2("List 1325.AI business categories", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
-  },
+  }),
   handler: async ({ city, state, limit }) => {
     const supabase = createClient2(
       Deno.env.get("SUPABASE_URL"),
@@ -297,11 +304,11 @@ var get_business_default = defineTool3({
   inputSchema: {
     business_id: z3.string().uuid().describe("The UUID of the business (returned by search_directory).")
   },
-  annotations: {
+  annotations: withTitle2("Get 1325.AI business details", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
-  },
+  }),
   handler: async ({ business_id }) => {
     const supabase = createClient3(
       Deno.env.get("SUPABASE_URL"),
@@ -394,11 +401,11 @@ var list_rewards_default = defineTool4({
     business_id: z4.string().uuid().optional().describe("Optional business id to filter to that business's rewards."),
     limit: z4.number().int().min(1).max(50).optional().describe("Max rewards to return (1-50). Defaults to 20.")
   },
-  annotations: {
+  annotations: withTitle2("List loyalty rewards", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
-  },
+  }),
   handler: async ({ business_id, limit }, ctx) => {
     const token = ctx?.isAuthenticated?.() ? ctx.getToken() : null;
     const supabase = createClient4(
@@ -457,11 +464,11 @@ var get_my_points_balance_default = defineTool5({
   title: "Get my loyalty points",
   description: "Return the signed-in 1325.AI user's total loyalty points and per-business balances. Requires the caller to be signed in.",
   inputSchema: {},
-  annotations: {
+  annotations: withTitle("Get my loyalty points", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
-  },
+  }),
   handler: async (_input, ctx) => {
     if (!ctx.isAuthenticated()) {
       return {
@@ -531,11 +538,11 @@ var get_my_recent_scans_default = defineTool6({
   inputSchema: {
     limit: z5.number().int().min(1).max(50).optional().describe("Max scans to return (1-50). Defaults to 20.")
   },
-  annotations: {
+  annotations: withTitle2("Get my recent QR scans", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false
-  },
+  }),
   handler: async ({ limit }, ctx) => {
     if (!ctx.isAuthenticated()) {
       return {

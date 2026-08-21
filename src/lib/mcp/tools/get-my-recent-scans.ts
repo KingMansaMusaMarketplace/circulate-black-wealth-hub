@@ -2,6 +2,7 @@
 import { defineTool, type ToolContext } from "@lovable.dev/mcp-js";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { withTitle } from "../annotations";
 
 function supabaseForUser(ctx: ToolContext) {
   return createClient(
@@ -29,11 +30,11 @@ export default defineTool({
       .optional()
       .describe("Max scans to return (1-50). Defaults to 20."),
   },
-  annotations: {
+  annotations: withTitle("Get my recent QR scans", {
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,
-  },
+  }),
   handler: async ({ limit }, ctx) => {
     if (!ctx.isAuthenticated()) {
       return {
