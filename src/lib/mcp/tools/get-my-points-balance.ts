@@ -21,7 +21,6 @@ export default defineTool({
     "Return the signed-in 1325.AI user's total loyalty points and per-business balances. Requires the caller to be signed in.",
   inputSchema: {},
   annotations: {
-    title: "Get my loyalty points",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,

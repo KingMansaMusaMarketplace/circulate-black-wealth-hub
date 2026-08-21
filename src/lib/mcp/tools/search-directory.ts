@@ -93,7 +93,6 @@ export default defineTool({
       .describe("Max results to return (1-20). Defaults to 10."),
   },
   annotations: {
-    title: "Search 1325.AI directory",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,

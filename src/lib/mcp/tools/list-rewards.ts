@@ -23,7 +23,6 @@ export default defineTool({
       .describe("Max rewards to return (1-50). Defaults to 20."),
   },
   annotations: {
-    title: "List loyalty rewards",
     readOnlyHint: true,
     idempotentHint: true,
     openWorldHint: false,
