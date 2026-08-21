@@ -92,6 +92,7 @@ import {
 } from './components/LazyComponents';
 import OAuthConsentPage from './pages/OAuthConsentPage';
 const LazyConnectPage = lazy(() => import('./pages/ConnectPage'));
+const LazyMcpDocsPage = lazy(() => import('./pages/McpDocsPage'));
 
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
@@ -573,6 +574,8 @@ function App() {
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
+<Route path="/connect/docs" element={<LazyMcpDocsPage />} />
+<Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
                               <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
                               <Route path="/mcp" element={<Navigate to="/connect" replace />} />
                               
@@ -1228,6 +1231,8 @@ function App() {
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
                         <Route path="/connect" element={<LazyConnectPage />} />
+<Route path="/connect/docs" element={<LazyMcpDocsPage />} />
+<Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
                         <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
                         <Route path="/mcp" element={<Navigate to="/connect" replace />} />
                         <Route path="/institutional-api" element={<LazyInstitutionalAPIPage />} />
