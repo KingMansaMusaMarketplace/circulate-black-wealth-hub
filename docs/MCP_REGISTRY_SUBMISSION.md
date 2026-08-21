@@ -56,10 +56,14 @@ Paste this entire block into Terminal. It tells the registry "I own 1325.ai"
 using the private key that pairs with the public key already live on our site:
 
 ```bash
-mcp-publisher login dns \
+mcp-publisher login http \
   --domain 1325.ai \
-  --private-key ae691e6e29464c780684db0b342697221832d4218efeff494791d033652e1725
+  --private-key PASTE_PRIVATE_KEY_HERE
 ```
+
+(The private key is stored in the downloadable file `1325-mcp-registry-private-key.txt`
+— never paste it into chat, email, or any document.)
+
 
 You should see: `✓ Successfully logged in`.
 
