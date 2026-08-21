@@ -228,6 +228,7 @@ const LazyUnauthorizedPage = lazy(() => import('@/pages/UnauthorizedPage'));
 const LazyClaimBusinessPage = lazy(() => import('@/pages/ClaimBusinessPage'));
 const LazyEmailUnsubscribePage = lazy(() => import('@/pages/EmailUnsubscribePage'));
 const LazyAdminClaimCampaigns = lazy(() => import('@/pages/admin/ClaimCampaignsPage'));
+const LazyAdminAbandonedCheckouts = lazy(() => import('@/pages/admin/AbandonedCheckoutsPage'));
 
 // PWA Install page
 const LazyInstallPage = lazy(() => import('@/pages/InstallPage'));
@@ -608,6 +609,7 @@ function App() {
                               <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                               <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                               <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
+<Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
                               <Route path="/admin/sponsor-agreements" element={<RequireAdmin><LazyAdminSponsorAgreements /></RequireAdmin>} />
                               <Route path="/sponsor-agreement" element={<LazySponsorAgreementPage />} />
                               <Route path="/admin/revenue" element={<RequireAdmin><LazyAdminPlatformRevenuePage /></RequireAdmin>} />
@@ -1261,6 +1263,7 @@ function App() {
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                         <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                         <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
+<Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
                               <Route path="/admin/sponsor-agreements" element={<RequireAdmin><LazyAdminSponsorAgreements /></RequireAdmin>} />
                               <Route path="/sponsor-agreement" element={<LazySponsorAgreementPage />} />
                         <Route path="/admin/submissions" element={<RequireAdmin><LazyAdminSubmissionsQueue /></RequireAdmin>} />
@@ -1852,6 +1855,7 @@ function App() {
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                         <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                         <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
+<Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
                               <Route path="/admin/sponsor-agreements" element={<RequireAdmin><LazyAdminSponsorAgreements /></RequireAdmin>} />
                               <Route path="/sponsor-agreement" element={<LazySponsorAgreementPage />} />
                         <Route path="/admin/submissions" element={<RequireAdmin><LazyAdminSubmissionsQueue /></RequireAdmin>} />
