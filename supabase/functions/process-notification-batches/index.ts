@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -20,6 +21,9 @@ const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
+
+  const auth = await requireAdminOrCron(req, corsHeaders);
+  if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
 
   try {
     const { batchKey } = await req.json().catch(() => ({}));

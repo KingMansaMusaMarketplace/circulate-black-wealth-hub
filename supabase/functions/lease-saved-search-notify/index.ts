@@ -1,6 +1,7 @@
 // Nightly job: scan lease_saved_searches, find new matches in vacation_properties,
 // email each user via send-transactional-email. Updates last_notified_at to prevent dupes.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
+import { requireAdminOrCron, authErrorResponse } from '../_shared/auth-guard.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -9,6 +10,9 @@ const corsHeaders = {
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
+
+  const auth = await requireAdminOrCron(req, corsHeaders)
+  if (!auth.authenticated) return authErrorResponse(auth, corsHeaders)
 
   const supabase = createClient(
     Deno.env.get('SUPABASE_URL')!,
