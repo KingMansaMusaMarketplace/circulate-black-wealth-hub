@@ -1,6 +1,8 @@
 project_id = "agoclnqfyinwjxdmjnns"
 
 [functions]
+  [functions.admin-abandoned-checkouts]
+    verify_jwt = false
   [functions.admin-send-temp-password]
     verify_jwt = false
   [functions.daily-ops-digest]
