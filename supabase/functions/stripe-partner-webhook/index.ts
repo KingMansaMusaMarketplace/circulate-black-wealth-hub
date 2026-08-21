@@ -21,14 +21,21 @@ serve(async (req) => {
     logStep("Webhook received");
 
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
-    
+
+    // Each Stripe webhook endpoint has its OWN signing secret. This endpoint
+    // prefers its dedicated secret and falls back to the shared one so a
+    // mis-slotted secret does not silently break delivery.
+    const candidateSecrets = [
+      Deno.env.get("STRIPE_PARTNER_WEBHOOK_SECRET"),
+      Deno.env.get("STRIPE_WEBHOOK_SECRET"),
+    ].filter((s): s is string => !!s && s.trim().length > 0);
+
     if (!stripeKey) {
       throw new Error("STRIPE_SECRET_KEY is not set");
     }
 
-    if (!webhookSecret) {
-      logStep("STRIPE_WEBHOOK_SECRET is not configured - rejecting");
+    if (candidateSecrets.length === 0) {
+      logStep("No webhook signing secret configured - rejecting");
       return new Response(JSON.stringify({ error: "Webhook not configured" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -49,17 +56,27 @@ serve(async (req) => {
       });
     }
 
-    let event: Stripe.Event;
-    try {
-      event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
-      logStep("Webhook signature verified");
-    } catch (err) {
-      logStep("Webhook signature verification failed", { error: (err as Error).message });
+    let event: Stripe.Event | null = null;
+    let lastVerifyError = "";
+    for (const secret of candidateSecrets) {
+      try {
+        event = await stripe.webhooks.constructEventAsync(body, signature, secret);
+        break;
+      } catch (err) {
+        lastVerifyError = (err as Error).message;
+      }
+    }
+
+    if (!event) {
+      logStep("Webhook signature verification failed", { error: lastVerifyError });
       return new Response(JSON.stringify({ error: "Invalid signature" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    logStep("Webhook signature verified");
+
 
 
     logStep("Processing event", { type: event.type, id: event.id });
