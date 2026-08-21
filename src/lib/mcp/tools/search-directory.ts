@@ -20,6 +20,14 @@ function haversineMiles(
   return 2 * EARTH_MI * Math.asin(Math.sqrt(a));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ANNOTATIONS: any = {
+  title: "Search 1325.AI directory",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false,
+};
+
 export default defineTool({
   name: "search_directory",
   title: "Search 1325.AI directory",
@@ -92,11 +100,7 @@ export default defineTool({
       .optional()
       .describe("Max results to return (1-20). Defaults to 10."),
   },
-  annotations: {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false,
-  },
+  annotations: ANNOTATIONS,
   handler: async ({
     query,
     category,

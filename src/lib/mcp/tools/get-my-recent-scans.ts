@@ -15,6 +15,14 @@ function supabaseForUser(ctx: ToolContext) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ANNOTATIONS: any = {
+  title: "Get my recent QR scans",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false,
+};
+
 export default defineTool({
   name: "get_my_recent_scans",
   title: "Get my recent QR scans",
@@ -29,11 +37,7 @@ export default defineTool({
       .optional()
       .describe("Max scans to return (1-50). Defaults to 20."),
   },
-  annotations: {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false,
-  },
+  annotations: ANNOTATIONS,
   handler: async ({ limit }, ctx) => {
     if (!ctx.isAuthenticated()) {
       return {

@@ -14,17 +14,21 @@ function supabaseForUser(ctx: ToolContext) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ANNOTATIONS: any = {
+  title: "Get my loyalty points",
+  readOnlyHint: true,
+  idempotentHint: true,
+  openWorldHint: false,
+};
+
 export default defineTool({
   name: "get_my_points_balance",
   title: "Get my loyalty points",
   description:
     "Return the signed-in 1325.AI user's total loyalty points and per-business balances. Requires the caller to be signed in.",
   inputSchema: {},
-  annotations: {
-    readOnlyHint: true,
-    idempotentHint: true,
-    openWorldHint: false,
-  },
+  annotations: ANNOTATIONS,
   handler: async (_input, ctx) => {
     if (!ctx.isAuthenticated()) {
       return {

@@ -21,6 +21,7 @@
         "title": "Search 1325.AI directory",
         "description": "Search the 1325.AI directory of verified Black-owned businesses in the United States. Filters by keyword, category, city, state, minimum star rating, and whether the business has a website. Supports radius search: pass latitude, longitude, and radius_miles to return businesses within that distance, sorted by distance. Results can also be sorted by rating or review count. Each result includes name, category, phone, full address, latitude/longitude, distance in miles, Google Maps and directions links, description, logo, banner image, website, verified status, average rating, review count, and a link to the business profile page on 1325.ai.",
         "annotations": {
+          "title": "Search 1325.AI directory",
           "readOnlyHint": true,
           "idempotentHint": true,
           "openWorldHint": false
@@ -103,6 +104,7 @@
         "title": "List 1325.AI business categories",
         "description": "List the business categories present in the 1325.AI directory with the number of verified businesses in each. Useful for discovering valid category values to pass to search_directory. Counts can be scoped to one city or state.",
         "annotations": {
+          "title": "List 1325.AI business categories",
           "readOnlyHint": true,
           "idempotentHint": true,
           "openWorldHint": false
@@ -137,6 +139,7 @@
         "title": "Get 1325.AI business details",
         "description": "Fetch the full public profile for one business in the 1325.AI directory by its id. Returns name, category, description, full address, latitude/longitude, Google Maps and directions links, website, logo, banner image, verified status, average rating, review count, and a link to the business profile page on 1325.ai. Business ids are returned by search_directory.",
         "annotations": {
+          "title": "Get 1325.AI business details",
           "readOnlyHint": true,
           "idempotentHint": true,
           "openWorldHint": false
@@ -163,6 +166,7 @@
         "title": "List loyalty rewards",
         "description": "Browse active loyalty rewards available on 1325.AI. Returns rewards sorted by lowest point cost. Optionally filter to one business.",
         "annotations": {
+          "title": "List loyalty rewards",
           "readOnlyHint": true,
           "idempotentHint": true,
           "openWorldHint": false
@@ -192,6 +196,7 @@
         "title": "Get my loyalty points",
         "description": "Return the signed-in 1325.AI user's total loyalty points and per-business balances. Requires the caller to be signed in.",
         "annotations": {
+          "title": "Get my loyalty points",
           "readOnlyHint": true,
           "idempotentHint": true,
           "openWorldHint": false
@@ -208,6 +213,7 @@
         "title": "Get my recent QR scans",
         "description": "Return the signed-in user's most recent 1325.AI QR code scans (business visits that earned points).",
         "annotations": {
+          "title": "Get my recent QR scans",
           "readOnlyHint": true,
           "idempotentHint": true,
           "openWorldHint": false
