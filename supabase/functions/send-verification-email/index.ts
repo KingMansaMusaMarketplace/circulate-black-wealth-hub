@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { isServiceRoleCaller } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -50,11 +52,31 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log("Sending verification email to:", email);
+    const cleanEmail = String(email).trim().toLowerCase();
+
+    // Only send to a real account whose email is not yet confirmed.
+    if (!isServiceRoleCaller(req)) {
+      const admin = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      ) as any;
+      const { data: list } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+      const match = (list?.users || []).find(
+        (u: any) => (u.email || "").toLowerCase() === cleanEmail,
+      );
+      if (!match || match.email_confirmed_at) {
+        // Do not reveal whether the address exists.
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200, headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+    }
+
+    console.log("Sending verification email to:", cleanEmail);
 
     const emailResponse = await resend.emails.send({
       from: "1325.AI <noreply@1325.ai>",
-      to: [email],
+      to: [cleanEmail],
       subject: "Verify Your Email - Welcome to 1325.AI!",
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif;">
