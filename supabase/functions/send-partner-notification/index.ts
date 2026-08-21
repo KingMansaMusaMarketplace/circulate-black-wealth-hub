@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { escapeHtml } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "Partner@1325.AI";
@@ -49,9 +50,58 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const { type, partnerId, partnerEmail, partnerName, tier, reason }: NotificationRequest = await req.json();
+    const body: NotificationRequest = await req.json();
+    const { type, partnerId } = body;
 
-    console.log(`Processing ${type} notification for partner: ${partnerName}`);
+    if (!['application', 'approval', 'rejection'].includes(type) || !partnerId) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request' }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Load the partner record server-side; never trust caller-supplied recipients.
+    const serviceClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    ) as any;
+    const { data: partner } = await serviceClient
+      .from('directory_partners')
+      .select('id, user_id, contact_email, directory_name, tier')
+      .eq('id', partnerId)
+      .maybeSingle();
+
+    if (!partner) {
+      return new Response(
+        JSON.stringify({ error: 'Partner not found' }),
+        { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const { data: isAdmin } = await supabaseAuth.rpc('is_admin_secure');
+
+    // Approval/rejection mails are admin-only; an applicant may only trigger
+    // the confirmation for their own application.
+    if (type === 'application') {
+      if (!isAdmin && partner.user_id !== claims.user.id) {
+        return new Response(
+          JSON.stringify({ error: 'Forbidden' }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    } else if (!isAdmin) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden' }),
+        { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const partnerEmail = partner.contact_email as string;
+    const partnerName = escapeHtml(partner.directory_name);
+    const tier = String(body.tier || partner.tier || 'standard').toLowerCase();
+    const reason = body.reason ? escapeHtml(body.reason) : undefined;
+
+    console.log(`Processing ${type} notification for partner: ${partnerId}`);
 
     let emailResponse;
 
