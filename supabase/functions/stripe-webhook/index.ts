@@ -99,16 +99,34 @@ serve(async (req) => {
   const body = await req.text();
 
   try {
-    const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
-    if (!webhookSecret) {
+    // Each Stripe endpoint has its OWN signing secret. Try this endpoint's
+    // dedicated secret first, then the other known ones, so a crossed-over
+    // secret can never silently fail every delivery.
+    const candidateSecrets = [
+      Deno.env.get("STRIPE_WEBHOOK_SECRET"),
+      Deno.env.get("STRIPE_PARTNER_WEBHOOK_SECRET"),
+      Deno.env.get("STRIPE_CORPORATE_WEBHOOK_SECRET"),
+    ].filter((s): s is string => !!s && s.trim().length > 0);
+
+    if (candidateSecrets.length === 0) {
       throw new Error("Webhook secret not configured");
     }
 
-    const event = await stripe.webhooks.constructEventAsync(
-      body,
-      signature!,
-      webhookSecret
-    );
+    let event: Stripe.Event | null = null;
+    let lastVerifyError = "";
+    for (const secret of candidateSecrets) {
+      try {
+        event = await stripe.webhooks.constructEventAsync(body, signature!, secret);
+        break;
+      } catch (e) {
+        lastVerifyError = e instanceof Error ? e.message : String(e);
+      }
+    }
+    if (!event) {
+      console.error(`Signature verification failed: ${lastVerifyError}`);
+      throw new Error(`Signature verification failed: ${lastVerifyError}`);
+    }
+
 
     // Validate event structure after signature verification
     const validation = validateWebhookEvent(event);
