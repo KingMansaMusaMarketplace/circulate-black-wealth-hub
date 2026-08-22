@@ -57,13 +57,21 @@ const SubmissionsQueue: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
+  const [view, setView] = useState<'pending' | 'approved' | 'rejected'>('pending');
 
-  const load = async () => {
+  const statusesFor = (v: typeof view) =>
+    v === 'pending'
+      ? ['pending_review', 'pending_verification', 'needs_more_info']
+      : v === 'approved'
+        ? ['approved']
+        : ['rejected'];
+
+  const load = async (v: typeof view = view) => {
     setLoading(true);
     const { data, error } = await supabase
       .from('business_submissions')
       .select('*')
-      .in('status', ['pending_review', 'pending_verification', 'needs_more_info'])
+      .in('status', statusesFor(v))
       .order('confidence_score', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false });
     if (error) {
@@ -74,7 +82,7 @@ const SubmissionsQueue: React.FC = () => {
     setLoading(false);
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(view); }, [view]);
 
   const runAction = async (
     id: string,
@@ -124,10 +132,23 @@ const SubmissionsQueue: React.FC = () => {
               Review businesses submitted from the homepage. Kayla has already run initial verification.
             </p>
           </div>
-          <Button onClick={load} variant="outline" disabled={loading}>
+          <Button onClick={() => load(view)} variant="outline" disabled={loading}>
             <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
+        </div>
+
+        <div className="flex flex-wrap gap-2 mb-6">
+          {(['pending', 'approved', 'rejected'] as const).map((v) => (
+            <Button
+              key={v}
+              variant={view === v ? 'default' : 'outline'}
+              onClick={() => setView(v)}
+              className={view === v ? 'bg-mansagold text-black hover:bg-mansagold/90' : ''}
+            >
+              {v === 'pending' ? 'Pending review' : v === 'approved' ? 'Approved' : 'Rejected'}
+            </Button>
+          ))}
         </div>
 
         {loading ? (
@@ -137,7 +158,13 @@ const SubmissionsQueue: React.FC = () => {
           </div>
         ) : submissions.length === 0 ? (
           <Card className="p-12 text-center bg-white/5 border-white/10">
-            <p className="text-white/60">No pending submissions. 🎉</p>
+            <p className="text-white/60">
+              {view === 'pending'
+                ? 'No pending submissions. 🎉'
+                : view === 'approved'
+                  ? 'No approved submissions yet.'
+                  : 'No rejected submissions.'}
+            </p>
           </Card>
         ) : (
           <div className="space-y-6">
@@ -198,6 +225,7 @@ const SubmissionsQueue: React.FC = () => {
                   </div>
                 )}
 
+                {view === 'pending' ? (<>
                 <Textarea
                   placeholder="Admin notes (optional — visible to your team only)"
                   value={notes[s.id] ?? ''}
@@ -241,6 +269,13 @@ const SubmissionsQueue: React.FC = () => {
                     Re-run Kayla
                   </Button>
                 </div>
+                </>) : (
+                  s.admin_notes ? (
+                    <div className="bg-black/40 rounded-lg p-4 text-sm text-white/70">
+                      <span className="text-white/50">Admin notes: </span>{s.admin_notes}
+                    </div>
+                  ) : null
+                )}
               </Card>
             ))}
           </div>
