@@ -5,7 +5,7 @@ import { Linkedin, Mail } from 'lucide-react';
 
 // Background-only pass: all headshots re-composited onto Kayla's navy (#0D1D30)
 // so the leadership grid reads as one deliberate gallery. Subjects unchanged.
-import clarence from '@/assets/team/navy_bg/Clarence_Smith.jpg';
+import clarence from '@/assets/team/navy_bg/Clarence_Smith_v2.jpg';
 import craig from '@/assets/team/navy_bg/Craig_Stevenson.jpg';
 import dakarai from '@/assets/team/navy_bg/Dakarai_Mosley_headshot.jpg';
 import eric from '@/assets/team/navy_bg/Eric_Webb.jpg';
