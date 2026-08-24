@@ -33,6 +33,7 @@ import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
 import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_headshot.jpg';
 import joseph from '@/assets/team/navy_bg/Joseph_Weaver.jpg';
 import johnClyburn from '@/assets/team/navy_bg/John_Clyburn.jpg';
+import jayRoberson from '@/assets/team/navy_bg/Jay_Roberson.jpg';
 
 
 type Member = {
@@ -88,6 +89,7 @@ const leadership: Member[] = [
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte, photoScale: 1.6, photoOffsetY: '22%' },
   { name: 'Joseph Weaver', title: 'Chief Strategy Officer', photo: joseph },
   { name: 'John Clyburn', title: 'Chief Public Policy Officer', photo: johnClyburn },
+  { name: 'Jay Roberson', title: 'BD Advisor', photo: jayRoberson },
 
   
 ];
