@@ -82,7 +82,7 @@ const leadership: Member[] = [
   { name: 'Sharif Abdus-Salaam, M.D.', title: 'Chief Economic Empowerment Officer', photo: sharif },
   { name: 'Brandon Palm', title: 'Senior (AI) Consultant', photo: brandonPalm },
   { name: 'Donald Palm, Ph.D.', title: 'Chief Education Officer', photo: donald },
-  { name: 'Corey Mays', title: 'Chief Sports Officer', photo: corey, photoScale: 1.35, photoOffsetY: '12%' },
+  { name: 'Corey Mays', title: 'Chief Sports Officer', photo: corey },
   { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla, objectPosition: 'center top', photoScale: 1 },
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Chief International Officer', photo: robert },
