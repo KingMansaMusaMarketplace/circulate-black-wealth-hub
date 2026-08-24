@@ -13,7 +13,7 @@ import james from '@/assets/team/navy_bg/James_Carson_headshot.jpg';
 import judith from '@/assets/team/navy_bg/Judith_Fitzgerald.jpg';
 import keith from '@/assets/team/navy_bg/Keith_McGregory.jpg';
 import kimberly from '@/assets/team/navy_bg/Kimberly_Bates_corporate.jpg';
-import lisa from '@/assets/team/Lisa_Gavin_navy_v6.jpg';
+import lisa from '@/assets/team/Lisa_Gavin_navy_v7.jpg';
 import maurice from '@/assets/team/navy_bg/Maurice_G.jpg';
 import napoleon from '@/assets/team/navy_bg/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/navy_bg/Stephen_Hughes.jpg';
