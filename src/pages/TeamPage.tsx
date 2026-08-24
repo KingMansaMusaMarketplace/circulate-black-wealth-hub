@@ -13,7 +13,7 @@ import james from '@/assets/team/navy_bg/James_Carson_headshot.jpg';
 import judith from '@/assets/team/navy_bg/Judith_Fitzgerald.jpg';
 import keith from '@/assets/team/navy_bg/Keith_McGregory.jpg';
 import kimberly from '@/assets/team/navy_bg/Kimberly_Bates_corporate.jpg';
-import lisa from '@/assets/team/Lisa_Gavin_navy_v5.jpg';
+import lisa from '@/assets/team/Lisa_Gavin_navy_v6.jpg';
 import maurice from '@/assets/team/navy_bg/Maurice_G.jpg';
 import napoleon from '@/assets/team/navy_bg/Napolean_Paul_headshot.jpg';
 import stephen from '@/assets/team/navy_bg/Stephen_Hughes.jpg';
@@ -63,7 +63,7 @@ const founder: Member = {
 
 const leadership: Member[] = [
   { name: 'Craig Stevenson', title: 'Co-Founder', photo: craig },
-  { name: 'Lisa Cooper Gavin', title: 'President', photo: lisa, photoScale: 1.15, photoOffsetY: '0%' },
+  { name: 'Lisa Cooper Gavin', title: 'President', photo: lisa },
   { name: 'Clarence Smith', title: 'VP of Sales', photo: clarence },
   { name: 'Maurice G. Howard', title: 'VP of Technology', photo: maurice },
   { name: 'Keith McGregory', title: 'VP of Corporate Development', photo: keith },
