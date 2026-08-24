@@ -27,7 +27,7 @@ import sharif from '@/assets/team/navy_bg/Sharif_Abdus_Salaam_headshot.jpg';
 import brandonPalm from '@/assets/team/navy_bg/Brando_Palm_headshot.jpg';
 import donald from '@/assets/team/navy_bg/Donald_Palm_PhD.jpg';
 import corey from '@/assets/team/navy_bg/Corey_Mays_headshot.jpg';
-import kayla from '@/assets/team/navy_bg/Kayla_Bruton_navy_v19.jpg';
+import kayla from '@/assets/team/navy_bg/Kayla_Bruton_navy_v20.jpg';
 import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
 import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
 import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_v2.jpg';
