@@ -33,7 +33,7 @@ import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
 import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_headshot.jpg';
 import joseph from '@/assets/team/navy_bg/Joseph_Weaver.jpg';
 import johnClyburn from '@/assets/team/navy_bg/John_Clyburn.jpg';
-import jayRoberson from '@/assets/team/navy_bg/Jay_Roberson.jpg';
+import jayRoberson from '@/assets/team/navy_bg/Jay_Roberson_v2.jpg';
 
 
 type Member = {
