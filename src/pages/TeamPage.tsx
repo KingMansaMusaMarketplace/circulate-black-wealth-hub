@@ -30,7 +30,7 @@ import corey from '@/assets/team/navy_bg/Corey_Mays_headshot.jpg';
 import kayla from '@/assets/team/navy_bg/Kayla_Bruton_navy_v19.jpg';
 import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
 import robert from '@/assets/team/navy_bg/Robert_Wilson_headshot.jpg';
-import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_headshot.jpg';
+import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_v2.jpg';
 import joseph from '@/assets/team/navy_bg/Joseph_Weaver.jpg';
 import johnClyburn from '@/assets/team/navy_bg/John_Clyburn.jpg';
 import jayRoberson from '@/assets/team/navy_bg/Jay_Roberson_v2.jpg';
@@ -86,7 +86,7 @@ const leadership: Member[] = [
   { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla },
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Chief International Officer', photo: robert },
-  { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte, photoScale: 1.6, photoOffsetY: '22%' },
+  { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte },
   { name: 'Joseph Weaver', title: 'Chief Strategy Officer', photo: joseph },
   { name: 'John Clyburn', title: 'Chief Public Policy Officer', photo: johnClyburn },
   { name: 'Jay Roberson', title: 'BD Advisor', photo: jayRoberson },
