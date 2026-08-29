@@ -38,10 +38,27 @@ const ListingApprovalsQueue: React.FC = () => {
   const [items, setItems] = useState<Business[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [counts, setCounts] = useState<{ new: number; unverified: number; rejected: number } | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [rejectFor, setRejectFor] = useState<Business | null>(null);
   const [rejectReason, setRejectReason] = useState('');
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search.trim()), 350);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  const loadCounts = async () => {
+    const base = () => supabase.from('businesses').select('id', { count: 'exact', head: true });
+    const [n, u, r] = await Promise.all([
+      base().in('listing_status', ['draft', 'pending', 'pending_review']),
+      base().in('listing_status', ['live', 'pending']).eq('is_verified', false),
+      base().eq('listing_status', 'rejected'),
+    ]);
+    setCounts({ new: n.count ?? 0, unverified: u.count ?? 0, rejected: r.count ?? 0 });
+  };
 
   const load = async () => {
     setLoading(true);
@@ -55,19 +72,24 @@ const ListingApprovalsQueue: React.FC = () => {
     else if (tab === 'unverified') q = q.in('listing_status', ['live', 'pending']).eq('is_verified', false);
     else q = q.eq('listing_status', 'rejected');
 
+    if (debouncedSearch) {
+      const s = debouncedSearch.replace(/[%,()]/g, ' ');
+      q = q.or(`name.ilike.%${s}%,city.ilike.%${s}%,email.ilike.%${s}%,category.ilike.%${s}%`);
+    }
+
     const { data, error } = await q;
     setLoading(false);
     if (error) return toast.error('Load failed: ' + error.message);
     setItems((data as any) || []);
   };
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [tab]);
+  useEffect(() => { load(); /* eslint-disable-next-line */ }, [tab, debouncedSearch]);
+  useEffect(() => { loadCounts(); }, []);
 
-  const filtered = items.filter(b => {
-    if (!search) return true;
-    const s = search.toLowerCase();
-    return [b.name, b.city, b.state, b.email, b.category].some(v => v?.toLowerCase().includes(s));
-  });
+  const refresh = () => { load(); loadCounts(); };
+
+  const filtered = items;
+
 
   const toggle = (id: string) =>
     setSelected(s => {
