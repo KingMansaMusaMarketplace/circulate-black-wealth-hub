@@ -7,6 +7,7 @@ import { QrCode, MapPin, Star, Share2, Calendar, ArrowLeft } from 'lucide-react'
 import { Business } from '@/types/business';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 import CheckInButton from './CheckInButton';
+import { getBusinessBanner, getCategoryBanner } from '@/utils/businessBanners';
 
 interface BusinessDetailHeaderProps {
   business: Business;
@@ -22,15 +23,13 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm mb-8">
       <div className="relative h-48 bg-gradient-to-r from-mansablue to-mansagold flex items-center justify-center overflow-hidden">
-        {business.bannerUrl ? (
-          <img 
-            src={business.bannerUrl} 
-            alt={business.name}
-            className="w-full h-full object-cover object-top absolute inset-0"
-          />
-        ) : (
-          <span className="text-white text-6xl font-bold">{business.name.charAt(0)}</span>
-        )}
+        <img
+          src={getBusinessBanner(business.id, business.bannerUrl, business.website, business.category)}
+          alt={business.name}
+          className="w-full h-full object-cover object-top absolute inset-0"
+          onError={(e) => { e.currentTarget.src = getCategoryBanner(business.category); }}
+        />
+
         <Button
           variant="ghost"
           size="sm"

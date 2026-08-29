@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import OptimizedImage from '@/components/ui/optimized-image';
+import { getCategoryBanner } from '@/utils/businessBanners';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
@@ -150,10 +151,10 @@ const PremiumBusinessCard = ({
           <CardHeader className="pb-3">
             <div className="aspect-video bg-slate-800 rounded-lg mb-4 overflow-hidden ring-1 ring-white/10 relative group/image">
               <OptimizedImage 
-                src={imageUrl || generatePlaceholder(400, 250, name)} 
+                src={imageUrl || getCategoryBanner(category)} 
                 alt={imageAlt || name}
                 className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover/image:brightness-110"
-                fallbackSrc={generatePlaceholder(400, 250, name)}
+                fallbackSrc={getCategoryBanner(category)}
                 quality="medium"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />

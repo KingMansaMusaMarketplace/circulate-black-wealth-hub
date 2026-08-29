@@ -30,7 +30,7 @@ const MobileContentRenderer: React.FC<MobileContentRendererProps> = ({
     return (
       <div className="space-y-3 px-4">
         {businesses.map((business) => {
-          const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl;
+          const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl, business.website, business.category) || business.imageUrl;
           const firstChar = business.name.charAt(0).toUpperCase();
           const letter = /[A-Z]/.test(firstChar) ? firstChar : '#';
           const isNewLetter = letter !== lastLetter;

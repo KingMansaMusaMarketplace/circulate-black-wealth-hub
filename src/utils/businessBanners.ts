@@ -300,20 +300,62 @@ const businessCardImages: Record<string, string> = {
 };
 
 /**
+ * Category-based banner fallbacks so no listing ever falls back to a
+ * two-letter initials placeholder.
+ */
+const CATEGORY_BANNERS = {
+  food: '/images/categories/food.jpg',
+  beauty: '/images/categories/beauty.jpg',
+  retail: '/images/categories/retail.jpg',
+  professional: '/images/categories/professional.jpg',
+  wellness: '/images/categories/wellness.jpg',
+  auto: '/images/categories/auto.jpg',
+  arts: '/images/categories/arts.jpg',
+  community: '/images/categories/community.jpg',
+} as const;
+
+const CATEGORY_KEYWORDS: Array<[RegExp, keyof typeof CATEGORY_BANNERS]> = [
+  [/restaurant|food|caterin|bakery|cafe|coffee|juice|bar|grill|kitchen|barbecue|bbq|deli|pizza|ice cream|dessert|vegan|soul/i, 'food'],
+  [/barber|salon|hair|beauty|nail|braid|lash|makeup|cosmet|skin|tattoo/i, 'beauty'],
+  [/spa|yoga|fitness|gym|wellness|health|medical|dental|therap|clinic|pharmac|care/i, 'wellness'],
+  [/auto|car |mechanic|repair|tire|truck|detail|towing/i, 'auto'],
+  [/boutique|clothing|apparel|store|shop|retail|market|bookstore|florist|jewel|gift|furniture/i, 'retail'],
+  [/studio|record|music|art|photo|film|media|entertain|event|dj|comedy|theat|gallery/i, 'arts'],
+  [/consult|law|legal|account|financ|bank|insur|real estate|market|tech|software|it |staffing|logistic|construc|clean|security|educat|school|college|university|non ?profit|agency|service/i, 'professional'],
+];
+
+export function getCategoryBanner(category?: string | null): string {
+  if (category) {
+    for (const [re, key] of CATEGORY_KEYWORDS) {
+      if (re.test(category)) return CATEGORY_BANNERS[key];
+    }
+  }
+  return CATEGORY_BANNERS.community;
+}
+
+/**
  * Get banner URL for a business, with fallback support
  * @param businessId - The business UUID
  * @param bannerUrl - The stored banner URL (may be null)
  * @param websiteUrl - The business website URL for screenshot fallback
- * @returns The banner URL to use, or undefined if no fallback exists
+ * @param category - Business category, used for the final image fallback
+ * @returns A banner URL (always defined)
  */
-export function getBusinessBanner(businessId: string, bannerUrl: string | null | undefined, websiteUrl?: string | null): string | undefined {
+export function getBusinessBanner(
+  businessId: string,
+  bannerUrl: string | null | undefined,
+  websiteUrl?: string | null,
+  category?: string | null,
+): string {
   // Forced local overrides should win over stale or broken DB URLs
   if (businessBannerOverrides[businessId]) {
     return businessBannerOverrides[businessId];
   }
 
+  const isPlaceholder = !!bannerUrl && /placehold|placeholder|ui-avatars|dicebear|initials/i.test(bannerUrl);
+
   // If the business has an uploaded banner, use it
-  if (bannerUrl) {
+  if (bannerUrl && !isPlaceholder) {
     return bannerUrl;
   }
   
@@ -322,17 +364,19 @@ export function getBusinessBanner(businessId: string, bannerUrl: string | null |
     return businessBannerFallbacks[businessId];
   }
 
-  // Use website screenshot as final fallback
+  // Use website screenshot as next fallback
   if (websiteUrl) {
     try {
       return `https://image.thum.io/get/width/1200/crop/630/noanimate/${websiteUrl}`;
     } catch {
-      return undefined;
+      // fall through to category art
     }
   }
 
-  return undefined;
+  // Never show initials — always return category art
+  return getCategoryBanner(category);
 }
+
 
 /**
  * Get card-specific image for a business (for directory cards only)
@@ -340,12 +384,17 @@ export function getBusinessBanner(businessId: string, bannerUrl: string | null |
  * @param bannerUrl - The stored banner URL (may be null)
  * @returns The card image URL to use, falling back to banner logic
  */
-export function getBusinessCardImage(businessId: string, bannerUrl: string | null | undefined, websiteUrl?: string | null): string | undefined {
+export function getBusinessCardImage(
+  businessId: string,
+  bannerUrl: string | null | undefined,
+  websiteUrl?: string | null,
+  category?: string | null,
+): string {
   // Check for a card-specific image first
   if (businessCardImages[businessId]) {
     return businessCardImages[businessId];
   }
-  
-  // Fall back to banner logic (now includes thum.io website screenshot fallback)
-  return getBusinessBanner(businessId, bannerUrl, websiteUrl);
+
+  // Fall back to banner logic (screenshot, then category art)
+  return getBusinessBanner(businessId, bannerUrl, websiteUrl, category);
 }

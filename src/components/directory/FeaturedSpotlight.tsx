@@ -17,7 +17,7 @@ interface FeaturedSpotlightProps {
 const isSlowScreenshot = (url: string) => url.includes('image.thum.io');
 
 const FeaturedSpotlightCard: React.FC<{ business: Business }> = ({ business }) => {
-  const resolvedBanner = getBusinessBanner(business.id, business.bannerUrl, business.website);
+  const resolvedBanner = getBusinessBanner(business.id, business.bannerUrl, business.website, business.category);
   const primarySrc = resolvedBanner || business.imageUrl || business.bannerUrl || '';
   const websiteFallback = business.website 
     ? `https://image.thum.io/get/width/1200/crop/630/noanimate/${business.website}` 
@@ -144,7 +144,7 @@ const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ business, busines
   // Warm every featured banner up front so rotating slides render instantly
   useEffect(() => {
     const urls = allFeatured
-      .map(b => getBusinessBanner(b.id, b.bannerUrl, b.website) || b.imageUrl || '')
+      .map(b => getBusinessBanner(b.id, b.bannerUrl, b.website, b.category) || b.imageUrl || '')
       .filter(Boolean);
     const imgs = urls.map(url => {
       const img = new Image();

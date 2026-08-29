@@ -117,7 +117,7 @@ const NearbyBusinesses: React.FC<NearbyBusinessesProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {grouped[category].map((business) => {
-                const bannerUrl = getBusinessBanner(business.id, business.logo_url);
+                const bannerUrl = getBusinessBanner(business.id, business.logo_url, null, (business as any).category);
 
                 return (
                   <div
