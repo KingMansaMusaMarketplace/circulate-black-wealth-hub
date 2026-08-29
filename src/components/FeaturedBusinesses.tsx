@@ -63,7 +63,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
           rating: business.rating,
           reviews: business.reviewCount,
           distance: business.distance,
-          image: getBusinessCardImage(business.id, business.bannerUrl, business.website) || business.imageUrl || business.logoUrl,
+          image: getBusinessCardImage(business.id, business.bannerUrl, business.website, business.category) || business.imageUrl || business.logoUrl,
           discount: business.discount,
         };
       });

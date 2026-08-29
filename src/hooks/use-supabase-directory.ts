@@ -37,7 +37,7 @@ interface SupabaseBusiness {
 const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
   const businessName = business.name || business.business_name || 'Unnamed Business';
   const logoUrl = business.logo_url || '';
-  const bannerUrl = getBusinessBanner(business.id, business.banner_url, business.website) || '';
+  const bannerUrl = getBusinessBanner(business.id, business.banner_url, business.website, business.category) || '';
   const cardImage = bannerUrl || logoUrl;
   
   return {

@@ -151,7 +151,7 @@ const DirectoryPage: React.FC = () => {
       if (error) throw error;
       
       return (data || []).map((b: any) => {
-        const bannerUrl = getBusinessBanner(b.id, b.banner_url, b.website) || '';
+        const bannerUrl = getBusinessBanner(b.id, b.banner_url, b.website, b.category) || '';
         const logoUrl = b.logo_url || '';
         const cardImage = bannerUrl || logoUrl;
         const businessName = b.name || b.business_name || 'Unnamed Business';

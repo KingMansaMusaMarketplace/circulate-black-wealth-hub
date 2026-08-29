@@ -145,7 +145,7 @@ const RelatedBusinesses: React.FC<RelatedBusinessesProps> = ({
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {businesses.map((business) => {
-            const bannerUrl = getBusinessBanner(business.id, business.logo_url);
+            const bannerUrl = getBusinessBanner(business.id, business.logo_url, null, (business as any).category);
             const href = `/business/${business.slug || business.id}`;
 
             return (
