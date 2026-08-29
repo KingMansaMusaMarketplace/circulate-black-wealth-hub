@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Loader2, Check, X, Search, ListChecks, Image as ImageIcon, ExternalLink, Mail,
+  Loader2, Check, X, Search, ListChecks, Image as ImageIcon, ExternalLink, Mail, RefreshCw,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -38,10 +38,27 @@ const ListingApprovalsQueue: React.FC = () => {
   const [items, setItems] = useState<Business[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [counts, setCounts] = useState<{ new: number; unverified: number; rejected: number } | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [rejectFor, setRejectFor] = useState<Business | null>(null);
   const [rejectReason, setRejectReason] = useState('');
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search.trim()), 350);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  const loadCounts = async () => {
+    const base = () => supabase.from('businesses').select('id', { count: 'exact', head: true });
+    const [n, u, r] = await Promise.all([
+      base().in('listing_status', ['draft', 'pending', 'pending_review']),
+      base().in('listing_status', ['live', 'pending']).eq('is_verified', false),
+      base().eq('listing_status', 'rejected'),
+    ]);
+    setCounts({ new: n.count ?? 0, unverified: u.count ?? 0, rejected: r.count ?? 0 });
+  };
 
   const load = async () => {
     setLoading(true);
@@ -55,19 +72,24 @@ const ListingApprovalsQueue: React.FC = () => {
     else if (tab === 'unverified') q = q.in('listing_status', ['live', 'pending']).eq('is_verified', false);
     else q = q.eq('listing_status', 'rejected');
 
+    if (debouncedSearch) {
+      const s = debouncedSearch.replace(/[%,()]/g, ' ');
+      q = q.or(`name.ilike.%${s}%,city.ilike.%${s}%,email.ilike.%${s}%,category.ilike.%${s}%`);
+    }
+
     const { data, error } = await q;
     setLoading(false);
     if (error) return toast.error('Load failed: ' + error.message);
     setItems((data as any) || []);
   };
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [tab]);
+  useEffect(() => { load(); /* eslint-disable-next-line */ }, [tab, debouncedSearch]);
+  useEffect(() => { loadCounts(); }, []);
 
-  const filtered = items.filter(b => {
-    if (!search) return true;
-    const s = search.toLowerCase();
-    return [b.name, b.city, b.state, b.email, b.category].some(v => v?.toLowerCase().includes(s));
-  });
+  const refresh = () => { load(); loadCounts(); };
+
+  const filtered = items;
+
 
   const toggle = (id: string) =>
     setSelected(s => {
@@ -92,7 +114,7 @@ const ListingApprovalsQueue: React.FC = () => {
     setBusy(false);
     if (error) return toast.error('Approve failed: ' + error.message);
     toast.success(`Approved ${ids.length} listing(s)`);
-    load();
+    refresh();
   };
 
   const reject = async () => {
@@ -113,7 +135,7 @@ const ListingApprovalsQueue: React.FC = () => {
     toast.success('Listing rejected');
     setRejectFor(null);
     setRejectReason('');
-    load();
+    refresh();
   };
 
   const sendVerificationInvite = (b: Business) => {
@@ -143,21 +165,24 @@ The 1325.AI Team`;
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ListChecks className="h-5 w-5 text-mansagold" /> Business Listing Queue
+            <Button size="sm" variant="outline" className="ml-auto" onClick={refresh} disabled={loading}>
+              <RefreshCw className={`h-3 w-3 mr-1 ${loading ? 'animate-spin' : ''}`} /> Refresh
+            </Button>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <Tabs value={tab} onValueChange={v => setTab(v as any)}>
             <TabsList className="bg-white/5 border border-white/10">
-              <TabsTrigger value="new">New (Draft)</TabsTrigger>
-              <TabsTrigger value="unverified">Live · Unverified</TabsTrigger>
-              <TabsTrigger value="rejected">Rejected</TabsTrigger>
+              <TabsTrigger value="new">New (Draft){counts ? ` (${counts.new})` : ''}</TabsTrigger>
+              <TabsTrigger value="unverified">Live · Unverified{counts ? ` (${counts.unverified})` : ''}</TabsTrigger>
+              <TabsTrigger value="rejected">Rejected{counts ? ` (${counts.rejected})` : ''}</TabsTrigger>
             </TabsList>
             <TabsContent value={tab} className="mt-4 space-y-3">
               <div className="flex items-center gap-2">
                 <div className="relative flex-1">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/40" />
                   <Input
-                    placeholder="Filter by name, city, email, category…"
+                    placeholder="Search all matching listings by name, city, email, category…"
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     className="pl-8 bg-white/5 border-white/10"
