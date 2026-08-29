@@ -7,6 +7,7 @@ import { QrCode, MapPin, Star, Share2, Calendar, ArrowLeft } from 'lucide-react'
 import { Business } from '@/types/business';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 import CheckInButton from './CheckInButton';
+import { getBusinessBanner, getCategoryBanner } from '@/utils/businessBanners';
 
 interface BusinessDetailHeaderProps {
   business: Business;
