@@ -384,12 +384,17 @@ export function getBusinessBanner(
  * @param bannerUrl - The stored banner URL (may be null)
  * @returns The card image URL to use, falling back to banner logic
  */
-export function getBusinessCardImage(businessId: string, bannerUrl: string | null | undefined, websiteUrl?: string | null): string | undefined {
+export function getBusinessCardImage(
+  businessId: string,
+  bannerUrl: string | null | undefined,
+  websiteUrl?: string | null,
+  category?: string | null,
+): string {
   // Check for a card-specific image first
   if (businessCardImages[businessId]) {
     return businessCardImages[businessId];
   }
-  
-  // Fall back to banner logic (now includes thum.io website screenshot fallback)
-  return getBusinessBanner(businessId, bannerUrl, websiteUrl);
+
+  // Fall back to banner logic (screenshot, then category art)
+  return getBusinessBanner(businessId, bannerUrl, websiteUrl, category);
 }
