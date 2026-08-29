@@ -33,7 +33,7 @@ import { ReviewsList } from '@/components/reviews/ReviewsList';
 import AIReviewSummary from '@/components/business/AIReviewSummary';
 import { useNavigate } from 'react-router-dom';
 // Sample business data removed - all data comes from Supabase
-import { getBusinessBanner } from '@/utils/businessBanners';
+import { getBusinessBanner, getCategoryBanner } from '@/utils/businessBanners';
 const BusinessLocationMap = lazy(() => import('@/components/business-detail/BusinessLocationMap'));
 import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
 import BusinessImpactScorecard from '@/components/community-impact/BusinessImpactScorecard';
