@@ -513,22 +513,19 @@ const BusinessDetailPage = () => {
         </nav>
 
         {/* Hero Section */}
+        {(() => {
+          const bannerUrl = getBusinessBanner(business.id, business.banner_url, business.website, business.category);
+          return (
         <div className="relative z-10">
           {/* Banner Image */}
-          {(() => {
-            const bannerUrl = getBusinessBanner(business.id, business.banner_url, business.website, business.category);
-            return bannerUrl ? (
-              <div className="h-72 md:h-96 overflow-hidden">
-                <img
-                  src={bannerUrl}
-                  alt={business.business_name}
-                  className="w-full h-full object-cover object-[center_25%]"
-                />
-              </div>
-            ) : (
-              <div className="h-64 md:h-80 bg-slate-900" />
-            );
-          })()}
+          <div className="h-72 md:h-96 overflow-hidden">
+            <img
+              src={bannerUrl}
+              alt={business.business_name}
+              className="w-full h-full object-cover object-[center_25%]"
+              onError={(e) => { e.currentTarget.src = getCategoryBanner(business.category); }}
+            />
+          </div>
 
           {/* Business Info Overlay */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent text-white">
@@ -536,11 +533,12 @@ const BusinessDetailPage = () => {
               <div className="flex flex-col md:flex-row items-start md:items-end gap-6">
                 {/* Logo */}
                 <Avatar className="w-24 h-24 border border-mansagold/40 ring-1 ring-black/40">
-                  <AvatarImage src={business.logo_url} alt={business.business_name} />
-                  <AvatarFallback className="text-2xl font-bold bg-slate-800 text-mansagold">
-                    {business.business_name.charAt(0).toUpperCase()}
+                  <AvatarImage src={business.logo_url || bannerUrl} alt={business.business_name} />
+                  <AvatarFallback className="p-0 bg-slate-800">
+                    <img src={getCategoryBanner(business.category)} alt="" className="w-full h-full object-cover" />
                   </AvatarFallback>
                 </Avatar>
+
 
                 {/* Business Info */}
                 <div className="flex-1 min-w-0">
