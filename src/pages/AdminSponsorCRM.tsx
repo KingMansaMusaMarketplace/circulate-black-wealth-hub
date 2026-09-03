@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { SponsorPipelineKanban } from '@/components/admin/crm/SponsorPipelineKanban';
+import { SponsorTargetList } from '@/components/admin/crm/SponsorTargetList';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSponsorCRM, SponsorProspect } from '@/hooks/use-sponsor-crm';
 import { Button } from '@/components/ui/button';
 import { Plus, Users, DollarSign, TrendingUp } from 'lucide-react';
