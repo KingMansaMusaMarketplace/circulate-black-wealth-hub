@@ -561,6 +561,9 @@ const DirectoryPage: React.FC = () => {
         </div>
 
         {isHome && <WhyBand />}
+
+        {/* Corporate partner wall — visible sponsorship inventory */}
+        <SponsorWallStrip openSlots={2} className="mt-10" />
         
         <ScrollToTopButton />
         
