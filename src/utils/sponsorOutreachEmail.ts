@@ -26,6 +26,20 @@ export const OUTREACH_TOUCHES: { touch: OutreachTouch; label: string; hint: stri
   { touch: 3, label: 'Touch 3 — Close out', hint: 'Send 10–14 days after touch 2. Polite break-up that often gets a reply.' },
 ];
 
+export const SPONSOR_PACKET_URL = 'https://1325.ai/media-kit';
+
+/** Pre-filled agenda used when a meeting is booked. */
+export const MEETING_NOTES_TEMPLATE = [
+  'Meeting agenda / notes',
+  '',
+  '1. Who else needs to be in the room to approve this?',
+  '2. What budget line would this come from (marketing, supplier diversity, community affairs)?',
+  '3. What does their fiscal year / budget cycle look like?',
+  '4. Which markets matter most to them?',
+  '5. What does success look like for them in 12 months?',
+  '6. Agreed next step + date:',
+].join('\n');
+
 interface CustomFields {
   tier?: number;
   owner?: string;
@@ -36,7 +50,17 @@ interface CustomFields {
   opening_line?: string;
   touch_count?: number;
   last_touch_at?: string;
+  replied_at?: string;
+  do_not_contact?: boolean;
 }
+
+/** Has this prospect written back to us? */
+export const hasReplied = (prospect: SponsorProspect): boolean =>
+  Boolean(getSponsorMeta(prospect).replied_at);
+
+/** Companies that asked not to be contacted again. */
+export const isDoNotContact = (prospect: SponsorProspect): boolean =>
+  getSponsorMeta(prospect).do_not_contact === true;
 
 export const getSponsorMeta = (prospect: SponsorProspect): CustomFields =>
   (prospect.custom_fields ?? {}) as CustomFields;
@@ -76,6 +100,7 @@ export const buildSponsorEmail = (
         'Sponsorship is not a logo placement. Every partner gets a named placement on the Sponsor Wall, category presence across the directory, a quarterly community impact report with real numbers (businesses reached, dollars circulated, engagement by market), and co-branded campaigns we build and run for you.',
         ...(includeMcp ? [MCP_PARAGRAPH] : []),
         `Founding Sponsor commitments start at $21,000 for the year. If ${company} is interested, I can send the one-page prospectus or hold 20 minutes this week or next.`,
+        `Full sponsorship packet: ${SPONSOR_PACKET_URL}`,
         SIGNATURE,
       ].join('\n\n'),
     };
@@ -89,6 +114,7 @@ export const buildSponsorEmail = (
         `I have written twice about a sponsorship with 1325.AI and do not want to keep filling your inbox, so this is my last note on it.`,
         `If the timing is wrong, that is completely fine — just tell me when to circle back, or point me to whoever owns community and supplier-diversity partnerships at ${company} and I will take it from there.`,
         'If it is worth a look, reply with a day and I will send an invite. Either way, thank you for the time.',
+        `Full sponsorship packet: ${SPONSOR_PACKET_URL}`,
         SIGNATURE,
       ].join('\n\n'),
     };
