@@ -93,6 +93,7 @@ import {
 import OAuthConsentPage from './pages/OAuthConsentPage';
 const LazyConnectPage = lazy(() => import('./pages/ConnectPage'));
 const LazyMcpDocsPage = lazy(() => import('./pages/McpDocsPage'));
+const LazySupplierApiDocsPage = lazy(() => import('./pages/SupplierApiDocsPage'));
 
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
