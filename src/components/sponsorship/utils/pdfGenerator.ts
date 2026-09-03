@@ -40,6 +40,32 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     pdf.setFont('times', 'normal');
     pdf.setFontSize(11);
 
+    // Brand logo on the first page (always)
+    const drawBrandLogo = () => {
+      const logoSize = 28; // mm
+      const logoX = (pageWidth - logoSize) / 2;
+      try {
+        pdf.addImage(PDF_LOGO_DATA_URL, 'JPEG', logoX, yPosition, logoSize, logoSize);
+        yPosition += logoSize + 4;
+      } catch (e) {
+        console.error('Logo render failed', e);
+      }
+      pdf.setFontSize(9);
+      pdf.setTextColor(120, 100, 50);
+      const brand = '1325.AI  |  Mansa Musa Marketplace';
+      pdf.text(brand, (pageWidth - pdf.getTextWidth(brand)) / 2, yPosition);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(11);
+      yPosition += 8;
+      pdf.setLineWidth(0.4);
+      pdf.setDrawColor(180, 150, 60);
+      pdf.line(marginLeft, yPosition, pageWidth - marginRight, yPosition);
+      pdf.setDrawColor(0, 0, 0);
+      yPosition += 8;
+    };
+    drawBrandLogo();
+
+
     // Helper: Clean text - remove excessive whitespace and convert special chars
     // Helper: Clean text - remove excessive whitespace and convert special chars
     const cleanText = (text: string): string => {
