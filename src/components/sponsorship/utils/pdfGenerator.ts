@@ -2,6 +2,8 @@ import { toast } from 'sonner';
 import { Haptics, NotificationType } from '@capacitor/haptics';
 import { Capacitor } from '@capacitor/core';
 import jsPDF from 'jspdf';
+import { PDF_LOGO_DATA_URL } from '@/utils/pdfLogo';
+
 
 interface PDFOptions {
   filename: string;
