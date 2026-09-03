@@ -6,6 +6,7 @@ import { Download, FileText } from 'lucide-react';
 import { format, addYears } from 'date-fns';
 import { toast } from 'sonner';
 import jsPDF from 'jspdf';
+import { PDF_LOGO_DATA_URL, stampPdfLogo } from '@/utils/pdfLogo';
 
 interface Sponsor {
   id: string;
@@ -51,6 +52,13 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
       doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
       doc.setLineWidth(0.5);
       doc.rect(15, 15, pageWidth - 30, pageHeight - 30);
+
+      // Brand logo (centered, top)
+      try {
+        doc.addImage(PDF_LOGO_DATA_URL, 'JPEG', pageWidth - 48, 22, 22, 22);
+      } catch (e) {
+        console.error('Certificate logo failed', e);
+      }
 
       // Corner decorations
       const cornerSize = 20;
@@ -155,6 +163,7 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
 
       const pageWidth = doc.internal.pageSize.getWidth();
       const margin = 25;
+      stampPdfLogo(doc);
 
       // Header
       doc.setFontSize(20);

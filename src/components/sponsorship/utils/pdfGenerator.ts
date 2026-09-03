@@ -2,6 +2,8 @@ import { toast } from 'sonner';
 import { Haptics, NotificationType } from '@capacitor/haptics';
 import { Capacitor } from '@capacitor/core';
 import jsPDF from 'jspdf';
+import { PDF_LOGO_DATA_URL } from '@/utils/pdfLogo';
+
 
 interface PDFOptions {
   filename: string;
@@ -38,6 +40,32 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     pdf.setFont('times', 'normal');
     pdf.setFontSize(11);
 
+    // Brand logo on the first page (always)
+    const drawBrandLogo = () => {
+      const logoSize = 28; // mm
+      const logoX = (pageWidth - logoSize) / 2;
+      try {
+        pdf.addImage(PDF_LOGO_DATA_URL, 'JPEG', logoX, yPosition, logoSize, logoSize);
+        yPosition += logoSize + 4;
+      } catch (e) {
+        console.error('Logo render failed', e);
+      }
+      pdf.setFontSize(9);
+      pdf.setTextColor(120, 100, 50);
+      const brand = '1325.AI  |  Mansa Musa Marketplace';
+      pdf.text(brand, (pageWidth - pdf.getTextWidth(brand)) / 2, yPosition);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(11);
+      yPosition += 8;
+      pdf.setLineWidth(0.4);
+      pdf.setDrawColor(180, 150, 60);
+      pdf.line(marginLeft, yPosition, pageWidth - marginRight, yPosition);
+      pdf.setDrawColor(0, 0, 0);
+      yPosition += 8;
+    };
+    drawBrandLogo();
+
+
     // Helper: Clean text - remove excessive whitespace and convert special chars
     // Helper: Clean text - remove excessive whitespace and convert special chars
     const cleanText = (text: string): string => {
@@ -63,18 +91,24 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     // Helper function to add page footer
     const addPageFooter = () => {
       const footerY = pageHeight - 12;
+      try {
+        pdf.addImage(PDF_LOGO_DATA_URL, 'JPEG', marginLeft, footerY - 6, 8, 8);
+      } catch (e) {
+        console.error('Footer logo render failed', e);
+      }
       pdf.setFontSize(8);
       pdf.setFont('times', 'normal');
       pdf.setTextColor(100, 100, 100);
       
-      const footerText = `Page ${pageNumber} - CONFIDENTIAL - Attorney-Client Work Product`;
+      const footerText = `1325.AI  |  Page ${pageNumber}  |  CONFIDENTIAL`;
       const footerWidth = pdf.getTextWidth(footerText);
-      const footerX = Math.max(marginLeft, (pageWidth - footerWidth) / 2);
+      const footerX = Math.max(marginLeft + 12, (pageWidth - footerWidth) / 2);
       pdf.text(footerText, footerX, footerY);
       
       // Reset text color
       pdf.setTextColor(0, 0, 0);
     };
+
 
     // Helper function to add new page if needed
     const checkPageBreak = (requiredSpace: number = lineHeight): boolean => {

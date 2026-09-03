@@ -1,6 +1,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { format } from 'date-fns';
+import { stampPdfLogo } from '@/utils/pdfLogo';
 
 interface ExportData {
   referrals?: any[];
@@ -128,6 +129,7 @@ export const exportPaymentsToCSV = (payments: any[], options?: ExportOptions) =>
  */
 export const exportToPDF = (data: ExportData, options: ExportOptions) => {
   const doc = new jsPDF();
+  stampPdfLogo(doc);
   const pageWidth = doc.internal.pageSize.getWidth();
   
   // Header
@@ -275,6 +277,7 @@ export const exportToPDF = (data: ExportData, options: ExportOptions) => {
  */
 export const exportExpensesToPDF = (expenses: any[], businessName: string) => {
   const doc = new jsPDF();
+  stampPdfLogo(doc);
   
   doc.setFontSize(18);
   doc.text('Expenses Report', 14, 20);
@@ -311,6 +314,7 @@ export const exportExpensesToPDF = (expenses: any[], businessName: string) => {
  */
 export const exportInvoiceToPDF = (invoice: any) => {
   const doc = new jsPDF();
+  stampPdfLogo(doc);
   
   // Header
   doc.setFontSize(24);
@@ -382,6 +386,7 @@ export const exportInvoiceToPDF = (invoice: any) => {
  */
 export const exportPLReportToPDF = (plData: any, businessName: string, period: string) => {
   const doc = new jsPDF();
+  stampPdfLogo(doc);
   
   doc.setFontSize(18);
   doc.text('Profit & Loss Report', 14, 20);
