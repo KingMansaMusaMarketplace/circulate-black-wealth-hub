@@ -99,10 +99,15 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect, selected, onToggl
   };
 
   return (
-    <Card className="bg-white/5 border-white/10 p-4 space-y-3">
+    <Card
+      className={`p-4 space-y-3 ${
+        blocked ? 'bg-red-500/5 border-red-500/25 opacity-70' : 'bg-white/5 border-white/10'
+      }`}
+    >
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex items-start gap-3 min-w-0">
           <Checkbox
+            disabled={blocked}
             checked={selected}
             onCheckedChange={() => onToggleSelect(prospect.id)}
             className="mt-1 border-white/30"
@@ -116,6 +121,12 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect, selected, onToggl
           </button>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {replied && (
+            <Badge className="bg-purple-500/20 text-purple-200 text-xs">Replied</Badge>
+          )}
+          {blocked && (
+            <Badge className="bg-red-500/20 text-red-200 text-xs">Do not contact</Badge>
+          )}
           {sent > 0 && (
             <Badge className="bg-emerald-500/20 text-emerald-300 text-xs">{sent} sent</Badge>
           )}
