@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import { SponsorPipelineKanban } from '@/components/admin/crm/SponsorPipelineKanban';
 import { SponsorTargetList } from '@/components/admin/crm/SponsorTargetList';
+import { SponsorProspectDrawer } from '@/components/admin/crm/SponsorProspectDrawer';
+import { FollowUpsPanel } from '@/components/admin/crm/FollowUpsPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSponsorCRM, SponsorProspect } from '@/hooks/use-sponsor-crm';
 import { Button } from '@/components/ui/button';
-import { Plus, Users, DollarSign, TrendingUp } from 'lucide-react';
+import { Plus, Users, Download } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
+import { downloadSponsorCsv } from '@/utils/sponsorCsv';
 
 const AdminSponsorCRM: React.FC = () => {
-  const { createProspect, creatingProspect } = useSponsorCRM();
+  const { createProspect, creatingProspect, prospects } = useSponsorCRM();
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [selectedProspect, setSelectedProspect] = useState<SponsorProspect | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const openProspect = (prospect: SponsorProspect) => {
+    setSelectedProspect(prospect);
+    setDrawerOpen(true);
+  };
   const [formData, setFormData] = useState({
     company_name: '',
     industry: '',
@@ -68,13 +78,23 @@ const AdminSponsorCRM: React.FC = () => {
             </h1>
             <p className="text-blue-200">Manage sponsor prospects and pipeline</p>
           </div>
-          <Button 
-            onClick={() => setShowAddDialog(true)}
-            className="bg-gradient-to-r from-purple-500 to-blue-500"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Prospect
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="border-white/20"
+              onClick={() => downloadSponsorCsv(prospects)}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Export CSV
+            </Button>
+            <Button
+              onClick={() => setShowAddDialog(true)}
+              className="bg-gradient-to-r from-purple-500 to-blue-500"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Prospect
+            </Button>
+          </div>
         </div>
 
         {/* Pipeline + outreach target list */}
@@ -83,13 +103,27 @@ const AdminSponsorCRM: React.FC = () => {
             <TabsTrigger value="pipeline">Pipeline</TabsTrigger>
             <TabsTrigger value="targets">Outreach Targets</TabsTrigger>
           </TabsList>
-          <TabsContent value="pipeline">
-            <SponsorPipelineKanban onAddProspect={() => setShowAddDialog(true)} />
+          <TabsContent value="pipeline" className="space-y-4">
+            <FollowUpsPanel onSelect={openProspect} />
+            <SponsorPipelineKanban
+              onAddProspect={() => setShowAddDialog(true)}
+              onProspectClick={openProspect}
+            />
           </TabsContent>
           <TabsContent value="targets">
-            <SponsorTargetList />
+            <SponsorTargetList onSelect={openProspect} />
           </TabsContent>
         </Tabs>
+
+        <SponsorProspectDrawer
+          prospect={
+            selectedProspect
+              ? prospects.find((p) => p.id === selectedProspect.id) ?? selectedProspect
+              : null
+          }
+          open={drawerOpen}
+          onOpenChange={setDrawerOpen}
+        />
 
 
         {/* Add Prospect Dialog */}
