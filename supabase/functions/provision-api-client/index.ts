@@ -75,7 +75,7 @@ serve(async (req) => {
       name: `${orgName} primary key`,
       environment: "live",
       rate_limit_per_minute: 60,
-      scopes: ["circulation", "business-density", "demographics"],
+      scopes: ["circulation", "business-density", "demographics", "supplier-search"],
     });
     if (keyErr) throw keyErr;
 
