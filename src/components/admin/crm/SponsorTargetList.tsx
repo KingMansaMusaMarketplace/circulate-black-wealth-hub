@@ -104,21 +104,21 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect }) => {
 
       <div className="flex flex-wrap items-center gap-2">
         {prospect.website && (
-          <Button asChild size="sm" variant="outline" className="border-white/20 h-8">
+          <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8">
             <a href={prospect.website} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="w-3 h-3 mr-1" /> Website
             </a>
           </Button>
         )}
         {meta.portal_url && (
-          <Button asChild size="sm" variant="outline" className="border-white/20 h-8">
+          <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8">
             <a href={meta.portal_url} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="w-3 h-3 mr-1" /> Partnership portal
             </a>
           </Button>
         )}
         {meta.phone && (
-          <Button asChild size="sm" variant="outline" className="border-white/20 h-8">
+          <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8">
             <a href={`tel:${meta.phone.replace(/[^\d+]/g, '')}`}>
               <Phone className="w-3 h-3 mr-1" /> {meta.phone}
             </a>
@@ -134,7 +134,7 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect }) => {
         <Button
           size="sm"
           variant="outline"
-          className="border-white/20 h-8"
+          className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8"
           onClick={() => copy(email.subject, 'Subject line')}
         >
           <Mail className="w-3 h-3 mr-1" /> Copy subject
@@ -219,7 +219,7 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect }) => {
               key={o}
               size="sm"
               variant={owner === o ? 'default' : 'outline'}
-              className={owner === o ? 'bg-gradient-to-r from-purple-500 to-blue-500 h-8' : 'border-white/20 h-8'}
+              className={owner === o ? 'bg-gradient-to-r from-purple-500 to-blue-500 h-8' : 'border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8'}
               onClick={() => setOwner(o)}
             >
               {o === 'all' ? 'All owners' : o}
@@ -230,7 +230,7 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect }) => {
         <Button
           size="sm"
           variant="outline"
-          className="border-white/20 h-8 ml-auto"
+          className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8 ml-auto"
           onClick={() => downloadSponsorCsv(filtered)}
         >
           <Download className="w-3 h-3 mr-1" /> Export CSV
