@@ -30,7 +30,7 @@ export const generateBrandAssets = async (): Promise<void> => {
   try {
     toast.info('Generating Brand Assets...');
     await generatePDF({
-      filename: 'Mansa-Musa-Brand-Assets.pdf',
+      filename: '1325AI-Brand-Assets.pdf',
       content: getBrandAssetsContent()
     });
     toast.success('Brand assets guide downloaded successfully!');
@@ -75,7 +75,7 @@ export const generateMediaKit = async (): Promise<void> => {
   try {
     toast.info('Generating Media Kit...');
     await generatePDF({
-      filename: 'Mansa-Musa-Media-Kit.pdf',
+      filename: '1325AI-Media-Kit.pdf',
       content: getMediaKitContent()
     });
     toast.success('Media kit downloaded successfully!');
