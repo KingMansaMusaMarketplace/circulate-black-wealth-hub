@@ -8,16 +8,33 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-csrf-token, x-admin-secret",
 };
 
+function secureRandomInt(maxExclusive: number): number {
+  // Rejection sampling with crypto-grade randomness to avoid modulo bias
+  const limit = Math.floor(0xffffffff / maxExclusive) * maxExclusive;
+  const buf = new Uint32Array(1);
+  let value = 0;
+  do {
+    crypto.getRandomValues(buf);
+    value = buf[0];
+  } while (value >= limit);
+  return value % maxExclusive;
+}
+
 function generateTempPassword(): string {
   const upper = "ABCDEFGHJKLMNPQRSTUVWXYZ";
   const lower = "abcdefghijkmnpqrstuvwxyz";
   const digits = "23456789";
   const symbols = "!@#$%^&*";
   const all = upper + lower + digits + symbols;
-  const pick = (s: string) => s[Math.floor(Math.random() * s.length)];
-  let pw = pick(upper) + pick(lower) + pick(digits) + pick(symbols);
-  for (let i = 0; i < 10; i++) pw += pick(all);
-  return pw.split("").sort(() => Math.random() - 0.5).join("");
+  const pick = (s: string) => s[secureRandomInt(s.length)];
+  const chars = [pick(upper), pick(lower), pick(digits), pick(symbols)];
+  for (let i = 0; i < 10; i++) chars.push(pick(all));
+  // Cryptographically secure Fisher-Yates shuffle
+  for (let i = chars.length - 1; i > 0; i--) {
+    const j = secureRandomInt(i + 1);
+    [chars[i], chars[j]] = [chars[j], chars[i]];
+  }
+  return chars.join("");
 }
 
 serve(async (req) => {
