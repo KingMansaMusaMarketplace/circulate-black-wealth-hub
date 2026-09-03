@@ -208,7 +208,7 @@ interface Props {
 }
 
 export const SponsorTargetList: React.FC<Props> = ({ onSelect, needsContactOnly = false }) => {
-  const { prospects, isLoading, bulkUpdate, bulkUpdating } = useSponsorCRM();
+  const { prospects, isLoading, bulkUpdate, bulkUpdating, updateProspect } = useSponsorCRM();
   const [search, setSearch] = useState('');
   const [owner, setOwner] = useState<string>('all');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -254,13 +254,23 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect, needsContactOnly 
 
   const bulkMarkContacted = () => {
     if (!window.confirm(`Mark ${selectedIds.length} prospect(s) as contacted today?`)) return;
-    bulkUpdate({
-      ids: selectedIds,
-      updates: {
-        last_contact_at: new Date().toISOString(),
-        next_follow_up: addBusinessDays(5).toISOString(),
+    const now = new Date().toISOString();
+    const followUp = addBusinessDays(5).toISOString();
+    selectedIds.forEach((id) => {
+      const p = prospects.find((x) => x.id === id);
+      if (!p) return;
+      const custom = (p.custom_fields as Record<string, unknown>) || {};
+      updateProspect({
+        id,
+        last_contact_at: now,
+        next_follow_up: followUp,
         pipeline_stage: 'outreach',
-      },
+        custom_fields: {
+          ...custom,
+          touch_count: getTouchCount(p) + 1,
+          last_touch_at: now,
+        },
+      } as any);
     });
     toast.success(`${selectedIds.length} marked contacted`);
     setSelectedIds([]);
