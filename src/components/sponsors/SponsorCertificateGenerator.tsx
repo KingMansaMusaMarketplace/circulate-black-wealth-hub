@@ -55,7 +55,7 @@ export function SponsorCertificateGenerator({ sponsor }: SponsorCertificateGener
 
       // Brand logo (centered, top)
       try {
-        doc.addImage(PDF_LOGO_DATA_URL, 'JPEG', (pageWidth - 24) / 2, 20, 24, 24);
+        doc.addImage(PDF_LOGO_DATA_URL, 'JPEG', pageWidth - 48, 22, 22, 22);
       } catch (e) {
         console.error('Certificate logo failed', e);
       }
