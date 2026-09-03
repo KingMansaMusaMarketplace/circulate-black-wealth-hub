@@ -3,6 +3,7 @@ import { SponsorPipelineKanban } from '@/components/admin/crm/SponsorPipelineKan
 import { SponsorTargetList } from '@/components/admin/crm/SponsorTargetList';
 import { SponsorProspectDrawer } from '@/components/admin/crm/SponsorProspectDrawer';
 import { FollowUpsPanel } from '@/components/admin/crm/FollowUpsPanel';
+import { PipelineHealthStrip } from '@/components/admin/crm/PipelineHealthStrip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSponsorCRM, SponsorProspect } from '@/hooks/use-sponsor-crm';
 import { Button } from '@/components/ui/button';
@@ -102,8 +103,10 @@ const AdminSponsorCRM: React.FC = () => {
           <TabsList className="bg-white/5 border border-white/10">
             <TabsTrigger value="pipeline">Pipeline</TabsTrigger>
             <TabsTrigger value="targets">Outreach Targets</TabsTrigger>
+            <TabsTrigger value="enrichment">Needs a Name</TabsTrigger>
           </TabsList>
           <TabsContent value="pipeline" className="space-y-4">
+            <PipelineHealthStrip onSelectCold={openProspect} />
             <FollowUpsPanel onSelect={openProspect} />
             <SponsorPipelineKanban
               onAddProspect={() => setShowAddDialog(true)}
@@ -112,6 +115,9 @@ const AdminSponsorCRM: React.FC = () => {
           </TabsContent>
           <TabsContent value="targets">
             <SponsorTargetList onSelect={openProspect} />
+          </TabsContent>
+          <TabsContent value="enrichment">
+            <SponsorTargetList onSelect={openProspect} needsContactOnly />
           </TabsContent>
         </Tabs>
 
@@ -162,12 +168,11 @@ const AdminSponsorCRM: React.FC = () => {
                       <SelectValue placeholder="Select tier" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="founding">Founding ($1,750/mo)</SelectItem>
                       <SelectItem value="bronze">Bronze ($5,000/mo)</SelectItem>
                       <SelectItem value="silver">Silver ($15,000/mo)</SelectItem>
                       <SelectItem value="gold">Gold ($25,000/mo)</SelectItem>
                       <SelectItem value="platinum">Platinum ($50,000/mo)</SelectItem>
-                      <SelectItem value="custom">Custom</SelectItem>
+                      <SelectItem value="custom">Founding / Custom ($1,750/mo)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

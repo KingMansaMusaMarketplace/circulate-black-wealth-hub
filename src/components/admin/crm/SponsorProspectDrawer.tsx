@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { Copy, Mail, Trash2, Save, Phone, ExternalLink, Clock } from 'lucide-react';
+import { Copy, Mail, Trash2, Save, Phone, ExternalLink, Clock, LayoutTemplate, Crown } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,14 @@ import {
   PipelineStage,
   PIPELINE_STAGES,
 } from '@/hooks/use-sponsor-crm';
-import { buildSponsorEmail, getSponsorMeta } from '@/utils/sponsorOutreachEmail';
+import {
+  buildSponsorEmail,
+  getSponsorMeta,
+  getNextTouch,
+  OUTREACH_TOUCHES,
+  OutreachTouch,
+} from '@/utils/sponsorOutreachEmail';
+import { SponsorWallPreviewDialog } from '@/components/admin/crm/SponsorWallPreviewDialog';
 
 interface Props {
   prospect: SponsorProspect | null;
@@ -36,7 +43,11 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
     loggingActivity,
     deleteProspect,
     useProspectActivities,
+    convertToSponsor,
+    convertingToSponsor,
   } = useSponsorCRM();
+
+  const [wallPreviewOpen, setWallPreviewOpen] = useState(false);
 
   const { data: activities = [] } = useProspectActivities(prospect?.id ?? null);
 
@@ -71,7 +82,14 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
   }, [prospect?.id]);
 
   const meta = prospect ? getSponsorMeta(prospect) : {};
-  const email = useMemo(() => (prospect ? buildSponsorEmail(prospect) : null), [prospect?.id]);
+  const [touch, setTouch] = useState<OutreachTouch>(1);
+  useEffect(() => {
+    if (prospect) setTouch(getNextTouch(prospect));
+  }, [prospect?.id]);
+  const email = useMemo(
+    () => (prospect ? buildSponsorEmail(prospect, touch) : null),
+    [prospect?.id, touch],
+  );
 
   if (!prospect) return null;
 
@@ -304,10 +322,56 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
 
           <Separator className="bg-white/10" />
 
+          {/* Sponsor wall preview + closed-won conversion */}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-amber-400/40 bg-amber-400/10 text-amber-200 hover:bg-amber-400/20 hover:text-white"
+              onClick={() => setWallPreviewOpen(true)}
+            >
+              <LayoutTemplate className="w-3 h-3 mr-1" /> Sponsor Wall preview
+            </Button>
+            {prospect.pipeline_stage === 'closed_won' && (
+              <Button
+                size="sm"
+                disabled={convertingToSponsor}
+                className="bg-gradient-to-r from-emerald-500 to-teal-500"
+                onClick={() => convertToSponsor(prospect)}
+              >
+                <Crown className="w-3 h-3 mr-1" />
+                {convertingToSponsor ? 'Creating…' : 'Create sponsor record'}
+              </Button>
+            )}
+          </div>
+
+          <Separator className="bg-white/10" />
+
           {/* Outreach email */}
           {email && (
             <div className="space-y-2">
               <h4 className="text-white font-semibold">Outreach email</h4>
+              <div className="flex flex-wrap gap-1">
+                {OUTREACH_TOUCHES.map((t) => (
+                  <Button
+                    key={t.touch}
+                    size="sm"
+                    title={t.hint}
+                    variant={touch === t.touch ? 'default' : 'outline'}
+                    className={
+                      touch === t.touch
+                        ? 'h-7 text-xs bg-gradient-to-r from-purple-500 to-blue-500'
+                        : 'h-7 text-xs border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white'
+                    }
+                    onClick={() => setTouch(t.touch)}
+                  >
+                    {t.label}
+                  </Button>
+                ))}
+              </div>
+              <p className="text-[11px] text-blue-300/70">
+                {OUTREACH_TOUCHES.find((t) => t.touch === touch)?.hint}
+              </p>
               <p className="text-xs text-blue-300">Subject: {email.subject}</p>
               <pre className="whitespace-pre-wrap text-xs text-blue-100/80 bg-white/5 border border-white/10 rounded-lg p-3 max-h-56 overflow-y-auto">
                 {email.body}
@@ -328,6 +392,13 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
               </div>
             </div>
           )}
+
+          <SponsorWallPreviewDialog
+            prospect={prospect}
+            open={wallPreviewOpen}
+            onOpenChange={setWallPreviewOpen}
+          />
+
 
           <Separator className="bg-white/10" />
 
