@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Check, ArrowRight } from 'lucide-react';
 
@@ -138,6 +139,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           {tiers.map((tier, index) => {
             const isRecommended = !!tier.recommended;
             const isInvitation = !!tier.invitation;
+            const isSelfServe = tier.name === 'Founding Sponsor';
             return (
               <motion.div
                 key={tier.name}
