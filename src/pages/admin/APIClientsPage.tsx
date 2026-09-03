@@ -13,6 +13,7 @@ import { Copy, Plus } from 'lucide-react';
 export default function APIClientsPage() {
   const [clients, setClients] = useState<any[]>([]);
   const [requests, setRequests] = useState<any[]>([]);
+  const [supplierUsage, setSupplierUsage] = useState<any[]>([]);
   const [orgName, setOrgName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [tier, setTier] = useState('starter');
@@ -20,14 +21,24 @@ export default function APIClientsPage() {
   const [newKey, setNewKey] = useState<string | null>(null);
 
   const load = async () => {
-    const [{ data: c }, { data: r }] = await Promise.all([
+    const [{ data: c }, { data: r }, { data: u }] = await Promise.all([
       supabase.from('developer_accounts').select('*').order('created_at', { ascending: false }),
       supabase.from('api_access_requests').select('*').order('created_at', { ascending: false }).limit(50),
+      supabase
+        .from('api_usage_logs')
+        .select('id, developer_id, endpoint, method, response_status, latency_ms, request_timestamp')
+        .eq('endpoint', '/supplier-search')
+        .order('request_timestamp', { ascending: false })
+        .limit(25),
     ]);
     setClients(c || []);
     setRequests(r || []);
+    setSupplierUsage(u || []);
   };
   useEffect(() => { load(); }, []);
+
+  const clientName = (id: string) =>
+    clients.find((c) => c.id === id)?.company_name || 'Unknown client';
 
   const markReviewed = async (id: string, status: 'approved' | 'rejected') => {
     await supabase.from('api_access_requests').update({ status, reviewed_at: new Date().toISOString() }).eq('id', id);
