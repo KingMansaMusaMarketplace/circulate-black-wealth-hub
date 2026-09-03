@@ -15,7 +15,14 @@ import {
   PipelineStage,
   PIPELINE_STAGES,
 } from '@/hooks/use-sponsor-crm';
-import { buildSponsorEmail, getSponsorMeta } from '@/utils/sponsorOutreachEmail';
+import {
+  buildSponsorEmail,
+  getSponsorMeta,
+  getNextTouch,
+  OUTREACH_TOUCHES,
+  OutreachTouch,
+} from '@/utils/sponsorOutreachEmail';
+import { SponsorWallPreviewDialog } from '@/components/admin/crm/SponsorWallPreviewDialog';
 
 interface Props {
   prospect: SponsorProspect | null;
