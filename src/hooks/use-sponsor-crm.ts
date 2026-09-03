@@ -300,6 +300,68 @@ export const useSponsorCRM = () => {
     },
   });
 
+  // Bulk update several prospects at once (mark contacted, set follow-up, move stage)
+  const bulkUpdateMutation = useMutation({
+    mutationFn: async ({ ids, updates }: { ids: string[]; updates: Record<string, any> }) => {
+      if (!ids.length) return;
+      const { error } = await supabase.from('sponsor_prospects').update(updates).in('id', ids);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sponsor-prospects'] });
+      queryClient.invalidateQueries({ queryKey: ['pipeline-summary'] });
+      queryClient.invalidateQueries({ queryKey: ['follow-up-reminders'] });
+    },
+    onError: (error) => {
+      toast.error('Bulk update failed');
+      console.error(error);
+    },
+  });
+
+  // Turn a Closed Won prospect into a sponsor record (kept pending until reviewed)
+  const convertToSponsorMutation = useMutation({
+    mutationFn: async (prospect: SponsorProspect) => {
+      const { data: existing } = await supabase
+        .from('sponsors')
+        .select('id')
+        .eq('company_name', prospect.company_name)
+        .maybeSingle();
+      if (existing) return { created: false };
+
+      const { error } = await supabase.from('sponsors').insert({
+        company_name: prospect.company_name,
+        contact_name: prospect.primary_contact_name || 'Pending',
+        contact_title: prospect.primary_contact_title,
+        email: prospect.primary_contact_email || 'Partner@1325.AI',
+        phone: prospect.primary_contact_phone || 'Pending',
+        company_website: prospect.website,
+        company_city: prospect.headquarters_city,
+        company_state: prospect.headquarters_state,
+        industry: prospect.industry,
+        company_size: prospect.company_size,
+        sponsorship_tier: prospect.expected_tier || 'founding',
+        message: `Created from Sponsor CRM on ${new Date().toLocaleDateString()}.`,
+        subscription_status: 'pending',
+      });
+      if (error) throw error;
+      return { created: true };
+    },
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: ['sponsors'] });
+      toast.success(
+        result?.created
+          ? 'Sponsor record created (pending — not live on the wall yet)'
+          : 'That company already has a sponsor record',
+      );
+    },
+    onError: (error) => {
+      toast.error('Could not create the sponsor record');
+      console.error(error);
+    },
+  });
+
+
+
   // Group prospects by stage
   const prospectsByStage = PIPELINE_STAGES.reduce((acc, stage) => {
     acc[stage.value] = (prospects || []).filter(p => p.pipeline_stage === stage.value);
