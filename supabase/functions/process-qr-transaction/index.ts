@@ -119,8 +119,50 @@ serve(async (req) => {
       .eq("id", businessId)
       .single();
 
-    // Apply discount to the bill the customer pays
-    const discountedAmount = amount * (1 - (discountPercentage || 0) / 100);
+    // SECURITY: never trust the client-supplied discount. Resolve the real
+    // discount from the qr_codes row and validate the code is usable.
+    let effectiveDiscount = 0;
+    if (qrCodeId) {
+      const { data: qrCode, error: qrError } = await supabase
+        .from("qr_codes")
+        .select("id, business_id, discount_percentage, is_active, expiration_date, scan_limit, current_scans")
+        .eq("id", qrCodeId)
+        .maybeSingle();
+
+      if (qrError || !qrCode) throw new Error("QR code not found");
+      if (qrCode.business_id !== businessId) throw new Error("QR code does not belong to this business");
+      if (qrCode.is_active === false) throw new Error("This QR code is no longer active");
+      if (qrCode.expiration_date && new Date(qrCode.expiration_date).getTime() < Date.now()) {
+        throw new Error("This QR code has expired");
+      }
+      if (
+        typeof qrCode.scan_limit === "number" &&
+        qrCode.scan_limit > 0 &&
+        (qrCode.current_scans ?? 0) >= qrCode.scan_limit
+      ) {
+        throw new Error("This QR code has reached its usage limit");
+      }
+
+      const serverDiscount = Number(qrCode.discount_percentage ?? 0);
+      effectiveDiscount = Number.isFinite(serverDiscount)
+        ? Math.min(100, Math.max(0, serverDiscount))
+        : 0;
+    } else if ((discountPercentage || 0) > 0) {
+      // A discount can only come from a real QR code
+      throw new Error("A valid QR code is required to apply a discount");
+    }
+
+    if ((discountPercentage || 0) !== effectiveDiscount) {
+      console.warn("QR discount mismatch — using server value", {
+        businessId,
+        qrCodeId: qrCodeId || null,
+        clientRequested: discountPercentage || 0,
+        serverValue: effectiveDiscount,
+      });
+    }
+
+    // Apply the server-validated discount to the bill the customer pays
+    const discountedAmount = amount * (1 - effectiveDiscount / 100);
     const finalAmountCents = Math.max(50, Math.round(discountedAmount * 100)); // Stripe min 50¢
     const commissionRate = await getCommissionRate(supabase, businessId);
     const commissionCents = Math.round(finalAmountCents * (commissionRate / 100));
@@ -134,8 +176,8 @@ serve(async (req) => {
     const productName = business?.business_name
       ? `Payment to ${business.business_name}`
       : "QR Code Payment";
-    const lineItemName = discountPercentage && discountPercentage > 0
-      ? `${productName} (${discountPercentage}% discount applied)`
+    const lineItemName = effectiveDiscount > 0
+      ? `${productName} (${effectiveDiscount}% discount applied)`
       : productName;
 
     // Create Checkout Session with Connect split
@@ -164,7 +206,7 @@ serve(async (req) => {
           qrCodeId: qrCodeId || "direct",
           customerId: user.id,
           originalAmount: amount.toFixed(2),
-          discountPercentage: String(discountPercentage || 0),
+          discountPercentage: String(effectiveDiscount),
           finalAmount: (finalAmountCents / 100).toFixed(2),
           commissionRate: commissionRate.toString(),
           transactionType: "qr_scan",
@@ -209,7 +251,7 @@ serve(async (req) => {
           checkout_session_id: session.id,
           qr_code_id: qrCodeId || null,
           original_amount: amount,
-          discount_percentage: discountPercentage || 0,
+          discount_percentage: effectiveDiscount,
           transaction_type: "qr_scan",
         },
       });
@@ -230,7 +272,7 @@ serve(async (req) => {
           payment_intent_id: session.payment_intent,
           qr_code_id: qrCodeId,
           original_amount: amount,
-          discount_percentage: discountPercentage || 0,
+          discount_percentage: effectiveDiscount,
           commission_rate: commissionRate,
           status: "pending",
         },
@@ -246,7 +288,7 @@ serve(async (req) => {
         transaction,
         breakdown: {
           originalAmount: amount,
-          discountPercentage: discountPercentage || 0,
+          discountPercentage: effectiveDiscount,
           finalAmount: finalAmountCents / 100,
           commission: {
             rate: commissionRate,
