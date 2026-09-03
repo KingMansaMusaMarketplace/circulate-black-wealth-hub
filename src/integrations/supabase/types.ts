@@ -27954,6 +27954,37 @@ export type Database = {
         }
         Returns: string
       }
+      supplier_search_api: {
+        Args: {
+          p_category?: string
+          p_city?: string
+          p_limit?: number
+          p_offset?: number
+          p_query?: string
+          p_radius_miles?: number
+          p_state?: string
+          p_verified_only?: boolean
+          p_zip?: string
+        }
+        Returns: {
+          average_rating: number
+          business_name: string
+          category: string
+          city: string
+          description: string
+          distance_miles: number
+          id: string
+          is_verified: boolean
+          ownership_verified: boolean
+          phone: string
+          review_count: number
+          slug: string
+          state: string
+          total_count: number
+          website: string
+          zip_code: string
+        }[]
+      }
       track_material_download: {
         Args: { p_material_id: string; p_user_id: string }
         Returns: undefined
