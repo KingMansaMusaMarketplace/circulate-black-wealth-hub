@@ -35,6 +35,7 @@ import DirectoryPagination from '@/components/directory/DirectoryPagination';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { useIsMobile } from '@/hooks/use-mobile';
 import SponsorSidebar from '@/components/sponsors/SponsorSidebar';
+import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
 import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 import HomeSignupStrip from '@/components/directory/HomeSignupStrip';
 import WhyBand from '@/components/directory/WhyBand';
@@ -561,6 +562,9 @@ const DirectoryPage: React.FC = () => {
         </div>
 
         {isHome && <WhyBand />}
+
+        {/* Corporate partner wall — visible sponsorship inventory */}
+        <SponsorWallStrip openSlots={2} className="mt-10" />
         
         <ScrollToTopButton />
         

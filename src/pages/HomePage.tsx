@@ -9,6 +9,7 @@ import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBo
 import BusinessSubmissionBox from '@/components/homepage/BusinessSubmissionBox';
 import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueShareCard';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
+import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
 
 
 /**
@@ -151,6 +152,10 @@ const HomePage: React.FC = () => {
             </a>
           </div>
         </section>
+
+        {/* Corporate partner wall — shows live partners and open slots */}
+        <SponsorWallStrip openSlots={2} />
+
 
         {/* Screen 2 — The Workforce */}
         <section className="px-6 py-24 border-t border-zinc-900">
