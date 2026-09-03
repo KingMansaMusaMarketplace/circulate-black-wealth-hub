@@ -219,7 +219,7 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect }) => {
               key={o}
               size="sm"
               variant={owner === o ? 'default' : 'outline'}
-              className={owner === o ? 'bg-gradient-to-r from-purple-500 to-blue-500 h-8' : 'border-white/20 h-8'}
+              className={owner === o ? 'bg-gradient-to-r from-purple-500 to-blue-500 h-8' : 'border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8'}
               onClick={() => setOwner(o)}
             >
               {o === 'all' ? 'All owners' : o}
