@@ -128,6 +128,7 @@ export const buildSponsorEmail = (
       PLATFORM_PARAGRAPH,
       ...(includeMcp ? [MCP_PARAGRAPH] : []),
       `I'd like 20 minutes to walk you through a corporate sponsorship that puts ${company} in front of this network year-round, not campaign-by-campaign.`,
+      `Full sponsorship packet: ${SPONSOR_PACKET_URL}`,
       SIGNATURE,
     ].join('\n\n'),
   };
