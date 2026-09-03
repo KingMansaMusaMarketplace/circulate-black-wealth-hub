@@ -1,12 +1,30 @@
 import React, { useMemo, useState } from 'react';
-import { Copy, ExternalLink, Phone, Mail, Search, CheckCircle2, Download } from 'lucide-react';
+import {
+  Copy,
+  ExternalLink,
+  Phone,
+  Mail,
+  Search,
+  CheckCircle2,
+  Download,
+  UserSearch,
+  CalendarClock,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useSponsorCRM, SponsorProspect, PIPELINE_STAGES } from '@/hooks/use-sponsor-crm';
-import { buildSponsorEmail, getSponsorMeta } from '@/utils/sponsorOutreachEmail';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useSponsorCRM, SponsorProspect } from '@/hooks/use-sponsor-crm';
+import {
+  buildSponsorEmail,
+  getSponsorMeta,
+  getNextTouch,
+  getTouchCount,
+  OUTREACH_TOUCHES,
+  OutreachTouch,
+} from '@/utils/sponsorOutreachEmail';
 import { downloadSponsorCsv } from '@/utils/sponsorCsv';
 
 const TIER_LABELS: Record<number, string> = {
@@ -25,7 +43,7 @@ const copy = async (text: string, label: string) => {
   }
 };
 
-const addBusinessDays = (days: number) => {
+export const addBusinessDays = (days: number) => {
   const date = new Date();
   let added = 0;
   while (added < days) {
@@ -39,15 +57,16 @@ const addBusinessDays = (days: number) => {
 interface RowProps {
   prospect: SponsorProspect;
   onSelect?: (prospect: SponsorProspect) => void;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
 }
 
-const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect }) => {
+const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect, selected, onToggleSelect }) => {
+  const { updateProspect, logActivity } = useSponsorCRM();
   const meta = getSponsorMeta(prospect);
-  const email = buildSponsorEmail(prospect);
-  const { logActivity, updateProspect } = useSponsorCRM();
-
-  const stageLabel = PIPELINE_STAGES.find((s) => s.value === prospect.pipeline_stage)?.label;
-  const contacted = !!prospect.last_contact_at;
+  const sent = getTouchCount(prospect);
+  const [touch, setTouch] = useState<OutreachTouch>(getNextTouch(prospect));
+  const email = useMemo(() => buildSponsorEmail(prospect, touch), [prospect, touch]);
 
   const markContacted = () => {
     logActivity({
@@ -58,30 +77,46 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect }) => {
       completed_at: new Date().toISOString(),
       is_completed: true,
     } as any);
+
     updateProspect({
       id: prospect.id,
-      pipeline_stage: 'outreach',
+      pipeline_stage: prospect.pipeline_stage === 'research' ? 'outreach' : prospect.pipeline_stage,
       last_contact_at: new Date().toISOString(),
       next_follow_up: addBusinessDays(5).toISOString(),
-      follow_up_notes: 'Follow up on initial sponsorship outreach',
+      custom_fields: {
+        ...meta,
+        touch_count: Math.min(touch, 3),
+        last_touch_at: new Date().toISOString(),
+      },
     } as any);
-    toast.success(`${prospect.company_name} marked as contacted — follow-up set for 5 business days`);
+
+    toast.success(`Logged touch ${touch} — follow-up set for 5 business days`);
+    setTouch((t) => (Math.min(t + 1, 3) as OutreachTouch));
   };
 
   return (
     <Card className="bg-white/5 border-white/10 p-4 space-y-3">
       <div className="flex flex-wrap items-start justify-between gap-2">
-        <button type="button" className="min-w-0 text-left" onClick={() => onSelect?.(prospect)}>
-          <p className="font-semibold text-white hover:text-purple-300 transition-colors">
-            {prospect.company_name}
-          </p>
-          <p className="text-xs text-blue-300">{prospect.industry}</p>
-        </button>
+        <div className="flex items-start gap-3 min-w-0">
+          <Checkbox
+            checked={selected}
+            onCheckedChange={() => onToggleSelect(prospect.id)}
+            className="mt-1 border-white/30"
+            aria-label={`Select ${prospect.company_name}`}
+          />
+          <button className="text-left min-w-0" onClick={() => onSelect?.(prospect)}>
+            <p className="font-semibold text-white hover:text-amber-300 transition-colors">
+              {prospect.company_name}
+            </p>
+            <p className="text-xs text-blue-300">{prospect.industry}</p>
+          </button>
+        </div>
         <div className="flex flex-wrap items-center gap-2">
-          {stageLabel && (
-            <Badge variant="secondary" className="bg-blue-500/20 text-blue-200 text-xs">
-              {stageLabel}
-            </Badge>
+          {sent > 0 && (
+            <Badge className="bg-emerald-500/20 text-emerald-300 text-xs">{sent} sent</Badge>
+          )}
+          {!prospect.primary_contact_name && (
+            <Badge className="bg-orange-500/20 text-orange-300 text-xs">Needs a name</Badge>
           )}
           {meta.target_label && (
             <Badge className="bg-amber-500/20 text-amber-300 text-xs">{meta.target_label}</Badge>
@@ -96,11 +131,25 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect }) => {
 
       {meta.pitch_angle && <p className="text-sm text-blue-100/80">{meta.pitch_angle}</p>}
 
-      {contacted && (
-        <p className="text-xs text-emerald-300">
-          Last contacted {new Date(prospect.last_contact_at as string).toLocaleDateString()}
-        </p>
-      )}
+      {/* Touch selector */}
+      <div className="flex flex-wrap items-center gap-1">
+        {OUTREACH_TOUCHES.map((t) => (
+          <Button
+            key={t.touch}
+            size="sm"
+            variant={touch === t.touch ? 'default' : 'outline'}
+            title={t.hint}
+            className={
+              touch === t.touch
+                ? 'h-7 text-xs bg-gradient-to-r from-purple-500 to-blue-500'
+                : 'h-7 text-xs border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white'
+            }
+            onClick={() => setTouch(t.touch)}
+          >
+            {t.label}
+          </Button>
+        ))}
+      </div>
 
       <div className="flex flex-wrap items-center gap-2">
         {prospect.website && (
@@ -142,7 +191,7 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect }) => {
         <Button
           size="sm"
           variant="outline"
-          className="border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/10 h-8"
+          className="border-emerald-500/40 bg-emerald-500/10 text-emerald-200 hover:bg-emerald-500/20 hover:text-white h-8"
           onClick={markContacted}
         >
           <CheckCircle2 className="w-3 h-3 mr-1" /> Mark contacted
@@ -154,12 +203,15 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect }) => {
 
 interface Props {
   onSelect?: (prospect: SponsorProspect) => void;
+  /** Only show prospects that still have no named contact. */
+  needsContactOnly?: boolean;
 }
 
-export const SponsorTargetList: React.FC<Props> = ({ onSelect }) => {
-  const { prospects, isLoading } = useSponsorCRM();
+export const SponsorTargetList: React.FC<Props> = ({ onSelect, needsContactOnly = false }) => {
+  const { prospects, isLoading, bulkUpdate, bulkUpdating } = useSponsorCRM();
   const [search, setSearch] = useState('');
   const [owner, setOwner] = useState<string>('all');
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const owners = useMemo(() => {
     const set = new Set<string>();
@@ -178,9 +230,10 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect }) => {
         ? p.company_name.toLowerCase().includes(term) || (p.industry || '').toLowerCase().includes(term)
         : true;
       const matchesOwner = owner === 'all' ? true : meta.owner === owner;
-      return matchesTerm && matchesOwner;
+      const matchesContact = needsContactOnly ? !p.primary_contact_name : true;
+      return matchesTerm && matchesOwner && matchesContact;
     });
-  }, [prospects, search, owner]);
+  }, [prospects, search, owner, needsContactOnly]);
 
   const grouped = useMemo(
     () =>
@@ -191,6 +244,33 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect }) => {
       }, {}),
     [filtered],
   );
+
+  const toggleSelect = (id: string) =>
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+
+  const allVisibleSelected = filtered.length > 0 && filtered.every((p) => selectedIds.includes(p.id));
+  const toggleSelectAll = () =>
+    setSelectedIds(allVisibleSelected ? [] : filtered.map((p) => p.id));
+
+  const bulkMarkContacted = () => {
+    if (!window.confirm(`Mark ${selectedIds.length} prospect(s) as contacted today?`)) return;
+    bulkUpdate({
+      ids: selectedIds,
+      updates: {
+        last_contact_at: new Date().toISOString(),
+        next_follow_up: addBusinessDays(5).toISOString(),
+        pipeline_stage: 'outreach',
+      },
+    });
+    toast.success(`${selectedIds.length} marked contacted`);
+    setSelectedIds([]);
+  };
+
+  const bulkSetFollowUp = (days: number) => {
+    bulkUpdate({ ids: selectedIds, updates: { next_follow_up: addBusinessDays(days).toISOString() } });
+    toast.success(`Follow-up set for ${selectedIds.length} prospect(s)`);
+    setSelectedIds([]);
+  };
 
   if (isLoading) {
     return <p className="text-blue-200">Loading target list…</p>;
@@ -237,7 +317,58 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect }) => {
         </Button>
       </div>
 
-      {tiers.length === 0 && <p className="text-blue-200">No prospects match that search.</p>}
+      {/* Bulk action bar */}
+      <div className="flex flex-wrap items-center gap-2 rounded-lg border border-white/10 bg-white/5 p-3">
+        <Button
+          size="sm"
+          variant="outline"
+          className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8"
+          onClick={toggleSelectAll}
+        >
+          {allVisibleSelected ? 'Clear selection' : `Select all (${filtered.length})`}
+        </Button>
+        <span className="text-xs text-blue-200">{selectedIds.length} selected</span>
+        {selectedIds.length > 0 && (
+          <>
+            <Button
+              size="sm"
+              disabled={bulkUpdating}
+              className="h-8 bg-gradient-to-r from-emerald-500 to-teal-500"
+              onClick={bulkMarkContacted}
+            >
+              <CheckCircle2 className="w-3 h-3 mr-1" /> Mark contacted
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={bulkUpdating}
+              className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8"
+              onClick={() => bulkSetFollowUp(5)}
+            >
+              <CalendarClock className="w-3 h-3 mr-1" /> Follow up in 5 days
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={bulkUpdating}
+              className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8"
+              onClick={() => bulkSetFollowUp(10)}
+            >
+              <CalendarClock className="w-3 h-3 mr-1" /> Follow up in 10 days
+            </Button>
+          </>
+        )}
+      </div>
+
+      {needsContactOnly && (
+        <p className="text-sm text-orange-200 flex items-center gap-2">
+          <UserSearch className="w-4 h-4" />
+          These companies have a portal or phone number but no named decision-maker yet. Find a name,
+          open the company, and save it.
+        </p>
+      )}
+
+      {tiers.length === 0 && <p className="text-blue-200">No prospects match that filter.</p>}
 
       {tiers.map((tier) => (
         <div key={tier} className="space-y-3">
@@ -247,7 +378,13 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect }) => {
           </h3>
           <div className="grid gap-3 md:grid-cols-2">
             {grouped[tier].map((p) => (
-              <ProspectRow key={p.id} prospect={p} onSelect={onSelect} />
+              <ProspectRow
+                key={p.id}
+                prospect={p}
+                onSelect={onSelect}
+                selected={selectedIds.includes(p.id)}
+                onToggleSelect={toggleSelect}
+              />
             ))}
           </div>
         </div>
