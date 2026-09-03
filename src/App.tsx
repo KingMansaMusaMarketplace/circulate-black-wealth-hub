@@ -1779,6 +1779,7 @@ function App() {
                             <LazyCorporateDashboardPage />
                           </IOSProtectedRoute>
                         } />
+                        <Route path="/sponsors" element={<LazySponsorsPage />} />
                         <Route path="/sponsor-pricing" element={
                           <IOSProtectedRoute>
                             <LazyCorporateSponsorshipPricingPage />
