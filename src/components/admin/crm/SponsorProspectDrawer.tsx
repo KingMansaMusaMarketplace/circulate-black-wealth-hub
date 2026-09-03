@@ -154,21 +154,21 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
 
           <div className="flex flex-wrap gap-2">
             {prospect.website && (
-              <Button asChild size="sm" variant="outline" className="border-white/20 h-8">
+              <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8">
                 <a href={prospect.website} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-3 h-3 mr-1" /> Website
                 </a>
               </Button>
             )}
             {meta.portal_url && (
-              <Button asChild size="sm" variant="outline" className="border-white/20 h-8">
+              <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8">
                 <a href={meta.portal_url} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-3 h-3 mr-1" /> Partnership portal
                 </a>
               </Button>
             )}
             {meta.phone && (
-              <Button asChild size="sm" variant="outline" className="border-white/20 h-8">
+              <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8">
                 <a href={`tel:${meta.phone.replace(/[^\d+]/g, '')}`}>
                   <Phone className="w-3 h-3 mr-1" /> {meta.phone}
                 </a>
@@ -320,7 +320,7 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
                 >
                   <Copy className="w-3 h-3 mr-1" /> Copy email
                 </Button>
-                <Button asChild size="sm" variant="outline" className="border-white/20">
+                <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
                   <a href={mailtoHref}>
                     <Mail className="w-3 h-3 mr-1" /> Open in email app
                   </a>

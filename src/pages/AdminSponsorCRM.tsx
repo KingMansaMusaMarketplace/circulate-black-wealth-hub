@@ -81,7 +81,7 @@ const AdminSponsorCRM: React.FC = () => {
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
-              className="border-white/20"
+              className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"
               onClick={() => downloadSponsorCsv(prospects)}
             >
               <Download className="w-4 h-4 mr-2" />
@@ -202,7 +202,7 @@ const AdminSponsorCRM: React.FC = () => {
                 />
               </div>
               <div className="flex justify-end gap-3 pt-4">
-                <Button type="button" variant="outline" onClick={() => setShowAddDialog(false)} className="border-white/20">
+                <Button type="button" variant="outline" onClick={() => setShowAddDialog(false)} className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
                   Cancel
                 </Button>
                 <Button type="submit" disabled={creatingProspect} className="bg-gradient-to-r from-purple-500 to-blue-500">
