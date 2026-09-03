@@ -193,17 +193,38 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
                     </ul>
 
                     {/* CTA */}
-                    <Button
-                      className={`w-full group rounded-md py-5 font-medium transition-all ${
-                        isRecommended
-                          ? 'bg-mansagold hover:bg-mansagold/90 text-slate-900'
-                          : 'bg-white/[0.05] hover:bg-mansagold/15 text-white border border-mansagold/30 hover:border-mansagold/60'
-                      }`}
-                      onClick={() => onLearnMore(tier.name)}
-                    >
-                      {isInvitation ? 'Contact Leadership' : 'Request Brief'}
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                    </Button>
+                    {isSelfServe ? (
+                      <div className="space-y-3">
+                        <Button
+                          asChild
+                          className="w-full group rounded-md py-5 font-medium bg-mansagold hover:bg-mansagold/90 text-slate-900"
+                        >
+                          <Link to="/sponsor-pricing?tier=founding">
+                            Reserve this tier
+                            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                          </Link>
+                        </Button>
+                        <button
+                          type="button"
+                          onClick={() => onLearnMore(tier.name)}
+                          className="w-full text-center text-xs text-white/70 hover:text-mansagold transition-colors"
+                        >
+                          Talk to partnerships first
+                        </button>
+                      </div>
+                    ) : (
+                      <Button
+                        className={`w-full group rounded-md py-5 font-medium transition-all ${
+                          isRecommended
+                            ? 'bg-mansagold hover:bg-mansagold/90 text-slate-900'
+                            : 'bg-white/[0.05] hover:bg-mansagold/15 text-white border border-mansagold/30 hover:border-mansagold/60'
+                        }`}
+                        onClick={() => onLearnMore(tier.name)}
+                      >
+                        {isInvitation ? 'Contact Leadership' : 'Reserve this tier'}
+                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               </motion.div>
