@@ -82,7 +82,14 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
   }, [prospect?.id]);
 
   const meta = prospect ? getSponsorMeta(prospect) : {};
-  const email = useMemo(() => (prospect ? buildSponsorEmail(prospect) : null), [prospect?.id]);
+  const [touch, setTouch] = useState<OutreachTouch>(1);
+  useEffect(() => {
+    if (prospect) setTouch(getNextTouch(prospect));
+  }, [prospect?.id]);
+  const email = useMemo(
+    () => (prospect ? buildSponsorEmail(prospect, touch) : null),
+    [prospect?.id, touch],
+  );
 
   if (!prospect) return null;
 
