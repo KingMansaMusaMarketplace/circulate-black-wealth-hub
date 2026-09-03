@@ -398,5 +398,9 @@ export const useSponsorCRM = () => {
     loggingActivity: logActivityMutation.isPending,
     deleteProspect: deleteProspectMutation.mutate,
     deletingProspect: deleteProspectMutation.isPending,
+    bulkUpdate: bulkUpdateMutation.mutate,
+    bulkUpdating: bulkUpdateMutation.isPending,
+    convertToSponsor: convertToSponsorMutation.mutate,
+    convertingToSponsor: convertToSponsorMutation.isPending,
   };
 };
