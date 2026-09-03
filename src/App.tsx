@@ -156,6 +156,7 @@ const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyAdminSponsorDetailPage = lazy(() => import('@/pages/AdminSponsorDetailPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
 const LazySponsorLandingPage = lazy(() => import('@/pages/SponsorLandingPage'));
+const LazySponsorsPage = lazy(() => import('@/pages/SponsorsPage'));
 const LazyJobsPage = lazy(() => import('@/pages/JobsPage'));
 const LazyPostJobPage = lazy(() => import('@/pages/PostJobPage'));
 const LazyAdminJobsPage = lazy(() => import('@/pages/AdminJobsPage'));
