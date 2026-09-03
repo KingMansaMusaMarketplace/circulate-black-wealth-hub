@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { Copy, Mail, Trash2, Save, Phone, ExternalLink, Clock } from 'lucide-react';
+import { Copy, Mail, Trash2, Save, Phone, ExternalLink, Clock, LayoutTemplate, Crown } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
