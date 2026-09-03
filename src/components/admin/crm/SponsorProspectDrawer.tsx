@@ -43,7 +43,11 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
     loggingActivity,
     deleteProspect,
     useProspectActivities,
+    convertToSponsor,
+    convertingToSponsor,
   } = useSponsorCRM();
+
+  const [wallPreviewOpen, setWallPreviewOpen] = useState(false);
 
   const { data: activities = [] } = useProspectActivities(prospect?.id ?? null);
 
