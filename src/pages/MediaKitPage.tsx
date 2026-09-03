@@ -22,6 +22,7 @@ import {
   MapPin,
   Lock
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -54,12 +55,12 @@ const MediaKitPage = () => {
   };
 
   const stats = [
+    { value: '47,000+', label: 'Verified Businesses', icon: Building2 },
+    { value: '42', label: 'Agentic AI Employees', icon: Sparkles },
     { value: '$2.10T / $9.1T', label: 'U.S. / Global Market', icon: DollarSign },
-    { value: '130+', label: 'Application Pages', icon: Globe },
-    { value: '110+', label: 'Database Tables', icon: Database },
-    { value: '67', label: 'Edge Functions', icon: Zap },
-    { value: '6+', label: 'Revenue Streams', icon: TrendingUp },
-    { value: '2', label: 'Mobile Platforms', icon: Smartphone },
+    { value: 'Live', label: 'MCP Server (ChatGPT & Claude)', icon: Globe },
+    { value: '17', label: 'Revenue Streams', icon: TrendingUp },
+    { value: 'iOS + Android', label: 'Mobile Platforms', icon: Smartphone },
   ];
 
   const features = [
@@ -80,8 +81,13 @@ const MediaKitPage = () => {
     },
     {
       icon: Sparkles,
-      title: '1325 AI Assistant',
-      description: 'AI-powered assistant for business recommendations and community guidance'
+      title: 'Kayla & 42 Agentic AI Employees',
+      description: 'Autonomous AI workers that handle marketing, bookkeeping, customer follow-up and compliance for every business on the platform'
+    },
+    {
+      icon: Zap,
+      title: 'Live MCP Server',
+      description: 'ChatGPT, Claude and Cursor can discover and recommend verified businesses directly through our Model Context Protocol (MCP) server'
     },
     {
       icon: Target,
@@ -96,9 +102,12 @@ const MediaKitPage = () => {
   ];
 
   const partnershipTiers = [
-    { tier: 'Silver Partner', investment: '$10,000+', color: 'from-slate-300 to-slate-400' },
-    { tier: 'Gold Partner', investment: '$25,000+', color: 'from-mansagold to-amber-500' },
-    { tier: 'Platinum Partner', investment: '$50,000+', color: 'from-blue-300 to-blue-500' },
+    { tier: 'Founding Sponsor', investment: '$21,000 / year', monthly: '$1,750 / month', color: 'from-mansagold to-amber-500' },
+    { tier: 'Bronze Partner', investment: '$60,000 / year', monthly: '$5,000 / month', color: 'from-amber-700 to-amber-500' },
+    { tier: 'Silver Partner', investment: '$180,000 / year', monthly: '$15,000 / month', color: 'from-slate-300 to-slate-400' },
+    { tier: 'Gold Partner', investment: '$300,000 / year', monthly: '$25,000 / month', color: 'from-mansagold to-amber-400' },
+    { tier: 'Platinum Partner', investment: '$600,000 / year', monthly: '$50,000 / month', color: 'from-blue-300 to-blue-500' },
+    { tier: 'Founding Partner', investment: 'By invitation', monthly: 'Bespoke engagement', color: 'from-purple-400 to-fuchsia-500' },
   ];
 
   // Public downloads - directly accessible
@@ -199,6 +208,16 @@ const MediaKitPage = () => {
                     <p className="text-white">Chicago, Illinois</p>
                   </div>
                 </div>
+                <div className="mt-6 rounded-xl border border-mansagold/30 bg-mansagold/10 p-5 flex items-start gap-3">
+                  <ShieldCheck className="w-6 h-6 text-mansagold shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-white font-semibold">Protected Intellectual Property</p>
+                    <p className="text-blue-100/80 text-sm mt-1">
+                      U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending, covering our agentic
+                      commerce infrastructure and community wealth-circulation technology.
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -265,7 +284,7 @@ const MediaKitPage = () => {
             className="mb-16"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">Partnership Opportunities</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {partnershipTiers.map((tier, index) => (
                 <motion.div
                   key={tier.tier}
@@ -281,12 +300,18 @@ const MediaKitPage = () => {
                   <p className="text-2xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">
                     {tier.investment}
                   </p>
+                  <p className="text-sm text-blue-200/70 mt-1">{tier.monthly}</p>
                 </motion.div>
               ))}
             </div>
             <p className="text-center text-blue-200/60 mt-6">
               Custom partnership packages available for enterprise clients
             </p>
+            <div className="flex justify-center mt-6">
+              <Button asChild className="bg-gradient-to-r from-mansagold to-amber-500 text-black font-semibold hover:opacity-90">
+                <Link to="/sponsors">View full sponsorship details</Link>
+              </Button>
+            </div>
           </motion.div>
 
           {/* Downloads Section */}
