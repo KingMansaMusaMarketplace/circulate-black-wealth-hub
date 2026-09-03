@@ -9,6 +9,7 @@ import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBo
 import BusinessSubmissionBox from '@/components/homepage/BusinessSubmissionBox';
 import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueShareCard';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
+import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
 
 
 /**
