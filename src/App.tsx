@@ -1236,9 +1236,10 @@ function App() {
                           <Route path="/about-1325" element={<HomePage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
-                        <Route path="/connect" element={<LazyConnectPage />} />
-<Route path="/connect/docs" element={<LazyMcpDocsPage />} />
-<Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
+<Route path="/connect" element={<LazyConnectPage />} />
+                              <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
+                              <Route path="/supplier-api" element={<LazySupplierApiDocsPage />} />
+                              <Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
                         <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
                         <Route path="/mcp" element={<Navigate to="/connect" replace />} />
                         <Route path="/institutional-api" element={<LazyInstitutionalAPIPage />} />
