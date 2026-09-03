@@ -145,7 +145,7 @@ export default function APIClientsPage() {
       </div>
 
       <h2 className="text-xl font-bold mb-4">Active clients</h2>
-      <div className="space-y-2">
+      <div className="space-y-2 mb-10">
         {clients.map((c) => (
           <Card key={c.id}>
             <CardContent className="py-4 flex items-center justify-between">
@@ -161,6 +161,48 @@ export default function APIClientsPage() {
           </Card>
         ))}
         {clients.length === 0 && <p className="text-muted-foreground">No clients yet.</p>}
+      </div>
+
+      <h2 className="text-xl font-bold mb-4">Supplier Search API</h2>
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="text-base">How partners use it</CardTitle>
+          <CardDescription>
+            Read-only directory search for procurement teams and partner apps. Only public listing
+            details are returned — never owner emails or private records.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm">
+          <code className="block bg-muted p-3 rounded break-all">
+            GET /functions/v1/supplier-search?query=catering&amp;state=GA&amp;zip=30303&amp;radius_miles=25&amp;verified_only=true
+          </code>
+          <p className="text-muted-foreground">
+            Sent with the header <code>X-API-Key: &lt;client key&gt;</code>. Filters: query, category,
+            city, state, zip, radius_miles, verified_only, limit (max 100), offset. Every call is rate
+            limited and logged below.
+          </p>
+        </CardContent>
+      </Card>
+
+      <div className="space-y-2">
+        {supplierUsage.map((u) => (
+          <Card key={u.id}>
+            <CardContent className="py-3 flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <div className="font-medium truncate">{clientName(u.developer_id)}</div>
+                <div className="text-xs text-muted-foreground">
+                  {new Date(u.request_timestamp).toLocaleString()} · {u.method} · {u.latency_ms ?? 0}ms
+                </div>
+              </div>
+              <Badge variant={u.response_status === 200 ? 'default' : 'destructive'}>
+                {u.response_status}
+              </Badge>
+            </CardContent>
+          </Card>
+        ))}
+        {supplierUsage.length === 0 && (
+          <p className="text-muted-foreground">No supplier search calls yet.</p>
+        )}
       </div>
     </div>
   );
