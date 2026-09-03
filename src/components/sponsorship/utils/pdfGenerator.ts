@@ -91,18 +91,24 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     // Helper function to add page footer
     const addPageFooter = () => {
       const footerY = pageHeight - 12;
+      try {
+        pdf.addImage(PDF_LOGO_DATA_URL, 'JPEG', marginLeft, footerY - 6, 8, 8);
+      } catch (e) {
+        console.error('Footer logo render failed', e);
+      }
       pdf.setFontSize(8);
       pdf.setFont('times', 'normal');
       pdf.setTextColor(100, 100, 100);
       
-      const footerText = `Page ${pageNumber} - CONFIDENTIAL - Attorney-Client Work Product`;
+      const footerText = `1325.AI  |  Page ${pageNumber}  |  CONFIDENTIAL`;
       const footerWidth = pdf.getTextWidth(footerText);
-      const footerX = Math.max(marginLeft, (pageWidth - footerWidth) / 2);
+      const footerX = Math.max(marginLeft + 12, (pageWidth - footerWidth) / 2);
       pdf.text(footerText, footerX, footerY);
       
       // Reset text color
       pdf.setTextColor(0, 0, 0);
     };
+
 
     // Helper function to add new page if needed
     const checkPageBreak = (requiredSpace: number = lineHeight): boolean => {
