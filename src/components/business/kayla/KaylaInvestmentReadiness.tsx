@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { TrendingUp, Loader2, Target, CheckCircle2, XCircle, Lightbulb, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import jsPDF from 'jspdf';
+import { stampPdfLogo } from '@/utils/pdfLogo';
 
 interface Props { businessId: string; }
 
@@ -46,6 +47,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
   const exportPDF = (data: any, dims: { label: string; score: number }[]) => {
     try {
       const doc = new jsPDF();
+      stampPdfLogo(doc);
       const pageWidth = doc.internal.pageSize.getWidth();
       
       // Header

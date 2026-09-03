@@ -6,3 +6,18 @@ export const pdfLogoHeader = (subtitle = "") => `
     <img src="${PDF_LOGO_DATA_URL}" alt="1325.AI" style="width:110px;height:110px;border-radius:16px;" />
     ${subtitle ? `<div style="margin-top:10px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#8a7a4a;">${subtitle}</div>` : ""}
   </div>`;
+
+/**
+ * Stamp the 1325.AI logo in the top-right corner of the current jsPDF page.
+ * Non-invasive: does not shift any existing layout.
+ */
+export const stampPdfLogo = (doc: any, unit: 'mm' | 'pt' = 'mm') => {
+  try {
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const size = unit === 'pt' ? 54 : 19;
+    const inset = unit === 'pt' ? 36 : 12;
+    doc.addImage(PDF_LOGO_DATA_URL, 'JPEG', pageWidth - inset - size, inset - (unit === 'pt' ? 18 : 6), size, size);
+  } catch (e) {
+    console.error('PDF logo stamp failed', e);
+  }
+};

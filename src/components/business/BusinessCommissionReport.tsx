@@ -10,6 +10,7 @@ import { DollarSign, TrendingDown, Receipt, Calendar, Download } from 'lucide-re
 import { format } from 'date-fns';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { stampPdfLogo } from '@/utils/pdfLogo';
 
 interface CommissionTransaction {
   id: string;
@@ -107,6 +108,7 @@ export const BusinessCommissionReport = ({ businessId }: BusinessCommissionRepor
     try {
       setExporting(true);
       const doc = new jsPDF();
+      stampPdfLogo(doc);
       
       // Header
       doc.setFontSize(20);
