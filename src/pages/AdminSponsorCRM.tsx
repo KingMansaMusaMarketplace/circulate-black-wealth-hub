@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { SponsorPipelineKanban } from '@/components/admin/crm/SponsorPipelineKanban';
+import { SponsorTargetList } from '@/components/admin/crm/SponsorTargetList';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSponsorCRM, SponsorProspect } from '@/hooks/use-sponsor-crm';
 import { Button } from '@/components/ui/button';
 import { Plus, Users, DollarSign, TrendingUp } from 'lucide-react';
@@ -75,8 +77,20 @@ const AdminSponsorCRM: React.FC = () => {
           </Button>
         </div>
 
-        {/* Kanban Board */}
-        <SponsorPipelineKanban onAddProspect={() => setShowAddDialog(true)} />
+        {/* Pipeline + outreach target list */}
+        <Tabs defaultValue="pipeline" className="space-y-4">
+          <TabsList className="bg-white/5 border border-white/10">
+            <TabsTrigger value="pipeline">Pipeline</TabsTrigger>
+            <TabsTrigger value="targets">Outreach Targets</TabsTrigger>
+          </TabsList>
+          <TabsContent value="pipeline">
+            <SponsorPipelineKanban onAddProspect={() => setShowAddDialog(true)} />
+          </TabsContent>
+          <TabsContent value="targets">
+            <SponsorTargetList />
+          </TabsContent>
+        </Tabs>
+
 
         {/* Add Prospect Dialog */}
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
