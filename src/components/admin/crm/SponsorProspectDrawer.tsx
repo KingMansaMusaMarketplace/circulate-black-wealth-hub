@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { Copy, Mail, Trash2, Save, Phone, ExternalLink, Clock, LayoutTemplate, Crown } from 'lucide-react';
+import { Copy, Mail, Trash2, Save, Phone, ExternalLink, Clock, LayoutTemplate, Crown, MessageSquareReply, Ban, ClipboardList } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,6 +21,9 @@ import {
   getNextTouch,
   OUTREACH_TOUCHES,
   OutreachTouch,
+  hasReplied,
+  isDoNotContact,
+  MEETING_NOTES_TEMPLATE,
 } from '@/utils/sponsorOutreachEmail';
 import { SponsorWallPreviewDialog } from '@/components/admin/crm/SponsorWallPreviewDialog';
 
@@ -322,8 +325,70 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
 
           <Separator className="bg-white/10" />
 
-          {/* Sponsor wall preview + closed-won conversion */}
+          {(hasReplied(prospect) || isDoNotContact(prospect)) && (
+            <div className="flex flex-wrap gap-2">
+              {hasReplied(prospect) && (
+                <Badge className="bg-purple-500/20 text-purple-200">Replied</Badge>
+              )}
+              {isDoNotContact(prospect) && (
+                <Badge className="bg-red-500/20 text-red-200">Do not contact</Badge>
+              )}
+            </div>
+          )}
+
+          {/* Reply + do-not-contact + sponsor wall preview + closed-won conversion */}
           <div className="flex flex-wrap gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={updatingProspect}
+              className="border-purple-400/40 bg-purple-400/10 text-purple-200 hover:bg-purple-400/20 hover:text-white"
+              onClick={() =>
+                updateProspect({
+                  id: prospect.id,
+                  custom_fields: {
+                    ...meta,
+                    replied_at: hasReplied(prospect) ? null : new Date().toISOString(),
+                  },
+                  ...(hasReplied(prospect) ? {} : { pipeline_stage: 'contacted' }),
+                } as any)
+              }
+            >
+              <MessageSquareReply className="w-3 h-3 mr-1" />
+              {hasReplied(prospect) ? 'Undo reply' : 'They replied'}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={updatingProspect}
+              className="border-red-400/40 bg-red-400/10 text-red-200 hover:bg-red-400/20 hover:text-white"
+              onClick={() => {
+                const turningOn = !isDoNotContact(prospect);
+                if (turningOn && !window.confirm(`Stop all outreach to ${prospect.company_name}?`)) return;
+                updateProspect({
+                  id: prospect.id,
+                  custom_fields: { ...meta, do_not_contact: turningOn },
+                  ...(turningOn ? { pipeline_stage: 'closed_lost' } : {}),
+                } as any);
+              }}
+            >
+              <Ban className="w-3 h-3 mr-1" />
+              {isDoNotContact(prospect) ? 'Allow contact' : 'Do not contact'}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-cyan-400/40 bg-cyan-400/10 text-cyan-200 hover:bg-cyan-400/20 hover:text-white"
+              onClick={() =>
+                setActivity({
+                  activity_type: 'meeting',
+                  subject: `Meeting — ${prospect.company_name}`,
+                  outcome_notes: MEETING_NOTES_TEMPLATE,
+                })
+              }
+            >
+              <ClipboardList className="w-3 h-3 mr-1" /> Meeting agenda
+            </Button>
             <Button
               size="sm"
               variant="outline"

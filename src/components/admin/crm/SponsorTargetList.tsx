@@ -22,6 +22,8 @@ import {
   getSponsorMeta,
   getNextTouch,
   getTouchCount,
+  hasReplied,
+  isDoNotContact,
   OUTREACH_TOUCHES,
   OutreachTouch,
 } from '@/utils/sponsorOutreachEmail';
@@ -66,6 +68,8 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect, selected, onToggl
   const meta = getSponsorMeta(prospect);
   const sent = getTouchCount(prospect);
   const [touch, setTouch] = useState<OutreachTouch>(getNextTouch(prospect));
+  const replied = hasReplied(prospect);
+  const blocked = isDoNotContact(prospect);
   const email = useMemo(() => buildSponsorEmail(prospect, touch), [prospect, touch]);
 
   const markContacted = () => {
@@ -95,10 +99,15 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect, selected, onToggl
   };
 
   return (
-    <Card className="bg-white/5 border-white/10 p-4 space-y-3">
+    <Card
+      className={`p-4 space-y-3 ${
+        blocked ? 'bg-red-500/5 border-red-500/25 opacity-70' : 'bg-white/5 border-white/10'
+      }`}
+    >
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex items-start gap-3 min-w-0">
           <Checkbox
+            disabled={blocked}
             checked={selected}
             onCheckedChange={() => onToggleSelect(prospect.id)}
             className="mt-1 border-white/30"
@@ -112,6 +121,12 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect, selected, onToggl
           </button>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {replied && (
+            <Badge className="bg-purple-500/20 text-purple-200 text-xs">Replied</Badge>
+          )}
+          {blocked && (
+            <Badge className="bg-red-500/20 text-red-200 text-xs">Do not contact</Badge>
+          )}
           {sent > 0 && (
             <Badge className="bg-emerald-500/20 text-emerald-300 text-xs">{sent} sent</Badge>
           )}
@@ -212,6 +227,7 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect, needsContactOnly 
   const [search, setSearch] = useState('');
   const [owner, setOwner] = useState<string>('all');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [showBlocked, setShowBlocked] = useState(false);
 
   const owners = useMemo(() => {
     const set = new Set<string>();
@@ -231,9 +247,10 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect, needsContactOnly 
         : true;
       const matchesOwner = owner === 'all' ? true : meta.owner === owner;
       const matchesContact = needsContactOnly ? !p.primary_contact_name : true;
-      return matchesTerm && matchesOwner && matchesContact;
+      const matchesBlocked = showBlocked ? true : !isDoNotContact(p);
+      return matchesTerm && matchesOwner && matchesContact && matchesBlocked;
     });
-  }, [prospects, search, owner, needsContactOnly]);
+  }, [prospects, search, owner, needsContactOnly, showBlocked]);
 
   const grouped = useMemo(
     () =>
@@ -248,9 +265,11 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect, needsContactOnly 
   const toggleSelect = (id: string) =>
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
 
-  const allVisibleSelected = filtered.length > 0 && filtered.every((p) => selectedIds.includes(p.id));
+  const selectable = useMemo(() => filtered.filter((p) => !isDoNotContact(p)), [filtered]);
+  const allVisibleSelected =
+    selectable.length > 0 && selectable.every((p) => selectedIds.includes(p.id));
   const toggleSelectAll = () =>
-    setSelectedIds(allVisibleSelected ? [] : filtered.map((p) => p.id));
+    setSelectedIds(allVisibleSelected ? [] : selectable.map((p) => p.id));
 
   const bulkMarkContacted = () => {
     if (!window.confirm(`Mark ${selectedIds.length} prospect(s) as contacted today?`)) return;
@@ -319,6 +338,19 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect, needsContactOnly 
 
         <Button
           size="sm"
+          variant={showBlocked ? 'default' : 'outline'}
+          className={
+            showBlocked
+              ? 'h-8 bg-gradient-to-r from-red-500 to-rose-500'
+              : 'border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8'
+          }
+          onClick={() => setShowBlocked((v) => !v)}
+        >
+          {showBlocked ? 'Hide do-not-contact' : 'Show do-not-contact'}
+        </Button>
+
+        <Button
+          size="sm"
           variant="outline"
           className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8 ml-auto"
           onClick={() => downloadSponsorCsv(filtered)}
@@ -335,7 +367,7 @@ export const SponsorTargetList: React.FC<Props> = ({ onSelect, needsContactOnly 
           className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8"
           onClick={toggleSelectAll}
         >
-          {allVisibleSelected ? 'Clear selection' : `Select all (${filtered.length})`}
+          {allVisibleSelected ? 'Clear selection' : `Select all (${selectable.length})`}
         </Button>
         <span className="text-xs text-blue-200">{selectedIds.length} selected</span>
         {selectedIds.length > 0 && (
