@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -40,6 +41,17 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
   const { startCheckout, isLoading } = useCorporateCheckout();
   const isScreenshotMode = useScreenshotMode();
   const { shareUrl, isSharing } = useNativeShare();
+  const [searchParams] = useSearchParams();
+
+  // Deep link support: /sponsor-pricing?tier=founding opens checkout directly
+  useEffect(() => {
+    const requested = searchParams.get('tier');
+    const valid = ['founding', 'bronze', 'silver', 'gold', 'platinum'];
+    if (requested && valid.includes(requested.toLowerCase())) {
+      setSelectedTier(requested.toLowerCase());
+      setIsDialogOpen(true);
+    }
+  }, [searchParams]);
 
   const tiers: PricingTier[] = [
     {
