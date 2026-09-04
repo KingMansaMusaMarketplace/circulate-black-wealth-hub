@@ -6,7 +6,6 @@ import { Linkedin, Mail } from 'lucide-react';
 // Background-only pass: all headshots re-composited onto Kayla's navy (#0D1D30)
 // so the leadership grid reads as one deliberate gallery. Subjects unchanged.
 import clarence from '@/assets/team/navy_bg/Clarence_Smith_v3.jpg';
-import craig from '@/assets/team/navy_bg/Craig_Stevenson.jpg';
 import dakarai from '@/assets/team/navy_bg/Dakarai_Mosley_headshot.jpg';
 import eric from '@/assets/team/navy_bg/Eric_Webb.jpg';
 import james from '@/assets/team/navy_bg/James_Carson_headshot.jpg';
@@ -62,7 +61,6 @@ const founder: Member = {
 
 
 const leadership: Member[] = [
-  { name: 'Craig Stevenson', title: 'Co-Founder', photo: craig },
   { name: 'Lisa Cooper Gavin', title: 'President', photo: lisa },
   { name: 'Clarence Smith', title: 'VP of Sales', photo: clarence },
   { name: 'Maurice G. Howard', title: 'VP of Technology', photo: maurice },
