@@ -238,12 +238,22 @@ const AdminSponsorCRM: React.FC = () => {
                 />
               </div>
               <div className="flex justify-end gap-3 pt-4">
-                <Button type="button" variant="outline" onClick={() => setShowAddDialog(false)} className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
-                  Cancel
-                </Button>
-                <Button type="submit" disabled={creatingProspect} className="bg-gradient-to-r from-purple-500 to-blue-500">
-                  {creatingProspect ? 'Adding...' : 'Add Prospect'}
-                </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button type="button" variant="outline" onClick={() => setShowAddDialog(false)} className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
+                      Cancel
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Closes this form without saving anything.</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button type="submit" disabled={creatingProspect} className="bg-gradient-to-r from-purple-500 to-blue-500">
+                      {creatingProspect ? 'Adding...' : 'Add Prospect'}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Saves this company into your pipeline at the "Research" stage.</TooltipContent>
+                </Tooltip>
               </div>
             </form>
           </DialogContent>
