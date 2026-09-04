@@ -117,9 +117,24 @@ const AdminSponsorCRM: React.FC = () => {
         {/* Pipeline + outreach target list */}
         <Tabs defaultValue="pipeline" className="space-y-4">
           <TabsList className="bg-white/5 border border-white/10">
-            <TabsTrigger value="pipeline">Pipeline</TabsTrigger>
-            <TabsTrigger value="targets">Outreach Targets</TabsTrigger>
-            <TabsTrigger value="enrichment">Needs a Name</TabsTrigger>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TabsTrigger value="pipeline">Pipeline</TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent>Your deal board — see every sponsor conversation and what stage it's in.</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TabsTrigger value="targets">Outreach Targets</TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent>The full list of companies to contact, so you can work through them one by one.</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TabsTrigger value="enrichment">Needs a Name</TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent>Companies with no contact person yet — find the decision maker before reaching out.</TooltipContent>
+            </Tooltip>
           </TabsList>
           <TabsContent value="pipeline" className="space-y-4">
             <PipelineHealthStrip onSelectCold={openProspect} />
