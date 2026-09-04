@@ -235,6 +235,7 @@ const AdminSponsorCRM: React.FC = () => {
         </Dialog>
       </div>
     </div>
+    </TooltipProvider>
   );
 };
 
