@@ -80,21 +80,35 @@ const AdminSponsorCRM: React.FC = () => {
             <p className="text-blue-200">Manage sponsor prospects and pipeline</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"
-              onClick={() => downloadSponsorCsv(prospects)}
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Export CSV
-            </Button>
-            <Button
-              onClick={() => setShowAddDialog(true)}
-              className="bg-gradient-to-r from-purple-500 to-blue-500"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add Prospect
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+                  onClick={() => downloadSponsorCsv(prospects)}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Export CSV
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                Downloads every sponsor prospect to a spreadsheet file you can open in Excel or Google Sheets.
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => setShowAddDialog(true)}
+                  className="bg-gradient-to-r from-purple-500 to-blue-500"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Prospect
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                Opens a short form to add a new company you want to pitch as a sponsor.
+              </TooltipContent>
+            </Tooltip>
           </div>
         </div>
 
