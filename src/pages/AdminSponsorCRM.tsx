@@ -69,6 +69,7 @@ const AdminSponsorCRM: React.FC = () => {
   };
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712] p-6">
       <div className="space-y-6">
         {/* Header */}
