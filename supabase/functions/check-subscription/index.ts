@@ -72,16 +72,25 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const unauthorized = () =>
+    new Response(JSON.stringify({ error: "Not authenticated" }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 401,
+    });
+
   try {
     console.log("[CHECK-SUBSCRIPTION] Function started");
     // Get auth token from request
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      throw new Error("Missing authorization header");
+      return unauthorized();
     }
-    
+
     const token = authHeader.replace("Bearer ", "");
-    
+    if (!token) {
+      return unauthorized();
+    }
+
     // Create Supabase client with service role key to bypass RLS
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -92,7 +101,8 @@ serve(async (req) => {
     // Get user from auth token
     const { data: { user }, error: userError } = await supabaseAdmin.auth.getUser(token);
     if (userError || !user) {
-      throw new Error("Error getting user or user not found");
+      console.log("[CHECK-SUBSCRIPTION] Unauthenticated request");
+      return unauthorized();
     }
 
     console.log(`[CHECK-SUBSCRIPTION] User authenticated: ${user.email}`);
