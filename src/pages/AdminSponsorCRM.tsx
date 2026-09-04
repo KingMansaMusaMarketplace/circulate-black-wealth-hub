@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { downloadSponsorCsv } from '@/utils/sponsorCsv';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const AdminSponsorCRM: React.FC = () => {
   const { createProspect, creatingProspect, prospects } = useSponsorCRM();
