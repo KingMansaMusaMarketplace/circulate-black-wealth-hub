@@ -1,5 +1,9 @@
 # Memorial for Craig L. Stevenson
 
+**Timing: on hold until Monday, September 7, 2026.** Craig's photo is already removed from the Team page and his files are saved. Nothing gets built until you say go on Monday.
+
+
+
 ## Recommendation
 
 Give him a quiet, dignified band of his own on the Team page — placed **after Leadership & Advisors and before the "Join us." call to action** — plus a dedicated memorial page for the full tribute.
