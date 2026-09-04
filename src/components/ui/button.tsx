@@ -3,7 +3,10 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
+import * as TooltipPrimitive from "@radix-ui/react-tooltip"
+
 import { cn } from "@/lib/utils"
+import { extractButtonText, getButtonHint } from "@/lib/button-hints"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium font-body ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 touch-manipulation active:scale-[0.97] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:transition-transform [&_svg]:duration-300",
@@ -40,17 +43,45 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  /** Plain-English note shown on hover. Falls back to a shared library of common labels. */
+  hint?: string
+  /** Set to true to never show a hover note on this button. */
+  noHint?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, hint, noHint, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
-    return (
+    const button = (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
+    )
+
+    const label = React.useMemo(
+      () => hint ?? getButtonHint(extractButtonText(props.children) || String(props["aria-label"] ?? "")),
+      [hint, props.children, props["aria-label"]]
+    )
+
+    if (noHint || !label || props.title) return button
+
+    return (
+      <TooltipPrimitive.Provider delayDuration={350}>
+        <TooltipPrimitive.Root>
+          <TooltipPrimitive.Trigger asChild>{button}</TooltipPrimitive.Trigger>
+          <TooltipPrimitive.Portal>
+            <TooltipPrimitive.Content
+              sideOffset={6}
+              collisionPadding={8}
+              className="z-[100] max-w-xs overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95"
+            >
+              {label}
+            </TooltipPrimitive.Content>
+          </TooltipPrimitive.Portal>
+        </TooltipPrimitive.Root>
+      </TooltipPrimitive.Provider>
     )
   }
 )
