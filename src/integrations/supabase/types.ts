@@ -27459,6 +27459,7 @@ export type Database = {
         Args: { _org_id: string; _user_id: string }
         Returns: boolean
       }
+      is_privileged_writer: { Args: never; Returns: boolean }
       is_savings_circle_creator: {
         Args: { p_circle_id: string; p_user_id: string }
         Returns: boolean
