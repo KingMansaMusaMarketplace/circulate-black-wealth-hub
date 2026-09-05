@@ -226,6 +226,16 @@ The 1325.AI Team`;
                           <span className="font-semibold">{b.name}</span>
                           <Badge variant="secondary" className="text-xs">{b.listing_status}</Badge>
                           {b.is_verified && <Badge className="text-xs bg-green-600/20 text-green-300 border-green-600/30">verified</Badge>}
+                          {b.website && b.website_status === 'dead' && (
+                            <Badge className="text-xs bg-red-600/25 text-red-200 border-red-500/50">
+                              website dead
+                            </Badge>
+                          )}
+                          {b.website && b.website_status === 'blocked' && (
+                            <Badge className="text-xs bg-amber-600/20 text-amber-200 border-amber-500/40">
+                              website unreachable
+                            </Badge>
+                          )}
                           {b.category && <Badge variant="outline" className="text-xs">{b.category}</Badge>}
                         </div>
                         <div className="text-xs text-white/60 mt-0.5">
@@ -237,11 +247,29 @@ The 1325.AI Team`;
                         {b.listing_rejection_reason && (
                           <p className="text-xs text-red-300 mt-1">Rejected: {b.listing_rejection_reason}</p>
                         )}
+                        {b.website && b.website_status === 'dead' && (
+                          <p className="text-xs text-red-300 mt-1">
+                            This web address no longer exists — don't bother clicking it. Ask the owner for a current link before approving.
+                          </p>
+                        )}
                         {b.website && (
-                          <a href={b.website} target="_blank" rel="noreferrer" className="text-xs text-mansagold inline-flex items-center gap-1 mt-1">
+                          <a
+                            href={b.website}
+                            target="_blank"
+                            rel="noreferrer"
+                            title={
+                              b.website_status === 'dead'
+                                ? 'This link is dead — it will not open'
+                                : 'Opens the business website in a new tab'
+                            }
+                            className={`text-xs inline-flex items-center gap-1 mt-1 ${
+                              b.website_status === 'dead' ? 'text-red-300 line-through' : 'text-mansagold'
+                            }`}
+                          >
                             {b.website} <ExternalLink className="h-3 w-3" />
                           </a>
                         )}
+
                       </div>
                       <div className="flex flex-col gap-1">
                         {tab !== 'rejected' && (
