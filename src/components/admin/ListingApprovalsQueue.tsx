@@ -67,7 +67,7 @@ const ListingApprovalsQueue: React.FC = () => {
     setSelected(new Set());
     let q = supabase
       .from('businesses')
-      .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason')
+      .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason, website_status, website_checked_at')
       .order('created_at', { ascending: false })
       .limit(100);
     if (tab === 'new') q = q.in('listing_status', ['draft', 'pending', 'pending_review']);
