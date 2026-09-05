@@ -136,12 +136,19 @@ serve(async (req) => {
       Math.max(Number(body.limit) || DEFAULT_BATCH, 1),
       MAX_BATCH,
     );
+    // Which listing states to check. Defaults to published listings, but the
+    // review queue (draft / pending_review) can be checked before approval.
+    const statuses = Array.isArray(body.statuses) && body.statuses.length > 0
+      ? (body.statuses as string[]).filter((s) =>
+        ["live", "draft", "pending_review", "approved", "rejected"].includes(s)
+      )
+      : ["live"];
 
     // Pick the listings least-recently checked (never-checked first).
     const { data: rows, error: fetchErr } = await supabase
       .from("businesses")
       .select("id, business_name, name, website, website_fail_count")
-      .eq("listing_status", "live")
+      .in("listing_status", statuses.length ? statuses : ["live"])
       .not("website", "is", null)
       .neq("website", "")
       .order("website_checked_at", { ascending: true, nullsFirst: true })
