@@ -31,6 +31,8 @@ interface Business {
   email?: string | null;
   phone?: string | null;
   listing_rejection_reason?: string | null;
+  website_status?: string | null;
+  website_checked_at?: string | null;
 }
 
 const ListingApprovalsQueue: React.FC = () => {
