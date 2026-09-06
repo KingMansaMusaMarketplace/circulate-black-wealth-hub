@@ -121,7 +121,7 @@ Deno.serve(async (req) => {
         const { error: updateError } = await supabase
           .from('fraud_alerts')
           .update({
-            secondary_model: 'openai/gpt-5',
+            secondary_model: 'google/gemini-3.1-pro-preview',
             secondary_model_assessment: result.assessment,
             secondary_confidence_score: result.secondary_confidence,
             model_agreement: result.agreement,
@@ -223,7 +223,7 @@ Provide your independent assessment.`;
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'openai/gpt-5',
+      model: 'google/gemini-3.1-pro-preview',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },

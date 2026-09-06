@@ -81,7 +81,7 @@ Extract all relevant information and assess the document's validity for business
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-pro-preview',
+        model: 'google/gemini-3.7-flash',
         messages: [
           { role: 'system', content: systemPrompt },
           {
