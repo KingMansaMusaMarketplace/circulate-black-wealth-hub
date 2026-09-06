@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 <url>
+    <loc>https://1325.ai/business/northeast-fitness-minneapolis-6e04c2</loc>
+    <lastmod>2026-03-14</lastmod>
+    <image:image><image:loc>http://static1.squarespace.com/static/600eea34276d9d4dbba66eee/t/634ca288ef2b265aaa39279e/1665966728636/NE-FITNESS-Horizontal-Logo-color.jpg?format=1500w</image:loc><image:title>Northeast Fitness</image:title><image:caption>Northeast Fitness — Black-owned Community Fitness Center in Minneapolis, MN</image:caption></image:image>
+    <image:image><image:loc>https://api.sociablekit.com/images/solution_types_logos/st-logo-22.png</image:loc><image:title>Northeast Fitness logo</image:title><image:caption>Northeast Fitness logo — Black-owned Community Fitness Center</image:caption></image:image>
+  </url>
+<url>
     <loc>https://1325.ai/business/definitely-different-boutique-oak-park-6e07f8</loc>
     <lastmod>2026-04-02</lastmod>
     <image:image><image:loc>https://images.unsplash.com/photo-1462826303086-329426d1aef5?w=800&amp;q=80</image:loc><image:title>Definitely Different Boutique</image:title><image:caption>Definitely Different Boutique — Black-owned Women&apos;s Fashion Boutique in Oak Park, MI</image:caption></image:image>
@@ -59279,11 +59285,5 @@
     <loc>https://1325.ai/business/drip-coffee-cincinnati-a5d1cc</loc>
     <lastmod>2026-03-15</lastmod>
     <image:image><image:loc>https://placehold.co/400x400/2d132c/ee4540?text=DC&amp;font=montserrat</image:loc><image:title>Drip Coffee logo</image:title><image:caption>Drip Coffee logo — Black-owned Coffee Shop</image:caption></image:image>
-  </url>
-<url>
-    <loc>https://1325.ai/business/identafire-oakland-a5d425</loc>
-    <lastmod>2026-03-15</lastmod>
-    <image:image><image:loc>https://identafire.com/wp-content/uploads/screenshot.png</image:loc><image:title>Identafire</image:title><image:caption>Identafire — Black-owned Identity Management Technology in Oakland, CA</image:caption></image:image>
-    <image:image><image:loc>https://identafire.com/wp-content/uploads/logo.svg</image:loc><image:title>Identafire logo</image:title><image:caption>Identafire logo — Black-owned Identity Management Technology</image:caption></image:image>
   </url>
 </urlset>
