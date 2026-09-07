@@ -71,7 +71,7 @@ const DeadLinkAuditCard: React.FC = () => {
     setRunning(true);
     try {
       const { data, error } = await supabase.functions.invoke('kayla-check-websites', {
-        body: { limit: 50 },
+        body: { limit: 50, statuses: ['live', 'draft', 'pending', 'pending_review'] },
       });
       if (error) throw error;
       if ((data as any)?.error) throw new Error((data as any).error);

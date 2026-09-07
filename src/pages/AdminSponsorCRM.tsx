@@ -85,6 +85,7 @@ const AdminSponsorCRM: React.FC = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
+                  noHint
                   variant="outline"
                   className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"
                   onClick={() => downloadSponsorCsv(prospects)}
@@ -100,6 +101,7 @@ const AdminSponsorCRM: React.FC = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
+                  noHint
                   onClick={() => setShowAddDialog(true)}
                   className="bg-gradient-to-r from-purple-500 to-blue-500"
                 >
@@ -240,7 +242,7 @@ const AdminSponsorCRM: React.FC = () => {
               <div className="flex justify-end gap-3 pt-4">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button type="button" variant="outline" onClick={() => setShowAddDialog(false)} className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
+                    <Button noHint type="button" variant="outline" onClick={() => setShowAddDialog(false)} className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
                       Cancel
                     </Button>
                   </TooltipTrigger>
@@ -248,7 +250,7 @@ const AdminSponsorCRM: React.FC = () => {
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button type="submit" disabled={creatingProspect} className="bg-gradient-to-r from-purple-500 to-blue-500">
+                    <Button noHint type="submit" disabled={creatingProspect} className="bg-gradient-to-r from-purple-500 to-blue-500">
                       {creatingProspect ? 'Adding...' : 'Add Prospect'}
                     </Button>
                   </TooltipTrigger>
