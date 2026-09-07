@@ -140,7 +140,7 @@ serve(async (req) => {
     // review queue (draft / pending_review) can be checked before approval.
     const statuses = Array.isArray(body.statuses) && body.statuses.length > 0
       ? (body.statuses as string[]).filter((s) =>
-        ["live", "draft", "pending_review", "approved", "rejected"].includes(s)
+        ["live", "draft", "pending", "pending_review", "approved", "rejected"].includes(s)
       )
       : ["live"];
 
