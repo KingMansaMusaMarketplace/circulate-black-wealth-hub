@@ -285,6 +285,49 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Section 5: Responsible AI Use */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Shield className="w-5 h-5 text-primary" />
+              </div>
+              <span>5. Responsible Use of Kayla &amp; Our AI Team</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <h3 className="font-semibold text-foreground mb-2">Always Disclose AI Assistance</h3>
+              <p className="text-muted-foreground">
+                When Kayla or any of our 42 Agentic AI Employees drafts an email, proposal, or
+                message on your behalf, you must review it before sending and never present
+                AI-generated output as a legal, tax, or financial opinion.
+              </p>
+            </div>
+
+            <Separator />
+
+            <div>
+              <h3 className="font-semibold text-foreground mb-2">Accuracy Before Speed</h3>
+              <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-4">
+                <li>Verify every fact, price, and claim an AI assistant produces before it reaches a merchant</li>
+                <li>Never enter a merchant's banking details, ID documents, or private records into outside AI tools</li>
+                <li>Use only the AI tools provided inside the Agent Portal for 1325.AI business</li>
+              </ul>
+            </div>
+
+            <Separator />
+
+            <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+              <p className="text-sm text-destructive font-medium flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4" />
+                Copying prompts, agent instructions, or system outputs out of the platform is treated
+                as theft of protected intellectual property.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Acknowledgment Section */}
         <Card className="border-primary/30 bg-primary/5">
           <CardHeader>
