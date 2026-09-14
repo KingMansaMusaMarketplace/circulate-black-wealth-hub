@@ -106,7 +106,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({ busine
               <TrendingUp className="h-5 w-5 text-yellow-400" />
               What You'll See Here Once You're Active:
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white/80 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white text-sm">
               <div className="flex items-start gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-400 mt-1.5"></div>
                 <span>Monthly revenue and booking statistics</span>
@@ -150,7 +150,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({ busine
                 <CardTitle className="text-xl text-white group-hover:text-yellow-400 transition-colors">
                   {index + 1}. {step.title}
                 </CardTitle>
-                <CardDescription className="text-white/70">
+                <CardDescription className="text-white">
                   {step.description}
                 </CardDescription>
               </CardHeader>
@@ -177,7 +177,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({ busine
             Pro Tips for Success
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 text-white/80">
+        <CardContent className="space-y-3 text-white">
           <div className="flex items-start gap-3">
             <div className="w-6 h-6 rounded-full bg-yellow-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
               <span className="text-yellow-400 font-bold text-sm">1</span>

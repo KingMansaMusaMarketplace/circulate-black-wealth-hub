@@ -289,15 +289,15 @@ const DeveloperDashboard: React.FC = () => {
 
         <Tabs defaultValue="keys" className="space-y-6">
           <TabsList className="bg-slate-800/60 border border-white/10 p-1">
-            <TabsTrigger value="keys" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60">
+            <TabsTrigger value="keys" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/90">
               <Key className="h-4 w-4 mr-2" />
               API Keys
             </TabsTrigger>
-            <TabsTrigger value="usage" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60">
+            <TabsTrigger value="usage" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/90">
               <BarChart3 className="h-4 w-4 mr-2" />
               Usage
             </TabsTrigger>
-            <TabsTrigger value="settings" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60">
+            <TabsTrigger value="settings" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/90">
               <Settings className="h-4 w-4 mr-2" />
               Settings
             </TabsTrigger>
@@ -317,7 +317,7 @@ const DeveloperDashboard: React.FC = () => {
                       <AlertCircle className="h-5 w-5" />
                       Save Your API Key
                     </CardTitle>
-                    <CardDescription className="text-white/60">
+                    <CardDescription className="text-white/90">
                       This is the only time you'll see this key. Copy it now and store it securely.
                     </CardDescription>
                   </CardHeader>
@@ -359,13 +359,13 @@ const DeveloperDashboard: React.FC = () => {
                 <DialogContent className="bg-slate-900 border-white/20">
                   <DialogHeader>
                     <DialogTitle className="text-white">Generate API Key</DialogTitle>
-                    <DialogDescription className="text-white/60">
+                    <DialogDescription className="text-white/90">
                       Create a new API key for your application.
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 py-4">
                     <div className="space-y-2">
-                      <Label htmlFor="keyName" className="text-white/80">Key Name</Label>
+                      <Label htmlFor="keyName" className="text-white">Key Name</Label>
                       <Input
                         id="keyName"
                         placeholder="e.g., Production Key"
@@ -375,7 +375,7 @@ const DeveloperDashboard: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="keyEnv" className="text-white/80">Environment</Label>
+                      <Label htmlFor="keyEnv" className="text-white">Environment</Label>
                       <Select value={newKeyEnv} onValueChange={(v: 'test' | 'live') => setNewKeyEnv(v)}>
                         <SelectTrigger className="bg-slate-800 border-white/20 text-white">
                           <SelectValue />
@@ -404,7 +404,7 @@ const DeveloperDashboard: React.FC = () => {
             <div className="space-y-4">
               {apiKeys.length === 0 ? (
                 <Card className="glass-card border-white/10">
-                  <CardContent className="py-8 text-center text-white/60">
+                  <CardContent className="py-8 text-center text-white/90">
                     No API keys yet. Generate your first key to get started.
                   </CardContent>
                 </Card>
@@ -418,7 +418,7 @@ const DeveloperDashboard: React.FC = () => {
                           <div>
                             <div className="font-medium text-white">{key.name}</div>
                             <div className="flex items-center gap-2 mt-1">
-                              <code className="text-sm text-white/60 font-mono">
+                              <code className="text-sm text-white/90 font-mono">
                                 {key.key_prefix}
                               </code>
                               <Badge className={key.environment === 'live' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50' : 'bg-slate-500/20 text-slate-400 border-slate-500/50'}>
@@ -456,7 +456,7 @@ const DeveloperDashboard: React.FC = () => {
               {usageStats.map((stat) => (
                 <Card key={stat.name} className="glass-card border-white/10">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-white/60">
+                    <CardTitle className="text-sm font-medium text-white/90">
                       {stat.name} API
                     </CardTitle>
                   </CardHeader>
@@ -481,13 +481,13 @@ const DeveloperDashboard: React.FC = () => {
             <Card className="glass-card border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">Usage by Endpoint</CardTitle>
-                <CardDescription className="text-white/60">
+                <CardDescription className="text-white/90">
                   Detailed breakdown of API calls this month
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {usage.length === 0 ? (
-                  <div className="text-center text-white/60 py-8">
+                  <div className="text-center text-white/90 py-8">
                     No API calls recorded yet
                   </div>
                 ) : (
@@ -499,7 +499,7 @@ const DeveloperDashboard: React.FC = () => {
                       >
                         <code className="text-sm font-mono text-mansablue-light">{u.endpoint}</code>
                         <div className="flex items-center gap-4">
-                          <span className="text-white/60 text-sm">{u.total_calls} calls</span>
+                          <span className="text-white/90 text-sm">{u.total_calls} calls</span>
                           <span className="text-mansagold font-medium">{u.total_billed_units} units</span>
                         </div>
                       </div>
@@ -515,23 +515,23 @@ const DeveloperDashboard: React.FC = () => {
             <Card className="glass-card border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">Account Settings</CardTitle>
-                <CardDescription className="text-white/60">
+                <CardDescription className="text-white/90">
                   Manage your developer account settings
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label className="text-white/80">Company Name</Label>
+                  <Label className="text-white">Company Name</Label>
                   <p className="text-white mt-1">{account.company_name}</p>
                 </div>
                 {account.company_website && (
                   <div>
-                    <Label className="text-white/80">Website</Label>
+                    <Label className="text-white">Website</Label>
                     <p className="text-mansablue mt-1">{account.company_website}</p>
                   </div>
                 )}
                 <div>
-                  <Label className="text-white/80">Current Plan</Label>
+                  <Label className="text-white">Current Plan</Label>
                   <div className="flex items-center gap-2 mt-1">
                     <Badge className="capitalize bg-mansagold/20 text-mansagold border-mansagold/50">
                       {account.tier}
@@ -542,8 +542,8 @@ const DeveloperDashboard: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <Label className="text-white/80">Member Since</Label>
-                  <p className="text-white/60 mt-1">{new Date(account.created_at).toLocaleDateString()}</p>
+                  <Label className="text-white">Member Since</Label>
+                  <p className="text-white/90 mt-1">{new Date(account.created_at).toLocaleDateString()}</p>
                 </div>
               </CardContent>
             </Card>

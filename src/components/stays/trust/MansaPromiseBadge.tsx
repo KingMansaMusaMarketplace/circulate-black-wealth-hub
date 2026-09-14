@@ -67,7 +67,7 @@ const MansaPromiseBadge: React.FC<MansaPromiseBadgeProps> = ({ propertyId, compa
           </TooltipTrigger>
           <TooltipContent side="bottom" className="max-w-xs bg-slate-900 border-white/10 text-white p-3">
             <p className="font-semibold mb-1">This property meets {guarantees.length} guarantees:</p>
-            <ul className="space-y-1 text-xs text-white/70">
+            <ul className="space-y-1 text-xs text-white">
               {guarantees.map(g => (
                 <li key={g.id} className="flex items-center gap-1.5">
                   {React.createElement(iconMap[g.icon_name] || Shield, { className: 'w-3 h-3 text-emerald-400 shrink-0' })}
@@ -89,7 +89,7 @@ const MansaPromiseBadge: React.FC<MansaPromiseBadgeProps> = ({ propertyId, compa
         </div>
         <div>
           <h3 className="font-semibold text-white text-sm">Mansa Promise</h3>
-          <p className="text-xs text-white/50">Rest easy with our guest guarantees</p>
+          <p className="text-xs text-white/80">Rest easy with our guest guarantees</p>
         </div>
       </div>
 
@@ -103,7 +103,7 @@ const MansaPromiseBadge: React.FC<MansaPromiseBadgeProps> = ({ propertyId, compa
               </div>
               <div>
                 <p className="text-sm font-medium text-white">{g.name}</p>
-                <p className="text-xs text-white/50 leading-relaxed">{g.description}</p>
+                <p className="text-xs text-white/80 leading-relaxed">{g.description}</p>
               </div>
             </div>
           );

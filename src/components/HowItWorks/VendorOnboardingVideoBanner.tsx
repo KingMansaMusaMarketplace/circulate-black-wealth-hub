@@ -25,17 +25,17 @@ const VendorOnboardingVideoBanner: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
               How to List Your <span className="text-mansagold">Black-Owned Business</span> — in 3 Steps
             </h2>
-            <p className="text-white/70 text-sm md:text-base mb-4">
+            <p className="text-white text-sm md:text-base mb-4">
               List your business free, print your unique QR code, and let Kayla AI bring you new customers — on autopilot.
             </p>
             <div className="flex flex-wrap gap-2 mb-4 text-xs">
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                 <ClipboardList className="w-3.5 h-3.5 text-mansagold" /> 1. Claim Listing
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                 <QrCode className="w-3.5 h-3.5 text-mansagold" /> 2. Print QR
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                 <TrendingUp className="w-3.5 h-3.5 text-mansagold" /> 3. Grow With Kayla
               </span>
             </div>
@@ -69,7 +69,7 @@ const VendorOnboardingVideoBanner: React.FC = () => {
                   aria-label="How to List Your Business on 1325.AI in 3 Steps — 90 second walkthrough"
                 />
               </div>
-              <figcaption className="text-center text-xs text-white/70 mt-2">
+              <figcaption className="text-center text-xs text-white mt-2">
                 ▶ <span className="text-mansagold font-semibold">3 Steps to List & Grow</span> — 90 sec walkthrough
               </figcaption>
             </figure>

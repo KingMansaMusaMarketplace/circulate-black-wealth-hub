@@ -71,7 +71,7 @@ const EmailAnalyticsPage: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div className="flex items-center gap-4">
               <Link to="/admin-dashboard">
-                <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/10">
+                <Button variant="ghost" size="icon" className="text-white hover:text-white hover:bg-white/10">
                   <ArrowLeft className="h-5 w-5" />
                 </Button>
               </Link>
@@ -79,7 +79,7 @@ const EmailAnalyticsPage: React.FC = () => {
                 <h1 className="text-2xl md:text-3xl font-bold text-white">
                   Email <span className="text-mansagold">Analytics</span>
                 </h1>
-                <p className="text-white/60 text-sm">
+                <p className="text-white/90 text-sm">
                   Track email delivery, opens, clicks, and more
                 </p>
               </div>

@@ -38,7 +38,7 @@ export const KaylaSocialPostGenerator: React.FC<Props> = ({ businessId }) => {
           <Sparkles className="h-5 w-5 text-pink-400" />
           Social Media Post Generator
         </h3>
-        <p className="text-sm text-white/50">AI-generated posts tailored to your brand</p>
+        <p className="text-sm text-white/80">AI-generated posts tailored to your brand</p>
       </div>
 
       <Card className="bg-slate-800/40 border-white/10">
@@ -78,12 +78,12 @@ export const KaylaSocialPostGenerator: React.FC<Props> = ({ businessId }) => {
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-4">
             <div className="flex items-start justify-between mb-2">
-              <Badge variant="outline" className="text-xs border-white/10 text-white/50">{platform}</Badge>
-              <Button size="sm" variant="ghost" onClick={copyPost} className="text-white/50">
+              <Badge variant="outline" className="text-xs border-white/10 text-white/80">{platform}</Badge>
+              <Button size="sm" variant="ghost" onClick={copyPost} className="text-white/80">
                 {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
               </Button>
             </div>
-            <p className="text-sm text-white/80 whitespace-pre-wrap">{post}</p>
+            <p className="text-sm text-white whitespace-pre-wrap">{post}</p>
           </CardContent>
         </Card>
       )}

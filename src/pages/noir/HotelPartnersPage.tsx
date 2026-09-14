@@ -47,7 +47,7 @@ const HotelPartnersPage: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
             The premium <span className="text-mansagold">airport transport</span> your guests deserve.
           </h1>
-          <p className="text-lg text-white/60 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-white/90 max-w-2xl mx-auto mb-8">
             Noire is Chicago's Black-owned, scheduled-only ride service for hotels and corporate travel managers.
             No surge pricing. No no-shows. One monthly invoice.
           </p>
@@ -67,7 +67,7 @@ const HotelPartnersPage: React.FC = () => {
                   <b.icon className="h-8 w-8 text-mansagold mb-3" />
                   <CardTitle className="text-white">{b.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="text-white/60 text-sm leading-relaxed">{b.text}</CardContent>
+                <CardContent className="text-white/90 text-sm leading-relaxed">{b.text}</CardContent>
               </Card>
             ))}
           </div>
@@ -77,7 +77,7 @@ const HotelPartnersPage: React.FC = () => {
       <section className="py-20 border-b border-white/5 bg-gradient-to-b from-transparent via-mansagold/5 to-transparent">
         <div className="container max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">How the pilot works</h2>
-          <ol className="space-y-4 text-white/70">
+          <ol className="space-y-4 text-white">
             {[
               'You submit the partner application below.',
               'We meet your front desk team (in person or Zoom) and walk through the concierge portal — takes 15 minutes.',
@@ -96,14 +96,14 @@ const HotelPartnersPage: React.FC = () => {
       <section id="apply" className="py-20">
         <div className="container max-w-2xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-2">Apply to partner</h2>
-          <p className="text-white/50 text-center mb-8">We respond within one business day.</p>
+          <p className="text-white/80 text-center mb-8">We respond within one business day.</p>
 
           {submitted ? (
             <Card className="bg-mansagold/10 border-mansagold/30">
               <CardContent className="p-8 text-center">
                 <CheckCircle2 className="h-12 w-12 text-mansagold mx-auto mb-4" />
                 <h3 className="text-xl font-bold mb-2">Application received</h3>
-                <p className="text-white/70">We'll email {form.contact_email} within 24 hours to schedule your concierge demo.</p>
+                <p className="text-white">We'll email {form.contact_email} within 24 hours to schedule your concierge demo.</p>
                 <Button asChild variant="outline" className="mt-6 border-mansagold/30 text-mansagold">
                   <Link to="/noir">Back to Noire</Link>
                 </Button>

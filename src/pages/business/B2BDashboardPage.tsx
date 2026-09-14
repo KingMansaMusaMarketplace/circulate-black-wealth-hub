@@ -154,7 +154,7 @@ export default function B2BDashboardPage() {
           {/* Executive header */}
           <div className="flex flex-col gap-4 border-b border-white/10 pb-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <Link to="/b2b-marketplace" className="inline-flex items-center text-sm text-white/60 transition-colors hover:text-mansagold">
+              <Link to="/b2b-marketplace" className="inline-flex items-center text-sm text-white/90 transition-colors hover:text-mansagold">
                 <ArrowLeft className="mr-1 h-4 w-4" />
                 Back to Marketplace
               </Link>
@@ -162,7 +162,7 @@ export default function B2BDashboardPage() {
                 Supplier Network
               </p>
               <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">B2B Dashboard</h1>
-              <p className="mt-2 max-w-xl text-white/70">
+              <p className="mt-2 max-w-xl text-white">
                 Manage what your business supplies, what it needs, and the partnerships you build.
               </p>
             </div>
@@ -182,20 +182,20 @@ export default function B2BDashboardPage() {
             ].map(({ label, value, icon: Icon, hint }) => (
               <div key={label} className="rounded-xl border border-blue-300/20 bg-mansablue/40 p-6 shadow-xl backdrop-blur">
                 <div className="flex items-start justify-between">
-                  <p className="text-sm font-medium text-white/70">{label}</p>
+                  <p className="text-sm font-medium text-white">{label}</p>
                   <Icon className="h-5 w-5 text-mansagold" />
                 </div>
                 <p className="mt-3 text-3xl font-bold text-white">{value}</p>
-                <p className="mt-1 text-xs text-white/50">{hint}</p>
+                <p className="mt-1 text-xs text-white/80">{hint}</p>
               </div>
             ))}
           </div>
 
           <Tabs defaultValue="capabilities" className="space-y-6">
             <TabsList className="border border-white/10 bg-mansablue/40">
-              <TabsTrigger value="capabilities" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">My Capabilities</TabsTrigger>
-              <TabsTrigger value="needs" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">My Needs</TabsTrigger>
-              <TabsTrigger value="connections" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Connections</TabsTrigger>
+              <TabsTrigger value="capabilities" className="text-white data-[state=active]:bg-mansagold data-[state=active]:text-black">My Capabilities</TabsTrigger>
+              <TabsTrigger value="needs" className="text-white data-[state=active]:bg-mansagold data-[state=active]:text-black">My Needs</TabsTrigger>
+              <TabsTrigger value="connections" className="text-white data-[state=active]:bg-mansagold data-[state=active]:text-black">Connections</TabsTrigger>
             </TabsList>
 
             {/* Capabilities Tab */}

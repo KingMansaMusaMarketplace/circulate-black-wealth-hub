@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
               1325.AI
             </h1>
           </Link>
-          <p className="text-white/70 text-sm sm:text-base">
+          <p className="text-white text-sm sm:text-base">
             Welcome back! Sign in to continue.
           </p>
         </div>

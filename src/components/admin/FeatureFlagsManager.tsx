@@ -142,7 +142,7 @@ const FeatureFlagsManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Flag className="h-8 w-8 text-mansagold" />
               <div>
-                <p className="text-white/60 text-sm">Total Flags</p>
+                <p className="text-white/90 text-sm">Total Flags</p>
                 <p className="text-2xl font-bold text-mansagold">{stats.total}</p>
               </div>
             </div>
@@ -153,7 +153,7 @@ const FeatureFlagsManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <ToggleLeft className="h-8 w-8 text-green-400" />
               <div>
-                <p className="text-white/60 text-sm">Enabled</p>
+                <p className="text-white/90 text-sm">Enabled</p>
                 <p className="text-2xl font-bold text-green-400">{stats.enabled}</p>
               </div>
             </div>
@@ -164,7 +164,7 @@ const FeatureFlagsManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Percent className="h-8 w-8 text-yellow-400" />
               <div>
-                <p className="text-white/60 text-sm">Partial Rollout</p>
+                <p className="text-white/90 text-sm">Partial Rollout</p>
                 <p className="text-2xl font-bold text-yellow-400">{stats.partial}</p>
               </div>
             </div>
@@ -192,7 +192,7 @@ const FeatureFlagsManager: React.FC = () => {
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
-                    <Label className="text-white/80">Flag Key</Label>
+                    <Label className="text-white">Flag Key</Label>
                     <Input
                       value={formData.flag_key}
                       onChange={(e) => setFormData(prev => ({ ...prev, flag_key: e.target.value }))}
@@ -202,7 +202,7 @@ const FeatureFlagsManager: React.FC = () => {
                     <p className="text-white/40 text-xs mt-1">Unique identifier used in code</p>
                   </div>
                   <div>
-                    <Label className="text-white/80">Display Name</Label>
+                    <Label className="text-white">Display Name</Label>
                     <Input
                       value={formData.flag_name}
                       onChange={(e) => setFormData(prev => ({ ...prev, flag_name: e.target.value }))}
@@ -211,7 +211,7 @@ const FeatureFlagsManager: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <Label className="text-white/80">Description</Label>
+                    <Label className="text-white">Description</Label>
                     <Textarea
                       value={formData.description}
                       onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
@@ -220,7 +220,7 @@ const FeatureFlagsManager: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <Label className="text-white/80">Rollout Percentage: {formData.rollout_percentage}%</Label>
+                    <Label className="text-white">Rollout Percentage: {formData.rollout_percentage}%</Label>
                     <Slider
                       value={[formData.rollout_percentage]}
                       onValueChange={([value]) => setFormData(prev => ({ ...prev, rollout_percentage: value }))}
@@ -231,7 +231,7 @@ const FeatureFlagsManager: React.FC = () => {
                     <p className="text-white/40 text-xs mt-1">Percentage of users who will see this feature</p>
                   </div>
                   <div>
-                    <Label className="text-white/80">Target User Types</Label>
+                    <Label className="text-white">Target User Types</Label>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {userTypes.map(type => (
                         <Badge
@@ -240,7 +240,7 @@ const FeatureFlagsManager: React.FC = () => {
                           className={`cursor-pointer ${
                             formData.target_user_types.includes(type) 
                               ? 'bg-mansagold text-mansablue-dark' 
-                              : 'border-white/20 text-white/60'
+                              : 'border-white/20 text-white/90'
                           }`}
                           onClick={() => toggleUserType(type)}
                         >
@@ -292,7 +292,7 @@ const FeatureFlagsManager: React.FC = () => {
                         </div>
                         <p className="text-white font-medium">{flag.flag_name}</p>
                         {flag.description && (
-                          <p className="text-white/60 text-sm mt-1">{flag.description}</p>
+                          <p className="text-white/90 text-sm mt-1">{flag.description}</p>
                         )}
                         {flag.target_user_types.length > 0 && (
                           <div className="flex items-center gap-2 mt-2">
@@ -329,7 +329,7 @@ const FeatureFlagsManager: React.FC = () => {
                     {/* Rollout Slider */}
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-white/60 text-sm">Rollout: {flag.rollout_percentage}%</span>
+                        <span className="text-white/90 text-sm">Rollout: {flag.rollout_percentage}%</span>
                       </div>
                       <Slider
                         value={[flag.rollout_percentage]}
@@ -342,7 +342,7 @@ const FeatureFlagsManager: React.FC = () => {
                   </div>
                 ))}
                 {flags?.length === 0 && (
-                  <div className="text-center py-12 text-white/60">
+                  <div className="text-center py-12 text-white/90">
                     <Flag className="h-12 w-12 mx-auto mb-4 opacity-50" />
                     <p>No feature flags yet</p>
                   </div>

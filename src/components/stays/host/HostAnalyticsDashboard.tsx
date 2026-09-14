@@ -179,7 +179,7 @@ const HostAnalyticsDashboard: React.FC<HostAnalyticsDashboardProps> = ({ propert
                   <stat.icon className={`w-5 h-5 ${stat.color}`} />
                 </div>
                 <div>
-                  <p className="text-white/60 text-sm">{stat.label}</p>
+                  <p className="text-white/90 text-sm">{stat.label}</p>
                   <p className="text-white text-xl font-bold">{stat.value}</p>
                 </div>
               </div>
@@ -210,7 +210,7 @@ const HostAnalyticsDashboard: React.FC<HostAnalyticsDashboardProps> = ({ propert
               </div>
             </div>
           </div>
-          <p className="text-white/60 text-sm mt-2">
+          <p className="text-white/90 text-sm mt-2">
             {analytics.totalBookings} bookings from {analytics.totalViews} views
           </p>
         </CardContent>

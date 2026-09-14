@@ -69,7 +69,7 @@ const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
             </div>
             <div>
               <h2 className="text-2xl font-bold text-white mb-2">Welcome to 1325.AI</h2>
-              <p className="text-white/60">
+              <p className="text-white/90">
                 The economic operating system for the African Diaspora.
               </p>
             </div>
@@ -88,7 +88,7 @@ const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
                 >
                   <Users className="h-6 w-6 text-mansagold mb-2" />
                   <p className="font-semibold text-white text-sm">Community Member</p>
-                  <p className="text-xs text-white/50 mt-1">Discover & support businesses</p>
+                  <p className="text-xs text-white/80 mt-1">Discover & support businesses</p>
                 </button>
                 <button
                   onClick={() => setSelectedType('business')}
@@ -101,13 +101,13 @@ const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
                 >
                   <Building className="h-6 w-6 text-mansablue mb-2" />
                   <p className="font-semibold text-white text-sm">Business Owner</p>
-                  <p className="text-xs text-white/50 mt-1">Grow & connect with customers</p>
+                  <p className="text-xs text-white/80 mt-1">Grow & connect with customers</p>
                 </button>
               </div>
             </div>
 
             <div className="flex items-center justify-between pt-2">
-              <Button variant="ghost" onClick={handleSkip} className="text-white/40 hover:text-white/60">
+              <Button variant="ghost" onClick={handleSkip} className="text-white/40 hover:text-white/90">
                 Skip
               </Button>
               <Button
@@ -126,7 +126,7 @@ const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
           <div className="px-8 pb-8 pt-4 space-y-6">
             <div className="text-center">
               <h2 className="text-xl font-bold text-white mb-1">Here's how it works</h2>
-              <p className="text-white/50 text-sm">
+              <p className="text-white/80 text-sm">
                 {selectedType === 'customer' ? 'Three steps to impact' : 'Three steps to growth'}
               </p>
             </div>
@@ -182,7 +182,7 @@ const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
             )}
 
             <div className="flex items-center justify-between pt-2">
-              <Button variant="ghost" onClick={() => setStep(0)} className="text-white/40 hover:text-white/60">
+              <Button variant="ghost" onClick={() => setStep(0)} className="text-white/40 hover:text-white/90">
                 Back
               </Button>
               <Button
@@ -210,7 +210,7 @@ const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
               <h2 className="text-xl font-bold text-white mb-2">
                 {selectedType === 'customer' ? "Let's find your first business" : "Let's set up your profile"}
               </h2>
-              <p className="text-white/50 text-sm">
+              <p className="text-white/80 text-sm">
                 {selectedType === 'customer'
                   ? "Explore the directory and discover businesses in your area."
                   : "Complete your profile so customers can find and support you."}
@@ -228,7 +228,7 @@ const WelcomeFlow: React.FC<WelcomeFlowProps> = ({ isOpen, onClose }) => {
               <Button
                 variant="ghost"
                 onClick={() => handleComplete()}
-                className="w-full text-white/40 hover:text-white/60"
+                className="w-full text-white/40 hover:text-white/90"
               >
                 I'll explore on my own
               </Button>
@@ -253,7 +253,7 @@ const FlowCard: React.FC<{
     </div>
     <div className="flex-1 min-w-0">
       <p className="font-semibold text-white text-sm">{title}</p>
-      <p className="text-xs text-white/50">{description}</p>
+      <p className="text-xs text-white/80">{description}</p>
     </div>
     <span className="text-xs font-bold text-white/20">{number}</span>
   </div>

@@ -31,7 +31,7 @@ const SuccessStoriesCarousel: React.FC<SuccessStoriesCarouselProps> = ({ stories
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold text-white">Success Stories</h2>
-          <p className="text-white/70 mt-2">Real impact from our community</p>
+          <p className="text-white mt-2">Real impact from our community</p>
         </div>
       </div>
 
@@ -69,20 +69,20 @@ const SuccessStoriesCarousel: React.FC<SuccessStoriesCarouselProps> = ({ stories
                   <CardTitle className="text-xl text-white">{story.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-sm text-white/70">{story.description}</p>
+                  <p className="text-sm text-white">{story.description}</p>
                   
                   {story.metrics && (
                     <div className="space-y-2 p-4 rounded-lg bg-slate-800/40 backdrop-blur-sm border border-white/10">
                       {story.metrics.before && (
                         <div className="flex items-center gap-2 text-sm">
-                          <span className="text-white/60">Before:</span>
+                          <span className="text-white/90">Before:</span>
                           <span className="font-medium text-white">{story.metrics.before}</span>
                         </div>
                       )}
                       {story.metrics.after && (
                         <div className="flex items-center gap-2 text-sm">
                           <TrendingUp className="w-4 h-4 text-blue-400" />
-                          <span className="text-white/60">After:</span>
+                          <span className="text-white/90">After:</span>
                           <span className="font-medium text-blue-400">{story.metrics.after}</span>
                         </div>
                       )}

@@ -180,7 +180,7 @@ const PromoCodeManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Tag className="h-8 w-8 text-mansagold" />
               <div>
-                <p className="text-white/60 text-sm">Active Codes</p>
+                <p className="text-white/90 text-sm">Active Codes</p>
                 <p className="text-2xl font-bold text-mansagold">{stats.active}</p>
               </div>
             </div>
@@ -191,7 +191,7 @@ const PromoCodeManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Gift className="h-8 w-8 text-green-400" />
               <div>
-                <p className="text-white/60 text-sm">Total Redemptions</p>
+                <p className="text-white/90 text-sm">Total Redemptions</p>
                 <p className="text-2xl font-bold text-green-400">{stats.totalRedemptions}</p>
               </div>
             </div>
@@ -202,7 +202,7 @@ const PromoCodeManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <DollarSign className="h-8 w-8 text-blue-400" />
               <div>
-                <p className="text-white/60 text-sm">Total Saved</p>
+                <p className="text-white/90 text-sm">Total Saved</p>
                 <p className="text-2xl font-bold text-blue-400">${stats.totalSaved.toFixed(2)}</p>
               </div>
             </div>
@@ -213,7 +213,7 @@ const PromoCodeManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Percent className="h-8 w-8 text-purple-400" />
               <div>
-                <p className="text-white/60 text-sm">Total Codes</p>
+                <p className="text-white/90 text-sm">Total Codes</p>
                 <p className="text-2xl font-bold text-purple-400">{promoCodes?.length || 0}</p>
               </div>
             </div>
@@ -241,7 +241,7 @@ const PromoCodeManager: React.FC = () => {
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
-                    <Label className="text-white/80">Code</Label>
+                    <Label className="text-white">Code</Label>
                     <div className="flex gap-2">
                       <Input
                         value={formData.code}
@@ -255,7 +255,7 @@ const PromoCodeManager: React.FC = () => {
                     </div>
                   </div>
                   <div>
-                    <Label className="text-white/80">Name</Label>
+                    <Label className="text-white">Name</Label>
                     <Input
                       value={formData.name}
                       onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
@@ -264,7 +264,7 @@ const PromoCodeManager: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <Label className="text-white/80">Description</Label>
+                    <Label className="text-white">Description</Label>
                     <Textarea
                       value={formData.description}
                       onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
@@ -274,7 +274,7 @@ const PromoCodeManager: React.FC = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-white/80">Discount Type</Label>
+                      <Label className="text-white">Discount Type</Label>
                       <Select
                         value={formData.discount_type}
                         onValueChange={(value) => setFormData(prev => ({ ...prev, discount_type: value }))}
@@ -290,7 +290,7 @@ const PromoCodeManager: React.FC = () => {
                       </Select>
                     </div>
                     <div>
-                      <Label className="text-white/80">Value</Label>
+                      <Label className="text-white">Value</Label>
                       <Input
                         type="number"
                         value={formData.discount_value}
@@ -301,7 +301,7 @@ const PromoCodeManager: React.FC = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-white/80">Max Uses (optional)</Label>
+                      <Label className="text-white">Max Uses (optional)</Label>
                       <Input
                         type="number"
                         value={formData.max_uses}
@@ -311,7 +311,7 @@ const PromoCodeManager: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <Label className="text-white/80">Min Purchase</Label>
+                      <Label className="text-white">Min Purchase</Label>
                       <Input
                         type="number"
                         value={formData.min_purchase_amount}
@@ -323,7 +323,7 @@ const PromoCodeManager: React.FC = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-white/80">Valid From</Label>
+                      <Label className="text-white">Valid From</Label>
                       <Input
                         type="date"
                         value={formData.valid_from}
@@ -332,7 +332,7 @@ const PromoCodeManager: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <Label className="text-white/80">Valid Until</Label>
+                      <Label className="text-white">Valid Until</Label>
                       <Input
                         type="date"
                         value={formData.valid_until}
@@ -342,7 +342,7 @@ const PromoCodeManager: React.FC = () => {
                     </div>
                   </div>
                   <div>
-                    <Label className="text-white/80">Applies To</Label>
+                    <Label className="text-white">Applies To</Label>
                     <Select
                       value={formData.applies_to}
                       onValueChange={(value) => setFormData(prev => ({ ...prev, applies_to: value }))}
@@ -392,7 +392,7 @@ const PromoCodeManager: React.FC = () => {
                             onClick={() => copyCode(code.code)}
                             className="h-6 w-6 p-0"
                           >
-                            <Copy className="h-3 w-3 text-white/60" />
+                            <Copy className="h-3 w-3 text-white/90" />
                           </Button>
                           <Badge className={code.is_active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}>
                             {code.is_active ? 'Active' : 'Inactive'}
@@ -405,9 +405,9 @@ const PromoCodeManager: React.FC = () => {
                         </div>
                         <p className="text-white font-medium">{code.name}</p>
                         {code.description && (
-                          <p className="text-white/60 text-sm mt-1">{code.description}</p>
+                          <p className="text-white/90 text-sm mt-1">{code.description}</p>
                         )}
-                        <div className="flex items-center gap-4 mt-2 text-white/50 text-xs">
+                        <div className="flex items-center gap-4 mt-2 text-white/80 text-xs">
                           <span>Uses: {code.uses_count}{code.max_uses ? `/${code.max_uses}` : ''}</span>
                           <span>Valid: {format(new Date(code.valid_from), 'MMM d')} - {code.valid_until ? format(new Date(code.valid_until), 'MMM d') : 'No end'}</span>
                         </div>
@@ -430,7 +430,7 @@ const PromoCodeManager: React.FC = () => {
                   </div>
                 ))}
                 {promoCodes?.length === 0 && (
-                  <div className="text-center py-12 text-white/60">
+                  <div className="text-center py-12 text-white/90">
                     <Tag className="h-12 w-12 mx-auto mb-4 opacity-50" />
                     <p>No promo codes yet</p>
                   </div>

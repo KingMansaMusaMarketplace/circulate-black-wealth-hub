@@ -123,7 +123,7 @@ const RevenueAnalyticsDashboard: React.FC<RevenueAnalyticsDashboardProps> = ({ b
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-white">Revenue Analytics</h2>
-          <p className="text-sm text-white/50">Track your earnings, occupancy, and performance</p>
+          <p className="text-sm text-white/80">Track your earnings, occupancy, and performance</p>
         </div>
         <div className="flex items-center gap-3">
           {analytics.trend !== 0 && (
@@ -154,7 +154,7 @@ const RevenueAnalyticsDashboard: React.FC<RevenueAnalyticsDashboardProps> = ({ b
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-1">
                 <Icon className={`w-4 h-4 ${color}`} />
-                <span className="text-xs text-white/50">{label}</span>
+                <span className="text-xs text-white/80">{label}</span>
               </div>
               <p className={`text-2xl font-bold ${color}`}>{value}</p>
             </CardContent>
@@ -166,7 +166,7 @@ const RevenueAnalyticsDashboard: React.FC<RevenueAnalyticsDashboardProps> = ({ b
       <Card className="bg-slate-800/50 border-white/10">
         <CardHeader className="pb-2">
           <CardTitle className="text-white text-base">Revenue Trend</CardTitle>
-          <CardDescription className="text-white/50">Monthly earnings over time</CardDescription>
+          <CardDescription className="text-white/80">Monthly earnings over time</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-72">
@@ -200,7 +200,7 @@ const RevenueAnalyticsDashboard: React.FC<RevenueAnalyticsDashboardProps> = ({ b
         <Card className="bg-slate-800/50 border-white/10">
           <CardHeader className="pb-2">
             <CardTitle className="text-white text-base">Occupancy Rate</CardTitle>
-            <CardDescription className="text-white/50">Monthly occupancy percentage</CardDescription>
+            <CardDescription className="text-white/80">Monthly occupancy percentage</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-56">
@@ -224,7 +224,7 @@ const RevenueAnalyticsDashboard: React.FC<RevenueAnalyticsDashboardProps> = ({ b
         <Card className="bg-slate-800/50 border-white/10">
           <CardHeader className="pb-2">
             <CardTitle className="text-white text-base">Seasonal Performance</CardTitle>
-            <CardDescription className="text-white/50">Revenue by season (all time)</CardDescription>
+            <CardDescription className="text-white/80">Revenue by season (all time)</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-56">
@@ -253,7 +253,7 @@ const RevenueAnalyticsDashboard: React.FC<RevenueAnalyticsDashboardProps> = ({ b
         <Card className="bg-slate-800/50 border-white/10">
           <CardHeader className="pb-2">
             <CardTitle className="text-white text-base">Revenue by Property</CardTitle>
-            <CardDescription className="text-white/50">Performance comparison across listings</CardDescription>
+            <CardDescription className="text-white/80">Performance comparison across listings</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-64">

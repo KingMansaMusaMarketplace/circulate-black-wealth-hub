@@ -120,7 +120,7 @@ const NoirLandingPage: React.FC = () => {
 
             <span className="inline-block text-xs font-bold uppercase tracking-widest text-mansagold bg-mansagold/10 border border-mansagold/30 px-3 py-1 rounded-full mb-4">Premium Hotel & Airport Transport · Chicago</span>
 
-            <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-3 leading-relaxed">
+            <p className="text-xl md:text-2xl text-white max-w-2xl mx-auto mb-3 leading-relaxed">
               Scheduled rides to <span className="text-mansagold font-semibold">O'Hare, Midway, and Chicago's finest hotels</span>.
               <br className="hidden md:block" />
               Vetted Black-owned drivers. Flight tracking. Meet-and-greet. No surge pricing — ever.
@@ -186,7 +186,7 @@ const NoirLandingPage: React.FC = () => {
                     className="mt-5 p-4 bg-mansagold/10 border border-mansagold/20 rounded-2xl"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-white/70 text-sm">Estimated Noire Fare</span>
+                      <span className="text-white text-sm">Estimated Noire Fare</span>
                       <span className="text-3xl font-bold text-mansagold">${estimatedFare.toFixed(2)}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm text-white/40 mb-4">
@@ -234,7 +234,7 @@ const NoirLandingPage: React.FC = () => {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-white/10 text-white/60 hover:bg-white/5 rounded-xl px-8"
+                className="border-white/10 text-white/90 hover:bg-white/5 rounded-xl px-8"
               >
                 <Link to="/directory">Full Directory</Link>
               </Button>
@@ -258,7 +258,7 @@ const NoirLandingPage: React.FC = () => {
               >
                 <stat.icon className="h-6 w-6 text-mansagold mx-auto mb-2" />
                 <div className="text-3xl md:text-4xl font-bold text-mansagold font-mono">{stat.value}</div>
-                <div className="text-white/50 text-sm mt-1">{stat.label}</div>
+                <div className="text-white/80 text-sm mt-1">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -276,7 +276,7 @@ const NoirLandingPage: React.FC = () => {
           >
             How <span className="text-mansagold">Noire</span> Works
           </motion.h2>
-          <p className="text-white/50 text-center max-w-lg mx-auto mb-14">
+          <p className="text-white/80 text-center max-w-lg mx-auto mb-14">
             Three steps to a better ride experience — for riders and drivers.
           </p>
 
@@ -298,7 +298,7 @@ const NoirLandingPage: React.FC = () => {
                 </div>
                 <div className="text-xs font-mono text-mansagold/40 mb-2 tracking-widest">STEP 0{i + 1}</div>
                 <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>
+                <p className="text-white/80 text-sm leading-relaxed">{step.description}</p>
               </motion.div>
             ))}
           </div>
@@ -317,7 +317,7 @@ const NoirLandingPage: React.FC = () => {
             <h2 className="text-3xl md:text-5xl font-bold mb-3">
               <span className="text-mansagold">Fair</span> Pricing
             </h2>
-            <p className="text-white/50 max-w-lg mx-auto">
+            <p className="text-white/80 max-w-lg mx-auto">
               No surge. No games. See exactly what you'll pay and what your driver earns.
             </p>
           </motion.div>
@@ -343,7 +343,7 @@ const NoirLandingPage: React.FC = () => {
                     <div className="text-4xl font-bold text-white font-mono">$2.50</div>
                     <div className="text-white/40 text-sm">base fare</div>
                   </div>
-                  <div className="space-y-2 text-sm text-white/60">
+                  <div className="space-y-2 text-sm text-white/90">
                     <div className="flex justify-between"><span>Per mile</span><span className="text-mansagold font-mono">$1.25</span></div>
                     <div className="flex justify-between"><span>Per minute</span><span className="text-mansagold font-mono">$0.20</span></div>
                     <div className="flex justify-between"><span>Platform fee</span><span className="text-mansagold font-mono">20%</span></div>
@@ -366,12 +366,12 @@ const NoirLandingPage: React.FC = () => {
             >
               <Card className="bg-white/5 border-white/10 h-full opacity-80">
                 <CardHeader className="text-center pb-2">
-                  <div className="h-10 w-10 bg-white/10 rounded-xl mx-auto mb-2 flex items-center justify-center text-xl font-bold text-white/50">U</div>
-                  <CardTitle className="text-2xl text-white/60">Uber</CardTitle>
+                  <div className="h-10 w-10 bg-white/10 rounded-xl mx-auto mb-2 flex items-center justify-center text-xl font-bold text-white/80">U</div>
+                  <CardTitle className="text-2xl text-white/90">Uber</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center space-y-4">
                   <div>
-                    <div className="text-4xl font-bold text-white/50 font-mono">$2.55</div>
+                    <div className="text-4xl font-bold text-white/80 font-mono">$2.55</div>
                     <div className="text-white/30 text-sm">base fare</div>
                   </div>
                   <div className="space-y-2 text-sm text-white/40">
@@ -397,12 +397,12 @@ const NoirLandingPage: React.FC = () => {
             >
               <Card className="bg-white/5 border-white/10 h-full opacity-80">
                 <CardHeader className="text-center pb-2">
-                  <div className="h-10 w-10 bg-white/10 rounded-xl mx-auto mb-2 flex items-center justify-center text-xl font-bold text-white/50">L</div>
-                  <CardTitle className="text-2xl text-white/60">Lyft</CardTitle>
+                  <div className="h-10 w-10 bg-white/10 rounded-xl mx-auto mb-2 flex items-center justify-center text-xl font-bold text-white/80">L</div>
+                  <CardTitle className="text-2xl text-white/90">Lyft</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center space-y-4">
                   <div>
-                    <div className="text-4xl font-bold text-white/50 font-mono">$2.50</div>
+                    <div className="text-4xl font-bold text-white/80 font-mono">$2.50</div>
                     <div className="text-white/30 text-sm">base fare</div>
                   </div>
                   <div className="space-y-2 text-sm text-white/40">
@@ -434,7 +434,7 @@ const NoirLandingPage: React.FC = () => {
             <h2 className="text-3xl md:text-5xl font-bold mb-3">
               <span className="text-mansagold">Popular</span> Destinations
             </h2>
-            <p className="text-white/50 max-w-xl mx-auto">
+            <p className="text-white/80 max-w-xl mx-auto">
               Pick a destination below and we'll open your preferred ride app with the address ready to go.
             </p>
           </motion.div>
@@ -483,7 +483,7 @@ const NoirLandingPage: React.FC = () => {
                     <Button
                       asChild
                       size="sm"
-                      className="flex-1 bg-black border border-white/10 text-white/60 hover:bg-white/10 rounded-lg text-xs"
+                      className="flex-1 bg-black border border-white/10 text-white/90 hover:bg-white/10 rounded-lg text-xs"
                     >
                       <a href={LYFT_DEEPLINK(biz.lat, biz.lng)} target="_blank" rel="noopener noreferrer">
                         Lyft <ExternalLink className="ml-1 h-3 w-3" />
@@ -535,7 +535,7 @@ const NoirLandingPage: React.FC = () => {
                     <Star key={j} className="h-4 w-4 text-mansagold fill-mansagold" />
                   ))}
                 </div>
-                <p className="text-white/70 text-sm leading-relaxed mb-4">"{t.text}"</p>
+                <p className="text-white text-sm leading-relaxed mb-4">"{t.text}"</p>
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-mansagold/20 flex items-center justify-center text-mansagold text-sm font-bold">
                     {t.name.charAt(0)}
@@ -564,7 +564,7 @@ const NoirLandingPage: React.FC = () => {
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 Safety is <span className="text-mansagold">Non-Negotiable</span>
               </h2>
-              <p className="text-white/60 leading-relaxed mb-6">
+              <p className="text-white/90 leading-relaxed mb-6">
                 Every Noire driver undergoes a comprehensive background check, vehicle inspection,
                 and community verification. We don't cut corners on safety — ever.
               </p>
@@ -577,7 +577,7 @@ const NoirLandingPage: React.FC = () => {
                   'Community-verified drivers',
                   '24/7 support team'
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-white/70 text-sm">
+                  <li key={item} className="flex items-center gap-2 text-white text-sm">
                     <CheckCircle className="h-4 w-4 text-emerald-400 flex-shrink-0" />
                     {item}
                   </li>
@@ -621,7 +621,7 @@ const NoirLandingPage: React.FC = () => {
               Tired of the 50% Take-Rate?{' '}
               <span className="text-mansagold">Switch to Noire.</span>
             </h2>
-            <p className="text-xl text-white/60 max-w-2xl mx-auto">
+            <p className="text-xl text-white/90 max-w-2xl mx-auto">
               Your skills. Your car. Your clients. We just take 20% — flat, transparent, always.
               No algorithmic wage games. No "black box" pay calculations.
             </p>
@@ -638,11 +638,11 @@ const NoirLandingPage: React.FC = () => {
               <h4 className="text-mansagold font-bold text-sm mb-4 tracking-wider uppercase">What You See Before Every Trip</h4>
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/60">Rider Pays</span>
+                  <span className="text-white/90">Rider Pays</span>
                   <span className="text-white font-mono font-bold text-lg">$50.00</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/60">Noire Fee (20%)</span>
+                  <span className="text-white/90">Noire Fee (20%)</span>
                   <span className="text-white/40 font-mono">−$10.00</span>
                 </div>
                 <div className="h-px bg-mansagold/20" />
@@ -708,7 +708,7 @@ const NoirLandingPage: React.FC = () => {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="text-center">
                 <div className="text-white/40 text-xs font-mono uppercase tracking-wider mb-2">Uber / Lyft</div>
-                <ul className="space-y-2 text-sm text-white/50">
+                <ul className="space-y-2 text-sm text-white/80">
                   <li className="flex items-center gap-2 justify-center"><span className="text-red-400">✕</span> Takes 25–60% of your fare</li>
                   <li className="flex items-center gap-2 justify-center"><span className="text-red-400">✕</span> Algorithm decides your pay</li>
                   <li className="flex items-center gap-2 justify-center"><span className="text-red-400">✕</span> Deactivated by a bot</li>
@@ -717,7 +717,7 @@ const NoirLandingPage: React.FC = () => {
               </div>
               <div className="text-center">
                 <div className="text-mansagold text-xs font-mono uppercase tracking-wider mb-2">Noire Travel</div>
-                <ul className="space-y-2 text-sm text-white/80">
+                <ul className="space-y-2 text-sm text-white">
                   <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> Flat 20% — you keep 80%</li>
                   <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> Full fare breakdown before every trip</li>
                   <li className="flex items-center gap-2 justify-center"><CheckCircle className="h-4 w-4 text-emerald-400" /> Human-led appeals within 24hrs</li>
@@ -735,7 +735,7 @@ const NoirLandingPage: React.FC = () => {
             >
               <CheckCircle className="h-12 w-12 text-emerald-400 mx-auto mb-3" />
               <h3 className="text-xl font-bold text-white mb-2">Application Received!</h3>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/90 text-sm">
                 We're onboarding drivers in waves. You'll hear from us soon. In the meantime,
                 <Link to="/directory" className="text-mansagold hover:underline ml-1">explore the directory</Link>.
               </p>
@@ -845,7 +845,7 @@ const NoirLandingPage: React.FC = () => {
                     animate={{ opacity: 1, height: 'auto' }}
                     className="px-4 pb-4"
                   >
-                    <p className="text-white/60 text-sm leading-relaxed">{faq.a}</p>
+                    <p className="text-white/90 text-sm leading-relaxed">{faq.a}</p>
                   </motion.div>
                 )}
               </motion.div>
@@ -866,7 +866,7 @@ const NoirLandingPage: React.FC = () => {
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
               Ready to ride <span className="text-mansagold">different</span>?
             </h2>
-            <p className="text-white/50 max-w-lg mx-auto mb-8">
+            <p className="text-white/80 max-w-lg mx-auto mb-8">
               Join the movement. Lower fares for riders. Higher pay for drivers.
               All powered by the 1325.AI economic ecosystem.
             </p>
@@ -908,7 +908,7 @@ const NoirLandingPage: React.FC = () => {
             <h2 className="text-3xl md:text-5xl font-bold mb-3">
               <span className="text-mansagold">Better</span> Than the Big Apps
             </h2>
-            <p className="text-white/50 max-w-xl mx-auto">
+            <p className="text-white/80 max-w-xl mx-auto">
               Features Uber can't match — because they weren't built for community.
             </p>
           </motion.div>

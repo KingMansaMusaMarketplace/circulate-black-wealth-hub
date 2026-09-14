@@ -274,7 +274,7 @@ const MansaStaysAdmin: React.FC = () => {
       case 'completed': return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
       case 'pending': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
       case 'cancelled': return 'bg-red-500/20 text-red-300 border-red-500/30';
-      default: return 'bg-white/10 text-white/70';
+      default: return 'bg-white/10 text-white';
     }
   };
 
@@ -282,7 +282,7 @@ const MansaStaysAdmin: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-white">Mansa Stays</h2>
-        <p className="text-white/60 text-sm">Vacation rentals, yearly leases, bookings, host payouts, and lease agreements.</p>
+        <p className="text-white/90 text-sm">Vacation rentals, yearly leases, bookings, host payouts, and lease agreements.</p>
       </div>
 
       {/* Stats */}
@@ -290,12 +290,12 @@ const MansaStaysAdmin: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Properties</CardDescription>
+              <CardDescription className="text-white/90">Properties</CardDescription>
               <Home className="h-4 w-4 text-mansagold" />
             </div>
             <CardTitle className="text-2xl text-white">{properties.length}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">
+          <CardContent className="text-xs text-white/80">
             {vacationCount} vacation · {leaseCount} lease · {activeProperties} active
           </CardContent>
         </Card>
@@ -303,12 +303,12 @@ const MansaStaysAdmin: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Yearly Leases</CardDescription>
+              <CardDescription className="text-white/90">Yearly Leases</CardDescription>
               <Key className="h-4 w-4 text-mansagold" />
             </div>
             <CardTitle className="text-2xl text-white">{signedAgreements}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">
+          <CardContent className="text-xs text-white/80">
             {leaseInquiries.length} inquiries · {fmt(leaseFeesCollected)} fees
           </CardContent>
         </Card>
@@ -316,12 +316,12 @@ const MansaStaysAdmin: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Bookings</CardDescription>
+              <CardDescription className="text-white/90">Bookings</CardDescription>
               <Calendar className="h-4 w-4 text-mansagold" />
             </div>
             <CardTitle className="text-2xl text-white">{bookings.length}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">
+          <CardContent className="text-xs text-white/80">
             All-time bookings
           </CardContent>
         </Card>
@@ -329,12 +329,12 @@ const MansaStaysAdmin: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Realized Revenue</CardDescription>
+              <CardDescription className="text-white/90">Realized Revenue</CardDescription>
               <CheckCircle2 className="h-4 w-4 text-green-400" />
             </div>
             <CardTitle className="text-2xl text-white">{fmt(realized)}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">
+          <CardContent className="text-xs text-white/80">
             Platform fees (confirmed)
           </CardContent>
         </Card>
@@ -342,12 +342,12 @@ const MansaStaysAdmin: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Total GMV</CardDescription>
+              <CardDescription className="text-white/90">Total GMV</CardDescription>
               <DollarSign className="h-4 w-4 text-mansagold" />
             </div>
             <CardTitle className="text-2xl text-white">{fmt(totalGmv)}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">
+          <CardContent className="text-xs text-white/80">
             {fmt(pendingFees)} pending fees
           </CardContent>
         </Card>
@@ -375,7 +375,7 @@ const MansaStaysAdmin: React.FC = () => {
           </Card>
 
           {properties.filter(p => p.listing_status === 'pending_review').length === 0 ? (
-            <Card><CardContent className="p-8 text-center text-white/60">No pending listings — you're all caught up. 🎉</CardContent></Card>
+            <Card><CardContent className="p-8 text-center text-white/90">No pending listings — you're all caught up. 🎉</CardContent></Card>
           ) : (
             <div className="grid gap-3">
               {properties.filter(p => p.listing_status === 'pending_review').map(p => (
@@ -392,7 +392,7 @@ const MansaStaysAdmin: React.FC = () => {
                           </span>
                         </div>
                         <h3 className="font-semibold text-white truncate">{p.title}</h3>
-                        <p className="text-sm text-white/60">
+                        <p className="text-sm text-white/90">
                           {p.city}, {p.state} · {p.bedrooms} bd · {p.property_type}
                         </p>
                         <p className="text-sm text-mansagold mt-1">
@@ -454,7 +454,7 @@ const MansaStaysAdmin: React.FC = () => {
               <option value="verified">Verified</option>
               <option value="unverified">Unverified</option>
             </select>
-            <div className="text-xs text-white/50 ml-auto">{filteredProperties.length} of {properties.length}</div>
+            <div className="text-xs text-white/80 ml-auto">{filteredProperties.length} of {properties.length}</div>
             <Button size="sm" variant="outline" onClick={exportProperties}>
               <Download className="h-4 w-4 mr-1" /> Export CSV
             </Button>
@@ -464,19 +464,19 @@ const MansaStaysAdmin: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10">
-                    <TableHead className="text-white/70">Title</TableHead>
-                    <TableHead className="text-white/70">Type</TableHead>
-                    <TableHead className="text-white/70">Location</TableHead>
-                    <TableHead className="text-white/70">Beds</TableHead>
-                    <TableHead className="text-white/70">Rate</TableHead>
-                    <TableHead className="text-white/70">Status</TableHead>
-                    <TableHead className="text-white/70">Verified</TableHead>
-                    <TableHead className="text-white/70 text-right">Actions</TableHead>
+                    <TableHead className="text-white">Title</TableHead>
+                    <TableHead className="text-white">Type</TableHead>
+                    <TableHead className="text-white">Location</TableHead>
+                    <TableHead className="text-white">Beds</TableHead>
+                    <TableHead className="text-white">Rate</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-white">Verified</TableHead>
+                    <TableHead className="text-white text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredProperties.length === 0 ? (
-                    <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No properties match.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={8} className="text-center text-white/80 py-8">No properties match.</TableCell></TableRow>
                   ) : filteredProperties.map(p => (
                     <TableRow key={p.id} className="border-white/10">
                       <TableCell className="text-white font-medium">{p.title}</TableCell>
@@ -487,15 +487,15 @@ const MansaStaysAdmin: React.FC = () => {
                           <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">🏖️ Vacation</Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-white/70">{[p.city, p.state].filter(Boolean).join(', ') || '—'}</TableCell>
-                      <TableCell className="text-white/70">{p.bedrooms ?? '—'} bd{!isLease(p) && p.max_guests ? ` · ${p.max_guests} guests` : ''}</TableCell>
-                      <TableCell className="text-white/70">
+                      <TableCell className="text-white">{[p.city, p.state].filter(Boolean).join(', ') || '—'}</TableCell>
+                      <TableCell className="text-white">{p.bedrooms ?? '—'} bd{!isLease(p) && p.max_guests ? ` · ${p.max_guests} guests` : ''}</TableCell>
+                      <TableCell className="text-white">
                         {isLease(p)
                           ? `${fmt(Number(p.monthly_rent || 0))}/mo`
                           : `${fmt(Number(p.base_nightly_rate || 0))}/nt`}
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className={p.is_active ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-white/10 text-white/60'}>
+                        <Badge variant="outline" className={p.is_active ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-white/10 text-white/90'}>
                           {p.is_active ? 'Active' : 'Inactive'}
                         </Badge>
                       </TableCell>
@@ -529,7 +529,7 @@ const MansaStaysAdmin: React.FC = () => {
                             variant="ghost"
                             title="View / Edit"
                             onClick={() => openDetail(p.id)}
-                            className="h-8 w-8 p-0 text-white/80 hover:bg-white/10"
+                            className="h-8 w-8 p-0 text-white hover:bg-white/10"
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
@@ -565,7 +565,7 @@ const MansaStaysAdmin: React.FC = () => {
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
             </select>
-            <div className="text-xs text-white/50 ml-auto">{filteredBookings.length} of {bookings.length}</div>
+            <div className="text-xs text-white/80 ml-auto">{filteredBookings.length} of {bookings.length}</div>
             <Button size="sm" variant="outline" onClick={exportBookings}>
               <Download className="h-4 w-4 mr-1" /> Export CSV
             </Button>
@@ -575,45 +575,45 @@ const MansaStaysAdmin: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10">
-                    <TableHead className="text-white/70">Guest</TableHead>
-                    <TableHead className="text-white/70">Property</TableHead>
-                    <TableHead className="text-white/70">Dates</TableHead>
-                    <TableHead className="text-white/70">Total</TableHead>
-                    <TableHead className="text-white/70">Platform Fee</TableHead>
-                    <TableHead className="text-white/70">Host Payout</TableHead>
-                    <TableHead className="text-white/70">Status</TableHead>
-                    <TableHead className="text-white/70">Payout</TableHead>
-                    <TableHead className="text-white/70 text-right">Actions</TableHead>
+                    <TableHead className="text-white">Guest</TableHead>
+                    <TableHead className="text-white">Property</TableHead>
+                    <TableHead className="text-white">Dates</TableHead>
+                    <TableHead className="text-white">Total</TableHead>
+                    <TableHead className="text-white">Platform Fee</TableHead>
+                    <TableHead className="text-white">Host Payout</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-white">Payout</TableHead>
+                    <TableHead className="text-white text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredBookings.length === 0 ? (
-                    <TableRow><TableCell colSpan={9} className="text-center text-white/50 py-8">No bookings match.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={9} className="text-center text-white/80 py-8">No bookings match.</TableCell></TableRow>
                   ) : filteredBookings.map(b => (
                     <TableRow key={b.id} className="border-white/10">
                       <TableCell className="text-white">
                         <div className="font-medium">{b.guest_name || '—'}</div>
-                        <div className="text-xs text-white/50">{b.guest_email}</div>
+                        <div className="text-xs text-white/80">{b.guest_email}</div>
                       </TableCell>
-                      <TableCell className="text-white/70">{propMap[b.property_id] || b.property_id.slice(0, 8)}</TableCell>
-                      <TableCell className="text-white/70 text-xs">
+                      <TableCell className="text-white">{propMap[b.property_id] || b.property_id.slice(0, 8)}</TableCell>
+                      <TableCell className="text-white text-xs">
                         {b.check_in_date} → {b.check_out_date}
                         <div className="text-white/40">{b.num_nights} nights</div>
                       </TableCell>
-                      <TableCell className="text-white/70">{fmt(Number(b.total_amount))}</TableCell>
+                      <TableCell className="text-white">{fmt(Number(b.total_amount))}</TableCell>
                       <TableCell className="text-mansagold">{fmt(Number(b.platform_fee))}</TableCell>
-                      <TableCell className="text-white/70">{fmt(Number(b.host_payout))}</TableCell>
+                      <TableCell className="text-white">{fmt(Number(b.host_payout))}</TableCell>
                       <TableCell>
                         <Badge variant="outline" className={statusColor(b.status)}>{b.status}</Badge>
                       </TableCell>
-                      <TableCell className="text-xs text-white/60">{b.payout_status || 'pending'}</TableCell>
+                      <TableCell className="text-xs text-white/90">{b.payout_status || 'pending'}</TableCell>
                       <TableCell className="text-right">
                         <Button
                           size="sm"
                           variant="ghost"
                           title="Manage booking"
                           onClick={() => { setSelectedBookingId(b.id); setBookingDialogOpen(true); }}
-                          className="h-8 w-8 p-0 text-white/80 hover:bg-white/10"
+                          className="h-8 w-8 p-0 text-white hover:bg-white/10"
                         >
                           <Settings2 className="h-4 w-4" />
                         </Button>
@@ -637,36 +637,36 @@ const MansaStaysAdmin: React.FC = () => {
                 className="pl-9 bg-white/5 border-white/10 text-white"
               />
             </div>
-            <div className="text-xs text-white/50 ml-auto">{filteredInquiries.length} of {leaseInquiries.length}</div>
+            <div className="text-xs text-white/80 ml-auto">{filteredInquiries.length} of {leaseInquiries.length}</div>
           </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10">
-                    <TableHead className="text-white/70">Tenant</TableHead>
-                    <TableHead className="text-white/70">Property</TableHead>
-                    <TableHead className="text-white/70">Move-In</TableHead>
-                    <TableHead className="text-white/70">Message</TableHead>
-                    <TableHead className="text-white/70">Status</TableHead>
-                    <TableHead className="text-white/70">Received</TableHead>
+                    <TableHead className="text-white">Tenant</TableHead>
+                    <TableHead className="text-white">Property</TableHead>
+                    <TableHead className="text-white">Move-In</TableHead>
+                    <TableHead className="text-white">Message</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-white">Received</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredInquiries.length === 0 ? (
-                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No lease inquiries yet.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={6} className="text-center text-white/80 py-8">No lease inquiries yet.</TableCell></TableRow>
                   ) : filteredInquiries.map(i => (
                     <TableRow key={i.id} className="border-white/10">
                       <TableCell className="text-white">
                         <div className="font-medium">{i.tenant_name || '—'}</div>
-                        <div className="text-xs text-white/50">{i.tenant_email}</div>
+                        <div className="text-xs text-white/80">{i.tenant_email}</div>
                         {i.tenant_phone && <div className="text-xs text-white/40">{i.tenant_phone}</div>}
                       </TableCell>
-                      <TableCell className="text-white/70 text-sm">{propMap[i.property_id] || i.property_id.slice(0, 8)}</TableCell>
-                      <TableCell className="text-white/70 text-xs">{i.desired_move_in || '—'}</TableCell>
-                      <TableCell className="text-white/60 text-xs max-w-xs truncate" title={i.message || ''}>{i.message || '—'}</TableCell>
+                      <TableCell className="text-white text-sm">{propMap[i.property_id] || i.property_id.slice(0, 8)}</TableCell>
+                      <TableCell className="text-white text-xs">{i.desired_move_in || '—'}</TableCell>
+                      <TableCell className="text-white/90 text-xs max-w-xs truncate" title={i.message || ''}>{i.message || '—'}</TableCell>
                       <TableCell><Badge variant="outline" className={statusColor(i.status)}>{i.status}</Badge></TableCell>
-                      <TableCell className="text-xs text-white/50">{new Date(i.created_at).toLocaleDateString()}</TableCell>
+                      <TableCell className="text-xs text-white/80">{new Date(i.created_at).toLocaleDateString()}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -686,7 +686,7 @@ const MansaStaysAdmin: React.FC = () => {
                 className="pl-9 bg-white/5 border-white/10 text-white"
               />
             </div>
-            <div className="text-xs text-white/50 ml-auto">
+            <div className="text-xs text-white/80 ml-auto">
               {filteredAgreements.length} of {leaseAgreements.length} · {fmt(leaseFeesCollected)} fees collected
             </div>
           </div>
@@ -695,36 +695,36 @@ const MansaStaysAdmin: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10">
-                    <TableHead className="text-white/70">Tenant</TableHead>
-                    <TableHead className="text-white/70">Property</TableHead>
-                    <TableHead className="text-white/70">Term</TableHead>
-                    <TableHead className="text-white/70">Monthly Rent</TableHead>
-                    <TableHead className="text-white/70">$99 Fee</TableHead>
-                    <TableHead className="text-white/70">Refund Window</TableHead>
-                    <TableHead className="text-white/70">Status</TableHead>
+                    <TableHead className="text-white">Tenant</TableHead>
+                    <TableHead className="text-white">Property</TableHead>
+                    <TableHead className="text-white">Term</TableHead>
+                    <TableHead className="text-white">Monthly Rent</TableHead>
+                    <TableHead className="text-white">$99 Fee</TableHead>
+                    <TableHead className="text-white">Refund Window</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredAgreements.length === 0 ? (
-                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No lease agreements yet.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/80 py-8">No lease agreements yet.</TableCell></TableRow>
                   ) : filteredAgreements.map(a => {
                     const refundOpen = a.refund_eligible_until && new Date(a.refund_eligible_until) > new Date() && !a.refunded_at;
                     return (
                       <TableRow key={a.id} className="border-white/10">
                         <TableCell className="text-white">
                           <div className="font-medium">{a.tenant_name || '—'}</div>
-                          <div className="text-xs text-white/50">{a.tenant_email}</div>
+                          <div className="text-xs text-white/80">{a.tenant_email}</div>
                         </TableCell>
-                        <TableCell className="text-white/70 text-sm">{propMap[a.property_id] || a.property_id.slice(0, 8)}</TableCell>
-                        <TableCell className="text-white/70 text-xs">
+                        <TableCell className="text-white text-sm">{propMap[a.property_id] || a.property_id.slice(0, 8)}</TableCell>
+                        <TableCell className="text-white text-xs">
                           {a.lease_start_date || '—'} → {a.lease_end_date || '—'}
                         </TableCell>
-                        <TableCell className="text-white/70">{fmt(Number(a.monthly_rent || 0))}</TableCell>
+                        <TableCell className="text-white">{fmt(Number(a.monthly_rent || 0))}</TableCell>
                         <TableCell className="text-mansagold">
                           {a.fee_charged_at ? fmt(Number(a.fee_amount || 0)) : <span className="text-white/40 text-xs">unpaid</span>}
                           {a.refunded_at && <div className="text-xs text-red-300">refunded</div>}
                         </TableCell>
-                        <TableCell className="text-xs text-white/60">
+                        <TableCell className="text-xs text-white/90">
                           {a.refund_eligible_until ? (
                             refundOpen ? <span className="text-yellow-300">open · until {new Date(a.refund_eligible_until).toLocaleDateString()}</span>
                             : <span className="text-white/40">closed</span>
@@ -754,22 +754,22 @@ const MansaStaysAdmin: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10">
-                    <TableHead className="text-white/70">Reported</TableHead>
-                    <TableHead className="text-white/70">Type</TableHead>
-                    <TableHead className="text-white/70">Reason</TableHead>
-                    <TableHead className="text-white/70">Reporter</TableHead>
-                    <TableHead className="text-white/70">Details</TableHead>
-                    <TableHead className="text-white/70">Status</TableHead>
-                    <TableHead className="text-white/70 text-right">Actions</TableHead>
+                    <TableHead className="text-white">Reported</TableHead>
+                    <TableHead className="text-white">Type</TableHead>
+                    <TableHead className="text-white">Reason</TableHead>
+                    <TableHead className="text-white">Reporter</TableHead>
+                    <TableHead className="text-white">Details</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-white text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {reports.length === 0 ? (
-                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No reports yet.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/80 py-8">No reports yet.</TableCell></TableRow>
                   ) : reports.map(r => (
                     <TableRow key={r.id} className="border-white/10">
-                      <TableCell className="text-xs text-white/60">{new Date(r.created_at).toLocaleString()}</TableCell>
-                      <TableCell className="text-white/70 text-xs">
+                      <TableCell className="text-xs text-white/90">{new Date(r.created_at).toLocaleString()}</TableCell>
+                      <TableCell className="text-white text-xs">
                         <div>{r.content_type}</div>
                         {r.photo_url && (
                           <a href={r.photo_url} target="_blank" rel="noreferrer" className="text-mansagold underline">view photo</a>
@@ -777,14 +777,14 @@ const MansaStaysAdmin: React.FC = () => {
                         <div className="text-white/40 font-mono text-[10px]">{r.content_id.slice(0, 8)}</div>
                       </TableCell>
                       <TableCell><Badge className="bg-red-500/20 text-red-300 border-red-500/30">{r.reason}</Badge></TableCell>
-                      <TableCell className="text-white/60 text-xs">{r.reporter_email || 'anonymous'}</TableCell>
-                      <TableCell className="text-white/60 text-xs max-w-xs truncate" title={r.details || ''}>{r.details || '—'}</TableCell>
+                      <TableCell className="text-white/90 text-xs">{r.reporter_email || 'anonymous'}</TableCell>
+                      <TableCell className="text-white/90 text-xs max-w-xs truncate" title={r.details || ''}>{r.details || '—'}</TableCell>
                       <TableCell><Badge variant="outline" className={statusColor(r.status)}>{r.status}</Badge></TableCell>
                       <TableCell className="text-right">
                         {r.status === 'pending' && (
                           <div className="flex gap-1 justify-end">
                             <Button size="sm" variant="ghost" className="h-7 text-xs text-red-300 hover:bg-red-500/10" onClick={() => updateReportStatus(r.id, 'removed')}>Remove</Button>
-                            <Button size="sm" variant="ghost" className="h-7 text-xs text-white/70 hover:bg-white/10" onClick={() => updateReportStatus(r.id, 'dismissed')}>Dismiss</Button>
+                            <Button size="sm" variant="ghost" className="h-7 text-xs text-white hover:bg-white/10" onClick={() => updateReportStatus(r.id, 'dismissed')}>Dismiss</Button>
                           </div>
                         )}
                       </TableCell>

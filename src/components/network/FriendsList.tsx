@@ -50,7 +50,7 @@ const FriendsList = () => {
                   </Avatar>
                   <div>
                     <p className="font-medium text-white">{request.profiles?.full_name}</p>
-                    <p className="text-xs text-white/60">wants to connect</p>
+                    <p className="text-xs text-white/90">wants to connect</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -87,7 +87,7 @@ const FriendsList = () => {
         </CardHeader>
         <CardContent>
           {friends.length === 0 ? (
-            <div className="text-center py-8 text-white/70">
+            <div className="text-center py-8 text-white">
               <Users className="w-12 h-12 mx-auto mb-3 text-white/30" />
               <p>No friends yet. Start connecting!</p>
             </div>
@@ -110,7 +110,7 @@ const FriendsList = () => {
                     </Avatar>
                     <div>
                       <p className="font-medium text-white">{friend.profiles?.full_name}</p>
-                      <p className="text-xs text-white/60">
+                      <p className="text-xs text-white/90">
                         Friends since {new Date(friend.accepted_at || friend.created_at).toLocaleDateString()}
                       </p>
                     </div>
@@ -118,7 +118,7 @@ const FriendsList = () => {
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="text-white/70 hover:text-white hover:bg-slate-800/60"
+                    className="text-white hover:text-white hover:bg-slate-800/60"
                     onClick={() => removeFriend(friend.id)}
                   >
                     <X className="w-4 h-4" />

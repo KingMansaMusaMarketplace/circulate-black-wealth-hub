@@ -128,7 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                   variant="ghost"
                   size="icon"
                   onClick={() => navigate('/all-pages')}
-                  className="relative hover:bg-white/10 text-white/80 hover:text-mansagold transition-all duration-300 hover:scale-105 rounded-lg h-9 w-9 min-w-[36px] flex-shrink-0"
+                  className="relative hover:bg-white/10 text-white hover:text-mansagold transition-all duration-300 hover:scale-105 rounded-lg h-9 w-9 min-w-[36px] flex-shrink-0"
                   aria-label="All Pages"
                   title="All Pages Directory"
                 >

@@ -21,7 +21,7 @@ const CirculationImpact: React.FC<CirculationImpactProps> = ({ metrics }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-white">${metrics.totalSaved}</div>
-          <p className="text-xs text-white/70">
+          <p className="text-xs text-white">
             Supporting Black businesses
           </p>
         </CardContent>
@@ -34,7 +34,7 @@ const CirculationImpact: React.FC<CirculationImpactProps> = ({ metrics }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-white">{metrics.businessesSupported}</div>
-          <p className="text-xs text-white/70">
+          <p className="text-xs text-white">
             Community businesses
           </p>
         </CardContent>
@@ -47,7 +47,7 @@ const CirculationImpact: React.FC<CirculationImpactProps> = ({ metrics }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-white">{metrics.totalScans}</div>
-          <p className="text-xs text-white/70">
+          <p className="text-xs text-white">
             Total interactions
           </p>
         </CardContent>

@@ -102,7 +102,7 @@ export const FraudDetectionDashboard = () => {
       <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-white">Fraud Analysis</h2>
-          <p className="text-white/70">Monitor and investigate suspicious activity</p>
+          <p className="text-white">Monitor and investigate suspicious activity</p>
         </div>
         <Button 
           onClick={() => runAnalysis()}
@@ -128,7 +128,7 @@ export const FraudDetectionDashboard = () => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
         <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white/80">Total Alerts</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">Total Alerts</CardTitle>
             <Shield className="h-4 w-4 text-mansagold" />
           </CardHeader>
           <CardContent>
@@ -138,7 +138,7 @@ export const FraudDetectionDashboard = () => {
 
         <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white/80">Pending</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">Pending</CardTitle>
             <Clock className="h-4 w-4 text-yellow-400" />
           </CardHeader>
           <CardContent>
@@ -148,7 +148,7 @@ export const FraudDetectionDashboard = () => {
 
         <Card className="backdrop-blur-xl bg-red-500/20 border border-red-400/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white/80">Critical</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">Critical</CardTitle>
             <AlertTriangle className="h-4 w-4 text-red-400" />
           </CardHeader>
           <CardContent>
@@ -158,7 +158,7 @@ export const FraudDetectionDashboard = () => {
 
         <Card className="backdrop-blur-xl bg-orange-500/20 border border-orange-400/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white/80">High</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">High</CardTitle>
             <AlertTriangle className="h-4 w-4 text-orange-400" />
           </CardHeader>
           <CardContent>
@@ -168,7 +168,7 @@ export const FraudDetectionDashboard = () => {
 
         <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white/80">Medium</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">Medium</CardTitle>
             <AlertTriangle className="h-4 w-4 text-yellow-400" />
           </CardHeader>
           <CardContent>
@@ -178,7 +178,7 @@ export const FraudDetectionDashboard = () => {
 
         <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white/80">Low</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">Low</CardTitle>
             <AlertTriangle className="h-4 w-4 text-blue-400" />
           </CardHeader>
           <CardContent>
@@ -188,7 +188,7 @@ export const FraudDetectionDashboard = () => {
 
         <Card className="backdrop-blur-xl bg-blue-500/20 border border-blue-400/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white/80">Auto-Blocked</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">Auto-Blocked</CardTitle>
             <ShieldCheck className="h-4 w-4 text-blue-400" />
           </CardHeader>
           <CardContent>
@@ -198,7 +198,7 @@ export const FraudDetectionDashboard = () => {
 
         <Card className="backdrop-blur-xl bg-green-500/20 border border-green-400/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white/80">Prevented</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">Prevented</CardTitle>
             <Ban className="h-4 w-4 text-green-400" />
           </CardHeader>
           <CardContent>
@@ -213,19 +213,19 @@ export const FraudDetectionDashboard = () => {
       <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="bg-white/10 border border-white/20">
-            <TabsTrigger value="all" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70">
+            <TabsTrigger value="all" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white">
               All ({alertStats.total})
             </TabsTrigger>
-            <TabsTrigger value="pending" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70">
+            <TabsTrigger value="pending" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white">
               Pending ({alertStats.pending})
             </TabsTrigger>
-            <TabsTrigger value="investigating" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70">
+            <TabsTrigger value="investigating" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white">
               Investigating
             </TabsTrigger>
-            <TabsTrigger value="confirmed" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70">
+            <TabsTrigger value="confirmed" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white">
               Confirmed
             </TabsTrigger>
-            <TabsTrigger value="resolved" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70">
+            <TabsTrigger value="resolved" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white">
               Resolved
             </TabsTrigger>
           </TabsList>
@@ -234,7 +234,7 @@ export const FraudDetectionDashboard = () => {
             <TabsContent key={tab} value={tab} className="space-y-4 mt-6">
               {filterAlertsByStatus(tab === 'all' ? undefined : tab).length === 0 ? (
                 <Card className="backdrop-blur-xl bg-white/5 border border-white/10">
-                  <CardContent className="pt-6 text-center text-white/60">
+                  <CardContent className="pt-6 text-center text-white/90">
                     No {tab !== 'all' ? tab : ''} alerts found
                   </CardContent>
                 </Card>
@@ -249,12 +249,12 @@ export const FraudDetectionDashboard = () => {
                             <Badge variant={getSeverityColor(alert.severity)}>
                               {alert.severity.toUpperCase()}
                             </Badge>
-                            <Badge variant="outline" className="gap-1 border-white/30 text-white/80">
+                            <Badge variant="outline" className="gap-1 border-white/30 text-white">
                               {getStatusIcon(alert.status)}
                               {alert.status.replace('_', ' ')}
                             </Badge>
                           </div>
-                          <CardDescription className="text-white/60">
+                          <CardDescription className="text-white/90">
                             {alert.alert_type.replace('_', ' ').toUpperCase()} • 
                             AI Confidence: {(alert.ai_confidence_score * 100).toFixed(0)}% • 
                             {formatDistanceToNow(new Date(alert.created_at), { addSuffix: true })}

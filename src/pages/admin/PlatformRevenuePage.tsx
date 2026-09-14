@@ -87,11 +87,11 @@ const Kpi: React.FC<KpiProps> = ({ label, value, hint, tone = 'neutral' }) => {
   };
   return (
     <div className="flex flex-col justify-between rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-xl">
-      <div className="text-xs font-medium uppercase tracking-widest text-white/70">{label}</div>
+      <div className="text-xs font-medium uppercase tracking-widest text-white">{label}</div>
       <div className={`mt-4 text-4xl font-bold tabular-nums tracking-tight ${toneMap[tone]}`}>
         {value}
       </div>
-      {hint && <div className="mt-2 text-sm text-white/70">{hint}</div>}
+      {hint && <div className="mt-2 text-sm text-white">{hint}</div>}
     </div>
   );
 };
@@ -128,7 +128,7 @@ const StreamTile: React.FC<StreamProps> = ({ icon, label, primary, secondary, me
     {secondary && (
       <div className="mt-1 text-sm text-white/75 tabular-nums">{secondary}</div>
     )}
-    {meta && <div className="mt-2 text-xs text-white/60">{meta}</div>}
+    {meta && <div className="mt-2 text-xs text-white/90">{meta}</div>}
   </div>
 );
 
@@ -142,7 +142,7 @@ const SectionHeader: React.FC<{ eyebrow: string; title: string; hint?: string }>
       <div className="text-xs font-semibold uppercase tracking-widest text-mansagold">{eyebrow}</div>
       <h2 className="mt-1 text-2xl font-bold text-white">{title}</h2>
     </div>
-    {hint && <div className="text-sm text-white/70 tabular-nums">{hint}</div>}
+    {hint && <div className="text-sm text-white tabular-nums">{hint}</div>}
   </div>
 );
 
@@ -472,12 +472,12 @@ export default function PlatformRevenuePage() {
             <h1 className="mt-2 font-display text-3xl font-bold text-white lg:text-4xl">
               Platform Revenue
             </h1>
-            <p className="mt-2 text-base text-white/80">
+            <p className="mt-2 text-base text-white">
               Live view of every 1325.AI revenue stream — recurring, transactional, ancillary.
             </p>
           </div>
           <div className="shrink-0 text-left md:text-right">
-            <div className="text-xs font-medium uppercase tracking-widest text-white/70">
+            <div className="text-xs font-medium uppercase tracking-widest text-white">
               As of
             </div>
             <div className="mt-1 text-base font-medium text-white tabular-nums">
@@ -680,7 +680,7 @@ export default function PlatformRevenuePage() {
                       Business Subscriptions by Tier
                     </CardTitle>
                   </div>
-                  <CardDescription className="text-sm text-white/70">
+                  <CardDescription className="text-sm text-white">
                     Live business plans contributing to MRR
                   </CardDescription>
                 </CardHeader>
@@ -719,7 +719,7 @@ export default function PlatformRevenuePage() {
                       Featured Placements by Tier
                     </CardTitle>
                   </div>
-                  <CardDescription className="text-sm text-white/70">
+                  <CardDescription className="text-sm text-white">
                     Live placements contributing to MRR
                   </CardDescription>
                 </CardHeader>
@@ -758,7 +758,7 @@ export default function PlatformRevenuePage() {
               <TrendingUp className="h-5 w-5 text-mansagold" />
               <CardTitle className="text-lg font-bold text-white">Revenue Stack Summary</CardTitle>
             </div>
-            <CardDescription className="text-sm text-white/70">
+            <CardDescription className="text-sm text-white">
               16 monetized streams tracked end-to-end. Agent commissions netted. Apple iOS
               subscriptions tracked but UI hidden per App Store policy.
             </CardDescription>
@@ -766,31 +766,31 @@ export default function PlatformRevenuePage() {
           <CardContent>
             <dl className="divide-y divide-white/15 text-base">
               <div className="flex items-center justify-between py-3">
-                <dt className="flex items-center gap-2 text-white/80">
+                <dt className="flex items-center gap-2 text-white">
                   <DollarSign className="h-4 w-4 text-mansagold" /> Lifetime transactional
                 </dt>
                 <dd className="font-bold tabular-nums text-white">{fmt(lifetimeTotal)}</dd>
               </div>
               <div className="flex items-center justify-between py-3">
-                <dt className="flex items-center gap-2 text-white/80">
+                <dt className="flex items-center gap-2 text-white">
                   <DollarSign className="h-4 w-4 text-mansagold" /> Monthly recurring (MRR)
                 </dt>
                 <dd className="font-bold tabular-nums text-white">{fmt(totalMrr)}</dd>
               </div>
               <div className="flex items-center justify-between py-3">
-                <dt className="flex items-center gap-2 text-white/80">
+                <dt className="flex items-center gap-2 text-white">
                   <DollarSign className="h-4 w-4 text-mansagold" /> Annualized run-rate
                 </dt>
                 <dd className="font-bold tabular-nums text-white">{fmt(annualizedFromMrr)}</dd>
               </div>
               <div className="flex items-center justify-between py-3">
-                <dt className="flex items-center gap-2 text-white/80">
+                <dt className="flex items-center gap-2 text-white">
                   <DollarSign className="h-4 w-4 text-mansagold" /> Last 30d gross (incl. MRR)
                 </dt>
                 <dd className="font-bold tabular-nums text-white">{fmt(last30Total + totalMrr)}</dd>
               </div>
               <div className="flex items-center justify-between py-3">
-                <dt className="flex items-center gap-2 text-white/80">
+                <dt className="flex items-center gap-2 text-white">
                   <ArrowDownRight className="h-4 w-4 text-red-400" /> Agent commissions (30d)
                 </dt>
                 <dd className="font-bold tabular-nums text-red-300">

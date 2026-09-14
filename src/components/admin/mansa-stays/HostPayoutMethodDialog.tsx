@@ -89,7 +89,7 @@ const HostPayoutMethodDialog: React.FC<Props> = ({ host, open, onOpenChange, onS
       <DialogContent className="max-w-lg bg-black border-white/10 text-white">
         <DialogHeader>
           <DialogTitle>Payout Method — {host.name}</DialogTitle>
-          <DialogDescription className="text-white/60">
+          <DialogDescription className="text-white/90">
             Where Mansa Stays sends this host's earnings.
           </DialogDescription>
         </DialogHeader>
@@ -101,7 +101,7 @@ const HostPayoutMethodDialog: React.FC<Props> = ({ host, open, onOpenChange, onS
         ) : (
           <div className="space-y-4">
             <div>
-              <Label className="text-white/70">Method Type</Label>
+              <Label className="text-white">Method Type</Label>
               <select
                 value={row.method_type}
                 onChange={e => update({ method_type: e.target.value })}
@@ -116,42 +116,42 @@ const HostPayoutMethodDialog: React.FC<Props> = ({ host, open, onOpenChange, onS
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/70">Account Holder</Label>
+                <Label className="text-white">Account Holder</Label>
                 <Input value={row.account_holder_name || ''} onChange={e => update({ account_holder_name: e.target.value })} />
               </div>
               <div>
-                <Label className="text-white/70">Bank Name</Label>
+                <Label className="text-white">Bank Name</Label>
                 <Input value={row.bank_name || ''} onChange={e => update({ bank_name: e.target.value })} />
               </div>
               <div>
-                <Label className="text-white/70">Account (last 4)</Label>
+                <Label className="text-white">Account (last 4)</Label>
                 <Input maxLength={4} value={row.account_last4 || ''} onChange={e => update({ account_last4: e.target.value.replace(/\D/g, '').slice(0, 4) })} />
               </div>
               <div>
-                <Label className="text-white/70">Routing (last 4)</Label>
+                <Label className="text-white">Routing (last 4)</Label>
                 <Input maxLength={4} value={row.routing_last4 || ''} onChange={e => update({ routing_last4: e.target.value.replace(/\D/g, '').slice(0, 4) })} />
               </div>
             </div>
 
             <div>
-              <Label className="text-white/70">Stripe Account ID</Label>
+              <Label className="text-white">Stripe Account ID</Label>
               <Input placeholder="acct_..." value={row.stripe_account_id || ''} onChange={e => update({ stripe_account_id: e.target.value })} />
             </div>
 
             <div>
-              <Label className="text-white/70">PayPal Email</Label>
+              <Label className="text-white">PayPal Email</Label>
               <Input type="email" value={row.paypal_email || ''} onChange={e => update({ paypal_email: e.target.value })} />
             </div>
 
             <div>
-              <Label className="text-white/70">Notes</Label>
+              <Label className="text-white">Notes</Label>
               <Input value={row.notes || ''} onChange={e => update({ notes: e.target.value })} />
             </div>
 
             <div className="flex items-center justify-between rounded-md border border-white/10 bg-white/5 p-3">
               <div>
                 <div className="text-white text-sm font-medium">Verified</div>
-                <div className="text-white/50 text-xs">Mark as verified after confirming details with host.</div>
+                <div className="text-white/80 text-xs">Mark as verified after confirming details with host.</div>
               </div>
               <Switch checked={row.is_verified} onCheckedChange={v => update({ is_verified: v })} />
             </div>

@@ -89,7 +89,7 @@ export const KaylaGrantMatcher: React.FC<Props> = ({ businessId }) => {
             <DollarSign className="h-5 w-5 text-emerald-400" />
             Grant & Funding Matcher
           </h3>
-          <p className="text-sm text-white/50">AI-matched funding opportunities for your business</p>
+          <p className="text-sm text-white/80">AI-matched funding opportunities for your business</p>
         </div>
         <Button
           onClick={searchGrants}
@@ -106,7 +106,7 @@ export const KaylaGrantMatcher: React.FC<Props> = ({ businessId }) => {
           <CardContent className="p-8 text-center">
             <DollarSign className="h-12 w-12 text-emerald-400/40 mx-auto mb-3" />
             <h3 className="text-lg font-medium text-white mb-1">No grants discovered yet</h3>
-            <p className="text-sm text-white/50">Click "Find Grants" to have Kayla search for funding opportunities.</p>
+            <p className="text-sm text-white/80">Click "Find Grants" to have Kayla search for funding opportunities.</p>
           </CardContent>
         </Card>
       ) : (
@@ -122,8 +122,8 @@ export const KaylaGrantMatcher: React.FC<Props> = ({ businessId }) => {
                         {grant.match_score}% Match
                       </Badge>
                     </div>
-                    <p className="text-sm text-white/60 mb-1">{grant.grant_provider}</p>
-                    <div className="flex items-center gap-4 text-xs text-white/50 mb-2">
+                    <p className="text-sm text-white/90 mb-1">{grant.grant_provider}</p>
+                    <div className="flex items-center gap-4 text-xs text-white/80 mb-2">
                       <span className="flex items-center gap-1">
                         <DollarSign className="h-3 w-3" />
                         {formatAmount(grant.amount_min, grant.amount_max)}
@@ -136,12 +136,12 @@ export const KaylaGrantMatcher: React.FC<Props> = ({ businessId }) => {
                       )}
                     </div>
                     {grant.eligibility_summary && (
-                      <p className="text-sm text-white/50 mb-2">{grant.eligibility_summary}</p>
+                      <p className="text-sm text-white/80 mb-2">{grant.eligibility_summary}</p>
                     )}
                     {grant.match_reasons && grant.match_reasons.length > 0 && (
                       <div className="flex flex-wrap gap-1 mb-2">
                         {grant.match_reasons.map((reason, i) => (
-                          <Badge key={i} variant="outline" className="text-xs border-white/10 text-white/60">
+                          <Badge key={i} variant="outline" className="text-xs border-white/10 text-white/90">
                             <Target className="h-3 w-3 mr-1" /> {reason}
                           </Badge>
                         ))}
@@ -150,7 +150,7 @@ export const KaylaGrantMatcher: React.FC<Props> = ({ businessId }) => {
                     {grant.ai_application_tips && (
                       <div className="bg-yellow-400/5 border border-yellow-400/10 rounded-lg p-3 mt-2">
                         <p className="text-xs text-yellow-400/80 font-medium mb-1">💡 Kayla's Tips</p>
-                        <p className="text-xs text-white/60">{grant.ai_application_tips}</p>
+                        <p className="text-xs text-white/90">{grant.ai_application_tips}</p>
                       </div>
                     )}
                     <div className="mt-3">

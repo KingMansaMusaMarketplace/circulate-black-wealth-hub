@@ -255,7 +255,7 @@ export const ActionBuilder: React.FC<ActionBuilderProps> = ({ onAdd, onCancel })
     <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-white text-lg">Add Action</CardTitle>
-        <Button size="icon" variant="ghost" onClick={onCancel} className="text-white/60 hover:text-white">
+        <Button size="icon" variant="ghost" onClick={onCancel} className="text-white/90 hover:text-white">
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>

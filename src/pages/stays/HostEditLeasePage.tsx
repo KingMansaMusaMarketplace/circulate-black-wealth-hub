@@ -133,12 +133,12 @@ const HostEditLeasePage: React.FC = () => {
         <Button
           variant="ghost"
           onClick={() => navigate("/stays/host/lease/dashboard")}
-          className="text-white/80 hover:text-white hover:bg-white/10 mb-3 -ml-2"
+          className="text-white hover:text-white hover:bg-white/10 mb-3 -ml-2"
         >
           <ArrowLeft className="w-4 h-4 mr-1" /> Back to dashboard
         </Button>
         <h1 className="text-3xl md:text-4xl font-bold">Edit listing</h1>
-        <p className="text-white/80 mt-2">Update details and upload property photos.</p>
+        <p className="text-white mt-2">Update details and upload property photos.</p>
 
         <Card className="bg-white/10 border-white/20 p-6 mt-6 space-y-5">
           <div>
@@ -153,7 +153,7 @@ const HostEditLeasePage: React.FC = () => {
               placeholder="Listing title *"
               value={f.title}
               onChange={(e) => setF({ ...f, title: e.target.value })}
-              className="bg-white/10 border-white/30 text-white placeholder:text-white/70"
+              className="bg-white/10 border-white/30 text-white placeholder:text-white"
             />
             <div>
               <label className="text-sm text-white/90 font-medium mb-1 block">Property type *</label>
@@ -174,13 +174,13 @@ const HostEditLeasePage: React.FC = () => {
               rows={4}
               value={f.description}
               onChange={(e) => setF({ ...f, description: e.target.value })}
-              className="bg-white/10 border-white/30 text-white placeholder:text-white/70"
+              className="bg-white/10 border-white/30 text-white placeholder:text-white"
             />
             <div className="grid sm:grid-cols-2 gap-3">
-              <Input placeholder="Street address" value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-              <Input placeholder="City *" value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-              <Input placeholder="State *" value={f.state} onChange={(e) => setF({ ...f, state: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
-              <Input placeholder="ZIP" value={f.zip_code} onChange={(e) => setF({ ...f, zip_code: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              <Input placeholder="Street address" value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white" />
+              <Input placeholder="City *" value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white" />
+              <Input placeholder="State *" value={f.state} onChange={(e) => setF({ ...f, state: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white" />
+              <Input placeholder="ZIP" value={f.zip_code} onChange={(e) => setF({ ...f, zip_code: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white" />
             </div>
             <div className="grid grid-cols-3 gap-3">
               <Input type="number" placeholder="Bedrooms" value={f.bedrooms} onChange={(e) => setF({ ...f, bedrooms: +e.target.value })} className="bg-white/10 border-white/30 text-white" />
@@ -193,9 +193,9 @@ const HostEditLeasePage: React.FC = () => {
               <Input type="number" placeholder="Lease term (months)" value={f.lease_term_months} onChange={(e) => setF({ ...f, lease_term_months: +e.target.value })} className="bg-white/10 border-white/30 text-white" />
             </div>
             <Input type="date" value={f.available_from} onChange={(e) => setF({ ...f, available_from: e.target.value })} className="bg-white/10 border-white/30 text-white" />
-            <Input placeholder="Utilities included (comma-separated)" value={f.utilities_included} onChange={(e) => setF({ ...f, utilities_included: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+            <Input placeholder="Utilities included (comma-separated)" value={f.utilities_included} onChange={(e) => setF({ ...f, utilities_included: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white" />
             <div className="grid sm:grid-cols-2 gap-3">
-              <Input type="number" placeholder="Min credit score" value={f.min_credit_score} onChange={(e) => setF({ ...f, min_credit_score: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/70" />
+              <Input type="number" placeholder="Min credit score" value={f.min_credit_score} onChange={(e) => setF({ ...f, min_credit_score: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white" />
               <Input type="number" step="0.1" placeholder="Min income multiplier" value={f.min_income_multiplier} onChange={(e) => setF({ ...f, min_income_multiplier: +e.target.value })} className="bg-white/10 border-white/30 text-white" />
             </div>
             <div className="flex flex-wrap gap-4 text-sm text-white">

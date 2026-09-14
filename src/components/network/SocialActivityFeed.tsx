@@ -108,12 +108,12 @@ const SocialActivityFeed = () => {
                   </div>
                   
                   {activity.metadata.description && (
-                    <p className="text-xs text-white/50 mt-1">
+                    <p className="text-xs text-white/80 mt-1">
                       {activity.metadata.description}
                     </p>
                   )}
                   
-                  <p className="text-xs text-white/50 mt-1">
+                  <p className="text-xs text-white/80 mt-1">
                     {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
                   </p>
                 </div>

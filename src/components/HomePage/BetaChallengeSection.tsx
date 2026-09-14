@@ -93,7 +93,7 @@ const BetaChallengeSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-lg text-white/80 mb-12 max-w-2xl mx-auto"
+            className="text-lg text-white mb-12 max-w-2xl mx-auto"
           >
             <strong>Founding Member status closes:</strong> September 1, 2026 — or when we reach 100,000 members, whichever comes first
           </motion.p>
@@ -123,7 +123,7 @@ const BetaChallengeSection = () => {
                 <div className="text-4xl md:text-5xl font-bold text-mansagold mb-2">
                   {String(item.value).padStart(2, '0')}
                 </div>
-                <div className="text-sm md:text-base text-white/80 font-medium uppercase tracking-wider">
+                <div className="text-sm md:text-base text-white font-medium uppercase tracking-wider">
                   {item.label}
                 </div>
               </motion.div>
@@ -180,7 +180,7 @@ const BetaChallengeSection = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 1.3 }}
-            className="mt-8 text-white/70 text-sm max-w-2xl mx-auto"
+            className="mt-8 text-white text-sm max-w-2xl mx-auto"
           >
             Together, we're building economic power and creating opportunities for Black businesses and communities nationwide.
           </motion.p>

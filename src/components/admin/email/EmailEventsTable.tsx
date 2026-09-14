@@ -46,8 +46,8 @@ const EmailEventsTable: React.FC<EmailEventsTableProps> = ({ events, isLoading }
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <Mail className="h-12 w-12 text-white/20 mb-4" />
-        <h3 className="text-lg font-medium text-white/80">No email events yet</h3>
-        <p className="text-sm text-white/50 mt-1">
+        <h3 className="text-lg font-medium text-white">No email events yet</h3>
+        <p className="text-sm text-white/80 mt-1">
           Email tracking events will appear here once emails are sent.
         </p>
       </div>
@@ -59,10 +59,10 @@ const EmailEventsTable: React.FC<EmailEventsTableProps> = ({ events, isLoading }
       <Table>
         <TableHeader>
           <TableRow className="border-white/10 hover:bg-white/5">
-            <TableHead className="text-white/70">Event</TableHead>
-            <TableHead className="text-white/70">Recipient</TableHead>
-            <TableHead className="text-white/70">Subject</TableHead>
-            <TableHead className="text-white/70">Time</TableHead>
+            <TableHead className="text-white">Event</TableHead>
+            <TableHead className="text-white">Recipient</TableHead>
+            <TableHead className="text-white">Subject</TableHead>
+            <TableHead className="text-white">Time</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -78,13 +78,13 @@ const EmailEventsTable: React.FC<EmailEventsTableProps> = ({ events, isLoading }
                     {event.event_type}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-white/80 font-mono text-sm">
+                <TableCell className="text-white font-mono text-sm">
                   {event.recipient_email}
                 </TableCell>
-                <TableCell className="text-white/60 max-w-xs truncate">
+                <TableCell className="text-white/90 max-w-xs truncate">
                   {event.subject || '—'}
                 </TableCell>
-                <TableCell className="text-white/50 text-sm">
+                <TableCell className="text-white/80 text-sm">
                   {format(new Date(event.created_at), 'MMM d, h:mm a')}
                 </TableCell>
               </TableRow>

@@ -107,7 +107,7 @@ const DatabasePerformanceMonitor: React.FC = () => {
             <div className="flex items-center gap-3">
               <Database className="h-8 w-8 text-mansagold" />
               <div>
-                <p className="text-white/60 text-sm">Total Rows</p>
+                <p className="text-white/90 text-sm">Total Rows</p>
                 <p className="text-2xl font-bold text-mansagold">{totals.rows.toLocaleString()}</p>
               </div>
             </div>
@@ -118,7 +118,7 @@ const DatabasePerformanceMonitor: React.FC = () => {
             <div className="flex items-center gap-3">
               <HardDrive className="h-8 w-8 text-blue-400" />
               <div>
-                <p className="text-white/60 text-sm">Est. Size</p>
+                <p className="text-white/90 text-sm">Est. Size</p>
                 <p className="text-2xl font-bold text-blue-400">{formatSize(totals.size)}</p>
               </div>
             </div>
@@ -129,7 +129,7 @@ const DatabasePerformanceMonitor: React.FC = () => {
             <div className="flex items-center gap-3">
               <Activity className="h-8 w-8 text-green-400" />
               <div>
-                <p className="text-white/60 text-sm">Tables</p>
+                <p className="text-white/90 text-sm">Tables</p>
                 <p className="text-2xl font-bold text-green-400">{tableStats?.length || 0}</p>
               </div>
             </div>
@@ -144,7 +144,7 @@ const DatabasePerformanceMonitor: React.FC = () => {
                 <CheckCircle className="h-8 w-8 text-green-400" />
               )}
               <div>
-                <p className="text-white/60 text-sm">Health</p>
+                <p className="text-white/90 text-sm">Health</p>
                 <p className={`text-2xl font-bold ${healthIssues.length > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
                   {healthIssues.length > 0 ? `${healthIssues.length} Issue${healthIssues.length > 1 ? 's' : ''}` : 'Good'}
                 </p>
@@ -166,7 +166,7 @@ const DatabasePerformanceMonitor: React.FC = () => {
           <CardContent>
             <ul className="space-y-2">
               {healthIssues.map((issue, i) => (
-                <li key={i} className="flex items-start gap-2 text-white/80">
+                <li key={i} className="flex items-start gap-2 text-white">
                   <span className="text-yellow-400">•</span>
                   {issue}
                 </li>
@@ -241,20 +241,20 @@ const DatabasePerformanceMonitor: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-white/5 rounded-lg border border-white/10">
               <h4 className="text-white font-medium mb-2">Archive Old Audit Logs</h4>
-              <p className="text-white/60 text-sm mb-3">
+              <p className="text-white/90 text-sm mb-3">
                 Export and delete audit logs older than 90 days to improve performance.
               </p>
-              <Button variant="outline" size="sm" className="border-white/20 text-white/70">
+              <Button variant="outline" size="sm" className="border-white/20 text-white">
                 <Clock className="h-4 w-4 mr-2" />
                 Run Archive
               </Button>
             </div>
             <div className="p-4 bg-white/5 rounded-lg border border-white/10">
               <h4 className="text-white font-medium mb-2">Clean Up Activity Logs</h4>
-              <p className="text-white/60 text-sm mb-3">
+              <p className="text-white/90 text-sm mb-3">
                 Remove activity logs older than 180 days to free up space.
               </p>
-              <Button variant="outline" size="sm" className="border-white/20 text-white/70">
+              <Button variant="outline" size="sm" className="border-white/20 text-white">
                 <Clock className="h-4 w-4 mr-2" />
                 Run Cleanup
               </Button>
@@ -266,7 +266,7 @@ const DatabasePerformanceMonitor: React.FC = () => {
               <Database className="h-5 w-5 text-blue-400 mt-0.5" />
               <div>
                 <p className="text-white font-medium">Database Health Note</p>
-                <p className="text-white/60 text-sm mt-1">
+                <p className="text-white/90 text-sm mt-1">
                   For advanced database maintenance (VACUUM, ANALYZE, index optimization), 
                   access the Supabase dashboard directly. These operations require elevated privileges.
                 </p>

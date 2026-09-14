@@ -25,17 +25,17 @@ const CustomerFlowVideoBanner: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
               How to Save at a <span className="text-mansagold">Black-Owned Business</span> — in 3 Steps
             </h2>
-            <p className="text-white/70 text-sm md:text-base mb-4">
+            <p className="text-white text-sm md:text-base mb-4">
               Sign up, find a business near you, and scan the QR code at checkout to get an instant discount and earn loyalty points.
             </p>
             <div className="flex flex-wrap gap-2 mb-4 text-xs">
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                 <UserPlus className="w-3.5 h-3.5 text-mansagold" /> 1. Sign Up
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                 <Search className="w-3.5 h-3.5 text-mansagold" /> 2. Discover
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                 <QrCode className="w-3.5 h-3.5 text-mansagold" /> 3. Scan & Save
               </span>
             </div>
@@ -70,7 +70,7 @@ const CustomerFlowVideoBanner: React.FC = () => {
                   aria-label="How to Save at a Black-Owned Business in 3 Steps — 90 second walkthrough"
                 />
               </div>
-              <figcaption className="text-center text-xs text-white/70 mt-2">
+              <figcaption className="text-center text-xs text-white mt-2">
                 ▶ <span className="text-mansagold font-semibold">3 Steps to Save & Earn</span> — 90 sec walkthrough
               </figcaption>
             </figure>

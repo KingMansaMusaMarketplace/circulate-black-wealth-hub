@@ -128,7 +128,7 @@ const OwnershipAuditCard: React.FC = () => {
           Ownership Audit — businesses already live in the directory
         </CardTitle>
         <div className="flex gap-2">
-          <Button size="sm" variant="ghost" onClick={fetchStats} disabled={loading} className="text-white/70">
+          <Button size="sm" variant="ghost" onClick={fetchStats} disabled={loading} className="text-white">
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
           <Button size="sm" onClick={runAudit} disabled={running} className="bg-mansagold text-black hover:bg-mansagold/90">
@@ -157,7 +157,7 @@ const OwnershipAuditCard: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-xs text-white/50 mt-3">
+        <p className="text-xs text-white/80 mt-3">
           Kayla re-researches each live listing and must cite a real source (a Black-owned directory, an owner bio,
           an MBE certification, or press coverage). No cited source means the listing gets flagged for you — it is
           never auto-removed.
@@ -176,7 +176,7 @@ const OwnershipAuditCard: React.FC = () => {
                     <AlertTriangle className="h-3.5 w-3.5 text-red-400 shrink-0" />
                     <span className="truncate">{b.business_name || b.name}</span>
                   </div>
-                  <div className="text-xs text-white/50">
+                  <div className="text-xs text-white/80">
                     {[b.city, b.state].filter(Boolean).join(', ') || 'Unknown location'}
                     {b.black_owned_confidence !== null &&
                       ` • ownership ${(Number(b.black_owned_confidence) * 100).toFixed(0)}%`}

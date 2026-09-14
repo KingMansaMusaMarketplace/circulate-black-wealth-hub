@@ -104,7 +104,7 @@ export const KaylaAppointmentReminders: React.FC<Props> = ({ businessId }) => {
             <Bell className="h-5 w-5 text-amber-400" />
             Appointment Reminders
           </h3>
-          <p className="text-sm text-white/50">Automated reminders & follow-ups for your customers</p>
+          <p className="text-sm text-white/80">Automated reminders & follow-ups for your customers</p>
         </div>
         <div className="flex gap-2">
           {rules.length === 0 && (
@@ -136,7 +136,7 @@ export const KaylaAppointmentReminders: React.FC<Props> = ({ businessId }) => {
           <CardContent className="p-8 text-center">
             <Bell className="h-12 w-12 text-amber-400/40 mx-auto mb-3" />
             <h3 className="text-lg font-medium text-white mb-1">No reminder rules yet</h3>
-            <p className="text-sm text-white/50">Set up smart reminders to automatically follow up with customers.</p>
+            <p className="text-sm text-white/80">Set up smart reminders to automatically follow up with customers.</p>
           </CardContent>
         </Card>
       ) : (
@@ -151,10 +151,10 @@ export const KaylaAppointmentReminders: React.FC<Props> = ({ businessId }) => {
                         <h4 className="text-sm font-medium text-white">
                           {typeLabels[rule.reminder_type] || rule.reminder_type}
                         </h4>
-                        <Badge variant="outline" className="text-xs border-white/10 text-white/50">
+                        <Badge variant="outline" className="text-xs border-white/10 text-white/80">
                           <Clock className="h-3 w-3 mr-1" /> {rule.hours_before}h before
                         </Badge>
-                        <Badge variant="outline" className="text-xs border-white/10 text-white/50">
+                        <Badge variant="outline" className="text-xs border-white/10 text-white/80">
                           <Mail className="h-3 w-3 mr-1" /> {rule.channel}
                         </Badge>
                       </div>
@@ -172,13 +172,13 @@ export const KaylaAppointmentReminders: React.FC<Props> = ({ businessId }) => {
 
           {sentReminders.length > 0 && (
             <div>
-              <h4 className="text-sm font-medium text-white/70 mb-2">Recent Sends ({sentReminders.length})</h4>
+              <h4 className="text-sm font-medium text-white mb-2">Recent Sends ({sentReminders.length})</h4>
               <div className="grid gap-2">
                 {sentReminders.slice(0, 5).map((sent) => (
                   <Card key={sent.id} className="bg-slate-900/30 border-white/5">
                     <CardContent className="p-3 flex items-center justify-between">
                       <div>
-                        <span className="text-sm text-white/60">{sent.customer_name || sent.customer_email}</span>
+                        <span className="text-sm text-white/90">{sent.customer_name || sent.customer_email}</span>
                         <span className="text-xs text-white/30 ml-2">
                           {new Date(sent.sent_at).toLocaleDateString()}
                         </span>

@@ -56,7 +56,7 @@ const FeaturedCommunities = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
             Explore the Directory
           </h2>
-          <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-white max-w-2xl mx-auto">
             {liveCount} verified Black-owned businesses across the United States.
             Browse by city or category.
           </p>

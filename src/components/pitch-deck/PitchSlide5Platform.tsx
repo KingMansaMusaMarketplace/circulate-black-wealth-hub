@@ -50,7 +50,7 @@ const PitchSlide5Platform: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Enterprise-Grade <span className="text-mansagold">Platform</span>
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             A fully functional production platform — not a prototype, not a mockup
           </p>
         </motion.div>

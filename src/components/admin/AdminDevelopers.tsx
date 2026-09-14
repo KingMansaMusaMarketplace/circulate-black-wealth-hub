@@ -298,7 +298,7 @@ const AdminDevelopers: React.FC = () => {
   const getPlanBadge = (plan: string) => {
     switch (plan) {
       case 'free':
-        return <Badge variant="outline" className="border-white/20 text-white/70">Free</Badge>;
+        return <Badge variant="outline" className="border-white/20 text-white">Free</Badge>;
       case 'pro':
         return <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">Pro</Badge>;
       case 'enterprise':
@@ -327,7 +327,7 @@ const AdminDevelopers: React.FC = () => {
                 <Users className="h-6 w-6 text-mansagold" />
               </div>
               <div>
-                <p className="text-sm text-white/60">Total Developers</p>
+                <p className="text-sm text-white/90">Total Developers</p>
                 <p className="text-2xl font-bold text-white">{stats.totalDevelopers}</p>
               </div>
             </div>
@@ -341,7 +341,7 @@ const AdminDevelopers: React.FC = () => {
                 <Zap className="h-6 w-6 text-green-400" />
               </div>
               <div>
-                <p className="text-sm text-white/60">Active Developers</p>
+                <p className="text-sm text-white/90">Active Developers</p>
                 <p className="text-2xl font-bold text-white">{stats.activeDevelopers}</p>
               </div>
             </div>
@@ -355,7 +355,7 @@ const AdminDevelopers: React.FC = () => {
                 <Activity className="h-6 w-6 text-blue-400" />
               </div>
               <div>
-                <p className="text-sm text-white/60">API Calls (30d)</p>
+                <p className="text-sm text-white/90">API Calls (30d)</p>
                 <p className="text-2xl font-bold text-white">{stats.totalApiCalls.toLocaleString()}</p>
               </div>
             </div>
@@ -369,7 +369,7 @@ const AdminDevelopers: React.FC = () => {
                 <DollarSign className="h-6 w-6 text-purple-400" />
               </div>
               <div>
-                <p className="text-sm text-white/60">Est. MRR</p>
+                <p className="text-sm text-white/90">Est. MRR</p>
                 <p className="text-2xl font-bold text-white">${stats.totalRevenue.toLocaleString()}</p>
               </div>
             </div>
@@ -386,7 +386,7 @@ const AdminDevelopers: React.FC = () => {
                 <Code2 className="h-5 w-5 text-mansagold" />
                 Developer Accounts
               </CardTitle>
-              <CardDescription className="text-white/60">
+              <CardDescription className="text-white/90">
                 Manage API developers and monitor their usage
               </CardDescription>
             </div>
@@ -406,19 +406,19 @@ const AdminDevelopers: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow className="border-white/10 hover:bg-transparent">
-                  <TableHead className="text-white/60">Company</TableHead>
-                  <TableHead className="text-white/60">Contact</TableHead>
-                  <TableHead className="text-white/60">Plan</TableHead>
-                  <TableHead className="text-white/60">Status</TableHead>
-                  <TableHead className="text-white/60">API Calls</TableHead>
-                  <TableHead className="text-white/60">Joined</TableHead>
-                  <TableHead className="text-white/60">Actions</TableHead>
+                  <TableHead className="text-white/90">Company</TableHead>
+                  <TableHead className="text-white/90">Contact</TableHead>
+                  <TableHead className="text-white/90">Plan</TableHead>
+                  <TableHead className="text-white/90">Status</TableHead>
+                  <TableHead className="text-white/90">API Calls</TableHead>
+                  <TableHead className="text-white/90">Joined</TableHead>
+                  <TableHead className="text-white/90">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredDevelopers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center text-white/60 py-8">
+                    <TableCell colSpan={7} className="text-center text-white/90 py-8">
                       No developers found
                     </TableCell>
                   </TableRow>
@@ -441,18 +441,18 @@ const AdminDevelopers: React.FC = () => {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="text-white/80">
+                      <TableCell className="text-white">
                         <div className="flex flex-col">
                           <span>{dev.profiles?.full_name || 'N/A'}</span>
-                          <span className="text-xs text-white/50">{dev.contact_email}</span>
+                          <span className="text-xs text-white/80">{dev.contact_email}</span>
                         </div>
                       </TableCell>
                       <TableCell>{getPlanBadge(dev.plan_type)}</TableCell>
                       <TableCell>{getStatusBadge(dev.status)}</TableCell>
-                      <TableCell className="text-white/80">
+                      <TableCell className="text-white">
                         {dev.monthly_api_calls.toLocaleString()}
                       </TableCell>
-                      <TableCell className="text-white/60 text-sm">
+                      <TableCell className="text-white/90 text-sm">
                         {format(new Date(dev.created_at), 'MMM d, yyyy')}
                       </TableCell>
                       <TableCell>
@@ -461,7 +461,7 @@ const AdminDevelopers: React.FC = () => {
                             size="sm"
                             variant="ghost"
                             onClick={() => fetchDeveloperDetails(dev)}
-                            className="text-white/60 hover:text-white hover:bg-white/10"
+                            className="text-white/90 hover:text-white hover:bg-white/10"
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
@@ -503,7 +503,7 @@ const AdminDevelopers: React.FC = () => {
               <Code2 className="h-5 w-5 text-mansagold" />
               {selectedDeveloper?.company_name}
             </DialogTitle>
-            <DialogDescription className="text-white/60">
+            <DialogDescription className="text-white/90">
               Developer account details and API usage
             </DialogDescription>
           </DialogHeader>
@@ -513,19 +513,19 @@ const AdminDevelopers: React.FC = () => {
               {/* Account Info */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-                  <p className="text-xs text-white/50 mb-1">Status</p>
+                  <p className="text-xs text-white/80 mb-1">Status</p>
                   {getStatusBadge(selectedDeveloper.status)}
                 </div>
                 <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-                  <p className="text-xs text-white/50 mb-1">Plan</p>
+                  <p className="text-xs text-white/80 mb-1">Plan</p>
                   {getPlanBadge(selectedDeveloper.plan_type)}
                 </div>
                 <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-                  <p className="text-xs text-white/50 mb-1">Monthly Calls</p>
+                  <p className="text-xs text-white/80 mb-1">Monthly Calls</p>
                   <p className="font-semibold">{selectedDeveloper.monthly_api_calls.toLocaleString()}</p>
                 </div>
                 <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-                  <p className="text-xs text-white/50 mb-1">Member Since</p>
+                  <p className="text-xs text-white/80 mb-1">Member Since</p>
                   <p className="font-semibold text-sm">{format(new Date(selectedDeveloper.created_at), 'MMM d, yyyy')}</p>
                 </div>
               </div>
@@ -538,14 +538,14 @@ const AdminDevelopers: React.FC = () => {
                 </h3>
                 <div className="space-y-2">
                   {developerKeys.length === 0 ? (
-                    <p className="text-white/50 text-sm">No API keys created</p>
+                    <p className="text-white/80 text-sm">No API keys created</p>
                   ) : (
                     developerKeys.map((key) => (
                       <div key={key.id} className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
                         <div className="flex items-center gap-3">
                           <div>
                             <p className="font-medium">{key.name}</p>
-                            <p className="text-xs text-white/50">
+                            <p className="text-xs text-white/80">
                               {key.key_prefix}••••••• | {key.environment} | {key.rate_limit_per_minute} req/min
                             </p>
                           </div>
@@ -586,26 +586,26 @@ const AdminDevelopers: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow className="border-white/10 hover:bg-transparent">
-                        <TableHead className="text-white/60 text-xs">Endpoint</TableHead>
-                        <TableHead className="text-white/60 text-xs">Method</TableHead>
-                        <TableHead className="text-white/60 text-xs">Status</TableHead>
-                        <TableHead className="text-white/60 text-xs">Latency</TableHead>
-                        <TableHead className="text-white/60 text-xs">Time</TableHead>
+                        <TableHead className="text-white/90 text-xs">Endpoint</TableHead>
+                        <TableHead className="text-white/90 text-xs">Method</TableHead>
+                        <TableHead className="text-white/90 text-xs">Status</TableHead>
+                        <TableHead className="text-white/90 text-xs">Latency</TableHead>
+                        <TableHead className="text-white/90 text-xs">Time</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {developerUsage.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={5} className="text-center text-white/50 py-4">
+                          <TableCell colSpan={5} className="text-center text-white/80 py-4">
                             No API activity recorded
                           </TableCell>
                         </TableRow>
                       ) : (
                         developerUsage.map((log) => (
                           <TableRow key={log.id} className="border-white/10 hover:bg-white/5">
-                            <TableCell className="text-white/80 text-xs font-mono">{log.endpoint}</TableCell>
+                            <TableCell className="text-white text-xs font-mono">{log.endpoint}</TableCell>
                             <TableCell>
-                              <Badge variant="outline" className="border-white/20 text-white/70 text-xs">
+                              <Badge variant="outline" className="border-white/20 text-white text-xs">
                                 {log.method}
                               </Badge>
                             </TableCell>
@@ -617,10 +617,10 @@ const AdminDevelopers: React.FC = () => {
                                 {log.response_status}
                               </Badge>
                             </TableCell>
-                            <TableCell className="text-white/60 text-xs">
+                            <TableCell className="text-white/90 text-xs">
                               {log.latency_ms ? `${log.latency_ms}ms` : '-'}
                             </TableCell>
-                            <TableCell className="text-white/50 text-xs">
+                            <TableCell className="text-white/80 text-xs">
                               {format(new Date(log.request_timestamp), 'MMM d, HH:mm:ss')}
                             </TableCell>
                           </TableRow>

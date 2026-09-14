@@ -52,7 +52,7 @@ const LeaseHero: React.FC<Props> = ({ children }) => {
             className={`text-[11px] px-2.5 py-1 rounded-full border transition ${
               i === idx
                 ? "bg-mansagold text-black border-mansagold font-semibold"
-                : "bg-black/40 text-white/70 border-white/20 hover:bg-black/60"
+                : "bg-black/40 text-white border-white/20 hover:bg-black/60"
             }`}
           >
             {s.city}

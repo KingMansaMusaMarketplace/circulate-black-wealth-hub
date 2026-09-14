@@ -246,15 +246,15 @@ const PayoutsTab: React.FC = () => {
     <div className="space-y-4">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         <div className="rounded-md border border-white/10 bg-white/5 p-3">
-          <div className="text-white/60 text-xs">Hosts Owed</div>
+          <div className="text-white/90 text-xs">Hosts Owed</div>
           <div className="text-white text-xl font-semibold">{totals.hostsOwed}</div>
         </div>
         <div className="rounded-md border border-white/10 bg-white/5 p-3">
-          <div className="text-white/60 text-xs">Total Owed</div>
+          <div className="text-white/90 text-xs">Total Owed</div>
           <div className="text-yellow-300 text-xl font-semibold">{fmt(totals.owed)}</div>
         </div>
         <div className="rounded-md border border-white/10 bg-white/5 p-3">
-          <div className="text-white/60 text-xs">Total Paid (lifetime)</div>
+          <div className="text-white/90 text-xs">Total Paid (lifetime)</div>
           <div className="text-green-300 text-xl font-semibold">{fmt(totals.paid)}</div>
         </div>
       </div>
@@ -276,7 +276,7 @@ const PayoutsTab: React.FC = () => {
                 className="pl-9 bg-white/5 border-white/10 text-white"
               />
             </div>
-            <div className="text-xs text-white/50 ml-auto">{owedRows.length} hosts</div>
+            <div className="text-xs text-white/80 ml-auto">{owedRows.length} hosts</div>
             <Button size="sm" variant="outline" onClick={exportOwed}>
               <Download className="h-4 w-4 mr-1" /> Export CSV
             </Button>
@@ -286,22 +286,22 @@ const PayoutsTab: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10">
-                    <TableHead className="text-white/70">Host</TableHead>
-                    <TableHead className="text-white/70">Method</TableHead>
-                    <TableHead className="text-white/70"># Bookings</TableHead>
-                    <TableHead className="text-white/70">Amount Owed</TableHead>
-                    <TableHead className="text-white/70">Lifetime Paid</TableHead>
-                    <TableHead className="text-white/70 text-right">Actions</TableHead>
+                    <TableHead className="text-white">Host</TableHead>
+                    <TableHead className="text-white">Method</TableHead>
+                    <TableHead className="text-white"># Bookings</TableHead>
+                    <TableHead className="text-white">Amount Owed</TableHead>
+                    <TableHead className="text-white">Lifetime Paid</TableHead>
+                    <TableHead className="text-white text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {owedRows.length === 0 ? (
-                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No hosts currently owed.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={6} className="text-center text-white/80 py-8">No hosts currently owed.</TableCell></TableRow>
                   ) : owedRows.map(h => (
                     <TableRow key={h.host_id} className="border-white/10">
                       <TableCell className="text-white">
                         <div className="font-medium">{h.full_name || 'Unnamed host'}</div>
-                        <div className="text-xs text-white/50">{h.email}</div>
+                        <div className="text-xs text-white/80">{h.email}</div>
                       </TableCell>
                       <TableCell>
                         {h.payout_method_type ? (
@@ -314,7 +314,7 @@ const PayoutsTab: React.FC = () => {
                           <Badge className="bg-red-500/20 text-red-300 border-red-500/30">Missing</Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-white/70">{h.bookings.length}</TableCell>
+                      <TableCell className="text-white">{h.bookings.length}</TableCell>
                       <TableCell className="text-yellow-300 font-semibold">{fmt(h.owed)}</TableCell>
                       <TableCell className="text-green-300">{fmt(h.paid_total)}</TableCell>
                       <TableCell className="text-right">
@@ -346,7 +346,7 @@ const PayoutsTab: React.FC = () => {
                 className="pl-9 bg-white/5 border-white/10 text-white"
               />
             </div>
-            <div className="text-xs text-white/50 ml-auto">{historyRows.length} of {history.length}</div>
+            <div className="text-xs text-white/80 ml-auto">{historyRows.length} of {history.length}</div>
             <Button size="sm" variant="outline" onClick={exportHistory}>
               <Download className="h-4 w-4 mr-1" /> Export CSV
             </Button>
@@ -356,20 +356,20 @@ const PayoutsTab: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10">
-                    <TableHead className="text-white/70">Date</TableHead>
-                    <TableHead className="text-white/70">Host</TableHead>
-                    <TableHead className="text-white/70">Amount</TableHead>
-                    <TableHead className="text-white/70">Status</TableHead>
-                    <TableHead className="text-white/70">Reference</TableHead>
-                    <TableHead className="text-white/70">Notes</TableHead>
+                    <TableHead className="text-white">Date</TableHead>
+                    <TableHead className="text-white">Host</TableHead>
+                    <TableHead className="text-white">Amount</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-white">Reference</TableHead>
+                    <TableHead className="text-white">Notes</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {historyRows.length === 0 ? (
-                    <TableRow><TableCell colSpan={6} className="text-center text-white/50 py-8">No payouts match.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={6} className="text-center text-white/80 py-8">No payouts match.</TableCell></TableRow>
                   ) : historyRows.map(p => (
                     <TableRow key={p.id} className="border-white/10">
-                      <TableCell className="text-white/70 text-xs">
+                      <TableCell className="text-white text-xs">
                         {p.paid_at ? new Date(p.paid_at).toLocaleDateString() : new Date(p.created_at).toLocaleDateString()}
                       </TableCell>
                       <TableCell className="text-white">
@@ -383,8 +383,8 @@ const PayoutsTab: React.FC = () => {
                           {p.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-white/60 text-xs">{p.booking_id ? p.booking_id.slice(0, 8) + '…' : '—'}</TableCell>
-                      <TableCell className="text-white/60 text-xs">{p.description || '—'}</TableCell>
+                      <TableCell className="text-white/90 text-xs">{p.booking_id ? p.booking_id.slice(0, 8) + '…' : '—'}</TableCell>
+                      <TableCell className="text-white/90 text-xs">{p.description || '—'}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -399,14 +399,14 @@ const PayoutsTab: React.FC = () => {
         <DialogContent className="max-w-md bg-black border-white/10 text-white">
           <DialogHeader>
             <DialogTitle>Mark Payout as Paid</DialogTitle>
-            <DialogDescription className="text-white/60">
+            <DialogDescription className="text-white/90">
               {payDialog?.host.full_name || payDialog?.host.email} · {payDialog?.host.bookings.length} bookings
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-3">
             <div>
-              <Label className="text-white/70">Amount (USD)</Label>
+              <Label className="text-white">Amount (USD)</Label>
               <Input
                 type="number"
                 step="0.01"
@@ -415,7 +415,7 @@ const PayoutsTab: React.FC = () => {
               />
             </div>
             <div>
-              <Label className="text-white/70">Reference / Transfer ID</Label>
+              <Label className="text-white">Reference / Transfer ID</Label>
               <Input
                 placeholder="e.g. ACH-12345 or tr_..."
                 value={payForm.reference}
@@ -423,7 +423,7 @@ const PayoutsTab: React.FC = () => {
               />
             </div>
             <div>
-              <Label className="text-white/70">Notes</Label>
+              <Label className="text-white">Notes</Label>
               <Input
                 placeholder="Optional"
                 value={payForm.notes}

@@ -85,7 +85,7 @@ const EmailStatsCards: React.FC<EmailStatsCardsProps> = ({ stats, isLoading }) =
                 <card.icon className={`h-5 w-5 ${card.color}`} />
               </div>
               <div>
-                <p className="text-xs text-white/60">{card.title}</p>
+                <p className="text-xs text-white/90">{card.title}</p>
                 <p className="text-xl font-bold text-white">{card.value}</p>
                 {card.subtitle && (
                   <p className={`text-xs ${card.color}`}>{card.subtitle}</p>

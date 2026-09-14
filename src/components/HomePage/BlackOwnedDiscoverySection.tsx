@@ -45,7 +45,7 @@ const BlackOwnedDiscoverySection: React.FC = () => {
             </span>{' '}
             Near You
           </h2>
-          <p className="text-white/70 max-w-2xl mx-auto text-lg">
+          <p className="text-white max-w-2xl mx-auto text-lg">
             Browse thousands of verified Black-owned businesses across major cities and categories. 
             Support economic empowerment with every visit.
           </p>

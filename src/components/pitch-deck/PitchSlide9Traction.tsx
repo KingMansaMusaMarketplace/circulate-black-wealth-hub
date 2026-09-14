@@ -85,11 +85,11 @@ const PitchSlide9Traction: React.FC = () => {
                   <div className={`text-sm font-semibold mb-1 ${
                     item.status === 'completed' ? 'text-green-400' :
                     item.status === 'in-progress' ? 'text-mansagold' :
-                    'text-white/60'
+                    'text-white/90'
                   }`}>
                     {item.phase}
                   </div>
-                  <div className="text-xs text-white/70 text-center">{item.milestone}</div>
+                  <div className="text-xs text-white text-center">{item.milestone}</div>
                 </div>
               ))}
             </div>

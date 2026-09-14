@@ -108,7 +108,7 @@ const LeaderboardPage: React.FC = () => {
         <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold mx-auto mb-4"></div>
-            <p className="text-white/70">Loading leaderboard...</p>
+            <p className="text-white">Loading leaderboard...</p>
           </div>
         </div>
       </div>
@@ -159,10 +159,10 @@ const LeaderboardPage: React.FC = () => {
           <CardContent>
             <Tabs value={timePeriod} onValueChange={(value) => setTimePeriod(value as TimePeriod)}>
               <TabsList className="grid w-full grid-cols-4 bg-slate-800/50 backdrop-blur-sm border border-white/10">
-                <TabsTrigger value="all_time" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">All Time</TabsTrigger>
-                <TabsTrigger value="yearly" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-mansagold data-[state=active]:text-white">This Year</TabsTrigger>
-                <TabsTrigger value="quarterly" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-mansablue data-[state=active]:text-white">This Quarter</TabsTrigger>
-                <TabsTrigger value="monthly" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-mansagold data-[state=active]:text-white">This Month</TabsTrigger>
+                <TabsTrigger value="all_time" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">All Time</TabsTrigger>
+                <TabsTrigger value="yearly" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-mansagold data-[state=active]:text-white">This Year</TabsTrigger>
+                <TabsTrigger value="quarterly" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-mansablue data-[state=active]:text-white">This Quarter</TabsTrigger>
+                <TabsTrigger value="monthly" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-mansagold data-[state=active]:text-white">This Month</TabsTrigger>
               </TabsList>
             </Tabs>
           </CardContent>
@@ -180,7 +180,7 @@ const LeaderboardPage: React.FC = () => {
               </span>
 
             </CardTitle>
-            <CardDescription className="text-base text-white/70">
+            <CardDescription className="text-base text-white">
               🎯 Ranked by total referrals and active subscriptions
             </CardDescription>
           </CardHeader>
@@ -188,10 +188,10 @@ const LeaderboardPage: React.FC = () => {
             {leaderboard.length === 0 ? (
               <div className="text-center py-12">
                 <Users className="h-16 w-16 text-white/40 mx-auto mb-4 opacity-50" />
-                <p className="text-lg text-white/70">
+                <p className="text-lg text-white">
                   No agents on the leaderboard yet for this period
                 </p>
-                <p className="text-sm text-white/60 mt-2">
+                <p className="text-sm text-white/90 mt-2">
                   Be the first to earn referrals and claim the top spot!
                 </p>
               </div>
@@ -220,7 +220,7 @@ const LeaderboardPage: React.FC = () => {
                           {entry.tier}
                         </Badge>
                       </div>
-                      <p className="text-sm text-white/60 font-mono">
+                      <p className="text-sm text-white/90 font-mono">
                         Code: {entry.referral_code}
                       </p>
                     </div>
@@ -231,7 +231,7 @@ const LeaderboardPage: React.FC = () => {
                         <p className="text-3xl font-bold bg-gradient-to-r from-mansablue to-blue-300 bg-clip-text text-transparent">
                           {entry.total_referrals}
                         </p>
-                        <p className="text-xs text-white/70 font-semibold">
+                        <p className="text-xs text-white font-semibold">
                           Total Referrals
                         </p>
                       </div>
@@ -259,7 +259,7 @@ const LeaderboardPage: React.FC = () => {
                 <TrendingUp className="h-5 w-5 text-mansagold" />
                 How Rankings Work
               </h3>
-              <ul className="space-y-2 text-sm text-white/70">
+              <ul className="space-y-2 text-sm text-white">
                 <li className="flex gap-2">
                   <span>•</span>
                   <span>Agents are ranked by total referrals first, then by active subscriptions</span>

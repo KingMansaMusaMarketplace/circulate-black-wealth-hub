@@ -37,13 +37,13 @@ const FavoriteDriverBooking: React.FC<Props> = ({ onScheduleWithDriver }) => {
             {favorites.length} saved
           </Badge>
         </div>
-        <p className="text-white/50 text-xs">Book your preferred driver directly — like a private chauffeur</p>
+        <p className="text-white/80 text-xs">Book your preferred driver directly — like a private chauffeur</p>
       </CardHeader>
       <CardContent className="space-y-3 pb-4">
         {favorites.length === 0 ? (
           <div className="text-center py-8">
             <Heart className="h-10 w-10 text-white/20 mx-auto mb-3" />
-            <p className="text-white/50 text-sm">No favorite drivers yet</p>
+            <p className="text-white/80 text-sm">No favorite drivers yet</p>
             <p className="text-white/30 text-xs mt-1">After a great ride, tap ♥ to save your driver</p>
           </div>
         ) : (
@@ -68,7 +68,7 @@ const FavoriteDriverBooking: React.FC<Props> = ({ onScheduleWithDriver }) => {
                       <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
                     )}
                   </div>
-                  <div className="flex items-center gap-3 text-xs text-white/50 mt-0.5">
+                  <div className="flex items-center gap-3 text-xs text-white/80 mt-0.5">
                     <span className="flex items-center gap-1">
                       <Star className="h-3 w-3 fill-mansagold text-mansagold" />
                       {fav.driver?.average_rating?.toFixed(1) || 'N/A'}

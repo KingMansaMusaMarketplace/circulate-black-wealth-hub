@@ -176,7 +176,7 @@ export const PublicSponsorDisplay = () => {
                       {sponsor.company_name}
                     </h3>
                     {sponsor.descriptor && (
-                      <p className="text-white/80 text-sm md:text-base mb-6 leading-relaxed">
+                      <p className="text-white text-sm md:text-base mb-6 leading-relaxed">
                         {sponsor.descriptor}
                       </p>
                     )}

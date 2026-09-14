@@ -190,18 +190,18 @@ const HostBulkUploadLeasesPage: React.FC = () => {
         <title>Bulk upload lease listings — Mansa Stays</title>
       </Helmet>
       <section className="max-w-5xl mx-auto p-4 md:p-10">
-        <Button asChild variant="ghost" className="text-white/80 hover:text-white mb-4">
+        <Button asChild variant="ghost" className="text-white hover:text-white mb-4">
           <Link to="/stays/host/lease/dashboard"><ArrowLeft className="w-4 h-4 mr-2" />Back to dashboard</Link>
         </Button>
 
         <h1 className="text-3xl md:text-4xl font-bold">Bulk upload lease listings</h1>
-        <p className="text-white/80 mt-2">Upload up to {MAX_ROWS} listings at once via CSV. Free to list — $99 success fee only on confirmed leases.</p>
+        <p className="text-white mt-2">Upload up to {MAX_ROWS} listings at once via CSV. Free to list — $99 success fee only on confirmed leases.</p>
 
         <Card className="bg-white/10 border-white/20 p-6 mt-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold">Step 1 — Download the template</h2>
-              <p className="text-white/70 text-sm">Includes all column headers and one example row.</p>
+              <p className="text-white text-sm">Includes all column headers and one example row.</p>
             </div>
             <Button onClick={downloadTemplate} className="bg-mansagold text-black hover:bg-mansagold/90">
               <Download className="w-4 h-4 mr-2" />Download CSV template
@@ -211,11 +211,11 @@ const HostBulkUploadLeasesPage: React.FC = () => {
 
         <Card className="bg-white/10 border-white/20 p-6 mt-4">
           <h2 className="text-lg font-semibold">Step 2 — Upload your file</h2>
-          <p className="text-white/70 text-sm mb-3">Max {MAX_ROWS} rows. Photos can be added per-listing after import.</p>
+          <p className="text-white text-sm mb-3">Max {MAX_ROWS} rows. Photos can be added per-listing after import.</p>
           <label className="flex flex-col items-center justify-center border-2 border-dashed border-white/30 rounded-lg p-8 cursor-pointer hover:border-mansagold transition-colors">
-            <Upload className="w-10 h-10 text-white/60 mb-2" />
+            <Upload className="w-10 h-10 text-white/90 mb-2" />
             <span className="text-white/90 font-medium">{fileName || "Click to choose a CSV file"}</span>
-            <span className="text-white/60 text-xs mt-1">or drag and drop</span>
+            <span className="text-white/90 text-xs mt-1">or drag and drop</span>
             <input
               type="file"
               accept=".csv,text/csv"
@@ -256,7 +256,7 @@ const HostBulkUploadLeasesPage: React.FC = () => {
                 <tbody>
                   {rows.map((r) => (
                     <tr key={r.rowNum} className={r.errors.length > 0 ? "bg-red-500/10" : "bg-green-500/5"}>
-                      <td className="p-2 text-white/70">{r.rowNum}</td>
+                      <td className="p-2 text-white">{r.rowNum}</td>
                       <td className="p-2">{r.errors.length === 0 ? "✓" : "✗"}</td>
                       <td className="p-2 truncate max-w-[200px]">{r.raw.title}</td>
                       <td className="p-2">{r.raw.city}, {r.raw.state}</td>

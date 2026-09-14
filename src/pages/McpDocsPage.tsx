@@ -90,7 +90,7 @@ const McpDocsPage: React.FC = () => {
       <main className="max-w-4xl mx-auto px-4 py-12 md:py-16">
         <Link
           to="/connect"
-          className="inline-flex items-center gap-2 text-white/60 hover:text-mansagold text-sm mb-6"
+          className="inline-flex items-center gap-2 text-white/90 hover:text-mansagold text-sm mb-6"
         >
           <ArrowLeft className="w-4 h-4" aria-hidden /> Back to setup
         </Link>
@@ -104,7 +104,7 @@ const McpDocsPage: React.FC = () => {
         <h1 className="text-3xl md:text-4xl font-bold mb-3">
           1325.AI MCP connector
         </h1>
-        <p className="text-white/70 md:text-lg mb-10">
+        <p className="text-white md:text-lg mb-10">
           The 1325.AI connector is a Model Context Protocol (MCP) server that lets
           AI assistants such as Claude, ChatGPT, and Cursor search the 1325.AI
           directory of verified Black-owned businesses and read the signed-in
@@ -116,22 +116,22 @@ const McpDocsPage: React.FC = () => {
           <h2 className="text-xl font-semibold mb-4">Connection</h2>
           <dl className="space-y-3 text-sm">
             <div>
-              <dt className="text-white/50">Server URL</dt>
+              <dt className="text-white/80">Server URL</dt>
               <dd className="font-mono text-mansagold break-all">{MCP_URL}</dd>
             </div>
             <div>
-              <dt className="text-white/50">Transport</dt>
+              <dt className="text-white/80">Transport</dt>
               <dd>Streamable HTTP</dd>
             </div>
             <div>
-              <dt className="text-white/50">Authentication</dt>
+              <dt className="text-white/80">Authentication</dt>
               <dd>
                 OAuth 2.1 with Dynamic Client Registration (Supabase Auth). No
                 API keys or pasted tokens.
               </dd>
             </div>
             <div>
-              <dt className="text-white/50">Account required</dt>
+              <dt className="text-white/80">Account required</dt>
               <dd>
                 A free 1325.AI account. Directory tools also work for any
                 connected user; the two loyalty tools return only that
@@ -154,19 +154,19 @@ const McpDocsPage: React.FC = () => {
                   <code className="text-xs font-mono text-mansagold bg-black/40 border border-white/10 rounded px-2 py-1">
                     {t.name}
                   </code>
-                  <span className="text-xs rounded-full border border-white/15 px-2 py-0.5 text-white/70">
+                  <span className="text-xs rounded-full border border-white/15 px-2 py-0.5 text-white">
                     Read-only
                   </span>
-                  <span className="text-xs rounded-full border border-white/15 px-2 py-0.5 text-white/70">
+                  <span className="text-xs rounded-full border border-white/15 px-2 py-0.5 text-white">
                     {t.access}
                   </span>
                 </div>
-                <p className="text-white/70 text-sm mb-3">{t.description}</p>
-                <p className="text-white/50 text-sm mb-1">
+                <p className="text-white text-sm mb-3">{t.description}</p>
+                <p className="text-white/80 text-sm mb-1">
                   <span className="text-white/40">Parameters: </span>
                   {t.params}
                 </p>
-                <p className="text-white/50 text-sm">
+                <p className="text-white/80 text-sm">
                   <span className="text-white/40">Returns: </span>
                   {t.returns}
                 </p>
@@ -180,7 +180,7 @@ const McpDocsPage: React.FC = () => {
             <ShieldCheck className="w-5 h-5 text-mansagold" aria-hidden />
             <h2 className="text-xl font-semibold">Data and privacy</h2>
           </div>
-          <ul className="list-disc pl-5 space-y-2 text-white/70 text-sm">
+          <ul className="list-disc pl-5 space-y-2 text-white text-sm">
             <li>
               All six tools are read-only. The connector performs no purchases,
               redemptions, payments, or writes of any kind.
@@ -207,7 +207,7 @@ const McpDocsPage: React.FC = () => {
 
         <section className="rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6">
           <h2 className="text-xl font-semibold mb-3">Support</h2>
-          <p className="text-white/70 text-sm">
+          <p className="text-white text-sm">
             Questions or issues with the connector:{' '}
             <a
               href="mailto:Partner@1325.AI"

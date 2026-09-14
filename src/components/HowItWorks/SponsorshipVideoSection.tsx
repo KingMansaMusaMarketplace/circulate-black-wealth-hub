@@ -61,7 +61,7 @@ const SponsorshipVideoSection = () => {
             <h2 className="text-2xl md:text-3xl font-extrabold mb-3 text-white">
               See The Impact on YouTube
             </h2>
-            <p className="text-white/80 mb-6">
+            <p className="text-white mb-6">
               Watch how circulating wealth in our communities transforms economic empowerment.
             </p>
             <Button

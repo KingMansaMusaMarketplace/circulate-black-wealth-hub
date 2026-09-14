@@ -73,7 +73,7 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
             <ExternalLink className="h-4 w-4" />
             Watch on YouTube
           </a>
-          <p className="text-xs text-white/60 text-center px-2">
+          <p className="text-xs text-white/90 text-center px-2">
             If the player shows "Content blocked", click above to watch on YouTube.
           </p>
         </div>

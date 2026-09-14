@@ -59,7 +59,7 @@ export const KaylaFollowupAutomation: React.FC<Props> = ({ businessId }) => {
             <RefreshCw className="h-5 w-5 text-orange-400" />
             Follow-up Automation
           </h3>
-          <p className="text-sm text-white/50">Automated customer follow-ups</p>
+          <p className="text-sm text-white/80">Automated customer follow-ups</p>
         </div>
         {rules.length === 0 && (
           <Button
@@ -78,7 +78,7 @@ export const KaylaFollowupAutomation: React.FC<Props> = ({ businessId }) => {
           <CardContent className="p-8 text-center">
             <RefreshCw className="h-12 w-12 text-orange-400/40 mx-auto mb-3" />
             <h3 className="text-lg font-medium text-white mb-1">No follow-up rules yet</h3>
-            <p className="text-sm text-white/50">Generate smart follow-up rules for your business.</p>
+            <p className="text-sm text-white/80">Generate smart follow-up rules for your business.</p>
           </CardContent>
         </Card>
       ) : (
@@ -89,7 +89,7 @@ export const KaylaFollowupAutomation: React.FC<Props> = ({ businessId }) => {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="text-sm font-medium text-white">{rule.rule_name}</h4>
-                    <Badge variant="outline" className="text-xs border-white/10 text-white/50">
+                    <Badge variant="outline" className="text-xs border-white/10 text-white/80">
                       {rule.trigger_event}
                     </Badge>
                     <Badge variant="outline" className="text-xs border-white/10 text-white/40">

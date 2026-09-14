@@ -91,7 +91,7 @@ const GuestView: React.FC = () => {
             <div className="bg-gradient-to-br from-mansagold-dark to-mansagold text-mansablue-dark rounded-full w-12 h-12 flex-shrink-0 flex items-center justify-center font-bold text-lg shadow-lg shadow-mansagold/30 group-hover:scale-110 transition-transform duration-300">1</div>
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 text-white">Sign Up & Apply</h3>
-              <p className="text-white/80">
+              <p className="text-white">
                 Create an account and complete the ambassador application. Our team will review your application.
               </p>
             </div>
@@ -101,7 +101,7 @@ const GuestView: React.FC = () => {
             <div className="bg-gradient-to-br from-mansablue-dark to-mansablue text-white rounded-full w-12 h-12 flex-shrink-0 flex items-center justify-center font-bold text-lg shadow-lg shadow-mansablue/30 group-hover:scale-110 transition-transform duration-300">2</div>
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 text-white">Pass the Qualification Test</h3>
-              <p className="text-white/80">
+              <p className="text-white">
                 Complete a simple test about 1325.AI to ensure you can represent us effectively.
               </p>
             </div>
@@ -111,7 +111,7 @@ const GuestView: React.FC = () => {
             <div className="bg-gradient-to-br from-mansagold-dark to-mansagold text-mansablue-dark rounded-full w-12 h-12 flex-shrink-0 flex items-center justify-center font-bold text-lg shadow-lg shadow-mansagold/30 group-hover:scale-110 transition-transform duration-300">3</div>
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 text-white">Receive Your Referral Code</h3>
-              <p className="text-white/80">
+              <p className="text-white">
                 Once approved, you'll get a unique referral code to share with businesses and customers.
               </p>
             </div>
@@ -121,7 +121,7 @@ const GuestView: React.FC = () => {
             <div className="bg-gradient-to-br from-mansablue-dark to-mansablue text-white rounded-full w-12 h-12 flex-shrink-0 flex items-center justify-center font-bold text-lg shadow-lg shadow-mansablue/30 group-hover:scale-110 transition-transform duration-300">4</div>
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 text-white">Start Earning</h3>
-              <p className="text-white/80">
+              <p className="text-white">
                 Every time someone signs up with your code, you'll earn a 10% commission on their subscription fees.
               </p>
             </div>

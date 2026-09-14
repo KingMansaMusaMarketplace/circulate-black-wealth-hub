@@ -54,7 +54,7 @@ export const RouteErrorBoundary: React.FC = () => {
           </h1>
 
           {/* Description */}
-          <p className="text-white/80 mb-6 font-body">
+          <p className="text-white mb-6 font-body">
             {errorMessage}
           </p>
 
@@ -78,7 +78,7 @@ export const RouteErrorBoundary: React.FC = () => {
           </div>
 
           {/* Help Text */}
-          <p className="text-sm text-white/60 mt-6">
+          <p className="text-sm text-white/90 mt-6">
             If this problem persists, please contact support.
           </p>
         </div>

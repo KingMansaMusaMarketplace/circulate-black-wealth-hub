@@ -99,7 +99,7 @@ const PitchSlide4Technology: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
             Proprietary <span className="text-mansagold">Technology</span>
           </h2>
-          <p className="text-lg text-white/70 max-w-3xl mx-auto">
+          <p className="text-lg text-white max-w-3xl mx-auto">
             Patent-pending innovations creating a defensible technology moat — $15–20M and 3–4 years to replicate
           </p>
         </motion.div>
@@ -124,7 +124,7 @@ const PitchSlide4Technology: React.FC = () => {
                         <h3 className={`text-sm font-bold ${colors.text}`}>{tech.name}</h3>
                         <Sparkles className={`w-3 h-3 ${colors.text}`} />
                       </div>
-                      <p className="text-white/60 text-xs mb-1">{tech.fullName}</p>
+                      <p className="text-white/90 text-xs mb-1">{tech.fullName}</p>
                       <p className="text-white/90 text-xs font-medium">{tech.description}</p>
                     </div>
                   </div>
@@ -146,7 +146,7 @@ const PitchSlide4Technology: React.FC = () => {
                 {claimCategories.map((cat, i) => (
                   <div key={i} className="text-center">
                     <div className="text-xl font-black text-mansagold">{cat.claims}</div>
-                    <div className="text-xs text-white/70 font-medium">{cat.category}</div>
+                    <div className="text-xs text-white font-medium">{cat.category}</div>
                   </div>
                 ))}
               </div>
@@ -154,7 +154,7 @@ const PitchSlide4Technology: React.FC = () => {
                 <p className="text-sm text-white font-semibold">
                   Strategic Amendment filed Jan 30, 2026
                 </p>
-                <p className="text-xs text-white/60">Claims 21-27: Partner Revenue Attribution System</p>
+                <p className="text-xs text-white/90">Claims 21-27: Partner Revenue Attribution System</p>
               </div>
             </div>
           </Card>

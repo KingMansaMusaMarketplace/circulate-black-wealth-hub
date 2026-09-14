@@ -198,11 +198,11 @@ const FoundersWallPage = () => {
                   <Link to="/business-signup">
                     <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border-2 border-dashed border-white/20 hover:border-mansagold/50 transition-all duration-300 hover:scale-[1.02] h-full min-h-[160px] flex flex-col items-center justify-center text-center group">
                       <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-3 group-hover:bg-mansagold/20 transition-colors">
-                        <span className="text-2xl font-bold text-white/50 group-hover:text-mansagold transition-colors">
+                        <span className="text-2xl font-bold text-white/80 group-hover:text-mansagold transition-colors">
                           ?
                         </span>
                       </div>
-                      <p className="text-white/50 text-xs font-medium group-hover:text-white transition-colors">
+                      <p className="text-white/80 text-xs font-medium group-hover:text-white transition-colors">
                         Your Business Here
                       </p>
                       <p className="text-mansagold text-xs font-semibold mt-1 opacity-0 group-hover:opacity-100 transition-opacity">

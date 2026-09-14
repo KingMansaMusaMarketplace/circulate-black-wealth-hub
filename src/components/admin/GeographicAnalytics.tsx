@@ -129,7 +129,7 @@ const GeographicAnalytics: React.FC = () => {
             <div className="flex items-center gap-3">
               <MapPin className="h-8 w-8 text-mansagold" />
               <div>
-                <p className="text-white/60 text-sm">States Covered</p>
+                <p className="text-white/90 text-sm">States Covered</p>
                 <p className="text-2xl font-bold text-mansagold">{usersByState?.length || 0}</p>
               </div>
             </div>
@@ -140,7 +140,7 @@ const GeographicAnalytics: React.FC = () => {
             <div className="flex items-center gap-3">
               <Users className="h-8 w-8 text-blue-400" />
               <div>
-                <p className="text-white/60 text-sm">Total Users</p>
+                <p className="text-white/90 text-sm">Total Users</p>
                 <p className="text-2xl font-bold text-blue-400">
                   {usersByState?.reduce((acc, s) => acc + s.count, 0) || 0}
                 </p>
@@ -153,7 +153,7 @@ const GeographicAnalytics: React.FC = () => {
             <div className="flex items-center gap-3">
               <Building2 className="h-8 w-8 text-green-400" />
               <div>
-                <p className="text-white/60 text-sm">Total Businesses</p>
+                <p className="text-white/90 text-sm">Total Businesses</p>
                 <p className="text-2xl font-bold text-green-400">
                   {businessesByState?.reduce((acc, s) => acc + s.count, 0) || 0}
                 </p>
@@ -166,7 +166,7 @@ const GeographicAnalytics: React.FC = () => {
             <div className="flex items-center gap-3">
               <TrendingUp className="h-8 w-8 text-purple-400" />
               <div>
-                <p className="text-white/60 text-sm">Top City</p>
+                <p className="text-white/90 text-sm">Top City</p>
                 <p className="text-lg font-bold text-purple-400 truncate">
                   {usersByCity?.[0]?.city || 'N/A'}
                 </p>
@@ -327,7 +327,7 @@ const GeographicAnalytics: React.FC = () => {
                     <span className="text-mansagold font-bold w-6">{index + 1}</span>
                     <span className="text-white">{city.city}</span>
                   </div>
-                  <Badge variant="outline" className="border-white/20 text-white/70">
+                  <Badge variant="outline" className="border-white/20 text-white">
                     {city.count} users
                   </Badge>
                 </div>

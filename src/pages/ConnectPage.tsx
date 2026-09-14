@@ -50,12 +50,12 @@ const ConnectPage: React.FC = () => {
         <h1 className="text-3xl md:text-4xl font-bold mb-3">
           Connect 1325.AI to your AI assistant
         </h1>
-        <p className="text-white/70 mb-8 md:text-lg">
+        <p className="text-white mb-8 md:text-lg">
           Let ChatGPT, Claude, Cursor, and other AI assistants search the 1325.AI
           directory, browse rewards, and check your loyalty points — on your
           behalf, after you sign in.
         </p>
-        <p className="text-white/60 mb-8 text-sm">
+        <p className="text-white/90 mb-8 text-sm">
           Looking for technical details?{' '}
           <a href="/connect/docs" className="text-mansagold hover:underline">
             Read the connector documentation
@@ -68,7 +68,7 @@ const ConnectPage: React.FC = () => {
           aria-label="MCP server URL"
           className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 md:p-6 mb-10"
         >
-          <div className="flex items-center gap-2 text-white/60 text-sm mb-2">
+          <div className="flex items-center gap-2 text-white/90 text-sm mb-2">
             <ShieldCheck className="w-4 h-4 text-mansagold" aria-hidden />
             <span>Your 1325.AI server URL</span>
           </div>
@@ -91,14 +91,14 @@ const ConnectPage: React.FC = () => {
               )}
             </Button>
           </div>
-          <p className="text-white/50 text-xs mt-3">
+          <p className="text-white/80 text-xs mt-3">
             Paste this URL into your AI assistant when it asks for a connector,
             server, or MCP URL. You'll sign in with your 1325.AI account to
             approve the connection.
           </p>
 
           <div className="mt-5 pt-5 border-t border-white/10">
-            <p className="text-white/70 text-sm mb-3">
+            <p className="text-white text-sm mb-3">
               One-tap shortcuts — opens the connector setup in a new tab:
             </p>
             <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
@@ -182,7 +182,7 @@ const ConnectPage: React.FC = () => {
             <MessageSquare className="w-5 h-5 text-mansagold" />
             Connect from ChatGPT
           </h2>
-          <ol className="space-y-3 list-decimal pl-5 text-white/80">
+          <ol className="space-y-3 list-decimal pl-5 text-white">
             <li>
               Open{' '}
               <a
@@ -223,7 +223,7 @@ const ConnectPage: React.FC = () => {
             <Bot className="w-5 h-5 text-mansagold" />
             Connect from Claude
           </h2>
-          <ol className="space-y-3 list-decimal pl-5 text-white/80">
+          <ol className="space-y-3 list-decimal pl-5 text-white">
             <li>
               Open{' '}
               <a
@@ -255,7 +255,7 @@ const ConnectPage: React.FC = () => {
             <Code className="w-5 h-5 text-mansagold" />
             Connect from Cursor
           </h2>
-          <ol className="space-y-3 list-decimal pl-5 text-white/80">
+          <ol className="space-y-3 list-decimal pl-5 text-white">
             <li>
               Open Cursor and go to{' '}
               <strong>Settings → MCP</strong> (or open the command palette and
@@ -287,28 +287,28 @@ const ConnectPage: React.FC = () => {
             <RefreshCw className="w-5 h-5 text-mansagold" />
             Refresh after the app changes
           </h2>
-          <p className="text-white/70 mb-4">
+          <p className="text-white mb-4">
             AI assistants cache the tool list. After 1325.AI adds or updates
             tools, refresh the connector to get the latest features.
           </p>
           <div className="grid gap-4 md:grid-cols-3">
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
               <h3 className="font-semibold mb-2">ChatGPT</h3>
-              <p className="text-white/70 text-sm">
+              <p className="text-white text-sm">
                 Open ChatGPT's app preferences, find 1325.AI under Enabled apps,
                 and click <strong>Refresh</strong> next to Information.
               </p>
             </div>
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
               <h3 className="font-semibold mb-2">Claude</h3>
-              <p className="text-white/70 text-sm">
+              <p className="text-white text-sm">
                 Open the Connectors page, select the 1325.AI connector, and click{' '}
                 <strong>Refresh tools</strong>.
               </p>
             </div>
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
               <h3 className="font-semibold mb-2">Cursor</h3>
-              <p className="text-white/70 text-sm">
+              <p className="text-white text-sm">
                 Open Settings → MCP, select the 1325.AI server, and click{' '}
                 <strong>Refresh</strong>.
               </p>
@@ -321,7 +321,7 @@ const ConnectPage: React.FC = () => {
           <h2 className="text-lg md:text-xl font-bold mb-2">
             What your assistant can do
           </h2>
-          <p className="text-white/70">
+          <p className="text-white">
             Search the Black-owned global business directory, browse active loyalty
             rewards, and — once you sign in — check your loyalty points and
             recent QR scans. Your assistant only sees what you'd see in your

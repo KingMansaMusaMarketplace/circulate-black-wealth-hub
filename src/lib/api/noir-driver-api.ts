@@ -116,7 +116,7 @@ export async function reviewDocument(
 }
 
 export const STATUS_COLORS: Record<DriverApplicationStatus, string> = {
-  draft: 'bg-white/10 text-white/70 border-white/20',
+  draft: 'bg-white/10 text-white border-white/20',
   submitted: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
   under_review: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   approved: 'bg-green-500/20 text-green-300 border-green-500/30',

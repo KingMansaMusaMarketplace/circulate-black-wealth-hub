@@ -85,7 +85,7 @@ const TestimonialsSection = () => {
             >
               <Quote size={40} className="mx-auto text-yellow-400 mb-4" />
               <h3 className="text-xl font-bold text-white mb-2">Testimonials Coming Soon</h3>
-              <p className="text-white/80">
+              <p className="text-white">
                 Be among the first to share your experience with our community!
               </p>
             </motion.div>

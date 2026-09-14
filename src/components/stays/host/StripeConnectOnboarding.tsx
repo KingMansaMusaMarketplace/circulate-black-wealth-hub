@@ -90,7 +90,7 @@ const StripeConnectOnboarding: React.FC<StripeConnectOnboardingProps> = ({
       <Card className="bg-slate-800/50 border-white/10">
         <CardContent className="p-6 flex items-center justify-center">
           <Loader2 className="w-6 h-6 animate-spin text-mansagold mr-2" />
-          <span className="text-white/60">Checking payment status...</span>
+          <span className="text-white/90">Checking payment status...</span>
         </CardContent>
       </Card>
     );
@@ -106,7 +106,7 @@ const StripeConnectOnboarding: React.FC<StripeConnectOnboardingProps> = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-white/70">
+          <p className="text-white">
             Your Stripe Connect account is fully set up. You'll automatically receive 
             92.5% of each booking directly to your bank account.
           </p>
@@ -144,13 +144,13 @@ const StripeConnectOnboarding: React.FC<StripeConnectOnboardingProps> = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-white/70">
+          <p className="text-white">
             {connectStatus.message || 'Your payment account setup is incomplete. Please complete the verification process.'}
           </p>
           {connectStatus.requirements && connectStatus.requirements.length > 0 && (
             <div className="bg-yellow-500/10 rounded-lg p-3">
               <p className="text-yellow-400 text-sm font-medium mb-1">Required information:</p>
-              <ul className="text-white/60 text-sm space-y-1">
+              <ul className="text-white/90 text-sm space-y-1">
                 {connectStatus.requirements.slice(0, 3).map((req, i) => (
                   <li key={i}>• {req.replace(/_/g, ' ')}</li>
                 ))}
@@ -187,7 +187,7 @@ const StripeConnectOnboarding: React.FC<StripeConnectOnboardingProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-white/70">
+        <p className="text-white">
           Connect your bank account to receive payouts for your bookings. 
           Powered by Stripe for secure, fast payments.
         </p>
@@ -196,17 +196,17 @@ const StripeConnectOnboarding: React.FC<StripeConnectOnboardingProps> = ({
           <div className="bg-slate-700/50 rounded-lg p-3 text-center">
             <DollarSign className="w-6 h-6 text-mansagold mx-auto mb-1" />
             <p className="text-white text-sm font-medium">92.5% Payout</p>
-            <p className="text-white/50 text-xs">You keep most of your earnings</p>
+            <p className="text-white/80 text-xs">You keep most of your earnings</p>
           </div>
           <div className="bg-slate-700/50 rounded-lg p-3 text-center">
             <Shield className="w-6 h-6 text-green-400 mx-auto mb-1" />
             <p className="text-white text-sm font-medium">Secure</p>
-            <p className="text-white/50 text-xs">Bank-level security</p>
+            <p className="text-white/80 text-xs">Bank-level security</p>
           </div>
           <div className="bg-slate-700/50 rounded-lg p-3 text-center">
             <CreditCard className="w-6 h-6 text-blue-400 mx-auto mb-1" />
             <p className="text-white text-sm font-medium">Daily Payouts</p>
-            <p className="text-white/50 text-xs">Get paid quickly</p>
+            <p className="text-white/80 text-xs">Get paid quickly</p>
           </div>
         </div>
 

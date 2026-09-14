@@ -73,7 +73,7 @@ const AdminAuditLog: React.FC = () => {
     if (action.includes('admin')) return <Shield className="h-4 w-4 text-mansagold" />;
     if (action.includes('fail') || action.includes('denied')) return <AlertTriangle className="h-4 w-4 text-red-400" />;
     if (action.includes('role')) return <User className="h-4 w-4 text-blue-400" />;
-    return <Clock className="h-4 w-4 text-white/60" />;
+    return <Clock className="h-4 w-4 text-white/90" />;
   };
 
   const getActionBadgeVariant = (action: string) => {
@@ -159,23 +159,23 @@ const AdminAuditLog: React.FC = () => {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <p className="text-white/60 text-sm">Total Events</p>
+              <p className="text-white/90 text-sm">Total Events</p>
               <p className="text-2xl font-bold text-white">{filteredLogs?.length || 0}</p>
             </div>
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <p className="text-white/60 text-sm">Admin Actions</p>
+              <p className="text-white/90 text-sm">Admin Actions</p>
               <p className="text-2xl font-bold text-mansagold">
                 {filteredLogs?.filter(l => l.action.includes('admin')).length || 0}
               </p>
             </div>
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <p className="text-white/60 text-sm">Failed Attempts</p>
+              <p className="text-white/90 text-sm">Failed Attempts</p>
               <p className="text-2xl font-bold text-red-400">
                 {filteredLogs?.filter(l => l.action.includes('fail')).length || 0}
               </p>
             </div>
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <p className="text-white/60 text-sm">Role Changes</p>
+              <p className="text-white/90 text-sm">Role Changes</p>
               <p className="text-2xl font-bold text-blue-400">{roleChanges?.length || 0}</p>
             </div>
           </div>
@@ -199,11 +199,11 @@ const AdminAuditLog: React.FC = () => {
                         <Badge variant={getActionBadgeVariant(log.action)} className="text-xs">
                           {log.action}
                         </Badge>
-                        <span className="text-white/60 text-xs">on</span>
-                        <span className="text-white/80 text-sm font-mono">{log.table_name}</span>
+                        <span className="text-white/90 text-xs">on</span>
+                        <span className="text-white text-sm font-mono">{log.table_name}</span>
                       </div>
                       {log.record_id && (
-                        <p className="text-white/50 text-xs mt-1 font-mono truncate">
+                        <p className="text-white/80 text-xs mt-1 font-mono truncate">
                           Record: {log.record_id}
                         </p>
                       )}
@@ -212,7 +212,7 @@ const AdminAuditLog: React.FC = () => {
                       )}
                     </div>
                     <div className="text-right shrink-0">
-                      <p className="text-white/60 text-xs">
+                      <p className="text-white/90 text-xs">
                         {format(new Date(log.timestamp), 'MMM d, HH:mm')}
                       </p>
                       {log.user_id && (
@@ -224,7 +224,7 @@ const AdminAuditLog: React.FC = () => {
                   </div>
                 ))}
                 {filteredLogs?.length === 0 && (
-                  <div className="text-center py-12 text-white/60">
+                  <div className="text-center py-12 text-white/90">
                     No audit logs found for the selected filters
                   </div>
                 )}

@@ -20,13 +20,13 @@ const ROICalculator = () => {
           <h3 className="text-xl font-bold text-white">Savings Estimator</h3>
         </div>
 
-        <p className="text-sm text-white/60 mb-6">
+        <p className="text-sm text-white/90 mb-6">
           How much do you currently spend per month on staff for marketing, bookkeeping, reviews, and admin?
         </p>
 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-white/70">Your current monthly cost</span>
+            <span className="text-sm text-white">Your current monthly cost</span>
             <span className="text-2xl font-bold text-white">${monthlySpend[0].toLocaleString()}/mo</span>
           </div>
 
@@ -45,17 +45,17 @@ const ROICalculator = () => {
                 <DollarSign className="w-4 h-4 text-green-400" />
                 <span className="text-2xl font-bold text-green-400">${savings.toLocaleString()}</span>
               </div>
-              <span className="text-xs text-white/50">Monthly savings</span>
+              <span className="text-xs text-white/80">Monthly savings</span>
             </div>
             <div className="text-center">
               <span className="text-2xl font-bold text-mansagold">${annualSavings.toLocaleString()}</span>
               <br />
-              <span className="text-xs text-white/50">Annual savings</span>
+              <span className="text-xs text-white/80">Annual savings</span>
             </div>
             <div className="text-center">
               <span className="text-2xl font-bold text-white">{multiplier}x</span>
               <br />
-              <span className="text-xs text-white/50">Value multiplier</span>
+              <span className="text-xs text-white/80">Value multiplier</span>
             </div>
           </div>
 

@@ -57,7 +57,7 @@ const PitchSlide11Vision: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             The <span className="text-mansagold">Endgame</span>
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             From marketplace to full-stack financial infrastructure for the Black economy
           </p>
         </motion.div>
@@ -110,7 +110,7 @@ const PitchSlide11Vision: React.FC = () => {
                         {product.status}
                       </Badge>
                     </div>
-                    <p className="text-white/60 text-sm">{product.description}</p>
+                    <p className="text-white/90 text-sm">{product.description}</p>
                   </div>
                 </motion.div>
               ))}

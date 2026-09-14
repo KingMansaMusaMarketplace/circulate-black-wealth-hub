@@ -54,7 +54,7 @@ export function TierProgressCard({
           </div>
           <div>
             <h3 className="font-bold text-lg">{tierInfo.name} Member</h3>
-            <p className="text-white/80 text-sm">{tierInfo.multiplier}x Points Multiplier</p>
+            <p className="text-white text-sm">{tierInfo.multiplier}x Points Multiplier</p>
           </div>
         </div>
       </div>
@@ -63,12 +63,12 @@ export function TierProgressCard({
           <>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-white/70">Progress to {nextTier}</span>
+                <span className="text-white">Progress to {nextTier}</span>
                 <span className="font-medium text-white">{Math.round(progress)}%</span>
               </div>
               <Progress value={progress} className="h-2 bg-white/10" />
             </div>
-            <p className="text-sm text-white/70">
+            <p className="text-sm text-white">
               Earn <span className="font-semibold text-[hsl(45,93%,58%)]">{pointsNeeded.toLocaleString()}</span> more points to reach {nextTier}
             </p>
           </>
@@ -77,7 +77,7 @@ export function TierProgressCard({
             <p className="text-sm font-medium text-[hsl(45,93%,58%)]">
               🎉 You've reached the highest tier!
             </p>
-            <p className="text-xs text-white/60 mt-1">
+            <p className="text-xs text-white/90 mt-1">
               Enjoy 2x points on all purchases
             </p>
           </div>
@@ -86,7 +86,7 @@ export function TierProgressCard({
         {/* Tier Benefits */}
         <div className="border-t border-white/10 pt-4">
           <h4 className="text-sm font-medium mb-2 text-white">Your Benefits</h4>
-          <ul className="text-sm text-white/70 space-y-1">
+          <ul className="text-sm text-white space-y-1">
             <li>• {tierInfo.multiplier}x points on all purchases</li>
             {currentTier === 'silver' && <li>• Early access to new rewards</li>}
             {currentTier === 'gold' && (

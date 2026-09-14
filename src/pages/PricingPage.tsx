@@ -42,7 +42,7 @@ const PricingPage: React.FC = () => {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
                 Ready to <span className="text-mansagold">Transform</span> Your Business?
               </h2>
-              <p className="text-white/60 max-w-2xl mx-auto text-base md:text-lg">
+              <p className="text-white/90 max-w-2xl mx-auto text-base md:text-lg">
                 Sign up now and start your free trial. No credit card required to create your account.
               </p>
             </div>
@@ -63,7 +63,7 @@ const PricingPage: React.FC = () => {
                         <span className="text-2xl flex-shrink-0">{item.icon}</span>
                         <div>
                           <p className="text-white font-semibold text-sm">{item.title}</p>
-                          <p className="text-white/50 text-xs">{item.desc}</p>
+                          <p className="text-white/80 text-xs">{item.desc}</p>
                         </div>
                       </li>
                     ))}
@@ -85,7 +85,7 @@ const PricingPage: React.FC = () => {
               {/* Signup Form Column */}
               <div className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-6 md:p-8">
                 <h3 className="text-lg font-bold text-white mb-1">Create Your Account</h3>
-                <p className="text-white/50 text-sm mb-6">Start your free trial in under 2 minutes</p>
+                <p className="text-white/80 text-sm mb-6">Start your free trial in under 2 minutes</p>
                 <BusinessSignupForm />
               </div>
             </div>

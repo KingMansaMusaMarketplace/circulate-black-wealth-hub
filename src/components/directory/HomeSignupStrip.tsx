@@ -50,7 +50,7 @@ const HomeSignupStrip: React.FC = () => {
           <button
             onClick={handleDismiss}
             aria-label="Dismiss"
-            className="p-1 rounded hover:bg-white/10 text-white/70"
+            className="p-1 rounded hover:bg-white/10 text-white"
           >
             <X className="w-4 h-4" />
           </button>

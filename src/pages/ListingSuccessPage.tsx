@@ -36,7 +36,7 @@ const ListingSuccessPage = () => {
 
         <div className="bg-mansagold/10 border border-mansagold/30 rounded-xl p-4 mb-6">
           <h3 className="text-mansagold font-semibold mb-2">What happens next?</h3>
-          <ul className="text-sm text-white/70 text-left space-y-2">
+          <ul className="text-sm text-white text-left space-y-2">
             <li className="flex items-start gap-2">
               <span className="text-mansagold">1.</span>
               We'll scrape your website and extract business details

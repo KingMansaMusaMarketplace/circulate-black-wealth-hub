@@ -224,13 +224,13 @@ const ApiDocumentationPage = () => {
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link to="/developers">
-            <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/10">
+            <Button variant="ghost" size="icon" className="text-white hover:text-white hover:bg-white/10">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
           <div>
             <h1 className="text-3xl font-bold text-white">API Documentation</h1>
-            <p className="text-white/60">Complete reference for 1325.AI Developer APIs</p>
+            <p className="text-white/90">Complete reference for 1325.AI Developer APIs</p>
           </div>
         </div>
 
@@ -241,7 +241,7 @@ const ApiDocumentationPage = () => {
               <Code2 className="h-5 w-5 text-mansablue" />
               Authentication
             </CardTitle>
-            <CardDescription className="text-white/60">
+            <CardDescription className="text-white/90">
               All API requests require authentication via Bearer token
             </CardDescription>
           </CardHeader>
@@ -255,13 +255,13 @@ const ApiDocumentationPage = () => {
                   variant="ghost"
                   size="sm"
                   onClick={() => copyToClipboard('Authorization: Bearer 1325_live_xxxxxxxxxxxxx', 'auth')}
-                  className="text-white/60 hover:text-white hover:bg-white/10"
+                  className="text-white/90 hover:text-white hover:bg-white/10"
                 >
                   {copiedEndpoint === 'auth' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 </Button>
               </div>
             </div>
-            <p className="text-white/60 text-sm mt-4">
+            <p className="text-white/90 text-sm mt-4">
               Get your API key from the{' '}
               <Link to="/developers/dashboard" className="text-mansablue hover:underline">
                 Developer Dashboard
@@ -277,7 +277,7 @@ const ApiDocumentationPage = () => {
               <TabsTrigger
                 key={api.id}
                 value={api.id}
-                className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60"
+                className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/90"
               >
                 <api.icon className="h-4 w-4 mr-2" />
                 {api.name}
@@ -297,7 +297,7 @@ const ApiDocumentationPage = () => {
                       </div>
                       <div>
                         <CardTitle className="text-white">{api.name}</CardTitle>
-                        <CardDescription className="text-white/60">{api.description}</CardDescription>
+                        <CardDescription className="text-white/90">{api.description}</CardDescription>
                       </div>
                     </div>
                     <Badge variant="outline" className="border-mansagold/50 text-mansagold">
@@ -307,7 +307,7 @@ const ApiDocumentationPage = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="bg-slate-900/80 rounded-lg p-3 font-mono text-sm border border-white/10">
-                    <span className="text-white/60">Base URL: </span>
+                    <span className="text-white/90">Base URL: </span>
                     <span className="text-mansablue">{api.baseUrl}</span>
                   </div>
                 </CardContent>
@@ -329,20 +329,20 @@ const ApiDocumentationPage = () => {
                       </Badge>
                       <code className="text-white font-mono">{endpoint.path}</code>
                     </div>
-                    <CardDescription className="text-white/60 mt-2">{endpoint.description}</CardDescription>
+                    <CardDescription className="text-white/90 mt-2">{endpoint.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {/* Request */}
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-white/80 text-sm font-medium">Request Body</span>
+                        <span className="text-white text-sm font-medium">Request Body</span>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() =>
                             copyToClipboard(JSON.stringify(endpoint.request, null, 2), `${api.id}-${idx}-req`)
                           }
-                          className="text-white/60 hover:text-white hover:bg-white/10"
+                          className="text-white/90 hover:text-white hover:bg-white/10"
                         >
                           {copiedEndpoint === `${api.id}-${idx}-req` ? (
                             <Check className="h-4 w-4" />
@@ -361,14 +361,14 @@ const ApiDocumentationPage = () => {
                     {/* Response */}
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-white/80 text-sm font-medium">Response</span>
+                        <span className="text-white text-sm font-medium">Response</span>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() =>
                             copyToClipboard(JSON.stringify(endpoint.response, null, 2), `${api.id}-${idx}-res`)
                           }
-                          className="text-white/60 hover:text-white hover:bg-white/10"
+                          className="text-white/90 hover:text-white hover:bg-white/10"
                         >
                           {copiedEndpoint === `${api.id}-${idx}-res` ? (
                             <Check className="h-4 w-4" />
@@ -386,7 +386,7 @@ const ApiDocumentationPage = () => {
 
                     {/* cURL Example */}
                     <div>
-                      <span className="text-white/80 text-sm font-medium mb-2 block">cURL Example</span>
+                      <span className="text-white text-sm font-medium mb-2 block">cURL Example</span>
                       <div className="bg-slate-900/80 rounded-lg p-4 font-mono text-xs overflow-x-auto border border-white/10">
                         <code className="text-mansagold">
                           {`curl -X ${endpoint.method} "${api.baseUrl}${endpoint.path}" \\
@@ -420,7 +420,7 @@ const ApiDocumentationPage = () => {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-slate-900/80 rounded-lg p-4 text-center border border-white/10">
-                <p className="text-white/60 text-sm">Free Tier</p>
+                <p className="text-white/90 text-sm">Free Tier</p>
                 <p className="text-2xl font-bold text-white">60</p>
                 <p className="text-white/40 text-xs">requests/min</p>
               </div>

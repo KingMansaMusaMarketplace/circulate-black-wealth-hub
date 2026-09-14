@@ -134,7 +134,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="text-white/60 hover:text-white hover:bg-white/10"
+                className="text-white/90 hover:text-white hover:bg-white/10"
               >
                 <X className="w-5 h-5" />
               </Button>
@@ -164,7 +164,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                           'border-white/20 transition-all',
                           filters.listingMode === mode.value
                             ? 'bg-mansagold text-slate-900 border-mansagold hover:bg-mansagold/90'
-                            : 'bg-transparent text-white/80 hover:bg-white/10 hover:text-white'
+                            : 'bg-transparent text-white hover:bg-white/10 hover:text-white'
                         )}
                       >
                         {mode.label}
@@ -196,7 +196,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                           'border-white/20 transition-all',
                           filters.propertyType === type.value
                             ? 'bg-mansagold text-slate-900 border-mansagold hover:bg-mansagold/90'
-                            : 'bg-transparent text-white/80 hover:bg-white/10 hover:text-white'
+                            : 'bg-transparent text-white hover:bg-white/10 hover:text-white'
                         )}
                       >
                         {type.label}
@@ -226,7 +226,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                       <span className="text-white bg-slate-800 px-3 py-1 rounded-full">
                         ${priceRange[0]}
                       </span>
-                      <span className="text-white/60">to</span>
+                      <span className="text-white/90">to</span>
                       <span className="text-white bg-slate-800 px-3 py-1 rounded-full">
                         ${priceRange[1]}+
                       </span>
@@ -242,7 +242,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                   
                   {/* Bedrooms */}
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm text-white/70">
+                    <div className="flex items-center gap-2 text-sm text-white">
                       <Bed className="w-4 h-4" />
                       <span>Bedrooms</span>
                     </div>
@@ -261,7 +261,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                             'w-10 h-10 p-0 border-white/20',
                             filters.bedrooms === num
                               ? 'bg-mansagold text-slate-900 border-mansagold'
-                              : 'bg-transparent text-white/80 hover:bg-white/10'
+                              : 'bg-transparent text-white hover:bg-white/10'
                           )}
                         >
                           {num === 5 ? '5+' : num}
@@ -272,7 +272,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
 
                   {/* Bathrooms */}
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm text-white/70">
+                    <div className="flex items-center gap-2 text-sm text-white">
                       <Bath className="w-4 h-4" />
                       <span>Bathrooms</span>
                     </div>
@@ -291,7 +291,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                             'w-10 h-10 p-0 border-white/20',
                             filters.bathrooms === num
                               ? 'bg-mansagold text-slate-900 border-mansagold'
-                              : 'bg-transparent text-white/80 hover:bg-white/10'
+                              : 'bg-transparent text-white hover:bg-white/10'
                           )}
                         >
                           {num === 4 ? '4+' : num}
@@ -314,7 +314,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                         <Sparkles className="w-5 h-5 text-mansagold" />
                         <div>
                           <p className="text-white font-medium text-sm">Instant Book</p>
-                          <p className="text-white/60 text-xs">Book without waiting for approval</p>
+                          <p className="text-white/90 text-xs">Book without waiting for approval</p>
                         </div>
                       </div>
                       <Switch
@@ -330,7 +330,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                         <PawPrint className="w-5 h-5 text-green-400" />
                         <div>
                           <p className="text-white font-medium text-sm">Pets Allowed</p>
-                          <p className="text-white/60 text-xs">Bring your furry friends</p>
+                          <p className="text-white/90 text-xs">Bring your furry friends</p>
                         </div>
                       </div>
                       <Switch
@@ -346,7 +346,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                         <ShieldCheck className="w-5 h-5 text-blue-400" />
                         <div>
                           <p className="text-white font-medium text-sm">Verified Host</p>
-                          <p className="text-white/60 text-xs">ID-verified trusted hosts</p>
+                          <p className="text-white/90 text-xs">ID-verified trusted hosts</p>
                         </div>
                       </div>
                       <Switch
@@ -377,7 +377,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
                             'justify-start gap-2 h-auto py-3 border-white/20',
                             isSelected
                               ? 'bg-mansagold/20 border-mansagold/50 text-mansagold'
-                              : 'bg-transparent text-white/70 hover:bg-white/10 hover:text-white'
+                              : 'bg-transparent text-white hover:bg-white/10 hover:text-white'
                           )}
                         >
                           <Icon className="w-4 h-4" />

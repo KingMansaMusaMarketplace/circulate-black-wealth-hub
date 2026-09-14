@@ -168,7 +168,7 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
         <h3 className="font-semibold mb-2 text-white">
           {uploading ? 'Uploading…' : 'Upload Photos'}
         </h3>
-        <p className="text-sm text-white/60 mb-4">
+        <p className="text-sm text-white/90 mb-4">
           JPG, PNG, or WEBP · up to {MAX_SIZE_MB} MB each · max {MAX_PHOTOS} photos
         </p>
         <Button
@@ -221,7 +221,7 @@ const PropertyPhotoUploader: React.FC<PropertyPhotoUploaderProps> = ({
         </div>
       )}
 
-      <p className="text-sm text-white/60">
+      <p className="text-sm text-white/90">
         Tip: Properties with high-quality photos get 40% more bookings. Include every room, outdoor
         spaces, and unique features. The first photo is your cover image.
       </p>

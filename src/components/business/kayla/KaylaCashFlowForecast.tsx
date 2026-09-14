@@ -73,7 +73,7 @@ export const KaylaCashFlowForecast: React.FC<Props> = ({ businessId }) => {
             <BarChart3 className="h-5 w-5 text-blue-400" />
             Cash Flow Forecast
           </h3>
-          <p className="text-sm text-white/50">AI-powered 3-month financial projections</p>
+          <p className="text-sm text-white/80">AI-powered 3-month financial projections</p>
         </div>
         <Button
           onClick={generateForecast}
@@ -90,7 +90,7 @@ export const KaylaCashFlowForecast: React.FC<Props> = ({ businessId }) => {
           <CardContent className="p-8 text-center">
             <BarChart3 className="h-12 w-12 text-blue-400/40 mx-auto mb-3" />
             <h3 className="text-lg font-medium text-white mb-1">No forecasts yet</h3>
-            <p className="text-sm text-white/50">Click "Generate Forecast" to have Kayla analyze your cash flow trends.</p>
+            <p className="text-sm text-white/80">Click "Generate Forecast" to have Kayla analyze your cash flow trends.</p>
           </CardContent>
         </Card>
       ) : (
@@ -99,23 +99,23 @@ export const KaylaCashFlowForecast: React.FC<Props> = ({ businessId }) => {
             {forecasts.map((f) => (
               <Card key={f.id} className="bg-slate-800/40 border-white/10">
                 <CardContent className="p-4">
-                  <h4 className="text-sm font-medium text-white/70 mb-3">{f.forecast_period}</h4>
+                  <h4 className="text-sm font-medium text-white mb-3">{f.forecast_period}</h4>
 
                   <div className="space-y-2 mb-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-white/50">Revenue</span>
+                      <span className="text-xs text-white/80">Revenue</span>
                       <span className="text-sm font-semibold text-emerald-400 flex items-center gap-1">
                         <TrendingUp className="h-3 w-3" /> {fmt(f.projected_revenue)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-white/50">Expenses</span>
+                      <span className="text-xs text-white/80">Expenses</span>
                       <span className="text-sm font-semibold text-red-400 flex items-center gap-1">
                         <TrendingDown className="h-3 w-3" /> {fmt(f.projected_expenses)}
                       </span>
                     </div>
                     <div className="border-t border-white/10 pt-2 flex justify-between items-center">
-                      <span className="text-xs text-white/70 font-medium">Net</span>
+                      <span className="text-xs text-white font-medium">Net</span>
                       <span className={`text-sm font-bold ${f.projected_net >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {f.projected_net >= 0 ? '+' : '-'}{fmt(f.projected_net)}
                       </span>
@@ -129,11 +129,11 @@ export const KaylaCashFlowForecast: React.FC<Props> = ({ businessId }) => {
                         style={{ width: `${f.confidence_level}%` }}
                       />
                     </div>
-                    <span className="text-xs text-white/50">{f.confidence_level}%</span>
+                    <span className="text-xs text-white/80">{f.confidence_level}%</span>
                   </div>
 
                   {f.ai_summary && (
-                    <p className="text-xs text-white/50 italic">{f.ai_summary}</p>
+                    <p className="text-xs text-white/80 italic">{f.ai_summary}</p>
                   )}
                   <div className="mt-3">
                     <AgentFeedbackButtons
@@ -160,7 +160,7 @@ export const KaylaCashFlowForecast: React.FC<Props> = ({ businessId }) => {
                     </h4>
                     <ul className="space-y-1">
                       {forecasts[0].risk_factors.map((r, i) => (
-                        <li key={i} className="text-xs text-white/60 flex items-start gap-2">
+                        <li key={i} className="text-xs text-white/90 flex items-start gap-2">
                           <span className="text-red-400 mt-0.5">•</span> {r}
                         </li>
                       ))}
@@ -176,7 +176,7 @@ export const KaylaCashFlowForecast: React.FC<Props> = ({ businessId }) => {
                     </h4>
                     <ul className="space-y-1">
                       {forecasts[0].opportunities.map((o, i) => (
-                        <li key={i} className="text-xs text-white/60 flex items-start gap-2">
+                        <li key={i} className="text-xs text-white/90 flex items-start gap-2">
                           <span className="text-emerald-400 mt-0.5">•</span> {o}
                         </li>
                       ))}

@@ -170,10 +170,10 @@ const SubscriptionsAdmin: React.FC = () => {
 
           {customer && (
             <div className="rounded-md border border-white/10 bg-white/5 p-4 space-y-1">
-              <div className="text-sm text-white/70">Stripe Customer</div>
+              <div className="text-sm text-white">Stripe Customer</div>
               <div className="font-mono text-xs">{customer.id}</div>
               <div>{customer.name ?? '—'} · {customer.email}</div>
-              <div className="text-xs text-white/60">
+              <div className="text-xs text-white/90">
                 Account balance: <span className={customer.balance < 0 ? 'text-green-400' : 'text-white'}>
                   {fmtCents(Math.abs(customer.balance))} {customer.balance < 0 ? '(credit)' : customer.balance > 0 ? '(owed)' : ''}
                 </span>
@@ -197,18 +197,18 @@ const SubscriptionsAdmin: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-sm text-white/70">
+            <div className="text-sm text-white">
               {sub.items.map(it => (
                 <div key={it.id}>
                   {fmtCents(it.unit_amount, it.currency)} / {it.interval ?? 'one-time'} · {it.nickname ?? it.price_id}
                 </div>
               ))}
-              <div className="text-xs text-white/50 mt-1">Renews / ends: {fmtTs(sub.current_period_end)}</div>
+              <div className="text-xs text-white/80 mt-1">Renews / ends: {fmtTs(sub.current_period_end)}</div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-white/70 text-xs"><ArrowUpDown className="inline h-3 w-3 mr-1" /> Change Tier</Label>
+                <Label className="text-white text-xs"><ArrowUpDown className="inline h-3 w-3 mr-1" /> Change Tier</Label>
                 <div className="flex gap-2">
                   <Select value={tierTarget[sub.id] ?? ''} onValueChange={v => setTierTarget(t => ({ ...t, [sub.id]: v }))}>
                     <SelectTrigger className="bg-white/5 border-white/10"><SelectValue placeholder="Pick new price" /></SelectTrigger>
@@ -226,7 +226,7 @@ const SubscriptionsAdmin: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-white/70 text-xs"><Gift className="inline h-3 w-3 mr-1" /> Comp 1 Month</Label>
+                <Label className="text-white text-xs"><Gift className="inline h-3 w-3 mr-1" /> Comp 1 Month</Label>
                 <Button variant="outline" onClick={() => compMonth(sub)} disabled={busy} className="w-full">
                   Apply 100% off coupon (once)
                 </Button>
@@ -251,16 +251,16 @@ const SubscriptionsAdmin: React.FC = () => {
           <CardContent className="space-y-3">
             <div className="grid md:grid-cols-3 gap-3">
               <div>
-                <Label className="text-white/70 text-xs">Amount (USD)</Label>
+                <Label className="text-white text-xs">Amount (USD)</Label>
                 <Input type="number" step="0.01" value={creditAmount} onChange={e => setCreditAmount(e.target.value)} className="bg-white/5 border-white/10" />
               </div>
               <div className="md:col-span-2">
-                <Label className="text-white/70 text-xs">Reason / note (audit-logged)</Label>
+                <Label className="text-white text-xs">Reason / note (audit-logged)</Label>
                 <Input value={reason} onChange={e => setReason(e.target.value)} className="bg-white/5 border-white/10" placeholder="e.g. apology for outage" />
               </div>
             </div>
             <Button onClick={issueCredit} disabled={busy}>Apply credit to customer balance</Button>
-            <p className="text-xs text-white/50">Credit reduces the next invoice automatically.</p>
+            <p className="text-xs text-white/80">Credit reduces the next invoice automatically.</p>
           </CardContent>
         </Card>
       )}
@@ -270,7 +270,7 @@ const SubscriptionsAdmin: React.FC = () => {
           <CardHeader><CardTitle className="text-base">Recent Invoices</CardTitle></CardHeader>
           <CardContent>
             <table className="w-full text-sm">
-              <thead className="text-white/60 text-xs">
+              <thead className="text-white/90 text-xs">
                 <tr><th className="text-left p-2">Number</th><th className="text-left p-2">Date</th><th className="text-left p-2">Status</th><th className="text-right p-2">Amount</th><th></th></tr>
               </thead>
               <tbody>

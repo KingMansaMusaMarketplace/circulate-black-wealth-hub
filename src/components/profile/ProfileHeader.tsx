@@ -33,14 +33,14 @@ const ProfileHeader = () => {
             <CardTitle className="text-xl text-white">
               {user?.user_metadata?.fullName || user?.email}
             </CardTitle>
-            <CardDescription className="text-white/70">
+            <CardDescription className="text-white">
               {userType && `${userType.charAt(0).toUpperCase()}${userType.slice(1)} Account`}
             </CardDescription>
           </div>
         </div>
       </CardHeader>
       <CardContent className="pt-2">
-        <div className="text-sm text-white/80">
+        <div className="text-sm text-white">
           <p>Member since: {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</p>
           <p>Email: {user?.email || 'N/A'}</p>
         </div>

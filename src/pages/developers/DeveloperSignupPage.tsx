@@ -80,7 +80,7 @@ const DeveloperSignupPage: React.FC = () => {
         <Card className="w-full max-w-md glass-card border-white/10">
           <CardHeader className="text-center">
             <CardTitle className="text-white">Sign In Required</CardTitle>
-            <CardDescription className="text-white/60">
+            <CardDescription className="text-white/90">
               Please sign in to create a developer account
             </CardDescription>
           </CardHeader>
@@ -103,7 +103,7 @@ const DeveloperSignupPage: React.FC = () => {
       <div className="max-w-2xl mx-auto relative z-10">
         <Button 
           variant="ghost" 
-          className="mb-6 text-white/70 hover:text-white hover:bg-white/10"
+          className="mb-6 text-white hover:text-white hover:bg-white/10"
           onClick={() => navigate('/developers')}
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -118,7 +118,7 @@ const DeveloperSignupPage: React.FC = () => {
           <Card className="glass-card border-white/10">
             <CardHeader>
               <CardTitle className="text-2xl text-white">Create Developer Account</CardTitle>
-              <CardDescription className="text-white/60">
+              <CardDescription className="text-white/90">
                 Register your company to get API access to our patented engines.
                 Start with the Free tier and upgrade anytime.
               </CardDescription>
@@ -126,7 +126,7 @@ const DeveloperSignupPage: React.FC = () => {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="company_name" className="flex items-center gap-2 text-white/80">
+                  <Label htmlFor="company_name" className="flex items-center gap-2 text-white">
                     <Building2 className="h-4 w-4 text-mansagold" />
                     Company Name *
                   </Label>
@@ -141,7 +141,7 @@ const DeveloperSignupPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="company_website" className="flex items-center gap-2 text-white/80">
+                  <Label htmlFor="company_website" className="flex items-center gap-2 text-white">
                     <Globe className="h-4 w-4 text-mansablue" />
                     Website
                   </Label>
@@ -156,7 +156,7 @@ const DeveloperSignupPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="company_description" className="flex items-center gap-2 text-white/80">
+                  <Label htmlFor="company_description" className="flex items-center gap-2 text-white">
                     <FileText className="h-4 w-4 text-mansablue" />
                     Project Description
                   </Label>
@@ -180,7 +180,7 @@ const DeveloperSignupPage: React.FC = () => {
                       '100 Fraud analyses/month',
                       'Community support',
                     ].map((feature) => (
-                      <li key={feature} className="flex items-center gap-2 text-sm text-white/70">
+                      <li key={feature} className="flex items-center gap-2 text-sm text-white">
                         <CheckCircle className="h-4 w-4 text-mansagold" />
                         {feature}
                       </li>

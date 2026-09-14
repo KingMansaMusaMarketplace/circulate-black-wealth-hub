@@ -78,7 +78,7 @@ const BusinessOnboardingPage: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold mx-auto mb-4"></div>
-          <p className="text-white/60">Loading your business...</p>
+          <p className="text-white/90">Loading your business...</p>
         </div>
       </div>
     );
@@ -96,12 +96,12 @@ const BusinessOnboardingPage: React.FC = () => {
               <Button
                 variant="ghost"
                 onClick={() => setShowBuilder(false)}
-                className="mb-4 text-white/70 hover:text-mansagold hover:bg-white/5"
+                className="mb-4 text-white hover:text-mansagold hover:bg-white/5"
               >
                 ← Back
               </Button>
               <h1 className="text-2xl font-bold text-white">Complete Your Listing</h1>
-              <p className="text-white/60">Fill in the details to go live</p>
+              <p className="text-white/90">Fill in the details to go live</p>
             </div>
             
             <BusinessProfileBuilder
@@ -156,7 +156,7 @@ const BusinessOnboardingPage: React.FC = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Welcome, {businessName}! 🎉
             </h1>
-            <p className="text-lg text-white/70">
+            <p className="text-lg text-white">
               Your business is almost ready to be discovered by customers on 1325.AI.
             </p>
           </motion.div>
@@ -175,7 +175,7 @@ const BusinessOnboardingPage: React.FC = () => {
                   <span className="text-sm font-medium tracking-wider">PREVIEW</span>
                 </div>
                 <CardTitle className="text-xl text-white">{businessName}</CardTitle>
-                <CardDescription className="text-white/60">
+                <CardDescription className="text-white/90">
                   {business?.category || 'Category not set'} • {business?.city || 'Location not set'}
                 </CardDescription>
               </CardHeader>
@@ -186,7 +186,7 @@ const BusinessOnboardingPage: React.FC = () => {
                     <p className="text-sm">Add photos to stand out</p>
                   </div>
                 </div>
-                <p className="text-white/60 text-sm italic">
+                <p className="text-white/90 text-sm italic">
                   {business?.description || 'Add a description to tell customers about your business...'}
                 </p>
               </CardContent>
@@ -230,11 +230,11 @@ const BusinessOnboardingPage: React.FC = () => {
                       {step.done ? (
                         <CheckCircle className="w-5 h-5 text-emerald-400" />
                       ) : (
-                        <step.icon className="w-5 h-5 text-white/50" />
+                        <step.icon className="w-5 h-5 text-white/80" />
                       )}
                     </div>
                     <div className="flex-1">
-                      <p className={`font-medium ${step.done ? 'text-emerald-300' : 'text-white/80'}`}>
+                      <p className={`font-medium ${step.done ? 'text-emerald-300' : 'text-white'}`}>
                         {step.label}
                       </p>
                     </div>
@@ -260,7 +260,7 @@ const BusinessOnboardingPage: React.FC = () => {
               <Users className="w-5 h-5 text-mansagold" />
               Why go live today?
             </h3>
-            <ul className="space-y-2 text-sm text-white/80">
+            <ul className="space-y-2 text-sm text-white">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
                 Get discovered by customers actively looking for community businesses
@@ -294,7 +294,7 @@ const BusinessOnboardingPage: React.FC = () => {
             <Button
               variant="ghost"
               onClick={handleSkip}
-              className="w-full text-white/60 hover:text-white hover:bg-white/5"
+              className="w-full text-white/90 hover:text-white hover:bg-white/5"
             >
               I'll do this later
             </Button>

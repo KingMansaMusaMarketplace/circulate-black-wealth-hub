@@ -27,11 +27,11 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
               <span className="font-bold text-yellow-400">100% FREE Forever</span>
             </div>
             <ul className="mt-3 space-y-1">
-              <li className="text-sm text-white/80">• Full directory access</li>
-              <li className="text-sm text-white/80">• QR scanning for discounts</li>
-              <li className="text-sm text-white/80">• Loyalty points system</li>
-              <li className="text-sm text-white/80">• Earn and redeem rewards</li>
-              <li className="text-sm text-white/80">• Exclusive deals access</li>
+              <li className="text-sm text-white">• Full directory access</li>
+              <li className="text-sm text-white">• QR scanning for discounts</li>
+              <li className="text-sm text-white">• Loyalty points system</li>
+              <li className="text-sm text-white">• Earn and redeem rewards</li>
+              <li className="text-sm text-white">• Exclusive deals access</li>
             </ul>
           </div>
           
@@ -61,10 +61,10 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
               </div>
             </div>
             <ul className="mt-3 space-y-1 pt-3 border-t border-white/20">
-              <li className="text-sm text-white/80">• Business listing in directory</li>
-              <li className="text-sm text-white/80">• Customer analytics dashboard</li>
-              <li className="text-sm text-white/80">• QR code generation</li>
-              <li className="text-sm text-white/80">• Premium support & mentorship</li>
+              <li className="text-sm text-white">• Business listing in directory</li>
+              <li className="text-sm text-white">• Customer analytics dashboard</li>
+              <li className="text-sm text-white">• QR code generation</li>
+              <li className="text-sm text-white">• Premium support & mentorship</li>
             </ul>
           </div>
         </div>

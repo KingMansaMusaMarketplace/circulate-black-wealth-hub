@@ -80,7 +80,7 @@ const RewardsTab: React.FC<RewardsTabProps> = ({
                     className={
                       availablePoints >= reward.pointsCost 
                         ? "bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 hover:from-yellow-600 hover:to-yellow-700" 
-                        : "bg-white/10 text-white/50 border border-white/20"
+                        : "bg-white/10 text-white/80 border border-white/20"
                     }
                   >
                     Redeem

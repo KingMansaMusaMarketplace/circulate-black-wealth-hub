@@ -235,7 +235,7 @@ const AllPagesContent = () => {
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
                   All Pages Directory
                 </h1>
-                <p className="text-base text-white/70 max-w-2xl">
+                <p className="text-base text-white max-w-2xl">
                   A complete, navigable map of every experience across the 1325.AI platform —
                   member, business, sponsor, and administrative.
                 </p>
@@ -244,11 +244,11 @@ const AllPagesContent = () => {
               <div className="grid grid-cols-2 gap-3 lg:min-w-[280px]">
                 <div className="rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-xl px-4 py-3">
                   <p className="text-2xl font-bold text-mansagold">{pages.length}</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/60">Total Pages</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/90">Total Pages</p>
                 </div>
                 <div className="rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-xl px-4 py-3">
                   <p className="text-2xl font-bold text-mansagold">{categories.length}</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/60">Sections</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/90">Sections</p>
                 </div>
               </div>
             </div>
@@ -303,10 +303,10 @@ const AllPagesContent = () => {
                             <button
                               key={category}
                               onClick={() => scrollToCategory(category)}
-                              className="w-full flex items-center justify-between px-3 py-2 text-sm text-left text-white/70 hover:text-white hover:bg-white/[0.06] rounded-lg transition-colors group"
+                              className="w-full flex items-center justify-between px-3 py-2 text-sm text-left text-white hover:text-white hover:bg-white/[0.06] rounded-lg transition-colors group"
                             >
                               <span className="font-medium">{category}</span>
-                              <span className="text-[11px] font-semibold text-white/50 group-hover:text-mansagold transition-colors">
+                              <span className="text-[11px] font-semibold text-white/80 group-hover:text-mansagold transition-colors">
                                 {count}
                               </span>
                             </button>
@@ -339,11 +339,11 @@ const AllPagesContent = () => {
                             <span className="h-8 w-1 rounded-full bg-gradient-to-b from-mansagold to-amber-600" />
                             <div className="text-left">
                               <h2 className="text-lg font-semibold tracking-tight text-white">{category}</h2>
-                              <p className="text-xs text-white/50">{categoryPages.length} pages</p>
+                              <p className="text-xs text-white/80">{categoryPages.length} pages</p>
                             </div>
                           </div>
                           <ChevronDown
-                            className={`h-4 w-4 text-white/50 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-mansagold' : ''}`}
+                            className={`h-4 w-4 text-white/80 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-mansagold' : ''}`}
                           />
                         </button>
                       </CollapsibleTrigger>
@@ -362,7 +362,7 @@ const AllPagesContent = () => {
                                       <h3 className="text-sm font-semibold text-white truncate group-hover:text-mansagold transition-colors">
                                         {page.name}
                                       </h3>
-                                      <p className="text-xs text-white/60 truncate mt-0.5">{page.description}</p>
+                                      <p className="text-xs text-white/90 truncate mt-0.5">{page.description}</p>
                                       <code className="text-[11px] font-mono text-blue-300/70 block truncate mt-1.5">
                                         {page.path}
                                       </code>
@@ -384,7 +384,7 @@ const AllPagesContent = () => {
                 <Card className="bg-white/[0.03] backdrop-blur-xl border-white/10 rounded-2xl p-16 text-center">
                   <Search className="h-10 w-10 text-white/30 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-white mb-1">No pages found</h3>
-                  <p className="text-sm text-white/60">Try a different search term.</p>
+                  <p className="text-sm text-white/90">Try a different search term.</p>
                 </Card>
               )}
             </div>

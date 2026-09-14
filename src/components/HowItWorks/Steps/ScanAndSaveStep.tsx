@@ -28,7 +28,7 @@ const ScanAndSaveStep: React.FC<ScanAndSaveStepProps> = ({ isHovered }) => {
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center mr-2">
-                  <span className="text-xs font-bold text-white/70">SB</span>
+                  <span className="text-xs font-bold text-white">SB</span>
                 </div>
                 <h5 className="font-medium text-white">Soul Bistro</h5>
               </div>

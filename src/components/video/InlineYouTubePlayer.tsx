@@ -91,7 +91,7 @@ const InlineYouTubePlayer: React.FC<InlineYouTubePlayerProps> = ({
           </a>
         ) : iframeBlocked ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 bg-black">
-            <p className="text-white/80 text-sm mb-3">
+            <p className="text-white text-sm mb-3">
               YouTube blocked inline playback for this video.
             </p>
             <a
@@ -124,7 +124,7 @@ const InlineYouTubePlayer: React.FC<InlineYouTubePlayerProps> = ({
           {title}
         </h3>
         {publishedAt && (
-          <p className="text-xs text-white/50 mt-2">
+          <p className="text-xs text-white/80 mt-2">
             {new Date(publishedAt).toLocaleDateString(undefined, {
               month: 'short',
               day: 'numeric',

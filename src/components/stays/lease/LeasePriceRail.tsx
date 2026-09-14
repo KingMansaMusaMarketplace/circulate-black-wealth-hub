@@ -22,7 +22,7 @@ export const PRICE_TIERS: { value: PriceTier; label: string; range: [number, num
 
 const LeasePriceRail: React.FC<Props> = ({ active, onChange, counts }) => (
   <div className="flex items-center gap-1.5 flex-wrap text-sm">
-    <span className="text-white/50 mr-1">Budget:</span>
+    <span className="text-white/80 mr-1">Budget:</span>
     {PRICE_TIERS.map((t) => {
       const isActive = active === t.value;
       const count = counts?.[t.value];
@@ -33,13 +33,13 @@ const LeasePriceRail: React.FC<Props> = ({ active, onChange, counts }) => (
           className={`px-2.5 py-1 rounded-md border transition font-medium ${
             isActive
               ? "bg-mansagold text-black border-mansagold"
-              : "bg-white/5 text-white/80 border-white/15 hover:bg-white/10"
+              : "bg-white/5 text-white border-white/15 hover:bg-white/10"
           }`}
           aria-pressed={isActive}
         >
           {t.label}
           {typeof count === "number" && (
-            <span className={`ml-1 text-xs ${isActive ? "text-black/70" : "text-white/50"}`}>
+            <span className={`ml-1 text-xs ${isActive ? "text-black/70" : "text-white/80"}`}>
               {count}
             </span>
           )}

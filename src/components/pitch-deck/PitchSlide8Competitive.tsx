@@ -59,7 +59,7 @@ const PitchSlide8Competitive: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
             Competitive <span className="text-mansagold">Landscape</span>
           </h2>
-          <p className="text-base text-white/60 max-w-3xl mx-auto">
+          <p className="text-base text-white/90 max-w-3xl mx-auto">
             "No platform scores above 3.5/8 against 1325.AI's full stack"
           </p>
         </div>
@@ -72,7 +72,7 @@ const PitchSlide8Competitive: React.FC = () => {
                   <tr className="border-b border-white/10">
                     <th className="text-left p-3 text-white font-bold text-xs">Platform</th>
                     {capabilities.map((cap, i) => (
-                      <th key={i} className="text-center p-2 text-white/60 font-bold text-[10px] uppercase tracking-wide">
+                      <th key={i} className="text-center p-2 text-white/90 font-bold text-[10px] uppercase tracking-wide">
                         {cap}
                       </th>
                     ))}
@@ -105,7 +105,7 @@ const PitchSlide8Competitive: React.FC = () => {
         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
           {moats.map((moat, i) => (
             <Card key={i} className="p-3 bg-black/60 border border-mansagold/30 text-center">
-              <p className="text-xs text-white/50 uppercase tracking-wider mb-1">{moat.label}</p>
+              <p className="text-xs text-white/80 uppercase tracking-wider mb-1">{moat.label}</p>
               <p className="text-sm text-mansagold font-bold flex items-center justify-center gap-1">
                 <Shield className="w-3 h-3" />
                 {moat.rating}
@@ -116,7 +116,7 @@ const PitchSlide8Competitive: React.FC = () => {
 
         <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
           <Card className="p-3 bg-black/60 border border-white/10">
-            <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Full Stack</p>
+            <p className="text-xs text-white/80 uppercase tracking-wider mb-1">Full Stack</p>
             <p className="text-sm text-white font-semibold">
               8/8 Capabilities — Only platform with complete coverage
             </p>
@@ -128,7 +128,7 @@ const PitchSlide8Competitive: React.FC = () => {
             </p>
           </Card>
           <Card className="p-3 bg-black/60 border border-white/10">
-            <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Market Position</p>
+            <p className="text-xs text-white/80 uppercase tracking-wider mb-1">Market Position</p>
             <p className="text-sm text-white font-semibold">
               0 direct competitors across 30+ platforms analyzed
             </p>

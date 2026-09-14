@@ -49,9 +49,9 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
         <Icon className={`h-8 w-8 mr-3 ${color}`} />
         <div>
           <p className="text-2xl font-bold text-white">{value}</p>
-          <p className="text-sm text-white/70">{title}</p>
+          <p className="text-sm text-white">{title}</p>
           {trend && (
-            <p className="text-xs text-white/60">
+            <p className="text-xs text-white/90">
               <span className="text-green-400">+{trend}%</span> from last month
             </p>
           )}
@@ -99,7 +99,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-white">Business Analytics</h2>
-            <p className="text-white/70">
+            <p className="text-white">
               Track your business performance and engagement metrics
             </p>
           </div>
@@ -141,7 +141,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
                 Generated {new Date(insights.metadata.generatedAt).toLocaleDateString()}
               </Badge>
             </CardTitle>
-            <CardDescription className="text-white/70">{insights.summary}</CardDescription>
+            <CardDescription className="text-white">{insights.summary}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Key Insights */}
@@ -156,7 +156,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <h5 className="font-medium text-sm text-white">{insight.title}</h5>
-                        <p className="text-sm text-white/70 mt-1">{insight.description}</p>
+                        <p className="text-sm text-white mt-1">{insight.description}</p>
                       </div>
                       <Badge variant="outline" className={getImpactColor(insight.impact)}>
                         {insight.impact} impact
@@ -215,7 +215,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
                         </Badge>
                       </div>
                     </div>
-                    <p className="text-sm text-white/70">{rec.description}</p>
+                    <p className="text-sm text-white">{rec.description}</p>
                   </div>
                 ))}
               </div>
@@ -238,7 +238,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
                     }`} />
                     <span className="text-sm font-medium capitalize text-white">{insights.trends.direction} Trend</span>
                   </div>
-                  <p className="text-sm text-white/70 mb-2">{insights.trends.description}</p>
+                  <p className="text-sm text-white mb-2">{insights.trends.description}</p>
                   <div className="flex flex-wrap gap-1">
                     {insights.trends.keyMetrics.map((metric, index) => (
                       <Badge key={index} variant="secondary" className="text-xs bg-blue-500/20 text-blue-300 border-blue-500/30">
@@ -260,7 +260,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <h5 className="font-medium text-sm text-white">{step.step}</h5>
-                          <p className="text-sm text-white/70 mt-1">{step.description}</p>
+                          <p className="text-sm text-white mt-1">{step.description}</p>
                         </div>
                         <Badge variant="outline" className="text-xs bg-purple-500/20 text-purple-300 border-purple-500/30">
                           {step.timeline}
@@ -280,7 +280,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
           <CardContent className="flex flex-col items-center justify-center py-8 text-center">
             <Brain className="h-12 w-12 text-yellow-400/50 mb-4" />
             <h3 className="text-lg font-semibold mb-2 text-white">Get AI-Powered Business Insights</h3>
-            <p className="text-white/70 mb-4 max-w-md">
+            <p className="text-white mb-4 max-w-md">
               Let our AI analyze your business data and provide personalized recommendations to grow your customer engagement and revenue.
             </p>
             <Button onClick={handleGenerateInsights} disabled={isGenerating} className="bg-gradient-to-r from-blue-600 to-yellow-600 hover:from-blue-700 hover:to-yellow-700 text-white">
@@ -315,7 +315,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
             <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">Monthly Performance</CardTitle>
-                <CardDescription className="text-white/70">
+                <CardDescription className="text-white">
                   Profile views and QR code scans over time
                 </CardDescription>
               </CardHeader>
@@ -344,7 +344,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
             <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">Category Performance</CardTitle>
-                <CardDescription className="text-white/70">
+                <CardDescription className="text-white">
                   Overall business performance metrics
                 </CardDescription>
               </CardHeader>
@@ -383,7 +383,7 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
           <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
               <CardTitle className="text-white">Customer Engagement</CardTitle>
-              <CardDescription className="text-white/70">
+              <CardDescription className="text-white">
                 Detailed engagement metrics and patterns
               </CardDescription>
             </CardHeader>
@@ -392,19 +392,19 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-slate-800/30 rounded-lg border border-white/10">
                     <p className="text-2xl font-bold text-blue-400">{metrics.totalViews}</p>
-                    <p className="text-sm text-white/70">Total Views</p>
+                    <p className="text-sm text-white">Total Views</p>
                   </div>
                   <div className="text-center p-4 bg-slate-800/30 rounded-lg border border-white/10">
                     <p className="text-2xl font-bold text-green-400">{metrics.totalScans}</p>
-                    <p className="text-sm text-white/70">QR Scans</p>
+                    <p className="text-sm text-white">QR Scans</p>
                   </div>
                   <div className="text-center p-4 bg-slate-800/30 rounded-lg border border-white/10">
                     <p className="text-2xl font-bold text-purple-400">{metrics.totalShares}</p>
-                    <p className="text-sm text-white/70">Shares</p>
+                    <p className="text-sm text-white">Shares</p>
                   </div>
                   <div className="text-center p-4 bg-slate-800/30 rounded-lg border border-white/10">
                     <p className="text-2xl font-bold text-yellow-400">{metrics.avgRating}</p>
-                    <p className="text-sm text-white/70">Rating</p>
+                    <p className="text-sm text-white">Rating</p>
                   </div>
                 </div>
               </div>
@@ -416,12 +416,12 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
           <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
               <CardTitle className="text-white">Audience Demographics</CardTitle>
-              <CardDescription className="text-white/70">
+              <CardDescription className="text-white">
                 Customer demographics and preferences
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-white/70">
+              <div className="text-center py-8 text-white">
                 <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>Demographics data will be available once you have more customer interactions.</p>
               </div>

@@ -21,7 +21,7 @@ const MissionPreview: React.FC = () => {
           </p>
 
           {/* Brand origin context */}
-          <p className="text-white/50 max-w-xl mx-auto text-sm mt-3 italic">
+          <p className="text-white/80 max-w-xl mx-auto text-sm mt-3 italic">
             Named for Mansa Musa's 1325 pilgrimage — the greatest act of wealth circulation in history.
           </p>
 

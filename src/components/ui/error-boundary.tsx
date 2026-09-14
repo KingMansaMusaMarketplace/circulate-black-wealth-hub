@@ -63,7 +63,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </h1>
 
               {/* Description */}
-              <p className="text-white/80 mb-6 font-body">
+              <p className="text-white mb-6 font-body">
                 We apologize for the inconvenience. An unexpected error occurred.
               </p>
 

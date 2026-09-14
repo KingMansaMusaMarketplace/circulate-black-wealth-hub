@@ -69,7 +69,7 @@ const EcosystemImpactCard: React.FC<EcosystemImpactCardProps> = ({
                 </div>
                 <div>
                   <p className="text-lg font-bold text-white">{metric.value.toLocaleString()}</p>
-                  <p className="text-xs text-white/50">{metric.label}</p>
+                  <p className="text-xs text-white/80">{metric.label}</p>
                 </div>
                 {index < 2 && (
                   <ArrowRight className="h-4 w-4 text-white/20 hidden sm:block" />
@@ -92,7 +92,7 @@ const EcosystemImpactCard: React.FC<EcosystemImpactCardProps> = ({
                 <TrendingUp className="h-5 w-5 text-mansagold" />
                 Ecosystem Impact
               </CardTitle>
-              <CardDescription className="text-white/60">
+              <CardDescription className="text-white/90">
                 Real-time cross-pollination metrics
               </CardDescription>
             </div>
@@ -120,7 +120,7 @@ const EcosystemImpactCard: React.FC<EcosystemImpactCardProps> = ({
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-white">{metric.value.toLocaleString()}</p>
-                    <p className="text-sm text-white/50">{metric.label}</p>
+                    <p className="text-sm text-white/80">{metric.label}</p>
                   </div>
                 </div>
               </motion.div>
@@ -144,7 +144,7 @@ const EcosystemImpactCard: React.FC<EcosystemImpactCardProps> = ({
         <div className="bg-gradient-to-r from-mansagold/10 to-mansablue/10 rounded-xl p-4 border border-white/10">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-white/60">Combined Ecosystem Revenue</p>
+              <p className="text-sm text-white/90">Combined Ecosystem Revenue</p>
               <p className="text-2xl font-bold text-white">
                 ${((stats?.total_partner_earnings || 0) + (stats?.total_technical_partner_earnings || 0)).toLocaleString()}
               </p>

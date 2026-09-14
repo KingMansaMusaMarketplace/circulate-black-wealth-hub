@@ -216,7 +216,7 @@ const PropertyDetailPage: React.FC = () => {
       <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4 text-white">Property not found</h1>
-          <p className="text-white/60 mb-6">
+          <p className="text-white/90 mb-6">
             This property may have been removed or is no longer available.
           </p>
           <Button onClick={() => navigate('/stays')} className="bg-mansagold text-black hover:bg-mansagold/90">
@@ -324,7 +324,7 @@ const PropertyDetailPage: React.FC = () => {
                   <h1 className="text-3xl font-bold text-white mb-2">
                     {property.title}
                   </h1>
-                  <div className="flex items-center gap-4 text-white/60">
+                  <div className="flex items-center gap-4 text-white/90">
                     <div className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
                       <span>{property.city}, {property.state}</span>
@@ -394,19 +394,19 @@ const PropertyDetailPage: React.FC = () => {
             {/* Property Stats */}
             <div className="flex flex-wrap gap-6 text-white">
               <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-white/60" />
+                <Users className="w-5 h-5 text-white/90" />
                 <span>{property.max_guests} guests</span>
               </div>
               <div className="flex items-center gap-2">
-                <Bed className="w-5 h-5 text-white/60" />
+                <Bed className="w-5 h-5 text-white/90" />
                 <span>{property.bedrooms} bedroom{property.bedrooms !== 1 ? 's' : ''}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Bath className="w-5 h-5 text-white/60" />
+                <Bath className="w-5 h-5 text-white/90" />
                 <span>{property.bathrooms} bathroom{property.bathrooms !== 1 ? 's' : ''}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-white/60" />
+                <Clock className="w-5 h-5 text-white/90" />
                 <span>Check-in: {property.check_in_time}</span>
               </div>
             </div>
@@ -416,7 +416,7 @@ const PropertyDetailPage: React.FC = () => {
             {/* Description */}
             <div>
               <h2 className="text-xl font-semibold mb-4 text-white">About this place</h2>
-              <p className="text-white/70 whitespace-pre-line">
+              <p className="text-white whitespace-pre-line">
                 {property.description || 'No description provided.'}
               </p>
             </div>
@@ -439,7 +439,7 @@ const PropertyDetailPage: React.FC = () => {
                 <Separator className="bg-white/10" />
                 <div>
                   <h2 className="text-xl font-semibold mb-4 text-white">House Rules</h2>
-                  <p className="text-white/70 whitespace-pre-line">
+                  <p className="text-white whitespace-pre-line">
                     {property.house_rules}
                   </p>
                 </div>
@@ -473,14 +473,14 @@ const PropertyDetailPage: React.FC = () => {
                         <span className="text-2xl font-bold text-mansagold">
                           ${Number(property.base_monthly_rate).toLocaleString()}
                         </span>
-                        <span className="text-white/60 text-base font-normal"> / month</span>
+                        <span className="text-white/90 text-base font-normal"> / month</span>
                       </>
                     ) : property.listing_mode === 'both' && property.base_monthly_rate ? (
                       <>
                         <span className="text-2xl font-bold text-mansagold">
                           ${property.base_nightly_rate.toLocaleString()}
                         </span>
-                        <span className="text-white/60 text-base font-normal"> / night</span>
+                        <span className="text-white/90 text-base font-normal"> / night</span>
                         <span className="text-white/40 text-sm font-normal block">
                           or ${Number(property.base_monthly_rate).toLocaleString()}/mo
                         </span>
@@ -490,7 +490,7 @@ const PropertyDetailPage: React.FC = () => {
                         <span className="text-2xl font-bold text-mansagold">
                           ${property.base_nightly_rate.toLocaleString()}
                         </span>
-                        <span className="text-white/60 text-base font-normal"> / night</span>
+                        <span className="text-white/90 text-base font-normal"> / night</span>
                       </>
                     )}
                   </div>
@@ -581,12 +581,12 @@ const PropertyDetailPage: React.FC = () => {
                   )}
                 </Button>
 
-                <p className="text-xs text-center text-white/50">
+                <p className="text-xs text-center text-white/80">
                   You won't be charged yet
                 </p>
 
                 {/* Min/Max nights */}
-                <div className="text-xs text-white/50 space-y-1">
+                <div className="text-xs text-white/80 space-y-1">
                   <p>Minimum stay: {property.min_nights} night{property.min_nights !== 1 ? 's' : ''}</p>
                   {property.max_nights < 365 && (
                     <p>Maximum stay: {property.max_nights} nights</p>
@@ -606,7 +606,7 @@ const PropertyDetailPage: React.FC = () => {
                   <><Shield className="w-5 h-5 text-mansagold" /> Identity Verification</>
                 ) : 'Confirm Your Booking'}
               </DialogTitle>
-              <DialogDescription className="text-white/60">
+              <DialogDescription className="text-white/90">
                 {bookingStep === 'identity'
                   ? 'Mansa Stays verifies guest identity for host safety'
                   : `${property.title} • ${nights} night${nights !== 1 ? 's' : ''}`}
@@ -627,13 +627,13 @@ const PropertyDetailPage: React.FC = () => {
                 {/* Booking Summary */}
                 <div className="p-4 bg-slate-800 rounded-lg border border-white/10">
                   <div className="flex justify-between mb-2">
-                    <span className="text-sm text-white/70">Check-in</span>
+                    <span className="text-sm text-white">Check-in</span>
                     <span className="font-medium text-white">
                       {dateRange?.from && format(dateRange.from, 'MMM d, yyyy')}
                     </span>
                   </div>
                   <div className="flex justify-between mb-2">
-                    <span className="text-sm text-white/70">Check-out</span>
+                    <span className="text-sm text-white">Check-out</span>
                     <span className="font-medium text-white">
                       {dateRange?.to && format(dateRange.to, 'MMM d, yyyy')}
                     </span>
@@ -680,7 +680,7 @@ const PropertyDetailPage: React.FC = () => {
                     <Shield className="w-5 h-5 text-mansagold flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="text-sm text-white font-medium mb-1">Why we verify identity</p>
-                      <p className="text-xs text-white/60">
+                      <p className="text-xs text-white/90">
                         We collect basic identity information to protect our host community. Your information is kept private and secure.
                       </p>
                     </div>
@@ -722,7 +722,7 @@ const PropertyDetailPage: React.FC = () => {
                       onChange={e => setIdAgreed(e.target.checked)}
                       className="mt-1 accent-yellow-500"
                     />
-                    <label htmlFor="idAgreed" className="text-xs text-white/70 cursor-pointer">
+                    <label htmlFor="idAgreed" className="text-xs text-white cursor-pointer">
                       I confirm that the information I've provided is accurate and I agree to Mansa Stays' guest verification policy.
                     </label>
                   </div>

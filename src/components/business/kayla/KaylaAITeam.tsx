@@ -602,7 +602,7 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
             <Bot className="w-7 h-7 text-mansagold" />
             Your AI Team
           </h2>
-          <p className="text-white/60 text-sm mt-1">
+          <p className="text-white/90 text-sm mt-1">
             {AI_EMPLOYEES.filter(e => e.status === 'active').length} AI employees working 24/7 — replacing{' '}
             <span className="text-mansagold font-semibold">${totalSavings.toLocaleString()}/mo</span> in human labor
           </p>
@@ -619,7 +619,7 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
                 size="sm"
                 onClick={() => setSelectedDept(dept)}
                 className={cn(
-                  'border-white/10 text-white/60 hover:text-white transition-all text-xs',
+                  'border-white/10 text-white/90 hover:text-white transition-all text-xs',
                   selectedDept === dept && 'bg-mansagold/20 text-mansagold border-mansagold/40'
                 )}
               >
@@ -639,7 +639,7 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
             Meet the team by name — {PERSONA_COUNT} Agentic AI Employees
           </h3>
         </div>
-        <p className="text-xs text-white/50 mb-4">
+        <p className="text-xs text-white/80 mb-4">
           Kayla orchestrates {ALL_PERSONAS.length - 1} named specialists across {Object.keys(personasByDepartment()).length} departments.
           Each persona maps to a functional agent role in the platform.
         </p>
@@ -648,9 +648,9 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
         <div className="mb-4 p-3 rounded-xl border border-mansagold/40 bg-mansagold/10">
           <div className="flex items-baseline gap-2">
             <span className="text-mansagold font-bold text-base">{KAYLA.name}</span>
-            <span className="text-white/70 text-xs">· {KAYLA.role}</span>
+            <span className="text-white text-xs">· {KAYLA.role}</span>
           </div>
-          <p className="text-white/60 text-xs mt-1">{KAYLA.tagline}</p>
+          <p className="text-white/90 text-xs mt-1">{KAYLA.tagline}</p>
         </div>
 
         {/* Specialists grouped by department */}
@@ -670,7 +670,7 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
                       className="p-2 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
                     >
                       <div className="text-white text-xs font-semibold">{p.name}</div>
-                      <div className="text-white/50 text-[10px] leading-tight mt-0.5">{p.role}</div>
+                      <div className="text-white/80 text-[10px] leading-tight mt-0.5">{p.role}</div>
                     </div>
                   ))}
                 </div>
@@ -712,7 +712,7 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
                           <h3 className="font-semibold text-white text-sm group-hover:text-mansagold transition-colors">
                             {employee.name}
                           </h3>
-                          <p className="text-xs text-white/50">{employee.role}</p>
+                          <p className="text-xs text-white/80">{employee.role}</p>
                         </div>
                       </div>
                       <div className="flex flex-col items-end gap-1">
@@ -726,7 +726,7 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
                       </div>
                     </div>
 
-                    <p className="text-xs text-white/60 mb-3 line-clamp-2">{employee.description}</p>
+                    <p className="text-xs text-white/90 mb-3 line-clamp-2">{employee.description}</p>
 
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-emerald-400 font-medium">
@@ -753,7 +753,7 @@ export const KaylaAITeam: React.FC<Props> = ({ businessId, onEmployeeSelect }) =
                             {employee.capabilities.map((cap, i) => (
                               <div key={i} className="flex items-center gap-2">
                                 <CheckCircle2 className="w-3 h-3 text-mansagold flex-shrink-0" />
-                                <span className="text-xs text-white/70">{cap}</span>
+                                <span className="text-xs text-white">{cap}</span>
                               </div>
                             ))}
                             {onEmployeeSelect && (

@@ -47,7 +47,7 @@ const KaylaTeamPage: React.FC = () => {
       <div className="min-h-screen bg-black text-white px-4 py-8 md:px-8">
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="flex items-center justify-between">
-            <Button asChild variant="ghost" size="sm" className="text-white/60 hover:text-white">
+            <Button asChild variant="ghost" size="sm" className="text-white/90 hover:text-white">
               <Link to="/business-dashboard">
                 <ArrowLeft className="h-4 w-4 mr-1" /> Dashboard
               </Link>
@@ -59,7 +59,7 @@ const KaylaTeamPage: React.FC = () => {
               <Bot className="h-8 w-8 text-mansagold" />
               Your AI Team
             </h1>
-            <p className="text-white/60 max-w-2xl">
+            <p className="text-white/90 max-w-2xl">
               Kayla orchestrates 42 specialized AI agents across Executive, Marketing,
               Finance, Operations, Community, Hospitality, Mobility, Automation, and
               Risk. They share one memory, learn from your feedback, and coordinate so
@@ -68,11 +68,11 @@ const KaylaTeamPage: React.FC = () => {
           </header>
 
           {loading ? (
-            <Card className="bg-slate-900/60 border-white/10"><CardContent className="p-8 text-center text-white/60">Loading your team…</CardContent></Card>
+            <Card className="bg-slate-900/60 border-white/10"><CardContent className="p-8 text-center text-white/90">Loading your team…</CardContent></Card>
           ) : !businessId ? (
             <Card className="bg-slate-900/60 border-white/10">
               <CardContent className="p-8 text-center">
-                <p className="text-white/60 mb-4">Set up your business profile to activate your AI team.</p>
+                <p className="text-white/90 mb-4">Set up your business profile to activate your AI team.</p>
                 <Button asChild className="bg-mansagold text-black hover:bg-mansagold/90">
                   <Link to="/business-signup">Get started</Link>
                 </Button>

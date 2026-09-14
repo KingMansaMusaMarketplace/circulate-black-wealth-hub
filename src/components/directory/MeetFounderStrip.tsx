@@ -19,7 +19,7 @@ const MeetFounderStrip: React.FC = () => {
             <h2 className="text-2xl md:text-4xl font-bold text-white mt-3 font-display">
               Thomas D. Bowling
             </h2>
-            <p className="text-white/70 text-sm md:text-base mt-1">
+            <p className="text-white text-sm md:text-base mt-1">
               Founder & Chief Architect of Economic Infrastructure
             </p>
 

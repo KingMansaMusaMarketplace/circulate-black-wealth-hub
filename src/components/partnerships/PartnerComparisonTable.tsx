@@ -39,7 +39,7 @@ const PartnerComparisonTable: React.FC<PartnerComparisonTableProps> = ({
           <thead>
             <tr className="border-b border-white/10">
               <th className="text-left p-4 text-white font-bold text-lg">Feature</th>
-              <th className="text-center p-4 font-bold text-white/70 min-w-[150px]">
+              <th className="text-center p-4 font-bold text-white min-w-[150px]">
                 <div className="flex flex-col items-center">
                   <span>{partnerName}</span>
                   <span className="text-xs font-normal text-blue-300/60">Today</span>

@@ -306,7 +306,7 @@ const LoyaltyManagement: React.FC = () => {
             <Award className="h-6 w-6 text-mansagold" />
             Loyalty Program Management
           </h2>
-          <p className="text-white/60 text-sm mt-1">
+          <p className="text-white/90 text-sm mt-1">
             Monitor and manage the coalition loyalty program
           </p>
         </div>
@@ -341,7 +341,7 @@ const LoyaltyManagement: React.FC = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold text-white">{stats.totalMembers.toLocaleString()}</p>
-                <p className="text-xs text-white/60">Total Members</p>
+                <p className="text-xs text-white/90">Total Members</p>
               </div>
             </div>
           </CardContent>
@@ -355,7 +355,7 @@ const LoyaltyManagement: React.FC = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold text-white">{stats.totalPointsIssued.toLocaleString()}</p>
-                <p className="text-xs text-white/60">Points Issued</p>
+                <p className="text-xs text-white/90">Points Issued</p>
               </div>
             </div>
           </CardContent>
@@ -369,7 +369,7 @@ const LoyaltyManagement: React.FC = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold text-white">{stats.totalPointsRedeemed.toLocaleString()}</p>
-                <p className="text-xs text-white/60">Points Redeemed</p>
+                <p className="text-xs text-white/90">Points Redeemed</p>
               </div>
             </div>
           </CardContent>
@@ -383,7 +383,7 @@ const LoyaltyManagement: React.FC = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold text-white">{stats.activeRewards}</p>
-                <p className="text-xs text-white/60">Active Rewards</p>
+                <p className="text-xs text-white/90">Active Rewards</p>
               </div>
             </div>
           </CardContent>
@@ -394,7 +394,7 @@ const LoyaltyManagement: React.FC = () => {
       <Card className="bg-white/5 border-white/10">
         <CardHeader className="pb-2">
           <CardTitle className="text-white text-lg">Tier Distribution</CardTitle>
-          <CardDescription className="text-white/60">Members by loyalty tier</CardDescription>
+          <CardDescription className="text-white/90">Members by loyalty tier</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -402,28 +402,28 @@ const LoyaltyManagement: React.FC = () => {
               <Award className="h-8 w-8 text-amber-600" />
               <div>
                 <p className="text-xl font-bold text-white">{stats.bronzeMembers}</p>
-                <p className="text-xs text-white/60">Bronze</p>
+                <p className="text-xs text-white/90">Bronze</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 bg-slate-700/30 rounded-lg border border-slate-400/30">
               <Star className="h-8 w-8 text-slate-300" />
               <div>
                 <p className="text-xl font-bold text-white">{stats.silverMembers}</p>
-                <p className="text-xs text-white/60">Silver</p>
+                <p className="text-xs text-white/90">Silver</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 bg-mansagold/20 rounded-lg border border-mansagold/30">
               <Crown className="h-8 w-8 text-mansagold" />
               <div>
                 <p className="text-xl font-bold text-white">{stats.goldMembers}</p>
-                <p className="text-xs text-white/60">Gold</p>
+                <p className="text-xs text-white/90">Gold</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 bg-cyan-900/30 rounded-lg border border-cyan-400/30">
               <Diamond className="h-8 w-8 text-cyan-300" />
               <div>
                 <p className="text-xl font-bold text-white">{stats.platinumMembers}</p>
-                <p className="text-xs text-white/60">Platinum</p>
+                <p className="text-xs text-white/90">Platinum</p>
               </div>
             </div>
           </div>
@@ -478,7 +478,7 @@ const LoyaltyManagement: React.FC = () => {
                   <RefreshCw className="h-6 w-6 animate-spin text-mansagold" />
                 </div>
               ) : filteredMembers.length === 0 ? (
-                <div className="text-center py-8 text-white/60">
+                <div className="text-center py-8 text-white/90">
                   No loyalty members found
                 </div>
               ) : (
@@ -486,11 +486,11 @@ const LoyaltyManagement: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow className="border-white/10">
-                        <TableHead className="text-white/70">Member</TableHead>
-                        <TableHead className="text-white/70">Tier</TableHead>
-                        <TableHead className="text-white/70 text-right">Balance</TableHead>
-                        <TableHead className="text-white/70 text-right">Earned</TableHead>
-                        <TableHead className="text-white/70 text-right">Redeemed</TableHead>
+                        <TableHead className="text-white">Member</TableHead>
+                        <TableHead className="text-white">Tier</TableHead>
+                        <TableHead className="text-white text-right">Balance</TableHead>
+                        <TableHead className="text-white text-right">Earned</TableHead>
+                        <TableHead className="text-white text-right">Redeemed</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -499,7 +499,7 @@ const LoyaltyManagement: React.FC = () => {
                           <TableCell>
                             <div>
                               <p className="font-medium text-white">{member.full_name}</p>
-                              <p className="text-xs text-white/50">{member.email}</p>
+                              <p className="text-xs text-white/80">{member.email}</p>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -531,7 +531,7 @@ const LoyaltyManagement: React.FC = () => {
           <Card className="bg-white/5 border-white/10">
             <CardHeader className="pb-2">
               <CardTitle className="text-white text-lg">Recent Activity</CardTitle>
-              <CardDescription className="text-white/60">Latest loyalty program transactions</CardDescription>
+              <CardDescription className="text-white/90">Latest loyalty program transactions</CardDescription>
             </CardHeader>
             <CardContent>
               {loading ? (
@@ -539,7 +539,7 @@ const LoyaltyManagement: React.FC = () => {
                   <RefreshCw className="h-6 w-6 animate-spin text-mansagold" />
                 </div>
               ) : activities.length === 0 ? (
-                <div className="text-center py-8 text-white/60">
+                <div className="text-center py-8 text-white/90">
                   No recent activity found
                 </div>
               ) : (
@@ -550,7 +550,7 @@ const LoyaltyManagement: React.FC = () => {
                         {getActivityIcon(activity.activity_type)}
                         <div>
                           <p className="text-sm text-white">{activity.user_email}</p>
-                          <p className="text-xs text-white/50">
+                          <p className="text-xs text-white/80">
                             {activity.activity_type.replace(/_/g, ' ')}
                             {activity.business_name && ` at ${activity.business_name}`}
                           </p>
@@ -560,7 +560,7 @@ const LoyaltyManagement: React.FC = () => {
                         <p className={`font-semibold ${activity.points_involved >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                           {activity.points_involved >= 0 ? '+' : ''}{activity.points_involved} pts
                         </p>
-                        <p className="text-xs text-white/50">{formatDate(activity.created_at)}</p>
+                        <p className="text-xs text-white/80">{formatDate(activity.created_at)}</p>
                       </div>
                     </div>
                   ))}

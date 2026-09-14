@@ -139,19 +139,19 @@ const HostsTab: React.FC = () => {
     <div className="space-y-4">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
         <div className="rounded-md border border-white/10 bg-white/5 p-3">
-          <div className="text-white/60 text-xs">Total Hosts</div>
+          <div className="text-white/90 text-xs">Total Hosts</div>
           <div className="text-white text-xl font-semibold">{totals.hosts}</div>
         </div>
         <div className="rounded-md border border-white/10 bg-white/5 p-3">
-          <div className="text-white/60 text-xs">Owed to Hosts</div>
+          <div className="text-white/90 text-xs">Owed to Hosts</div>
           <div className="text-yellow-300 text-xl font-semibold">{fmt(totals.owed)}</div>
         </div>
         <div className="rounded-md border border-white/10 bg-white/5 p-3">
-          <div className="text-white/60 text-xs">Paid Out</div>
+          <div className="text-white/90 text-xs">Paid Out</div>
           <div className="text-green-300 text-xl font-semibold">{fmt(totals.paid)}</div>
         </div>
         <div className="rounded-md border border-white/10 bg-white/5 p-3">
-          <div className="text-white/60 text-xs">With Payout Method</div>
+          <div className="text-white/90 text-xs">With Payout Method</div>
           <div className="text-white text-xl font-semibold">{totals.withMethod} / {totals.hosts}</div>
         </div>
       </div>
@@ -175,7 +175,7 @@ const HostsTab: React.FC = () => {
           <option value="with">With Payout Method</option>
           <option value="without">Missing Payout Method</option>
         </select>
-        <div className="text-xs text-white/50 ml-auto">{filtered.length} of {rows.length}</div>
+        <div className="text-xs text-white/80 ml-auto">{filtered.length} of {rows.length}</div>
         <Button size="sm" variant="outline" onClick={exportCSV}>
           <Download className="h-4 w-4 mr-1" /> Export CSV
         </Button>
@@ -186,31 +186,31 @@ const HostsTab: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow className="border-white/10">
-                <TableHead className="text-white/70">Host</TableHead>
-                <TableHead className="text-white/70">Contact</TableHead>
-                <TableHead className="text-white/70">Properties</TableHead>
-                <TableHead className="text-white/70">Bookings</TableHead>
-                <TableHead className="text-white/70">Owed</TableHead>
-                <TableHead className="text-white/70">Paid</TableHead>
-                <TableHead className="text-white/70">Payout Method</TableHead>
-                <TableHead className="text-white/70 text-right">Actions</TableHead>
+                <TableHead className="text-white">Host</TableHead>
+                <TableHead className="text-white">Contact</TableHead>
+                <TableHead className="text-white">Properties</TableHead>
+                <TableHead className="text-white">Bookings</TableHead>
+                <TableHead className="text-white">Owed</TableHead>
+                <TableHead className="text-white">Paid</TableHead>
+                <TableHead className="text-white">Payout Method</TableHead>
+                <TableHead className="text-white text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.length === 0 ? (
-                <TableRow><TableCell colSpan={8} className="text-center text-white/50 py-8">No hosts match.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={8} className="text-center text-white/80 py-8">No hosts match.</TableCell></TableRow>
               ) : filtered.map(r => (
                 <TableRow key={r.host_id} className="border-white/10">
                   <TableCell className="text-white">
                     <div className="font-medium">{r.full_name || 'Unnamed host'}</div>
                     <div className="text-xs text-white/40">{r.host_id.slice(0, 8)}…</div>
                   </TableCell>
-                  <TableCell className="text-white/70 text-xs">
+                  <TableCell className="text-white text-xs">
                     <div>{r.email || '—'}</div>
                     <div className="text-white/40">{r.phone || ''}</div>
                   </TableCell>
-                  <TableCell className="text-white/70">{r.active_count} / {r.property_count}</TableCell>
-                  <TableCell className="text-white/70">{r.total_bookings}</TableCell>
+                  <TableCell className="text-white">{r.active_count} / {r.property_count}</TableCell>
+                  <TableCell className="text-white">{r.total_bookings}</TableCell>
                   <TableCell className="text-yellow-300">{fmt(r.total_payout_owed)}</TableCell>
                   <TableCell className="text-green-300">{fmt(r.total_paid)}</TableCell>
                   <TableCell>

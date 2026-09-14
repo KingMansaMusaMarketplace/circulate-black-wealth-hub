@@ -57,7 +57,7 @@ export const KaylaWeeklyLearnings: React.FC<Props> = ({ businessId, limit = 5 })
             <Loader2 className="h-4 w-4 animate-spin text-mansagold" />
           </div>
         ) : items.length === 0 ? (
-          <p className="text-xs text-white/50">
+          <p className="text-xs text-white/80">
             Rate Kayla's outputs across the dashboard and her team will adapt.
             New learnings will appear here within a week.
           </p>
@@ -70,7 +70,7 @@ export const KaylaWeeklyLearnings: React.FC<Props> = ({ businessId, limit = 5 })
               >
                 <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-white/80 leading-snug">{l.learning}</p>
+                  <p className="text-xs text-white leading-snug">{l.learning}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-mansagold/30 text-mansagold">
                       {l.agent_name}

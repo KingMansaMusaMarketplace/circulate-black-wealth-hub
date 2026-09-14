@@ -22,7 +22,7 @@ const SponsorSuccessPage: React.FC = () => {
       silver: 'bg-gray-400/20 text-gray-300 border-gray-400/30',
       bronze: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
     };
-    return colors[tier.toLowerCase()] || 'bg-white/10 text-white/70';
+    return colors[tier.toLowerCase()] || 'bg-white/10 text-white';
   };
 
   return (

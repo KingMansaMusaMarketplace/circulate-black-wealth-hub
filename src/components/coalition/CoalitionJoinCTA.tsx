@@ -31,7 +31,7 @@ export function CoalitionJoinCTA() {
     <div className="space-y-8">
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2 text-white">Join the Coalition</h2>
-        <p className="text-white/70 max-w-xl mx-auto">
+        <p className="text-white max-w-xl mx-auto">
           Sign up to start earning and redeeming points across all participating 
           Black-owned businesses in our community.
         </p>
@@ -48,7 +48,7 @@ export function CoalitionJoinCTA() {
                 <benefit.icon className="h-6 w-6 text-[hsl(45,93%,58%)]" />
               </div>
               <h3 className="font-semibold mb-1 text-white">{benefit.title}</h3>
-              <p className="text-sm text-white/70">{benefit.description}</p>
+              <p className="text-sm text-white">{benefit.description}</p>
             </CardContent>
           </Card>
         ))}
@@ -62,22 +62,22 @@ export function CoalitionJoinCTA() {
             <div className="p-4 rounded-lg bg-amber-500/20 border border-amber-500/30 text-center">
               <p className="font-bold text-amber-400">Bronze</p>
               <p className="text-2xl font-bold text-white">1x</p>
-              <p className="text-xs text-white/60">0 - 999 pts</p>
+              <p className="text-xs text-white/90">0 - 999 pts</p>
             </div>
             <div className="p-4 rounded-lg bg-slate-400/20 border border-slate-400/30 text-center">
               <p className="font-bold text-slate-300">Silver</p>
               <p className="text-2xl font-bold text-white">1.25x</p>
-              <p className="text-xs text-white/60">1,000+ pts</p>
+              <p className="text-xs text-white/90">1,000+ pts</p>
             </div>
             <div className="p-4 rounded-lg bg-yellow-500/20 border border-yellow-500/30 text-center">
               <p className="font-bold text-yellow-400">Gold</p>
               <p className="text-2xl font-bold text-white">1.5x</p>
-              <p className="text-xs text-white/60">5,000+ pts</p>
+              <p className="text-xs text-white/90">5,000+ pts</p>
             </div>
             <div className="p-4 rounded-lg bg-purple-500/20 border border-purple-500/30 text-center">
               <p className="font-bold text-purple-400">Platinum</p>
               <p className="text-2xl font-bold text-white">2x</p>
-              <p className="text-xs text-white/60">15,000+ pts</p>
+              <p className="text-xs text-white/90">15,000+ pts</p>
             </div>
           </div>
         </CardContent>

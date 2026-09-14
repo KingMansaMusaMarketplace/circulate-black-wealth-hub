@@ -181,7 +181,7 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">{stats?.thisWeekCount}</div>
-            <p className="text-xs text-white/70">bookings this week</p>
+            <p className="text-xs text-white">bookings this week</p>
           </CardContent>
         </Card>
 
@@ -192,7 +192,7 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">{stats?.uniqueCustomers}</div>
-            <p className="text-xs text-white/70">this month</p>
+            <p className="text-xs text-white">this month</p>
           </CardContent>
         </Card>
 
@@ -258,7 +258,7 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium text-white">{service.name}</span>
-                    <span className="text-sm text-white/70">{service.value} bookings</span>
+                    <span className="text-sm text-white">{service.value} bookings</span>
                   </div>
                   <div className="w-full bg-slate-800/40 rounded-full h-2">
                     <div
@@ -273,7 +273,7 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
               </div>
             ))}
             {stats?.popularServices.length === 0 && (
-              <div className="text-center text-white/70 py-4">
+              <div className="text-center text-white py-4">
                 No service data available yet
               </div>
             )}

@@ -28,7 +28,7 @@ export function CoalitionPointsCard({
             <div className="p-2 bg-[hsl(45,93%,47%)]/20 rounded-full">
               <Coins className="h-5 w-5 text-[hsl(45,93%,58%)]" />
             </div>
-            <span className="text-sm font-medium text-white/70">Available Points</span>
+            <span className="text-sm font-medium text-white">Available Points</span>
           </div>
           <span className={cn(
             "text-xs font-medium px-2 py-1 rounded-full",
@@ -45,7 +45,7 @@ export function CoalitionPointsCard({
           <p className="text-4xl font-bold tracking-tight text-white">
             {points.toLocaleString()}
           </p>
-          <p className="text-sm text-white/70">
+          <p className="text-sm text-white">
             Coalition Points
           </p>
         </div>
@@ -55,17 +55,17 @@ export function CoalitionPointsCard({
             <TrendingUp className="h-4 w-4 text-emerald-400" />
             <div>
               <p className="text-sm font-medium text-white">{lifetimePoints.toLocaleString()}</p>
-              <p className="text-xs text-white/60">Lifetime Earned</p>
+              <p className="text-xs text-white/90">Lifetime Earned</p>
             </div>
           </div>
           <div className="h-8 w-px bg-white/10" />
           <div>
             <p className="text-sm font-medium text-white">{tierInfo.multiplier}x</p>
-            <p className="text-xs text-white/60">Earning Rate</p>
+            <p className="text-xs text-white/90">Earning Rate</p>
           </div>
         </div>
 
-        <p className="text-xs text-white/60">
+        <p className="text-xs text-white/90">
           Earn points at any participating verified business and redeem anywhere in the coalition!
         </p>
       </CardContent>

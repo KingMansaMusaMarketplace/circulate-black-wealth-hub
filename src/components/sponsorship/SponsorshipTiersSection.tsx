@@ -209,7 +209,7 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
                         <button
                           type="button"
                           onClick={() => onLearnMore(tier.name)}
-                          className="w-full text-center text-xs text-white/70 hover:text-mansagold transition-colors"
+                          className="w-full text-center text-xs text-white hover:text-mansagold transition-colors"
                         >
                           Talk to partnerships first
                         </button>

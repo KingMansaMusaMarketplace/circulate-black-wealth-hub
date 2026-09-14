@@ -74,7 +74,7 @@ const ReportContentButton: React.FC<Props> = ({ contentType, contentId, photoUrl
             type="button"
             variant="ghost"
             size="sm"
-            className={`text-white/60 hover:text-red-300 hover:bg-red-500/10 ${className || ''}`}
+            className={`text-white/90 hover:text-red-300 hover:bg-red-500/10 ${className || ''}`}
             title="Report this"
           >
             <Flag className="h-4 w-4 mr-1" /> Report
@@ -82,7 +82,7 @@ const ReportContentButton: React.FC<Props> = ({ contentType, contentId, photoUrl
         ) : (
           <button
             type="button"
-            className={`text-xs text-white/50 hover:text-red-300 underline-offset-2 hover:underline inline-flex items-center gap-1 ${className || ''}`}
+            className={`text-xs text-white/80 hover:text-red-300 underline-offset-2 hover:underline inline-flex items-center gap-1 ${className || ''}`}
           >
             <Flag className="h-3 w-3" /> Report
           </button>
@@ -91,7 +91,7 @@ const ReportContentButton: React.FC<Props> = ({ contentType, contentId, photoUrl
       <DialogContent className="bg-slate-900 border-white/10 text-white">
         <DialogHeader>
           <DialogTitle>Report this {contentType === 'property_photo' ? 'photo' : 'listing'}</DialogTitle>
-          <DialogDescription className="text-white/60">
+          <DialogDescription className="text-white/90">
             Help us keep the marketplace safe. Reports are reviewed by our team.
           </DialogDescription>
         </DialogHeader>

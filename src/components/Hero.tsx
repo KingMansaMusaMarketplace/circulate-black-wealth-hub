@@ -229,7 +229,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <span className="text-white/70">Answers customers 24/7 · Books appointments · Posts to social</span>
+            <span className="text-white">Answers customers 24/7 · Books appointments · Posts to social</span>
           </motion.p>
 
 
@@ -285,7 +285,7 @@ const Hero = () => {
                         className={`w-full text-left px-4 py-3 flex items-center gap-3 transition-colors ${
                           i === selectedIndex
                             ? 'bg-mansagold/15 text-white'
-                            : 'text-white/80 hover:bg-white/5'
+                            : 'text-white hover:bg-white/5'
                         }`}
                       >
                         <Search className="w-4 h-4 text-white/30 shrink-0" />
@@ -356,7 +356,7 @@ const Hero = () => {
 
             {/* Trust stat bar */}
             {stats && (
-              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-2 text-sm text-white/70">
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-2 text-sm text-white">
                 {shouldShowMemberCount && (
                   <>
                     <div className="flex items-center gap-1.5">

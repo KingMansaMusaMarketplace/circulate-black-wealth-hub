@@ -130,7 +130,7 @@ const DeveloperLandingPage: React.FC = () => {
               </span>
             </h1>
             
-            <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
               License our patented economic engines to power your marketplace. 
               45 patent claims protecting the infrastructure that measures, multiplies, 
               and attributes community economic impact.
@@ -157,7 +157,7 @@ const DeveloperLandingPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">Patented API Engines</h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="text-white/90 max-w-2xl mx-auto">
               Each API is backed by filed patent claims, giving your platform 
               defensible technology that cannot be replicated.
             </p>
@@ -186,7 +186,7 @@ const DeveloperLandingPage: React.FC = () => {
                       </div>
                     </div>
                     <CardTitle className="mt-4 text-white">{api.name}</CardTitle>
-                    <CardDescription className="text-white/60">{api.description}</CardDescription>
+                    <CardDescription className="text-white/90">{api.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <code className="text-sm bg-slate-900/80 text-mansablue-light px-3 py-1.5 rounded font-mono border border-white/10">
@@ -209,7 +209,7 @@ const DeveloperLandingPage: React.FC = () => {
               Ecosystem Powered
             </Badge>
             <h2 className="text-3xl font-bold text-white mb-4">Built on Real Business Data</h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="text-white/90 max-w-2xl mx-auto">
               Access {stats?.partner_referred_businesses || 800}+ verified businesses from our partner network 
               of {stats?.active_partners || 15} directories across the country.
             </p>
@@ -227,7 +227,7 @@ const DeveloperLandingPage: React.FC = () => {
                     <Building2 className="h-6 w-6 text-mansagold" />
                   </div>
                   <p className="text-3xl font-bold text-white mb-1">{stats?.partner_referred_businesses || 800}+</p>
-                  <p className="text-white/60 text-sm">Verified Businesses</p>
+                  <p className="text-white/90 text-sm">Verified Businesses</p>
                   <p className="text-xs text-white/40 mt-2">Available via API</p>
                 </CardContent>
               </Card>
@@ -244,7 +244,7 @@ const DeveloperLandingPage: React.FC = () => {
                     <Users className="h-6 w-6 text-blue-400" />
                   </div>
                   <p className="text-3xl font-bold text-white mb-1">{stats?.active_partners || 15}</p>
-                  <p className="text-white/60 text-sm">Partner Directories</p>
+                  <p className="text-white/90 text-sm">Partner Directories</p>
                   <p className="text-xs text-white/40 mt-2">Growing network</p>
                 </CardContent>
               </Card>
@@ -261,7 +261,7 @@ const DeveloperLandingPage: React.FC = () => {
                     <TrendingUp className="h-6 w-6 text-emerald-400" />
                   </div>
                   <p className="text-3xl font-bold text-white mb-1">{stats?.active_developers || 12}</p>
-                  <p className="text-white/60 text-sm">Active Developers</p>
+                  <p className="text-white/90 text-sm">Active Developers</p>
                   <p className="text-xs text-white/40 mt-2">Building on our APIs</p>
                 </CardContent>
               </Card>
@@ -285,7 +285,7 @@ const DeveloperLandingPage: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <div>
               <h2 className="text-3xl font-bold text-white mb-4">Simple Integration</h2>
-              <p className="text-white/60 mb-6">
+              <p className="text-white/90 mb-6">
                 Get started in minutes with our SDKs for JavaScript and Python. 
                 Calculate economic impact with just a few lines of code.
               </p>
@@ -299,7 +299,7 @@ const DeveloperLandingPage: React.FC = () => {
                 ].map((feature) => (
                   <div key={feature} className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-mansagold" />
-                    <span className="text-white/80">{feature}</span>
+                    <span className="text-white">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -311,7 +311,7 @@ const DeveloperLandingPage: React.FC = () => {
                 <div className="w-3 h-3 rounded-full bg-yellow-500" />
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
-              <pre className="text-sm text-white/80 overflow-x-auto">
+              <pre className="text-sm text-white overflow-x-auto">
                 <code>{`import { Client } from '@1325ai/sdk';
 
 const client = new Client({
@@ -338,7 +338,7 @@ console.log(impact.multipliedImpact);
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">Usage-Based Pricing</h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="text-white/90 max-w-2xl mx-auto">
               Pay only for what you use. Start free and scale as you grow.
             </p>
           </div>
@@ -358,7 +358,7 @@ console.log(impact.multipliedImpact);
                   <CardTitle className="text-white">{tier.name}</CardTitle>
                   <div className="mt-4">
                     <span className="text-4xl font-bold text-mansagold">{tier.price}</span>
-                    <span className="text-white/60">{tier.period}</span>
+                    <span className="text-white/90">{tier.period}</span>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -366,7 +366,7 @@ console.log(impact.multipliedImpact);
                     {tier.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4 text-mansagold" />
-                        <span className="text-sm text-white/80">{feature}</span>
+                        <span className="text-sm text-white">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -392,7 +392,7 @@ console.log(impact.multipliedImpact);
                 <Zap className="h-8 w-8 text-mansablue" />
               </div>
               <h3 className="font-semibold text-white mb-2">Lightning Fast</h3>
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-white/90">
                 Edge-deployed globally for &lt;50ms latency on all API calls.
               </p>
             </div>
@@ -402,7 +402,7 @@ console.log(impact.multipliedImpact);
                 <Shield className="h-8 w-8 text-mansagold" />
               </div>
               <h3 className="font-semibold text-white mb-2">Patent Protected</h3>
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-white/90">
                 45 claims filed under USPTO Provisional 63/969,202.
               </p>
             </div>
@@ -412,7 +412,7 @@ console.log(impact.multipliedImpact);
                 <Globe className="h-8 w-8 text-mansablue" />
               </div>
               <h3 className="font-semibold text-white mb-2">99.9% Uptime</h3>
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-white/90">
                 Enterprise-grade reliability with automatic failover.
               </p>
             </div>
@@ -425,7 +425,7 @@ console.log(impact.multipliedImpact);
         <div className="container mx-auto px-4 text-center">
           <div className="glass-card max-w-3xl mx-auto p-12 rounded-2xl border border-white/10">
             <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
-            <p className="text-white/60 mb-8 max-w-xl mx-auto">
+            <p className="text-white/90 mb-8 max-w-xl mx-auto">
               Create your developer account and get API keys in minutes.
             </p>
             <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold" asChild>

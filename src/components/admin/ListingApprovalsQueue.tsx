@@ -202,7 +202,7 @@ The 1325.AI Team`;
                   <Loader2 className="h-6 w-6 animate-spin text-mansagold" />
                 </div>
               ) : filtered.length === 0 ? (
-                <div className="text-center py-12 text-white/50 text-sm">Nothing in this queue.</div>
+                <div className="text-center py-12 text-white/80 text-sm">Nothing in this queue.</div>
               ) : (
                 <div className="space-y-2">
                   {filtered.map(b => (
@@ -238,11 +238,11 @@ The 1325.AI Team`;
                           )}
                           {b.category && <Badge variant="outline" className="text-xs">{b.category}</Badge>}
                         </div>
-                        <div className="text-xs text-white/60 mt-0.5">
+                        <div className="text-xs text-white/90 mt-0.5">
                           {[b.city, b.state].filter(Boolean).join(', ') || '—'} · {b.email || 'no email'} · {b.phone || 'no phone'}
                         </div>
                         {b.description && (
-                          <p className="text-xs text-white/50 mt-1 line-clamp-2">{b.description}</p>
+                          <p className="text-xs text-white/80 mt-1 line-clamp-2">{b.description}</p>
                         )}
                         {b.listing_rejection_reason && (
                           <p className="text-xs text-red-300 mt-1">Rejected: {b.listing_rejection_reason}</p>
@@ -314,7 +314,7 @@ The 1325.AI Team`;
             <DialogTitle>Reject {rejectFor?.name}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
-            <Label className="text-white/70">Reason (visible to owner)</Label>
+            <Label className="text-white">Reason (visible to owner)</Label>
             <textarea
               rows={4}
               value={rejectReason}

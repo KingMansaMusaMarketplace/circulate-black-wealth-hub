@@ -173,7 +173,7 @@ const UserManagement: React.FC = () => {
       business: 'bg-green-500/20 text-green-300 border-green-500/30',
       sales_agent: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
     };
-    return <Badge className={colors[type || ''] || 'bg-white/10 text-white/70 border-white/20'}>{type || 'Unknown'}</Badge>;
+    return <Badge className={colors[type || ''] || 'bg-white/10 text-white border-white/20'}>{type || 'Unknown'}</Badge>;
   };
 
   const getRoleBadges = (userId: string) => {
@@ -186,7 +186,7 @@ const UserManagement: React.FC = () => {
     return (
       <div className="flex flex-wrap gap-1">
         {roles.map(r => (
-          <Badge key={r} className={colors[r] || 'bg-white/10 text-white/70 border-white/20'}>
+          <Badge key={r} className={colors[r] || 'bg-white/10 text-white border-white/20'}>
             {r.toUpperCase()}
           </Badge>
         ))}
@@ -234,11 +234,11 @@ const UserManagement: React.FC = () => {
 
       <Tabs defaultValue="all-users">
         <TabsList className="bg-white/5 border-white/10">
-          <TabsTrigger value="all-users" className="flex items-center gap-2 data-[state=active]:bg-white/10 data-[state=active]:text-white text-white/70">
+          <TabsTrigger value="all-users" className="flex items-center gap-2 data-[state=active]:bg-white/10 data-[state=active]:text-white text-white">
             <UsersIcon className="h-4 w-4" />
             All Users
           </TabsTrigger>
-          <TabsTrigger value="deletion-requests" className="flex items-center gap-2 data-[state=active]:bg-white/10 data-[state=active]:text-white text-white/70">
+          <TabsTrigger value="deletion-requests" className="flex items-center gap-2 data-[state=active]:bg-white/10 data-[state=active]:text-white text-white">
             <UserX className="h-4 w-4" />
             Deletion Requests {deletionRequests.length > 0 && `(${deletionRequests.length})`}
           </TabsTrigger>
@@ -250,7 +250,7 @@ const UserManagement: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-white">All Users</CardTitle>
-                  <CardDescription className="text-white/60">Manage all platform users</CardDescription>
+                  <CardDescription className="text-white/90">Manage all platform users</CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
                   <Select value={roleFilter} onValueChange={setRoleFilter}>
@@ -265,12 +265,12 @@ const UserManagement: React.FC = () => {
                     </SelectContent>
                   </Select>
                   <div className="relative w-64">
-                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/50" />
+                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/80" />
                     <Input
                       placeholder="Search users..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-8 bg-white/5 border-white/10 text-white placeholder:text-white/50"
+                      className="pl-8 bg-white/5 border-white/10 text-white placeholder:text-white/80"
                     />
                   </div>
                 </div>
@@ -281,12 +281,12 @@ const UserManagement: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow className="border-white/10 hover:bg-white/5">
-                      <TableHead className="text-white/80">Email</TableHead>
-                      <TableHead className="text-white/80">Name</TableHead>
-                      <TableHead className="text-white/80">Type</TableHead>
-                      <TableHead className="text-white/80">Role</TableHead>
-                      <TableHead className="text-white/80">Joined</TableHead>
-                      <TableHead className="text-white/80">Actions</TableHead>
+                      <TableHead className="text-white">Email</TableHead>
+                      <TableHead className="text-white">Name</TableHead>
+                      <TableHead className="text-white">Type</TableHead>
+                      <TableHead className="text-white">Role</TableHead>
+                      <TableHead className="text-white">Joined</TableHead>
+                      <TableHead className="text-white">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -298,11 +298,11 @@ const UserManagement: React.FC = () => {
                             {user.email}
                           </div>
                         </TableCell>
-                        <TableCell className="text-white/80">{user.full_name || 'N/A'}</TableCell>
+                        <TableCell className="text-white">{user.full_name || 'N/A'}</TableCell>
                         <TableCell>{getUserTypeBadge(user.user_type)}</TableCell>
                         <TableCell>{getRoleBadges(user.id)}</TableCell>
                         <TableCell>
-                          <div className="flex items-center gap-1 text-sm text-white/70">
+                          <div className="flex items-center gap-1 text-sm text-white">
                             <Calendar className="h-3 w-3" />
                             {format(new Date(user.created_at), 'MMM d, yyyy')}
                           </div>
@@ -333,11 +333,11 @@ const UserManagement: React.FC = () => {
           <Card className="backdrop-blur-xl bg-white/5 border-white/10">
             <CardHeader>
               <CardTitle className="text-white">Account Deletion Requests</CardTitle>
-              <CardDescription className="text-white/60">Review and process user deletion requests</CardDescription>
+              <CardDescription className="text-white/90">Review and process user deletion requests</CardDescription>
             </CardHeader>
             <CardContent>
               {deletionRequests.length === 0 ? (
-                <div className="text-center py-12 text-white/50">
+                <div className="text-center py-12 text-white/80">
                   No pending deletion requests
                 </div>
               ) : (
@@ -348,13 +348,13 @@ const UserManagement: React.FC = () => {
                         <div className="space-y-2">
                           <div className="font-medium text-white">{request.profiles.email}</div>
                           {request.profiles.full_name && (
-                            <div className="text-sm text-white/70">{request.profiles.full_name}</div>
+                            <div className="text-sm text-white">{request.profiles.full_name}</div>
                           )}
-                          <div className="text-sm text-white/50">
+                          <div className="text-sm text-white/80">
                             Requested: {format(new Date(request.requested_at), 'MMM d, yyyy h:mm a')}
                           </div>
                           {request.reason && (
-                            <div className="text-sm text-white/80">
+                            <div className="text-sm text-white">
                               <span className="font-medium">Reason:</span> {request.reason}
                             </div>
                           )}
@@ -396,27 +396,27 @@ const UserManagement: React.FC = () => {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-sm font-medium text-white/60">Email</div>
+                  <div className="text-sm font-medium text-white/90">Email</div>
                   <div className="text-white">{selectedUser.email}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-white/60">Full Name</div>
+                  <div className="text-sm font-medium text-white/90">Full Name</div>
                   <div className="text-white">{selectedUser.full_name || 'N/A'}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-white/60">User Type</div>
+                  <div className="text-sm font-medium text-white/90">User Type</div>
                   <div>{getUserTypeBadge(selectedUser.user_type)}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-white/60">Permission Role</div>
+                  <div className="text-sm font-medium text-white/90">Permission Role</div>
                   <div>{getRoleBadges(selectedUser.id)}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-white/60">Phone</div>
+                  <div className="text-sm font-medium text-white/90">Phone</div>
                   <div className="text-white">{selectedUser.phone || 'N/A'}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-white/60">Account Created</div>
+                  <div className="text-sm font-medium text-white/90">Account Created</div>
                   <div className="text-white">{format(new Date(selectedUser.created_at), 'MMM d, yyyy h:mm a')}</div>
                 </div>
               </div>

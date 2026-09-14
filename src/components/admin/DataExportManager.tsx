@@ -167,14 +167,14 @@ const DataExportManager: React.FC = () => {
         <CardContent className="space-y-6">
           {/* Format Selection */}
           <div>
-            <Label className="text-white/80 mb-2 block">Export Format</Label>
+            <Label className="text-white mb-2 block">Export Format</Label>
             <div className="flex gap-4">
               <Button
                 variant={exportFormat === 'csv' ? 'default' : 'outline'}
                 onClick={() => setExportFormat('csv')}
                 className={exportFormat === 'csv' 
                   ? 'bg-mansagold text-mansablue-dark' 
-                  : 'border-white/20 text-white/70'
+                  : 'border-white/20 text-white'
                 }
               >
                 <FileSpreadsheet className="h-4 w-4 mr-2" />
@@ -185,7 +185,7 @@ const DataExportManager: React.FC = () => {
                 onClick={() => setExportFormat('json')}
                 className={exportFormat === 'json' 
                   ? 'bg-mansagold text-mansablue-dark' 
-                  : 'border-white/20 text-white/70'
+                  : 'border-white/20 text-white'
                 }
               >
                 <FileJson className="h-4 w-4 mr-2" />
@@ -197,12 +197,12 @@ const DataExportManager: React.FC = () => {
           {/* Table Selection */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <Label className="text-white/80">Select Tables to Export</Label>
+              <Label className="text-white">Select Tables to Export</Label>
               <div className="flex gap-2">
                 <Button variant="ghost" size="sm" onClick={selectAll} className="text-mansagold text-xs">
                   Select All
                 </Button>
-                <Button variant="ghost" size="sm" onClick={selectNone} className="text-white/60 text-xs">
+                <Button variant="ghost" size="sm" onClick={selectNone} className="text-white/90 text-xs">
                   Clear
                 </Button>
               </div>
@@ -225,7 +225,7 @@ const DataExportManager: React.FC = () => {
                     />
                     <div>
                       <p className="text-white font-medium">{config.label}</p>
-                      <p className="text-white/60 text-sm">{config.description}</p>
+                      <p className="text-white/90 text-sm">{config.description}</p>
                     </div>
                   </div>
                 </div>
@@ -237,7 +237,7 @@ const DataExportManager: React.FC = () => {
           {isExporting && (
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-white/60">Exporting...</span>
+                <span className="text-white/90">Exporting...</span>
                 <span className="text-mansagold">{Math.round(exportProgress)}%</span>
               </div>
               <Progress value={exportProgress} className="h-2" />
@@ -287,7 +287,7 @@ const DataExportManager: React.FC = () => {
                     <Badge variant="outline" className="text-xs">
                       {item.format.toUpperCase()}
                     </Badge>
-                    <Badge variant="outline" className="text-xs text-white/60">
+                    <Badge variant="outline" className="text-xs text-white/90">
                       {item.size}
                     </Badge>
                   </div>
@@ -305,7 +305,7 @@ const DataExportManager: React.FC = () => {
             <Database className="h-5 w-5 text-blue-400 mt-0.5" />
             <div>
               <p className="text-white font-medium">GDPR Data Export</p>
-              <p className="text-white/60 text-sm mt-1">
+              <p className="text-white/90 text-sm mt-1">
                 For individual user data export requests (GDPR compliance), use the User Management tab 
                 to export specific user data. This bulk export is for administrative purposes only.
               </p>

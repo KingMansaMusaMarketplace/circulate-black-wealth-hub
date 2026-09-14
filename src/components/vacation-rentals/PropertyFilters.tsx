@@ -107,7 +107,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             placeholder="Where are you going?"
             value={filters.city || ''}
             onChange={(e) => onFilterChange({ city: e.target.value || undefined })}
-            className="pl-10 bg-black/80 border-2 border-mansagold/50 text-white font-medium placeholder:text-white/70 focus:border-mansagold"
+            className="pl-10 bg-black/80 border-2 border-mansagold/50 text-white font-medium placeholder:text-white focus:border-mansagold"
           />
         </div>
 
@@ -118,7 +118,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               variant="outline"
               className={cn(
                 'w-full md:w-[280px] justify-start text-left font-medium bg-black/80 border-2 border-mansagold/50 hover:bg-slate-800 hover:border-mansagold',
-                !dateRange ? 'text-white/70' : 'text-white'
+                !dateRange ? 'text-white' : 'text-white'
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4 text-mansagold" />
@@ -155,7 +155,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             onValueChange={(val) => onFilterChange({ guests: val ? parseInt(val) : undefined })}
           >
             <SelectTrigger className="pl-10 bg-black/80 border-2 border-mansagold/50 text-white font-medium hover:border-mansagold">
-              <SelectValue placeholder="Guests" className="text-white/70" />
+              <SelectValue placeholder="Guests" className="text-white" />
             </SelectTrigger>
             <SelectContent className="bg-black border-2 border-mansagold">
               {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 16].map((num) => (
@@ -183,7 +183,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
           <SheetContent className="w-full sm:max-w-md overflow-y-auto bg-slate-900 border-white/10">
             <SheetHeader>
               <SheetTitle className="text-white">Filters</SheetTitle>
-              <SheetDescription className="text-white/60">
+              <SheetDescription className="text-white/90">
                 Refine your search to find the perfect stay
               </SheetDescription>
             </SheetHeader>
@@ -219,15 +219,15 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                     placeholder="Min"
                     value={filters.minPrice || ''}
                     onChange={(e) => onFilterChange({ minPrice: e.target.value ? parseInt(e.target.value) : undefined })}
-                    className="w-24 bg-slate-800 border-white/20 text-white placeholder:text-white/50"
+                    className="w-24 bg-slate-800 border-white/20 text-white placeholder:text-white/80"
                   />
-                  <span className="text-white/60">to</span>
+                  <span className="text-white/90">to</span>
                   <Input
                     type="number"
                     placeholder="Max"
                     value={filters.maxPrice || ''}
                     onChange={(e) => onFilterChange({ maxPrice: e.target.value ? parseInt(e.target.value) : undefined })}
-                    className="w-24 bg-slate-800 border-white/20 text-white placeholder:text-white/50"
+                    className="w-24 bg-slate-800 border-white/20 text-white placeholder:text-white/80"
                   />
                 </div>
               </div>
@@ -395,7 +395,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             variant="ghost"
             size="sm"
             onClick={clearFilters}
-            className="text-white/60 hover:text-white"
+            className="text-white/90 hover:text-white"
           >
             Clear all
           </Button>

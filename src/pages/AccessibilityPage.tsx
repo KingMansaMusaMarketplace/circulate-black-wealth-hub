@@ -43,7 +43,7 @@ const AccessibilityPage: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-display">
               Accessibility at 1325.AI
             </h1>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto font-body">
+            <p className="text-xl text-white max-w-2xl mx-auto font-body">
               We believe economic empowerment should be accessible to everyone in our community, regardless of ability.
             </p>
           </div>
@@ -56,7 +56,7 @@ const AccessibilityPage: React.FC = () => {
               </div>
               <h2 className="text-2xl font-bold text-white font-display">Our Commitment</h2>
             </div>
-            <p className="text-white/80 leading-relaxed text-lg font-body">
+            <p className="text-white leading-relaxed text-lg font-body">
               At 1325.AI, accessibility isn't an afterthought—it's fundamental to our mission. 
               We're committed to ensuring that all members of our community can fully participate in the 
               economic empowerment we're building together. Our platform is designed to work seamlessly 
@@ -81,7 +81,7 @@ const AccessibilityPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-white mb-1">VoiceOver Support</h3>
-                    <p className="text-white/70 text-sm">
+                    <p className="text-white text-sm">
                       Full screen reader compatibility for browsing businesses, scanning QR codes, and managing your account.
                     </p>
                   </div>
@@ -96,7 +96,7 @@ const AccessibilityPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-white mb-1">Voice Control</h3>
-                    <p className="text-white/70 text-sm">
+                    <p className="text-white text-sm">
                       Navigate and interact with our app using voice commands. All buttons and controls respond to voice input.
                     </p>
                   </div>
@@ -111,7 +111,7 @@ const AccessibilityPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-white mb-1">Large Text Support</h3>
-                    <p className="text-white/70 text-sm">
+                    <p className="text-white text-sm">
                       All text scales automatically with your device's text size settings for improved readability.
                     </p>
                   </div>
@@ -126,7 +126,7 @@ const AccessibilityPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-white mb-1">Dark Interface</h3>
-                    <p className="text-white/70 text-sm">
+                    <p className="text-white text-sm">
                       Automatic support for system dark mode preferences to reduce eye strain.
                     </p>
                   </div>
@@ -141,7 +141,7 @@ const AccessibilityPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-white mb-1">Sufficient Contrast</h3>
-                    <p className="text-white/70 text-sm">
+                    <p className="text-white text-sm">
                       Our design meets WCAG contrast guidelines for enhanced visibility and readability.
                     </p>
                   </div>
@@ -156,7 +156,7 @@ const AccessibilityPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-white mb-1">Reduced Motion</h3>
-                    <p className="text-white/70 text-sm">
+                    <p className="text-white text-sm">
                       Respects motion sensitivity preferences by minimizing animations when requested.
                     </p>
                   </div>
@@ -181,23 +181,23 @@ const AccessibilityPage: React.FC = () => {
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="text-mansagold font-bold mt-0.5">→</span>
-                  <span className="text-white/80">VoiceOver: Settings → Accessibility → VoiceOver</span>
+                  <span className="text-white">VoiceOver: Settings → Accessibility → VoiceOver</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-mansagold font-bold mt-0.5">→</span>
-                  <span className="text-white/80">Voice Control: Settings → Accessibility → Voice Control</span>
+                  <span className="text-white">Voice Control: Settings → Accessibility → Voice Control</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-mansagold font-bold mt-0.5">→</span>
-                  <span className="text-white/80">Large Text: Settings → Display & Brightness → Text Size</span>
+                  <span className="text-white">Large Text: Settings → Display & Brightness → Text Size</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-mansagold font-bold mt-0.5">→</span>
-                  <span className="text-white/80">Dark Mode: Settings → Display & Brightness → Dark</span>
+                  <span className="text-white">Dark Mode: Settings → Display & Brightness → Dark</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-mansagold font-bold mt-0.5">→</span>
-                  <span className="text-white/80">Reduce Motion: Settings → Accessibility → Motion → Reduce Motion</span>
+                  <span className="text-white">Reduce Motion: Settings → Accessibility → Motion → Reduce Motion</span>
                 </li>
               </ul>
             </div>
@@ -212,17 +212,17 @@ const AccessibilityPage: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-bold text-white font-display">Need Help?</h3>
               </div>
-              <p className="text-white/80 mb-4">
+              <p className="text-white mb-4">
                 If you need assistance using our accessibility features or encounter any barriers, we're here to help.
               </p>
               <div className="space-y-3">
                 <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-3">
-                  <p className="text-sm text-white/80">
+                  <p className="text-sm text-white">
                     <strong className="text-mansagold">📧 Email:</strong> Partner@1325.AI
                   </p>
                 </div>
                 <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-3">
-                  <p className="text-sm text-white/80">
+                  <p className="text-sm text-white">
                     <strong className="text-mansagold">⏱️ Response Time:</strong> Within 24 hours
                   </p>
                 </div>
@@ -236,7 +236,7 @@ const AccessibilityPage: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-bold text-white font-display">Feedback & Suggestions</h3>
               </div>
-              <p className="text-white/80 mb-4">
+              <p className="text-white mb-4">
                 We continuously improve our accessibility. Your feedback helps us build a more inclusive platform.
               </p>
               <a 
@@ -262,7 +262,7 @@ const AccessibilityPage: React.FC = () => {
               </div>
               <h2 className="text-2xl font-bold text-white font-display">Additional Resources</h2>
             </div>
-            <p className="text-white/80 mb-4">
+            <p className="text-white mb-4">
               Learn more about accessibility features and best practices:
             </p>
             <ul className="space-y-3">

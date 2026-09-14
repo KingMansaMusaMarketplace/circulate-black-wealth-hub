@@ -37,13 +37,13 @@ const OriginStorySection: React.FC = () => {
                 <span className="text-mansagold font-medium"> single-handedly crashed the economies</span> of every city he passed through. 
                 It took over a decade for gold prices to recover.
               </p>
-              <p className="text-white/80 text-lg leading-relaxed mb-6">
+              <p className="text-white text-lg leading-relaxed mb-6">
                 Historians estimate his wealth at over <span className="font-bold text-white">$400 billion</span> in today's dollars — 
                 making him the wealthiest person in recorded human history. But Mansa Musa's legacy isn't just about 
                 personal wealth. It's about what he <em>built</em>: universities, mosques, trade routes, and entire 
                 economic systems that sustained the Mali Empire for generations.
               </p>
-              <p className="text-white/80 text-lg leading-relaxed">
+              <p className="text-white text-lg leading-relaxed">
                 He proved that when wealth is <span className="text-mansagold font-medium">circulated intentionally</span> — 
                 invested in infrastructure, education, and community — it doesn't just accumulate. 
                 It <em>multiplies</em>.
@@ -65,7 +65,7 @@ const OriginStorySection: React.FC = () => {
                 The <strong className="text-white">.AI</strong> represents the modern tools we use to rebuild that same infrastructure 
                 — digitally, systemically, and at scale.
               </p>
-              <p className="text-white/80 text-lg leading-relaxed">
+              <p className="text-white text-lg leading-relaxed">
                 Today, the Black dollar leaves our community in under six hours. In other communities, 
                 it circulates for 28+ days. 1325.AI exists to close that gap — not through charity, 
                 but through <span className="text-mansagold font-medium">engineered economic infrastructure</span> that 
@@ -86,7 +86,7 @@ const OriginStorySection: React.FC = () => {
                 <div className="h-10 w-px bg-white/20" />
                 <div className="text-left">
                   <p className="text-white font-medium text-sm">The year wealth moved empires.</p>
-                  <p className="text-white/50 text-sm">The platform that moves it again.</p>
+                  <p className="text-white/80 text-sm">The platform that moves it again.</p>
                 </div>
               </div>
             </motion.div>

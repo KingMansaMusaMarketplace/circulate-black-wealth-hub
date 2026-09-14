@@ -201,7 +201,7 @@ const QRScanFraudMonitor: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-white">QR Scan Fraud Monitor</h2>
-          <p className="text-sm text-white/60">Last {WINDOW_HOURS}h · {scans.length} scans</p>
+          <p className="text-sm text-white/90">Last {WINDOW_HOURS}h · {scans.length} scans</p>
         </div>
         <Button onClick={load} variant="outline" disabled={loading}>
           <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} /> Refresh
@@ -211,25 +211,25 @@ const QRScanFraudMonitor: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-white/60 text-xs"><Activity className="h-3 w-3" /> Total Scans</div>
+            <div className="flex items-center gap-2 text-white/90 text-xs"><Activity className="h-3 w-3" /> Total Scans</div>
             <div className="text-2xl font-bold text-white mt-1">{scans.length}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-white/60 text-xs"><AlertTriangle className="h-3 w-3" /> Velocity Abusers</div>
+            <div className="flex items-center gap-2 text-white/90 text-xs"><AlertTriangle className="h-3 w-3" /> Velocity Abusers</div>
             <div className="text-2xl font-bold text-amber-400 mt-1">{velocityAbusers.length}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-white/60 text-xs"><ShieldOff className="h-3 w-3" /> Flagged</div>
+            <div className="flex items-center gap-2 text-white/90 text-xs"><ShieldOff className="h-3 w-3" /> Flagged</div>
             <div className="text-2xl font-bold text-red-400 mt-1">{totalFlagged}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-white/60 text-xs"><Undo2 className="h-3 w-3" /> Reversed</div>
+            <div className="flex items-center gap-2 text-white/90 text-xs"><Undo2 className="h-3 w-3" /> Reversed</div>
             <div className="text-2xl font-bold text-white mt-1">{totalReversed}</div>
           </CardContent>
         </Card>
@@ -246,7 +246,7 @@ const QRScanFraudMonitor: React.FC = () => {
           <Card>
             <CardHeader><CardTitle className="text-base">Velocity Abuse (≥{VELOCITY_THRESHOLD} scans / {WINDOW_HOURS}h)</CardTitle></CardHeader>
             <CardContent>
-              {velocityAbusers.length === 0 ? <p className="text-sm text-white/50">None detected.</p> : (
+              {velocityAbusers.length === 0 ? <p className="text-sm text-white/80">None detected.</p> : (
                 <Table>
                   <TableHeader><TableRow><TableHead>Customer</TableHead><TableHead>Scans</TableHead><TableHead>Points Earned</TableHead></TableRow></TableHeader>
                   <TableBody>
@@ -266,7 +266,7 @@ const QRScanFraudMonitor: React.FC = () => {
           <Card>
             <CardHeader><CardTitle className="text-base">Cooldown Bypass (≥{BIZ_REPEAT_THRESHOLD}× same business)</CardTitle></CardHeader>
             <CardContent>
-              {cooldownAbusers.length === 0 ? <p className="text-sm text-white/50">None detected.</p> : (
+              {cooldownAbusers.length === 0 ? <p className="text-sm text-white/80">None detected.</p> : (
                 <Table>
                   <TableHeader><TableRow><TableHead>Customer</TableHead><TableHead>Business</TableHead><TableHead>Repeat Scans</TableHead></TableRow></TableHeader>
                   <TableBody>
@@ -289,7 +289,7 @@ const QRScanFraudMonitor: React.FC = () => {
           <Card>
             <CardHeader><CardTitle className="text-base">Impossible Travel (&gt;200km in &lt;1h)</CardTitle></CardHeader>
             <CardContent>
-              {impossibleTravel.length === 0 ? <p className="text-sm text-white/50">None detected.</p> : (
+              {impossibleTravel.length === 0 ? <p className="text-sm text-white/80">None detected.</p> : (
                 <Table>
                   <TableHeader><TableRow><TableHead>Scan ID</TableHead><TableHead>Customer</TableHead><TableHead>Date</TableHead><TableHead></TableHead></TableRow></TableHeader>
                   <TableBody>

@@ -18,7 +18,7 @@ export default function AIAssistantPage() {
           <h1 className="text-4xl font-bold mb-2">
             <span className="text-gradient-gold">Kayla, Ph.D.</span>
           </h1>
-          <p className="text-accessible-on-blue text-white/70">
+          <p className="text-accessible-on-blue text-white">
             Triple-Model AI — instant answers about our loyalty program and marketplace
           </p>
         </div>

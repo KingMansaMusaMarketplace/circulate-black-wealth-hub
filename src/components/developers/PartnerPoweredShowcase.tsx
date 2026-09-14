@@ -63,7 +63,7 @@ const PartnerPoweredShowcase: React.FC = () => {
                     Ecosystem
                   </Badge>
                 </h2>
-                <p className="text-white/60 text-sm">
+                <p className="text-white/90 text-sm">
                   Apps built using data from our {stats?.active_partners || 0}+ partner directories
                 </p>
               </div>
@@ -71,11 +71,11 @@ const PartnerPoweredShowcase: React.FC = () => {
             <div className="flex items-center gap-6">
               <div className="text-center">
                 <p className="text-2xl font-bold text-mansagold">{stats?.partner_referred_businesses || 0}+</p>
-                <p className="text-xs text-white/50">Businesses Available</p>
+                <p className="text-xs text-white/80">Businesses Available</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-blue-400">{stats?.app_attributed_businesses || 0}</p>
-                <p className="text-xs text-white/50">Apps Using Data</p>
+                <p className="text-xs text-white/80">Apps Using Data</p>
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@ const PartnerPoweredShowcase: React.FC = () => {
                     Partner-Powered
                   </Badge>
                 </div>
-                <CardDescription className="text-white/60 text-sm">
+                <CardDescription className="text-white/90 text-sm">
                   {app.description}
                 </CardDescription>
               </CardHeader>
@@ -118,7 +118,7 @@ const PartnerPoweredShowcase: React.FC = () => {
                       <Badge 
                         key={source} 
                         variant="outline" 
-                        className="text-xs border-white/20 text-white/70"
+                        className="text-xs border-white/20 text-white"
                       >
                         {source}
                       </Badge>
@@ -130,11 +130,11 @@ const PartnerPoweredShowcase: React.FC = () => {
                 <div className="flex items-center justify-between text-sm bg-slate-900/40 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <Building2 className="h-4 w-4 text-emerald-400" />
-                    <span className="text-white/70">{app.businessesUsed} businesses</span>
+                    <span className="text-white">{app.businessesUsed} businesses</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-4 w-4 text-blue-400" />
-                    <span className="text-white/70">{app.apiCalls}</span>
+                    <span className="text-white">{app.apiCalls}</span>
                   </div>
                 </div>
               </CardContent>
@@ -153,7 +153,7 @@ const PartnerPoweredShowcase: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-white">Own a Business Directory?</h3>
-                <p className="text-sm text-white/60">
+                <p className="text-sm text-white/90">
                   Become a partner and earn when developers use your business data
                 </p>
               </div>

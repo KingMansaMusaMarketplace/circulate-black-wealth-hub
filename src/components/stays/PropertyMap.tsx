@@ -236,7 +236,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
       <div className="relative flex items-center justify-center bg-slate-900/50 rounded-lg" style={{ height }}>
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-mansagold mx-auto mb-2" />
-          <p className="text-sm text-white/60">Loading map...</p>
+          <p className="text-sm text-white/90">Loading map...</p>
         </div>
       </div>
     );

@@ -73,9 +73,9 @@ const PitchSlide6BusinessModel: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">
             <span className="text-mansagold">17</span> Revenue Streams
           </h2>
-          <p className="text-sm md:text-base text-white/70 max-w-3xl mx-auto">
+          <p className="text-sm md:text-base text-white max-w-3xl mx-auto">
             <span className="text-mansagold font-semibold">3 Launch Wedges</span> drive years 1–2 ·
-            <span className="text-white/80 font-semibold"> 14 Expansion Layers</span> unlock the platform ceiling
+            <span className="text-white font-semibold"> 14 Expansion Layers</span> unlock the platform ceiling
           </p>
         </motion.div>
 
@@ -104,7 +104,7 @@ const PitchSlide6BusinessModel: React.FC = () => {
                     <stream.icon className="w-6 h-6 text-mansagold" />
                   </div>
                   <h3 className="text-base font-bold text-white mb-1.5">{stream.name}</h3>
-                  <p className="text-white/70 text-xs mb-2 leading-snug">{stream.description}</p>
+                  <p className="text-white text-xs mb-2 leading-snug">{stream.description}</p>
                   <div className="text-sm font-bold text-mansagold">{stream.revenue}</div>
                 </Card>
               </motion.div>
@@ -116,7 +116,7 @@ const PitchSlide6BusinessModel: React.FC = () => {
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="h-px flex-1 bg-white/20" />
-            <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-white/60 uppercase">
+            <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-white/90 uppercase">
               Expansion Layer · Year 2+
             </span>
             <div className="h-px flex-1 bg-white/20" />
@@ -132,11 +132,11 @@ const PitchSlide6BusinessModel: React.FC = () => {
                 <Card className="p-2.5 bg-black/60 border border-white/15 hover:border-white/40 transition-all h-full">
                   <div className="flex items-start gap-2">
                     <div className="w-7 h-7 bg-white/10 rounded-md flex items-center justify-center flex-shrink-0">
-                      <stream.icon className="w-3.5 h-3.5 text-white/80" />
+                      <stream.icon className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div className="min-w-0">
                       <div className="text-[11px] font-bold text-white leading-tight">{stream.name}</div>
-                      <div className="text-[10px] text-white/50 leading-tight mt-0.5">{stream.note}</div>
+                      <div className="text-[10px] text-white/80 leading-tight mt-0.5">{stream.note}</div>
                     </div>
                   </div>
                 </Card>
@@ -157,7 +157,7 @@ const PitchSlide6BusinessModel: React.FC = () => {
                 <h3 className="text-base md:text-lg font-bold text-white mb-0.5">
                   Disciplined Wedge → 17-Stream Platform
                 </h3>
-                <p className="text-white/70 font-medium text-xs">
+                <p className="text-white font-medium text-xs">
                   86% Gross Margin · 142% NRR · 2.8-mo CAC Payback
                 </p>
               </div>
@@ -168,7 +168,7 @@ const PitchSlide6BusinessModel: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <div className="text-2xl md:text-3xl font-black text-white">$355</div>
-                  <div className="text-[10px] text-white/60 font-semibold">Blended ARPU</div>
+                  <div className="text-[10px] text-white/90 font-semibold">Blended ARPU</div>
                 </div>
               </div>
             </div>

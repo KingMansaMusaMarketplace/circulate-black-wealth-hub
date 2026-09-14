@@ -82,7 +82,7 @@ const TestimonialsSection = () => {
             <div className="bg-slate-900/70 backdrop-blur-xl rounded-2xl p-8 max-w-2xl mx-auto border border-mansagold/30 shadow-lg">
               <Star className="w-12 h-12 text-mansagold mx-auto mb-4" />
               <h3 className="text-xl font-bold text-white mb-2">Be the First to Share Your Story</h3>
-              <p className="text-white/80">
+              <p className="text-white">
                 Join our growing community and share your experience with 1325.AI!
               </p>
             </div>

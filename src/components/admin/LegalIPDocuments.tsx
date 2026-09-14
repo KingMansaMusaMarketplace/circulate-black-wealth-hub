@@ -522,7 +522,7 @@ const LegalIPDocuments: React.FC = () => {
                           variant="outline" 
                           className={item.status === 'pending' 
                             ? 'border-amber-500/50 text-amber-400' 
-                            : 'border-white/30 text-white/60'
+                            : 'border-white/30 text-white/90'
                           }
                         >
                           {item.status === 'pending' ? 'Next Action' : 'Upcoming'}
@@ -639,12 +639,12 @@ const LegalIPDocuments: React.FC = () => {
                     className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10"
                   >
                     <div className="p-2 rounded-lg bg-white/10">
-                      <FileText className="h-4 w-4 text-white/50" />
+                      <FileText className="h-4 w-4 text-white/80" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-white/80 font-medium text-sm">{doc.name}</h4>
+                      <h4 className="text-white font-medium text-sm">{doc.name}</h4>
                       <p className="text-xs text-blue-200/50 mt-1">{doc.description}</p>
-                      <Badge variant="outline" className="text-xs border-white/20 text-white/50 mt-2">
+                      <Badge variant="outline" className="text-xs border-white/20 text-white/80 mt-2">
                         Archived offline
                       </Badge>
                     </div>

@@ -325,7 +325,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
                 Business Intelligence
               </p>
               <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">Business Analytics</h1>
-              <p className="mt-2 max-w-xl text-white/70">
+              <p className="mt-2 max-w-xl text-white">
                 Real-time insight into customer engagement, loyalty and visit patterns.
               </p>
             </div>
@@ -343,11 +343,11 @@ const BusinessAnalyticsDashboard: React.FC = () => {
                 className="rounded-xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-white/70">{label}</span>
+                  <span className="text-sm font-medium text-white">{label}</span>
                   <Icon className="h-4 w-4 text-mansagold" />
                 </div>
                 <div className="mt-3 text-3xl font-bold tracking-tight text-white">{value}</div>
-                <p className="mt-1 text-xs text-white/50">{hint}</p>
+                <p className="mt-1 text-xs text-white/80">{hint}</p>
               </div>
             ))}
           </div>
@@ -356,7 +356,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 rounded-xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
               <h2 className="text-lg font-semibold text-white">Your reporting starts with the first scan</h2>
-              <p className="mt-1 text-sm text-white/70">
+              <p className="mt-1 text-sm text-white">
                 Three steps to turn everyday visits into measurable data.
               </p>
               <ol className="mt-6 space-y-5">
@@ -367,7 +367,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
                     </span>
                     <div>
                       <p className="font-medium text-white">{step.title}</p>
-                      <p className="text-sm text-white/60">{step.body}</p>
+                      <p className="text-sm text-white/90">{step.body}</p>
                     </div>
                   </li>
                 ))}
@@ -376,7 +376,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
 
             <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
               <h2 className="text-lg font-semibold text-white">What you'll see here</h2>
-              <ul className="mt-4 space-y-3 text-sm text-white/70">
+              <ul className="mt-4 space-y-3 text-sm text-white">
                 <li className="flex items-start gap-3">
                   <TrendingUp className="mt-0.5 h-4 w-4 shrink-0 text-mansagold" />
                   Daily visit trends across the last 7 days
@@ -423,7 +423,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
               Business Intelligence
             </p>
             <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">Business Analytics</h1>
-            <p className="mt-2 max-w-xl text-white/70">
+            <p className="mt-2 max-w-xl text-white">
               Real-time insight into customer engagement, loyalty and visit patterns.
             </p>
           </div>
@@ -441,11 +441,11 @@ const BusinessAnalyticsDashboard: React.FC = () => {
             <Card key={label} className="border-blue-300/20 bg-mansablue/40 backdrop-blur">
               <CardContent className="p-6">
                 <div className="flex items-start justify-between">
-                  <p className="text-sm font-medium text-white/70">{label}</p>
+                  <p className="text-sm font-medium text-white">{label}</p>
                   <Icon className="h-5 w-5 text-mansagold" />
                 </div>
                 <p className="mt-3 text-3xl font-bold text-white">{value}</p>
-                <p className="mt-1 text-xs text-white/50">{hint}</p>
+                <p className="mt-1 text-xs text-white/80">{hint}</p>
               </CardContent>
             </Card>
           ))}
@@ -454,9 +454,9 @@ const BusinessAnalyticsDashboard: React.FC = () => {
       {/* Analytics Tabs */}
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList className="border border-white/10 bg-mansablue/40">
-          <TabsTrigger value="overview" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Overview</TabsTrigger>
-          <TabsTrigger value="customers" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Customers</TabsTrigger>
-          <TabsTrigger value="activity" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Live Activity</TabsTrigger>
+          <TabsTrigger value="overview" className="text-white data-[state=active]:bg-mansagold data-[state=active]:text-black">Overview</TabsTrigger>
+          <TabsTrigger value="customers" className="text-white data-[state=active]:bg-mansagold data-[state=active]:text-black">Customers</TabsTrigger>
+          <TabsTrigger value="activity" className="text-white data-[state=active]:bg-mansagold data-[state=active]:text-black">Live Activity</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">

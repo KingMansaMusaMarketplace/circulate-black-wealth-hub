@@ -24,7 +24,7 @@ const BackToButton: React.FC = () => {
         variant="ghost"
         size="sm"
         onClick={handleBack}
-        className="text-white/80 hover:text-white hover:bg-white/15 gap-1.5 backdrop-blur-md bg-black/30 border border-white/10 shadow-lg"
+        className="text-white hover:text-white hover:bg-white/15 gap-1.5 backdrop-blur-md bg-black/30 border border-white/10 shadow-lg"
       >
         <ArrowLeft className="h-4 w-4" />
         Back

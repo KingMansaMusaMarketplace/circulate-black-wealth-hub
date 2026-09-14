@@ -161,7 +161,7 @@ const AdminRolesManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Shield className="h-8 w-8 text-mansagold" />
               <div>
-                <p className="text-white/60 text-sm">Total Roles</p>
+                <p className="text-white/90 text-sm">Total Roles</p>
                 <p className="text-2xl font-bold text-mansagold">{Object.keys(roleGroups).length}</p>
               </div>
             </div>
@@ -172,7 +172,7 @@ const AdminRolesManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Lock className="h-8 w-8 text-blue-400" />
               <div>
-                <p className="text-white/60 text-sm">Permissions</p>
+                <p className="text-white/90 text-sm">Permissions</p>
                 <p className="text-2xl font-bold text-blue-400">{permissions?.length || 0}</p>
               </div>
             </div>
@@ -183,7 +183,7 @@ const AdminRolesManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Users className="h-8 w-8 text-purple-400" />
               <div>
-                <p className="text-white/60 text-sm">Available Permissions</p>
+                <p className="text-white/90 text-sm">Available Permissions</p>
                 <p className="text-2xl font-bold text-purple-400">{allPermissions.length}</p>
               </div>
             </div>
@@ -211,7 +211,7 @@ const AdminRolesManager: React.FC = () => {
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
-                    <Label className="text-white/80">Role Name</Label>
+                    <Label className="text-white">Role Name</Label>
                     <Input
                       value={newRoleName}
                       onChange={(e) => setNewRoleName(e.target.value)}
@@ -223,7 +223,7 @@ const AdminRolesManager: React.FC = () => {
                     </p>
                   </div>
                   <div>
-                    <Label className="text-white/80 mb-2 block">Permissions</Label>
+                    <Label className="text-white mb-2 block">Permissions</Label>
                     <ScrollArea className="h-[300px] pr-4">
                       <div className="space-y-2">
                         {allPermissions.map((perm) => (
@@ -243,7 +243,7 @@ const AdminRolesManager: React.FC = () => {
                               />
                               <div>
                                 <p className="text-white font-medium">{perm.label}</p>
-                                <p className="text-white/60 text-sm">{perm.description}</p>
+                                <p className="text-white/90 text-sm">{perm.description}</p>
                               </div>
                             </div>
                           </div>
@@ -320,7 +320,7 @@ const AdminRolesManager: React.FC = () => {
                           <Badge
                             key={perm}
                             variant="outline"
-                            className="text-xs border-white/20 text-white/70"
+                            className="text-xs border-white/20 text-white"
                           >
                             {permInfo?.label || perm}
                           </Badge>
@@ -330,7 +330,7 @@ const AdminRolesManager: React.FC = () => {
                   </div>
                 ))}
                 {Object.keys(roleGroups).length === 0 && (
-                  <div className="text-center py-12 text-white/60">
+                  <div className="text-center py-12 text-white/90">
                     <Shield className="h-12 w-12 mx-auto mb-4 opacity-50" />
                     <p>No admin roles configured</p>
                   </div>
@@ -354,7 +354,7 @@ const AdminRolesManager: React.FC = () => {
             {allPermissions.map((perm) => (
               <div key={perm.key} className="p-3 bg-white/5 rounded-lg border border-white/10">
                 <p className="text-white font-medium text-sm">{perm.label}</p>
-                <p className="text-white/50 text-xs mt-1">{perm.description}</p>
+                <p className="text-white/80 text-xs mt-1">{perm.description}</p>
                 <code className="text-mansagold/70 text-xs mt-2 block">{perm.key}</code>
               </div>
             ))}
@@ -379,7 +379,7 @@ const AdminRolesManager: React.FC = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <Label className="text-white/80 mb-2 block">Permissions</Label>
+            <Label className="text-white mb-2 block">Permissions</Label>
             <ScrollArea className="h-[300px] pr-4">
               <div className="space-y-2">
                 {allPermissions.map((perm) => (
@@ -399,7 +399,7 @@ const AdminRolesManager: React.FC = () => {
                       />
                       <div>
                         <p className="text-white font-medium">{perm.label}</p>
-                        <p className="text-white/60 text-sm">{perm.description}</p>
+                        <p className="text-white/90 text-sm">{perm.description}</p>
                       </div>
                     </div>
                   </div>

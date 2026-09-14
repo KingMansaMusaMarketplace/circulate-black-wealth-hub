@@ -83,7 +83,7 @@ const BookRidePage: React.FC = () => {
         <div className="max-w-xl mx-auto text-center">
           <CheckCircle2 className="h-16 w-16 text-mansagold mx-auto mb-6" />
           <h1 className="text-3xl font-bold mb-3">Booking received</h1>
-          <p className="text-white/60 mb-8">
+          <p className="text-white/90 mb-8">
             Your scheduled ride for {new Date(form.scheduled_for).toLocaleString()} has been booked.
             We'll text you when a driver is assigned.
           </p>
@@ -106,7 +106,7 @@ const BookRidePage: React.FC = () => {
         <div className="container max-w-2xl mx-auto px-4">
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">Book your <span className="text-mansagold">scheduled ride</span></h1>
-            <p className="text-white/60">Premium hotel and airport transport. Pickups confirmed at least 2 hours in advance.</p>
+            <p className="text-white/90">Premium hotel and airport transport. Pickups confirmed at least 2 hours in advance.</p>
           </div>
 
           <Card className="bg-white/5 border-white/10">
@@ -202,7 +202,7 @@ const BookRidePage: React.FC = () => {
                   />
                   <div>
                     <div className="text-sm font-semibold text-white">Add meet-and-greet (+$15)</div>
-                    <div className="text-xs text-white/60">Driver meets you inside the terminal with a sign — perfect for airport arrivals.</div>
+                    <div className="text-xs text-white/90">Driver meets you inside the terminal with a sign — perfect for airport arrivals.</div>
                   </div>
                 </label>
 

@@ -49,13 +49,13 @@ const VerificationSettings: React.FC = () => {
       <Card className="backdrop-blur-xl bg-white/10 border-white/20">
         <CardHeader>
           <CardTitle className="text-white">Verification Process Settings</CardTitle>
-          <CardDescription className="text-white/60">Configure how business verification works on the platform</CardDescription>
+          <CardDescription className="text-white/90">Configure how business verification works on the platform</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <Alert className="bg-mansagold/20 border-mansagold/30">
             <AlertCircle className="h-4 w-4 text-mansagold" />
             <AlertTitle className="text-white">Information</AlertTitle>
-            <AlertDescription className="text-white/70">
+            <AlertDescription className="text-white">
               These settings control how business verification requests are processed.
               Changes will apply to new verification requests only.
             </AlertDescription>
@@ -73,7 +73,7 @@ const VerificationSettings: React.FC = () => {
                   }
                   className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="requireRegistrationProof" className="text-white/80">
+                <Label htmlFor="requireRegistrationProof" className="text-white">
                   Require Business Registration Documentation
                 </Label>
               </div>
@@ -87,7 +87,7 @@ const VerificationSettings: React.FC = () => {
                   }
                   className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="requireOwnershipProof" className="text-white/80">
+                <Label htmlFor="requireOwnershipProof" className="text-white">
                   Require Ownership Proof Documentation
                 </Label>
               </div>
@@ -101,7 +101,7 @@ const VerificationSettings: React.FC = () => {
                   }
                   className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="requireAddressProof" className="text-white/80">
+                <Label htmlFor="requireAddressProof" className="text-white">
                   Require Address Verification Documentation
                 </Label>
               </div>
@@ -114,7 +114,7 @@ const VerificationSettings: React.FC = () => {
             <h3 className="text-lg font-medium text-white">Verification Thresholds</h3>
             
             <div className="space-y-2">
-              <Label htmlFor="minOwnershipPercentage" className="text-white/80">
+              <Label htmlFor="minOwnershipPercentage" className="text-white">
                 Minimum Ownership Percentage Required: <span className="text-mansagold font-bold">{settings.minOwnershipPercentage}%</span>
               </Label>
               <Slider 
@@ -128,13 +128,13 @@ const VerificationSettings: React.FC = () => {
                 }
                 className="w-full"
               />
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-white/90">
                 Businesses must have at least this percentage of Black ownership to be verified.
               </p>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="autoApproveThreshold" className="text-white/80">
+              <Label htmlFor="autoApproveThreshold" className="text-white">
                 Auto-Approve Ownership Threshold: <span className="text-mansagold font-bold">{settings.autoApproveThreshold > 0 ? `${settings.autoApproveThreshold}%` : "Disabled"}</span>
               </Label>
               <Slider 
@@ -148,7 +148,7 @@ const VerificationSettings: React.FC = () => {
                 }
                 className="w-full"
               />
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-white/90">
                 Automatically approve businesses with ownership percentage above this threshold. Set to 0 to disable.
               </p>
             </div>
@@ -168,7 +168,7 @@ const VerificationSettings: React.FC = () => {
                   }
                   className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="notifyAdminOnNewRequest" className="text-white/80">
+                <Label htmlFor="notifyAdminOnNewRequest" className="text-white">
                   Notify administrators on new verification requests
                 </Label>
               </div>
@@ -182,7 +182,7 @@ const VerificationSettings: React.FC = () => {
                   }
                   className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="notifyBusinessOnStatusChange" className="text-white/80">
+                <Label htmlFor="notifyBusinessOnStatusChange" className="text-white">
                   Notify businesses when verification status changes
                 </Label>
               </div>
@@ -194,10 +194,10 @@ const VerificationSettings: React.FC = () => {
       <Card className="backdrop-blur-xl bg-white/10 border-white/20">
         <CardHeader>
           <CardTitle className="text-white">Verification Team Management</CardTitle>
-          <CardDescription className="text-white/60">Configure who can approve or reject business verifications</CardDescription>
+          <CardDescription className="text-white/90">Configure who can approve or reject business verifications</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-white/60 mb-4">
+          <p className="text-white/90 mb-4">
             This feature will be available in a future update. Currently, all users with admin privileges can manage verifications.
           </p>
         </CardContent>

@@ -260,7 +260,7 @@ const AutomatedMessaging: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-white">Automated Messaging</h2>
-          <p className="text-sm text-white/50">Schedule messages to guests at key moments during their stay</p>
+          <p className="text-sm text-white/80">Schedule messages to guests at key moments during their stay</p>
         </div>
         <Button onClick={() => openEditor()} className="bg-mansagold hover:bg-mansagold/90 text-black">
           <Plus className="w-4 h-4 mr-2" /> New Template
@@ -275,7 +275,7 @@ const AutomatedMessaging: React.FC = () => {
               <Sparkles className="w-4 h-4 text-mansagold" />
               Quick Start — Use a Preset
             </CardTitle>
-            <CardDescription className="text-white/50">
+            <CardDescription className="text-white/80">
               Start with a pre-built template and customize it for your property
             </CardDescription>
           </CardHeader>
@@ -376,7 +376,7 @@ const AutomatedMessaging: React.FC = () => {
       {/* Add More Button */}
       {templates.length > 0 && (
         <div className="flex gap-3">
-          <Button variant="outline" onClick={() => openEditor()} className="border-white/10 text-white/60 hover:text-white">
+          <Button variant="outline" onClick={() => openEditor()} className="border-white/10 text-white/90 hover:text-white">
             <Plus className="w-4 h-4 mr-2" /> Add Template
           </Button>
         </div>
@@ -389,14 +389,14 @@ const AutomatedMessaging: React.FC = () => {
             <DialogTitle className="text-white">
               {editingTemplate ? 'Edit Template' : 'New Message Template'}
             </DialogTitle>
-            <DialogDescription className="text-white/50">
+            <DialogDescription className="text-white/80">
               Create automated messages that are sent to guests at key moments
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 py-2">
             <div>
-              <Label className="text-white/70">Template Name</Label>
+              <Label className="text-white">Template Name</Label>
               <Input
                 value={form.name}
                 onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
@@ -407,7 +407,7 @@ const AutomatedMessaging: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/70">Category</Label>
+                <Label className="text-white">Category</Label>
                 <Select value={form.category} onValueChange={v => setForm(f => ({ ...f, category: v }))}>
                   <SelectTrigger className="bg-slate-800 border-white/10 text-white mt-1">
                     <SelectValue />
@@ -420,7 +420,7 @@ const AutomatedMessaging: React.FC = () => {
                 </Select>
               </div>
               <div>
-                <Label className="text-white/70">Property</Label>
+                <Label className="text-white">Property</Label>
                 <Select value={form.property_id} onValueChange={v => setForm(f => ({ ...f, property_id: v }))}>
                   <SelectTrigger className="bg-slate-800 border-white/10 text-white mt-1">
                     <SelectValue />
@@ -437,7 +437,7 @@ const AutomatedMessaging: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/70">Send When</Label>
+                <Label className="text-white">Send When</Label>
                 <Select value={form.trigger_type} onValueChange={v => setForm(f => ({ ...f, trigger_type: v }))}>
                   <SelectTrigger className="bg-slate-800 border-white/10 text-white mt-1">
                     <SelectValue />
@@ -451,7 +451,7 @@ const AutomatedMessaging: React.FC = () => {
               </div>
               {['before_checkin', 'during_stay', 'before_checkout'].includes(form.trigger_type) && (
                 <div>
-                  <Label className="text-white/70">Hours Offset</Label>
+                  <Label className="text-white">Hours Offset</Label>
                   <Input
                     type="number"
                     min={1}
@@ -465,7 +465,7 @@ const AutomatedMessaging: React.FC = () => {
             </div>
 
             <div>
-              <Label className="text-white/70">Subject (optional)</Label>
+              <Label className="text-white">Subject (optional)</Label>
               <Input
                 value={form.subject}
                 onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
@@ -475,7 +475,7 @@ const AutomatedMessaging: React.FC = () => {
             </div>
 
             <div>
-              <Label className="text-white/70">Message Body</Label>
+              <Label className="text-white">Message Body</Label>
               <Textarea
                 value={form.body}
                 onChange={e => setForm(f => ({ ...f, body: e.target.value }))}
@@ -492,10 +492,10 @@ const AutomatedMessaging: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Switch checked={form.is_active} onCheckedChange={v => setForm(f => ({ ...f, is_active: v }))} />
-                <Label className="text-white/70 text-sm">Active</Label>
+                <Label className="text-white text-sm">Active</Label>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setShowEditor(false)} className="border-white/10 text-white/60">
+                <Button variant="outline" onClick={() => setShowEditor(false)} className="border-white/10 text-white/90">
                   Cancel
                 </Button>
                 <Button onClick={saveTemplate} className="bg-mansagold hover:bg-mansagold/90 text-black">

@@ -58,14 +58,14 @@ const TenantConfirmLeasePage: React.FC = () => {
       <section className="max-w-2xl mx-auto p-4 md:p-10">
         <h1 className="text-3xl font-bold">Confirm your lease</h1>
         <Card className="bg-white/5 border-white/10 p-6 mt-6 space-y-3">
-          <p className="text-white/70">Property</p>
+          <p className="text-white">Property</p>
           <p className="text-xl font-semibold">{p?.title}</p>
-          <p className="text-white/60">{p?.city}, {p?.state}</p>
+          <p className="text-white/90">{p?.city}, {p?.state}</p>
           <div className="border-t border-white/10 pt-3 mt-3 text-sm space-y-1">
-            <p><span className="text-white/50">Monthly rent:</span> ${Number(agreement.monthly_rent).toLocaleString()}</p>
-            <p><span className="text-white/50">Lease start:</span> {agreement.lease_start_date}</p>
-            <p><span className="text-white/50">Tenant on file:</span> {agreement.tenant_name} ({agreement.tenant_email})</p>
-            <p><span className="text-white/50">Status:</span> {agreement.status}</p>
+            <p><span className="text-white/80">Monthly rent:</span> ${Number(agreement.monthly_rent).toLocaleString()}</p>
+            <p><span className="text-white/80">Lease start:</span> {agreement.lease_start_date}</p>
+            <p><span className="text-white/80">Tenant on file:</span> {agreement.tenant_name} ({agreement.tenant_email})</p>
+            <p><span className="text-white/80">Status:</span> {agreement.status}</p>
           </div>
 
           {agreement.tenant_confirmed_at ? (
@@ -75,7 +75,7 @@ const TenantConfirmLeasePage: React.FC = () => {
             </div>
           ) : (
             <>
-              <p className="text-xs text-white/60">
+              <p className="text-xs text-white/90">
                 By confirming, you acknowledge you have agreed to lease this property from the landlord at the terms above.
                 Mansa Stays is not a real estate broker and does not handle lease signing, escrow, or deposits.
               </p>

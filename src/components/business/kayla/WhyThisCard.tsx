@@ -33,19 +33,19 @@ export const WhyThisCard: React.FC<Props> = ({ reasoning, className }) => {
         {open ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
       </button>
       {open && (
-        <div className="mt-2 space-y-1.5 text-[11px] text-white/70 bg-mansagold/5 border border-mansagold/15 rounded-md p-2">
+        <div className="mt-2 space-y-1.5 text-[11px] text-white bg-mansagold/5 border border-mansagold/15 rounded-md p-2">
           {reasoning.inputs?.length > 0 && (
             <div className="grid grid-cols-2 gap-x-2 gap-y-1">
               {reasoning.inputs.map((i, idx) => (
                 <div key={idx} className="flex justify-between gap-2">
-                  <span className="text-white/50">{i.label}:</span>
-                  <span className="text-white/80 font-medium truncate">{i.value}</span>
+                  <span className="text-white/80">{i.label}:</span>
+                  <span className="text-white font-medium truncate">{i.value}</span>
                 </div>
               ))}
             </div>
           )}
           {reasoning.rationale && (
-            <p className="italic text-white/60 pt-1 border-t border-white/5">{reasoning.rationale}</p>
+            <p className="italic text-white/90 pt-1 border-t border-white/5">{reasoning.rationale}</p>
           )}
         </div>
       )}

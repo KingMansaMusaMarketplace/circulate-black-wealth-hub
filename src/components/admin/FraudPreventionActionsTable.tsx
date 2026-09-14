@@ -80,14 +80,14 @@ export const FraudPreventionActionsTable = () => {
               <ShieldCheck className="h-5 w-5 text-mansagold" />
               Automatic Prevention Actions
             </h3>
-            <p className="text-white/60 text-sm mt-1">
+            <p className="text-white/90 text-sm mt-1">
               Actions automatically taken by the AI fraud detection system
             </p>
           </div>
         </div>
 
         {actions.length === 0 ? (
-          <div className="text-center py-8 text-white/60">
+          <div className="text-center py-8 text-white/90">
             No prevention actions taken yet
           </div>
         ) : (
@@ -123,24 +123,24 @@ export const FraudPreventionActionsTable = () => {
                         {action.action_details?.reason || 'Fraud prevention action'}
                       </p>
                       {action.action_details?.alert_description && (
-                        <p className="text-white/60">
+                        <p className="text-white/90">
                           {action.action_details.alert_description}
                         </p>
                       )}
                       {action.action_details?.confidence_score && (
-                        <p className="text-xs text-white/50">
+                        <p className="text-xs text-white/80">
                           AI Confidence: {(action.action_details.confidence_score * 100).toFixed(0)}%
                         </p>
                       )}
                     </div>
                     
-                    <div className="text-xs text-white/50 mt-2">
+                    <div className="text-xs text-white/80 mt-2">
                       {formatDistanceToNow(new Date(action.created_at), { addSuffix: true })}
                     </div>
 
                     {action.reversed_at && action.reversal_reason && (
-                      <div className="mt-2 p-2 bg-white/5 rounded text-xs text-white/70">
-                        <span className="font-medium text-white/80">Reversal reason: </span>
+                      <div className="mt-2 p-2 bg-white/5 rounded text-xs text-white">
+                        <span className="font-medium text-white">Reversal reason: </span>
                         {action.reversal_reason}
                       </div>
                     )}

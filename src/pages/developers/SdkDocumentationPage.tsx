@@ -251,14 +251,14 @@ print(f"Travel Possible: {verification.is_possible}")`;
   const CodeBlock = ({ code, id, language }: { code: string; id: string; language: string }) => (
     <div className="relative">
       <div className="absolute top-2 right-2 flex items-center gap-2">
-        <Badge variant="outline" className="border-white/20 text-white/60 text-xs">
+        <Badge variant="outline" className="border-white/20 text-white/90 text-xs">
           {language}
         </Badge>
         <Button
           variant="ghost"
           size="sm"
           onClick={() => copyToClipboard(code, id)}
-          className="text-white/60 hover:text-white hover:bg-white/10 h-7 w-7 p-0"
+          className="text-white/90 hover:text-white hover:bg-white/10 h-7 w-7 p-0"
         >
           {copiedCode === id ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
         </Button>
@@ -281,13 +281,13 @@ print(f"Travel Possible: {verification.is_possible}")`;
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link to="/developers">
-            <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/10">
+            <Button variant="ghost" size="icon" className="text-white hover:text-white hover:bg-white/10">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
           <div>
             <h1 className="text-3xl font-bold text-white">SDKs & Libraries</h1>
-            <p className="text-white/60">Official SDKs for JavaScript and Python</p>
+            <p className="text-white/90">Official SDKs for JavaScript and Python</p>
           </div>
         </div>
 
@@ -300,7 +300,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               </div>
               <div>
                 <p className="text-white font-medium">@1325ai/sdk</p>
-                <p className="text-white/60 text-sm">JavaScript / TypeScript</p>
+                <p className="text-white/90 text-sm">JavaScript / TypeScript</p>
               </div>
             </CardContent>
           </Card>
@@ -311,7 +311,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               </div>
               <div>
                 <p className="text-white font-medium">1325ai</p>
-                <p className="text-white/60 text-sm">Python 3.8+</p>
+                <p className="text-white/90 text-sm">Python 3.8+</p>
               </div>
             </CardContent>
           </Card>
@@ -323,7 +323,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
                 </div>
                 <div>
                   <p className="text-white font-medium">REST API Docs</p>
-                  <p className="text-white/60 text-sm">Full API reference</p>
+                  <p className="text-white/90 text-sm">Full API reference</p>
                 </div>
               </CardContent>
             </Card>
@@ -335,14 +335,14 @@ print(f"Travel Possible: {verification.is_possible}")`;
           <TabsList className="bg-slate-800/60 border border-white/10 p-1">
             <TabsTrigger
               value="javascript"
-              className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60"
+              className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/90"
             >
               <Package className="h-4 w-4 mr-2" />
               JavaScript
             </TabsTrigger>
             <TabsTrigger
               value="python"
-              className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white text-white/60"
+              className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white text-white/90"
             >
               <Terminal className="h-4 w-4 mr-2" />
               Python
@@ -358,13 +358,13 @@ print(f"Travel Possible: {verification.is_possible}")`;
                   <Zap className="h-5 w-5 text-mansablue" />
                   Installation
                 </CardTitle>
-                <CardDescription className="text-white/60">
+                <CardDescription className="text-white/90">
                   Install via npm, yarn, or pnpm
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <CodeBlock code={jsInstall} id="js-install" language="bash" />
-                <p className="text-white/60 text-sm">
+                <p className="text-white/90 text-sm">
                   Requires Node.js 16+ or modern browser with ES2020 support.
                 </p>
               </CardContent>
@@ -374,7 +374,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
             <Card className="glass-card border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">Quick Start</CardTitle>
-                <CardDescription className="text-white/60">
+                <CardDescription className="text-white/90">
                   Initialize the client and make your first API call
                 </CardDescription>
               </CardHeader>
@@ -388,7 +388,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Card className="glass-card border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white text-lg">CMAL Engine</CardTitle>
-                  <CardDescription className="text-white/60">Economic impact calculations</CardDescription>
+                  <CardDescription className="text-white/90">Economic impact calculations</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CodeBlock code={jsCmalExample} id="js-cmal" language="typescript" />
@@ -398,7 +398,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Card className="glass-card border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white text-lg">Voice AI Bridge</CardTitle>
-                  <CardDescription className="text-white/60">Real-time voice AI sessions</CardDescription>
+                  <CardDescription className="text-white/90">Real-time voice AI sessions</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CodeBlock code={jsVoiceExample} id="js-voice" language="typescript" />
@@ -408,7 +408,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Card className="glass-card border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white text-lg">Susu Protocol</CardTitle>
-                  <CardDescription className="text-white/60">Savings circle management</CardDescription>
+                  <CardDescription className="text-white/90">Savings circle management</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CodeBlock code={jsSusuExample} id="js-susu" language="typescript" />
@@ -418,7 +418,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Card className="glass-card border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white text-lg">Fraud Detection</CardTitle>
-                  <CardDescription className="text-white/60">Transaction security analysis</CardDescription>
+                  <CardDescription className="text-white/90">Transaction security analysis</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CodeBlock code={jsFraudExample} id="js-fraud" language="typescript" />
@@ -436,13 +436,13 @@ print(f"Travel Possible: {verification.is_possible}")`;
                   <Zap className="h-5 w-5 text-emerald-400" />
                   Installation
                 </CardTitle>
-                <CardDescription className="text-white/60">
+                <CardDescription className="text-white/90">
                   Install via pip or poetry
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <CodeBlock code={pyInstall} id="py-install" language="bash" />
-                <p className="text-white/60 text-sm">
+                <p className="text-white/90 text-sm">
                   Requires Python 3.8+ with async support.
                 </p>
               </CardContent>
@@ -452,7 +452,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
             <Card className="glass-card border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">Quick Start</CardTitle>
-                <CardDescription className="text-white/60">
+                <CardDescription className="text-white/90">
                   Initialize the client and make your first API call
                 </CardDescription>
               </CardHeader>
@@ -466,7 +466,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Card className="glass-card border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white text-lg">CMAL Engine</CardTitle>
-                  <CardDescription className="text-white/60">Economic impact calculations</CardDescription>
+                  <CardDescription className="text-white/90">Economic impact calculations</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CodeBlock code={pyCmalExample} id="py-cmal" language="python" />
@@ -476,7 +476,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Card className="glass-card border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white text-lg">Voice AI Bridge</CardTitle>
-                  <CardDescription className="text-white/60">Real-time voice AI sessions</CardDescription>
+                  <CardDescription className="text-white/90">Real-time voice AI sessions</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CodeBlock code={pyVoiceExample} id="py-voice" language="python" />
@@ -486,7 +486,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Card className="glass-card border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white text-lg">Susu Protocol</CardTitle>
-                  <CardDescription className="text-white/60">Savings circle management</CardDescription>
+                  <CardDescription className="text-white/90">Savings circle management</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CodeBlock code={pySusuExample} id="py-susu" language="python" />
@@ -496,7 +496,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Card className="glass-card border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white text-lg">Fraud Detection</CardTitle>
-                  <CardDescription className="text-white/60">Transaction security analysis</CardDescription>
+                  <CardDescription className="text-white/90">Transaction security analysis</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CodeBlock code={pyFraudExample} id="py-fraud" language="python" />
@@ -513,12 +513,12 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Zap className="h-5 w-5 text-amber-400" />
               Sandbox Mode
             </CardTitle>
-            <CardDescription className="text-white/60">
+            <CardDescription className="text-white/90">
               Test your integration without incurring real charges
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-white/80">
+            <p className="text-white">
               Both SDKs support a <code className="text-amber-400 bg-slate-900/60 px-1.5 py-0.5 rounded">sandbox</code> mode 
               that returns mock responses without hitting the production API. Perfect for development and testing.
             </p>
@@ -540,7 +540,7 @@ print(f"Travel Possible: {verification.is_possible}")`;
               <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/50">
                 Test API Keys
               </Badge>
-              <span className="text-white/60">Use keys starting with <code className="text-amber-400">1325_test_</code> for sandbox</span>
+              <span className="text-white/90">Use keys starting with <code className="text-amber-400">1325_test_</code> for sandbox</span>
             </div>
           </CardContent>
         </Card>

@@ -12,7 +12,7 @@ const levels = [
     desc: 'ChatGPT, Claude, Gemini. You ask, they answer. One task at a time.',
     accent: 'from-white/10 to-white/5',
     border: 'border-white/10',
-    text: 'text-white/60',
+    text: 'text-white/90',
   },
   {
     num: '02',
@@ -58,7 +58,7 @@ const AgenticProtocolSection: React.FC = () => {
               we built the rails AI agents transact on.
             </span>
           </h2>
-          <p className="text-base md:text-lg text-white/60 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-white/90 max-w-3xl mx-auto leading-relaxed">
             {siteConfig.infrastructureTagline} — the infrastructure layer where autonomous AI organizations
             discover, transact, and circulate wealth across an underserved $2.10T U.S. and $9.1T global Black consumer market.
           </p>
@@ -96,7 +96,7 @@ const AgenticProtocolSection: React.FC = () => {
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-3 leading-tight">
                   {level.title}
                 </h3>
-                <p className="text-sm text-white/60 leading-relaxed mb-5">
+                <p className="text-sm text-white/90 leading-relaxed mb-5">
                   {level.desc}
                 </p>
 
@@ -122,7 +122,7 @@ const AgenticProtocolSection: React.FC = () => {
               </div>
               <ul className="space-y-2">
                 {siteConfig.iaasPillars.infrastructure.map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm text-white/70">
+                  <li key={item} className="flex items-center gap-2 text-sm text-white">
                     <ArrowRight className="w-3.5 h-3.5 text-mansagold flex-shrink-0" />
                     {item}
                   </li>
@@ -135,7 +135,7 @@ const AgenticProtocolSection: React.FC = () => {
               </div>
               <ul className="space-y-2">
                 {siteConfig.iaasPillars.dataPlatform.map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm text-white/70">
+                  <li key={item} className="flex items-center gap-2 text-sm text-white">
                     <ArrowRight className="w-3.5 h-3.5 text-mansagold flex-shrink-0" />
                     {item}
                   </li>
@@ -148,7 +148,7 @@ const AgenticProtocolSection: React.FC = () => {
               </div>
               <ul className="space-y-2">
                 {siteConfig.iaasPillars.applications.map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm text-white/70">
+                  <li key={item} className="flex items-center gap-2 text-sm text-white">
                     <ArrowRight className="w-3.5 h-3.5 text-mansagold flex-shrink-0" />
                     {item}
                   </li>

@@ -37,7 +37,7 @@ const PitchSlide13Ask: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             The <span className="text-mansagold">Ask</span>
           </h2>
-          <p className="text-white/70 text-lg max-w-3xl mx-auto">
+          <p className="text-white text-lg max-w-3xl mx-auto">
             Funding the world's first <span className="text-mansagold font-semibold">Economic Operating System</span> — agentic commerce infrastructure with no direct competitor.
           </p>
         </motion.div>
@@ -57,10 +57,10 @@ const PitchSlide13Ask: React.FC = () => {
                 </Badge>
                 <div className="text-6xl font-black text-mansagold mb-2">$3M</div>
                 <p className="text-white font-semibold">Seed @ $30M post-money</p>
-                <p className="text-white/60 text-sm mt-1">10% dilution · 18-month runway</p>
+                <p className="text-white/90 text-sm mt-1">10% dilution · 18-month runway</p>
                 <div className="mt-3 flex items-center justify-center gap-2">
                   <TrendingUp className="w-4 h-4 text-mansagold/80" />
-                  <span className="text-white/70 text-sm">$1.82B long-term TAM (see appendix)</span>
+                  <span className="text-white text-sm">$1.82B long-term TAM (see appendix)</span>
                 </div>
               </div>
 
@@ -83,7 +83,7 @@ const PitchSlide13Ask: React.FC = () => {
                         transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
                       />
                     </div>
-                    <p className="text-white/80 text-xs">{item.description}</p>
+                    <p className="text-white text-xs">{item.description}</p>
                   </div>
                 ))}
               </div>

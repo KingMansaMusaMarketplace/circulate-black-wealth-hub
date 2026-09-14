@@ -183,7 +183,7 @@ const UserGuidePage: React.FC = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-white/90 hover:text-white"
                 onClick={() => setSearchTerm('')}
               >
                 Clear
@@ -406,10 +406,10 @@ const UserGuidePage: React.FC = () => {
 
         {/* Legal Footer */}
         <div className="mt-16 pt-8 border-t border-white/10 text-center space-y-2">
-          <p className="text-xs text-white/60">
+          <p className="text-xs text-white/90">
             © 2026 1325.AI. All Rights Reserved.
           </p>
-          <p className="text-xs text-white/50">
+          <p className="text-xs text-white/80">
             CONFIDENTIAL & PROPRIETARY - Unauthorized reproduction or distribution prohibited.
           </p>
           <p className="text-xs text-white/40">

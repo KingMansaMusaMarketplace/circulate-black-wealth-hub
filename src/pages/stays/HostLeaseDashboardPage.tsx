@@ -166,10 +166,10 @@ const HostLeaseDashboardPage: React.FC = () => {
       pending_landlord_confirm: { label: "Waiting on you", cls: "bg-orange-500/20 text-orange-300 border-orange-500/40", Icon: Clock },
       confirmed: { label: "Confirmed — pay $99", cls: "bg-green-500/20 text-green-300 border-green-500/40", Icon: CheckCircle2 },
       paid: { label: "Paid", cls: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40", Icon: CheckCircle2 },
-      refunded: { label: "Refunded", cls: "bg-white/10 text-white/70 border-white/20", Icon: DollarSign },
+      refunded: { label: "Refunded", cls: "bg-white/10 text-white border-white/20", Icon: DollarSign },
       cancelled: { label: "Cancelled", cls: "bg-red-500/20 text-red-300 border-red-500/40", Icon: Clock },
     };
-    const c = map[s] || { label: s, cls: "bg-white/10 text-white/80 border-white/20", Icon: Clock };
+    const c = map[s] || { label: s, cls: "bg-white/10 text-white border-white/20", Icon: Clock };
     const Icon = c.Icon;
     return <Badge variant="outline" className={`${c.cls} gap-1`}><Icon className="w-3 h-3" />{c.label}</Badge>;
   };
@@ -191,7 +191,7 @@ const HostLeaseDashboardPage: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold">My Lease Listings</h1>
-            <p className="text-white/80 mt-2">Manage inquiries, mark leases as signed, and pay the $99 success fee.</p>
+            <p className="text-white mt-2">Manage inquiries, mark leases as signed, and pay the $99 success fee.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10 min-h-[48px]">
@@ -204,7 +204,7 @@ const HostLeaseDashboardPage: React.FC = () => {
         </div>
 
         {loading ? (
-          <p className="text-white/70">Loading…</p>
+          <p className="text-white">Loading…</p>
         ) : listings.length === 0 ? (
           <Card className="bg-white/10 border-white/20 p-8 text-center">
             <p className="text-white/90 mb-4">You don't have any lease listings yet.</p>
@@ -229,7 +229,7 @@ const HostLeaseDashboardPage: React.FC = () => {
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
                     <div>
                       <h2 className="text-xl font-bold text-white">{l.title}</h2>
-                      <p className="text-white/70 text-sm">{l.city}, {l.state} · ${Number(l.monthly_rent).toLocaleString()}/mo</p>
+                      <p className="text-white text-sm">{l.city}, {l.state} · ${Number(l.monthly_rent).toLocaleString()}/mo</p>
                     </div>
                     <div className="flex gap-2 flex-wrap">
                       <Button asChild variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10"><Link to={`/stays/lease/${l.id}`}><ExternalLink className="w-3 h-3 mr-1" />View public page</Link></Button>
@@ -242,17 +242,17 @@ const HostLeaseDashboardPage: React.FC = () => {
                   <div className="mt-4">
                     <h3 className="text-sm font-semibold text-white/90 mb-2">Inquiries ({myInquiries.length})</h3>
                     {myInquiries.length === 0 ? (
-                      <p className="text-white/60 text-sm">No inquiries yet.</p>
+                      <p className="text-white/90 text-sm">No inquiries yet.</p>
                     ) : (
                       <div className="space-y-2">
                         {myInquiries.map(i => (
                           <div key={i.id} className="flex items-start justify-between gap-3 bg-white/5 border border-white/15 rounded p-3">
                             <div className="text-sm">
                               <p className="font-medium text-white">{i.tenant_name}</p>
-                              <p className="text-white/70 flex items-center gap-2 mt-1"><Mail className="w-3 h-3" /><a href={`mailto:${i.tenant_email}`} className="underline">{i.tenant_email}</a></p>
-                              {i.tenant_phone && <p className="text-white/70 flex items-center gap-2"><Phone className="w-3 h-3" />{i.tenant_phone}</p>}
-                              {i.desired_move_in && <p className="text-white/70 flex items-center gap-2"><Calendar className="w-3 h-3" />Wants in by {i.desired_move_in}</p>}
-                              {i.message && <p className="text-white/80 mt-2 italic">"{i.message}"</p>}
+                              <p className="text-white flex items-center gap-2 mt-1"><Mail className="w-3 h-3" /><a href={`mailto:${i.tenant_email}`} className="underline">{i.tenant_email}</a></p>
+                              {i.tenant_phone && <p className="text-white flex items-center gap-2"><Phone className="w-3 h-3" />{i.tenant_phone}</p>}
+                              {i.desired_move_in && <p className="text-white flex items-center gap-2"><Calendar className="w-3 h-3" />Wants in by {i.desired_move_in}</p>}
+                              {i.message && <p className="text-white mt-2 italic">"{i.message}"</p>}
                             </div>
                             <Button onClick={() => openMarkLeased(l, i)} size="sm" variant="outline" className="border-mansagold/60 text-mansagold hover:bg-mansagold/20 shrink-0">Mark Leased</Button>
                           </div>
@@ -270,8 +270,8 @@ const HostLeaseDashboardPage: React.FC = () => {
                           <div key={a.id} className="bg-white/5 border border-white/15 rounded p-3">
                             <div className="flex items-start justify-between gap-3 flex-wrap">
                               <div className="text-sm">
-                                <p className="font-medium text-white">{a.tenant_name} <span className="text-white/60 font-normal">· {a.tenant_email}</span></p>
-                                <p className="text-white/70 mt-1">Start: {a.lease_start_date} · ${Number(a.monthly_rent).toLocaleString()}/mo</p>
+                                <p className="font-medium text-white">{a.tenant_name} <span className="text-white/90 font-normal">· {a.tenant_email}</span></p>
+                                <p className="text-white mt-1">Start: {a.lease_start_date} · ${Number(a.monthly_rent).toLocaleString()}/mo</p>
                                 <div className="mt-2">{statusBadge(a.status)}</div>
                               </div>
                               <div className="flex flex-col gap-2 items-end">
@@ -284,7 +284,7 @@ const HostLeaseDashboardPage: React.FC = () => {
                                   </Button>
                                 )}
                                 {a.fee_charged_at && a.refund_eligible_until && new Date(a.refund_eligible_until) > new Date() && (
-                                  <p className="text-xs text-white/60">Refundable until {new Date(a.refund_eligible_until).toLocaleDateString()}</p>
+                                  <p className="text-xs text-white/90">Refundable until {new Date(a.refund_eligible_until).toLocaleDateString()}</p>
                                 )}
                               </div>
                             </div>
@@ -309,23 +309,23 @@ const HostLeaseDashboardPage: React.FC = () => {
             <DialogTitle>Mark as Leased — {markLeasedFor?.title}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
-            <p className="text-sm text-white/80">
+            <p className="text-sm text-white">
               We'll create a pending lease record and give you a link to send your tenant. Once they click it and confirm in-app,
               you'll be charged the $99 success fee (full refund within 7 days).
             </p>
-            <Input placeholder="Tenant full name *" value={form.tenant_name} onChange={(e) => setForm({ ...form, tenant_name: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/60" />
-            <Input type="email" placeholder="Tenant email *" value={form.tenant_email} onChange={(e) => setForm({ ...form, tenant_email: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/60" />
+            <Input placeholder="Tenant full name *" value={form.tenant_name} onChange={(e) => setForm({ ...form, tenant_name: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/90" />
+            <Input type="email" placeholder="Tenant email *" value={form.tenant_email} onChange={(e) => setForm({ ...form, tenant_email: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/90" />
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-white/70 mb-1 block">Lease start *</label>
+                <label className="text-xs text-white mb-1 block">Lease start *</label>
                 <Input type="date" value={form.lease_start_date} onChange={(e) => setForm({ ...form, lease_start_date: e.target.value })} className="bg-white/10 border-white/30 text-white" />
               </div>
               <div>
-                <label className="text-xs text-white/70 mb-1 block">Lease end (optional)</label>
+                <label className="text-xs text-white mb-1 block">Lease end (optional)</label>
                 <Input type="date" value={form.lease_end_date} onChange={(e) => setForm({ ...form, lease_end_date: e.target.value })} className="bg-white/10 border-white/30 text-white" />
               </div>
             </div>
-            <Input type="number" placeholder="Monthly rent ($) *" value={form.monthly_rent || ""} onChange={(e) => setForm({ ...form, monthly_rent: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/60" />
+            <Input type="number" placeholder="Monthly rent ($) *" value={form.monthly_rent || ""} onChange={(e) => setForm({ ...form, monthly_rent: +e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/90" />
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setMarkLeasedFor(null)} className="border-white/30 text-white hover:bg-white/10">Cancel</Button>

@@ -21,7 +21,7 @@ const DiscoveryStep: React.FC<DiscoveryStepProps> = ({ isHovered }) => {
               <div className="bg-blue-500/20 rounded-full p-2 mr-3">🍽️</div>
               <div>
                 <h5 className="font-semibold text-white">Restaurants</h5>
-                <p className="text-sm text-white/70">56 nearby</p>
+                <p className="text-sm text-white">56 nearby</p>
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@ const DiscoveryStep: React.FC<DiscoveryStepProps> = ({ isHovered }) => {
               <div className="bg-blue-500/20 rounded-full p-2 mr-3">✂️</div>
               <div>
                 <h5 className="font-semibold text-white">Beauty & Barber</h5>
-                <p className="text-sm text-white/70">42 nearby</p>
+                <p className="text-sm text-white">42 nearby</p>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@ const DiscoveryStep: React.FC<DiscoveryStepProps> = ({ isHovered }) => {
               <div className="bg-blue-500/20 rounded-full p-2 mr-3">🛍️</div>
               <div>
                 <h5 className="font-semibold text-white">Retail</h5>
-                <p className="text-sm text-white/70">38 nearby</p>
+                <p className="text-sm text-white">38 nearby</p>
               </div>
             </div>
           </div>

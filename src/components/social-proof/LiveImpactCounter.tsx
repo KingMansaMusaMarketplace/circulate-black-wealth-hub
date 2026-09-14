@@ -97,7 +97,7 @@ const LiveImpactCounter: React.FC<LiveImpactCounterProps> = ({
               <div className="space-y-1">
                 <p className="text-3xl font-bold text-white">{stat.value}</p>
                 <p className="text-sm font-medium text-white/90">{stat.label}</p>
-                <p className="text-xs text-white/60">{stat.subtext}</p>
+                <p className="text-xs text-white/90">{stat.subtext}</p>
               </div>
             </CardContent>
           </Card>

@@ -37,7 +37,7 @@ const CTASection = () => {
             </Link>
             
             {/* Decorative elements */}
-            <div className="mt-8 flex items-center justify-center gap-2 text-white/80">
+            <div className="mt-8 flex items-center justify-center gap-2 text-white">
               <div className="h-px w-12 bg-gradient-to-r from-transparent via-white/50 to-transparent"></div>
               <span className="text-sm font-medium">No credit card required</span>
               <div className="h-px w-12 bg-gradient-to-r from-transparent via-white/50 to-transparent"></div>

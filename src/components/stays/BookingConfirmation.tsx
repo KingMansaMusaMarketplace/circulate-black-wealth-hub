@@ -129,7 +129,7 @@ const BookingConfirmation: React.FC = () => {
             <CheckCircle className="w-10 h-10 text-green-400" />
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">Booking Confirmed!</h1>
-          <p className="text-white/60">
+          <p className="text-white/90">
             Your reservation has been confirmed. Check your email for details.
           </p>
         </div>
@@ -152,39 +152,39 @@ const BookingConfirmation: React.FC = () => {
             <h2 className="text-xl font-semibold text-white mb-2">
               {booking.property?.title}
             </h2>
-            <div className="flex items-center gap-1 text-white/60 mb-4">
+            <div className="flex items-center gap-1 text-white/90 mb-4">
               <MapPin className="w-4 h-4" />
               <span>{booking.property?.city}, {booking.property?.state}</span>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-slate-700/50 rounded-lg p-3">
-                <div className="flex items-center gap-2 text-white/60 mb-1">
+                <div className="flex items-center gap-2 text-white/90 mb-1">
                   <Calendar className="w-4 h-4" />
                   <span className="text-sm">Check-in</span>
                 </div>
                 <p className="text-white font-medium">
                   {format(checkIn, 'EEE, MMM d, yyyy')}
                 </p>
-                <p className="text-white/50 text-sm">
+                <p className="text-white/80 text-sm">
                   After {booking.property?.check_in_time || '3:00 PM'}
                 </p>
               </div>
               <div className="bg-slate-700/50 rounded-lg p-3">
-                <div className="flex items-center gap-2 text-white/60 mb-1">
+                <div className="flex items-center gap-2 text-white/90 mb-1">
                   <Calendar className="w-4 h-4" />
                   <span className="text-sm">Check-out</span>
                 </div>
                 <p className="text-white font-medium">
                   {format(checkOut, 'EEE, MMM d, yyyy')}
                 </p>
-                <p className="text-white/50 text-sm">
+                <p className="text-white/80 text-sm">
                   Before {booking.property?.check_out_time || '11:00 AM'}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-6 mt-4 text-white/70">
+            <div className="flex items-center gap-6 mt-4 text-white">
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
                 <span>{nights} night{nights > 1 ? 's' : ''}</span>
@@ -207,7 +207,7 @@ const BookingConfirmation: React.FC = () => {
         <Card className="bg-slate-800/50 border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-white/60">Total Paid</span>
+              <span className="text-white/90">Total Paid</span>
               <span className="text-2xl font-bold text-mansagold">
                 ${booking.total_price?.toFixed(2)}
               </span>

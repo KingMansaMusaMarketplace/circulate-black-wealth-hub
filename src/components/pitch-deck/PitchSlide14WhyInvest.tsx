@@ -56,7 +56,7 @@ const PitchSlide14WhyInvest: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Why <span className="text-mansagold">Invest Now</span>?
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             Four converging forces create a once-in-a-generation opportunity
           </p>
         </motion.div>
@@ -76,7 +76,7 @@ const PitchSlide14WhyInvest: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white mb-2">{reason.title}</h3>
-                    <p className="text-white/80 font-medium">{reason.description}</p>
+                    <p className="text-white font-medium">{reason.description}</p>
                   </div>
                 </div>
               </Card>
@@ -105,7 +105,7 @@ const PitchSlide14WhyInvest: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <p className="text-white/70 font-medium max-w-2xl mx-auto">
+              <p className="text-white font-medium max-w-2xl mx-auto">
                 First-mover advantage in a $2.10T U.S. / $9.1T global market with patent protection, live production platform, and zero direct competitors
               </p>
             </div>

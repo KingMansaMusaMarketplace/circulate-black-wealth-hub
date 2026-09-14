@@ -102,7 +102,7 @@ const LeaseCategoryLandingPage: React.FC = () => {
 
       <section className="border-b border-white/10 py-12 px-4">
         <div className="max-w-6xl mx-auto">
-          <nav className="text-sm text-white/60 mb-4">
+          <nav className="text-sm text-white/90 mb-4">
             <Link to="/stays" className="hover:text-white">Mansa Stays</Link>
             <ChevronRight className="inline w-3 h-3 mx-1" />
             <Link to="/stays/lease" className="hover:text-white">Yearly Leases</Link>
@@ -121,7 +121,7 @@ const LeaseCategoryLandingPage: React.FC = () => {
               <h1 className="text-4xl md:text-5xl font-bold mb-3">{h1}</h1>
               <p className="text-white/85 text-lg">{seoDesc}</p>
               {cityFromUrl && (
-                <p className="text-white/70 mt-3 text-sm">
+                <p className="text-white mt-3 text-sm">
                   <strong className="text-mansagold">Popular neighborhoods:</strong> {cityFromUrl.neighborhoods.join(" · ")}
                 </p>
               )}
@@ -142,11 +142,11 @@ const LeaseCategoryLandingPage: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold mb-4">Available now</h2>
           {loading ? (
-            <p className="text-white/70">Loading listings…</p>
+            <p className="text-white">Loading listings…</p>
           ) : listings.length === 0 ? (
             <Card className="p-8 bg-white/10 border-white/20 text-center">
               <p className="text-white/90 mb-1 text-lg font-semibold">No {typeLabelPlural?.toLowerCase() || "listings"} live yet{cityFromUrl ? ` in ${cityFromUrl.name}` : ""}.</p>
-              <p className="text-white/70 mb-4">Be the first landlord to list — free, $99 only when your tenant confirms.</p>
+              <p className="text-white mb-4">Be the first landlord to list — free, $99 only when your tenant confirms.</p>
               <Button asChild className="bg-mansagold text-black hover:bg-mansagold/90 font-bold">
                 <Link to="/stays/host/lease/new">List Your Property</Link>
               </Button>
@@ -161,13 +161,13 @@ const LeaseCategoryLandingPage: React.FC = () => {
                     </div>
                     <div className="p-4">
                       <h3 className="font-semibold text-lg line-clamp-1">{l.title}</h3>
-                      <p className="text-white/60 text-sm flex items-center gap-1 mt-1"><MapPin className="w-3 h-3" />{l.city}, {l.state}</p>
-                      <div className="flex items-center gap-4 mt-2 text-sm text-white/70">
+                      <p className="text-white/90 text-sm flex items-center gap-1 mt-1"><MapPin className="w-3 h-3" />{l.city}, {l.state}</p>
+                      <div className="flex items-center gap-4 mt-2 text-sm text-white">
                         <span className="capitalize">{l.property_type}</span>
                         <span className="flex items-center gap-1"><Bed className="w-3 h-3" />{l.bedrooms}bd</span>
                         <span className="flex items-center gap-1"><Bath className="w-3 h-3" />{l.bathrooms}ba</span>
                       </div>
-                      <p className="mt-3 text-mansagold font-bold text-xl flex items-center"><DollarSign className="w-4 h-4" />{Number(l.monthly_rent).toLocaleString()}<span className="text-sm text-white/50 font-normal">/mo</span></p>
+                      <p className="mt-3 text-mansagold font-bold text-xl flex items-center"><DollarSign className="w-4 h-4" />{Number(l.monthly_rent).toLocaleString()}<span className="text-sm text-white/80 font-normal">/mo</span></p>
                     </div>
                   </Card>
                 </Link>
@@ -186,7 +186,7 @@ const LeaseCategoryLandingPage: React.FC = () => {
               {cityFromUrl.faqs.map((f, i) => (
                 <Card key={i} className="bg-white/5 border-white/10 p-5">
                   <h3 className="font-semibold text-white mb-2">{f.q}</h3>
-                  <p className="text-white/80 text-sm">{f.a}</p>
+                  <p className="text-white text-sm">{f.a}</p>
                 </Card>
               ))}
             </div>
@@ -200,7 +200,7 @@ const LeaseCategoryLandingPage: React.FC = () => {
           <h2 className="text-xl font-bold mb-4">Explore more</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             <div>
-              <p className="text-white/60 text-sm mb-2">Other property types {cityFromUrl ? `in ${cityFromUrl.name}` : "nationwide"}</p>
+              <p className="text-white/90 text-sm mb-2">Other property types {cityFromUrl ? `in ${cityFromUrl.name}` : "nationwide"}</p>
               <div className="flex flex-wrap gap-2">
                 {siblingTypes.map((t) => (
                   <Button asChild key={t.value} variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10">
@@ -212,7 +212,7 @@ const LeaseCategoryLandingPage: React.FC = () => {
               </div>
             </div>
             <div>
-              <p className="text-white/60 text-sm mb-2">{typeFromUrl ? `${typeFromUrl.labelPlural} in other cities` : "Other launch cities"}</p>
+              <p className="text-white/90 text-sm mb-2">{typeFromUrl ? `${typeFromUrl.labelPlural} in other cities` : "Other launch cities"}</p>
               <div className="flex flex-wrap gap-2">
                 {otherCities.map((c) => (
                   <Button asChild key={c.slug} variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10">

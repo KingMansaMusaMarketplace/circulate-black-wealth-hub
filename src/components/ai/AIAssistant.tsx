@@ -283,7 +283,7 @@ export const AIAssistant = () => {
           </div>
           <div>
             <h3 className="font-semibold text-lg text-white">Kayla, Ph.D.</h3>
-            <p className="text-sm text-white/60">Triple-Model AI • Gemini + Claude + Perplexity • Vision</p>
+            <p className="text-sm text-white/90">Triple-Model AI • Gemini + Claude + Perplexity • Vision</p>
           </div>
         </div>
       </div>
@@ -333,7 +333,7 @@ export const AIAssistant = () => {
 
               {msg.role === 'user' && (
                 <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0">
-                  <User className="w-4 h-4 text-white/70" />
+                  <User className="w-4 h-4 text-white" />
                 </div>
               )}
             </div>
@@ -404,7 +404,7 @@ export const AIAssistant = () => {
                   }
                 }}
                 disabled={isLoading}
-                className="border-white/20 bg-white/5 hover:bg-white/10 text-white/70 hover:text-mansagold shrink-0"
+                className="border-white/20 bg-white/5 hover:bg-white/10 text-white hover:text-mansagold shrink-0"
                 title="Take photo"
               >
                 <Camera className="w-4 h-4" />
@@ -432,7 +432,7 @@ export const AIAssistant = () => {
                   }
                 }}
                 disabled={isLoading}
-                className="border-white/20 bg-white/5 hover:bg-white/10 text-white/70 hover:text-mansagold shrink-0"
+                className="border-white/20 bg-white/5 hover:bg-white/10 text-white hover:text-mansagold shrink-0"
                 title="Pick from gallery"
               >
                 <ImagePlus className="w-4 h-4" />
@@ -444,7 +444,7 @@ export const AIAssistant = () => {
               size="icon"
               onClick={() => fileInputRef.current?.click()}
               disabled={isLoading}
-              className="border-white/20 bg-white/5 hover:bg-white/10 text-white/70 hover:text-mansagold shrink-0"
+              className="border-white/20 bg-white/5 hover:bg-white/10 text-white hover:text-mansagold shrink-0"
               title="Upload image"
             >
               <ImagePlus className="w-4 h-4" />
@@ -456,7 +456,7 @@ export const AIAssistant = () => {
             onKeyPress={handleKeyPress}
             placeholder={pendingImage ? "Ask about this image..." : "Ask Kayla anything about 1325.AI..."}
             disabled={isLoading}
-            className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-mansagold focus:ring-mansagold/20"
+            className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/80 focus:border-mansagold focus:ring-mansagold/20"
           />
           <Button
             onClick={handleSend}

@@ -15,7 +15,7 @@ const BenefitsHeader: React.FC<BenefitsHeaderProps> = ({ isVisible }) => {
       transition={{ duration: 0.6 }}
     >
       <h2 className="heading-lg text-mansagold mb-4">Member Benefits</h2>
-      <p className="text-white/80 max-w-2xl mx-auto">
+      <p className="text-white max-w-2xl mx-auto">
         1325.AI offers unique advantages for both customers and business owners.
       </p>
     </motion.div>

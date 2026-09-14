@@ -98,7 +98,7 @@ const SponsorSidebar: React.FC = () => {
                     loading="lazy"
                   />
                 ) : (
-                  <span className="text-2xl font-bold text-white/80">{activeSponsor.company_name}</span>
+                  <span className="text-2xl font-bold text-white">{activeSponsor.company_name}</span>
                 )}
               </div>
 

@@ -39,7 +39,7 @@ const AnimatedTestimonial: React.FC<AnimatedTestimonialProps> = ({
             <div className="ml-4">
               <p className="font-semibold text-white">{testimonial.author}</p>
               <div className="flex items-center">
-                <p className="text-sm text-white/70 mr-2">{testimonial.title}</p>
+                <p className="text-sm text-white mr-2">{testimonial.title}</p>
                 <div className="flex">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} size={12} className="text-yellow-400 fill-yellow-400" />

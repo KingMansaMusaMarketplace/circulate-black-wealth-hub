@@ -76,7 +76,7 @@ const CommunityImpactDashboard: React.FC = () => {
             </div>
             <div>
               <p className="text-white font-medium">Building Community Impact</p>
-              <p className="text-sm text-white/70">
+              <p className="text-sm text-white">
                 As our community grows, you'll see real-time impact metrics here. 
                 Start supporting businesses to contribute to the collective wealth circulation!
               </p>
@@ -96,7 +96,7 @@ const CommunityImpactDashboard: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-white font-medium">Start Your Impact Journey</p>
-                  <p className="text-sm text-white/70">
+                  <p className="text-sm text-white">
                     Visit and support community businesses to see your personal impact metrics grow!
                   </p>
                 </div>

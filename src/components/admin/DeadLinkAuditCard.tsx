@@ -141,7 +141,7 @@ const DeadLinkAuditCard: React.FC = () => {
           Dead Link Audit — listings whose website won't load
         </CardTitle>
         <div className="flex gap-2">
-          <Button size="sm" variant="ghost" onClick={fetchStats} disabled={loading} className="text-white/70">
+          <Button size="sm" variant="ghost" onClick={fetchStats} disabled={loading} className="text-white">
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
           <Button size="sm" onClick={runCheck} disabled={running} className="bg-mansagold text-black hover:bg-mansagold/90">
@@ -170,7 +170,7 @@ const DeadLinkAuditCard: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-xs text-white/50 mt-3">
+        <p className="text-xs text-white/80 mt-3">
           Each website is visited for real. A listing is only marked "can't be reached" after it fails twice on
           separate runs, so a short outage won't knock out a real business. Removing a listing sets it back to
           draft — nothing is permanently deleted.
@@ -204,7 +204,7 @@ const DeadLinkAuditCard: React.FC = () => {
                     <Link2Off className="h-3.5 w-3.5 text-red-400 shrink-0" />
                     <span className="truncate">{b.business_name || b.name}</span>
                   </div>
-                  <div className="text-xs text-white/50 flex items-center gap-2 flex-wrap">
+                  <div className="text-xs text-white/80 flex items-center gap-2 flex-wrap">
                     <span>{[b.city, b.state].filter(Boolean).join(', ') || 'Unknown location'}</span>
                     {b.website && (
                       <a

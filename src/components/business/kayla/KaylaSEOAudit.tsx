@@ -39,7 +39,7 @@ export const KaylaSEOAudit: React.FC<Props> = ({ businessId }) => {
             <Search className="h-5 w-5 text-cyan-400" />
             SEO & Listing Audit
           </h3>
-          <p className="text-sm text-white/50">AI analysis of your listing quality</p>
+          <p className="text-sm text-white/80">AI analysis of your listing quality</p>
         </div>
         <Button
           onClick={runAudit}
@@ -56,7 +56,7 @@ export const KaylaSEOAudit: React.FC<Props> = ({ businessId }) => {
           <CardContent className="p-8 text-center">
             <Search className="h-12 w-12 text-cyan-400/40 mx-auto mb-3" />
             <h3 className="text-lg font-medium text-white mb-1">No audit yet</h3>
-            <p className="text-sm text-white/50">Run an SEO audit to get actionable improvements.</p>
+            <p className="text-sm text-white/80">Run an SEO audit to get actionable improvements.</p>
           </CardContent>
         </Card>
       ) : (
@@ -64,20 +64,20 @@ export const KaylaSEOAudit: React.FC<Props> = ({ businessId }) => {
           <Card className="bg-slate-800/40 border-white/10">
             <CardContent className="p-6 text-center">
               <p className={`text-5xl font-bold ${getScoreColor(result.score)}`}>{result.score}</p>
-              <p className="text-sm text-white/50 mt-1">SEO Score</p>
+              <p className="text-sm text-white/80 mt-1">SEO Score</p>
             </CardContent>
           </Card>
 
           {result.issues && result.issues.length > 0 && (
             <div className="space-y-2">
-              <h4 className="text-sm font-medium text-white/70">Issues Found</h4>
+              <h4 className="text-sm font-medium text-white">Issues Found</h4>
               {result.issues.map((issue, i) => (
                 <Card key={i} className="bg-slate-800/40 border-white/10">
                   <CardContent className="p-3 flex items-start gap-3">
                     <AlertCircle className={`h-4 w-4 mt-0.5 ${issue.severity === 'high' ? 'text-red-400' : 'text-yellow-400'}`} />
                     <div>
-                      <Badge variant="outline" className="text-xs border-white/10 text-white/50 mb-1">{issue.category}</Badge>
-                      <p className="text-sm text-white/70">{issue.description}</p>
+                      <Badge variant="outline" className="text-xs border-white/10 text-white/80 mb-1">{issue.category}</Badge>
+                      <p className="text-sm text-white">{issue.description}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -87,9 +87,9 @@ export const KaylaSEOAudit: React.FC<Props> = ({ businessId }) => {
 
           {result.recommendations && result.recommendations.length > 0 && (
             <div className="space-y-2">
-              <h4 className="text-sm font-medium text-white/70">Recommendations</h4>
+              <h4 className="text-sm font-medium text-white">Recommendations</h4>
               {result.recommendations.map((rec, i) => (
-                <div key={i} className="flex items-start gap-2 text-sm text-white/60">
+                <div key={i} className="flex items-start gap-2 text-sm text-white/90">
                   <CheckCircle className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
                   <span>{rec}</span>
                 </div>

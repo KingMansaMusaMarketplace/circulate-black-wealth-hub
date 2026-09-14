@@ -336,7 +336,7 @@ export const URLBusinessImport: React.FC<URLBusinessImportProps> = ({ isOpen, on
                     placeholder="https://example1.com&#10;https://example2.com&#10;https://example3.com"
                     value={urlInput}
                     onChange={(e) => setUrlInput(e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 min-h-[120px] font-mono text-sm"
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/80 min-h-[120px] font-mono text-sm"
                   />
                   <p className="text-xs text-blue-300 mt-2">
                     Paste multiple URLs, one per line. We'll extract data from all of them in parallel.

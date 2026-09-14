@@ -28,13 +28,13 @@ const NoireCommunityRewards: React.FC = () => {
           <Coins className="h-5 w-5 text-mansagold" />
           Community Credits
         </CardTitle>
-        <p className="text-white/50 text-xs">Earn credits riding to Black-owned businesses, redeem at those same businesses</p>
+        <p className="text-white/80 text-xs">Earn credits riding to Black-owned businesses, redeem at those same businesses</p>
       </CardHeader>
       <CardContent className="space-y-4 pb-4">
         {/* Balance Card */}
         <div className="bg-gradient-to-r from-mansagold/20 to-amber-500/10 border border-mansagold/20 rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-white/60 text-xs uppercase tracking-wider">Available Credits</span>
+            <span className="text-white/90 text-xs uppercase tracking-wider">Available Credits</span>
             <Badge variant="outline" className="border-mansagold/30 text-mansagold text-xs">
               <Gift className="h-3 w-3 mr-1" />
               Redeemable
@@ -68,7 +68,7 @@ const NoireCommunityRewards: React.FC = () => {
           ].map((step, i) => (
             <div key={i} className="bg-white/5 rounded-lg p-3 text-center">
               <div className="text-xl mb-1">{step.icon}</div>
-              <p className="text-white/60 text-[10px] leading-tight whitespace-pre-line">{step.label}</p>
+              <p className="text-white/90 text-[10px] leading-tight whitespace-pre-line">{step.label}</p>
               <p className="text-mansagold text-[10px] font-semibold mt-1">{step.detail}</p>
             </div>
           ))}
@@ -77,7 +77,7 @@ const NoireCommunityRewards: React.FC = () => {
         {/* Recent Transactions */}
         {transactions.length > 0 && (
           <div>
-            <h4 className="text-white/60 text-xs uppercase tracking-wider mb-2">Recent Activity</h4>
+            <h4 className="text-white/90 text-xs uppercase tracking-wider mb-2">Recent Activity</h4>
             <div className="space-y-2">
               {transactions.slice(0, 5).map((tx, i) => (
                 <motion.div
@@ -89,7 +89,7 @@ const NoireCommunityRewards: React.FC = () => {
                 >
                   <div className="flex items-center gap-2">
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
-                      tx.transaction_type === 'earned' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-white/50'
+                      tx.transaction_type === 'earned' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-white/80'
                     }`}>
                       {tx.transaction_type === 'earned' ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                     </div>

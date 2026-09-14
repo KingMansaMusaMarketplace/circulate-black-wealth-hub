@@ -75,7 +75,7 @@ export const KaylaLegalTemplates: React.FC<Props> = ({ businessId }) => {
       <Card className="bg-slate-800/40 border-white/10">
         <CardContent className="p-4 flex gap-3 items-end">
           <div className="flex-1">
-            <p className="text-xs text-white/50 mb-2">Select a template type to generate</p>
+            <p className="text-xs text-white/80 mb-2">Select a template type to generate</p>
             <Select value={selectedType} onValueChange={setSelectedType}>
               <SelectTrigger className="bg-slate-900/50 border-white/10 text-white">
                 <SelectValue placeholder="Choose template type..." />
@@ -101,7 +101,7 @@ export const KaylaLegalTemplates: React.FC<Props> = ({ businessId }) => {
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm text-white">{viewingTemplate.template_name}</CardTitle>
               <div className="flex gap-2">
-                <Button size="sm" variant="ghost" onClick={() => copyToClipboard(viewingTemplate.content)} className="text-white/60 hover:text-white">
+                <Button size="sm" variant="ghost" onClick={() => copyToClipboard(viewingTemplate.content)} className="text-white/90 hover:text-white">
                   <Copy className="h-4 w-4 mr-1" /> Copy
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => setViewingTemplate(null)} className="text-white/40">Close</Button>
@@ -110,11 +110,11 @@ export const KaylaLegalTemplates: React.FC<Props> = ({ businessId }) => {
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[400px]">
-              <pre className="text-sm text-white/80 whitespace-pre-wrap font-sans leading-relaxed">{viewingTemplate.content}</pre>
+              <pre className="text-sm text-white whitespace-pre-wrap font-sans leading-relaxed">{viewingTemplate.content}</pre>
             </ScrollArea>
             {viewingTemplate.variables?.length > 0 && (
               <div className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-xs text-white/50 mb-2">Customizable Fields:</p>
+                <p className="text-xs text-white/80 mb-2">Customizable Fields:</p>
                 <div className="flex flex-wrap gap-2">
                   {viewingTemplate.variables.map((v: any, i: number) => (
                     <Badge key={i} variant="outline" className="border-yellow-400/30 text-yellow-400/70 text-xs">[{v.name}]</Badge>
@@ -157,7 +157,7 @@ export const KaylaLegalTemplates: React.FC<Props> = ({ businessId }) => {
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-8 text-center">
             <FileText className="h-12 w-12 text-yellow-400/40 mx-auto mb-3" />
-            <p className="text-white/60 text-sm">Generate legal templates customized for your business — NDAs, service agreements, privacy policies, and more.</p>
+            <p className="text-white/90 text-sm">Generate legal templates customized for your business — NDAs, service agreements, privacy policies, and more.</p>
             <p className="text-xs text-white/30 mt-2 italic">⚠️ Templates are AI-generated and should be reviewed by legal counsel before use.</p>
           </CardContent>
         </Card>

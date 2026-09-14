@@ -81,7 +81,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               <div className="flex flex-col space-y-1 leading-none">
                 <p className="font-medium text-white">{displayName}</p>
                 {user?.email && user.email !== displayName && (
-                  <p className="w-[200px] truncate text-sm text-white/60">
+                  <p className="w-[200px] truncate text-sm text-white/90">
                     {user.email}
                   </p>
                 )}

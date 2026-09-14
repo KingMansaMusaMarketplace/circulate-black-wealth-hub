@@ -83,7 +83,7 @@ export const SponsorWallStrip: React.FC<SponsorWallStripProps> = ({
               to="/sponsors"
               className="group flex items-center gap-2 rounded-lg border border-dashed border-mansagold/40 px-4 py-3 hover:border-mansagold hover:bg-mansagold/5 transition-colors"
             >
-              <span className="text-white/80 text-xs md:text-sm">
+              <span className="text-white text-xs md:text-sm">
                 Your brand here — <span className="text-mansagold">Corporate Partnership</span>
               </span>
               <ArrowRight className="w-3.5 h-3.5 text-mansagold group-hover:translate-x-0.5 transition-transform" />

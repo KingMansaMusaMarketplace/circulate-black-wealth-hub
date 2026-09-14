@@ -46,7 +46,7 @@ export const SavingsCircles: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-white">Savings Circles (Susu)</h2>
-          <p className="text-white/80 font-medium">Pool resources and build wealth together</p>
+          <p className="text-white font-medium">Pool resources and build wealth together</p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
@@ -58,7 +58,7 @@ export const SavingsCircles: React.FC = () => {
           <DialogContent className="bg-slate-900 border-white/20">
             <DialogHeader>
               <DialogTitle className="text-white font-bold">Create Savings Circle</DialogTitle>
-              <DialogDescription className="text-white/70">
+              <DialogDescription className="text-white">
                 Start a savings circle and invite others to join
               </DialogDescription>
             </DialogHeader>
@@ -71,7 +71,7 @@ export const SavingsCircles: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, circle_name: e.target.value })}
                   placeholder="My Savings Circle"
                   required
-                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/80"
                 />
               </div>
               <div>
@@ -81,7 +81,7 @@ export const SavingsCircles: React.FC = () => {
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="What is this circle for?"
-                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/80"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -96,7 +96,7 @@ export const SavingsCircles: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, target_amount: e.target.value })}
                     placeholder="1000"
                     required
-                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
+                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/80"
                   />
                 </div>
                 <div>
@@ -110,7 +110,7 @@ export const SavingsCircles: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, contribution_amount: e.target.value })}
                     placeholder="100"
                     required
-                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
+                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/80"
                   />
                 </div>
               </div>
@@ -141,7 +141,7 @@ export const SavingsCircles: React.FC = () => {
                     value={formData.max_members}
                     onChange={(e) => setFormData({ ...formData, max_members: e.target.value })}
                     required
-                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
+                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/80"
                   />
                 </div>
               </div>
@@ -162,16 +162,16 @@ export const SavingsCircles: React.FC = () => {
               <Card key={membership.id} className="bg-slate-800/60 border-white/20 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="text-lg text-white font-bold">{membership.savings_circles.circle_name}</CardTitle>
-                  <CardDescription className="text-white/70">{membership.savings_circles.description}</CardDescription>
+                  <CardDescription className="text-white">{membership.savings_circles.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-white/80 font-medium">My Contribution</span>
+                      <span className="text-white font-medium">My Contribution</span>
                       <span className="font-bold text-mansagold">${membership.total_contributed}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-white/80 font-medium">Position</span>
+                      <span className="text-white font-medium">Position</span>
                       <Badge className="bg-mansablue/30 text-mansablue border-mansablue/50 font-bold">#{membership.payout_position}</Badge>
                     </div>
                     {membership.payout_date && (
@@ -193,32 +193,32 @@ export const SavingsCircles: React.FC = () => {
         <h3 className="text-lg font-bold mb-4 text-white">Join a Circle</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {isLoading ? (
-            <p className="col-span-full text-center py-8 text-white/70 font-medium">Loading...</p>
+            <p className="col-span-full text-center py-8 text-white font-medium">Loading...</p>
           ) : circles && circles.length > 0 ? (
             circles.map((circle: any) => (
               <Card key={circle.id} className="hover:shadow-lg transition-shadow bg-slate-800/60 border-white/20 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="text-lg text-white font-bold">{circle.circle_name}</CardTitle>
-                  <CardDescription className="line-clamp-2 text-white/70">{circle.description}</CardDescription>
+                  <CardDescription className="line-clamp-2 text-white">{circle.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-white/80 font-medium">Target</span>
+                      <span className="text-sm text-white font-medium">Target</span>
                       <span className="font-bold text-mansagold">${circle.target_amount}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-white/80 font-medium">Contribution</span>
+                      <span className="text-sm text-white font-medium">Contribution</span>
                       <span className="font-bold text-white">${circle.contribution_amount}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-white/80 font-medium">Members</span>
+                      <span className="text-sm text-white font-medium">Members</span>
                       <span className="flex items-center gap-1 text-white font-semibold">
                         <Users className="w-4 h-4" />
                         {circle.current_members}/{circle.max_members}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-white/70 font-medium">
+                    <div className="flex items-center gap-2 text-sm text-white font-medium">
                       <Calendar className="w-4 h-4" />
                       {circle.frequency}
                     </div>
@@ -236,8 +236,8 @@ export const SavingsCircles: React.FC = () => {
           ) : (
             <Card className="col-span-full bg-slate-800/60 border-white/20 backdrop-blur-sm">
               <CardContent className="text-center py-12">
-                <Users className="w-12 h-12 text-white/50 mx-auto mb-4" />
-                <p className="text-white/70 font-medium">
+                <Users className="w-12 h-12 text-white/80 mx-auto mb-4" />
+                <p className="text-white font-medium">
                   No active savings circles yet. Create one to get started!
                 </p>
               </CardContent>

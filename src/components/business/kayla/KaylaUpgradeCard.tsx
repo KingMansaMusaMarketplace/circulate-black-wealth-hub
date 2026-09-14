@@ -122,7 +122,7 @@ export const KaylaUpgradeCard: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="text-center mb-2">
-        <p className="text-sm text-white/60">
+        <p className="text-sm text-white/90">
           Replaces $1,650–$5,750/month in human labor starting at $19/month
         </p>
       </div>
@@ -154,13 +154,13 @@ export const KaylaUpgradeCard: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">Kayla {tier.name}</h3>
-                    <p className="text-xs text-white/50">{tier.description}</p>
+                    <p className="text-xs text-white/80">{tier.description}</p>
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
                   {tier.features.map((f, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm text-white/70">
+                    <div key={i} className="flex items-start gap-2 text-sm text-white">
                       <f.icon className="h-4 w-4 text-yellow-400 mt-0.5 shrink-0" />
                       <span>{f.text}</span>
                     </div>
@@ -174,7 +174,7 @@ export const KaylaUpgradeCard: React.FC = () => {
                 <div className="text-center pt-2">
                   <span className="text-2xl font-bold text-white">{tier.price}</span>
                   {tier.priceSubline && (
-                    <p className="text-[11px] text-white/50 mt-0.5">{tier.priceSubline}</p>
+                    <p className="text-[11px] text-white/80 mt-0.5">{tier.priceSubline}</p>
                   )}
                   <p className="text-xs text-emerald-400 mt-1">{tier.trialText}</p>
                 </div>

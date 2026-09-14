@@ -90,14 +90,14 @@ const ContactHostButton: React.FC<ContactHostButtonProps> = ({
         <DialogContent className="bg-slate-900 border-white/10 text-white sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-white">Message the Host</DialogTitle>
-            <DialogDescription className="text-white/60">
+            <DialogDescription className="text-white/90">
               Send a message about "{propertyTitle}"
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="message" className="text-white/80">
+              <Label htmlFor="message" className="text-white">
                 Your Message
               </Label>
               <Textarea
@@ -113,7 +113,7 @@ const ContactHostButton: React.FC<ContactHostButtonProps> = ({
               </p>
             </div>
 
-            <div className="bg-slate-800/50 rounded-lg p-3 text-sm text-white/60">
+            <div className="bg-slate-800/50 rounded-lg p-3 text-sm text-white/90">
               <p>💡 Tips for a great first message:</p>
               <ul className="list-disc list-inside mt-2 space-y-1">
                 <li>Introduce yourself briefly</li>
