@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
-const FALLBACK_COUNT = 46000;
+const FALLBACK_COUNT = 47000;
 
 /**
  * Live count of verified businesses in the directory.
@@ -26,7 +26,7 @@ export function useLiveBusinessCount() {
     isLoading,
     /** Exact live number, e.g. "46,802" */
     formatted: count.toLocaleString(),
-    /** Rounded down to nearest thousand with a plus, e.g. "46,000+" */
+    /** Rounded down to nearest thousand with a plus, e.g. "47,000+" */
     rounded: `${(Math.floor(count / 1000) * 1000).toLocaleString()}+`,
   };
 }
