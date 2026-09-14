@@ -32,9 +32,10 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
   return (
     <Card className={`border backdrop-blur-xl ${
       isUrgent 
-        ? 'border-rose-500/30 bg-gradient-to-br from-rose-500/10 to-slate-800/60' 
-        : 'border-white/10 bg-slate-800/60'
+        ? 'border-rose-500/30 bg-slate-950/90' 
+        : 'border-white/10 bg-slate-950/90'
     }`}>
+
       <CardHeader className="pb-2">
         <CardTitle className="text-white text-lg flex items-center gap-2">
           <Clock className={`w-5 h-5 ${isUrgent ? 'text-rose-400' : 'text-mansagold'}`} />
