@@ -95,6 +95,15 @@ export default function FeaturedPlacementPage() {
         <meta name="description" content="Pin your business at the top of category and city searches. Featured placements from $29/month." />
       </Helmet>
 
+      <Button
+        variant="outline"
+        onClick={() => navigate(-1)}
+        className="mb-6 bg-slate-900/60 border-white/20 text-white font-medium hover:bg-white/10 hover:text-white"
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
+
       <h1 className="text-4xl font-bold mb-2 text-mansagold">Featured Placement</h1>
       <p className="text-blue-100 mb-8">
         Pin your business at the top of category & city searches. Cancel anytime.
