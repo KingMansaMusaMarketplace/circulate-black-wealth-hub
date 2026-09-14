@@ -125,17 +125,27 @@ export const useReferrals = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('referral_stats')
-        .select(`
-          *,
-          profiles:user_id (
-            full_name
-          )
-        `)
+        .select('*')
         .order('successful_referrals', { ascending: false })
         .limit(10);
 
       if (error) throw error;
-      return data || [];
+      if (!data || data.length === 0) return [];
+
+      const userIds = Array.from(new Set(data.map((row: any) => row.user_id).filter(Boolean)));
+      let nameMap = new Map<string, string>();
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .in('id', userIds);
+        nameMap = new Map((profiles || []).map((p: any) => [p.id, p.full_name]));
+      }
+
+      return data.map((row: any) => ({
+        ...row,
+        profiles: { full_name: nameMap.get(row.user_id) ?? null },
+      }));
     },
   });
 
