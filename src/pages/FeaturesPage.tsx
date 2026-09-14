@@ -53,143 +53,122 @@ const FeaturesPage = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 px-4 overflow-hidden z-10">
-        {/* Animated Background Gradient */}
-        <div className="absolute inset-0">
+      <section className="relative py-20 md:py-28 px-4 overflow-hidden z-10">
+        <div className="max-w-6xl mx-auto relative z-10">
           <motion.div
-            className="absolute inset-0"
-            animate={{
-              background: [
-                "radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)",
-                "radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)",
-                "radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)",
-                "radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)",
-              ]
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center space-y-8"
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center gap-2 bg-mansagold/10 backdrop-blur-sm border border-mansagold/30 rounded-full px-6 py-3 shadow-lg shadow-mansagold/20"
-            >
-              <Sparkles className="w-5 h-5 text-mansagold animate-pulse" />
-              <span className="font-semibold text-white">Powerful Features</span>
-            </motion.div>
+            <div className="inline-flex items-center gap-2 border border-mansagold/40 bg-mansagold/10 rounded-full px-4 py-1.5 mb-6">
+              <Sparkles className="w-4 h-4 text-mansagold" />
+              <span className="text-xs font-semibold tracking-[0.18em] text-mansagold uppercase">Platform Capabilities</span>
+            </div>
 
-            <motion.h1
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight px-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-            >
-              Everything You Need to{" "}
-              <span className="relative inline-block">
-                <motion.span 
-                  className="relative z-10 bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent"
-                  animate={{ 
-                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                  }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                  style={{ backgroundSize: '200% auto' }}
-                >
-                  Build Wealth
-                </motion.span>
-                <motion.span
-                  className="absolute -inset-2 bg-gradient-to-r from-mansagold/30 to-amber-400/30 blur-2xl"
-                  animate={{ 
-                    scale: [1, 1.1, 1],
-                    opacity: [0.3, 0.6, 0.3] 
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </span>
-            </motion.h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-white leading-[1.05] mb-6">
+              One platform. Verified commerce, an agentic workforce, and the rails in between.
+            </h1>
 
-            <motion.p
-              className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto font-light leading-relaxed"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-            >
-              Discover the tools and features that make supporting great businesses easier than ever
-            </motion.p>
+            <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl">
+              1325.AI combines the largest verified directory of Black-owned businesses with Kayla and 42 Agentic AI Employees, loyalty rails that keep dollars circulating, and a supplier data layer enterprises can actually buy from.
+            </p>
           </motion.div>
+
+          {/* Proof strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden"
+          >
+            {[
+              { value: '47,000+', label: 'Verified Businesses' },
+              { value: '42', label: 'Agentic AI Employees' },
+              { value: '46', label: 'Patent Claims Pending' },
+              { value: '$12T', label: 'Global Black Economy' },
+            ].map((s) => (
+              <div key={s.label} className="bg-slate-950/80 px-6 py-7">
+                <div className="text-3xl md:text-4xl font-bold text-mansagold">{s.value}</div>
+                <div className="mt-1 text-xs md:text-sm uppercase tracking-wider text-white/80">{s.label}</div>
+              </div>
+            ))}
+          </motion.div>
+
+          <p className="mt-4 text-xs text-white/70">
+            U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending
+          </p>
+        </div>
+      </section>
+
+      {/* Core capabilities */}
+      <section className="py-20 px-4 relative z-10 border-t border-white/10">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+            What the platform <span className="text-mansagold">actually does</span>
+          </h2>
+          <p className="text-white/85 max-w-2xl mb-12">
+            Six systems, built to work as one. Consumers, merchants, and enterprise buyers all operate on the same rails.
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: Users, title: 'Verified Business Directory', desc: '47,000+ businesses with ownership verification, so buyers and enterprises can trust every record.' },
+              { icon: Sparkles, title: 'Kayla & 42 Agentic AI Employees', desc: 'An autonomous workforce handling outreach, support, onboarding, marketing, and analysis around the clock.' },
+              { icon: Smartphone, title: 'Loyalty & QR Rails', desc: 'Scan-to-earn points, merchant discounts, and rewards that keep dollars circulating inside the community.' },
+              { icon: Shield, title: 'Supplier Data Layer', desc: 'Verified supplier records enterprises can source from — the data moat behind corporate spend commitments.' },
+              { icon: Zap, title: 'B2B Marketplace', desc: 'Business-to-business sourcing, quotes, and contracts between verified suppliers and corporate buyers.' },
+              { icon: Heart, title: 'Impact Analytics', desc: 'Measured circulation, spend, and community impact reporting for members, merchants, and sponsors.' },
+            ].map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.06, duration: 0.45 }}
+                className="rounded-2xl border border-white/10 bg-slate-950/70 p-7 hover:border-mansagold/40 transition-colors"
+              >
+                <div className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-mansagold/15 border border-mansagold/30">
+                  <item.icon className="w-6 h-6 text-mansagold" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+                <p className="text-white/85 leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 px-4 relative overflow-hidden z-10">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-mansagold/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
-        </div>
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold font-playfair text-white mb-4">
-              How It <span className="bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent">Works</span>
+      <section className="py-20 px-4 relative overflow-hidden z-10 border-t border-white/10">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              How members <span className="text-mansagold">use it</span>
             </h2>
-            <p className="text-xl text-white max-w-2xl mx-auto">
-              Four simple steps to start making an impact in your community
+            <p className="text-white/85 max-w-2xl">
+              Four steps from first search to measured community impact.
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {howItWorksSteps.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="relative group"
+                transition={{ delay: index * 0.08, duration: 0.45 }}
+                className="relative rounded-2xl border border-white/10 bg-slate-950/70 p-7 h-full"
               >
-                <motion.div 
-                  className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 h-full shadow-lg transition-all duration-300"
-                  whileHover={{ y: -8, scale: 1.02 }}
-                >
-                  {/* Gradient overlay on hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-mansagold/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
-                  <div className="relative z-10">
-                    <motion.div 
-                      className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-mansagold to-amber-600 shadow-lg shadow-mansagold/30"
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.6 }}
-                    >
-                      <step.icon className="w-8 h-8 text-mansablue-dark" />
-                    </motion.div>
-                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-mansagold transition-colors">
-                      {step.title}
-                    </h3>
-                    <p className="text-white leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
-
-                  {/* Step number */}
-                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-mansagold/20 border border-mansagold/30 flex items-center justify-center">
-                    <span className="text-mansagold font-bold text-lg">{index + 1}</span>
-                  </div>
-                </motion.div>
+                <div className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-mansagold/15 border border-mansagold/30">
+                  <step.icon className="w-6 h-6 text-mansagold" />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-white">{step.title}</h3>
+                <p className="text-white/85 leading-relaxed">{step.description}</p>
+                <div className="absolute top-5 right-5 text-sm font-bold text-mansagold/70">
+                  0{index + 1}
+                </div>
               </motion.div>
             ))}
           </div>
