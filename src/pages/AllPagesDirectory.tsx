@@ -158,18 +158,12 @@ const AllPagesContent = () => {
     { path: '/cookies', name: 'Cookie Policy', icon: FileText, category: 'Legal', description: 'Cookie usage' },
     { path: '/accessibility', name: 'Accessibility', icon: ShieldCheck, category: 'Legal', description: 'Accessibility info' },
     
-    // Testing (Development)
-    { path: '/apple-compliance-test', name: 'Apple Compliance', icon: ShieldCheck, category: 'Testing', description: 'App Store test' },
-    { path: '/system-test', name: 'System Test', icon: TestTube, category: 'Testing', description: 'System check' },
-    { path: '/full-system-test', name: 'Full System Test', icon: TestTube, category: 'Testing', description: 'Complete test' },
-    { path: '/comprehensive-test', name: 'Comprehensive Test', icon: TestTube, category: 'Testing', description: 'All features test' },
-    { path: '/testing-hub', name: 'Testing Hub', icon: TestTube, category: 'Testing', description: 'Test dashboard' },
   ];
 
   const categories = [
     'Main', 'Auth', 'User', 'Business', 'Sales', 'Corporate', 
     'Analytics', 'Tools', 'Resources', 'Support', 'Admin', 
-    'Developers', 'Legal', 'Testing'
+    'Developers', 'Legal'
   ];
 
   const filteredPages = useMemo(() => {

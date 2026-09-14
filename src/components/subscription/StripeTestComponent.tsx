@@ -213,10 +213,7 @@ const StripeTestComponent: React.FC = () => {
               <Button variant="outline" size="sm" asChild>
                 <a href="/subscription">Subscription Plans</a>
               </Button>
-              <Button variant="outline" size="sm" asChild>
-                <a href="/system-test">System Test</a>
-              </Button>
-              <Button variant="outline" size="sm" asChild>
+                            <Button variant="outline" size="sm" asChild>
                 <a href="/auth">Login/Signup</a>
               </Button>
             </div>
