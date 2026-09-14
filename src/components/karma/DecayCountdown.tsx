@@ -78,8 +78,9 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
 
         {/* Decay Warning */}
         <div className={`p-3 rounded-lg ${
-          isUrgent ? 'bg-rose-500/10 border border-rose-500/20' : 'bg-amber-500/10 border border-amber-500/20'
+          isUrgent ? 'bg-slate-950/80 border border-rose-500/30' : 'bg-slate-950/80 border border-amber-500/30'
         }`}>
+
           <p className={`text-sm font-medium ${isUrgent ? 'text-rose-200' : 'text-amber-200'}`}>
             {isUrgent ? '⚠️ ' : '💡 '}
             {isUrgent 
