@@ -48,7 +48,7 @@ const TestimonialsSection = () => {
             <h2 className="text-4xl font-extrabold bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent mb-4">
               Real Stories, Real Impact
             </h2>
-            <p className="text-xl font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-3xl mx-auto mb-8">
+            <p className="text-xl font-medium text-foreground/80 max-w-3xl mx-auto mb-8">
               See how businesses and customers are thriving together in our marketplace
             </p>
             
@@ -177,7 +177,7 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-lg font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent mb-6">
+          <p className="text-lg font-semibold text-foreground mb-6">
             Ready to help us build a 1 million member community?
           </p>
           <div className="flex flex-wrap justify-center gap-4">
