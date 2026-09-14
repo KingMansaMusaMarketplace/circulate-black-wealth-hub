@@ -153,7 +153,7 @@ export default function B2BDashboardPage() {
 
         {/* Header */}
         <header className="relative z-10 border-b border-white/10 backdrop-blur-xl bg-slate-900/50 sticky top-0">
-          <div className="container flex h-14 items-center justify-between">
+          <div className="container mx-auto max-w-6xl flex h-14 items-center justify-between">
             <div className="flex items-center gap-4">
               <Link to="/b2b-marketplace">
                 <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white hover:bg-white/10">
@@ -166,7 +166,7 @@ export default function B2BDashboardPage() {
           </div>
         </header>
 
-        <main className="relative z-10 container py-6 max-w-6xl">
+        <main className="relative z-10 container mx-auto max-w-6xl py-6">
           {/* Impact Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
