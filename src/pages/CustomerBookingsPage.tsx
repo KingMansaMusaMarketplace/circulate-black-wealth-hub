@@ -88,7 +88,7 @@ export default function CustomerBookingsPage() {
           {/* Bookings List Container */}
           <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <BookingsList customerId={user.id} />
+              <BookingsList customerId={user.id} onBookingsLoaded={handleBookingsLoaded} />
             </div>
           </div>
         </div>
