@@ -23,6 +23,7 @@ import {
 } from '@/components/AboutPage';
 import MansaMusaVideoSection from '@/components/AboutPage/MansaMusaVideoSection';
 import OriginStorySection from '@/components/AboutPage/OriginStorySection';
+import TractionStrip from '@/components/AboutPage/TractionStrip';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
 import { FAQStructuredData, marketplaceFAQs } from '@/components/SEO/FAQStructuredData';
 import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
@@ -67,6 +68,7 @@ const AboutPage = () => {
         
         <main className="relative z-10">
           <HeroSection />
+          <TractionStrip />
           <OriginStorySection />
           <AuthorSection />
           <MissionSection />
