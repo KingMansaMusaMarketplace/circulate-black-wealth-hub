@@ -71,7 +71,7 @@ export default function CustomerBookingsPage() {
                 <span className="text-sm font-medium text-slate-400">Completed</span>
                 <Sparkles className="h-5 w-5 text-emerald-400" />
               </div>
-              <div className="text-2xl font-bold text-white">—</div>
+              <div className="text-2xl font-bold text-white">{stats ? stats.completed : '—'}</div>
               <p className="text-xs text-slate-500 mt-1">Past appointments</p>
             </div>
 
