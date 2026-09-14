@@ -38,7 +38,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
             The Field Manual for 1325.AI Ambassadors
           </p>
           <p className="text-sm text-muted-foreground mt-4 italic">
-            Last Updated: December 2024
+            Last Updated: September 2026 · Version 2.0
           </p>
         </div>
 
@@ -55,6 +55,11 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
                   As a 1325.AI Agent, you are the face of the world's first <strong>Economic Operating System</strong> for the community. 
                   This Code of Conduct ensures that every agent—from a local ambassador to a city lead—protects the 1325.AI 
                   brand and our proprietary intellectual property while building economic empowerment on the ground.
+                </p>
+                <p className="text-muted-foreground mt-3">
+                  Our platform is powered by <strong>42 Agentic AI Employees</strong> and protected by{' '}
+                  <strong>U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending</strong>.
+                  Everything you learn about how that system works is confidential.
                 </p>
               </div>
             </div>
@@ -275,6 +280,49 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
                 All commission calculations, referral tracking, and payment statuses are visible in real-time 
                 through your Agent Dashboard. If you believe there is a discrepancy, submit a support ticket 
                 within 30 days of the transaction date.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Section 5: Responsible AI Use */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Shield className="w-5 h-5 text-primary" />
+              </div>
+              <span>5. Responsible Use of Kayla &amp; Our AI Team</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <h3 className="font-semibold text-foreground mb-2">Always Disclose AI Assistance</h3>
+              <p className="text-muted-foreground">
+                When Kayla or any of our 42 Agentic AI Employees drafts an email, proposal, or
+                message on your behalf, you must review it before sending and never present
+                AI-generated output as a legal, tax, or financial opinion.
+              </p>
+            </div>
+
+            <Separator />
+
+            <div>
+              <h3 className="font-semibold text-foreground mb-2">Accuracy Before Speed</h3>
+              <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-4">
+                <li>Verify every fact, price, and claim an AI assistant produces before it reaches a merchant</li>
+                <li>Never enter a merchant's banking details, ID documents, or private records into outside AI tools</li>
+                <li>Use only the AI tools provided inside the Agent Portal for 1325.AI business</li>
+              </ul>
+            </div>
+
+            <Separator />
+
+            <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+              <p className="text-sm text-destructive font-medium flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4" />
+                Copying prompts, agent instructions, or system outputs out of the platform is treated
+                as theft of protected intellectual property.
               </p>
             </div>
           </CardContent>
