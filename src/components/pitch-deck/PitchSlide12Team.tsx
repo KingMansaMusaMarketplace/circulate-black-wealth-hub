@@ -72,7 +72,7 @@ const PitchSlide12Team: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
             The <span className="text-mansagold">Team</span>
           </h2>
-          <p className="text-white/50 text-sm">Human Leadership + AI Workforce</p>
+          <p className="text-white/80 text-sm">Human Leadership + AI Workforce</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -138,7 +138,7 @@ const PitchSlide12Team: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-white font-semibold text-sm">{cap.label}</div>
-                      <div className="text-white/60 text-xs">{cap.detail}</div>
+                      <div className="text-white/90 text-xs">{cap.detail}</div>
                     </div>
                   </div>
                 ))}
@@ -187,7 +187,7 @@ const PitchSlide12Team: React.FC = () => {
                       <div className="text-purple-300 text-xs">{agent.role}</div>
                     </div>
                   </div>
-                  <p className="text-white/60 text-xs leading-relaxed">{agent.detail}</p>
+                  <p className="text-white/90 text-xs leading-relaxed">{agent.detail}</p>
                 </div>
               ))}
             </div>

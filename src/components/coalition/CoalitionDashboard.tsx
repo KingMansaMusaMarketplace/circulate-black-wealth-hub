@@ -58,19 +58,19 @@ export function CoalitionDashboard() {
         <TabsList className="grid w-full grid-cols-3 bg-white/10 border border-white/20">
           <TabsTrigger 
             value="rewards" 
-            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white/70"
+            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white"
           >
             Rewards
           </TabsTrigger>
           <TabsTrigger 
             value="history"
-            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white/70"
+            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white"
           >
             History
           </TabsTrigger>
           <TabsTrigger 
             value="businesses"
-            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white/70"
+            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white"
           >
             Businesses
           </TabsTrigger>

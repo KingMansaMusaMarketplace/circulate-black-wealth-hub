@@ -37,7 +37,7 @@ const TestResults: React.FC<TestResultsProps> = ({ testResults }) => {
       case 'warning':
         return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">Warning</Badge>;
       default:
-        return <Badge className="bg-white/10 text-white/60 border-white/20">Pending</Badge>;
+        return <Badge className="bg-white/10 text-white/90 border-white/20">Pending</Badge>;
     }
   };
 

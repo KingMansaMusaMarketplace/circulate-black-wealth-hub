@@ -16,7 +16,7 @@ const MansaPromiseBookingBanner: React.FC = () => (
     </div>
     <div className="flex items-center gap-3 overflow-x-auto scrollbar-none">
       {highlights.map(({ icon: Icon, text }) => (
-        <div key={text} className="flex items-center gap-1 text-white/60 shrink-0">
+        <div key={text} className="flex items-center gap-1 text-white/90 shrink-0">
           <Icon className="w-3 h-3" />
           <span className="text-[11px] whitespace-nowrap">{text}</span>
         </div>

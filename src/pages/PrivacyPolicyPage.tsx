@@ -33,7 +33,7 @@ const PrivacyPolicyPage = () => {
             <p className="text-xl text-blue-200 font-medium mb-4">
               Your privacy is our priority - learn how we protect your data
             </p>
-            <p className="text-sm text-white/60">
+            <p className="text-sm text-white/90">
               Last updated: {new Date().toLocaleDateString()}
             </p>
           </div>

@@ -38,7 +38,7 @@ export const TestSummary: React.FC<TestSummaryProps> = ({
           </div>
           <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
             <div className="text-2xl font-bold text-white">{tests.length}</div>
-            <div className="text-sm text-white/60">Total Tests</div>
+            <div className="text-sm text-white/90">Total Tests</div>
           </div>
         </div>
         

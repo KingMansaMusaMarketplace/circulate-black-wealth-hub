@@ -29,7 +29,7 @@ const SmartEmptyState: React.FC<Props> = ({ city, maxRent, onSuggestion }) => {
         </div>
         <div>
           <h3 className="text-lg font-semibold text-white">Kayla has a few ideas</h3>
-          <p className="text-white/70 text-sm mt-1">
+          <p className="text-white text-sm mt-1">
             No matches{city && <> in <span className="text-white">{city}</span></>}
             {maxRent && <> under <span className="text-white">${maxRent.toLocaleString()}</span></>}
             {" "}— try one of these tweaks:
@@ -40,7 +40,7 @@ const SmartEmptyState: React.FC<Props> = ({ city, maxRent, onSuggestion }) => {
       <div className="space-y-3">
         {nearby.length > 0 && (
           <div>
-            <p className="text-xs uppercase tracking-wide text-white/50 mb-2 flex items-center gap-1">
+            <p className="text-xs uppercase tracking-wide text-white/80 mb-2 flex items-center gap-1">
               <MapPin className="w-3 h-3" /> Nearby neighborhoods
             </p>
             <div className="flex flex-wrap gap-2">
@@ -59,7 +59,7 @@ const SmartEmptyState: React.FC<Props> = ({ city, maxRent, onSuggestion }) => {
 
         {widerBudget && (
           <div>
-            <p className="text-xs uppercase tracking-wide text-white/50 mb-2 flex items-center gap-1">
+            <p className="text-xs uppercase tracking-wide text-white/80 mb-2 flex items-center gap-1">
               <DollarSign className="w-3 h-3" /> Expand budget
             </p>
             <button
@@ -76,7 +76,7 @@ const SmartEmptyState: React.FC<Props> = ({ city, maxRent, onSuggestion }) => {
         <Button asChild size="sm" className="bg-mansagold text-black hover:bg-mansagold/90 font-semibold">
           <Link to="/stays/host/lease/new">List Your Property — Free</Link>
         </Button>
-        <p className="text-xs text-white/50 self-center">
+        <p className="text-xs text-white/80 self-center">
           Are you a landlord? Add your property and reach 1325.AI's tenant network.
         </p>
       </div>

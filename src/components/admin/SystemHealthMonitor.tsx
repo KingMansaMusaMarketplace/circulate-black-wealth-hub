@@ -102,7 +102,7 @@ const SystemHealthMonitor: React.FC = () => {
     <div className="flex items-center gap-2">
       <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md border ${getStatusColor(allHealthy ? 'healthy' : 'degraded')}`}>
         <Activity className={`h-3 w-3 ${allHealthy ? 'text-green-400' : 'text-yellow-400'}`} />
-        <span className="text-[10px] font-medium text-white/80">System</span>
+        <span className="text-[10px] font-medium text-white">System</span>
       </div>
       
       {services.map((service) => (
@@ -112,9 +112,9 @@ const SystemHealthMonitor: React.FC = () => {
           title={`${service.label}: ${service.health.latency}ms`}
         >
           {getStatusIcon(service.health.status)}
-          <span className="text-[10px] font-medium text-white/70">{service.label}</span>
+          <span className="text-[10px] font-medium text-white">{service.label}</span>
           {service.health.latency !== undefined && (
-            <span className="text-[9px] text-white/50">{service.health.latency}ms</span>
+            <span className="text-[9px] text-white/80">{service.health.latency}ms</span>
           )}
         </div>
       ))}

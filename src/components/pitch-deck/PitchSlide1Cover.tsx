@@ -76,7 +76,7 @@ const PitchSlide1Cover: React.FC = () => {
           </motion.div>
 
           <motion.div 
-            className="mt-12 flex items-center justify-center gap-8 text-white/60"
+            className="mt-12 flex items-center justify-center gap-8 text-white/90"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}

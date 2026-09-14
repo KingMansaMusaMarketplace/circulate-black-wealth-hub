@@ -117,7 +117,7 @@ const ActiveFiltersBar: React.FC<ActiveFiltersBarProps> = ({
 
   return (
     <div className={cn('flex items-center gap-2 flex-wrap', className)}>
-      <span className="text-sm text-white/60 mr-1">Filters:</span>
+      <span className="text-sm text-white/90 mr-1">Filters:</span>
       {activeFilters.map((filter) => (
         <Badge
           key={filter.key}
@@ -138,7 +138,7 @@ const ActiveFiltersBar: React.FC<ActiveFiltersBarProps> = ({
           variant="ghost"
           size="sm"
           onClick={onClearAll}
-          className="text-white/60 hover:text-white text-xs h-7 px-2"
+          className="text-white/90 hover:text-white text-xs h-7 px-2"
         >
           Clear all
         </Button>

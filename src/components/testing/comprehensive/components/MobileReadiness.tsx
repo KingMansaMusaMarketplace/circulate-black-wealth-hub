@@ -55,19 +55,19 @@ export const MobileReadiness: React.FC = () => {
               </h3>
               <div className="text-sm text-yellow-300/80 space-y-2">
                 <div className="flex items-center gap-2">
-                  <Badge className="text-xs bg-white/10 text-white/80 border-white/20">iOS</Badge>
+                  <Badge className="text-xs bg-white/10 text-white border-white/20">iOS</Badge>
                   <span>Requires macOS with Xcode installed</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className="text-xs bg-white/10 text-white/80 border-white/20">Android</Badge>
+                  <Badge className="text-xs bg-white/10 text-white border-white/20">Android</Badge>
                   <span>Requires Android Studio installed</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className="text-xs bg-white/10 text-white/80 border-white/20">Testing</Badge>
+                  <Badge className="text-xs bg-white/10 text-white border-white/20">Testing</Badge>
                   <span>Test on physical devices before app store submission</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className="text-xs bg-white/10 text-white/80 border-white/20">Production</Badge>
+                  <Badge className="text-xs bg-white/10 text-white border-white/20">Production</Badge>
                   <span>Configure production API keys and domains</span>
                 </div>
               </div>

@@ -124,7 +124,7 @@ const MansaAmbassadorsPage: React.FC = () => {
             <p className="text-xl md:text-2xl text-white/90 mb-4 max-w-3xl mx-auto">
               Earn money while building the largest Black business network in your city
             </p>
-            <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-white mb-8 max-w-2xl mx-auto">
               Join the grassroots movement connecting community businesses with customers who want to support them.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -157,7 +157,7 @@ const MansaAmbassadorsPage: React.FC = () => {
               <Card key={i} className="p-5 bg-white/10 backdrop-blur-sm border-white/20 text-center">
                 <stat.icon className="w-7 h-7 text-mansagold mx-auto mb-2" />
                 <div className="text-2xl font-bold text-white">{stat.value}</div>
-                <div className="text-sm text-white/70">{stat.label}</div>
+                <div className="text-sm text-white">{stat.label}</div>
               </Card>
             ))}
           </div>
@@ -171,7 +171,7 @@ const MansaAmbassadorsPage: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Why Become an <span className="text-mansagold">Ambassador</span>?
             </h2>
-            <p className="text-xl text-white/70 max-w-3xl mx-auto">
+            <p className="text-xl text-white max-w-3xl mx-auto">
               More than a side hustle — it's a mission to strengthen Black economic power
             </p>
           </div>
@@ -282,7 +282,7 @@ const MansaAmbassadorsPage: React.FC = () => {
               <MapPin className="inline w-10 h-10 mr-3 text-mansagold" />
               Launch <span className="text-mansagold">Cities</span>
             </h2>
-            <p className="text-xl text-white/70 max-w-3xl mx-auto">
+            <p className="text-xl text-white max-w-3xl mx-auto">
               We're building the network city by city. Claim your spot in your hometown.
             </p>
           </div>
@@ -327,7 +327,7 @@ const MansaAmbassadorsPage: React.FC = () => {
           </div>
 
           <div className="text-center mt-8">
-            <p className="text-white/60">
+            <p className="text-white/90">
               Don't see your city? <span className="text-mansagold font-medium">Apply anyway</span> — we're expanding rapidly!
             </p>
           </div>
@@ -341,7 +341,7 @@ const MansaAmbassadorsPage: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               How It <span className="text-mansagold">Works</span>
             </h2>
-            <p className="text-xl text-white/70">
+            <p className="text-xl text-white">
               From application to earning in 4 simple steps
             </p>
           </div>
@@ -408,7 +408,7 @@ const MansaAmbassadorsPage: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Join the <span className="text-mansagold">Movement</span>?
           </h2>
-          <p className="text-xl text-white/70 mb-10 max-w-2xl mx-auto">
+          <p className="text-xl text-white mb-10 max-w-2xl mx-auto">
             Apply now and become one of the founding Mansa Ambassadors in your city.
           </p>
           <Button 
@@ -418,7 +418,7 @@ const MansaAmbassadorsPage: React.FC = () => {
           >
             Apply to Become an Ambassador <ArrowRight className="ml-3" />
           </Button>
-          <p className="mt-6 text-white/50 text-sm">
+          <p className="mt-6 text-white/80 text-sm">
             Free to join • No upfront costs • Start earning immediately
           </p>
         </div>

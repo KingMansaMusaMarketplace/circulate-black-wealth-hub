@@ -416,7 +416,7 @@ const WhatKaylaDoesPage: React.FC = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
         {/* Back link */}
-        <Link to="/" className="inline-flex items-center gap-2 text-white/60 hover:text-mansagold transition-colors mb-8 group">
+        <Link to="/" className="inline-flex items-center gap-2 text-white/90 hover:text-mansagold transition-colors mb-8 group">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           <span className="text-sm">Back to Home</span>
         </Link>
@@ -435,11 +435,11 @@ const WhatKaylaDoesPage: React.FC = () => {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
             Meet <span className="text-mansagold" style={{ fontFamily: "'Playfair Display', serif" }}>Kayla</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-6">
+          <p className="text-lg md:text-xl text-white max-w-3xl mx-auto mb-6">
             42 Agentic AI employees working 24/7 across {DEPARTMENTS.length - 1} departments — 
             replacing <span className="text-mansagold font-bold">${totalSavings.toLocaleString()}/mo</span> in operational costs.
           </p>
-          <p className="text-white/50 max-w-2xl mx-auto text-sm md:text-base">
+          <p className="text-white/80 max-w-2xl mx-auto text-sm md:text-base">
             One AI employee that handles reviews, marketing, bookkeeping, compliance, and more — so you can focus on the business.
           </p>
         </motion.div>
@@ -460,7 +460,7 @@ const WhatKaylaDoesPage: React.FC = () => {
             <div key={i} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 text-center">
               <stat.icon className="w-5 h-5 text-mansagold mx-auto mb-2" />
               <div className="text-2xl md:text-3xl font-bold text-white">{stat.value}</div>
-              <div className="text-xs text-white/50 mt-1">{stat.label}</div>
+              <div className="text-xs text-white/80 mt-1">{stat.label}</div>
             </div>
           ))}
         </motion.div>
@@ -483,7 +483,7 @@ const WhatKaylaDoesPage: React.FC = () => {
                   'flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all duration-200',
                   selectedDept === dept
                     ? 'bg-mansagold/20 text-mansagold border-mansagold/40 shadow-lg shadow-mansagold/10'
-                    : 'bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white'
+                    : 'bg-white/5 text-white/90 border-white/10 hover:bg-white/10 hover:text-white'
                 )}
               >
                 {DeptIcon && <DeptIcon className="w-4 h-4" />}
@@ -504,7 +504,7 @@ const WhatKaylaDoesPage: React.FC = () => {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center text-white/50 text-sm mb-8"
+            className="text-center text-white/80 text-sm mb-8"
           >
             {departmentDescriptions[selectedDept]}
           </motion.p>
@@ -544,7 +544,7 @@ const WhatKaylaDoesPage: React.FC = () => {
                           <h3 className="font-semibold text-white group-hover:text-mansagold transition-colors">
                             {employee.name}
                           </h3>
-                          <p className="text-xs text-white/50">{employee.role}</p>
+                          <p className="text-xs text-white/80">{employee.role}</p>
                         </div>
                       </div>
                       <Badge variant="outline" className={cn('text-[10px] px-2 py-0.5', departmentColors[employee.department])}>
@@ -553,7 +553,7 @@ const WhatKaylaDoesPage: React.FC = () => {
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-white/60 mb-4 leading-relaxed">{employee.description}</p>
+                    <p className="text-sm text-white/90 mb-4 leading-relaxed">{employee.description}</p>
 
                     {/* Footer */}
                     <div className="flex items-center justify-between">
@@ -587,7 +587,7 @@ const WhatKaylaDoesPage: React.FC = () => {
                             {employee.capabilities.map((cap, i) => (
                               <div key={i} className="flex items-start gap-2.5">
                                 <CheckCircle2 className="w-4 h-4 text-mansagold flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-white/70">{cap}</span>
+                                <span className="text-sm text-white">{cap}</span>
                               </div>
                             ))}
                           </div>
@@ -612,7 +612,7 @@ const WhatKaylaDoesPage: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
               Ready to Put Kayla to Work?
             </h2>
-            <p className="text-white/60 mb-6 max-w-xl mx-auto">
+            <p className="text-white/90 mb-6 max-w-xl mx-auto">
               Start at $19/month with Essentials, or unlock your full AI workforce with Pro at $299/month — 
               that's less than <span className="text-mansagold font-semibold">$10/day</span> for {AI_EMPLOYEES.length} employees.
               <br />

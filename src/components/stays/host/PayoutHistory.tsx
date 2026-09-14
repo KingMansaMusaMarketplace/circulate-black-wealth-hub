@@ -100,7 +100,7 @@ const PayoutHistory: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-white/60 text-sm">Pending Payouts</p>
+                <p className="text-white/90 text-sm">Pending Payouts</p>
                 <p className="text-3xl font-bold text-white">${totals.pending.toLocaleString()}</p>
               </div>
               <Clock className="w-10 h-10 text-yellow-400/50" />
@@ -112,7 +112,7 @@ const PayoutHistory: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-white/60 text-sm">Total Paid</p>
+                <p className="text-white/90 text-sm">Total Paid</p>
                 <p className="text-3xl font-bold text-white">${totals.paid.toLocaleString()}</p>
               </div>
               <DollarSign className="w-10 h-10 text-green-400/50" />
@@ -132,7 +132,7 @@ const PayoutHistory: React.FC = () => {
         </CardHeader>
         <CardContent>
           {payouts.length === 0 ? (
-            <div className="text-center py-12 text-white/60">
+            <div className="text-center py-12 text-white/90">
               <DollarSign className="w-12 h-12 mx-auto mb-3 text-white/30" />
               <p>No payouts yet</p>
               <p className="text-sm text-white/40">
@@ -184,7 +184,7 @@ const PayoutHistory: React.FC = () => {
             <DollarSign className="w-5 h-5 text-mansagold mt-0.5" />
             <div>
               <h4 className="text-white font-medium">How payouts work</h4>
-              <p className="text-white/60 text-sm mt-1">
+              <p className="text-white/90 text-sm mt-1">
                 Mansa Stays charges a 7.5% platform fee on each booking. 
                 You receive the remaining 92.5% of the booking total, minus any processing fees. 
                 Payouts are typically processed within 24 hours after guest check-in.

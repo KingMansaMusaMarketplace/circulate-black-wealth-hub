@@ -112,7 +112,7 @@ const MaintenanceModeControl: React.FC = () => {
             <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
             <div>
               <p className="text-red-400 font-medium">Maintenance Mode is Active</p>
-              <p className="text-white/70 text-sm mt-1">
+              <p className="text-white text-sm mt-1">
                 Users (except admins) will see the maintenance message instead of the app.
               </p>
             </div>
@@ -123,7 +123,7 @@ const MaintenanceModeControl: React.FC = () => {
         <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
           <div>
             <p className="text-white font-medium">Enable Maintenance Mode</p>
-            <p className="text-white/60 text-sm">Show maintenance page to all non-admin users</p>
+            <p className="text-white/90 text-sm">Show maintenance page to all non-admin users</p>
           </div>
           <Switch
             checked={maintenanceEnabled}
@@ -135,7 +135,7 @@ const MaintenanceModeControl: React.FC = () => {
         {/* Settings */}
         <div className="space-y-4">
           <div>
-            <Label className="text-white/80">Maintenance Message</Label>
+            <Label className="text-white">Maintenance Message</Label>
             <Textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -145,7 +145,7 @@ const MaintenanceModeControl: React.FC = () => {
           </div>
 
           <div>
-            <Label className="text-white/80">Scheduled End Time (optional)</Label>
+            <Label className="text-white">Scheduled End Time (optional)</Label>
             <Input
               type="datetime-local"
               value={scheduledEnd}
@@ -169,11 +169,11 @@ const MaintenanceModeControl: React.FC = () => {
 
         {/* Preview */}
         <div className="pt-4 border-t border-white/10">
-          <Label className="text-white/80 mb-3 block">Preview</Label>
+          <Label className="text-white mb-3 block">Preview</Label>
           <div className="p-6 bg-mansablue-dark rounded-lg border border-white/20 text-center">
             <Wrench className="h-12 w-12 text-mansagold mx-auto mb-4" />
             <h3 className="text-xl font-bold text-white mb-2">Under Maintenance</h3>
-            <p className="text-white/70">{message}</p>
+            <p className="text-white">{message}</p>
             {scheduledEnd && (
               <div className="mt-4 flex items-center justify-center gap-2 text-mansagold">
                 <Clock className="h-4 w-4" />
@@ -193,7 +193,7 @@ const MaintenanceModeControl: React.FC = () => {
               setMessage('We are performing scheduled maintenance. The app will be back online shortly.');
               setScheduledEnd('');
             }}
-            className="border-white/20 text-white/80"
+            className="border-white/20 text-white"
           >
             Quick Maintenance
           </Button>
@@ -205,7 +205,7 @@ const MaintenanceModeControl: React.FC = () => {
               now.setHours(now.getHours() + 1);
               setScheduledEnd(format(now, "yyyy-MM-dd'T'HH:mm"));
             }}
-            className="border-white/20 text-white/80"
+            className="border-white/20 text-white"
           >
             Deployment (1 hour)
           </Button>

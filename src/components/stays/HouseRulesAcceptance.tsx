@@ -75,7 +75,7 @@ const HouseRulesAcceptance: React.FC<HouseRulesAcceptanceProps> = ({
           <CheckCircle className="w-5 h-5 text-green-400" />
           <div>
             <p className="text-white font-medium">House Rules Accepted</p>
-            <p className="text-white/60 text-sm">
+            <p className="text-white/90 text-sm">
               You agreed to the host's house rules for this stay.
             </p>
           </div>
@@ -91,7 +91,7 @@ const HouseRulesAcceptance: React.FC<HouseRulesAcceptanceProps> = ({
           <FileText className="w-5 h-5 text-mansagold" />
           House Rules
         </CardTitle>
-        <p className="text-white/60 text-sm">
+        <p className="text-white/90 text-sm">
           Please read and accept the host's house rules before your stay.
         </p>
       </CardHeader>
@@ -106,7 +106,7 @@ const HouseRulesAcceptance: React.FC<HouseRulesAcceptanceProps> = ({
                 <div className="w-6 h-6 rounded-full bg-mansagold/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span className="text-xs text-mansagold font-medium">{index + 1}</span>
                 </div>
-                <p className="text-white/80 text-sm">{rule}</p>
+                <p className="text-white text-sm">{rule}</p>
               </div>
             ))}
           </div>
@@ -126,7 +126,7 @@ const HouseRulesAcceptance: React.FC<HouseRulesAcceptanceProps> = ({
             onCheckedChange={(checked) => setAccepted(checked as boolean)}
             disabled={!hasScrolledToBottom && rulesList.length > 5}
           />
-          <Label htmlFor="accept-rules" className="text-white/80 text-sm leading-relaxed cursor-pointer">
+          <Label htmlFor="accept-rules" className="text-white text-sm leading-relaxed cursor-pointer">
             I have read and agree to follow the house rules during my stay. 
             I understand that violating these rules may result in additional fees or early termination of my booking.
           </Label>

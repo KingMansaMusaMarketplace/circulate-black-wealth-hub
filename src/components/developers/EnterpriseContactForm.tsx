@@ -114,11 +114,11 @@ const EnterpriseContactForm: React.FC = () => {
             <Check className="h-8 w-8 text-emerald-400" />
           </div>
           <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-          <p className="text-white/70 mb-6">
+          <p className="text-white mb-6">
             Our enterprise team will reach out within 24 hours to discuss your needs.
           </p>
           <div className="bg-slate-900/50 rounded-lg p-4 border border-white/10">
-            <p className="text-white/60 text-sm">
+            <p className="text-white/90 text-sm">
               In the meantime, feel free to explore our{' '}
               <a href="/developers/docs" className="text-mansablue hover:underline">
                 API documentation
@@ -144,7 +144,7 @@ const EnterpriseContactForm: React.FC = () => {
           </div>
           <div>
             <CardTitle className="text-white text-xl">Enterprise Inquiry</CardTitle>
-            <CardDescription className="text-white/60">
+            <CardDescription className="text-white/90">
               Let's discuss custom solutions for your organization
             </CardDescription>
           </div>
@@ -155,7 +155,7 @@ const EnterpriseContactForm: React.FC = () => {
           {/* Company & Contact Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="companyName" className="text-white/80">
+              <Label htmlFor="companyName" className="text-white">
                 Company Name *
               </Label>
               <div className="relative">
@@ -172,7 +172,7 @@ const EnterpriseContactForm: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="contactName" className="text-white/80">
+              <Label htmlFor="contactName" className="text-white">
                 Your Name *
               </Label>
               <div className="relative">
@@ -189,7 +189,7 @@ const EnterpriseContactForm: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-white/80">
+              <Label htmlFor="email" className="text-white">
                 Work Email *
               </Label>
               <div className="relative">
@@ -207,7 +207,7 @@ const EnterpriseContactForm: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-white/80">
+              <Label htmlFor="phone" className="text-white">
                 Phone (Optional)
               </Label>
               <div className="relative">
@@ -226,7 +226,7 @@ const EnterpriseContactForm: React.FC = () => {
           {/* Company Size & Volume */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label className="text-white/80">Company Size *</Label>
+              <Label className="text-white">Company Size *</Label>
               <Select
                 value={formData.companySize}
                 onValueChange={(value) => setFormData((prev) => ({ ...prev, companySize: value }))}
@@ -246,7 +246,7 @@ const EnterpriseContactForm: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-white/80">Estimated Monthly API Volume *</Label>
+              <Label className="text-white">Estimated Monthly API Volume *</Label>
               <Select
                 value={formData.estimatedVolume}
                 onValueChange={(value) => setFormData((prev) => ({ ...prev, estimatedVolume: value }))}
@@ -268,7 +268,7 @@ const EnterpriseContactForm: React.FC = () => {
 
           {/* APIs Interested */}
           <div className="space-y-3">
-            <Label className="text-white/80">Which APIs are you interested in? *</Label>
+            <Label className="text-white">Which APIs are you interested in? *</Label>
             <div className="grid grid-cols-2 gap-3">
               {apis.map((api) => (
                 <button
@@ -278,14 +278,14 @@ const EnterpriseContactForm: React.FC = () => {
                   className={`p-3 rounded-lg border text-left transition-all ${
                     selectedApis.includes(api.id)
                       ? 'bg-mansablue/20 border-mansablue text-white'
-                      : 'bg-slate-900/50 border-white/10 text-white/70 hover:border-white/20'
+                      : 'bg-slate-900/50 border-white/10 text-white hover:border-white/20'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-sm">{api.name}</span>
                     {selectedApis.includes(api.id) && <Check className="h-4 w-4 text-mansablue" />}
                   </div>
-                  <p className="text-xs text-white/50 mt-1">{api.description}</p>
+                  <p className="text-xs text-white/80 mt-1">{api.description}</p>
                 </button>
               ))}
             </div>
@@ -294,7 +294,7 @@ const EnterpriseContactForm: React.FC = () => {
 
           {/* Use Case */}
           <div className="space-y-2">
-            <Label htmlFor="primaryUseCase" className="text-white/80">
+            <Label htmlFor="primaryUseCase" className="text-white">
               Tell us about your use case *
             </Label>
             <div className="relative">

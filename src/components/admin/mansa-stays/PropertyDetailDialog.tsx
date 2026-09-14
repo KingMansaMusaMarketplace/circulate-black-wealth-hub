@@ -144,7 +144,7 @@ const PropertyDetailDialog: React.FC<Props> = ({ propertyId, open, onOpenChange,
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-900 border-white/10 text-white">
         <DialogHeader>
           <DialogTitle className="text-white">Property Details</DialogTitle>
-          <DialogDescription className="text-white/60">
+          <DialogDescription className="text-white/90">
             View and edit a Mansa Stays listing.
           </DialogDescription>
         </DialogHeader>
@@ -158,12 +158,12 @@ const PropertyDetailDialog: React.FC<Props> = ({ propertyId, open, onOpenChange,
             {/* Host info + status badges */}
             <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
               <div>
-                <div className="text-xs text-white/50">Host</div>
+                <div className="text-xs text-white/80">Host</div>
                 <div className="text-white font-medium">{hostName}</div>
-                <div className="text-white/60 text-xs">{hostEmail}</div>
+                <div className="text-white/90 text-xs">{hostEmail}</div>
               </div>
               <div className="flex items-center gap-2">
-                <Badge className={property.is_active ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-white/10 text-white/60'}>
+                <Badge className={property.is_active ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-white/10 text-white/90'}>
                   {property.is_active ? 'Active' : 'Inactive'}
                 </Badge>
                 {property.is_verified && (
@@ -181,7 +181,7 @@ const PropertyDetailDialog: React.FC<Props> = ({ propertyId, open, onOpenChange,
                 {photos.slice(0, 6).map((url, i) => (
                   <a key={i} href={url} target="_blank" rel="noreferrer" className="relative block aspect-video rounded overflow-hidden bg-white/5">
                     <img src={url} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
-                    <ExternalLink className="absolute top-1 right-1 h-3 w-3 text-white/70 bg-black/50 rounded p-0.5" />
+                    <ExternalLink className="absolute top-1 right-1 h-3 w-3 text-white bg-black/50 rounded p-0.5" />
                   </a>
                 ))}
               </div>
@@ -190,15 +190,15 @@ const PropertyDetailDialog: React.FC<Props> = ({ propertyId, open, onOpenChange,
             {/* Toggles */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
               <div className="flex items-center justify-between">
-                <Label className="text-white/80">Active (visible to guests)</Label>
+                <Label className="text-white">Active (visible to guests)</Label>
                 <Switch checked={property.is_active} onCheckedChange={v => update({ is_active: v })} />
               </div>
               <div className="flex items-center justify-between">
-                <Label className="text-white/80">Verified by admin</Label>
+                <Label className="text-white">Verified by admin</Label>
                 <Switch checked={property.is_verified} onCheckedChange={v => update({ is_verified: v })} />
               </div>
               <div className="flex items-center justify-between">
-                <Label className="text-white/80">Instant Book</Label>
+                <Label className="text-white">Instant Book</Label>
                 <Switch checked={property.is_instant_book} onCheckedChange={v => update({ is_instant_book: v })} />
               </div>
             </div>
@@ -206,27 +206,27 @@ const PropertyDetailDialog: React.FC<Props> = ({ propertyId, open, onOpenChange,
             {/* Basic */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="md:col-span-2">
-                <Label className="text-white/70">Title</Label>
+                <Label className="text-white">Title</Label>
                 <Input value={property.title} onChange={e => update({ title: e.target.value })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div className="md:col-span-2">
-                <Label className="text-white/70">Description</Label>
+                <Label className="text-white">Description</Label>
                 <Textarea value={property.description ?? ''} onChange={e => update({ description: e.target.value })} className="bg-white/5 border-white/10 text-white" rows={3} />
               </div>
               <div>
-                <Label className="text-white/70">Address</Label>
+                <Label className="text-white">Address</Label>
                 <Input value={property.address ?? ''} onChange={e => update({ address: e.target.value })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">City</Label>
+                <Label className="text-white">City</Label>
                 <Input value={property.city ?? ''} onChange={e => update({ city: e.target.value })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">State</Label>
+                <Label className="text-white">State</Label>
                 <Input value={property.state ?? ''} onChange={e => update({ state: e.target.value })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">Zip</Label>
+                <Label className="text-white">Zip</Label>
                 <Input value={property.zip_code ?? ''} onChange={e => update({ zip_code: e.target.value })} className="bg-white/5 border-white/10 text-white" />
               </div>
             </div>
@@ -234,46 +234,46 @@ const PropertyDetailDialog: React.FC<Props> = ({ propertyId, open, onOpenChange,
             {/* Capacity & pricing */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div>
-                <Label className="text-white/70">Bedrooms</Label>
+                <Label className="text-white">Bedrooms</Label>
                 <Input type="number" value={property.bedrooms ?? 0} onChange={e => update({ bedrooms: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">Bathrooms</Label>
+                <Label className="text-white">Bathrooms</Label>
                 <Input type="number" step="0.5" value={property.bathrooms ?? 0} onChange={e => update({ bathrooms: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">Max Guests</Label>
+                <Label className="text-white">Max Guests</Label>
                 <Input type="number" value={property.max_guests ?? 0} onChange={e => update({ max_guests: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">Nightly Rate ($)</Label>
+                <Label className="text-white">Nightly Rate ($)</Label>
                 <Input type="number" step="0.01" value={property.base_nightly_rate ?? 0} onChange={e => update({ base_nightly_rate: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">Cleaning Fee ($)</Label>
+                <Label className="text-white">Cleaning Fee ($)</Label>
                 <Input type="number" step="0.01" value={property.cleaning_fee ?? 0} onChange={e => update({ cleaning_fee: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">Pet Fee ($)</Label>
+                <Label className="text-white">Pet Fee ($)</Label>
                 <Input type="number" step="0.01" value={property.pet_fee ?? 0} onChange={e => update({ pet_fee: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">Min Nights</Label>
+                <Label className="text-white">Min Nights</Label>
                 <Input type="number" value={property.min_nights ?? 1} onChange={e => update({ min_nights: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-white/70">Max Nights</Label>
+                <Label className="text-white">Max Nights</Label>
                 <Input type="number" value={property.max_nights ?? 30} onChange={e => update({ max_nights: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
               </div>
             </div>
 
             <div className="flex items-center gap-2 p-3 rounded-lg bg-white/5 border border-white/10">
               <Switch checked={property.pets_allowed} onCheckedChange={v => update({ pets_allowed: v })} />
-              <Label className="text-white/80">Pets allowed</Label>
+              <Label className="text-white">Pets allowed</Label>
             </div>
 
             <div>
-              <Label className="text-white/70">House Rules</Label>
+              <Label className="text-white">House Rules</Label>
               <Textarea value={property.house_rules ?? ''} onChange={e => update({ house_rules: e.target.value })} className="bg-white/5 border-white/10 text-white" rows={3} />
             </div>
           </div>

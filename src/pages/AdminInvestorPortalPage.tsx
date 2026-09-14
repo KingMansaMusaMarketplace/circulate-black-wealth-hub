@@ -127,7 +127,7 @@ const AdminInvestorPortalPage: React.FC = () => {
   ];
 
   const tabTriggerClass =
-    'flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70';
+    'flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white';
 
   return (
     <div className="min-h-screen gradient-primary relative overflow-hidden text-white">
@@ -148,7 +148,7 @@ const AdminInvestorPortalPage: React.FC = () => {
       <div className="container mx-auto px-4 py-8 relative z-10 space-y-8">
         {/* Header */}
         <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-2xl animate-fade-in">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/admin')} className="text-white/60 hover:text-white mb-4 -ml-2">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/admin')} className="text-white/90 hover:text-white mb-4 -ml-2">
             <ArrowLeft className="h-4 w-4 mr-1" /> Back to Admin
           </Button>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -158,7 +158,7 @@ const AdminInvestorPortalPage: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-3xl font-bold text-white font-display">Investor Portal</h1>
-                <p className="text-white/70 text-sm mt-1">
+                <p className="text-white text-sm mt-1">
                   U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending · Illinois law · NDA-first access
                 </p>
               </div>
@@ -180,7 +180,7 @@ const AdminInvestorPortalPage: React.FC = () => {
               key={label}
               className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-5 shadow-xl hover:bg-white/[0.14] transition-colors"
             >
-              <div className="flex items-center gap-2 text-white/70 text-xs uppercase tracking-wide">
+              <div className="flex items-center gap-2 text-white text-xs uppercase tracking-wide">
                 <Icon className="h-3.5 w-3.5 text-mansagold" /> {label}
               </div>
               <div className={`text-3xl font-bold mt-2 ${gold ? 'text-mansagold' : 'text-white'}`}>{value}</div>
@@ -213,18 +213,18 @@ const AdminInvestorPortalPage: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {investors.length === 0 ? (
-                  <p className="text-sm text-white/50">No investor activity yet.</p>
+                  <p className="text-sm text-white/80">No investor activity yet.</p>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-white/70">Name</TableHead>
-                        <TableHead className="text-white/70">Email</TableHead>
-                        <TableHead className="text-white/70">Firm</TableHead>
-                        <TableHead className="text-white/70">NDA</TableHead>
-                        <TableHead className="text-white/70">Visits</TableHead>
-                        <TableHead className="text-white/70">Documents</TableHead>
-                        <TableHead className="text-white/70">Last Seen</TableHead>
+                        <TableHead className="text-white">Name</TableHead>
+                        <TableHead className="text-white">Email</TableHead>
+                        <TableHead className="text-white">Firm</TableHead>
+                        <TableHead className="text-white">NDA</TableHead>
+                        <TableHead className="text-white">Visits</TableHead>
+                        <TableHead className="text-white">Documents</TableHead>
+                        <TableHead className="text-white">Last Seen</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -265,11 +265,11 @@ const AdminInvestorPortalPage: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="text-white/70">When</TableHead>
-                      <TableHead className="text-white/70">Investor</TableHead>
-                      <TableHead className="text-white/70">Action</TableHead>
-                      <TableHead className="text-white/70">Document</TableHead>
-                      <TableHead className="text-white/70">IP</TableHead>
+                      <TableHead className="text-white">When</TableHead>
+                      <TableHead className="text-white">Investor</TableHead>
+                      <TableHead className="text-white">Action</TableHead>
+                      <TableHead className="text-white">Document</TableHead>
+                      <TableHead className="text-white">IP</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -303,17 +303,17 @@ const AdminInvestorPortalPage: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {ndas.length === 0 ? (
-                  <p className="text-sm text-white/50">No NDAs on file.</p>
+                  <p className="text-sm text-white/80">No NDAs on file.</p>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-white/70">Name</TableHead>
-                        <TableHead className="text-white/70">Email</TableHead>
-                        <TableHead className="text-white/70">Role</TableHead>
-                        <TableHead className="text-white/70">Type</TableHead>
-                        <TableHead className="text-white/70">Status</TableHead>
-                        <TableHead className="text-white/70">Signed</TableHead>
+                        <TableHead className="text-white">Name</TableHead>
+                        <TableHead className="text-white">Email</TableHead>
+                        <TableHead className="text-white">Role</TableHead>
+                        <TableHead className="text-white">Type</TableHead>
+                        <TableHead className="text-white">Status</TableHead>
+                        <TableHead className="text-white">Signed</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>

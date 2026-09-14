@@ -73,7 +73,7 @@ const ContactInfo = () => {
                     {item.link ? (
                       <a 
                         href={item.link} 
-                        className={`${activeContact === item.id ? "text-white/80" : "text-mansablue hover:text-mansagold transition-colors"} block truncate`}
+                        className={`${activeContact === item.id ? "text-white" : "text-mansablue hover:text-mansagold transition-colors"} block truncate`}
                       >
                         <span className="truncate block">{item.value}</span>
                       </a>

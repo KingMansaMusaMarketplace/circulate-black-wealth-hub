@@ -222,12 +222,12 @@ export const ReferralCampaignBanner: React.FC<ReferralCampaignBannerProps> = ({
                 <div className="text-3xl font-bold text-white">{timeRemaining.days}</div>
                 <div className="text-xs text-blue-200">Days</div>
               </div>
-              <span className="text-2xl text-white/50">:</span>
+              <span className="text-2xl text-white/80">:</span>
               <div className="text-center">
                 <div className="text-3xl font-bold text-white">{timeRemaining.hours}</div>
                 <div className="text-xs text-blue-200">Hours</div>
               </div>
-              <span className="text-2xl text-white/50">:</span>
+              <span className="text-2xl text-white/80">:</span>
               <div className="text-center">
                 <div className="text-3xl font-bold text-white">{timeRemaining.minutes}</div>
                 <div className="text-xs text-blue-200">Min</div>

@@ -126,7 +126,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
       {/* Content */}
       <div className="p-4">
         {/* Location */}
-        <div className="flex items-center gap-1 text-white/60 text-sm mb-1">
+        <div className="flex items-center gap-1 text-white/90 text-sm mb-1">
           <MapPin className="w-3.5 h-3.5" />
           <span>{property.city}, {property.state}</span>
         </div>
@@ -137,12 +137,12 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         </h3>
 
         {/* Property type */}
-        <p className="text-sm text-white/50 capitalize mb-3">
+        <p className="text-sm text-white/80 capitalize mb-3">
           {property.property_type}
         </p>
 
         {/* Details row */}
-        <div className="flex items-center gap-4 text-sm text-white/60 mb-3">
+        <div className="flex items-center gap-4 text-sm text-white/90 mb-3">
           <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
             <span>{property.max_guests} guests</span>
@@ -166,7 +166,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               {property.average_rating > 0 ? property.average_rating.toFixed(1) : 'New'}
             </span>
             {property.review_count > 0 && (
-              <span className="text-white/50 text-sm">
+              <span className="text-white/80 text-sm">
                 ({property.review_count} review{property.review_count !== 1 ? 's' : ''})
               </span>
             )}
@@ -179,10 +179,10 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                 <span className="font-bold text-lg text-mansagold">
                   ${property.base_monthly_rate.toLocaleString()}
                 </span>
-                <span className="text-white/50 text-sm"> / mo</span>
+                <span className="text-white/80 text-sm"> / mo</span>
                 {property.listing_mode === 'both' && (
                   <div>
-                    <span className="text-white/50 text-xs">
+                    <span className="text-white/80 text-xs">
                       ${property.base_nightly_rate.toLocaleString()}/night
                     </span>
                   </div>
@@ -193,7 +193,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                 <span className="font-bold text-lg text-mansagold">
                   ${property.base_nightly_rate.toLocaleString()}
                 </span>
-                <span className="text-white/50 text-sm"> / night</span>
+                <span className="text-white/80 text-sm"> / night</span>
               </div>
             )}
           </div>
@@ -202,7 +202,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         {/* Pets badge */}
         {property.pets_allowed && (
           <div className="mt-3">
-            <Badge variant="outline" className="text-xs text-white/70 border-white/20">
+            <Badge variant="outline" className="text-xs text-white border-white/20">
               🐾 Pet friendly
             </Badge>
           </div>

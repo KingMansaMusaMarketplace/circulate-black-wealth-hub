@@ -156,7 +156,7 @@ const KaylaAgentCostMeter: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-white">Kayla Agent Cost Meter</h2>
-          <p className="text-sm text-white/60">AI token usage & spend across all 42 agents</p>
+          <p className="text-sm text-white/90">AI token usage & spend across all 42 agents</p>
         </div>
         <div className="flex gap-2 items-center">
           <Tabs value={String(windowDays)} onValueChange={(v) => setWindowDays(Number(v) as 1 | 7 | 30)}>
@@ -195,27 +195,27 @@ const KaylaAgentCostMeter: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-white/60 text-xs"><DollarSign className="h-3 w-3" /> Total Cost ({windowDays}d)</div>
+            <div className="flex items-center gap-2 text-white/90 text-xs"><DollarSign className="h-3 w-3" /> Total Cost ({windowDays}d)</div>
             <div className="text-2xl font-bold text-mansagold mt-1">{fmt(totals.cost)}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-white/60 text-xs"><Zap className="h-3 w-3" /> Total Tokens</div>
+            <div className="flex items-center gap-2 text-white/90 text-xs"><Zap className="h-3 w-3" /> Total Tokens</div>
             <div className="text-2xl font-bold text-white mt-1">{(totals.input + totals.output).toLocaleString()}</div>
             <div className="text-xs text-white/40 mt-1">{totals.input.toLocaleString()} in · {totals.output.toLocaleString()} out</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-white/60 text-xs"><Bot className="h-3 w-3" /> Runs / Success</div>
+            <div className="flex items-center gap-2 text-white/90 text-xs"><Bot className="h-3 w-3" /> Runs / Success</div>
             <div className="text-2xl font-bold text-white mt-1">{totals.runs}</div>
             <div className="text-xs text-white/40 mt-1">{totals.success} succeeded</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-white/60 text-xs"><TrendingUp className="h-3 w-3" /> Cost per Success</div>
+            <div className="flex items-center gap-2 text-white/90 text-xs"><TrendingUp className="h-3 w-3" /> Cost per Success</div>
             <div className="text-2xl font-bold text-white mt-1">{fmt(totals.costPerSuccess)}</div>
           </CardContent>
         </Card>
@@ -266,7 +266,7 @@ const KaylaAgentCostMeter: React.FC = () => {
         <CardHeader><CardTitle className="text-base">Cost Caps (soft warnings)</CardTitle></CardHeader>
         <CardContent>
           {thresholds.length === 0 ? (
-            <p className="text-sm text-white/50">No caps configured. Add caps from the per-agent table above.</p>
+            <p className="text-sm text-white/80">No caps configured. Add caps from the per-agent table above.</p>
           ) : (
             <Table>
               <TableHeader>

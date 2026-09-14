@@ -348,7 +348,7 @@ const NoireRideshareAdmin: React.FC = () => {
       case 'accepted': return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
       case 'requested': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
       case 'cancelled': return 'bg-red-500/20 text-red-300 border-red-500/30';
-      default: return 'bg-white/10 text-white/70';
+      default: return 'bg-white/10 text-white';
     }
   };
 
@@ -390,7 +390,7 @@ const NoireRideshareAdmin: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-white">Noire Rideshare</h2>
-        <p className="text-white/60 text-sm">Drivers, rides, payouts, pricing, and disputes.</p>
+        <p className="text-white/90 text-sm">Drivers, rides, payouts, pricing, and disputes.</p>
       </div>
 
       {/* Stats */}
@@ -398,42 +398,42 @@ const NoireRideshareAdmin: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Drivers</CardDescription>
+              <CardDescription className="text-white/90">Drivers</CardDescription>
               <Users className="h-4 w-4 text-mansagold" />
             </div>
             <CardTitle className="text-2xl text-white">{drivers.length}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">{onlineDrivers} online · {drivers.filter(d => d.is_approved).length} approved</CardContent>
+          <CardContent className="text-xs text-white/80">{onlineDrivers} online · {drivers.filter(d => d.is_approved).length} approved</CardContent>
         </Card>
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Rides</CardDescription>
+              <CardDescription className="text-white/90">Rides</CardDescription>
               <Car className="h-4 w-4 text-mansagold" />
             </div>
             <CardTitle className="text-2xl text-white">{rides.length}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">All-time rides</CardContent>
+          <CardContent className="text-xs text-white/80">All-time rides</CardContent>
         </Card>
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Realized Fees</CardDescription>
+              <CardDescription className="text-white/90">Realized Fees</CardDescription>
               <CheckCircle2 className="h-4 w-4 text-green-400" />
             </div>
             <CardTitle className="text-2xl text-white">{fmt(realizedFees)}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">Platform fees (completed)</CardContent>
+          <CardContent className="text-xs text-white/80">Platform fees (completed)</CardContent>
         </Card>
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
-              <CardDescription className="text-white/60">Total GMV</CardDescription>
+              <CardDescription className="text-white/90">Total GMV</CardDescription>
               <DollarSign className="h-4 w-4 text-mansagold" />
             </div>
             <CardTitle className="text-2xl text-white">{fmt(totalGmv)}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">{openDisputes} open disputes</CardContent>
+          <CardContent className="text-xs text-white/80">{openDisputes} open disputes</CardContent>
         </Card>
       </div>
 
@@ -457,22 +457,22 @@ const NoireRideshareAdmin: React.FC = () => {
 
         {/* APPLICATIONS */}
         <TabsContent value="applications" className="mt-4 space-y-3">
-          <div className="text-xs text-white/50">
+          <div className="text-xs text-white/80">
             Click any driver to review documents, approve, reject, or suspend.
           </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
                 <TableHeader><TableRow className="border-white/10">
-                  <TableHead className="text-white/70">Name</TableHead>
-                  <TableHead className="text-white/70">Vehicle</TableHead>
-                  <TableHead className="text-white/70">Submitted</TableHead>
-                  <TableHead className="text-white/70">Status</TableHead>
-                  <TableHead className="text-white/70 text-right">Review</TableHead>
+                  <TableHead className="text-white">Name</TableHead>
+                  <TableHead className="text-white">Vehicle</TableHead>
+                  <TableHead className="text-white">Submitted</TableHead>
+                  <TableHead className="text-white">Status</TableHead>
+                  <TableHead className="text-white text-right">Review</TableHead>
                 </TableRow></TableHeader>
                 <TableBody>
                   {drivers.length === 0 ? (
-                    <TableRow><TableCell colSpan={5} className="text-center text-white/50 py-8">No driver applications yet.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={5} className="text-center text-white/80 py-8">No driver applications yet.</TableCell></TableRow>
                   ) : drivers
                       .slice()
                       .sort((a, b) => {
@@ -483,12 +483,12 @@ const NoireRideshareAdmin: React.FC = () => {
                     <TableRow key={d.id} className="border-white/10 cursor-pointer hover:bg-white/5" onClick={() => setOpenDriverId(d.id)}>
                       <TableCell className="text-white font-medium">
                         {d.full_name || '—'}
-                        <div className="text-xs text-white/50">{d.email || d.phone}</div>
+                        <div className="text-xs text-white/80">{d.email || d.phone}</div>
                       </TableCell>
-                      <TableCell className="text-white/70 text-sm">
+                      <TableCell className="text-white text-sm">
                         {[d.vehicle_year, d.vehicle_make, d.vehicle_model].filter(Boolean).join(' ') || '—'}
                       </TableCell>
-                      <TableCell className="text-white/50 text-xs">
+                      <TableCell className="text-white/80 text-xs">
                         {d.submitted_at ? new Date(d.submitted_at).toLocaleDateString() : '—'}
                       </TableCell>
                       <TableCell>
@@ -523,34 +523,34 @@ const NoireRideshareAdmin: React.FC = () => {
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
-            <div className="text-xs text-white/50 ml-auto">{filteredDrivers.length} of {drivers.length}</div>
+            <div className="text-xs text-white/80 ml-auto">{filteredDrivers.length} of {drivers.length}</div>
             <Button size="sm" variant="outline" onClick={exportDrivers}><Download className="h-4 w-4 mr-1" /> Export CSV</Button>
           </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
                 <TableHeader><TableRow className="border-white/10">
-                  <TableHead className="text-white/70">Name</TableHead>
-                  <TableHead className="text-white/70">Vehicle</TableHead>
-                  <TableHead className="text-white/70">Plate</TableHead>
-                  <TableHead className="text-white/70">Rating</TableHead>
-                  <TableHead className="text-white/70">Rides</TableHead>
-                  <TableHead className="text-white/70">Status</TableHead>
-                  <TableHead className="text-white/70 text-right">Actions</TableHead>
+                  <TableHead className="text-white">Name</TableHead>
+                  <TableHead className="text-white">Vehicle</TableHead>
+                  <TableHead className="text-white">Plate</TableHead>
+                  <TableHead className="text-white">Rating</TableHead>
+                  <TableHead className="text-white">Rides</TableHead>
+                  <TableHead className="text-white">Status</TableHead>
+                  <TableHead className="text-white text-right">Actions</TableHead>
                 </TableRow></TableHeader>
                 <TableBody>
                   {filteredDrivers.length === 0 ? (
-                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No drivers match.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/80 py-8">No drivers match.</TableCell></TableRow>
                   ) : filteredDrivers.map(d => (
                     <TableRow key={d.id} className="border-white/10">
                       <TableCell className="text-white font-medium">
                         {d.full_name || '—'}
-                        <div className="text-xs text-white/50">{d.email || d.phone}</div>
+                        <div className="text-xs text-white/80">{d.email || d.phone}</div>
                       </TableCell>
-                      <TableCell className="text-white/70 text-sm">{[d.vehicle_year, d.vehicle_color, d.vehicle_make, d.vehicle_model].filter(Boolean).join(' ') || '—'}</TableCell>
-                      <TableCell className="text-white/70 font-mono text-xs">{d.license_plate || '—'}</TableCell>
-                      <TableCell className="text-white/70">{d.rating_average ? `${Number(d.rating_average).toFixed(2)}★` : '—'}</TableCell>
-                      <TableCell className="text-white/70">{d.total_rides ?? 0}</TableCell>
+                      <TableCell className="text-white text-sm">{[d.vehicle_year, d.vehicle_color, d.vehicle_make, d.vehicle_model].filter(Boolean).join(' ') || '—'}</TableCell>
+                      <TableCell className="text-white font-mono text-xs">{d.license_plate || '—'}</TableCell>
+                      <TableCell className="text-white">{d.rating_average ? `${Number(d.rating_average).toFixed(2)}★` : '—'}</TableCell>
+                      <TableCell className="text-white">{d.total_rides ?? 0}</TableCell>
                       <TableCell>
                         <div className="flex flex-col gap-1">
                           {d.is_approved
@@ -592,32 +592,32 @@ const NoireRideshareAdmin: React.FC = () => {
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
             </select>
-            <div className="text-xs text-white/50 ml-auto">{filteredRides.length} of {rides.length}</div>
+            <div className="text-xs text-white/80 ml-auto">{filteredRides.length} of {rides.length}</div>
             <Button size="sm" variant="outline" onClick={exportRides}><Download className="h-4 w-4 mr-1" /> Export CSV</Button>
           </div>
           <Card className="bg-white/5 border-white/10">
             <CardContent className="p-0">
               <Table>
                 <TableHeader><TableRow className="border-white/10">
-                  <TableHead className="text-white/70">Driver</TableHead>
-                  <TableHead className="text-white/70">Route</TableHead>
-                  <TableHead className="text-white/70">Miles</TableHead>
-                  <TableHead className="text-white/70">Fare</TableHead>
-                  <TableHead className="text-white/70">Status</TableHead>
-                  <TableHead className="text-white/70">Created</TableHead>
-                  <TableHead className="text-white/70 text-right">Actions</TableHead>
+                  <TableHead className="text-white">Driver</TableHead>
+                  <TableHead className="text-white">Route</TableHead>
+                  <TableHead className="text-white">Miles</TableHead>
+                  <TableHead className="text-white">Fare</TableHead>
+                  <TableHead className="text-white">Status</TableHead>
+                  <TableHead className="text-white">Created</TableHead>
+                  <TableHead className="text-white text-right">Actions</TableHead>
                 </TableRow></TableHeader>
                 <TableBody>
                   {filteredRides.length === 0 ? (
-                    <TableRow><TableCell colSpan={7} className="text-center text-white/50 py-8">No rides match.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={7} className="text-center text-white/80 py-8">No rides match.</TableCell></TableRow>
                   ) : filteredRides.slice(0, 200).map(r => (
                     <TableRow key={r.id} className="border-white/10">
                       <TableCell className="text-white text-sm">{r.driver_id ? driverMap[r.driver_id] || r.driver_id.slice(0, 8) : '—'}</TableCell>
-                      <TableCell className="text-white/70 text-xs max-w-[280px] truncate">{r.pickup_address} → {r.dropoff_address}</TableCell>
-                      <TableCell className="text-white/70">{r.estimated_distance_miles ? Number(r.estimated_distance_miles).toFixed(1) : '—'}</TableCell>
-                      <TableCell className="text-white/70">{fmt(Number(r.actual_fare || r.estimated_fare || 0))}</TableCell>
+                      <TableCell className="text-white text-xs max-w-[280px] truncate">{r.pickup_address} → {r.dropoff_address}</TableCell>
+                      <TableCell className="text-white">{r.estimated_distance_miles ? Number(r.estimated_distance_miles).toFixed(1) : '—'}</TableCell>
+                      <TableCell className="text-white">{fmt(Number(r.actual_fare || r.estimated_fare || 0))}</TableCell>
                       <TableCell><Badge variant="outline" className={statusColor(r.status)}>{r.status}</Badge></TableCell>
-                      <TableCell className="text-white/50 text-xs">{new Date(r.created_at).toLocaleDateString()}</TableCell>
+                      <TableCell className="text-white/80 text-xs">{new Date(r.created_at).toLocaleDateString()}</TableCell>
                       <TableCell>
                         <div className="flex justify-end gap-1">
                           {!['cancelled', 'completed'].includes(r.status) && (
@@ -643,16 +643,16 @@ const NoireRideshareAdmin: React.FC = () => {
             <CardContent className="p-0">
               <Table>
                 <TableHeader><TableRow className="border-white/10">
-                  <TableHead className="text-white/70">Driver</TableHead>
-                  <TableHead className="text-white/70">Owed</TableHead>
-                  <TableHead className="text-white/70 text-right">Action</TableHead>
+                  <TableHead className="text-white">Driver</TableHead>
+                  <TableHead className="text-white">Owed</TableHead>
+                  <TableHead className="text-white text-right">Action</TableHead>
                 </TableRow></TableHeader>
                 <TableBody>
                   {Object.entries(driverOwedMap).filter(([, v]) => v > 0.01).sort((a, b) => b[1] - a[1]).map(([id, amt]) => {
                     const d = drivers.find(x => x.id === id);
                     return (
                       <TableRow key={id} className="border-white/10">
-                        <TableCell className="text-white">{d?.full_name || id.slice(0, 8)}<div className="text-xs text-white/50">{d?.email}</div></TableCell>
+                        <TableCell className="text-white">{d?.full_name || id.slice(0, 8)}<div className="text-xs text-white/80">{d?.email}</div></TableCell>
                         <TableCell className="text-mansagold font-semibold">{fmt(amt)}</TableCell>
                         <TableCell className="text-right">
                           <Button size="sm" variant="outline" onClick={() => { setPayDriver(d!); setPayAmount(amt.toFixed(2)); }}>Mark Paid</Button>
@@ -661,7 +661,7 @@ const NoireRideshareAdmin: React.FC = () => {
                     );
                   })}
                   {Object.values(driverOwedMap).filter(v => v > 0.01).length === 0 && (
-                    <TableRow><TableCell colSpan={3} className="text-center text-white/50 py-8">All caught up.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={3} className="text-center text-white/80 py-8">All caught up.</TableCell></TableRow>
                   )}
                 </TableBody>
               </Table>
@@ -676,21 +676,21 @@ const NoireRideshareAdmin: React.FC = () => {
             <CardContent className="p-0">
               <Table>
                 <TableHeader><TableRow className="border-white/10">
-                  <TableHead className="text-white/70">Driver</TableHead>
-                  <TableHead className="text-white/70">Amount</TableHead>
-                  <TableHead className="text-white/70">Method</TableHead>
-                  <TableHead className="text-white/70">Reference</TableHead>
-                  <TableHead className="text-white/70">Paid</TableHead>
+                  <TableHead className="text-white">Driver</TableHead>
+                  <TableHead className="text-white">Amount</TableHead>
+                  <TableHead className="text-white">Method</TableHead>
+                  <TableHead className="text-white">Reference</TableHead>
+                  <TableHead className="text-white">Paid</TableHead>
                 </TableRow></TableHeader>
                 <TableBody>
-                  {payouts.length === 0 ? <TableRow><TableCell colSpan={5} className="text-center text-white/50 py-8">No payouts yet.</TableCell></TableRow>
+                  {payouts.length === 0 ? <TableRow><TableCell colSpan={5} className="text-center text-white/80 py-8">No payouts yet.</TableCell></TableRow>
                     : payouts.map(p => (
                       <TableRow key={p.id} className="border-white/10">
                         <TableCell className="text-white">{driverMap[p.driver_id] || p.driver_id.slice(0, 8)}</TableCell>
                         <TableCell className="text-white">{fmt(p.amount)}</TableCell>
-                        <TableCell className="text-white/70">{p.method || '—'}</TableCell>
-                        <TableCell className="text-white/70 font-mono text-xs">{p.reference || '—'}</TableCell>
-                        <TableCell className="text-white/50 text-xs">{new Date(p.paid_at).toLocaleString()}</TableCell>
+                        <TableCell className="text-white">{p.method || '—'}</TableCell>
+                        <TableCell className="text-white font-mono text-xs">{p.reference || '—'}</TableCell>
+                        <TableCell className="text-white/80 text-xs">{new Date(p.paid_at).toLocaleString()}</TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
@@ -711,27 +711,27 @@ const NoireRideshareAdmin: React.FC = () => {
                 <>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-white/70">Base Fare ($)</Label>
+                      <Label className="text-white">Base Fare ($)</Label>
                       <Input type="number" step="0.01" value={pricingForm.base_fare} onChange={e => setPricingForm({ ...pricingForm, base_fare: Number(e.target.value) })} />
                     </div>
                     <div>
-                      <Label className="text-white/70">Minimum Fare ($)</Label>
+                      <Label className="text-white">Minimum Fare ($)</Label>
                       <Input type="number" step="0.01" value={pricingForm.minimum_fare} onChange={e => setPricingForm({ ...pricingForm, minimum_fare: Number(e.target.value) })} />
                     </div>
                     <div>
-                      <Label className="text-white/70">Per Mile ($)</Label>
+                      <Label className="text-white">Per Mile ($)</Label>
                       <Input type="number" step="0.01" value={pricingForm.per_mile_rate} onChange={e => setPricingForm({ ...pricingForm, per_mile_rate: Number(e.target.value) })} />
                     </div>
                     <div>
-                      <Label className="text-white/70">Per Minute ($)</Label>
+                      <Label className="text-white">Per Minute ($)</Label>
                       <Input type="number" step="0.01" value={pricingForm.per_minute_rate} onChange={e => setPricingForm({ ...pricingForm, per_minute_rate: Number(e.target.value) })} />
                     </div>
                     <div>
-                      <Label className="text-white/70">Surge Multiplier</Label>
+                      <Label className="text-white">Surge Multiplier</Label>
                       <Input type="number" step="0.05" value={pricingForm.surge_multiplier} onChange={e => setPricingForm({ ...pricingForm, surge_multiplier: Number(e.target.value) })} />
                     </div>
                     <div>
-                      <Label className="text-white/70">Platform Fee (%)</Label>
+                      <Label className="text-white">Platform Fee (%)</Label>
                       <Input type="number" step="0.5" value={pricingForm.platform_fee_pct} onChange={e => setPricingForm({ ...pricingForm, platform_fee_pct: Number(e.target.value) })} />
                     </div>
                   </div>
@@ -748,28 +748,28 @@ const NoireRideshareAdmin: React.FC = () => {
             <CardContent className="p-0">
               <Table>
                 <TableHeader><TableRow className="border-white/10">
-                  <TableHead className="text-white/70">Filed</TableHead>
-                  <TableHead className="text-white/70">Ride</TableHead>
-                  <TableHead className="text-white/70">Reason</TableHead>
-                  <TableHead className="text-white/70">Status</TableHead>
-                  <TableHead className="text-white/70 text-right">Action</TableHead>
+                  <TableHead className="text-white">Filed</TableHead>
+                  <TableHead className="text-white">Ride</TableHead>
+                  <TableHead className="text-white">Reason</TableHead>
+                  <TableHead className="text-white">Status</TableHead>
+                  <TableHead className="text-white text-right">Action</TableHead>
                 </TableRow></TableHeader>
                 <TableBody>
-                  {disputes.length === 0 ? <TableRow><TableCell colSpan={5} className="text-center text-white/50 py-8">No disputes filed.</TableCell></TableRow>
+                  {disputes.length === 0 ? <TableRow><TableCell colSpan={5} className="text-center text-white/80 py-8">No disputes filed.</TableCell></TableRow>
                     : disputes.map(d => (
                       <TableRow key={d.id} className="border-white/10">
-                        <TableCell className="text-white/50 text-xs">{new Date(d.created_at).toLocaleDateString()}</TableCell>
-                        <TableCell className="text-white/70 font-mono text-xs">{d.ride_id.slice(0, 8)}</TableCell>
+                        <TableCell className="text-white/80 text-xs">{new Date(d.created_at).toLocaleDateString()}</TableCell>
+                        <TableCell className="text-white font-mono text-xs">{d.ride_id.slice(0, 8)}</TableCell>
                         <TableCell className="text-white">
                           {d.reason}
-                          {d.description && <div className="text-xs text-white/50 mt-1 max-w-md truncate">{d.description}</div>}
+                          {d.description && <div className="text-xs text-white/80 mt-1 max-w-md truncate">{d.description}</div>}
                         </TableCell>
                         <TableCell>
                           <Badge variant="outline" className={
                             d.status === 'open' ? 'bg-red-500/20 text-red-300 border-red-500/30' :
                               d.status === 'investigating' ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' :
                                 d.status === 'resolved' ? 'bg-green-500/20 text-green-300 border-green-500/30' :
-                                  'bg-white/10 text-white/60'
+                                  'bg-white/10 text-white/90'
                           }>{d.status}</Badge>
                         </TableCell>
                         <TableCell className="text-right">
@@ -788,7 +788,7 @@ const NoireRideshareAdmin: React.FC = () => {
         {/* REPORTING */}
         <TabsContent value="reporting" className="mt-4 space-y-4">
           <div className="flex items-center gap-2">
-            <Label className="text-white/70 text-sm">Range:</Label>
+            <Label className="text-white text-sm">Range:</Label>
             <select value={reportRange} onChange={e => setReportRange(Number(e.target.value) as any)} className="bg-white/5 border border-white/10 rounded px-3 py-1.5 text-white text-sm">
               <option value={30}>Last 30 days</option>
               <option value={90}>Last 90 days</option>
@@ -798,10 +798,10 @@ const NoireRideshareAdmin: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="bg-white/5 border-white/10"><CardHeader className="pb-2"><CardDescription className="text-white/60">GMV</CardDescription><CardTitle className="text-2xl text-white">{fmt(reportingStats.gmv)}</CardTitle></CardHeader></Card>
-            <Card className="bg-white/5 border-white/10"><CardHeader className="pb-2"><CardDescription className="text-white/60">Avg Fare</CardDescription><CardTitle className="text-2xl text-white">{fmt(reportingStats.avgFare)}</CardTitle></CardHeader></Card>
-            <Card className="bg-white/5 border-white/10"><CardHeader className="pb-2"><CardDescription className="text-white/60">Cancel Rate</CardDescription><CardTitle className="text-2xl text-white">{reportingStats.cancelRate.toFixed(1)}%</CardTitle></CardHeader></Card>
-            <Card className="bg-white/5 border-white/10"><CardHeader className="pb-2"><CardDescription className="text-white/60">Platform Fees</CardDescription><CardTitle className="text-2xl text-white">{fmt(reportingStats.fees)}</CardTitle></CardHeader></Card>
+            <Card className="bg-white/5 border-white/10"><CardHeader className="pb-2"><CardDescription className="text-white/90">GMV</CardDescription><CardTitle className="text-2xl text-white">{fmt(reportingStats.gmv)}</CardTitle></CardHeader></Card>
+            <Card className="bg-white/5 border-white/10"><CardHeader className="pb-2"><CardDescription className="text-white/90">Avg Fare</CardDescription><CardTitle className="text-2xl text-white">{fmt(reportingStats.avgFare)}</CardTitle></CardHeader></Card>
+            <Card className="bg-white/5 border-white/10"><CardHeader className="pb-2"><CardDescription className="text-white/90">Cancel Rate</CardDescription><CardTitle className="text-2xl text-white">{reportingStats.cancelRate.toFixed(1)}%</CardTitle></CardHeader></Card>
+            <Card className="bg-white/5 border-white/10"><CardHeader className="pb-2"><CardDescription className="text-white/90">Platform Fees</CardDescription><CardTitle className="text-2xl text-white">{fmt(reportingStats.fees)}</CardTitle></CardHeader></Card>
           </div>
 
           <Card className="bg-white/5 border-white/10">
@@ -862,12 +862,12 @@ const NoireRideshareAdmin: React.FC = () => {
           <div className="space-y-3">
             {rideAction?.type === 'refund' && (
               <div>
-                <Label className="text-white/70">Refund Amount ($)</Label>
+                <Label className="text-white">Refund Amount ($)</Label>
                 <Input type="number" step="0.01" value={actionAmount} onChange={e => setActionAmount(e.target.value)} />
               </div>
             )}
             <div>
-              <Label className="text-white/70">Reason</Label>
+              <Label className="text-white">Reason</Label>
               <Textarea value={actionReason} onChange={e => setActionReason(e.target.value)} placeholder="Why is this happening?" />
             </div>
             {rideAction?.type === 'refund' && (
@@ -886,10 +886,10 @@ const NoireRideshareAdmin: React.FC = () => {
         <DialogContent className="bg-slate-900 border-white/10 text-white">
           <DialogHeader><DialogTitle>Mark Payout Paid — {payDriver?.full_name}</DialogTitle></DialogHeader>
           <div className="space-y-3">
-            <div><Label className="text-white/70">Amount ($)</Label><Input type="number" step="0.01" value={payAmount} onChange={e => setPayAmount(e.target.value)} /></div>
-            <div><Label className="text-white/70">Method</Label><Input value={payMethod} onChange={e => setPayMethod(e.target.value)} placeholder="ACH, Stripe, Zelle…" /></div>
-            <div><Label className="text-white/70">Reference</Label><Input value={payRef} onChange={e => setPayRef(e.target.value)} placeholder="Transaction ID" /></div>
-            <div><Label className="text-white/70">Notes</Label><Textarea value={payNotes} onChange={e => setPayNotes(e.target.value)} /></div>
+            <div><Label className="text-white">Amount ($)</Label><Input type="number" step="0.01" value={payAmount} onChange={e => setPayAmount(e.target.value)} /></div>
+            <div><Label className="text-white">Method</Label><Input value={payMethod} onChange={e => setPayMethod(e.target.value)} placeholder="ACH, Stripe, Zelle…" /></div>
+            <div><Label className="text-white">Reference</Label><Input value={payRef} onChange={e => setPayRef(e.target.value)} placeholder="Transaction ID" /></div>
+            <div><Label className="text-white">Notes</Label><Textarea value={payNotes} onChange={e => setPayNotes(e.target.value)} /></div>
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setPayDriver(null)}>Cancel</Button>
@@ -903,19 +903,19 @@ const NoireRideshareAdmin: React.FC = () => {
         <DialogContent className="bg-slate-900 border-white/10 text-white">
           <DialogHeader><DialogTitle>Resolve Dispute</DialogTitle></DialogHeader>
           <div className="space-y-3">
-            <div className="text-sm text-white/70">
+            <div className="text-sm text-white">
               <div className="font-semibold text-white">{resolveDispute?.reason}</div>
               {resolveDispute?.description && <div className="mt-1">{resolveDispute.description}</div>}
             </div>
             <div>
-              <Label className="text-white/70">Status</Label>
+              <Label className="text-white">Status</Label>
               <select value={resolveStatus} onChange={e => setResolveStatus(e.target.value as any)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white">
                 <option value="investigating">Investigating</option>
                 <option value="resolved">Resolved</option>
                 <option value="dismissed">Dismissed</option>
               </select>
             </div>
-            <div><Label className="text-white/70">Resolution Notes</Label><Textarea value={resolveNotes} onChange={e => setResolveNotes(e.target.value)} /></div>
+            <div><Label className="text-white">Resolution Notes</Label><Textarea value={resolveNotes} onChange={e => setResolveNotes(e.target.value)} /></div>
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setResolveDispute(null)}>Cancel</Button>

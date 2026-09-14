@@ -37,7 +37,7 @@ export const KaylaCustomerSegments: React.FC<Props> = ({ businessId }) => {
             <Users className="h-5 w-5 text-indigo-400" />
             Customer Segments
           </h3>
-          <p className="text-sm text-white/50">AI-identified customer groups</p>
+          <p className="text-sm text-white/80">AI-identified customer groups</p>
         </div>
         <Button
           onClick={analyze}
@@ -54,7 +54,7 @@ export const KaylaCustomerSegments: React.FC<Props> = ({ businessId }) => {
           <CardContent className="p-8 text-center">
             <Users className="h-12 w-12 text-indigo-400/40 mx-auto mb-3" />
             <h3 className="text-lg font-medium text-white mb-1">No segments yet</h3>
-            <p className="text-sm text-white/50">Click "Analyze" to have Kayla identify customer segments.</p>
+            <p className="text-sm text-white/80">Click "Analyze" to have Kayla identify customer segments.</p>
           </CardContent>
         </Card>
       ) : (
@@ -66,7 +66,7 @@ export const KaylaCustomerSegments: React.FC<Props> = ({ businessId }) => {
                   <Badge className={`${colors[i % colors.length]} border-0`}>{seg.name}</Badge>
                   <span className="text-xs text-white/40">{seg.count} customers</span>
                 </div>
-                <p className="text-sm text-white/60 mb-2">{seg.description}</p>
+                <p className="text-sm text-white/90 mb-2">{seg.description}</p>
                 <div className="flex flex-wrap gap-1">
                   {seg.characteristics?.map((c, j) => (
                     <Badge key={j} variant="outline" className="text-xs border-white/10 text-white/40">{c}</Badge>

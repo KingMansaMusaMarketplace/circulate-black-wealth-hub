@@ -80,19 +80,19 @@ export const KaylaComplianceReminders: React.FC<Props> = ({ businessId }) => {
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-white">{pending.length}</p>
-            <p className="text-xs text-white/60">Pending</p>
+            <p className="text-xs text-white/90">Pending</p>
           </CardContent>
         </Card>
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-red-400">{overdue.length}</p>
-            <p className="text-xs text-white/60">Overdue</p>
+            <p className="text-xs text-white/90">Overdue</p>
           </CardContent>
         </Card>
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-emerald-400">{completed.length}</p>
-            <p className="text-xs text-white/60">Completed</p>
+            <p className="text-xs text-white/90">Completed</p>
           </CardContent>
         </Card>
       </div>
@@ -134,7 +134,7 @@ export const KaylaComplianceReminders: React.FC<Props> = ({ businessId }) => {
                       <p className="text-sm font-medium text-white">{r.title}</p>
                       <Badge className={urgencyColors[r.urgency] || urgencyColors.normal}>{r.urgency}</Badge>
                     </div>
-                    <p className="text-xs text-white/50">{r.description}</p>
+                    <p className="text-xs text-white/80">{r.description}</p>
                     {r.due_date && <p className="text-xs text-white/40 mt-1">Due: {new Date(r.due_date).toLocaleDateString()}</p>}
                   </div>
                 </div>
@@ -151,7 +151,7 @@ export const KaylaComplianceReminders: React.FC<Props> = ({ businessId }) => {
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-8 text-center">
             <Shield className="h-12 w-12 text-yellow-400/40 mx-auto mb-3" />
-            <p className="text-white/60 text-sm">Click "Scan Compliance" to get AI-generated reminders for tax deadlines, licenses, insurance, and regulatory requirements.</p>
+            <p className="text-white/90 text-sm">Click "Scan Compliance" to get AI-generated reminders for tax deadlines, licenses, insurance, and regulatory requirements.</p>
           </CardContent>
         </Card>
       )}

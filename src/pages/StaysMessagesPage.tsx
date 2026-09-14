@@ -42,7 +42,7 @@ const StaysMessagesPage: React.FC = () => {
             </span>
           </div>
           <h1 className="text-3xl font-bold text-white">Messages</h1>
-          <p className="text-white/60 mt-1">
+          <p className="text-white/90 mt-1">
             Communicate with hosts and guests
           </p>
         </motion.div>

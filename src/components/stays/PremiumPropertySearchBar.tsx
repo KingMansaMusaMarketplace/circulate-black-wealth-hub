@@ -184,7 +184,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                   'px-3 py-1.5 rounded-md text-xs font-medium transition-all',
                   filters.listingMode === mode.value
                     ? 'bg-mansagold text-slate-900'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                    : 'text-white/90 hover:text-white hover:bg-white/10'
                 )}
               >
                 {mode.label}
@@ -237,7 +237,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                               <MapPin className="w-4 h-4 text-mansagold/70 group-hover:text-mansagold" />
                               <div>
                                 <span className="text-white font-medium">{location.city}</span>
-                                <span className="text-white/60">, {location.state}</span>
+                                <span className="text-white/90">, {location.state}</span>
                               </div>
                             </div>
                             <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded-full">
@@ -248,7 +248,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                       ))}
                     </ul>
                   ) : (
-                    <div className="py-4 px-4 text-center text-white/60">
+                    <div className="py-4 px-4 text-center text-white/90">
                       <MapPin className="w-6 h-6 mx-auto mb-2 text-white/40" />
                       <p className="text-sm">No locations found</p>
                       <p className="text-xs text-white/40 mt-1">Try a different search term</p>
@@ -268,7 +268,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                   variant="outline"
                   className={cn(
                     "w-full justify-start text-left h-11 bg-slate-800/50 border-white/10 hover:bg-slate-700/50",
-                    !dateRange ? "text-white/70" : "text-white"
+                    !dateRange ? "text-white" : "text-white"
                   )}
                 >
                   <Calendar className="mr-2 h-4 w-4 text-mansagold" />
@@ -281,7 +281,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                       <span className="text-white">{format(dateRange.from, 'MMM d, yyyy')}</span>
                     )
                   ) : (
-                    <span className="text-white/70">Check in - Check out</span>
+                    <span className="text-white">Check in - Check out</span>
                   )}
                 </Button>
               </PopoverTrigger>
@@ -292,7 +292,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                   onSelect={handleDateChange}
                   numberOfMonths={2}
                   disabled={(date) => date < new Date()}
-                  className="pointer-events-auto bg-slate-800 text-white [&_.rdp-day]:text-white [&_.rdp-day_button]:text-white [&_.rdp-head_cell]:text-white/80 [&_.rdp-caption]:text-white [&_.rdp-nav_button]:text-white [&_.rdp-day_disabled]:text-white/30"
+                  className="pointer-events-auto bg-slate-800 text-white [&_.rdp-day]:text-white [&_.rdp-day_button]:text-white [&_.rdp-head_cell]:text-white [&_.rdp-caption]:text-white [&_.rdp-nav_button]:text-white [&_.rdp-day_disabled]:text-white/30"
                 />
               </PopoverContent>
             </Popover>

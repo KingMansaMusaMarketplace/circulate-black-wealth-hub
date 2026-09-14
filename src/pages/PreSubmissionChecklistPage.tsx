@@ -151,7 +151,7 @@ const PreSubmissionChecklistPage: React.FC = () => {
                 Submission Readiness Status
               </span>
             </CardTitle>
-            <CardDescription className="text-base font-medium text-white/80">
+            <CardDescription className="text-base font-medium text-white">
               Complete all critical items before resubmitting
             </CardDescription>
           </CardHeader>
@@ -239,7 +239,7 @@ const PreSubmissionChecklistPage: React.FC = () => {
                             </Badge>
                           )}
                         </CardTitle>
-                        <CardDescription className="mt-2 text-base font-medium text-white/80">
+                        <CardDescription className="mt-2 text-base font-medium text-white">
                           {item.description}
                         </CardDescription>
                       </div>

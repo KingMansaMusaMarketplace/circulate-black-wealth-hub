@@ -24,7 +24,7 @@ const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVis
           <div className="text-xl font-semibold text-mansagold mb-3 flex items-center">
             <MapPin className="mr-2 text-mansagold" /> Find Nearby Verified Businesses
           </div>
-          <p className="text-white/70 mb-4">
+          <p className="text-white mb-4">
             Discover and support local businesses in your neighborhood. Our interactive map 
             helps you locate, engage with, and directly contribute to wealth circulation in your community.
           </p>
@@ -34,28 +34,28 @@ const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVis
                 <MapPin size={18} className="text-mansagold mr-2" />
                 <h4 className="font-medium text-white">Location-Based</h4>
               </div>
-              <p className="text-sm text-white/70">Find businesses within your selected radius and get distance calculations</p>
+              <p className="text-sm text-white">Find businesses within your selected radius and get distance calculations</p>
             </div>
             <div className="bg-white/5 p-4 rounded-lg border border-white/10">
               <div className="flex items-center mb-2">
                 <BadgeDollarSign size={18} className="text-mansagold mr-2" />
                 <h4 className="font-medium text-white">Exclusive Discounts</h4>
               </div>
-              <p className="text-sm text-white/70">Scan QR codes for immediate discounts and rewards points</p>
+              <p className="text-sm text-white">Scan QR codes for immediate discounts and rewards points</p>
             </div>
             <div className="bg-white/5 p-4 rounded-lg border border-white/10">
               <div className="flex items-center mb-2">
                 <Smartphone size={18} className="text-mansagold mr-2" />
                 <h4 className="font-medium text-white">Mobile Optimized</h4>
               </div>
-              <p className="text-sm text-white/70">Seamless experience on your mobile device with quick navigation</p>
+              <p className="text-sm text-white">Seamless experience on your mobile device with quick navigation</p>
             </div>
             <div className="bg-white/5 p-4 rounded-lg border border-white/10">
               <div className="flex items-center mb-2">
                 <TrendingUp size={18} className="text-mansagold mr-2" />
                 <h4 className="font-medium text-white">Economic Impact</h4>
               </div>
-              <p className="text-sm text-white/70">Track your contribution to circulating community wealth</p>
+              <p className="text-sm text-white">Track your contribution to circulating community wealth</p>
             </div>
           </div>
           <Link to="/directory">

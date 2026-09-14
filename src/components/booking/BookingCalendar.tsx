@@ -51,8 +51,8 @@ export function BookingCalendar({
     return (
       <div className="text-center py-8">
         <Calendar className="w-12 h-12 mx-auto mb-3 text-white/40" />
-        <p className="text-white/70">No available booking dates</p>
-        <p className="text-sm text-white/50 mt-1">
+        <p className="text-white">No available booking dates</p>
+        <p className="text-sm text-white/80 mt-1">
           This business hasn't set their availability yet
         </p>
       </div>
@@ -89,7 +89,7 @@ export function BookingCalendar({
       {/* Weekday Headers */}
       <div className="grid grid-cols-7 gap-1">
         {weekDays.map(day => (
-          <div key={day} className="text-center text-xs font-medium text-white/60 py-2">
+          <div key={day} className="text-center text-xs font-medium text-white/90 py-2">
             {day}
           </div>
         ))}
@@ -143,7 +143,7 @@ export function BookingCalendar({
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-center gap-6 text-xs text-white/60 pt-2">
+      <div className="flex items-center justify-center gap-6 text-xs text-white/90 pt-2">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded bg-emerald-500/30 border border-emerald-500/50" />
           <span>Available</span>

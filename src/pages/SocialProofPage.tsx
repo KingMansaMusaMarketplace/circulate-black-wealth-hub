@@ -108,7 +108,7 @@ const SocialProofPage = () => {
                     {stat.value}
                   </motion.div>
                   <div className="text-white font-semibold mb-1">{stat.label}</div>
-                  <div className="text-white/70 text-sm">{stat.sublabel}</div>
+                  <div className="text-white text-sm">{stat.sublabel}</div>
                 </div>
               </motion.div>
             ))}
@@ -152,7 +152,7 @@ const SocialProofPage = () => {
                 Member Benefits
               </span>
             </h2>
-            <p className="text-xl text-white/70">
+            <p className="text-xl text-white">
               1325.AI offers unique advantages for both customers and business owners
             </p>
           </motion.div>
@@ -191,7 +191,7 @@ const SocialProofPage = () => {
                   <TrendingUp className="w-8 h-8 text-white" />
                 </motion.div>
                 <h3 className="text-2xl font-bold text-white mb-2">Avg. 35% Revenue Increase</h3>
-                <p className="text-white/70">For businesses on our platform</p>
+                <p className="text-white">For businesses on our platform</p>
               </div>
             </motion.div>
 
@@ -213,7 +213,7 @@ const SocialProofPage = () => {
                   <Users className="w-8 h-8 text-white" />
                 </motion.div>
                 <h3 className="text-2xl font-bold text-white mb-2">Building to 1M Members</h3>
-                <p className="text-white/70">Join our growing community</p>
+                <p className="text-white">Join our growing community</p>
               </div>
             </motion.div>
 
@@ -235,7 +235,7 @@ const SocialProofPage = () => {
                   <Award className="w-8 h-8 text-white" />
                 </motion.div>
                 <h3 className="text-2xl font-bold text-white mb-2">4.9/5 Satisfaction</h3>
-                <p className="text-white/70">Rated by our community members</p>
+                <p className="text-white">Rated by our community members</p>
               </div>
             </motion.div>
           </div>

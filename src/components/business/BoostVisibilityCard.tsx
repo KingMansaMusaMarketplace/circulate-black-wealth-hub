@@ -22,7 +22,7 @@ export default function BoostVisibilityCard() {
           </div>
           <div className="flex-1">
             <div className="text-sm font-semibold text-white">Boost Visibility</div>
-            <p className="text-xs text-white/70 mt-0.5">
+            <p className="text-xs text-white mt-0.5">
               Pin your listing to the top of search & spotlight from $20/mo.
             </p>
           </div>

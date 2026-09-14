@@ -37,7 +37,7 @@ export const KaylaTeamRosterTeaser: React.FC = () => {
           <Crown className="h-3.5 w-3.5 text-mansagold flex-shrink-0" />
           <div className="min-w-0">
             <p className="text-xs font-semibold text-mansagold leading-tight">{KAYLA.name}</p>
-            <p className="text-[10px] text-white/60 truncate">{KAYLA.role}</p>
+            <p className="text-[10px] text-white/90 truncate">{KAYLA.role}</p>
           </div>
         </Link>
 
@@ -54,7 +54,7 @@ export const KaylaTeamRosterTeaser: React.FC = () => {
                     key={p.id}
                     to="/kayla/team"
                     title={`${p.name} — ${p.role}`}
-                    className="px-2 py-0.5 rounded-md border border-white/10 bg-white/[0.03] text-[11px] text-white/80 hover:bg-white/[0.06] hover:text-white transition-colors"
+                    className="px-2 py-0.5 rounded-md border border-white/10 bg-white/[0.03] text-[11px] text-white hover:bg-white/[0.06] hover:text-white transition-colors"
                   >
                     {p.name}
                   </Link>

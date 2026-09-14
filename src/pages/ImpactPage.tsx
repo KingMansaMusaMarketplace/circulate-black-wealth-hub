@@ -64,13 +64,13 @@ const ImpactPage = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 relative z-10">
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           <TabsList className="grid w-full max-w-xl mx-auto grid-cols-3 bg-white/5 border border-white/10 backdrop-blur-md mb-8 h-auto p-1">
-            <TabsTrigger value="my" className="text-white/70 data-[state=active]:bg-mansablue data-[state=active]:text-white py-2.5">
+            <TabsTrigger value="my" className="text-white data-[state=active]:bg-mansablue data-[state=active]:text-white py-2.5">
               My Impact
             </TabsTrigger>
-            <TabsTrigger value="community" className="text-white/70 data-[state=active]:bg-mansablue data-[state=active]:text-white py-2.5">
+            <TabsTrigger value="community" className="text-white data-[state=active]:bg-mansablue data-[state=active]:text-white py-2.5">
               Community
             </TabsTrigger>
-            <TabsTrigger value="economic" className="text-white/70 data-[state=active]:bg-mansablue data-[state=active]:text-white py-2.5">
+            <TabsTrigger value="economic" className="text-white data-[state=active]:bg-mansablue data-[state=active]:text-white py-2.5">
               Economic
             </TabsTrigger>
           </TabsList>

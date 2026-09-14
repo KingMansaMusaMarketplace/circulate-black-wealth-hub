@@ -88,7 +88,7 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-white leading-tight">Kayla, Ph.D.</p>
-            <p className="text-xs text-white/50 truncate">on {label}</p>
+            <p className="text-xs text-white/80 truncate">on {label}</p>
           </div>
           <button
             type="button"
@@ -125,7 +125,7 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
                   <Lightbulb className="w-3.5 h-3.5" />
                   Kayla's pro tip
                 </p>
-                <p className="text-white/80 leading-relaxed">{entry.proTip}</p>
+                <p className="text-white leading-relaxed">{entry.proTip}</p>
               </div>
             )}
 
@@ -135,12 +135,12 @@ const KaylaGuideDot: React.FC<KaylaGuideDotProps> = ({
                   <AlertTriangle className="w-3.5 h-3.5" />
                   Watch out for
                 </p>
-                <p className="text-white/80 leading-relaxed">{entry.watchOut}</p>
+                <p className="text-white leading-relaxed">{entry.watchOut}</p>
               </div>
             )}
           </div>
         ) : (
-          <p className="text-sm text-white/80 leading-relaxed">{fallback}</p>
+          <p className="text-sm text-white leading-relaxed">{fallback}</p>
         )}
       </PopoverContent>
     </Popover>

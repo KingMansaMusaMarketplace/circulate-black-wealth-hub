@@ -67,25 +67,25 @@ export const KaylaTaxPrep: React.FC<Props> = ({ businessId }) => {
             <Card className="bg-slate-800/40 border-white/10">
               <CardContent className="p-4 text-center">
                 <p className="text-xl font-bold text-emerald-400">${(taxData.estimated_revenue || 0).toLocaleString()}</p>
-                <p className="text-xs text-white/60">Revenue</p>
+                <p className="text-xs text-white/90">Revenue</p>
               </CardContent>
             </Card>
             <Card className="bg-slate-800/40 border-white/10">
               <CardContent className="p-4 text-center">
                 <p className="text-xl font-bold text-red-400">${(taxData.estimated_expenses || 0).toLocaleString()}</p>
-                <p className="text-xs text-white/60">Expenses</p>
+                <p className="text-xs text-white/90">Expenses</p>
               </CardContent>
             </Card>
             <Card className="bg-slate-800/40 border-white/10">
               <CardContent className="p-4 text-center">
                 <p className="text-xl font-bold text-blue-400">${((taxData.estimated_revenue || 0) - (taxData.estimated_expenses || 0)).toLocaleString()}</p>
-                <p className="text-xs text-white/60">Net Income</p>
+                <p className="text-xs text-white/90">Net Income</p>
               </CardContent>
             </Card>
             <Card className="bg-slate-800/40 border-white/10">
               <CardContent className="p-4 text-center">
                 <p className="text-xl font-bold text-amber-400">${(taxData.estimated_tax_liability || 0).toLocaleString()}</p>
-                <p className="text-xs text-white/60">Est. Tax</p>
+                <p className="text-xs text-white/90">Est. Tax</p>
               </CardContent>
             </Card>
           </div>
@@ -94,7 +94,7 @@ export const KaylaTaxPrep: React.FC<Props> = ({ businessId }) => {
           {taxData.ai_summary && (
             <Card className="bg-yellow-900/20 border-yellow-400/20">
               <CardContent className="p-4">
-                <p className="text-sm text-white/80 whitespace-pre-line">{taxData.ai_summary}</p>
+                <p className="text-sm text-white whitespace-pre-line">{taxData.ai_summary}</p>
               </CardContent>
             </Card>
           )}
@@ -108,7 +108,7 @@ export const KaylaTaxPrep: React.FC<Props> = ({ businessId }) => {
                   <div key={i} className="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
                     <div>
                       <p className="text-sm font-medium text-white">{d.name}</p>
-                      <p className="text-xs text-white/50">{d.description}</p>
+                      <p className="text-xs text-white/80">{d.description}</p>
                     </div>
                     <Badge className="bg-emerald-900/40 text-emerald-400 border-emerald-400/30">${d.amount?.toLocaleString()}</Badge>
                   </div>
@@ -126,7 +126,7 @@ export const KaylaTaxPrep: React.FC<Props> = ({ businessId }) => {
                   <div key={i} className="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
                     <div>
                       <p className="text-sm font-medium text-white">{q.quarter}</p>
-                      <p className="text-xs text-white/50">Due: {q.due_date}</p>
+                      <p className="text-xs text-white/80">Due: {q.due_date}</p>
                     </div>
                     <p className="text-sm font-bold text-white">${q.amount?.toLocaleString()}</p>
                   </div>
@@ -141,7 +141,7 @@ export const KaylaTaxPrep: React.FC<Props> = ({ businessId }) => {
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-8 text-center">
             <Receipt className="h-12 w-12 text-yellow-400/40 mx-auto mb-3" />
-            <p className="text-white/60 text-sm">Click "Generate Analysis" to get AI-powered tax prep guidance, deduction discovery, and quarterly estimates.</p>
+            <p className="text-white/90 text-sm">Click "Generate Analysis" to get AI-powered tax prep guidance, deduction discovery, and quarterly estimates.</p>
           </CardContent>
         </Card>
       )}

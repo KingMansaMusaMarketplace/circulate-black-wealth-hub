@@ -34,7 +34,7 @@ export default function PlatformFeesCard({ businessId }: PlatformFeesCardProps) 
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold text-white">${(data?.fees ?? 0).toFixed(2)}</div>
-        <p className="text-xs text-white/70">
+        <p className="text-xs text-white">
           {data?.count ?? 0} QR payments · ${(data?.volume ?? 0).toFixed(0)} volume
           {data?.rate != null && ` · ${Number(data.rate).toFixed(2)}%`}
         </p>

@@ -158,7 +158,7 @@ export const NewsletterSignup: React.FC = () => {
                   >
                     {isSubmitting ? 'Subscribing...' : 'Subscribe for Free'}
                   </Button>
-                  <p className="text-xs text-white/70 text-center">
+                  <p className="text-xs text-white text-center">
                     No spam, ever. Unsubscribe anytime with one click.
                   </p>
                 </form>
@@ -166,7 +166,7 @@ export const NewsletterSignup: React.FC = () => {
                 <div className="mt-6 pt-6 border-t border-white/20">
                   <div className="flex items-center justify-center gap-2 text-center">
                     <Sparkles className="w-4 h-4 text-green-300" />
-                    <span className="text-sm text-white/80">
+                    <span className="text-sm text-white">
                       {subscriberCount > 0 
                         ? `Join ${subscriberCount} ${subscriberCount === 1 ? 'subscriber' : 'subscribers'}`
                         : 'Be among the first to join'

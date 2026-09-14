@@ -29,7 +29,7 @@ const AdminSentimentAnalysisPage = () => {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white font-display">AI Sentiment Analysis</h1>
-              <p className="text-white/70">Automated analysis of customer review sentiment and emotions</p>
+              <p className="text-white">Automated analysis of customer review sentiment and emotions</p>
             </div>
           </div>
         </div>

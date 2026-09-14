@@ -192,7 +192,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                   ? 'bg-mansagold text-black'
                   : steps.findIndex(st => st.id === step) > idx
                   ? 'bg-emerald-500 text-white'
-                  : 'bg-white/20 text-white/60'
+                  : 'bg-white/20 text-white/90'
               }`}
             >
               {idx + 1}

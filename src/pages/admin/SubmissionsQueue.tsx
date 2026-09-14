@@ -128,7 +128,7 @@ const SubmissionsQueue: React.FC = () => {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold">Business Submissions</h1>
-            <p className="text-white/60 mt-1">
+            <p className="text-white/90 mt-1">
               Review businesses submitted from the homepage. Kayla has already run initial verification.
             </p>
           </div>
@@ -152,13 +152,13 @@ const SubmissionsQueue: React.FC = () => {
         </div>
 
         {loading ? (
-          <div className="text-center py-20 text-white/60">
+          <div className="text-center py-20 text-white/90">
             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3" />
             Loading submissions…
           </div>
         ) : submissions.length === 0 ? (
           <Card className="p-12 text-center bg-white/5 border-white/10">
-            <p className="text-white/60">
+            <p className="text-white/90">
               {view === 'pending'
                 ? 'No pending submissions. 🎉'
                 : view === 'approved'
@@ -176,7 +176,7 @@ const SubmissionsQueue: React.FC = () => {
                       <h2 className="text-xl font-bold">{s.business_name}</h2>
                       <Badge className={statusColor(s.status)}>{s.status}</Badge>
                     </div>
-                    <p className="text-white/60 text-sm">
+                    <p className="text-white/90 text-sm">
                       {s.category} · {s.city}, {s.state}
                     </p>
                   </div>
@@ -190,14 +190,14 @@ const SubmissionsQueue: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-sm">
                   <div>
-                    <span className="text-white/50">Website: </span>
+                    <span className="text-white/80">Website: </span>
                     <a href={s.website} target="_blank" rel="noopener noreferrer" className="text-mansagold hover:underline inline-flex items-center gap-1">
                       {s.website} <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
-                  <div><span className="text-white/50">Owner: </span>{s.owner_name}</div>
-                  <div><span className="text-white/50">Email: </span>{s.email}</div>
-                  <div><span className="text-white/50">Phone: </span>{s.phone}</div>
+                  <div><span className="text-white/80">Owner: </span>{s.owner_name}</div>
+                  <div><span className="text-white/80">Email: </span>{s.email}</div>
+                  <div><span className="text-white/80">Phone: </span>{s.phone}</div>
                 </div>
 
                 {s.kayla_report?.checks && (
@@ -211,7 +211,7 @@ const SubmissionsQueue: React.FC = () => {
                           {checkIcon(c.status)}
                           <div>
                             <span className="text-white/90 font-medium">{c.name}: </span>
-                            <span className="text-white/70">{c.detail}</span>
+                            <span className="text-white">{c.detail}</span>
                           </div>
                         </div>
                       ))}
@@ -219,7 +219,7 @@ const SubmissionsQueue: React.FC = () => {
                     {s.kayla_report.llm_summary && (
                       <div className="border-t border-white/10 pt-3 mt-3">
                         <p className="text-xs text-mansagold uppercase tracking-wider mb-1">Kayla's verdict</p>
-                        <p className="text-sm text-white/80 italic">{s.kayla_report.llm_summary}</p>
+                        <p className="text-sm text-white italic">{s.kayla_report.llm_summary}</p>
                       </div>
                     )}
                   </div>
@@ -271,8 +271,8 @@ const SubmissionsQueue: React.FC = () => {
                 </div>
                 </>) : (
                   s.admin_notes ? (
-                    <div className="bg-black/40 rounded-lg p-4 text-sm text-white/70">
-                      <span className="text-white/50">Admin notes: </span>{s.admin_notes}
+                    <div className="bg-black/40 rounded-lg p-4 text-sm text-white">
+                      <span className="text-white/80">Admin notes: </span>{s.admin_notes}
                     </div>
                   ) : null
                 )}

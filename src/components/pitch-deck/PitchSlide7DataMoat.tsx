@@ -47,7 +47,7 @@ const PitchSlide7DataMoat: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             They <span className="text-mansagold">Can't Leave</span>
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             Once a business has built their presence on our platform, leaving means abandoning years of accumulated value
           </p>
         </motion.div>
@@ -65,7 +65,7 @@ const PitchSlide7DataMoat: React.FC = () => {
                   <layer.icon className="w-7 h-7 text-mansagold" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">{layer.title}</h3>
-                <p className="text-white/80 font-medium mb-4">{layer.description}</p>
+                <p className="text-white font-medium mb-4">{layer.description}</p>
                 <div className="space-y-2">
                   {layer.examples.map((example, i) => (
                     <div key={i} className="flex items-center gap-2 text-sm text-mansagold font-semibold">

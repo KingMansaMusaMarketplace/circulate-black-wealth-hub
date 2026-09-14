@@ -123,7 +123,7 @@ const PricingSection = () => {
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
               Power Your Business with <span className="text-mansagold">Kayla AI</span>
             </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
+            <p className="text-lg text-white max-w-2xl mx-auto mb-8">
               Powered by Kayla's 42 Agentic AI employees. Choose the plan that fits your growth stage.
             </p>
 
@@ -132,7 +132,7 @@ const PricingSection = () => {
               <button
                 onClick={() => setIsAnnual(false)}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  !isAnnual ? 'bg-mansagold text-slate-900' : 'text-white/60 hover:text-white'
+                  !isAnnual ? 'bg-mansagold text-slate-900' : 'text-white/90 hover:text-white'
                 }`}
               >
                 Monthly
@@ -140,7 +140,7 @@ const PricingSection = () => {
               <button
                 onClick={() => setIsAnnual(true)}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                  isAnnual ? 'bg-mansagold text-slate-900' : 'text-white/60 hover:text-white'
+                  isAnnual ? 'bg-mansagold text-slate-900' : 'text-white/90 hover:text-white'
                 }`}
               >
                 Annual
@@ -184,24 +184,24 @@ const PricingSection = () => {
                       tier.highlight ? 'bg-mansagold/20' : 'bg-white/10'
                     }`}>
                       <tier.icon className={`w-5 h-5 ${
-                        tier.highlight ? 'text-mansagold' : 'text-white/70'
+                        tier.highlight ? 'text-mansagold' : 'text-white'
                       }`} />
                     </div>
                     <h3 className="text-lg font-bold text-white">{tier.name}</h3>
                   </div>
 
-                  <p className="text-xs text-white/60 mb-4">{tier.description}</p>
+                  <p className="text-xs text-white/90 mb-4">{tier.description}</p>
 
                   <div className="mb-5">
                     <div className="flex items-baseline gap-1">
-                      {tier.pricePrefix && <span className="text-sm text-white/50">{tier.pricePrefix}</span>}
+                      {tier.pricePrefix && <span className="text-sm text-white/80">{tier.pricePrefix}</span>}
                       <span className="text-3xl font-bold text-white">
                         ${tier.monthlyPrice}
                       </span>
-                      <span className="text-white/50 text-sm">/mo</span>
+                      <span className="text-white/80 text-sm">/mo</span>
                     </div>
                     {tier.priceSuffix && (
-                      <p className="text-xs text-white/50 mt-0.5">{tier.priceSuffix}</p>
+                      <p className="text-xs text-white/80 mt-0.5">{tier.priceSuffix}</p>
                     )}
                     {isAnnual && tier.annualPrice && (
                       <p className="text-xs text-mansagold mt-1">
@@ -223,7 +223,7 @@ const PricingSection = () => {
                         <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
                           tier.highlight ? 'text-mansagold' : 'text-green-400'
                         }`} />
-                        <span className="text-xs text-white/80">{feature}</span>
+                        <span className="text-xs text-white">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -247,7 +247,7 @@ const PricingSection = () => {
         </div>
 
         <ScrollReveal delay={0.4}>
-          <p className="text-center text-white/80 text-sm mt-8">
+          <p className="text-center text-white text-sm mt-8">
             All plans include a free trial. A valid credit card is required to start.
             <br />
             Your card will be charged automatically after the trial period ends unless you cancel.

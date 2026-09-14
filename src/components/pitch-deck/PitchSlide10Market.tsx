@@ -52,7 +52,7 @@ const PitchSlide10Market: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-3">
             Market <span className="text-mansagold">Opportunity</span>
           </h2>
-          <p className="text-lg text-white/70 max-w-3xl mx-auto">
+          <p className="text-lg text-white max-w-3xl mx-auto">
             The largest underserved market in American commerce — intersecting three high-growth sectors
           </p>
         </motion.div>
@@ -76,7 +76,7 @@ const PitchSlide10Market: React.FC = () => {
                 </div>
                 <div className="text-4xl font-black text-mansagold mb-1">{item.value}</div>
                 <h3 className="text-base font-bold text-white mb-1">{item.title}</h3>
-                <p className="text-white/80 font-medium text-sm">{item.description}</p>
+                <p className="text-white font-medium text-sm">{item.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -102,7 +102,7 @@ const PitchSlide10Market: React.FC = () => {
                   </div>
                 </div>
                 <div className="text-2xl font-black text-mansagold mb-1">{market.value}</div>
-                <p className="text-xs text-white/60">{market.description}</p>
+                <p className="text-xs text-white/90">{market.description}</p>
               </Card>
             ))}
           </div>
@@ -130,7 +130,7 @@ const PitchSlide10Market: React.FC = () => {
                 >
                   <div className="text-mansagold font-bold text-sm mb-1">{phase.phase}</div>
                   <div className="text-white font-bold text-sm">{phase.market}</div>
-                  <div className="text-white/80 text-xs mt-1">
+                  <div className="text-white text-xs mt-1">
                     <div className="flex items-center gap-1 font-medium">
                       <Building2 className="w-3 h-3" />
                       {phase.businesses}

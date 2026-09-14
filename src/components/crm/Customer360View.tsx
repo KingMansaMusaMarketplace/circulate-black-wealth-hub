@@ -33,7 +33,7 @@ export const Customer360View: React.FC<Customer360ViewProps> = ({
     const colors: Record<string, string> = {
       lead: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
       active: 'bg-green-500/20 text-green-400 border-green-500/30',
-      inactive: 'bg-white/10 text-white/60 border-white/20',
+      inactive: 'bg-white/10 text-white/90 border-white/20',
       vip: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
     };
     return colors[status] || colors.active;
@@ -47,7 +47,7 @@ export const Customer360View: React.FC<Customer360ViewProps> = ({
       evangelist: 'bg-yellow-500/20 text-yellow-400',
       churned: 'bg-red-500/20 text-red-400'
     };
-    return colors[stage] || 'bg-white/10 text-white/60';
+    return colors[stage] || 'bg-white/10 text-white/90';
   };
 
   // Calculate metrics

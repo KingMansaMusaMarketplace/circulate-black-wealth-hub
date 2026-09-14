@@ -87,7 +87,7 @@ const ConciergePortalPage: React.FC = () => {
       <div className="min-h-screen bg-black text-white pt-24 px-4">
         <div className="max-w-xl mx-auto text-center">
           <h1 className="text-2xl font-bold mb-3">No concierge access yet</h1>
-          <p className="text-white/60 mb-6">Your account isn't linked to a Noire hotel partner. If your hotel just signed up, an admin will activate your access shortly.</p>
+          <p className="text-white/90 mb-6">Your account isn't linked to a Noire hotel partner. If your hotel just signed up, an admin will activate your access shortly.</p>
           <Button asChild className="bg-mansagold text-black"><Link to="/noir/hotels">Apply to partner</Link></Button>
         </div>
       </div>
@@ -128,7 +128,7 @@ const ConciergePortalPage: React.FC = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold">{hotelName}</h1>
-            <p className="text-white/50 text-sm">Concierge Portal · Noire Rideshare</p>
+            <p className="text-white/80 text-sm">Concierge Portal · Noire Rideshare</p>
           </div>
           <Button onClick={() => setShowForm(s => !s)} className="bg-mansagold text-black font-bold">
             <Plus className="h-4 w-4 mr-1" /> Book ride for guest
@@ -157,15 +157,15 @@ const ConciergePortalPage: React.FC = () => {
           <CardHeader><CardTitle className="text-white text-lg">Today & upcoming pickups</CardTitle></CardHeader>
           <CardContent>
             {rides.length === 0 ? (
-              <p className="text-white/50 text-center py-8">No bookings yet.</p>
+              <p className="text-white/80 text-center py-8">No bookings yet.</p>
             ) : (
               <div className="space-y-3">
                 {rides.map(r => (
                   <div key={r.id} className="p-4 rounded-lg bg-black/40 border border-white/10 flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <div className="font-semibold text-white">{r.guest_name || 'Guest'} {r.guest_room_number && <span className="text-white/40 text-sm">· Room {r.guest_room_number}</span>}</div>
-                      <div className="text-xs text-white/60 mt-1">{new Date(r.scheduled_for).toLocaleString()}</div>
-                      <div className="text-xs text-white/50 mt-1">{r.pickup_address} → {r.dropoff_address}</div>
+                      <div className="text-xs text-white/90 mt-1">{new Date(r.scheduled_for).toLocaleString()}</div>
+                      <div className="text-xs text-white/80 mt-1">{r.pickup_address} → {r.dropoff_address}</div>
                       {r.flight_number && <div className="text-xs text-mansagold mt-1 flex items-center gap-1"><Plane className="h-3 w-3" /> {r.flight_number}</div>}
                     </div>
                     <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">{r.status}</Badge>

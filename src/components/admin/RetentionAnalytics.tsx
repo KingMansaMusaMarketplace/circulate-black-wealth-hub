@@ -162,7 +162,7 @@ const RetentionAnalytics: React.FC = () => {
             <div className="flex items-center gap-3">
               <Users className="h-8 w-8 text-blue-400" />
               <div>
-                <p className="text-white/60 text-sm">Total Users</p>
+                <p className="text-white/90 text-sm">Total Users</p>
                 <p className="text-2xl font-bold text-blue-400">{metrics?.totalUsers || 0}</p>
               </div>
             </div>
@@ -173,7 +173,7 @@ const RetentionAnalytics: React.FC = () => {
             <div className="flex items-center gap-3">
               <UserCheck className="h-8 w-8 text-green-400" />
               <div>
-                <p className="text-white/60 text-sm">Active Users</p>
+                <p className="text-white/90 text-sm">Active Users</p>
                 <p className="text-2xl font-bold text-green-400">{metrics?.activeUsers || 0}</p>
               </div>
             </div>
@@ -184,7 +184,7 @@ const RetentionAnalytics: React.FC = () => {
             <div className="flex items-center gap-3">
               <TrendingUp className="h-8 w-8 text-mansagold" />
               <div>
-                <p className="text-white/60 text-sm">Retention Rate</p>
+                <p className="text-white/90 text-sm">Retention Rate</p>
                 <p className="text-2xl font-bold text-mansagold">{metrics?.retentionRate || 0}%</p>
               </div>
             </div>
@@ -195,7 +195,7 @@ const RetentionAnalytics: React.FC = () => {
             <div className="flex items-center gap-3">
               <UserMinus className="h-8 w-8 text-red-400" />
               <div>
-                <p className="text-white/60 text-sm">Churn Rate</p>
+                <p className="text-white/90 text-sm">Churn Rate</p>
                 <p className="text-2xl font-bold text-red-400">{metrics?.churnRate || 0}%</p>
               </div>
             </div>
@@ -301,7 +301,7 @@ const RetentionAnalytics: React.FC = () => {
             {lifecycleData.map((item) => (
               <div key={item.name} className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded" style={{ backgroundColor: item.color }} />
-                <span className="text-white/70 text-sm">{item.name}: {item.count}</span>
+                <span className="text-white text-sm">{item.name}: {item.count}</span>
               </div>
             ))}
           </div>
@@ -328,7 +328,7 @@ const RetentionAnalytics: React.FC = () => {
                   )}
                   <div>
                     <p className="text-white font-medium">30-Day Retention</p>
-                    <p className="text-white/60 text-sm">
+                    <p className="text-white/90 text-sm">
                       {metrics.retentionRate >= 40 
                         ? `Good retention at ${metrics.retentionRate}%. Users are finding value in the platform.`
                         : `Retention at ${metrics.retentionRate}% needs improvement. Consider engagement campaigns.`
@@ -343,7 +343,7 @@ const RetentionAnalytics: React.FC = () => {
                   <Users className="h-5 w-5 text-blue-400 mt-0.5" />
                   <div>
                     <p className="text-white font-medium">User Activity</p>
-                    <p className="text-white/60 text-sm">
+                    <p className="text-white/90 text-sm">
                       {metrics.activeUsers} of {metrics.totalUsers} users ({((metrics.activeUsers / metrics.totalUsers) * 100).toFixed(1)}%) 
                       have been active in the last 30 days.
                     </p>
@@ -356,7 +356,7 @@ const RetentionAnalytics: React.FC = () => {
                   <UserMinus className="h-5 w-5 text-yellow-400 mt-0.5" />
                   <div>
                     <p className="text-white font-medium">At-Risk Users</p>
-                    <p className="text-white/60 text-sm">
+                    <p className="text-white/90 text-sm">
                       {metrics.inactiveUsers} users haven't been active recently. 
                       Consider re-engagement emails or notifications.
                     </p>

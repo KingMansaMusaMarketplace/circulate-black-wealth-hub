@@ -97,13 +97,13 @@ export const KaylaPriceOptimizer: React.FC<Props> = ({ businessId }) => {
           <Tag className="h-5 w-5 text-purple-400" />
           Price Optimizer
         </h3>
-        <p className="text-sm text-white/50">AI-powered pricing strategy recommendations</p>
+        <p className="text-sm text-white/80">AI-powered pricing strategy recommendations</p>
       </div>
 
       {/* Input Section */}
       <Card className="bg-slate-800/40 border-white/10">
         <CardContent className="p-4 space-y-3">
-          <p className="text-sm text-white/70">Enter your products/services (optional — Kayla can suggest for your category):</p>
+          <p className="text-sm text-white">Enter your products/services (optional — Kayla can suggest for your category):</p>
           {products.map((p, i) => (
             <div key={i} className="flex gap-2">
               <Input
@@ -122,7 +122,7 @@ export const KaylaPriceOptimizer: React.FC<Props> = ({ businessId }) => {
             </div>
           ))}
           <div className="flex gap-2">
-            <Button size="sm" variant="ghost" onClick={addProduct} className="text-white/50">
+            <Button size="sm" variant="ghost" onClick={addProduct} className="text-white/80">
               <Plus className="h-4 w-4 mr-1" /> Add Product
             </Button>
             <Button
@@ -147,16 +147,16 @@ export const KaylaPriceOptimizer: React.FC<Props> = ({ businessId }) => {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <h4 className="text-sm font-semibold text-white">{rec.product_or_service}</h4>
-                      <Badge variant="outline" className={`text-xs ${rec.status === 'implemented' ? 'border-emerald-400/30 text-emerald-400' : rec.status === 'accepted' ? 'border-blue-400/30 text-blue-400' : 'border-white/20 text-white/60'}`}>
+                      <Badge variant="outline" className={`text-xs ${rec.status === 'implemented' ? 'border-emerald-400/30 text-emerald-400' : rec.status === 'accepted' ? 'border-blue-400/30 text-blue-400' : 'border-white/20 text-white/90'}`}>
                         {rec.status}
                       </Badge>
                     </div>
                     <div className="flex items-center gap-4 text-sm mb-2">
                       {rec.current_price != null && (
-                        <span className="text-white/50">Current: <span className="text-white">${rec.current_price}</span></span>
+                        <span className="text-white/80">Current: <span className="text-white">${rec.current_price}</span></span>
                       )}
                       {rec.recommended_price != null && (
-                        <span className="text-white/50">
+                        <span className="text-white/80">
                           Suggested: <span className="text-emerald-400 font-semibold">${rec.recommended_price}</span>
                         </span>
                       )}
@@ -167,7 +167,7 @@ export const KaylaPriceOptimizer: React.FC<Props> = ({ businessId }) => {
                         </span>
                       )}
                     </div>
-                    {rec.reasoning && <p className="text-xs text-white/50 mb-1">{rec.reasoning}</p>}
+                    {rec.reasoning && <p className="text-xs text-white/80 mb-1">{rec.reasoning}</p>}
                     {rec.competitor_range && (
                       <p className="text-xs text-white/40">Market range: {rec.competitor_range}</p>
                     )}

@@ -118,7 +118,7 @@ const WelcomePage: React.FC = () => {
                     placeholder="Enter your ZIP code"
                     value={zipCode}
                     onChange={(e) => setZipCode(e.target.value)}
-                    className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
+                    className="bg-white/10 border-white/30 text-white placeholder:text-white/80"
                     maxLength={5}
                   />
                   <Button
@@ -184,7 +184,7 @@ const WelcomePage: React.FC = () => {
                       <p className="font-medium text-white truncate">{business.name}</p>
                       <p className="text-sm text-blue-100/70 truncate">{business.category}</p>
                     </div>
-                    <ArrowRight className="w-5 h-5 text-white/50" />
+                    <ArrowRight className="w-5 h-5 text-white/80" />
                   </CardContent>
                 </Card>
               ))}

@@ -203,7 +203,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
                 Coalition Loyalty Program
               </h1>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto mb-8">
+              <p className="text-xl text-white max-w-3xl mx-auto mb-8">
                 Building community wealth through rewards that matter. Learn how our loyalty program 
                 benefits consumers and businesses in our coalition ecosystem.
               </p>
@@ -259,7 +259,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                             </div>
                             <div className="text-mansagold font-bold text-sm mb-2">STEP {step.step}</div>
                             <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
-                            <p className="text-white/70">{step.description}</p>
+                            <p className="text-white">{step.description}</p>
                           </CardContent>
                         </Card>
                       </motion.div>
@@ -272,7 +272,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                   <h2 className="text-3xl font-bold text-white text-center mb-4">
                     Membership <span className="text-mansagold">Tiers</span>
                   </h2>
-                  <p className="text-white/70 text-center mb-12 max-w-2xl mx-auto">
+                  <p className="text-white text-center mb-12 max-w-2xl mx-auto">
                     Progress through our tier system to unlock greater rewards and exclusive benefits
                   </p>
                   <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -334,7 +334,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                             </div>
                             <div className="text-mansagold font-bold text-sm mb-2">STEP {step.step}</div>
                             <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
-                            <p className="text-white/70">{step.description}</p>
+                            <p className="text-white">{step.description}</p>
                           </CardContent>
                         </Card>
                       </motion.div>
@@ -347,7 +347,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                   <h2 className="text-3xl font-bold text-white text-center mb-4">
                     B2B <span className="text-mansagold">Benefits</span>
                   </h2>
-                  <p className="text-white/70 text-center mb-12 max-w-2xl mx-auto">
+                  <p className="text-white text-center mb-12 max-w-2xl mx-auto">
                     Beyond consumer loyalty, our coalition provides powerful business-to-business advantages
                   </p>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -367,7 +367,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                               </div>
                               <div>
                                 <h3 className="text-lg font-semibold text-white mb-2">{benefit.title}</h3>
-                                <p className="text-white/70 text-sm">{benefit.description}</p>
+                                <p className="text-white text-sm">{benefit.description}</p>
                               </div>
                             </div>
                           </CardContent>
@@ -390,7 +390,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                       <h3 className="text-2xl font-bold text-white mb-3">
                         Access the B2B Marketplace
                       </h3>
-                      <p className="text-white/80 mb-6 max-w-xl mx-auto">
+                      <p className="text-white mb-6 max-w-xl mx-auto">
                         Connect with other coalition businesses for supplies, services, and strategic partnerships. 
                         Buy and sell within our trusted network.
                       </p>
@@ -425,7 +425,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                   <Card className="bg-white/5 backdrop-blur-lg border-white/10 hover:bg-white/10 transition-all duration-300">
                     <CardContent className="p-6">
                       <h3 className="text-lg font-semibold text-white mb-2">{faq.question}</h3>
-                      <p className="text-white/70">{faq.answer}</p>
+                      <p className="text-white">{faq.answer}</p>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -443,7 +443,7 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                 <h2 className="text-3xl font-bold text-white mb-4">
                   Ready to Join the Coalition?
                 </h2>
-                <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">
+                <p className="text-white text-lg mb-8 max-w-xl mx-auto">
                   Whether you're a consumer looking to discover great businesses or a business owner 
                   wanting to grow your customer base, we're here for you.
                 </p>

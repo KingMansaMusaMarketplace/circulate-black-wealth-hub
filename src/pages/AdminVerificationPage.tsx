@@ -34,7 +34,7 @@ const AdminVerificationPage: React.FC = () => {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white font-display">Business Verification</h1>
-              <p className="text-white/70">Review and manage business verification requests</p>
+              <p className="text-white">Review and manage business verification requests</p>
             </div>
           </div>
         </div>
@@ -45,25 +45,25 @@ const AdminVerificationPage: React.FC = () => {
             <TabsList className="backdrop-blur-xl bg-white/10 border border-white/20 mb-6">
               <TabsTrigger 
                 value="stats" 
-                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white"
               >
                 <Activity className="h-4 w-4" /> Statistics
               </TabsTrigger>
               <TabsTrigger 
                 value="queue" 
-                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white"
               >
                 <ClipboardList className="h-4 w-4" /> Verification Queue
               </TabsTrigger>
               <TabsTrigger 
                 value="priority" 
-                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white"
               >
                 <Zap className="h-4 w-4" /> Priority Queue
               </TabsTrigger>
               <TabsTrigger 
                 value="settings" 
-                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+                className="flex items-center gap-2 data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white"
               >
                 <Settings className="h-4 w-4" /> Settings
               </TabsTrigger>

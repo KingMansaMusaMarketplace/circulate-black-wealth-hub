@@ -218,7 +218,7 @@ const NonBiasCertification: React.FC = () => {
               Non-Bias Certified
             </Badge>
             <h2 className="text-2xl font-bold text-white mb-2">You're Certified!</h2>
-            <p className="text-white/60 max-w-md mx-auto">
+            <p className="text-white/90 max-w-md mx-auto">
               Your Non-Bias certification badge is displayed on all your property listings,
               showing guests that you're committed to inclusive hospitality.
             </p>
@@ -240,7 +240,7 @@ const NonBiasCertification: React.FC = () => {
             <Shield className="w-10 h-10 text-mansagold" />
           </div>
           <h2 className="text-2xl font-bold text-white mb-2">Non-Bias Certification</h2>
-          <p className="text-white/60 max-w-lg mx-auto mb-6">
+          <p className="text-white/90 max-w-lg mx-auto mb-6">
             Stand out as a host committed to welcoming every guest equally.
             Complete our training program and take the Non-Bias pledge to earn
             your certification badge.
@@ -248,15 +248,15 @@ const NonBiasCertification: React.FC = () => {
           <div className="grid grid-cols-3 gap-4 max-w-md mx-auto mb-8">
             <div className="text-center">
               <div className="text-2xl font-bold text-mansagold">3</div>
-              <div className="text-xs text-white/50">Modules</div>
+              <div className="text-xs text-white/80">Modules</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-mansagold">45</div>
-              <div className="text-xs text-white/50">Minutes</div>
+              <div className="text-xs text-white/80">Minutes</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-mansagold">1yr</div>
-              <div className="text-xs text-white/50">Validity</div>
+              <div className="text-xs text-white/80">Validity</div>
             </div>
           </div>
           <Button
@@ -338,7 +338,7 @@ const NonBiasCertification: React.FC = () => {
                       <CardTitle className="text-base text-white">
                         Module {mod.id}: {mod.title}
                       </CardTitle>
-                      <p className="text-white/50 text-sm">{mod.description}</p>
+                      <p className="text-white/80 text-sm">{mod.description}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -361,7 +361,7 @@ const NonBiasCertification: React.FC = () => {
                     <CardContent className="pt-0">
                       <div className="space-y-3 mb-4 pl-12">
                         {mod.content.map((point, i) => (
-                          <div key={i} className="flex items-start gap-2 text-sm text-white/70">
+                          <div key={i} className="flex items-start gap-2 text-sm text-white">
                             <div className="w-1.5 h-1.5 rounded-full bg-mansagold mt-2 flex-shrink-0" />
                             <p>{point}</p>
                           </div>
@@ -401,7 +401,7 @@ const NonBiasCertification: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-slate-900/50 rounded-lg p-4 border border-white/10">
-                <p className="text-white/80 text-sm leading-relaxed italic">
+                <p className="text-white text-sm leading-relaxed italic">
                   "{PLEDGE_TEXT}"
                 </p>
               </div>
@@ -412,7 +412,7 @@ const NonBiasCertification: React.FC = () => {
                   onCheckedChange={(v) => setPledgeChecked(v === true)}
                   className="mt-1 border-mansagold data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <label htmlFor="pledge" className="text-sm text-white/70 cursor-pointer">
+                <label htmlFor="pledge" className="text-sm text-white cursor-pointer">
                   I have read and agree to the Non-Bias Pledge. I understand this certification
                   is valid for one year and requires maintaining inclusive hosting standards.
                 </label>

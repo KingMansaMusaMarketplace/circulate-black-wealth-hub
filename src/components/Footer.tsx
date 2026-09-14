@@ -110,54 +110,54 @@ const Footer = () => {
             <h4 className="font-heading font-bold mb-4 text-xl bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about-1325" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/about-1325" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   About 1325.AI
                 </Link>
                </li>
               <li>
-                <Link to="/sponsors" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/sponsors" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Corporate Partners
                 </Link>
               </li>
               <li>
-                <Link to="/directory" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/directory" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Directory
                 </Link>
               </li>
               <li>
-                <Link to="/black-owned" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/black-owned" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Black-Owned Businesses
                 </Link>
               </li>
               <li>
-                <Link to="/how-it-works" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/how-it-works" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   How It Works
                 </Link>
               </li>
               <li>
-                <Link to="/community-impact" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/community-impact" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Impact
                 </Link>
               </li>
               {!isIOS && (
                 <li>
-                  <Link to="/business-signup" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                  <Link to="/business-signup" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                     Business Signup
                   </Link>
                 </li>
               )}
               <li>
-                <Link to="/business/how-it-works" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/business/how-it-works" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   How Payments Work
                 </Link>
               </li>
               <li>
-                <Link to="/signup" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/signup" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Customer Signup
                 </Link>
               </li>
@@ -169,60 +169,60 @@ const Footer = () => {
             <h4 className="font-heading font-bold mb-4 text-xl bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">Services</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/education" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/education" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Education
                 </Link>
               </li>
               <li>
-                <Link to="/education" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/education" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Learning Hub
                 </Link>
               </li>
               <FeatureGate flag="hide_sales_agent_portal" inverted>
                 <li>
-                  <Link to="/sales-agent" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                  <Link to="/sales-agent" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                     Sales Agent
                   </Link>
                 </li>
               </FeatureGate>
               <li>
-                <Link to="/scanner" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/scanner" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   QR Scanner
                 </Link>
               </li>
               <li>
-                <Link to="/loyalty" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/loyalty" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Rewards
                 </Link>
               </li>
               <FeatureGate flag="hide_mansa_stays" inverted>
                 <li>
-                  <Link to="/stays" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                  <Link to="/stays" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                     Mansa Stays
                   </Link>
                 </li>
               </FeatureGate>
               <FeatureGate flag="hide_mansa_stays" inverted>
                 <li>
-                  <Link to="/stays/become-a-host" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                  <Link to="/stays/become-a-host" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                     Become a Host
                   </Link>
                 </li>
               </FeatureGate>
               <FeatureGate flag="hide_enterprise_corporate" inverted>
                 <li>
-                  <Link to="/sponsor-pricing" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                  <Link to="/sponsor-pricing" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                     Become a Sponsor
                   </Link>
                 </li>
               </FeatureGate>
               <li>
-                <Link to="/media-kit" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/media-kit" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Media Kit
                 </Link>
               </li>
               <li>
-                <Link to="/press" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/press" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Press &amp; Partnerships
                 </Link>
               </li>
@@ -234,55 +234,55 @@ const Footer = () => {
             <h4 className="font-heading font-bold mb-4 text-xl bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">Resources & Legal</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/jobs" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/jobs" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Jobs
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/blog" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link to="/help" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/help" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Help Center
                 </Link>
               </li>
               <li>
-                <Link to="/support" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/support" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Support
                 </Link>
               </li>
               <li>
-                <Link to="/connect" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/connect" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Connect to ChatGPT, Claude &amp; Cursor
                 </Link>
               </li>
               <li>
                 <button 
                   onClick={() => navigate('/help')}
-                  className="text-white/80 hover:text-mansagold transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full text-left font-medium"
+                  className="text-white hover:text-mansagold transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full text-left font-medium"
                 >
                   FAQ
                 </button>
               </li>
               <li>
-                <Link to="/accessibility" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/accessibility" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Accessibility
                 </Link>
               </li>
               <li>
-                <Link to="/institutional-api" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/institutional-api" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Data API for Institutions
                 </Link>
               </li>
               <li>
-                <Link to="/privacy" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/privacy" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                <Link to="/terms" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Terms of Service
                 </Link>
               </li>
@@ -313,10 +313,10 @@ const Footer = () => {
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               Verified in the Official MCP Registry
             </span>
-            <span className="text-white/70 text-xs sm:text-sm">
+            <span className="text-white text-xs sm:text-sm">
               <code className="text-mansagold">ai.1325/mcp</code> · status: <span className="text-green-400 font-semibold">active</span>
             </span>
-            <span className="text-white/50 text-xs group-hover:text-mansagold transition-colors">View listing →</span>
+            <span className="text-white/80 text-xs group-hover:text-mansagold transition-colors">View listing →</span>
           </a>
         </motion.div>
 
@@ -325,7 +325,7 @@ const Footer = () => {
 
           <div className="text-white text-sm text-center md:text-right">
               {isIOS && (
-                <p className="text-xs mb-2 text-white/70 leading-relaxed">
+                <p className="text-xs mb-2 text-white leading-relaxed">
                   Pro and Enterprise plans are available at <span className="text-mansagold font-semibold">1325.ai</span>.
                   Open Safari to view advanced plans and manage your account.
                 </p>
@@ -336,10 +336,10 @@ const Footer = () => {
               <p className="font-heading text-sm mt-2 bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">
                 — Thomas D. Bowling, Founder & Chief Architect
               </p>
-              <p className="text-xs mt-3 text-white/60 font-medium">
+              <p className="text-xs mt-3 text-white/90 font-medium">
                 © 2026 1325.AI, Inc. All rights reserved.
               </p>
-              <p className="text-xs mt-2 text-white/60 font-medium">
+              <p className="text-xs mt-2 text-white/90 font-medium">
                 Incorporated in Illinois • File #75201745 • Registered Agent: Thomas Bowling •{' '}
                 <a 
                   href="https://apps.ilsos.gov/corporatellc/" 

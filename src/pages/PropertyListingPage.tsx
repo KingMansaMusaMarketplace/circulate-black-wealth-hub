@@ -148,7 +148,7 @@ const PropertyListingPage: React.FC = () => {
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
           <Home className="w-16 h-16 mx-auto text-white/40 mb-4" />
           <h1 className="text-2xl font-bold mb-4 text-white">List Your Property</h1>
-          <p className="text-white/60 mb-6">
+          <p className="text-white/90 mb-6">
             Please log in to list your vacation rental property on Mansa Stays.
           </p>
           <Button 
@@ -178,7 +178,7 @@ const PropertyListingPage: React.FC = () => {
               Back to Mansa Stays
             </Button>
             <h1 className="text-3xl font-bold text-white">List Your Property</h1>
-            <p className="text-white/60 mt-2">
+            <p className="text-white/90 mt-2">
               Share your space with the community and earn income
             </p>
           </div>
@@ -200,13 +200,13 @@ const PropertyListingPage: React.FC = () => {
                         ? 'bg-mansagold text-black'
                         : index < getCurrentStepIndex()
                           ? 'bg-mansagold/20 text-mansagold'
-                          : 'bg-slate-800 text-white/50'
+                          : 'bg-slate-800 text-white/80'
                       }
                     `}
                   >
                     {step.icon}
                   </div>
-                  <span className="text-xs mt-1 hidden sm:block text-white/70">{step.title}</span>
+                  <span className="text-xs mt-1 hidden sm:block text-white">{step.title}</span>
                 </div>
               ))}
             </div>
@@ -223,7 +223,7 @@ const PropertyListingPage: React.FC = () => {
           <Card className="bg-slate-900/80 backdrop-blur-xl border-white/10">
             <CardHeader>
               <CardTitle className="text-white">{STEPS.find(s => s.id === currentStep)?.title}</CardTitle>
-              <CardDescription className="text-white/60">
+              <CardDescription className="text-white/90">
                 {currentStep === 'basics' && 'Tell us about your property'}
                 {currentStep === 'location' && 'Where is your property located?'}
                 {currentStep === 'details' && 'Property details and capacity'}
@@ -471,7 +471,7 @@ const PropertyListingPage: React.FC = () => {
                     rows={4}
                     value={formData.house_rules}
                     onChange={(e) => updateFormData({ house_rules: e.target.value })}
-                    className="bg-slate-800 border-white/20 text-white placeholder:text-white/50"
+                    className="bg-slate-800 border-white/20 text-white placeholder:text-white/80"
                   />
                 </div>
               </>
@@ -532,7 +532,7 @@ const PropertyListingPage: React.FC = () => {
                       ))}
                     </SelectContent>
                   </Select>
-                  <p className="text-sm text-white/60">
+                  <p className="text-sm text-white/90">
                     Choose whether this property is for nightly stays, monthly rentals, or both
                   </p>
                 </div>
@@ -549,7 +549,7 @@ const PropertyListingPage: React.FC = () => {
                     onChange={(e) => updateFormData({ base_nightly_rate: parseFloat(e.target.value) || 0 })}
                     className="bg-slate-800 border-white/20 text-white"
                   />
-                  <p className="text-sm text-white/60">
+                  <p className="text-sm text-white/90">
                     The base price per night before fees
                   </p>
                 </div>
@@ -566,7 +566,7 @@ const PropertyListingPage: React.FC = () => {
                       onChange={(e) => updateFormData({ base_monthly_rate: e.target.value ? parseFloat(e.target.value) : null })}
                       className="bg-slate-800 border-white/20 text-white"
                     />
-                    <p className="text-sm text-white/60">
+                    <p className="text-sm text-white/90">
                       Price per month for stays of 28+ nights
                     </p>
                   </div>
@@ -584,7 +584,7 @@ const PropertyListingPage: React.FC = () => {
                       onChange={(e) => updateFormData({ weekly_rate: e.target.value ? parseFloat(e.target.value) : null })}
                       className="bg-slate-800 border-white/20 text-white"
                     />
-                    <p className="text-sm text-white/60">
+                    <p className="text-sm text-white/90">
                       Discounted rate for stays of 7+ nights
                     </p>
                   </div>
@@ -600,7 +600,7 @@ const PropertyListingPage: React.FC = () => {
                     onChange={(e) => updateFormData({ cleaning_fee: parseFloat(e.target.value) || 0 })}
                     className="bg-slate-800 border-white/20 text-white"
                   />
-                  <p className="text-sm text-white/60">
+                  <p className="text-sm text-white/90">
                     One-time fee charged per stay
                   </p>
                 </div>
@@ -618,7 +618,7 @@ const PropertyListingPage: React.FC = () => {
                     <Label htmlFor="is_instant_book" className="cursor-pointer text-white">
                       Enable Instant Book
                     </Label>
-                    <p className="text-sm text-white/60">
+                    <p className="text-sm text-white/90">
                       Guests can book instantly without approval
                     </p>
                   </div>
@@ -628,14 +628,14 @@ const PropertyListingPage: React.FC = () => {
                   <h4 className="font-semibold mb-2 text-white">Pricing Summary</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-white/70">Nightly rate</span>
+                      <span className="text-white">Nightly rate</span>
                       <span className="text-white">${formData.base_nightly_rate}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-white/70">Cleaning fee</span>
+                      <span className="text-white">Cleaning fee</span>
                       <span className="text-white">${formData.cleaning_fee}</span>
                     </div>
-                    <div className="flex justify-between text-white/60">
+                    <div className="flex justify-between text-white/90">
                       <span>Platform fee (7.5%)</span>
                       <span>Calculated at checkout</span>
                     </div>
@@ -660,24 +660,24 @@ const PropertyListingPage: React.FC = () => {
                   <div>
                     <h4 className="font-semibold text-white">Property</h4>
                     <p className="text-white">{formData.title || 'No title'}</p>
-                    <p className="text-sm text-white/60 capitalize">{formData.property_type}</p>
+                    <p className="text-sm text-white/90 capitalize">{formData.property_type}</p>
                   </div>
                   <Separator className="bg-white/10" />
                   <div>
                     <h4 className="font-semibold text-white">Location</h4>
                     <p className="text-white">{formData.address}</p>
-                    <p className="text-white/80">{formData.city}, {formData.state} {formData.zip_code}</p>
+                    <p className="text-white">{formData.city}, {formData.state} {formData.zip_code}</p>
                   </div>
                   <Separator className="bg-white/10" />
                   <div>
                     <h4 className="font-semibold text-white">Details</h4>
-                    <p className="text-white/80">{formData.bedrooms} bedroom(s) · {formData.bathrooms} bathroom(s) · {formData.max_guests} guest(s)</p>
-                    <p className="text-white/80">Check-in: {formData.check_in_time} · Check-out: {formData.check_out_time}</p>
+                    <p className="text-white">{formData.bedrooms} bedroom(s) · {formData.bathrooms} bathroom(s) · {formData.max_guests} guest(s)</p>
+                    <p className="text-white">Check-in: {formData.check_in_time} · Check-out: {formData.check_out_time}</p>
                   </div>
                   <Separator className="bg-white/10" />
                   <div>
                     <h4 className="font-semibold text-white">Amenities</h4>
-                    <p className="text-white/80">{formData.amenities.length > 0 
+                    <p className="text-white">{formData.amenities.length > 0 
                       ? formData.amenities.map(a => AMENITIES_LIST.find(am => am.id === a)?.label).join(', ')
                       : 'None selected'
                     }</p>
@@ -685,13 +685,13 @@ const PropertyListingPage: React.FC = () => {
                   <Separator className="bg-white/10" />
                   <div>
                     <h4 className="font-semibold text-white">Pricing</h4>
-                    <p className="text-white/80">
+                    <p className="text-white">
                       ${formData.base_nightly_rate}/night
                       {formData.base_monthly_rate ? ` · $${formData.base_monthly_rate}/month` : ''}
                       {formData.weekly_rate ? ` · $${formData.weekly_rate}/week` : ''}
                       {` + $${formData.cleaning_fee} cleaning fee`}
                     </p>
-                    <p className="text-sm text-white/60 capitalize">Listing mode: {formData.listing_mode}</p>
+                    <p className="text-sm text-white/90 capitalize">Listing mode: {formData.listing_mode}</p>
                     {formData.is_instant_book && (
                       <p className="text-sm text-mansagold">✓ Instant Book enabled</p>
                     )}
@@ -700,7 +700,7 @@ const PropertyListingPage: React.FC = () => {
 
                 <div className="bg-mansagold/10 border border-mansagold/30 rounded-lg p-4">
                   <h4 className="font-semibold text-mansagold">What happens next?</h4>
-                  <ul className="text-sm text-white/70 mt-2 space-y-1">
+                  <ul className="text-sm text-white mt-2 space-y-1">
                     <li>• Your listing will be reviewed by our team</li>
                     <li>• Once approved, it will be visible to guests</li>
                     <li>• You'll receive an email notification</li>

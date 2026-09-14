@@ -244,7 +244,7 @@ const VerificationQueue: React.FC = () => {
           <Card className="backdrop-blur-xl bg-white/10 border-white/20">
             <CardHeader>
               <CardTitle className="text-white">Pending Business Setup</CardTitle>
-              <CardDescription className="text-white/60">Users who signed up as business but haven't created their business profile yet</CardDescription>
+              <CardDescription className="text-white/90">Users who signed up as business but haven't created their business profile yet</CardDescription>
             </CardHeader>
             <CardContent>
               {pendingUsersLoading ? (
@@ -252,7 +252,7 @@ const VerificationQueue: React.FC = () => {
                   <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
                 </div>
               ) : pendingUsers.length === 0 ? (
-                <div className="text-center py-8 text-white/60">
+                <div className="text-center py-8 text-white/90">
                   All business users have completed their setup
                 </div>
               ) : (
@@ -260,19 +260,19 @@ const VerificationQueue: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow className="border-white/20">
-                        <TableHead className="text-white/70">Full Name</TableHead>
-                        <TableHead className="text-white/70">Email</TableHead>
-                        <TableHead className="text-white/70">Phone</TableHead>
-                        <TableHead className="text-white/70">Signed Up</TableHead>
+                        <TableHead className="text-white">Full Name</TableHead>
+                        <TableHead className="text-white">Email</TableHead>
+                        <TableHead className="text-white">Phone</TableHead>
+                        <TableHead className="text-white">Signed Up</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {pendingUsers.map((user) => (
                         <TableRow key={user.id} className="border-white/10">
                           <TableCell className="font-medium text-white">{user.full_name || 'N/A'}</TableCell>
-                          <TableCell className="text-white/80">{user.email || 'N/A'}</TableCell>
-                          <TableCell className="text-white/80">{user.phone || 'N/A'}</TableCell>
-                          <TableCell className="text-white/80">
+                          <TableCell className="text-white">{user.email || 'N/A'}</TableCell>
+                          <TableCell className="text-white">{user.phone || 'N/A'}</TableCell>
+                          <TableCell className="text-white">
                             {format(new Date(user.created_at), 'MMM d, yyyy h:mm a')}
                           </TableCell>
                         </TableRow>
@@ -289,7 +289,7 @@ const VerificationQueue: React.FC = () => {
           <Card className="backdrop-blur-xl bg-white/10 border-white/20">
             <CardHeader>
               <CardTitle className="text-white">Registered Businesses</CardTitle>
-              <CardDescription className="text-white/60">All businesses that have signed up on the platform</CardDescription>
+              <CardDescription className="text-white/90">All businesses that have signed up on the platform</CardDescription>
             </CardHeader>
             <CardContent>
               {businessesLoading ? (
@@ -297,7 +297,7 @@ const VerificationQueue: React.FC = () => {
                   <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
                 </div>
               ) : businesses.length === 0 ? (
-                <div className="text-center py-8 text-white/60">
+                <div className="text-center py-8 text-white/90">
                   No businesses registered yet
                 </div>
               ) : (
@@ -305,22 +305,22 @@ const VerificationQueue: React.FC = () => {
                   <Table>
                     <TableHeader>
                       <TableRow className="border-white/20">
-                        <TableHead className="text-white/70">Business Name</TableHead>
-                        <TableHead className="text-white/70">Email</TableHead>
-                        <TableHead className="text-white/70">Category</TableHead>
-                        <TableHead className="text-white/70">Location</TableHead>
-                        <TableHead className="text-white/70">Verified</TableHead>
-                        <TableHead className="text-white/70">Verification Status</TableHead>
-                        <TableHead className="text-white/70">Registered</TableHead>
+                        <TableHead className="text-white">Business Name</TableHead>
+                        <TableHead className="text-white">Email</TableHead>
+                        <TableHead className="text-white">Category</TableHead>
+                        <TableHead className="text-white">Location</TableHead>
+                        <TableHead className="text-white">Verified</TableHead>
+                        <TableHead className="text-white">Verification Status</TableHead>
+                        <TableHead className="text-white">Registered</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {businesses.map((business) => (
                         <TableRow key={business.id} className="border-white/10">
                           <TableCell className="font-medium text-white">{business.business_name}</TableCell>
-                          <TableCell className="text-white/80">{business.email || 'N/A'}</TableCell>
-                          <TableCell className="text-white/80">{business.category || 'N/A'}</TableCell>
-                          <TableCell className="text-white/80">
+                          <TableCell className="text-white">{business.email || 'N/A'}</TableCell>
+                          <TableCell className="text-white">{business.category || 'N/A'}</TableCell>
+                          <TableCell className="text-white">
                             {business.city && business.state ? `${business.city}, ${business.state}` : 'N/A'}
                           </TableCell>
                           <TableCell>
@@ -337,7 +337,7 @@ const VerificationQueue: React.FC = () => {
                               <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30">Not Submitted</Badge>
                             )}
                           </TableCell>
-                          <TableCell className="text-white/80">
+                          <TableCell className="text-white">
                             {format(new Date(business.created_at), 'MMM d, yyyy')}
                           </TableCell>
                         </TableRow>
@@ -359,7 +359,7 @@ const VerificationQueue: React.FC = () => {
                 onClick={() => setFilter(status)}
                 className={filter === status 
                   ? 'bg-mansagold hover:bg-mansagold/90 text-mansablue' 
-                  : 'border-white/20 text-white/70 hover:bg-white/10 hover:text-white'
+                  : 'border-white/20 text-white hover:bg-white/10 hover:text-white'
                 }
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -370,7 +370,7 @@ const VerificationQueue: React.FC = () => {
       <Card className="backdrop-blur-xl bg-white/10 border-white/20">
         <CardHeader>
           <CardTitle className="text-white">Verification Requests</CardTitle>
-          <CardDescription className="text-white/60">Review and manage business verification requests</CardDescription>
+          <CardDescription className="text-white/90">Review and manage business verification requests</CardDescription>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -378,7 +378,7 @@ const VerificationQueue: React.FC = () => {
               <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
             </div>
           ) : filteredQueue.length === 0 ? (
-            <div className="text-center py-8 text-white/60">
+            <div className="text-center py-8 text-white/90">
               No {filter !== 'all' ? filter : ''} verification requests to display
             </div>
           ) : (
@@ -386,20 +386,20 @@ const VerificationQueue: React.FC = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/20">
-                    <TableHead className="text-white/70">Business</TableHead>
-                    <TableHead className="text-white/70">Owner</TableHead>
-                    <TableHead className="text-white/70">Ownership %</TableHead>
-                    <TableHead className="text-white/70">Status</TableHead>
-                    <TableHead className="text-white/70">Submitted</TableHead>
-                    <TableHead className="text-white/70">Actions</TableHead>
+                    <TableHead className="text-white">Business</TableHead>
+                    <TableHead className="text-white">Owner</TableHead>
+                    <TableHead className="text-white">Ownership %</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-white">Submitted</TableHead>
+                    <TableHead className="text-white">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredQueue.map((item) => (
                     <TableRow key={item.verification_id} className="border-white/10">
                       <TableCell className="font-medium text-white">{item.business_name}</TableCell>
-                      <TableCell className="text-white/80">{item.owner_name || 'Unknown'}</TableCell>
-                      <TableCell className="text-white/80">{item.ownership_percentage ?? 'N/A'}</TableCell>
+                      <TableCell className="text-white">{item.owner_name || 'Unknown'}</TableCell>
+                      <TableCell className="text-white">{item.ownership_percentage ?? 'N/A'}</TableCell>
                       <TableCell>
                         {item.verification_status === 'pending' && (
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-500/20 text-orange-300 border border-orange-500/30">
@@ -417,7 +417,7 @@ const VerificationQueue: React.FC = () => {
                           </span>
                         )}
                       </TableCell>
-                      <TableCell className="text-white/80">{new Date(item.submitted_at).toLocaleDateString()}</TableCell>
+                      <TableCell className="text-white">{new Date(item.submitted_at).toLocaleDateString()}</TableCell>
                       <TableCell>
                         <Button 
                           variant="outline" 
@@ -447,7 +447,7 @@ const VerificationQueue: React.FC = () => {
         <DialogContent className="max-w-3xl backdrop-blur-xl bg-mansablue/95 border-white/20">
           <DialogHeader>
             <DialogTitle className="text-white">Verification Request</DialogTitle>
-            <DialogDescription className="text-white/60">
+            <DialogDescription className="text-white/90">
               Review the business verification details
             </DialogDescription>
           </DialogHeader>
@@ -457,7 +457,7 @@ const VerificationQueue: React.FC = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h3 className="text-lg font-medium text-white">Business Information</h3>
-                  <div className="mt-2 space-y-2 text-white/80">
+                  <div className="mt-2 space-y-2 text-white">
                     <div>
                       <span className="font-medium text-white">Name:</span> {selectedItem.business_name}
                     </div>
@@ -475,7 +475,7 @@ const VerificationQueue: React.FC = () => {
                 
                 <div>
                   <h3 className="text-lg font-medium text-white">Verification Status</h3>
-                  <div className="mt-2 space-y-2 text-white/80">
+                  <div className="mt-2 space-y-2 text-white">
                     <div>
                       <span className="font-medium text-white">Current Status:</span> 
                       <span className={`ml-2 capitalize ${
@@ -533,7 +533,7 @@ const VerificationQueue: React.FC = () => {
               
               <div>
                 <h3 className="text-lg font-medium text-white">Documents</h3>
-                <p className="text-sm text-white/60 mb-2">
+                <p className="text-sm text-white/90 mb-2">
                   These documents have been submitted for verification.
                 </p>
                 
@@ -553,7 +553,7 @@ const VerificationQueue: React.FC = () => {
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="p-3 pt-0">
-                        <Button variant="outline" size="sm" className="w-full border-white/20 text-white/70 hover:bg-white/10">
+                        <Button variant="outline" size="sm" className="w-full border-white/20 text-white hover:bg-white/10">
                           View
                         </Button>
                       </CardContent>
@@ -583,7 +583,7 @@ const VerificationQueue: React.FC = () => {
                             }
                             className="border-white/30 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
                           />
-                          <Label htmlFor={item.key} className="text-white/80 text-sm cursor-pointer">
+                          <Label htmlFor={item.key} className="text-white text-sm cursor-pointer">
                             {item.label}
                           </Label>
                         </div>
@@ -602,13 +602,13 @@ const VerificationQueue: React.FC = () => {
                         <SelectItem value="certified" className="text-white hover:bg-white/10">
                           <div className="flex items-center gap-2">
                             <span>Certified Community-Owned</span>
-                            <span className="text-xs text-white/50">(Standard)</span>
+                            <span className="text-xs text-white/80">(Standard)</span>
                           </div>
                         </SelectItem>
                         <SelectItem value="premium" className="text-white hover:bg-white/10">
                           <div className="flex items-center gap-2">
                             <span>Premium Certified</span>
-                            <span className="text-xs text-white/50">(With premium subscription)</span>
+                            <span className="text-xs text-white/80">(With premium subscription)</span>
                           </div>
                         </SelectItem>
                       </SelectContent>
@@ -658,14 +658,14 @@ const VerificationQueue: React.FC = () => {
         <DialogContent className="backdrop-blur-xl bg-mansablue/95 border-white/20">
           <DialogHeader>
             <DialogTitle className="text-white">Reject Verification</DialogTitle>
-            <DialogDescription className="text-white/60">
+            <DialogDescription className="text-white/90">
               Please provide a reason for rejecting this verification request.
             </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-4 py-4">
             <div>
-              <Label className="text-white/80 mb-2 block">Quick Templates</Label>
+              <Label className="text-white mb-2 block">Quick Templates</Label>
               <div className="flex flex-wrap gap-2">
                 {REJECTION_TEMPLATES.map((template) => (
                   <Button
@@ -673,7 +673,7 @@ const VerificationQueue: React.FC = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => setRejectionReason(template.reason)}
-                    className="border-white/20 text-white/70 hover:bg-white/10 text-xs"
+                    className="border-white/20 text-white hover:bg-white/10 text-xs"
                   >
                     {template.label}
                   </Button>
@@ -694,7 +694,7 @@ const VerificationQueue: React.FC = () => {
               variant="outline"
               onClick={() => setIsRejectOpen(false)}
               disabled={actionLoading}
-              className="border-white/20 text-white/70 hover:bg-white/10"
+              className="border-white/20 text-white hover:bg-white/10"
             >
               Cancel
             </Button>

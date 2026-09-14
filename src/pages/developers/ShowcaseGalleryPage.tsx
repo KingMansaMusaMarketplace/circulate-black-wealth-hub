@@ -129,7 +129,7 @@ const ShowcaseGalleryPage = () => {
       case 'Fraud Detection':
         return 'bg-amber-500/20 text-amber-400 border-amber-500/50';
       default:
-        return 'bg-white/10 text-white/60 border-white/20';
+        return 'bg-white/10 text-white/90 border-white/20';
     }
   };
 
@@ -146,13 +146,13 @@ const ShowcaseGalleryPage = () => {
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link to="/developers">
-            <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/10">
+            <Button variant="ghost" size="icon" className="text-white hover:text-white hover:bg-white/10">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
           <div>
             <h1 className="text-3xl font-bold text-white">Showcase Gallery</h1>
-            <p className="text-white/60">Apps and platforms built with 1325.AI APIs</p>
+            <p className="text-white/90">Apps and platforms built with 1325.AI APIs</p>
           </div>
         </div>
 
@@ -161,19 +161,19 @@ const ShowcaseGalleryPage = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
               <p className="text-3xl font-bold text-mansagold">116K+</p>
-              <p className="text-white/60 text-sm">Total Users</p>
+              <p className="text-white/90 text-sm">Total Users</p>
             </div>
             <div>
               <p className="text-3xl font-bold text-mansablue">$4.8M</p>
-              <p className="text-white/60 text-sm">Economic Impact Tracked</p>
+              <p className="text-white/90 text-sm">Economic Impact Tracked</p>
             </div>
             <div>
               <p className="text-3xl font-bold text-emerald-400">6</p>
-              <p className="text-white/60 text-sm">Production Apps</p>
+              <p className="text-white/90 text-sm">Production Apps</p>
             </div>
             <div>
               <p className="text-3xl font-bold text-purple-400">4.7</p>
-              <p className="text-white/60 text-sm">Avg. Rating</p>
+              <p className="text-white/90 text-sm">Avg. Rating</p>
             </div>
           </div>
         </div>
@@ -221,16 +221,16 @@ const ShowcaseGalleryPage = () => {
                               Featured
                             </Badge>
                           </CardTitle>
-                          <Badge variant="outline" className="border-white/20 text-white/60 text-xs mt-1">
+                          <Badge variant="outline" className="border-white/20 text-white/90 text-xs mt-1">
                             {app.category}
                           </Badge>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/10">
+                      <Button variant="ghost" size="icon" className="text-white/90 hover:text-white hover:bg-white/10">
                         <ExternalLink className="h-4 w-4" />
                       </Button>
                     </div>
-                    <CardDescription className="text-white/70 mt-4">{app.description}</CardDescription>
+                    <CardDescription className="text-white mt-4">{app.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {/* APIs Used */}
@@ -271,7 +271,7 @@ const ShowcaseGalleryPage = () => {
                     {/* Testimonial */}
                     {app.testimonial && (
                       <div className="bg-gradient-to-r from-mansablue/10 to-transparent rounded-lg p-4 border-l-2 border-mansablue">
-                        <p className="text-white/80 text-sm italic">"{app.testimonial}"</p>
+                        <p className="text-white text-sm italic">"{app.testimonial}"</p>
                         <p className="text-mansablue text-xs mt-2">— {app.author}</p>
                       </div>
                     )}
@@ -297,22 +297,22 @@ const ShowcaseGalleryPage = () => {
                   <CardHeader>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-slate-800 border border-white/10 flex items-center justify-center">
-                        <Globe className="h-5 w-5 text-white/60" />
+                        <Globe className="h-5 w-5 text-white/90" />
                       </div>
                       <div>
                         <CardTitle className="text-white text-lg">{app.name}</CardTitle>
-                        <Badge variant="outline" className="border-white/20 text-white/60 text-xs">
+                        <Badge variant="outline" className="border-white/20 text-white/90 text-xs">
                           {app.category}
                         </Badge>
                       </div>
                     </div>
-                    <CardDescription className="text-white/60 mt-3 text-sm">{app.description}</CardDescription>
+                    <CardDescription className="text-white/90 mt-3 text-sm">{app.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {/* APIs Used */}
                     <div className="flex flex-wrap gap-1.5">
                       {app.apisUsed.map((api) => (
-                        <Badge key={api} variant="outline" className="border-white/20 text-white/60 text-xs">
+                        <Badge key={api} variant="outline" className="border-white/20 text-white/90 text-xs">
                           {api}
                         </Badge>
                       ))}
@@ -320,12 +320,12 @@ const ShowcaseGalleryPage = () => {
 
                     {/* Metrics */}
                     <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-1 text-white/60">
+                      <div className="flex items-center gap-1 text-white/90">
                         <Users className="h-3.5 w-3.5" />
                         {app.metrics.users}
                       </div>
-                      <div className="text-white/60">{app.metrics.impact}</div>
-                      <div className="flex items-center gap-1 text-white/60">
+                      <div className="text-white/90">{app.metrics.impact}</div>
+                      <div className="flex items-center gap-1 text-white/90">
                         <Star className="h-3.5 w-3.5 text-mansagold fill-mansagold" />
                         {app.metrics.rating}
                       </div>
@@ -341,7 +341,7 @@ const ShowcaseGalleryPage = () => {
         <div className="text-center">
           <Card className="glass-card border-mansablue/30 inline-block p-8 rounded-2xl">
             <h2 className="text-2xl font-bold text-white mb-4">Built Something Amazing?</h2>
-            <p className="text-white/60 mb-6 max-w-md">
+            <p className="text-white/90 mb-6 max-w-md">
               Share your project with the community and get featured in our showcase.
             </p>
             <div className="flex items-center justify-center gap-4">

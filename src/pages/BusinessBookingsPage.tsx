@@ -27,7 +27,7 @@ export default function BusinessBookingsPage() {
       <DashboardLayout title="Bookings" icon={<Calendar className="w-6 h-6" />}>
         <div className="text-center py-12">
           <Calendar className="w-16 h-16 mx-auto mb-4 text-mansagold" />
-          <p className="text-white/70 text-lg font-medium">
+          <p className="text-white text-lg font-medium">
             Please complete your business profile first to manage bookings.
           </p>
         </div>

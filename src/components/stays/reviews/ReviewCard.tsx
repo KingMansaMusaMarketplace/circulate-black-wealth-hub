@@ -60,7 +60,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, showPropertyInfo = fals
 
             {/* Review Text */}
             {review.review_text && (
-              <p className="text-white/80 mt-3">{review.review_text}</p>
+              <p className="text-white mt-3">{review.review_text}</p>
             )}
 
             {/* Rating Breakdown */}
@@ -68,7 +68,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, showPropertyInfo = fals
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-4">
                 {ratingCategories.map((cat) => (
                   <div key={cat.label} className="flex items-center justify-between text-sm">
-                    <span className="text-white/60">{cat.label}</span>
+                    <span className="text-white/90">{cat.label}</span>
                     <span className="text-white font-medium">{cat.value}</span>
                   </div>
                 ))}
@@ -78,14 +78,14 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, showPropertyInfo = fals
             {/* Host Response */}
             {review.host_response && (
               <div className="mt-4 pl-4 border-l-2 border-mansagold/50">
-                <div className="flex items-center gap-2 text-sm text-white/60 mb-1">
+                <div className="flex items-center gap-2 text-sm text-white/90 mb-1">
                   <CheckCircle className="w-3 h-3 text-mansagold" />
                   Host Response
                   {review.host_response_at && (
                     <span>• {format(new Date(review.host_response_at), 'MMM d, yyyy')}</span>
                   )}
                 </div>
-                <p className="text-white/70 text-sm">{review.host_response}</p>
+                <p className="text-white text-sm">{review.host_response}</p>
               </div>
             )}
           </div>

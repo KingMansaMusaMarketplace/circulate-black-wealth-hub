@@ -24,7 +24,7 @@ const SidebarNavItem: React.FC<SidebarNavItemProps> = ({
         "flex items-center px-2 py-2 text-sm rounded-md transition-colors",
         isActive
           ? "bg-blue-500/20 text-blue-400 font-medium"
-          : "text-white/70 hover:bg-white/5 hover:text-white"
+          : "text-white hover:bg-white/5 hover:text-white"
       )}
     >
       <Icon className="mr-3 h-5 w-5" />

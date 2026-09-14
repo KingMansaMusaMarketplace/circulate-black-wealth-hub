@@ -23,7 +23,7 @@ const PricingBreakdown: React.FC<PricingBreakdownProps> = ({
     <div className="space-y-3">
       {/* Rate line */}
       <div className="flex justify-between text-sm">
-        <span className="text-white/70">
+        <span className="text-white">
           {pricing.pricingMode === 'monthly' && pricing.months
             ? `$${(pricing.monthlyRate ?? 0).toLocaleString()} × ${pricing.months} month${pricing.months !== 1 ? 's' : ''}`
             : pricing.pricingMode === 'weekly' && pricing.weeks
@@ -49,7 +49,7 @@ const PricingBreakdown: React.FC<PricingBreakdownProps> = ({
       {/* Cleaning fee */}
       {pricing.cleaningFee > 0 && (
         <div className="flex justify-between text-sm">
-          <span className="text-white/70">Cleaning fee</span>
+          <span className="text-white">Cleaning fee</span>
           <span className="font-medium text-white">${pricing.cleaningFee.toLocaleString()}</span>
         </div>
       )}
@@ -57,7 +57,7 @@ const PricingBreakdown: React.FC<PricingBreakdownProps> = ({
       {/* Pet fee */}
       {pricing.petFee > 0 && (
         <div className="flex justify-between text-sm">
-          <span className="text-white/70">Pet fee</span>
+          <span className="text-white">Pet fee</span>
           <span className="font-medium text-white">${pricing.petFee.toLocaleString()}</span>
         </div>
       )}
@@ -67,7 +67,7 @@ const PricingBreakdown: React.FC<PricingBreakdownProps> = ({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className="text-white/70 flex items-center gap-1 cursor-help">
+              <span className="text-white flex items-center gap-1 cursor-help">
                 Service fee
                 <Info className="w-3 h-3" />
               </span>

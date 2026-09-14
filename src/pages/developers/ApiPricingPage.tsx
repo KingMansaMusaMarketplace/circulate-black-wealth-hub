@@ -91,13 +91,13 @@ const ApiPricingPage = () => {
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link to="/developers">
-            <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/10">
+            <Button variant="ghost" size="icon" className="text-white hover:text-white hover:bg-white/10">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
           <div>
             <h1 className="text-3xl font-bold text-white">API Pricing</h1>
-            <p className="text-white/60">Simple, transparent pricing for every scale</p>
+            <p className="text-white/90">Simple, transparent pricing for every scale</p>
           </div>
         </div>
 
@@ -122,9 +122,9 @@ const ApiPricingPage = () => {
                 <CardTitle className={`text-2xl ${tier.color}`}>{tier.name}</CardTitle>
                 <div className="mt-4">
                   <span className="text-4xl font-bold text-mansagold">{tier.price}</span>
-                  <span className="text-white/60">{tier.period}</span>
+                  <span className="text-white/90">{tier.period}</span>
                 </div>
-                <CardDescription className="text-white/60 mt-2">{tier.description}</CardDescription>
+                <CardDescription className="text-white/90 mt-2">{tier.description}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <ul className="space-y-3">
@@ -132,7 +132,7 @@ const ApiPricingPage = () => {
                     <li key={idx} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Check className={`h-4 w-4 ${tier.popular ? 'text-mansablue' : 'text-mansagold'}`} />
-                        <span className="text-white/80 text-sm">{feature.name}</span>
+                        <span className="text-white text-sm">{feature.name}</span>
                       </div>
                       <span className="text-white font-medium text-sm">{feature.value}</span>
                     </li>
@@ -169,7 +169,7 @@ const ApiPricingPage = () => {
         <Card className="glass-card border-white/10 mb-12">
           <CardHeader>
             <CardTitle className="text-white">Overage Pricing</CardTitle>
-            <CardDescription className="text-white/60">
+            <CardDescription className="text-white/90">
               Pay-as-you-go rates when you exceed your plan limits (Pro tier only)
             </CardDescription>
           </CardHeader>
@@ -194,35 +194,35 @@ const ApiPricingPage = () => {
           <CardContent className="space-y-6">
             <div>
               <h4 className="text-white font-medium mb-2">What counts as an API call?</h4>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/90 text-sm">
                 Each request to any API endpoint counts as one call. Failed requests due to client errors (4xx) are
                 not counted. Rate limit responses (429) are not billed.
               </p>
             </div>
             <div>
               <h4 className="text-white font-medium mb-2">How is Voice AI billed?</h4>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/90 text-sm">
                 Voice AI is billed per minute of audio processed. Transcription and session management calls are billed
                 separately based on audio duration.
               </p>
             </div>
             <div>
               <h4 className="text-white font-medium mb-2">Can I switch plans?</h4>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/90 text-sm">
                 Yes, you can upgrade or downgrade at any time. Upgrades take effect immediately with prorated billing.
                 Downgrades apply at the next billing cycle.
               </p>
             </div>
             <div>
               <h4 className="text-white font-medium mb-2">Is there a free trial for Pro?</h4>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/90 text-sm">
                 Yes! All new Pro subscribers get a 14-day free trial with full access to Pro features. No credit card
                 required to start.
               </p>
             </div>
             <div>
               <h4 className="text-white font-medium mb-2">What about patent licensing?</h4>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/90 text-sm">
                 API usage includes a license to use our patented technology (U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending) within your
                 applications. Enterprise customers can negotiate white-label and sublicensing terms.
               </p>
@@ -239,7 +239,7 @@ const ApiPricingPage = () => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowEnterpriseForm(false)}
-                  className="absolute -top-2 -right-2 text-white/60 hover:text-white hover:bg-white/10 z-10"
+                  className="absolute -top-2 -right-2 text-white/90 hover:text-white hover:bg-white/10 z-10"
                 >
                   ✕
                 </Button>
@@ -253,7 +253,7 @@ const ApiPricingPage = () => {
         <div className="text-center">
           <div className="glass-card inline-block p-8 rounded-2xl border border-white/10">
             <h2 className="text-2xl font-bold text-white mb-4">Ready to Build?</h2>
-            <p className="text-white/60 mb-6">
+            <p className="text-white/90 mb-6">
               Start with our free tier and scale as you grow. No credit card required.
             </p>
             <div className="flex items-center justify-center gap-4 flex-wrap">

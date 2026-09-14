@@ -190,7 +190,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
           <TrendingUp className="h-5 w-5 text-yellow-400" /> Investment Readiness Score
         </h3>
         {assessment && (
-          <Button size="sm" variant="outline" onClick={() => exportPDF(assessment, dimensions)} className="border-white/20 text-white/70 hover:text-white">
+          <Button size="sm" variant="outline" onClick={() => exportPDF(assessment, dimensions)} className="border-white/20 text-white hover:text-white">
             <Download className="h-4 w-4 mr-1" /> Export PDF
           </Button>
         )}
@@ -206,7 +206,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
           <Card className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 border-white/10">
             <CardContent className="p-6 text-center">
               <p className={`text-5xl font-bold ${getScoreColor(assessment.overall_score)}`}>{assessment.overall_score}</p>
-              <p className="text-sm text-white/60 mt-1">Overall Investment Readiness</p>
+              <p className="text-sm text-white/90 mt-1">Overall Investment Readiness</p>
               <div className="mt-3">
                 <Progress value={assessment.overall_score} className="h-2" />
               </div>
@@ -219,7 +219,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
               <Card key={d.label} className="bg-slate-800/40 border-white/10">
                 <CardContent className="p-3 text-center">
                   <p className={`text-2xl font-bold ${getScoreColor(d.score)}`}>{d.score}</p>
-                  <p className="text-xs text-white/50 mt-1">{d.label}</p>
+                  <p className="text-xs text-white/80 mt-1">{d.label}</p>
                   <div className="mt-2 h-1 bg-slate-700 rounded-full overflow-hidden">
                     <div className={`h-full rounded-full ${getProgressColor(d.score)}`} style={{ width: `${d.score}%` }} />
                   </div>
@@ -246,7 +246,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
               <CardHeader className="pb-2"><CardTitle className="text-sm text-emerald-400 flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Strengths</CardTitle></CardHeader>
               <CardContent className="space-y-1">
                 {(assessment.strengths as string[])?.map((s, i) => (
-                  <p key={i} className="text-sm text-white/70">✓ {s}</p>
+                  <p key={i} className="text-sm text-white">✓ {s}</p>
                 ))}
               </CardContent>
             </Card>
@@ -254,7 +254,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
               <CardHeader className="pb-2"><CardTitle className="text-sm text-red-400 flex items-center gap-2"><XCircle className="h-4 w-4" /> Weaknesses</CardTitle></CardHeader>
               <CardContent className="space-y-1">
                 {(assessment.weaknesses as string[])?.map((w, i) => (
-                  <p key={i} className="text-sm text-white/70">• {w}</p>
+                  <p key={i} className="text-sm text-white">• {w}</p>
                 ))}
               </CardContent>
             </Card>
@@ -266,7 +266,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
               <CardHeader className="pb-2"><CardTitle className="text-sm text-yellow-400 flex items-center gap-2"><Lightbulb className="h-4 w-4" /> Recommendations</CardTitle></CardHeader>
               <CardContent className="space-y-2">
                 {(assessment.recommendations as string[]).map((r, i) => (
-                  <p key={i} className="text-sm text-white/70">{i + 1}. {r}</p>
+                  <p key={i} className="text-sm text-white">{i + 1}. {r}</p>
                 ))}
               </CardContent>
             </Card>
@@ -276,7 +276,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
           {assessment.ai_assessment && (
             <Card className="bg-slate-800/40 border-white/10">
               <CardContent className="p-4">
-                <p className="text-sm text-white/70 whitespace-pre-line">{assessment.ai_assessment}</p>
+                <p className="text-sm text-white whitespace-pre-line">{assessment.ai_assessment}</p>
               </CardContent>
             </Card>
           )}
@@ -285,7 +285,7 @@ export const KaylaInvestmentReadiness: React.FC<Props> = ({ businessId }) => {
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-8 text-center">
             <TrendingUp className="h-12 w-12 text-yellow-400/40 mx-auto mb-3" />
-            <p className="text-white/60 text-sm">Run an investment readiness assessment to see how prepared your business is for funding opportunities.</p>
+            <p className="text-white/90 text-sm">Run an investment readiness assessment to see how prepared your business is for funding opportunities.</p>
           </CardContent>
         </Card>
       )}

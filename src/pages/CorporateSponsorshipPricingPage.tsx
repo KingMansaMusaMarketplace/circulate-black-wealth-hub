@@ -474,7 +474,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   <Card className="bg-slate-900/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-3xl font-playfair text-gradient-gold">{stat.value}</CardTitle>
-                      <CardDescription className="text-white/70 font-medium">{stat.label}</CardDescription>
+                      <CardDescription className="text-white font-medium">{stat.label}</CardDescription>
                     </CardHeader>
                   </Card>
                 </motion.div>
@@ -520,7 +520,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                 >
                   <h3 className="text-xl font-bold text-white font-playfair mb-3">{benefit.title}</h3>
-                  <p className="text-white/70 font-medium leading-relaxed">{benefit.description}</p>
+                  <p className="text-white font-medium leading-relaxed">{benefit.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -546,7 +546,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
               <span className="text-white">Ready to Make an </span>
               <span className="text-gradient-gold">Impact?</span>
             </h2>
-            <p className="text-lg text-white/80 font-medium">
+            <p className="text-lg text-white font-medium">
               Join leading companies in supporting economic empowerment and
               community development. Have questions? Our team is here to help.
             </p>
@@ -576,7 +576,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
           <DialogContent className="sm:max-w-md bg-slate-900 border-white/20 text-white">
             <DialogHeader>
               <DialogTitle className="text-white font-playfair text-xl">Complete Your Sponsorship</DialogTitle>
-              <DialogDescription className="text-white/70 font-medium">
+              <DialogDescription className="text-white font-medium">
                 Please provide your company details to proceed with {selectedTier} tier sponsorship.
               </DialogDescription>
             </DialogHeader>
@@ -593,7 +593,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   onChange={(e) => setCompanyName(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/80"
                 />
               </div>
 
@@ -606,7 +606,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   value={logoUrl}
                   onChange={(e) => setLogoUrl(e.target.value)}
                   disabled={isLoading}
-                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/80"
                 />
               </div>
 
@@ -619,7 +619,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   value={websiteUrl}
                   onChange={(e) => setWebsiteUrl(e.target.value)}
                   disabled={isLoading}
-                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/80"
                 />
               </div>
 

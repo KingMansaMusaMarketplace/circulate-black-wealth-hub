@@ -43,7 +43,7 @@ const LeaseListRow: React.FC<{ l: Listing }> = ({ l }) => {
             <div className="flex items-start justify-between gap-2">
               <p className="text-mansagold font-bold text-xl leading-none">
                 ${Number(l.monthly_rent).toLocaleString()}
-                <span className="text-sm text-white/50 font-normal">/mo</span>
+                <span className="text-sm text-white/80 font-normal">/mo</span>
               </p>
               {l.is_verified && (
                 <span className="flex items-center gap-1 text-xs text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded">
@@ -52,13 +52,13 @@ const LeaseListRow: React.FC<{ l: Listing }> = ({ l }) => {
               )}
             </div>
             <h3 className="font-semibold text-white mt-2 line-clamp-1 group-hover:text-mansagold transition">{l.title}</h3>
-            <p className="text-white/60 text-sm flex items-center gap-1 mt-0.5">
+            <p className="text-white/90 text-sm flex items-center gap-1 mt-0.5">
               <MapPin className="w-3 h-3" />{l.city}, {l.state}
             </p>
-            <div className="flex items-center gap-3 mt-2 text-sm text-white/80">
+            <div className="flex items-center gap-3 mt-2 text-sm text-white">
               <span className="flex items-center gap-1"><Bed className="w-3.5 h-3.5" />{l.bedrooms}bd</span>
               <span className="flex items-center gap-1"><Bath className="w-3.5 h-3.5" />{l.bathrooms}ba</span>
-              {type && <span className="text-white/60">· {type.label}</span>}
+              {type && <span className="text-white/90">· {type.label}</span>}
             </div>
             <div className="flex flex-wrap gap-1 mt-2 text-xs">
               {l.pets_allowed && <span className="bg-green-500/15 text-green-300 px-2 py-0.5 rounded">Pets OK</span>}

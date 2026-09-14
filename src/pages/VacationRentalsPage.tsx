@@ -124,7 +124,7 @@ const VacationRentalsPage: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-xl sm:text-2xl text-white/80 mb-4 max-w-3xl mx-auto font-medium"
+            className="text-xl sm:text-2xl text-white mb-4 max-w-3xl mx-auto font-medium"
           >
             Book unique vacation & monthly rentals from 'Non-Bias' property owners
           </motion.p>
@@ -133,7 +133,7 @@ const VacationRentalsPage: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-base text-white/60 mb-8 max-w-2xl mx-auto"
+            className="text-base text-white/90 mb-8 max-w-2xl mx-auto"
           >
             Experience authentic hospitality while supporting the community. Lower fees, more impact.
           </motion.p>
@@ -149,19 +149,19 @@ const VacationRentalsPage: React.FC = () => {
               <p className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-mansagold to-amber-400">
                 {properties.length}+
               </p>
-              <p className="text-white/60 text-sm font-mono tracking-wider uppercase">Properties</p>
+              <p className="text-white/90 text-sm font-mono tracking-wider uppercase">Properties</p>
             </div>
             <div className="text-center">
               <p className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-mansagold to-amber-400">
                 7.5%
               </p>
-              <p className="text-white/60 text-sm font-mono tracking-wider uppercase">Lower Fees</p>
+              <p className="text-white/90 text-sm font-mono tracking-wider uppercase">Lower Fees</p>
             </div>
             <div className="text-center">
               <p className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-mansagold to-amber-400">
                 100%
               </p>
-              <p className="text-white/60 text-sm font-mono tracking-wider uppercase">Community-Owned</p>
+              <p className="text-white/90 text-sm font-mono tracking-wider uppercase">Community-Owned</p>
             </div>
           </motion.div>
 
@@ -238,14 +238,14 @@ const VacationRentalsPage: React.FC = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
                 Looking for a <span className="text-mansagold">yearly Lease or list your Rental</span>?
               </h2>
-              <p className="text-white/70 text-sm md:text-base mb-4">
+              <p className="text-white text-sm md:text-base mb-4">
                 Browse apartments, condos, houses, office space and warehouses for rent by the year from non-bias property owners. Or list your own property — free to list, $99 only when you successfully lease.
               </p>
               <div className="flex flex-wrap gap-2 mb-4 text-xs">
-                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                   <CalendarRange className="w-3.5 h-3.5 text-mansagold" /> 12-month leases
                 </span>
-                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                   <Home className="w-3.5 h-3.5 text-mansagold" /> Free to list · $99 success fee only
                 </span>
               </div>
@@ -280,7 +280,7 @@ const VacationRentalsPage: React.FC = () => {
                     aria-label="How to List your Leasing Property — 2 minute walkthrough"
                   />
                 </div>
-                <figcaption className="text-center text-xs text-white/70 mt-2">
+                <figcaption className="text-center text-xs text-white mt-2">
                   ▶ <span className="text-mansagold font-semibold">How to List your Leasing Property</span> — 2 min walkthrough
                 </figcaption>
               </figure>
@@ -307,14 +307,14 @@ const VacationRentalsPage: React.FC = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
                 Hosting <span className="text-mansagold">nightly stays</span>?
               </h2>
-              <p className="text-white/70 text-sm md:text-base mb-4">
+              <p className="text-white text-sm md:text-base mb-4">
                 List your short-term rental in minutes. Keep 92.5% of every booking — we only charge a 7.5% platform fee, well below the 14–20% other platforms take.
               </p>
               <div className="flex flex-wrap gap-2 mb-4 text-xs">
-                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                   <Home className="w-3.5 h-3.5 text-mansagold" /> Nightly & weekly stays
                 </span>
-                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/80">
+                <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white">
                   <Luggage className="w-3.5 h-3.5 text-mansagold" /> 92.5% host payout
                 </span>
               </div>
@@ -341,7 +341,7 @@ const VacationRentalsPage: React.FC = () => {
                     aria-label="How to List your Short-Term Rental — 2 minute walkthrough"
                   />
                 </div>
-                <figcaption className="text-center text-xs text-white/70 mt-2">
+                <figcaption className="text-center text-xs text-white mt-2">
                   ▶ <span className="text-mansagold font-semibold">How to List your Short-Term Rental</span> — 2 min walkthrough
                 </figcaption>
               </figure>
@@ -383,7 +383,7 @@ const VacationRentalsPage: React.FC = () => {
             <span className="text-mansagold font-bold text-xl">
               {loading ? '...' : properties.length}
             </span>
-            <span className="text-white/60 font-medium">properties found</span>
+            <span className="text-white/90 font-medium">properties found</span>
           </div>
           {user && (
             <Button
@@ -412,7 +412,7 @@ const VacationRentalsPage: React.FC = () => {
           >
             <Home className="w-16 h-16 mx-auto text-white/40 mb-4" />
             <h3 className="text-xl font-semibold mb-2 text-white">No properties found</h3>
-            <p className="text-white/60 mb-6">
+            <p className="text-white/90 mb-6">
               Try adjusting your filters or check back soon for new listings.
             </p>
             {user && (
@@ -533,7 +533,7 @@ const VacationRentalsPage: React.FC = () => {
                 <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-mansagold transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-white/60">
+                <p className="text-white/90">
                   {feature.description}
                 </p>
               </motion.div>

@@ -29,7 +29,7 @@ const FounderNoteSection: React.FC = () => {
               </div>
               <div>
                 <p className="text-white font-semibold">Thomas D. Bowling</p>
-                <p className="text-white/80 text-sm">Founder, Chairman & Chief Architect, 1325.AI</p>
+                <p className="text-white text-sm">Founder, Chairman & Chief Architect, 1325.AI</p>
               </div>
             </div>
           </div>

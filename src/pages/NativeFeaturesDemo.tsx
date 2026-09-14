@@ -99,25 +99,25 @@ const NativeFeaturesDemo: React.FC = () => {
                 Environment Information
               </span>
             </CardTitle>
-            <CardDescription className="text-base ml-14 text-white/80">
+            <CardDescription className="text-base ml-14 text-white">
               Current platform and native capabilities 🚀✨
             </CardDescription>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-white/60">Platform</p>
+              <p className="text-sm text-white/90">Platform</p>
               <p className="font-semibold text-white">{platform}</p>
             </div>
             <div>
-              <p className="text-sm text-white/60">Native App</p>
+              <p className="text-sm text-white/90">Native App</p>
               <p className="font-semibold text-white">{isNative ? 'Yes' : 'No (Web)'}</p>
             </div>
             <div>
-              <p className="text-sm text-white/60">App State</p>
+              <p className="text-sm text-white/90">App State</p>
               <p className="font-semibold capitalize text-white">{appState}</p>
             </div>
             <div>
-              <p className="text-sm text-white/60">Background Time</p>
+              <p className="text-sm text-white/90">Background Time</p>
               <p className="font-semibold text-white">{Math.floor(backgroundTime / 1000)}s</p>
             </div>
           </CardContent>
@@ -131,7 +131,7 @@ const NativeFeaturesDemo: React.FC = () => {
               Haptic Feedback
               {testResults['haptics'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription className="text-white/70">
+            <CardDescription className="text-white">
               Tactile responses throughout the app
             </CardDescription>
           </CardHeader>
@@ -189,7 +189,7 @@ const NativeFeaturesDemo: React.FC = () => {
               Native Share Integration
               {testResults['share'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription className="text-white/70">
+            <CardDescription className="text-white">
               Platform-native share sheets (iOS/Android)
             </CardDescription>
           </CardHeader>
@@ -223,7 +223,7 @@ const NativeFeaturesDemo: React.FC = () => {
               Push & Local Notifications
               {testResults['notifications'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription className="text-white/70">
+            <CardDescription className="text-white">
               Rich notifications with actions and deep links
             </CardDescription>
           </CardHeader>
@@ -268,7 +268,7 @@ const NativeFeaturesDemo: React.FC = () => {
               Background Location Tracking
               {testResults['location'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription className="text-white/70">
+            <CardDescription className="text-white">
               Monitors location even when app is backgrounded
             </CardDescription>
           </CardHeader>
@@ -277,7 +277,7 @@ const NativeFeaturesDemo: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-semibold text-white">Tracking Status</p>
-                  <p className="text-sm text-white/60">
+                  <p className="text-sm text-white/90">
                     {isTracking ? 'Active - Monitoring location' : 'Inactive'}
                   </p>
                 </div>
@@ -287,7 +287,7 @@ const NativeFeaturesDemo: React.FC = () => {
               </div>
               
               <div>
-                <p className="text-sm text-white/60">Current Position</p>
+                <p className="text-sm text-white/90">Current Position</p>
                 <p className="font-semibold text-white">
                   {lastPosition 
                     ? `${lastPosition.coords.latitude.toFixed(4)}, ${lastPosition.coords.longitude.toFixed(4)}`
@@ -297,7 +297,7 @@ const NativeFeaturesDemo: React.FC = () => {
               </div>
 
               <div>
-                <p className="text-sm text-white/60">Position Accuracy</p>
+                <p className="text-sm text-white/90">Position Accuracy</p>
                 <p className="font-semibold text-white">
                   {lastPosition?.coords.accuracy ? `${lastPosition.coords.accuracy.toFixed(0)}m` : 'N/A'}
                 </p>
@@ -324,7 +324,7 @@ const NativeFeaturesDemo: React.FC = () => {
               Offline-First Architecture
               {testResults['offline'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription className="text-white/70">
+            <CardDescription className="text-white">
               Works fully offline with automatic sync
             </CardDescription>
           </CardHeader>
@@ -333,7 +333,7 @@ const NativeFeaturesDemo: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-semibold text-white">Network Status</p>
-                  <p className="text-sm text-white/60">
+                  <p className="text-sm text-white/90">
                     {isOnline ? 'Connected' : 'Offline'}
                   </p>
                 </div>
@@ -343,7 +343,7 @@ const NativeFeaturesDemo: React.FC = () => {
               </div>
 
               <div>
-                <p className="text-sm text-white/60">Queued Actions</p>
+                <p className="text-sm text-white/90">Queued Actions</p>
                 <p className="font-semibold text-white">{offlineQueue} pending</p>
               </div>
 
@@ -365,30 +365,30 @@ const NativeFeaturesDemo: React.FC = () => {
             <CardTitle className="text-blue-400">
               📋 For Apple App Review
             </CardTitle>
-            <CardDescription className="text-white/70">
+            <CardDescription className="text-white">
               How to test these native features
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div>
               <p className="font-semibold text-blue-400">1. Haptic Feedback</p>
-              <p className="text-white/80">Tap any button above - you'll feel tactile responses unique to native apps</p>
+              <p className="text-white">Tap any button above - you'll feel tactile responses unique to native apps</p>
             </div>
             <div>
               <p className="font-semibold text-blue-400">2. Native Share</p>
-              <p className="text-white/80">Tap "Share Business" to see the iOS native share sheet (not available in web browsers)</p>
+              <p className="text-white">Tap "Share Business" to see the iOS native share sheet (not available in web browsers)</p>
             </div>
             <div>
               <p className="font-semibold text-blue-400">3. Notifications</p>
-              <p className="text-white/80">Tap notification buttons to receive native iOS notifications with app icon and sounds</p>
+              <p className="text-white">Tap notification buttons to receive native iOS notifications with app icon and sounds</p>
             </div>
             <div>
               <p className="font-semibold text-blue-400">4. Background Location</p>
-              <p className="text-white/80">Enable location → Background the app → Move around → Receive proximity notifications (only works in native apps)</p>
+              <p className="text-white">Enable location → Background the app → Move around → Receive proximity notifications (only works in native apps)</p>
             </div>
             <div>
               <p className="font-semibold text-blue-400">5. Offline Mode</p>
-              <p className="text-white/80">Turn on Airplane Mode → Queue actions → Disable Airplane Mode → See automatic sync</p>
+              <p className="text-white">Turn on Airplane Mode → Queue actions → Disable Airplane Mode → See automatic sync</p>
             </div>
           </CardContent>
         </Card>

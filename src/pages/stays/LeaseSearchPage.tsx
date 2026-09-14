@@ -172,10 +172,10 @@ const LeaseSearchPage: React.FC = () => {
     <>
       <PropertyTypeFilter value={propertyType} onChange={handleTypeChange} />
       <div className="mt-4 grid grid-cols-2 md:grid-cols-5 gap-3">
-        <Input placeholder="City" value={filters.city} onChange={(e) => setFilters({ ...filters, city: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/60 min-h-[48px]" />
-        <Input placeholder="Min rent" type="number" value={filters.minRent} onChange={(e) => setFilters({ ...filters, minRent: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/60 min-h-[48px]" />
-        <Input placeholder="Max rent" type="number" value={filters.maxRent} onChange={(e) => setFilters({ ...filters, maxRent: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/60 min-h-[48px]" />
-        <Input placeholder="Beds" type="number" value={filters.bedrooms} onChange={(e) => setFilters({ ...filters, bedrooms: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/60 min-h-[48px]" />
+        <Input placeholder="City" value={filters.city} onChange={(e) => setFilters({ ...filters, city: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/90 min-h-[48px]" />
+        <Input placeholder="Min rent" type="number" value={filters.minRent} onChange={(e) => setFilters({ ...filters, minRent: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/90 min-h-[48px]" />
+        <Input placeholder="Max rent" type="number" value={filters.maxRent} onChange={(e) => setFilters({ ...filters, maxRent: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/90 min-h-[48px]" />
+        <Input placeholder="Beds" type="number" value={filters.bedrooms} onChange={(e) => setFilters({ ...filters, bedrooms: e.target.value })} className="bg-white/10 border-white/30 text-white placeholder:text-white/90 min-h-[48px]" />
         <Button onClick={() => fetchListings()} size="lg" className="bg-mansagold text-black hover:bg-mansagold/90 font-bold min-h-[48px]">Search</Button>
       </div>
     </>
@@ -191,7 +191,7 @@ const LeaseSearchPage: React.FC = () => {
   );
 
   const resultsSummary = (
-    <div className="flex flex-wrap items-center gap-3 text-sm text-white/80">
+    <div className="flex flex-wrap items-center gap-3 text-sm text-white">
       <div className="flex items-center gap-2">
         <Sparkles size={16} className="text-mansagold" />
         {loading ? <span>Searching…</span> : (
@@ -277,7 +277,7 @@ const LeaseSearchPage: React.FC = () => {
         footer={<LeaseLegalFooter />}
       >
         {loading ? (
-          <p className="text-white/70">Loading listings…</p>
+          <p className="text-white">Loading listings…</p>
         ) : empty ? (
           <SmartEmptyState
             city={filters.city || undefined}

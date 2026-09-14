@@ -184,7 +184,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <h3 className="text-3xl font-bold mb-3 text-white">
                       Welcome to Your Financial Dashboard! 💰
                     </h3>
-                    <p className="text-white/70 text-lg mb-4">
+                    <p className="text-white text-lg mb-4">
                       Start tracking your revenue and expenses to see beautiful financial insights! 📊✨
                     </p>
                   </CardContent>
@@ -205,7 +205,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <Receipt className="w-12 h-12 mx-auto mb-3 text-blue-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Create Invoice 📄</h4>
-                      <p className="text-sm text-white/70">Set up billing</p>
+                      <p className="text-sm text-white">Set up billing</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -219,7 +219,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <TrendingDown className="w-12 h-12 mx-auto mb-3 text-red-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Log Expense 📉</h4>
-                      <p className="text-sm text-white/70">Track business costs</p>
+                      <p className="text-sm text-white">Track business costs</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -233,7 +233,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <Building2 className="w-12 h-12 mx-auto mb-3 text-purple-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Bank Reconciliation 🏦</h4>
-                      <p className="text-sm text-white/70">Match transactions</p>
+                      <p className="text-sm text-white">Match transactions</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -247,7 +247,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <Calculator className="w-12 h-12 mx-auto mb-3 text-yellow-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Budget Planning 💰</h4>
-                      <p className="text-sm text-white/70">Set spending limits</p>
+                      <p className="text-sm text-white">Set spending limits</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -264,7 +264,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <TrendingUpIcon className="w-12 h-12 mx-auto mb-3 text-green-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">P&L Reports 📊</h4>
-                      <p className="text-sm text-white/70">Profit & loss analysis</p>
+                      <p className="text-sm text-white">Profit & loss analysis</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -278,7 +278,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <Wallet className="w-12 h-12 mx-auto mb-3 text-cyan-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Cash Flow 💸</h4>
-                      <p className="text-sm text-white/70">Monitor liquidity</p>
+                      <p className="text-sm text-white">Monitor liquidity</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -292,7 +292,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <BookOpen className="w-12 h-12 mx-auto mb-3 text-indigo-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Balance Sheet 📚</h4>
-                      <p className="text-sm text-white/70">Assets & liabilities</p>
+                      <p className="text-sm text-white">Assets & liabilities</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -306,7 +306,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <Shield className="w-12 h-12 mx-auto mb-3 text-amber-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Tax Settings 🛡️</h4>
-                      <p className="text-sm text-white/70">Manage tax rates</p>
+                      <p className="text-sm text-white">Manage tax rates</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -320,7 +320,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <FileText className="w-12 h-12 mx-auto mb-3 text-rose-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Accounts Receivable 💳</h4>
-                      <p className="text-sm text-white/70">Track outstanding payments</p>
+                      <p className="text-sm text-white">Track outstanding payments</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -334,7 +334,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <Repeat className="w-12 h-12 mx-auto mb-3 text-teal-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Recurring Invoices 🔄</h4>
-                      <p className="text-sm text-white/70">Automate billing</p>
+                      <p className="text-sm text-white">Automate billing</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -348,7 +348,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <Building2 className="w-12 h-12 mx-auto mb-3 text-violet-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Fixed Assets 🏢</h4>
-                      <p className="text-sm text-white/70">Manage property & equipment</p>
+                      <p className="text-sm text-white">Manage property & equipment</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -362,7 +362,7 @@ const BusinessFinancesPage: React.FC = () => {
                     <CardContent className="p-6 relative z-10 text-center">
                       <FileBarChart className="w-12 h-12 mx-auto mb-3 text-slate-400" />
                       <h4 className="font-bold text-lg mb-2 text-white">Audit Log 📝</h4>
-                      <p className="text-sm text-white/70">Track all changes</p>
+                      <p className="text-sm text-white">Track all changes</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -384,19 +384,19 @@ const BusinessFinancesPage: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
                       <div className="w-6 h-6 rounded-full border-2 border-white/30"></div>
-                      <span className="text-white/70">Record your first transaction</span>
+                      <span className="text-white">Record your first transaction</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
                       <div className="w-6 h-6 rounded-full border-2 border-white/30"></div>
-                      <span className="text-white/70">Add expense categories</span>
+                      <span className="text-white">Add expense categories</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
                       <div className="w-6 h-6 rounded-full border-2 border-white/30"></div>
-                      <span className="text-white/70">Configure tax settings</span>
+                      <span className="text-white">Configure tax settings</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
                       <div className="w-6 h-6 rounded-full border-2 border-white/30"></div>
-                      <span className="text-white/70">Connect payment methods</span>
+                      <span className="text-white">Connect payment methods</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -431,13 +431,13 @@ const BusinessFinancesPage: React.FC = () => {
                 <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
                   <CardHeader>
                     <CardTitle className="text-lg text-white">Cash Flow Chart 💸</CardTitle>
-                    <CardDescription className="text-white/70">Track money in vs. money out</CardDescription>
+                    <CardDescription className="text-white">Track money in vs. money out</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="h-48 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg flex items-center justify-center border border-white/10">
                       <div className="text-center">
                         <PieChart className="w-16 h-16 mx-auto mb-2 text-emerald-400" />
-                        <p className="text-sm text-white/70">Sample chart appears here</p>
+                        <p className="text-sm text-white">Sample chart appears here</p>
                       </div>
                     </div>
                   </CardContent>
@@ -446,13 +446,13 @@ const BusinessFinancesPage: React.FC = () => {
                 <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
                   <CardHeader>
                     <CardTitle className="text-lg text-white">Expense Breakdown 📉</CardTitle>
-                    <CardDescription className="text-white/70">See where your money goes</CardDescription>
+                    <CardDescription className="text-white">See where your money goes</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="h-48 bg-gradient-to-br from-red-500/20 to-rose-500/20 rounded-lg flex items-center justify-center border border-white/10">
                       <div className="text-center">
                         <PieChart className="w-16 h-16 mx-auto mb-2 text-red-400" />
-                        <p className="text-sm text-white/70">Category breakdown appears here</p>
+                        <p className="text-sm text-white">Category breakdown appears here</p>
                       </div>
                     </div>
                   </CardContent>
@@ -465,7 +465,7 @@ const BusinessFinancesPage: React.FC = () => {
               <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl inline-block">
                 <CardContent className="p-6">
                   <h4 className="text-xl font-bold mb-3 text-white">Want to explore? 🎭</h4>
-                  <p className="text-white/70 mb-4">Try the dashboard with sample data to see all features in action!</p>
+                  <p className="text-white mb-4">Try the dashboard with sample data to see all features in action!</p>
                   <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-yellow-500 text-white font-bold rounded-lg hover:shadow-xl transition-all transform hover:scale-105">
                     Show Demo Data ✨
                   </button>
@@ -494,7 +494,7 @@ const BusinessFinancesPage: React.FC = () => {
                   <h2 className="text-4xl font-bold mb-3 text-white">
                     Business <span className="text-yellow-400">Finances</span> 💰
                   </h2>
-                  <p className="text-white/70 text-lg font-medium">
+                  <p className="text-white text-lg font-medium">
                     Track your revenue, expenses, and financial health 📊
                   </p>
                 </div>
@@ -508,42 +508,42 @@ const BusinessFinancesPage: React.FC = () => {
             <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
               <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10"></div>
               <CardHeader className="pb-2 relative z-10">
-                <CardDescription className="text-white/70 font-medium">Total Revenue 💵</CardDescription>
+                <CardDescription className="text-white font-medium">Total Revenue 💵</CardDescription>
                 <CardTitle className="text-3xl text-green-400 flex items-center font-bold">
                   <TrendingUp className="h-6 w-6 mr-2" />
                   ${financialData.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </CardTitle>
               </CardHeader>
               <CardContent className="relative z-10">
-                <p className="text-sm text-white/60 font-medium">From completed bookings</p>
+                <p className="text-sm text-white/90 font-medium">From completed bookings</p>
               </CardContent>
             </Card>
 
             <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-rose-500/10"></div>
               <CardHeader className="pb-2 relative z-10">
-                <CardDescription className="text-white/70 font-medium">Total Expenses 📉</CardDescription>
+                <CardDescription className="text-white font-medium">Total Expenses 📉</CardDescription>
                 <CardTitle className="text-3xl text-red-400 flex items-center font-bold">
                   <TrendingDown className="h-6 w-6 mr-2" />
                   ${financialData.totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </CardTitle>
               </CardHeader>
               <CardContent className="relative z-10">
-                <p className="text-sm text-white/60 font-medium">Business operating costs</p>
+                <p className="text-sm text-white/90 font-medium">Business operating costs</p>
               </CardContent>
             </Card>
 
             <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
               <div className={`absolute inset-0 bg-gradient-to-br ${financialData.netProfit >= 0 ? 'from-emerald-500/10 to-teal-500/10' : 'from-red-500/10 to-orange-500/10'}`}></div>
               <CardHeader className="pb-2 relative z-10">
-                <CardDescription className="text-white/70 font-medium">Net Profit 💎</CardDescription>
+                <CardDescription className="text-white font-medium">Net Profit 💎</CardDescription>
                 <CardTitle className={`text-3xl flex items-center font-bold ${financialData.netProfit >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                   <DollarSign className="h-6 w-6 mr-2" />
                   ${Math.abs(financialData.netProfit).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </CardTitle>
               </CardHeader>
               <CardContent className="relative z-10">
-                <p className="text-sm text-white/60 font-medium">Profit margin: {profitMargin}%</p>
+                <p className="text-sm text-white/90 font-medium">Profit margin: {profitMargin}%</p>
               </CardContent>
             </Card>
           </div>

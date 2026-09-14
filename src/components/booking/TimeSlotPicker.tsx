@@ -24,7 +24,7 @@ export function TimeSlotPicker({
     return (
       <div className="text-center py-6">
         <Clock className="w-10 h-10 mx-auto mb-2 text-white/40" />
-        <p className="text-white/70">Select a date to see available times</p>
+        <p className="text-white">Select a date to see available times</p>
       </div>
     );
   }
@@ -36,8 +36,8 @@ export function TimeSlotPicker({
     return (
       <div className="text-center py-6">
         <Clock className="w-10 h-10 mx-auto mb-2 text-yellow-500/50" />
-        <p className="text-white/70">No available times for this date</p>
-        <p className="text-sm text-white/50 mt-1">Please select a different date</p>
+        <p className="text-white">No available times for this date</p>
+        <p className="text-sm text-white/80 mt-1">Please select a different date</p>
       </div>
     );
   }
@@ -45,10 +45,10 @@ export function TimeSlotPicker({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-white/70">
+        <p className="text-sm text-white">
           {availableSlots.length} time{availableSlots.length !== 1 ? 's' : ''} available
         </p>
-        <p className="text-xs text-white/50">
+        <p className="text-xs text-white/80">
           {serviceDuration} min session
         </p>
       </div>

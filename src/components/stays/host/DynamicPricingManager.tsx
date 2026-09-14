@@ -199,7 +199,7 @@ const DynamicPricingManager: React.FC<DynamicPricingManagerProps> = ({
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle className="text-white">Dynamic Pricing</CardTitle>
-          <p className="text-white/60 text-sm mt-1">
+          <p className="text-white/90 text-sm mt-1">
             Base rate: ${baseNightlyRate}/night
           </p>
         </div>
@@ -339,7 +339,7 @@ const DynamicPricingManager: React.FC<DynamicPricingManagerProps> = ({
 
       <CardContent>
         {rules.length === 0 ? (
-          <div className="text-center py-8 text-white/60">
+          <div className="text-center py-8 text-white/90">
             <Percent className="w-12 h-12 mx-auto mb-3 text-white/30" />
             <p>No pricing rules yet</p>
             <p className="text-sm text-white/40">
@@ -365,7 +365,7 @@ const DynamicPricingManager: React.FC<DynamicPricingManagerProps> = ({
                   <div>
                     <p className="text-white font-medium">{rule.name}</p>
                     <div className="flex items-center gap-2 mt-1">
-                      <Badge variant="outline" className="text-xs text-white/60 border-white/20">
+                      <Badge variant="outline" className="text-xs text-white/90 border-white/20">
                         {getRuleTypeLabel(rule.rule_type)}
                       </Badge>
                       {rule.start_date && rule.end_date && (

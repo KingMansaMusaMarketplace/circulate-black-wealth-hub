@@ -76,11 +76,11 @@ const VerificationStatistics: React.FC = () => {
     <Card className="backdrop-blur-xl bg-white/10 border-white/20">
       <CardContent className="flex flex-row items-center justify-between p-6">
         <div>
-          <p className="text-sm font-medium text-white/70">{title}</p>
+          <p className="text-sm font-medium text-white">{title}</p>
           <h3 className={`text-2xl font-bold mt-2 ${colorClass}`}>
             {isTime ? `${value} hrs` : value}
           </h3>
-          <p className="text-xs text-white/60 mt-1">{description}</p>
+          <p className="text-xs text-white/90 mt-1">{description}</p>
         </div>
         <div className={`p-4 rounded-full ${bgClass}`}>
           <Icon className={`h-6 w-6 ${colorClass}`} />
@@ -93,7 +93,7 @@ const VerificationStatistics: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-2 text-white">Verification Analytics</h2>
-        <p className="text-white/70">Track performance and manage business verification processes</p>
+        <p className="text-white">Track performance and manage business verification processes</p>
       </div>
       
       {isLoading ? (
@@ -150,7 +150,7 @@ const VerificationStatistics: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-medium text-white">Average Verification Time</h3>
-              <p className="text-sm text-white/60">Time from submission to approval</p>
+              <p className="text-sm text-white/90">Time from submission to approval</p>
             </div>
             <div className="text-2xl font-bold text-mansagold">
               {stats.averageTimeToApproval} hrs
@@ -162,7 +162,7 @@ const VerificationStatistics: React.FC = () => {
               style={{ width: `${Math.min(100, stats.averageTimeToApproval > 72 ? 100 : (stats.averageTimeToApproval/72*100))}%` }}
             ></div>
           </div>
-          <p className="text-xs text-white/50 mt-2 text-right">Target: 24-72 hours</p>
+          <p className="text-xs text-white/80 mt-2 text-right">Target: 24-72 hours</p>
         </CardContent>
       </Card>
     </div>

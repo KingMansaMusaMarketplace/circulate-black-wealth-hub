@@ -160,7 +160,7 @@ export const FirstHourExperience: React.FC<FirstHourExperienceProps> = ({ busine
               <Sparkles className="h-3 w-3 mr-1" />
               First hour
             </Badge>
-            <Badge variant="outline" className="border-white/20 text-white/80">
+            <Badge variant="outline" className="border-white/20 text-white">
               <Timer className="h-3 w-3 mr-1" />
               {minutesSinceSignup === 0 ? 'Just joined' : `${minutesSinceSignup} min ago`}
             </Badge>
@@ -168,14 +168,14 @@ export const FirstHourExperience: React.FC<FirstHourExperienceProps> = ({ busine
           <CardTitle className="text-3xl md:text-4xl font-bold text-white">
             Welcome aboard, {firstName} 👋
           </CardTitle>
-          <p className="text-white/80 max-w-2xl">
+          <p className="text-white max-w-2xl">
             You've got <span className="text-mansagold font-semibold">{minutesLeftInHour} minutes left</span> in
             your first hour. Finish these {checklist.length} steps and your business goes live —
             ready to earn points, take bookings, and show up in search.
           </p>
         </CardHeader>
         <CardContent className="relative z-10 space-y-3">
-          <div className="flex items-center justify-between text-sm text-white/80">
+          <div className="flex items-center justify-between text-sm text-white">
             <span>{completed} of {checklist.length} complete</span>
             <span className="font-semibold text-mansagold">{progressPct}%</span>
           </div>
@@ -210,12 +210,12 @@ export const FirstHourExperience: React.FC<FirstHourExperienceProps> = ({ busine
                     <h3 className={`font-semibold ${item.done ? 'text-green-300 line-through' : 'text-white'}`}>
                       {idx + 1}. {item.title}
                     </h3>
-                    <span className="text-xs text-white/50 flex items-center gap-1 whitespace-nowrap">
+                    <span className="text-xs text-white/80 flex items-center gap-1 whitespace-nowrap">
                       <Clock className="h-3 w-3" />
                       {item.estMinutes}m
                     </span>
                   </div>
-                  <p className="text-sm text-white/70 mb-3">{item.description}</p>
+                  <p className="text-sm text-white mb-3">{item.description}</p>
                   {!item.done && (
                     <Button
                       size="sm"

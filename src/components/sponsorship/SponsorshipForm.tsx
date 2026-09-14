@@ -33,7 +33,7 @@ type SponsorshipFormData = z.infer<typeof sponsorshipFormSchema>;
 const inputClass =
   'h-11 bg-white/[0.02] border-white/10 text-white placeholder:text-white/25 focus:border-mansagold/60 focus:ring-1 focus:ring-mansagold/30 rounded-md transition-colors';
 
-const labelClass = 'text-white/70 text-xs font-medium tracking-wide uppercase mb-1.5 block';
+const labelClass = 'text-white text-xs font-medium tracking-wide uppercase mb-1.5 block';
 
 const FieldError: React.FC<{ msg?: string }> = ({ msg }) =>
   msg ? <p className="text-xs text-red-400/90 mt-1.5">{msg}</p> : null;
@@ -115,7 +115,7 @@ const SponsorshipForm: React.FC = () => {
               <h3 className="font-playfair text-3xl font-semibold text-white mb-4">
                 Brief request received.
               </h3>
-              <p className="text-white/60 mb-8 max-w-md mx-auto leading-relaxed">
+              <p className="text-white/90 mb-8 max-w-md mx-auto leading-relaxed">
                 A partnerships lead will respond within one business day to schedule
                 your discovery call.
               </p>

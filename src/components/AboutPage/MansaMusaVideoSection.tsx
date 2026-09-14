@@ -81,7 +81,7 @@ const MansaMusaVideoSection = () => {
                 {/* Title overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                   <p className="text-white font-semibold text-lg">Who was Mansa Musa?</p>
-                  <p className="text-white/70 text-sm flex items-center gap-1">
+                  <p className="text-white text-sm flex items-center gap-1">
                     Watch on YouTube <ExternalLink className="w-3 h-3" />
                   </p>
                 </div>

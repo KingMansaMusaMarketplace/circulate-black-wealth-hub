@@ -76,7 +76,7 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
               </div>
               <div>
                 <h2 className="text-xl font-bold text-white">Developer Ecosystem Impact</h2>
-                <p className="text-white/60 text-sm">
+                <p className="text-white/90 text-sm">
                   See how your referrals power the developer API platform
                 </p>
               </div>
@@ -87,19 +87,19 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
                 <p className="text-2xl font-bold text-blue-400">
                   {impact?.appsUsingReferrals || appsUsingData.length}
                 </p>
-                <p className="text-xs text-white/50">Apps Using Data</p>
+                <p className="text-xs text-white/80">Apps Using Data</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-emerald-400">
                   {impact?.apiCallsGenerated?.toLocaleString() || '25K'}
                 </p>
-                <p className="text-xs text-white/50">API Calls/Month</p>
+                <p className="text-xs text-white/80">API Calls/Month</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-mansagold">
                   ${impact?.additionalEarnings?.toFixed(2) || '95.50'}
                 </p>
-                <p className="text-xs text-white/50">Extra Earnings</p>
+                <p className="text-xs text-white/80">Extra Earnings</p>
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
                   </div>
                   <div>
                     <p className="font-medium text-white">{app.name}</p>
-                    <p className="text-xs text-white/50">{app.apiCalls} API calls</p>
+                    <p className="text-xs text-white/80">{app.apiCalls} API calls</p>
                   </div>
                 </div>
                 <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/50">
@@ -172,7 +172,7 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
                       <CheckCircle className="h-6 w-6 text-emerald-400" />
                       <div>
                         <p className="font-medium text-white">You're a Technical Partner!</p>
-                        <p className="text-xs text-white/50">
+                        <p className="text-xs text-white/80">
                           Earning {technicalPartner.revenue_share_percent}% on app referrals
                         </p>
                       </div>
@@ -182,7 +182,7 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
                       <Clock className="h-6 w-6 text-amber-400" />
                       <div>
                         <p className="font-medium text-white">Application Pending</p>
-                        <p className="text-xs text-white/50">
+                        <p className="text-xs text-white/80">
                           We'll review your app: {technicalPartner.app_name}
                         </p>
                       </div>
@@ -196,13 +196,13 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
                       <p className="text-xl font-bold text-mansagold">
                         {technicalPartner.total_app_referrals}
                       </p>
-                      <p className="text-xs text-white/50">App Referrals</p>
+                      <p className="text-xs text-white/80">App Referrals</p>
                     </div>
                     <div className="text-center p-3 bg-slate-900/40 rounded-lg border border-white/5">
                       <p className="text-xl font-bold text-emerald-400">
                         ${technicalPartner.total_app_earnings.toFixed(2)}
                       </p>
-                      <p className="text-xs text-white/50">App Earnings</p>
+                      <p className="text-xs text-white/80">App Earnings</p>
                     </div>
                   </div>
                 )}
@@ -218,7 +218,7 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
                   ].map((benefit, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-mansagold" />
-                      <span className="text-sm text-white/70">{benefit}</span>
+                      <span className="text-sm text-white">{benefit}</span>
                     </div>
                   ))}
                 </div>
@@ -233,13 +233,13 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
                   <DialogContent className="bg-slate-900 border-white/20">
                     <DialogHeader>
                       <DialogTitle className="text-white">Technical Partner Application</DialogTitle>
-                      <DialogDescription className="text-white/60">
+                      <DialogDescription className="text-white/90">
                         Tell us about the app you're building with our APIs
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <div className="space-y-2">
-                        <Label htmlFor="appName" className="text-white/80">App Name *</Label>
+                        <Label htmlFor="appName" className="text-white">App Name *</Label>
                         <Input
                           id="appName"
                           placeholder="e.g., LocalFirst Marketplace"
@@ -249,7 +249,7 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="appUrl" className="text-white/80">App URL (optional)</Label>
+                        <Label htmlFor="appUrl" className="text-white">App URL (optional)</Label>
                         <Input
                           id="appUrl"
                           placeholder="https://your-app.com"
@@ -294,7 +294,7 @@ const DeveloperEcosystemTab: React.FC<DeveloperEcosystemTabProps> = ({ partner }
               </div>
               <div>
                 <h3 className="font-semibold text-white">Ready to Build?</h3>
-                <p className="text-sm text-white/60">
+                <p className="text-sm text-white/90">
                   Access the Developer Portal to get API keys and start building
                 </p>
               </div>

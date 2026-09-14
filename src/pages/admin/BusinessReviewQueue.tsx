@@ -396,7 +396,7 @@ const BusinessReviewQueue: React.FC = () => {
       <div className="min-h-screen bg-black text-white px-4 py-8 md:px-8">
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="flex items-center justify-between">
-            <Button asChild variant="ghost" size="sm" className="text-white/60 hover:text-white">
+            <Button asChild variant="ghost" size="sm" className="text-white/90 hover:text-white">
               <Link to="/admin"><ArrowLeft className="h-4 w-4 mr-1" /> Admin</Link>
             </Button>
             <Button variant="outline" size="sm" onClick={() => { fetchLeads(); fetchCounts(); }}>
@@ -406,7 +406,7 @@ const BusinessReviewQueue: React.FC = () => {
 
           <header className="space-y-1">
             <h1 className="text-3xl font-bold">Business Review Queue</h1>
-            <p className="text-white/60">
+            <p className="text-white/90">
               {summary.total.toLocaleString()} leads in pipeline · Kayla's discoveries are staged here before going live.
             </p>
           </header>
@@ -447,10 +447,10 @@ const BusinessReviewQueue: React.FC = () => {
                 </div>
                 <div className="bg-black/30 rounded p-3">
                   <div className="text-white/40 text-xs uppercase">Runs today</div>
-                  <div className="text-xl font-bold text-white/80">{enrichment.run_today.toLocaleString()}</div>
+                  <div className="text-xl font-bold text-white">{enrichment.run_today.toLocaleString()}</div>
                 </div>
               </div>
-              <p className="text-xs text-white/50 mt-3">
+              <p className="text-xs text-white/80 mt-3">
                 Kayla scrapes public business websites and uses AI to extract owner/operator emails with confidence scores.
                 Auto-runs daily at ~500 leads/day. Manual runs process 50 leads.
               </p>
@@ -460,7 +460,7 @@ const BusinessReviewQueue: React.FC = () => {
           <Tabs value={status} onValueChange={(v) => setStatus(v as StatusFilter)}>
             <TabsList className="bg-slate-900/60 border border-white/10">
               {STATUS_COUNT_KEYS.map(s => (
-                <TabsTrigger key={s} value={s} className="capitalize text-white/70 data-[state=active]:text-white data-[state=active]:bg-white/10">
+                <TabsTrigger key={s} value={s} className="capitalize text-white data-[state=active]:text-white data-[state=active]:bg-white/10">
                   {STATUS_LABEL[s]} <Badge variant="secondary" className="ml-2 bg-white/10 text-white border-white/10">{counts[s]}</Badge>
                 </TabsTrigger>
               ))}
@@ -505,7 +505,7 @@ const BusinessReviewQueue: React.FC = () => {
 
           {(status === 'needs_review' || status === 'pending') && leads.length > 0 && (
             <div className="flex flex-wrap items-center gap-3 rounded-lg border border-mansagold/30 bg-mansagold/5 p-3">
-              <label className="flex items-center gap-2 text-sm text-white/80 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-white cursor-pointer">
                 <input
                   type="checkbox"
                   className="h-4 w-4 accent-[#FFB300]"
@@ -540,7 +540,7 @@ const BusinessReviewQueue: React.FC = () => {
                 Select high-confidence (95%+)
               </Button>
 
-              <span className="text-xs text-white/50 ml-auto">
+              <span className="text-xs text-white/80 ml-auto">
                 Keyboard: <kbd className="px-1 bg-white/10 rounded">A</kbd> approve ·{' '}
                 <kbd className="px-1 bg-white/10 rounded">R</kbd> reject ·{' '}
                 <kbd className="px-1 bg-white/10 rounded">↑↓</kbd> move ·{' '}
@@ -553,12 +553,12 @@ const BusinessReviewQueue: React.FC = () => {
 
 
           {loading ? (
-            <div className="flex items-center justify-center py-16 text-white/60">
+            <div className="flex items-center justify-center py-16 text-white/90">
               <Loader2 className="h-5 w-5 animate-spin mr-2" /> Loading…
             </div>
           ) : leads.length === 0 ? (
             <Card className="bg-slate-900/60 border-white/10">
-              <CardContent className="p-10 text-center text-white/60">
+              <CardContent className="p-10 text-center text-white/90">
                 Nothing in “{STATUS_LABEL[status]}”. 🎉
               </CardContent>
             </Card>
@@ -598,7 +598,7 @@ const BusinessReviewQueue: React.FC = () => {
                         )}
                         <div>
                           <CardTitle className="text-lg">{lead.business_name}</CardTitle>
-                          <p className="text-sm text-white/60">
+                          <p className="text-sm text-white/90">
                             {lead.category} · {lead.city}{lead.state ? `, ${lead.state}` : ''}
                           </p>
                           {lead.website_url && (
@@ -640,11 +640,11 @@ const BusinessReviewQueue: React.FC = () => {
                     </CardHeader>
                     <CardContent className="space-y-3">
                       {lead.business_description && (
-                        <p className="text-sm text-white/70">{lead.business_description}</p>
+                        <p className="text-sm text-white">{lead.business_description}</p>
                       )}
                       {ownershipOk ? (
                         <p className="text-xs text-emerald-200/90 bg-emerald-500/10 border border-emerald-500/30 rounded p-2">
-                          <span className="text-white/50">Ownership evidence:</span> {lead.black_owned_evidence}
+                          <span className="text-white/80">Ownership evidence:</span> {lead.black_owned_evidence}
                         </p>
                       ) : (
                         <div className="flex items-start gap-2 text-sm bg-red-500/10 border border-red-500/30 rounded p-2">
@@ -663,7 +663,7 @@ const BusinessReviewQueue: React.FC = () => {
                           </ul>
                         </div>
                       )}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-white/60">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-white/90">
                         <div><span className="text-white/40">Perplexity phone:</span> {lead.phone_number || '—'}</div>
                         <div><span className="text-white/40">Site phone:</span> {lead.verified_phone || '—'}</div>
                         <div className="md:col-span-2"><span className="text-white/40">Site address:</span> {lead.verified_address || '—'}</div>

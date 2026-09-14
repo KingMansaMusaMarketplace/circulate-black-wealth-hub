@@ -57,7 +57,7 @@ export const KaylaLearningPanel: React.FC<Props> = ({ businessId }) => {
       {stats.length === 0 ? (
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-8 text-center">
-            <p className="text-sm text-white/60">
+            <p className="text-sm text-white/90">
               No feedback yet. As you rate Kayla's outputs across the dashboard, this view shows which agents you trust most so prompts can be refined.
             </p>
           </CardContent>

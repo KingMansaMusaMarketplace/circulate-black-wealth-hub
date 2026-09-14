@@ -116,10 +116,10 @@ const FriendDiscovery = () => {
 
     {/* Initial State */}
     {!loading && searchQuery.length < 2 && (
-      <div className="text-center py-8 text-white/70">
+      <div className="text-center py-8 text-white">
         <UserPlus className="w-12 h-12 mx-auto mb-3 text-white/30" />
         <p>Search for friends to connect</p>
-        <p className="text-sm mt-1 text-white/50">Enter at least 2 characters</p>
+        <p className="text-sm mt-1 text-white/80">Enter at least 2 characters</p>
       </div>
     )}
   </CardContent>

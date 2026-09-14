@@ -144,7 +144,7 @@ const ReportingTab: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <span className="text-sm text-white/60">Range:</span>
+        <span className="text-sm text-white/90">Range:</span>
         <select
           value={range}
           onChange={e => setRange(e.target.value as any)}
@@ -155,34 +155,34 @@ const ReportingTab: React.FC = () => {
           <option value="365">Last 12 months</option>
           <option value="all">All time</option>
         </select>
-        <div className="text-xs text-white/50 ml-auto">{inRange.length} bookings in range</div>
+        <div className="text-xs text-white/80 ml-auto">{inRange.length} bookings in range</div>
       </div>
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="bg-white/5 border-white/10">
-          <CardHeader className="pb-2"><CardDescription className="text-white/60">GMV</CardDescription>
+          <CardHeader className="pb-2"><CardDescription className="text-white/90">GMV</CardDescription>
             <CardTitle className="text-2xl text-white">{fmt(totals.gmv)}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">{fmt(totals.fees)} platform fees</CardContent>
+          <CardContent className="text-xs text-white/80">{fmt(totals.fees)} platform fees</CardContent>
         </Card>
         <Card className="bg-white/5 border-white/10">
-          <CardHeader className="pb-2"><CardDescription className="text-white/60">Nights Booked</CardDescription>
+          <CardHeader className="pb-2"><CardDescription className="text-white/90">Nights Booked</CardDescription>
             <CardTitle className="text-2xl text-white">{totals.nights}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">across {totals.total} bookings</CardContent>
+          <CardContent className="text-xs text-white/80">across {totals.total} bookings</CardContent>
         </Card>
         <Card className="bg-white/5 border-white/10">
-          <CardHeader className="pb-2"><CardDescription className="text-white/60">Cancellation Rate</CardDescription>
+          <CardHeader className="pb-2"><CardDescription className="text-white/90">Cancellation Rate</CardDescription>
             <CardTitle className="text-2xl text-white">{totals.cancelRate.toFixed(1)}%</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">{totals.cancelled} cancelled</CardContent>
+          <CardContent className="text-xs text-white/80">{totals.cancelled} cancelled</CardContent>
         </Card>
         <Card className="bg-white/5 border-white/10">
-          <CardHeader className="pb-2"><CardDescription className="text-white/60">Refunds Issued</CardDescription>
+          <CardHeader className="pb-2"><CardDescription className="text-white/90">Refunds Issued</CardDescription>
             <CardTitle className="text-2xl text-white">{fmt(totals.refundAmount)}</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-white/50">{totals.refunded} refunded bookings</CardContent>
+          <CardContent className="text-xs text-white/80">{totals.refunded} refunded bookings</CardContent>
         </Card>
       </div>
 
@@ -190,7 +190,7 @@ const ReportingTab: React.FC = () => {
       <Card className="bg-white/5 border-white/10">
         <CardHeader>
           <CardTitle className="text-white text-lg">Revenue Over Time</CardTitle>
-          <CardDescription className="text-white/60">GMV and platform fees by booking date</CardDescription>
+          <CardDescription className="text-white/90">GMV and platform fees by booking date</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-72 w-full">
@@ -257,7 +257,7 @@ const ReportingTab: React.FC = () => {
       <Card className="bg-white/5 border-white/10">
         <CardHeader>
           <CardTitle className="text-white text-lg">Top Hosts by Payout</CardTitle>
-          <CardDescription className="text-white/60">Total host payouts (excluding cancelled)</CardDescription>
+          <CardDescription className="text-white/90">Total host payouts (excluding cancelled)</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-72 w-full">

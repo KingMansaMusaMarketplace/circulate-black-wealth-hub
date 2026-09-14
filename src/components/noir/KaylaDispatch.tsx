@@ -82,10 +82,10 @@ const KaylaDispatch: React.FC<KaylaDispatchProps> = ({
                     <div className="h-3 bg-white/5 rounded w-1/2 animate-pulse" />
                   </div>
                 ) : message ? (
-                  <p className="text-white/80 text-sm leading-relaxed">{message}</p>
+                  <p className="text-white text-sm leading-relaxed">{message}</p>
                 ) : (
                   <div>
-                    <p className="text-white/50 text-xs mb-2">
+                    <p className="text-white/80 text-xs mb-2">
                       Tap below for a personalized ride update from Kayla
                     </p>
                     <Button
@@ -104,7 +104,7 @@ const KaylaDispatch: React.FC<KaylaDispatchProps> = ({
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="text-white/30 hover:text-white/60 h-6 px-2 text-[10px]"
+                      className="text-white/30 hover:text-white/90 h-6 px-2 text-[10px]"
                       onClick={fetchDispatch}
                     >
                       <RefreshCw className="h-2.5 w-2.5 mr-1" />

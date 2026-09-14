@@ -17,12 +17,12 @@ export const IOSWebSubscribeNotice: React.FC<{ tierName?: string }> = ({ tierNam
         <h3 className="text-white font-semibold text-lg">
           Subscribe at 1325.ai to activate your {tierName ? `${tierName} ` : ''}business account
         </h3>
-        <p className="text-white/70 text-sm leading-relaxed">
+        <p className="text-white text-sm leading-relaxed">
           Business subscriptions are managed on our website. To get started, open Safari
           on your device and visit <span className="text-mansagold font-medium">1325.ai</span>,
           then sign in with this account to activate your plan.
         </p>
-        <p className="text-white/50 text-xs">
+        <p className="text-white/80 text-xs">
           Your existing subscription, if any, will remain active across all your devices.
         </p>
       </CardContent>

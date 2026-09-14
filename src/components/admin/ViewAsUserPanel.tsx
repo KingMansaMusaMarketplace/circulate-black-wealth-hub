@@ -43,7 +43,7 @@ const ViewAsUserPanel: React.FC<Props> = ({ userId, userLabel }) => {
   if (isLoading) {
     return (
       <Card className="bg-white/5 border-white/10">
-        <CardContent className="p-8 flex items-center justify-center text-white/60">
+        <CardContent className="p-8 flex items-center justify-center text-white/90">
           <Loader2 className="h-5 w-5 animate-spin mr-2" />
           Loading {userLabel}'s account...
         </CardContent>
@@ -103,9 +103,9 @@ const ViewAsUserPanel: React.FC<Props> = ({ userId, userLabel }) => {
               <div key={b.id} className="flex items-center justify-between p-2 rounded bg-white/5 border border-white/10">
                 <div>
                   <p className="text-white text-sm">{b.name}</p>
-                  <p className="text-white/50 text-xs">{[b.city, b.state].filter(Boolean).join(', ')}</p>
+                  <p className="text-white/80 text-xs">{[b.city, b.state].filter(Boolean).join(', ')}</p>
                 </div>
-                <Badge className="bg-white/10 text-white/80">{b.listing_status || 'unknown'}</Badge>
+                <Badge className="bg-white/10 text-white">{b.listing_status || 'unknown'}</Badge>
               </div>
             ))}
           </CardContent>
@@ -120,9 +120,9 @@ const ViewAsUserPanel: React.FC<Props> = ({ userId, userLabel }) => {
           <CardContent className="space-y-2">
             {data.bookings.map((b: any) => (
               <div key={b.id} className="flex items-center justify-between p-2 rounded bg-white/5 border border-white/10 text-sm">
-                <span className="text-white/80">{b.booking_date ? format(new Date(b.booking_date), 'MMM d, yyyy') : '—'}</span>
-                <span className="text-white/60">${Number(b.amount || 0).toFixed(2)}</span>
-                <Badge className="bg-white/10 text-white/80">{b.status}</Badge>
+                <span className="text-white">{b.booking_date ? format(new Date(b.booking_date), 'MMM d, yyyy') : '—'}</span>
+                <span className="text-white/90">${Number(b.amount || 0).toFixed(2)}</span>
+                <Badge className="bg-white/10 text-white">{b.status}</Badge>
               </div>
             ))}
           </CardContent>
@@ -139,7 +139,7 @@ const ViewAsUserPanel: React.FC<Props> = ({ userId, userLabel }) => {
           <CardContent className="space-y-2">
             {data.scans.map((s: any) => (
               <div key={s.id} className="flex items-center justify-between p-2 rounded bg-white/5 border border-white/10 text-sm">
-                <span className="text-white/80">{s.scan_date ? format(new Date(s.scan_date), 'MMM d, h:mm a') : '—'}</span>
+                <span className="text-white">{s.scan_date ? format(new Date(s.scan_date), 'MMM d, h:mm a') : '—'}</span>
                 <span className="text-mansagold">+{s.points_awarded || 0} pts</span>
               </div>
             ))}
@@ -152,14 +152,14 @@ const ViewAsUserPanel: React.FC<Props> = ({ userId, userLabel }) => {
 
 const Stat = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (
   <div className="p-3 rounded-lg bg-white/5 border border-white/10">
-    <div className="flex items-center gap-2 text-white/50 text-xs">{icon}{label}</div>
+    <div className="flex items-center gap-2 text-white/80 text-xs">{icon}{label}</div>
     <p className="text-white text-xl font-semibold mt-1">{value}</p>
   </div>
 );
 
 const Field = ({ label, value }: { label: string; value?: string | null }) => (
   <div>
-    <p className="text-white/50 text-xs">{label}</p>
+    <p className="text-white/80 text-xs">{label}</p>
     <p className="text-white">{value || '—'}</p>
   </div>
 );

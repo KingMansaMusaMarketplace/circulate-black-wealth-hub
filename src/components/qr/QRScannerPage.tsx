@@ -391,7 +391,7 @@ const QRScannerPage = () => {
             
             <div className="text-center">
               <h1 className="text-white font-semibold">QR Scanner</h1>
-              <p className="text-white/80 text-sm">Scan to earn points</p>
+              <p className="text-white text-sm">Scan to earn points</p>
             </div>
             
             <Button
@@ -424,7 +424,7 @@ const QRScannerPage = () => {
             <div className="flex flex-col items-center justify-center text-white p-8">
               <QrCode className="h-32 w-32 mb-6 text-primary animate-pulse" />
               <h2 className="text-2xl font-bold mb-2">Ready to Scan</h2>
-              <p className="text-white/70 text-center mb-8">
+              <p className="text-white text-center mb-8">
                 Position a QR code from a Mansa Musa business within the camera frame
               </p>
             </div>
@@ -447,7 +447,7 @@ const QRScannerPage = () => {
             <p className="text-white text-lg mb-2">
               {isScanning ? 'Scanning...' : 'Tap to start scanning'}
             </p>
-            <p className="text-white/70 text-sm">
+            <p className="text-white text-sm">
               Earn points and unlock exclusive rewards
             </p>
           </div>

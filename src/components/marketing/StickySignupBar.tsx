@@ -76,7 +76,7 @@ const StickySignupBar = () => {
             <button
               onClick={handleDismiss}
               aria-label="Dismiss"
-              className="text-white/60 hover:text-white p-1 shrink-0"
+              className="text-white/90 hover:text-white p-1 shrink-0"
             >
               <X className="h-4 w-4" />
             </button>

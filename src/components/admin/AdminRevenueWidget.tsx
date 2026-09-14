@@ -172,7 +172,7 @@ const AdminRevenueWidget: React.FC = () => {
               </div>
               <div>
                 <div className="text-sm font-semibold text-white">Platform Revenue</div>
-                <div className="text-xs text-white/60">Live across 16 streams · net of commissions</div>
+                <div className="text-xs text-white/90">Live across 16 streams · net of commissions</div>
               </div>
             </div>
             <ArrowRight className="h-5 w-5 text-mansagold opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
@@ -180,15 +180,15 @@ const AdminRevenueWidget: React.FC = () => {
 
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <div className="text-xs text-white/60 uppercase tracking-wider mb-1">Lifetime</div>
+              <div className="text-xs text-white/90 uppercase tracking-wider mb-1">Lifetime</div>
               <div className="text-lg font-bold text-white">{loading ? '—' : fmt(lifetime)}</div>
             </div>
             <div>
-              <div className="text-xs text-white/60 uppercase tracking-wider mb-1">MRR</div>
+              <div className="text-xs text-white/90 uppercase tracking-wider mb-1">MRR</div>
               <div className="text-lg font-bold text-mansagold">{loading ? '—' : fmt(mrr)}</div>
             </div>
             <div>
-              <div className="text-xs text-white/60 uppercase tracking-wider mb-1">Last 30d</div>
+              <div className="text-xs text-white/90 uppercase tracking-wider mb-1">Last 30d</div>
               <div className="text-lg font-bold text-white flex items-center gap-1">
                 {loading ? '—' : fmt(last30)}
                 <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />

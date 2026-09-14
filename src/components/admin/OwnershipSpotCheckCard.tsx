@@ -179,7 +179,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
           <ShieldQuestion className="h-5 w-5 text-mansagold" />
           Ownership Spot Check ({minLabel}+ / {minLabel}+)
         </CardTitle>
-        <p className="text-sm text-white/60">
+        <p className="text-sm text-white/90">
           Draw a random sample of leads that score {minLabel}+ on both "real business" and "Black-owned".
           Judge them quickly to find out whether the {minLabel} line is safe enough to auto-approve.
           The 85% line missed too often, so the bar now starts at 95%.
@@ -188,7 +188,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
 
       <CardContent className="space-y-5">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs text-white/60 mr-1">Confidence bar:</span>
+          <span className="text-xs text-white/90 mr-1">Confidence bar:</span>
           {THRESHOLDS.map((t) => (
             <Button
               key={t}
@@ -203,7 +203,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
               }}
               className={t === min
                 ? 'bg-mansagold text-mansablue hover:bg-mansagold/90'
-                : 'border-white/20 text-white/80 hover:bg-white/10'}
+                : 'border-white/20 text-white hover:bg-white/10'}
             >
               {Math.round(t * 100)}%
             </Button>
@@ -212,11 +212,11 @@ const OwnershipSpotCheckCard: React.FC = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-            <div className="text-xs text-white/60">Qualifying leads</div>
+            <div className="text-xs text-white/90">Qualifying leads</div>
             <div className="text-2xl font-semibold text-white">{qualifying ?? '—'}</div>
           </div>
           <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-            <div className="text-xs text-white/60">In this sample</div>
+            <div className="text-xs text-white/90">In this sample</div>
             <div className="text-2xl font-semibold text-white">{sample.length}</div>
           </div>
           <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3">
@@ -236,7 +236,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
             Draw {SAMPLE_SIZE} random leads
           </Button>
           {accuracy !== null && (
-            <span className="text-sm text-white/70">
+            <span className="text-sm text-white">
               Accuracy so far: <strong className="text-white">{accuracy}%</strong> ({judged} judged)
             </span>
           )}
@@ -255,7 +255,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="font-semibold text-white">{lead.business_name}</div>
-                  <div className="text-xs text-white/60">
+                  <div className="text-xs text-white/90">
                     {[lead.category, [lead.city, lead.state].filter(Boolean).join(', ')].filter(Boolean).join(' • ')}
                   </div>
                 </div>
@@ -270,8 +270,8 @@ const OwnershipSpotCheckCard: React.FC = () => {
               </div>
 
               {lead.black_owned_evidence && (
-                <p className="mt-3 text-sm text-white/80">
-                  <span className="text-white/50">Evidence: </span>
+                <p className="mt-3 text-sm text-white">
+                  <span className="text-white/80">Evidence: </span>
                   {lead.black_owned_evidence}
                 </p>
               )}
@@ -314,7 +314,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
           ))}
 
           {!loading && sample.length === 0 && (
-            <p className="text-sm text-white/50">
+            <p className="text-sm text-white/80">
               No sample drawn yet. Click "Draw {SAMPLE_SIZE} random leads" to begin.
             </p>
           )}

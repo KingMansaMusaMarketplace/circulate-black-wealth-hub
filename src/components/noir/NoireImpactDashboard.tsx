@@ -51,12 +51,12 @@ const NoireImpactDashboard: React.FC = () => {
             <TrendingUp className="h-5 w-5 text-mansagold" />
             <h3 className="text-white font-bold text-lg">Your Ride Impact</h3>
           </div>
-          <Button size="sm" variant="outline" className="border-white/10 text-white/50 hover:bg-white/5 text-xs gap-1">
+          <Button size="sm" variant="outline" className="border-white/10 text-white/80 hover:bg-white/5 text-xs gap-1">
             <Share2 className="h-3 w-3" />
             Share
           </Button>
         </div>
-        <p className="text-white/50 text-xs">
+        <p className="text-white/80 text-xs">
           See exactly how your Noire rides strengthen the community economy
         </p>
       </div>
@@ -68,7 +68,7 @@ const NoireImpactDashboard: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           className="bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 border border-emerald-500/20 rounded-xl p-4 text-center"
         >
-          <p className="text-white/50 text-xs mb-1">Of every fare you pay, your driver keeps</p>
+          <p className="text-white/80 text-xs mb-1">Of every fare you pay, your driver keeps</p>
           <div className="text-5xl font-bold text-emerald-400 font-mono">{driverKeepPercentage}%</div>
           <p className="text-emerald-400/60 text-xs mt-1">
             That's {formatCurrency(impact.driver_earnings_supported)} directly to community drivers
@@ -98,7 +98,7 @@ const NoireImpactDashboard: React.FC = () => {
 
         {/* Community Flow Visualization */}
         <div className="bg-white/5 rounded-xl p-4">
-          <h4 className="text-white/60 text-xs uppercase tracking-wider mb-3">Where Your Money Goes</h4>
+          <h4 className="text-white/90 text-xs uppercase tracking-wider mb-3">Where Your Money Goes</h4>
           <div className="space-y-2">
             {[
               { label: 'Driver earnings (80%)', pct: 80, color: 'bg-emerald-400' },
@@ -107,7 +107,7 @@ const NoireImpactDashboard: React.FC = () => {
             ].map(item => (
               <div key={item.label}>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-white/60">{item.label}</span>
+                  <span className="text-white/90">{item.label}</span>
                   <span className="text-white/40 font-mono">{item.pct}%</span>
                 </div>
                 <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">

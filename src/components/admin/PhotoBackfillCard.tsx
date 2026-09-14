@@ -142,7 +142,7 @@ const PhotoBackfillCard: React.FC = () => {
           )}
         </div>
       </CardHeader>
-      <CardContent className="space-y-3 text-sm text-white/70">
+      <CardContent className="space-y-3 text-sm text-white">
         <p>
           Visits each listing's own website and replaces stock/placeholder art with their real logo and banner.
           Listings with no usable image keep what they have.
@@ -159,13 +159,13 @@ const PhotoBackfillCard: React.FC = () => {
             Real photos found: <strong className="text-emerald-400">{updated.toLocaleString()}</strong>
           </span>
           <span>
-            Nothing usable: <strong className="text-white/60">{notFound.toLocaleString()}</strong>
+            Nothing usable: <strong className="text-white/90">{notFound.toLocaleString()}</strong>
           </span>
         </div>
         {running && (
           <div className="space-y-2">
             <Progress value={pct} className="h-2" />
-            <p className="flex items-center gap-2 text-xs text-white/50">
+            <p className="flex items-center gap-2 text-xs text-white/80">
               <Loader2 className="h-3 w-3 animate-spin" /> Working through listings in batches of {BATCH_SIZE}. Each
               listing is tried once per run, and the run stops on its own when every listing has been checked.
             </p>

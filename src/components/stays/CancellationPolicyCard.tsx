@@ -56,7 +56,7 @@ const CancellationPolicyCard: React.FC<CancellationPolicyCardProps> = ({
             {policy.label}
           </Badge>
           {showDescription && (
-            <p className="text-white/70 mt-2 text-sm">
+            <p className="text-white mt-2 text-sm">
               {policy.description}
             </p>
           )}
@@ -69,7 +69,7 @@ const CancellationPolicyCard: React.FC<CancellationPolicyCardProps> = ({
     <Card className="bg-slate-800/50 border-white/10">
       <CardHeader className="pb-2">
         <CardTitle className="text-white text-lg">Cancellation Policy</CardTitle>
-        <p className="text-white/60 text-sm">
+        <p className="text-white/90 text-sm">
           Choose how flexible you want to be with cancellations
         </p>
       </CardHeader>
@@ -96,7 +96,7 @@ const CancellationPolicyCard: React.FC<CancellationPolicyCardProps> = ({
                     {getPolicyIcon(key)}
                     {policy.label}
                   </Label>
-                  <p className="text-white/60 text-sm mt-1">{policy.description}</p>
+                  <p className="text-white/90 text-sm mt-1">{policy.description}</p>
                   <p className="text-white/40 text-xs mt-1">
                     {policy.refund_percent}% refund if cancelled {policy.refund_cutoff_hours} hours before check-in
                   </p>

@@ -106,7 +106,7 @@ const PressPage: React.FC = () => {
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
               Tell the story of the <span className="text-mansagold">Black economy</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl mb-10">
+            <p className="text-lg md:text-xl text-white max-w-2xl mb-10">
               1325.AI is the AI-powered platform building infrastructure for 47,000+ Black-owned businesses.
               Everything you need to write about us, partner with us, or interview our founder — in one place.
             </p>
@@ -132,7 +132,7 @@ const PressPage: React.FC = () => {
           {STATS.map((s) => (
             <Card key={s.label} className="p-6 bg-white/5 border-white/10 text-center">
               <div className="text-3xl md:text-4xl font-bold text-mansagold mb-2">{s.value}</div>
-              <div className="text-sm text-white/70">{s.label}</div>
+              <div className="text-sm text-white">{s.label}</div>
             </Card>
           ))}
         </div>
@@ -141,7 +141,7 @@ const PressPage: React.FC = () => {
       {/* ABOUT */}
       <section className="max-w-4xl mx-auto px-6 py-12">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">About 1325.AI</h2>
-        <div className="space-y-4 text-white/80 text-lg leading-relaxed">
+        <div className="space-y-4 text-white text-lg leading-relaxed">
           <p>
             The Black dollar circulates in Black communities for just <strong className="text-white">6 hours</strong> —
             compared to 20 days in other communities. That's not a marketing problem. It's an
@@ -175,7 +175,7 @@ const PressPage: React.FC = () => {
               <Badge className="mb-3 bg-mansablue/30 text-white/90 border-white/10">Founder</Badge>
               <h3 className="text-2xl md:text-3xl font-bold mb-2">Thoma D Bowling</h3>
               <p className="text-mansagold mb-4 font-medium">Founder &amp; CEO, 1325.AI</p>
-              <p className="text-white/80 leading-relaxed mb-4">
+              <p className="text-white leading-relaxed mb-4">
                 Thoma D Bowling is the founder of 1325.AI and Mansa Musa Marketplace, on a mission to build
                 the economic infrastructure for the $2.10T U.S. and $9.1T global Black economy. With patent-pending technology
                 (U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending) and 33 deployed AI agents, his work focuses on extending how long the
@@ -205,7 +205,7 @@ const PressPage: React.FC = () => {
           <Quote className="w-7 h-7 text-mansagold" />
           Company Boilerplate
         </h2>
-        <p className="text-white/60 mb-4 text-sm">Copy and paste this into your article.</p>
+        <p className="text-white/90 mb-4 text-sm">Copy and paste this into your article.</p>
         <Card className="p-6 bg-white/5 border-white/10 relative">
           <p className="text-white/90 leading-relaxed pr-12">{BOILERPLATE}</p>
           <Button
@@ -230,7 +230,7 @@ const PressPage: React.FC = () => {
       {/* PRESS KIT */}
       <section id="press-kit" className="max-w-6xl mx-auto px-6 py-12">
         <h2 className="text-3xl md:text-4xl font-bold mb-2">Press Kit &amp; Brand Assets</h2>
-        <p className="text-white/60 mb-8">Logos, brand colors, founder photo, and product screenshots.</p>
+        <p className="text-white/90 mb-8">Logos, brand colors, founder photo, and product screenshots.</p>
         <div className="grid md:grid-cols-2 gap-4">
           <Card className="p-6 bg-white/5 border-white/10">
             <h3 className="font-bold text-lg mb-3">Logo Pack</h3>
@@ -251,21 +251,21 @@ const PressPage: React.FC = () => {
                 <div className="w-12 h-12 rounded-md border border-white/10" style={{ backgroundColor: '#003366' }} />
                 <div>
                   <div className="font-medium">MansaBlue</div>
-                  <div className="text-sm text-white/60">#003366</div>
+                  <div className="text-sm text-white/90">#003366</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-md border border-white/10" style={{ backgroundColor: '#FFB300' }} />
                 <div>
                   <div className="font-medium">MansaGold</div>
-                  <div className="text-sm text-white/60">#FFB300</div>
+                  <div className="text-sm text-white/90">#FFB300</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-md border border-white/10 bg-black" />
                 <div>
                   <div className="font-medium">True Black</div>
-                  <div className="text-sm text-white/60">#000000</div>
+                  <div className="text-sm text-white/90">#000000</div>
                 </div>
               </div>
             </div>
@@ -273,7 +273,7 @@ const PressPage: React.FC = () => {
 
           <Card className="p-6 bg-white/5 border-white/10">
             <h3 className="font-bold text-lg mb-3">Full Media Kit</h3>
-            <p className="text-white/70 text-sm mb-4">
+            <p className="text-white text-sm mb-4">
               Investor-grade overview, product screenshots, and platform stats.
             </p>
             <Button asChild className="w-full bg-mansagold text-black hover:bg-mansagold/90">
@@ -285,7 +285,7 @@ const PressPage: React.FC = () => {
 
           <Card className="p-6 bg-white/5 border-white/10">
             <h3 className="font-bold text-lg mb-3">Fact Sheet</h3>
-            <p className="text-white/70 text-sm mb-4">
+            <p className="text-white text-sm mb-4">
               One-page PDF with company stats, founding info, and key milestones.
             </p>
             <Button
@@ -304,11 +304,11 @@ const PressPage: React.FC = () => {
       {/* IN THE NEWS */}
       <section className="max-w-6xl mx-auto px-6 py-12">
         <h2 className="text-3xl md:text-4xl font-bold mb-2">In the News</h2>
-        <p className="text-white/60 mb-8">Featured coverage and recent mentions.</p>
+        <p className="text-white/90 mb-8">Featured coverage and recent mentions.</p>
         <Card className="p-12 bg-white/5 border-white/10 text-center">
           <Sparkles className="w-10 h-10 text-mansagold mx-auto mb-4" />
           <h3 className="text-xl font-bold mb-2">Coverage coming soon</h3>
-          <p className="text-white/70 max-w-md mx-auto">
+          <p className="text-white max-w-md mx-auto">
             Want to be the first to write about 1325.AI?{' '}
             <a href={`mailto:${PRESS_EMAIL}`} className="text-mansagold underline">
               Email our press team
@@ -324,7 +324,7 @@ const PressPage: React.FC = () => {
           <Handshake className="w-8 h-8 text-mansagold" />
           Partner with Us
         </h2>
-        <p className="text-white/60 mb-8">Three ways organizations work with 1325.AI.</p>
+        <p className="text-white/90 mb-8">Three ways organizations work with 1325.AI.</p>
         <div className="grid md:grid-cols-3 gap-4 mb-8">
           {[
             {
@@ -346,7 +346,7 @@ const PressPage: React.FC = () => {
             <Card key={p.title} className="p-6 bg-white/5 border-white/10">
               <p.icon className="w-8 h-8 text-mansagold mb-3" />
               <h3 className="font-bold text-lg mb-2">{p.title}</h3>
-              <p className="text-white/70 text-sm">{p.desc}</p>
+              <p className="text-white text-sm">{p.desc}</p>
             </Card>
           ))}
         </div>
@@ -365,7 +365,7 @@ const PressPage: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold mb-3">Media Contact</h2>
-              <p className="text-white/80 mb-4">
+              <p className="text-white mb-4">
                 We reply to press inquiries within 24 hours.
               </p>
               <div className="space-y-2">

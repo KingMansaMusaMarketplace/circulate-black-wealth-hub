@@ -119,7 +119,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
       {/* Conversation List */}
       <div className="flex-1 overflow-y-auto">
         {filteredConversations.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 text-white/60">
+          <div className="flex flex-col items-center justify-center py-12 text-white/90">
             <MessageSquare className="w-12 h-12 mb-3 text-white/30" />
             <p>No conversations yet</p>
             <p className="text-sm text-white/40">
@@ -160,7 +160,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
                         </Badge>
                       )}
                     </div>
-                    <p className="text-sm text-white/60 truncate">
+                    <p className="text-sm text-white/90 truncate">
                       {conv.subject || 'Conversation'}
                     </p>
                     <p className="text-xs text-white/40 mt-1">

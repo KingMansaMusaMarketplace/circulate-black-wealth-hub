@@ -57,7 +57,7 @@ const BrowseLayout: React.FC<BrowseLayoutProps> = ({
               variant="ghost"
               size="sm"
               onClick={onToggleFilters}
-              className="text-white/80 hover:text-white hover:bg-white/10 -ml-2"
+              className="text-white hover:text-white hover:bg-white/10 -ml-2"
             >
               <SlidersHorizontal className="w-4 h-4 mr-1" />
               {showFilters ? "Hide filters" : "More filters"}
@@ -82,7 +82,7 @@ const BrowseLayout: React.FC<BrowseLayoutProps> = ({
                 {availableViews.includes("grid") && (
                   <TabsTrigger
                     value="grid"
-                    className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-white/80"
+                    className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-white"
                   >
                     <Grid className="w-4 h-4 mr-1" /> Grid
                   </TabsTrigger>
@@ -90,7 +90,7 @@ const BrowseLayout: React.FC<BrowseLayoutProps> = ({
                 {availableViews.includes("list") && (
                   <TabsTrigger
                     value="list"
-                    className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-white/80"
+                    className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-white"
                   >
                     <List className="w-4 h-4 mr-1" /> List
                   </TabsTrigger>
@@ -98,7 +98,7 @@ const BrowseLayout: React.FC<BrowseLayoutProps> = ({
                 {availableViews.includes("map") && (
                   <TabsTrigger
                     value="map"
-                    className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-white/80"
+                    className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-white"
                   >
                     <MapIcon className="w-4 h-4 mr-1" /> Map
                   </TabsTrigger>

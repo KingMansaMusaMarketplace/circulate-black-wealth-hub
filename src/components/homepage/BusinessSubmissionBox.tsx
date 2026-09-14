@@ -390,7 +390,7 @@ const BusinessSubmissionBox: React.FC = () => {
             Join the national directory trusted by intentional consumers and
             surfaced by leading AI assistants. Verification is <strong className="text-white">100% free</strong> — no credit card, no hidden fees, no listing cost. Most reviews are completed within 48 hours.
           </p>
-          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-white/70">
+          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-white">
             <span className="inline-flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> 100% free — no credit card required</span>
             <span className="inline-flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Human-reviewed by our compliance team</span>
             <span className="inline-flex items-center gap-1.5"><Lock className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Encrypted &amp; confidential</span>

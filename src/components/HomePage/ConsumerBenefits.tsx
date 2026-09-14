@@ -63,7 +63,7 @@ const ConsumerBenefits: React.FC = () => {
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
               Shop. Earn. <span className="text-mansagold">Make an Impact.</span>
             </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+            <p className="text-lg text-white max-w-2xl mx-auto">
               Join for free and start earning rewards while supporting businesses that invest back into your community.
             </p>
           </div>
@@ -81,7 +81,7 @@ const ConsumerBenefits: React.FC = () => {
                   <benefit.icon className={`w-5 h-5 ${benefit.color}`} />
                 </div>
                 <h3 className="text-white font-semibold mb-2">{benefit.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed">{benefit.description}</p>
+                <p className="text-white/90 text-sm leading-relaxed">{benefit.description}</p>
               </motion.div>
             </ScrollReveal>
           ))}
@@ -100,7 +100,7 @@ const ConsumerBenefits: React.FC = () => {
                 <ArrowRight className="ml-3 w-6 h-6" />
               </Link>
             </Button>
-            <p className="text-white/70 text-base mt-3 font-medium">No credit card required. Always free for consumers.</p>
+            <p className="text-white text-base mt-3 font-medium">No credit card required. Always free for consumers.</p>
           </div>
         </ScrollReveal>
       </div>

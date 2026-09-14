@@ -194,7 +194,7 @@ const MessageThread: React.FC<MessageThreadProps> = ({ conversation, onBack }) =
           <h3 className="font-medium text-white">
             {conversation.property?.title || 'Property'}
           </h3>
-          <p className="text-sm text-white/60">
+          <p className="text-sm text-white/90">
             {isHost ? 'Guest inquiry' : 'Host conversation'}
           </p>
         </div>

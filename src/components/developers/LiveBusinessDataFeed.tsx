@@ -27,7 +27,7 @@ const LiveBusinessDataFeed: React.FC = () => {
               <Radio className="h-5 w-5 text-emerald-400 animate-pulse" />
               Live Business Data Feed
             </CardTitle>
-            <CardDescription className="text-white/60">
+            <CardDescription className="text-white/90">
               Real-time partner-referred businesses available via API
             </CardDescription>
           </div>
@@ -42,21 +42,21 @@ const LiveBusinessDataFeed: React.FC = () => {
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center p-4 bg-slate-900/40 rounded-xl border border-white/5">
             <p className="text-2xl font-bold text-mansagold">{stats?.partner_referred_businesses || 800}+</p>
-            <p className="text-xs text-white/50">Total Businesses</p>
+            <p className="text-xs text-white/80">Total Businesses</p>
           </div>
           <div className="text-center p-4 bg-slate-900/40 rounded-xl border border-white/5">
             <p className="text-2xl font-bold text-blue-400">{stats?.active_partners || 15}</p>
-            <p className="text-xs text-white/50">Partner Networks</p>
+            <p className="text-xs text-white/80">Partner Networks</p>
           </div>
           <div className="text-center p-4 bg-slate-900/40 rounded-xl border border-white/5">
             <p className="text-2xl font-bold text-emerald-400">24</p>
-            <p className="text-xs text-white/50">States Covered</p>
+            <p className="text-xs text-white/80">States Covered</p>
           </div>
         </div>
 
         {/* Category Breakdown */}
         <div>
-          <p className="text-sm text-white/60 mb-3">Available by Category</p>
+          <p className="text-sm text-white/90 mb-3">Available by Category</p>
           <div className="space-y-2">
             {categoryBreakdown.map((cat, index) => (
               <motion.div
@@ -67,7 +67,7 @@ const LiveBusinessDataFeed: React.FC = () => {
                 className="flex items-center gap-3"
               >
                 <div className={`w-2 h-2 rounded-full ${cat.color}`} />
-                <span className="text-sm text-white/70 flex-1">{cat.category}</span>
+                <span className="text-sm text-white flex-1">{cat.category}</span>
                 <span className="text-sm font-medium text-white">{cat.count}</span>
                 <div className="w-24 h-1.5 bg-slate-800 rounded-full overflow-hidden">
                   <div 
@@ -83,7 +83,7 @@ const LiveBusinessDataFeed: React.FC = () => {
         {/* Sample Businesses */}
         {businesses.length > 0 ? (
           <div>
-            <p className="text-sm text-white/60 mb-3">Recent Additions</p>
+            <p className="text-sm text-white/90 mb-3">Recent Additions</p>
             <div className="space-y-2">
               {businesses.slice(0, 4).map((business, index) => (
                 <motion.div
@@ -96,14 +96,14 @@ const LiveBusinessDataFeed: React.FC = () => {
                   <Building2 className="h-4 w-4 text-mansagold" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-white truncate">{business.business_name}</p>
-                    <div className="flex items-center gap-2 text-xs text-white/50">
+                    <div className="flex items-center gap-2 text-xs text-white/80">
                       <MapPin className="h-3 w-3" />
                       {business.city}, {business.state}
                       <span className="text-white/30">•</span>
                       <span>{business.category}</span>
                     </div>
                   </div>
-                  <Badge variant="outline" className="text-xs border-white/20 text-white/60">
+                  <Badge variant="outline" className="text-xs border-white/20 text-white/90">
                     {business.referring_directory}
                   </Badge>
                 </motion.div>

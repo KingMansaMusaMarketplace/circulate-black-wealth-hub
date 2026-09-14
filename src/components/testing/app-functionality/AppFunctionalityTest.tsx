@@ -232,7 +232,7 @@ const AppFunctionalityTest: React.FC = () => {
       pass: 'bg-green-500/20 text-green-300 border-green-500/30',
       fail: 'bg-red-500/20 text-red-300 border-red-500/30',
       warning: 'bg-mansagold/20 text-mansagold border-mansagold/30',
-      pending: 'bg-white/10 text-white/60 border-white/20'
+      pending: 'bg-white/10 text-white/90 border-white/20'
     };
     
     return (
@@ -265,7 +265,7 @@ const AppFunctionalityTest: React.FC = () => {
             </div>
             <h1 className="text-2xl font-bold text-white font-display">App Functionality Test Suite</h1>
           </div>
-          <p className="text-white/70 font-body mb-6">
+          <p className="text-white font-body mb-6">
             Comprehensive testing of all app features and functionality
           </p>
 
@@ -291,7 +291,7 @@ const AppFunctionalityTest: React.FC = () => {
 
             {isRunning && (
               <div className="space-y-2">
-                <div className="flex justify-between text-sm text-white/80">
+                <div className="flex justify-between text-sm text-white">
                   <span>Progress</span>
                   <span>{Math.round(progress)}%</span>
                 </div>
@@ -306,15 +306,15 @@ const AppFunctionalityTest: React.FC = () => {
               <div className="grid grid-cols-3 gap-4 mt-6">
                 <div className="text-center p-4 bg-green-500/10 rounded-xl border border-green-500/20">
                   <div className="text-2xl font-bold text-green-400">{passCount}</div>
-                  <div className="text-sm text-white/70">Passed</div>
+                  <div className="text-sm text-white">Passed</div>
                 </div>
                 <div className="text-center p-4 bg-red-500/10 rounded-xl border border-red-500/20">
                   <div className="text-2xl font-bold text-red-400">{failCount}</div>
-                  <div className="text-sm text-white/70">Failed</div>
+                  <div className="text-sm text-white">Failed</div>
                 </div>
                 <div className="text-center p-4 bg-mansagold/10 rounded-xl border border-mansagold/20">
                   <div className="text-2xl font-bold text-mansagold">{warningCount}</div>
-                  <div className="text-sm text-white/70">Warnings</div>
+                  <div className="text-sm text-white">Warnings</div>
                 </div>
               </div>
             )}
@@ -332,7 +332,7 @@ const AppFunctionalityTest: React.FC = () => {
                     {getStatusIcon(test.status)}
                     <div>
                       <span className="font-medium text-white">{test.name}</span>
-                      <p className="text-sm text-white/60">{test.message}</p>
+                      <p className="text-sm text-white/90">{test.message}</p>
                       {test.error && (
                         <p className="text-xs text-red-400 mt-1">
                           Error: {test.error.message || String(test.error)}
@@ -350,7 +350,7 @@ const AppFunctionalityTest: React.FC = () => {
         {/* Quick Navigation Tests Card */}
         <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
           <h2 className="text-xl font-bold text-white font-display mb-2">Quick Navigation Tests</h2>
-          <p className="text-white/60 mb-4">Test navigation to key pages</p>
+          <p className="text-white/90 mb-4">Test navigation to key pages</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             <Button 
               variant="outline" 

@@ -147,7 +147,7 @@ const FeaturesPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold font-playfair text-white mb-4">
               How It <span className="bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent">Works</span>
             </h2>
-            <p className="text-xl text-white/70 max-w-2xl mx-auto">
+            <p className="text-xl text-white max-w-2xl mx-auto">
               Four simple steps to start making an impact in your community
             </p>
           </motion.div>
@@ -180,7 +180,7 @@ const FeaturesPage = () => {
                     <h3 className="text-xl font-bold mb-3 text-white group-hover:text-mansagold transition-colors">
                       {step.title}
                     </h3>
-                    <p className="text-white/70 leading-relaxed">
+                    <p className="text-white leading-relaxed">
                       {step.description}
                     </p>
                   </div>
@@ -215,7 +215,7 @@ const FeaturesPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair text-white">
               Mobile <span className="bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent">Experience</span>
             </h2>
-            <p className="text-xl text-white/70 max-w-3xl mx-auto">
+            <p className="text-xl text-white max-w-3xl mx-auto">
               Get the best experience with our mobile-optimized features
             </p>
           </motion.div>
@@ -292,7 +292,7 @@ const FeaturesPage = () => {
                     <h3 className="text-xl font-bold text-white mb-3 group-hover:text-mansagold transition-all duration-300">
                       {item.title}
                     </h3>
-                    <p className="text-white/70 leading-relaxed">
+                    <p className="text-white leading-relaxed">
                       {item.description}
                     </p>
                   </div>

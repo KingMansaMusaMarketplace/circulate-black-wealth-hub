@@ -138,7 +138,7 @@ const PitchDeckPage: React.FC = () => {
             variant="ghost" 
             size="sm" 
             onClick={() => navigate('/')}
-            className="text-white/70 hover:text-white"
+            className="text-white hover:text-white"
           >
             <Home className="w-4 h-4 mr-2" />
             Home
@@ -151,7 +151,7 @@ const PitchDeckPage: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-white/60 text-sm">
+          <span className="text-white/90 text-sm">
             Slide {currentSlide + 1} of {SLIDES.length}
           </span>
           <Button
@@ -180,7 +180,7 @@ const PitchDeckPage: React.FC = () => {
               }
             }}
             disabled={isExporting}
-            className="text-white/70 hover:text-white"
+            className="text-white hover:text-white"
           >
             {isExporting ? (
               <>
@@ -198,7 +198,7 @@ const PitchDeckPage: React.FC = () => {
             variant="ghost"
             size="sm"
             onClick={toggleFullscreen}
-            className="text-white/70 hover:text-white"
+            className="text-white hover:text-white"
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </Button>
@@ -262,7 +262,7 @@ const PitchDeckPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2 text-white/70 text-sm"
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2 text-white text-sm"
             >
               <Keyboard className="w-4 h-4" />
               Use arrow keys to navigate • Press F for fullscreen
@@ -281,7 +281,7 @@ const PitchDeckPage: React.FC = () => {
               className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                 index === currentSlide
                   ? 'bg-mansagold text-mansablue-dark'
-                  : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+                  : 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
               }`}
             >
               {slide.id}. {slide.title}

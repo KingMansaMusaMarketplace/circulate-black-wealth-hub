@@ -1200,7 +1200,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
             <Book className="h-7 w-7 text-mansagold" />
             1325.AI Blue Book
           </h2>
-          <p className="text-white/60 mt-1">
+          <p className="text-white/90 mt-1">
             Comprehensive Technical Reference Manual
           </p>
         </div>
@@ -1221,7 +1221,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
               </div>
               <div>
                 <CardTitle className="text-xl text-white">Platform Blue Book</CardTitle>
-                <CardDescription className="text-white/60">
+                <CardDescription className="text-white/90">
                   Complete technical documentation of all 45 patent claims
                 </CardDescription>
                 <div className="flex items-center gap-2 mt-2">
@@ -1245,19 +1245,19 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-white/5 rounded-lg p-4 text-center border border-white/10">
               <p className="text-3xl font-bold text-mansagold">27</p>
-              <p className="text-sm text-white/60">Patent Claims</p>
+              <p className="text-sm text-white/90">Patent Claims</p>
             </div>
             <div className="bg-white/5 rounded-lg p-4 text-center border border-white/10">
               <p className="text-3xl font-bold text-blue-400">90+</p>
-              <p className="text-sm text-white/60">Edge Functions</p>
+              <p className="text-sm text-white/90">Edge Functions</p>
             </div>
             <div className="bg-white/5 rounded-lg p-4 text-center border border-white/10">
               <p className="text-3xl font-bold text-emerald-400">200+</p>
-              <p className="text-sm text-white/60">Components</p>
+              <p className="text-sm text-white/90">Components</p>
             </div>
             <div className="bg-white/5 rounded-lg p-4 text-center border border-white/10">
               <p className="text-3xl font-bold text-purple-400">80+</p>
-              <p className="text-sm text-white/60">Database Tables</p>
+              <p className="text-sm text-white/90">Database Tables</p>
             </div>
           </div>
 
@@ -1305,7 +1305,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
             <FileText className="h-5 w-5 text-mansagold" />
             Table of Contents
           </CardTitle>
-          <CardDescription className="text-white/60">
+          <CardDescription className="text-white/90">
             {manualSections.length} major sections covering all platform systems
           </CardDescription>
         </CardHeader>
@@ -1318,7 +1318,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
               >
                 <div className="flex items-center gap-2">
                   <span className="text-mansagold font-mono text-sm w-6">{index + 1}.</span>
-                  <span className="text-white/80 text-sm">{section.title}</span>
+                  <span className="text-white text-sm">{section.title}</span>
                 </div>
                 <span className="text-white/40 text-xs font-mono">{section.pages}</span>
               </div>
@@ -1336,7 +1336,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
                 <Clock className="h-5 w-5 text-mansagold" />
               </div>
               <div>
-                <p className="text-sm text-white/60">Last Updated</p>
+                <p className="text-sm text-white/90">Last Updated</p>
                 <p className="font-semibold text-white">January 29, 2026</p>
               </div>
             </div>
@@ -1350,7 +1350,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
                 <Shield className="h-5 w-5 text-blue-400" />
               </div>
               <div>
-                <p className="text-sm text-white/60">Classification</p>
+                <p className="text-sm text-white/90">Classification</p>
                 <p className="font-semibold text-white">Confidential</p>
               </div>
             </div>
@@ -1364,7 +1364,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
                 <Download className="h-5 w-5 text-emerald-400" />
               </div>
               <div>
-                <p className="text-sm text-white/60">Format</p>
+                <p className="text-sm text-white/90">Format</p>
                 <p className="font-semibold text-white">Word & PDF</p>
               </div>
             </div>

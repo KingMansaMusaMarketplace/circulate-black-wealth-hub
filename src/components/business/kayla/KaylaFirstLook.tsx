@@ -67,7 +67,7 @@ export const KaylaFirstLook: React.FC<Props> = ({ businessId }) => {
             <Sparkles className="h-5 w-5 text-mansagold" />
             <h3 className="text-base font-semibold text-white">Kayla's First Look</h3>
           </div>
-          <p className="text-sm text-white/60 mb-4">
+          <p className="text-sm text-white/90 mb-4">
             Let Kayla run a personalized first-touch enrichment on your business. She'll surface starter grants, compliance gaps, and certification opportunities in under a minute.
           </p>
           <Button onClick={runFirstTouch} disabled={running} className="bg-mansagold text-mansablue hover:bg-mansagold/90">
@@ -88,13 +88,13 @@ export const KaylaFirstLook: React.FC<Props> = ({ businessId }) => {
             <h3 className="text-base font-semibold text-white">Kayla's First Look</h3>
             <Badge variant="outline" className="text-xs border-mansagold/30 text-mansagold">Personalized</Badge>
           </div>
-          <Button size="sm" variant="ghost" onClick={runFirstTouch} disabled={running} className="text-white/50 text-xs">
+          <Button size="sm" variant="ghost" onClick={runFirstTouch} disabled={running} className="text-white/80 text-xs">
             {running ? <Loader2 className="h-3 w-3 animate-spin" /> : 'Refresh'}
           </Button>
         </div>
 
         {baseline.welcome_message && (
-          <p className="text-sm text-white/80 italic border-l-2 border-mansagold/40 pl-3">
+          <p className="text-sm text-white italic border-l-2 border-mansagold/40 pl-3">
             {baseline.welcome_message}
           </p>
         )}
@@ -107,7 +107,7 @@ export const KaylaFirstLook: React.FC<Props> = ({ businessId }) => {
             </div>
             <ul className="space-y-1">
               {baseline.top_grants?.length ? baseline.top_grants.slice(0, 3).map((g, i) => (
-                <li key={i} className="text-xs text-white/70 truncate">• {g.grant_name}</li>
+                <li key={i} className="text-xs text-white truncate">• {g.grant_name}</li>
               )) : <li className="text-xs text-white/40">None found yet</li>}
             </ul>
           </div>
@@ -119,7 +119,7 @@ export const KaylaFirstLook: React.FC<Props> = ({ businessId }) => {
             </div>
             <ul className="space-y-1">
               {baseline.compliance_gaps?.length ? baseline.compliance_gaps.slice(0, 3).map((c, i) => (
-                <li key={i} className="text-xs text-white/70 truncate">• {c.title || c.summary || 'Gap detected'}</li>
+                <li key={i} className="text-xs text-white truncate">• {c.title || c.summary || 'Gap detected'}</li>
               )) : <li className="text-xs text-white/40">No gaps detected</li>}
             </ul>
           </div>
@@ -129,7 +129,7 @@ export const KaylaFirstLook: React.FC<Props> = ({ businessId }) => {
               <Award className="h-4 w-4" />
               <span className="text-xs font-medium">Certifications</span>
             </div>
-            <p className="text-xs text-white/60">Supplier diversity opportunities surfaced — open the Diversity tab to review.</p>
+            <p className="text-xs text-white/90">Supplier diversity opportunities surfaced — open the Diversity tab to review.</p>
           </div>
         </div>
 

@@ -159,7 +159,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
                 <Sparkles className="h-3 w-3 mr-1" />
                 Welcome back
               </Badge>
-              <Badge variant="outline" className="border-white/20 text-white/80">
+              <Badge variant="outline" className="border-white/20 text-white">
                 <Trophy className="h-3 w-3 mr-1" />
                 {tierLevel}
               </Badge>
@@ -168,13 +168,13 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
               Hey {firstName} — good to see you again
             </h2>
             {lastVisitText && (
-              <p className="text-sm text-white/60 mt-1">Last scan {lastVisitText}</p>
+              <p className="text-sm text-white/90 mt-1">Last scan {lastVisitText}</p>
             )}
           </div>
           <div className="flex gap-3">
             <div className="text-right">
               <div className="text-3xl font-bold text-mansagold">{availablePoints.toLocaleString()}</div>
-              <div className="text-xs uppercase tracking-wider text-white/60">Available pts</div>
+              <div className="text-xs uppercase tracking-wider text-white/90">Available pts</div>
             </div>
           </div>
         </div>
@@ -188,7 +188,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
                 <Flame className={`h-6 w-6 ${streak > 0 ? 'text-orange-400' : 'text-white/40'}`} />
               </div>
               <div className="flex-1">
-                <div className="text-sm text-white/70">Scan streak</div>
+                <div className="text-sm text-white">Scan streak</div>
                 <div className="text-xl font-bold text-white">
                   {streak > 0 ? `${streak} day${streak > 1 ? 's' : ''}` : 'Start a streak today'}
                 </div>
@@ -210,7 +210,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
             {nextUnlock ? (
               <>
                 <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm text-white/70 flex items-center gap-1">
+                  <div className="text-sm text-white flex items-center gap-1">
                     <Zap className="h-3 w-3 text-mansagold" />
                     Next unlock
                   </div>
@@ -229,7 +229,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
                   <Gift className="h-6 w-6 text-mansagold" />
                 </div>
                 <div>
-                  <div className="text-sm text-white/70">All rewards unlocked</div>
+                  <div className="text-sm text-white">All rewards unlocked</div>
                   <div className="text-base font-semibold text-white">Pick something below</div>
                 </div>
               </div>
@@ -241,7 +241,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
         {affordable.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-white/80 uppercase tracking-wider">
+              <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
                 Ready to redeem
               </h3>
               <button
@@ -273,7 +273,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
                   <div className="text-sm font-semibold text-white line-clamp-1 group-hover:text-mansagold">
                     {r.title}
                   </div>
-                  <div className="text-xs text-white/60 line-clamp-1 mt-1">
+                  <div className="text-xs text-white/90 line-clamp-1 mt-1">
                     {(r.businesses as any)?.business_name || 'Global reward'}
                   </div>
                 </button>
@@ -285,7 +285,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
         {/* Recent activity */}
         {activity.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold text-white/80 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-3 flex items-center gap-2">
               <History className="h-3 w-3" />
               Recent activity
             </h3>
@@ -308,7 +308,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
                         {a.type === 'earn' ? 'Earned at ' : 'Redeemed: '}
                         <span className="font-semibold">{a.label}</span>
                       </div>
-                      <div className="text-xs text-white/50 flex items-center gap-1">
+                      <div className="text-xs text-white/80 flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {formatDistanceToNow(new Date(a.date), { addSuffix: true })}
                       </div>

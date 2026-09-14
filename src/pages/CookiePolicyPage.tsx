@@ -25,7 +25,7 @@ const CookiePolicyPage = () => {
             <p className="text-xl text-blue-200 mb-4">
               Learn about how we use cookies to enhance your experience
             </p>
-            <p className="text-sm text-white/60">
+            <p className="text-sm text-white/90">
               Last updated: January 2025
             </p>
           </div>

@@ -78,7 +78,7 @@ const LeaseListingDetailPage: React.FC = () => {
       </Helmet>
 
       <section className="max-w-6xl mx-auto p-4 md:p-8">
-        <Link to="/stays/lease" className="inline-flex items-center text-white/70 hover:text-white text-sm mb-4">
+        <Link to="/stays/lease" className="inline-flex items-center text-white hover:text-white text-sm mb-4">
           <ArrowLeft className="w-4 h-4 mr-1" /> Back to search
         </Link>
 
@@ -90,7 +90,7 @@ const LeaseListingDetailPage: React.FC = () => {
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold tracking-tight">{listing.title}</h1>
-                <p className="text-white/70 mt-1 flex items-center gap-2 flex-wrap">
+                <p className="text-white mt-1 flex items-center gap-2 flex-wrap">
                   {type && <span className="text-mansagold font-medium">{type.label}</span>}
                   <span>·</span>
                   <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{listing.city}, {listing.state}</span>
@@ -106,17 +106,17 @@ const LeaseListingDetailPage: React.FC = () => {
             <div className="grid grid-cols-3 gap-3 mt-6 text-sm">
               <Card className="bg-white/5 border-white/10 p-4">
                 <Bed className="w-5 h-5 text-mansagold mb-1" />
-                <div className="text-white/50 text-xs">Bedrooms</div>
+                <div className="text-white/80 text-xs">Bedrooms</div>
                 <div className="text-xl font-semibold">{listing.bedrooms}</div>
               </Card>
               <Card className="bg-white/5 border-white/10 p-4">
                 <Bath className="w-5 h-5 text-mansagold mb-1" />
-                <div className="text-white/50 text-xs">Bathrooms</div>
+                <div className="text-white/80 text-xs">Bathrooms</div>
                 <div className="text-xl font-semibold">{listing.bathrooms}</div>
               </Card>
               <Card className="bg-white/5 border-white/10 p-4">
                 <Calendar className="w-5 h-5 text-mansagold mb-1" />
-                <div className="text-white/50 text-xs">Lease term</div>
+                <div className="text-white/80 text-xs">Lease term</div>
                 <div className="text-xl font-semibold">{listing.lease_term_months || 12} mo</div>
               </Card>
             </div>
@@ -214,9 +214,9 @@ const LeaseListingDetailPage: React.FC = () => {
               <p className="text-mansagold text-3xl font-bold flex items-baseline">
                 <DollarSign className="w-6 h-6" />
                 {Number(listing.monthly_rent).toLocaleString()}
-                <span className="text-base text-white/50 font-normal ml-1">/month</span>
+                <span className="text-base text-white/80 font-normal ml-1">/month</span>
               </p>
-              <p className="text-white/60 text-sm mt-1">No broker fees for tenants</p>
+              <p className="text-white/90 text-sm mt-1">No broker fees for tenants</p>
 
               <div className="mt-5 space-y-3">
                 <h3 className="text-lg font-semibold">Contact the landlord</h3>
@@ -224,14 +224,14 @@ const LeaseListingDetailPage: React.FC = () => {
                 <Input placeholder="Your email *" type="email" value={inquiry.email} onChange={(e) => setInquiry({ ...inquiry, email: e.target.value })} className="bg-white/10 border-white/20" />
                 <Input placeholder="Phone (optional)" value={inquiry.phone} onChange={(e) => setInquiry({ ...inquiry, phone: e.target.value })} className="bg-white/10 border-white/20" />
                 <div>
-                  <label className="text-xs text-white/60 mb-1 block">Desired move-in</label>
+                  <label className="text-xs text-white/90 mb-1 block">Desired move-in</label>
                   <Input type="date" value={inquiry.move_in} onChange={(e) => setInquiry({ ...inquiry, move_in: e.target.value })} className="bg-white/10 border-white/20" />
                 </div>
                 <Textarea placeholder="Tell the landlord about yourself, household size, etc." value={inquiry.message} onChange={(e) => setInquiry({ ...inquiry, message: e.target.value })} className="bg-white/10 border-white/20" rows={4} />
                 <Button onClick={submitInquiry} disabled={submitting} className="w-full bg-mansagold text-black hover:bg-mansagold/90 font-bold min-h-[48px]">
                   {submitting ? "Sending…" : "Send inquiry"}
                 </Button>
-                <p className="text-[11px] text-white/50">
+                <p className="text-[11px] text-white/80">
                   Mansa Stays is a listing platform. The landlord contacts you directly. We do not handle leases, deposits, or background checks.
                 </p>
               </div>
@@ -255,8 +255,8 @@ const LeaseListingDetailPage: React.FC = () => {
       {/* Mobile sticky CTA */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-black/95 backdrop-blur border-t border-white/10 p-3 flex items-center justify-between gap-3">
         <div>
-          <p className="text-mansagold font-bold text-lg leading-tight">${Number(listing.monthly_rent).toLocaleString()}<span className="text-xs text-white/50">/mo</span></p>
-          <p className="text-white/60 text-xs">{listing.bedrooms}bd · {listing.bathrooms}ba</p>
+          <p className="text-mansagold font-bold text-lg leading-tight">${Number(listing.monthly_rent).toLocaleString()}<span className="text-xs text-white/80">/mo</span></p>
+          <p className="text-white/90 text-xs">{listing.bedrooms}bd · {listing.bathrooms}ba</p>
         </div>
         <Button
           onClick={() => (document.querySelector('aside input') as HTMLElement | null)?.scrollIntoView({ behavior: "smooth", block: "center" })}

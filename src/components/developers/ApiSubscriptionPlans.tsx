@@ -54,7 +54,7 @@ const ApiSubscriptionPlans: React.FC<Props> = ({ currentTier }) => {
           <Zap className="h-5 w-5 text-mansagold" />
           <CardTitle className="text-white">API Plans</CardTitle>
         </div>
-        <CardDescription className="text-white/60">
+        <CardDescription className="text-white/90">
           Increase your monthly request quota. All paid tiers unlock every API scope.
         </CardDescription>
       </CardHeader>
@@ -89,11 +89,11 @@ const ApiSubscriptionPlans: React.FC<Props> = ({ currentTier }) => {
                 <div className="text-white font-semibold text-lg">{t.name}</div>
                 <div className="mt-1 text-white">
                   <span className="text-3xl font-bold">${t.price}</span>
-                  {isPaid && <span className="text-white/60 text-sm">/mo</span>}
+                  {isPaid && <span className="text-white/90 text-sm">/mo</span>}
                 </div>
-                <p className="text-xs text-white/60 mt-1">{t.blurb}</p>
+                <p className="text-xs text-white/90 mt-1">{t.blurb}</p>
 
-                <ul className="space-y-1.5 mt-4 mb-5 text-sm text-white/80">
+                <ul className="space-y-1.5 mt-4 mb-5 text-sm text-white">
                   {t.features.map((f) => (
                     <li key={f} className="flex items-start gap-2">
                       <Check className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
@@ -103,7 +103,7 @@ const ApiSubscriptionPlans: React.FC<Props> = ({ currentTier }) => {
                 </ul>
 
                 {isCurrent ? (
-                  <Button disabled variant="outline" className="mt-auto border-white/10 text-white/60">
+                  <Button disabled variant="outline" className="mt-auto border-white/10 text-white/90">
                     Active
                   </Button>
                 ) : isPaid ? (

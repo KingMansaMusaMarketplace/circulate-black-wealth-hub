@@ -53,7 +53,7 @@ export const Customer360Timeline: React.FC<Customer360TimelineProps> = ({
       note: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
       purchase: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
       support: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-      other: 'bg-white/10 text-white/60 border-white/20'
+      other: 'bg-white/10 text-white/90 border-white/20'
     };
     return colors[type] || colors.other;
   };

@@ -32,7 +32,7 @@ export default function CoalitionPage() {
         <header className="border-b border-white/10 bg-white/5 backdrop-blur-xl sticky top-0 z-50">
           <div className="container flex h-14 items-center">
             <Link to="/">
-              <Button variant="ghost" size="sm" className="text-white/80 hover:text-white hover:bg-white/10">
+              <Button variant="ghost" size="sm" className="text-white hover:text-white hover:bg-white/10">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back
               </Button>

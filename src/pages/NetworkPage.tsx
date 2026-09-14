@@ -26,7 +26,7 @@ const NetworkPage = () => {
           <h1 className="text-4xl font-bold text-white mb-2">
             Network <span className="bg-gradient-to-r from-blue-400 to-yellow-400 bg-clip-text text-transparent">& Community</span>
           </h1>
-          <p className="text-lg text-white/70">
+          <p className="text-lg text-white">
             Connect with friends and build economic power together
           </p>
         </motion.div>
@@ -41,7 +41,7 @@ const NetworkPage = () => {
           <div className="p-4 rounded-lg bg-slate-900/40 backdrop-blur-xl border border-white/10">
             <div className="flex items-center gap-2 mb-2">
               <Users className="w-5 h-5 text-blue-400" />
-              <span className="text-sm font-medium text-white/70">Friends</span>
+              <span className="text-sm font-medium text-white">Friends</span>
             </div>
             <p className="text-2xl font-bold text-white">0</p>
           </div>
@@ -49,7 +49,7 @@ const NetworkPage = () => {
           <div className="p-4 rounded-lg bg-slate-900/40 backdrop-blur-xl border border-white/10">
             <div className="flex items-center gap-2 mb-2">
               <Activity className="w-5 h-5 text-blue-400" />
-              <span className="text-sm font-medium text-white/70">Activities</span>
+              <span className="text-sm font-medium text-white">Activities</span>
             </div>
             <p className="text-2xl font-bold text-white">0</p>
           </div>
@@ -57,7 +57,7 @@ const NetworkPage = () => {
           <div className="p-4 rounded-lg bg-slate-900/40 backdrop-blur-xl border border-white/10">
             <div className="flex items-center gap-2 mb-2">
               <ListChecks className="w-5 h-5 text-yellow-400" />
-              <span className="text-sm font-medium text-white/70">Shopping Lists</span>
+              <span className="text-sm font-medium text-white">Shopping Lists</span>
             </div>
             <p className="text-2xl font-bold text-white">0</p>
           </div>
@@ -65,7 +65,7 @@ const NetworkPage = () => {
           <div className="p-4 rounded-lg bg-slate-900/40 backdrop-blur-xl border border-white/10">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="w-5 h-5 text-blue-400" />
-              <span className="text-sm font-medium text-white/70">Combined Impact</span>
+              <span className="text-sm font-medium text-white">Combined Impact</span>
             </div>
             <p className="text-2xl font-bold text-white">$0</p>
           </div>
@@ -79,10 +79,10 @@ const NetworkPage = () => {
         >
           <Tabs defaultValue="feed" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4 bg-slate-800/40 backdrop-blur-sm border border-white/10">
-              <TabsTrigger value="feed" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Activity Feed</TabsTrigger>
-              <TabsTrigger value="friends" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Friends</TabsTrigger>
-              <TabsTrigger value="discover" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Discover</TabsTrigger>
-              <TabsTrigger value="shopping" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Shopping Lists</TabsTrigger>
+              <TabsTrigger value="feed" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white">Activity Feed</TabsTrigger>
+              <TabsTrigger value="friends" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white">Friends</TabsTrigger>
+              <TabsTrigger value="discover" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white">Discover</TabsTrigger>
+              <TabsTrigger value="shopping" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white">Shopping Lists</TabsTrigger>
             </TabsList>
 
             <TabsContent value="feed" className="space-y-6">
@@ -101,7 +101,7 @@ const NetworkPage = () => {
               <div className="text-center py-12 bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg">
                 <ListChecks className="w-16 h-16 mx-auto mb-4 text-white/30" />
                 <h3 className="text-xl font-semibold mb-2 text-white">Shared Shopping Lists</h3>
-                <p className="text-white/70">Coming soon! Plan group shopping trips with friends.</p>
+                <p className="text-white">Coming soon! Plan group shopping trips with friends.</p>
               </div>
             </TabsContent>
           </Tabs>

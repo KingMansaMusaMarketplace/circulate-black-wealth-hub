@@ -92,19 +92,19 @@ export const KaylaInventoryManager: React.FC<Props> = ({ businessId }) => {
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-white">{items.length}</p>
-            <p className="text-xs text-white/60">Total Items</p>
+            <p className="text-xs text-white/90">Total Items</p>
           </CardContent>
         </Card>
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-red-400">{lowStock.length}</p>
-            <p className="text-xs text-white/60">Low Stock</p>
+            <p className="text-xs text-white/90">Low Stock</p>
           </CardContent>
         </Card>
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-emerald-400">${items.reduce((s, i) => s + (i.current_stock * i.unit_cost), 0).toFixed(0)}</p>
-            <p className="text-xs text-white/60">Inventory Value</p>
+            <p className="text-xs text-white/90">Inventory Value</p>
           </CardContent>
         </Card>
       </div>
@@ -118,7 +118,7 @@ export const KaylaInventoryManager: React.FC<Props> = ({ businessId }) => {
               <div key={item.id} className="flex items-center justify-between bg-slate-900/40 p-3 rounded-lg">
                 <div>
                   <p className="text-sm font-medium text-white">{item.item_name}</p>
-                  <p className="text-xs text-white/50">{item.supplier_name || 'No supplier'}</p>
+                  <p className="text-xs text-white/80">{item.supplier_name || 'No supplier'}</p>
                 </div>
                 <Badge variant="destructive">{item.current_stock} / {item.min_stock_level} min</Badge>
               </div>
@@ -159,7 +159,7 @@ export const KaylaInventoryManager: React.FC<Props> = ({ businessId }) => {
                   <p className="text-sm font-medium text-white">{v.vendor_name}</p>
                   <Badge className="bg-emerald-900/40 text-emerald-400 border-emerald-400/30">Save ~${v.estimated_savings}</Badge>
                 </div>
-                <p className="text-xs text-white/50">{v.recommendation_reason}</p>
+                <p className="text-xs text-white/80">{v.recommendation_reason}</p>
               </div>
             ))}
           </CardContent>
@@ -170,7 +170,7 @@ export const KaylaInventoryManager: React.FC<Props> = ({ businessId }) => {
         <Card className="bg-slate-800/40 border-white/10">
           <CardContent className="p-8 text-center">
             <Package className="h-12 w-12 text-yellow-400/40 mx-auto mb-3" />
-            <p className="text-white/60 text-sm">Add inventory items to get AI-powered reorder alerts and vendor recommendations.</p>
+            <p className="text-white/90 text-sm">Add inventory items to get AI-powered reorder alerts and vendor recommendations.</p>
           </CardContent>
         </Card>
       )}

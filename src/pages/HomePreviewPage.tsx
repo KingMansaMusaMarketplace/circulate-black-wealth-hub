@@ -256,7 +256,7 @@ const HomePreviewPage: React.FC = () => {
                           goToDirectory(term);
                         }}
                         className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
-                          i === selectedIndex ? 'bg-mansagold/15 text-white' : 'text-white/80 hover:bg-white/5'
+                          i === selectedIndex ? 'bg-mansagold/15 text-white' : 'text-white hover:bg-white/5'
                         }`}
                       >
                         <Search className="h-4 w-4 shrink-0 text-white/30" />
@@ -300,7 +300,7 @@ const HomePreviewPage: React.FC = () => {
             </motion.div>
 
             {businessCount > 0 && (
-              <p className="mt-5 text-sm text-white/60">
+              <p className="mt-5 text-sm text-white/90">
                 {businessCount.toLocaleString()}+ businesses listed · Free to join
               </p>
             )}
@@ -317,7 +317,7 @@ const HomePreviewPage: React.FC = () => {
                       trackFunnelEvent('home_preview_city_click', { city });
                       goToDirectory(city.split(',')[0]);
                     }}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/80 transition-colors hover:border-mansagold/40 hover:bg-mansagold/10 sm:text-sm"
+                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white transition-colors hover:border-mansagold/40 hover:bg-mansagold/10 sm:text-sm"
                   >
                     {city}
                   </button>
@@ -420,7 +420,7 @@ const HomePreviewPage: React.FC = () => {
 
             {/* Secondary business path */}
             <div className="mt-10 border-t border-white/10 pt-8">
-              <p className="flex flex-wrap items-center justify-center gap-2 text-sm text-white/60">
+              <p className="flex flex-wrap items-center justify-center gap-2 text-sm text-white/90">
                 <Store className="h-4 w-4 text-mansagold" />
                 Own a business?
                 <Link

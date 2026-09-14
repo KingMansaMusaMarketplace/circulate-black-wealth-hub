@@ -29,7 +29,7 @@ const AdminFraudDetectionPage = () => {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white font-display">AI Fraud Detection</h1>
-              <p className="text-white/70">Real-time fraud pattern analysis and prevention</p>
+              <p className="text-white">Real-time fraud pattern analysis and prevention</p>
             </div>
           </div>
         </div>

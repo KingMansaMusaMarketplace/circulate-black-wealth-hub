@@ -97,7 +97,7 @@ const AmenitiesList: React.FC<AmenitiesListProps> = ({
           return (
             <div
               key={amenity}
-              className="flex items-center gap-1.5 text-sm text-white/70"
+              className="flex items-center gap-1.5 text-sm text-white"
             >
               <Icon className="w-4 h-4 text-mansagold" />
               <span>{AMENITY_LABELS[amenity] || amenity}</span>
@@ -105,7 +105,7 @@ const AmenitiesList: React.FC<AmenitiesListProps> = ({
           );
         })}
         {remainingCount > 0 && (
-          <span className="text-sm text-white/60">
+          <span className="text-sm text-white/90">
             +{remainingCount} more
           </span>
         )}
@@ -132,7 +132,7 @@ const AmenitiesList: React.FC<AmenitiesListProps> = ({
           );
         })}
         {remainingCount > 0 && (
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-white/10 text-white/60">
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-white/10 text-white/90">
             <span className="text-sm">+{remainingCount} more amenities</span>
           </div>
         )}
@@ -159,7 +159,7 @@ const AmenitiesList: React.FC<AmenitiesListProps> = ({
         );
       })}
       {remainingCount > 0 && (
-        <span className="text-sm text-white/60">
+        <span className="text-sm text-white/90">
           +{remainingCount} more amenities
         </span>
       )}

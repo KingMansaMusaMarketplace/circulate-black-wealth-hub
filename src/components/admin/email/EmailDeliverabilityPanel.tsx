@@ -137,7 +137,7 @@ const EmailDeliverabilityPanel: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-white">Email Deliverability</h2>
-          <p className="text-sm text-white/60">Bounces, complaints, suppressions, and failing templates</p>
+          <p className="text-sm text-white/90">Bounces, complaints, suppressions, and failing templates</p>
         </div>
         <div className="flex gap-2 items-center">
           <Tabs value={String(windowDays)} onValueChange={(v) => setWindowDays(Number(v) as 1 | 7 | 30)}>
@@ -155,24 +155,24 @@ const EmailDeliverabilityPanel: React.FC = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card><CardContent className="p-4">
-          <div className="text-xs text-white/60">Delivery Rate</div>
+          <div className="text-xs text-white/90">Delivery Rate</div>
           <div className="text-2xl font-bold text-mansagold mt-1">{stats.deliveryRate.toFixed(1)}%</div>
           <div className="text-xs text-white/40 mt-1">{stats.sent} of {stats.total}</div>
         </CardContent></Card>
         <Card><CardContent className="p-4">
-          <div className="flex items-center gap-1 text-xs text-white/60"><TrendingDown className="h-3 w-3" /> Failure Rate</div>
+          <div className="flex items-center gap-1 text-xs text-white/90"><TrendingDown className="h-3 w-3" /> Failure Rate</div>
           <div className="text-2xl font-bold text-red-400 mt-1">{stats.failureRate.toFixed(1)}%</div>
         </CardContent></Card>
         <Card><CardContent className="p-4">
-          <div className="flex items-center gap-1 text-xs text-white/60"><AlertOctagon className="h-3 w-3" /> Failed/Bounced</div>
+          <div className="flex items-center gap-1 text-xs text-white/90"><AlertOctagon className="h-3 w-3" /> Failed/Bounced</div>
           <div className="text-2xl font-bold text-white mt-1">{stats.failed}</div>
         </CardContent></Card>
         <Card><CardContent className="p-4">
-          <div className="flex items-center gap-1 text-xs text-white/60"><MailX className="h-3 w-3" /> Complaints</div>
+          <div className="flex items-center gap-1 text-xs text-white/90"><MailX className="h-3 w-3" /> Complaints</div>
           <div className="text-2xl font-bold text-amber-400 mt-1">{stats.complained}</div>
         </CardContent></Card>
         <Card><CardContent className="p-4">
-          <div className="flex items-center gap-1 text-xs text-white/60"><ShieldOff className="h-3 w-3" /> Suppression List</div>
+          <div className="flex items-center gap-1 text-xs text-white/90"><ShieldOff className="h-3 w-3" /> Suppression List</div>
           <div className="text-2xl font-bold text-white mt-1">{suppressed.length}</div>
         </CardContent></Card>
       </div>
@@ -189,7 +189,7 @@ const EmailDeliverabilityPanel: React.FC = () => {
             <CardHeader><CardTitle className="text-base">Templates with Failures</CardTitle></CardHeader>
             <CardContent>
               {failingTemplates.length === 0 ? (
-                <p className="text-sm text-white/50">No template failures in the selected window.</p>
+                <p className="text-sm text-white/80">No template failures in the selected window.</p>
               ) : (
                 <Table>
                   <TableHeader><TableRow>
@@ -206,7 +206,7 @@ const EmailDeliverabilityPanel: React.FC = () => {
                         <TableCell>{t.sent}</TableCell>
                         <TableCell className="text-red-400">{t.failed}</TableCell>
                         <TableCell><Badge variant={t.rate > 10 ? 'destructive' : 'secondary'}>{t.rate.toFixed(1)}%</Badge></TableCell>
-                        <TableCell className="text-xs text-white/60 max-w-md truncate">{t.lastErr ?? '—'}</TableCell>
+                        <TableCell className="text-xs text-white/90 max-w-md truncate">{t.lastErr ?? '—'}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -240,7 +240,7 @@ const EmailDeliverabilityPanel: React.FC = () => {
                       <TableCell className="text-xs">{r.template_name}</TableCell>
                       <TableCell className="text-xs">{r.recipient_email}</TableCell>
                       <TableCell><Badge variant={statusColor(r.status) as any}>{r.status}</Badge></TableCell>
-                      <TableCell className="text-xs text-white/60 max-w-md truncate">{r.error_message ?? '—'}</TableCell>
+                      <TableCell className="text-xs text-white/90 max-w-md truncate">{r.error_message ?? '—'}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

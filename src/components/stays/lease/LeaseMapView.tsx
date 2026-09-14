@@ -140,14 +140,14 @@ const LeaseMapView: React.FC<Props> = ({ listings, height = "600px" }) => {
 
   if (loading) {
     return (
-      <div style={{ height }} className="bg-white/5 rounded-xl flex items-center justify-center text-white/60">
+      <div style={{ height }} className="bg-white/5 rounded-xl flex items-center justify-center text-white/90">
         Loading map…
       </div>
     );
   }
   if (!token) {
     return (
-      <div style={{ height }} className="bg-white/5 rounded-xl flex items-center justify-center text-white/60 text-sm text-center p-6">
+      <div style={{ height }} className="bg-white/5 rounded-xl flex items-center justify-center text-white/90 text-sm text-center p-6">
         Map unavailable. Mapbox token not configured.
       </div>
     );

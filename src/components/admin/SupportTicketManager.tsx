@@ -161,7 +161,7 @@ const SupportTicketManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Ticket className="h-8 w-8 text-blue-400" />
               <div>
-                <p className="text-white/60 text-sm">Open</p>
+                <p className="text-white/90 text-sm">Open</p>
                 <p className="text-2xl font-bold text-blue-400">{stats.open}</p>
               </div>
             </div>
@@ -172,7 +172,7 @@ const SupportTicketManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Clock className="h-8 w-8 text-purple-400" />
               <div>
-                <p className="text-white/60 text-sm">In Progress</p>
+                <p className="text-white/90 text-sm">In Progress</p>
                 <p className="text-2xl font-bold text-purple-400">{stats.inProgress}</p>
               </div>
             </div>
@@ -183,7 +183,7 @@ const SupportTicketManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <AlertCircle className="h-8 w-8 text-red-400" />
               <div>
-                <p className="text-white/60 text-sm">Urgent</p>
+                <p className="text-white/90 text-sm">Urgent</p>
                 <p className="text-2xl font-bold text-red-400">{stats.urgent}</p>
               </div>
             </div>
@@ -194,7 +194,7 @@ const SupportTicketManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <CheckCircle className="h-8 w-8 text-green-400" />
               <div>
-                <p className="text-white/60 text-sm">Resolved</p>
+                <p className="text-white/90 text-sm">Resolved</p>
                 <p className="text-2xl font-bold text-green-400">{stats.resolved}</p>
               </div>
             </div>
@@ -271,10 +271,10 @@ const SupportTicketManager: React.FC = () => {
                               <Badge className={getStatusColor(ticket.status)}>{ticket.status.replace('_', ' ')}</Badge>
                             </div>
                             <h4 className="text-white font-medium truncate">{ticket.subject}</h4>
-                            <p className="text-white/60 text-sm truncate mt-1">{ticket.description}</p>
+                            <p className="text-white/90 text-sm truncate mt-1">{ticket.description}</p>
                           </div>
                           <div className="text-right shrink-0">
-                            <p className="text-white/60 text-xs">{format(new Date(ticket.created_at), 'MMM d, HH:mm')}</p>
+                            <p className="text-white/90 text-xs">{format(new Date(ticket.created_at), 'MMM d, HH:mm')}</p>
                             <Badge variant="outline" className="mt-1 text-xs">{ticket.category}</Badge>
                           </div>
                         </div>
@@ -325,10 +325,10 @@ const SupportTicketManager: React.FC = () => {
                         {/* Original Message */}
                         <div className="p-4 bg-white/5 rounded-lg border border-white/10">
                           <div className="flex items-center gap-2 mb-2">
-                            <User className="h-4 w-4 text-white/60" />
-                            <span className="text-white/60 text-sm">Original Request</span>
+                            <User className="h-4 w-4 text-white/90" />
+                            <span className="text-white/90 text-sm">Original Request</span>
                           </div>
-                          <p className="text-white/80">{ticket.description}</p>
+                          <p className="text-white">{ticket.description}</p>
                         </div>
 
                         {/* Messages */}
@@ -344,8 +344,8 @@ const SupportTicketManager: React.FC = () => {
                                 }`}
                               >
                                 <div className="flex items-center gap-2 mb-1">
-                                  <MessageSquare className="h-3 w-3 text-white/60" />
-                                  <span className="text-white/60 text-xs">
+                                  <MessageSquare className="h-3 w-3 text-white/90" />
+                                  <span className="text-white/90 text-xs">
                                     {format(new Date(msg.created_at), 'MMM d, HH:mm')}
                                   </span>
                                   {msg.is_internal_note && (
@@ -354,7 +354,7 @@ const SupportTicketManager: React.FC = () => {
                                     </Badge>
                                   )}
                                 </div>
-                                <p className="text-white/80 text-sm">{msg.message}</p>
+                                <p className="text-white text-sm">{msg.message}</p>
                               </div>
                             ))}
                           </div>
@@ -369,7 +369,7 @@ const SupportTicketManager: React.FC = () => {
                             className="bg-white/5 border-white/20 text-white min-h-[100px]"
                           />
                           <div className="flex items-center justify-between">
-                            <label className="flex items-center gap-2 text-white/60 text-sm cursor-pointer">
+                            <label className="flex items-center gap-2 text-white/90 text-sm cursor-pointer">
                               <input
                                 type="checkbox"
                                 checked={isInternalNote}
@@ -393,7 +393,7 @@ const SupportTicketManager: React.FC = () => {
                   </Dialog>
                 ))}
                 {filteredTickets?.length === 0 && (
-                  <div className="text-center py-12 text-white/60">
+                  <div className="text-center py-12 text-white/90">
                     No tickets found
                   </div>
                 )}

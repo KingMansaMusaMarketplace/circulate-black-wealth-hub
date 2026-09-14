@@ -193,7 +193,7 @@ const MarketingMaterialsPage: React.FC = () => {
               <Lock className="h-8 w-8 text-mansagold" />
             </div>
             <CardTitle className="text-white text-2xl">Sign in required</CardTitle>
-            <CardDescription className="text-white/70">
+            <CardDescription className="text-white">
               Marketing materials are available to signed-in sales agents and ambassadors.
             </CardDescription>
           </CardHeader>
@@ -225,7 +225,7 @@ const MarketingMaterialsPage: React.FC = () => {
           <Button
             variant="ghost"
             onClick={() => navigate('/sales-agent-dashboard')}
-            className="mb-4 text-white/70 hover:text-white hover:bg-white/10"
+            className="mb-4 text-white hover:text-white hover:bg-white/10"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Dashboard
@@ -246,7 +246,7 @@ const MarketingMaterialsPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" className="bg-slate-800/40 backdrop-blur-sm border-white/10 text-white/70 hover:text-white hover:bg-slate-800/60">
+                <Button variant="outline" className="bg-slate-800/40 backdrop-blur-sm border-white/10 text-white hover:text-white hover:bg-slate-800/60">
                   <Filter className="mr-2 h-4 w-4 text-mansagold" />
                   Filters
                   {(selectedCategories.length > 0 || selectedTags.length > 0) && (
@@ -287,11 +287,11 @@ const MarketingMaterialsPage: React.FC = () => {
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-5 mb-8 bg-slate-800/40 backdrop-blur-sm border border-white/10 p-1">
-            <TabsTrigger value="all" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">All Materials</TabsTrigger>
-            <TabsTrigger value="banner" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Banners</TabsTrigger>
-            <TabsTrigger value="social" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Social Media</TabsTrigger>
-            <TabsTrigger value="email" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-500 data-[state=active]:text-white">Email Templates</TabsTrigger>
-            <TabsTrigger value="document" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-500 data-[state=active]:text-white">Documents</TabsTrigger>
+            <TabsTrigger value="all" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">All Materials</TabsTrigger>
+            <TabsTrigger value="banner" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Banners</TabsTrigger>
+            <TabsTrigger value="social" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Social Media</TabsTrigger>
+            <TabsTrigger value="email" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-500 data-[state=active]:text-white">Email Templates</TabsTrigger>
+            <TabsTrigger value="document" className="text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-500 data-[state=active]:text-white">Documents</TabsTrigger>
           </TabsList>
 
           <TabsContent value={activeTab} className="mt-0">
@@ -339,11 +339,11 @@ const MarketingMaterialsPage: React.FC = () => {
                             <div>
                               <CardTitle className="text-lg text-white">{material.title}</CardTitle>
                               {material.dimensions && (
-                                <p className="text-xs text-white/60 mt-1">
+                                <p className="text-xs text-white/90 mt-1">
                                   {material.dimensions}
                                 </p>
                               )}
-                                <p className="text-xs text-white/60">
+                                <p className="text-xs text-white/90">
                                   {material.download_count} downloads
                                 </p>
                               </div>
@@ -375,7 +375,7 @@ const MarketingMaterialsPage: React.FC = () => {
                           )}
                       </CardHeader>
                       <CardContent>
-                        <CardDescription className="mb-4 text-white/70">
+                        <CardDescription className="mb-4 text-white">
                           {material.description}
                         </CardDescription>
                         <div className="flex space-x-2">
@@ -392,7 +392,7 @@ const MarketingMaterialsPage: React.FC = () => {
                             onClick={() => handleShare(material)}
                             variant="outline"
                             size="sm"
-                            className="bg-slate-800/40 border-white/10 text-white/70 hover:text-white hover:bg-slate-800/60"
+                            className="bg-slate-800/40 border-white/10 text-white hover:text-white hover:bg-slate-800/60"
                           >
                             <Share2 className="h-4 w-4" />
                           </Button>
@@ -417,31 +417,31 @@ const MarketingMaterialsPage: React.FC = () => {
             <div className="flex items-start gap-3 p-3 rounded-lg bg-blue-500/20 backdrop-blur-sm border border-blue-400/30">
               <span className="text-2xl">🎯</span>
               <p className="text-sm">
-                <strong className="text-white">Personalize your outreach:</strong> <span className="text-white/70">Add your referral code to all shared materials</span>
+                <strong className="text-white">Personalize your outreach:</strong> <span className="text-white">Add your referral code to all shared materials</span>
               </p>
             </div>
             <div className="flex items-start gap-3 p-3 rounded-lg bg-green-500/20 backdrop-blur-sm border border-green-400/30">
               <span className="text-2xl">⭐</span>
               <p className="text-sm">
-                <strong className="text-white">Use social proof:</strong> <span className="text-white/70">Share success stories and testimonials</span>
+                <strong className="text-white">Use social proof:</strong> <span className="text-white">Share success stories and testimonials</span>
               </p>
             </div>
             <div className="flex items-start gap-3 p-3 rounded-lg bg-purple-500/20 backdrop-blur-sm border border-purple-400/30">
               <span className="text-2xl">📅</span>
               <p className="text-sm">
-                <strong className="text-white">Be consistent:</strong> <span className="text-white/70">Post regularly across all platforms</span>
+                <strong className="text-white">Be consistent:</strong> <span className="text-white">Post regularly across all platforms</span>
               </p>
             </div>
             <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-500/20 backdrop-blur-sm border border-amber-400/30">
               <span className="text-2xl">📊</span>
               <p className="text-sm">
-                <strong className="text-white">Track results:</strong> <span className="text-white/70">Monitor which materials drive the most referrals</span>
+                <strong className="text-white">Track results:</strong> <span className="text-white">Monitor which materials drive the most referrals</span>
               </p>
             </div>
             <div className="flex items-start gap-3 p-3 rounded-lg bg-rose-500/20 backdrop-blur-sm border border-rose-400/30">
               <span className="text-2xl">💚</span>
               <p className="text-sm">
-                <strong className="text-white">Engage authentically:</strong> <span className="text-white/70">Share your genuine passion for economic empowerment</span>
+                <strong className="text-white">Engage authentically:</strong> <span className="text-white">Share your genuine passion for economic empowerment</span>
               </p>
             </div>
           </CardContent>

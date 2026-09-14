@@ -102,7 +102,7 @@ const PWAInstallBanner: React.FC = () => {
 
           <button
             onClick={handleDismiss}
-            className="shrink-0 text-white/40 hover:text-white/70 transition-colors p-1"
+            className="shrink-0 text-white/40 hover:text-white transition-colors p-1"
             aria-label="Dismiss install prompt"
           >
             <X className="h-4 w-4" />

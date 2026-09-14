@@ -134,7 +134,7 @@ const ApiPlayground: React.FC<ApiPlaygroundProps> = ({ apiName, baseUrl, endpoin
                   </Badge>
                 )}
               </CardTitle>
-              <CardDescription className="text-white/60">
+              <CardDescription className="text-white/90">
                 Test this endpoint live in your browser
               </CardDescription>
             </div>
@@ -155,7 +155,7 @@ const ApiPlayground: React.FC<ApiPlaygroundProps> = ({ apiName, baseUrl, endpoin
         {/* API Key Input (only for live mode) */}
         {!useSandbox && (
           <div className="space-y-2">
-            <Label htmlFor="api-key" className="text-white/80">
+            <Label htmlFor="api-key" className="text-white">
               API Key
             </Label>
             <Input
@@ -166,7 +166,7 @@ const ApiPlayground: React.FC<ApiPlaygroundProps> = ({ apiName, baseUrl, endpoin
               onChange={(e) => setApiKey(e.target.value)}
               className="bg-slate-900/80 border-white/20 text-white placeholder:text-white/40 font-mono"
             />
-            <p className="text-xs text-white/50">
+            <p className="text-xs text-white/80">
               Your API key is not stored. Get your key from the{' '}
               <a href="/developers/dashboard" className="text-mansablue hover:underline">
                 Dashboard
@@ -187,14 +187,14 @@ const ApiPlayground: React.FC<ApiPlaygroundProps> = ({ apiName, baseUrl, endpoin
         {/* Request Body Editor */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="request-body" className="text-white/80">
+            <Label htmlFor="request-body" className="text-white">
               Request Body
             </Label>
             <Button
               variant="ghost"
               size="sm"
               onClick={resetToDefault}
-              className="text-white/60 hover:text-white hover:bg-white/10 text-xs"
+              className="text-white/90 hover:text-white hover:bg-white/10 text-xs"
             >
               Reset to Default
             </Button>
@@ -231,7 +231,7 @@ const ApiPlayground: React.FC<ApiPlaygroundProps> = ({ apiName, baseUrl, endpoin
         {(response || status === 'loading') && (
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-white/80">Response</Label>
+              <Label className="text-white">Response</Label>
               <div className="flex items-center gap-3">
                 {httpStatus !== null && (
                   <Badge
@@ -250,7 +250,7 @@ const ApiPlayground: React.FC<ApiPlaygroundProps> = ({ apiName, baseUrl, endpoin
                   </Badge>
                 )}
                 {latency !== null && (
-                  <Badge variant="outline" className="border-white/20 text-white/60">
+                  <Badge variant="outline" className="border-white/20 text-white/90">
                     <Clock className="h-3 w-3 mr-1" />
                     {latency}ms
                   </Badge>

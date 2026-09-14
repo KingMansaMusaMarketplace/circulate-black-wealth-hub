@@ -250,7 +250,7 @@ const BroadcastAnnouncements: React.FC = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-xs text-white/60">User Type</label>
+                        <label className="text-xs text-white/90">User Type</label>
                         <Select value={filters.user_type ?? ANY} onValueChange={(v) => setF({ user_type: v === ANY ? undefined : v })}>
                           <SelectTrigger><SelectValue placeholder="Any" /></SelectTrigger>
                           <SelectContent>
@@ -262,7 +262,7 @@ const BroadcastAnnouncements: React.FC = () => {
                         </Select>
                       </div>
                       <div>
-                        <label className="text-xs text-white/60">Subscription Tier</label>
+                        <label className="text-xs text-white/90">Subscription Tier</label>
                         <Select value={filters.subscription_tier ?? ANY} onValueChange={(v) => setF({ subscription_tier: v === ANY ? undefined : v })}>
                           <SelectTrigger><SelectValue placeholder="Any" /></SelectTrigger>
                           <SelectContent>
@@ -274,15 +274,15 @@ const BroadcastAnnouncements: React.FC = () => {
                         </Select>
                       </div>
                       <div>
-                        <label className="text-xs text-white/60">City</label>
+                        <label className="text-xs text-white/90">City</label>
                         <Input value={filters.city ?? ''} onChange={(e) => setF({ city: e.target.value || undefined })} placeholder="e.g. Chicago" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/60">State</label>
+                        <label className="text-xs text-white/90">State</label>
                         <Input value={filters.state ?? ''} onChange={(e) => setF({ state: e.target.value || undefined })} placeholder="e.g. IL" />
                       </div>
                       <div>
-                        <label className="text-xs text-white/60">Signed up within (days)</label>
+                        <label className="text-xs text-white/90">Signed up within (days)</label>
                         <Input type="number" min={0} value={filters.signed_up_within_days ?? ''} onChange={(e) => setF({ signed_up_within_days: e.target.value ? Number(e.target.value) : undefined })} />
                       </div>
                       <div className="flex flex-col justify-end gap-2">
@@ -309,15 +309,15 @@ const BroadcastAnnouncements: React.FC = () => {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <label className="text-xs text-white/60">Priority (0-10)</label>
+                      <label className="text-xs text-white/90">Priority (0-10)</label>
                       <Input type="number" min={0} max={10} value={priority} onChange={(e) => setPriority(Number(e.target.value))} />
                     </div>
                     <div>
-                      <label className="text-xs text-white/60">Starts At</label>
+                      <label className="text-xs text-white/90">Starts At</label>
                       <Input type="datetime-local" value={startsAt} onChange={(e) => setStartsAt(e.target.value)} />
                     </div>
                     <div>
-                      <label className="text-xs text-white/60">Expires At</label>
+                      <label className="text-xs text-white/90">Expires At</label>
                       <Input type="datetime-local" value={expiresAt} onChange={(e) => setExpiresAt(e.target.value)} />
                     </div>
                   </div>

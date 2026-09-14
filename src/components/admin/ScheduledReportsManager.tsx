@@ -166,7 +166,7 @@ const ScheduledReportsManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Calendar className="h-8 w-8 text-mansagold" />
               <div>
-                <p className="text-white/60 text-sm">Total Reports</p>
+                <p className="text-white/90 text-sm">Total Reports</p>
                 <p className="text-2xl font-bold text-mansagold">{stats.total}</p>
               </div>
             </div>
@@ -177,7 +177,7 @@ const ScheduledReportsManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Play className="h-8 w-8 text-green-400" />
               <div>
-                <p className="text-white/60 text-sm">Active</p>
+                <p className="text-white/90 text-sm">Active</p>
                 <p className="text-2xl font-bold text-green-400">{stats.active}</p>
               </div>
             </div>
@@ -188,7 +188,7 @@ const ScheduledReportsManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Clock className="h-8 w-8 text-blue-400" />
               <div>
-                <p className="text-white/60 text-sm">Daily</p>
+                <p className="text-white/90 text-sm">Daily</p>
                 <p className="text-2xl font-bold text-blue-400">{stats.daily}</p>
               </div>
             </div>
@@ -199,7 +199,7 @@ const ScheduledReportsManager: React.FC = () => {
             <div className="flex items-center gap-3">
               <Mail className="h-8 w-8 text-purple-400" />
               <div>
-                <p className="text-white/60 text-sm">Weekly</p>
+                <p className="text-white/90 text-sm">Weekly</p>
                 <p className="text-2xl font-bold text-purple-400">{stats.weekly}</p>
               </div>
             </div>
@@ -227,7 +227,7 @@ const ScheduledReportsManager: React.FC = () => {
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
-                    <Label className="text-white/80">Report Name</Label>
+                    <Label className="text-white">Report Name</Label>
                     <Input
                       value={formData.report_name}
                       onChange={(e) => setFormData(prev => ({ ...prev, report_name: e.target.value }))}
@@ -236,7 +236,7 @@ const ScheduledReportsManager: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <Label className="text-white/80">Report Type</Label>
+                    <Label className="text-white">Report Type</Label>
                     <Select
                       value={formData.report_type}
                       onValueChange={(value) => setFormData(prev => ({ ...prev, report_type: value }))}
@@ -257,7 +257,7 @@ const ScheduledReportsManager: React.FC = () => {
                     </Select>
                   </div>
                   <div>
-                    <Label className="text-white/80">Frequency</Label>
+                    <Label className="text-white">Frequency</Label>
                     <Select
                       value={formData.frequency}
                       onValueChange={(value) => setFormData(prev => ({ ...prev, frequency: value }))}
@@ -273,7 +273,7 @@ const ScheduledReportsManager: React.FC = () => {
                     </Select>
                   </div>
                   <div>
-                    <Label className="text-white/80">Recipients (comma-separated emails)</Label>
+                    <Label className="text-white">Recipients (comma-separated emails)</Label>
                     <Input
                       value={formData.recipients}
                       onChange={(e) => setFormData(prev => ({ ...prev, recipients: e.target.value }))}
@@ -317,7 +317,7 @@ const ScheduledReportsManager: React.FC = () => {
                             {report.frequency}
                           </Badge>
                         </div>
-                        <p className="text-white/60 text-sm">
+                        <p className="text-white/90 text-sm">
                           {reportTypes.find(t => t.value === report.report_type)?.label || report.report_type}
                         </p>
                         <div className="flex items-center gap-4 mt-2 text-white/40 text-xs">
@@ -356,7 +356,7 @@ const ScheduledReportsManager: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-white/60">
+              <div className="text-center py-12 text-white/90">
                 <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>No scheduled reports yet</p>
               </div>

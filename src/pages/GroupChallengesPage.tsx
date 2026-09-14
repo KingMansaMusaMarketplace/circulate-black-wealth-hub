@@ -49,7 +49,7 @@ const GroupChallengesPage: React.FC = () => {
               </div>
               <div>
                 <CardTitle className="text-lg text-white">{challenge.title}</CardTitle>
-                <CardDescription className="mt-1 text-white/60">{challenge.description}</CardDescription>
+                <CardDescription className="mt-1 text-white/90">{challenge.description}</CardDescription>
               </div>
             </div>
             {isParticipating && (
@@ -64,13 +64,13 @@ const GroupChallengesPage: React.FC = () => {
           {/* Progress */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-white/60">{getChallengeTypeLabel(challenge.challenge_type)}</span>
+              <span className="text-white/90">{getChallengeTypeLabel(challenge.challenge_type)}</span>
               <span className="font-medium text-white">
                 {challenge.current_value.toLocaleString()} / {challenge.goal_value.toLocaleString()}
               </span>
             </div>
             <Progress value={Math.min(progress, 100)} className="h-2 bg-white/10" />
-            <p className="text-xs text-white/60">{progress.toFixed(1)}% complete</p>
+            <p className="text-xs text-white/90">{progress.toFixed(1)}% complete</p>
           </div>
 
           {/* Stats */}
@@ -80,21 +80,21 @@ const GroupChallengesPage: React.FC = () => {
                 <Users className="h-4 w-4" />
               </div>
               <p className="text-lg font-bold text-white">{challenge.participant_count}</p>
-              <p className="text-xs text-white/60">Participants</p>
+              <p className="text-xs text-white/90">Participants</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center gap-1 text-mansagold mb-1">
                 <Trophy className="h-4 w-4" />
               </div>
               <p className="text-lg font-bold text-white">{challenge.reward_points}</p>
-              <p className="text-xs text-white/60">Points Reward</p>
+              <p className="text-xs text-white/90">Points Reward</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center gap-1 text-mansagold mb-1">
                 <Clock className="h-4 w-4" />
               </div>
               <p className="text-xs font-medium text-white">{daysLeft}</p>
-              <p className="text-xs text-white/60">Remaining</p>
+              <p className="text-xs text-white/90">Remaining</p>
             </div>
           </div>
 
@@ -147,7 +147,7 @@ const GroupChallengesPage: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-3 text-white">
               Group <span className="text-mansagold">Challenges</span> 🏆
             </h1>
-            <p className="text-white/70 text-lg md:text-xl">
+            <p className="text-white text-lg md:text-xl">
               Join forces with the community to achieve collective goals and earn rewards 🎯
             </p>
           </div>
@@ -180,8 +180,8 @@ const GroupChallengesPage: React.FC = () => {
                 <Card className="backdrop-blur-xl bg-white/10 border-white/20">
                   <CardContent className="p-12 text-center">
                     <Trophy className="h-12 w-12 text-mansagold mx-auto mb-4" />
-                    <p className="text-white/70">No active challenges at the moment</p>
-                    <p className="text-sm text-white/50 mt-2">Check back soon for new opportunities!</p>
+                    <p className="text-white">No active challenges at the moment</p>
+                    <p className="text-sm text-white/80 mt-2">Check back soon for new opportunities!</p>
                   </CardContent>
                 </Card>
               )}
@@ -198,8 +198,8 @@ const GroupChallengesPage: React.FC = () => {
                 <Card className="backdrop-blur-xl bg-white/10 border-white/20">
                   <CardContent className="p-12 text-center">
                     <Users className="h-12 w-12 text-mansagold mx-auto mb-4" />
-                    <p className="text-white/70">You haven't joined any challenges yet</p>
-                    <p className="text-sm text-white/50 mt-2">Browse all challenges to get started!</p>
+                    <p className="text-white">You haven't joined any challenges yet</p>
+                    <p className="text-sm text-white/80 mt-2">Browse all challenges to get started!</p>
                   </CardContent>
                 </Card>
               )}

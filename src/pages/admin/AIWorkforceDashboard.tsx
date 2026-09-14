@@ -168,7 +168,7 @@ const AIWorkforceDashboard: React.FC = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Link to="/admin-dashboard">
-              <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/10">
+              <Button variant="ghost" size="icon" className="text-white hover:text-white hover:bg-white/10">
                 <ArrowLeft className="h-5 w-5" />
               </Button>
             </Link>
@@ -177,7 +177,7 @@ const AIWorkforceDashboard: React.FC = () => {
                 <Bot className="w-8 h-8 text-[#FFB300]" />
                 <h1 className="text-3xl font-bold text-white">AI Workforce Dashboard</h1>
               </div>
-              <p className="text-white/50 mt-1 ml-11">Powered by Kayla — Real-time agent monitoring</p>
+              <p className="text-white/80 mt-1 ml-11">Powered by Kayla — Real-time agent monitoring</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -263,7 +263,7 @@ const AIWorkforceDashboard: React.FC = () => {
               <div className="space-y-4">
                 <div className="bg-white/5 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-white/60 text-xs">Estimated MRR</span>
+                    <span className="text-white/90 text-xs">Estimated MRR</span>
                     <DollarSign className="w-4 h-4 text-emerald-400" />
                   </div>
                   <div className="text-2xl font-bold text-emerald-400">
@@ -274,17 +274,17 @@ const AIWorkforceDashboard: React.FC = () => {
                 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-white/5 rounded-lg p-3">
-                    <div className="text-white/60 text-xs mb-1">Total Businesses</div>
+                    <div className="text-white/90 text-xs mb-1">Total Businesses</div>
                     <div className="text-xl font-bold text-white">{metrics?.cro.totalBusinesses.toLocaleString() || '—'}</div>
                   </div>
                   <div className="bg-white/5 rounded-lg p-3">
-                    <div className="text-white/60 text-xs mb-1">New (30d)</div>
+                    <div className="text-white/90 text-xs mb-1">New (30d)</div>
                     <div className="text-xl font-bold text-white">{metrics?.cro.newBusinesses30d.toLocaleString() || '—'}</div>
                   </div>
                 </div>
 
                 <div className="bg-white/5 rounded-lg p-3">
-                  <div className="text-white/60 text-xs mb-1">Revenue Streams Monitored</div>
+                  <div className="text-white/90 text-xs mb-1">Revenue Streams Monitored</div>
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {['Marketplace', 'SaaS', 'Loyalty', 'B2B', 'API', 'Ads', 'Data', 'White-Label'].map((stream) => (
                       <span key={stream} className="text-[10px] bg-emerald-500/10 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/20">
@@ -297,7 +297,7 @@ const AIWorkforceDashboard: React.FC = () => {
                 <div className="bg-white/5 rounded-lg p-3">
                   <div className="flex items-center gap-2 text-xs">
                     <Activity className="w-3 h-3 text-emerald-400" />
-                    <span className="text-white/60">Last analysis:</span>
+                    <span className="text-white/90">Last analysis:</span>
                     <span className="text-emerald-400 font-medium">Just now</span>
                   </div>
                 </div>
@@ -323,7 +323,7 @@ const AIWorkforceDashboard: React.FC = () => {
               <div className="space-y-4">
                 <div className="bg-white/5 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-white/60 text-xs">Patent Claims</span>
+                    <span className="text-white/90 text-xs">Patent Claims</span>
                     <FileText className="w-4 h-4 text-blue-400" />
                   </div>
                   <div className="text-2xl font-bold text-blue-400">
@@ -333,11 +333,11 @@ const AIWorkforceDashboard: React.FC = () => {
                 </div>
 
                 <div className="bg-white/5 rounded-lg p-3">
-                  <div className="text-white/60 text-xs mb-2">Claim Categories</div>
+                  <div className="text-white/90 text-xs mb-2">Claim Categories</div>
                   <div className="space-y-2">
                     {metrics?.ipShield.categories.map((cat) => (
                       <div key={cat.name} className="flex items-center justify-between">
-                        <span className="text-white/80 text-xs">{cat.name}</span>
+                        <span className="text-white text-xs">{cat.name}</span>
                         <div className="flex items-center gap-2">
                           <div className="w-20 h-1.5 bg-white/10 rounded-full overflow-hidden">
                             <div 
@@ -354,11 +354,11 @@ const AIWorkforceDashboard: React.FC = () => {
 
                 <div className="grid grid-cols-1 gap-2">
                   <div className="bg-white/5 rounded-lg p-3 flex items-center justify-between">
-                    <span className="text-white/60 text-xs">Filed</span>
+                    <span className="text-white/90 text-xs">Filed</span>
                     <span className="text-white font-medium text-xs">{metrics?.ipShield.filingDate}</span>
                   </div>
                   <div className="bg-white/5 rounded-lg p-3 flex items-center justify-between">
-                    <span className="text-white/60 text-xs">Amendment</span>
+                    <span className="text-white/90 text-xs">Amendment</span>
                     <span className="text-white font-medium text-xs">{metrics?.ipShield.amendmentDate}</span>
                   </div>
                 </div>
@@ -366,7 +366,7 @@ const AIWorkforceDashboard: React.FC = () => {
                 <div className="bg-white/5 rounded-lg p-3">
                   <div className="flex items-center gap-2 text-xs">
                     <CheckCircle2 className="w-3 h-3 text-blue-400" />
-                    <span className="text-white/60">Status:</span>
+                    <span className="text-white/90">Status:</span>
                     <span className="text-blue-400 font-medium">Provisional — Active Protection</span>
                   </div>
                 </div>
@@ -391,28 +391,28 @@ const AIWorkforceDashboard: React.FC = () => {
               
               <div className="space-y-4">
                 <div className="bg-white/5 rounded-lg p-4">
-                  <div className="text-white/60 text-xs mb-2">Investor-Ready KPIs</div>
+                  <div className="text-white/90 text-xs mb-2">Investor-Ready KPIs</div>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-white/80 text-xs flex items-center gap-1.5">
+                      <span className="text-white text-xs flex items-center gap-1.5">
                         <Building2 className="w-3 h-3" /> Businesses on Platform
                       </span>
                       <span className="text-amber-400 font-bold">{metrics?.ir.totalBusinesses.toLocaleString()}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-white/80 text-xs flex items-center gap-1.5">
+                      <span className="text-white text-xs flex items-center gap-1.5">
                         <DollarSign className="w-3 h-3" /> Active Subscriptions
                       </span>
                       <span className="text-amber-400 font-bold">{metrics?.ir.activeSubscriptions}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-white/80 text-xs flex items-center gap-1.5">
+                      <span className="text-white text-xs flex items-center gap-1.5">
                         <FileText className="w-3 h-3" /> Patent Claims
                       </span>
                       <span className="text-amber-400 font-bold">{metrics?.ir.patentsClaimed}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-white/80 text-xs flex items-center gap-1.5">
+                      <span className="text-white text-xs flex items-center gap-1.5">
                         <Clock className="w-3 h-3" /> Build Duration
                       </span>
                       <span className="text-amber-400 font-bold">{metrics?.ir.platformAge}</span>
@@ -421,7 +421,7 @@ const AIWorkforceDashboard: React.FC = () => {
                 </div>
 
                 <div className="bg-white/5 rounded-lg p-3">
-                  <div className="text-white/60 text-xs mb-2">Data Room Status</div>
+                  <div className="text-white/90 text-xs mb-2">Data Room Status</div>
                   <div className="space-y-2">
                     {[
                       { name: 'Pitch Deck (15 slides)', status: 'ready' },
@@ -431,7 +431,7 @@ const AIWorkforceDashboard: React.FC = () => {
                       { name: 'Financial Projections', status: 'generating' },
                     ].map((doc) => (
                       <div key={doc.name} className="flex items-center justify-between">
-                        <span className="text-white/80 text-xs">{doc.name}</span>
+                        <span className="text-white text-xs">{doc.name}</span>
                         {doc.status === 'ready' ? (
                           <CheckCircle2 className="w-3.5 h-3.5 text-green-400" />
                         ) : (
@@ -443,7 +443,7 @@ const AIWorkforceDashboard: React.FC = () => {
                 </div>
 
                 <div className="bg-white/5 rounded-lg p-3">
-                  <div className="text-white/60 text-xs mb-2">Target Investors</div>
+                  <div className="text-white/90 text-xs mb-2">Target Investors</div>
                   <div className="flex flex-wrap gap-1.5">
                     {['Sequoia', 'a16z', 'Lovable', 'Community VCs'].map((vc) => (
                       <span key={vc} className="text-[10px] bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/20">
@@ -456,7 +456,7 @@ const AIWorkforceDashboard: React.FC = () => {
                 <div className="bg-white/5 rounded-lg p-3">
                   <div className="flex items-center gap-2 text-xs">
                     <Brain className="w-3 h-3 text-amber-400" />
-                    <span className="text-white/60">Generating:</span>
+                    <span className="text-white/90">Generating:</span>
                     <span className="text-amber-400 font-medium">Q2 2026 projections</span>
                   </div>
                 </div>
@@ -477,7 +477,7 @@ const AIWorkforceDashboard: React.FC = () => {
               <Bot className="w-6 h-6 text-purple-400" />
               <div>
                 <h2 className="text-xl font-bold text-white">Full Agentic Workforce</h2>
-                <p className="text-white/50 text-xs">{AGENTIC_EMPLOYEES.length} AI employees across 5 departments — auto-refreshing every 60s</p>
+                <p className="text-white/80 text-xs">{AGENTIC_EMPLOYEES.length} AI employees across 5 departments — auto-refreshing every 60s</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -536,7 +536,7 @@ const AIWorkforceDashboard: React.FC = () => {
                 <Bot className="w-6 h-6 text-purple-400" />
                 <div>
                   <div className="text-white font-bold text-sm">Kayla AI Workforce — {AGENTIC_EMPLOYEES.length} Agentic Employees + 3 Strategic Agents</div>
-                  <div className="text-white/50 text-xs">Replacing ~$18,000/mo in human overhead • 52x ROI at Pro tier</div>
+                  <div className="text-white/80 text-xs">Replacing ~$18,000/mo in human overhead • 52x ROI at Pro tier</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">

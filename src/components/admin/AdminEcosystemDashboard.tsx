@@ -38,7 +38,7 @@ const AdminEcosystemDashboard: React.FC = () => {
             <Handshake className="h-7 w-7 text-mansagold" />
             Partner-Developer Ecosystem
           </h2>
-          <p className="text-white/60 mt-1">
+          <p className="text-white/90 mt-1">
             Combined revenue streams and cross-pollination metrics
           </p>
         </div>
@@ -166,7 +166,7 @@ const AdminEcosystemDashboard: React.FC = () => {
                   </div>
                   <div>
                     <p className="font-medium text-white">{tp.developerName}</p>
-                    <p className="text-xs text-white/50">
+                    <p className="text-xs text-white/80">
                       {tp.partnerName ? `Partner: ${tp.partnerName}` : 'Developer only'}
                     </p>
                   </div>
@@ -174,11 +174,11 @@ const AdminEcosystemDashboard: React.FC = () => {
                 <div className="flex items-center gap-6">
                   <div className="text-right">
                     <p className="text-sm font-medium text-white">{tp.appReferrals}</p>
-                    <p className="text-xs text-white/50">App Referrals</p>
+                    <p className="text-xs text-white/80">App Referrals</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-medium text-emerald-400">${tp.earnings.toFixed(2)}</p>
-                    <p className="text-xs text-white/50">Earnings</p>
+                    <p className="text-xs text-white/80">Earnings</p>
                   </div>
                   <Badge className={
                     tp.status === 'active' 
@@ -211,7 +211,7 @@ const AdminEcosystemDashboard: React.FC = () => {
             <div className="text-center p-4 bg-amber-500/10 rounded-xl border border-amber-500/30 w-32">
               <Users className="h-8 w-8 text-amber-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-white">{stats?.active_partners || 0}</p>
-              <p className="text-xs text-white/50">Partners</p>
+              <p className="text-xs text-white/80">Partners</p>
             </div>
             
             <ArrowRight className="h-6 w-6 text-white/30" />
@@ -220,7 +220,7 @@ const AdminEcosystemDashboard: React.FC = () => {
             <div className="text-center p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/30 w-32">
               <Building2 className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-white">{stats?.partner_referred_businesses || 0}</p>
-              <p className="text-xs text-white/50">Businesses</p>
+              <p className="text-xs text-white/80">Businesses</p>
             </div>
             
             <ArrowRight className="h-6 w-6 text-white/30" />
@@ -229,7 +229,7 @@ const AdminEcosystemDashboard: React.FC = () => {
             <div className="text-center p-4 bg-blue-500/10 rounded-xl border border-blue-500/30 w-32">
               <Code className="h-8 w-8 text-blue-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-white">{stats?.active_developers || 0}</p>
-              <p className="text-xs text-white/50">Developers</p>
+              <p className="text-xs text-white/80">Developers</p>
             </div>
             
             <ArrowRight className="h-6 w-6 text-white/30" />
@@ -238,7 +238,7 @@ const AdminEcosystemDashboard: React.FC = () => {
             <div className="text-center p-4 bg-purple-500/10 rounded-xl border border-purple-500/30 w-32">
               <TrendingUp className="h-8 w-8 text-purple-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-white">{stats?.app_attributed_businesses || 0}</p>
-              <p className="text-xs text-white/50">App Integrations</p>
+              <p className="text-xs text-white/80">App Integrations</p>
             </div>
           </div>
           

@@ -39,7 +39,7 @@ const PitchSlide3Solution: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             A Full-Stack <span className="text-mansagold">Economic OS</span>
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             Not just a directory — a complete economic operating system that captures every transaction and builds lasting vendor lock-in
           </p>
         </motion.div>
@@ -57,7 +57,7 @@ const PitchSlide3Solution: React.FC = () => {
                   <solution.icon className="w-6 h-6 text-mansagold" />
                 </div>
                 <h3 className="text-base font-bold text-white mb-1">{solution.title}</h3>
-                <p className="text-white/80 text-sm">{solution.description}</p>
+                <p className="text-white text-sm">{solution.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -76,7 +76,7 @@ const PitchSlide3Solution: React.FC = () => {
                   <solution.icon className="w-6 h-6 text-mansagold" />
                 </div>
                 <h3 className="text-base font-bold text-white mb-1">{solution.title}</h3>
-                <p className="text-white/80 text-sm">{solution.description}</p>
+                <p className="text-white text-sm">{solution.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -100,12 +100,12 @@ const PitchSlide3Solution: React.FC = () => {
               <div className="flex items-center gap-4 text-white">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-mansagold">Directory</div>
-                  <div className="text-sm text-white/60">Surface Level</div>
+                  <div className="text-sm text-white/90">Surface Level</div>
                 </div>
                 <ArrowRight className="w-8 h-8 text-mansagold" />
                 <div className="text-center">
                   <div className="text-3xl font-bold text-mansagold">Operating System</div>
-                  <div className="text-sm text-white/60">Full Stack</div>
+                  <div className="text-sm text-white/90">Full Stack</div>
                 </div>
               </div>
             </div>

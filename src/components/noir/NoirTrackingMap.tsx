@@ -271,7 +271,7 @@ const NoirTrackingMap: React.FC<NoirTrackingMapProps> = ({
               <div className="flex-1 min-w-0">
                 <h4 className="text-white font-semibold text-sm truncate">{activeStatus.driver_name}</h4>
                 {activeStatus.vehicle_info && (
-                  <p className="text-white/60 text-xs truncate">{activeStatus.vehicle_info}</p>
+                  <p className="text-white/90 text-xs truncate">{activeStatus.vehicle_info}</p>
                 )}
                 {activeStatus.driver_rating && (
                   <div className="flex items-center gap-1">

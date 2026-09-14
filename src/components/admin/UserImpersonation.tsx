@@ -188,7 +188,7 @@ const UserImpersonation: React.FC = () => {
             <AlertTriangle className="h-5 w-5 text-red-400 mt-0.5" />
             <div>
               <p className="text-red-400 font-medium">Important Notice</p>
-              <p className="text-white/70 text-sm mt-1">
+              <p className="text-white text-sm mt-1">
                 User impersonation is a sensitive operation. All sessions are logged for security auditing.
                 Use this feature only when necessary for debugging or support purposes.
               </p>
@@ -209,7 +209,7 @@ const UserImpersonation: React.FC = () => {
           <CardContent className="space-y-4">
             {/* Search */}
             <div>
-              <Label className="text-white/80">Search User</Label>
+              <Label className="text-white">Search User</Label>
               <div className="relative mt-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
                 <Input
@@ -239,7 +239,7 @@ const UserImpersonation: React.FC = () => {
                         <User className="h-8 w-8 text-white/40 bg-white/10 rounded-full p-1.5" />
                         <div>
                           <p className="text-white font-medium">{u.full_name || 'No name'}</p>
-                          <p className="text-white/60 text-sm">{u.email}</p>
+                          <p className="text-white/90 text-sm">{u.email}</p>
                         </div>
                       </div>
                       <Badge className={getRoleBadge(u.user_type)}>{u.user_type}</Badge>
@@ -247,7 +247,7 @@ const UserImpersonation: React.FC = () => {
                   </div>
                 ))}
                 {users?.length === 0 && (
-                  <p className="text-center text-white/60 py-4">No users found</p>
+                  <p className="text-center text-white/90 py-4">No users found</p>
                 )}
               </div>
             </ScrollArea>
@@ -256,12 +256,12 @@ const UserImpersonation: React.FC = () => {
             {selectedUser && (
               <div className="space-y-4 pt-4 border-t border-white/10">
                 <div className="p-3 bg-mansagold/10 rounded-lg border border-mansagold/30">
-                  <p className="text-white/60 text-sm">Selected User:</p>
+                  <p className="text-white/90 text-sm">Selected User:</p>
                   <p className="text-white font-medium">{selectedUser.full_name || selectedUser.email}</p>
                 </div>
                 
                 <div>
-                  <Label className="text-white/80">Reason for Impersonation *</Label>
+                  <Label className="text-white">Reason for Impersonation *</Label>
                   <Textarea
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
@@ -309,11 +309,11 @@ const UserImpersonation: React.FC = () => {
                             {session.ended_at ? 'Ended' : 'Active'}
                           </Badge>
                         </div>
-                        <p className="text-white/60 text-sm mt-1">
+                        <p className="text-white/90 text-sm mt-1">
                           Target: {session.target_user_id.slice(0, 8)}...
                         </p>
                         {session.reason && (
-                          <p className="text-white/50 text-xs mt-1">"{session.reason}"</p>
+                          <p className="text-white/80 text-xs mt-1">"{session.reason}"</p>
                         )}
                       </div>
                       <div className="text-right text-white/40 text-xs">
@@ -327,7 +327,7 @@ const UserImpersonation: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-white/60">
+              <div className="text-center py-12 text-white/90">
                 <Clock className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>No impersonation sessions recorded</p>
               </div>

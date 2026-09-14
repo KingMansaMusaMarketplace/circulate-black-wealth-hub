@@ -182,7 +182,7 @@ const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
           <Home className="w-8 h-8 text-mansagold" />
         </div>
         <h2 className="text-2xl font-bold text-white mb-2">Admin Control Center</h2>
-        <p className="text-white/60 max-w-md mx-auto">
+        <p className="text-white/90 max-w-md mx-auto">
           Every admin tool in one place. Items with a gold badge need your attention.
         </p>
       </div>
@@ -227,7 +227,7 @@ const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
                     )}>
                       <item.icon className={cn(
                         "w-5 h-5 transition-colors",
-                        item.highlight ? "text-mansagold" : "text-white/70 group-hover:text-mansagold"
+                        item.highlight ? "text-mansagold" : "text-white group-hover:text-mansagold"
                       )} />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -245,7 +245,7 @@ const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
                           className={showBadge ? 'mr-8' : undefined}
                         />
                       </div>
-                      <p className="text-sm text-white/50 line-clamp-2 mt-0.5">
+                      <p className="text-sm text-white/80 line-clamp-2 mt-0.5">
                         {item.description}
                       </p>
                     </div>

@@ -73,7 +73,7 @@ const QRCodeManagementPage: React.FC = () => {
         <div className="relative z-10 flex-grow flex items-center justify-center min-h-screen">
           <div className="text-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8">
             <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-400" />
-            <p className="text-white/70">Loading QR Code Management...</p>
+            <p className="text-white">Loading QR Code Management...</p>
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@ const QRCodeManagementPage: React.FC = () => {
         <div className="relative z-10 flex-grow flex items-center justify-center min-h-screen">
           <div className="text-center max-w-md mx-auto p-8 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl">
             <h1 className="text-2xl font-bold text-red-400 mb-4">Database Not Initialized</h1>
-            <p className="mb-6 text-white/70">
+            <p className="mb-6 text-white">
               The database functions for QR code functionality have not been initialized. Please visit the Admin page to set up the database.
             </p>
             <button 

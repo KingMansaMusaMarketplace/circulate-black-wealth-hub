@@ -34,7 +34,7 @@ const AmbassadorCTA: React.FC = () => {
                 Become a 1325 Ambassador
               </h2>
               
-              <p className="text-lg text-white/80 mb-6 max-w-2xl">
+              <p className="text-lg text-white mb-6 max-w-2xl">
                 Be the human layer of our Economic Operating System. Earn while building 
                 the largest Black business network in your city.
               </p>

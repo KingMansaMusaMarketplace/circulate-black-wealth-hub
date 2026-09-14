@@ -282,7 +282,7 @@ export default function AdminSponsorsPage() {
               className="h-10 w-10 object-contain rounded bg-white/10 border border-white/20"
             />
           ) : (
-            <div className="h-10 w-10 bg-white/10 rounded flex items-center justify-center text-xs text-white/60">
+            <div className="h-10 w-10 bg-white/10 rounded flex items-center justify-center text-xs text-white/90">
               No logo
             </div>
           )}
@@ -329,7 +329,7 @@ export default function AdminSponsorsPage() {
               </Badge>
             )
           ) : (
-            <Badge className="bg-white/10 text-white/60 border border-white/20">
+            <Badge className="bg-white/10 text-white/90 border border-white/20">
               <XCircle className="h-3 w-3 mr-1" /> No Logo
             </Badge>
           )}
@@ -350,7 +350,7 @@ export default function AdminSponsorsPage() {
               size="sm"
               onClick={(e) => { e.stopPropagation(); toggleLogoApproval(sponsor); }}
               disabled={updateSponsorMutation.isPending}
-              className={sponsor.logo_approved ? "border-white/20 text-white/80 hover:bg-white/10" : "bg-mansagold text-slate-900 hover:bg-mansagold/80"}
+              className={sponsor.logo_approved ? "border-white/20 text-white hover:bg-white/10" : "bg-mansagold text-slate-900 hover:bg-mansagold/80"}
             >
               {sponsor.logo_approved ? 'Revoke' : 'Approve'}
             </Button>
@@ -360,7 +360,7 @@ export default function AdminSponsorsPage() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-white/60 hover:text-white hover:bg-white/10"
+                className="text-white/90 hover:text-white hover:bg-white/10"
                 onClick={(e) => {
                   e.stopPropagation();
                   setEditingSponsor(sponsor);
@@ -373,21 +373,21 @@ export default function AdminSponsorsPage() {
             <DialogContent onClick={(e) => e.stopPropagation()} className="bg-slate-900 border-white/20">
               <DialogHeader>
                 <DialogTitle className="text-mansagold">Manage {sponsor.company_name}</DialogTitle>
-                <DialogDescription className="text-white/60">
+                <DialogDescription className="text-white/90">
                   Configure sponsor settings and add admin notes
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label className="text-white/80">Tier Placements</Label>
+                  <Label className="text-white">Tier Placements</Label>
                   <div className="flex flex-wrap gap-2">
                     {tierPlacements[sponsor.tier as keyof typeof tierPlacements]?.map((placement) => (
-                      <Badge key={placement} variant="secondary" className="bg-white/10 text-white/80">{placement}</Badge>
+                      <Badge key={placement} variant="secondary" className="bg-white/10 text-white">{placement}</Badge>
                     ))}
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="priority" className="text-white/80">Display Priority</Label>
+                  <Label htmlFor="priority" className="text-white">Display Priority</Label>
                   <Input
                     id="priority"
                     type="number"
@@ -404,7 +404,7 @@ export default function AdminSponsorsPage() {
                   <p className="text-xs text-white/40">Higher numbers appear first</p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="notes" className="text-white/80">Admin Notes</Label>
+                  <Label htmlFor="notes" className="text-white">Admin Notes</Label>
                   <Textarea
                     id="notes"
                     value={adminNotes}
@@ -418,7 +418,7 @@ export default function AdminSponsorsPage() {
               </div>
             </DialogContent>
           </Dialog>
-          <Button variant="ghost" size="sm" className="text-white/60 hover:text-white hover:bg-white/10" onClick={(e) => { e.stopPropagation(); navigate(`/admin/sponsors/${sponsor.id}`); }}>
+          <Button variant="ghost" size="sm" className="text-white/90 hover:text-white hover:bg-white/10" onClick={(e) => { e.stopPropagation(); navigate(`/admin/sponsors/${sponsor.id}`); }}>
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
@@ -465,7 +465,7 @@ export default function AdminSponsorsPage() {
         <div className="grid gap-4 md:grid-cols-4 mb-8">
           <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <span className="text-sm font-medium text-white/80">Active Sponsors</span>
+              <span className="text-sm font-medium text-white">Active Sponsors</span>
               <Users className="h-4 w-4 text-mansagold" />
             </div>
             <div className="text-2xl font-bold text-white">{activeSponsors.length}</div>
@@ -473,7 +473,7 @@ export default function AdminSponsorsPage() {
 
           <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <span className="text-sm font-medium text-white/80">Monthly Revenue</span>
+              <span className="text-sm font-medium text-white">Monthly Revenue</span>
               <DollarSign className="h-4 w-4 text-mansagold" />
             </div>
             <div className="text-2xl font-bold text-mansagold">${totalRevenue.toLocaleString()}</div>
@@ -481,7 +481,7 @@ export default function AdminSponsorsPage() {
 
           <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <span className="text-sm font-medium text-white/80">Total Impressions</span>
+              <span className="text-sm font-medium text-white">Total Impressions</span>
               <Eye className="h-4 w-4 text-mansagold" />
             </div>
             <div className="text-2xl font-bold text-white">{totalImpressions.toLocaleString()}</div>
@@ -489,7 +489,7 @@ export default function AdminSponsorsPage() {
 
           <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <span className="text-sm font-medium text-white/80">Total Clicks</span>
+              <span className="text-sm font-medium text-white">Total Clicks</span>
               <TrendingUp className="h-4 w-4 text-mansagold" />
             </div>
             <div className="text-2xl font-bold text-white">{totalClicks.toLocaleString()}</div>
@@ -500,7 +500,7 @@ export default function AdminSponsorsPage() {
         <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl mb-8">
           <div className="p-6 border-b border-white/10">
             <h3 className="text-lg font-semibold text-mansagold">Placement Preview</h3>
-            <p className="text-sm text-white/60">Where sponsor logos will appear based on tier</p>
+            <p className="text-sm text-white/90">Where sponsor logos will appear based on tier</p>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -568,20 +568,20 @@ export default function AdminSponsorsPage() {
         <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl">
           <div className="p-6 border-b border-white/10">
             <h3 className="text-lg font-semibold text-mansagold">All Sponsors</h3>
-            <p className="text-sm text-white/60">Manage and monitor all sponsorships</p>
+            <p className="text-sm text-white/90">Manage and monitor all sponsorships</p>
           </div>
           <div className="p-6">
             <Tabs defaultValue="all">
               <TabsList className="mb-4 bg-white/10 border border-white/10">
-                <TabsTrigger value="all" className="data-[state=active]:bg-mansagold data-[state=active]:text-slate-900 text-white/70">All ({subscriptions?.length || 0})</TabsTrigger>
-                <TabsTrigger value="active" className="data-[state=active]:bg-mansagold data-[state=active]:text-slate-900 text-white/70">Active ({activeSponsors.length})</TabsTrigger>
-                <TabsTrigger value="expiring" className="data-[state=active]:bg-mansagold data-[state=active]:text-slate-900 text-white/70">
+                <TabsTrigger value="all" className="data-[state=active]:bg-mansagold data-[state=active]:text-slate-900 text-white">All ({subscriptions?.length || 0})</TabsTrigger>
+                <TabsTrigger value="active" className="data-[state=active]:bg-mansagold data-[state=active]:text-slate-900 text-white">Active ({activeSponsors.length})</TabsTrigger>
+                <TabsTrigger value="expiring" className="data-[state=active]:bg-mansagold data-[state=active]:text-slate-900 text-white">
                   Expiring Soon ({expiringSoon.length})
                   {expiringSoon.length > 0 && (
                     <span className="ml-1 h-2 w-2 rounded-full bg-orange-500" />
                   )}
                 </TabsTrigger>
-                <TabsTrigger value="pending" className="data-[state=active]:bg-mansagold data-[state=active]:text-slate-900 text-white/70">
+                <TabsTrigger value="pending" className="data-[state=active]:bg-mansagold data-[state=active]:text-slate-900 text-white">
                   Pending Approval ({pendingApproval.length})
                   {pendingApproval.length > 0 && (
                     <span className="ml-1 h-2 w-2 rounded-full bg-yellow-500" />

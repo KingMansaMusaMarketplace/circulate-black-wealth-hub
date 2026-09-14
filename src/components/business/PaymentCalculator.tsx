@@ -25,7 +25,7 @@ const PaymentCalculator = () => {
           <DollarSign className="h-7 w-7 text-mansagold" />
           Payment Calculator
         </CardTitle>
-        <CardDescription className="text-base mt-2 text-white/80 font-medium">
+        <CardDescription className="text-base mt-2 text-white font-medium">
           See exactly how much you receive for any transaction
         </CardDescription>
       </CardHeader>
@@ -34,7 +34,7 @@ const PaymentCalculator = () => {
         <div className="space-y-3">
           <Label htmlFor="amount" className="text-base font-bold text-white">Customer Payment Amount</Label>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 text-xl font-bold">$</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-xl font-bold">$</span>
             <Input
               id="amount"
               type="number"

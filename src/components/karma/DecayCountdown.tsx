@@ -52,14 +52,14 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
             <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-300' : 'text-white'}`}>
               {daysRemaining}
             </p>
-            <p className="text-white/80 text-sm font-medium">Days</p>
+            <p className="text-white text-sm font-medium">Days</p>
           </div>
-          <div className="text-2xl text-white/60">:</div>
+          <div className="text-2xl text-white/90">:</div>
           <div className="text-center">
             <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-300' : 'text-white'}`}>
               {hoursRemaining}
             </p>
-            <p className="text-white/80 text-sm font-medium">Hours</p>
+            <p className="text-white text-sm font-medium">Hours</p>
           </div>
         </div>
 

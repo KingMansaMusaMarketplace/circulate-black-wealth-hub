@@ -164,7 +164,7 @@ export const KaylaOrchestrationDashboard: React.FC<Props> = ({ businessId }) => 
             <Activity className="w-7 h-7 text-mansagold" />
             Live Orchestration
           </h2>
-          <p className="text-white/60 text-sm mt-1">
+          <p className="text-white/90 text-sm mt-1">
             Real-time view of your AI team at work
           </p>
         </div>
@@ -187,7 +187,7 @@ export const KaylaOrchestrationDashboard: React.FC<Props> = ({ businessId }) => 
               <stat.icon className={cn('w-5 h-5', stat.color)} />
               <div>
                 <p className="text-lg font-bold text-white">{stat.value}</p>
-                <p className="text-[10px] text-white/50 uppercase tracking-wider">{stat.label}</p>
+                <p className="text-[10px] text-white/80 uppercase tracking-wider">{stat.label}</p>
               </div>
             </CardContent>
           </Card>
@@ -197,7 +197,7 @@ export const KaylaOrchestrationDashboard: React.FC<Props> = ({ businessId }) => 
       {/* Live Event Stream */}
       <Card className="bg-slate-900/40 border-white/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-white/80 flex items-center gap-2">
+          <CardTitle className="text-sm font-medium text-white flex items-center gap-2">
             <RefreshCw className="w-4 h-4 text-mansagold animate-spin" style={{ animationDuration: '3s' }} />
             Activity Stream
           </CardTitle>
@@ -235,10 +235,10 @@ export const KaylaOrchestrationDashboard: React.FC<Props> = ({ businessId }) => 
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-medium text-white">{event.employee}</span>
                         <ArrowRight className="w-3 h-3 text-white/30" />
-                        <span className="text-sm text-white/70 truncate">{event.action}</span>
+                        <span className="text-sm text-white truncate">{event.action}</span>
                       </div>
                       {event.details && (
-                        <p className="text-xs text-white/50 mt-0.5 line-clamp-1">{event.details}</p>
+                        <p className="text-xs text-white/80 mt-0.5 line-clamp-1">{event.details}</p>
                       )}
                       <div className="flex items-center gap-2 mt-1">
                         <Badge variant="outline" className={cn('text-[9px] px-1 py-0', statusConfig[event.status].color, 'border-current/30')}>

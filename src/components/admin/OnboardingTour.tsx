@@ -181,7 +181,7 @@ const OnboardingTour: React.FC<OnboardingTourProps> = ({ onComplete }) => {
             </div>
             <button
               onClick={onComplete}
-              className="text-white/60 hover:text-white transition-colors"
+              className="text-white/90 hover:text-white transition-colors"
             >
               <X className="h-4 w-4" />
             </button>
@@ -200,7 +200,7 @@ const OnboardingTour: React.FC<OnboardingTourProps> = ({ onComplete }) => {
               size="sm"
               onClick={handlePrev}
               disabled={currentStep === 0}
-              className="text-white/60 hover:text-white"
+              className="text-white/90 hover:text-white"
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
               Back

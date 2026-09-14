@@ -65,7 +65,7 @@ const KeyboardShortcutsHelp: React.FC = () => {
                 key={index}
                 className="flex items-center justify-between p-2 rounded-lg bg-white/5"
               >
-                <span className="text-sm text-white/80">{shortcut.description}</span>
+                <span className="text-sm text-white">{shortcut.description}</span>
                 <div className="flex items-center gap-1">
                   {shortcut.keys.map((key, i) => (
                     <React.Fragment key={i}>

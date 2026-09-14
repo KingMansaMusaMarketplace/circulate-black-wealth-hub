@@ -147,7 +147,7 @@ const PartnershipFrameworkPage: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={() => navigate('/')}
-              className="text-white/70 hover:text-white"
+              className="text-white hover:text-white"
             >
               <Home className="w-4 h-4 mr-2" />
               Home
@@ -214,7 +214,7 @@ const PartnershipFrameworkPage: React.FC = () => {
           {headlineStats.map((s) => (
             <Card key={s.label} className="p-5 text-center bg-white/5 border-mansagold/25">
               <div className="text-3xl font-bold text-mansagold mb-1">{s.value}</div>
-              <div className="text-xs text-white/70 leading-snug">{s.label}</div>
+              <div className="text-xs text-white leading-snug">{s.label}</div>
             </Card>
           ))}
         </motion.div>
@@ -264,7 +264,7 @@ const PartnershipFrameworkPage: React.FC = () => {
                   {t.icon}
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{t.title}</h3>
-                <p className="text-white/70 text-sm leading-relaxed">{t.body}</p>
+                <p className="text-white text-sm leading-relaxed">{t.body}</p>
               </Card>
             ))}
           </div>
@@ -281,7 +281,7 @@ const PartnershipFrameworkPage: React.FC = () => {
             <Building2 className="w-6 h-6 text-mansagold" />
             42 Agentic AI Employees, 7 Divisions
           </h2>
-          <p className="text-white/60 mb-6">
+          <p className="text-white/90 mb-6">
             Every division reports through Kayla to a named leader in your organization.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -313,14 +313,14 @@ const PartnershipFrameworkPage: React.FC = () => {
             <Network className="w-6 h-6 text-mansagold" />
             Discovery Through AI
           </h2>
-          <p className="text-white/60 mb-6">
+          <p className="text-white/90 mb-6">
             Because 1325.AI is built as an MCP server, your members and businesses get found inside the
             AI tools people already use every day.
           </p>
           <div className="grid md:grid-cols-3 gap-5">
             <Card className="p-6 bg-white/5 border-white/10">
               <h3 className="text-lg font-bold text-white mb-2">Searchable by ChatGPT, Claude & Cursor</h3>
-              <p className="text-white/70 text-sm leading-relaxed">
+              <p className="text-white text-sm leading-relaxed">
                 Members can ask their AI assistant: “Find me a Black-owned barber in Atlanta,” or “Who can
                 handle bookkeeping for my church?” — and it pulls real businesses from your partnership
                 network.
@@ -328,14 +328,14 @@ const PartnershipFrameworkPage: React.FC = () => {
             </Card>
             <Card className="p-6 bg-white/5 border-white/10">
               <h3 className="text-lg font-bold text-white mb-2">Built-In Distribution</h3>
-              <p className="text-white/70 text-sm leading-relaxed">
+              <p className="text-white text-sm leading-relaxed">
                 Your businesses show up where people are already asking. No separate ad campaign, no extra
                 marketing spend, no new app to download.
               </p>
             </Card>
             <Card className="p-6 bg-white/5 border-white/10">
               <h3 className="text-lg font-bold text-white mb-2">A Live Connector for Your Members</h3>
-              <p className="text-white/70 text-sm leading-relaxed">
+              <p className="text-white text-sm leading-relaxed">
                 The partnership is not just a directory — it is a live AI connection. Your members can reach
                 the platform directly from the AI assistants they already use.
               </p>
@@ -366,7 +366,7 @@ const PartnershipFrameworkPage: React.FC = () => {
                       {step.window}
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-1">{step.title}</h3>
-                    <p className="text-white/70 text-sm leading-relaxed">{step.body}</p>
+                    <p className="text-white text-sm leading-relaxed">{step.body}</p>
                   </div>
                 </div>
               ))}
@@ -432,7 +432,7 @@ const PartnershipFrameworkPage: React.FC = () => {
               <MessageSquare className="w-5 h-5" />
               Partner@1325.AI
             </a>
-            <p className="text-white/50 text-xs mt-6">
+            <p className="text-white/80 text-xs mt-6">
               1325.AI — a Mansa Musa Marketplace company • U.S. Provisional Patent Application No.
               63/969,202 — 45 claims pending
             </p>

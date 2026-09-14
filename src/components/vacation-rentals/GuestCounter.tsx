@@ -72,7 +72,7 @@ const GuestCounter: React.FC<GuestCounterProps> = ({
           )}
         >
           <span>{formatGuestLabel()}</span>
-          <User className="w-4 h-4 text-white/60" />
+          <User className="w-4 h-4 text-white/90" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 bg-slate-900 border-white/20" align="start">
@@ -116,7 +116,7 @@ const GuestCounter: React.FC<GuestCounterProps> = ({
           )}
 
           {!petsAllowed && (
-            <p className="text-sm text-white/60">
+            <p className="text-sm text-white/90">
               This property doesn't allow pets. Service animals are always welcome.
             </p>
           )}
@@ -153,7 +153,7 @@ const CounterRow: React.FC<CounterRowProps> = ({
         <div className="text-mansagold">{icon}</div>
         <div>
           <p className="font-medium text-sm text-white">{label}</p>
-          <p className="text-xs text-white/60">{description}</p>
+          <p className="text-xs text-white/90">{description}</p>
         </div>
       </div>
       <div className="flex items-center gap-3">

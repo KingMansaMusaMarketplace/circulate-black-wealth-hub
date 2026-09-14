@@ -105,7 +105,7 @@ const HeyGenStudioPage: React.FC = () => {
             <span className="text-sm uppercase tracking-widest">Admin · HeyGen Studio</span>
           </div>
           <h1 className="text-3xl font-semibold">Generate a 1325.AI Spokesperson Video</h1>
-          <p className="text-white/60 text-sm">
+          <p className="text-white/90 text-sm">
             Paste a script, an Avatar ID and a Voice ID from your HeyGen account. The video is
             generated server-side using your HeyGen API key. History is not saved — copy or
             download the link before leaving this page.
@@ -115,26 +115,26 @@ const HeyGenStudioPage: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardHeader>
             <CardTitle className="text-white">Video inputs</CardTitle>
-            <CardDescription className="text-white/60">
+            <CardDescription className="text-white/90">
               Find IDs in HeyGen → Avatars / Voices → copy ID.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="title" className="text-white/80">Title (your reference)</Label>
+                <Label htmlFor="title" className="text-white">Title (your reference)</Label>
                 <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)}
                   className="bg-black/40 border-white/20 text-white" />
               </div>
               <div />
               <div>
-                <Label htmlFor="avatar" className="text-white/80">Avatar ID</Label>
+                <Label htmlFor="avatar" className="text-white">Avatar ID</Label>
                 <Input id="avatar" value={avatarId} onChange={(e) => setAvatarId(e.target.value)}
                   placeholder="e.g. Daisy-inskirt-20220818"
                   className="bg-black/40 border-white/20 text-white" />
               </div>
               <div>
-                <Label htmlFor="voice" className="text-white/80">Voice ID</Label>
+                <Label htmlFor="voice" className="text-white">Voice ID</Label>
                 <Input id="voice" value={voiceId} onChange={(e) => setVoiceId(e.target.value)}
                   placeholder="e.g. 131a436204..."
                   className="bg-black/40 border-white/20 text-white" />
@@ -142,7 +142,7 @@ const HeyGenStudioPage: React.FC = () => {
             </div>
 
             <div>
-              <Label htmlFor="script" className="text-white/80">
+              <Label htmlFor="script" className="text-white">
                 Script ({script.length}/1500)
               </Label>
               <Textarea id="script" rows={8} value={script} onChange={(e) => setScript(e.target.value)}
@@ -168,14 +168,14 @@ const HeyGenStudioPage: React.FC = () => {
             <CardHeader>
               <CardTitle className="text-white text-base flex items-center justify-between">
                 <span>Job status: <span className="text-[#FFB300]">{status}</span></span>
-                <button onClick={() => copy(videoId)} className="text-xs text-white/60 hover:text-white flex items-center gap-1">
+                <button onClick={() => copy(videoId)} className="text-xs text-white/90 hover:text-white flex items-center gap-1">
                   <Copy className="w-3 h-3" /> {videoId}
                 </button>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {status === 'processing' && (
-                <p className="text-sm text-white/70">
+                <p className="text-sm text-white">
                   HeyGen typically takes 30–90 seconds. We'll auto-refresh every 8s.
                 </p>
               )}
@@ -204,7 +204,7 @@ const HeyGenStudioPage: React.FC = () => {
                       </Button>
                     </a>
                   </div>
-                  <p className="text-xs text-white/50">
+                  <p className="text-xs text-white/80">
                     HeyGen-hosted URLs expire. Download a local copy if you need to keep it.
                   </p>
                 </div>

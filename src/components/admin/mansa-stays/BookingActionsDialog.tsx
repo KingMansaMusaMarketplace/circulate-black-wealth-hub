@@ -137,7 +137,7 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
       <DialogContent className="max-w-xl bg-black border-white/10 text-white">
         <DialogHeader>
           <DialogTitle>Booking Actions</DialogTitle>
-          <DialogDescription className="text-white/60">
+          <DialogDescription className="text-white/90">
             {booking ? `${booking.guest_name || booking.guest_email} · ${booking.check_in_date} → ${booking.check_out_date} · ${fmt(Number(booking.total_amount))}` : ''}
           </DialogDescription>
         </DialogHeader>
@@ -160,7 +160,7 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
             </TabsList>
 
             <TabsContent value="notes" className="mt-4 space-y-3">
-              <Label className="text-white/70">Internal admin notes (not visible to guest or host)</Label>
+              <Label className="text-white">Internal admin notes (not visible to guest or host)</Label>
               <textarea
                 rows={6}
                 value={adminNotes}
@@ -179,7 +179,7 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
               <div className="rounded-md bg-red-500/10 border border-red-500/30 p-3 text-xs text-red-200">
                 Cancelling sets status to "cancelled". Issue a refund separately under the Refund tab.
               </div>
-              <Label className="text-white/70">Cancellation reason</Label>
+              <Label className="text-white">Cancellation reason</Label>
               <textarea
                 rows={4}
                 value={cancelReason}
@@ -210,7 +210,7 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
                 </div>
               )}
               <div>
-                <Label className="text-white/70">Refund Amount (USD)</Label>
+                <Label className="text-white">Refund Amount (USD)</Label>
                 <Input
                   type="number"
                   step="0.01"
@@ -220,7 +220,7 @@ const BookingActionsDialog: React.FC<Props> = ({ bookingId, open, onOpenChange, 
                 <p className="text-xs text-white/40 mt-1">Booking total: {fmt(Number(booking.total_amount))}</p>
               </div>
               <div>
-                <Label className="text-white/70">Reason / Notes</Label>
+                <Label className="text-white">Reason / Notes</Label>
                 <Input
                   value={refundReason}
                   onChange={e => setRefundReason(e.target.value)}

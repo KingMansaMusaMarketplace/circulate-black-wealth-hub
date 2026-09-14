@@ -65,7 +65,7 @@ const ArchiveRecovery: React.FC = () => {
             <Archive className="w-7 h-7 text-mansagold" />
             Feature Archive
           </h2>
-          <p className="text-white/60 mt-1">
+          <p className="text-white/90 mt-1">
             Archived features for lean operation. Restore anytime with one click.
           </p>
         </div>
@@ -89,7 +89,7 @@ const ArchiveRecovery: React.FC = () => {
               <Archive className="w-8 h-8 text-mansagold" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">No Archived Features</h3>
-            <p className="text-white/60 max-w-md mx-auto">
+            <p className="text-white/90 max-w-md mx-auto">
               When features are archived to focus on core circulation metrics, they'll appear here for easy recovery.
             </p>
             <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg max-w-lg mx-auto">
@@ -97,7 +97,7 @@ const ArchiveRecovery: React.FC = () => {
                 <AlertCircle className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
                 <div className="text-left">
                   <p className="text-sm text-blue-300 font-medium">Ready for Archival</p>
-                  <p className="text-sm text-white/60 mt-1">
+                  <p className="text-sm text-white/90 mt-1">
                     Features like Badge Systems, Test Pages, and B2B Matching are candidates for archival to streamline the codebase.
                   </p>
                 </div>
@@ -139,7 +139,7 @@ const ArchiveRecovery: React.FC = () => {
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-sm text-white/60">{feature.description}</p>
+                <p className="text-sm text-white/90">{feature.description}</p>
                 
                 <div className="text-xs text-white/40">
                   <div className="flex justify-between">
@@ -157,7 +157,7 @@ const ArchiveRecovery: React.FC = () => {
                 </div>
 
                 <div className="pt-2 border-t border-white/10">
-                  <p className="text-xs text-white/50 mb-3">
+                  <p className="text-xs text-white/80 mb-3">
                     <strong>Reason:</strong> {feature.reason}
                   </p>
                   
@@ -177,14 +177,14 @@ const ArchiveRecovery: React.FC = () => {
                     <DialogContent className="bg-[#1a1a2e] border-white/10">
                       <DialogHeader>
                         <DialogTitle className="text-white">Restore {feature.name}?</DialogTitle>
-                        <DialogDescription className="text-white/60">
+                        <DialogDescription className="text-white/90">
                           This will re-enable the feature by adding routes and components back to the active codebase.
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4 py-4">
                         <div className="p-3 bg-white/5 rounded-lg">
-                          <p className="text-sm text-white/80 font-medium mb-2">Files to restore:</p>
-                          <ul className="text-xs text-white/50 space-y-1">
+                          <p className="text-sm text-white font-medium mb-2">Files to restore:</p>
+                          <ul className="text-xs text-white/80 space-y-1">
                             {feature.files.map((file, i) => (
                               <li key={i}>• {file}</li>
                             ))}
@@ -225,7 +225,7 @@ const ArchiveRecovery: React.FC = () => {
             </div>
             <div>
               <h4 className="text-white font-semibold mb-1">Why Archive Features?</h4>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/90 text-sm">
                 Archiving non-essential features reduces bundle size, simplifies maintenance, and lets the team focus on 
                 <strong className="text-mansagold"> proving wealth circulation</strong> — the core value proposition. 
                 All archived code and data remain intact and can be restored instantly.

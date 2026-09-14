@@ -46,7 +46,7 @@ const HotelPartnersTab: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="text-xs text-white/50">
+      <div className="text-xs text-white/80">
         Hotel partners apply via /noir/hotels. Approve to activate their concierge account access.
       </div>
 
@@ -58,25 +58,25 @@ const HotelPartnersTab: React.FC = () => {
             </div>
             <Table>
               <TableHeader><TableRow className="border-white/10">
-                <TableHead className="text-white/70">Hotel</TableHead>
-                <TableHead className="text-white/70">Contact</TableHead>
-                <TableHead className="text-white/70">Submitted</TableHead>
-                <TableHead className="text-white/70 text-right">Actions</TableHead>
+                <TableHead className="text-white">Hotel</TableHead>
+                <TableHead className="text-white">Contact</TableHead>
+                <TableHead className="text-white">Submitted</TableHead>
+                <TableHead className="text-white text-right">Actions</TableHead>
               </TableRow></TableHeader>
               <TableBody>
                 {pending.map(p => (
                   <TableRow key={p.id} className="border-white/10">
                     <TableCell>
                       <div className="text-white font-medium">{p.hotel_name}</div>
-                      <div className="text-xs text-white/50">{[p.address_city, p.address_state].filter(Boolean).join(', ')}</div>
+                      <div className="text-xs text-white/80">{[p.address_city, p.address_state].filter(Boolean).join(', ')}</div>
                       {p.notes && <div className="text-xs text-white/40 mt-1 max-w-md">{p.notes}</div>}
                     </TableCell>
                     <TableCell className="text-sm">
                       <div className="text-white">{p.contact_name}</div>
-                      <div className="text-white/50 text-xs">{p.contact_email}</div>
-                      {p.contact_phone && <div className="text-white/50 text-xs">{p.contact_phone}</div>}
+                      <div className="text-white/80 text-xs">{p.contact_email}</div>
+                      {p.contact_phone && <div className="text-white/80 text-xs">{p.contact_phone}</div>}
                     </TableCell>
-                    <TableCell className="text-xs text-white/50">{new Date(p.created_at).toLocaleDateString()}</TableCell>
+                    <TableCell className="text-xs text-white/80">{new Date(p.created_at).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right space-x-2">
                       <Button size="sm" onClick={() => setStatus(p, 'active')} className="bg-green-500/20 text-green-300 hover:bg-green-500/30 border border-green-500/30">
                         <Check className="h-4 w-4 mr-1" /> Approve
@@ -97,26 +97,26 @@ const HotelPartnersTab: React.FC = () => {
         <CardContent className="p-0">
           <Table>
             <TableHeader><TableRow className="border-white/10">
-              <TableHead className="text-white/70">Hotel</TableHead>
-              <TableHead className="text-white/70">Status</TableHead>
-              <TableHead className="text-white/70">Billing</TableHead>
-              <TableHead className="text-white/70">Approved</TableHead>
-              <TableHead className="text-white/70 text-right">Actions</TableHead>
+              <TableHead className="text-white">Hotel</TableHead>
+              <TableHead className="text-white">Status</TableHead>
+              <TableHead className="text-white">Billing</TableHead>
+              <TableHead className="text-white">Approved</TableHead>
+              <TableHead className="text-white text-right">Actions</TableHead>
             </TableRow></TableHeader>
             <TableBody>
               {others.length === 0 ? (
-                <TableRow><TableCell colSpan={5} className="text-center text-white/50 py-8">No partners yet.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={5} className="text-center text-white/80 py-8">No partners yet.</TableCell></TableRow>
               ) : others.map(p => (
                 <TableRow key={p.id} className="border-white/10">
                   <TableCell>
                     <div className="text-white font-medium">{p.hotel_name}</div>
-                    <div className="text-xs text-white/50">{p.contact_email}</div>
+                    <div className="text-xs text-white/80">{p.contact_email}</div>
                   </TableCell>
                   <TableCell>
                     <Badge className={HOTEL_STATUS_COLORS[p.status]}>{p.status}</Badge>
                   </TableCell>
-                  <TableCell className="text-white/70 text-sm capitalize">{p.billing_terms.replace('_', ' ')}</TableCell>
-                  <TableCell className="text-xs text-white/50">{p.approved_at ? new Date(p.approved_at).toLocaleDateString() : '—'}</TableCell>
+                  <TableCell className="text-white text-sm capitalize">{p.billing_terms.replace('_', ' ')}</TableCell>
+                  <TableCell className="text-xs text-white/80">{p.approved_at ? new Date(p.approved_at).toLocaleDateString() : '—'}</TableCell>
                   <TableCell className="text-right">
                     {p.status === 'active' && (
                       <Button size="sm" variant="ghost" onClick={() => setStatus(p, 'suspended')} className="text-orange-300 hover:bg-orange-500/10">

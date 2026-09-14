@@ -31,7 +31,7 @@ const CommissionsPage = () => {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white font-display">Platform Commissions</h1>
-              <p className="text-white/70">Track commission earnings and transaction revenue</p>
+              <p className="text-white">Track commission earnings and transaction revenue</p>
             </div>
           </div>
         </div>

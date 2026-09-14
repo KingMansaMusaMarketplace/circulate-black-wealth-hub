@@ -28,7 +28,7 @@ const TrustStatStrip: React.FC = () => {
               <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-mansagold leading-tight">
                 {stat.value}
               </div>
-              <div className="mt-1.5 text-xs md:text-sm text-white/70 leading-snug">
+              <div className="mt-1.5 text-xs md:text-sm text-white leading-snug">
                 {stat.label}
               </div>
             </motion.div>

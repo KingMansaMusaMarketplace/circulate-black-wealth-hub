@@ -54,7 +54,7 @@ const InlineSponsorCard: React.FC<{ className?: string }> = ({ className }) => {
               loading="lazy"
             />
           ) : (
-            <span className="text-sm font-bold text-white/80">{sponsor.company_name?.charAt(0)}</span>
+            <span className="text-sm font-bold text-white">{sponsor.company_name?.charAt(0)}</span>
           )}
         </div>
 

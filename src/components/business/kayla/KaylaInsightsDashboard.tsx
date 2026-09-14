@@ -139,22 +139,22 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
 
       <Tabs defaultValue="insights" className="w-full">
         <TabsList className="flex flex-wrap gap-1 bg-slate-800/40 border border-white/10 h-auto p-1">
-          <TabsTrigger value="insights" className="data-[state=active]:bg-yellow-900/60 data-[state=active]:text-yellow-300 text-white/60 text-xs">📊 Insights</TabsTrigger>
-          <TabsTrigger value="grants" className="data-[state=active]:bg-emerald-900/60 data-[state=active]:text-emerald-300 text-white/60 text-xs">💰 Grants</TabsTrigger>
-          <TabsTrigger value="cashflow" className="data-[state=active]:bg-blue-900/60 data-[state=active]:text-blue-300 text-white/60 text-xs">📈 Cash Flow</TabsTrigger>
-          <TabsTrigger value="pricing" className="data-[state=active]:bg-purple-900/60 data-[state=active]:text-purple-300 text-white/60 text-xs">🏷️ Pricing</TabsTrigger>
-          <TabsTrigger value="tax" className="data-[state=active]:bg-amber-900/60 data-[state=active]:text-amber-300 text-white/60 text-xs">🧾 Tax Prep</TabsTrigger>
-          <TabsTrigger value="investment" className="data-[state=active]:bg-cyan-900/60 data-[state=active]:text-cyan-300 text-white/60 text-xs">📊 Investor Score</TabsTrigger>
-          <TabsTrigger value="inventory" className="data-[state=active]:bg-orange-900/60 data-[state=active]:text-orange-300 text-white/60 text-xs">📦 Inventory</TabsTrigger>
-          <TabsTrigger value="compliance" className="data-[state=active]:bg-red-900/60 data-[state=active]:text-red-300 text-white/60 text-xs">🛡️ Compliance</TabsTrigger>
-          <TabsTrigger value="legal" className="data-[state=active]:bg-indigo-900/60 data-[state=active]:text-indigo-300 text-white/60 text-xs">⚖️ Legal</TabsTrigger>
-          <TabsTrigger value="social" className="data-[state=active]:bg-pink-900/60 data-[state=active]:text-pink-300 text-white/60 text-xs">📱 Social</TabsTrigger>
-          <TabsTrigger value="seo" className="data-[state=active]:bg-cyan-900/60 data-[state=active]:text-cyan-300 text-white/60 text-xs">🔍 SEO</TabsTrigger>
-          <TabsTrigger value="segments" className="data-[state=active]:bg-indigo-900/60 data-[state=active]:text-indigo-300 text-white/60 text-xs">👥 Segments</TabsTrigger>
-          <TabsTrigger value="followups" className="data-[state=active]:bg-orange-900/60 data-[state=active]:text-orange-300 text-white/60 text-xs">🔄 Follow-ups</TabsTrigger>
-          <TabsTrigger value="reminders" className="data-[state=active]:bg-amber-900/60 data-[state=active]:text-amber-300 text-white/60 text-xs">🔔 Reminders</TabsTrigger>
-          <TabsTrigger value="emails" className="data-[state=active]:bg-rose-900/60 data-[state=active]:text-rose-300 text-white/60 text-xs">✉️ Campaigns</TabsTrigger>
-          <TabsTrigger value="learning" className="data-[state=active]:bg-mansagold/30 data-[state=active]:text-mansagold text-white/60 text-xs">🧠 Learning</TabsTrigger>
+          <TabsTrigger value="insights" className="data-[state=active]:bg-yellow-900/60 data-[state=active]:text-yellow-300 text-white/90 text-xs">📊 Insights</TabsTrigger>
+          <TabsTrigger value="grants" className="data-[state=active]:bg-emerald-900/60 data-[state=active]:text-emerald-300 text-white/90 text-xs">💰 Grants</TabsTrigger>
+          <TabsTrigger value="cashflow" className="data-[state=active]:bg-blue-900/60 data-[state=active]:text-blue-300 text-white/90 text-xs">📈 Cash Flow</TabsTrigger>
+          <TabsTrigger value="pricing" className="data-[state=active]:bg-purple-900/60 data-[state=active]:text-purple-300 text-white/90 text-xs">🏷️ Pricing</TabsTrigger>
+          <TabsTrigger value="tax" className="data-[state=active]:bg-amber-900/60 data-[state=active]:text-amber-300 text-white/90 text-xs">🧾 Tax Prep</TabsTrigger>
+          <TabsTrigger value="investment" className="data-[state=active]:bg-cyan-900/60 data-[state=active]:text-cyan-300 text-white/90 text-xs">📊 Investor Score</TabsTrigger>
+          <TabsTrigger value="inventory" className="data-[state=active]:bg-orange-900/60 data-[state=active]:text-orange-300 text-white/90 text-xs">📦 Inventory</TabsTrigger>
+          <TabsTrigger value="compliance" className="data-[state=active]:bg-red-900/60 data-[state=active]:text-red-300 text-white/90 text-xs">🛡️ Compliance</TabsTrigger>
+          <TabsTrigger value="legal" className="data-[state=active]:bg-indigo-900/60 data-[state=active]:text-indigo-300 text-white/90 text-xs">⚖️ Legal</TabsTrigger>
+          <TabsTrigger value="social" className="data-[state=active]:bg-pink-900/60 data-[state=active]:text-pink-300 text-white/90 text-xs">📱 Social</TabsTrigger>
+          <TabsTrigger value="seo" className="data-[state=active]:bg-cyan-900/60 data-[state=active]:text-cyan-300 text-white/90 text-xs">🔍 SEO</TabsTrigger>
+          <TabsTrigger value="segments" className="data-[state=active]:bg-indigo-900/60 data-[state=active]:text-indigo-300 text-white/90 text-xs">👥 Segments</TabsTrigger>
+          <TabsTrigger value="followups" className="data-[state=active]:bg-orange-900/60 data-[state=active]:text-orange-300 text-white/90 text-xs">🔄 Follow-ups</TabsTrigger>
+          <TabsTrigger value="reminders" className="data-[state=active]:bg-amber-900/60 data-[state=active]:text-amber-300 text-white/90 text-xs">🔔 Reminders</TabsTrigger>
+          <TabsTrigger value="emails" className="data-[state=active]:bg-rose-900/60 data-[state=active]:text-rose-300 text-white/90 text-xs">✉️ Campaigns</TabsTrigger>
+          <TabsTrigger value="learning" className="data-[state=active]:bg-mansagold/30 data-[state=active]:text-mansagold text-white/90 text-xs">🧠 Learning</TabsTrigger>
         </TabsList>
 
         <TabsContent value="insights">
@@ -163,13 +163,13 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
             <Card className="bg-slate-800/40 border-white/10">
               <CardContent className="p-4 text-center">
                 <p className="text-2xl font-bold text-yellow-400">{insights.length}</p>
-                <p className="text-xs text-white/60">Total Insights</p>
+                <p className="text-xs text-white/90">Total Insights</p>
               </CardContent>
             </Card>
             <Card className="bg-slate-800/40 border-white/10">
               <CardContent className="p-4 text-center">
                 <p className="text-2xl font-bold text-blue-400">{pendingInsights.length}</p>
-                <p className="text-xs text-white/60">Pending Action</p>
+                <p className="text-xs text-white/90">Pending Action</p>
               </CardContent>
             </Card>
             <Card className="bg-slate-800/40 border-white/10">
@@ -177,7 +177,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
                 <p className="text-2xl font-bold text-emerald-400">
                   {insights.filter(i => i.insight_type === 'review_draft').length}
                 </p>
-                <p className="text-xs text-white/60">Review Drafts</p>
+                <p className="text-xs text-white/90">Review Drafts</p>
               </CardContent>
             </Card>
             <Card className="bg-slate-800/40 border-white/10">
@@ -185,7 +185,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
                 <p className="text-2xl font-bold text-purple-400">
                   {insights.filter(i => i.insight_type === 'b2b_match').length}
                 </p>
-                <p className="text-xs text-white/60">B2B Matches</p>
+                <p className="text-xs text-white/90">B2B Matches</p>
               </CardContent>
             </Card>
           </div>
@@ -210,7 +210,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
-                              <Badge variant="outline" className="text-xs border-white/20 text-white/70">
+                              <Badge variant="outline" className="text-xs border-white/20 text-white">
                                 {config.label}
                               </Badge>
                               <span className="text-xs text-white/40">
@@ -218,7 +218,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
                               </span>
                             </div>
                             <h4 className="text-sm font-medium text-white mb-1">{insight.title}</h4>
-                            <p className="text-sm text-white/60 line-clamp-3">{insight.content}</p>
+                            <p className="text-sm text-white/90 line-clamp-3">{insight.content}</p>
                           </div>
                         </div>
                         {isKaylaSubscriber && (
@@ -252,7 +252,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
           {/* Actioned insights */}
           {actionedInsights.length > 0 && (
             <div className="space-y-3">
-              <h3 className="text-lg font-semibold text-white/70">History</h3>
+              <h3 className="text-lg font-semibold text-white">History</h3>
               {actionedInsights.slice(0, 10).map(insight => {
                 const config = insightConfig[insight.insight_type] || insightConfig.content_suggestion;
                 const Icon = config.icon;
@@ -261,7 +261,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
                     <CardContent className="p-3">
                       <div className="flex items-center gap-3">
                         <Icon className="h-4 w-4 text-white/40" />
-                        <span className="text-sm text-white/50 flex-1">{insight.title}</span>
+                        <span className="text-sm text-white/80 flex-1">{insight.title}</span>
                         <Badge variant="outline" className={`text-xs ${insight.status === 'approved' ? 'border-emerald-400/30 text-emerald-400/70' : 'border-red-400/30 text-red-400/70'}`}>
                           {insight.status}
                         </Badge>
@@ -278,7 +278,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
               <CardContent className="p-8 text-center">
                 <Sparkles className="h-12 w-12 text-yellow-400/40 mx-auto mb-3" />
                 <h3 className="text-lg font-medium text-white mb-1">Kayla is analyzing your business</h3>
-                <p className="text-sm text-white/50">
+                <p className="text-sm text-white/80">
                   Insights will appear here as Kayla processes reviews, finds B2B matches, and generates content for you.
                 </p>
               </CardContent>

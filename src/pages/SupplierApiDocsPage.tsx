@@ -98,7 +98,7 @@ const CodeBlock: React.FC<{ children: string; label?: string }> = ({ children, l
         {label}
       </div>
     )}
-    <pre className="p-4 overflow-x-auto text-xs md:text-sm font-mono text-white/80 whitespace-pre">
+    <pre className="p-4 overflow-x-auto text-xs md:text-sm font-mono text-white whitespace-pre">
       {children}
     </pre>
   </div>
@@ -126,7 +126,7 @@ const SupplierApiDocsPage: React.FC = () => {
         <h1 className="text-3xl md:text-4xl font-bold mb-3">
           1325.AI Supplier Search API
         </h1>
-        <p className="text-white/70 md:text-lg mb-10">
+        <p className="text-white md:text-lg mb-10">
           The Supplier Search API gives approved partners programmatic access to
           the 1325.AI directory of verified Black-owned businesses across the
           United States. Use it to power supplier-diversity sourcing, vendor
@@ -141,11 +141,11 @@ const SupplierApiDocsPage: React.FC = () => {
           </div>
           <dl className="space-y-3 text-sm">
             <div>
-              <dt className="text-white/50">URL</dt>
+              <dt className="text-white/80">URL</dt>
               <dd className="font-mono text-mansagold break-all">{ENDPOINT}</dd>
             </div>
             <div>
-              <dt className="text-white/50">Methods</dt>
+              <dt className="text-white/80">Methods</dt>
               <dd>
                 <span className="font-mono">GET</span> with query parameters, or{' '}
                 <span className="font-mono">POST</span> with a JSON body. Both
@@ -153,7 +153,7 @@ const SupplierApiDocsPage: React.FC = () => {
               </dd>
             </div>
             <div>
-              <dt className="text-white/50">Format</dt>
+              <dt className="text-white/80">Format</dt>
               <dd>JSON request and response, UTF-8.</dd>
             </div>
           </dl>
@@ -164,14 +164,14 @@ const SupplierApiDocsPage: React.FC = () => {
             <KeyRound className="w-5 h-5 text-mansagold" aria-hidden />
             <h2 className="text-xl font-semibold">Authentication</h2>
           </div>
-          <p className="text-white/70 text-sm mb-4">
+          <p className="text-white text-sm mb-4">
             Every request requires the API key issued to your organization by
             1325.AI. Send it in either header:
           </p>
           <CodeBlock>{`X-API-Key: YOUR_API_KEY
 # or
 Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
-          <p className="text-white/50 text-sm mt-4">
+          <p className="text-white/80 text-sm mt-4">
             Keys are shown once at the time of issue and are stored by 1325.AI
             only in hashed form. Treat the key as a password: keep it on your
             server, never in browser or mobile code. To rotate or revoke a key,
@@ -185,7 +185,7 @@ Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
 
         <section className="mb-10">
           <h2 className="text-xl font-semibold mb-4">Search parameters</h2>
-          <p className="text-white/60 text-sm mb-4">
+          <p className="text-white/90 text-sm mb-4">
             All parameters are optional. Sending none returns the newest live
             listings. Filters combine with each other, so city plus category
             narrows the result set.
@@ -203,8 +203,8 @@ Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
                 {PARAMS.map((p) => (
                   <tr key={p.name} className="border-t border-white/10 align-top">
                     <td className="px-4 py-3 font-mono text-mansagold whitespace-nowrap">{p.name}</td>
-                    <td className="px-4 py-3 text-white/50 hidden sm:table-cell whitespace-nowrap">{p.type}</td>
-                    <td className="px-4 py-3 text-white/70">{p.description}</td>
+                    <td className="px-4 py-3 text-white/80 hidden sm:table-cell whitespace-nowrap">{p.type}</td>
+                    <td className="px-4 py-3 text-white">{p.description}</td>
                   </tr>
                 ))}
               </tbody>
@@ -221,12 +221,12 @@ Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
         <section className="mb-10">
           <h2 className="text-xl font-semibold mb-4">Example response</h2>
           <CodeBlock label="200 OK">{RESPONSE_EXAMPLE}</CodeBlock>
-          <p className="text-white/50 text-sm mt-4">
-            <span className="font-mono text-white/70">total</span> is the number of
+          <p className="text-white/80 text-sm mt-4">
+            <span className="font-mono text-white">total</span> is the number of
             businesses matching your filters;{' '}
-            <span className="font-mono text-white/70">count</span> is the number
+            <span className="font-mono text-white">count</span> is the number
             returned in this response. Page through larger result sets by
-            increasing <span className="font-mono text-white/70">offset</span>.
+            increasing <span className="font-mono text-white">offset</span>.
           </p>
         </section>
 
@@ -244,7 +244,7 @@ Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
                 {FIELDS.map((f) => (
                   <tr key={f.name} className="border-t border-white/10 align-top">
                     <td className="px-4 py-3 font-mono text-mansagold whitespace-nowrap">{f.name}</td>
-                    <td className="px-4 py-3 text-white/70">{f.description}</td>
+                    <td className="px-4 py-3 text-white">{f.description}</td>
                   </tr>
                 ))}
               </tbody>
@@ -267,8 +267,8 @@ Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
                 {ERRORS.map((e) => (
                   <tr key={e.code} className="border-t border-white/10 align-top">
                     <td className="px-4 py-3 font-mono text-mansagold whitespace-nowrap">{e.code}</td>
-                    <td className="px-4 py-3 text-white/50 hidden sm:table-cell">{e.status}</td>
-                    <td className="px-4 py-3 text-white/70">{e.meaning}</td>
+                    <td className="px-4 py-3 text-white/80 hidden sm:table-cell">{e.status}</td>
+                    <td className="px-4 py-3 text-white">{e.meaning}</td>
                   </tr>
                 ))}
               </tbody>
@@ -281,7 +281,7 @@ Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
             <ShieldCheck className="w-5 h-5 text-mansagold" aria-hidden />
             <h2 className="text-xl font-semibold">Data handling and limits</h2>
           </div>
-          <ul className="list-disc pl-5 space-y-2 text-white/70 text-sm">
+          <ul className="list-disc pl-5 space-y-2 text-white text-sm">
             <li>
               The API is read-only. It cannot create, change, or delete any
               record in the 1325.AI platform.
@@ -307,7 +307,7 @@ Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
 
         <section className="rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6">
           <h2 className="text-xl font-semibold mb-3">Access and support</h2>
-          <p className="text-white/70 text-sm">
+          <p className="text-white text-sm">
             To request an API key or discuss volume, integration, or procurement
             requirements, contact{' '}
             <a href="mailto:Partner@1325.AI" className="text-mansagold hover:underline">

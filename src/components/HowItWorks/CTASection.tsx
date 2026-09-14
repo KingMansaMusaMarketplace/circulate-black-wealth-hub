@@ -53,7 +53,7 @@ const CTASection = () => {
             
             <CTAButtons isVisible={isVisible} />
             
-            <div className="mt-6 text-white/80 text-sm flex items-center justify-center gap-2">
+            <div className="mt-6 text-white text-sm flex items-center justify-center gap-2">
               <Check size={18} className="text-green-400" />
               <span className="font-body">Customers always free. Founding 100 businesses lock in Pro at $149/mo forever — only 100 spots.</span>
             </div>

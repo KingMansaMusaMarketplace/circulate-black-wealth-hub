@@ -124,7 +124,7 @@ const ManagedByMansaTierCard: React.FC = () => {
           <Crown className="w-6 h-6 text-mansagold" />
           Choose Your Service Tier
         </h2>
-        <p className="text-white/60 mt-1">
+        <p className="text-white/90 mt-1">
           Select the level of management support for your properties
         </p>
       </div>
@@ -164,10 +164,10 @@ const ManagedByMansaTierCard: React.FC = () => {
                   <CardTitle className={`text-xl ${info.color}`}>
                     {info.name}
                   </CardTitle>
-                  <p className="text-white/60 text-sm">{info.description}</p>
+                  <p className="text-white/90 text-sm">{info.description}</p>
                   <div className="mt-3">
                     <span className="text-3xl font-bold text-white">{info.fee}</span>
-                    <span className="text-white/50 text-sm ml-1">platform fee</span>
+                    <span className="text-white/80 text-sm ml-1">platform fee</span>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -224,21 +224,21 @@ const ManagedByMansaTierCard: React.FC = () => {
               <Camera className="w-5 h-5 text-mansagold flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-white font-medium">Professional Photography</p>
-                <p className="text-white/50">Listings with pro photos get 40% more bookings</p>
+                <p className="text-white/80">Listings with pro photos get 40% more bookings</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
               <TrendingUp className="w-5 h-5 text-mansagold flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-white font-medium">Dynamic Pricing</p>
-                <p className="text-white/50">AI-optimized rates increase revenue by 20%</p>
+                <p className="text-white/80">AI-optimized rates increase revenue by 20%</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
               <Headphones className="w-5 h-5 text-mansagold flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-white font-medium">24/7 Guest Support</p>
-                <p className="text-white/50">We handle all guest communication for you</p>
+                <p className="text-white/80">We handle all guest communication for you</p>
               </div>
             </div>
           </div>

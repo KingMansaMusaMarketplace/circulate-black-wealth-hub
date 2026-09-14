@@ -31,7 +31,7 @@ export const TestSection: React.FC<TestSectionProps> = ({ title, tests, icon: Ic
       case 'running':
         return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">Running</Badge>;
       default:
-        return <Badge className="bg-white/10 text-white/60 border-white/20">Pending</Badge>;
+        return <Badge className="bg-white/10 text-white/90 border-white/20">Pending</Badge>;
     }
   };
 
@@ -53,7 +53,7 @@ export const TestSection: React.FC<TestSectionProps> = ({ title, tests, icon: Ic
                   <div className="font-medium text-white">{test.name}</div>
                   <div className="text-sm text-blue-200">{test.message}</div>
                   {test.details && (
-                    <div className="text-xs text-white/50">{test.details}</div>
+                    <div className="text-xs text-white/80">{test.details}</div>
                   )}
                 </div>
               </div>

@@ -95,7 +95,7 @@ const HeroSection = () => {
 
       <button 
         onClick={scrollToNextSection}
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/80 hover:text-white flex flex-col items-center transition-colors z-20"
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white hover:text-white flex flex-col items-center transition-colors z-20"
         aria-label="Scroll to next section"
       >
         <span className="text-sm mb-1">Scroll to learn more</span>

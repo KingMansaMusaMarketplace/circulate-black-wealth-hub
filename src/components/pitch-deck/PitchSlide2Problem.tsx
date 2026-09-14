@@ -40,7 +40,7 @@ const PitchSlide2Problem: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             The Black Dollar Doesn't <span className="text-red-400">Circulate</span>
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             Despite $2.10 trillion in annual U.S. spending power — and $9.1 trillion globally — Black communities lack the economic infrastructure to keep wealth circulating internally
           </p>
         </motion.div>
@@ -59,7 +59,7 @@ const PitchSlide2Problem: React.FC = () => {
                 </div>
                 <div className="text-4xl font-black text-red-400 mb-2">{problem.stat}</div>
                 <h3 className="text-xl font-bold text-white mb-3">{problem.title}</h3>
-                <p className="text-white/80 font-medium">{problem.description}</p>
+                <p className="text-white font-medium">{problem.description}</p>
               </Card>
             </motion.div>
           ))}

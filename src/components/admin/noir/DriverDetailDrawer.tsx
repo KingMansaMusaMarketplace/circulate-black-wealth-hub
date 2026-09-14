@@ -122,7 +122,7 @@ const DriverDetailDrawer: React.FC<Props> = ({ driverId, open, onClose, onChange
                 <div key={doc.id} className="flex items-center justify-between gap-2 py-2 border-b border-white/5">
                   <div className="min-w-0">
                     <div className="text-sm text-white">{DOCUMENT_LABELS[doc.document_type as keyof typeof DOCUMENT_LABELS] || doc.document_type}</div>
-                    <div className="text-xs text-white/50">{new Date(doc.uploaded_at).toLocaleDateString()}</div>
+                    <div className="text-xs text-white/80">{new Date(doc.uploaded_at).toLocaleDateString()}</div>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
                     <Badge variant="outline" className={
@@ -154,10 +154,10 @@ const DriverDetailDrawer: React.FC<Props> = ({ driverId, open, onClose, onChange
               {history.length === 0 ? (
                 <div className="text-white/40 text-sm">No status changes yet.</div>
               ) : history.map((h: any) => (
-                <div key={h.id} className="text-xs text-white/60 py-1 border-b border-white/5">
+                <div key={h.id} className="text-xs text-white/90 py-1 border-b border-white/5">
                   <span className="text-white">{h.from_status || '—'} → {h.to_status}</span>
                   <span className="text-white/40 ml-2">{new Date(h.changed_at).toLocaleString()}</span>
-                  {h.reason && <div className="text-white/50 mt-0.5">{h.reason}</div>}
+                  {h.reason && <div className="text-white/80 mt-0.5">{h.reason}</div>}
                 </div>
               ))}
             </Section>
@@ -169,7 +169,7 @@ const DriverDetailDrawer: React.FC<Props> = ({ driverId, open, onClose, onChange
                 <div className="space-y-1">
                   {REJECTION_REASONS.map(r => (
                     <button key={r} onClick={() => setRejectReason(r)}
-                      className={`block w-full text-left text-xs px-2 py-1 rounded ${rejectReason === r ? 'bg-red-500/30 text-white' : 'text-white/60 hover:bg-white/5'}`}>
+                      className={`block w-full text-left text-xs px-2 py-1 rounded ${rejectReason === r ? 'bg-red-500/30 text-white' : 'text-white/90 hover:bg-white/5'}`}>
                       {r}
                     </button>
                   ))}
@@ -226,7 +226,7 @@ const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 
 const Row: React.FC<{ k: string; v: any; warn?: boolean }> = ({ k, v, warn }) => (
   <div className="flex justify-between text-sm py-1 border-b border-white/5">
-    <span className="text-white/50">{k}</span>
+    <span className="text-white/80">{k}</span>
     <span className={`text-right ${warn ? 'text-orange-300 font-semibold' : 'text-white'}`}>
       {v || '—'} {warn && '⚠'}
     </span>

@@ -256,7 +256,7 @@ export default function MyTicketsPage() {
               {/* Original Message */}
               <div className="p-4 bg-white/5 rounded-lg border border-white/10">
                 <p className="text-sm text-blue-200/60 mb-2">Original Request</p>
-                <p className="text-white/80">{selectedTicket?.description}</p>
+                <p className="text-white">{selectedTicket?.description}</p>
                 <p className="text-xs text-blue-200/40 mt-2">
                   {selectedTicket && format(new Date(selectedTicket.created_at), 'MMM d, yyyy h:mm a')}
                 </p>
@@ -283,7 +283,7 @@ export default function MyTicketsPage() {
                           {format(new Date(msg.created_at), 'MMM d, h:mm a')}
                         </span>
                       </div>
-                      <p className="text-sm text-white/80">{msg.message}</p>
+                      <p className="text-sm text-white">{msg.message}</p>
                     </div>
                   ))}
                 </div>

@@ -181,7 +181,7 @@ const DriverApplyPage: React.FC = () => {
             <span className="text-mansagold text-sm font-medium">Noire Rideshare</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold">Become a Driver</h1>
-          <p className="text-white/60">Join the community-owned rideshare. Apply once, drive whenever you want.</p>
+          <p className="text-white/90">Join the community-owned rideshare. Apply once, drive whenever you want.</p>
         </div>
 
         {driver && (
@@ -190,7 +190,7 @@ const DriverApplyPage: React.FC = () => {
               <div className="flex items-center gap-3">
                 <ShieldCheck className="h-5 w-5 text-mansagold" />
                 <div>
-                  <div className="text-sm text-white/60">Application status</div>
+                  <div className="text-sm text-white/90">Application status</div>
                   <Badge className={STATUS_COLORS[status]}>{status.replace('_', ' ')}</Badge>
                 </div>
               </div>
@@ -199,7 +199,7 @@ const DriverApplyPage: React.FC = () => {
                   <div className="text-xs text-red-300 font-medium flex items-center gap-1 justify-end">
                     <AlertCircle className="h-3 w-3" /> Reason
                   </div>
-                  <div className="text-xs text-white/70 mt-1">{driver.rejection_reason}</div>
+                  <div className="text-xs text-white mt-1">{driver.rejection_reason}</div>
                 </div>
               )}
             </CardContent>
@@ -211,7 +211,7 @@ const DriverApplyPage: React.FC = () => {
             <CardContent className="p-6 text-center space-y-2">
               <CheckIcon /> 
               <h3 className="text-xl font-bold text-green-300">You're approved!</h3>
-              <p className="text-white/70 text-sm">Head to the driver dashboard to go online and start accepting rides.</p>
+              <p className="text-white text-sm">Head to the driver dashboard to go online and start accepting rides.</p>
               <Button onClick={() => navigate('/noir')} className="bg-mansagold text-slate-900 hover:bg-mansagold/90 mt-2">
                 Open Driver Dashboard
               </Button>
@@ -284,7 +284,7 @@ const DriverApplyPage: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-3">
             {!driver ? (
-              <div className="text-center py-8 text-white/50 text-sm">
+              <div className="text-center py-8 text-white/80 text-sm">
                 Save your information above first, then come back to upload documents.
               </div>
             ) : REQUIRED_DOCUMENTS.map(type => (
@@ -311,7 +311,7 @@ const DriverApplyPage: React.FC = () => {
                   checked={form.agreement}
                   onCheckedChange={(v) => setForm({ ...form, agreement: !!v })}
                 />
-                <Label htmlFor="agree" className="text-sm text-white/80 leading-relaxed cursor-pointer">
+                <Label htmlFor="agree" className="text-sm text-white leading-relaxed cursor-pointer">
                   I confirm all information is accurate, I authorize a background and driving-record check,
                   and I agree to the Noire Rideshare driver terms and community standards.
                 </Label>
@@ -339,7 +339,7 @@ const DriverApplyPage: React.FC = () => {
 
 const Field: React.FC<{ label: string; v: any; onChange: (v: string) => void; type?: string; disabled?: boolean; className?: string; }> = ({ label, v, onChange, type = 'text', disabled, className }) => (
   <div className={className}>
-    <Label className="text-white/70 text-xs">{label}</Label>
+    <Label className="text-white text-xs">{label}</Label>
     <Input
       type={type}
       value={v ?? ''}

@@ -23,12 +23,12 @@ export const MiniLoyaltyWidget: React.FC = () => {
           <div className="text-3xl font-bold text-white">
             {summary.totalPoints}
           </div>
-          <p className="text-sm text-white/80">Total Points</p>
+          <p className="text-sm text-white">Total Points</p>
         </div>
         
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-white/70">Level</span>
+            <span className="text-sm text-white">Level</span>
             <Badge className="bg-yellow-400/20 text-yellow-300 border border-yellow-400/40">
               <Star className="h-3 w-3 mr-1" />
               Bronze
@@ -36,7 +36,7 @@ export const MiniLoyaltyWidget: React.FC = () => {
           </div>
           
           <div className="flex justify-between items-center">
-            <span className="text-sm text-white/70">Available Rewards</span>
+            <span className="text-sm text-white">Available Rewards</span>
             <span className="text-sm font-medium text-white">3</span>
           </div>
         </div>

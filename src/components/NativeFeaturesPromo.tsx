@@ -17,7 +17,7 @@ export const NativeFeaturesPromo = () => {
       {/* Close Button */}
       <button
         onClick={() => setDismissed(true)}
-        className="absolute top-2 right-2 p-2 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white/80 hover:text-white transition-all z-50"
+        className="absolute top-2 right-2 p-2 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white hover:text-white transition-all z-50"
         aria-label="Close banner"
       >
         <X className="w-5 h-5" />
@@ -37,7 +37,7 @@ export const NativeFeaturesPromo = () => {
                 <Zap className="w-4 h-4 text-mansagold animate-pulse" />
                 <span className="text-white">🚀 Native Mobile Features</span>
               </h3>
-              <p className="text-white/80 text-sm font-medium">
+              <p className="text-white text-sm font-medium">
                 {isNative 
                   ? "✨ Haptic feedback • 📍 Background location • 🔔 Push notifications • 📱 Native share"
                   : "Experience features beyond web browsers: haptics, background tracking, and more"

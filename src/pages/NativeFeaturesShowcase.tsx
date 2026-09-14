@@ -232,7 +232,7 @@ const NativeFeaturesShowcase = () => {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-mansablue via-mansagold to-mansablue bg-clip-text text-transparent drop-shadow-sm">
             Native Features Showcase
           </h1>
-          <p className="text-lg font-medium text-white/80">
+          <p className="text-lg font-medium text-white">
             Experience capabilities beyond web browsing
           </p>
           {!isNative && (
@@ -332,7 +332,7 @@ const NativeFeaturesShowcase = () => {
                       </div>
                       <div>
                         <CardTitle className="text-xl font-bold text-white">{feature.title}</CardTitle>
-                        <CardDescription className="text-sm font-medium mt-1 text-white/70">
+                        <CardDescription className="text-sm font-medium mt-1 text-white">
                           {feature.description}
                         </CardDescription>
                       </div>
@@ -416,14 +416,14 @@ const NativeFeaturesShowcase = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-base">
-            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-purple-500"><strong className="text-purple-400">✅ Haptic Feedback:</strong> <span className="text-white/80">Tap "Test" to feel native vibrations</span></p>
-            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-green-500"><strong className="text-green-400">✅ Geolocation:</strong> <span className="text-white/80">Grant location permission to see high-accuracy coordinates</span></p>
-            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-blue-500"><strong className="text-blue-400">✅ Background Location:</strong> <span className="text-white/80">Enable to receive notifications when near businesses</span></p>
-            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-orange-500"><strong className="text-orange-400">✅ Notifications:</strong> <span className="text-white/80">Check notification center after testing</span></p>
-            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-orange-500"><strong className="text-orange-400">✅ Notifications:</strong> <span className="text-white/80">Check notification center after testing</span></p>
-            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-pink-500"><strong className="text-pink-400">✅ Native Share:</strong> <span className="text-white/80">See native share sheet</span></p>
-            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-indigo-500"><strong className="text-indigo-400">✅ Offline Support:</strong> <span className="text-white/80">Turn on airplane mode and try browsing</span></p>
-            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-teal-500"><strong className="text-teal-400">✅ App Lifecycle:</strong> <span className="text-white/80">Background the app for 5+ minutes, then return</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-purple-500"><strong className="text-purple-400">✅ Haptic Feedback:</strong> <span className="text-white">Tap "Test" to feel native vibrations</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-green-500"><strong className="text-green-400">✅ Geolocation:</strong> <span className="text-white">Grant location permission to see high-accuracy coordinates</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-blue-500"><strong className="text-blue-400">✅ Background Location:</strong> <span className="text-white">Enable to receive notifications when near businesses</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-orange-500"><strong className="text-orange-400">✅ Notifications:</strong> <span className="text-white">Check notification center after testing</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-orange-500"><strong className="text-orange-400">✅ Notifications:</strong> <span className="text-white">Check notification center after testing</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-pink-500"><strong className="text-pink-400">✅ Native Share:</strong> <span className="text-white">See native share sheet</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-indigo-500"><strong className="text-indigo-400">✅ Offline Support:</strong> <span className="text-white">Turn on airplane mode and try browsing</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-teal-500"><strong className="text-teal-400">✅ App Lifecycle:</strong> <span className="text-white">Background the app for 5+ minutes, then return</span></p>
           </CardContent>
         </Card>
       </div>

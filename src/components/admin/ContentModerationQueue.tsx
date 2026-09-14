@@ -157,7 +157,7 @@ const ContentModerationQueue: React.FC = () => {
             <div className="flex items-center gap-3">
               <Flag className="h-8 w-8 text-yellow-400" />
               <div>
-                <p className="text-white/60 text-sm">Pending Review</p>
+                <p className="text-white/90 text-sm">Pending Review</p>
                 <p className="text-2xl font-bold text-yellow-400">{stats.pending}</p>
               </div>
             </div>
@@ -168,7 +168,7 @@ const ContentModerationQueue: React.FC = () => {
             <div className="flex items-center gap-3">
               <MessageSquare className="h-8 w-8 text-red-400" />
               <div>
-                <p className="text-white/60 text-sm">Flagged Reviews</p>
+                <p className="text-white/90 text-sm">Flagged Reviews</p>
                 <p className="text-2xl font-bold text-red-400">{stats.flaggedReviews}</p>
               </div>
             </div>
@@ -179,7 +179,7 @@ const ContentModerationQueue: React.FC = () => {
             <div className="flex items-center gap-3">
               <CheckCircle className="h-8 w-8 text-green-400" />
               <div>
-                <p className="text-white/60 text-sm">Approved Today</p>
+                <p className="text-white/90 text-sm">Approved Today</p>
                 <p className="text-2xl font-bold text-green-400">{stats.approvedToday}</p>
               </div>
             </div>
@@ -190,7 +190,7 @@ const ContentModerationQueue: React.FC = () => {
             <div className="flex items-center gap-3">
               <XCircle className="h-8 w-8 text-red-400" />
               <div>
-                <p className="text-white/60 text-sm">Removed Today</p>
+                <p className="text-white/90 text-sm">Removed Today</p>
                 <p className="text-2xl font-bold text-red-400">{stats.removedToday}</p>
               </div>
             </div>
@@ -218,11 +218,11 @@ const ContentModerationQueue: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <Badge className="bg-red-500/20 text-red-400">{review.flag_reason || 'Flagged'}</Badge>
-                        <span className="text-white/60 text-xs">
+                        <span className="text-white/90 text-xs">
                           Rating: {'⭐'.repeat(review.rating)}
                         </span>
                       </div>
-                      <p className="text-white/80 text-sm line-clamp-2">{review.comment || 'No comment'}</p>
+                      <p className="text-white text-sm line-clamp-2">{review.comment || 'No comment'}</p>
                       <p className="text-white/40 text-xs mt-1">
                         {format(new Date(review.created_at), 'MMM d, yyyy')}
                       </p>
@@ -305,10 +305,10 @@ const ContentModerationQueue: React.FC = () => {
                                 </Badge>
                               )}
                             </div>
-                            <p className="text-white/80 text-sm line-clamp-2">{item.details || 'No details provided'}</p>
+                            <p className="text-white text-sm line-clamp-2">{item.details || 'No details provided'}</p>
                           </div>
                           <div className="text-right shrink-0 ml-4">
-                            <p className="text-white/60 text-xs">{format(new Date(item.created_at), 'MMM d, HH:mm')}</p>
+                            <p className="text-white/90 text-xs">{format(new Date(item.created_at), 'MMM d, HH:mm')}</p>
                             <Button size="sm" variant="ghost" className="mt-2 text-mansagold">
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -326,7 +326,7 @@ const ContentModerationQueue: React.FC = () => {
                             <Badge variant="outline">{item.content_type}</Badge>
                             <Badge className={getReasonBadge(item.reason)}>{item.reason}</Badge>
                           </div>
-                          <p className="text-white/80">{item.details || 'No details provided'}</p>
+                          <p className="text-white">{item.details || 'No details provided'}</p>
                           <p className="text-white/40 text-xs mt-2">
                             Content ID: {item.content_id}
                           </p>
@@ -373,7 +373,7 @@ const ContentModerationQueue: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-white/60">
+              <div className="text-center py-12 text-white/90">
                 <Shield className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>No items in moderation queue</p>
               </div>

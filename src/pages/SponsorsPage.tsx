@@ -66,7 +66,7 @@ const SponsorsPage: React.FC = () => {
                   <div className="font-playfair text-3xl md:text-4xl text-mansagold font-semibold">
                     {stat.value}
                   </div>
-                  <div className="text-white/70 text-xs mt-2 uppercase tracking-wider">
+                  <div className="text-white text-xs mt-2 uppercase tracking-wider">
                     {stat.label}
                   </div>
                 </div>
@@ -83,7 +83,7 @@ const SponsorsPage: React.FC = () => {
             </h2>
 
             {live.length === 0 ? (
-              <p className="text-white/70 text-center max-w-xl mx-auto">
+              <p className="text-white text-center max-w-xl mx-auto">
                 Founding partner slots are open now. The first brands on this wall are
                 recognized permanently as founding partners of the 1325.AI network.
               </p>
@@ -127,7 +127,7 @@ const SponsorsPage: React.FC = () => {
               <h2 className="font-playfair text-3xl md:text-4xl text-white">
                 Slots still open.
               </h2>
-              <p className="text-white/80 mt-4 max-w-2xl mx-auto">
+              <p className="text-white mt-4 max-w-2xl mx-auto">
                 Each tier is capped. When a tier is full, it stays full for the term.
               </p>
             </div>
@@ -151,7 +151,7 @@ const SponsorsPage: React.FC = () => {
                       <h3 className="font-playfair text-xl text-white">{slot.label}</h3>
                       <span
                         className={`text-[10px] uppercase tracking-[0.2em] ${
-                          isFull ? 'text-white/50' : 'text-mansagold'
+                          isFull ? 'text-white/80' : 'text-mansagold'
                         }`}
                       >
                         {isFull ? 'Full' : `${remaining} available`}
@@ -162,7 +162,7 @@ const SponsorsPage: React.FC = () => {
 
                     <div className="mb-6 pb-6 border-b border-mansagold/20">
                       <div className="font-playfair text-2xl text-white">{slot.annual}</div>
-                      <p className="text-white/70 text-sm mt-1">{slot.monthly}</p>
+                      <p className="text-white text-sm mt-1">{slot.monthly}</p>
                     </div>
 
                     <ul className="space-y-2 mb-8 flex-grow">
@@ -205,7 +205,7 @@ const SponsorsPage: React.FC = () => {
             </div>
 
             <div className="text-center mt-16">
-              <p className="text-white/70 text-sm">
+              <p className="text-white text-sm">
                 Questions about a custom engagement?{' '}
                 <a href="mailto:Partner@1325.AI" className="text-mansagold hover:underline">
                   Partner@1325.AI

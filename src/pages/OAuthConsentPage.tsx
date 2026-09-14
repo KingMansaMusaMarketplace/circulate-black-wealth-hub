@@ -119,7 +119,7 @@ const OAuthConsentPage: React.FC = () => {
         )}
 
         {!error && !details && (
-          <div className="flex items-center gap-2 text-white/70">
+          <div className="flex items-center gap-2 text-white">
             <Loader2 className="w-4 h-4 animate-spin" />
             <span>Loading authorization request…</span>
           </div>
@@ -127,11 +127,11 @@ const OAuthConsentPage: React.FC = () => {
 
         {!error && details && (
           <>
-            <p className="text-white/80 mb-2">
+            <p className="text-white mb-2">
               <span className="font-semibold text-white">{clientName}</span>{' '}
               is asking to connect to your 1325.AI account.
             </p>
-            <p className="text-white/60 text-sm mb-6">
+            <p className="text-white/90 text-sm mb-6">
               If you approve, this assistant will be able to use 1325.AI tools
               as you — browse the directory, view your loyalty points, and
               read your recent QR scans. You can revoke this at any time from

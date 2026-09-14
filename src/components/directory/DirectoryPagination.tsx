@@ -75,7 +75,7 @@ const DirectoryPagination: React.FC<DirectoryPaginationProps> = ({
           if (page === 'ellipsis-start' || page === 'ellipsis-end') {
             return (
               <PaginationItem key={`ellipsis-${index}`}>
-                <PaginationEllipsis className="h-9 w-9 sm:h-10 sm:w-10 text-white/60" />
+                <PaginationEllipsis className="h-9 w-9 sm:h-10 sm:w-10 text-white/90" />
               </PaginationItem>
             );
           }

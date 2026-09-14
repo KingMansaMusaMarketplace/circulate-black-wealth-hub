@@ -55,14 +55,14 @@ class ErrorBoundary extends Component<Props, State> {
               </h1>
 
               {/* Description */}
-              <p className="text-white/80 mb-6 font-body">
+              <p className="text-white mb-6 font-body">
                 We're sorry, but something unexpected happened. Please try reloading the page.
               </p>
 
               {/* Error Details */}
               {this.state.error && (
                 <details className="text-left mb-6">
-                  <summary className="text-sm text-white/60 cursor-pointer hover:text-white/80 transition-colors">
+                  <summary className="text-sm text-white/90 cursor-pointer hover:text-white transition-colors">
                     Error details
                   </summary>
                   <pre className="mt-2 text-xs bg-black/30 backdrop-blur-sm p-3 rounded-lg overflow-auto max-h-40 text-red-300 border border-white/10">

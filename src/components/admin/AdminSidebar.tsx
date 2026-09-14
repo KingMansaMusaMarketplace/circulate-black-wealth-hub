@@ -188,7 +188,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
             variant="ghost"
             size="icon"
             onClick={toggleSidebar}
-            className="h-8 w-8 text-white/70 hover:text-white hover:bg-white/10"
+            className="h-8 w-8 text-white hover:text-white hover:bg-white/10"
           >
             <PanelLeft className="h-4 w-4" />
           </Button>
@@ -237,7 +237,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
                               w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all
                               ${activeTab === item.id
                                 ? 'bg-mansagold text-slate-900 font-medium'
-                                : 'text-white/70 hover:text-white hover:bg-white/10'
+                                : 'text-white hover:text-white hover:bg-white/10'
                               }
                             `}
                           >

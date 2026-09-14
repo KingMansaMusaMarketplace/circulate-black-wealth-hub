@@ -88,7 +88,7 @@ export const KaylaEmailCampaigns: React.FC<Props> = ({ businessId }) => {
           <Mail className="h-5 w-5 text-pink-400" />
           Behavior-Triggered Email Campaigns
         </h3>
-        <p className="text-sm text-white/50">Automated emails based on customer behavior</p>
+        <p className="text-sm text-white/80">Automated emails based on customer behavior</p>
       </div>
 
       {/* Generator */}
@@ -123,7 +123,7 @@ export const KaylaEmailCampaigns: React.FC<Props> = ({ businessId }) => {
           <CardContent className="p-8 text-center">
             <Mail className="h-12 w-12 text-pink-400/40 mx-auto mb-3" />
             <h3 className="text-lg font-medium text-white mb-1">No campaigns yet</h3>
-            <p className="text-sm text-white/50">Select a trigger and generate your first AI-powered email campaign.</p>
+            <p className="text-sm text-white/80">Select a trigger and generate your first AI-powered email campaign.</p>
           </CardContent>
         </Card>
       ) : (
@@ -137,18 +137,18 @@ export const KaylaEmailCampaigns: React.FC<Props> = ({ businessId }) => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <h4 className="text-sm font-semibold text-white">{campaign.campaign_name}</h4>
-                        <Badge variant="outline" className="text-xs border-white/10 text-white/50">
+                        <Badge variant="outline" className="text-xs border-white/10 text-white/80">
                           {trigger.emoji} {trigger.label}
                         </Badge>
                       </div>
-                      <p className="text-xs text-white/60 mb-2">Subject: {campaign.subject_line}</p>
+                      <p className="text-xs text-white/90 mb-2">Subject: {campaign.subject_line}</p>
                       <div className="flex items-center gap-4 text-xs text-white/40">
                         <span className="flex items-center gap-1"><Send className="h-3 w-3" /> {campaign.total_sent} sent</span>
                         <span className="flex items-center gap-1"><Eye className="h-3 w-3" /> {campaign.total_opened} opened</span>
                         <span className="flex items-center gap-1"><MousePointer className="h-3 w-3" /> {campaign.total_clicked} clicked</span>
                       </div>
                       {previewId === campaign.id && campaign.email_body && (
-                        <div className="mt-3 bg-white/5 rounded-lg p-3 text-xs text-white/60 max-h-40 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(campaign.email_body) }} />
+                        <div className="mt-3 bg-white/5 rounded-lg p-3 text-xs text-white/90 max-h-40 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(campaign.email_body) }} />
                       )}
                     </div>
                     <div className="flex items-center gap-3">

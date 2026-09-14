@@ -160,7 +160,7 @@ export default function BookBusinessPage() {
                   </div>
                   <p className="text-mansagold font-medium text-lg mb-1">Book an Appointment</p>
                   {business.city && (
-                    <div className="flex items-center gap-1.5 text-sm text-white/50">
+                    <div className="flex items-center gap-1.5 text-sm text-white/80">
                       <MapPin className="w-3.5 h-3.5" />
                       <span>{business.city}, {business.state}</span>
                     </div>
@@ -196,7 +196,7 @@ export default function BookBusinessPage() {
                         <div className="w-16 h-16 rounded-2xl bg-white/[0.04] flex items-center justify-center mx-auto mb-4">
                           <Calendar className="w-8 h-8 text-white/20" />
                         </div>
-                        <p className="text-white/60 font-medium mb-1">No Services Available</p>
+                        <p className="text-white/90 font-medium mb-1">No Services Available</p>
                         <p className="text-sm text-white/30">
                           This business hasn't added bookable services yet.
                         </p>
@@ -221,7 +221,7 @@ export default function BookBusinessPage() {
                 {/* Business Info Card */}
                 <div className="rounded-2xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] overflow-hidden">
                   <div className="px-6 py-4 border-b border-white/[0.06]">
-                    <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Business Details</h3>
+                    <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Business Details</h3>
                   </div>
                   <div className="p-6 space-y-5">
                     {bannerImage && (
@@ -231,7 +231,7 @@ export default function BookBusinessPage() {
                     )}
 
                     {business.description && (
-                      <p className="text-sm text-white/50 leading-relaxed line-clamp-3">
+                      <p className="text-sm text-white/80 leading-relaxed line-clamp-3">
                         {business.description}
                       </p>
                     )}
@@ -240,7 +240,7 @@ export default function BookBusinessPage() {
                       {business.address && (
                         <div className="flex items-start gap-3">
                           <MapPin className="w-4 h-4 text-mansagold mt-0.5 flex-shrink-0" />
-                          <div className="text-sm text-white/60">
+                          <div className="text-sm text-white/90">
                             <p>{business.address}</p>
                             <p>{business.city}, {business.state} {business.zip_code}</p>
                           </div>
@@ -250,7 +250,7 @@ export default function BookBusinessPage() {
                       {business.phone && (
                         <div className="flex items-center gap-3">
                           <Phone className="w-4 h-4 text-mansagold flex-shrink-0" />
-                          <a href={`tel:${business.phone}`} className="text-sm text-white/60 hover:text-white transition-colors">
+                          <a href={`tel:${business.phone}`} className="text-sm text-white/90 hover:text-white transition-colors">
                             {business.phone}
                           </a>
                         </div>
@@ -259,7 +259,7 @@ export default function BookBusinessPage() {
                       {business.email && (
                         <div className="flex items-center gap-3">
                           <Mail className="w-4 h-4 text-mansagold flex-shrink-0" />
-                          <a href={`mailto:${business.email}`} className="text-sm text-white/60 hover:text-white transition-colors">
+                          <a href={`mailto:${business.email}`} className="text-sm text-white/90 hover:text-white transition-colors">
                             {business.email}
                           </a>
                         </div>
@@ -272,7 +272,7 @@ export default function BookBusinessPage() {
                 {services.length > 0 && (
                   <div className="rounded-2xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] overflow-hidden">
                     <div className="px-6 py-4 border-b border-white/[0.06]">
-                      <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Services & Pricing</h3>
+                      <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Services & Pricing</h3>
                     </div>
                     <div className="divide-y divide-white/[0.04]">
                       {services.map((service: any) => (
@@ -302,7 +302,7 @@ export default function BookBusinessPage() {
                 <div className="rounded-2xl bg-gradient-to-br from-mansagold/5 to-transparent border border-mansagold/10 p-5">
                   <div className="flex items-center gap-3 mb-2">
                     <Shield className="w-5 h-5 text-mansagold" />
-                    <span className="text-sm font-medium text-white/80">Secure Booking</span>
+                    <span className="text-sm font-medium text-white">Secure Booking</span>
                   </div>
                   <p className="text-xs text-white/40 leading-relaxed">
                     Your information is encrypted and secure. You'll receive a confirmation after booking.

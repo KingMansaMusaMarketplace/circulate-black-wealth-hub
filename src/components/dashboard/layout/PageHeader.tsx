@@ -15,7 +15,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, icon, location }) => {
         {title}
       </h1>
       {location && (
-        <p className="mt-1 text-sm text-white/70">{location}</p>
+        <p className="mt-1 text-sm text-white">{location}</p>
       )}
     </div>
   );

@@ -252,7 +252,7 @@ const KaylaWelcomeOnboarding: React.FC<KaylaWelcomeOnboardingProps> = ({
               <p className="text-mansagold/80 text-xs font-medium tracking-wide">AI BUSINESS CONCIERGE • ONLINE</p>
             </div>
           </div>
-          <button onClick={handleDismiss} className="text-white/40 hover:text-white/80 transition-colors p-1">
+          <button onClick={handleDismiss} className="text-white/40 hover:text-white transition-colors p-1">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -317,7 +317,7 @@ const KaylaWelcomeOnboarding: React.FC<KaylaWelcomeOnboardingProps> = ({
               {/* Profile Strength Meter */}
               <div className="bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-white/70 text-sm font-medium">Profile Strength</span>
+                  <span className="text-white text-sm font-medium">Profile Strength</span>
                   <span className={`font-bold text-sm ${getScoreColor(profileCompleteness)}`}>
                     {profileCompleteness}%
                   </span>
@@ -326,7 +326,7 @@ const KaylaWelcomeOnboarding: React.FC<KaylaWelcomeOnboardingProps> = ({
 
                 {missingFields.length > 0 && (
                   <div className="mt-3 space-y-1.5">
-                    <p className="text-white/50 text-xs font-medium uppercase tracking-wide">Missing:</p>
+                    <p className="text-white/80 text-xs font-medium uppercase tracking-wide">Missing:</p>
                     <div className="flex flex-wrap gap-1.5">
                       {missingFields.slice(0, 4).map(f => (
                         <Badge key={f} variant="outline" className="text-xs border-amber-500/30 text-amber-300/80 bg-amber-500/10">
@@ -334,7 +334,7 @@ const KaylaWelcomeOnboarding: React.FC<KaylaWelcomeOnboardingProps> = ({
                         </Badge>
                       ))}
                       {missingFields.length > 4 && (
-                        <Badge variant="outline" className="text-xs border-white/20 text-white/50">
+                        <Badge variant="outline" className="text-xs border-white/20 text-white/80">
                           +{missingFields.length - 4} more
                         </Badge>
                       )}
@@ -370,13 +370,13 @@ const KaylaWelcomeOnboarding: React.FC<KaylaWelcomeOnboardingProps> = ({
                     <Search className="absolute inset-0 m-auto w-6 h-6 text-mansagold" />
                   </div>
                   <p className="text-white font-medium">Kayla is auditing {businessName}...</p>
-                  <p className="text-white/50 text-sm mt-1">Checking SEO, visibility, and search ranking factors</p>
+                  <p className="text-white/80 text-sm mt-1">Checking SEO, visibility, and search ranking factors</p>
                 </div>
               ) : seoAudit ? (
                 <>
                   {/* Score Hero */}
                   <div className="text-center py-4">
-                    <p className="text-white/60 text-sm mb-2 uppercase tracking-wide font-medium">Your Visibility Score</p>
+                    <p className="text-white/90 text-sm mb-2 uppercase tracking-wide font-medium">Your Visibility Score</p>
                     <div className={`text-6xl font-bold font-playfair bg-gradient-to-r ${getScoreGradient(seoAudit.score)} bg-clip-text text-transparent`}>
                       {seoAudit.score}
                     </div>
@@ -470,7 +470,7 @@ const KaylaWelcomeOnboarding: React.FC<KaylaWelcomeOnboardingProps> = ({
                   <div key={item.label} className={`${item.bg} rounded-xl p-3 border border-white/5`}>
                     <item.icon className={`w-5 h-5 ${item.color} mb-2`} />
                     <p className="text-white text-xs font-bold">{item.label}</p>
-                    <p className="text-white/50 text-[11px]">{item.desc}</p>
+                    <p className="text-white/80 text-[11px]">{item.desc}</p>
                   </div>
                 ))}
               </div>

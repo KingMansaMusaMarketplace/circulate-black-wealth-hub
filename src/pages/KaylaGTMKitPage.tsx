@@ -190,24 +190,24 @@ const KaylaGTMKitPage = () => {
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-600 bg-clip-text text-transparent">
             Kayla GTM Kit
           </h1>
-          <p className="text-lg font-medium text-white/70">
+          <p className="text-lg font-medium text-white">
             All copy-ready announcements & onboarding emails in one place ✨
           </p>
         </div>
 
         <Tabs defaultValue={initialTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 gap-1 bg-slate-800/60 border border-white/10 mb-6 h-auto p-1">
-            <TabsTrigger value="announcement" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400 text-white/60 gap-2 text-xs sm:text-sm">
+            <TabsTrigger value="announcement" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400 text-white/90 gap-2 text-xs sm:text-sm">
               <Mail className="w-4 h-4 shrink-0" /> Announcement
             </TabsTrigger>
-            <TabsTrigger value="linkedin" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400 text-white/60 gap-2 text-xs sm:text-sm">
+            <TabsTrigger value="linkedin" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400 text-white/90 gap-2 text-xs sm:text-sm">
               <Linkedin className="w-4 h-4 shrink-0" /> LinkedIn
             </TabsTrigger>
             {dripEmails.map((email, idx) => (
               <TabsTrigger
                 key={idx}
                 value={`day${idx === 0 ? '0' : idx === 1 ? '3' : '7'}`}
-                className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400 text-white/60 gap-2 text-xs sm:text-sm"
+                className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400 text-white/90 gap-2 text-xs sm:text-sm"
               >
                 <email.icon className="w-4 h-4 shrink-0" />
                 Day {idx === 0 ? '0' : idx === 1 ? '3' : '7'}
@@ -275,7 +275,7 @@ const KaylaGTMKitPage = () => {
         </Tabs>
 
         <div className="mt-6 text-center">
-          <p className="text-base font-medium text-white/50">
+          <p className="text-base font-medium text-white/80">
             💡 Announcement & LinkedIn = launch broadcast · Day 0/3/7 = post-activation drip sequence
           </p>
         </div>
