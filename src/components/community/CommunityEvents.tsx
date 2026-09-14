@@ -219,14 +219,14 @@ const CommunityEvents: React.FC = () => {
           </div>
 
           <div className="space-y-2 mb-4">
-            <div className="flex items-center text-sm text-blue-200/70">
+            <div className="flex items-center text-sm text-blue-100">
               <Calendar className="h-4 w-4 mr-2 text-mansagold" />
               <span>{format(eventDate, 'PPP')}</span>
               <Clock className="h-4 w-4 ml-4 mr-2 text-mansagold" />
               <span>{format(eventDate, 'p')}</span>
             </div>
             
-            <div className="flex items-center text-sm text-blue-200/70">
+            <div className="flex items-center text-sm text-blue-100">
               {event.is_virtual ? (
                 <>
                   <Video className="h-4 w-4 mr-2 text-mansagold" />
@@ -240,7 +240,7 @@ const CommunityEvents: React.FC = () => {
               )}
             </div>
             
-            <div className="flex items-center text-sm text-blue-200/70">
+            <div className="flex items-center text-sm text-blue-100">
               <Users className="h-4 w-4 mr-2 text-mansagold" />
               <span>
                 {event.current_attendees} attending
@@ -399,12 +399,14 @@ const CommunityEvents: React.FC = () => {
         <Button
           variant={activeTab === 'upcoming' ? 'default' : 'outline'}
           onClick={() => setActiveTab('upcoming')}
+          className={activeTab === 'upcoming' ? 'font-semibold' : 'bg-slate-800/60 text-white border-white/30 font-semibold hover:text-white'}
         >
           Upcoming Events ({upcomingEvents.length})
         </Button>
         <Button
           variant={activeTab === 'past' ? 'default' : 'outline'}
           onClick={() => setActiveTab('past')}
+          className={activeTab === 'past' ? 'font-semibold' : 'bg-slate-800/60 text-white border-white/30 font-semibold hover:text-white'}
         >
           Past Events ({pastEvents.length})
         </Button>
@@ -433,7 +435,7 @@ const CommunityEvents: React.FC = () => {
                 <CardContent className="p-12 text-center">
                   <Calendar className="h-12 w-12 mx-auto text-mansagold mb-4" />
                   <h3 className="text-lg font-medium text-white mb-2">No upcoming events</h3>
-                  <p className="text-blue-200/70 mb-4">
+                  <p className="text-blue-100 mb-4">
                     Be the first to create a community event!
                   </p>
                   {user && (
@@ -455,7 +457,7 @@ const CommunityEvents: React.FC = () => {
                 <CardContent className="p-12 text-center">
                   <Clock className="h-12 w-12 mx-auto text-mansagold mb-4" />
                   <h3 className="text-lg font-medium text-white mb-2">No past events</h3>
-                  <p className="text-blue-200/70">
+                  <p className="text-blue-100">
                     Past events will appear here once they're completed.
                   </p>
                 </CardContent>
