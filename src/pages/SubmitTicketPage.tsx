@@ -60,7 +60,7 @@ export default function SubmitTicketPage() {
       // Generate ticket number
       const ticketNumber = `TKT-${Date.now().toString(36).toUpperCase()}`;
 
-      const { error } = await supabase
+      const { data: ticket, error } = await supabase
         .from('support_tickets')
         .insert({
           user_id: user.id,
@@ -70,9 +70,19 @@ export default function SubmitTicketPage() {
           category: formData.category,
           priority: formData.priority,
           status: 'open'
-        });
+        })
+        .select('id')
+        .single();
 
       if (error) throw error;
+
+      // Alert the support team by email (never block the user if this fails)
+      if (ticket?.id) {
+        supabase.functions
+          .invoke('notify-support-ticket', { body: { ticketId: ticket.id } })
+          .catch((e) => console.error('Ticket notification failed:', e));
+      }
+
 
       toast.success('Ticket submitted successfully! We\'ll get back to you soon.');
       navigate('/my-tickets');
