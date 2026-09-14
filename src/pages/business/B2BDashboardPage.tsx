@@ -153,7 +153,7 @@ export default function B2BDashboardPage() {
 
         {/* Header */}
         <header className="relative z-10 border-b border-white/10 backdrop-blur-xl bg-slate-900/50 sticky top-0">
-          <div className="container flex h-14 items-center justify-between">
+          <div className="container mx-auto max-w-6xl flex h-14 items-center justify-between">
             <div className="flex items-center gap-4">
               <Link to="/b2b-marketplace">
                 <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white hover:bg-white/10">
