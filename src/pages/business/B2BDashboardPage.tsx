@@ -143,67 +143,59 @@ export default function B2BDashboardPage() {
         <meta name="description" content="Manage your B2B listings, capabilities, and connections with other community businesses." />
       </Helmet>
 
-      <div className="dark min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-amber-500/20 to-orange-600/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-blue-600/15 to-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute -bottom-40 right-1/3 w-72 h-72 bg-gradient-to-br from-amber-400/15 to-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      <div className="dark relative min-h-screen overflow-hidden bg-gradient-to-b from-mansablue via-mansablue/80 to-black">
+        {/* Ambient accents */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-32 left-1/4 h-80 w-80 rounded-full bg-mansablue/40 blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-mansagold/10 blur-3xl" />
         </div>
 
-        {/* Header */}
-        <header className="relative z-10 border-b border-white/10 backdrop-blur-xl bg-slate-900/50 sticky top-0">
-          <div className="container mx-auto max-w-6xl flex h-14 items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link to="/b2b-marketplace">
-                <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white hover:bg-white/10">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Marketplace
-                </Button>
+        <main className="relative z-10 mx-auto max-w-6xl space-y-8 px-4 py-10">
+          {/* Executive header */}
+          <div className="flex flex-col gap-4 border-b border-white/10 pb-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <Link to="/b2b-marketplace" className="inline-flex items-center text-sm text-white/60 transition-colors hover:text-mansagold">
+                <ArrowLeft className="mr-1 h-4 w-4" />
+                Back to Marketplace
               </Link>
-              <h1 className="font-semibold text-white">B2B Dashboard</h1>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-mansagold/90">
+                Supplier Network
+              </p>
+              <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">B2B Dashboard</h1>
+              <p className="mt-2 max-w-xl text-white/70">
+                Manage what your business supplies, what it needs, and the partnerships you build.
+              </p>
             </div>
+            <Badge className="w-fit border border-mansagold/30 bg-mansagold/10 text-mansagold hover:bg-mansagold/10">
+              <Handshake className="mr-1 h-3 w-3" />
+              {connections.length} active {connections.length === 1 ? 'connection' : 'connections'}
+            </Badge>
           </div>
-        </header>
 
-        <main className="relative z-10 container mx-auto max-w-6xl py-6">
-          {/* Impact Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-slate-400 mb-1">
-                <Package className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">Capabilities</span>
+          {/* KPI row */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { label: 'Capabilities', value: `${capabilities.length}`, icon: Package, hint: 'What you supply' },
+              { label: 'Active Needs', value: `${needs.filter(n => n.status === 'open').length}`, icon: Search, hint: 'Currently sourcing' },
+              { label: 'Connections', value: `${connections.length}`, icon: Handshake, hint: 'Partner businesses' },
+              { label: 'B2B Value', value: `$${impactMetrics?.total_transaction_value?.toLocaleString() || 0}`, icon: TrendingUp, hint: 'Total transacted' },
+            ].map(({ label, value, icon: Icon, hint }) => (
+              <div key={label} className="rounded-xl border border-blue-300/20 bg-mansablue/40 p-6 shadow-xl backdrop-blur">
+                <div className="flex items-start justify-between">
+                  <p className="text-sm font-medium text-white/70">{label}</p>
+                  <Icon className="h-5 w-5 text-mansagold" />
+                </div>
+                <p className="mt-3 text-3xl font-bold text-white">{value}</p>
+                <p className="mt-1 text-xs text-white/50">{hint}</p>
               </div>
-              <p className="text-2xl font-bold text-white">{capabilities.length}</p>
-            </div>
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-slate-400 mb-1">
-                <Search className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">Active Needs</span>
-              </div>
-              <p className="text-2xl font-bold text-white">{needs.filter(n => n.status === 'open').length}</p>
-            </div>
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-slate-400 mb-1">
-                <Handshake className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">Connections</span>
-              </div>
-              <p className="text-2xl font-bold text-white">{connections.length}</p>
-            </div>
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-slate-400 mb-1">
-                <TrendingUp className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">B2B Value</span>
-              </div>
-              <p className="text-2xl font-bold text-white">${impactMetrics?.total_transaction_value?.toLocaleString() || 0}</p>
-            </div>
+            ))}
           </div>
 
           <Tabs defaultValue="capabilities" className="space-y-6">
-            <TabsList className="bg-white/5 border border-white/10">
-              <TabsTrigger value="capabilities" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-400">My Capabilities</TabsTrigger>
-              <TabsTrigger value="needs" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-400">My Needs</TabsTrigger>
-              <TabsTrigger value="connections" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-400">Connections</TabsTrigger>
+            <TabsList className="border border-white/10 bg-mansablue/40">
+              <TabsTrigger value="capabilities" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">My Capabilities</TabsTrigger>
+              <TabsTrigger value="needs" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">My Needs</TabsTrigger>
+              <TabsTrigger value="connections" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Connections</TabsTrigger>
             </TabsList>
 
             {/* Capabilities Tab */}
