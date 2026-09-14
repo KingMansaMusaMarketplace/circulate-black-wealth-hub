@@ -19,11 +19,9 @@ const CommunityImpactDashboard: React.FC = () => {
   const { user } = useAuth();
   const { userMetrics, communityMetrics, loading, hasRealData, userHasImpact } = useCommunityImpact(user?.id);
 
-  console.log('Community Impact Debug:', { user: !!user, userMetrics, communityMetrics, loading, hasRealData });
-
   const handleShareImpact = () => shareImpact(userMetrics);
 
-  if (loading) {
+  if (loading && !communityMetrics) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#050a18] to-[#030712]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

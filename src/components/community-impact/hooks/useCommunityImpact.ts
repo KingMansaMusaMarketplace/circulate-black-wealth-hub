@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface UserImpactMetrics {
@@ -35,10 +35,16 @@ export const useCommunityImpact = (userId?: string) => {
   const [communityMetrics, setCommunityMetrics] = useState<CommunityMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [hasRealData, setHasRealData] = useState(false);
+  const hasLoadedOnce = useRef(false);
+  const inFlight = useRef(false);
 
   const fetchImpactMetrics = async () => {
+    if (inFlight.current) return;
+    inFlight.current = true;
     try {
-      setLoading(true);
+      // Only show the skeleton on the very first load so later refreshes
+      // (e.g. once the signed-in user resolves) don't make the page flicker.
+      if (!hasLoadedOnce.current) setLoading(true);
 
       // Always fetch community metrics, regardless of user authentication
       const { data: communityData, error: communityError } = await supabase
@@ -79,6 +85,8 @@ export const useCommunityImpact = (userId?: string) => {
       setCommunityMetrics(FALLBACK_COMMUNITY_METRICS);
       setHasRealData(false);
     } finally {
+      hasLoadedOnce.current = true;
+      inFlight.current = false;
       setLoading(false);
     }
   };
