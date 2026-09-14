@@ -370,7 +370,7 @@ const HowItWorksPage = () => {
                   Contact Sales
                 </Button>
               </div>
-              <p className="text-sm text-blue-200/70">
+              <p className="text-sm text-white/80">
                 No setup fees • No monthly charges • Start accepting payments today
               </p>
             </CardContent>
