@@ -38,7 +38,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
             The Field Manual for 1325.AI Ambassadors
           </p>
           <p className="text-sm text-muted-foreground mt-4 italic">
-            Last Updated: December 2024
+            Last Updated: September 2026 · Version 2.0
           </p>
         </div>
 
