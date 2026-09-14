@@ -281,10 +281,12 @@ export function B2BMarketplace() {
                   Try enabling "Expand Search to Web" to discover suppliers beyond our platform
                 </p>
               )}
-              <Button variant="outline" className="border-amber-500/50 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300">
-                <Plus className="h-4 w-4 mr-2" />
-                List Your Business as a Supplier
-              </Button>
+              <Link to="/business/b2b-dashboard">
+                <Button variant="outline" className="border-amber-500/50 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300">
+                  <Plus className="h-4 w-4 mr-2" />
+                  List Your Business as a Supplier
+                </Button>
+              </Link>
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
