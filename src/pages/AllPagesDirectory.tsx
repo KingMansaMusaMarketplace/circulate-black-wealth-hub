@@ -39,7 +39,6 @@ const AllPagesContent = () => {
     { path: '/community', name: 'Community Hub', icon: Users, category: 'Main', description: 'Community resources' },
     { path: '/how-it-works', name: 'How It Works', icon: BookOpen, category: 'Main', description: 'Platform guide' },
     { path: '/features', name: 'Features', icon: Sparkles, category: 'Main', description: 'Platform features' },
-    { path: '/testimonials', name: 'Testimonials', icon: Star, category: 'Main', description: 'Success stories' },
     { path: '/faq', name: 'FAQ', icon: HelpCircle, category: 'Main', description: 'Frequently asked questions' },
     
     // Authentication
@@ -48,7 +47,7 @@ const AllPagesContent = () => {
     { path: '/signup', name: 'Sign Up', icon: UserPlus, category: 'Auth', description: 'Create new account' },
     { path: '/business-signup', name: 'Business Signup', icon: Building2, category: 'Auth', description: 'Register your business' },
     { path: '/reset-password', name: 'Password Reset', icon: ShieldCheck, category: 'Auth', description: 'Reset your password' },
-    { path: '/new-password', name: 'New Password', icon: ShieldCheck, category: 'Auth', description: 'Set new password' },
+    { path: '/password-reset', name: 'New Password', icon: ShieldCheck, category: 'Auth', description: 'Set new password' },
     
     // User Dashboard
     { path: '/dashboard', name: 'Dashboard', icon: Settings, category: 'User', description: 'User dashboard' },
@@ -56,15 +55,15 @@ const AllPagesContent = () => {
     { path: '/profile', name: 'Profile', icon: Settings, category: 'User', description: 'Profile settings' },
     { path: '/settings', name: 'Settings', icon: Settings, category: 'User', description: 'Account settings' },
     { path: '/loyalty', name: 'Loyalty Program', icon: Trophy, category: 'User', description: 'Earn and redeem points' },
-    { path: '/loyalty-history', name: 'Loyalty History', icon: Clock, category: 'User', description: 'Points history' },
+    { path: '/loyalty', name: 'Loyalty History', icon: Clock, category: 'User', description: 'Points history' },
     { path: '/rewards', name: 'Rewards', icon: Award, category: 'User', description: 'Available rewards' },
     { path: '/wallet', name: 'Wallet', icon: Wallet, category: 'User', description: 'Digital wallet' },
     { path: '/customer/bookings', name: 'My Bookings', icon: Calendar, category: 'User', description: 'Your appointments' },
     { path: '/referral', name: 'Referrals', icon: Share2, category: 'User', description: 'Refer friends' },
-    { path: '/referral-dashboard', name: 'Referral Dashboard', icon: Share2, category: 'User', description: 'Track referrals' },
-    { path: '/karma-dashboard', name: 'Karma Dashboard', icon: Heart, category: 'User', description: 'Community karma' },
+    { path: '/referrals', name: 'Referral Dashboard', icon: Share2, category: 'User', description: 'Track referrals' },
+    { path: '/karma', name: 'Karma Dashboard', icon: Heart, category: 'User', description: 'Community karma' },
     { path: '/recommendations', name: 'Recommendations', icon: Target, category: 'User', description: 'Personalized suggestions' },
-    { path: '/leaderboard', name: 'Leaderboard', icon: Trophy, category: 'User', description: 'Top supporters' },
+    { path: '/sales-agent-leaderboard', name: 'Leaderboard', icon: Trophy, category: 'User', description: 'Top supporters' },
     { path: '/my-tickets', name: 'My Tickets', icon: Ticket, category: 'User', description: 'Support tickets' },
     
     // Business
@@ -72,7 +71,7 @@ const AllPagesContent = () => {
     { path: '/business-analytics', name: 'Business Analytics', icon: BarChart3, category: 'Business', description: 'Performance metrics' },
     { path: '/business-finances', name: 'Business Finances', icon: CreditCard, category: 'Business', description: 'Financial management' },
     { path: '/business-form', name: 'Register Business', icon: Building2, category: 'Business', description: 'Add new business' },
-    { path: '/business-profile', name: 'Business Profile', icon: Building2, category: 'Business', description: 'Manage profile' },
+    { path: '/business/profile', name: 'Business Profile', icon: Building2, category: 'Business', description: 'Manage profile' },
     { path: '/business/bookings', name: 'Business Bookings', icon: Calendar, category: 'Business', description: 'Manage appointments' },
     { path: '/business/how-it-works', name: 'Business Guide', icon: BookOpen, category: 'Business', description: 'How to use platform' },
     { path: '/business/b2b-dashboard', name: 'B2B Dashboard', icon: Handshake, category: 'Business', description: 'B2B connections' },
@@ -92,7 +91,7 @@ const AllPagesContent = () => {
     
     // Corporate & Sponsors
     { path: '/corporate-sponsorship', name: 'Corporate Sponsorship', icon: Handshake, category: 'Corporate', description: 'Sponsorship info' },
-    { path: '/corporate-sponsorship-pricing', name: 'Sponsorship Pricing', icon: CreditCard, category: 'Corporate', description: 'Pricing tiers' },
+    { path: '/sponsor-pricing', name: 'Sponsorship Pricing', icon: CreditCard, category: 'Corporate', description: 'Pricing tiers' },
     { path: '/sponsor-dashboard', name: 'Sponsor Dashboard', icon: BarChart3, category: 'Corporate', description: 'Sponsor overview' },
     { path: '/sponsor-success', name: 'Sponsor Success', icon: Trophy, category: 'Corporate', description: 'Success stories' },
     { path: '/coalition', name: 'Coalition', icon: Users, category: 'Corporate', description: 'Join the coalition' },
@@ -110,7 +109,7 @@ const AllPagesContent = () => {
     { path: '/qr-code-generator', name: 'QR Generator', icon: QrCode, category: 'Tools', description: 'Create QR codes' },
     { path: '/ai-assistant', name: 'AI Assistant', icon: Bot, category: 'Tools', description: 'AI help' },
     { path: '/susu-circles', name: 'Susu Circles', icon: Users, category: 'Tools', description: 'Savings groups' },
-    { path: '/group-challenges', name: 'Group Challenges', icon: Target, category: 'Tools', description: 'Team challenges' },
+    { path: '/challenges', name: 'Group Challenges', icon: Target, category: 'Tools', description: 'Team challenges' },
     { path: '/workflow-builder', name: 'Workflow Builder', icon: Zap, category: 'Tools', description: 'Automation tools' },
     
     // Education & Resources
@@ -118,7 +117,6 @@ const AllPagesContent = () => {
     { path: '/learning-hub', name: 'Learning Hub', icon: BookOpen, category: 'Resources', description: 'Courses & guides' },
     { path: '/user-guide', name: 'User Guide', icon: FileText, category: 'Resources', description: 'Platform guide' },
     { path: '/knowledge-base', name: 'Knowledge Base', icon: Database, category: 'Resources', description: 'Help articles' },
-    { path: '/case-studies', name: 'Case Studies', icon: Briefcase, category: 'Resources', description: 'Success stories' },
     { path: '/feature-guide', name: 'Feature Guide', icon: Sparkles, category: 'Resources', description: 'Feature details' },
     { path: '/loyalty-program-guide', name: 'Loyalty Guide', icon: Trophy, category: 'Resources', description: 'Loyalty program info' },
     { path: '/media-kit', name: 'Media Kit', icon: FileCode, category: 'Resources', description: 'Press materials' },
@@ -127,7 +125,7 @@ const AllPagesContent = () => {
     // Support
     { path: '/contact', name: 'Contact Us', icon: Mail, category: 'Support', description: 'Get in touch' },
     { path: '/help', name: 'Help Center', icon: HelpCircle, category: 'Support', description: 'Help & support' },
-    { path: '/help-center', name: 'Help Center', icon: HelpCircle, category: 'Support', description: 'Support articles' },
+    { path: '/help', name: 'Help Center', icon: HelpCircle, category: 'Support', description: 'Support articles' },
     { path: '/support', name: 'Support', icon: MessagesSquare, category: 'Support', description: 'Customer support' },
     { path: '/submit-ticket', name: 'Submit Ticket', icon: Ticket, category: 'Support', description: 'Create support ticket' },
     { path: '/contact', name: 'Team Contact', icon: Users, category: 'Support', description: 'Contact team' },
