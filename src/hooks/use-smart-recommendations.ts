@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Business } from '@/types/business';
 import { LocationData } from '@/hooks/location/types';
+import { getBusinessBanner } from '@/utils/businessBanners';
 
 export const useSmartRecommendations = (userLocation?: LocationData | null) => {
   const { user } = useAuth();
