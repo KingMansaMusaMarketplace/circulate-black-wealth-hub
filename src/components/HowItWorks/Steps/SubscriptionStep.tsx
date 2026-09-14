@@ -43,20 +43,28 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
               </div>
             </div>
             <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-white/90">Essentials</span>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-sm font-semibold text-white/90">Free Directory Listing</span>
+                <span className="font-bold text-yellow-400">Free Forever</span>
+              </div>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-sm font-semibold text-white/90">Kayla AI Essentials</span>
                 <span className="font-bold text-blue-300">$19/month</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-white/90">Starter</span>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-sm font-semibold text-white/90">Business Pro</span>
+                <span className="font-bold text-blue-300">$39/month</span>
+              </div>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-sm font-semibold text-white/90">Kayla AI Starter</span>
                 <span className="font-bold text-blue-300">$79/month</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-white/90">Pro</span>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-sm font-semibold text-white/90">Kayla AI Pro</span>
                 <span className="font-bold text-yellow-400">$299/month</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-white/90">Enterprise</span>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-sm font-semibold text-white/90">Kayla AI Enterprise</span>
                 <span className="font-bold text-blue-300">From $899/month</span>
               </div>
             </div>
