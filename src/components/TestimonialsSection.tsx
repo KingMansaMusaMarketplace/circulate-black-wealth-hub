@@ -28,7 +28,7 @@ const testimonials: Testimonial[] = [];
 
 const TestimonialsSection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
+    <section className="py-16 bg-transparent relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-mansagold/15 to-amber-500/15 blur-3xl animate-pulse"></div>
@@ -38,7 +38,7 @@ const TestimonialsSection = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ const TestimonialsSection = () => {
             <h2 className="text-4xl font-extrabold bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent mb-4">
               Real Stories, Real Impact
             </h2>
-            <p className="text-xl font-medium text-foreground/80 max-w-3xl mx-auto mb-8">
+            <p className="text-xl font-medium text-white/90 max-w-3xl mx-auto mb-8">
               See how businesses and customers are thriving together in our marketplace
             </p>
             
@@ -77,12 +77,12 @@ const TestimonialsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center py-12"
+            className="text-center py-4"
           >
-            <div className="bg-gradient-to-br from-white via-orange-50 to-rose-50 rounded-2xl p-8 max-w-2xl mx-auto border-2 border-orange-200 shadow-lg">
-              <Star className="w-12 h-12 text-amber-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-gray-800 mb-2">Be the First to Share Your Story</h3>
-              <p className="text-gray-600">
+            <div className="bg-slate-900/70 backdrop-blur-xl rounded-2xl p-8 max-w-2xl mx-auto border border-mansagold/30 shadow-lg">
+              <Star className="w-12 h-12 text-mansagold mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-white mb-2">Be the First to Share Your Story</h3>
+              <p className="text-white/80">
                 Join our growing community and share your experience with 1325.AI!
               </p>
             </div>
