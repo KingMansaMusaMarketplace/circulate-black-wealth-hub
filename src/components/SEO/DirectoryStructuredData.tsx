@@ -1,13 +1,49 @@
 import { Helmet } from 'react-helmet-async';
 import { siteConfig } from '@/config/site';
 
+export interface DirectoryListingItem {
+  id: string;
+  name?: string;
+  business_name?: string;
+  category?: string;
+  city?: string;
+  state?: string;
+}
+
 interface DirectoryStructuredDataProps {
   totalBusinesses?: number;
+  /** The listings currently rendered on the page, emitted so AI search and
+   *  assistants (Siri / Apple Intelligence, Google, ChatGPT) can cite them. */
+  listings?: DirectoryListingItem[];
 }
 
 export const DirectoryStructuredData: React.FC<DirectoryStructuredDataProps> = ({ 
-  totalBusinesses = 12000 
+  totalBusinesses = 12000,
+  listings = [],
 }) => {
+  const itemListElement = listings.slice(0, 50).map((b, index) => {
+    const name = b.business_name || b.name || 'Business';
+    const locality = [b.city, b.state].filter(Boolean).join(', ');
+    return {
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'LocalBusiness',
+        '@id': `${siteConfig.url}/business/${b.id}`,
+        name,
+        url: `${siteConfig.url}/business/${b.id}`,
+        ...(b.category && { additionalType: b.category }),
+        ...(locality && {
+          address: {
+            '@type': 'PostalAddress',
+            ...(b.city && { addressLocality: b.city }),
+            ...(b.state && { addressRegion: b.state }),
+          },
+        }),
+      },
+    };
+  });
+
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -17,6 +53,7 @@ export const DirectoryStructuredData: React.FC<DirectoryStructuredDataProps> = (
     url: `${siteConfig.url}/directory`,
     numberOfItems: totalBusinesses,
     itemListOrder: 'https://schema.org/ItemListUnordered',
+    ...(itemListElement.length > 0 && { itemListElement }),
     publisher: {
       '@id': `${siteConfig.url}/#organization`,
     },
