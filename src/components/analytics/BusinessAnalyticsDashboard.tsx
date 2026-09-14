@@ -401,71 +401,62 @@ const BusinessAnalyticsDashboard: React.FC = () => {
     );
   }
 
+  const kpis = [
+    { label: 'Total Scans', value: `${analytics.totalScans}`, icon: QrCode, hint: 'All-time QR check-ins' },
+    { label: 'Unique Customers', value: `${analytics.uniqueCustomers}`, icon: Users, hint: 'People who scanned' },
+    { label: 'Points Awarded', value: `${analytics.totalPointsAwarded}`, icon: Star, hint: 'Loyalty issued' },
+    { label: 'Avg. per Scan', value: analytics.averagePointsPerScan.toFixed(1), icon: TrendingUp, hint: 'Points per visit' },
+  ];
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Business Analytics</h2>
-          <p className="text-muted-foreground">Real-time insights into your customer engagement</p>
+    <div className="relative min-h-[70vh] overflow-hidden bg-gradient-to-b from-mansablue via-mansablue/80 to-black">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-32 left-1/4 h-80 w-80 rounded-full bg-mansablue/40 blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-mansagold/10 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-6xl space-y-8 px-4 py-12">
+        {/* Executive header */}
+        <div className="flex flex-col gap-4 border-b border-white/10 pb-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mansagold/90">
+              Business Intelligence
+            </p>
+            <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">Business Analytics</h1>
+            <p className="mt-2 max-w-xl text-white/70">
+              Real-time insight into customer engagement, loyalty and visit patterns.
+            </p>
+          </div>
+          {liveScans.length > 0 && (
+            <Badge className="w-fit border border-mansagold/30 bg-mansagold/10 text-mansagold hover:bg-mansagold/10">
+              <Zap className="mr-1 h-3 w-3" />
+              Live Updates
+            </Badge>
+          )}
         </div>
-        {liveScans.length > 0 && (
-          <Badge variant="secondary" className="animate-pulse">
-            <Zap className="h-3 w-3 mr-1" />
-            Live Updates
-          </Badge>
-        )}
-      </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="flex items-center p-6">
-            <QrCode className="h-8 w-8 text-blue-500 mr-3" />
-            <div>
-              <p className="text-2xl font-bold">{analytics.totalScans}</p>
-              <p className="text-sm text-muted-foreground">Total Scans</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="flex items-center p-6">
-            <Users className="h-8 w-8 text-green-500 mr-3" />
-            <div>
-              <p className="text-2xl font-bold">{analytics.uniqueCustomers}</p>
-              <p className="text-sm text-muted-foreground">Unique Customers</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="flex items-center p-6">
-            <Star className="h-8 w-8 text-yellow-500 mr-3" />
-            <div>
-              <p className="text-2xl font-bold">{analytics.totalPointsAwarded}</p>
-              <p className="text-sm text-muted-foreground">Points Awarded</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="flex items-center p-6">
-            <TrendingUp className="h-8 w-8 text-purple-500 mr-3" />
-            <div>
-              <p className="text-2xl font-bold">{analytics.averagePointsPerScan.toFixed(1)}</p>
-              <p className="text-sm text-muted-foreground">Avg Points/Scan</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+        {/* KPI row */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {kpis.map(({ label, value, icon: Icon, hint }) => (
+            <Card key={label} className="border-blue-300/20 bg-mansablue/40 backdrop-blur">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between">
+                  <p className="text-sm font-medium text-white/70">{label}</p>
+                  <Icon className="h-5 w-5 text-mansagold" />
+                </div>
+                <p className="mt-3 text-3xl font-bold text-white">{value}</p>
+                <p className="mt-1 text-xs text-white/50">{hint}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
       {/* Analytics Tabs */}
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="customers">Customers</TabsTrigger>
-          <TabsTrigger value="activity">Live Activity</TabsTrigger>
+        <TabsList className="border border-white/10 bg-mansablue/40">
+          <TabsTrigger value="overview" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Overview</TabsTrigger>
+          <TabsTrigger value="customers" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Customers</TabsTrigger>
+          <TabsTrigger value="activity" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Live Activity</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
