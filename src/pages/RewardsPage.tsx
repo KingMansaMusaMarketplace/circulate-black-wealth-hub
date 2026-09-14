@@ -285,11 +285,11 @@ const RewardsPage = () => {
                     <span className="text-3xl font-bold text-mansagold block">
                       {userPoints.tierLevel}
                     </span>
-                    <p className="text-white/80 font-semibold mt-1">Current Tier</p>
+                    <p className="text-white/90 font-semibold mt-1">Current Tier</p>
                     {userPoints.nextTierPoints > 0 && (
                       <div className="mt-3">
                         <Progress value={progressToNextTier} className="h-3 bg-slate-800" />
-                        <p className="text-sm text-white/80 font-medium mt-1">
+                        <p className="text-sm text-white/90 font-medium mt-1">
                           {userPoints.nextTierPoints} pts to next tier
                         </p>
                       </div>
@@ -483,7 +483,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
       </CardHeader>
 
       <CardContent className="pt-0">
-        <p className="text-white/70 text-sm mb-4 line-clamp-3">
+        <p className="text-white/90 text-sm mb-4 line-clamp-3">
           {reward.description}
         </p>
 
@@ -491,7 +491,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
           <div className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-900/80 border border-mansagold/30">
             <Star className="h-5 w-5 text-mansagold" />
             <span className="font-bold text-mansagold">{reward.points_cost}</span>
-            <span className="text-xs text-white/70">points</span>
+            <span className="text-xs text-white/90">points</span>
           </div>
 
           
