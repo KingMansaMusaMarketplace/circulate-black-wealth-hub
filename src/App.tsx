@@ -1,4 +1,5 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
+import ImpactPage from '@/pages/ImpactPage';
 import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { isCapacitorPlatform } from '@/utils/capacitor-platform-check';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -181,7 +182,6 @@ const LazyFAQPage = lazy(() => import('@/pages/FAQPage'));
 
 const LazyNetworkPage = lazy(() => import('@/pages/NetworkPage'));
 const LazyLeaderboardPage = lazy(() => import('@/pages/LeaderboardPage'));
-const LazyImpactPage = lazy(() => import('@/pages/ImpactPage'));
 const LazyCommissionsPage = lazy(() => import('@/pages/admin/CommissionsPage'));
 const LazyCommissionReportsPage = lazy(() => import('@/pages/business/CommissionReportsPage'));
 const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWorksPage'));
@@ -722,8 +722,8 @@ function App() {
                                   <LazyCommunityFinancePage />
                                 </PreLaunchRoute>
                               }/>
-                              <Route path="/community-impact" element={<LazyImpactPage />} />
-                              <Route path="/economic-impact" element={<LazyImpactPage />} />
+                              <Route path="/community-impact" element={<ImpactPage />} />
+                              <Route path="/economic-impact" element={<ImpactPage />} />
                               {/* test routes removed */}
                               <Route path="/contact" element={<LazyContactPage />} />
                               <Route path="/cookies" element={<LazyCookiePolicyPage />} />
@@ -792,7 +792,7 @@ function App() {
                               <Route path="/my-tickets" element={<LazyMyTicketsPage />} />
                               
                               {/* I */}
-                              <Route path="/impact" element={<LazyImpactPage />} />
+                              <Route path="/impact" element={<ImpactPage />} />
                               <Route path="/install" element={<LazyInstallPage />} />
                               <Route path="/investors" element={<LazyInvestorPage />} />
                               <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
@@ -1374,8 +1374,8 @@ function App() {
                             <LazyCommunityFinancePage />
                           </PreLaunchRoute>
                         }/>
-                        <Route path="/community-impact" element={<LazyImpactPage />} />
-                        <Route path="/economic-impact" element={<LazyImpactPage />} />
+                        <Route path="/community-impact" element={<ImpactPage />} />
+                        <Route path="/economic-impact" element={<ImpactPage />} />
                         {/* /community-impact-test, /comprehensive-test removed */}
                         <Route path="/contact" element={<LazyContactPage />} />
                         <Route path="/cookies" element={<LazyCookiePolicyPage />} />
@@ -1442,7 +1442,7 @@ function App() {
                         <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
                         
                         {/* I */}
-                        <Route path="/impact" element={<LazyImpactPage />} />
+                        <Route path="/impact" element={<ImpactPage />} />
                         <Route path="/install" element={<LazyInstallPage />} />
                         <Route path="/investors" element={<LazyInvestorPage />} />
                         <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />

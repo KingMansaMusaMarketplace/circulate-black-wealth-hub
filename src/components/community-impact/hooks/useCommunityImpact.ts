@@ -32,7 +32,9 @@ const FALLBACK_COMMUNITY_METRICS: CommunityMetrics = {
 
 export const useCommunityImpact = (userId?: string) => {
   const [userMetrics, setUserMetrics] = useState<UserImpactMetrics | null>(null);
-  const [communityMetrics, setCommunityMetrics] = useState<CommunityMetrics | null>(null);
+  // Start with a stable page shape while live totals arrive. This prevents the
+  // dashboard from being replaced by a second full-page loading placeholder.
+  const [communityMetrics, setCommunityMetrics] = useState<CommunityMetrics | null>(FALLBACK_COMMUNITY_METRICS);
   const [loading, setLoading] = useState(true);
   const [hasRealData, setHasRealData] = useState(false);
   const hasLoadedOnce = useRef(false);
