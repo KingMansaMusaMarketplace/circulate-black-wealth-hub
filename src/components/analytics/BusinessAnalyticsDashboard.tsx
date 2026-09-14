@@ -623,6 +623,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
           </div>
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 };
