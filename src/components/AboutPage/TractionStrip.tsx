@@ -7,7 +7,7 @@ const TractionStrip = () => {
   const stats = [
     { value: rounded, label: 'Verified Businesses' },
     { value: '42', label: 'Agentic AI Employees' },
-    { value: '45', label: 'Patent Claims Pending' },
+    { value: '46', label: 'Patent Claims Pending' },
     { value: '$12T', label: 'Global Black Economy' },
   ];
 
