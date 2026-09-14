@@ -28,7 +28,7 @@ const VisualDivider: React.FC = () => {
   }, []);
   
   return (
-    <div className="visual-divider bg-gradient-to-br from-purple-100 via-blue-100 to-amber-100 relative overflow-hidden py-16">
+    <div className="visual-divider bg-gradient-to-br from-[#050a18] via-[#0a1428] to-[#030712] relative overflow-hidden py-16">
       <div className="container-custom h-full flex items-center justify-center">
         <div className="max-w-4xl w-full flex justify-between items-center relative">
           {/* Left element */}
