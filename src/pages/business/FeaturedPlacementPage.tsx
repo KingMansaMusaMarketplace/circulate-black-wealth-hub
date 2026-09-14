@@ -94,24 +94,24 @@ export default function FeaturedPlacementPage() {
         <meta name="description" content="Pin your business at the top of category and city searches. Featured placements from $20/month." />
       </Helmet>
 
-      <h1 className="text-4xl font-bold mb-2">Featured Placement</h1>
-      <p className="text-muted-foreground mb-8">
+      <h1 className="text-4xl font-bold mb-2 text-mansagold">Featured Placement</h1>
+      <p className="text-white/80 mb-8">
         Pin your business at the top of category & city searches. Cancel anytime.
       </p>
 
       {profileLoading && (
-        <Card className="mb-8">
-          <CardContent className="py-8 flex items-center gap-3 text-muted-foreground">
+        <Card className="mb-8 bg-slate-950/80 border-white/10">
+          <CardContent className="py-8 flex items-center gap-3 text-white/70">
             <Loader2 className="h-4 w-4 animate-spin" /> Loading your business…
           </CardContent>
         </Card>
       )}
 
       {!profileLoading && user && !profile && (
-        <Card className="mb-8 border-mansagold/40">
+        <Card className="mb-8 bg-slate-950/80 border-mansagold/40">
           <CardContent className="py-6 space-y-3">
-            <h2 className="text-xl font-semibold">We couldn't find a business linked to your account</h2>
-            <p className="text-sm text-muted-foreground">
+            <h2 className="text-xl font-semibold text-white">We couldn't find a business linked to your account</h2>
+            <p className="text-sm text-white/80">
               You're signed in as <span className="font-medium">{user.email}</span>, but no business
               profile is connected to this account yet. If you already manage a listing on 1325.AI,
               you may be signed into the wrong account or the listing needs to be claimed.
@@ -139,51 +139,51 @@ export default function FeaturedPlacementPage() {
             return (
               <Card
                 key={t.id}
-                className={`cursor-pointer transition ${selected ? 'border-primary ring-2 ring-primary' : 'hover:border-primary/50'}`}
+                className={`cursor-pointer transition bg-slate-950/80 ${selected ? 'border-mansagold ring-2 ring-mansagold/60' : 'border-white/10 hover:border-mansagold/50'}`}
                 onClick={() => setTier(t.id)}
               >
                 <CardHeader>
-                  <Icon className="h-6 w-6 text-primary mb-2" />
-                  <CardTitle className="flex items-center justify-between">
+                  <Icon className="h-6 w-6 text-mansagold mb-2" />
+                  <CardTitle className="flex items-center justify-between text-white">
                     {t.name}
-                    {selected && <Badge>Selected</Badge>}
+                    {selected && <Badge className="bg-mansagold text-slate-950 hover:bg-mansagold">Selected</Badge>}
                   </CardTitle>
-                  <CardDescription>${t.price}/mo</CardDescription>
+                  <CardDescription className="text-mansagold font-semibold">${t.price}/mo</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">{t.blurb}</p>
+                  <p className="text-sm text-white/75">{t.blurb}</p>
                 </CardContent>
               </Card>
             );
           })}
         </div>
 
-        <Card className="mb-8">
+        <Card className="mb-8 bg-slate-950/80 border-white/10">
           <CardHeader>
-            <CardTitle>Targeting</CardTitle>
-            <CardDescription>Choose where your business gets promoted.</CardDescription>
+            <CardTitle className="text-mansagold">Targeting</CardTitle>
+            <CardDescription className="text-white/70">Choose where your business gets promoted.</CardDescription>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="cat">Category (optional)</Label>
-              <Input id="cat" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. food, beauty" />
+              <Label htmlFor="cat" className="text-white/90">Category (optional)</Label>
+              <Input id="cat" className="mt-1 bg-slate-900/70 border-white/15 text-white placeholder:text-white/40" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. food, beauty" />
             </div>
             <div>
-              <Label htmlFor="city">City (optional)</Label>
-              <Input id="city" value={city} onChange={(e) => setCity(e.target.value)} placeholder="e.g. Chicago" />
+              <Label htmlFor="city" className="text-white/90">City (optional)</Label>
+              <Input id="city" className="mt-1 bg-slate-900/70 border-white/15 text-white placeholder:text-white/40" value={city} onChange={(e) => setCity(e.target.value)} placeholder="e.g. Chicago" />
             </div>
           </CardContent>
         </Card>
 
-        <Button size="lg" onClick={checkout} disabled={loading} className="w-full md:w-auto">
+        <Button size="lg" onClick={checkout} disabled={loading} className="w-full md:w-auto bg-mansagold text-slate-950 font-semibold hover:bg-mansagold/90">
           {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Starting checkout…</> : `Subscribe — $${TIERS.find(x => x.id === tier)?.price}/mo`}
         </Button>
 
         {active.length > 0 && (
           <div className="mt-12">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold">Your placements</h2>
-              <Button variant="outline" size="sm" onClick={openPortal}>
+              <h2 className="text-2xl font-bold text-mansagold">Your placements</h2>
+              <Button variant="outline" size="sm" onClick={openPortal} className="bg-slate-900/60 border-white/20 text-white hover:bg-white/10 hover:text-white">
                 <Settings className="h-4 w-4 mr-2" />
                 Manage subscription
               </Button>
@@ -196,12 +196,12 @@ export default function FeaturedPlacementPage() {
                 const s = stats[p.id] || { impressions: 0, clicks: 0 };
                 const ctr = s.impressions ? ((s.clicks / s.impressions) * 100).toFixed(1) : '0.0';
                 return (
-                  <Card key={p.id}>
+                  <Card key={p.id} className="bg-slate-950/80 border-white/10">
                     <CardContent className="py-4 space-y-3">
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="font-medium capitalize">{p.tier} placement</div>
-                          <div className="text-sm text-muted-foreground">
+                          <div className="font-medium capitalize text-white">{p.tier} placement</div>
+                          <div className="text-sm text-white/70">
                             {p.category || 'all categories'} · {p.city || 'all cities'}
                             {p.ends_at && p.status === 'active' && (
                               <> · renews {new Date(p.ends_at).toLocaleDateString()}</>
@@ -211,18 +211,18 @@ export default function FeaturedPlacementPage() {
                         <Badge variant={variant as any} className="capitalize">{p.status}</Badge>
                       </div>
                       {p.status === 'active' && (
-                        <div className="grid grid-cols-3 gap-3 pt-2 border-t">
+                        <div className="grid grid-cols-3 gap-3 pt-2 border-t border-white/10">
                           <div>
-                            <div className="text-xs text-muted-foreground">Impressions (30d)</div>
-                            <div className="text-lg font-semibold">{s.impressions.toLocaleString()}</div>
+                            <div className="text-xs text-white/70">Impressions (30d)</div>
+                            <div className="text-lg font-semibold text-white">{s.impressions.toLocaleString()}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-muted-foreground">Clicks (30d)</div>
-                            <div className="text-lg font-semibold">{s.clicks.toLocaleString()}</div>
+                            <div className="text-xs text-white/70">Clicks (30d)</div>
+                            <div className="text-lg font-semibold text-white">{s.clicks.toLocaleString()}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-muted-foreground">CTR</div>
-                            <div className="text-lg font-semibold">{ctr}%</div>
+                            <div className="text-xs text-white/70">CTR</div>
+                            <div className="text-lg font-semibold text-white">{ctr}%</div>
                           </div>
                         </div>
                       )}
@@ -231,7 +231,7 @@ export default function FeaturedPlacementPage() {
                 );
               })}
             </div>
-            <p className="text-xs text-muted-foreground mt-3">
+            <p className="text-xs text-white/60 mt-3">
               Cancel or change payment method via the Stripe billing portal.
             </p>
           </div>
