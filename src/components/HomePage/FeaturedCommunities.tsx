@@ -8,7 +8,7 @@ import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
  * Renders REAL <a> anchors (via React Router <Link>) to city and category
  * landing pages so Googlebot can discover and crawl them from the homepage.
  * This is the single highest-leverage on-site change for indexing the
- * 46,000+ business pages stuck in "Discovered – not indexed".
+ * 47,000+ business pages stuck in "Discovered – not indexed".
  *
  * The destination pages already exist (registered in landing-sitemap.xml).
  * The homepage just didn't link to them before.
