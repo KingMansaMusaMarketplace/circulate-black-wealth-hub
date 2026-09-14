@@ -21,9 +21,10 @@ import {
 interface BookingsListProps {
   businessId?: string; // If provided, shows business owner view
   customerId?: string; // If provided, shows customer view
+  onBookingsLoaded?: (bookings: Booking[]) => void;
 }
 
-export function BookingsList({ businessId, customerId }: BookingsListProps) {
+export function BookingsList({ businessId, customerId, onBookingsLoaded }: BookingsListProps) {
   const { toast } = useToast();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,7 @@ export function BookingsList({ businessId, customerId }: BookingsListProps) {
         ? await bookingService.getBusinessBookings(businessId)
         : await bookingService.getCustomerBookings();
       setBookings(data);
+      onBookingsLoaded?.(data);
     } catch (error) {
       toast({
         title: 'Error',

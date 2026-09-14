@@ -1,10 +1,24 @@
+import { useCallback, useState } from 'react';
 import { Calendar, Sparkles } from 'lucide-react';
 import { BookingsList } from '@/components/booking/BookingsList';
+import type { Booking } from '@/lib/services/booking-service';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 export default function CustomerBookingsPage() {
   const { user } = useAuth();
+  const [stats, setStats] = useState<{ upcoming: number; completed: number; total: number } | null>(null);
+
+  const handleBookingsLoaded = useCallback((bookings: Booking[]) => {
+    const now = Date.now();
+    setStats({
+      upcoming: bookings.filter(
+        (b) => ['pending', 'confirmed'].includes(b.status) && new Date(b.booking_date).getTime() >= now
+      ).length,
+      completed: bookings.filter((b) => b.status === 'completed').length,
+      total: bookings.length,
+    });
+  }, []);
 
   if (!user) {
     return <Navigate to="/auth" />;
@@ -48,7 +62,7 @@ export default function CustomerBookingsPage() {
                 <span className="text-sm font-medium text-slate-400">Upcoming</span>
                 <Calendar className="h-5 w-5 text-mansagold" />
               </div>
-              <div className="text-2xl font-bold text-white">—</div>
+              <div className="text-2xl font-bold text-white">{stats ? stats.upcoming : '—'}</div>
               <p className="text-xs text-slate-500 mt-1">Scheduled appointments</p>
             </div>
 
@@ -57,7 +71,7 @@ export default function CustomerBookingsPage() {
                 <span className="text-sm font-medium text-slate-400">Completed</span>
                 <Sparkles className="h-5 w-5 text-emerald-400" />
               </div>
-              <div className="text-2xl font-bold text-white">—</div>
+              <div className="text-2xl font-bold text-white">{stats ? stats.completed : '—'}</div>
               <p className="text-xs text-slate-500 mt-1">Past appointments</p>
             </div>
 
@@ -66,7 +80,7 @@ export default function CustomerBookingsPage() {
                 <span className="text-sm font-medium text-slate-400">Total</span>
                 <Calendar className="h-5 w-5 text-blue-400" />
               </div>
-              <div className="text-2xl font-bold text-white">—</div>
+              <div className="text-2xl font-bold text-white">{stats ? stats.total : '—'}</div>
               <p className="text-xs text-slate-500 mt-1">All-time bookings</p>
             </div>
           </div>
@@ -74,7 +88,7 @@ export default function CustomerBookingsPage() {
           {/* Bookings List Container */}
           <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <BookingsList customerId={user.id} />
+              <BookingsList customerId={user.id} onBookingsLoaded={handleBookingsLoaded} />
             </div>
           </div>
         </div>
