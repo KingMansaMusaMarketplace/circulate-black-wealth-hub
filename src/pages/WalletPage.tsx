@@ -72,20 +72,20 @@ const WalletPage: React.FC = () => {
               <CardContent className="p-4 space-y-3">
                 <h3 className="text-white font-semibold mb-4">Quick Actions</h3>
                 
-                <Link to="/directory">
+                <Link to="/directory" className="block">
                   <Button 
                     variant="outline" 
-                    className="w-full justify-start gap-3 border-white/10 hover:bg-white/5"
+                    className="w-full justify-start gap-3 bg-slate-900/60 border-white/20 text-white font-medium hover:bg-white/10 hover:text-white"
                   >
                     <CreditCard className="w-4 h-4 text-mansagold" />
                     <span>Spend at Businesses</span>
                   </Button>
                 </Link>
 
-                <Link to="/susu-circles">
+                <Link to="/susu-circles" className="block">
                   <Button 
                     variant="outline" 
-                    className="w-full justify-start gap-3 border-white/10 hover:bg-white/5"
+                    className="w-full justify-start gap-3 bg-slate-900/60 border-white/20 text-white font-medium hover:bg-white/10 hover:text-white"
                   >
                     <ArrowRightLeft className="w-4 h-4 text-blue-400" />
                     <span>Susu Circles</span>
