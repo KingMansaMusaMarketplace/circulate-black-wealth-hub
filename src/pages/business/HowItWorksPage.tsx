@@ -14,6 +14,7 @@ import {
   Users,
   Zap,
   ArrowRight,
+  ArrowLeft,
   PlayCircle
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
