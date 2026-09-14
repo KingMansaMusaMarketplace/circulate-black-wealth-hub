@@ -345,10 +345,10 @@ const HowItWorksPage = () => {
           </div>
 
           {/* CTA Section */}
-          <Card className="bg-gradient-to-r from-mansablue/40 to-blue-700/40 backdrop-blur-xl border-mansagold/30 shadow-2xl shadow-mansagold/20">
+          <Card className="bg-gradient-to-r from-slate-950/90 to-slate-900/90 backdrop-blur-xl border-mansagold/30 shadow-2xl shadow-mansagold/20">
             <CardContent className="py-12 text-center space-y-6">
               <h2 className="text-3xl font-bold text-white">Ready to Get Started?</h2>
-              <p className="text-lg text-blue-100/90 max-w-2xl mx-auto">
+              <p className="text-lg text-white/90 max-w-2xl mx-auto">
                 Join hundreds of businesses already using MMM to accept payments faster, 
                 build customer loyalty, and grow their revenue.
               </p>
