@@ -79,7 +79,7 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
         <div className={`p-3 rounded-lg ${
           isUrgent ? 'bg-rose-500/10 border border-rose-500/20' : 'bg-amber-500/10 border border-amber-500/20'
         }`}>
-          <p className={`text-sm ${isUrgent ? 'text-rose-400' : 'text-amber-400'}`}>
+          <p className={`text-sm font-medium ${isUrgent ? 'text-rose-200' : 'text-amber-200'}`}>
             {isUrgent ? '⚠️ ' : '💡 '}
             {isUrgent 
               ? `Urgent! You'll lose ${decayAmount.toFixed(1)} karma points if you don't take action!`
