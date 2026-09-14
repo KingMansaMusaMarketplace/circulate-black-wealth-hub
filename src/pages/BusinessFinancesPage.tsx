@@ -38,10 +38,15 @@ const BusinessFinancesPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('overview');
 
   useEffect(() => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
     loadFinancialData();
   }, [user]);
 
   const loadFinancialData = async () => {
+    if (!user?.id) return;
     try {
       setLoading(true);
 
