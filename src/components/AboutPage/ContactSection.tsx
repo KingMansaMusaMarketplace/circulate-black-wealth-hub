@@ -53,9 +53,9 @@ const ContactSection = () => {
             <ContactInfo />
             
             {/* Add decorative elements */}
-            <div className="mt-8 p-4 bg-gradient-to-br from-white via-blue-50 to-amber-50 rounded-lg border-2 border-blue-200 shadow-lg">
+            <div className="mt-8 p-4 bg-slate-900/70 rounded-lg border border-white/10 shadow-lg">
               <h3 className="text-sm font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-2">Office Hours</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-zinc-400">
                 <li className="flex justify-between">
                   <span>Monday - Friday</span>
                   <span>9:00 AM - 6:00 PM</span>
@@ -84,7 +84,7 @@ const ContactSection = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            <p className="text-gray-700 text-lg">
+            <p className="text-zinc-300 text-lg">
               Need immediate assistance? <Button variant="link" className="p-0 h-auto bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent font-semibold" onClick={() => toast.info('Contact us at support@1325.ai or call 312.900.6004')}>Schedule a call with our team</Button>
             </p>
           </motion.div>
@@ -92,7 +92,7 @@ const ContactSection = () => {
         
         {/* Add map preview */}
         <div className="mt-12 max-w-6xl mx-auto px-4">
-          <div className="bg-white p-2 rounded-lg border border-gray-200 shadow-sm">
+          <div className="bg-slate-900/70 p-2 rounded-lg border border-white/10 shadow-sm">
             <div className="bg-gray-100 rounded h-48 w-full flex items-center justify-center">
               <div className="text-center">
                 <div className="w-12 h-12 bg-mansablue/10 rounded-full flex items-center justify-center mx-auto mb-2">

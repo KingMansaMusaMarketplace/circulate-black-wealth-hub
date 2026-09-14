@@ -40,20 +40,20 @@ const AuthorSection = () => {
               </div>
             </div>
             
-            <div className="md:col-span-2 p-8 bg-white/95 backdrop-blur-sm">
-              <p className="text-gray-800 mb-4 text-lg leading-relaxed">
+            <div className="md:col-span-2 p-8 bg-slate-900/80 backdrop-blur-sm">
+              <p className="text-white mb-4 text-lg leading-relaxed">
                 Thomas D. Bowling is a <span className="font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">visionary entrepreneur</span>, strategic founder, and inventor behind
                 1325.AI. With a mission to engineer economic empowerment through
                 infrastructure, Thomas brings decades of experience in strategic development,
                 community-centered innovation, and business leadership.
               </p>
-              <p className="text-gray-800 mb-4 text-lg leading-relaxed">
+              <p className="text-white mb-4 text-lg leading-relaxed">
                 Recognized for his distinctive style and thoughtful approach, Thomas has pioneered systems that
                 create <span className="font-bold bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">sustainable wealth circulation</span> within communities. His work focuses on building
                 economic infrastructure that empowers businesses and individuals alike.
               </p>
               <Separator className="my-6 bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 h-1" />
-              <p className="text-gray-900 font-bold italic text-xl mb-6 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 p-4 rounded-lg border-l-4 border-mansagold">
+              <p className="text-white font-bold italic text-xl mb-6 bg-gradient-to-r from-mansagold/10 via-amber-500/10 to-mansagold/10 p-4 rounded-lg border-l-4 border-mansagold">
                 "My life's work is to leave <span className="bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">blueprints</span>, not breadcrumbs, for the next generation of Black builders."
               </p>
               
@@ -62,19 +62,19 @@ const AuthorSection = () => {
                   A 40-Year Journey of Resilience
                 </h4>
                 
-                <p className="text-gray-800 mb-4 leading-relaxed">
+                <p className="text-white mb-4 leading-relaxed">
                   For four decades, I've walked the challenging path of Black entrepreneurship, witnessing firsthand the systemic barriers that have kept too many brilliant minds and determined spirits from reaching their full potential. Each venture, each partnership, and yes—each failure—has been a lesson that shaped my understanding of what our community truly needs to thrive.
                 </p>
                 
-                <p className="text-gray-800 mb-4 leading-relaxed">
+                <p className="text-white mb-4 leading-relaxed">
                   When I began my entrepreneurial journey in the <span className="font-bold text-mansablue">1980s</span>, I quickly discovered that access to capital, networks, and infrastructure were not equally distributed. While others received second and third chances, Black business owners often had just one shot at success—with the weight of entire communities riding on their shoulders.
                 </p>
                 
-                <p className="text-gray-800 mb-4 leading-relaxed">
+                <p className="text-white mb-4 leading-relaxed">
                   This reality didn't discourage me; it <span className="font-bold bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">fueled me</span>. I became obsessed with creating systems that could withstand external pressures and economic volatility. I focused on building community-centered models where money, resources, and knowledge could circulate internally before extending outward.
                 </p>
                 
-                <p className="text-gray-800 leading-relaxed">
+                <p className="text-white leading-relaxed">
                   <span className="font-bold text-mansablue">1325.AI</span> isn't just another business venture—it's the culmination of decades of hard-won wisdom. It's the blueprint I wish I had when I started my journey. My commitment is to ensure that the next generation of community builders won't just survive but will <span className="font-bold bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">thrive</span>, creating legacies that transform communities and rewrite economic narratives for generations to come.
                 </p>
               </div>

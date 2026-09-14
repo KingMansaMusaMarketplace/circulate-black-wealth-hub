@@ -44,7 +44,7 @@ const ContactInfo = () => {
   ];
 
   return (
-    <Card className="h-full border-2 border-blue-200 bg-gradient-to-br from-white via-blue-50 to-amber-50 backdrop-blur-sm shadow-xl">
+    <Card className="h-full border border-white/10 bg-slate-900/70 backdrop-blur-sm shadow-xl">
       <CardContent className="p-6 sm:p-8">
         <h3 className="text-xl font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-6">Get In Touch</h3>
         
@@ -78,7 +78,7 @@ const ContactInfo = () => {
                         <span className="truncate block">{item.value}</span>
                       </a>
                     ) : (
-                      <address className="not-italic text-sm text-gray-600 truncate">
+                      <address className="not-italic text-sm text-zinc-400 truncate">
                         {item.value}
                       </address>
                     )}
@@ -86,7 +86,7 @@ const ContactInfo = () => {
                 </motion.div>
               </PopoverTrigger>
               <PopoverContent className="w-72 sm:w-80 p-4">
-                <p className="text-sm text-gray-600">{item.description}</p>
+                <p className="text-sm text-zinc-400">{item.description}</p>
                 {item.link && (
                   <a 
                     href={item.link} 

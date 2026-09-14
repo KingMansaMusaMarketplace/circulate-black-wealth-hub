@@ -49,14 +49,14 @@ const FAQSection = () => {
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-xl border-2 border-blue-200">
+        <div className="max-w-3xl mx-auto bg-slate-900/70 backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/10">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`} className="border-b-2 border-blue-100">
                 <AccordionTrigger className="text-left font-semibold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent hover:from-blue-700 hover:to-mansagold py-4 transition-all">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-700 pb-4 leading-relaxed">
+                <AccordionContent className="text-zinc-300 pb-4 leading-relaxed">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -64,7 +64,7 @@ const FAQSection = () => {
           </Accordion>
 
           <div className="mt-12 text-center">
-            <p className="text-gray-700 text-lg mb-4">
+            <p className="text-zinc-300 text-lg mb-4">
               Have more questions about our platform or mission?
             </p>
             <Link to="/contact" className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent font-bold hover:from-blue-700 hover:to-mansagold transition-all">

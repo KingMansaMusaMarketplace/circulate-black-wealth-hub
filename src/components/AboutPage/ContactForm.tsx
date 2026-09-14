@@ -83,7 +83,7 @@ const ContactForm = () => {
   };
 
   return (
-    <Card className="border-2 border-blue-200 bg-gradient-to-br from-white via-blue-50 to-amber-50 backdrop-blur-sm shadow-xl">
+    <Card className="border border-white/10 bg-slate-900/70 backdrop-blur-sm shadow-xl">
       <CardContent className="p-6 sm:p-8">
         <AnimatePresence mode="wait">
           {!isSubmitted ? (
@@ -211,7 +211,7 @@ const ContactForm = () => {
                 <CheckCircle className="h-10 w-10 text-green-600" />
               </div>
               <h3 className="text-xl font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-3">Thank You!</h3>
-              <p className="text-gray-700 mb-8 max-w-md mx-auto">
+              <p className="text-zinc-300 mb-8 max-w-md mx-auto">
                 Your message has been sent successfully. We'll review it and get back to you soon.
               </p>
               <Button 
