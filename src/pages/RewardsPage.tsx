@@ -369,31 +369,45 @@ const RewardsPage = () => {
             </TabsContent>
 
             <TabsContent value="global" className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {globalRewards.map((reward) => (
-                  <RewardCard 
-                    key={reward.id} 
-                    reward={reward} 
-                    userPoints={userPoints.availablePoints}
-                    isRedeeming={redeeming === reward.id}
-                    onRedeem={() => redeemReward(reward)}
-                  />
-                ))}
-              </div>
+              {globalRewards.length === 0 ? (
+                <EmptyTabMessage
+                  title="No global rewards right now"
+                  message="Global rewards can be used at any participating business. Check back soon — new ones are added regularly."
+                />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {globalRewards.map((reward) => (
+                    <RewardCard 
+                      key={reward.id} 
+                      reward={reward} 
+                      userPoints={userPoints.availablePoints}
+                      isRedeeming={redeeming === reward.id}
+                      onRedeem={() => redeemReward(reward)}
+                    />
+                  ))}
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="business" className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {businessRewards.map((reward) => (
-                  <RewardCard 
-                    key={reward.id} 
-                    reward={reward} 
-                    userPoints={userPoints.availablePoints}
-                    isRedeeming={redeeming === reward.id}
-                    onRedeem={() => redeemReward(reward)}
-                  />
-                ))}
-              </div>
+              {businessRewards.length === 0 ? (
+                <EmptyTabMessage
+                  title="No business-exclusive rewards yet"
+                  message="These are special offers created by individual businesses for their own customers. None are available today — try the Global tab for rewards you can use anywhere."
+                />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {businessRewards.map((reward) => (
+                    <RewardCard 
+                      key={reward.id} 
+                      reward={reward} 
+                      userPoints={userPoints.availablePoints}
+                      isRedeeming={redeeming === reward.id}
+                      onRedeem={() => redeemReward(reward)}
+                    />
+                  ))}
+                </div>
+              )}
             </TabsContent>
           </Tabs>
 
