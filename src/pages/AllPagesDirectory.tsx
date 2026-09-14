@@ -209,82 +209,104 @@ const AllPagesContent = () => {
   return (
     <>
       <Helmet>
-        <title>All Pages Directory | 1325.AI Platform</title>
-        <meta name="description" content="Complete directory of all pages in the platform" />
+        <title>Platform Directory | 1325.AI</title>
+        <meta name="description" content="Executive index of every page across the 1325.AI platform." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Background */}
+      <div className="min-h-screen bg-gradient-to-b from-[#00050f] via-[#02081a] to-black relative overflow-hidden">
+        {/* Ambient accents */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute -top-32 right-0 w-[34rem] h-[34rem] bg-mansablue/20 rounded-full blur-[140px]" />
+          <div className="absolute bottom-0 -left-24 w-[30rem] h-[30rem] bg-mansagold/10 rounded-full blur-[140px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
         </div>
 
-        <div className="container mx-auto px-4 py-8 relative z-10">
-          {/* Header */}
-          <div className="mb-8 text-center space-y-4">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-mansagold/20 to-amber-500/20 backdrop-blur-xl border border-mansagold/30 mb-2">
-              <MapPin className="w-8 h-8 text-mansagold" />
+        <div className="container mx-auto max-w-7xl px-4 py-12 relative z-10">
+          {/* Masthead */}
+          <header className="border-b border-white/10 pb-8 mb-10">
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-mansagold/30 bg-mansagold/10">
+                  <MapPin className="w-3.5 h-3.5 text-mansagold" />
+                  <span className="text-[11px] font-semibold tracking-[0.18em] uppercase text-mansagold">
+                    Platform Index
+                  </span>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
+                  All Pages Directory
+                </h1>
+                <p className="text-base text-white/70 max-w-2xl">
+                  A complete, navigable map of every experience across the 1325.AI platform —
+                  member, business, sponsor, and administrative.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 lg:min-w-[280px]">
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-xl px-4 py-3">
+                  <p className="text-2xl font-bold text-mansagold">{pages.length}</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Total Pages</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-xl px-4 py-3">
+                  <p className="text-2xl font-bold text-mansagold">{categories.length}</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Sections</p>
+                </div>
+              </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
-              All Pages Directory
-            </h1>
-            <p className="text-lg text-blue-100/90">Quick navigation to all platform pages</p>
-          </div>
+          </header>
 
           {/* Search & Controls */}
-          <div className="mb-6 max-w-2xl mx-auto space-y-4">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+          <div className="mb-10 flex flex-col md:flex-row gap-3 md:items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
               <Input
                 type="text"
-                placeholder="Search pages by name, path, or category..."
+                placeholder="Search by page name, path, or section…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-12 text-lg bg-slate-800/60 border-white/10 text-white placeholder:text-slate-400 focus:border-mansagold/50"
+                className="pl-11 h-12 bg-white/[0.04] border-white/10 text-white placeholder:text-white/40 focus:border-mansagold/50 rounded-xl"
               />
             </div>
-            <div className="flex justify-center gap-3">
-              <Button 
-                variant="outline" 
-                size="sm" 
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
                 onClick={expandAll}
-                className="bg-slate-800/60 border-white/10 text-white hover:bg-mansagold/20 hover:border-mansagold/50"
+                className="h-12 px-5 bg-white/[0.04] border-white/10 text-white font-medium hover:bg-mansagold/15 hover:border-mansagold/40 hover:text-white rounded-xl"
               >
                 Expand All
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
                 onClick={collapseAll}
-                className="bg-slate-800/60 border-white/10 text-white hover:bg-mansagold/20 hover:border-mansagold/50"
+                className="h-12 px-5 bg-white/[0.04] border-white/10 text-white font-medium hover:bg-mansagold/15 hover:border-mansagold/40 hover:text-white rounded-xl"
               >
                 Collapse All
               </Button>
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar Navigation */}
-            <div className="lg:w-64 flex-shrink-0">
-              <div className="lg:sticky lg:top-4">
-                <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-sm font-medium text-mansagold">Quick Jump</CardTitle>
+            <aside className="lg:w-64 flex-shrink-0">
+              <div className="lg:sticky lg:top-6">
+                <Card className="bg-white/[0.03] backdrop-blur-xl border-white/10 rounded-2xl">
+                  <CardHeader className="pb-3 border-b border-white/10">
+                    <CardTitle className="text-[11px] font-semibold uppercase tracking-[0.18em] text-mansagold">
+                      Quick Jump
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent className="pt-0">
+                  <CardContent className="pt-3">
                     <ScrollArea className="h-auto max-h-[60vh]">
-                      <nav className="space-y-1">
+                      <nav className="space-y-0.5">
                         {filteredCategories.map(category => {
                           const count = filteredPages.filter(p => p.category === category).length;
                           return (
                             <button
                               key={category}
                               onClick={() => scrollToCategory(category)}
-                              className="w-full flex items-center justify-between px-3 py-2 text-sm text-left text-blue-100/80 hover:text-white hover:bg-mansagold/20 rounded-lg transition-colors"
+                              className="w-full flex items-center justify-between px-3 py-2 text-sm text-left text-white/70 hover:text-white hover:bg-white/[0.06] rounded-lg transition-colors group"
                             >
-                              <span>{category}</span>
-                              <span className="text-xs bg-slate-700/60 text-slate-300 px-2 py-0.5 rounded-full">
+                              <span className="font-medium">{category}</span>
+                              <span className="text-[11px] font-semibold text-white/50 group-hover:text-mansagold transition-colors">
                                 {count}
                               </span>
                             </button>
@@ -295,80 +317,76 @@ const AllPagesContent = () => {
                   </CardContent>
                 </Card>
               </div>
-            </div>
+            </aside>
 
             {/* Main Content */}
-            <div className="flex-1 min-w-0">
-              <ScrollArea className="h-auto">
-                <div className="space-y-4">
-                  {filteredCategories.map(category => {
-                    const categoryPages = filteredPages.filter(p => p.category === category);
-                    const isExpanded = expandedCategories.has(category);
-                    
-                    return (
-                      <Collapsible
-                        key={category}
-                        id={`category-${category}`}
-                        open={isExpanded}
-                        onOpenChange={() => toggleCategory(category)}
-                      >
-                        <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 overflow-hidden">
-                          <CollapsibleTrigger asChild>
-                            <button className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-700/30 transition-colors">
-                              <div className="flex items-center gap-3">
-                                <div className="h-1 w-8 bg-gradient-to-r from-mansagold to-amber-500 rounded-full" />
-                                <h2 className="text-xl font-bold text-white">{category}</h2>
-                                <span className="text-sm text-slate-400">({categoryPages.length} pages)</span>
-                              </div>
-                              {isExpanded ? (
-                                <ChevronDown className="h-5 w-5 text-mansagold" />
-                              ) : (
-                                <ChevronRight className="h-5 w-5 text-slate-400" />
-                              )}
-                            </button>
-                          </CollapsibleTrigger>
-                          <CollapsibleContent>
-                            <div className="px-4 pb-4">
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                {categoryPages.map(page => {
-                                  const Icon = page.icon;
-                                  return (
-                                    <Link key={page.path} to={page.path}>
-                                      <div className="group flex items-center gap-4 p-4 bg-slate-900/50 rounded-xl border border-white/5 hover:border-mansagold/40 hover:bg-slate-800/50 transition-all duration-200">
-                                        <div className="flex-shrink-0 bg-mansagold/15 w-12 h-12 rounded-xl flex items-center justify-center border border-mansagold/20 group-hover:border-mansagold/40 transition-colors">
-                                          <Icon className="h-6 w-6 text-mansagold" />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                          <h3 className="text-base font-semibold text-white truncate group-hover:text-mansagold transition-colors">
-                                            {page.name}
-                                          </h3>
-                                          <p className="text-xs text-slate-400 truncate">{page.description}</p>
-                                          <code className="text-xs font-mono text-blue-300/60 block truncate mt-1">
-                                            {page.path}
-                                          </code>
-                                        </div>
-                                        <ChevronRight className="h-5 w-5 text-slate-500 group-hover:text-mansagold transition-colors flex-shrink-0" />
-                                      </div>
-                                    </Link>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          </CollapsibleContent>
-                        </Card>
-                      </Collapsible>
-                    );
-                  })}
-                </div>
+            <div className="flex-1 min-w-0 space-y-4">
+              {filteredCategories.map(category => {
+                const categoryPages = filteredPages.filter(p => p.category === category);
+                const isExpanded = expandedCategories.has(category);
 
-                {filteredPages.length === 0 && (
-                  <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 p-12 text-center">
-                    <Search className="h-12 w-12 text-slate-500 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-white mb-2">No pages found</h3>
-                    <p className="text-slate-400">Try a different search term</p>
-                  </Card>
-                )}
-              </ScrollArea>
+                return (
+                  <Collapsible
+                    key={category}
+                    id={`category-${category}`}
+                    open={isExpanded}
+                    onOpenChange={() => toggleCategory(category)}
+                  >
+                    <Card className="bg-white/[0.03] backdrop-blur-xl border-white/10 rounded-2xl overflow-hidden">
+                      <CollapsibleTrigger asChild>
+                        <button className="w-full px-6 py-5 flex items-center justify-between hover:bg-white/[0.03] transition-colors">
+                          <div className="flex items-center gap-4">
+                            <span className="h-8 w-1 rounded-full bg-gradient-to-b from-mansagold to-amber-600" />
+                            <div className="text-left">
+                              <h2 className="text-lg font-semibold tracking-tight text-white">{category}</h2>
+                              <p className="text-xs text-white/50">{categoryPages.length} pages</p>
+                            </div>
+                          </div>
+                          <ChevronDown
+                            className={`h-4 w-4 text-white/50 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-mansagold' : ''}`}
+                          />
+                        </button>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="px-6 pb-6 pt-1 border-t border-white/[0.06]">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                            {categoryPages.map(page => {
+                              const Icon = page.icon;
+                              return (
+                                <Link key={`${category}-${page.path}-${page.name}`} to={page.path} className="block">
+                                  <div className="group h-full flex items-start gap-4 p-4 bg-black/30 rounded-xl border border-white/[0.07] hover:border-mansagold/40 hover:bg-white/[0.05] transition-all duration-200">
+                                    <div className="flex-shrink-0 bg-mansagold/10 w-10 h-10 rounded-lg flex items-center justify-center border border-mansagold/20 group-hover:bg-mansagold/20 transition-colors">
+                                      <Icon className="h-5 w-5 text-mansagold" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <h3 className="text-sm font-semibold text-white truncate group-hover:text-mansagold transition-colors">
+                                        {page.name}
+                                      </h3>
+                                      <p className="text-xs text-white/60 truncate mt-0.5">{page.description}</p>
+                                      <code className="text-[11px] font-mono text-blue-300/70 block truncate mt-1.5">
+                                        {page.path}
+                                      </code>
+                                    </div>
+                                    <ChevronRight className="h-4 w-4 text-white/30 group-hover:text-mansagold group-hover:translate-x-0.5 transition-all flex-shrink-0 mt-1" />
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </CollapsibleContent>
+                    </Card>
+                  </Collapsible>
+                );
+              })}
+
+              {filteredPages.length === 0 && (
+                <Card className="bg-white/[0.03] backdrop-blur-xl border-white/10 rounded-2xl p-16 text-center">
+                  <Search className="h-10 w-10 text-white/30 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-1">No pages found</h3>
+                  <p className="text-sm text-white/60">Try a different search term.</p>
+                </Card>
+              )}
             </div>
           </div>
         </div>
