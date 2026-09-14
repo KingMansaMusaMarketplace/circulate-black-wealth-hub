@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ImpactDashboard } from '@/components/ImpactDashboard';
 import CommunityImpactDashboard from '@/components/community-impact/CommunityImpactDashboard';
 import EconomicImpactDashboard from '@/components/dashboard/EconomicImpactDashboard';
@@ -15,16 +15,13 @@ const pathToTab = (pathname: string): ImpactTab => {
   return 'my';
 };
 
-const tabToPath: Record<ImpactTab, string> = {
-  my: '/impact',
-  community: '/community-impact',
-  economic: '/economic-impact',
-};
-
 const ImpactPage = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const activeTab = pathToTab(location.pathname);
+  const [activeTab, setActiveTab] = useState<ImpactTab>(() => pathToTab(location.pathname));
+
+  useEffect(() => {
+    setActiveTab(pathToTab(location.pathname));
+  }, [location.pathname]);
 
   useEffect(() => {
     const meta: Record<ImpactTab, { title: string; description: string }> = {
@@ -45,10 +42,7 @@ const ImpactPage = () => {
   }, [activeTab, location.pathname]);
 
   const handleTabChange = (value: string) => {
-    const next = value as ImpactTab;
-    if (tabToPath[next] !== location.pathname) {
-      navigate(tabToPath[next], { replace: false });
-    }
+    setActiveTab(value as ImpactTab);
   };
 
   return (
@@ -81,15 +75,15 @@ const ImpactPage = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="my" className="mt-0">
+          <TabsContent forceMount value="my" className="mt-0 data-[state=inactive]:hidden">
             <ImpactDashboard />
           </TabsContent>
 
-          <TabsContent value="community" className="mt-0">
+          <TabsContent forceMount value="community" className="mt-0 data-[state=inactive]:hidden">
             <CommunityImpactDashboard />
           </TabsContent>
 
-          <TabsContent value="economic" className="mt-0">
+          <TabsContent forceMount value="economic" className="mt-0 data-[state=inactive]:hidden">
             <EconomicImpactDashboard />
           </TabsContent>
         </Tabs>
