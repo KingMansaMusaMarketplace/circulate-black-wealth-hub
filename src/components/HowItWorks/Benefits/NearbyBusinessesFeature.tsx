@@ -13,7 +13,7 @@ interface NearbyBusinessesFeatureProps {
 const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVisible = true }) => {
   return (
     <motion.div 
-      className="bg-white rounded-xl p-6 shadow-md"
+      className="bg-slate-900/70 backdrop-blur-xl border border-white/10 rounded-xl p-6 shadow-md"
       initial={{ opacity: 0, y: 20 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.6, delay: 0.3 }}
@@ -21,41 +21,41 @@ const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVis
       <Badge className="bg-mansablue text-white mb-4">Core Feature</Badge>
       <div className="flex flex-col md:flex-row items-center gap-6">
         <div className="w-full md:w-1/2">
-          <div className="text-xl font-semibold text-mansablue mb-3 flex items-center">
+          <div className="text-xl font-semibold text-mansagold mb-3 flex items-center">
             <MapPin className="mr-2 text-mansagold" /> Find Nearby Verified Businesses
           </div>
-          <p className="text-gray-600 mb-4">
+          <p className="text-white/70 mb-4">
             Discover and support local businesses in your neighborhood. Our interactive map 
             helps you locate, engage with, and directly contribute to wealth circulation in your community.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div className="bg-mansablue/5 p-4 rounded-lg border border-mansablue/10">
+            <div className="bg-white/5 p-4 rounded-lg border border-white/10">
               <div className="flex items-center mb-2">
-                <MapPin size={18} className="text-mansablue mr-2" />
-                <h4 className="font-medium">Location-Based</h4>
+                <MapPin size={18} className="text-mansagold mr-2" />
+                <h4 className="font-medium text-white">Location-Based</h4>
               </div>
-              <p className="text-sm text-gray-600">Find businesses within your selected radius and get distance calculations</p>
+              <p className="text-sm text-white/70">Find businesses within your selected radius and get distance calculations</p>
             </div>
-            <div className="bg-mansablue/5 p-4 rounded-lg border border-mansablue/10">
+            <div className="bg-white/5 p-4 rounded-lg border border-white/10">
               <div className="flex items-center mb-2">
-                <BadgeDollarSign size={18} className="text-mansablue mr-2" />
-                <h4 className="font-medium">Exclusive Discounts</h4>
+                <BadgeDollarSign size={18} className="text-mansagold mr-2" />
+                <h4 className="font-medium text-white">Exclusive Discounts</h4>
               </div>
-              <p className="text-sm text-gray-600">Scan QR codes for immediate discounts and rewards points</p>
+              <p className="text-sm text-white/70">Scan QR codes for immediate discounts and rewards points</p>
             </div>
-            <div className="bg-mansablue/5 p-4 rounded-lg border border-mansablue/10">
+            <div className="bg-white/5 p-4 rounded-lg border border-white/10">
               <div className="flex items-center mb-2">
-                <Smartphone size={18} className="text-mansablue mr-2" />
-                <h4 className="font-medium">Mobile Optimized</h4>
+                <Smartphone size={18} className="text-mansagold mr-2" />
+                <h4 className="font-medium text-white">Mobile Optimized</h4>
               </div>
-              <p className="text-sm text-gray-600">Seamless experience on your mobile device with quick navigation</p>
+              <p className="text-sm text-white/70">Seamless experience on your mobile device with quick navigation</p>
             </div>
-            <div className="bg-mansablue/5 p-4 rounded-lg border border-mansablue/10">
+            <div className="bg-white/5 p-4 rounded-lg border border-white/10">
               <div className="flex items-center mb-2">
-                <TrendingUp size={18} className="text-mansablue mr-2" />
-                <h4 className="font-medium">Economic Impact</h4>
+                <TrendingUp size={18} className="text-mansagold mr-2" />
+                <h4 className="font-medium text-white">Economic Impact</h4>
               </div>
-              <p className="text-sm text-gray-600">Track your contribution to circulating community wealth</p>
+              <p className="text-sm text-white/70">Track your contribution to circulating community wealth</p>
             </div>
           </div>
           <Link to="/directory">
@@ -65,7 +65,7 @@ const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVis
           </Link>
         </div>
         <div className="w-full md:w-1/2">
-          <div className="relative bg-slate-50 rounded-lg p-4 shadow-sm border border-gray-200">
+          <div className="relative bg-white/5 rounded-lg p-4 shadow-sm border border-white/10">
             <div className="absolute -top-3 -right-3 bg-mansagold text-white text-xs px-2 py-1 rounded-full">
               Mobile App Preview
             </div>

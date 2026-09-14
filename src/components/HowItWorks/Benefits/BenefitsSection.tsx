@@ -82,7 +82,7 @@ const BenefitsSection = () => {
   const currentBenefits = activeTab === 'customers' ? customerBenefits : businessBenefits;
 
   return (
-    <section id="benefits" className="py-16 bg-gray-50 relative">
+    <section id="benefits" className="py-16 bg-transparent relative">
       {/* Add decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         {/* Background pattern */}

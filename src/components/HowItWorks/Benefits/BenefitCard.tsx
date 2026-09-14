@@ -27,7 +27,7 @@ const BenefitCard: React.FC<BenefitCardProps> = ({
   return (
     <Card 
       className={cn(
-        "transition-all duration-300 hover:shadow-md border-l-4",
+        "transition-all duration-300 hover:shadow-md border-l-4 bg-slate-900/70 backdrop-blur-xl border-white/10 text-white",
         isCustomer ? "border-l-mansablue" : "border-l-mansagold",
         isExpanded ? "shadow-md" : ""
       )}
