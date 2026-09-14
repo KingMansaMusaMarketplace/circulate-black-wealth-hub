@@ -12,6 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Search, Filter, Plus, Loader2, Globe, Sparkles, ExternalLink } from 'lucide-react';
 import { ConnectionRequestModal } from './ConnectionRequestModal';
+import { Link } from 'react-router-dom';
 import { BusinessCapability, BusinessNeed } from '@/hooks/use-b2b';
 import { DiscoveredBusiness } from '@/types/b2b-external';
 
