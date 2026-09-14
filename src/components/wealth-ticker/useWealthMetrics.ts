@@ -63,7 +63,7 @@ export const useWealthMetrics = () => {
 
     // Real-time subscription for instant ticker updates
     const channel = supabase
-      .channel('wealth-ticker-realtime')
+      .channel(`wealth-ticker-realtime-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {

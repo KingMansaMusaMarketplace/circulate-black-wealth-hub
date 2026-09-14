@@ -14,7 +14,7 @@ const DirectoryRealTimeUpdates: React.FC<DirectoryRealTimeUpdatesProps> = ({ onU
   useEffect(() => {
     // Subscribe to changes in the businesses table
     const channel = supabase
-      .channel('business-changes')
+      .channel(`business-changes-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         { event: 'UPDATE', schema: 'public', table: 'businesses' },

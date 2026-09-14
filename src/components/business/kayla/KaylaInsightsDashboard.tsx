@@ -73,7 +73,7 @@ export const KaylaInsightsDashboard: React.FC<Props> = ({ businessId }) => {
     fetchInsights();
 
     const channel = supabase
-      .channel('kayla-insights')
+      .channel(`kayla-insights-${Math.random().toString(36).slice(2)}`)
       .on('postgres_changes', {
         event: '*',
         schema: 'public',

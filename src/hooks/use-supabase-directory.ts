@@ -187,7 +187,7 @@ export const useSupabaseDirectory = () => {
   // Realtime subscription: auto-refresh directory every 15 new inserts from Kayla
   useEffect(() => {
     const channel = supabase
-      .channel('kayla-directory-refresh')
+      .channel(`kayla-directory-refresh-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'businesses' },

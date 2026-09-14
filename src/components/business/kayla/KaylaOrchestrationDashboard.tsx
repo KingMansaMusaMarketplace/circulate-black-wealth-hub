@@ -127,7 +127,7 @@ export const KaylaOrchestrationDashboard: React.FC<Props> = ({ businessId }) => 
 
     // Subscribe to real-time updates
     const channel = supabase
-      .channel('orchestration-live')
+      .channel(`orchestration-live-${Math.random().toString(36).slice(2)}`)
       .on('postgres_changes', {
         event: '*',
         schema: 'public',

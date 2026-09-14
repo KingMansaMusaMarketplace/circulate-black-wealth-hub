@@ -73,7 +73,7 @@ export function FeatureFlagsProvider({ children }: { children: React.ReactNode }
   // Subscribe to real-time updates
   useEffect(() => {
     const channel = supabase
-      .channel('feature_flags_realtime')
+      .channel(`feature_flags_realtime-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {

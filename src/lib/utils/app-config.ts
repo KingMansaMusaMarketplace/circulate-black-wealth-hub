@@ -146,7 +146,7 @@ export const initAppConfig = async (): Promise<() => void> => {
   
   // Listen for realtime updates to configuration
   const channel = supabase
-    .channel('app_config_changes')
+    .channel(`app_config_changes-${Math.random().toString(36).slice(2)}`)
     .on(
       'postgres_changes',
       {

@@ -207,7 +207,7 @@ export const useRealtimeNotifications = () => {
 
     // Subscribe to QR scans
     const qrScansChannel = supabase
-      .channel('qr-scans-changes')
+      .channel(`qr-scans-changes-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {
@@ -224,7 +224,7 @@ export const useRealtimeNotifications = () => {
 
     // Subscribe to new businesses
     const businessesChannel = supabase
-      .channel('businesses-changes')
+      .channel(`businesses-changes-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {
@@ -241,7 +241,7 @@ export const useRealtimeNotifications = () => {
 
     // Subscribe to transactions for rewards
     const transactionsChannel = supabase
-      .channel('transactions-changes')
+      .channel(`transactions-changes-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {

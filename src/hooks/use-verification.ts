@@ -113,7 +113,7 @@ export const useVerification = (businessId?: string, userId?: string) => {
 
     // Subscribe to changes for real-time updates
     const channel = supabase
-      .channel('verification-changes')
+      .channel(`verification-changes-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {
