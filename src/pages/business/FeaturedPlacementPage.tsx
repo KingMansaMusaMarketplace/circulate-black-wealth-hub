@@ -13,10 +13,10 @@ import { Star, Sparkles, Crown, Trophy, Loader2, Settings } from 'lucide-react';
 import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 
 const TIERS = [
-  { id: 'bronze',   name: 'Bronze',   price: 20,  icon: Star,     blurb: 'Pin in 1 category for your city.' },
-  { id: 'silver',   name: 'Silver',   price: 50,  icon: Sparkles, blurb: 'Pin in 1 category citywide + spotlight rotation.' },
-  { id: 'gold',     name: 'Gold',     price: 100, icon: Trophy,   blurb: 'Top of category statewide + spotlight carousel.' },
-  { id: 'platinum', name: 'Platinum', price: 200, icon: Crown,    blurb: 'Top placement nationally + homepage spotlight.' },
+  { id: 'bronze',   name: 'Bronze',   price: 29,  icon: Star,     blurb: 'Pin in 1 category for your city.' },
+  { id: 'silver',   name: 'Silver',   price: 79,  icon: Sparkles, blurb: 'Pin in 1 category citywide + spotlight rotation.' },
+  { id: 'gold',     name: 'Gold',     price: 149, icon: Trophy,   blurb: 'Top of category statewide + spotlight carousel.' },
+  { id: 'platinum', name: 'Platinum', price: 299, icon: Crown,    blurb: 'Top placement nationally + homepage spotlight.' },
 ];
 
 export default function FeaturedPlacementPage() {
@@ -92,7 +92,7 @@ export default function FeaturedPlacementPage() {
       <div className="container max-w-5xl mx-auto py-12 px-4">
       <Helmet>
         <title>Featured Placement — Promote Your Business | 1325.AI</title>
-        <meta name="description" content="Pin your business at the top of category and city searches. Featured placements from $20/month." />
+        <meta name="description" content="Pin your business at the top of category and city searches. Featured placements from $29/month." />
       </Helmet>
 
       <h1 className="text-4xl font-bold mb-2 text-mansagold">Featured Placement</h1>

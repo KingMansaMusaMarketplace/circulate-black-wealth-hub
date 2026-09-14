@@ -8,12 +8,12 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
-// Tier -> monthly USD cents
-const TIER_PRICING: Record<string, { amount: number; name: string; priority: number }> = {
-  bronze: { amount: 2000, name: "Bronze Featured Placement", priority: 100 },
-  silver: { amount: 5000, name: "Silver Featured Placement", priority: 200 },
-  gold: { amount: 10000, name: "Gold Featured Placement", priority: 300 },
-  platinum: { amount: 20000, name: "Platinum Featured Placement", priority: 400 },
+// Tier -> Stripe price (monthly) + placement priority
+const TIER_PRICING: Record<string, { price: string; amount: number; name: string; priority: number }> = {
+  bronze: { price: "price_1UFRyzAsptTW1mCmAzgAfdD8", amount: 2900, name: "Bronze Featured Placement", priority: 100 },
+  silver: { price: "price_1UFRzNAsptTW1mCmX4dWwfXM", amount: 7900, name: "Silver Featured Placement", priority: 200 },
+  gold: { price: "price_1UFRzfAsptTW1mCmmmIiV0Zf", amount: 14900, name: "Gold Featured Placement", priority: 300 },
+  platinum: { price: "price_1UFS01AsptTW1mCmoQdkd8OE", amount: 29900, name: "Platinum Featured Placement", priority: 400 },
 };
 
 serve(async (req) => {
@@ -49,18 +49,7 @@ serve(async (req) => {
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
       mode: "subscription",
-      line_items: [{
-        price_data: {
-          currency: "usd",
-          unit_amount: pricing.amount,
-          recurring: { interval: "month" },
-          product_data: {
-            name: pricing.name,
-            description: `Pin your business at the top of ${category || "all categories"}${city ? ` in ${city}` : ""}.`,
-          },
-        },
-        quantity: 1,
-      }],
+      line_items: [{ price: pricing.price, quantity: 1 }],
       success_url: `${origin}/business/featured-placement?status=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/business/featured-placement?status=cancelled`,
       metadata: {
