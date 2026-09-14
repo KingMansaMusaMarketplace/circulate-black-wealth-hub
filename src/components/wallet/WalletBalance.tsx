@@ -78,14 +78,15 @@ const WalletBalance: React.FC<WalletBalanceProps> = ({ variant = 'full', classNa
                 <Wallet className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm text-slate-400">Wallet Balance</p>
+                <p className="text-sm font-medium text-white/80">Wallet Balance</p>
                 <p className="text-3xl font-bold text-white">
                   {isLoading ? (
-                    <span className="animate-pulse">Loading...</span>
+                    <span className="text-white/70">Loading...</span>
                   ) : (
                     `$${balance.toFixed(2)}`
                   )}
                 </p>
+
               </div>
             </div>
             <div className="flex items-center gap-1 text-emerald-400 text-sm">
@@ -96,7 +97,7 @@ const WalletBalance: React.FC<WalletBalanceProps> = ({ variant = 'full', classNa
 
           {recentTransactions && recentTransactions.length > 0 && (
             <div className="border-t border-white/10 pt-4 mt-4">
-              <p className="text-xs text-slate-400 mb-2 uppercase tracking-wider">Recent Activity</p>
+              <p className="text-xs text-white/70 mb-2 uppercase tracking-wider">Recent Activity</p>
               <div className="space-y-2">
                 {recentTransactions.map((tx) => (
                   <div key={tx.id} className="flex items-center justify-between text-sm">
