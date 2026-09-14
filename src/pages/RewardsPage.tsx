@@ -455,7 +455,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
   const canAfford = userPoints >= reward.points_cost;
 
   return (
-    <Card className={`hover:shadow-xl transition-all hover:scale-105 border-2 bg-slate-950/80 ${!canAfford ? 'opacity-60 grayscale border-white/10' : 'border-mansagold/25'}`}>
+    <Card className={`hover:shadow-xl transition-all hover:scale-105 border-2 bg-slate-950/80 ${!canAfford ? 'border-white/15' : 'border-mansagold/25'}`}>
       {reward.image_url && (
         <div className="aspect-video overflow-hidden rounded-t-lg relative">
           <img 
