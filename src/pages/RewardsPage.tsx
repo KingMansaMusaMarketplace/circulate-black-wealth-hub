@@ -484,7 +484,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
       </CardHeader>
 
       <CardContent className="pt-0">
-        <p className="text-white/90 text-sm mb-4 line-clamp-3">
+        <p className="text-white text-sm mb-4 line-clamp-3">
           {reward.description}
         </p>
 
@@ -492,7 +492,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
           <div className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-900/80 border border-mansagold/30">
             <Star className="h-5 w-5 text-mansagold" />
             <span className="font-bold text-mansagold">{reward.points_cost}</span>
-            <span className="text-xs text-white/90">points</span>
+            <span className="text-xs text-white">points</span>
           </div>
 
           
