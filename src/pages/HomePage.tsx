@@ -124,7 +124,7 @@ const HomePage: React.FC = () => {
                 </a>
               </div>
 
-              <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80">
+              <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-white/90">
                 <Link to="/investors" className="hover:text-mansagold flex items-center gap-2 group transition-colors">
                   For Investors
                   <span className="w-1 h-1 bg-mansagold rounded-full group-hover:w-4 transition-all" />
