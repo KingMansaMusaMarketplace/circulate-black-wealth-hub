@@ -18,6 +18,10 @@ interface BusinessStructuredDataProps {
     banner_url?: string;
     average_rating?: number;
     review_count?: number;
+    latitude?: number | null;
+    longitude?: number | null;
+    is_verified?: boolean;
+    slug?: string;
   };
 }
 
@@ -102,6 +106,26 @@ export const BusinessStructuredData = ({ business }: BusinessStructuredDataProps
         worstRating: '1',
       },
     }),
+    ...(typeof business.latitude === 'number' && typeof business.longitude === 'number' && {
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: business.latitude,
+        longitude: business.longitude,
+      },
+    }),
+    ...(business.category && { additionalType: business.category }),
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'Black-owned business',
+        value: 'true',
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Verified by 1325.AI',
+        value: business.is_verified ? 'true' : 'false',
+      },
+    ],
     isPartOf: {
       '@type': 'WebSite',
       name: '1325.AI',
