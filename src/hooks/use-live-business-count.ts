@@ -26,7 +26,7 @@ export function useLiveBusinessCount() {
     isLoading,
     /** Exact live number, e.g. "46,802" */
     formatted: count.toLocaleString(),
-    /** Rounded down to nearest thousand with a plus, e.g. "47,000+" */
-    rounded: `${(Math.floor(count / 1000) * 1000).toLocaleString()}+`,
+    /** Rounded to nearest thousand with a plus, e.g. "47,000+" */
+    rounded: `${(Math.round(count / 1000) * 1000).toLocaleString()}+`,
   };
 }
