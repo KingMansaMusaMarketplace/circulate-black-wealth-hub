@@ -36,11 +36,12 @@ const PartnerOnboardingWizard: React.FC<Props> = ({ partnerName, onSkip, onCompl
   const [goals, setGoals] = useState<string[]>([]);
   const [refLink, setRefLink] = useState('');
 
-  if (!progress) return null;
-
   React.useEffect(() => {
     if (isComplete) onCompleteAll?.();
   }, [isComplete, onCompleteAll]);
+
+  if (!progress) return null;
+
 
   const step = ONBOARDING_STEPS[currentIdx];
   const isStepDone = progress.steps_completed.includes(step.id);
