@@ -194,7 +194,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">27</p>
+              <p className="text-3xl font-bold text-mansagold">26</p>
               <p className="text-xs text-blue-200/60">Independent Claims</p>
             </div>
           </CardContent>
@@ -202,7 +202,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">56+</p>
+              <p className="text-3xl font-bold text-mansagold">20</p>
               <p className="text-xs text-blue-200/60">Dependent Claims</p>
             </div>
           </CardContent>
