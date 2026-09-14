@@ -62,7 +62,7 @@ export default function CustomerBookingsPage() {
                 <span className="text-sm font-medium text-slate-400">Upcoming</span>
                 <Calendar className="h-5 w-5 text-mansagold" />
               </div>
-              <div className="text-2xl font-bold text-white">—</div>
+              <div className="text-2xl font-bold text-white">{stats ? stats.upcoming : '—'}</div>
               <p className="text-xs text-slate-500 mt-1">Scheduled appointments</p>
             </div>
 
