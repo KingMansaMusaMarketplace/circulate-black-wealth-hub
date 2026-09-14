@@ -42,7 +42,7 @@ export const SuccessStories: React.FC = () => {
           <div className="text-center py-12 max-w-2xl mx-auto">
             <Award className="h-12 w-12 text-primary mx-auto mb-4" />
             <h3 className="text-xl font-bold mb-2">Success Stories Coming Soon</h3>
-            <p className="text-muted-foreground">
+            <p className="text-base text-foreground/80">
               We are onboarding our first businesses. Check back soon to see real success stories from our growing community.
             </p>
           </div>
