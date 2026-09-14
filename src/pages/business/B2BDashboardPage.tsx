@@ -166,7 +166,7 @@ export default function B2BDashboardPage() {
           </div>
         </header>
 
-        <main className="relative z-10 container py-6 max-w-6xl">
+        <main className="relative z-10 container mx-auto max-w-6xl py-6">
           {/* Impact Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
