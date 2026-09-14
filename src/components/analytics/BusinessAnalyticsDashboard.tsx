@@ -297,20 +297,105 @@ const BusinessAnalyticsDashboard: React.FC = () => {
   }
 
   if (!analytics) {
+    const placeholderKpis = [
+      { label: 'Total Scans', value: '0', icon: QrCode, hint: 'All-time QR check-ins' },
+      { label: 'Unique Customers', value: '0', icon: Users, hint: 'People who scanned' },
+      { label: 'Points Awarded', value: '0', icon: Star, hint: 'Loyalty issued' },
+      { label: 'Avg. per Scan', value: '0.0', icon: TrendingUp, hint: 'Points per visit' },
+    ];
+
+    const steps = [
+      { title: 'Print or display your QR code', body: 'Place it at the register, on receipts, and in your window.' },
+      { title: 'Invite customers to scan', body: 'Each scan awards loyalty points and records a visit.' },
+      { title: 'Watch performance build here', body: 'Trends, peak hours and top customers appear automatically.' },
+    ];
+
     return (
-      <div className="relative min-h-[60vh] bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712]">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl animate-float" />
+      <div className="relative min-h-[70vh] overflow-hidden bg-gradient-to-b from-mansablue via-mansablue/80 to-black">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-32 left-1/4 h-80 w-80 rounded-full bg-mansablue/40 blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-mansagold/10 blur-3xl" />
         </div>
 
-        <div className="relative z-10 flex flex-col items-center justify-center py-16 text-center space-y-3">
-          <QrCode className="h-12 w-12 text-yellow-400 mb-2" />
-          <h3 className="text-lg font-semibold text-white">No Analytics Data</h3>
-          <p className="text-white/70 max-w-md">
-            Start getting QR code scans to see your analytics here.
-          </p>
+        <div className="relative z-10 mx-auto max-w-6xl px-4 py-12 space-y-10">
+          {/* Executive header */}
+          <div className="flex flex-col gap-4 border-b border-white/10 pb-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mansagold/90">
+                Business Intelligence
+              </p>
+              <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">Business Analytics</h1>
+              <p className="mt-2 max-w-xl text-white/70">
+                Real-time insight into customer engagement, loyalty and visit patterns.
+              </p>
+            </div>
+            <Badge className="w-fit border border-mansagold/30 bg-mansagold/10 text-mansagold hover:bg-mansagold/10">
+              <Clock className="mr-1 h-3 w-3" />
+              Awaiting first scan
+            </Badge>
+          </div>
+
+          {/* KPI row */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {placeholderKpis.map(({ label, value, icon: Icon, hint }) => (
+              <div
+                key={label}
+                className="rounded-xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-white/70">{label}</span>
+                  <Icon className="h-4 w-4 text-mansagold" />
+                </div>
+                <div className="mt-3 text-3xl font-bold tracking-tight text-white">{value}</div>
+                <p className="mt-1 text-xs text-white/50">{hint}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Getting started */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className="lg:col-span-2 rounded-xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
+              <h2 className="text-lg font-semibold text-white">Your reporting starts with the first scan</h2>
+              <p className="mt-1 text-sm text-white/70">
+                Three steps to turn everyday visits into measurable data.
+              </p>
+              <ol className="mt-6 space-y-5">
+                {steps.map((step, i) => (
+                  <li key={step.title} className="flex gap-4">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-mansagold/40 text-sm font-semibold text-mansagold">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <p className="font-medium text-white">{step.title}</p>
+                      <p className="text-sm text-white/60">{step.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
+              <h2 className="text-lg font-semibold text-white">What you'll see here</h2>
+              <ul className="mt-4 space-y-3 text-sm text-white/70">
+                <li className="flex items-start gap-3">
+                  <TrendingUp className="mt-0.5 h-4 w-4 shrink-0 text-mansagold" />
+                  Daily visit trends across the last 7 days
+                </li>
+                <li className="flex items-start gap-3">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-mansagold" />
+                  Peak hours so you can staff with confidence
+                </li>
+                <li className="flex items-start gap-3">
+                  <Users className="mt-0.5 h-4 w-4 shrink-0 text-mansagold" />
+                  Your most loyal customers, ranked
+                </li>
+                <li className="flex items-start gap-3">
+                  <Zap className="mt-0.5 h-4 w-4 shrink-0 text-mansagold" />
+                  Live updates the moment a scan happens
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     );
