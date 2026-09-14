@@ -97,7 +97,7 @@ const WalletBalance: React.FC<WalletBalanceProps> = ({ variant = 'full', classNa
 
           {recentTransactions && recentTransactions.length > 0 && (
             <div className="border-t border-white/10 pt-4 mt-4">
-              <p className="text-xs text-slate-400 mb-2 uppercase tracking-wider">Recent Activity</p>
+              <p className="text-xs text-white/70 mb-2 uppercase tracking-wider">Recent Activity</p>
               <div className="space-y-2">
                 {recentTransactions.map((tx) => (
                   <div key={tx.id} className="flex items-center justify-between text-sm">
