@@ -257,7 +257,7 @@ const SocialProofPage = () => {
                   Real Stories, Real Impact
                 </span>
               </h2>
-              <p className="text-xl text-white/70">
+              <p className="text-xl text-white/90">
                 See how businesses and customers are thriving together in our marketplace
               </p>
             </motion.div>
