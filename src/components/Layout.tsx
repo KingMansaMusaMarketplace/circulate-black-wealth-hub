@@ -26,6 +26,10 @@ const pageTransition = {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const { isNative } = useCapacitor();
+  const impactPaths = ['/impact', '/community-impact', '/economic-impact'];
+  const pageAnimationKey = impactPaths.includes(location.pathname)
+    ? 'impact-dashboard'
+    : location.pathname;
   
   // Pages that should NOT have header/footer (full-screen experiences)
   // Note: dashboards previously hid the navbar, but users got stranded with no
@@ -60,7 +64,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <main className={`flex-1 ${shouldShowTabBar ? 'pb-16' : ''}`}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={location.pathname}
+            key={pageAnimationKey}
             initial="initial"
             animate="animate"
             exit="exit"
