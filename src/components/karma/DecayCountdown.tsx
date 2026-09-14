@@ -48,19 +48,20 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
         {/* Countdown Display */}
         <div className="flex items-center justify-center gap-4">
           <div className="text-center">
-            <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-400' : 'text-white'}`}>
+            <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-300' : 'text-white'}`}>
               {daysRemaining}
             </p>
-            <p className="text-slate-500 text-sm">Days</p>
+            <p className="text-white/80 text-sm font-medium">Days</p>
           </div>
-          <div className="text-2xl text-slate-600">:</div>
+          <div className="text-2xl text-white/60">:</div>
           <div className="text-center">
-            <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-400' : 'text-white'}`}>
+            <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-300' : 'text-white'}`}>
               {hoursRemaining}
             </p>
-            <p className="text-slate-500 text-sm">Hours</p>
+            <p className="text-white/80 text-sm font-medium">Hours</p>
           </div>
         </div>
+
 
         {/* Progress Bar */}
         <div className="space-y-2">
@@ -78,7 +79,7 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
         <div className={`p-3 rounded-lg ${
           isUrgent ? 'bg-rose-500/10 border border-rose-500/20' : 'bg-amber-500/10 border border-amber-500/20'
         }`}>
-          <p className={`text-sm ${isUrgent ? 'text-rose-400' : 'text-amber-400'}`}>
+          <p className={`text-sm font-medium ${isUrgent ? 'text-rose-200' : 'text-amber-200'}`}>
             {isUrgent ? '⚠️ ' : '💡 '}
             {isUrgent 
               ? `Urgent! You'll lose ${decayAmount.toFixed(1)} karma points if you don't take action!`
