@@ -22,6 +22,7 @@ const TIERS = [
 
 export default function FeaturedPlacementPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { profile, loading: profileLoading } = useBusinessProfile();
   const [tier, setTier] = useState<string>('silver');
   const [category, setCategory] = useState('');
