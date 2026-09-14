@@ -237,10 +237,11 @@ const RewardsPage = () => {
         <meta name="description" content="Earn and redeem points for supporting community businesses" />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gradient-to-b from-mansablue via-slate-950 to-black">
         {/* Hero Section */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-mansablue via-primary to-mansagold text-white">
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+        <div className="relative overflow-hidden bg-gradient-to-br from-mansablue via-slate-950 to-black text-white">
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
+
           <div className="container mx-auto px-4 py-12 relative">
             <div className="text-center mb-8">
               <div className="inline-block mb-4">
@@ -257,38 +258,38 @@ const RewardsPage = () => {
             </div>
 
             {/* Points Summary Card */}
-            <Card className="max-w-4xl mx-auto bg-white/95 backdrop-blur border-2 border-white/30 shadow-2xl">
+            <Card className="max-w-4xl mx-auto bg-slate-950/80 backdrop-blur border-2 border-mansagold/30 shadow-2xl">
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Available Points */}
-                  <div className="text-center p-4 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
+                  <div className="text-center p-4 rounded-xl bg-slate-900/70 border-2 border-emerald-400/30">
                     <div className="flex items-center justify-center mb-2">
                       <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full">
                         <Zap className="h-6 w-6 text-white" />
                       </div>
                     </div>
-                    <span className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent block">
+                    <span className="text-4xl font-bold text-emerald-300 block">
                       {userPoints.availablePoints}
                     </span>
-                    <p className="text-green-700 font-semibold mt-1">Available Points</p>
+                    <p className="text-emerald-100 font-semibold mt-1">Available Points</p>
                   </div>
 
                   {/* Tier Status */}
-                  <div className="text-center p-4 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
+                  <div className="text-center p-4 rounded-xl bg-slate-900/70 border-2 border-mansagold/30">
                     <div className="flex items-center justify-center mb-2">
                       <div className={`p-2 ${currentTier.color} rounded-full shadow-lg`}>
                         <Trophy className="h-6 w-6 text-white" />
                       </div>
                     </div>
                     <span className="text-2xl mb-1 block">{currentTier.icon}</span>
-                    <span className={`text-3xl font-bold ${currentTier.textColor} block`}>
+                    <span className="text-3xl font-bold text-mansagold block">
                       {userPoints.tierLevel}
                     </span>
-                    <p className="text-purple-700 font-semibold mt-1">Current Tier</p>
+                    <p className="text-white/80 font-semibold mt-1">Current Tier</p>
                     {userPoints.nextTierPoints > 0 && (
                       <div className="mt-3">
-                        <Progress value={progressToNextTier} className="h-3 bg-purple-200" />
-                        <p className="text-sm text-purple-600 font-medium mt-1">
+                        <Progress value={progressToNextTier} className="h-3 bg-slate-800" />
+                        <p className="text-sm text-white/80 font-medium mt-1">
                           {userPoints.nextTierPoints} pts to next tier
                         </p>
                       </div>
@@ -296,17 +297,18 @@ const RewardsPage = () => {
                   </div>
 
                   {/* Lifetime Earned */}
-                  <div className="text-center p-4 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200">
+                  <div className="text-center p-4 rounded-xl bg-slate-900/70 border-2 border-sky-400/30">
                     <div className="flex items-center justify-center mb-2">
                       <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full">
                         <Star className="h-6 w-6 text-white" />
                       </div>
                     </div>
-                    <span className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent block">
+                    <span className="text-4xl font-bold text-sky-300 block">
                       {userPoints.totalPoints}
                     </span>
-                    <p className="text-blue-700 font-semibold mt-1">Lifetime Earned</p>
+                    <p className="text-sky-100 font-semibold mt-1">Lifetime Earned</p>
                   </div>
+
                 </div>
               </CardContent>
             </Card>
@@ -322,19 +324,20 @@ const RewardsPage = () => {
               tierLevel={userPoints.tierLevel}
             />
           )}
-          <Card className="mb-8 bg-gradient-to-br from-primary/5 via-mansagold/5 to-mansablue/5 border-2 border-primary/20">
-            <CardHeader className="border-b border-primary/10">
-              <CardTitle className="text-center text-2xl bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+          <Card className="mb-8 bg-slate-950/80 border-2 border-mansagold/25">
+            <CardHeader className="border-b border-white/10">
+              <CardTitle className="text-center text-2xl text-mansagold">
                 {currentTier.icon} Your {currentTier.name} Tier Benefits
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {currentTier.benefits?.map((benefit, index) => (
-                  <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white border border-primary/10">
-                    <CheckCircle className="h-5 w-5 text-green-600 shrink-0" />
-                    <span className="font-medium">{benefit}</span>
+                  <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-slate-900/70 border border-white/10">
+                    <CheckCircle className="h-5 w-5 text-emerald-400 shrink-0" />
+                    <span className="font-medium text-white/90">{benefit}</span>
                   </div>
+
                 ))}
               </div>
             </CardContent>
@@ -342,7 +345,7 @@ const RewardsPage = () => {
 
           {/* Rewards Catalog */}
           <Tabs defaultValue="all" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 mb-8 bg-gradient-to-r from-primary/10 via-mansagold/10 to-mansablue/10 p-1">
+            <TabsList className="grid w-full grid-cols-3 mb-8 bg-slate-900/70 border border-white/10 p-1">
               <TabsTrigger value="all" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">
                 🎯 All Rewards
               </TabsTrigger>
@@ -451,7 +454,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
   const canAfford = userPoints >= reward.points_cost;
 
   return (
-    <Card className={`hover:shadow-xl transition-all hover:scale-105 border-2 ${!canAfford ? 'opacity-60 grayscale' : 'bg-gradient-to-br from-white via-primary/5 to-mansablue/5 border-primary/20'}`}>
+    <Card className={`hover:shadow-xl transition-all hover:scale-105 border-2 bg-slate-950/80 ${!canAfford ? 'opacity-60 grayscale border-white/10' : 'border-mansagold/25'}`}>
       {reward.image_url && (
         <div className="aspect-video overflow-hidden rounded-t-lg relative">
           <img 
@@ -469,7 +472,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
       
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-lg line-clamp-2">{reward.title}</CardTitle>
+          <CardTitle className="text-lg line-clamp-2 text-white">{reward.title}</CardTitle>
           <Badge 
             variant={reward.is_global ? 'default' : 'secondary'} 
             className={reward.is_global ? 'bg-gradient-to-r from-mansablue to-primary text-white' : 'bg-gradient-to-r from-mansagold to-amber-500 text-white'}
@@ -480,16 +483,17 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
       </CardHeader>
 
       <CardContent className="pt-0">
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+        <p className="text-white/70 text-sm mb-4 line-clamp-3">
           {reward.description}
         </p>
 
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-1 px-3 py-2 rounded-lg bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200">
-            <Star className="h-5 w-5 text-yellow-500" />
-            <span className="font-bold text-yellow-700">{reward.points_cost}</span>
-            <span className="text-xs text-yellow-600">points</span>
+          <div className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-900/80 border border-mansagold/30">
+            <Star className="h-5 w-5 text-mansagold" />
+            <span className="font-bold text-mansagold">{reward.points_cost}</span>
+            <span className="text-xs text-white/70">points</span>
           </div>
+
           
           <Button
             onClick={onRedeem}
