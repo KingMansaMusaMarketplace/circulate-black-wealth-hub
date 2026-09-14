@@ -363,7 +363,7 @@ const AllPagesContent = () => {
                                         {page.name}
                                       </h3>
                                       <p className="text-xs text-white/90 truncate mt-0.5">{page.description}</p>
-                                      <code className="text-[11px] font-mono text-blue-300/70 block truncate mt-1.5">
+                                      <code className="text-sm font-mono text-blue-200 block truncate mt-1.5">
                                         {page.path}
                                       </code>
                                     </div>
