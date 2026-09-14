@@ -177,7 +177,7 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-lg font-semibold text-foreground mb-6">
+          <p className="text-lg font-semibold text-white mb-6">
             Ready to help us build a 1 million member community?
           </p>
           <div className="flex flex-wrap justify-center gap-4">
