@@ -1,10 +1,24 @@
+import { useCallback, useState } from 'react';
 import { Calendar, Sparkles } from 'lucide-react';
 import { BookingsList } from '@/components/booking/BookingsList';
+import type { Booking } from '@/lib/services/booking-service';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 export default function CustomerBookingsPage() {
   const { user } = useAuth();
+  const [stats, setStats] = useState<{ upcoming: number; completed: number; total: number } | null>(null);
+
+  const handleBookingsLoaded = useCallback((bookings: Booking[]) => {
+    const now = Date.now();
+    setStats({
+      upcoming: bookings.filter(
+        (b) => ['pending', 'confirmed'].includes(b.status) && new Date(b.booking_date).getTime() >= now
+      ).length,
+      completed: bookings.filter((b) => b.status === 'completed').length,
+      total: bookings.length,
+    });
+  }, []);
 
   if (!user) {
     return <Navigate to="/auth" />;
