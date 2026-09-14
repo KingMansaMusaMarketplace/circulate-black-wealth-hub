@@ -71,7 +71,7 @@ const edgeFunctionsWithHeaders = [
 
 const filingTimeline = [
   { date: 'January 27, 2026', action: 'Provisional Application Filed (63/969,202)', status: 'completed' },
-  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-27 Partner System)', status: 'completed' },
+  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-26 Partner System)', status: 'completed' },
   { date: 'January 27, 2027', action: 'Non-Provisional OR PCT Filing Due', status: 'upcoming' },
   { date: 'July 27, 2027', action: 'Publication (if PCT)', status: 'upcoming' },
   { date: 'July 27, 2028', action: 'National Phase Entry', status: 'upcoming' },
@@ -194,7 +194,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">27</p>
+              <p className="text-3xl font-bold text-mansagold">26</p>
               <p className="text-xs text-blue-200/60">Independent Claims</p>
             </div>
           </CardContent>
@@ -202,7 +202,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">56+</p>
+              <p className="text-3xl font-bold text-mansagold">20</p>
               <p className="text-xs text-blue-200/60">Dependent Claims</p>
             </div>
           </CardContent>
