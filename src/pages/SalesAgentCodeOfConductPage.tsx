@@ -56,6 +56,11 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
                   This Code of Conduct ensures that every agent—from a local ambassador to a city lead—protects the 1325.AI 
                   brand and our proprietary intellectual property while building economic empowerment on the ground.
                 </p>
+                <p className="text-muted-foreground mt-3">
+                  Our platform is powered by <strong>42 Agentic AI Employees</strong> and protected by{' '}
+                  <strong>U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending</strong>.
+                  Everything you learn about how that system works is confidential.
+                </p>
               </div>
             </div>
           </CardContent>
