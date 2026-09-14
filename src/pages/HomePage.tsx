@@ -82,7 +82,7 @@ const HomePage: React.FC = () => {
               <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/90 mt-1">Verified Businesses</span>
             </div>
             <div className="flex flex-col items-center md:items-start">
-              <span className="text-mansagold text-3xl font-bold tracking-tight">45</span>
+              <span className="text-mansagold text-3xl font-bold tracking-tight">46</span>
               <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/90 mt-1">Patent Claims</span>
             </div>
           </div>
