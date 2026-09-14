@@ -1363,7 +1363,7 @@ function App() {
                         <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                         
                         {/* /button-test removed */}
-                        <Route path="/b2b-marketplace" element={<LazyComingSoonPage />} />
+                        <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
                         <Route path="/unauthorized" element={<LazyUnauthorizedPage />} />
                         <Route path="/leads-dashboard" element={<LazyComingSoonPage />} />
                         
