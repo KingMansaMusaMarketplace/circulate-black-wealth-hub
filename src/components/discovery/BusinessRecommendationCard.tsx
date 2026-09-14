@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Star, Heart, Clock } from 'lucide-react';
 import { Business } from '@/types/business';
+import { getCategoryBanner } from '@/utils/businessBanners';
 
 interface BusinessRecommendationCardProps {
   business: Business;
