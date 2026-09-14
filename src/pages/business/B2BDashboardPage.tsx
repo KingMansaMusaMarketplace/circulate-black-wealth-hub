@@ -121,13 +121,13 @@ export default function B2BDashboardPage() {
           <div className="absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-blue-600/15 to-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         </div>
 
-        <div className="relative z-10 backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl shadow-xl max-w-md p-6">
+        <div className="relative z-10 backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl shadow-xl max-w-md p-6">
           <h2 className="text-xl font-semibold text-white mb-2">Business Profile Required</h2>
           <p className="text-slate-400 mb-4">
             You need a verified business profile to access the B2B Dashboard.
           </p>
           <Link to="/business-form">
-            <Button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600">
+            <Button className="w-full bg-mansagold text-black font-semibold hover:bg-mansagold/90">
               Create Business Profile
             </Button>
           </Link>
@@ -143,67 +143,59 @@ export default function B2BDashboardPage() {
         <meta name="description" content="Manage your B2B listings, capabilities, and connections with other community businesses." />
       </Helmet>
 
-      <div className="dark min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-amber-500/20 to-orange-600/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-blue-600/15 to-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute -bottom-40 right-1/3 w-72 h-72 bg-gradient-to-br from-amber-400/15 to-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      <div className="dark relative min-h-screen overflow-hidden bg-gradient-to-b from-mansablue via-mansablue/80 to-black">
+        {/* Ambient accents */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-32 left-1/4 h-80 w-80 rounded-full bg-mansablue/40 blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-mansagold/10 blur-3xl" />
         </div>
 
-        {/* Header */}
-        <header className="relative z-10 border-b border-white/10 backdrop-blur-xl bg-slate-900/50 sticky top-0">
-          <div className="container mx-auto max-w-6xl flex h-14 items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link to="/b2b-marketplace">
-                <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white hover:bg-white/10">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Marketplace
-                </Button>
+        <main className="relative z-10 mx-auto max-w-6xl space-y-8 px-4 py-10">
+          {/* Executive header */}
+          <div className="flex flex-col gap-4 border-b border-white/10 pb-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <Link to="/b2b-marketplace" className="inline-flex items-center text-sm text-white/60 transition-colors hover:text-mansagold">
+                <ArrowLeft className="mr-1 h-4 w-4" />
+                Back to Marketplace
               </Link>
-              <h1 className="font-semibold text-white">B2B Dashboard</h1>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-mansagold/90">
+                Supplier Network
+              </p>
+              <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">B2B Dashboard</h1>
+              <p className="mt-2 max-w-xl text-white/70">
+                Manage what your business supplies, what it needs, and the partnerships you build.
+              </p>
             </div>
+            <Badge className="w-fit border border-mansagold/30 bg-mansagold/10 text-mansagold hover:bg-mansagold/10">
+              <Handshake className="mr-1 h-3 w-3" />
+              {connections.length} active {connections.length === 1 ? 'connection' : 'connections'}
+            </Badge>
           </div>
-        </header>
 
-        <main className="relative z-10 container mx-auto max-w-6xl py-6">
-          {/* Impact Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-slate-400 mb-1">
-                <Package className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">Capabilities</span>
+          {/* KPI row */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { label: 'Capabilities', value: `${capabilities.length}`, icon: Package, hint: 'What you supply' },
+              { label: 'Active Needs', value: `${needs.filter(n => n.status === 'open').length}`, icon: Search, hint: 'Currently sourcing' },
+              { label: 'Connections', value: `${connections.length}`, icon: Handshake, hint: 'Partner businesses' },
+              { label: 'B2B Value', value: `$${impactMetrics?.total_transaction_value?.toLocaleString() || 0}`, icon: TrendingUp, hint: 'Total transacted' },
+            ].map(({ label, value, icon: Icon, hint }) => (
+              <div key={label} className="rounded-xl border border-blue-300/20 bg-mansablue/40 p-6 shadow-xl backdrop-blur">
+                <div className="flex items-start justify-between">
+                  <p className="text-sm font-medium text-white/70">{label}</p>
+                  <Icon className="h-5 w-5 text-mansagold" />
+                </div>
+                <p className="mt-3 text-3xl font-bold text-white">{value}</p>
+                <p className="mt-1 text-xs text-white/50">{hint}</p>
               </div>
-              <p className="text-2xl font-bold text-white">{capabilities.length}</p>
-            </div>
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-slate-400 mb-1">
-                <Search className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">Active Needs</span>
-              </div>
-              <p className="text-2xl font-bold text-white">{needs.filter(n => n.status === 'open').length}</p>
-            </div>
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-slate-400 mb-1">
-                <Handshake className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">Connections</span>
-              </div>
-              <p className="text-2xl font-bold text-white">{connections.length}</p>
-            </div>
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-slate-400 mb-1">
-                <TrendingUp className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">B2B Value</span>
-              </div>
-              <p className="text-2xl font-bold text-white">${impactMetrics?.total_transaction_value?.toLocaleString() || 0}</p>
-            </div>
+            ))}
           </div>
 
           <Tabs defaultValue="capabilities" className="space-y-6">
-            <TabsList className="bg-white/5 border border-white/10">
-              <TabsTrigger value="capabilities" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-400">My Capabilities</TabsTrigger>
-              <TabsTrigger value="needs" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-400">My Needs</TabsTrigger>
-              <TabsTrigger value="connections" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-400">Connections</TabsTrigger>
+            <TabsList className="border border-white/10 bg-mansablue/40">
+              <TabsTrigger value="capabilities" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">My Capabilities</TabsTrigger>
+              <TabsTrigger value="needs" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">My Needs</TabsTrigger>
+              <TabsTrigger value="connections" className="text-white/70 data-[state=active]:bg-mansagold data-[state=active]:text-black">Connections</TabsTrigger>
             </TabsList>
 
             {/* Capabilities Tab */}
@@ -213,14 +205,14 @@ export default function B2BDashboardPage() {
                   <h2 className="text-lg font-semibold text-white">What You Can Supply</h2>
                   <p className="text-sm text-slate-400">List your products and services for other businesses</p>
                 </div>
-                <Button onClick={() => setShowCapabilityForm(true)} className="bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600">
+                <Button onClick={() => setShowCapabilityForm(true)} className="bg-mansagold text-black font-semibold hover:bg-mansagold/90">
                   <Plus className="h-4 w-4 mr-2" />
                   Add Capability
                 </Button>
               </div>
 
               {showCapabilityForm && (
-                <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl shadow-xl overflow-hidden">
+                <div className="backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl shadow-xl overflow-hidden">
                   <div className="p-6 border-b border-white/10">
                     <h3 className="text-lg font-semibold text-white">Add New Capability</h3>
                   </div>
@@ -296,7 +288,7 @@ export default function B2BDashboardPage() {
                     </div>
                     <div className="flex gap-2 justify-end">
                       <Button variant="outline" onClick={() => setShowCapabilityForm(false)} className="border-white/20 text-slate-300 hover:bg-white/10">Cancel</Button>
-                      <Button onClick={handleAddCapability} disabled={isAddingCapability || !capabilityForm.title || !capabilityForm.category} className="bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600">
+                      <Button onClick={handleAddCapability} disabled={isAddingCapability || !capabilityForm.title || !capabilityForm.category} className="bg-mansagold text-black font-semibold hover:bg-mansagold/90">
                         {isAddingCapability ? 'Adding...' : 'Add Capability'}
                       </Button>
                     </div>
@@ -305,7 +297,7 @@ export default function B2BDashboardPage() {
               )}
 
               {capabilities.length === 0 ? (
-                <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl shadow-xl">
+                <div className="backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl shadow-xl">
                   <div className="py-12 text-center">
                     <Package className="h-12 w-12 mx-auto mb-4 text-slate-500" />
                     <p className="text-slate-400">No capabilities listed yet.</p>
@@ -315,11 +307,11 @@ export default function B2BDashboardPage() {
               ) : (
                 <div className="grid md:grid-cols-2 gap-4">
                   {capabilities.map((cap) => (
-                    <div key={cap.id} className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
+                    <div key={cap.id} className="backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl p-4 shadow-xl">
                       <div className="flex items-start justify-between">
                         <div>
                           <h3 className="font-semibold text-white">{cap.title}</h3>
-                          <Badge variant="secondary" className="mt-1 bg-amber-500/20 text-amber-400 border-amber-500/30">{cap.category}</Badge>
+                          <Badge variant="secondary" className="mt-1 bg-mansagold/15 text-mansagold border-mansagold/30">{cap.category}</Badge>
                         </div>
                         <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">{cap.capability_type}</Badge>
                       </div>
@@ -343,14 +335,14 @@ export default function B2BDashboardPage() {
                   <h2 className="text-lg font-semibold text-white">What You Need</h2>
                   <p className="text-sm text-slate-400">Post what you're looking for from other businesses</p>
                 </div>
-                <Button onClick={() => setShowNeedForm(true)} className="bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600">
+                <Button onClick={() => setShowNeedForm(true)} className="bg-mansagold text-black font-semibold hover:bg-mansagold/90">
                   <Plus className="h-4 w-4 mr-2" />
                   Post Need
                 </Button>
               </div>
 
               {showNeedForm && (
-                <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl shadow-xl overflow-hidden">
+                <div className="backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl shadow-xl overflow-hidden">
                   <div className="p-6 border-b border-white/10">
                     <h3 className="text-lg font-semibold text-white">Post New Need</h3>
                   </div>
@@ -436,7 +428,7 @@ export default function B2BDashboardPage() {
                     </div>
                     <div className="flex gap-2 justify-end">
                       <Button variant="outline" onClick={() => setShowNeedForm(false)} className="border-white/20 text-slate-300 hover:bg-white/10">Cancel</Button>
-                      <Button onClick={handleAddNeed} disabled={isAddingNeed || !needForm.title || !needForm.category} className="bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600">
+                      <Button onClick={handleAddNeed} disabled={isAddingNeed || !needForm.title || !needForm.category} className="bg-mansagold text-black font-semibold hover:bg-mansagold/90">
                         {isAddingNeed ? 'Posting...' : 'Post Need'}
                       </Button>
                     </div>
@@ -445,7 +437,7 @@ export default function B2BDashboardPage() {
               )}
 
               {needs.length === 0 ? (
-                <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl shadow-xl">
+                <div className="backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl shadow-xl">
                   <div className="py-12 text-center">
                     <Search className="h-12 w-12 mx-auto mb-4 text-slate-500" />
                     <p className="text-slate-400">No needs posted yet.</p>
@@ -455,11 +447,11 @@ export default function B2BDashboardPage() {
               ) : (
                 <div className="grid md:grid-cols-2 gap-4">
                   {needs.map((need) => (
-                    <div key={need.id} className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
+                    <div key={need.id} className="backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl p-4 shadow-xl">
                       <div className="flex items-start justify-between">
                         <div>
                           <h3 className="font-semibold text-white">{need.title}</h3>
-                          <Badge variant="secondary" className="mt-1 bg-amber-500/20 text-amber-400 border-amber-500/30">{need.category}</Badge>
+                          <Badge variant="secondary" className="mt-1 bg-mansagold/15 text-mansagold border-mansagold/30">{need.category}</Badge>
                         </div>
                         <Badge className={need.status === 'open' ? 'bg-green-500/20 text-green-400 border-green-500/30' : 'bg-slate-500/20 text-slate-400 border-slate-500/30'}>{need.status}</Badge>
                       </div>
@@ -486,20 +478,20 @@ export default function B2BDashboardPage() {
               </div>
 
               {connections.length === 0 ? (
-                <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl shadow-xl">
+                <div className="backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl shadow-xl">
                   <div className="py-12 text-center">
                     <Handshake className="h-12 w-12 mx-auto mb-4 text-slate-500" />
                     <p className="text-slate-400">No connections yet.</p>
                     <p className="text-sm text-slate-500">Browse the marketplace to find suppliers and partners.</p>
                     <Link to="/b2b-marketplace">
-                      <Button className="mt-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600">Browse Marketplace</Button>
+                      <Button className="mt-4 bg-mansagold text-black font-semibold hover:bg-mansagold/90">Browse Marketplace</Button>
                     </Link>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {connections.map((conn) => (
-                    <div key={conn.id} className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
+                    <div key={conn.id} className="backdrop-blur bg-mansablue/40 border border-blue-300/20 rounded-xl p-4 shadow-xl">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium text-white">Connection #{conn.id.slice(0, 8)}</p>
@@ -508,7 +500,7 @@ export default function B2BDashboardPage() {
                           </p>
                         </div>
                         {conn.estimated_value && (
-                          <p className="text-lg font-semibold text-amber-400">${conn.estimated_value.toLocaleString()}</p>
+                          <p className="text-lg font-semibold text-mansagold">${conn.estimated_value.toLocaleString()}</p>
                         )}
                       </div>
                       {conn.notes && (
