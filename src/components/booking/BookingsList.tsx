@@ -40,6 +40,7 @@ export function BookingsList({ businessId, customerId, onBookingsLoaded }: Booki
         ? await bookingService.getBusinessBookings(businessId)
         : await bookingService.getCustomerBookings();
       setBookings(data);
+      onBookingsLoaded?.(data);
     } catch (error) {
       toast({
         title: 'Error',
