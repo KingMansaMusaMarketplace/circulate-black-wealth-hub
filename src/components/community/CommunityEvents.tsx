@@ -399,12 +399,14 @@ const CommunityEvents: React.FC = () => {
         <Button
           variant={activeTab === 'upcoming' ? 'default' : 'outline'}
           onClick={() => setActiveTab('upcoming')}
+          className={activeTab === 'upcoming' ? 'font-semibold' : 'bg-slate-800/60 text-white border-white/30 font-semibold hover:text-white'}
         >
           Upcoming Events ({upcomingEvents.length})
         </Button>
         <Button
           variant={activeTab === 'past' ? 'default' : 'outline'}
           onClick={() => setActiveTab('past')}
+          className={activeTab === 'past' ? 'font-semibold' : 'bg-slate-800/60 text-white border-white/30 font-semibold hover:text-white'}
         >
           Past Events ({pastEvents.length})
         </Button>
