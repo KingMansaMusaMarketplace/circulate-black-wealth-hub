@@ -430,6 +430,16 @@ const RewardsPage = () => {
   );
 };
 
+const EmptyTabMessage: React.FC<{ title: string; message: string }> = ({ title, message }) => (
+  <div className="text-center py-16">
+    <div className="inline-block p-6 bg-gradient-to-br from-primary/10 to-mansagold/10 rounded-full mb-4">
+      <Gift className="h-16 w-16 text-primary" />
+    </div>
+    <h3 className="text-2xl font-bold mb-2 text-foreground">{title}</h3>
+    <p className="text-foreground/70 text-lg max-w-xl mx-auto">{message}</p>
+  </div>
+);
+
 interface RewardCardProps {
   reward: Reward;
   userPoints: number;
