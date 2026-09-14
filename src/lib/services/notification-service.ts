@@ -15,7 +15,7 @@ export const notificationService = {
   // Subscribe to real-time subscription notifications
   subscribeToNotifications(userId: string, onNotification: (notification: NotificationData) => void) {
     const channel = supabase
-      .channel('subscription-notifications')
+      .channel(`subscription-notifications-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {

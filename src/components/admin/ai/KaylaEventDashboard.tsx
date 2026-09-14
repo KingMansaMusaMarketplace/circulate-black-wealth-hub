@@ -86,7 +86,7 @@ const KaylaEventDashboard: React.FC = () => {
   // Real-time subscription
   useEffect(() => {
     const channel = supabase
-      .channel('kayla-events-live')
+      .channel(`kayla-events-live-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'kayla_event_queue' },

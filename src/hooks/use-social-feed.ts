@@ -87,7 +87,7 @@ export const useSocialFeed = () => {
     if (!user) return;
 
     const channel = supabase
-      .channel('social_feed_changes')
+      .channel(`social_feed_changes-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {

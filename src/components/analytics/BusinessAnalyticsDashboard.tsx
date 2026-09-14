@@ -228,7 +228,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
     console.log('Setting up realtime analytics for business:', businessId);
 
     const channel = supabase
-      .channel('business-analytics')
+      .channel(`business-analytics-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {

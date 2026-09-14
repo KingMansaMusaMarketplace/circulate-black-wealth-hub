@@ -25,7 +25,7 @@ const LiveDataCounters: React.FC = () => {
     
     // Set up real-time subscriptions
     const usersChannel = supabase
-      .channel('live-users')
+      .channel(`live-users-${Math.random().toString(36).slice(2)}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => {
         fetchData();
         animateCounter(0);
@@ -33,7 +33,7 @@ const LiveDataCounters: React.FC = () => {
       .subscribe();
 
     const businessesChannel = supabase
-      .channel('live-businesses')
+      .channel(`live-businesses-${Math.random().toString(36).slice(2)}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'businesses' }, () => {
         fetchData();
         animateCounter(1);

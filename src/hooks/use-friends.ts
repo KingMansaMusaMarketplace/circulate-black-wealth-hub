@@ -114,7 +114,7 @@ export const useFriends = () => {
     if (!user) return;
 
     const channel = supabase
-      .channel('friendships_changes')
+      .channel(`friendships_changes-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {

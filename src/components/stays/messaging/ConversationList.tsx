@@ -63,7 +63,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
     if (!user) return;
 
     const channel = supabase
-      .channel('conversations')
+      .channel(`conversations-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {
