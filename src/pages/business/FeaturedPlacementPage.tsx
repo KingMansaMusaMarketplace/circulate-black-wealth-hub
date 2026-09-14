@@ -9,7 +9,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Star, Sparkles, Crown, Trophy, Loader2, Settings } from 'lucide-react';
+import { Star, Sparkles, Crown, Trophy, Loader2, Settings, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 
 const TIERS = [
@@ -21,6 +22,7 @@ const TIERS = [
 
 export default function FeaturedPlacementPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { profile, loading: profileLoading } = useBusinessProfile();
   const [tier, setTier] = useState<string>('silver');
   const [category, setCategory] = useState('');
@@ -94,6 +96,15 @@ export default function FeaturedPlacementPage() {
         <title>Featured Placement — Promote Your Business | 1325.AI</title>
         <meta name="description" content="Pin your business at the top of category and city searches. Featured placements from $29/month." />
       </Helmet>
+
+      <Button
+        variant="outline"
+        onClick={() => navigate(-1)}
+        className="mb-6 bg-slate-900/60 border-white/20 text-white font-medium hover:bg-white/10 hover:text-white"
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
 
       <h1 className="text-4xl font-bold mb-2 text-mansagold">Featured Placement</h1>
       <p className="text-blue-100 mb-8">
