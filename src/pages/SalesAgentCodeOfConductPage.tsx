@@ -1,6 +1,5 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -19,7 +18,7 @@ import {
 
 const SalesAgentCodeOfConductPage: React.FC = () => {
   return (
-    <Layout>
+    <>
       <Helmet>
         <title>Sales Agent Code of Conduct | 1325.AI</title>
         <meta name="description" content="The official Code of Conduct for 1325.AI Sales Agents - Professional standards, ethical guidelines, and operational protocols." />
@@ -315,7 +314,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
           <p>Contact <a href="mailto:Partner@1325.AI" className="text-primary hover:underline">Partner@1325.AI</a></p>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 
