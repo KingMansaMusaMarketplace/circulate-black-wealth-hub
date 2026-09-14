@@ -192,7 +192,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
         if (!customerStats.has(customerId)) {
           customerStats.set(customerId, {
             customer_id: customerId,
-            customer_name: (scan.profiles as any)?.full_name || 'Anonymous Customer',
+            customer_name: nameFor(customerId),
             total_scans: 0,
             total_points: 0
           });
