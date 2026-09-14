@@ -76,16 +76,9 @@ serve(async (req) => {
       .eq("id", ticket.user_id)
       .maybeSingle();
 
-    // Recipients: configured admin emails, else fall back to support inbox
-    let recipients: string[] = ["support@1325.ai"];
-    const { data: prefs } = await supabase
-      .from("admin_notification_preferences")
-      .select("notification_emails")
-      .limit(1)
-      .maybeSingle();
-    if (prefs?.notification_emails?.length) {
-      recipients = prefs.notification_emails;
-    }
+    // All new support tickets go to the partner inbox
+    const recipients: string[] = ["Partner@1325.AI"];
+
 
     const priority = String(ticket.priority ?? "normal");
     const subject = `[${priority.toUpperCase()}] New support ticket ${ticket.ticket_number}: ${ticket.subject}`;
