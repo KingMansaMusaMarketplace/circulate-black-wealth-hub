@@ -48,19 +48,20 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
         {/* Countdown Display */}
         <div className="flex items-center justify-center gap-4">
           <div className="text-center">
-            <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-400' : 'text-white'}`}>
+            <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-300' : 'text-white'}`}>
               {daysRemaining}
             </p>
-            <p className="text-slate-500 text-sm">Days</p>
+            <p className="text-white/80 text-sm font-medium">Days</p>
           </div>
-          <div className="text-2xl text-slate-600">:</div>
+          <div className="text-2xl text-white/60">:</div>
           <div className="text-center">
-            <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-400' : 'text-white'}`}>
+            <p className={`text-4xl font-bold ${isUrgent ? 'text-rose-300' : 'text-white'}`}>
               {hoursRemaining}
             </p>
-            <p className="text-slate-500 text-sm">Hours</p>
+            <p className="text-white/80 text-sm font-medium">Hours</p>
           </div>
         </div>
+
 
         {/* Progress Bar */}
         <div className="space-y-2">
