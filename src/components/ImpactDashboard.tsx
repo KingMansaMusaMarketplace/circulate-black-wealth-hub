@@ -55,7 +55,9 @@ export const ImpactDashboard = () => {
     if (!user) return;
     
     try {
-      setIsLoading(true);
+      // Keep the current report visible during refreshes. Replacing the whole
+      // dashboard with a loading card made tab changes visibly flash.
+      if (!report) setIsLoading(true);
 
       const { data, error } = await supabase.functions.invoke('generate-impact-report', {
         body: { userId: user.id, period }
@@ -88,9 +90,9 @@ export const ImpactDashboard = () => {
   if (!user) {
     return (
       <Card className="w-full relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-white/10 overflow-hidden group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-mansablue via-mansagold to-mansablue rounded-lg blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 animate-pulse" />
+        <div className="absolute -inset-1 bg-gradient-to-r from-mansablue via-mansagold to-mansablue rounded-lg blur-xl opacity-75 group-hover:opacity-100 transition duration-1000" />
         <CardHeader className="text-center py-12 relative z-10">
-          <div className="mx-auto h-16 w-16 rounded-full bg-gradient-to-br from-mansagold to-amber-600 flex items-center justify-center mb-6 shadow-lg shadow-mansagold/50 animate-pulse">
+          <div className="mx-auto h-16 w-16 rounded-full bg-gradient-to-br from-mansagold to-amber-600 flex items-center justify-center mb-6 shadow-lg shadow-mansagold/50">
             <Heart className="h-8 w-8 text-white fill-white" />
           </div>
           <CardTitle className="text-3xl font-bold text-transparent bg-gradient-to-r from-blue-300 via-white to-amber-300 bg-clip-text mb-3">Track Your Impact</CardTitle>
@@ -110,10 +112,10 @@ export const ImpactDashboard = () => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading && !report) {
     return (
       <div className="w-full space-y-6">
-        <Card className="animate-pulse relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-white/10">
+        <Card className="relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-white/10">
           <CardHeader>
             <div className="h-8 bg-white/10 rounded w-1/3" />
             <div className="h-5 bg-white/10 rounded w-2/3 mt-3" />
@@ -156,7 +158,7 @@ export const ImpactDashboard = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
         <div className="flex items-center gap-4">
-          <div className="h-16 w-16 rounded-full bg-gradient-to-br from-mansagold to-amber-600 flex items-center justify-center shadow-lg shadow-mansagold/50 animate-pulse">
+          <div className="h-16 w-16 rounded-full bg-gradient-to-br from-mansagold to-amber-600 flex items-center justify-center shadow-lg shadow-mansagold/50">
             <Heart className="h-8 w-8 text-white fill-white" />
           </div>
           <div>
@@ -191,7 +193,7 @@ export const ImpactDashboard = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-mansagold/5 to-amber-600/5" />
             <CardHeader className="relative z-10">
               <div className="flex items-center gap-3">
-                <Sparkles className="h-6 w-6 text-mansagold animate-pulse" />
+                <Sparkles className="h-6 w-6 text-mansagold" />
                 <CardTitle className="text-2xl text-transparent bg-gradient-to-r from-amber-300 to-mansagold bg-clip-text">Your Impact Story</CardTitle>
               </div>
             </CardHeader>
