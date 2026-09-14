@@ -301,7 +301,10 @@ const DirectoryPage: React.FC = () => {
       </Helmet>
       
       <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
-      <DirectoryStructuredData totalBusinesses={totalBusinesses || 12000} />
+      <DirectoryStructuredData
+        totalBusinesses={totalBusinesses || 12000}
+        listings={regularBusinesses}
+      />
       {isHome && <HomeSignupStrip />}
       
       <div className="min-h-screen relative overflow-x-hidden">
