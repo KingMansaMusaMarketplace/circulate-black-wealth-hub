@@ -89,6 +89,18 @@ const HowItWorksPage = () => {
         </div>
 
         <div className="container mx-auto px-4 py-12 space-y-16 relative z-10">
+          {/* Back Button */}
+          <div className="!mt-0 -mb-8">
+            <Button
+              variant="outline"
+              onClick={() => navigate(-1)}
+              className="bg-slate-900/60 border-white/20 text-white font-medium hover:bg-white/10 hover:text-white"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+          </div>
+
           {/* Hero Section */}
           <div className="text-center space-y-6 max-w-3xl mx-auto">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-mansagold/20 to-amber-500/20 backdrop-blur-xl border border-mansagold/30 mb-4 animate-float">
