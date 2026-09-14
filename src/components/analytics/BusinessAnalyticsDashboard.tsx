@@ -120,24 +120,39 @@ const BusinessAnalyticsDashboard: React.FC = () => {
     setIsLoading(true);
     try {
       // Fetch basic scan metrics
-      const { data: scans } = await supabase
+      const { data: scans, error: scansError } = await supabase
         .from('qr_scans')
-        .select(`
-          id,
-          customer_id,
-          points_awarded,
-          scan_date,
-          profiles (
-            full_name
-          )
-        `)
+        .select('id, customer_id, points_awarded, scan_date')
         .eq('business_id', businessId)
         .order('scan_date', { ascending: false });
+
+      if (scansError) {
+        console.error('Error fetching QR scans:', scansError);
+        setIsLoading(false);
+        return;
+      }
 
       if (!scans) {
         setIsLoading(false);
         return;
       }
+
+      // Look up customer names separately (no direct FK between qr_scans and profiles)
+      const customerIds = Array.from(
+        new Set(scans.map(s => s.customer_id).filter(Boolean))
+      ) as string[];
+      const nameById = new Map<string, string>();
+      if (customerIds.length > 0) {
+        const { data: profileRows } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .in('id', customerIds);
+        (profileRows || []).forEach((p: any) => {
+          if (p?.full_name) nameById.set(p.id, p.full_name);
+        });
+      }
+      const nameFor = (id: string | null) =>
+        (id && nameById.get(id)) || 'Anonymous Customer';
 
       // Calculate analytics
       const totalScans = scans.length;
@@ -151,7 +166,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
         customer_id: scan.customer_id,
         points_awarded: scan.points_awarded || 0,
         scan_date: scan.scan_date,
-        customer_name: (scan.profiles as any)?.full_name || 'Anonymous Customer'
+        customer_name: nameFor(scan.customer_id)
       }));
 
       // Scans by day (last 7 days)
@@ -177,7 +192,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
         if (!customerStats.has(customerId)) {
           customerStats.set(customerId, {
             customer_id: customerId,
-            customer_name: (scan.profiles as any)?.full_name || 'Anonymous Customer',
+            customer_name: nameFor(customerId),
             total_scans: 0,
             total_points: 0
           });
