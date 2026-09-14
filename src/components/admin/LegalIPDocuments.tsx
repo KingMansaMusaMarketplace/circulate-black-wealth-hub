@@ -71,7 +71,7 @@ const edgeFunctionsWithHeaders = [
 
 const filingTimeline = [
   { date: 'January 27, 2026', action: 'Provisional Application Filed (63/969,202)', status: 'completed' },
-  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-27 Partner System)', status: 'completed' },
+  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-26 Partner System)', status: 'completed' },
   { date: 'January 27, 2027', action: 'Non-Provisional OR PCT Filing Due', status: 'upcoming' },
   { date: 'July 27, 2027', action: 'Publication (if PCT)', status: 'upcoming' },
   { date: 'July 27, 2028', action: 'National Phase Entry', status: 'upcoming' },
