@@ -1353,6 +1353,11 @@ function App() {
                             <LazyBusinessSignupPage />
                           </IOSProtectedRoute>
                         } />
+                        <Route path="/business/profile" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessProfilePage />
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/business/dashboard" element={<Navigate to="/business-dashboard" replace />} />
                         <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                         <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
