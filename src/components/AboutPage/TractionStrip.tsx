@@ -7,7 +7,7 @@ const TractionStrip = () => {
   const stats = [
     { value: rounded, label: 'Verified Businesses' },
     { value: '42', label: 'Agentic AI Employees' },
-    { value: '45', label: 'Patent Claims Pending' },
+    { value: '46', label: 'Patent Claims Pending' },
     { value: '$12T', label: 'Global Black Economy' },
   ];
 
@@ -26,7 +26,7 @@ const TractionStrip = () => {
         ))}
       </div>
       <p className="max-w-6xl mx-auto mt-8 text-xs text-zinc-500">
-        U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.
+        U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.
       </p>
     </section>
   );

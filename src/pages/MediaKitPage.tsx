@@ -213,7 +213,7 @@ const MediaKitPage = () => {
                   <div>
                     <p className="text-white font-semibold">Protected Intellectual Property</p>
                     <p className="text-blue-100/80 text-sm mt-1">
-                      U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending, covering our agentic
+                      U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending, covering our agentic
                       commerce infrastructure and community wealth-circulation technology.
                     </p>
                   </div>

@@ -98,7 +98,7 @@ export const getMediaKitContent = (): string => {
       <div style="margin-bottom: 26px; border: 2px solid ${GOLD}; border-radius: 8px; padding: 16px;">
         <h3 style="color: ${GOLD}; font-size: 17px; margin: 0 0 8px; font-weight: bold;">Protected Intellectual Property</h3>
         <p style="font-size: 14px; line-height: 1.6; color: #18181b; margin: 0;">
-          U.S. Provisional Patent Application No. 63/969,202 &mdash; 45 claims pending, covering our agentic commerce
+          U.S. Provisional Patent Application No. 63/969,202 &mdash; 46 claims pending, covering our agentic commerce
           infrastructure and community wealth-circulation technology.
         </p>
       </div>
@@ -133,7 +133,7 @@ export const getMediaKitContent = (): string => {
           and a live Model Context Protocol server, 1325.AI makes community businesses discoverable inside the AI
           assistants consumers use every day. Founded in 2024 by Thomas D. Bowling and headquartered in Chicago,
           Illinois, the company&rsquo;s technology is covered by U.S. Provisional Patent Application No. 63/969,202
-          with 45 claims pending.&rdquo;
+          with 46 claims pending.&rdquo;
         </p>
       </div>
 

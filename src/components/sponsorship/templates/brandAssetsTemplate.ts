@@ -31,7 +31,7 @@ export const getBrandAssetsContent = (): string => {
         ${rule('Primary name', 'Always write the product name as <strong>1325.AI</strong> &mdash; digits, a period, then &ldquo;AI&rdquo; in capitals. Never &ldquo;1325 AI&rdquo;, &ldquo;1325.ai&rdquo; in body copy, or &ldquo;Thirteen Twenty-Five&rdquo;.')}
         ${rule('Parent brand', '<strong>Mansa Musa Marketplace</strong> is the parent brand. Reference it only where context calls for it; never use it alone in place of 1325.AI.')}
         ${rule('AI workforce', 'Always write <strong>42 Agentic AI Employees</strong> &mdash; capital A in Agentic. Never shorten to &ldquo;42 AI agents&rdquo; or drop the word Agentic. Kayla is the AI Chief of Staff who leads them.')}
-        ${rule('Patent language', 'Use the full form: <strong>U.S. Provisional Patent Application No. 63/969,202 &mdash; 45 claims pending</strong>. Short form only where space forces it: &ldquo;USPTO Provisional 63/969,202&rdquo;.')}
+        ${rule('Patent language', 'Use the full form: <strong>U.S. Provisional Patent Application No. 63/969,202 &mdash; 46 claims pending</strong>. Short form only where space forces it: &ldquo;USPTO Provisional 63/969,202&rdquo;.')}
       </div>
 
       <div style="margin-bottom: 26px;">
