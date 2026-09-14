@@ -174,9 +174,10 @@ const LeaderboardPage: React.FC = () => {
               <div className="p-2 bg-gradient-to-br from-mansablue to-primary rounded-lg">
                 <Trophy className="h-6 w-6 text-white" />
               </div>
-              <span className="bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+              <span className="text-mansagold">
                 Top Performers - {getTimePeriodLabel()}
               </span>
+
             </CardTitle>
             <CardDescription className="text-base text-white/70">
               🎯 Ranked by total referrals and active subscriptions
