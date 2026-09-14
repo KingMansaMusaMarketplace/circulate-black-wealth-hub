@@ -13,14 +13,14 @@ const BenefitsTabSwitcher: React.FC<BenefitsTabSwitcherProps> = ({
   setActiveTab 
 }) => {
   return (
-    <div className="inline-flex rounded-lg p-1 bg-gray-200">
+    <div className="inline-flex rounded-lg p-1 bg-slate-900/70 border border-white/10">
       <motion.button
         onClick={() => setActiveTab('customers')}
         className={cn(
           "px-4 py-2 text-sm font-medium rounded-md transition-all",
           activeTab === 'customers' 
-            ? "bg-white text-mansablue shadow-sm" 
-            : "text-gray-600 hover:text-mansablue"
+            ? "bg-mansagold text-mansablue-dark shadow-sm" 
+            : "text-white/70 hover:text-white"
         )}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -32,8 +32,8 @@ const BenefitsTabSwitcher: React.FC<BenefitsTabSwitcherProps> = ({
         className={cn(
           "px-4 py-2 text-sm font-medium rounded-md transition-all",
           activeTab === 'businesses' 
-            ? "bg-white text-mansablue shadow-sm" 
-            : "text-gray-600 hover:text-mansablue"
+            ? "bg-mansagold text-mansablue-dark shadow-sm" 
+            : "text-white/70 hover:text-white"
         )}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
