@@ -36,7 +36,7 @@ const TimelineSection = () => {
         <div className="text-center mb-16">
           <h2 className="heading-md text-mansablue mb-4">Our Journey</h2>
           <div className="w-24 h-1 bg-mansagold mx-auto mb-6"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-zinc-400 max-w-2xl mx-auto">
             Building economic infrastructure takes time. Here's how our vision has evolved.
           </p>
         </div>
@@ -61,10 +61,10 @@ const TimelineSection = () => {
                 </div>
                 
                 <div className={`w-1/2 ${index % 2 === 0 ? 'pr-16 text-right' : 'pl-16'}`}>
-                  <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100 card-hover">
+                  <div className="bg-slate-900/70 p-6 rounded-lg shadow-md border border-white/10 card-hover">
                     <div className="text-mansagold font-bold text-2xl mb-2">{event.year}</div>
                     <h3 className="text-mansablue-dark text-lg font-bold mb-2">{event.title}</h3>
-                    <p className="text-gray-600">{event.description}</p>
+                    <p className="text-zinc-400">{event.description}</p>
                   </div>
                 </div>
               </div>
