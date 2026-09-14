@@ -55,7 +55,9 @@ export const ImpactDashboard = () => {
     if (!user) return;
     
     try {
-      setIsLoading(true);
+      // Keep the current report visible during refreshes. Replacing the whole
+      // dashboard with a loading card made tab changes visibly flash.
+      if (!report) setIsLoading(true);
 
       const { data, error } = await supabase.functions.invoke('generate-impact-report', {
         body: { userId: user.id, period }
@@ -110,7 +112,7 @@ export const ImpactDashboard = () => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading && !report) {
     return (
       <div className="w-full space-y-6">
         <Card className="animate-pulse relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-white/10">
