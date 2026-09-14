@@ -419,10 +419,11 @@ const RewardsPage = () => {
               <div className="inline-block p-6 bg-gradient-to-br from-primary/10 to-mansagold/10 rounded-full mb-4">
                 <Gift className="h-20 w-20 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold mb-2 text-mansagold">
                 No Rewards Available Yet
               </h3>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-white/90 text-lg">
+
                 Check back later for exciting rewards from our partner businesses! 🎁
               </p>
             </div>
