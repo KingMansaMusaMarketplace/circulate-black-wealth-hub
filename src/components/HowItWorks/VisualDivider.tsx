@@ -28,7 +28,7 @@ const VisualDivider: React.FC = () => {
   }, []);
   
   return (
-    <div className="visual-divider bg-gradient-to-br from-purple-100 via-blue-100 to-amber-100 relative overflow-hidden py-16">
+    <div className="visual-divider bg-gradient-to-br from-[#050a18] via-[#0a1428] to-[#030712] relative overflow-hidden py-16">
       <div className="container-custom h-full flex items-center justify-center">
         <div className="max-w-4xl w-full flex justify-between items-center relative">
           {/* Left element */}
@@ -38,7 +38,7 @@ const VisualDivider: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="flex-1"
           >
-            <div className="text-2xl font-extrabold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent text-right pr-6">Community</div>
+            <div className="text-2xl font-extrabold bg-gradient-to-r from-purple-300 to-sky-300 bg-clip-text text-transparent text-right pr-6">Community</div>
             <div className="h-1 w-full bg-gradient-to-r from-transparent via-purple-500 to-blue-500 rounded-full shadow-md"></div>
           </motion.div>
           
@@ -93,7 +93,7 @@ const VisualDivider: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="flex-1"
           >
-            <div className="text-2xl font-extrabold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent pl-6">Circulation</div>
+            <div className="text-2xl font-extrabold bg-gradient-to-r from-mansagold to-orange-300 bg-clip-text text-transparent pl-6">Circulation</div>
             <div className="h-1 w-full bg-gradient-to-r from-amber-500 via-orange-500 to-transparent rounded-full shadow-md"></div>
           </motion.div>
         </div>
