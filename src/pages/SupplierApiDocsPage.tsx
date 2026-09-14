@@ -321,7 +321,7 @@ Authorization: Bearer YOUR_API_KEY`}</CodeBlock>
           </p>
           <p className="text-white/40 text-xs mt-4">
             Protected under U.S. Provisional Patent Application No. 63/969,202 —
-            45 claims pending.
+            46 claims pending.
           </p>
         </section>
       </main>

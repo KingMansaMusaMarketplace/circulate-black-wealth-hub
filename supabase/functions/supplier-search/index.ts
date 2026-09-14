@@ -5,7 +5,7 @@
  * Salesforce AppExchange app, bank/city portals) search the 1325.AI
  * verified directory. Authenticated with the existing developer API keys.
  *
- * Protected under U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.
+ * Protected under U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
@@ -226,7 +226,7 @@ serve(async (req) => {
       filters: params,
       results,
       source: "1325.AI verified Black-owned business directory",
-      notice: "Protected under U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.",
+      notice: "Protected under U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.",
     });
   } catch (error) {
     console.error("supplier-search error:", error);

@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 
 /**
  * Reusable partnership outreach letter generator.
- * Locked language: "U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending".
+ * Locked language: "U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending".
  */
 
 const DEFAULTS = {
@@ -55,7 +55,7 @@ Please don't read this as anything other than an invitation. We've followed the 
 
 We believe our two organizations share the same values, and we'd like to explore a collaboration.
 
-1325.AI has built the rails for what comes next: an agentic commerce protocol protected by U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending. In plain terms, we've built the infrastructure layer that lets AI agents discover, verify, and transact with Black-owned businesses at global scale — and a team of 42 Agentic AI Employees that handles the back office for those businesses.
+1325.AI has built the rails for what comes next: an agentic commerce protocol protected by U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending. In plain terms, we've built the infrastructure layer that lets AI agents discover, verify, and transact with Black-owned businesses at global scale — and a team of 42 Agentic AI Employees that handles the back office for those businesses.
 
 What that means for ${org}: your members get an AI back office covering roughly four roles per business — bookkeeping, scheduling, marketing, customer support — for a fraction of what those hires cost. Most partners see savings north of $18,000 a month per business.
 

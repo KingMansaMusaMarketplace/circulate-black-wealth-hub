@@ -58,7 +58,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
                 </p>
                 <p className="text-muted-foreground mt-3">
                   Our platform is powered by <strong>42 Agentic AI Employees</strong> and protected by{' '}
-                  <strong>U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending</strong>.
+                  <strong>U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending</strong>.
                   Everything you learn about how that system works is confidential.
                 </p>
               </div>

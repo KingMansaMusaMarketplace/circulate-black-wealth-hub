@@ -26,7 +26,7 @@ const TractionStrip = () => {
         ))}
       </div>
       <p className="max-w-6xl mx-auto mt-8 text-xs text-zinc-500">
-        U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.
+        U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.
       </p>
     </section>
   );

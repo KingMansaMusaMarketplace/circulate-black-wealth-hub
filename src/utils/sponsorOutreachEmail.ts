@@ -7,7 +7,7 @@ const SIGNATURE = [
 ].join('\n');
 
 const MCP_PARAGRAPH =
-  'We also operate a live MCP server — the Model Context Protocol, the standard AI assistants like ChatGPT and Claude use to pull real data. That means our verified businesses, and the sponsors attached to them, are already discoverable inside AI assistants when someone asks for a Black-owned business near them. The system is covered under U.S. Provisional Patent Application No. 63/969,202 — 45 claims pending.';
+  'We also operate a live MCP server — the Model Context Protocol, the standard AI assistants like ChatGPT and Claude use to pull real data. That means our verified businesses, and the sponsors attached to them, are already discoverable inside AI assistants when someone asks for a Black-owned business near them. The system is covered under U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.';
 
 const PLATFORM_PARAGRAPH =
   '1325.AI is the largest verified directory of Black-owned businesses in the United States — roughly 47,000 live listings across all 50 states, each one ownership-verified rather than self-reported. Owners use the platform for booking, loyalty, payments, and marketing, supported by 42 Agentic AI Employees that handle the back office most small businesses cannot afford to staff.';
