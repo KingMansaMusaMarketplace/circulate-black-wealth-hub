@@ -88,7 +88,8 @@ export default function FeaturedPlacementPage() {
   };
 
   return (
-    <div className="container max-w-5xl mx-auto py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-b from-mansablue via-mansablue/90 to-black text-zinc-100 selection:bg-mansagold/30">
+      <div className="container max-w-5xl mx-auto py-12 px-4">
       <Helmet>
         <title>Featured Placement — Promote Your Business | 1325.AI</title>
         <meta name="description" content="Pin your business at the top of category and city searches. Featured placements from $20/month." />
@@ -237,6 +238,7 @@ export default function FeaturedPlacementPage() {
           </div>
         )}
       </IOSPaymentBlocker>
+      </div>
     </div>
   );
 }
