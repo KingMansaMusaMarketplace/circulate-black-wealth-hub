@@ -51,13 +51,15 @@ import {
 } from '@/components/ui/breadcrumb';
 
 // Subtle static accent — Apple-minimal, no animated colored orbs
-const BackgroundAccent = memo(() => (
+const BackgroundAccent = memo(React.forwardRef<HTMLDivElement>((_props, ref) => (
   <div
+    ref={ref}
     className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,179,0,0.05),transparent_60%)] pointer-events-none"
     style={{ contain: 'strict' }}
   />
-));
+)));
 BackgroundAccent.displayName = 'BackgroundAccent';
+
 
 // Helper to check if ID is a valid UUID
 const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
