@@ -904,6 +904,7 @@ function App() {
                               {/* R */}
                               <Route path="/recommendations" element={<LazyRecommendationsPage />} />
                               <Route path="/referrals" element={<LazyReferralDashboard />} />
+                              <Route path="/referral" element={<Navigate to="/referrals" replace />} />
                               <Route path="/refresh" element={<LazyRefreshPage />} />
                               <Route path="/reset-password" element={<LazyResetPasswordPage />} />
                               
@@ -1555,6 +1556,7 @@ function App() {
                         {/* R */}
                         <Route path="/recommendations" element={<LazyRecommendationsPage />} />
                         <Route path="/referrals" element={<LazyReferralDashboard />} />
+                        <Route path="/referral" element={<Navigate to="/referrals" replace />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
                         <Route path="/reset-password" element={<LazyResetPasswordPage />} />
                         
