@@ -32,9 +32,10 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
   return (
     <Card className={`border backdrop-blur-xl ${
       isUrgent 
-        ? 'border-rose-500/30 bg-gradient-to-br from-rose-500/10 to-slate-800/60' 
-        : 'border-white/10 bg-slate-800/60'
+        ? 'border-rose-500/30 bg-slate-950/90' 
+        : 'border-white/10 bg-slate-950/90'
     }`}>
+
       <CardHeader className="pb-2">
         <CardTitle className="text-white text-lg flex items-center gap-2">
           <Clock className={`w-5 h-5 ${isUrgent ? 'text-rose-400' : 'text-mansagold'}`} />
@@ -77,8 +78,9 @@ const DecayCountdown: React.FC<DecayCountdownProps> = ({ lastDecayAt, currentKar
 
         {/* Decay Warning */}
         <div className={`p-3 rounded-lg ${
-          isUrgent ? 'bg-rose-500/10 border border-rose-500/20' : 'bg-amber-500/10 border border-amber-500/20'
+          isUrgent ? 'bg-slate-950/80 border border-rose-500/30' : 'bg-slate-950/80 border border-amber-500/30'
         }`}>
+
           <p className={`text-sm font-medium ${isUrgent ? 'text-rose-200' : 'text-amber-200'}`}>
             {isUrgent ? '⚠️ ' : '💡 '}
             {isUrgent 
