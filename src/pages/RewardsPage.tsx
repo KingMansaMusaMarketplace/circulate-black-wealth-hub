@@ -455,7 +455,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
   const canAfford = userPoints >= reward.points_cost;
 
   return (
-    <Card className={`hover:shadow-xl transition-all hover:scale-105 border-2 bg-slate-950/80 ${!canAfford ? 'opacity-60 grayscale border-white/10' : 'border-mansagold/25'}`}>
+    <Card className={`hover:shadow-xl transition-all hover:scale-105 border-2 bg-slate-950/80 ${!canAfford ? 'border-white/15' : 'border-mansagold/25'}`}>
       {reward.image_url && (
         <div className="aspect-video overflow-hidden rounded-t-lg relative">
           <img 
@@ -484,7 +484,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
       </CardHeader>
 
       <CardContent className="pt-0">
-        <p className="text-white/90 text-sm mb-4 line-clamp-3">
+        <p className="text-white text-sm mb-4 line-clamp-3">
           {reward.description}
         </p>
 
@@ -492,7 +492,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
           <div className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-900/80 border border-mansagold/30">
             <Star className="h-5 w-5 text-mansagold" />
             <span className="font-bold text-mansagold">{reward.points_cost}</span>
-            <span className="text-xs text-white/90">points</span>
+            <span className="text-xs text-white">points</span>
           </div>
 
           
