@@ -80,7 +80,7 @@ export default function CustomerBookingsPage() {
                 <span className="text-sm font-medium text-slate-400">Total</span>
                 <Calendar className="h-5 w-5 text-blue-400" />
               </div>
-              <div className="text-2xl font-bold text-white">—</div>
+              <div className="text-2xl font-bold text-white">{stats ? stats.total : '—'}</div>
               <p className="text-xs text-slate-500 mt-1">All-time bookings</p>
             </div>
           </div>
