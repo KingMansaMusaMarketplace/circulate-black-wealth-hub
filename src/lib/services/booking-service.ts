@@ -128,6 +128,10 @@ export const bookingService = {
     try {
       // Safe column list — excludes Stripe identifiers (revoked at column level)
       const BOOKING_COLS = 'id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, cancellation_reason, cancelled_at, created_at, updated_at';
+      const { data: authData } = await supabase.auth.getUser();
+      const userId = authData?.user?.id;
+      if (!userId) return [];
+
       const { data, error } = await supabase
         .from('bookings')
         .select(`
@@ -135,6 +139,7 @@ export const bookingService = {
           business_services(name, description),
           businesses(business_name, logo_url)
         `)
+        .eq('customer_id', userId)
         .order('booking_date', { ascending: false });
 
       if (error) throw error;
