@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Business } from '@/types/business';
 import { LocationData } from '@/hooks/location/types';
+import { getBusinessBanner } from '@/utils/businessBanners';
 
 export const useSmartRecommendations = (userLocation?: LocationData | null) => {
   const { user } = useAuth();
@@ -156,7 +157,10 @@ function mapBusinesses(businesses: any[]): Business[] {
     distanceValue: 0,
     lat: 0,
     lng: 0,
-    imageUrl: b.logo_url || b.banner_url || '',
+    imageUrl:
+      getBusinessBanner(b.id, b.banner_url, b.website, b.category) ||
+      b.logo_url ||
+      '',
     isFeatured: b.is_verified,
     isVerified: b.is_verified,
     ownerId: b.owner_id,

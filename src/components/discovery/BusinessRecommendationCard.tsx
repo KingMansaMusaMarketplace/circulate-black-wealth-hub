@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Star, Heart, Clock } from 'lucide-react';
 import { Business } from '@/types/business';
+import { getCategoryBanner } from '@/utils/businessBanners';
 
 interface BusinessRecommendationCardProps {
   business: Business;
@@ -15,9 +16,18 @@ const BusinessRecommendationCard: React.FC<BusinessRecommendationCardProps> = ({
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-scale-in border border-white/10 bg-slate-800/60 backdrop-blur-xl">
       <div className="relative h-48 overflow-hidden">
         <img 
-          src={business.imageUrl} 
+          src={business.imageUrl || getCategoryBanner(business.category)} 
           alt={business.name} 
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          onError={(e) => {
+            const img = e.currentTarget;
+            const fallback = getCategoryBanner(business.category);
+            if (img.src !== fallback && !img.dataset.fallbackApplied) {
+              img.dataset.fallbackApplied = 'true';
+              img.src = fallback;
+            }
+          }}
         />
         {business.isFeatured && (
           <Badge className="absolute top-2 right-2 bg-mansagold text-black">
