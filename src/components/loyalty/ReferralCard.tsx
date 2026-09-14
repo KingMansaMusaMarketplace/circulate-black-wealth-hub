@@ -110,7 +110,7 @@ const ReferralCard: React.FC<ReferralCardProps> = ({ className }) => {
               Become a sales agent to get your referral code and start earning commissions
             </p>
             <Button asChild size="sm">
-              <a href="/become-agent">Apply Now</a>
+              <a href="/become-a-sales-agent">Apply Now</a>
             </Button>
           </div>
         )}

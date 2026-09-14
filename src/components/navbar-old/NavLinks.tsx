@@ -31,13 +31,13 @@ const NavLinks: React.FC<NavLinksProps> = ({ user }) => {
           <Link to="/business-dashboard" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
             Dashboard
           </Link>
-          <Link to="/qr-generator" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          <Link to="/qr-code-generator" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
             QR Codes
           </Link>
         </>
       )}
       {user && user.user_metadata?.is_agent && (
-        <Link to="/agent-dashboard" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+        <Link to="/sales-agent-dashboard" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
           Agent Dashboard
         </Link>
       )}

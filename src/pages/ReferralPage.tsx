@@ -128,7 +128,7 @@ const ReferralPage = () => {
                     asChild
                     className="bg-mansagold text-black hover:bg-mansagold/90 font-medium"
                   >
-                    <a href="/become-agent">Apply Now</a>
+                    <a href="/become-a-sales-agent">Apply Now</a>
                   </Button>
                 </div>
               )}
