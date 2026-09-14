@@ -151,9 +151,10 @@ const LeaderboardPage: React.FC = () => {
         {/* Time Period Filter */}
         <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-center text-2xl bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+            <CardTitle className="text-center text-2xl text-mansagold">
               📅 Leaderboard Period
             </CardTitle>
+
           </CardHeader>
           <CardContent>
             <Tabs value={timePeriod} onValueChange={(value) => setTimePeriod(value as TimePeriod)}>
