@@ -7,10 +7,11 @@ interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
+const LoadingSpinner = React.forwardRef<HTMLDivElement, LoadingSpinnerProps>(({ 
   className, 
-  size = 'md' 
-}) => {
+  size = 'md',
+  ...rest
+}, ref) => {
   const sizeClasses = {
     sm: 'h-4 w-4 border-2',
     md: 'h-8 w-8 border-[3px]',
@@ -18,7 +19,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div ref={ref} className="flex items-center justify-center" {...rest}>
       <div
         className={cn(
           "rounded-full border-border/30 border-t-primary animate-spin",
@@ -29,6 +30,8 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       />
     </div>
   );
-};
+});
+
+LoadingSpinner.displayName = 'LoadingSpinner';
 
 export default LoadingSpinner;
