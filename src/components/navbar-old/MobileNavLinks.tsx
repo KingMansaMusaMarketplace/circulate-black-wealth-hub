@@ -53,7 +53,7 @@ const MobileNavLinks: React.FC<MobileNavLinksProps> = ({ user, onClose }) => {
             Dashboard
           </Link>
           <Link
-            to="/qr-generator"
+            to="/qr-code-generator"
             className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
             onClick={onClose}
           >
@@ -63,7 +63,7 @@ const MobileNavLinks: React.FC<MobileNavLinksProps> = ({ user, onClose }) => {
       )}
       {user && user.user_metadata?.is_agent && (
         <Link
-          to="/agent-dashboard"
+          to="/sales-agent-dashboard"
           className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
           onClick={onClose}
         >

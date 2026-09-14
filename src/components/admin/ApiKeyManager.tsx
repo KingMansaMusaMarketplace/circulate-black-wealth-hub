@@ -191,19 +191,7 @@ const ApiKeyManager: React.FC = () => {
                 <Mail className="h-4 w-4 mr-2" />
                 {isTestingEmail ? 'Testing Email System...' : 'Test Email System'}
               </Button>
-              <Button variant="outline" className="justify-start" asChild>
-                <a href="/stripe-test" target="_blank" rel="noopener noreferrer">
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  Test Stripe Integration
-                </a>
-              </Button>
-              <Button variant="outline" className="justify-start" asChild>
-                <a href="/signup-test" target="_blank" rel="noopener noreferrer">
-                  <Database className="h-4 w-4 mr-2" />
-                  Test Authentication Flow
-                </a>
-              </Button>
-            </div>
+                                        </div>
           </div>
         </CardContent>
       </Card>
