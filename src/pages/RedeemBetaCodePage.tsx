@@ -95,8 +95,6 @@ export default function RedeemBetaCodePage() {
           </CardContent>
         </Card>
       </main>
-
-      </main>
     </>
   );
 }
