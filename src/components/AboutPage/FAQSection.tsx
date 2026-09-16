@@ -33,7 +33,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-[#050a18] via-[#0a1428] to-[#030712] relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-mansablue/15 to-blue-500/15 blur-3xl animate-pulse"></div>
@@ -42,7 +42,7 @@ const FAQSection = () => {
       
       <div className="container-custom relative">
         <div className="text-center mb-12">
-          <h2 className="heading-md bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent mb-4">Frequently Asked Questions</h2>
+          <h2 className="heading-md bg-gradient-to-r from-mansagold via-amber-400 to-yellow-300 bg-clip-text text-transparent mb-4">Frequently Asked Questions</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-6 shadow-lg shadow-mansagold/50"></div>
           <p className="text-lg font-medium text-slate-700 max-w-2xl mx-auto">
             Common questions about our mission, operations, and impact.
@@ -53,7 +53,7 @@ const FAQSection = () => {
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`} className="border-b-2 border-blue-100">
-                <AccordionTrigger className="text-left font-semibold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent hover:from-blue-700 hover:to-mansagold py-4 transition-all">
+                <AccordionTrigger className="text-left font-semibold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent hover:from-blue-700 hover:to-mansagold py-4 transition-all">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-zinc-300 pb-4 leading-relaxed">
@@ -67,7 +67,7 @@ const FAQSection = () => {
             <p className="text-zinc-300 text-lg mb-4">
               Have more questions about our platform or mission?
             </p>
-            <Link to="/contact" className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent font-bold hover:from-blue-700 hover:to-mansagold transition-all">
+            <Link to="/contact" className="bg-gradient-to-r from-mansagold via-amber-400 to-yellow-300 bg-clip-text text-transparent font-bold hover:from-blue-700 hover:to-mansagold transition-all">
               Contact our team for more information →
             </Link>
           </div>

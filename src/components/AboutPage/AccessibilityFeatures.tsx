@@ -64,7 +64,7 @@ const AccessibilityFeatures = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-[#050a18] via-[#0a1428] to-[#030712] relative overflow-hidden">
       {/* Animated decorative elements */}
       <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/15 to-blue-500/15 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-mansagold/15 to-amber-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
@@ -72,13 +72,13 @@ const AccessibilityFeatures = () => {
       <div className="container-custom relative z-10">
         <div className="text-center mb-12">
           <h2 className="heading-md mb-4">
-            <span className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">Accessibility </span>
+            <span className="bg-gradient-to-r from-mansagold via-amber-400 to-yellow-300 bg-clip-text text-transparent">Accessibility </span>
             <span className="bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 bg-clip-text text-transparent">Options</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-mansablue via-blue-600 to-mansagold mx-auto mb-6 rounded-full"></div>
           <div className="flex justify-center items-center gap-3 mb-4">
             <Accessibility className="h-7 w-7 text-mansablue animate-pulse" />
-            <p className="text-xl font-bold bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">
+            <p className="text-xl font-bold bg-gradient-to-r from-mansagold via-amber-400 to-yellow-300 bg-clip-text text-transparent">
               Making Our Platform Inclusive For All
             </p>
           </div>
@@ -92,7 +92,7 @@ const AccessibilityFeatures = () => {
             <CardHeader className="bg-gradient-to-r from-blue-50 to-mansablue-light/20">
               <CardTitle className="flex items-center">
                 <Accessibility className="mr-2 h-6 w-6 text-emerald-600" />
-                <span className="bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">
                   Accessibility Settings
                 </span>
               </CardTitle>

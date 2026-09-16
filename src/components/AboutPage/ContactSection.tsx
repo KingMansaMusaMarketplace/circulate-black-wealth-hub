@@ -13,7 +13,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-12 lg:py-16 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-gradient-to-br from-[#050a18] via-[#0a1428] to-[#030712] relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         {/* Large blurred backgrounds with animation */}
@@ -41,9 +41,9 @@ const ContactSection = () => {
           variants={variants}
           className="text-center mb-10 relative"
         >
-          <h2 className="heading-md bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent mb-3">Contact Us</h2>
+          <h2 className="heading-md bg-gradient-to-r from-mansagold via-amber-400 to-yellow-300 bg-clip-text text-transparent mb-3">Contact Us</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-5 shadow-lg shadow-mansagold/50"></div>
-          <p className="text-lg font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto px-4">
+          <p className="text-lg font-medium bg-gradient-to-r from-gray-200 to-gray-300 bg-clip-text text-transparent max-w-2xl mx-auto px-4">
             Have questions or want to learn more? Reach out to us and we'll respond as soon as possible.
           </p>
         </motion.div>
@@ -54,7 +54,7 @@ const ContactSection = () => {
             
             {/* Add decorative elements */}
             <div className="mt-8 p-4 bg-slate-900/70 rounded-lg border border-white/10 shadow-lg">
-              <h3 className="text-sm font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-2">Office Hours</h3>
+              <h3 className="text-sm font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent mb-2">Office Hours</h3>
               <ul className="space-y-2 text-sm text-zinc-400">
                 <li className="flex justify-between">
                   <span>Monday - Friday</span>
@@ -85,7 +85,7 @@ const ContactSection = () => {
             transition={{ delay: 0.3 }}
           >
             <p className="text-zinc-300 text-lg">
-              Need immediate assistance? <Button variant="link" className="p-0 h-auto bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent font-semibold" onClick={() => toast.info('Contact us at support@1325.ai or call 312.900.6004')}>Schedule a call with our team</Button>
+              Need immediate assistance? <Button variant="link" className="p-0 h-auto bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent font-semibold" onClick={() => toast.info('Contact us at support@1325.ai or call 312.900.6004')}>Schedule a call with our team</Button>
             </p>
           </motion.div>
         </div>
