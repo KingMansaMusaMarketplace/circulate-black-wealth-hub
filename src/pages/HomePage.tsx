@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Youtube } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
