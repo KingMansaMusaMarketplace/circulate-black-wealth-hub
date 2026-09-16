@@ -93,7 +93,7 @@ const ContactSection = () => {
         {/* Add map preview */}
         <div className="mt-12 max-w-6xl mx-auto px-4">
           <div className="bg-slate-900/70 p-2 rounded-lg border border-white/10 shadow-sm">
-            <div className="bg-gray-100 rounded h-48 w-full flex items-center justify-center">
+            <div className="bg-white/5 rounded h-48 w-full flex items-center justify-center">
               <div className="text-center">
                 <div className="w-12 h-12 bg-mansablue/10 rounded-full flex items-center justify-center mx-auto mb-2">
                   <svg
@@ -110,7 +110,7 @@ const ContactSection = () => {
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                 </div>
-                <p className="text-gray-500 text-sm">Map loading...</p>
+                <p className="text-gray-400 text-sm">Map loading...</p>
               </div>
             </div>
           </div>
