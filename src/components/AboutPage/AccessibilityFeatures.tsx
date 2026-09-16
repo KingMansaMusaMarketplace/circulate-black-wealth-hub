@@ -88,8 +88,8 @@ const AccessibilityFeatures = () => {
         </div>
         
         <div className="max-w-3xl mx-auto">
-          <Card className="border-2 border-emerald-200 bg-white/80 backdrop-blur-sm shadow-2xl">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-mansablue-light/20">
+          <Card className="border-2 border-emerald-200 bg-white/5 backdrop-blur-sm shadow-2xl">
+            <CardHeader className="bg-white/5">
               <CardTitle className="flex items-center">
                 <Accessibility className="mr-2 h-6 w-6 text-emerald-600" />
                 <span className="bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">
@@ -99,7 +99,7 @@ const AccessibilityFeatures = () => {
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="text" value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid grid-cols-3 mb-8 bg-white/80 backdrop-blur-sm p-2 rounded-xl border-2 border-blue-200">
+                <TabsList className="grid grid-cols-3 mb-8 bg-white/5 backdrop-blur-sm p-2 rounded-xl border-2 border-blue-200">
                   <TabsTrigger 
                     value="text" 
                     className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-700 data-[state=active]:text-white rounded-lg font-bold transition-all duration-300"
@@ -293,7 +293,7 @@ const AccessibilityFeatures = () => {
           </Card>
           
           <div className="mt-8 text-center">
-            <p className="text-sm text-gray-700 font-medium bg-white/60 backdrop-blur-sm inline-block px-6 py-3 rounded-full border border-blue-200">
+            <p className="text-sm text-gray-300 font-medium bg-white/10 backdrop-blur-sm inline-block px-6 py-3 rounded-full border border-blue-200">
               ♿ We are continuously working to improve our accessibility features. If you have suggestions or encounter any issues, please{" "}
               <Link to="/contact" className="text-mansablue hover:text-blue-700 font-bold hover:underline">contact us</Link>.
             </p>
