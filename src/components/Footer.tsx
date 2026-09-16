@@ -234,10 +234,16 @@ const Footer = () => {
             <h4 className="font-heading font-bold mb-4 text-xl bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent">Resources & Legal</h4>
             <ul className="space-y-2">
               <li>
+                <Link to="/redeem-beta" className="text-mansagold hover:text-amber-300 transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-semibold">
+                  Have a beta code?
+                </Link>
+              </li>
+              <li>
                 <Link to="/jobs" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Jobs
                 </Link>
               </li>
+
               <li>
                 <Link to="/blog" className="text-white hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Blog

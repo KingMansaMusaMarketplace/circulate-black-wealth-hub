@@ -56,7 +56,7 @@ export const FooterSection: React.FC = () => {
     <>
       {/* Beta Code CTA */}
       <Link
-        to="/business-signup?beta=true"
+        to="/redeem-beta"
         className="flex items-center gap-3 p-3 rounded-lg border border-dashed border-mansagold/40 bg-mansagold/5 hover:bg-mansagold/10 transition-colors duration-300 group"
       >
         <div className="flex-shrink-0 w-9 h-9 rounded-full bg-mansagold/20 flex items-center justify-center group-hover:bg-mansagold/30 transition-colors">
@@ -64,9 +64,10 @@ export const FooterSection: React.FC = () => {
         </div>
         <div className="text-left">
           <p className="text-sm font-semibold text-mansagold">Have a beta code?</p>
-          <p className="text-xs text-slate-400">Create your free business account in under 2 minutes</p>
+          <p className="text-xs text-slate-400">Sign in, then enter your code to unlock beta access</p>
         </div>
       </Link>
+
 
       <Separator className="my-4 bg-white/10" />
       
