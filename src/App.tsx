@@ -1286,6 +1286,9 @@ function App() {
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         {/* Test routes removed from production — use /all-pages (admin only) */}
                         <Route path="/auth" element={<LazyLoginPage />} />
+                        <Route path="/redeem-beta" element={<RedeemBetaCodePage />} />
+                        <Route path="/beta-redeem" element={<RedeemBetaCodePage />} />
+
                         
                         {/* B */}
                         <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
