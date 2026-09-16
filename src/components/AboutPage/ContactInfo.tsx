@@ -46,7 +46,7 @@ const ContactInfo = () => {
   return (
     <Card className="h-full border border-white/10 bg-slate-900/70 backdrop-blur-sm shadow-xl">
       <CardContent className="p-6 sm:p-8">
-        <h3 className="text-xl font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-6">Get In Touch</h3>
+        <h3 className="text-xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent mb-6">Get In Touch</h3>
         
         <div className="space-y-4">
           {contactInfo.map((item) => (

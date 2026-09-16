@@ -93,7 +93,7 @@ const ContactForm = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <h3 className="text-xl font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-6">Send Us a Message</h3>
+              <h3 className="text-xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent mb-6">Send Us a Message</h3>
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
@@ -210,7 +210,7 @@ const ContactForm = () => {
               <div className="rounded-full bg-gradient-to-br from-green-100 to-emerald-100 p-4 w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <CheckCircle className="h-10 w-10 text-green-600" />
               </div>
-              <h3 className="text-xl font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-3">Thank You!</h3>
+              <h3 className="text-xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent mb-3">Thank You!</h3>
               <p className="text-zinc-300 mb-8 max-w-md mx-auto">
                 Your message has been sent successfully. We'll review it and get back to you soon.
               </p>
@@ -225,8 +225,8 @@ const ContactForm = () => {
         </AnimatePresence>
 
         <div className="mt-8 pt-8 border-t-2 border-violet-200">
-          <h4 className="font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-4">Our Location</h4>
-          <div className="bg-gray-200 h-64 rounded-lg overflow-hidden">
+          <h4 className="font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent mb-4">Our Location</h4>
+          <div className="bg-white/5 border border-white/10 h-64 rounded-lg overflow-hidden">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2986.4741266009594!2d-87.6295312!3d41.5564442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e3435f0f954db%3A0x6fb88912e6fac68!2s1000%20E%20111th%20St%20%231100%2C%20Chicago%2C%20IL%2060628!5e0!3m2!1sen!2sus!4v1683910944259!5m2!1sen!2sus" 
               width="100%" 
