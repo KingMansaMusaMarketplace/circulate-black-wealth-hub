@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Youtube } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
@@ -143,6 +144,17 @@ const HomePage: React.FC = () => {
                   <span className="w-1 h-1 bg-mansagold rounded-full group-hover:w-4 transition-all" />
                 </a>
               </div>
+
+              <a
+                href="https://www.youtube.com/@1325AI"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Watch 1325.AI on YouTube"
+                className="inline-flex items-center gap-3 px-8 py-4 border border-mansagold/60 text-mansagold font-bold uppercase tracking-widest text-xs rounded-sm hover:bg-mansagold hover:text-black transition-all"
+              >
+                <Youtube className="w-4 h-4" aria-hidden="true" />
+                Watch on YouTube
+              </a>
             </div>
           </div>
 
