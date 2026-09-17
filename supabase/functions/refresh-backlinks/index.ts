@@ -140,7 +140,7 @@ Deno.serve(async (req) => {
       {
         target: domain,
         target_type: "root_domain",
-        export_columns: "domain_ascore,domain,backlinks_num,ip_addresses_num,country,first_seen,last_seen",
+        export_columns: "domain_ascore,domain,backlinks_num,country,first_seen,last_seen",
         display_limit: "100",
       },
       SEMRUSH_API_KEY,
