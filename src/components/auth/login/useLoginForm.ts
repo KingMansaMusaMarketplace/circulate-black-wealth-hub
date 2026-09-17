@@ -22,7 +22,9 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
   // location state, or default to dashboard. `?next=` is used by the OAuth
   // consent flow (MCP / agent integrations) to bring the user back to the
   // consent screen after signing in.
-  const nextParam = new URLSearchParams(location.search).get('next');
+  const searchParams = new URLSearchParams(location.search);
+  // Support both ?next= (OAuth consent flow) and ?redirect= (used across the app)
+  const nextParam = searchParams.get('next') || searchParams.get('redirect');
   const safeNext =
     nextParam && nextParam.startsWith('/') && !nextParam.startsWith('//')
       ? nextParam
