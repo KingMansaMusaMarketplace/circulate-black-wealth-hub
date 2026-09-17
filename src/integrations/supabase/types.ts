@@ -12251,6 +12251,9 @@ export type Database = {
           id: string
           learning: string
           source: string
+          verification_note: string | null
+          verified: boolean
+          verified_at: string | null
         }
         Insert: {
           agent_name: string
@@ -12261,6 +12264,9 @@ export type Database = {
           id?: string
           learning: string
           source?: string
+          verification_note?: string | null
+          verified?: boolean
+          verified_at?: string | null
         }
         Update: {
           agent_name?: string
@@ -12271,6 +12277,9 @@ export type Database = {
           id?: string
           learning?: string
           source?: string
+          verification_note?: string | null
+          verified?: boolean
+          verified_at?: string | null
         }
         Relationships: []
       }

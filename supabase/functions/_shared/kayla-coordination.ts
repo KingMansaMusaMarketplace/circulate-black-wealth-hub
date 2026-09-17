@@ -91,7 +91,15 @@ export async function appendDecision(
   }
 }
 
-/** Visible learning note. */
+/**
+ * Record something an agent learned.
+ *
+ * QUALITY GATE: a new learning starts UNVERIFIED and is NOT applied. Kayla
+ * will not repeat it back to anyone until it has been confirmed — either by a
+ * high-confidence agent that explicitly vouches for it, or by verifyLearning()
+ * once the outcome is known. This stops early guesses from hardening into
+ * "facts" that Kayla then repeats forever.
+ */
 export async function logLearning(
   supabase: any,
   businessId: string,
@@ -99,18 +107,49 @@ export async function logLearning(
   learning: string,
   source = "agent_run",
   confidence = 0.6,
+  options: { verified?: boolean; verificationNote?: string } = {},
 ): Promise<void> {
   try {
+    // Only an explicit vouch, backed by high confidence, skips the queue.
+    const verified = options.verified === true && confidence >= 0.85;
     await supabase.from("kayla_learnings").insert({
       business_id: businessId,
       agent_name: agentName,
       learning,
       source,
       confidence,
-      applied: true,
+      applied: verified,
+      verified,
+      verified_at: verified ? new Date().toISOString() : null,
+      verification_note: verified ? (options.verificationNote ?? "high-confidence agent vouch") : null,
     });
   } catch (e) {
     console.error("logLearning failed:", e);
+  }
+}
+
+/**
+ * Promote a learning to verified once it has held up — call this when an
+ * outcome confirms the lesson (a prediction came true, a user confirmed it,
+ * or a reviewer approved it).
+ */
+export async function verifyLearning(
+  supabase: any,
+  learningId: string,
+  note = "confirmed by outcome",
+): Promise<void> {
+  try {
+    await supabase
+      .from("kayla_learnings")
+      .update({
+        verified: true,
+        applied: true,
+        verified_at: new Date().toISOString(),
+        verification_note: note,
+      })
+      .eq("id", learningId);
+  } catch (e) {
+    console.error("verifyLearning failed:", e);
   }
 }
 

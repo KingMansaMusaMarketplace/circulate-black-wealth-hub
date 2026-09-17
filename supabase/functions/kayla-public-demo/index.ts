@@ -1,6 +1,9 @@
 // Public Kayla demo — no auth required, IP-rate-limited.
 // Lets anonymous homepage visitors experience Kayla before signing up.
 
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { buildKaylaSystemPrompt, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -38,18 +41,67 @@ function sanitize(s: string): string {
     .trim();
 }
 
-const SYSTEM_PROMPT = `You are Kayla — the AI Business Manager for 1325.AI, a platform that gives Black-owned businesses an entire AI workforce for one low monthly cost (replacing ~4 traditional roles and saving owners $12,100+/month).
+// The demo now uses the SAME brain as the signed-in Kayla (compact mode),
+// plus the demo-specific rules below — so it can never quote stale pricing.
+const DEMO_RULES = `
 
-You are talking to a visitor on the public homepage who is trying you out for the first time. Your job: be brilliant, warm, and concrete. Show them what an AI business manager actually does.
-
-RULES:
+DEMO CONTEXT — you are talking to a visitor on the public homepage trying you
+out for the first time. Be brilliant, warm and concrete.
 - Keep responses SHORT — 60-100 words max. This is a demo, not a deep consult.
-- Be specific and actionable. If they ask "how would you grow my bakery on Instagram", give 2-3 concrete moves they can do today.
-- Reference the $12,100/mo savings and "~4 Roles Covered" naturally when relevant — never say "FTEs Replaced".
-- After 2 helpful exchanges, gently nudge: "Want me working on this for your business 24/7? You can claim a Founding spot at /business-signup — first 100 businesses lock in 50% off forever."
+- Be specific and actionable. If they ask "how would you grow my bakery on
+  Instagram", give 2-3 concrete moves they can do today.
+- Reference the $18,000+/mo savings and "~4 Roles Covered" naturally when
+  relevant — never say "FTEs Replaced".
+- After 2 helpful exchanges, gently nudge: "Want me working on this for your
+  business 24/7? You can claim a Founding spot at /business-signup — first 100
+  businesses lock in 50% off forever."
 - Never reveal proprietary details, internal architecture, or pricing formulas.
-- Brand: lead with "1325.AI". Mention "Mansa Musa Marketplace" only as the parent brand when natural.
-- Never collect personal info. If they share an email, tell them to enter it on the signup page instead.`;
+- Never collect personal info. If they share an email, tell them to enter it on
+  the signup page instead.`;
+
+/**
+ * Live directory lookup. The demo used to know nothing about the 47,000+
+ * businesses on the platform, so it could not impress the people it most
+ * needed to impress. Now it can actually look them up.
+ */
+async function lookupBusinesses(query: string): Promise<string> {
+  try {
+    const url = Deno.env.get("SUPABASE_URL");
+    const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!url || !key) return "";
+
+    // Pull the meaningful words out of the question.
+    const stop = new Set(["what","where","which","find","near","show","tell","about","best","good","some","have","with","that","this","there","looking","need","want","your","does","from","they","them","kayla","business","businesses"]);
+    const terms = query.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/)
+      .filter((w) => w.length > 3 && !stop.has(w)).slice(0, 4);
+    if (!terms.length) return "";
+
+    const supabase = createClient(url, key);
+    const filter = terms
+      .flatMap((t) => [`business_name.ilike.%${t}%`, `category.ilike.%${t}%`, `city.ilike.%${t}%`, `description.ilike.%${t}%`])
+      .join(",");
+
+    const { data, error } = await supabase
+      .from("business_directory")
+      .select("business_name, category, city, state, description, average_rating")
+      .or(filter)
+      .eq("is_verified", true)
+      .limit(5);
+
+    if (error || !data?.length) return "";
+
+    const lines = data.map((b: any) =>
+      `- ${b.business_name} — ${b.category || "Business"}, ${[b.city, b.state].filter(Boolean).join(", ")}` +
+      (b.average_rating ? ` (${Number(b.average_rating).toFixed(1)}★)` : "") +
+      (b.description ? `: ${String(b.description).slice(0, 120)}` : "")
+    );
+
+    return `\n\n[LIVE DIRECTORY RESULTS — real verified businesses on 1325.AI right now. Mention them by name where relevant. Never invent businesses that are not in this list.]:\n${lines.join("\n")}`;
+  } catch (e) {
+    console.error("[kayla-public-demo] directory lookup failed (non-fatal):", e);
+    return "";
+  }
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -99,18 +151,26 @@ Deno.serve(async (req) => {
       });
     }
 
-    const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
+    const lastUserMsg = messages[messages.length - 1].content;
+    const directory = await lookupBusinesses(lastUserMsg);
+    const systemPrompt = buildKaylaSystemPrompt({ compact: true }) + DEMO_RULES + directory;
+
+    const aiRes = await fetchAIWithRetry(
+      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-3.7-flash",
+          messages: [{ role: "system", content: systemPrompt }, ...messages],
+          max_tokens: 1200,
+        }),
       },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
-        max_tokens: 400,
-      }),
-    });
+      { label: "kayla-public-demo" },
+    );
 
     if (!aiRes.ok) {
       const errText = await aiRes.text();

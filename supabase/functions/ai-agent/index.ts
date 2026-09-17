@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
@@ -125,74 +126,80 @@ async function qualifyLeads(supabase: any, apiKey: string, businessId: string, t
   // Ask AI to score each customer
   const scores = [];
   for (const customer of customers) {
-    const prompt = `You are a lead qualification AI agent. Analyze this customer and provide a lead score.
+    // One bad record must never kill the batch — log it and move on.
+    try {
+      const prompt = `You are a lead qualification AI agent. Analyze this customer and provide a lead score.
 
-Customer Data:
-- Name: ${customer.name || 'Unknown'}
-- Email: ${customer.email || 'None'}
-- Phone: ${customer.phone || 'None'}
-- Status: ${customer.status || 'active'}
-- Tags: ${JSON.stringify(customer.tags || [])}
-- Total Spent: $${customer.total_spent || 0}
-- Visit Count: ${customer.visit_count || 0}
-- Last Visit: ${customer.last_visit_date || 'Never'}
-- Created: ${customer.created_at}
-- Recent Interactions: ${customer.customer_interactions?.length || 0}
+  Customer Data:
+  - Name: ${customer.name || 'Unknown'}
+  - Email: ${customer.email || 'None'}
+  - Phone: ${customer.phone || 'None'}
+  - Status: ${customer.status || 'active'}
+  - Tags: ${JSON.stringify(customer.tags || [])}
+  - Total Spent: $${customer.total_spent || 0}
+  - Visit Count: ${customer.visit_count || 0}
+  - Last Visit: ${customer.last_visit_date || 'Never'}
+  - Created: ${customer.created_at}
+  - Recent Interactions: ${customer.customer_interactions?.length || 0}
 
-Provide your analysis as JSON with these exact fields:
-{
-  "score": <0-100>,
-  "engagement_score": <0-100>,
-  "fit_score": <0-100>,
-  "intent_score": <0-100>,
-  "recommended_action": "<one of: nurture, qualify, prioritize, close, archive>",
-  "reasoning": "<brief explanation>"
-}`;
+  Provide your analysis as JSON with these exact fields:
+  {
+    "score": <0-100>,
+    "engagement_score": <0-100>,
+    "fit_score": <0-100>,
+    "intent_score": <0-100>,
+    "recommended_action": "<one of: nurture, qualify, prioritize, close, archive>",
+    "reasoning": "<brief explanation>"
+  }`;
 
-    const aiResponse = await callLovableAI(apiKey, prompt);
-    const analysis = parseJsonResponse(aiResponse);
+      const aiResponse = await callLovableAI(apiKey, prompt);
+      const analysis = parseJsonResponse(aiResponse);
 
-    if (analysis) {
-      // Save to database
-      const { data: scoreRecord, error: insertError } = await supabase
-        .from("lead_scores")
-        .upsert({
-          business_id: businessId,
-          customer_id: customer.id,
-          score: analysis.score,
-          engagement_score: analysis.engagement_score,
-          fit_score: analysis.fit_score,
-          intent_score: analysis.intent_score,
-          recommended_action: analysis.recommended_action,
+      if (analysis) {
+        // Save to database
+        const { data: scoreRecord, error: insertError } = await supabase
+          .from("lead_scores")
+          .upsert({
+            business_id: businessId,
+            customer_id: customer.id,
+            score: analysis.score,
+            engagement_score: analysis.engagement_score,
+            fit_score: analysis.fit_score,
+            intent_score: analysis.intent_score,
+            recommended_action: analysis.recommended_action,
+            ai_reasoning: analysis.reasoning,
+            score_factors: {
+              total_spent: customer.total_spent,
+              visit_count: customer.visit_count,
+              interaction_count: customer.customer_interactions?.length || 0
+            },
+            scored_at: new Date().toISOString()
+          }, {
+            onConflict: 'customer_id'
+          })
+          .select()
+          .single();
+
+        // Log the action
+        await logAgentAction(supabase, businessId, {
+          action_type: 'lead_qualification',
+          target_type: 'customer',
+          target_id: customer.id,
+          ai_confidence: analysis.score / 100,
           ai_reasoning: analysis.reasoning,
-          score_factors: {
-            total_spent: customer.total_spent,
-            visit_count: customer.visit_count,
-            interaction_count: customer.customer_interactions?.length || 0
-          },
-          scored_at: new Date().toISOString()
-        }, {
-          onConflict: 'customer_id'
-        })
-        .select()
-        .single();
+          action_data: analysis,
+          status: 'executed'
+        });
 
-      // Log the action
-      await logAgentAction(supabase, businessId, {
-        action_type: 'lead_qualification',
-        target_type: 'customer',
-        target_id: customer.id,
-        ai_confidence: analysis.score / 100,
-        ai_reasoning: analysis.reasoning,
-        action_data: analysis,
-        status: 'executed'
-      });
-
-      scores.push({
-        customerId: customer.id,
-        customerName: customer.name,
-        ...analysis
-      });
+        scores.push({
+          customerId: customer.id,
+          customerName: customer.name,
+          ...analysis
+        });
+      }
+    } catch (recordError) {
+      console.error("[qualifyLeads] skipped customer", (customer as any)?.id, recordError instanceof Error ? recordError.message : recordError);
+      continue;
     }
   }
 
@@ -228,70 +235,76 @@ async function predictChurn(supabase: any, apiKey: string, businessId: string, t
   const now = new Date();
 
   for (const customer of customers) {
-    const lastVisit = customer.last_visit_date ? new Date(customer.last_visit_date) : null;
-    const daysSinceLastActivity = lastVisit 
-      ? Math.floor((now.getTime() - lastVisit.getTime()) / (1000 * 60 * 60 * 24))
-      : 999;
+    // One bad record must never kill the batch — log it and move on.
+    try {
+      const lastVisit = customer.last_visit_date ? new Date(customer.last_visit_date) : null;
+      const daysSinceLastActivity = lastVisit 
+        ? Math.floor((now.getTime() - lastVisit.getTime()) / (1000 * 60 * 60 * 24))
+        : 999;
 
-    const prompt = `You are a churn prediction AI agent. Analyze this customer's risk of churning.
+      const prompt = `You are a churn prediction AI agent. Analyze this customer's risk of churning.
 
-Customer Data:
-- Name: ${customer.name || 'Unknown'}
-- Total Spent: $${customer.total_spent || 0}
-- Visit Count: ${customer.visit_count || 0}
-- Days Since Last Visit: ${daysSinceLastActivity}
-- Account Age Days: ${Math.floor((now.getTime() - new Date(customer.created_at).getTime()) / (1000 * 60 * 60 * 24))}
-- Recent Interactions: ${customer.customer_interactions?.length || 0}
+  Customer Data:
+  - Name: ${customer.name || 'Unknown'}
+  - Total Spent: $${customer.total_spent || 0}
+  - Visit Count: ${customer.visit_count || 0}
+  - Days Since Last Visit: ${daysSinceLastActivity}
+  - Account Age Days: ${Math.floor((now.getTime() - new Date(customer.created_at).getTime()) / (1000 * 60 * 60 * 24))}
+  - Recent Interactions: ${customer.customer_interactions?.length || 0}
 
-Provide your analysis as JSON with these exact fields:
-{
-  "churn_probability": <0.0-1.0>,
-  "risk_level": "<one of: low, medium, high, critical>",
-  "risk_factors": ["<factor1>", "<factor2>"],
-  "recommended_actions": ["<action1>", "<action2>"],
-  "reasoning": "<brief explanation>"
-}`;
+  Provide your analysis as JSON with these exact fields:
+  {
+    "churn_probability": <0.0-1.0>,
+    "risk_level": "<one of: low, medium, high, critical>",
+    "risk_factors": ["<factor1>", "<factor2>"],
+    "recommended_actions": ["<action1>", "<action2>"],
+    "reasoning": "<brief explanation>"
+  }`;
 
-    const aiResponse = await callLovableAI(apiKey, prompt);
-    const analysis = parseJsonResponse(aiResponse);
+      const aiResponse = await callLovableAI(apiKey, prompt);
+      const analysis = parseJsonResponse(aiResponse);
 
-    if (analysis) {
-      // Save prediction
-      await supabase
-        .from("churn_predictions")
-        .insert({
-          business_id: businessId,
-          customer_id: customer.id,
-          churn_probability: analysis.churn_probability,
-          risk_level: analysis.risk_level,
-          risk_factors: analysis.risk_factors,
-          days_since_last_activity: daysSinceLastActivity,
-          lifetime_value: customer.total_spent || 0,
-          recommended_actions: analysis.recommended_actions,
-          ai_reasoning: analysis.reasoning
+      if (analysis) {
+        // Save prediction
+        await supabase
+          .from("churn_predictions")
+          .insert({
+            business_id: businessId,
+            customer_id: customer.id,
+            churn_probability: analysis.churn_probability,
+            risk_level: analysis.risk_level,
+            risk_factors: analysis.risk_factors,
+            days_since_last_activity: daysSinceLastActivity,
+            lifetime_value: customer.total_spent || 0,
+            recommended_actions: analysis.recommended_actions,
+            ai_reasoning: analysis.reasoning
+          });
+
+        // Log action
+        await logAgentAction(supabase, businessId, {
+          action_type: 'churn_prediction',
+          target_type: 'customer',
+          target_id: customer.id,
+          ai_confidence: 1 - analysis.churn_probability,
+          ai_reasoning: analysis.reasoning,
+          action_data: analysis,
+          status: 'executed'
         });
 
-      // Log action
-      await logAgentAction(supabase, businessId, {
-        action_type: 'churn_prediction',
-        target_type: 'customer',
-        target_id: customer.id,
-        ai_confidence: 1 - analysis.churn_probability,
-        ai_reasoning: analysis.reasoning,
-        action_data: analysis,
-        status: 'executed'
-      });
+        // If high risk, trigger retention workflow
+        if (analysis.risk_level === 'high' || analysis.risk_level === 'critical') {
+          await triggerWorkflow(supabase, businessId, 'churn_prevention', customer.id, analysis);
+        }
 
-      // If high risk, trigger retention workflow
-      if (analysis.risk_level === 'high' || analysis.risk_level === 'critical') {
-        await triggerWorkflow(supabase, businessId, 'churn_prevention', customer.id, analysis);
+        predictions.push({
+          customerId: customer.id,
+          customerName: customer.name,
+          ...analysis
+        });
       }
-
-      predictions.push({
-        customerId: customer.id,
-        customerName: customer.name,
-        ...analysis
-      });
+    } catch (recordError) {
+      console.error("[churnPrediction] skipped customer", (customer as any)?.id, recordError instanceof Error ? recordError.message : recordError);
+      continue;
     }
   }
 
@@ -331,75 +344,81 @@ async function scoreDeals(supabase: any, apiKey: string, businessId: string, tar
 
   const scores = [];
   for (const deal of deals) {
-    const otherParty = deal.buyer?.id === businessId ? deal.supplier : deal.buyer;
-    const messageCount = deal.b2b_messages?.length || 0;
-    const daysSinceCreated = Math.floor(
-      (Date.now() - new Date(deal.created_at).getTime()) / (1000 * 60 * 60 * 24)
-    );
+    // One bad record must never kill the batch — log it and move on.
+    try {
+      const otherParty = deal.buyer?.id === businessId ? deal.supplier : deal.buyer;
+      const messageCount = deal.b2b_messages?.length || 0;
+      const daysSinceCreated = Math.floor(
+        (Date.now() - new Date(deal.created_at).getTime()) / (1000 * 60 * 60 * 24)
+      );
 
-    const prompt = `You are a deal scoring AI agent. Predict the likelihood this B2B deal will close.
+      const prompt = `You are a deal scoring AI agent. Predict the likelihood this B2B deal will close.
 
-Deal Data:
-- Partner: ${otherParty?.business_name || 'Unknown'}
-- Status: ${deal.status}
-- Match Score: ${deal.match_score || 'N/A'}
-- Estimated Value: $${deal.estimated_value || 0}
-- Messages Exchanged: ${messageCount}
-- Days in Pipeline: ${daysSinceCreated}
-- Connection Type: ${deal.connection_type || 'general'}
+  Deal Data:
+  - Partner: ${otherParty?.business_name || 'Unknown'}
+  - Status: ${deal.status}
+  - Match Score: ${deal.match_score || 'N/A'}
+  - Estimated Value: $${deal.estimated_value || 0}
+  - Messages Exchanged: ${messageCount}
+  - Days in Pipeline: ${daysSinceCreated}
+  - Connection Type: ${deal.connection_type || 'general'}
 
-Provide your analysis as JSON with these exact fields:
-{
-  "close_probability": <0.0-1.0>,
-  "expected_close_days": <number>,
-  "competitor_risk": "<one of: none, low, medium, high>",
-  "engagement_signals": ["<signal1>", "<signal2>"],
-  "recommended_next_steps": ["<step1>", "<step2>"],
-  "reasoning": "<brief explanation>"
-}`;
+  Provide your analysis as JSON with these exact fields:
+  {
+    "close_probability": <0.0-1.0>,
+    "expected_close_days": <number>,
+    "competitor_risk": "<one of: none, low, medium, high>",
+    "engagement_signals": ["<signal1>", "<signal2>"],
+    "recommended_next_steps": ["<step1>", "<step2>"],
+    "reasoning": "<brief explanation>"
+  }`;
 
-    const aiResponse = await callLovableAI(apiKey, prompt);
-    const analysis = parseJsonResponse(aiResponse);
+      const aiResponse = await callLovableAI(apiKey, prompt);
+      const analysis = parseJsonResponse(aiResponse);
 
-    if (analysis) {
-      const expectedCloseDate = new Date();
-      expectedCloseDate.setDate(expectedCloseDate.getDate() + (analysis.expected_close_days || 30));
+      if (analysis) {
+        const expectedCloseDate = new Date();
+        expectedCloseDate.setDate(expectedCloseDate.getDate() + (analysis.expected_close_days || 30));
 
-      // Save score
-      await supabase
-        .from("deal_scores")
-        .upsert({
-          business_id: businessId,
-          connection_id: deal.id,
-          deal_name: `Partnership with ${otherParty?.business_name}`,
-          deal_value: deal.estimated_value || 0,
-          close_probability: analysis.close_probability,
-          expected_close_date: expectedCloseDate.toISOString().split('T')[0],
-          competitor_risk: analysis.competitor_risk,
-          engagement_signals: analysis.engagement_signals,
-          recommended_next_steps: analysis.recommended_next_steps,
+        // Save score
+        await supabase
+          .from("deal_scores")
+          .upsert({
+            business_id: businessId,
+            connection_id: deal.id,
+            deal_name: `Partnership with ${otherParty?.business_name}`,
+            deal_value: deal.estimated_value || 0,
+            close_probability: analysis.close_probability,
+            expected_close_date: expectedCloseDate.toISOString().split('T')[0],
+            competitor_risk: analysis.competitor_risk,
+            engagement_signals: analysis.engagement_signals,
+            recommended_next_steps: analysis.recommended_next_steps,
+            ai_reasoning: analysis.reasoning,
+            score_factors: { messageCount, daysSinceCreated, matchScore: deal.match_score }
+          }, {
+            onConflict: 'connection_id'
+          });
+
+        // Log action
+        await logAgentAction(supabase, businessId, {
+          action_type: 'deal_scoring',
+          target_type: 'deal',
+          target_id: deal.id,
+          ai_confidence: analysis.close_probability,
           ai_reasoning: analysis.reasoning,
-          score_factors: { messageCount, daysSinceCreated, matchScore: deal.match_score }
-        }, {
-          onConflict: 'connection_id'
+          action_data: analysis,
+          status: 'executed'
         });
 
-      // Log action
-      await logAgentAction(supabase, businessId, {
-        action_type: 'deal_scoring',
-        target_type: 'deal',
-        target_id: deal.id,
-        ai_confidence: analysis.close_probability,
-        ai_reasoning: analysis.reasoning,
-        action_data: analysis,
-        status: 'executed'
-      });
-
-      scores.push({
-        dealId: deal.id,
-        partnerName: otherParty?.business_name,
-        ...analysis
-      });
+        scores.push({
+          dealId: deal.id,
+          partnerName: otherParty?.business_name,
+          ...analysis
+        });
+      }
+    } catch (recordError) {
+      console.error("[dealScoring] skipped deal", (deal as any)?.id, recordError instanceof Error ? recordError.message : recordError);
+      continue;
     }
   }
 
@@ -441,68 +460,74 @@ async function resolveTickets(supabase: any, apiKey: string, businessId: string,
 
   const resolutions = [];
   for (const ticket of tickets) {
-    const prompt = `You are a customer support AI agent. Analyze this support ticket and suggest a resolution.
+    // One bad record must never kill the batch — log it and move on.
+    try {
+      const prompt = `You are a customer support AI agent. Analyze this support ticket and suggest a resolution.
 
-Ticket:
-- Subject: ${ticket.subject}
-- Description: ${ticket.description}
-- Priority: ${ticket.priority}
-- Created: ${ticket.created_at}
+  Ticket:
+  - Subject: ${ticket.subject}
+  - Description: ${ticket.description}
+  - Priority: ${ticket.priority}
+  - Created: ${ticket.created_at}
 
-${templates?.length ? `Available Resolution Templates:\n${templates.map((t: any) => `- ${t.category}: ${t.issue_pattern}`).join('\n')}` : ''}
+  ${templates?.length ? `Available Resolution Templates:\n${templates.map((t: any) => `- ${t.category}: ${t.issue_pattern}`).join('\n')}` : ''}
 
-Provide your analysis as JSON with these exact fields:
-{
-  "can_auto_resolve": <true/false>,
-  "confidence": <0.0-1.0>,
-  "category": "<issue category>",
-  "suggested_response": "<response to send to customer>",
-  "internal_notes": "<notes for support team>",
-  "escalate_reason": "<if can't auto-resolve, why>",
-  "reasoning": "<brief explanation>"
-}`;
+  Provide your analysis as JSON with these exact fields:
+  {
+    "can_auto_resolve": <true/false>,
+    "confidence": <0.0-1.0>,
+    "category": "<issue category>",
+    "suggested_response": "<response to send to customer>",
+    "internal_notes": "<notes for support team>",
+    "escalate_reason": "<if can't auto-resolve, why>",
+    "reasoning": "<brief explanation>"
+  }`;
 
-    const aiResponse = await callLovableAI(apiKey, prompt);
-    const analysis = parseJsonResponse(aiResponse);
+      const aiResponse = await callLovableAI(apiKey, prompt);
+      const analysis = parseJsonResponse(aiResponse);
 
-    if (analysis) {
-      const action: any = {
-        action_type: 'ticket_resolution',
-        target_type: 'ticket',
-        target_id: ticket.id,
-        ai_confidence: analysis.confidence,
-        ai_reasoning: analysis.reasoning,
-        action_data: analysis,
-        requires_approval: !analysis.can_auto_resolve || analysis.confidence < 0.8
-      };
+      if (analysis) {
+        const action: any = {
+          action_type: 'ticket_resolution',
+          target_type: 'ticket',
+          target_id: ticket.id,
+          ai_confidence: analysis.confidence,
+          ai_reasoning: analysis.reasoning,
+          action_data: analysis,
+          requires_approval: !analysis.can_auto_resolve || analysis.confidence < 0.8
+        };
 
-      if (analysis.can_auto_resolve && analysis.confidence >= 0.8) {
-        // Auto-resolve: add response and close ticket
-        await supabase.from("ticket_responses").insert({
-          ticket_id: ticket.id,
-          responder_id: null, // AI response
-          response: analysis.suggested_response,
-          is_internal: false
+        if (analysis.can_auto_resolve && analysis.confidence >= 0.8) {
+          // Auto-resolve: add response and close ticket
+          await supabase.from("ticket_responses").insert({
+            ticket_id: ticket.id,
+            responder_id: null, // AI response
+            response: analysis.suggested_response,
+            is_internal: false
+          });
+
+          await supabase
+            .from("support_tickets")
+            .update({ status: "resolved", resolved_at: new Date().toISOString() })
+            .eq("id", ticket.id);
+
+          action.status = 'executed';
+        } else {
+          // Queue for human review
+          action.status = 'pending';
+        }
+
+        await logAgentAction(supabase, businessId, action);
+
+        resolutions.push({
+          ticketId: ticket.id,
+          subject: ticket.subject,
+          ...analysis
         });
-
-        await supabase
-          .from("support_tickets")
-          .update({ status: "resolved", resolved_at: new Date().toISOString() })
-          .eq("id", ticket.id);
-
-        action.status = 'executed';
-      } else {
-        // Queue for human review
-        action.status = 'pending';
       }
-
-      await logAgentAction(supabase, businessId, action);
-
-      resolutions.push({
-        ticketId: ticket.id,
-        subject: ticket.subject,
-        ...analysis
-      });
+    } catch (recordError) {
+      console.error("[ticketTriage] skipped ticket", (ticket as any)?.id, recordError instanceof Error ? recordError.message : recordError);
+      continue;
     }
   }
 
@@ -538,23 +563,28 @@ async function runFullAnalysis(supabase: any, apiKey: string, businessId: string
   };
 }
 
-// Helper: Call Lovable AI
+// Helper: Call Lovable AI. Retries temporary failures (rate limits, upstream
+// blips) with backoff instead of letting one hiccup kill the whole batch.
 async function callLovableAI(apiKey: string, prompt: string): Promise<string> {
-  const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json"
+  const response = await fetchAIWithRetry(
+    "https://ai.gateway.lovable.dev/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "google/gemini-3.7-flash",
+        messages: [
+          { role: "system", content: "You are an autonomous AI agent that analyzes business data and makes decisions. Always respond with valid JSON only, no markdown or extra text." },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.3
+      })
     },
-    body: JSON.stringify({
-      model: "google/gemini-3-flash-preview",
-      messages: [
-        { role: "system", content: "You are an autonomous AI agent that analyzes business data and makes decisions. Always respond with valid JSON only, no markdown or extra text." },
-        { role: "user", content: prompt }
-      ],
-      temperature: 0.3
-    })
-  });
+    { label: "ai-agent" },
+  );
 
   if (!response.ok) {
     const text = await response.text();
@@ -564,6 +594,7 @@ async function callLovableAI(apiKey: string, prompt: string): Promise<string> {
   const data = await response.json();
   return data.choices?.[0]?.message?.content || "";
 }
+
 
 // Helper: Parse JSON from AI response
 function parseJsonResponse(text: string): any {
