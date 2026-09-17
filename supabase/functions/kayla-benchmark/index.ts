@@ -86,7 +86,7 @@ async function gradeAnswer(
     additionalProperties: false,
     properties: {
       accuracy: { type: "integer", description: "0-100: does the answer match the known-correct facts?" },
-      grounding: { type: "integer", description: "0-100: is everything stated supported, with nothing invented?" },
+      grounding: { type: "integer", description: "0-100: are all CHECKABLE claims (prices, numbers, names, dates) correct and nothing contradicted or fabricated? Extra true detail is fine." },
       usefulness: { type: "integer", description: "0-100: would this actually help the person who asked?" },
       notes: { type: "string", description: "One or two sentences on what was right or wrong." },
     },
