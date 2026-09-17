@@ -86,7 +86,7 @@ async function gradeAnswer(
     additionalProperties: false,
     properties: {
       accuracy: { type: "integer", description: "0-100: does the answer match the known-correct facts?" },
-      grounding: { type: "integer", description: "0-100: is everything stated supported, with nothing invented?" },
+      grounding: { type: "integer", description: "0-100: are all CHECKABLE claims (prices, numbers, names, dates) correct and nothing contradicted or fabricated? Extra true detail is fine." },
       usefulness: { type: "integer", description: "0-100: would this actually help the person who asked?" },
       notes: { type: "string", description: "One or two sentences on what was right or wrong." },
     },
@@ -98,14 +98,18 @@ async function gradeAnswer(
 QUESTION ASKED:
 ${question}
 
-KNOWN-CORRECT ANSWER (the ground truth):
+KNOWN-CORRECT ANSWER (the ground truth). This is a MINIMUM bar, not an exhaustive list. It states what MUST be correct; it does not limit what the answer is allowed to mention:
 ${expected}
 ${mustNotSay ? `\nTHE ANSWER MUST NOT CONTAIN: ${mustNotSay}` : ""}
 
 THE ASSISTANT'S ACTUAL ANSWER:
 ${answer}
 
-Grade strictly. An answer that invents a fact, a price, a business name or a program scores at most 20 on grounding. An answer that contradicts the known-correct answer scores at most 20 on accuracy. A correct but vague answer loses usefulness points, not accuracy points.`;
+Grading rules:
+- ACCURACY: does it state the ground-truth facts correctly? Contradicting them scores at most 20.
+- GROUNDING: judge only CHECKABLE claims — prices, counts, dates, named businesses, named programs, legal/patent claims. Score at most 20 only if such a claim is wrong, invented, or contradicts the ground truth.
+  Do NOT deduct grounding for extra detail that is plausible, on-brand and not contradicted (feature descriptions, benefits, next-step suggestions, links to the company's own site such as 1325.ai pages, or offers to help further). Additional true or reasonable context is a strength, not a violation.
+- USEFULNESS: would this actually help the person who asked? A correct but vague answer loses usefulness points, not accuracy points.`;
 
   try {
     const resp = await fetchAIWithRetry(GATEWAY, {
