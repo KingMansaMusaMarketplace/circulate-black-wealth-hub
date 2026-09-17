@@ -139,6 +139,7 @@ const menuGroups: MenuGroup[] = [
       { id: 'system', label: 'Settings', icon: Sliders },
       { id: 'ai', label: 'AI Tools', icon: Bot },
       { id: 'admin-ai-workforce', label: 'AI Workforce', icon: Bot, route: '/admin/ai-workforce' },
+      { id: 'admin-kayla-scoreboard', label: 'Kayla Scoreboard', icon: Gauge, route: '/admin/kayla-scoreboard' },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge },
       { id: 'webhooks', label: 'Webhooks', icon: Webhook },
       { id: 'api-tokens', label: 'API Tokens', icon: Key },

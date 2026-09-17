@@ -146,6 +146,7 @@ const sections: { group: string; items: HubItem[] }[] = [
       { id: 'system', label: 'Settings', icon: Sliders, description: 'Platform configuration' },
       { id: 'ai', label: 'AI Tools', icon: Bot, description: 'AI-powered admin features' },
       { id: 'admin-ai-workforce', label: 'AI Workforce', icon: Bot, description: 'The 42 Agentic AI Employees status', route: '/admin/ai-workforce' },
+      { id: 'admin-kayla-scoreboard', label: 'Kayla Scoreboard', icon: Gauge, description: 'Test how smart Kayla and her team are', route: '/admin/kayla-scoreboard' },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge, description: 'Track Kayla AI usage costs' },
       { id: 'system-health', label: 'System Health', icon: Activity, description: 'Live system health' },
       { id: 'webhooks', label: 'Webhooks', icon: Webhook, description: 'Manage outbound webhooks' },
