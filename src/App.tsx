@@ -199,6 +199,7 @@ const LazyLoyaltyProgramGuidePage = lazy(() => import('@/pages/LoyaltyProgramGui
 
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAIWorkforceDashboard = lazy(() => import('@/pages/admin/AIWorkforceDashboard'));
+const LazyKaylaScoreboardPage = lazy(() => import('@/pages/admin/KaylaScoreboardPage'));
 const LazyBusinessReviewQueue = lazy(() => import('@/pages/admin/BusinessReviewQueue'));
 const LazySponsorAgreementPage = lazy(() => import('@/pages/SponsorAgreementPage'));
 const LazyAdminSponsorAgreements = lazy(() => import('@/pages/admin/SponsorAgreementsPage'));
@@ -610,6 +611,7 @@ function App() {
                               <Route path="/admin/investor-portal" element={<RequireAdmin><LazyAdminInvestorPortalPage /></RequireAdmin>} />
                               <Route path="/admin/investor-requests" element={<RequireAdmin><LazyAdminInvestorRequestsPage /></RequireAdmin>} />
                               <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
+                              <Route path="/admin/kayla-scoreboard" element={<RequireAdmin><LazyKaylaScoreboardPage /></RequireAdmin>} />
                               <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                               <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
 <Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
@@ -1267,6 +1269,7 @@ function App() {
                         <Route path="/admin/investor-portal" element={<RequireAdmin><LazyAdminInvestorPortalPage /></RequireAdmin>} />
                         <Route path="/admin/investor-requests" element={<RequireAdmin><LazyAdminInvestorRequestsPage /></RequireAdmin>} />
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
+                              <Route path="/admin/kayla-scoreboard" element={<RequireAdmin><LazyKaylaScoreboardPage /></RequireAdmin>} />
                         <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                         <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
 <Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
@@ -1870,6 +1873,7 @@ function App() {
                         <Route path="/admin/investor-portal" element={<RequireAdmin><LazyAdminInvestorPortalPage /></RequireAdmin>} />
                         <Route path="/admin/investor-requests" element={<RequireAdmin><LazyAdminInvestorRequestsPage /></RequireAdmin>} />
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
+                              <Route path="/admin/kayla-scoreboard" element={<RequireAdmin><LazyKaylaScoreboardPage /></RequireAdmin>} />
                         <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
                         <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
 <Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
