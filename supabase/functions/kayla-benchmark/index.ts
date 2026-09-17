@@ -183,65 +183,65 @@ serve(async (req) => {
       .insert({ run_label: label, cases_run: cases.length, created_by: userId })
       .select("id").single();
 
-    const graded: GradedCase[] = [];
+    // The full sweep takes several minutes — far longer than a browser request
+    // will wait. Return the run id straight away and keep grading in the
+    // background, saving each answer as it is graded so the page can follow along.
+    const work = (async () => {
+      const graded: GradedCase[] = [];
 
-    // Sequential on purpose: the whole workspace shares one rate-limit budget.
-    for (const c of cases) {
-      const started = Date.now();
-      let answer = "", model = "", tools = "";
-      try {
-        const res = await answerQuestion(supabase, c.question, key);
-        answer = res.answer; model = res.model; tools = res.tools;
-      } catch (e) {
-        answer = `[error: ${(e as Error).message}]`;
+      // Sequential on purpose: the whole workspace shares one rate-limit budget.
+      for (const c of cases) {
+        const started = Date.now();
+        let answer = "", model = "", tools = "";
+        try {
+          const res = await answerQuestion(supabase, c.question, key);
+          answer = res.answer; model = res.model; tools = res.tools;
+        } catch (e) {
+          answer = `[error: ${(e as Error).message}]`;
+        }
+        const latency = Date.now() - started;
+        const g = await gradeAnswer(c.question, c.expected_facts, c.must_not_say, answer, key);
+        const score = Math.round((g.accuracy + g.grounding + g.usefulness) / 3);
+
+        const row: GradedCase = {
+          case_id: c.id,
+          question: c.question,
+          answer,
+          score,
+          accuracy: g.accuracy,
+          grounding: g.grounding,
+          usefulness: g.usefulness,
+          grader_notes: g.notes,
+          tools_used: tools,
+          model_used: model,
+          latency_ms: latency,
+        };
+        graded.push(row);
+        await supabase.from("kayla_benchmark_results").insert({ run_id: run.id, ...row });
       }
-      const latency = Date.now() - started;
-      const g = await gradeAnswer(c.question, c.expected_facts, c.must_not_say, answer, key);
-      const score = Math.round((g.accuracy + g.grounding + g.usefulness) / 3);
 
-      graded.push({
-        case_id: c.id,
-        question: c.question,
-        answer,
-        score,
-        accuracy: g.accuracy,
-        grounding: g.grounding,
-        usefulness: g.usefulness,
-        grader_notes: g.notes,
-        tools_used: tools,
-        model_used: model,
-        latency_ms: latency,
-      });
-    }
+      const avg = (pick: (g: GradedCase) => number) =>
+        Math.round(graded.reduce((s, g) => s + pick(g), 0) / Math.max(graded.length, 1));
+      const passed = graded.filter((g) => g.score >= 70).length;
 
-    await supabase.from("kayla_benchmark_results").insert(
-      graded.map((g) => ({ run_id: run.id, ...g })),
-    );
+      await supabase.from("kayla_benchmark_runs").update({
+        finished_at: new Date().toISOString(),
+        average_score: avg((g) => g.score),
+        accuracy_score: avg((g) => g.accuracy),
+        grounding_score: avg((g) => g.grounding),
+        passed,
+        failed: graded.length - passed,
+      }).eq("id", run.id);
+    })();
 
-    const avg = (pick: (g: GradedCase) => number) =>
-      Math.round(graded.reduce((s, g) => s + pick(g), 0) / graded.length);
-
-    const averageScore = avg((g) => g.score);
-    const passed = graded.filter((g) => g.score >= 70).length;
-
-    await supabase.from("kayla_benchmark_runs").update({
-      finished_at: new Date().toISOString(),
-      average_score: averageScore,
-      accuracy_score: avg((g) => g.accuracy),
-      grounding_score: avg((g) => g.grounding),
-      passed,
-      failed: graded.length - passed,
-    }).eq("id", run.id);
+    // deno-lint-ignore no-explicit-any
+    const rt = (globalThis as any).EdgeRuntime;
+    if (rt?.waitUntil) rt.waitUntil(work); else work.catch(() => {});
 
     return new Response(JSON.stringify({
       run_id: run.id,
-      cases_run: graded.length,
-      average_score: averageScore,
-      accuracy_score: avg((g) => g.accuracy),
-      grounding_score: avg((g) => g.grounding),
-      passed,
-      failed: graded.length - passed,
-      results: graded,
+      cases_run: cases.length,
+      status: "running",
     }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
     return new Response(JSON.stringify({ error: (e as Error).message }), {
