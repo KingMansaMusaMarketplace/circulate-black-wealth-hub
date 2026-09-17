@@ -8,7 +8,7 @@ const corsHeaders = {
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning, buildReasoning } from "../_shared/kayla-coordination.ts";
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { runDeepJsonReport, reviewJsonReport } from "../_shared/kayla-deep.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -85,62 +85,63 @@ Return forecasts for the next 3 months. Each forecast should include:
 - opportunities: array of growth opportunities
 - ai_summary: 2-3 sentence analysis`;
 
-    const aiResponse = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-3.1-pro-preview",
-        messages: [
-          { role: "system", content: "You are a financial forecasting AI. Return structured data." },
-          { role: "user", content: prompt },
-        ],
-        tools: [{
-          type: "function",
-          function: {
-            name: "return_forecasts",
-            description: "Return cash flow forecasts",
-            parameters: {
-              type: "object",
-              properties: {
-                forecasts: {
-                  type: "array",
-                  items: {
-                    type: "object",
-                    properties: {
-                      forecast_period: { type: "string" },
-                      projected_revenue: { type: "number" },
-                      projected_expenses: { type: "number" },
-                      projected_net: { type: "number" },
-                      confidence_level: { type: "number" },
-                      risk_factors: { type: "array", items: { type: "string" } },
-                      opportunities: { type: "array", items: { type: "string" } },
-                      ai_summary: { type: "string" },
-                    },
-                    required: ["forecast_period", "projected_revenue", "projected_expenses", "projected_net"],
-                  },
-                },
-              },
-              required: ["forecasts"],
+    const forecastSchema = {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        forecasts: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+              forecast_period: { type: "string" },
+              projected_revenue: { type: "number" },
+              projected_expenses: { type: "number" },
+              projected_net: { type: "number" },
+              confidence_level: { type: "number" },
+              risk_factors: { type: "array", items: { type: "string" } },
+              opportunities: { type: "array", items: { type: "string" } },
+              ai_summary: { type: "string" },
             },
+            required: [
+              "forecast_period", "projected_revenue", "projected_expenses", "projected_net",
+              "confidence_level", "risk_factors", "opportunities", "ai_summary",
+            ],
           },
-        }],
-        tool_choice: { type: "function", function: { name: "return_forecasts" } },
-      }),
+        },
+      },
+      required: ["forecasts"],
+    };
+
+    // PREMIUM REASONING + SELF-REVIEW: owners make real spending decisions on
+    // these numbers, so the forecast runs on the best model and is then
+    // re-checked against the underlying activity data.
+    const deep = await runDeepJsonReport<{ forecasts: any[] }>({
+      prompt,
+      schema: forecastSchema,
+      schemaName: "return_forecasts",
+      lovableApiKey: LOVABLE_API_KEY,
+      effort: "medium",
+      label: "cashflow-forecast",
     });
 
-    if (!aiResponse.ok) {
-      const status = aiResponse.status;
-      if (status === 429) return new Response(JSON.stringify({ error: "Rate limited" }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-      if (status === 402) return new Response(JSON.stringify({ error: "AI credits exhausted" }), { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-      throw new Error(`AI error: ${status}`);
+    if (!deep.result) {
+      return new Response(JSON.stringify({ error: "Could not generate a forecast right now. Please try again." }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const aiData = await aiResponse.json();
-    const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
-    const forecasts = JSON.parse(toolCall?.function?.arguments || "{}").forecasts || [];
+    const reviewed = await reviewJsonReport<{ forecasts: any[] }>({
+      sourcePrompt: prompt,
+      draft: deep.result,
+      schema: forecastSchema,
+      schemaName: "return_forecasts",
+      lovableApiKey: LOVABLE_API_KEY,
+      label: "cashflow-review",
+    });
+
+    const forecasts = reviewed.result?.forecasts || [];
+    console.log(`[cashflow-forecast] model=${deep.modelUsed} corrections=${reviewed.corrections.length}`);
 
     for (const forecast of forecasts) {
       const reasoning = buildReasoning(

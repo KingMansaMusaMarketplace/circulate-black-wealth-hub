@@ -10988,6 +10988,147 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_benchmark_cases: {
+        Row: {
+          category: string
+          created_at: string
+          expected_facts: string
+          id: string
+          is_active: boolean
+          must_not_say: string | null
+          question: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          expected_facts: string
+          id?: string
+          is_active?: boolean
+          must_not_say?: string | null
+          question: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          expected_facts?: string
+          id?: string
+          is_active?: boolean
+          must_not_say?: string | null
+          question?: string
+        }
+        Relationships: []
+      }
+      kayla_benchmark_results: {
+        Row: {
+          accuracy: number | null
+          answer: string | null
+          case_id: string | null
+          created_at: string
+          grader_notes: string | null
+          grounding: number | null
+          id: string
+          latency_ms: number | null
+          model_used: string | null
+          question: string
+          run_id: string
+          score: number | null
+          tools_used: string | null
+          usefulness: number | null
+        }
+        Insert: {
+          accuracy?: number | null
+          answer?: string | null
+          case_id?: string | null
+          created_at?: string
+          grader_notes?: string | null
+          grounding?: number | null
+          id?: string
+          latency_ms?: number | null
+          model_used?: string | null
+          question: string
+          run_id: string
+          score?: number | null
+          tools_used?: string | null
+          usefulness?: number | null
+        }
+        Update: {
+          accuracy?: number | null
+          answer?: string | null
+          case_id?: string | null
+          created_at?: string
+          grader_notes?: string | null
+          grounding?: number | null
+          id?: string
+          latency_ms?: number | null
+          model_used?: string | null
+          question?: string
+          run_id?: string
+          score?: number | null
+          tools_used?: string | null
+          usefulness?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_benchmark_results_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "kayla_benchmark_cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_benchmark_results_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "kayla_benchmark_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kayla_benchmark_runs: {
+        Row: {
+          accuracy_score: number | null
+          average_score: number | null
+          cases_run: number
+          created_by: string | null
+          failed: number
+          finished_at: string | null
+          grounding_score: number | null
+          id: string
+          notes: string | null
+          passed: number
+          run_label: string | null
+          started_at: string
+        }
+        Insert: {
+          accuracy_score?: number | null
+          average_score?: number | null
+          cases_run?: number
+          created_by?: string | null
+          failed?: number
+          finished_at?: string | null
+          grounding_score?: number | null
+          id?: string
+          notes?: string | null
+          passed?: number
+          run_label?: string | null
+          started_at?: string
+        }
+        Update: {
+          accuracy_score?: number | null
+          average_score?: number | null
+          cases_run?: number
+          created_by?: string | null
+          failed?: number
+          finished_at?: string | null
+          grounding_score?: number | null
+          id?: string
+          notes?: string | null
+          passed?: number
+          run_label?: string | null
+          started_at?: string
+        }
+        Relationships: []
+      }
       kayla_business_baseline: {
         Row: {
           business_id: string
@@ -12250,6 +12391,8 @@ export type Database = {
           created_at: string
           id: string
           learning: string
+          review_status: string
+          reviewed_at: string | null
           source: string
           verification_note: string | null
           verified: boolean
@@ -12263,6 +12406,8 @@ export type Database = {
           created_at?: string
           id?: string
           learning: string
+          review_status?: string
+          reviewed_at?: string | null
           source?: string
           verification_note?: string | null
           verified?: boolean
@@ -12276,6 +12421,8 @@ export type Database = {
           created_at?: string
           id?: string
           learning?: string
+          review_status?: string
+          reviewed_at?: string | null
           source?: string
           verification_note?: string | null
           verified?: boolean

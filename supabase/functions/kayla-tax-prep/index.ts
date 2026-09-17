@@ -8,7 +8,7 @@ const corsHeaders = {
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { runDeepJsonReport, reviewJsonReport } from "../_shared/kayla-deep.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -74,60 +74,64 @@ Expense Categories: ${JSON.stringify(expenses?.reduce((acc: any, e: any) => { ac
 
 Provide tax preparation guidance including potential deductions and quarterly estimate recommendations.`;
 
-      const aiResp = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "google/gemini-3.1-pro-preview",
-          messages: [{ role: "user", content: prompt }],
-          tools: [{
-            type: "function",
-            function: {
-              name: "tax_analysis",
-              description: "Return tax prep analysis",
-              parameters: {
-                type: "object",
-                properties: {
-                  ai_summary: { type: "string" },
-                  estimated_tax_liability: { type: "number" },
-                  deductions: {
-                    type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        name: { type: "string" },
-                        amount: { type: "number" },
-                        description: { type: "string" }
-                      },
-                      required: ["name", "amount", "description"]
-                    }
-                  },
-                  quarterly_estimates: {
-                    type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        quarter: { type: "string" },
-                        amount: { type: "number" },
-                        due_date: { type: "string" }
-                      },
-                      required: ["quarter", "amount", "due_date"]
-                    }
-                  }
-                },
-                required: ["ai_summary", "estimated_tax_liability", "deductions", "quarterly_estimates"]
-              }
-            }
-          }],
-          tool_choice: { type: "function", function: { name: "tax_analysis" } }
-        }),
+      const taxSchema = {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          ai_summary: { type: "string" },
+          estimated_tax_liability: { type: "number" },
+          deductions: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              properties: {
+                name: { type: "string" },
+                amount: { type: "number" },
+                description: { type: "string" },
+              },
+              required: ["name", "amount", "description"],
+            },
+          },
+          quarterly_estimates: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              properties: {
+                quarter: { type: "string" },
+                amount: { type: "number" },
+                due_date: { type: "string" },
+              },
+              required: ["quarter", "amount", "due_date"],
+            },
+          },
+        },
+        required: ["ai_summary", "estimated_tax_liability", "deductions", "quarterly_estimates"],
+      };
+
+      // PREMIUM REASONING + SELF-REVIEW: tax guidance is high-consequence.
+      const deep = await runDeepJsonReport<any>({
+        prompt,
+        schema: taxSchema,
+        schemaName: "tax_analysis",
+        lovableApiKey: LOVABLE_API_KEY,
+        effort: "high",
+        label: "tax-prep",
       });
 
-      if (aiResp.ok) {
-        const aiData = await aiResp.json();
-        const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
-        if (toolCall) {
-          const parsed = JSON.parse(toolCall.function.arguments);
+      if (deep.result) {
+        const reviewed = await reviewJsonReport<any>({
+          sourcePrompt: prompt,
+          draft: deep.result,
+          schema: taxSchema,
+          schemaName: "tax_analysis",
+          lovableApiKey: LOVABLE_API_KEY,
+          label: "tax-prep-review",
+        });
+        console.log(`[tax-prep] model=${deep.modelUsed} corrections=${reviewed.corrections.length}`);
+        {
+          const parsed = reviewed.result;
           aiSummary = parsed.ai_summary;
           deductions = parsed.deductions || [];
           quarterlyEstimates = parsed.quarterly_estimates || [];

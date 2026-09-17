@@ -2,6 +2,7 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 import { retrieveRAGContext, retrievePersonalMemory } from "../_shared/kayla-memory.ts";
+import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
 
 // Memory + platform knowledge now live in _shared/kayla-memory.ts so every
 // Kayla surface remembers the same things.
@@ -386,15 +387,28 @@ Deno.serve(async (req) => {
     }
     console.log(`Routing to: ${category} | Message: "${lastUserMessage.substring(0, 80)}..." | Image: ${messageHasImage}`);
 
-    // ========== GROUNDING: platform knowledge + personal memory ==========
-    // Both now run for EVERY question. Previously simple questions got no
-    // memory at all, which is why Kayla kept forgetting people.
-    const [ragContext, personalMemory] = await Promise.all([
+    // ========== GROUNDING: platform knowledge + personal memory + LIVE LOOKUPS ==========
+    // All three run for EVERY question. Live lookups let Kayla check the real
+    // directory, the person's own numbers and the live web before answering,
+    // instead of answering from memory.
+    const ownedBusinessId = await resolveOwnedBusinessId(supabase, user.id);
+    const [ragContext, personalMemory, grounding] = await Promise.all([
       retrieveRAGContext(lastUserMessage, LOVABLE_API_KEY, supabase),
       retrievePersonalMemory(user.id, supabase, sessionId),
+      gatherLiveGrounding({
+        supabase,
+        question: lastUserMessage,
+        lovableApiKey: LOVABLE_API_KEY,
+        userId: user.id,
+        businessId: ownedBusinessId,
+      }),
     ]);
     if (ragContext) systemPrompt += ragContext;
     if (personalMemory) systemPrompt += personalMemory;
+    if (grounding.block) systemPrompt += grounding.block;
+    if (grounding.calls.length) {
+      console.log(`[orchestrator] grounding: ${grounding.calls.map((c) => c.tool).join(", ")}`);
+    }
 
 
     // ========== ROUTE TO PROVIDER(S) ==========
