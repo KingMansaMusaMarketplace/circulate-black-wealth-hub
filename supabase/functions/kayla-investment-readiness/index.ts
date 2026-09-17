@@ -74,47 +74,110 @@ Verified: ${business?.is_verified}
 
 Score each dimension 0-100 and provide strengths, weaknesses, and recommendations.`;
 
-    const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const assessmentSchema = {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        overall_score: { type: "integer" },
+        financial_health_score: { type: "integer" },
+        market_position_score: { type: "integer" },
+        team_readiness_score: { type: "integer" },
+        documentation_score: { type: "integer" },
+        growth_trajectory_score: { type: "integer" },
+        strengths: { type: "array", items: { type: "string" } },
+        weaknesses: { type: "array", items: { type: "string" } },
+        recommendations: { type: "array", items: { type: "string" } },
+        investor_type_fit: { type: "array", items: { type: "string" } },
+        ai_assessment: { type: "string" },
+      },
+      required: [
+        "overall_score", "financial_health_score", "market_position_score",
+        "team_readiness_score", "documentation_score", "growth_trajectory_score",
+        "strengths", "weaknesses", "recommendations", "investor_type_fit", "ai_assessment",
+      ],
+    };
+
+    // Premium reasoning model: this report is low-volume and high-value, so it
+    // runs on GPT-6 Astra via the Responses API (streamed, per gateway rules).
+    const astraResp = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
       method: "POST",
       headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3.1-pro-preview",
-        messages: [{ role: "user", content: prompt }],
-        tools: [{
-          type: "function",
-          function: {
+        model: "openai/gpt-6-astra",
+        input: [{ role: "user", content: [{ type: "input_text", text: prompt }] }],
+        stream: true,
+        store: false,
+        reasoning: { effort: "medium" },
+        text: {
+          format: {
+            type: "json_schema",
             name: "investment_assessment",
-            description: "Return investment readiness assessment",
-            parameters: {
-              type: "object",
-              properties: {
-                overall_score: { type: "integer" },
-                financial_health_score: { type: "integer" },
-                market_position_score: { type: "integer" },
-                team_readiness_score: { type: "integer" },
-                documentation_score: { type: "integer" },
-                growth_trajectory_score: { type: "integer" },
-                strengths: { type: "array", items: { type: "string" } },
-                weaknesses: { type: "array", items: { type: "string" } },
-                recommendations: { type: "array", items: { type: "string" } },
-                investor_type_fit: { type: "array", items: { type: "string" } },
-                ai_assessment: { type: "string" }
-              },
-              required: ["overall_score", "financial_health_score", "market_position_score", "team_readiness_score", "documentation_score", "growth_trajectory_score", "strengths", "weaknesses", "recommendations", "investor_type_fit", "ai_assessment"]
-            }
-          }
-        }],
-        tool_choice: { type: "function", function: { name: "investment_assessment" } }
+            strict: true,
+            schema: assessmentSchema,
+          },
+        },
       }),
     });
 
-    if (!aiResp.ok) throw new Error("AI assessment failed");
+    let rawJson = "";
+    if (astraResp.ok && astraResp.body) {
+      const reader = astraResp.body.pipeThrough(new TextDecoderStream()).getReader();
+      let buffer = "";
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += value;
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+        for (const line of lines) {
+          if (!line.startsWith("data:")) continue;
+          const payload = line.slice(5).trim();
+          if (!payload || payload === "[DONE]") continue;
+          try {
+            const evt = JSON.parse(payload);
+            if (evt.type === "response.output_text.delta" && typeof evt.delta === "string") {
+              rawJson += evt.delta;
+            }
+          } catch { /* ignore partial frames */ }
+        }
+      }
+    } else {
+      console.error("Astra assessment failed", astraResp.status, await astraResp.text().catch(() => ""));
+    }
 
-    const aiData = await aiResp.json();
-    const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall) throw new Error("No assessment generated");
+    let result: any = null;
+    try {
+      result = rawJson.trim() ? JSON.parse(rawJson) : null;
+    } catch {
+      result = null;
+    }
 
-    const result = JSON.parse(toolCall.function.arguments);
+    // Fallback to the standard model if the premium run returns nothing usable.
+    if (!result) {
+      const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3.1-pro-preview",
+          messages: [{ role: "user", content: prompt }],
+          tools: [{
+            type: "function",
+            function: {
+              name: "investment_assessment",
+              description: "Return investment readiness assessment",
+              parameters: assessmentSchema,
+            },
+          }],
+          tool_choice: { type: "function", function: { name: "investment_assessment" } },
+        }),
+      });
+
+      if (!aiResp.ok) throw new Error("AI assessment failed");
+      const aiData = await aiResp.json();
+      const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
+      if (!toolCall) throw new Error("No assessment generated");
+      result = JSON.parse(toolCall.function.arguments);
+    }
 
     // Save to database
     await supabase.from("kayla_investment_readiness").insert({
