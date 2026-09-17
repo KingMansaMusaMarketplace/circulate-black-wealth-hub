@@ -23,8 +23,11 @@ const MFAHandler: React.FC<MFAHandlerProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Get the redirect path from location state or default to dashboard
-  const from = (location.state as any)?.from || '/dashboard';
+  // Get the redirect path from ?next=/?redirect= query, location state, or default
+  const searchParams = new URLSearchParams(location.search);
+  const target = searchParams.get('next') || searchParams.get('redirect');
+  const safeTarget = target && target.startsWith('/') && !target.startsWith('//') ? target : null;
+  const from = safeTarget || (location.state as any)?.from || '/dashboard';
 
   const handleMFASubmit = async (code: string) => {
     try {
