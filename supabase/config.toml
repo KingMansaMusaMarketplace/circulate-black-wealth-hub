@@ -137,6 +137,10 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.kayla-grant-matcher]
     verify_jwt = false
+  [functions.kayla-benchmark]
+    verify_jwt = false
+  [functions.kayla-learning-review]
+    verify_jwt = false
   [functions.kayla-health-check]
     verify_jwt = false
   [functions.kayla-inventory-manager]
