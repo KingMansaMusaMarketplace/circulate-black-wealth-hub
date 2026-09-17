@@ -190,7 +190,7 @@ Deno.serve(async (req) => {
       referring_domain: r.domain ?? "",
       ascore: num(r.domain_ascore),
       backlinks_num: num(r.backlinks_num),
-      ip_addresses_num: num(r.ip_addresses_num),
+      ip_addresses_num: null,
       country: r.country || null,
       first_seen: dateOrNull(r.first_seen),
       last_seen: dateOrNull(r.last_seen),
