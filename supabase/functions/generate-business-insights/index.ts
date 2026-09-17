@@ -1,7 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
 import { z } from 'https://esm.sh/zod@3.23.8';
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -231,7 +231,7 @@ Return a JSON object with these fields:
 - trends: Object with growth trend description and key metrics
 - nextSteps: Array of 2-3 strategic next steps for long-term growth
 
-Be specific, actionable, and positive while being honest about areas needing improvement.`
+Be specific, actionable, and positive while being honest about areas needing improvement.` + buildAgentBrandBlock({ plans: false })
           },
           {
             role: 'user',

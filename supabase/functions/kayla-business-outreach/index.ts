@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 import { requireAdmin, authErrorResponse } from "../_shared/auth-guard.ts";
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -72,7 +72,7 @@ serve(async (req) => {
             body: JSON.stringify({
               model: "google/gemini-3.7-flash",
               messages: [
-                { role: "system", content: "You are Kayla, an AI business concierge for 1325.AI — a platform for Black-owned businesses. Write personalized outreach pitches that are warm, professional, and data-driven." },
+                { role: "system", content: "You are Kayla, an AI business concierge for 1325.AI — a platform for Black-owned businesses. Write personalized outreach pitches that are warm, professional, and data-driven. Quote only the plan prices listed below." + buildAgentBrandBlock() },
                 { role: "user", content: prompt },
               ],
             }),
@@ -117,7 +117,7 @@ serve(async (req) => {
 });
 
 function getDefaultPitch(businessName: string): string {
-  return `Hi ${businessName} team,\n\nI'm Kayla, your AI concierge on 1325.AI. I've been analyzing your listing and I'm ready to help you grow:\n\n• Auto-respond to every review in seconds — professionally, on-brand\n• Match you with B2B partners in your area for supply chain savings\n• Predict customer churn before it happens — retain 30% more customers\n• Generate social content and promotions on autopilot\n\nBusinesses on 1325.AI see an average 7x ROI from the platform. Activate me for just $100/mo — cancel anytime.\n\nLet's grow together,\nKayla`;
+  return `Hi ${businessName} team,\n\nI'm Kayla, your AI concierge on 1325.AI. I've been analyzing your listing and I'm ready to help you grow:\n\n• Auto-respond to every review in seconds — professionally, on-brand\n• Match you with B2B partners in your area for supply chain savings\n• Predict customer churn before it happens — retain 30% more customers\n• Generate social content and promotions on autopilot\n\nBusinesses on 1325.AI see an average 7x ROI from the platform. Kayla AI plans start at $19/mo — cancel anytime.\n\nLet's grow together,\nKayla`;
 }
 
 function jsonResponse(data: Record<string, unknown>, status = 200): Response {

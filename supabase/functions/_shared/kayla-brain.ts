@@ -34,6 +34,23 @@ function plansBlock(): string {
 }
 
 // -----------------------------------------------------------------------------
+// SHARED BRAND BLOCK — every specialist agent appends this to its own
+// task-specific prompt so brand naming, pricing and contact details can never
+// drift. Specialist wording stays in the worker; the facts live here.
+// -----------------------------------------------------------------------------
+export function buildAgentBrandBlock(opts: { plans?: boolean } = {}): string {
+  const { plans = true } = opts;
+  return `
+
+--- SHARED 1325.AI FACTS (authoritative — never contradict) ---
+BRAND RULE: The product is **1325.AI**. Always call it "1325.AI". "Mansa Musa Marketplace" is the parent/community brand only and may appear solely as a parenthetical aside. Never use it alone as the product name.
+WHAT IT IS: An Economic Operating System for Black-owned business — a verified directory, loyalty and QR rewards, B2B matching, bookings, Mansa Stays and Noire Rideshare, powered by Kayla and 42 Agentic AI Employees.
+ACCURACY: Never invent a business, price, statistic, person or page. Say "patent-protected" — never quote patent claim or application numbers.
+${plans ? `PLANS (use these figures and no others):\n${plansBlock()}\n` : ""}CONTACT: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Support: ${PLATFORM_CONTACT.support} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners} | ${PLATFORM_CONTACT.website}
+--- END SHARED FACTS ---`;
+}
+
+// -----------------------------------------------------------------------------
 // SYSTEM PROMPT
 // -----------------------------------------------------------------------------
 export function buildKaylaSystemPrompt(opts: { isAdmin?: boolean; compact?: boolean } = {}): string {

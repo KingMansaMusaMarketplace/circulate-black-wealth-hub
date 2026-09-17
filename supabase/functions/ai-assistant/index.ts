@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.ts";
 
 // Zod schema for message validation - prevents DoS and ensures proper structure
 const messageSchema = z.object({
@@ -151,7 +151,7 @@ Keep responses clear and under 3-4 sentences unless more detail is requested.`;
       body: JSON.stringify({
         model: "google/gemini-3.7-flash",
         messages: [
-          { role: "system", content: systemPrompt },
+          { role: "system", content: systemPrompt + buildAgentBrandBlock() },
           ...messages,
         ],
         stream: true,

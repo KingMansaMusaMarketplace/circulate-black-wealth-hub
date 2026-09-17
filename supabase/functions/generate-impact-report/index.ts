@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -198,7 +198,7 @@ Keep it under 200 words but make every word count.`;
       body: JSON.stringify({
         model: 'google/gemini-3.7-flash',
         messages: [
-          { role: 'system', content: systemPrompt },
+          { role: 'system', content: systemPrompt + buildAgentBrandBlock({ plans: false }) },
           { role: 'user', content: userContext }
         ],
         temperature: 0.8,
