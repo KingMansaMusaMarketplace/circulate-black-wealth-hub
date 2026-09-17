@@ -130,7 +130,7 @@ const KaylaScoreboardPage: React.FC = () => {
               <Brain className="h-7 w-7 text-[#FFB300]" />
               Kayla Scoreboard
             </h1>
-            <p className="text-white/60 mt-2 max-w-2xl">
+            <p className="text-base text-white/85 mt-2 max-w-2xl">
               A fixed set of real questions with the correct answers written down. Run it after any
               change to see whether the AI team actually got smarter.
             </p>
@@ -149,9 +149,9 @@ const KaylaScoreboardPage: React.FC = () => {
               { label: 'Nothing invented', value: latest.grounding_score },
               { label: 'Questions passed', value: `${latest.passed}/${latest.cases_run}`, raw: true },
             ].map((s) => (
-              <Card key={s.label} className="bg-white/5 border-white/10 p-5">
-                <p className="text-xs uppercase tracking-wide text-white/50">{s.label}</p>
-                <p className={`text-3xl font-bold mt-1 ${s.raw ? 'text-white' : scoreColor(s.value as number)}`}>
+              <Card key={s.label} className="bg-white/10 border-white/20 p-5">
+                <p className="text-sm font-semibold uppercase tracking-wide text-white/80">{s.label}</p>
+                <p className={`text-4xl font-bold mt-1 ${s.raw ? 'text-white' : scoreColor(s.value as number)}`}>
                   {s.value ?? '—'}
                 </p>
               </Card>
@@ -160,11 +160,11 @@ const KaylaScoreboardPage: React.FC = () => {
         )}
 
         <div className="grid lg:grid-cols-3 gap-6">
-          <Card className="bg-white/5 border-white/10 p-5 lg:col-span-1">
-            <h2 className="font-semibold mb-4">Past tests</h2>
-            {loading && <p className="text-white/50 text-sm">Loading…</p>}
+          <Card className="bg-white/10 border-white/20 p-5 lg:col-span-1">
+            <h2 className="text-lg font-bold mb-4 text-white">Past tests</h2>
+            {loading && <p className="text-white/70 text-base">Loading…</p>}
             {!loading && !runs.length && (
-              <p className="text-white/50 text-sm">No tests yet. Press “Run the test” to create the first one.</p>
+              <p className="text-white/70 text-base">No tests yet. Press “Run the test” to create the first one.</p>
             )}
             <div className="space-y-2">
               {runs.map((r) => (
@@ -176,35 +176,35 @@ const KaylaScoreboardPage: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm">{r.run_label || new Date(r.started_at).toLocaleString()}</span>
-                    <span className={`font-semibold ${scoreColor(r.average_score)}`}>{r.average_score ?? '—'}</span>
+                    <span className="text-base text-white">{r.run_label || new Date(r.started_at).toLocaleString()}</span>
+                    <span className={`text-lg font-bold ${scoreColor(r.average_score)}`}>{r.average_score ?? '—'}</span>
                   </div>
-                  <span className="text-xs text-white/40">{r.cases_run} questions</span>
+                  <span className="text-sm text-white/70">{r.cases_run} questions</span>
                 </button>
               ))}
             </div>
           </Card>
 
-          <Card className="bg-white/5 border-white/10 p-5 lg:col-span-2">
-            <h2 className="font-semibold mb-4">Answers, weakest first</h2>
-            {!results.length && <p className="text-white/50 text-sm">Pick a test on the left to see the answers.</p>}
+          <Card className="bg-white/10 border-white/20 p-5 lg:col-span-2">
+            <h2 className="text-lg font-bold mb-4 text-white">Answers, weakest first</h2>
+            {!results.length && <p className="text-white/70 text-base">Pick a test on the left to see the answers.</p>}
             <div className="space-y-4">
               {results.map((r) => (
-                <div key={r.id} className="border border-white/10 rounded-lg p-4 bg-black/20">
+                <div key={r.id} className="border border-white/20 rounded-lg p-4 bg-black/30">
                   <div className="flex items-start justify-between gap-3">
-                    <p className="font-medium text-sm">{r.question}</p>
-                    <Badge className={`shrink-0 bg-white/10 ${scoreColor(r.score)}`}>
+                    <p className="font-bold text-base text-white">{r.question}</p>
+                    <Badge className={`shrink-0 bg-white/15 text-base font-bold ${scoreColor(r.score)}`}>
                       {(r.score ?? 0) >= 70
                         ? <CheckCircle2 className="h-3 w-3 mr-1" />
                         : <AlertTriangle className="h-3 w-3 mr-1" />}
                       {r.score ?? '—'}
                     </Badge>
                   </div>
-                  <p className="text-sm text-white/70 mt-2 whitespace-pre-wrap line-clamp-6">{r.answer}</p>
+                  <p className="text-base text-white/90 mt-2 whitespace-pre-wrap line-clamp-6">{r.answer}</p>
                   {r.grader_notes && (
-                    <p className="text-xs text-[#FFB300] mt-3">Grader: {r.grader_notes}</p>
+                    <p className="text-sm text-[#FFB300] mt-3">Grader: {r.grader_notes}</p>
                   )}
-                  <p className="text-[11px] text-white/40 mt-2">
+                  <p className="text-sm text-white/70 mt-2">
                     Correct facts {r.accuracy ?? '—'} · Nothing invented {r.grounding ?? '—'} · Useful {r.usefulness ?? '—'}
                     {r.tools_used ? ` · Looked up: ${r.tools_used}` : ' · No lookups'}
                     {r.latency_ms ? ` · ${(r.latency_ms / 1000).toFixed(1)}s` : ''}
