@@ -149,9 +149,9 @@ const KaylaScoreboardPage: React.FC = () => {
               { label: 'Nothing invented', value: latest.grounding_score },
               { label: 'Questions passed', value: `${latest.passed}/${latest.cases_run}`, raw: true },
             ].map((s) => (
-              <Card key={s.label} className="bg-white/5 border-white/10 p-5">
-                <p className="text-xs uppercase tracking-wide text-white/50">{s.label}</p>
-                <p className={`text-3xl font-bold mt-1 ${s.raw ? 'text-white' : scoreColor(s.value as number)}`}>
+              <Card key={s.label} className="bg-white/10 border-white/20 p-5">
+                <p className="text-sm font-semibold uppercase tracking-wide text-white/80">{s.label}</p>
+                <p className={`text-4xl font-bold mt-1 ${s.raw ? 'text-white' : scoreColor(s.value as number)}`}>
                   {s.value ?? '—'}
                 </p>
               </Card>
