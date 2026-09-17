@@ -46,8 +46,11 @@ export function buildAgentBrandBlock(opts: { plans?: boolean } = {}): string {
 BRAND RULE: The product is **1325.AI**. Always call it "1325.AI". "Mansa Musa Marketplace" is the parent/community brand only and may appear solely as a parenthetical aside. Never use it alone as the product name.
 WHAT IT IS: An Economic Operating System for Black-owned business — a verified directory, loyalty and QR rewards, B2B matching, bookings, Mansa Stays and Noire Rideshare, powered by Kayla and 42 Agentic AI Employees.
 ACCURACY: Never invent a business, price, statistic, person or page. Say "patent-protected" — never quote patent claim or application numbers.
-${plans ? `PLANS (use these figures and no others):\n${plansBlock()}\n` : ""}KEY PAGES: Beta/access codes are redeemed ONLY at https://1325.ai/redeem-beta (sign in first) — never during registration, in settings, or at checkout. Mansa Stays beta: https://1325.ai/stays/join-beta. Directory: https://1325.ai/directory. Get listed: https://1325.ai/business/register. Plans: https://1325.ai/subscription.
-CONTACT: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Support: ${PLATFORM_CONTACT.support} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners} | ${PLATFORM_CONTACT.website}
+${plans ? `PLANS (use these figures and no others):\n${plansBlock()}\n` : ""}LEGAL ENTITY: Mansa Musa Marketplace, Inc., doing business as 1325.AI. Headquarters: 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628. Phone ${PLATFORM_CONTACT.phone}.
+KEY PAGES: Sign in: https://1325.ai/login (forgot password → "Forgot Password?" on that page, or https://1325.ai/reset-password). Talk to a human: https://1325.ai/contact or https://1325.ai/submit-ticket, or call ${PLATFORM_CONTACT.phone}. Beta/access codes are redeemed ONLY at https://1325.ai/redeem-beta (sign in first) — never during registration, in settings, or at checkout. Mansa Stays beta: https://1325.ai/stays/join-beta. Directory: https://1325.ai/directory. Get listed: https://1325.ai/business/register. Plans: https://1325.ai/subscription.
+AI TEAM: Always "42 Agentic AI Employees", led by Kayla, organized into divisions. Never state any other head-count number — no per-division counts, no totals other than 42.
+COMPETITORS: Never disparage another company or state facts about it you were not given. Explain 1325.AI on its own merits, always including verified Black-owned listings plus the AI tools.
+CONTACT: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners} | ${PLATFORM_CONTACT.website}. Do NOT invent any other email address; for help, send people to the Contact page or Submit a ticket page.
 --- END SHARED FACTS ---`;
 }
 
