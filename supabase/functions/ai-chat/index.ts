@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { routeAgents } from "../_shared/kayla-agent-router.ts";
 import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 import { retrieveRAGContext, retrievePersonalMemory, persistSession, resolveSessionId } from "../_shared/kayla-memory.ts";
+import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -147,14 +148,29 @@ Deno.serve(async (req) => {
     console.log(`[ai-chat] category=${category} (${reason})`);
 
     // ===== GROUNDING: pull real platform records + personal memory =====
-    const [ragContext, personalMemory] = await Promise.all([
+    const ownedBusinessId = await resolveOwnedBusinessId(supabase, user.id);
+
+    const [ragContext, personalMemory, grounding] = await Promise.all([
       category === "simple" && !/business|restaurant|shop|store|find|near|recommend|review|event/i.test(lastUserMsg)
         ? Promise.resolve("")
         : retrieveRAGContext(lastUserMsg, LOVABLE_API_KEY, supabase),
       retrievePersonalMemory(user.id, supabase, sessionId),
+      // CHECK BEFORE YOU ANSWER: real lookups against the live directory, the
+      // person's own account/business numbers, and the live web.
+      gatherLiveGrounding({
+        supabase,
+        question: lastUserMsg,
+        lovableApiKey: LOVABLE_API_KEY,
+        userId: user.id,
+        businessId: ownedBusinessId,
+      }),
     ]);
     if (ragContext) systemPrompt += ragContext;
     if (personalMemory) systemPrompt += personalMemory;
+    if (grounding.block) systemPrompt += grounding.block;
+    if (grounding.calls.length) {
+      console.log(`[ai-chat] grounding: ${grounding.calls.map((c) => c.tool).join(", ")}`);
+    }
 
     // Simple questions stay on the fast model; anything harder gets the
     // deeper one. When the router was unsure it already escalated upward.

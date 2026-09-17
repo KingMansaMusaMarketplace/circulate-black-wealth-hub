@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { runDeepJsonReport, reviewJsonReport } from "../_shared/kayla-deep.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -141,84 +141,108 @@ BUSINESS SIGNALS:
 
 Generate your assessment using the following tool.`;
 
-    const aiRes = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-3.1-pro-preview",
-        messages: [
-          { role: "system", content: "You are an expert lending advisor. Always respond using the provided tool." },
-          { role: "user", content: prompt },
-        ],
-        tools: [
-          {
-            type: "function",
-            function: {
-              name: "generate_credit_assessment",
-              description: "Generate a structured credit readiness assessment for a small business loan application.",
-              parameters: {
-                type: "object",
-                properties: {
-                  overall_score: { type: "integer", description: "Overall credit readiness score 0-100" },
-                  financial_health_score: { type: "integer", description: "Financial health score 0-100" },
-                  documentation_score: { type: "integer", description: "Documentation completeness score 0-100" },
-                  credit_profile_score: { type: "integer", description: "Credit profile strength score 0-100" },
-                  executive_summary: { type: "string", description: "2-3 paragraph executive summary for the lender package" },
-                  strengths: {
-                    type: "array",
-                    items: { type: "object", properties: { title: { type: "string" }, detail: { type: "string" } }, required: ["title", "detail"] },
-                  },
-                  weaknesses: {
-                    type: "array",
-                    items: { type: "object", properties: { title: { type: "string" }, detail: { type: "string" }, fix: { type: "string" } }, required: ["title", "detail", "fix"] },
-                  },
-                  recommendations: {
-                    type: "array",
-                    items: { type: "object", properties: { action: { type: "string" }, priority: { type: "string", enum: ["high", "medium", "low"] }, timeline: { type: "string" } }, required: ["action", "priority", "timeline"] },
-                  },
-                  loan_types_qualified: {
-                    type: "array",
-                    items: { type: "object", properties: { type: { type: "string" }, likelihood: { type: "string", enum: ["strong", "moderate", "unlikely"] }, notes: { type: "string" } }, required: ["type", "likelihood"] },
-                  },
-                  estimated_borrowing_range: {
-                    type: "object",
-                    properties: { min: { type: "number" }, max: { type: "number" }, confidence: { type: "string" } },
-                    required: ["min", "max", "confidence"],
-                  },
-                },
-                required: ["overall_score", "financial_health_score", "documentation_score", "credit_profile_score", "executive_summary", "strengths", "weaknesses", "recommendations", "loan_types_qualified", "estimated_borrowing_range"],
-                additionalProperties: false,
-              },
-            },
+    // Strict-compatible schema (object root, every property required,
+    // additionalProperties:false everywhere) so the premium reasoning model
+    // can enforce it server-side.
+    const assessmentSchema = {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        overall_score: { type: "integer", description: "Overall credit readiness score 0-100" },
+        financial_health_score: { type: "integer", description: "Financial health score 0-100" },
+        documentation_score: { type: "integer", description: "Documentation completeness score 0-100" },
+        credit_profile_score: { type: "integer", description: "Credit profile strength score 0-100" },
+        executive_summary: { type: "string", description: "2-3 paragraph executive summary for the lender package" },
+        strengths: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: { title: { type: "string" }, detail: { type: "string" } },
+            required: ["title", "detail"],
           },
-        ],
-        tool_choice: { type: "function", function: { name: "generate_credit_assessment" } },
-      }),
+        },
+        weaknesses: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: { title: { type: "string" }, detail: { type: "string" }, fix: { type: "string" } },
+            required: ["title", "detail", "fix"],
+          },
+        },
+        recommendations: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+              action: { type: "string" },
+              priority: { type: "string", enum: ["high", "medium", "low"] },
+              timeline: { type: "string" },
+            },
+            required: ["action", "priority", "timeline"],
+          },
+        },
+        loan_types_qualified: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+              type: { type: "string" },
+              likelihood: { type: "string", enum: ["strong", "moderate", "unlikely"] },
+              notes: { type: "string" },
+            },
+            required: ["type", "likelihood", "notes"],
+          },
+        },
+        estimated_borrowing_range: {
+          type: "object",
+          additionalProperties: false,
+          properties: { min: { type: "number" }, max: { type: "number" }, confidence: { type: "string" } },
+          required: ["min", "max", "confidence"],
+        },
+      },
+      required: [
+        "overall_score", "financial_health_score", "documentation_score", "credit_profile_score",
+        "executive_summary", "strengths", "weaknesses", "recommendations",
+        "loan_types_qualified", "estimated_borrowing_range",
+      ],
+    };
+
+    // PREMIUM REASONING: a lender package is low-volume and high-consequence,
+    // so it runs on the best model available, with automatic fallback.
+    const deep = await runDeepJsonReport<any>({
+      prompt,
+      schema: assessmentSchema,
+      schemaName: "generate_credit_assessment",
+      lovableApiKey: LOVABLE_API_KEY,
+      effort: "high",
+      label: "credit-readiness",
     });
 
-    if (!aiRes.ok) {
-      const errText = await aiRes.text();
-      console.error("AI gateway error:", aiRes.status, errText);
-      
-      if (aiRes.status === 429) {
-        await supabase.from("credit_readiness_reports").update({ status: "error", error_message: "Rate limited, try again shortly" }).eq("id", report.id);
-        return new Response(JSON.stringify({ error: "Rate limited, please try again later." }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-      }
-      if (aiRes.status === 402) {
-        await supabase.from("credit_readiness_reports").update({ status: "error", error_message: "AI credits exhausted" }).eq("id", report.id);
-        return new Response(JSON.stringify({ error: "AI credits exhausted. Please add funds." }), { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-      }
-      throw new Error(`AI error: ${aiRes.status}`);
+    if (!deep.result) {
+      await supabase.from("credit_readiness_reports")
+        .update({ status: "error", error_message: "AI assessment unavailable" })
+        .eq("id", report.id);
+      return new Response(JSON.stringify({ error: "Could not generate the assessment right now. Please try again." }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const aiData = await aiRes.json();
-    const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall) throw new Error("AI did not return structured assessment");
+    // SECOND PAIR OF EYES: re-read the draft against the source data and
+    // correct anything it does not support before the owner takes it to a bank.
+    const reviewed = await reviewJsonReport<any>({
+      sourcePrompt: prompt,
+      draft: deep.result,
+      schema: assessmentSchema,
+      schemaName: "generate_credit_assessment",
+      lovableApiKey: LOVABLE_API_KEY,
+      label: "credit-readiness-review",
+    });
 
-    const assessment = JSON.parse(toolCall.function.arguments);
+    const assessment = reviewed.result;
+    console.log(`[credit-readiness] model=${deep.modelUsed} corrections=${reviewed.corrections.length}`);
 
     // 4. Update report with AI results
     const { error: updateErr } = await supabase
