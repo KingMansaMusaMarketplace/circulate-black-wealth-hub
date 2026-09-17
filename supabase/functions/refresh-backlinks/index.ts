@@ -35,6 +35,7 @@ async function semrushGet(
     headers: {
       Authorization: `Bearer ${lovableKey}`,
       "X-Connection-Api-Key": apiKey,
+      "Allow-Limit-Offset": "true",
     },
   });
   const body = await res.json().catch(() => ({}));
@@ -139,7 +140,7 @@ Deno.serve(async (req) => {
       {
         target: domain,
         target_type: "root_domain",
-        export_columns: "domain_ascore,domain,backlinks_num,ip_addresses_num,country,first_seen,last_seen",
+        export_columns: "domain_ascore,domain,backlinks_num,country,first_seen,last_seen",
         display_limit: "100",
       },
       SEMRUSH_API_KEY,
@@ -189,7 +190,7 @@ Deno.serve(async (req) => {
       referring_domain: r.domain ?? "",
       ascore: num(r.domain_ascore),
       backlinks_num: num(r.backlinks_num),
-      ip_addresses_num: num(r.ip_addresses_num),
+      ip_addresses_num: null,
       country: r.country || null,
       first_seen: dateOrNull(r.first_seen),
       last_seen: dateOrNull(r.last_seen),
