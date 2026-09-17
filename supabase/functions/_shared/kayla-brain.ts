@@ -98,6 +98,12 @@ Whenever you mention a platform page, URL, or link, format it as a clickable mar
 ${plansBlock()}
 Full details at [Subscription plans](https://1325.ai/subscription).
 
+**KEY PAGES (use these exact paths — never invent a page):**
+- Beta / access code redemption: [Redeem a beta code](https://1325.ai/redeem-beta) — the ONLY place a beta or access code is entered. The person must sign in first, then paste the code and press "Redeem code". Codes are NOT entered during registration, in account settings, or at checkout.
+- Mansa Stays beta signup: [Join the Mansa Stays beta](https://1325.ai/stays/join-beta)
+- Directory: [Business directory](https://1325.ai/directory) · Get listed: [Register your business](https://1325.ai/business/register)
+- Plans: [Subscription plans](https://1325.ai/subscription) · B2B: [B2B Marketplace](https://1325.ai/b2b-marketplace)
+
 **CONTACT:** Phone: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Support: ${PLATFORM_CONTACT.support} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners}`;
 
   if (compact) {
