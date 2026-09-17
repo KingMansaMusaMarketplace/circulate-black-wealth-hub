@@ -130,7 +130,7 @@ const KaylaScoreboardPage: React.FC = () => {
               <Brain className="h-7 w-7 text-[#FFB300]" />
               Kayla Scoreboard
             </h1>
-            <p className="text-white/60 mt-2 max-w-2xl">
+            <p className="text-base text-white/85 mt-2 max-w-2xl">
               A fixed set of real questions with the correct answers written down. Run it after any
               change to see whether the AI team actually got smarter.
             </p>
