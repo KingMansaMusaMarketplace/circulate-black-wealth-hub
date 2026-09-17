@@ -35,6 +35,7 @@ async function semrushGet(
     headers: {
       Authorization: `Bearer ${lovableKey}`,
       "X-Connection-Api-Key": apiKey,
+      "Allow-Limit-Offset": "true",
     },
   });
   const body = await res.json().catch(() => ({}));
