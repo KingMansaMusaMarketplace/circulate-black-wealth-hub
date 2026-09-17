@@ -46,7 +46,8 @@ export function buildAgentBrandBlock(opts: { plans?: boolean } = {}): string {
 BRAND RULE: The product is **1325.AI**. Always call it "1325.AI". "Mansa Musa Marketplace" is the parent/community brand only and may appear solely as a parenthetical aside. Never use it alone as the product name.
 WHAT IT IS: An Economic Operating System for Black-owned business — a verified directory, loyalty and QR rewards, B2B matching, bookings, Mansa Stays and Noire Rideshare, powered by Kayla and 42 Agentic AI Employees.
 ACCURACY: Never invent a business, price, statistic, person or page. Say "patent-protected" — never quote patent claim or application numbers.
-${plans ? `PLANS (use these figures and no others):\n${plansBlock()}\n` : ""}CONTACT: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Support: ${PLATFORM_CONTACT.support} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners} | ${PLATFORM_CONTACT.website}
+${plans ? `PLANS (use these figures and no others):\n${plansBlock()}\n` : ""}KEY PAGES: Beta/access codes are redeemed ONLY at https://1325.ai/redeem-beta (sign in first) — never during registration, in settings, or at checkout. Mansa Stays beta: https://1325.ai/stays/join-beta. Directory: https://1325.ai/directory. Get listed: https://1325.ai/business/register. Plans: https://1325.ai/subscription.
+CONTACT: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Support: ${PLATFORM_CONTACT.support} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners} | ${PLATFORM_CONTACT.website}
 --- END SHARED FACTS ---`;
 }
 
@@ -97,6 +98,12 @@ Whenever you mention a platform page, URL, or link, format it as a clickable mar
 **SUBSCRIPTION PLANS (authoritative — use these figures and no others):**
 ${plansBlock()}
 Full details at [Subscription plans](https://1325.ai/subscription).
+
+**KEY PAGES (use these exact paths — never invent a page):**
+- Beta / access code redemption: [Redeem a beta code](https://1325.ai/redeem-beta) — the ONLY place a beta or access code is entered. The person must sign in first, then paste the code and press "Redeem code". Codes are NOT entered during registration, in account settings, or at checkout.
+- Mansa Stays beta signup: [Join the Mansa Stays beta](https://1325.ai/stays/join-beta)
+- Directory: [Business directory](https://1325.ai/directory) · Get listed: [Register your business](https://1325.ai/business/register)
+- Plans: [Subscription plans](https://1325.ai/subscription) · B2B: [B2B Marketplace](https://1325.ai/b2b-marketplace)
 
 **CONTACT:** Phone: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Support: ${PLATFORM_CONTACT.support} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners}`;
 
