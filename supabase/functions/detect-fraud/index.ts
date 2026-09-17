@@ -29,6 +29,7 @@
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 // CORS configuration with origin validation
 const getAllowedOrigins = (): string[] => {
@@ -292,14 +293,14 @@ ${JSON.stringify(dataContext, null, 2)}
 
 Identify suspicious patterns and return structured fraud alerts.`;
 
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const response = await fetchAIWithRetry('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${LOVABLE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-flash-preview',
+        model: 'google/gemini-3.7-flash',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }

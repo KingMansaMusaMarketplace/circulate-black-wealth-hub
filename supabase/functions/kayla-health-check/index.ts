@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -176,11 +177,11 @@ async function checkAndFixDataIntegrity(supabase: any): Promise<{
           const name = biz.business_name || biz.name || "Unknown";
           if (LOVABLE_API_KEY) {
             try {
-              const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+              const res = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
                 method: "POST",
                 headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  model: "google/gemini-3-flash-preview",
+                  model: "google/gemini-3.7-flash",
                   messages: [
                     { role: "system", content: "Write concise, warm, professional business descriptions. 2-3 sentences. Be authentic." },
                     { role: "user", content: `Business: "${name}"${biz.category ? `, Category: ${biz.category}` : ""}${biz.city ? `, in ${biz.city}${biz.state ? `, ${biz.state}` : ""}` : ""}` },

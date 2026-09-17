@@ -3,6 +3,7 @@
 // Requires an authenticated caller — this endpoint spends paid AI credits.
 
 import { createClient } from 'npm:@supabase/supabase-js@2';
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -144,14 +145,14 @@ Respond ONLY with a single JSON object. No prose.`;
   }
 }`;
 
-    const aiResp = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const aiResp = await fetchAIWithRetry('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Lovable-API-Key': LOVABLE_API_KEY,
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-flash-preview',
+        model: 'google/gemini-3.7-flash',
         messages: [
           { role: 'system', content: systemPrompt },
           {

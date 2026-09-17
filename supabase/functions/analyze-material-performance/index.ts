@@ -6,6 +6,7 @@ const corsHeaders = {
 };
 
 import { requireAdmin, authErrorResponse } from "../_shared/auth-guard.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -161,14 +162,14 @@ Keep your response concise, actionable, and data-driven. Focus on practical step
 
     console.log('[AI] Calling Lovable AI for performance analysis...');
 
-    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const aiResponse = await fetchAIWithRetry('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${lovableApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-flash-preview',
+        model: 'google/gemini-3.7-flash',
         messages: [
           {
             role: 'system',

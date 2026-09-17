@@ -8,6 +8,7 @@ const corsHeaders = {
 };
 
 import { requireAdmin, authErrorResponse } from "../_shared/auth-guard.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -62,14 +63,14 @@ serve(async (req) => {
         const prompt = `Write a short, compelling pitch (under 150 words) for "${biz.business_name}" (${biz.category || "business"} in ${biz.city || "their city"}, ${biz.state || ""}) explaining how Kayla AI can automate their reviews, find B2B partners, predict churn, and generate content. Include a specific ROI mention. Be warm and direct.`;
 
         try {
-          const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+          const aiRes = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${LOVABLE_API_KEY}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              model: "google/gemini-3-flash-preview",
+              model: "google/gemini-3.7-flash",
               messages: [
                 { role: "system", content: "You are Kayla, an AI business concierge for 1325.AI — a platform for Black-owned businesses. Write personalized outreach pitches that are warm, professional, and data-driven." },
                 { role: "user", content: prompt },
