@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -59,7 +59,7 @@ Guidelines:
 - If no documents are available, guide the user to upload their first document`;
 
     const messages = [
-      { role: "system" as const, content: systemPrompt },
+      { role: "system" as const, content: systemPrompt + buildAgentBrandBlock() },
       ...(conversationHistory || []),
       { role: "user" as const, content: question },
     ];

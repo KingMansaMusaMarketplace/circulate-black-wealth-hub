@@ -1,7 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
 import { z } from 'https://esm.sh/zod@3.23.8';
-import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -165,7 +165,7 @@ Create a description that will make potential customers excited to visit and sup
       body: JSON.stringify({
         model: "google/gemini-3.7-flash",
         messages: [
-          { role: "system", content: systemPrompt },
+          { role: "system", content: systemPrompt + buildAgentBrandBlock({ plans: false }) },
           { role: "user", content: userPrompt }
         ],
         temperature: 0.8,
