@@ -56,38 +56,58 @@ const KaylaScoreboardPage: React.FC = () => {
       .select('*')
       .order('started_at', { ascending: false })
       .limit(20);
-    setRuns((data as Run[]) || []);
+    const rows = (data as Run[]) || [];
+    setRuns(rows);
     setLoading(false);
-    if (data?.length && !selectedRun) setSelectedRun(data[0].id);
-  }, [selectedRun]);
+    setSelectedRun((prev) => prev ?? (rows[0]?.id ?? null));
+    return rows;
+  }, []);
+
+  const loadResults = useCallback(async (runId: string) => {
+    const { data } = await supabase
+      .from('kayla_benchmark_results')
+      .select('*')
+      .eq('run_id', runId)
+      .order('score', { ascending: true });
+    setResults((data as Result[]) || []);
+  }, []);
 
   useEffect(() => { loadRuns(); }, [loadRuns]);
 
   useEffect(() => {
-    if (!selectedRun) return;
-    supabase
-      .from('kayla_benchmark_results')
-      .select('*')
-      .eq('run_id', selectedRun)
-      .order('score', { ascending: true })
-      .then(({ data }) => setResults((data as Result[]) || []));
-  }, [selectedRun]);
+    if (selectedRun) loadResults(selectedRun);
+  }, [selectedRun, loadResults]);
+
+  // While a test is still being graded, keep refreshing so answers appear one by one.
+  useEffect(() => {
+    if (!running) return;
+    const timer = setInterval(async () => {
+      const rows = await loadRuns();
+      if (selectedRun) await loadResults(selectedRun);
+      const current = rows.find((r) => r.id === selectedRun);
+      if (current?.finished_at) {
+        setRunning(false);
+        toast({
+          title: 'Test complete',
+          description: `Average score ${current.average_score} out of 100 — ${current.passed} passed, ${current.failed} need work.`,
+        });
+      }
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [running, selectedRun, loadRuns, loadResults, toast]);
 
   const runScoreboard = async () => {
     setRunning(true);
-    toast({ title: 'Test started', description: 'Kayla is answering every test question. This takes a few minutes.' });
+    setResults([]);
+    toast({ title: 'Test started', description: 'Kayla is answering every test question. Answers appear here as they are graded.' });
     const { data, error } = await supabase.functions.invoke('kayla-benchmark', { body: {} });
-    setRunning(false);
     if (error) {
+      setRunning(false);
       toast({ title: 'Test failed', description: error.message, variant: 'destructive' });
       return;
     }
-    toast({
-      title: 'Test complete',
-      description: `Average score ${data.average_score} out of 100 — ${data.passed} passed, ${data.failed} need work.`,
-    });
-    await loadRuns();
     setSelectedRun(data.run_id);
+    await loadRuns();
   };
 
   const latest = runs[0];
