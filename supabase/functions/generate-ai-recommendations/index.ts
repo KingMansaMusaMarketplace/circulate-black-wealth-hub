@@ -27,6 +27,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
 import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -125,14 +126,14 @@ Please recommend 5 businesses that would be perfect for this user. Return JSON f
   ]
 }`;
 
-    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const aiResponse = await fetchAIWithRetry('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${LOVABLE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-flash-preview',
+        model: 'google/gemini-3.7-flash',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }

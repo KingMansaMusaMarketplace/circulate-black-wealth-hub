@@ -1,6 +1,8 @@
 import { generateText, generateObject } from "npm:ai";
 import { z } from "npm:zod";
 
+import { fetchAIWithRetry } from "./kayla-brain.ts";
+
 const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1";
 
 export interface LovableAiGatewayProvider {
@@ -27,7 +29,7 @@ export function createLovableAiGatewayProvider(apiKey: string): LovableAiGateway
 
   return {
     async generateText({ model, system, prompt, maxTokens, temperature }) {
-      const response = await fetch(`${GATEWAY_URL}/chat/completions`, {
+      const response = await fetchAIWithRetry(`${GATEWAY_URL}/chat/completions`, {
         method: "POST",
         headers: baseHeaders,
         body: JSON.stringify({
@@ -52,7 +54,7 @@ export function createLovableAiGatewayProvider(apiKey: string): LovableAiGateway
     },
 
     async generateObject({ model, system, prompt, schema }) {
-      const response = await fetch(`${GATEWAY_URL}/chat/completions`, {
+      const response = await fetchAIWithRetry(`${GATEWAY_URL}/chat/completions`, {
         method: "POST",
         headers: baseHeaders,
         body: JSON.stringify({

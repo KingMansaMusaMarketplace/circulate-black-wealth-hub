@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -62,14 +63,14 @@ Generate:
 - subject_line: compelling email subject (< 60 chars)
 - email_body: full email in HTML format, warm & professional, culturally authentic. Include a CTA button. Use {customer_name} and {business_name} as placeholders.`;
 
-      const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const aiResponse = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${LOVABLE_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-3-flash-preview",
+          model: "google/gemini-3.7-flash",
           messages: [
             { role: "system", content: "You are an email marketing AI specialist for small businesses." },
             { role: "user", content: prompt },

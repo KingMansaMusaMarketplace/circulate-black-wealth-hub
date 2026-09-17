@@ -8,6 +8,7 @@ const corsHeaders = {
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -99,7 +100,7 @@ Score each dimension 0-100 and provide strengths, weaknesses, and recommendation
 
     // Premium reasoning model: this report is low-volume and high-value, so it
     // runs on GPT-6 Astra via the Responses API (streamed, per gateway rules).
-    const astraResp = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
+    const astraResp = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/responses", {
       method: "POST",
       headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -154,7 +155,7 @@ Score each dimension 0-100 and provide strengths, weaknesses, and recommendation
 
     // Fallback to the standard model if the premium run returns nothing usable.
     if (!result) {
-      const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const aiResp = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({

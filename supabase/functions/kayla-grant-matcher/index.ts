@@ -8,6 +8,7 @@ const corsHeaders = {
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning, buildReasoning } from "../_shared/kayla-coordination.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -67,14 +68,14 @@ Return a JSON array of grant objects. Each should have:
 
 Focus on REAL programs for minority/Black-owned businesses, SBA programs, state grants, NMSDC certifications, and community development financial institutions (CDFIs).`;
 
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const aiResponse = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-3.7-flash",
         messages: [
           { role: "system", content: "You are a grant research AI. Return only valid JSON arrays." },
           { role: "user", content: prompt },

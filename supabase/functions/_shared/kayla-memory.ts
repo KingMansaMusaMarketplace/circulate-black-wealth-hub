@@ -10,6 +10,8 @@
 // main chat widget had no memory at all. Both now import from here.
 // =============================================================================
 
+import { fetchAIWithRetry } from "./kayla-brain.ts";
+
 // ---------------------------------------------------------------------------
 // 1. PLATFORM KNOWLEDGE (RAG)
 // ---------------------------------------------------------------------------
@@ -17,7 +19,7 @@
 /** Embed a query. Uses the Lovable AI Gateway so it works with no extra keys. */
 async function getQueryEmbedding(text: string, lovableApiKey: string): Promise<number[] | null> {
   try {
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+    const res = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/embeddings", {
       method: "POST",
       headers: { Authorization: `Bearer ${lovableApiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({

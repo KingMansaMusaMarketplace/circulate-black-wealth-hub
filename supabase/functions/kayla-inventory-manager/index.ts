@@ -8,6 +8,7 @@ const corsHeaders = {
 
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -61,11 +62,11 @@ Low stock items needing reorder: ${JSON.stringify(lowStock.map((i: any) => i.ite
 
 Provide 3 vendor recommendations as a JSON array with fields: vendor_name, vendor_type, estimated_savings (number), recommendation_reason. Focus on cost savings and reliability for Black-owned business suppliers when possible.`;
 
-        const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        const aiResp = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
           method: "POST",
           headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: "google/gemini-3-flash-preview",
+            model: "google/gemini-3.7-flash",
             messages: [{ role: "user", content: prompt }],
             tools: [{
               type: "function",

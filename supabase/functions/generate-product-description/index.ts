@@ -1,5 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
+import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -71,14 +72,14 @@ Create a description that highlights the product's unique value and appeals to c
     }
 
     console.log('Generating product description with AI...');
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const response = await fetchAIWithRetry('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${LOVABLE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: imageUrl ? 'google/gemini-3-pro-preview' : 'google/gemini-3-flash-preview',
+        model: imageUrl ? 'google/gemini-3-pro-preview' : 'google/gemini-3.7-flash',
         messages,
         tools: [{
           type: "function",
