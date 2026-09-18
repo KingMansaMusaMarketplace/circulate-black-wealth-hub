@@ -367,7 +367,7 @@ function SceneMath() {
 
   const stats = [
     { d: 40,  big: "$2M+", label: "C-Suite cost", sub: "what hiring this team would cost", color: "#FFFFFF" },
-    { d: 130, big: "$299", label: "per month",    sub: "your 1325.AI subscription",       color: GOLD },
+    { d: 130, big: "$299", label: "per month",    sub: "Kayla AI Pro · plans from $19/mo", color: GOLD },
     { d: 220, big: "$12,100+", label: "saved monthly", sub: "~4 roles covered",            color: GOLD },
   ];
 
