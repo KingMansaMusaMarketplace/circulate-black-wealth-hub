@@ -242,6 +242,12 @@ function SceneThesis() {
           Built to bring economic power <span style={{ color: GOLD, fontWeight: 600 }}>back home.</span>
         </div>
       </FadeIn>
+      <FadeIn delay={205}>
+        <div style={{ marginTop: 18, fontFamily: inter, fontWeight: 500, fontSize: 24, color: "rgba(255,255,255,0.7)", letterSpacing: 5, textTransform: "uppercase", textAlign: "center" }}>
+          <span style={{ color: GOLD, fontWeight: 700 }}>47,000+</span> verified Black-owned businesses · 50 states
+        </div>
+      </FadeIn>
+
     </AbsoluteFill>
   );
 }
@@ -251,15 +257,15 @@ function SceneAgents() {
   const op = interpolate(frame, [0, 24], [0, 1], { extrapolateRight: "clamp" });
   const opOut = interpolate(frame, [300, 325], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
-  // 33 tiles in 11x3 grid
-  const cols = 11, rows = 3;
+  // 42 tiles in 14x3 grid
+  const cols = 14, rows = 3;
   const tiles: React.ReactNode[] = [];
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const i = r * cols + c;
       const d = 60 + i * 4;
       const t = interpolate(frame - d, [0, 18], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
-      const isKayla = i === 16; // center-ish
+      const isKayla = i === 21; // center-ish
       tiles.push(
         <div key={i} style={{
           width: 78, height: 78, borderRadius: 12,
@@ -282,9 +288,9 @@ function SceneAgents() {
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", padding: 80, opacity: opOut }}>
       <div style={{ opacity: op, marginBottom: 30 }}><Eyebrow label="Your AI C-Suite" /></div>
-      <KineticTitle text="33 agents." size={96} delay={20} />
+      <KineticTitle text="42 Agentic AI Employees." size={84} delay={20} />
       <div style={{ height: 8 }} />
-      <KineticTitle text="One Kayla." size={112} italic color={GOLD} delay={50} />
+      <KineticTitle text="Led by Kayla." size={106} italic color={GOLD} delay={50} />
       <div style={{ marginTop: 50, display: "grid", gridTemplateColumns: `repeat(${cols}, 78px)`, gap: 14, opacity: op }}>
         {tiles}
       </div>
@@ -361,7 +367,7 @@ function SceneMath() {
 
   const stats = [
     { d: 40,  big: "$2M+", label: "C-Suite cost", sub: "what hiring this team would cost", color: "#FFFFFF" },
-    { d: 130, big: "$299", label: "per month",    sub: "your 1325.AI subscription",       color: GOLD },
+    { d: 130, big: "$299", label: "per month",    sub: "Kayla AI Pro · plans from $19/mo", color: GOLD },
     { d: 220, big: "$12,100+", label: "saved monthly", sub: "~4 roles covered",            color: GOLD },
   ];
 
