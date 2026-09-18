@@ -242,6 +242,12 @@ function SceneThesis() {
           Built to bring economic power <span style={{ color: GOLD, fontWeight: 600 }}>back home.</span>
         </div>
       </FadeIn>
+      <FadeIn delay={205}>
+        <div style={{ marginTop: 18, fontFamily: inter, fontWeight: 500, fontSize: 24, color: "rgba(255,255,255,0.7)", letterSpacing: 5, textTransform: "uppercase", textAlign: "center" }}>
+          <span style={{ color: GOLD, fontWeight: 700 }}>47,000+</span> verified Black-owned businesses · 50 states
+        </div>
+      </FadeIn>
+
     </AbsoluteFill>
   );
 }
