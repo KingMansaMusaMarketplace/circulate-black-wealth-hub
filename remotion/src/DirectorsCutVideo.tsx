@@ -288,9 +288,9 @@ function SceneAgents() {
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", padding: 80, opacity: opOut }}>
       <div style={{ opacity: op, marginBottom: 30 }}><Eyebrow label="Your AI C-Suite" /></div>
-      <KineticTitle text="33 agents." size={96} delay={20} />
+      <KineticTitle text="42 Agentic AI Employees." size={84} delay={20} />
       <div style={{ height: 8 }} />
-      <KineticTitle text="One Kayla." size={112} italic color={GOLD} delay={50} />
+      <KineticTitle text="Led by Kayla." size={106} italic color={GOLD} delay={50} />
       <div style={{ marginTop: 50, display: "grid", gridTemplateColumns: `repeat(${cols}, 78px)`, gap: 14, opacity: op }}>
         {tiles}
       </div>
