@@ -265,7 +265,7 @@ function SceneAgents() {
       const i = r * cols + c;
       const d = 60 + i * 4;
       const t = interpolate(frame - d, [0, 18], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
-      const isKayla = i === 16; // center-ish
+      const isKayla = i === 21; // center-ish
       tiles.push(
         <div key={i} style={{
           width: 78, height: 78, borderRadius: 12,
