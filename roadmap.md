@@ -5,6 +5,10 @@
 - [ ] **Mon Sep 7, 2026 — Build Craig L. Stevenson memorial.** Approved plan archived at `.lovable/plan/memorial-for-craig-l-stevenson-2026-09-04.md`.
   - Waiting on Thomas: tribute text, a quote from Craig (optional), his birth date, any extra photos, and whether the Resolution PDF should be public.
   - Photo already removed from `/team`; files saved at `src/assets/team/navy_bg/Craig_Stevenson.jpg`.
+- [ ] **Director's Cut video re-render (Sep 18, 2026).** On-screen text updated in `remotion/src/DirectorsCutVideo.tsx` (42 Agentic AI Employees, 47,000+ businesses, plans from $19/mo).
+  - Blocked: stored ElevenLabs key is a key ID, not a valid `sk_` key, so the "33 agents" narration line (`public/audio/dc/s4-agents.mp3`) cannot be re-recorded. Need an ElevenLabs connection or a valid key, then re-record s4 + s6 and run `node scripts/render-dc.mjs`.
+- [x] **Outreach email to John Boyd Jr. (National Black Farmers Association)** — drafted Sep 18, 2026.
+
 
 ## Done
 
