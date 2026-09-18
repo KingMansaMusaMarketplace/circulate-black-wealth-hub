@@ -257,8 +257,8 @@ function SceneAgents() {
   const op = interpolate(frame, [0, 24], [0, 1], { extrapolateRight: "clamp" });
   const opOut = interpolate(frame, [300, 325], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
-  // 33 tiles in 11x3 grid
-  const cols = 11, rows = 3;
+  // 42 tiles in 14x3 grid
+  const cols = 14, rows = 3;
   const tiles: React.ReactNode[] = [];
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
