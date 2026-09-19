@@ -76,7 +76,8 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
   const { 
     availableDates, 
     timeSlots, 
-    loading: availabilityLoading 
+    loading: availabilityLoading,
+    usingDefaultHours
   } = useBusinessAvailability({
     businessId,
     serviceId: formData.serviceId,
@@ -280,6 +281,15 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
                 <span className="text-mansagold font-semibold">
                   ${selectedService.price} • {selectedService.duration_minutes} min
                 </span>
+              </div>
+            )}
+
+            {/* Standard-hours notice */}
+            {usingDefaultHours && (
+              <div className="rounded-lg border border-mansagold/20 bg-mansagold/5 p-3 text-sm text-white/80">
+                This business hasn't published its opening hours, so we're showing standard
+                hours. Your time is a <span className="text-white">request</span> the business
+                confirms — not a guaranteed slot.
               </div>
             )}
 

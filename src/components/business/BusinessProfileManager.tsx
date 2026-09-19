@@ -27,7 +27,11 @@ import { useAIBusinessDescription } from '@/hooks/use-ai-business-description';
 import { toast } from 'sonner';
 
 const BusinessProfileManager = () => {
-  const [activeTab, setActiveTab] = useState('details');
+  // Allow deep links like /business/profile?tab=services
+  const initialTab = typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('tab') || 'details'
+    : 'details';
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { profile, loading, updateBusinessProfile } = useBusinessProfile();
   const { user } = useAuth();

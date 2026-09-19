@@ -37,12 +37,17 @@ serve(async (req) => {
     const {
       businessId,
       serviceId,
+      requestedService,
       bookingDate,
       customerName,
       customerEmail,
       customerPhone,
       notes,
     } = await req.json();
+
+    // Open appointment request: the business has no listed services yet.
+    // No payment is taken — the owner confirms or proposes another time.
+    const isRequest = !serviceId;
 
     console.log("Creating booking:", {
       businessId,
@@ -51,16 +56,27 @@ serve(async (req) => {
       customerEmail,
     });
 
-    // Get service details
-    const { data: service, error: serviceError } = await supabase
-      .from("business_services")
-      .select("*")
-      .eq("id", serviceId)
-      .single();
+    // Get service details (skipped for open appointment requests)
+    let service: { name: string; price: number; duration_minutes: number } | null = null;
 
-    if (serviceError || !service) {
-      console.error("Service error:", serviceError);
-      throw new Error("Service not found");
+    if (!isRequest) {
+      const { data: svc, error: serviceError } = await supabase
+        .from("business_services")
+        .select("*")
+        .eq("id", serviceId)
+        .single();
+
+      if (serviceError || !svc) {
+        console.error("Service error:", serviceError);
+        throw new Error("Service not found");
+      }
+      service = svc;
+    } else {
+      service = {
+        name: (requestedService as string) || "Appointment request",
+        price: 0,
+        duration_minutes: 30,
+      };
     }
 
     // Calculate fees with 7.5% commission
@@ -80,7 +96,7 @@ serve(async (req) => {
     let paymentIntent = null;
     let checkoutUrl = null;
 
-    if (hasStripe) {
+    if (hasStripe && !isRequest) {
       // Initialize Stripe and create payment
       const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
         apiVersion: "2023-10-16",
@@ -130,13 +146,15 @@ serve(async (req) => {
       .insert({
         business_id: businessId,
         customer_id: user.id,
-        service_id: serviceId,
+        service_id: isRequest ? null : serviceId,
+        is_request: isRequest,
+        requested_service: isRequest ? service.name : null,
         booking_date: bookingDate,
         duration_minutes: service.duration_minutes,
         amount: service.price,
         platform_fee: commission / 100,
         business_amount: businessAmount / 100,
-        status: hasStripe ? "pending" : "confirmed",
+        status: isRequest ? "pending" : hasStripe ? "pending" : "confirmed",
         payment_intent_id: paymentIntent?.id || null,
         customer_name: customerName,
         customer_email: customerEmail,
@@ -153,8 +171,8 @@ serve(async (req) => {
 
     console.log("Booking created successfully:", booking.id, hasStripe ? "with Stripe" : "without Stripe (pay at location)");
 
-    // Record commission transaction
-    try {
+    // Record commission transaction (no money changes hands on a request)
+    if (!isRequest) try {
       const { error: commissionError } = await supabase.rpc('record_commission', {
         p_transaction_id: null,
         p_booking_id: booking.id,

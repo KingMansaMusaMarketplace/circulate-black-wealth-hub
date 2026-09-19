@@ -15,7 +15,9 @@ export interface Booking {
   id: string;
   business_id: string;
   customer_id: string;
-  service_id: string;
+  service_id: string | null;
+  is_request?: boolean;
+  requested_service?: string | null;
   booking_date: string;
   duration_minutes: number;
   amount: number;
@@ -37,7 +39,10 @@ export interface Booking {
 export interface CreateBookingParams {
   businessId: string;
   businessName?: string;
-  serviceId: string;
+  /** Omit for an open appointment request (business has no listed services). */
+  serviceId?: string | null;
+  /** Free-text description of what the customer is asking for (requests only). */
+  requestedService?: string;
   bookingDate: string;
   customerName: string;
   customerEmail: string;
@@ -89,9 +94,10 @@ export const bookingService = {
 
       if (error) throw error;
 
-      // Send confirmation email in the background
+      // Send confirmation email + notify the business owner in the background
       if (data.success && data.booking) {
         this.sendConfirmationEmail(data.booking, params);
+        this.notifyBusinessOwner(data.booking.id);
       }
 
       return data;
@@ -124,10 +130,22 @@ export const bookingService = {
     }
   },
 
+  /** Tell the business owner a new booking or request just came in. */
+  async notifyBusinessOwner(bookingId: string): Promise<void> {
+    try {
+      await supabase.functions.invoke('send-booking-confirmation', {
+        body: { bookingId, recipientType: 'business' },
+      });
+    } catch (error) {
+      console.error('Error notifying business owner:', error);
+      // Don't throw - notification failures shouldn't fail the booking
+    }
+  },
+
   async getCustomerBookings(): Promise<Booking[]> {
     try {
       // Safe column list — excludes Stripe identifiers (revoked at column level)
-      const BOOKING_COLS = 'id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, cancellation_reason, cancelled_at, created_at, updated_at';
+      const BOOKING_COLS = 'id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, cancellation_reason, cancelled_at, created_at, updated_at, is_request, requested_service';
       const { data: authData } = await supabase.auth.getUser();
       const userId = authData?.user?.id;
       if (!userId) return [];
@@ -152,7 +170,7 @@ export const bookingService = {
 
   async getBusinessBookings(businessId: string): Promise<Booking[]> {
     try {
-      const BOOKING_COLS = 'id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, cancellation_reason, cancelled_at, created_at, updated_at';
+      const BOOKING_COLS = 'id, business_id, customer_id, service_id, booking_date, duration_minutes, amount, platform_fee, business_amount, status, customer_name, customer_email, customer_phone, notes, cancellation_reason, cancelled_at, created_at, updated_at, is_request, requested_service';
       const { data, error } = await supabase
         .from('bookings')
         .select(`
