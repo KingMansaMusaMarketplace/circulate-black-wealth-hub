@@ -686,11 +686,18 @@ const BusinessDetailPage = () => {
 
                 <TabsContent value="book">
                   <div className="bg-slate-900/40 border border-white/10 rounded-lg p-6">
-                    <BookingForm
-                      businessId={business.id}
-                      businessName={business.business_name}
-                      services={services}
-                    />
+                    {services.length === 0 ? (
+                      <RequestAppointmentForm
+                        businessId={business.id}
+                        businessName={business.business_name}
+                      />
+                    ) : (
+                      <BookingForm
+                        businessId={business.id}
+                        businessName={business.business_name}
+                        services={services}
+                      />
+                    )}
                   </div>
                 </TabsContent>
 
