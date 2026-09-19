@@ -194,6 +194,7 @@ export function useBusinessAvailability({
     availableDates,
     timeSlots,
     loading,
-    isDayAvailable
+    isDayAvailable,
+    usingDefaultHours
   };
 }
