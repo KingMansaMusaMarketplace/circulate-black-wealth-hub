@@ -78,7 +78,9 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
           <div className="flex items-center gap-1">
             <Star className="w-3 h-3 fill-mansagold text-mansagold" />
             <span className="text-xs text-white font-medium">
-              {business.averageRating?.toFixed(1) || business.rating?.toFixed(1) || 'New'}
+              {business.reviewCount > 0
+                ? (business.averageRating?.toFixed(1) ?? business.rating?.toFixed(1) ?? 'New')
+                : 'New'}
             </span>
             {business.reviewCount > 0 && (
               <span className="text-xs text-gray-500">({business.reviewCount})</span>
