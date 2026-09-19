@@ -56,16 +56,27 @@ serve(async (req) => {
       customerEmail,
     });
 
-    // Get service details
-    const { data: service, error: serviceError } = await supabase
-      .from("business_services")
-      .select("*")
-      .eq("id", serviceId)
-      .single();
+    // Get service details (skipped for open appointment requests)
+    let service: { name: string; price: number; duration_minutes: number } | null = null;
 
-    if (serviceError || !service) {
-      console.error("Service error:", serviceError);
-      throw new Error("Service not found");
+    if (!isRequest) {
+      const { data: svc, error: serviceError } = await supabase
+        .from("business_services")
+        .select("*")
+        .eq("id", serviceId)
+        .single();
+
+      if (serviceError || !svc) {
+        console.error("Service error:", serviceError);
+        throw new Error("Service not found");
+      }
+      service = svc;
+    } else {
+      service = {
+        name: (requestedService as string) || "Appointment request",
+        price: 0,
+        duration_minutes: 30,
+      };
     }
 
     // Calculate fees with 7.5% commission
