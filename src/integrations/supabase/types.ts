@@ -3478,9 +3478,11 @@ export type Database = {
           customer_phone: string | null
           duration_minutes: number
           id: string
+          is_request: boolean
           notes: string | null
           payment_intent_id: string | null
           platform_fee: number
+          requested_service: string | null
           service_id: string | null
           status: string | null
           stripe_charge_id: string | null
@@ -3500,9 +3502,11 @@ export type Database = {
           customer_phone?: string | null
           duration_minutes: number
           id?: string
+          is_request?: boolean
           notes?: string | null
           payment_intent_id?: string | null
           platform_fee?: number
+          requested_service?: string | null
           service_id?: string | null
           status?: string | null
           stripe_charge_id?: string | null
@@ -3522,9 +3526,11 @@ export type Database = {
           customer_phone?: string | null
           duration_minutes?: number
           id?: string
+          is_request?: boolean
           notes?: string | null
           payment_intent_id?: string | null
           platform_fee?: number
+          requested_service?: string | null
           service_id?: string | null
           status?: string | null
           stripe_charge_id?: string | null
