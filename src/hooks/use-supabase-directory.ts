@@ -467,6 +467,48 @@ export const useSupabaseDirectory = () => {
     });
   }, []);
 
+  const selectGroup = useCallback((group?: string) => {
+    setCategoryGroup(group);
+    setFilterOptions(prev => ({ ...prev, category: undefined }));
+    setPage(1);
+  }, []);
+
+  const selectCountry = useCallback((next?: string) => {
+    setCountry(next);
+    setStateCode(undefined);
+    setCity(undefined);
+    setPage(1);
+  }, []);
+
+  const selectState = useCallback((next?: string) => {
+    setStateCode(next);
+    setCity(undefined);
+    setPage(1);
+  }, []);
+
+  const selectCity = useCallback((next?: string) => {
+    setCity(next);
+    setPage(1);
+  }, []);
+
+  const clearBrowse = useCallback(() => {
+    setCategoryGroup(undefined);
+    setCountry(undefined);
+    setStateCode(undefined);
+    setCity(undefined);
+    setFilterOptions(prev => ({ ...prev, category: undefined }));
+    setSearchTerm('');
+    setPage(1);
+  }, []);
+
+  const groupCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    (groupsData || []).forEach(g => {
+      if (g.category_group) counts[g.category_group] = Number(g.count);
+    });
+    return counts;
+  }, [groupsData]);
+
   return {
     selectedCity,
     searchTerm,
@@ -481,6 +523,20 @@ export const useSupabaseDirectory = () => {
     businessCounts,
     isLoading,
     error,
+    // Browse by group + place
+    categoryGroup,
+    selectGroup,
+    country,
+    selectCountry,
+    stateCode,
+    selectState,
+    city,
+    selectCity,
+    clearBrowse,
+    groupCounts,
+    countries: (countriesData || []) as { country: string; count: number }[],
+    states: (statesData || []) as { state: string; count: number }[],
+    cities: (citiesData || []) as { city: string; state: string; count: number }[],
     // Pagination
     page,
     setPage,
