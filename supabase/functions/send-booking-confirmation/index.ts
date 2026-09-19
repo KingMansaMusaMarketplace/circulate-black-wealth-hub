@@ -99,13 +99,22 @@ const handler = async (req: Request): Promise<Response> => {
       });
     } else {
       emailTo = booking.business.email;
-      emailSubject = `New Booking Received - ${booking.customer_name}`;
+      if (!emailTo) {
+        console.log('Business has no email on file; skipping owner notification', booking.id);
+        return new Response(JSON.stringify({ skipped: 'no business email' }), {
+          status: 200,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+      emailSubject = booking.is_request
+        ? `New Appointment Request - ${booking.customer_name}`
+        : `New Booking Received - ${booking.customer_name}`;
       emailHtml = generateBusinessEmailHTML({
         businessName: booking.business.business_name,
         customerName: booking.customer_name,
         customerEmail: booking.customer_email,
         customerPhone: booking.customer_phone || 'Not provided',
-        serviceName: booking.service?.name || 'Service',
+        serviceName: serviceLabel,
         date: formattedDate,
         time: formattedTime,
         duration: booking.duration_minutes,
