@@ -65,9 +65,17 @@ export function useBusinessAvailability({
           .eq('is_available', true);
 
         if (error) throw error;
-        setAvailability(data || []);
+        if (!data || data.length === 0) {
+          setAvailability(DEFAULT_AVAILABILITY);
+          setUsingDefaultHours(true);
+        } else {
+          setAvailability(data);
+          setUsingDefaultHours(false);
+        }
       } catch (error) {
         console.error('Error fetching availability:', error);
+        setAvailability(DEFAULT_AVAILABILITY);
+        setUsingDefaultHours(true);
       } finally {
         setLoading(false);
       }
