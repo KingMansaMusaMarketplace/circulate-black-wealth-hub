@@ -287,6 +287,33 @@ const DirectoryPage: React.FC = () => {
     handleFilterChange({ category });
   }, [handleFilterChange]);
 
+  // Specific business types inside the chosen group, taken from what is on screen
+  const subCategories = useMemo(() => {
+    if (!categoryGroup) return [];
+    const counts: Record<string, number> = {};
+    (filteredBusinesses || []).forEach(b => {
+      if (b.category) counts[b.category] = (counts[b.category] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+      .slice(0, 30);
+  }, [categoryGroup, filteredBusinesses]);
+
+  // Plain-language description of what the visitor is currently browsing
+  const browseCrumb = useMemo(() => {
+    const parts: string[] = [];
+    if (filterOptions.category) parts.push(filterOptions.category);
+    else if (categoryGroup) parts.push(categoryGroup);
+    const place = [
+      selectedCityName,
+      stateCode ? getStateName(stateCode) : undefined,
+      country && country !== 'US' ? getCountryName(country) : undefined,
+    ].filter(Boolean).join(', ');
+    if (place) parts.push(`in ${place}`);
+    return parts.join(' ');
+  }, [filterOptions.category, categoryGroup, selectedCityName, stateCode, country]);
+
   // businessCounts now comes from the hook (server-side)
 
   // Show error state
@@ -383,14 +410,40 @@ const DirectoryPage: React.FC = () => {
             />
           </div>
           
-          {/* Category Pills */}
-          <CategoryPills
-            categories={categories}
+          {/* Browse by place: country → state/region → city */}
+          <PlaceBrowseBar
+            countries={countries}
+            states={states}
+            cities={cities}
+            country={country}
+            stateCode={stateCode}
+            city={selectedCityName}
+            onCountryChange={selectCountry}
+            onStateChange={selectState}
+            onCityChange={selectCity}
+            onClear={() => { selectCountry(undefined); }}
+          />
+
+          {/* Browse by main category (50+ groups), then by specific type */}
+          <CategoryGroupTiles
+            groupCounts={groupCounts}
+            selectedGroup={categoryGroup}
+            onSelectGroup={selectGroup}
+            subCategories={subCategories}
             selectedCategory={filterOptions.category}
             onSelectCategory={handleCategorySelect}
-            businessCounts={businessCounts}
-            totalCount={totalBusinesses}
           />
+
+          {browseCrumb && (
+            <p className="mb-6 text-sm text-gray-400">
+              Showing <span className="text-mansagold font-medium">{browseCrumb}</span>
+              {' · '}
+              <button onClick={clearBrowse} className="underline hover:text-mansagold">
+                clear
+              </button>
+            </p>
+          )}
+          
           
           {/* Filters Panel */}
           {showFilters && (
