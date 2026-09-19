@@ -187,8 +187,14 @@ export default function BookBusinessPage() {
                       <Calendar className="w-5 h-5 text-mansagold" />
                     </div>
                     <div>
-                      <h2 className="text-lg font-semibold text-white">Select Service & Time</h2>
-                      <p className="text-sm text-white/40">Choose a service and pick your preferred time slot</p>
+                      <h2 className="text-lg font-semibold text-white">
+                        {services.length === 0 ? 'Request an Appointment' : 'Select Service & Time'}
+                      </h2>
+                      <p className="text-sm text-white/40">
+                        {services.length === 0
+                          ? 'Tell them what you need and pick a time that works for you'
+                          : 'Choose a service and pick your preferred time slot'}
+                      </p>
                     </div>
                   </div>
                   <div className="p-6">
