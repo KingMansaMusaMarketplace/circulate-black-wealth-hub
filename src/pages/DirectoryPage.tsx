@@ -210,10 +210,31 @@ const DirectoryPage: React.FC = () => {
   });
 
   // All paginated businesses go to the grid (featured spotlight is separate)
-  const regularBusinesses = useMemo(
+  const pageBusinesses = useMemo(
     () => [...(filteredBusinesses || [])].sort((a, b) => a.name.localeCompare(b.name)),
     [filteredBusinesses]
   );
+
+  // On phones the results keep stacking ("Load more") instead of paging
+  const [accumulated, setAccumulated] = useState<Business[]>([]);
+  useEffect(() => {
+    if (!isMobile) return;
+    if (page === 1) {
+      setAccumulated(pageBusinesses);
+      return;
+    }
+    setAccumulated(prev => {
+      const seen = new Set(prev.map(b => b.id));
+      return [...prev, ...pageBusinesses.filter(b => !seen.has(b.id))];
+    });
+  }, [pageBusinesses, page, isMobile]);
+
+  const regularBusinesses = isMobile && page > 1 ? accumulated : pageBusinesses;
+
+  // Phones start on the list; the map split is a desktop experience
+  useEffect(() => {
+    if (isMobile) setViewMode(prev => (prev === 'split' ? 'list' : prev));
+  }, [isMobile]);
 
   // Alphabet jump index support
   const activeLetters = useMemo(() => {
