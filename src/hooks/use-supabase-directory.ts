@@ -31,6 +31,8 @@ interface SupabaseBusiness {
   listing_status: string | null;
   is_founding_member: boolean | null;
   is_founding_sponsor: boolean | null;
+  category_group?: string | null;
+  country?: string | null;
   total_count: number;
 }
 
@@ -143,6 +145,11 @@ export const useSupabaseDirectory = () => {
     return params.get('category') || undefined;
   }, []);
 
+  const readParam = (key: string) => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(key) || undefined;
+  };
+
   const [searchTerm, setSearchTerm] = useState<string>(initialSearch);
   const [page, setPage] = useState(1);
   const [filterOptions, setFilterOptions] = useState<BusinessFilters>({
@@ -152,6 +159,12 @@ export const useSupabaseDirectory = () => {
     featured: false,
     distance: 0,
   });
+
+  // Browse-by-group and browse-by-place selections
+  const [categoryGroup, setCategoryGroup] = useState<string | undefined>(() => readParam('group'));
+  const [country, setCountry] = useState<string | undefined>(() => readParam('country'));
+  const [stateCode, setStateCode] = useState<string | undefined>(() => readParam('state'));
+  const [city, setCity] = useState<string | undefined>(() => readParam('city'));
 
   // Keep filters in sync if the user navigates between filtered directory URLs
   // (e.g. /directory?category=A → /directory?category=B) without remount.
@@ -164,24 +177,49 @@ export const useSupabaseDirectory = () => {
       prev.category === urlCategory ? prev : { ...prev, category: urlCategory }
     );
     setSearchTerm(prev => (prev === urlSearch ? prev : urlSearch));
+    setCategoryGroup(prev => {
+      const next = params.get('group') || undefined;
+      return prev === next ? prev : next;
+    });
+    setCountry(prev => {
+      const next = params.get('country') || undefined;
+      return prev === next ? prev : next;
+    });
+    setStateCode(prev => {
+      const next = params.get('state') || undefined;
+      return prev === next ? prev : next;
+    });
+    setCity(prev => {
+      const next = params.get('city') || undefined;
+      return prev === next ? prev : next;
+    });
     setPage(1);
   }, [routerLocation.search]);
 
   // Push state OUT to the URL so refresh / share-link preserves the
-  // user's category + search (memory: filter persistence rule).
+  // user's category, place and search (memory: filter persistence rule).
   useEffect(() => {
     const params = new URLSearchParams(routerLocation.search);
-    const currentCat = params.get('category') || '';
-    const currentSearch = params.get('search') || '';
-    const nextCat = filterOptions.category || '';
-    const nextSearch = searchTerm || '';
-    if (currentCat === nextCat && currentSearch === nextSearch) return;
+    const desired: Record<string, string> = {
+      category: filterOptions.category || '',
+      search: searchTerm || '',
+      group: categoryGroup || '',
+      country: country || '',
+      state: stateCode || '',
+      city: city || '',
+    };
 
-    if (nextCat) params.set('category', nextCat); else params.delete('category');
-    if (nextSearch) params.set('search', nextSearch); else params.delete('search');
+    const unchanged = Object.entries(desired).every(
+      ([key, value]) => (params.get(key) || '') === value
+    );
+    if (unchanged) return;
+
+    Object.entries(desired).forEach(([key, value]) => {
+      if (value) params.set(key, value); else params.delete(key);
+    });
     const qs = params.toString();
     navigate(`${routerLocation.pathname}${qs ? `?${qs}` : ''}${routerLocation.hash}`, { replace: true });
-  }, [filterOptions.category, searchTerm, navigate, routerLocation.pathname, routerLocation.hash, routerLocation.search]);
+  }, [filterOptions.category, searchTerm, categoryGroup, country, stateCode, city, navigate, routerLocation.pathname, routerLocation.hash, routerLocation.search]);
 
 
   // Realtime subscription: auto-refresh directory every 15 new inserts from Kayla
