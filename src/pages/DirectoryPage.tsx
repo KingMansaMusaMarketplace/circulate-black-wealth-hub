@@ -633,14 +633,25 @@ const DirectoryPage: React.FC = () => {
           {/* Pagination */}
           {totalPages > 1 && !isLoading && (
             <div className="mt-10">
-              <DirectoryPagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={(newPage) => {
-                  setPage(newPage);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-              />
+              {isMobile ? (
+                page < totalPages && (
+                  <Button
+                    onClick={() => setPage(page + 1)}
+                    className="w-full h-12 bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
+                  >
+                    Load more businesses
+                  </Button>
+                )
+              ) : (
+                <DirectoryPagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  onPageChange={(newPage) => {
+                    setPage(newPage);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                />
+              )}
             </div>
           )}
           {/* Stats section - only show in grid/list view, not split */}

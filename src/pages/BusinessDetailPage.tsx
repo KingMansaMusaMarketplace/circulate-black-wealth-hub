@@ -587,14 +587,16 @@ const BusinessDetailPage = () => {
                   )}
                 </div>
 
-                {/* Book Now Button */}
-                <Button
-                  size="lg"
-                  onClick={() => navigate(`/book/${businessId}`)}
-                  className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
-                >
-                  Book Appointment
-                </Button>
+                {/* Book Now — only for businesses that actually take appointments */}
+                {services.length > 0 && (
+                  <Button
+                    size="lg"
+                    onClick={() => navigate(`/book/${business.id}`)}
+                    className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
+                  >
+                    Book Appointment
+                  </Button>
+                )}
               </div>
             </div>
           </div>
