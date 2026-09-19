@@ -203,8 +203,14 @@ const PremiumBusinessCard = ({
               <div className="flex items-center gap-2">
                 <div className="flex items-center">
                   <Star className="h-4 w-4 text-mansagold mr-1 fill-mansagold drop-shadow-[0_0_4px_rgba(251,191,36,0.5)]" />
-                  <span className="text-white font-medium">{rating}</span>
-                  <span className="ml-1 text-gray-400">({reviewCount} reviews)</span>
+                  {reviewCount > 0 ? (
+                    <>
+                      <span className="text-white font-medium">{rating}</span>
+                      <span className="ml-1 text-gray-400">({reviewCount} reviews)</span>
+                    </>
+                  ) : (
+                    <span className="text-gray-300">New</span>
+                  )}
                 </div>
                 {isHBCUCategory(category) && <HBCUBadge variant="compact" />}
               </div>

@@ -559,7 +559,7 @@ const BusinessDetailPage = () => {
                       {business.category}
                     </Badge>
 
-                    {business.average_rating > 0 ? (
+                    {business.average_rating > 0 && business.review_count > 0 ? (
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1">
                           {renderStars(business.average_rating, 'md')}
