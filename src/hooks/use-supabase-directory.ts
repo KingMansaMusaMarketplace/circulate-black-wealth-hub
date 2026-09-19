@@ -252,42 +252,112 @@ export const useSupabaseDirectory = () => {
     searchTerm || null,
     filterOptions.category || null,
     filterOptions.minRating || null,
+    categoryGroup || null,
+    country || null,
+    stateCode || null,
+    city || null,
     page,
-  ], [searchTerm, filterOptions.category, filterOptions.minRating, page]);
+  ], [searchTerm, filterOptions.category, filterOptions.minRating, categoryGroup, country, stateCode, city, page]);
 
   // Fetch paginated businesses from server-side RPC
   const { data, isLoading, error } = useQuery({
     queryKey,
     queryFn: async () => {
       const offset = (page - 1) * PAGE_SIZE;
-      
-      const { data, error } = await supabase.rpc('search_directory_businesses', {
+
+      const { data, error } = await (supabase.rpc as any)('search_directory_businesses', {
         p_search_term: searchTerm || null,
         p_category: filterOptions.category || null,
         p_min_rating: filterOptions.minRating || null,
         p_limit: PAGE_SIZE,
         p_offset: offset,
+        p_category_group: categoryGroup || null,
+        p_country: country || null,
+        p_state: stateCode || null,
+        p_city: city || null,
       });
 
       if (error) {
         if (isStatementTimeout(error)) {
           console.warn('[Directory] Search timed out; loading fallback results.', error);
-          return fetchDirectoryFallback(searchTerm, filterOptions, PAGE_SIZE, offset);
+          return fetchDirectoryFallback(searchTerm, filterOptions, PAGE_SIZE, offset, {
+            categoryGroup,
+            country,
+            state: stateCode,
+            city,
+          });
         }
         throw error;
       }
-      
+
       const results = (data || []) as SupabaseBusiness[];
       const totalCount = results.length > 0 ? Number(results[0].total_count) : 0;
-      
+
       console.log(`[Directory] Page ${page}: loaded ${results.length} businesses (${totalCount} total)`);
-      
+
       return { results, totalCount };
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
     retry: (failureCount, queryError) => isStatementTimeout(queryError) && failureCount < 2,
     retryDelay: 800,
+    refetchOnWindowFocus: false,
+  });
+
+  // Counts for each of the main category groups (respects the chosen place)
+  const { data: groupsData } = useQuery({
+    queryKey: ['directory-groups', country || null, stateCode || null, city || null],
+    queryFn: async () => {
+      const { data, error } = await (supabase.rpc as any)('get_directory_groups', {
+        p_country: country || null,
+        p_state: stateCode || null,
+        p_city: city || null,
+      });
+      if (error) throw error;
+      return (data || []) as { category_group: string; count: number }[];
+    },
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  // Countries / states / cities available to browse
+  const { data: countriesData } = useQuery({
+    queryKey: ['directory-countries'],
+    queryFn: async () => {
+      const { data, error } = await (supabase.rpc as any)('get_directory_countries');
+      if (error) throw error;
+      return (data || []) as { country: string; count: number }[];
+    },
+    staleTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: statesData } = useQuery({
+    queryKey: ['directory-states', country || 'US'],
+    queryFn: async () => {
+      const { data, error } = await (supabase.rpc as any)('get_directory_states', {
+        p_country: country || 'US',
+      });
+      if (error) throw error;
+      return (data || []) as { state: string; count: number }[];
+    },
+    staleTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: citiesData } = useQuery({
+    queryKey: ['directory-cities', country || 'US', stateCode || null],
+    queryFn: async () => {
+      const { data, error } = await (supabase.rpc as any)('get_directory_cities', {
+        p_country: country || 'US',
+        p_state: stateCode || null,
+        p_limit: 80,
+      });
+      if (error) throw error;
+      return (data || []) as { city: string; state: string; count: number }[];
+    },
+    staleTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
 
