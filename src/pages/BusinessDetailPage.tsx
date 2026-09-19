@@ -27,6 +27,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { BusinessContactForm } from '@/components/business/BusinessContactForm';
 import { toast } from 'sonner';
 import { BookingForm } from '@/components/booking/BookingForm';
+import { RequestAppointmentForm } from '@/components/booking/RequestAppointmentForm';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ReviewForm } from '@/components/reviews/ReviewForm';
 import { ReviewsList } from '@/components/reviews/ReviewsList';
@@ -686,11 +687,18 @@ const BusinessDetailPage = () => {
 
                 <TabsContent value="book">
                   <div className="bg-slate-900/40 border border-white/10 rounded-lg p-6">
-                    <BookingForm
-                      businessId={business.id}
-                      businessName={business.business_name}
-                      services={services}
-                    />
+                    {services.length === 0 ? (
+                      <RequestAppointmentForm
+                        businessId={business.id}
+                        businessName={business.business_name}
+                      />
+                    ) : (
+                      <BookingForm
+                        businessId={business.id}
+                        businessName={business.business_name}
+                        services={services}
+                      />
+                    )}
                   </div>
                 </TabsContent>
 
