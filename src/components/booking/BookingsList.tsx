@@ -146,10 +146,17 @@ export function BookingsList({ businessId, customerId, onBookingsLoaded }: Booki
                 {businessId ? booking.customer_name : booking.businesses?.business_name}
               </h3>
               <p className="text-sm text-slate-400 mt-1">
-                {booking.business_services?.name}
+                {booking.business_services?.name || booking.requested_service || 'Appointment'}
               </p>
             </div>
-            {getStatusBadge(booking.status)}
+            <div className="flex items-center gap-2">
+              {booking.is_request && (
+                <span className="px-2.5 py-1 text-xs font-medium rounded-full border bg-mansagold/15 text-mansagold border-mansagold/30">
+                  Request
+                </span>
+              )}
+              {getStatusBadge(booking.status)}
+            </div>
           </div>
 
           <div className="space-y-3">
