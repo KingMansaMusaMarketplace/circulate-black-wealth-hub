@@ -171,8 +171,8 @@ serve(async (req) => {
 
     console.log("Booking created successfully:", booking.id, hasStripe ? "with Stripe" : "without Stripe (pay at location)");
 
-    // Record commission transaction
-    try {
+    // Record commission transaction (no money changes hands on a request)
+    if (!isRequest) try {
       const { error: commissionError } = await supabase.rpc('record_commission', {
         p_transaction_id: null,
         p_booking_id: booking.id,
