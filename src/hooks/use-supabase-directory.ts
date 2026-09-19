@@ -82,11 +82,19 @@ const DIRECTORY_SELECT = 'id, business_name, name, description, category, addres
 const isStatementTimeout = (error: unknown) =>
   Boolean(error && typeof error === 'object' && 'code' in error && (error as { code?: string }).code === '57014');
 
+interface PlaceFilters {
+  categoryGroup?: string;
+  country?: string;
+  state?: string;
+  city?: string;
+}
+
 const fetchDirectoryFallback = async (
   searchTerm: string,
   filterOptions: BusinessFilters,
   limit: number,
-  offset: number
+  offset: number,
+  place: PlaceFilters = {}
 ): Promise<{ results: SupabaseBusiness[]; totalCount: number }> => {
   let query = supabase
     .from('businesses')
@@ -103,6 +111,11 @@ const fetchDirectoryFallback = async (
   if (filterOptions.category && filterOptions.category !== 'all') {
     query = query.eq('category', filterOptions.category);
   }
+
+  if (place.categoryGroup) query = (query as any).eq('category_group', place.categoryGroup);
+  if (place.country) query = (query as any).eq('country', place.country);
+  if (place.state) query = (query as any).eq('state', place.state);
+  if (place.city) query = (query as any).eq('city', place.city);
 
   if (filterOptions.minRating && filterOptions.minRating > 0) {
     query = query.gte('average_rating', filterOptions.minRating);
