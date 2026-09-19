@@ -40,6 +40,9 @@ import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 import HomeSignupStrip from '@/components/directory/HomeSignupStrip';
 import WhyBand from '@/components/directory/WhyBand';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
+import CategoryGroupTiles from '@/components/directory/CategoryGroupTiles';
+import PlaceBrowseBar from '@/components/directory/PlaceBrowseBar';
+import { getCountryName, getStateName } from '@/data/categoryGroups';
 
 
 
@@ -100,6 +103,19 @@ const DirectoryPage: React.FC = () => {
     page,
     setPage,
     totalPages,
+    categoryGroup,
+    selectGroup,
+    country,
+    selectCountry,
+    stateCode,
+    selectState,
+    city: selectedCityName,
+    selectCity,
+    clearBrowse,
+    groupCounts,
+    countries,
+    states,
+    cities,
   } = useSupabaseDirectory();
 
   // Fetch top-rated businesses for Featured Spotlight (separate from paginated results)
@@ -194,10 +210,31 @@ const DirectoryPage: React.FC = () => {
   });
 
   // All paginated businesses go to the grid (featured spotlight is separate)
-  const regularBusinesses = useMemo(
+  const pageBusinesses = useMemo(
     () => [...(filteredBusinesses || [])].sort((a, b) => a.name.localeCompare(b.name)),
     [filteredBusinesses]
   );
+
+  // On phones the results keep stacking ("Load more") instead of paging
+  const [accumulated, setAccumulated] = useState<Business[]>([]);
+  useEffect(() => {
+    if (!isMobile) return;
+    if (page === 1) {
+      setAccumulated(pageBusinesses);
+      return;
+    }
+    setAccumulated(prev => {
+      const seen = new Set(prev.map(b => b.id));
+      return [...prev, ...pageBusinesses.filter(b => !seen.has(b.id))];
+    });
+  }, [pageBusinesses, page, isMobile]);
+
+  const regularBusinesses = isMobile && page > 1 ? accumulated : pageBusinesses;
+
+  // Phones start on the list; the map split is a desktop experience
+  useEffect(() => {
+    if (isMobile) setViewMode(prev => (prev === 'split' ? 'list' : prev));
+  }, [isMobile]);
 
   // Alphabet jump index support
   const activeLetters = useMemo(() => {
@@ -270,6 +307,33 @@ const DirectoryPage: React.FC = () => {
   const handleCategorySelect = useCallback((category: string | undefined) => {
     handleFilterChange({ category });
   }, [handleFilterChange]);
+
+  // Specific business types inside the chosen group, taken from what is on screen
+  const subCategories = useMemo(() => {
+    if (!categoryGroup) return [];
+    const counts: Record<string, number> = {};
+    (filteredBusinesses || []).forEach(b => {
+      if (b.category) counts[b.category] = (counts[b.category] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+      .slice(0, 30);
+  }, [categoryGroup, filteredBusinesses]);
+
+  // Plain-language description of what the visitor is currently browsing
+  const browseCrumb = useMemo(() => {
+    const parts: string[] = [];
+    if (filterOptions.category) parts.push(filterOptions.category);
+    else if (categoryGroup) parts.push(categoryGroup);
+    const place = [
+      selectedCityName,
+      stateCode ? getStateName(stateCode) : undefined,
+      country && country !== 'US' ? getCountryName(country) : undefined,
+    ].filter(Boolean).join(', ');
+    if (place) parts.push(`in ${place}`);
+    return parts.join(' ');
+  }, [filterOptions.category, categoryGroup, selectedCityName, stateCode, country]);
 
   // businessCounts now comes from the hook (server-side)
 
@@ -367,14 +431,40 @@ const DirectoryPage: React.FC = () => {
             />
           </div>
           
-          {/* Category Pills */}
-          <CategoryPills
-            categories={categories}
+          {/* Browse by place: country → state/region → city */}
+          <PlaceBrowseBar
+            countries={countries}
+            states={states}
+            cities={cities}
+            country={country}
+            stateCode={stateCode}
+            city={selectedCityName}
+            onCountryChange={selectCountry}
+            onStateChange={selectState}
+            onCityChange={selectCity}
+            onClear={() => { selectCountry(undefined); }}
+          />
+
+          {/* Browse by main category (50+ groups), then by specific type */}
+          <CategoryGroupTiles
+            groupCounts={groupCounts}
+            selectedGroup={categoryGroup}
+            onSelectGroup={selectGroup}
+            subCategories={subCategories}
             selectedCategory={filterOptions.category}
             onSelectCategory={handleCategorySelect}
-            businessCounts={businessCounts}
-            totalCount={totalBusinesses}
           />
+
+          {browseCrumb && (
+            <p className="mb-6 text-sm text-gray-400">
+              Showing <span className="text-mansagold font-medium">{browseCrumb}</span>
+              {' · '}
+              <button onClick={clearBrowse} className="underline hover:text-mansagold">
+                clear
+              </button>
+            </p>
+          )}
+          
           
           {/* Filters Panel */}
           {showFilters && (
@@ -393,7 +483,7 @@ const DirectoryPage: React.FC = () => {
           )}
           
           {/* Featured Spotlight Carousel */}
-          {featuredBusinesses.length > 0 && !searchTerm && !isLoading && (
+          {featuredBusinesses.length > 0 && !searchTerm && !browseCrumb && !isLoading && (
             <FeaturedSpotlight businesses={featuredBusinesses} />
           )}
           
@@ -543,14 +633,25 @@ const DirectoryPage: React.FC = () => {
           {/* Pagination */}
           {totalPages > 1 && !isLoading && (
             <div className="mt-10">
-              <DirectoryPagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={(newPage) => {
-                  setPage(newPage);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-              />
+              {isMobile ? (
+                page < totalPages && (
+                  <Button
+                    onClick={() => setPage(page + 1)}
+                    className="w-full h-12 bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
+                  >
+                    Load more businesses
+                  </Button>
+                )
+              ) : (
+                <DirectoryPagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  onPageChange={(newPage) => {
+                    setPage(newPage);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                />
+              )}
             </div>
           )}
           {/* Stats section - only show in grid/list view, not split */}

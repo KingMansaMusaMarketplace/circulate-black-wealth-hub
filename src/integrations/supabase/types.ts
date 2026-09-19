@@ -5652,10 +5652,12 @@ export type Database = {
           black_owned_evidence: string | null
           business_name: string
           category: string | null
+          category_group: string | null
           city: string | null
           claim_invited_at: string | null
           claim_status: string
           claimed_at: string | null
+          country: string | null
           created_at: string | null
           description: string | null
           email: string | null
@@ -5712,10 +5714,12 @@ export type Database = {
           black_owned_evidence?: string | null
           business_name: string
           category?: string | null
+          category_group?: string | null
           city?: string | null
           claim_invited_at?: string | null
           claim_status?: string
           claimed_at?: string | null
+          country?: string | null
           created_at?: string | null
           description?: string | null
           email?: string | null
@@ -5772,10 +5776,12 @@ export type Database = {
           black_owned_evidence?: string | null
           business_name?: string
           category?: string | null
+          category_group?: string | null
           city?: string | null
           claim_invited_at?: string | null
           claim_status?: string
           claimed_at?: string | null
+          country?: string | null
           created_at?: string | null
           description?: string | null
           email?: string | null
@@ -27152,6 +27158,28 @@ export type Database = {
           count: number
         }[]
       }
+      get_directory_cities: {
+        Args: { p_country?: string; p_limit?: number; p_state?: string }
+        Returns: {
+          city: string
+          count: number
+          state: string
+        }[]
+      }
+      get_directory_countries: {
+        Args: never
+        Returns: {
+          count: number
+          country: string
+        }[]
+      }
+      get_directory_groups: {
+        Args: { p_city?: string; p_country?: string; p_state?: string }
+        Returns: {
+          category_group: string
+          count: number
+        }[]
+      }
       get_directory_map_markers: {
         Args: {
           p_category?: string
@@ -27165,6 +27193,13 @@ export type Database = {
           id: string
           latitude: number
           longitude: number
+        }[]
+      }
+      get_directory_states: {
+        Args: { p_country?: string }
+        Returns: {
+          count: number
+          state: string
         }[]
       }
       get_download_trends: {
@@ -27781,6 +27816,7 @@ export type Database = {
         }[]
       }
       normalize_business_name: { Args: { p_name: string }; Returns: string }
+      normalize_state_code: { Args: { p_state: string }; Returns: string }
       process_business_referral: {
         Args: { p_business_id: string; p_referral_code: string }
         Returns: Json
@@ -27871,6 +27907,8 @@ export type Database = {
         Args: { p_attempt_type?: string; p_identifier: string }
         Returns: undefined
       }
+      resolve_category_group: { Args: { p_category: string }; Returns: string }
+      resolve_country: { Args: { p_state: string }; Returns: string }
       revoke_role: {
         Args: {
           target_role: Database["public"]["Enums"]["app_role"]
@@ -27917,10 +27955,14 @@ export type Database = {
         | {
             Args: {
               p_category?: string
+              p_category_group?: string
+              p_city?: string
+              p_country?: string
               p_limit?: number
               p_min_rating?: number
               p_offset?: number
               p_search_term?: string
+              p_state?: string
             }
             Returns: {
               address: string
@@ -27928,7 +27970,9 @@ export type Database = {
               banner_url: string
               business_name: string
               category: string
+              category_group: string
               city: string
+              country: string
               created_at: string
               description: string
               id: string

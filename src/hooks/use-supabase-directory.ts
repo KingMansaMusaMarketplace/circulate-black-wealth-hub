@@ -31,6 +31,8 @@ interface SupabaseBusiness {
   listing_status: string | null;
   is_founding_member: boolean | null;
   is_founding_sponsor: boolean | null;
+  category_group?: string | null;
+  country?: string | null;
   total_count: number;
 }
 
@@ -80,11 +82,19 @@ const DIRECTORY_SELECT = 'id, business_name, name, description, category, addres
 const isStatementTimeout = (error: unknown) =>
   Boolean(error && typeof error === 'object' && 'code' in error && (error as { code?: string }).code === '57014');
 
+interface PlaceFilters {
+  categoryGroup?: string;
+  country?: string;
+  state?: string;
+  city?: string;
+}
+
 const fetchDirectoryFallback = async (
   searchTerm: string,
   filterOptions: BusinessFilters,
   limit: number,
-  offset: number
+  offset: number,
+  place: PlaceFilters = {}
 ): Promise<{ results: SupabaseBusiness[]; totalCount: number }> => {
   let query = supabase
     .from('businesses')
@@ -101,6 +111,11 @@ const fetchDirectoryFallback = async (
   if (filterOptions.category && filterOptions.category !== 'all') {
     query = query.eq('category', filterOptions.category);
   }
+
+  if (place.categoryGroup) query = (query as any).eq('category_group', place.categoryGroup);
+  if (place.country) query = (query as any).eq('country', place.country);
+  if (place.state) query = (query as any).eq('state', place.state);
+  if (place.city) query = (query as any).eq('city', place.city);
 
   if (filterOptions.minRating && filterOptions.minRating > 0) {
     query = query.gte('average_rating', filterOptions.minRating);
@@ -143,6 +158,11 @@ export const useSupabaseDirectory = () => {
     return params.get('category') || undefined;
   }, []);
 
+  const readParam = (key: string) => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(key) || undefined;
+  };
+
   const [searchTerm, setSearchTerm] = useState<string>(initialSearch);
   const [page, setPage] = useState(1);
   const [filterOptions, setFilterOptions] = useState<BusinessFilters>({
@@ -152,6 +172,12 @@ export const useSupabaseDirectory = () => {
     featured: false,
     distance: 0,
   });
+
+  // Browse-by-group and browse-by-place selections
+  const [categoryGroup, setCategoryGroup] = useState<string | undefined>(() => readParam('group'));
+  const [country, setCountry] = useState<string | undefined>(() => readParam('country'));
+  const [stateCode, setStateCode] = useState<string | undefined>(() => readParam('state'));
+  const [city, setCity] = useState<string | undefined>(() => readParam('city'));
 
   // Keep filters in sync if the user navigates between filtered directory URLs
   // (e.g. /directory?category=A → /directory?category=B) without remount.
@@ -164,24 +190,49 @@ export const useSupabaseDirectory = () => {
       prev.category === urlCategory ? prev : { ...prev, category: urlCategory }
     );
     setSearchTerm(prev => (prev === urlSearch ? prev : urlSearch));
+    setCategoryGroup(prev => {
+      const next = params.get('group') || undefined;
+      return prev === next ? prev : next;
+    });
+    setCountry(prev => {
+      const next = params.get('country') || undefined;
+      return prev === next ? prev : next;
+    });
+    setStateCode(prev => {
+      const next = params.get('state') || undefined;
+      return prev === next ? prev : next;
+    });
+    setCity(prev => {
+      const next = params.get('city') || undefined;
+      return prev === next ? prev : next;
+    });
     setPage(1);
   }, [routerLocation.search]);
 
   // Push state OUT to the URL so refresh / share-link preserves the
-  // user's category + search (memory: filter persistence rule).
+  // user's category, place and search (memory: filter persistence rule).
   useEffect(() => {
     const params = new URLSearchParams(routerLocation.search);
-    const currentCat = params.get('category') || '';
-    const currentSearch = params.get('search') || '';
-    const nextCat = filterOptions.category || '';
-    const nextSearch = searchTerm || '';
-    if (currentCat === nextCat && currentSearch === nextSearch) return;
+    const desired: Record<string, string> = {
+      category: filterOptions.category || '',
+      search: searchTerm || '',
+      group: categoryGroup || '',
+      country: country || '',
+      state: stateCode || '',
+      city: city || '',
+    };
 
-    if (nextCat) params.set('category', nextCat); else params.delete('category');
-    if (nextSearch) params.set('search', nextSearch); else params.delete('search');
+    const unchanged = Object.entries(desired).every(
+      ([key, value]) => (params.get(key) || '') === value
+    );
+    if (unchanged) return;
+
+    Object.entries(desired).forEach(([key, value]) => {
+      if (value) params.set(key, value); else params.delete(key);
+    });
     const qs = params.toString();
     navigate(`${routerLocation.pathname}${qs ? `?${qs}` : ''}${routerLocation.hash}`, { replace: true });
-  }, [filterOptions.category, searchTerm, navigate, routerLocation.pathname, routerLocation.hash, routerLocation.search]);
+  }, [filterOptions.category, searchTerm, categoryGroup, country, stateCode, city, navigate, routerLocation.pathname, routerLocation.hash, routerLocation.search]);
 
 
   // Realtime subscription: auto-refresh directory every 15 new inserts from Kayla
@@ -214,42 +265,112 @@ export const useSupabaseDirectory = () => {
     searchTerm || null,
     filterOptions.category || null,
     filterOptions.minRating || null,
+    categoryGroup || null,
+    country || null,
+    stateCode || null,
+    city || null,
     page,
-  ], [searchTerm, filterOptions.category, filterOptions.minRating, page]);
+  ], [searchTerm, filterOptions.category, filterOptions.minRating, categoryGroup, country, stateCode, city, page]);
 
   // Fetch paginated businesses from server-side RPC
   const { data, isLoading, error } = useQuery({
     queryKey,
     queryFn: async () => {
       const offset = (page - 1) * PAGE_SIZE;
-      
-      const { data, error } = await supabase.rpc('search_directory_businesses', {
+
+      const { data, error } = await (supabase.rpc as any)('search_directory_businesses', {
         p_search_term: searchTerm || null,
         p_category: filterOptions.category || null,
         p_min_rating: filterOptions.minRating || null,
         p_limit: PAGE_SIZE,
         p_offset: offset,
+        p_category_group: categoryGroup || null,
+        p_country: country || null,
+        p_state: stateCode || null,
+        p_city: city || null,
       });
 
       if (error) {
         if (isStatementTimeout(error)) {
           console.warn('[Directory] Search timed out; loading fallback results.', error);
-          return fetchDirectoryFallback(searchTerm, filterOptions, PAGE_SIZE, offset);
+          return fetchDirectoryFallback(searchTerm, filterOptions, PAGE_SIZE, offset, {
+            categoryGroup,
+            country,
+            state: stateCode,
+            city,
+          });
         }
         throw error;
       }
-      
+
       const results = (data || []) as SupabaseBusiness[];
       const totalCount = results.length > 0 ? Number(results[0].total_count) : 0;
-      
+
       console.log(`[Directory] Page ${page}: loaded ${results.length} businesses (${totalCount} total)`);
-      
+
       return { results, totalCount };
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
     retry: (failureCount, queryError) => isStatementTimeout(queryError) && failureCount < 2,
     retryDelay: 800,
+    refetchOnWindowFocus: false,
+  });
+
+  // Counts for each of the main category groups (respects the chosen place)
+  const { data: groupsData } = useQuery({
+    queryKey: ['directory-groups', country || null, stateCode || null, city || null],
+    queryFn: async () => {
+      const { data, error } = await (supabase.rpc as any)('get_directory_groups', {
+        p_country: country || null,
+        p_state: stateCode || null,
+        p_city: city || null,
+      });
+      if (error) throw error;
+      return (data || []) as { category_group: string; count: number }[];
+    },
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  // Countries / states / cities available to browse
+  const { data: countriesData } = useQuery({
+    queryKey: ['directory-countries'],
+    queryFn: async () => {
+      const { data, error } = await (supabase.rpc as any)('get_directory_countries');
+      if (error) throw error;
+      return (data || []) as { country: string; count: number }[];
+    },
+    staleTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: statesData } = useQuery({
+    queryKey: ['directory-states', country || 'US'],
+    queryFn: async () => {
+      const { data, error } = await (supabase.rpc as any)('get_directory_states', {
+        p_country: country || 'US',
+      });
+      if (error) throw error;
+      return (data || []) as { state: string; count: number }[];
+    },
+    staleTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: citiesData } = useQuery({
+    queryKey: ['directory-cities', country || 'US', stateCode || null],
+    queryFn: async () => {
+      const { data, error } = await (supabase.rpc as any)('get_directory_cities', {
+        p_country: country || 'US',
+        p_state: stateCode || null,
+        p_limit: 80,
+      });
+      if (error) throw error;
+      return (data || []) as { city: string; state: string; count: number }[];
+    },
+    staleTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
 
@@ -346,6 +467,48 @@ export const useSupabaseDirectory = () => {
     });
   }, []);
 
+  const selectGroup = useCallback((group?: string) => {
+    setCategoryGroup(group);
+    setFilterOptions(prev => ({ ...prev, category: undefined }));
+    setPage(1);
+  }, []);
+
+  const selectCountry = useCallback((next?: string) => {
+    setCountry(next);
+    setStateCode(undefined);
+    setCity(undefined);
+    setPage(1);
+  }, []);
+
+  const selectState = useCallback((next?: string) => {
+    setStateCode(next);
+    setCity(undefined);
+    setPage(1);
+  }, []);
+
+  const selectCity = useCallback((next?: string) => {
+    setCity(next);
+    setPage(1);
+  }, []);
+
+  const clearBrowse = useCallback(() => {
+    setCategoryGroup(undefined);
+    setCountry(undefined);
+    setStateCode(undefined);
+    setCity(undefined);
+    setFilterOptions(prev => ({ ...prev, category: undefined }));
+    setSearchTerm('');
+    setPage(1);
+  }, []);
+
+  const groupCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    (groupsData || []).forEach(g => {
+      if (g.category_group) counts[g.category_group] = Number(g.count);
+    });
+    return counts;
+  }, [groupsData]);
+
   return {
     selectedCity,
     searchTerm,
@@ -360,6 +523,20 @@ export const useSupabaseDirectory = () => {
     businessCounts,
     isLoading,
     error,
+    // Browse by group + place
+    categoryGroup,
+    selectGroup,
+    country,
+    selectCountry,
+    stateCode,
+    selectState,
+    city,
+    selectCity,
+    clearBrowse,
+    groupCounts,
+    countries: (countriesData || []) as { country: string; count: number }[],
+    states: (statesData || []) as { state: string; count: number }[],
+    cities: (citiesData || []) as { city: string; state: string; count: number }[],
     // Pagination
     page,
     setPage,

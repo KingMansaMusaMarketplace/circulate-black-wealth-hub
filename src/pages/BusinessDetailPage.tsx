@@ -212,14 +212,16 @@ const BusinessDetailPage = () => {
     }
   };
 
-  const loadReviews = async () => {
-    if (!businessId || !isValidUUID(businessId)) return; // Skip for sample businesses
+  const loadReviews = async (resolvedId?: string) => {
+    // Pages can be opened by friendly name (slug) or by ID — always use the real ID
+    const targetId = resolvedId || (businessId && isValidUUID(businessId) ? businessId : undefined);
+    if (!targetId) return;
 
     try {
       const { data, error } = await supabase
         .from('reviews')
         .select('*')
-        .eq('business_id', businessId)
+        .eq('business_id', targetId)
         .order('created_at', { ascending: false })
         .limit(10);
 
@@ -251,13 +253,14 @@ const BusinessDetailPage = () => {
     }
   };
 
-  const loadServices = async () => {
-    if (!businessId || !isValidUUID(businessId)) return; // Skip for sample businesses
+  const loadServices = async (resolvedId?: string) => {
+    const targetId = resolvedId || (businessId && isValidUUID(businessId) ? businessId : undefined);
+    if (!targetId) return;
     try {
       const { data, error } = await supabase
         .from('business_services')
         .select('*')
-        .eq('business_id', businessId)
+        .eq('business_id', targetId)
         .eq('is_active', true)
         .order('name');
 
@@ -270,9 +273,14 @@ const BusinessDetailPage = () => {
 
   useEffect(() => {
     loadBusiness();
-    loadReviews();
-    loadServices();
   }, [businessId, retryCount]);
+
+  // Reviews and services load once we know the business's real ID
+  useEffect(() => {
+    if (!business?.id) return;
+    loadReviews(business.id);
+    loadServices(business.id);
+  }, [business?.id]);
 
   const renderStars = (rating: number, size: 'sm' | 'md' = 'sm') => {
     const starSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
@@ -587,14 +595,16 @@ const BusinessDetailPage = () => {
                   )}
                 </div>
 
-                {/* Book Now Button */}
-                <Button
-                  size="lg"
-                  onClick={() => navigate(`/book/${businessId}`)}
-                  className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
-                >
-                  Book Appointment
-                </Button>
+                {/* Book Now — only for businesses that actually take appointments */}
+                {services.length > 0 && (
+                  <Button
+                    size="lg"
+                    onClick={() => navigate(`/book/${business.id}`)}
+                    className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold"
+                  >
+                    Book Appointment
+                  </Button>
+                )}
               </div>
             </div>
           </div>
@@ -619,7 +629,7 @@ const BusinessDetailPage = () => {
               <Tabs defaultValue="about" className="w-full">
                 <TabsList className="grid w-full grid-cols-3 bg-slate-900/40 border border-white/10">
                   <TabsTrigger value="about" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">About</TabsTrigger>
-                  <TabsTrigger value="book" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">Book Appointment</TabsTrigger>
+                  <TabsTrigger value="book" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">{services.length > 0 ? 'Book Appointment' : 'Request Appointment'}</TabsTrigger>
                   <TabsTrigger value="reviews" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">Reviews ({reviews.length})</TabsTrigger>
                 </TabsList>
 
