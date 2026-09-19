@@ -44,7 +44,7 @@ import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 
 
 const DirectoryPage: React.FC = () => {
-  const { rounded: liveCount } = useLiveBusinessCount();
+  const { rounded: liveCount, formatted: liveExact, isLoading: liveLoading } = useLiveBusinessCount();
   
   const { user } = useAuth();
   const { recordBusinessView, recordAttemptedAction, showSignupPrompt, setShowSignupPrompt, lastAttemptedAction } = useGuest();
