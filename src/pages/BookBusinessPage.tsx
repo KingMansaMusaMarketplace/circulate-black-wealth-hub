@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, Clock, MapPin, Phone, Mail, Shield, ExternalLink }
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { BookingForm } from '@/components/booking/BookingForm';
+import { RequestAppointmentForm } from '@/components/booking/RequestAppointmentForm';
 import { Helmet } from 'react-helmet-async';
 import Loading from '@/components/ui/loading';
 
@@ -192,23 +193,7 @@ export default function BookBusinessPage() {
                   </div>
                   <div className="p-6">
                     {services.length === 0 ? (
-                      <div className="text-center py-16">
-                        <div className="w-16 h-16 rounded-2xl bg-white/[0.04] flex items-center justify-center mx-auto mb-4">
-                          <Calendar className="w-8 h-8 text-white/20" />
-                        </div>
-                        <p className="text-white/90 font-medium mb-1">No Services Available</p>
-                        <p className="text-sm text-white/30">
-                          This business hasn't added bookable services yet.
-                        </p>
-                        <Button
-                          variant="ghost"
-                          onClick={() => navigate(`/business/${businessId}`)}
-                          className="mt-4 text-mansagold hover:text-mansagold/80 hover:bg-mansagold/5"
-                        >
-                          View Business Profile
-                          <ExternalLink className="w-4 h-4 ml-1" />
-                        </Button>
-                      </div>
+                      <RequestAppointmentForm businessId={businessId!} businessName={bizName} />
                     ) : (
                       <BookingForm businessId={businessId!} businessName={bizName} services={services} />
                     )}
