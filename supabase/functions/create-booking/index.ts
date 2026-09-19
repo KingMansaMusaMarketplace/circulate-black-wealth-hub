@@ -37,12 +37,17 @@ serve(async (req) => {
     const {
       businessId,
       serviceId,
+      requestedService,
       bookingDate,
       customerName,
       customerEmail,
       customerPhone,
       notes,
     } = await req.json();
+
+    // Open appointment request: the business has no listed services yet.
+    // No payment is taken — the owner confirms or proposes another time.
+    const isRequest = !serviceId;
 
     console.log("Creating booking:", {
       businessId,
