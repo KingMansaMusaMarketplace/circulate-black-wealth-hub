@@ -621,7 +621,7 @@ const BusinessDetailPage = () => {
               <Tabs defaultValue="about" className="w-full">
                 <TabsList className="grid w-full grid-cols-3 bg-slate-900/40 border border-white/10">
                   <TabsTrigger value="about" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">About</TabsTrigger>
-                  <TabsTrigger value="book" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">Book Appointment</TabsTrigger>
+                  <TabsTrigger value="book" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">{services.length > 0 ? 'Book Appointment' : 'Request Appointment'}</TabsTrigger>
                   <TabsTrigger value="reviews" className="data-[state=active]:bg-mansagold data-[state=active]:text-black text-slate-300">Reviews ({reviews.length})</TabsTrigger>
                 </TabsList>
 
