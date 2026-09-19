@@ -128,6 +128,18 @@ export const bookingService = {
     }
   },
 
+  /** Tell the business owner a new booking or request just came in. */
+  async notifyBusinessOwner(bookingId: string): Promise<void> {
+    try {
+      await supabase.functions.invoke('send-booking-confirmation', {
+        body: { bookingId, recipientType: 'business' },
+      });
+    } catch (error) {
+      console.error('Error notifying business owner:', error);
+      // Don't throw - notification failures shouldn't fail the booking
+    }
+  },
+
   async getCustomerBookings(): Promise<Booking[]> {
     try {
       // Safe column list — excludes Stripe identifiers (revoked at column level)
