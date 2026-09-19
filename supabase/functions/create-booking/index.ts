@@ -96,7 +96,7 @@ serve(async (req) => {
     let paymentIntent = null;
     let checkoutUrl = null;
 
-    if (hasStripe) {
+    if (hasStripe && !isRequest) {
       // Initialize Stripe and create payment
       const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
         apiVersion: "2023-10-16",
@@ -146,13 +146,15 @@ serve(async (req) => {
       .insert({
         business_id: businessId,
         customer_id: user.id,
-        service_id: serviceId,
+        service_id: isRequest ? null : serviceId,
+        is_request: isRequest,
+        requested_service: isRequest ? service.name : null,
         booking_date: bookingDate,
         duration_minutes: service.duration_minutes,
         amount: service.price,
         platform_fee: commission / 100,
         business_amount: businessAmount / 100,
-        status: hasStripe ? "pending" : "confirmed",
+        status: isRequest ? "pending" : hasStripe ? "pending" : "confirmed",
         payment_intent_id: paymentIntent?.id || null,
         customer_name: customerName,
         customer_email: customerEmail,
