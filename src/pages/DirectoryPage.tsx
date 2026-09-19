@@ -40,6 +40,9 @@ import AlphabetJumpIndex from '@/components/directory/AlphabetJumpIndex';
 import HomeSignupStrip from '@/components/directory/HomeSignupStrip';
 import WhyBand from '@/components/directory/WhyBand';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
+import CategoryGroupTiles from '@/components/directory/CategoryGroupTiles';
+import PlaceBrowseBar from '@/components/directory/PlaceBrowseBar';
+import { getCountryName, getStateName } from '@/data/categoryGroups';
 
 
 
@@ -100,6 +103,19 @@ const DirectoryPage: React.FC = () => {
     page,
     setPage,
     totalPages,
+    categoryGroup,
+    selectGroup,
+    country,
+    selectCountry,
+    stateCode,
+    selectState,
+    city: selectedCityName,
+    selectCity,
+    clearBrowse,
+    groupCounts,
+    countries,
+    states,
+    cities,
   } = useSupabaseDirectory();
 
   // Fetch top-rated businesses for Featured Spotlight (separate from paginated results)
