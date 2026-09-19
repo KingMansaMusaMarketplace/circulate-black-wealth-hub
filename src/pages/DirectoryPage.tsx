@@ -345,11 +345,8 @@ const DirectoryPage: React.FC = () => {
                </span>
              </h1>
              <p className="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg md:text-xl">
-               {totalBusinesses
-                 ? `${totalBusinesses.toLocaleString()}+ verified businesses`
-                 : isLoading
-                   ? 'Loading verified businesses…'
-                   : `${liveCount} verified businesses`} — discover, support, and earn loyalty points
+               {/* Always the full directory size — the filtered result count is shown below */}
+               {liveCount} verified businesses — discover, support, and earn loyalty points
             </p>
           </motion.div>
           
