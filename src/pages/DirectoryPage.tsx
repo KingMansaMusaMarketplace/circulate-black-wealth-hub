@@ -345,10 +345,15 @@ const DirectoryPage: React.FC = () => {
                </span>
              </h1>
              <p className="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg md:text-xl">
-               {/* Always the full directory size — the filtered result count is shown below */}
-               {liveCount} verified businesses — discover, support, and earn loyalty points
-            </p>
-          </motion.div>
+                {/* Always the full directory size — the filtered result count is shown below */}
+                {liveCount} verified businesses — discover, support, and earn loyalty points
+             </p>
+             {!liveLoading && (
+               <p className="mt-3 text-xs sm:text-sm text-gray-500 font-mono tracking-wide">
+                 {liveExact} verified listings · updated live
+               </p>
+             )}
+           </motion.div>
           
           {/* Premium Search Bar */}
           <div data-tour="search-businesses">
