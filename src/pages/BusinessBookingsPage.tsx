@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/dashboard';
 import { BookingsList } from '@/components/booking/BookingsList';
+import { BookingSetupPrompt } from '@/components/booking/BookingSetupPrompt';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { ListPageSkeleton } from '@/components/ui/page-skeletons';
 
@@ -38,6 +39,7 @@ export default function BusinessBookingsPage() {
   return (
     <DashboardLayout title="Bookings Management" icon={<Calendar className="w-6 h-6" />}>
       <div className="max-w-6xl">
+        <BookingSetupPrompt businessId={profile.id} />
         <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <BookingsList businessId={profile.id} />
         </div>
