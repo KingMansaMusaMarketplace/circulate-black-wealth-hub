@@ -37,7 +37,10 @@ export interface Booking {
 export interface CreateBookingParams {
   businessId: string;
   businessName?: string;
-  serviceId: string;
+  /** Omit for an open appointment request (business has no listed services). */
+  serviceId?: string | null;
+  /** Free-text description of what the customer is asking for (requests only). */
+  requestedService?: string;
   bookingDate: string;
   customerName: string;
   customerEmail: string;
@@ -89,9 +92,10 @@ export const bookingService = {
 
       if (error) throw error;
 
-      // Send confirmation email in the background
+      // Send confirmation email + notify the business owner in the background
       if (data.success && data.booking) {
         this.sendConfirmationEmail(data.booking, params);
+        this.notifyBusinessOwner(data.booking.id);
       }
 
       return data;
