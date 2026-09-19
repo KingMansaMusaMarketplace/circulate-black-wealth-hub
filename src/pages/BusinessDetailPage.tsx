@@ -27,6 +27,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { BusinessContactForm } from '@/components/business/BusinessContactForm';
 import { toast } from 'sonner';
 import { BookingForm } from '@/components/booking/BookingForm';
+import { RequestAppointmentForm } from '@/components/booking/RequestAppointmentForm';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ReviewForm } from '@/components/reviews/ReviewForm';
 import { ReviewsList } from '@/components/reviews/ReviewsList';
