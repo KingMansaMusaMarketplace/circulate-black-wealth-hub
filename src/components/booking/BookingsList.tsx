@@ -172,17 +172,23 @@ export function BookingsList({ businessId, customerId, onBookingsLoaded }: Booki
               </span>
             </div>
 
-            <div className="flex items-center text-sm text-slate-300">
-              <DollarSign className="w-4 h-4 mr-2 text-mansagold" />
-              <span className="text-white font-medium">${booking.amount.toFixed(2)}</span>
-              {businessId && (
-                <span className="text-slate-500 ml-2">
-                  (You receive: ${booking.business_amount.toFixed(2)})
-                </span>
-              )}
-            </div>
+            {booking.is_request ? (
+              <div className="text-sm text-slate-400">
+                Price to be agreed with the customer — no payment taken.
+              </div>
+            ) : (
+              <div className="flex items-center text-sm text-slate-300">
+                <DollarSign className="w-4 h-4 mr-2 text-mansagold" />
+                <span className="text-white font-medium">${Number(booking.amount || 0).toFixed(2)}</span>
+                {businessId && (
+                  <span className="text-slate-500 ml-2">
+                    (You receive: ${Number(booking.business_amount || 0).toFixed(2)})
+                  </span>
+                )}
+              </div>
+            )}
 
-            {!businessId && booking.customer_email && (
+            {(!businessId || booking.is_request) && booking.customer_email && (
               <div className="text-sm text-slate-300">
                 <strong className="text-slate-200">Contact:</strong> {booking.customer_email}
                 {booking.customer_phone && ` • ${booking.customer_phone}`}
