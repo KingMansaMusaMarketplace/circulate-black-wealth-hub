@@ -483,7 +483,7 @@ const DirectoryPage: React.FC = () => {
           )}
           
           {/* Featured Spotlight Carousel */}
-          {featuredBusinesses.length > 0 && !searchTerm && !isLoading && (
+          {featuredBusinesses.length > 0 && !searchTerm && !browseCrumb && !isLoading && (
             <FeaturedSpotlight businesses={featuredBusinesses} />
           )}
           
