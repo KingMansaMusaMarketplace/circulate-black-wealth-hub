@@ -21,6 +21,17 @@ interface TimeSlot {
   available: boolean;
 }
 
+// Standard fallback schedule used when a business hasn't set its own hours.
+// Times chosen here are treated as *requested* times the business confirms.
+const DEFAULT_AVAILABILITY: Availability[] = [
+  { day_of_week: 1, start_time: '09:00:00', end_time: '17:00:00', is_available: true },
+  { day_of_week: 2, start_time: '09:00:00', end_time: '17:00:00', is_available: true },
+  { day_of_week: 3, start_time: '09:00:00', end_time: '17:00:00', is_available: true },
+  { day_of_week: 4, start_time: '09:00:00', end_time: '17:00:00', is_available: true },
+  { day_of_week: 5, start_time: '09:00:00', end_time: '17:00:00', is_available: true },
+  { day_of_week: 6, start_time: '10:00:00', end_time: '14:00:00', is_available: true },
+];
+
 interface UseBusinessAvailabilityOptions {
   businessId: string;
   serviceId?: string;
@@ -39,6 +50,7 @@ export function useBusinessAvailability({
   const [availability, setAvailability] = useState<Availability[]>([]);
   const [existingBookings, setExistingBookings] = useState<ExistingBooking[]>([]);
   const [loading, setLoading] = useState(true);
+  const [usingDefaultHours, setUsingDefaultHours] = useState(false);
 
   // Fetch business availability (weekly schedule)
   useEffect(() => {
