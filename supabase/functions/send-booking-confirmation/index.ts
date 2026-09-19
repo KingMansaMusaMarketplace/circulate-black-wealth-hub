@@ -78,13 +78,17 @@ const handler = async (req: Request): Promise<Response> => {
     let emailSubject: string;
     let emailHtml: string;
 
+    const serviceLabel = booking.service?.name || booking.requested_service || 'Service';
+
     if (recipientType === 'customer') {
       emailTo = booking.customer_email;
-      emailSubject = `Booking Confirmation - ${booking.business.business_name}`;
+      emailSubject = booking.is_request
+        ? `Appointment Request Sent - ${booking.business.business_name}`
+        : `Booking Confirmation - ${booking.business.business_name}`;
       emailHtml = generateCustomerEmailHTML({
         customerName: booking.customer_name,
         businessName: booking.business.business_name,
-        serviceName: booking.service?.name || 'Service',
+        serviceName: serviceLabel,
         date: formattedDate,
         time: formattedTime,
         duration: booking.duration_minutes,
