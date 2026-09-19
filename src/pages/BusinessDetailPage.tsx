@@ -212,14 +212,16 @@ const BusinessDetailPage = () => {
     }
   };
 
-  const loadReviews = async () => {
-    if (!businessId || !isValidUUID(businessId)) return; // Skip for sample businesses
+  const loadReviews = async (resolvedId?: string) => {
+    // Pages can be opened by friendly name (slug) or by ID — always use the real ID
+    const targetId = resolvedId || (businessId && isValidUUID(businessId) ? businessId : undefined);
+    if (!targetId) return;
 
     try {
       const { data, error } = await supabase
         .from('reviews')
         .select('*')
-        .eq('business_id', businessId)
+        .eq('business_id', targetId)
         .order('created_at', { ascending: false })
         .limit(10);
 
@@ -251,13 +253,14 @@ const BusinessDetailPage = () => {
     }
   };
 
-  const loadServices = async () => {
-    if (!businessId || !isValidUUID(businessId)) return; // Skip for sample businesses
+  const loadServices = async (resolvedId?: string) => {
+    const targetId = resolvedId || (businessId && isValidUUID(businessId) ? businessId : undefined);
+    if (!targetId) return;
     try {
       const { data, error } = await supabase
         .from('business_services')
         .select('*')
-        .eq('business_id', businessId)
+        .eq('business_id', targetId)
         .eq('is_active', true)
         .order('name');
 
@@ -270,9 +273,14 @@ const BusinessDetailPage = () => {
 
   useEffect(() => {
     loadBusiness();
-    loadReviews();
-    loadServices();
   }, [businessId, retryCount]);
+
+  // Reviews and services load once we know the business's real ID
+  useEffect(() => {
+    if (!business?.id) return;
+    loadReviews(business.id);
+    loadServices(business.id);
+  }, [business?.id]);
 
   const renderStars = (rating: number, size: 'sm' | 'md' = 'sm') => {
     const starSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
