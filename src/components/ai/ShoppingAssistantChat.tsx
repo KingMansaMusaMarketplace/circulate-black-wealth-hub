@@ -61,6 +61,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const voice = useKaylaVoice();
 
   // Persist messages whenever they change (skips empty arrays).
   useEffect(() => {
