@@ -187,6 +187,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
       toast({ title: 'Connection Error', description: 'Could not reach the AI assistant.', variant: 'destructive' });
     } finally {
       setIsLoading(false);
+      if (voice.enabled && assistantSoFar) {
+        void voice.speak(assistantSoFar);
+      }
     }
   };
 
