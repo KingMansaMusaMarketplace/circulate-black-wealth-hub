@@ -125,23 +125,33 @@ const HomePage: React.FC = () => {
                 </a>
               </div>
 
-              <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-white/90">
-                <Link to="/investors" className="hover:text-mansagold flex items-center gap-2 group transition-colors">
+              <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+                <Link
+                  to="/investors"
+                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
+                >
+                  <TrendingUp className="w-4 h-4 text-mansagold" aria-hidden="true" />
                   For Investors
-                  <span className="w-1 h-1 bg-mansagold rounded-full group-hover:w-4 transition-all" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </Link>
-                <Link to="/team" className="hover:text-mansagold flex items-center gap-2 group transition-colors">
+                <Link
+                  to="/team"
+                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
+                >
+                  <Users className="w-4 h-4 text-mansagold" aria-hidden="true" />
                   Meet the Team
-                  <span className="w-1 h-1 bg-mansagold rounded-full group-hover:w-4 transition-all" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </Link>
                 <a
                   href="https://www.1325.ai/ultimate-deep-dive.html"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-mansagold flex items-center gap-2 group transition-colors"
+                  aria-label="Watch the founder video (opens in a new tab)"
+                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
                 >
+                  <PlayCircle className="w-4 h-4 text-mansagold" aria-hidden="true" />
                   Founder Video
-                  <span className="w-1 h-1 bg-mansagold rounded-full group-hover:w-4 transition-all" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </a>
               </div>
 
