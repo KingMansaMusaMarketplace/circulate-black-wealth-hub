@@ -332,6 +332,17 @@ export const AIAssistant = () => {
                 {msg.role === 'assistant' && (
                   <div className="flex items-center gap-2 mt-1">
                     {renderModelBadge(msg.modelUsed)}
+                    {voice.available && (
+                      <button
+                        type="button"
+                        onClick={() => (voice.isSpeaking ? voice.stop() : voice.speak(getTextContent(msg.content)))}
+                        className="inline-flex items-center gap-1 text-[10px] text-white/60 hover:text-mansagold transition-colors"
+                        aria-label={voice.isSpeaking ? 'Stop Kayla speaking' : 'Hear this answer'}
+                      >
+                        {voice.isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                        {voice.isSpeaking ? 'Stop' : 'Listen'}
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
