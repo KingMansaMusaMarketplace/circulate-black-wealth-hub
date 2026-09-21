@@ -287,9 +287,22 @@ const ShoppingAssistantChatInner: React.FC = () => {
                 }`}
               >
                 {msg.role === 'assistant' ? (
-                  <div className="prose prose-sm max-w-none dark:prose-invert">
-                    <ReactMarkdown>{linkifyMarkdown(msg.content)}</ReactMarkdown>
-                  </div>
+                  <>
+                    <div className="prose prose-sm max-w-none dark:prose-invert">
+                      <ReactMarkdown>{linkifyMarkdown(msg.content)}</ReactMarkdown>
+                    </div>
+                    {voice.available && (
+                      <button
+                        type="button"
+                        onClick={() => (voice.isSpeaking ? voice.stop() : voice.speak(msg.content))}
+                        className="mt-1 inline-flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors"
+                        aria-label={voice.isSpeaking ? 'Stop Kayla speaking' : 'Hear this answer'}
+                      >
+                        {voice.isSpeaking ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
+                        {voice.isSpeaking ? 'Stop' : 'Listen'}
+                      </button>
+                    )}
+                  </>
                 ) : (
                   msg.content
                 )}
