@@ -19,3 +19,6 @@
   3. Scoreboard: `kayla-benchmark` function, 15 seeded test questions, admin page at `/admin/kayla-scoreboard`.
   4. Nightly lesson review: `kayla-learning-review`, cron `kayla-learning-review-nightly` at 07:30 UTC.
   5. One shared brand/pricing source across every agent (`buildAgentBrandBlock`).
+
+- [x] Talk to Kayla by voice (microphone) in the shopping assistant
+- [ ] Confirm Kayla's spoken voice sounds human (Marin) after signing in
