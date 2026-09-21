@@ -67,26 +67,34 @@ Deno.serve(async (req) => {
       "Use natural pauses at commas and periods, let your pitch rise and fall, " +
       "and put gentle emphasis on the words that matter. Smile through the words.";
 
-    const speak = (model: string, withInstructions: boolean) =>
+    const speak = (model: string, voiceName: string, withInstructions: boolean) =>
       fetch('https://api.openai.com/v1/audio/speech', {
         method: 'POST',
         headers,
         body: JSON.stringify({
           model,
           input: inputText,
-          voice,
+          voice: voiceName,
           response_format: 'opus',
           speed: 1.0,
           ...(withInstructions ? { instructions: instructions || DEFAULT_INSTRUCTIONS } : {}),
         }),
       });
 
-    // Expressive model first; fall back to the older engine only if unavailable.
-    let response = await speak('gpt-4o-mini-tts', true);
-    if (!response.ok && (response.status === 400 || response.status === 404)) {
-      console.warn('gpt-4o-mini-tts unavailable, falling back to tts-1-hd');
-      response = await speak('tts-1-hd', false);
+    // Always stay on the expressive engine — the older tts-1 models are the
+    // flat "robot" sound. If the requested voice isn't available, retry the
+    // expressive model with known-good warm voices before giving up.
+    const voiceChain = [voice, 'marin', 'sage', 'coral'].filter(
+      (v, i, arr) => typeof v === 'string' && v && arr.indexOf(v) === i,
+    ) as string[];
+
+    let response = await speak('gpt-4o-mini-tts', voiceChain[0], true);
+    for (let i = 1; i < voiceChain.length && !response.ok && response.status === 400; i++) {
+      const detail = await response.clone().text();
+      console.warn(`Voice "${voiceChain[i - 1]}" rejected (${detail.slice(0, 200)}), trying "${voiceChain[i]}"`);
+      response = await speak('gpt-4o-mini-tts', voiceChain[i], true);
     }
+    console.log('TTS served with voice:', voiceChain.find((_, i) => i === 0), 'ok:', response.ok);
 
     if (!response.ok) {
       const errorText = await response.text();

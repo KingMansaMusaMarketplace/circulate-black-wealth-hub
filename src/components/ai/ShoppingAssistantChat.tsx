@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Sparkles, Loader2, Trash2, Volume2, VolumeX } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, Loader2, Trash2, Volume2, VolumeX, Mic, Square } from 'lucide-react';
 import { useKaylaVoice } from '@/hooks/use-kayla-voice';
+import { useVoiceInput } from '@/hooks/use-voice-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -62,6 +63,17 @@ const ShoppingAssistantChatInner: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const voice = useKaylaVoice();
+  const sendMessageRef = useRef<(text?: string) => void>(() => {});
+  const mic = useVoiceInput((text) => {
+    setInput(text);
+    sendMessageRef.current(text);
+  });
+
+  useEffect(() => {
+    if (mic.error) {
+      toast({ title: 'Voice input', description: mic.error, variant: 'destructive' });
+    }
+  }, [mic.error, toast]);
 
   // Persist messages whenever they change (skips empty arrays).
   useEffect(() => {
@@ -85,8 +97,8 @@ const ShoppingAssistantChatInner: React.FC = () => {
     saveStoredMessages([]);
   };
 
-  const sendMessage = async () => {
-    const trimmed = input.trim();
+  const sendMessage = async (override?: string) => {
+    const trimmed = (override ?? input).trim();
     if (!trimmed || isLoading) return;
 
     const userMsg: Message = { role: 'user', content: trimmed };
@@ -192,6 +204,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
       }
     }
   };
+
+  sendMessageRef.current = (text?: string) => { void sendMessage(text); };
+
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -331,7 +346,26 @@ const ShoppingAssistantChatInner: React.FC = () => {
             disabled={isLoading}
             className="text-sm"
           />
-          <Button size="icon" onClick={sendMessage} disabled={isLoading || !input.trim()} className="shrink-0">
+          {mic.supported && (
+            <Button
+              size="icon"
+              variant={mic.isRecording ? 'destructive' : 'outline'}
+              onClick={() => mic.toggle()}
+              disabled={isLoading || mic.isTranscribing}
+              className="shrink-0"
+              aria-label={mic.isRecording ? 'Stop recording and send' : 'Talk to Kayla'}
+              title={mic.isRecording ? 'Stop and send' : 'Talk to Kayla'}
+            >
+              {mic.isTranscribing ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : mic.isRecording ? (
+                <Square className="h-4 w-4" />
+              ) : (
+                <Mic className="h-4 w-4" />
+              )}
+            </Button>
+          )}
+          <Button size="icon" onClick={() => sendMessage()} disabled={isLoading || !input.trim()} className="shrink-0">
             <Send className="h-4 w-4" />
           </Button>
         </div>
