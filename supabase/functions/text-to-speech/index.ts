@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
     const auth = await requireAuth(req, corsHeaders);
     if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
 
-    const { text, voice = 'alloy' } = await req.json();
+    const { text, voice = 'sage', instructions } = await req.json();
     
     if (!text) {
       return new Response(
@@ -60,17 +60,33 @@ Deno.serve(async (req) => {
     }
     console.log('OpenAI routing headers applied (TTS):', { org: !!useOrg, project: !!useProj });
 
-    const response = await fetch('https://api.openai.com/v1/audio/speech', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        model: 'tts-1',
-        input: inputText,
-        voice: voice,
-        response_format: 'opus',
-        speed: 1.0,
-      }),
-    });
+    // Natural, human delivery direction for the expressive TTS model.
+    const DEFAULT_INSTRUCTIONS =
+      "Speak like a warm, confident woman in her 30s having a real conversation — " +
+      "not an announcer and not a robot. Relaxed, friendly, conversational pace. " +
+      "Use natural pauses at commas and periods, let your pitch rise and fall, " +
+      "and put gentle emphasis on the words that matter. Smile through the words.";
+
+    const speak = (model: string, withInstructions: boolean) =>
+      fetch('https://api.openai.com/v1/audio/speech', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          model,
+          input: inputText,
+          voice,
+          response_format: 'opus',
+          speed: 1.0,
+          ...(withInstructions ? { instructions: instructions || DEFAULT_INSTRUCTIONS } : {}),
+        }),
+      });
+
+    // Expressive model first; fall back to the older engine only if unavailable.
+    let response = await speak('gpt-4o-mini-tts', true);
+    if (!response.ok && (response.status === 400 || response.status === 404)) {
+      console.warn('gpt-4o-mini-tts unavailable, falling back to tts-1-hd');
+      response = await speak('tts-1-hd', false);
+    }
 
     if (!response.ok) {
       const errorText = await response.text();
