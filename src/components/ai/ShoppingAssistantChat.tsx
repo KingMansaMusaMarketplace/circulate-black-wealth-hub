@@ -63,6 +63,17 @@ const ShoppingAssistantChatInner: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const voice = useKaylaVoice();
+  const sendMessageRef = useRef<(text?: string) => void>(() => {});
+  const mic = useVoiceInput((text) => {
+    setInput(text);
+    sendMessageRef.current(text);
+  });
+
+  useEffect(() => {
+    if (mic.error) {
+      toast({ title: 'Voice input', description: mic.error, variant: 'destructive' });
+    }
+  }, [mic.error, toast]);
 
   // Persist messages whenever they change (skips empty arrays).
   useEffect(() => {
