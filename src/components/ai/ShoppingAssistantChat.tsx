@@ -86,8 +86,8 @@ const ShoppingAssistantChatInner: React.FC = () => {
     saveStoredMessages([]);
   };
 
-  const sendMessage = async () => {
-    const trimmed = input.trim();
+  const sendMessage = async (override?: string) => {
+    const trimmed = (override ?? input).trim();
     if (!trimmed || isLoading) return;
 
     const userMsg: Message = { role: 'user', content: trimmed };
