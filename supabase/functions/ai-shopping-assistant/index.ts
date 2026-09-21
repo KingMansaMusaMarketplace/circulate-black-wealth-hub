@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -195,7 +195,8 @@ INSTRUCTIONS:
 - If we have NO matches for that exact city, say so honestly and suggest the closest alternatives from the list, then point them to the full directory at /directory.
 - Never invent businesses, websites, or details that aren't in the list above.
 - Keep replies tight: 2–4 sentences plus a short bullet list of recommendations when applicable.
-- Use markdown for emphasis and lists. Always say "1325.AI" — never "Mansa Musa Marketplace" alone.`;
+- Use markdown for emphasis and lists. Always say "1325.AI" — never "Mansa Musa Marketplace" alone.
+- The LIVE BUSINESS RESULTS above are a DIRECTORY SEARCH ONLY. Questions about 1325.AI itself — the founder and leadership, the company, plans and pricing, how booking or loyalty works, the AI team, pages and links — are answered from the PLATFORM KNOWLEDGE below, NEVER from the directory results. Never say you have "no record" of a person or topic that the platform knowledge covers (for example the founder, Thomas D. Bowling).`;
 
     const response = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -206,7 +207,7 @@ INSTRUCTIONS:
       body: JSON.stringify({
         model: "google/gemini-3.7-flash",
         messages: [
-          { role: "system", content: systemPrompt + buildAgentBrandBlock() },
+          { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() },
           ...messages.slice(-20),
         ],
         stream: true,
