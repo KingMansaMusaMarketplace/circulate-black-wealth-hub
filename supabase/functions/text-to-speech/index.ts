@@ -112,7 +112,9 @@ Deno.serve(async (req) => {
       status: 200,
       headers: {
         ...corsHeaders,
-        'Content-Type': 'audio/ogg',
+        // Supabase Functions only preserves binary bodies as a Blob for this
+        // content type. Using audio/ogg makes the SDK decode Opus bytes as text.
+        'Content-Type': 'application/octet-stream',
         'Content-Length': audioData.byteLength.toString(),
       },
     });
