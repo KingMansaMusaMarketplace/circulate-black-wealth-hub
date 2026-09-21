@@ -290,6 +290,20 @@ export const AIAssistant = () => {
             <h3 className="font-semibold text-lg text-white">Kayla, Ph.D.</h3>
             <p className="text-sm text-white/90">Triple-Model AI • Gemini + Claude + Perplexity • Vision</p>
           </div>
+          {voice.available && (
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              onClick={() => voice.setEnabled(!voice.enabled)}
+              aria-pressed={voice.enabled}
+              className={`ml-auto h-8 px-2 gap-1 text-xs ${voice.enabled ? 'text-mansagold' : 'text-white/60'} hover:text-mansagold`}
+              title={voice.enabled ? 'Voice replies on — Kayla reads her answers aloud' : 'Voice replies off — tap to hear Kayla speak'}
+            >
+              {voice.enabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+              <span className="hidden sm:inline">Voice {voice.enabled ? 'on' : 'off'}</span>
+            </Button>
+          )}
         </div>
       </div>
 
