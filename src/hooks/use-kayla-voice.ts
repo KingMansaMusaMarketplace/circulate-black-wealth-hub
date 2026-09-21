@@ -5,8 +5,8 @@ import { supabase } from '@/integrations/supabase/client';
  * Kayla voice replies.
  *
  * - Preference is remembered per browser and defaults to OFF.
- * - Signed-in users get Kayla's real (OpenAI) voice via the text-to-speech
- *   edge function; guests fall back to the browser's built-in speech engine.
+ * - Signed-in users get Kayla's real (OpenAI) Marin voice via the
+ *   text-to-speech edge function.
  * - Never enabled inside the native iOS app (voice stack is disabled there).
  */
 
@@ -103,21 +103,15 @@ export function useKaylaVoice() {
       const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
-      if (!token) {
-        speakWithBrowser(text);
-        return;
-      }
+      if (!token) return;
 
       const { data, error } = await supabase.functions.invoke('text-to-speech', {
-        body: { text, voice: 'sage' },
+        body: { text, voice: 'marin' },
       });
 
       // Edge function returns raw audio; supabase-js gives us a Blob here.
       const blob = data instanceof Blob ? data : null;
-      if (error || !blob || blob.size === 0) {
-        speakWithBrowser(text);
-        return;
-      }
+      if (error || !blob || blob.size === 0) return;
 
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
@@ -133,13 +127,13 @@ export function useKaylaVoice() {
         URL.revokeObjectURL(url);
         audioRef.current = null;
       };
-      await audio.play().catch(() => speakWithBrowser(text));
+      await audio.play();
     } catch {
-      speakWithBrowser(text);
+      setIsSpeaking(false);
     } finally {
       setIsLoading(false);
     }
-  }, [isNativeIOS, speakWithBrowser, stop]);
+  }, [isNativeIOS, stop]);
 
   /**
    * Speak a finished reply once — safe to call on every render.

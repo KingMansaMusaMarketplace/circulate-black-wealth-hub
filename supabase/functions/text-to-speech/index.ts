@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
     const auth = await requireAuth(req, corsHeaders);
     if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
 
-    const { text, voice = 'sage', instructions } = await req.json();
+    const { text, voice = 'marin', instructions } = await req.json();
     
     if (!text) {
       return new Response(
@@ -53,10 +53,10 @@ Deno.serve(async (req) => {
     const useOrg = OPENAI_ORG_ID && OPENAI_ORG_ID.startsWith('org_');
     const useProj = OPENAI_PROJECT_ID && OPENAI_PROJECT_ID.startsWith('proj_');
     if (useOrg) {
-      headers['OpenAI-Organization'] = OPENAI_ORG_ID!;
+      headers['OpenAI-Organization'] = OPENAI_ORG_ID;
     }
     if (useProj) {
-      headers['OpenAI-Project'] = OPENAI_PROJECT_ID!;
+      headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
     }
     console.log('OpenAI routing headers applied (TTS):', { org: !!useOrg, project: !!useProj });
 
