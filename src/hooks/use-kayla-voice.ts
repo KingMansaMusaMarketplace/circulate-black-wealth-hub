@@ -152,7 +152,8 @@ export function useKaylaVoice() {
         audioRef.current = null;
       };
       await audio.play();
-    } catch {
+    } catch (err) {
+      console.error('[KaylaVoice] playback failed', err);
       setIsSpeaking(false);
     } finally {
       setIsLoading(false);
