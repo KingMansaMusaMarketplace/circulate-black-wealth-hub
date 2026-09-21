@@ -110,9 +110,32 @@ export function useKaylaVoice() {
         body: { text, voice: 'marin' },
       });
 
-      // Edge function returns raw audio; supabase-js gives us a Blob here.
-      const blob = data instanceof Blob ? data : null;
-      if (error || !blob || blob.size === 0) return;
+      if (error) {
+        console.error('[KaylaVoice] text-to-speech error', error);
+        return;
+      }
+
+      // supabase-js may hand back a Blob, an ArrayBuffer, a Response, or JSON.
+      let blob: Blob | null = null;
+      if (data instanceof Blob) {
+        blob = data;
+      } else if (data instanceof ArrayBuffer) {
+        blob = new Blob([data], { type: 'audio/mpeg' });
+      } else if (data && typeof (data as Response).arrayBuffer === 'function') {
+        blob = new Blob([await (data as Response).arrayBuffer()], { type: 'audio/mpeg' });
+      } else if (typeof data === 'string') {
+        const base64 = data.replace(/^data:[^,]+,/, '');
+        const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+        blob = new Blob([bytes], { type: 'audio/mpeg' });
+      } else if (data && typeof data === 'object' && 'audioContent' in (data as any)) {
+        const bytes = Uint8Array.from(atob((data as any).audioContent), (c) => c.charCodeAt(0));
+        blob = new Blob([bytes], { type: 'audio/mpeg' });
+      }
+
+      if (!blob || blob.size === 0) {
+        console.error('[KaylaVoice] no audio returned', data);
+        return;
+      }
 
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
