@@ -33,16 +33,16 @@
   <url><loc>https://1325.ai/black-owned/city/miami-fl</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/boston-ma</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/greensboro-nc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/tampa-fl</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/san-antonio-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/tampa-fl</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/denver-co</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/cincinnati-oh</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/portland-or</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/columbia-sc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/savannah-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/cleveland-oh</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/decatur-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/las-vegas-nv</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/cleveland-oh</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/fort-worth-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/phoenix-az</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/pittsburgh-pa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -173,16 +173,16 @@
   <url><loc>https://1325.ai/black-owned/city/gainesville-fl</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/greenville-nc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/snellville-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/salt-lake-city-ut</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/kent-wa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/ottawa-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/newnan-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/chandler-az</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/sugar-land-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/east-orange-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/irvington-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/high-point-nc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/stockbridge-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/salt-lake-city-ut</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/chandler-az</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/sugar-land-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/dover-de</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/brampton-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/florence-sc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -1733,10 +1733,10 @@
   <url><loc>https://1325.ai/black-owned/in/greensboro-nc/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/greensboro-nc/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/greensboro-nc/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/tampa-fl/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/tampa-fl/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/san-antonio-tx/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/san-antonio-tx/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/tampa-fl/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/tampa-fl/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/denver-co/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/denver-co/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/denver-co/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -1754,6 +1754,7 @@
   <url><loc>https://1325.ai/black-owned/in/savannah-ga/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/savannah-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/savannah-ga/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/cleveland-oh/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/decatur-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/decatur-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/decatur-ga/boutiques</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -1761,7 +1762,6 @@
   <url><loc>https://1325.ai/black-owned/in/las-vegas-nv/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/las-vegas-nv/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/las-vegas-nv/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/cleveland-oh/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/fort-worth-tx/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/fort-worth-tx/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/fort-worth-tx/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -2077,6 +2077,7 @@
   <url><loc>https://1325.ai/black-owned/in/gainesville-fl/real-estate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/greenville-nc/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/snellville-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/salt-lake-city-ut/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/kent-wa/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/kent-wa/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/kent-wa/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -2084,17 +2085,16 @@
   <url><loc>https://1325.ai/black-owned/in/newnan-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/newnan-ga/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/newnan-ga/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/chandler-az/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/east-orange-nj/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/irvington-nj/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/irvington-nj/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/irvington-nj/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/high-point-nc/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/stockbridge-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/salt-lake-city-ut/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/chandler-az/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/dover-de/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/dover-de/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/brampton-on/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
