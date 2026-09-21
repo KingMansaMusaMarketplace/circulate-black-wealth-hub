@@ -332,7 +332,26 @@ const ShoppingAssistantChatInner: React.FC = () => {
             disabled={isLoading}
             className="text-sm"
           />
-          <Button size="icon" onClick={sendMessage} disabled={isLoading || !input.trim()} className="shrink-0">
+          {mic.supported && (
+            <Button
+              size="icon"
+              variant={mic.isRecording ? 'destructive' : 'outline'}
+              onClick={() => mic.toggle()}
+              disabled={isLoading || mic.isTranscribing}
+              className="shrink-0"
+              aria-label={mic.isRecording ? 'Stop recording and send' : 'Talk to Kayla'}
+              title={mic.isRecording ? 'Stop and send' : 'Talk to Kayla'}
+            >
+              {mic.isTranscribing ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : mic.isRecording ? (
+                <Square className="h-4 w-4" />
+              ) : (
+                <Mic className="h-4 w-4" />
+              )}
+            </Button>
+          )}
+          <Button size="icon" onClick={() => sendMessage()} disabled={isLoading || !input.trim()} className="shrink-0">
             <Send className="h-4 w-4" />
           </Button>
         </div>
