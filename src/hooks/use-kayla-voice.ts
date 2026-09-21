@@ -74,8 +74,15 @@ export function useKaylaVoice() {
       if (!synth) return;
       synth.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1;
-      utterance.pitch = 1.05;
+      // Prefer the most natural female voice the device offers.
+      const voices = synth.getVoices?.() ?? [];
+      const preferred = ['Samantha', 'Ava', 'Allison', 'Google US English', 'Microsoft Aria', 'Microsoft Jenny', 'Karen', 'Moira'];
+      const pick = preferred
+        .map((n) => voices.find((v) => v.name.includes(n)))
+        .find(Boolean);
+      if (pick) utterance.voice = pick;
+      utterance.rate = 0.98;
+      utterance.pitch = 1.02;
       utterance.onstart = () => setIsSpeaking(true);
       utterance.onend = () => setIsSpeaking(false);
       utterance.onerror = () => setIsSpeaking(false);
@@ -102,7 +109,7 @@ export function useKaylaVoice() {
       }
 
       const { data, error } = await supabase.functions.invoke('text-to-speech', {
-        body: { text, voice: 'shimmer' },
+        body: { text, voice: 'sage' },
       });
 
       // Edge function returns raw audio; supabase-js gives us a Blob here.
