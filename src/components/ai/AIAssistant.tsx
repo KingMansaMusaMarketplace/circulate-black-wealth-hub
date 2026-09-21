@@ -240,6 +240,9 @@ export const AIAssistant = () => {
       }
 
       setIsLoading(false);
+      if (voice.enabled && assistantContent) {
+        void voice.speak(assistantContent);
+      }
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return;
       console.error('Chat error:', error);
