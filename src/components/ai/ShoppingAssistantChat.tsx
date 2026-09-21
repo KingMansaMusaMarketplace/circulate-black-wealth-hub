@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Sparkles, Loader2, Trash2 } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, Loader2, Trash2, Volume2, VolumeX } from 'lucide-react';
+import { useKaylaVoice } from '@/hooks/use-kayla-voice';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -60,6 +61,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const voice = useKaylaVoice();
 
   // Persist messages whenever they change (skips empty arrays).
   useEffect(() => {
@@ -185,6 +187,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
       toast({ title: 'Connection Error', description: 'Could not reach the AI assistant.', variant: 'destructive' });
     } finally {
       setIsLoading(false);
+      if (voice.enabled && assistantSoFar) {
+        void voice.speak(assistantSoFar);
+      }
     }
   };
 
@@ -220,6 +225,19 @@ const ShoppingAssistantChatInner: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center gap-1">
+          {voice.available && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => voice.setEnabled(!voice.enabled)}
+              aria-pressed={voice.enabled}
+              className={`h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20 ${voice.enabled ? '' : 'opacity-60'}`}
+              aria-label={voice.enabled ? 'Turn off voice replies' : 'Turn on voice replies'}
+              title={voice.enabled ? 'Voice replies on — Kayla reads answers aloud' : 'Voice replies off'}
+            >
+              {voice.enabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+            </Button>
+          )}
           {messages.length > 0 && (
             <Button
               variant="ghost"
@@ -269,9 +287,22 @@ const ShoppingAssistantChatInner: React.FC = () => {
                 }`}
               >
                 {msg.role === 'assistant' ? (
-                  <div className="prose prose-sm max-w-none dark:prose-invert">
-                    <ReactMarkdown>{linkifyMarkdown(msg.content)}</ReactMarkdown>
-                  </div>
+                  <>
+                    <div className="prose prose-sm max-w-none dark:prose-invert">
+                      <ReactMarkdown>{linkifyMarkdown(msg.content)}</ReactMarkdown>
+                    </div>
+                    {voice.available && (
+                      <button
+                        type="button"
+                        onClick={() => (voice.isSpeaking ? voice.stop() : voice.speak(msg.content))}
+                        className="mt-1 inline-flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors"
+                        aria-label={voice.isSpeaking ? 'Stop Kayla speaking' : 'Hear this answer'}
+                      >
+                        {voice.isSpeaking ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
+                        {voice.isSpeaking ? 'Stop' : 'Listen'}
+                      </button>
+                    )}
+                  </>
                 ) : (
                   msg.content
                 )}

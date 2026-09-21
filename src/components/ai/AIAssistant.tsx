@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Loader2, Send, Bot, User, Sparkles, Zap, Brain, Search, ImagePlus, Camera, X } from 'lucide-react';
+import { Loader2, Send, Bot, User, Sparkles, Zap, Brain, Search, ImagePlus, Camera, X, Volume2, VolumeX } from 'lucide-react';
+import { useKaylaVoice } from '@/hooks/use-kayla-voice';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import ReactMarkdown from 'react-markdown';
@@ -58,6 +59,7 @@ export const AIAssistant = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [pendingImage, setPendingImage] = useState<{ base64: string; name: string } | null>(null);
+  const voice = useKaylaVoice();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -238,6 +240,9 @@ export const AIAssistant = () => {
       }
 
       setIsLoading(false);
+      if (voice.enabled && assistantContent) {
+        void voice.speak(assistantContent);
+      }
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return;
       console.error('Chat error:', error);
@@ -285,6 +290,20 @@ export const AIAssistant = () => {
             <h3 className="font-semibold text-lg text-white">Kayla, Ph.D.</h3>
             <p className="text-sm text-white/90">Triple-Model AI • Gemini + Claude + Perplexity • Vision</p>
           </div>
+          {voice.available && (
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              onClick={() => voice.setEnabled(!voice.enabled)}
+              aria-pressed={voice.enabled}
+              className={`ml-auto h-8 px-2 gap-1 text-xs ${voice.enabled ? 'text-mansagold' : 'text-white/60'} hover:text-mansagold`}
+              title={voice.enabled ? 'Voice replies on — Kayla reads her answers aloud' : 'Voice replies off — tap to hear Kayla speak'}
+            >
+              {voice.enabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+              <span className="hidden sm:inline">Voice {voice.enabled ? 'on' : 'off'}</span>
+            </Button>
+          )}
         </div>
       </div>
 
@@ -327,6 +346,17 @@ export const AIAssistant = () => {
                 {msg.role === 'assistant' && (
                   <div className="flex items-center gap-2 mt-1">
                     {renderModelBadge(msg.modelUsed)}
+                    {voice.available && (
+                      <button
+                        type="button"
+                        onClick={() => (voice.isSpeaking ? voice.stop() : voice.speak(getTextContent(msg.content)))}
+                        className="inline-flex items-center gap-1 text-[10px] text-white/60 hover:text-mansagold transition-colors"
+                        aria-label={voice.isSpeaking ? 'Stop Kayla speaking' : 'Hear this answer'}
+                      >
+                        {voice.isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                        {voice.isSpeaking ? 'Stop' : 'Listen'}
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
