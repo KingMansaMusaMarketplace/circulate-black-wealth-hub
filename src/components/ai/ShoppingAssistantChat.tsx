@@ -63,10 +63,10 @@ const ShoppingAssistantChatInner: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const voice = useKaylaVoice();
-  const sendMessageRef = useRef<(text?: string) => void>(() => {});
+  const sendMessageRef = useRef<(text?: string, speakReply?: boolean) => void>(() => {});
   const mic = useVoiceInput((text) => {
     setInput(text);
-    sendMessageRef.current(text);
+    sendMessageRef.current(text, true);
   });
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
     saveStoredMessages([]);
   };
 
-  const sendMessage = async (override?: string) => {
+  const sendMessage = async (override?: string, speakReply = false) => {
     const trimmed = (override ?? input).trim();
     if (!trimmed || isLoading) return;
 
@@ -199,13 +199,17 @@ const ShoppingAssistantChatInner: React.FC = () => {
       toast({ title: 'Connection Error', description: 'Could not reach the AI assistant.', variant: 'destructive' });
     } finally {
       setIsLoading(false);
-      if (voice.enabled && assistantSoFar) {
+      // A spoken question is a voice conversation, so always answer it aloud.
+      // Typed questions continue to respect the saved Voice replies setting.
+      if ((voice.enabled || speakReply) && assistantSoFar) {
         void voice.speak(assistantSoFar);
       }
     }
   };
 
-  sendMessageRef.current = (text?: string) => { void sendMessage(text); };
+  sendMessageRef.current = (text?: string, speakReply?: boolean) => {
+    void sendMessage(text, speakReply);
+  };
 
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
