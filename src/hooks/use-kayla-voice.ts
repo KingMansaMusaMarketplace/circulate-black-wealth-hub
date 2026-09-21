@@ -52,11 +52,39 @@ export function useKaylaVoice() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const spokenRef = useRef<Set<string>>(new Set());
 
+  const getAudio = useCallback(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.preload = 'auto';
+    }
+    return audioRef.current;
+  }, []);
+
+  // Browsers may block audio that begins after transcription and AI requests finish.
+  // Prime the same audio element during the person's microphone/send interaction.
+  const preparePlayback = useCallback(() => {
+    if (isNativeIOS) return;
+    const audio = getAudio();
+    if (audio.src) return;
+    audio.volume = 0;
+    audio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA';
+    void audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = 1;
+    }).catch(() => {
+      audio.volume = 1;
+    });
+  }, [getAudio, isNativeIOS]);
+
   const stop = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
-      try { URL.revokeObjectURL(audioRef.current.src); } catch { /* ignore */ }
-      audioRef.current = null;
+      if (audioRef.current.src.startsWith('blob:')) {
+        try { URL.revokeObjectURL(audioRef.current.src); } catch { /* ignore */ }
+      }
+      audioRef.current.removeAttribute('src');
+      audioRef.current.load();
     }
     try { window.speechSynthesis?.cancel(); } catch { /* ignore */ }
     setIsSpeaking(false);
@@ -139,18 +167,21 @@ export function useKaylaVoice() {
       }
 
       const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audioRef.current = audio;
+      const audio = getAudio();
+      audio.src = url;
+      audio.volume = 1;
       audio.onplay = () => setIsSpeaking(true);
       audio.onended = () => {
         setIsSpeaking(false);
         URL.revokeObjectURL(url);
-        audioRef.current = null;
+        audio.removeAttribute('src');
+        audio.load();
       };
       audio.onerror = () => {
         setIsSpeaking(false);
         URL.revokeObjectURL(url);
-        audioRef.current = null;
+        audio.removeAttribute('src');
+        audio.load();
       };
       await audio.play();
     } catch (err) {
@@ -159,7 +190,7 @@ export function useKaylaVoice() {
     } finally {
       setIsLoading(false);
     }
-  }, [isNativeIOS, stop]);
+  }, [getAudio, isNativeIOS, stop]);
 
   /**
    * Speak a finished reply once — safe to call on every render.
@@ -177,6 +208,7 @@ export function useKaylaVoice() {
     available: !isNativeIOS,
     enabled,
     setEnabled,
+    preparePlayback,
     speak,
     speakOnce,
     stop,

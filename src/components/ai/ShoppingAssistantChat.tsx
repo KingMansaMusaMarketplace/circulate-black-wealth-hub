@@ -215,8 +215,19 @@ const ShoppingAssistantChatInner: React.FC = () => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
+      voice.preparePlayback();
       sendMessage();
     }
+  };
+
+  const handleMicToggle = () => {
+    voice.preparePlayback();
+    mic.toggle();
+  };
+
+  const handleSend = () => {
+    voice.preparePlayback();
+    void sendMessage();
   };
 
   if (!isOpen) {
@@ -354,7 +365,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
             <Button
               size="icon"
               variant={mic.isRecording ? 'destructive' : 'outline'}
-              onClick={() => mic.toggle()}
+              onClick={handleMicToggle}
               disabled={isLoading || mic.isTranscribing}
               className="shrink-0"
               aria-label={mic.isRecording ? 'Stop recording and send' : 'Talk to Kayla'}
@@ -369,7 +380,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
               )}
             </Button>
           )}
-          <Button size="icon" onClick={() => sendMessage()} disabled={isLoading || !input.trim()} className="shrink-0">
+          <Button size="icon" onClick={handleSend} disabled={isLoading || !input.trim()} className="shrink-0">
             <Send className="h-4 w-4" />
           </Button>
         </div>
