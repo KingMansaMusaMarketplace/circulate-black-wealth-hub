@@ -17,8 +17,12 @@ function escapeXml(s: string) {
   return s.replace(/[<>&'"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" }[c]!));
 }
 
+// Never publish URLs that embed an API key or signature (e.g. Google Maps
+// static-map links baked into logo/banner fields during data enrichment).
+const SECRET_BEARING_URL = /([?&](key|signature|token|api_?key|access_token)=)|AIza[0-9A-Za-z_\-]{10,}/i;
+
 function isHttpUrl(u: string | null | undefined): u is string {
-  return !!u && /^https?:\/\//i.test(u);
+  return !!u && /^https?:\/\//i.test(u) && !SECRET_BEARING_URL.test(u);
 }
 
 Deno.serve(async (req) => {
