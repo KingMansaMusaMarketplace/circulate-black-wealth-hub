@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Sparkles, Loader2, Trash2 } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, Loader2, Trash2, Volume2, VolumeX } from 'lucide-react';
+import { useKaylaVoice } from '@/hooks/use-kayla-voice';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
