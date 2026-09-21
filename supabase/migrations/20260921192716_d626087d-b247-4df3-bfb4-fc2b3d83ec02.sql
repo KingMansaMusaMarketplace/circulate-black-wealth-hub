@@ -1,0 +1,2 @@
+UPDATE public.businesses SET logo_url = NULL WHERE logo_url ~* '(AIza[0-9A-Za-z_\-]{10,}|[?&](key|signature|token)=)';
+UPDATE public.businesses SET banner_url = NULL WHERE banner_url ~* '(AIza[0-9A-Za-z_\-]{10,}|[?&](key|signature|token)=)';
