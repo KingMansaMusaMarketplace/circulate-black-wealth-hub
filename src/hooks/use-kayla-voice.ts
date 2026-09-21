@@ -115,21 +115,22 @@ export function useKaylaVoice() {
         return;
       }
 
-      // supabase-js may hand back a Blob, an ArrayBuffer, a Response, or JSON.
+      // The edge function returns Opus audio as application/octet-stream so
+      // supabase-js preserves the binary body as a Blob.
       let blob: Blob | null = null;
       if (data instanceof Blob) {
-        blob = data;
+        blob = new Blob([data], { type: 'audio/ogg; codecs=opus' });
       } else if (data instanceof ArrayBuffer) {
-        blob = new Blob([data], { type: 'audio/mpeg' });
+        blob = new Blob([data], { type: 'audio/ogg; codecs=opus' });
       } else if (data && typeof (data as Response).arrayBuffer === 'function') {
-        blob = new Blob([await (data as Response).arrayBuffer()], { type: 'audio/mpeg' });
+        blob = new Blob([await (data as Response).arrayBuffer()], { type: 'audio/ogg; codecs=opus' });
       } else if (typeof data === 'string') {
         const base64 = data.replace(/^data:[^,]+,/, '');
         const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-        blob = new Blob([bytes], { type: 'audio/mpeg' });
+        blob = new Blob([bytes], { type: 'audio/ogg; codecs=opus' });
       } else if (data && typeof data === 'object' && 'audioContent' in (data as any)) {
         const bytes = Uint8Array.from(atob((data as any).audioContent), (c) => c.charCodeAt(0));
-        blob = new Blob([bytes], { type: 'audio/mpeg' });
+        blob = new Blob([bytes], { type: 'audio/ogg; codecs=opus' });
       }
 
       if (!blob || blob.size === 0) {
