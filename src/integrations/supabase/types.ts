@@ -26393,6 +26393,7 @@ export type Database = {
       _is_admin_or_service: { Args: never; Returns: boolean }
       _sales_agent_grading_active: { Args: never; Returns: boolean }
       _sec_is_admin_or_system: { Args: never; Returns: boolean }
+      _sec_priv_actor: { Args: never; Returns: boolean }
       access_personal_data_secure: {
         Args: {
           access_reason: string
