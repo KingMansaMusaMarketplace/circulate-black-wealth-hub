@@ -205,6 +205,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
     }
   };
 
+  sendMessageRef.current = (text?: string) => { void sendMessage(text); };
+
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
