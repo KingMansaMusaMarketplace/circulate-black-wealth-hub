@@ -21,4 +21,5 @@
   5. One shared brand/pricing source across every agent (`buildAgentBrandBlock`).
 
 - [x] Talk to Kayla by voice (microphone) in the shopping assistant
+- [x] Spoken questions in the shopping assistant always receive a spoken Kayla reply
 - [ ] Confirm Kayla's spoken voice sounds human (Marin) after signing in
