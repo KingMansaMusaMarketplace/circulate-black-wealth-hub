@@ -35,9 +35,10 @@ export function toSpeakableText(markdown: string): string {
 
 function readStoredPreference(): boolean {
   try {
-    return localStorage.getItem(STORAGE_KEY) === 'on';
+    // Voice replies are ON by default; only an explicit "off" disables them.
+    return localStorage.getItem(STORAGE_KEY) !== 'off';
   } catch {
-    return false;
+    return true;
   }
 }
 
