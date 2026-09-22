@@ -20,7 +20,7 @@ const DRIVERS = [
     label: 'Standing',
     body: 'Claim your listing and wear the verified badge. Owners get a profile customers recognise.',
     cta: 'Claim your listing',
-    to: '/#submit-business',
+    to: '/business-signup',
   },
   {
     icon: HeartHandshake,
