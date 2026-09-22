@@ -1,0 +1,1 @@
+UPDATE public.businesses SET latitude = 43.25570000, longitude = -79.87110000 WHERE id = '77a02b86-bd4b-4604-ab70-6941e9bd2c88';
