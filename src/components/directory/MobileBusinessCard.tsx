@@ -87,7 +87,7 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
           
           <div className="flex items-center justify-between">
             <p className="text-xs text-slate-400 truncate flex-1 mr-2">
-              {address}
+              {cleanField(address) ?? ''}
             </p>
             <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-white hover:text-mansagold">
               <ExternalLink className="h-3 w-3" />
