@@ -67,20 +67,12 @@ serve(async (req) => {
       );
     }
 
-    const { customer_id, business_id, base_points, description } = await req.json();
+    const { customer_id, business_id, transaction_id, description } = await req.json();
 
     // Validate inputs
-    if (!customer_id || !business_id || !base_points) {
+    if (!customer_id || !business_id || !transaction_id) {
       return new Response(
-        JSON.stringify({ error: "Missing required fields" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Validate base_points is a positive number within reasonable bounds
-    if (typeof base_points !== 'number' || base_points <= 0 || base_points > 10000) {
-      return new Response(
-        JSON.stringify({ error: "base_points must be a positive number not exceeding 10000" }),
+        JSON.stringify({ error: "customer_id, business_id and transaction_id are required" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -123,11 +115,48 @@ serve(async (req) => {
       );
     }
 
+    // Points are derived from a stored, completed transaction for this business —
+    // never from a value supplied by the caller.
+    const { data: txn } = await supabase
+      .from("qr_scan_transactions")
+      .select("id, customer_id, business_id, amount, points_awarded, created_at")
+      .eq("id", transaction_id)
+      .eq("business_id", business_id)
+      .eq("customer_id", customer_id)
+      .maybeSingle();
+
+    if (!txn) {
+      return new Response(
+        JSON.stringify({ error: "No matching transaction found for this customer and business" }),
+        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // One award per transaction.
+    const { data: alreadyAwarded } = await supabase
+      .from("coalition_transactions")
+      .select("id")
+      .eq("customer_id", customer_id)
+      .eq("source_business_id", business_id)
+      .contains("metadata", { transaction_id })
+      .maybeSingle();
+    if (alreadyAwarded) {
+      return new Response(
+        JSON.stringify({ error: "Points were already awarded for this transaction" }),
+        { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const derivedPoints = Math.min(
+      Math.max(Math.round(Number(txn.points_awarded ?? Number(txn.amount ?? 0))), 1),
+      10000
+    );
+
     // Use the database function to award points
     const { data, error } = await supabase.rpc("award_coalition_points", {
       p_customer_id: customer_id,
       p_business_id: business_id,
-      p_base_points: base_points,
+      p_base_points: derivedPoints,
       p_description: description || "Points earned",
     });
 
