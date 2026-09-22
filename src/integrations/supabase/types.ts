@@ -28142,6 +28142,7 @@ export type Database = {
           total_count: number
         }[]
       }
+      sec_privileged_writer: { Args: never; Returns: boolean }
       secure_change_user_role: {
         Args: {
           new_role: Database["public"]["Enums"]["app_role"]
