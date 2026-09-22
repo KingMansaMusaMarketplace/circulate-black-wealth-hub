@@ -1,0 +1,1 @@
+UPDATE public.businesses SET logo_url = NULL, banner_url = NULL WHERE id = 'f08633bc-e2c7-4622-adac-807198017b33';
