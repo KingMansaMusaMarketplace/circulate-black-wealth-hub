@@ -140,15 +140,18 @@ serve(async (req) => {
       relevantBusinesses = data || [];
     }
 
-    // Always include a fallback "popular" set so Kayla has something to talk about
+    // Only fall back to a "popular" set when the person is actually looking for
+    // a business. Greetings and company questions skip the directory entirely,
+    // which keeps those replies fast.
+    const isBusinessSearch = Boolean(city || state || keywords.length > 0);
     let popular: any[] = [];
-    if (relevantBusinesses.length < 10) {
+    if (isBusinessSearch && relevantBusinesses.length < 10) {
       const { data } = await supabase
         .from("businesses")
         .select("name, category, city, state, description, average_rating, website")
         .in("listing_status", ["live", "active"])
         .order("average_rating", { ascending: false, nullsFirst: false })
-        .limit(30);
+        .limit(12);
       popular = data || [];
     }
 
@@ -156,17 +159,19 @@ serve(async (req) => {
     const seen = new Set(merged.map(b => b.name));
     for (const b of popular) {
       if (!seen.has(b.name)) { merged.push(b); seen.add(b.name); }
-      if (merged.length >= 30) break;
+      if (merged.length >= 15) break;
     }
 
-    const businessContext = merged.length
-      ? merged.map((b: any) =>
-          `• ${b.name} — ${b.category || "General"} — ${b.city || "?"}, ${b.state || "?"}` +
-          (b.average_rating ? ` ★${Number(b.average_rating).toFixed(1)}` : "") +
-          (b.website ? ` — ${b.website}` : "") +
-          (b.description ? `\n   ${String(b.description).substring(0, 140)}` : "")
-        ).join("\n")
-      : "No matching businesses in the directory snapshot.";
+    const businessContext = !isBusinessSearch
+      ? "(No directory search was needed for this message — answer from platform knowledge.)"
+      : merged.length
+        ? merged.slice(0, 15).map((b: any) =>
+            `• ${b.name} — ${b.category || "General"} — ${b.city || "?"}, ${b.state || "?"}` +
+            (b.average_rating ? ` ★${Number(b.average_rating).toFixed(1)}` : "") +
+            (b.website ? ` — ${b.website}` : "") +
+            (b.description ? `\n   ${String(b.description).substring(0, 100)}` : "")
+          ).join("\n")
+        : "No matching businesses in the directory snapshot.";
 
     runDetails = {
       session_id: sessionId || null,
@@ -208,7 +213,7 @@ INSTRUCTIONS:
         model: "google/gemini-3.7-flash",
         messages: [
           { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() },
-          ...messages.slice(-20),
+          ...messages.slice(-10),
         ],
         stream: true,
       }),

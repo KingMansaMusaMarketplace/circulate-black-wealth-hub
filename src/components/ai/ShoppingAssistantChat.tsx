@@ -108,6 +108,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
     setIsLoading(true);
 
     let assistantSoFar = '';
+    // Speak as she writes: start reading finished sentences while the rest arrives.
+    const speakingAloud = voice.enabled || speakReply;
+    if (speakingAloud) voice.beginStream();
 
     const upsertAssistant = (chunk: string) => {
       assistantSoFar += chunk;
@@ -118,6 +121,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
         }
         return [...prev, { role: 'assistant', content: assistantSoFar }];
       });
+      if (speakingAloud) voice.pushStream(assistantSoFar);
     };
 
     try {
@@ -201,8 +205,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
       setIsLoading(false);
       // A spoken question is a voice conversation, so always answer it aloud.
       // Typed questions continue to respect the saved Voice replies setting.
-      if ((voice.enabled || speakReply) && assistantSoFar) {
-        void voice.speak(assistantSoFar);
+      if (speakingAloud) {
+        if (assistantSoFar) voice.endStream(assistantSoFar);
+        else voice.cancelStream();
       }
     }
   };
@@ -259,7 +264,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => voice.setEnabled(!voice.enabled)}
+              onClick={() => { voice.cancelStream(); voice.setEnabled(!voice.enabled); }}
               aria-pressed={voice.enabled}
               className={`h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20 ${voice.enabled ? '' : 'opacity-60'}`}
               aria-label={voice.enabled ? 'Turn off voice replies' : 'Turn on voice replies'}
@@ -324,7 +329,10 @@ const ShoppingAssistantChatInner: React.FC = () => {
                     {voice.available && (
                       <button
                         type="button"
-                        onClick={() => (voice.isSpeaking ? voice.stop() : voice.speak(msg.content))}
+                        onClick={() => {
+                          if (voice.isSpeaking) { voice.cancelStream(); voice.stop(); }
+                          else voice.speak(msg.content);
+                        }}
                         className="mt-1 inline-flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors"
                         aria-label={voice.isSpeaking ? 'Stop Kayla speaking' : 'Hear this answer'}
                       >
