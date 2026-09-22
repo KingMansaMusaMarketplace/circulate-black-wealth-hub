@@ -587,6 +587,9 @@ const BusinessDetailPage = () => {
                   {business.is_verified && (
                     <div className="mb-3">
                       <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} />
+                      <p className="text-slate-400 text-xs mt-1 max-w-sm">
+                        Verified means we confirmed the business is Black-owned and still operating.
+                      </p>
                     </div>
                   )}
 

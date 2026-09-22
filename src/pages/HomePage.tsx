@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Youtube, TrendingUp, Users, PlayCircle, ArrowRight } from 'lucide-react';
+import { Youtube, TrendingUp, Users, PlayCircle, ArrowRight, Sparkles } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
@@ -11,6 +11,7 @@ import BusinessSubmissionBox from '@/components/homepage/BusinessSubmissionBox';
 import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueShareCard';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
+import WhyBuyBand from '@/components/homepage/WhyBuyBand';
 
 
 /**
@@ -29,9 +30,9 @@ const HomePage: React.FC = () => {
     trackFunnelEvent('homepage_view');
     queryClient.invalidateQueries();
     updateMetaTags({
-      title: 'About 1325.AI — Kayla & 42 Agentic AI Employees',
+      title: 'Find a Black-Owned Business You Can Trust — 1325.AI',
       description:
-        `1325.AI orchestrates the world's largest verified Black-owned business directory — ${liveCount} listings powered by Kayla and 42 Agentic AI Employees.`,
+        `Every listing verified. Every dollar you spend circulates. Search ${liveCount} Black-owned businesses worldwide, kept accurate by Kayla and 42 Agentic AI Employees.`,
       path: '/about-1325',
       keywords: pageSEO.home.keywords,
     });
@@ -81,6 +82,7 @@ const HomePage: React.FC = () => {
             <div className="flex flex-col items-center md:items-start">
               <span className="text-mansagold text-3xl font-bold tracking-tight">{liveCount}</span>
               <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/90 mt-1">Verified Businesses</span>
+              <span className="text-[10px] text-white/60 mt-1 leading-snug text-center md:text-left">Verified means we confirmed the business is Black-owned and still operating.</span>
             </div>
             <div className="flex flex-col items-center md:items-start">
               <span className="text-mansagold text-3xl font-bold tracking-tight">46</span>
@@ -91,15 +93,16 @@ const HomePage: React.FC = () => {
           {/* Hero content */}
           <div className="max-w-4xl text-center space-y-8">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-[1.1] text-white">
-              The <span className="text-mansagold italic font-normal">MCP infrastructure layer</span> for the $12T global Black economy.
+              Find a Black-owned business you can{' '}
+              <span className="text-mansagold italic font-normal">trust</span> — anywhere in the world.
             </h1>
 
             <p className="text-lg md:text-2xl text-white font-light leading-relaxed max-w-3xl mx-auto">
-              The global directory of Black-owned businesses — powered by{' '}
-              <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees.
+              Every listing verified. Every dollar you spend circulates.{' '}
+              <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees keep it accurate.
             </p>
             <p className="text-sm md:text-base text-white/90 font-light">
-              Discover, support, and circulate wealth across {liveCount} verified businesses worldwide.
+              {liveCount} verified businesses worldwide.
             </p>
 
             {/* Consolidated CTAs */}
@@ -111,21 +114,23 @@ const HomePage: React.FC = () => {
                 >
                   Shop Black-Owned
                 </Link>
-                <Link
-                  to="/what-kayla-does"
-                  className="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-sm transition-transform hover:scale-105 active:scale-95"
-                >
-                  Deploy Kayla
-                </Link>
                 <a
                   href="#submit-business"
-                  className="px-8 py-4 border border-white/30 text-white font-bold uppercase tracking-widest text-xs rounded-sm hover:bg-white hover:text-black transition-all"
+                  className="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-sm transition-transform hover:scale-105 active:scale-95"
                 >
-                  Submit Your Business — Free
+                  Claim or Add Your Business — Free
                 </a>
               </div>
 
               <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+                <Link
+                  to="/what-kayla-does"
+                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
+                >
+                  <Sparkles className="w-4 h-4 text-mansagold" aria-hidden="true" />
+                  Deploy Kayla
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </Link>
                 <Link
                   to="/investors"
                   className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
@@ -182,6 +187,8 @@ const HomePage: React.FC = () => {
           </div>
         </section>
 
+        {/* Why people buy: trust, standing, belonging */}
+        <WhyBuyBand />
 
         {/* Corporate partner wall — shows live partners and open slots */}
         <SponsorWallStrip openSlots={2} />
