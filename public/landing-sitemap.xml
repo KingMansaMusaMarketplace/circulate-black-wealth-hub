@@ -157,10 +157,10 @@
   <url><loc>https://1325.ai/black-owned/city/valdosta-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/murfreesboro-tn</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/sumter-sc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/rockford-il</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/desoto-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/garland-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/smyrna-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/desoto-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/rockford-il</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/garland-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/riverside-ca</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/tempe-az</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/beaumont-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -668,15 +668,15 @@
   <url><loc>https://1325.ai/black-owned/category/black-owned-barbershop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/photo-booth-rental</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/independent-bookstore</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/partner-directory-chamber</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/residential-and-commercial-cleaning-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/independent-pharmacy</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/partner-directory-chamber</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/insurance-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/wedding-dj-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/independent-pharmacy</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/real-estate-agent</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/digital-marketing-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/hair-braiding-salon</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/wedding-dj-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/mobile-notary-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/real-estate-agent</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/independent-insurance-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/optometrist</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/cigar-lounge</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -689,8 +689,8 @@
   <url><loc>https://1325.ai/black-owned/category/bail-bonds-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/event-catering</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/staffing-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/video-production-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/moving-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/video-production-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/boutique-hotel</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/optometry-practice</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/specialty-coffee-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -2046,16 +2046,16 @@
   <url><loc>https://1325.ai/black-owned/in/sumter-sc/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/sumter-sc/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/sumter-sc/boutiques</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/smyrna-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/desoto-tx/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/desoto-tx/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/desoto-tx/real-estate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/rockford-il/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/rockford-il/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/rockford-il/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/rockford-il/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/desoto-tx/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/desoto-tx/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/desoto-tx/real-estate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/garland-tx/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/garland-tx/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/smyrna-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/riverside-ca/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/tempe-az/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/beaumont-tx/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
