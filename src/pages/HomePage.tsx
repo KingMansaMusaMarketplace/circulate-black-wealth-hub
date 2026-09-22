@@ -93,15 +93,16 @@ const HomePage: React.FC = () => {
           {/* Hero content */}
           <div className="max-w-4xl text-center space-y-8">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-[1.1] text-white">
-              The <span className="text-mansagold italic font-normal">MCP infrastructure layer</span> for the $12T global Black economy.
+              Find a Black-owned business you can{' '}
+              <span className="text-mansagold italic font-normal">trust</span> — anywhere in the world.
             </h1>
 
             <p className="text-lg md:text-2xl text-white font-light leading-relaxed max-w-3xl mx-auto">
-              The global directory of Black-owned businesses — powered by{' '}
-              <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees.
+              Every listing verified. Every dollar you spend circulates.{' '}
+              <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees keep it accurate.
             </p>
             <p className="text-sm md:text-base text-white/90 font-light">
-              Discover, support, and circulate wealth across {liveCount} verified businesses worldwide.
+              {liveCount} verified businesses worldwide.
             </p>
 
             {/* Consolidated CTAs */}
@@ -113,17 +114,11 @@ const HomePage: React.FC = () => {
                 >
                   Shop Black-Owned
                 </Link>
-                <Link
-                  to="/what-kayla-does"
-                  className="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-sm transition-transform hover:scale-105 active:scale-95"
-                >
-                  Deploy Kayla
-                </Link>
                 <a
                   href="#submit-business"
-                  className="px-8 py-4 border border-white/30 text-white font-bold uppercase tracking-widest text-xs rounded-sm hover:bg-white hover:text-black transition-all"
+                  className="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-sm transition-transform hover:scale-105 active:scale-95"
                 >
-                  Submit Your Business — Free
+                  Claim or Add Your Business — Free
                 </a>
               </div>
 
