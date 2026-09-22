@@ -4,6 +4,7 @@ import { Search, SlidersHorizontal, Grid, List, Map, Navigation, Loader2, X, Spa
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { LocationData } from '@/hooks/location/types';
 import { searchBusinesses } from '@/lib/api/directory-api';
 import { Business } from '@/types/business';
