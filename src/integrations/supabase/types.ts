@@ -5646,6 +5646,8 @@ export type Database = {
       businesses: {
         Row: {
           address: string | null
+          address_scrape_attempted_at: string | null
+          address_scrape_result: string | null
           average_rating: number | null
           banner_url: string | null
           black_owned_confidence: number | null
@@ -5708,6 +5710,8 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          address_scrape_attempted_at?: string | null
+          address_scrape_result?: string | null
           average_rating?: number | null
           banner_url?: string | null
           black_owned_confidence?: number | null
@@ -5770,6 +5774,8 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          address_scrape_attempted_at?: string | null
+          address_scrape_result?: string | null
           average_rating?: number | null
           banner_url?: string | null
           black_owned_confidence?: number | null
@@ -10457,6 +10463,24 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      internal_job_tokens: {
+        Row: {
+          created_at: string
+          name: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          name: string
+          token: string
+        }
+        Update: {
+          created_at?: string
+          name?: string
+          token?: string
+        }
+        Relationships: []
       }
       investor_access_log: {
         Row: {
