@@ -4,6 +4,7 @@ import { MapPin, Star, ArrowRight, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { cleanField } from '@/utils/format-location';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
