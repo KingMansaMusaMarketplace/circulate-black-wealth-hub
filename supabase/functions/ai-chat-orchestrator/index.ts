@@ -40,7 +40,8 @@ function sanitizeMessages(messages: any[]): any[] {
     .filter(msg => msg && typeof msg === 'object' && msg.role && msg.content)
     .slice(0, 50)
     .map(msg => {
-      const role = String(msg.role).substring(0, 20);
+      // Callers may only speak as the user or assistant — never 'system'.
+      const role = String(msg.role) === 'assistant' ? 'assistant' : 'user';
       
       // Handle multimodal content (array of text + image_url)
       if (Array.isArray(msg.content)) {
@@ -322,9 +323,19 @@ Deno.serve(async (req) => {
     // Optional client-provided session id; if absent we generate one and return it
     // so the client can pin all subsequent turns to the same row in ai_chat_sessions.
     const incomingSessionId = typeof requestBody.session_id === 'string' ? requestBody.session_id : null;
-    const sessionId = incomingSessionId && /^[0-9a-f-]{36}$/i.test(incomingSessionId)
-      ? incomingSessionId
-      : crypto.randomUUID();
+    let sessionId = crypto.randomUUID();
+    if (incomingSessionId && /^[0-9a-f-]{36}$/i.test(incomingSessionId)) {
+      // Only reuse the id when the row belongs to this caller (or does not exist yet),
+      // so a guessed/stolen id cannot overwrite somebody else's conversation.
+      const { data: existingSession } = await supabase
+        .from('ai_chat_sessions')
+        .select('user_id')
+        .eq('id', incomingSessionId)
+        .maybeSingle();
+      if (!existingSession || existingSession.user_id === user.id) {
+        sessionId = incomingSessionId;
+      }
+    }
 
     // Persist (or refresh) the conversation row with the messages we know about so far.
     // This guarantees Kayla's memory survives reloads. The next request will include

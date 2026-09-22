@@ -60,7 +60,14 @@ Guidelines:
 
     const messages = [
       { role: "system" as const, content: systemPrompt + buildAgentBrandBlock() },
-      ...(conversationHistory || []),
+      ...(Array.isArray(conversationHistory) ? conversationHistory : [])
+        .filter((m: any) => m && typeof m === 'object' && typeof m.content === 'string')
+        .slice(-20)
+        .map((m: any) => ({
+          // Callers may only speak as the user or assistant — never 'system'.
+          role: m.role === 'assistant' ? 'assistant' as const : 'user' as const,
+          content: String(m.content).slice(0, 10000),
+        })),
       { role: "user" as const, content: question },
     ];
 
