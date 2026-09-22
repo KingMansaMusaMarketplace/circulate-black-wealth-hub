@@ -239,7 +239,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       }
       
       // Add business locations to bounds
-      businesses.forEach(business => {
+      mappableBusinesses.forEach(business => {
         bounds.extend([business.lng, business.lat]);
       });
 
