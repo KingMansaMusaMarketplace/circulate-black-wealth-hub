@@ -229,15 +229,16 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       markersRef.current.push(marker);
     });
 
-    // Fit map to show all markers ONLY on initial load
-    if (!hasInitialFit.current && markersRef.current.length > 0) {
+    // Re-fit the map whenever the set of shown businesses changes
+    const fitSignature = mappableBusinesses.map(b => b.id).join(',');
+    if (fitSignature !== lastFitSignature.current && markersRef.current.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
-      
+
       // Add user location to bounds
       if (userLocation) {
         bounds.extend([userLocation.lng, userLocation.lat]);
       }
-      
+
       // Add business locations to bounds
       mappableBusinesses.forEach(business => {
         bounds.extend([business.lng, business.lat]);
@@ -247,7 +248,8 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         padding: 50,
         maxZoom: 15
       });
-      
+
+      lastFitSignature.current = fitSignature;
       hasInitialFit.current = true;
     }
   }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover, mapReady, flyToOnClick]);
