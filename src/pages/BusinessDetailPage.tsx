@@ -764,14 +764,14 @@ const BusinessDetailPage = () => {
                   <CardTitle className="text-white">Location</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {business.address && (
+                  {formatBusinessLocation(business.address, business.city, business.state, business.country) && (
                     <div className="flex items-start gap-3">
                       <MapPin className="h-5 w-5 text-mansagold mt-0.5" />
                       <div>
-                        <p className="font-medium text-white text-sm">Address</p>
+                        <p className="font-medium text-white text-sm">{cleanField(business.address) ? 'Address' : 'Location'}</p>
                         <p className="text-sm text-slate-400">
-                          {business.address}
-                          {business.city && <><br />{business.city}{business.state && `, ${business.state}`} {business.zip_code}</>}
+                          {cleanField(business.address)}
+                          {cleanField(business.city) && <>{cleanField(business.address) && <br />}{cleanField(business.city)}{cleanField(business.state) && `, ${cleanField(business.state)}`} {cleanField(business.zip_code) ?? ''}</>}
                         </p>
                       </div>
                     </div>
