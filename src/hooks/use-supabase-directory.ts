@@ -393,15 +393,23 @@ export const useSupabaseDirectory = () => {
     searchTerm || null,
     filterOptions.category || null,
     filterOptions.minRating || null,
-  ], [searchTerm, filterOptions.category, filterOptions.minRating]);
+    categoryGroup || null,
+    country || null,
+    stateCode || null,
+    city || null,
+  ], [searchTerm, filterOptions.category, filterOptions.minRating, categoryGroup, country, stateCode, city]);
 
   const { data: mapMarkersData } = useQuery({
     queryKey: mapMarkersKey,
     queryFn: async () => {
-      const { data, error } = await supabase.rpc('get_directory_map_markers', {
+      const { data, error } = await (supabase.rpc as any)('get_directory_map_markers', {
         p_search_term: searchTerm || null,
         p_category: filterOptions.category || null,
         p_min_rating: filterOptions.minRating || null,
+        p_category_group: categoryGroup || null,
+        p_country: country || null,
+        p_state: stateCode || null,
+        p_city: city || null,
       });
       if (error) throw error;
       return (data || []) as { id: string; business_name: string; latitude: number; longitude: number; category: string; average_rating: number }[];
