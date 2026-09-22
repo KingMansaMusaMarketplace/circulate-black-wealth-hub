@@ -26690,6 +26690,7 @@ export type Database = {
         Returns: undefined
       }
       expire_challenges: { Args: never; Returns: undefined }
+      format_phone_display: { Args: { p_phone: string }; Returns: string }
       generate_api_key_prefix: {
         Args: {
           p_environment: Database["public"]["Enums"]["api_key_environment"]
@@ -27989,6 +27990,7 @@ export type Database = {
               logo_url: string
               longitude: number
               name: string
+              phone: string
               review_count: number
               state: string
               total_count: number
