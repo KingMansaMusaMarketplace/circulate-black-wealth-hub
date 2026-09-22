@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Youtube, TrendingUp, Users, PlayCircle, ArrowRight } from 'lucide-react';
+import { Youtube, TrendingUp, Users, PlayCircle, ArrowRight, Sparkles } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
