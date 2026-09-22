@@ -2,13 +2,19 @@ import React from 'react';
 import { Calendar, Users, MapPin, Clock, Phone, Globe } from 'lucide-react';
 import { Business } from '@/types/business';
 import BusinessLocationMap from './BusinessLocationMap';
+import { cleanField, formatBusinessLocation } from '@/utils/format-location';
 
 interface AboutTabProps {
   business: Business;
 }
 
 const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
-  const hasAddress = business.address && business.city && business.state;
+  const street = cleanField(business.address);
+  const city = cleanField(business.city);
+  const state = cleanField(business.state);
+  const hasAddress = Boolean(city && state);
+  const locationLine = formatBusinessLocation(business.address, business.city, business.state, business.country);
+  const fullLocationLine = [locationLine, cleanField(business.zipCode)].filter(Boolean).join(' ');
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
