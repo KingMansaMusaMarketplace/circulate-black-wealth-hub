@@ -134,6 +134,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
   // Track if we've done initial bounds fit
   const hasInitialFit = useRef(false);
+  const lastFitSignature = useRef<string>('');
 
   // Add/update markers when businesses change or map becomes ready
   useEffect(() => {
