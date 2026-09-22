@@ -82,6 +82,7 @@ const HomePage: React.FC = () => {
             <div className="flex flex-col items-center md:items-start">
               <span className="text-mansagold text-3xl font-bold tracking-tight">{liveCount}</span>
               <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/90 mt-1">Verified Businesses</span>
+              <span className="text-[10px] text-white/60 mt-1 leading-snug text-center md:text-left">Verified means we confirmed the business is Black-owned and still operating.</span>
             </div>
             <div className="flex flex-col items-center md:items-start">
               <span className="text-mansagold text-3xl font-bold tracking-tight">46</span>
