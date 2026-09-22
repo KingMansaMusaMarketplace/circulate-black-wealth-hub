@@ -1,6 +1,6 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { useLocation as useRouterLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Business } from '@/types/business';
@@ -331,6 +331,7 @@ export const useSupabaseDirectory = () => {
     },
     staleTime: 10 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
+    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
 
