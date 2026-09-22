@@ -10,6 +10,7 @@ import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 import { motion } from 'framer-motion';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { trackFeaturedEvent } from '@/lib/featured-tracking';
 
 interface PremiumBusinessCardProps {
