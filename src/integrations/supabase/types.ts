@@ -5667,6 +5667,8 @@ export type Database = {
           founding_order: number | null
           founding_sponsor_since: string | null
           id: string
+          image_audit_at: string | null
+          image_audit_result: string | null
           is_founding_member: boolean | null
           is_founding_sponsor: boolean | null
           is_verified: boolean | null
@@ -5731,6 +5733,8 @@ export type Database = {
           founding_order?: number | null
           founding_sponsor_since?: string | null
           id?: string
+          image_audit_at?: string | null
+          image_audit_result?: string | null
           is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
@@ -5795,6 +5799,8 @@ export type Database = {
           founding_order?: number | null
           founding_sponsor_since?: string | null
           id?: string
+          image_audit_at?: string | null
+          image_audit_result?: string | null
           is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
