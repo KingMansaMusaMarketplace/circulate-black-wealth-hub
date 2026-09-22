@@ -213,7 +213,7 @@ INSTRUCTIONS:
         model: "google/gemini-3.7-flash",
         messages: [
           { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() },
-          ...messages.slice(-20),
+          ...messages.slice(-10),
         ],
         stream: true,
       }),
