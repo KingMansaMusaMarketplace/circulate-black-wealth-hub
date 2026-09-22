@@ -27181,21 +27181,41 @@ export type Database = {
           count: number
         }[]
       }
-      get_directory_map_markers: {
-        Args: {
-          p_category?: string
-          p_min_rating?: number
-          p_search_term?: string
-        }
-        Returns: {
-          average_rating: number
-          business_name: string
-          category: string
-          id: string
-          latitude: number
-          longitude: number
-        }[]
-      }
+      get_directory_map_markers:
+        | {
+            Args: {
+              p_category?: string
+              p_min_rating?: number
+              p_search_term?: string
+            }
+            Returns: {
+              average_rating: number
+              business_name: string
+              category: string
+              id: string
+              latitude: number
+              longitude: number
+            }[]
+          }
+        | {
+            Args: {
+              p_category?: string
+              p_category_group?: string
+              p_city?: string
+              p_country?: string
+              p_min_rating?: number
+              p_search_term?: string
+              p_state?: string
+            }
+            Returns: {
+              average_rating: number
+              business_name: string
+              category: string
+              id: string
+              latitude: number
+              longitude: number
+            }[]
+          }
       get_directory_states: {
         Args: { p_country?: string }
         Returns: {
