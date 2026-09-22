@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, MapPin, ExternalLink } from 'lucide-react';
+import { Star, MapPin, ExternalLink, Phone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Business } from '@/types/business';
 import { useNavigate } from 'react-router-dom';
@@ -102,6 +102,18 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
             <MapPin className="w-3 h-3 inline mr-1 text-mansagold/50" />
             {business.address}{business.city || business.state ? `, ${[business.city, business.state].filter(Boolean).join(', ')}` : ''}
           </p>
+        )}
+
+        {/* Phone */}
+        {business.phone && (
+          <a
+            href={`tel:${business.phone}`}
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-1 text-xs text-mansagold hover:underline mt-1.5"
+          >
+            <Phone className="w-3 h-3" />
+            {business.phone}
+          </a>
         )}
 
         {/* Discount badge */}
