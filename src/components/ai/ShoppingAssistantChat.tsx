@@ -108,6 +108,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
     setIsLoading(true);
 
     let assistantSoFar = '';
+    // Speak as she writes: start reading finished sentences while the rest arrives.
+    const speakingAloud = voice.enabled || speakReply;
+    if (speakingAloud) voice.beginStream();
 
     const upsertAssistant = (chunk: string) => {
       assistantSoFar += chunk;
@@ -118,6 +121,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
         }
         return [...prev, { role: 'assistant', content: assistantSoFar }];
       });
+      if (speakingAloud) voice.pushStream(assistantSoFar);
     };
 
     try {
