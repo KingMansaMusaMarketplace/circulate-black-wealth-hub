@@ -78,10 +78,12 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
                 <span className="ml-2 text-sm text-gray-600">{business.rating} ({business.reviewCount} reviews)</span>
               </div>
             </div>
-            <div className="flex items-center text-sm text-gray-500 mb-4">
-              <MapPin size={16} className="mr-1" />
-              {business.address}, {business.city}, {business.state}
-            </div>
+            {formatBusinessLocation(business.address, business.city, business.state, (business as any).country) && (
+              <div className="flex items-center text-sm text-gray-500 mb-4">
+                <MapPin size={16} className="mr-1" />
+                {formatBusinessLocation(business.address, business.city, business.state, (business as any).country)}
+              </div>
+            )}
           </div>
           
           <div className="flex flex-wrap items-center gap-2">
