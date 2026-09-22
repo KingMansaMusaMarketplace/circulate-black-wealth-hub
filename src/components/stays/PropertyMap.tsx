@@ -8,6 +8,22 @@ import { VacationProperty } from '@/types/vacation-rental';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
+// Escape stored listing content before it is injected into map popup HTML.
+const escHtml = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+const safeImageUrl = (value: unknown): string | null => {
+  const raw = String(value ?? '').trim();
+  if (!/^https?:\/\//i.test(raw)) return null;
+  return escHtml(raw);
+};
+
+
 // Default center for US - defined outside component to prevent re-renders
 const DEFAULT_CENTER: [number, number] = [-98.5795, 39.8283];
 const DEFAULT_ZOOM = 4;
@@ -186,16 +202,16 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
     const popupHtml = `
       <div class="property-popup bg-slate-800 p-0 rounded-lg overflow-hidden min-w-[250px]">
-        ${property.photos && property.photos[0] 
-          ? `<img src="${property.photos[0]}" alt="${property.title}" class="w-full h-32 object-cover" />`
+        ${property.photos && safeImageUrl(property.photos[0])
+          ? `<img src="${safeImageUrl(property.photos[0])}" alt="${escHtml(property.title)}" class="w-full h-32 object-cover" />`
           : '<div class="w-full h-32 bg-slate-700 flex items-center justify-center"><span class="text-slate-500">No image</span></div>'
         }
         <div class="p-3">
-          <h3 class="font-semibold text-white text-sm mb-1">${property.title}</h3>
-          <p class="text-slate-400 text-xs mb-2">${property.city}, ${property.state}</p>
+          <h3 class="font-semibold text-white text-sm mb-1">${escHtml(property.title)}</h3>
+          <p class="text-slate-400 text-xs mb-2">${escHtml(property.city)}, ${escHtml(property.state)}</p>
           <div class="flex items-center justify-between">
             <div class="text-mansagold font-bold">
-              $${property.base_nightly_rate}<span class="text-slate-400 text-xs font-normal">/night</span>
+              $${escHtml(Number(property.base_nightly_rate) || 0)}<span class="text-slate-400 text-xs font-normal">/night</span>
             </div>
             ${property.average_rating > 0 
               ? `<div class="flex items-center gap-1 text-slate-400 text-xs">
