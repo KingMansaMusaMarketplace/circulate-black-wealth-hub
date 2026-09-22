@@ -50,6 +50,7 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     address: business.address || '',
     city: business.city || '',
     state: business.state || '',
+    country: business.country || '',
     zipCode: business.zip_code || '',
     phone: '',
     email: '',
