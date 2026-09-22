@@ -30,9 +30,9 @@ const HomePage: React.FC = () => {
     trackFunnelEvent('homepage_view');
     queryClient.invalidateQueries();
     updateMetaTags({
-      title: 'About 1325.AI — Kayla & 42 Agentic AI Employees',
+      title: 'Find a Black-Owned Business You Can Trust — 1325.AI',
       description:
-        `1325.AI orchestrates the world's largest verified Black-owned business directory — ${liveCount} listings powered by Kayla and 42 Agentic AI Employees.`,
+        `Every listing verified. Every dollar you spend circulates. Search ${liveCount} Black-owned businesses worldwide, kept accurate by Kayla and 42 Agentic AI Employees.`,
       path: '/about-1325',
       keywords: pageSEO.home.keywords,
     });
