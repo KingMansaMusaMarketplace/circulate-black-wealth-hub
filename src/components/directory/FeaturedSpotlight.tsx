@@ -4,6 +4,7 @@ import { Star, MapPin, ArrowRight, Sparkles, Crown, ChevronLeft, ChevronRight } 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import OptimizedImage from '@/components/ui/optimized-image';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Business } from '@/types/business';
