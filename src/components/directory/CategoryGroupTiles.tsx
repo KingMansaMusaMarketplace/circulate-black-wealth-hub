@@ -81,7 +81,7 @@ const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
   const groups = CATEGORY_GROUPS
     .map(g => ({ ...g, count: groupCounts[g.name] || 0 }))
     .filter(g => g.count > 0)
-    .sort((a, b) => b.count - a.count);
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <div className={compact ? 'mb-6' : 'mb-10'}>
