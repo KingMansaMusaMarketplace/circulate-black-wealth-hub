@@ -27296,6 +27296,72 @@ export type Database = {
           website_url: string
         }[]
       }
+      get_lease_listing: {
+        Args: { p_id: string }
+        Returns: {
+          address: string
+          amenities: Json | null
+          available_from: string | null
+          average_rating: number | null
+          base_monthly_rate: number | null
+          base_nightly_rate: number
+          bathrooms: number | null
+          bedrooms: number | null
+          cancellation_policy: string | null
+          check_in_time: string | null
+          check_out_time: string | null
+          city: string
+          cleaning_fee: number | null
+          country: string | null
+          created_at: string | null
+          description: string | null
+          furnished: boolean | null
+          host_id: string
+          house_rules: string | null
+          id: string
+          is_active: boolean | null
+          is_instant_book: boolean | null
+          is_verified: boolean | null
+          latitude: number | null
+          lease_term_months: number | null
+          listing_mode: string
+          listing_status: Database["public"]["Enums"]["listing_status_enum"]
+          longitude: number | null
+          max_guests: number | null
+          max_nights: number | null
+          min_credit_score: number | null
+          min_income_multiplier: number | null
+          min_nights: number | null
+          moderation_status: string
+          monthly_rent: number | null
+          pet_deposit: number | null
+          pet_fee: number | null
+          pets_allowed: boolean | null
+          photos: Json | null
+          property_type: Database["public"]["Enums"]["property_type"] | null
+          rejection_reason: string | null
+          review_count: number | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          section_8_accepted: boolean | null
+          security_deposit: number | null
+          security_deposit_amount: number | null
+          service_fee_percent: number | null
+          service_tier: string
+          state: string
+          title: string
+          updated_at: string | null
+          utilities_included: string[] | null
+          weekly_rate: number | null
+          zip_code: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "vacation_properties"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_material_analytics: {
         Args: { p_end_date?: string; p_start_date?: string }
         Returns: {
@@ -27546,6 +27612,72 @@ export type Database = {
         }[]
       }
       get_security_metrics: { Args: never; Returns: Json }
+      get_similar_lease_listings: {
+        Args: { p_city: string; p_id: string; p_limit?: number }
+        Returns: {
+          address: string
+          amenities: Json | null
+          available_from: string | null
+          average_rating: number | null
+          base_monthly_rate: number | null
+          base_nightly_rate: number
+          bathrooms: number | null
+          bedrooms: number | null
+          cancellation_policy: string | null
+          check_in_time: string | null
+          check_out_time: string | null
+          city: string
+          cleaning_fee: number | null
+          country: string | null
+          created_at: string | null
+          description: string | null
+          furnished: boolean | null
+          host_id: string
+          house_rules: string | null
+          id: string
+          is_active: boolean | null
+          is_instant_book: boolean | null
+          is_verified: boolean | null
+          latitude: number | null
+          lease_term_months: number | null
+          listing_mode: string
+          listing_status: Database["public"]["Enums"]["listing_status_enum"]
+          longitude: number | null
+          max_guests: number | null
+          max_nights: number | null
+          min_credit_score: number | null
+          min_income_multiplier: number | null
+          min_nights: number | null
+          moderation_status: string
+          monthly_rent: number | null
+          pet_deposit: number | null
+          pet_fee: number | null
+          pets_allowed: boolean | null
+          photos: Json | null
+          property_type: Database["public"]["Enums"]["property_type"] | null
+          rejection_reason: string | null
+          review_count: number | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          section_8_accepted: boolean | null
+          security_deposit: number | null
+          security_deposit_amount: number | null
+          service_fee_percent: number | null
+          service_tier: string
+          state: string
+          title: string
+          updated_at: string | null
+          utilities_included: string[] | null
+          weekly_rate: number | null
+          zip_code: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "vacation_properties"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_social_share_counts: {
         Args: { p_business_id: string }
         Returns: {

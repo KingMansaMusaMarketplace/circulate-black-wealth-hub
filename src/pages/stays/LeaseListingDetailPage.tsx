@@ -24,27 +24,31 @@ const LeaseListingDetailPage: React.FC = () => {
   const [inquiry, setInquiry] = useState({ name: "", email: "", phone: "", move_in: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
 
+  const [notFound, setNotFound] = useState(false);
+
   useEffect(() => {
+    if (!id) return;
+    let cancelled = false;
     (async () => {
-      const { data } = await supabase
-        .from("vacation_properties")
-        .select("*")
-        .eq("id", id)
-        .eq("listing_mode", "yearly_lease")
-        .maybeSingle();
-      setListing(data);
-      if (data) {
-        const { data: more } = await supabase
-          .from("vacation_properties")
-          .select("id, title, city, state, bedrooms, bathrooms, monthly_rent, photos, property_type, pets_allowed, section_8_accepted, furnished, available_from, is_verified, created_at, updated_at")
-          .eq("listing_mode", "yearly_lease")
-          .eq("city", data.city)
-          .eq("is_active", true)
-          .neq("id", data.id)
-          .limit(4);
-        setSimilar(more || []);
+      setNotFound(false);
+      // Public-safe lookup so signed-out visitors can view a lease listing.
+      const { data, error } = await supabase.rpc("get_lease_listing" as any, { p_id: id } as any);
+      const row = Array.isArray(data) ? data[0] : data;
+      if (cancelled) return;
+      if (error || !row) {
+        setListing(null);
+        setNotFound(true);
+        return;
       }
+      setListing(row);
+      const { data: more } = await supabase.rpc("get_similar_lease_listings" as any, {
+        p_id: id,
+        p_city: (row as any).city ?? null,
+        p_limit: 4,
+      } as any);
+      if (!cancelled) setSimilar((more as any) || []);
     })();
+    return () => { cancelled = true; };
   }, [id]);
 
   const submitInquiry = async () => {
@@ -64,6 +68,16 @@ const LeaseListingDetailPage: React.FC = () => {
     if (error) toast.error(error.message);
     else { toast.success("Inquiry sent! The landlord will reach out."); setInquiry({ name: "", email: "", phone: "", move_in: "", message: "" }); }
   };
+
+  if (!listing && notFound) {
+    return (
+      <div className="min-h-screen bg-black text-white p-10 text-center">
+        <h1 className="text-2xl font-bold mb-2">This listing is no longer available</h1>
+        <p className="text-white/70 mb-6">It may have been rented or taken down by the owner.</p>
+        <Button asChild><Link to="/stays/lease">Back to all rentals</Link></Button>
+      </div>
+    );
+  }
 
   if (!listing) return <div className="min-h-screen bg-black text-white p-10">Loading…</div>;
 

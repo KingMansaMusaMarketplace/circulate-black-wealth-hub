@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, useLocation, Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
@@ -24,7 +24,15 @@ interface LeaseListing {
 }
 
 const LeaseCategoryLandingPage: React.FC = () => {
-  const { category, city } = useParams<{ category?: string; city?: string }>();
+  const params = useParams<{ category?: string; city?: string }>();
+  const location = useLocation();
+
+  // Static routes (e.g. /stays/lease/apartments) carry no route params, so fall
+  // back to reading the slugs straight off the URL path.
+  const segments = location.pathname.replace(/\/+$/, "").split("/").filter(Boolean); // ["stays","lease",...]
+  const pathSlugs = segments.slice(2);
+  const city = params.city ?? (pathSlugs.length > 1 ? pathSlugs[0] : undefined);
+  const category = params.category ?? (pathSlugs.length > 1 ? pathSlugs[1] : pathSlugs[0]);
 
   // Allow URL shapes:
   //   /stays/lease/:category         (e.g. /stays/lease/houses) — nationwide by type
