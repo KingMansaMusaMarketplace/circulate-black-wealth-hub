@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { CATEGORY_GROUPS, getGroupIcon } from '@/data/categoryGroups';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
@@ -78,21 +77,21 @@ const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
     );
   }
 
+  const hasCounts = Object.keys(groupCounts).length > 0;
   const groups = CATEGORY_GROUPS
     .map(g => ({ ...g, count: groupCounts[g.name] || 0 }))
-    .filter(g => g.count > 0)
+    // While counts are still loading, keep every tile on screen so the
+    // section never collapses and re-appears (flicker).
+    .filter(g => (hasCounts ? g.count > 0 : true))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <div className={compact ? 'mb-6' : 'mb-10'}>
       <h2 className="text-white font-semibold text-base sm:text-lg mb-3">Browse by category</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
-        {groups.map((group, i) => (
-          <motion.button
+        {groups.map((group) => (
+          <button
             key={group.name}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: Math.min(i * 0.012, 0.3) }}
             onClick={() => onSelectGroup(group.name)}
             className="text-left rounded-xl border border-white/10 bg-slate-900/50 hover:border-mansagold/60 hover:bg-slate-900/80 transition-colors p-3 min-h-[76px] flex flex-col justify-between"
           >
@@ -101,11 +100,11 @@ const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
               <span className="block text-white text-[13px] sm:text-sm font-medium leading-snug">
                 {group.name}
               </span>
-              <span className="block text-mansagold text-xs font-mono mt-0.5">
-                {group.count.toLocaleString()}
+              <span className="block text-mansagold text-xs font-mono mt-0.5 min-h-[1rem]">
+                {group.count > 0 ? group.count.toLocaleString() : ''}
               </span>
             </span>
-          </motion.button>
+          </button>
         ))}
       </div>
     </div>
