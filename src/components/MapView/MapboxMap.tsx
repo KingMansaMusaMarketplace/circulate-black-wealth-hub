@@ -156,8 +156,17 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       markersRef.current.push(userMarker);
     }
 
+    // Only plot businesses that have real coordinates
+    const hasValidCoords = (b: BusinessLocation) =>
+      Number.isFinite(Number(b.lat)) && Number.isFinite(Number(b.lng)) &&
+      Number(b.lat) !== 0 && Number(b.lng) !== 0 &&
+      Number(b.lat) >= -90 && Number(b.lat) <= 90 &&
+      Number(b.lng) >= -180 && Number(b.lng) <= 180;
+
+    const mappableBusinesses = businesses.filter(hasValidCoords);
+
     // Add business markers
-    businesses.forEach(business => {
+    mappableBusinesses.forEach(business => {
       const isHighlighted = highlightedBusinessId === business.id;
       
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
@@ -230,7 +239,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       }
       
       // Add business locations to bounds
-      businesses.forEach(business => {
+      mappableBusinesses.forEach(business => {
         bounds.extend([business.lng, business.lat]);
       });
 

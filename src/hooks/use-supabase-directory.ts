@@ -434,15 +434,28 @@ export const useSupabaseDirectory = () => {
 
   // Map data from dedicated lightweight RPC (ALL businesses with coordinates)
   const mapData = useMemo(() => {
-    return (mapMarkersData || []).map(m => ({
-      id: m.id,
-      name: m.business_name,
-      lat: m.latitude,
-      lng: m.longitude,
-      category: m.category || 'Other',
-      rating: Number(m.average_rating) || 0,
-      discount: '',
-    }));
+    const isValidCoord = (lat: unknown, lng: unknown) => {
+      const la = Number(lat);
+      const ln = Number(lng);
+      return (
+        Number.isFinite(la) && Number.isFinite(ln) &&
+        la !== 0 && ln !== 0 &&
+        la >= -90 && la <= 90 &&
+        ln >= -180 && ln <= 180
+      );
+    };
+
+    return (mapMarkersData || [])
+      .filter(m => isValidCoord(m.latitude, m.longitude))
+      .map(m => ({
+        id: m.id,
+        name: m.business_name,
+        lat: Number(m.latitude),
+        lng: Number(m.longitude),
+        category: m.category || 'Other',
+        rating: Number(m.average_rating) || 0,
+        discount: '',
+      }));
   }, [mapMarkersData]);
 
   const handleFilterChange = useCallback((newFilters: Partial<BusinessFilters>) => {
