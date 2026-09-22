@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, memo, lazy, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { cleanField, formatBusinessLocation } from '@/utils/format-location';
 import { 
   ArrowLeft, 
   Star, 
