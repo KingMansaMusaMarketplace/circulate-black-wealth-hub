@@ -205,8 +205,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
       setIsLoading(false);
       // A spoken question is a voice conversation, so always answer it aloud.
       // Typed questions continue to respect the saved Voice replies setting.
-      if ((voice.enabled || speakReply) && assistantSoFar) {
-        void voice.speak(assistantSoFar);
+      if (speakingAloud) {
+        if (assistantSoFar) voice.endStream(assistantSoFar);
+        else voice.cancelStream();
       }
     }
   };
