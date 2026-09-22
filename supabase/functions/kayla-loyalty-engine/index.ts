@@ -204,21 +204,31 @@ Deno.serve(async (req) => {
 
       // The recipient must be a real customer of this business — otherwise a
       // business owner could hand points/credits to any account on the platform.
-      const { data: knownCustomer } = await supabase
-        .from("customers")
+      const { data: priorPoints } = await supabase
+        .from("loyalty_points")
         .select("id")
         .eq("business_id", business_id)
-        .eq("user_id", customer_id)
+        .eq("customer_id", customer_id)
         .maybeSingle();
-      if (!knownCustomer) {
-        const { data: priorPoints } = await supabase
-          .from("loyalty_points")
+      if (!priorPoints) {
+        const { data: priorTxn } = await supabase
+          .from("transactions")
           .select("id")
           .eq("business_id", business_id)
           .eq("customer_id", customer_id)
+          .limit(1)
           .maybeSingle();
-        if (!priorPoints) {
-          return json({ error: "Customer is not associated with this business" }, 403);
+        if (!priorTxn) {
+          const { data: priorScan } = await supabase
+            .from("qr_scans")
+            .select("id")
+            .eq("business_id", business_id)
+            .eq("customer_id", customer_id)
+            .limit(1)
+            .maybeSingle();
+          if (!priorScan) {
+            return json({ error: "Customer is not associated with this business" }, 403);
+          }
         }
       }
 

@@ -118,8 +118,8 @@ serve(async (req) => {
     // Points are derived from a stored, completed transaction for this business —
     // never from a value supplied by the caller.
     const { data: txn } = await supabase
-      .from("qr_scan_transactions")
-      .select("id, customer_id, business_id, amount, points_awarded, created_at")
+      .from("transactions")
+      .select("id, customer_id, business_id, amount, points_earned, created_at")
       .eq("id", transaction_id)
       .eq("business_id", business_id)
       .eq("customer_id", customer_id)
@@ -148,7 +148,7 @@ serve(async (req) => {
     }
 
     const derivedPoints = Math.min(
-      Math.max(Math.round(Number(txn.points_awarded ?? Number(txn.amount ?? 0))), 1),
+      Math.max(Math.round(Number(txn.points_earned ?? Number(txn.amount ?? 0))), 1),
       10000
     );
 
