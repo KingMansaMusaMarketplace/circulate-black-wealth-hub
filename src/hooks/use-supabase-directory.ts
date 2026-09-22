@@ -357,6 +357,7 @@ export const useSupabaseDirectory = () => {
       return (data || []) as { state: string; count: number }[];
     },
     staleTime: 30 * 60 * 1000,
+    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
 
@@ -372,6 +373,7 @@ export const useSupabaseDirectory = () => {
       return (data || []) as { city: string; state: string; count: number }[];
     },
     staleTime: 30 * 60 * 1000,
+    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
 
@@ -417,6 +419,7 @@ export const useSupabaseDirectory = () => {
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
+    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
 
