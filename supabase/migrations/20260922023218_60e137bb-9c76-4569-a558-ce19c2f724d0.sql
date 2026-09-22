@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS public.get_directory_map_markers(text, text, numeric);
