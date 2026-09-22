@@ -670,7 +670,7 @@ const BusinessDetailPage = () => {
                         </Suspense>
                         <div className="text-center mt-4 space-y-2">
                           <p className="text-slate-300 text-sm">
-                            {business.address ? `${business.address}, ` : ''}{business.city}, {business.state} {business.zip_code}
+                            {[formatBusinessLocation(business.address, business.city, business.state, business.country), cleanField(business.zip_code)].filter(Boolean).join(' ')}
                           </p>
                           {business.phone && (
                             <p className="text-slate-300 text-sm">
