@@ -6,6 +6,7 @@ import { Star, MapPin, Phone, ExternalLink } from 'lucide-react';
 import { Business } from '@/types/business';
 import FavoriteButton from './FavoriteButton';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
+import { cleanField } from '@/utils/format-location';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
