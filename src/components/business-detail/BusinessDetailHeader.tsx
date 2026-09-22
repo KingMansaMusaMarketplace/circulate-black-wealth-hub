@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { QrCode, MapPin, Star, Share2, Calendar, ArrowLeft } from 'lucide-react';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { Business } from '@/types/business';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 import CheckInButton from './CheckInButton';
