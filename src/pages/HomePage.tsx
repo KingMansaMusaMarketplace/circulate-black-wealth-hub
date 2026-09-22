@@ -11,6 +11,7 @@ import BusinessSubmissionBox from '@/components/homepage/BusinessSubmissionBox';
 import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueShareCard';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
+import WhyBuyBand from '@/components/homepage/WhyBuyBand';
 
 
 /**
