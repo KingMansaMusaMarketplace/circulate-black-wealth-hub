@@ -27540,6 +27540,13 @@ export type Database = {
         }[]
       }
       get_security_metrics: { Args: never; Returns: Json }
+      get_social_share_counts: {
+        Args: { p_business_id: string }
+        Returns: {
+          platform: string
+          share_count: number
+        }[]
+      }
       get_sponsor_pipeline_summary: {
         Args: never
         Returns: {

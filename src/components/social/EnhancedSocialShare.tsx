@@ -54,16 +54,15 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
 
   const fetchShareStats = async () => {
     try {
-      const { data, error } = await supabase
-        .from('social_shares')
-        .select('platform')
-        .eq('business_id', businessId);
+      const { data, error } = await supabase.rpc('get_social_share_counts', {
+        p_business_id: businessId,
+      });
 
       if (error) throw error;
 
       const stats: Record<string, number> = {};
-      data.forEach(share => {
-        stats[share.platform] = (stats[share.platform] || 0) + 1;
+      (data || []).forEach((row: { platform: string; share_count: number }) => {
+        stats[row.platform] = Number(row.share_count);
       });
       setShareStats(stats);
     } catch (error) {
