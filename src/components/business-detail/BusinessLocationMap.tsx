@@ -12,7 +12,20 @@ interface BusinessLocationMapProps {
   address: string;
   city: string;
   state: string;
+  country?: string;
 }
+
+const COUNTRY_NAMES: Record<string, string> = {
+  TC: 'Turks and Caicos Islands',
+  VG: 'British Virgin Islands',
+  GB: 'United Kingdom',
+  US: 'United States',
+};
+
+const isUsableLocationPart = (value: string) => {
+  const normalized = value.trim().toLowerCase();
+  return Boolean(normalized && normalized !== 'n/a' && normalized !== 'unknown');
+};
 
 const BusinessLocationMap: React.FC<BusinessLocationMapProps> = ({
   lat,
@@ -21,6 +34,7 @@ const BusinessLocationMap: React.FC<BusinessLocationMapProps> = ({
   address,
   city,
   state,
+  country = '',
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -47,10 +61,15 @@ const BusinessLocationMap: React.FC<BusinessLocationMapProps> = ({
         setMapToken(data.token);
 
         // If no coordinates, try geocoding with available address info
-        if (!coordinates && city && state) {
-          const addressParts = [address, city, state].filter(Boolean);
+        if (!coordinates && (city || state || country)) {
+          const countryCode = country.trim().toUpperCase();
+          const countryName = COUNTRY_NAMES[countryCode] || country;
+          const addressParts = [address, city, state, countryName]
+            .filter((part): part is string => typeof part === 'string' && isUsableLocationPart(part))
+            .filter((part, index, parts) => parts.findIndex(candidate => candidate.toLowerCase() === part.toLowerCase()) === index);
           const fullAddress = addressParts.join(', ');
-          const geocodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(fullAddress)}.json?access_token=${data.token}&limit=1`;
+          const countryFilter = /^[A-Z]{2}$/.test(countryCode) ? `&country=${countryCode.toLowerCase()}` : '';
+          const geocodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(fullAddress)}.json?access_token=${data.token}&limit=1${countryFilter}`;
           
           try {
             const geocodeResponse = await fetch(geocodeUrl);
@@ -77,7 +96,7 @@ const BusinessLocationMap: React.FC<BusinessLocationMapProps> = ({
     };
 
     fetchToken();
-  }, [lat, lng, address, city, state, coordinates]);
+  }, [lat, lng, address, city, state, country, coordinates]);
 
   // Initialize map when we have token and coordinates
   useEffect(() => {
@@ -90,7 +109,7 @@ const BusinessLocationMap: React.FC<BusinessLocationMapProps> = ({
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/dark-v11',
         center: [coordinates.lng, coordinates.lat],
-        zoom: 16,
+        zoom: isUsableLocationPart(address) ? 16 : 8,
         pitch: 45,
         bearing: -17.6,
         antialias: true,

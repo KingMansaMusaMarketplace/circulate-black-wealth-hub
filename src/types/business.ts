@@ -7,6 +7,7 @@ export interface Business {
   address: string;
   city: string;
   state: string;
+  country?: string;
   zipCode: string;
   phone: string;
   email: string;

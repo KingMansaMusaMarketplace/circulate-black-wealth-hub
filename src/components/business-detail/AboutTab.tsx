@@ -38,6 +38,7 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
               address={business.address}
               city={business.city}
               state={business.state}
+              country={business.country}
             />
           ) : (
             <div className="h-80 bg-gradient-to-br from-muted to-muted/50 rounded-lg flex items-center justify-center">

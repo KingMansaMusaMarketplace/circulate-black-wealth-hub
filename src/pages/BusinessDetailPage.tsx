@@ -73,6 +73,7 @@ interface Business {
   address: string;
   city: string;
   state: string;
+  country?: string;
   zip_code: string;
   phone: string;
   email: string;
@@ -181,6 +182,7 @@ const BusinessDetailPage = () => {
         address: row.address || '',
         city: row.city || '',
         state: row.state || '',
+        country: row.country || '',
         zip_code: row.zip_code || '',
         phone: row.phone || '',
         email: row.email || '',
@@ -663,6 +665,7 @@ const BusinessDetailPage = () => {
                             address={business.address || ''}
                             city={business.city}
                             state={business.state}
+                            country={business.country}
                           />
                         </Suspense>
                         <div className="text-center mt-4 space-y-2">
