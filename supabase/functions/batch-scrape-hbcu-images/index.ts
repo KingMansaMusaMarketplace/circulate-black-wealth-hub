@@ -35,6 +35,15 @@ serve(async (req) => {
       );
     }
 
+    // This job writes to businesses with the service role — admins only.
+    const { data: isAdmin } = await supabaseAuth.rpc('is_admin_secure');
+    if (!isAdmin) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Forbidden: admin access required' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const FIRECRAWL_API_KEY = Deno.env.get('FIRECRAWL_API_KEY');
     if (!FIRECRAWL_API_KEY) {
       return new Response(

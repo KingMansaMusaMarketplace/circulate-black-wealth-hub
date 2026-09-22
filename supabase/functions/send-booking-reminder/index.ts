@@ -3,6 +3,15 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -162,7 +171,7 @@ function generateReminderHTML(data: {
         </div>
         
         <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.customerName},</p>
+          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${esc(data.customerName)},</p>
           
           <div style="background: #8B5CF6; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px;">
             <h2 style="margin: 0; font-size: 24px;">Your appointment is in ${data.hoursUntil} hour${data.hoursUntil !== 1 ? 's' : ''}!</h2>
@@ -172,11 +181,11 @@ function generateReminderHTML(data: {
             <h2 style="color: #8B5CF6; margin-top: 0; font-size: 20px;">Appointment Details</h2>
             
             <div style="margin: 15px 0;">
-              <strong>Business:</strong> ${data.businessName}
+              <strong>Business:</strong> ${esc(data.businessName)}
             </div>
             
             <div style="margin: 15px 0;">
-              <strong>Service:</strong> ${data.serviceName}
+              <strong>Service:</strong> ${esc(data.serviceName)}
             </div>
             
             <div style="margin: 15px 0;">
@@ -194,12 +203,12 @@ function generateReminderHTML(data: {
           
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
             <h3 style="color: #333; margin-top: 0; font-size: 18px;">Location</h3>
-            <p style="margin: 0;">${data.businessAddress}</p>
+            <p style="margin: 0;">${esc(data.businessAddress)}</p>
           </div>
           
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
             <h3 style="color: #333; margin-top: 0; font-size: 18px;">Contact</h3>
-            <p style="margin: 5px 0;"><strong>Phone:</strong> ${data.businessPhone}</p>
+            <p style="margin: 5px 0;"><strong>Phone:</strong> ${esc(data.businessPhone)}</p>
           </div>
           
           <div style="background: #dbeafe; padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
@@ -210,7 +219,7 @@ function generateReminderHTML(data: {
           
           <div style="background: #fef3c7; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b;">
             <p style="margin: 0; font-size: 14px;">
-              <strong>Need to cancel or reschedule?</strong> Please contact the business directly as soon as possible at ${data.businessPhone}
+              <strong>Need to cancel or reschedule?</strong> Please contact the business directly as soon as possible at ${esc(data.businessPhone)}
             </p>
           </div>
           

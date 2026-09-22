@@ -35,7 +35,7 @@ serve(async (req) => {
 
     const { data: { user }, error: userError } = await supabaseAdmin.auth.getUser(token);
     if (userError || !user?.email) throw new Error("User not authenticated or email not available");
-    log("User authenticated", { userId: user.id, email: user.email });
+    log("User authenticated", { userId: user.id });
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 

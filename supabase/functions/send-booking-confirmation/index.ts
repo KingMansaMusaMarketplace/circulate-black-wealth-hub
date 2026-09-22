@@ -3,6 +3,15 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -188,15 +197,15 @@ function generateCustomerEmailHTML(data: {
         </div>
         
         <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.customerName},</p>
+          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${esc(data.customerName)},</p>
           
-          <p style="font-size: 16px; margin-bottom: 30px;">Your booking with <strong>${data.businessName}</strong> has been confirmed!</p>
+          <p style="font-size: 16px; margin-bottom: 30px;">Your booking with <strong>${esc(data.businessName)}</strong> has been confirmed!</p>
           
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #D4AF37;">
             <h2 style="color: #D4AF37; margin-top: 0; font-size: 20px;">Booking Details</h2>
             
             <div style="margin: 15px 0;">
-              <strong>Service:</strong> ${data.serviceName}
+              <strong>Service:</strong> ${esc(data.serviceName)}
             </div>
             
             <div style="margin: 15px 0;">
@@ -224,11 +233,11 @@ function generateCustomerEmailHTML(data: {
             <h3 style="color: #333; margin-top: 0; font-size: 18px;">Business Information</h3>
             
             <div style="margin: 10px 0;">
-              <strong>Phone:</strong> ${data.businessPhone}
+              <strong>Phone:</strong> ${esc(data.businessPhone)}
             </div>
             
             <div style="margin: 10px 0;">
-              <strong>Address:</strong> ${data.businessAddress}
+              <strong>Address:</strong> ${esc(data.businessAddress)}
             </div>
           </div>
           
@@ -279,7 +288,7 @@ function generateBusinessEmailHTML(data: {
         </div>
         
         <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.businessName},</p>
+          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${esc(data.businessName)},</p>
           
           <p style="font-size: 16px; margin-bottom: 30px;">You have a new booking!</p>
           
@@ -287,15 +296,15 @@ function generateBusinessEmailHTML(data: {
             <h2 style="color: #10B981; margin-top: 0; font-size: 20px;">Customer Information</h2>
             
             <div style="margin: 15px 0;">
-              <strong>Name:</strong> ${data.customerName}
+              <strong>Name:</strong> ${esc(data.customerName)}
             </div>
             
             <div style="margin: 15px 0;">
-              <strong>Email:</strong> ${data.customerEmail}
+              <strong>Email:</strong> ${esc(data.customerEmail)}
             </div>
             
             <div style="margin: 15px 0;">
-              <strong>Phone:</strong> ${data.customerPhone}
+              <strong>Phone:</strong> ${esc(data.customerPhone)}
             </div>
           </div>
           
@@ -303,7 +312,7 @@ function generateBusinessEmailHTML(data: {
             <h2 style="color: #10B981; margin-top: 0; font-size: 20px;">Booking Details</h2>
             
             <div style="margin: 15px 0;">
-              <strong>Service:</strong> ${data.serviceName}
+              <strong>Service:</strong> ${esc(data.serviceName)}
             </div>
             
             <div style="margin: 15px 0;">
@@ -330,7 +339,7 @@ function generateBusinessEmailHTML(data: {
           ${data.notes !== 'No notes provided' ? `
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
             <h3 style="color: #333; margin-top: 0; font-size: 18px;">Customer Notes</h3>
-            <p style="margin: 0;">${data.notes}</p>
+            <p style="margin: 0;">${esc(data.notes)}</p>
           </div>
           ` : ''}
           

@@ -36,6 +36,18 @@ serve(async (req) => {
     const pricing = TIER_PRICING[tier];
     if (!pricing) throw new Error("Invalid tier");
 
+    // The caller must own (or manage) the business they are buying placement for.
+    const { data: ownedBusiness } = await supabase
+      .from("businesses")
+      .select("id")
+      .eq("id", businessId)
+      .or(`owner_id.eq.${user.id},location_manager_id.eq.${user.id}`)
+      .maybeSingle();
+    if (!ownedBusiness) {
+      const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+      if (!isAdmin) throw new Error("Forbidden: you do not manage this business");
+    }
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") ?? "", {
       apiVersion: "2025-08-27.basil",
     });

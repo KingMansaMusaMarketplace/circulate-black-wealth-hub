@@ -188,7 +188,9 @@ Based on the provided user/business data, predict:
         break;
 
       case "dashboard_help":
-        systemPrompt = sanitizeForPrompt(data?.context) || `You are a helpful assistant for the 1325.AI Admin Dashboard.
+        // The server always owns the system prompt; caller context is supplied as
+        // reference data only, never as instructions.
+        systemPrompt = `You are a helpful assistant for the 1325.AI Admin Dashboard.
 Help administrators understand dashboard features, navigation, and functionality.
 Be concise and helpful. If you're unsure about something, say so.`;
         break;

@@ -15,6 +15,32 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
+/**
+ * Only allow post-checkout redirects back to our own origins — never to a
+ * caller-supplied external site.
+ */
+const ALLOWED_REDIRECT_HOSTS = new Set([
+  "1325.ai",
+  "www.1325.ai",
+  "circulate-black-wealth-hub.lovable.app",
+  "localhost",
+]);
+function safeRedirect(candidate: string | undefined, origin: string): string | null {
+  if (!candidate) return null;
+  try {
+    const url = new URL(candidate);
+    const originHost = new URL(origin).hostname;
+    if (url.protocol !== "https:" && url.hostname !== "localhost") return null;
+    if (url.hostname === originHost || ALLOWED_REDIRECT_HOSTS.has(url.hostname) || url.hostname.endsWith(".lovable.app")) {
+      return url.toString();
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -214,12 +240,12 @@ serve(async (req) => {
         description: description || `QR Code Payment to ${business?.business_name || "Business"}`,
       },
       success_url: (() => {
-        const base = successUrl || `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`;
+        const base = safeRedirect(successUrl, origin) || `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`;
         const sep = base.includes("?") ? "&" : "?";
         const feeParams = `kind=qr&fee_amt=${(commissionCents / 100).toFixed(2)}&fee_pct=${commissionRate}&total=${(finalAmountCents / 100).toFixed(2)}&biz=${encodeURIComponent(business?.business_name || "")}`;
         return `${base}${sep}${feeParams}`;
       })(),
-      cancel_url: cancelUrl || `${origin}/qr-scanner?canceled=1`,
+      cancel_url: safeRedirect(cancelUrl, origin) || `${origin}/qr-scanner?canceled=1`,
       metadata: {
         businessId,
         qrCodeId: qrCodeId || "direct",

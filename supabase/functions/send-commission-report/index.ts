@@ -3,6 +3,15 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -160,7 +169,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <p>${monthName}</p>
                 </div>
                 <div class="content">
-                  <p>Hi ${business.business_name},</p>
+                  <p>Hi ${esc(business.business_name)},</p>
                   <p>Here's your commission summary for ${monthName}:</p>
                   
                   <div class="metric-card">

@@ -89,7 +89,10 @@ var search_directory_default = defineTool({
     const applyFilters = (base) => {
       let b = base;
       if (query) {
-        b = b.or(`business_name.ilike.%${query}%,description.ilike.%${query}%`);
+        const safeQuery = String(query).replace(/[,()\\%*"']/g, " ").trim().slice(0, 100);
+        if (safeQuery) {
+          b = b.or(`business_name.ilike.%${safeQuery}%,description.ilike.%${safeQuery}%`);
+        }
       }
       if (category) b = b.ilike("category", `%${category}%`);
       if (city) b = b.ilike("city", `%${city}%`);

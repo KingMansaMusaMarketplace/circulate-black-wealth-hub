@@ -3,6 +3,15 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
@@ -258,9 +267,9 @@ function generateSingleEmail(type: string, data: any): string {
             <h2>🏢 New Business Verification Request</h2>
           </div>
           <div class="content">
-            <h3>${data.businessName}</h3>
-            <p><strong>Owner:</strong> ${data.ownerName}</p>
-            <p><strong>Email:</strong> ${data.ownerEmail}</p>
+            <h3>${esc(data.businessName)}</h3>
+            <p><strong>Owner:</strong> ${esc(data.ownerName)}</p>
+            <p><strong>Email:</strong> ${esc(data.ownerEmail)}</p>
             <p><strong>Submitted:</strong> ${new Date(data.submittedAt).toLocaleString()}</p>
           </div>
         </div>
@@ -285,8 +294,8 @@ function generateSingleEmail(type: string, data: any): string {
             <h2>🎯 Agent Milestone Achieved</h2>
           </div>
           <div class="content">
-            <h3>${data.agentName}</h3>
-            <p><strong>Milestone:</strong> ${data.milestoneType}</p>
+            <h3>${esc(data.agentName)}</h3>
+            <p><strong>Milestone:</strong> ${esc(data.milestoneType)}</p>
             <p><strong>Value:</strong> ${data.value}</p>
             <p><strong>Achieved:</strong> ${new Date(data.achievedAt).toLocaleString()}</p>
           </div>
@@ -330,9 +339,9 @@ function generateBatchEmail(type: string, events: BatchedEvent[]): string {
           
           ${events.map(event => `
             <div class="item">
-              <div class="item-title">${event.event_data.businessName}</div>
+              <div class="item-title">${esc(event.event_data.businessName)}</div>
               <div class="item-meta">
-                Owner: ${event.event_data.ownerName} (${event.event_data.ownerEmail})<br>
+                Owner: ${esc(event.event_data.ownerName)} (${esc(event.event_data.ownerEmail)})<br>
                 Submitted: ${new Date(event.event_data.submittedAt).toLocaleString()}
               </div>
             </div>
@@ -377,7 +386,7 @@ function generateBatchEmail(type: string, events: BatchedEvent[]): string {
           
           ${events.map(event => `
             <div class="item">
-              <div class="item-title">${event.event_data.agentName} - ${event.event_data.milestoneType}</div>
+              <div class="item-title">${esc(event.event_data.agentName)} - ${esc(event.event_data.milestoneType)}</div>
               <div class="item-meta">
                 Value: ${event.event_data.value}<br>
                 Achieved: ${new Date(event.event_data.achievedAt).toLocaleString()}

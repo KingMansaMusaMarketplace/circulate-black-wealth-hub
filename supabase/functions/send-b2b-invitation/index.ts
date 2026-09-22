@@ -3,6 +3,15 @@ import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 /**
  * Send B2B Invitation Edge Function
  * Invites discovered businesses to join the 1325.AI platform.
@@ -155,7 +164,7 @@ const handler = async (req: Request): Promise<Response> => {
                       
                       <p style="color: #cbd5e1; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
                         <strong style="color: #f59e0b;">${sanitizedInviterName}</strong>${sanitizedInviterBusinessName ? ` from <strong style="color: #f59e0b;">${sanitizedInviterBusinessName}</strong>` : ''} 
-                        discovered your business while searching for <strong style="color: #3b82f6;">${category || 'business services'}</strong> suppliers 
+                        discovered your business while searching for <strong style="color: #3b82f6;">${esc(category || 'business services')}</strong> suppliers 
                         and thinks you'd be a great fit for our community!
                       </p>
                       

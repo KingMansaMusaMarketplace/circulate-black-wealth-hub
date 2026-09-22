@@ -202,6 +202,36 @@ Deno.serve(async (req) => {
         return json({ error: "customer_id and trigger_event required" }, 400);
       }
 
+      // The recipient must be a real customer of this business — otherwise a
+      // business owner could hand points/credits to any account on the platform.
+      const { data: priorPoints } = await supabase
+        .from("loyalty_points")
+        .select("id")
+        .eq("business_id", business_id)
+        .eq("customer_id", customer_id)
+        .maybeSingle();
+      if (!priorPoints) {
+        const { data: priorTxn } = await supabase
+          .from("transactions")
+          .select("id")
+          .eq("business_id", business_id)
+          .eq("customer_id", customer_id)
+          .limit(1)
+          .maybeSingle();
+        if (!priorTxn) {
+          const { data: priorScan } = await supabase
+            .from("qr_scans")
+            .select("id")
+            .eq("business_id", business_id)
+            .eq("customer_id", customer_id)
+            .limit(1)
+            .maybeSingle();
+          if (!priorScan) {
+            return json({ error: "Customer is not associated with this business" }, 403);
+          }
+        }
+      }
+
       // Find matching active rules
       const { data: matchingRules } = await supabase
         .from("loyalty_engine_rules")
@@ -247,7 +277,17 @@ Deno.serve(async (req) => {
           .eq("id", rule.id);
       }
 
-      const inputPoints = base_points || 10;
+      // Points per event are fixed server-side (or come from the stored rule) so the
+      // caller cannot dictate how many points an event is worth.
+      const EVENT_BASE_POINTS: Record<string, number> = {
+        qr_scan: 10, review: 25, booking: 20, purchase: 20, referral: 50, check_in: 5,
+      };
+      const ruleBasePoints = Number(
+        (matchingRules || []).map((r: any) => r?.reward_config?.base_points).find((v: any) => Number.isFinite(v)) ?? NaN
+      );
+      const inputPoints = Number.isFinite(ruleBasePoints)
+        ? Math.min(Math.max(Math.round(ruleBasePoints), 0), 500)
+        : (EVENT_BASE_POINTS[String(trigger_event)] ?? 10);
       const totalPoints = Math.round(inputPoints * totalMultiplier) + bonusPoints;
 
       // Update loyalty_points

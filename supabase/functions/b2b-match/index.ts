@@ -122,6 +122,29 @@ serve(async (req) => {
 
     const { need_id } = parseResult.data;
     const supabase = createClient(supabaseUrl, supabaseServiceKey) as any;
+    const callerId = claimsData.user.id;
+
+    const { data: isAdmin } = await supabase.rpc('has_role', { _user_id: callerId, _role: 'admin' });
+
+    // B2B matchmaking is a paid Kayla Pro deliverable — enforce it on the server,
+    // not only in the B2BProGate component.
+    const PRO_TIERS = new Set([
+      'kayla_pro', 'kayla_pro_annual', 'kayla_pro_founders', 'kayla_enterprise',
+      'business_pro_kayla', 'business_pro_kayla_annual',
+    ]);
+    if (!isAdmin) {
+      const { data: subscriber } = await supabase
+        .from('subscribers')
+        .select('subscribed, subscription_tier')
+        .eq('user_id', callerId)
+        .maybeSingle();
+      if (!subscriber?.subscribed || !PRO_TIERS.has(String(subscriber?.subscription_tier ?? ''))) {
+        return new Response(
+          JSON.stringify({ error: 'Kayla AI Pro subscription required for B2B matchmaking.' }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    }
 
     // Get the need details
     const { data: need, error: needError } = await supabase
@@ -138,6 +161,22 @@ serve(async (req) => {
         JSON.stringify({ error: "Need not found" }),
         { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
+    }
+
+    // The need must belong to a business the caller owns or manages.
+    if (!isAdmin) {
+      const { data: ownedNeedBusiness } = await supabase
+        .from('businesses')
+        .select('id')
+        .eq('id', need.business_id)
+        .or(`owner_id.eq.${callerId},location_manager_id.eq.${callerId}`)
+        .maybeSingle();
+      if (!ownedNeedBusiness) {
+        return new Response(
+          JSON.stringify({ error: "Need not found" }),
+          { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
     }
 
     // Get potential suppliers

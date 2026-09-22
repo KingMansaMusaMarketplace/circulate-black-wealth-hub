@@ -3,6 +3,15 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAuth, isServiceRoleCaller, authErrorResponse } from "../_shared/auth-guard.ts";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -165,15 +174,15 @@ function generateCustomerCancellationHTML(data: {
         </div>
         
         <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.customerName},</p>
+          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${esc(data.customerName)},</p>
           
-          <p style="font-size: 16px; margin-bottom: 30px;">Your booking with <strong>${data.businessName}</strong> has been cancelled.</p>
+          <p style="font-size: 16px; margin-bottom: 30px;">Your booking with <strong>${esc(data.businessName)}</strong> has been cancelled.</p>
           
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #EF4444;">
             <h2 style="color: #EF4444; margin-top: 0; font-size: 20px;">Cancelled Booking Details</h2>
             
             <div style="margin: 15px 0;">
-              <strong>Service:</strong> ${data.serviceName}
+              <strong>Service:</strong> ${esc(data.serviceName)}
             </div>
             
             <div style="margin: 15px 0;">
@@ -192,7 +201,7 @@ function generateCustomerCancellationHTML(data: {
           ${data.cancellationReason !== 'No reason provided' ? `
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
             <h3 style="color: #333; margin-top: 0; font-size: 18px;">Cancellation Reason</h3>
-            <p style="margin: 0;">${data.cancellationReason}</p>
+            <p style="margin: 0;">${esc(data.cancellationReason)}</p>
           </div>
           ` : ''}
           
@@ -206,7 +215,7 @@ function generateCustomerCancellationHTML(data: {
             <h3 style="color: #333; margin-top: 0; font-size: 18px;">Need to Reschedule?</h3>
             <p style="margin: 0;">Contact the business directly:</p>
             <div style="margin-top: 10px;">
-              <strong>Phone:</strong> ${data.businessPhone}
+              <strong>Phone:</strong> ${esc(data.businessPhone)}
             </div>
           </div>
           
@@ -243,7 +252,7 @@ function generateBusinessCancellationHTML(data: {
         </div>
         
         <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.businessName},</p>
+          <p style="font-size: 16px; margin-bottom: 20px;">Hello ${esc(data.businessName)},</p>
           
           <p style="font-size: 16px; margin-bottom: 30px;">A booking has been cancelled.</p>
           
@@ -251,7 +260,7 @@ function generateBusinessCancellationHTML(data: {
             <h2 style="color: #F59E0B; margin-top: 0; font-size: 20px;">Customer Information</h2>
             
             <div style="margin: 15px 0;">
-              <strong>Name:</strong> ${data.customerName}
+              <strong>Name:</strong> ${esc(data.customerName)}
             </div>
           </div>
           
@@ -259,7 +268,7 @@ function generateBusinessCancellationHTML(data: {
             <h2 style="color: #F59E0B; margin-top: 0; font-size: 20px;">Booking Details</h2>
             
             <div style="margin: 15px 0;">
-              <strong>Service:</strong> ${data.serviceName}
+              <strong>Service:</strong> ${esc(data.serviceName)}
             </div>
             
             <div style="margin: 15px 0;">
@@ -278,7 +287,7 @@ function generateBusinessCancellationHTML(data: {
           ${data.cancellationReason !== 'No reason provided' ? `
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
             <h3 style="color: #333; margin-top: 0; font-size: 18px;">Cancellation Reason</h3>
-            <p style="margin: 0;">${data.cancellationReason}</p>
+            <p style="margin: 0;">${esc(data.cancellationReason)}</p>
           </div>
           ` : ''}
           

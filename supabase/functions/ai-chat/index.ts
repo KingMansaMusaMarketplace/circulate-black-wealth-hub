@@ -45,7 +45,8 @@ function sanitizeMessages(messages: any[]): { role: string; content: string }[] 
     .filter(msg => msg && typeof msg === 'object' && msg.role && msg.content)
     .slice(0, 50) // Limit number of messages
     .map(msg => ({
-      role: String(msg.role).substring(0, 20),
+      // Callers may only speak as the user or assistant — never 'system'.
+      role: String(msg.role) === 'assistant' ? 'assistant' : 'user',
       content: sanitizeForPrompt(String(msg.content))
     }));
 }

@@ -5,7 +5,8 @@ import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.t
 
 // Zod schema for message validation - prevents DoS and ensures proper structure
 const messageSchema = z.object({
-  role: z.enum(['user', 'assistant', 'system']),
+  // Callers may only speak as the user or assistant — the server owns the system prompt.
+  role: z.enum(['user', 'assistant']),
   content: z.string().min(1, 'Message content cannot be empty').max(10000, 'Message content too long'),
 });
 

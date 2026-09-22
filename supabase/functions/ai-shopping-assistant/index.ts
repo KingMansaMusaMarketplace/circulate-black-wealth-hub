@@ -2,6 +2,24 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt } from "../_shared/kayla-brain.ts";
 
+// Simple per-caller throttle so the public shopping assistant cannot be used
+// to burn paid AI credits. Guests get a small allowance; signed-in users more.
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+const GUEST_LIMIT = 12;
+const USER_LIMIT = 60;
+const rateBuckets = new Map<string, { count: number; resetAt: number }>();
+function allowRequest(key: string, limit: number): boolean {
+  const now = Date.now();
+  const bucket = rateBuckets.get(key);
+  if (!bucket || now > bucket.resetAt) {
+    rateBuckets.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return true;
+  }
+  if (bucket.count >= limit) return false;
+  bucket.count += 1;
+  return true;
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-csrf-token",
@@ -111,6 +129,14 @@ serve(async (req) => {
       } catch { /* anonymous */ }
     }
 
+    const callerIp = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "unknown";
+    if (!allowRequest(userId ? `u:${userId}` : `ip:${callerIp}`, userId ? USER_LIMIT : GUEST_LIMIT)) {
+      return new Response(JSON.stringify({ error: "Too many requests. Please wait a few minutes or sign in." }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // Pull the user's most recent message and extract intent
     const lastUser = [...messages].reverse().find((m: any) => m.role === "user")?.content || "";
     const { city, state, keywords } = extractSearchSignals(String(lastUser));
@@ -213,7 +239,11 @@ INSTRUCTIONS:
         model: "google/gemini-3.7-flash",
         messages: [
           { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() },
-          ...messages.slice(-10),
+          // Callers may only speak as the user or assistant — never 'system'.
+          ...messages.slice(-10).map((m: any) => ({
+            role: m?.role === "assistant" ? "assistant" : "user",
+            content: String(m?.content ?? "").slice(0, 10000),
+          })),
         ],
         stream: true,
       }),
