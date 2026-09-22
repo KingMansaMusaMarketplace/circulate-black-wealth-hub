@@ -102,13 +102,15 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
               </div>
             )}
             
-            <div className="flex items-start gap-3">
-              <MapPin size={18} className="text-primary mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-medium">Address</p>
-                <p className="text-muted-foreground">{business.address}, {business.city}, {business.state}</p>
+            {locationLine && (
+              <div className="flex items-start gap-3">
+                <MapPin size={18} className="text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-medium">{street ? 'Address' : 'Location'}</p>
+                  <p className="text-muted-foreground">{locationLine}</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         
