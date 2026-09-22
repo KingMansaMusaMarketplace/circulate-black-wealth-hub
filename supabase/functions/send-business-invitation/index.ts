@@ -3,6 +3,15 @@ import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { requireAuth, isServiceRoleCaller, authErrorResponse, escapeHtml } from "../_shared/auth-guard.ts";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
@@ -93,12 +102,12 @@ const handler = async (req: Request): Promise<Response> => {
 
           <div style="background: linear-gradient(135deg, #1a365d 0%, #2d4a6f 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 30px;">
             <h2 style="margin: 0 0 10px 0; font-size: 24px;">You're Invited! 🎉</h2>
-            ${businessName ? `<p style="margin: 0; opacity: 0.9;">for ${businessName}</p>` : ""}
+            ${businessName ? `<p style="margin: 0; opacity: 0.9;">for ${esc(businessName)}</p>` : ""}
           </div>
 
-          <p>Hello${businessName ? ` from ${businessName}` : ""},</p>
+          <p>Hello${businessName ? ` from ${esc(businessName)}` : ""},</p>
 
-          <p>${inviterName || "A community member"} thinks your business would be a great addition to <strong>1325.AI</strong> - the growing platform connecting customers with community businesses across the country.</p>
+          <p>${esc(inviterName || "A community member")} thinks your business would be a great addition to <strong>1325.AI</strong> - the growing platform connecting customers with community businesses across the country.</p>
 
           ${personalMessage}
 
@@ -124,7 +133,7 @@ const handler = async (req: Request): Promise<Response> => {
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
 
           <p style="color: #888; font-size: 12px; text-align: center;">
-            This invitation was sent by ${inviterName || "a member"} of 1325.AI.<br/>
+            This invitation was sent by ${esc(inviterName || "a member")} of 1325.AI.<br/>
             If you believe this was sent in error, you can safely ignore this email.
           </p>
 

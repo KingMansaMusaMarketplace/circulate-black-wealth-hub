@@ -2,6 +2,15 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -159,14 +168,14 @@ const handler = async (req: Request): Promise<Response> => {
       htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #1E40AF;">QR Code Scanned! 📱</h1>
-          <p>Hi ${agentName},</p>
+          <p>Hi ${esc(agentName)},</p>
           <p>Great news! Your referral QR code was just scanned.</p>
           
           <div style="background: #F3F4F6; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="margin-top: 0;">Scan Details:</h3>
             <p><strong>Date & Time:</strong> ${new Date(scan.scanned_at).toLocaleString()}</p>
-            <p><strong>Referral Code:</strong> ${scan.referral_code}</p>
-            ${scan.ip_address ? `<p><strong>Location:</strong> ${scan.ip_address}</p>` : ''}
+            <p><strong>Referral Code:</strong> ${esc(scan.referral_code)}</p>
+            ${scan.ip_address ? `<p><strong>Location:</strong> ${esc(scan.ip_address)}</p>` : ''}
           </div>
           
           <p>The person who scanned your QR code is now viewing your referral signup page. Fingers crossed for a conversion! 🤞</p>
@@ -189,14 +198,14 @@ const handler = async (req: Request): Promise<Response> => {
       htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #10B981;">Conversion Success! 🎉</h1>
-          <p>Hi ${agentName},</p>
+          <p>Hi ${esc(agentName)},</p>
           <p><strong>Congratulations!</strong> A QR code scan has converted into a new signup!</p>
           
           <div style="background: #D1FAE5; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #10B981;">
             <h3 style="margin-top: 0; color: #065F46;">Conversion Details:</h3>
             <p><strong>Scanned:</strong> ${new Date(scan.scanned_at).toLocaleString()}</p>
             <p><strong>Converted:</strong> ${scan.converted_at ? new Date(scan.converted_at).toLocaleString() : 'Just now'}</p>
-            <p><strong>Referral Code:</strong> ${scan.referral_code}</p>
+            <p><strong>Referral Code:</strong> ${esc(scan.referral_code)}</p>
           </div>
           
           <p>This new signup will count towards your referral commissions. Keep up the great work!</p>

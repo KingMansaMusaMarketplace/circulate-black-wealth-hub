@@ -2,6 +2,15 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -113,22 +122,22 @@ const handler = async (req: Request): Promise<Response> => {
                 <h3 style="margin-top: 0; color: #92400e;">Requester Information</h3>
                 <div class="info-row">
                   <span class="label">Name:</span>
-                  <span class="value">${fullName}</span>
+                  <span class="value">${esc(fullName)}</span>
                 </div>
                 <div class="info-row">
                   <span class="label">Email:</span>
-                  <span class="value"><a href="mailto:${email}">${email}</a></span>
+                  <span class="value"><a href="mailto:${encodeURIComponent(String(email))}">${esc(email)}</a></span>
                 </div>
                 ${company ? `
                 <div class="info-row">
                   <span class="label">Company:</span>
-                  <span class="value">${company}</span>
+                  <span class="value">${esc(company)}</span>
                 </div>
                 ` : ''}
                 ${role ? `
                 <div class="info-row">
                   <span class="label">Role:</span>
-                  <span class="value">${role}</span>
+                  <span class="value">${esc(role)}</span>
                 </div>
                 ` : ''}
                 <div class="info-row">
@@ -139,7 +148,7 @@ const handler = async (req: Request): Promise<Response> => {
 
               <div class="reason-box">
                 <h4 style="margin-top: 0; color: #4b5563;">Reason for Request:</h4>
-                <p style="margin-bottom: 0;">${reason}</p>
+                <p style="margin-bottom: 0;">${esc(reason)}</p>
               </div>
 
               <p><strong>Action Required:</strong> Please review this request and approve or deny access.</p>
@@ -194,7 +203,7 @@ const handler = async (req: Request): Promise<Response> => {
               <p style="margin: 0; opacity: 0.9;">1325.AI Media Kit</p>
             </div>
             <div class="content">
-              <p>Hi ${fullName},</p>
+              <p>Hi ${esc(fullName)},</p>
               
               <p>Thank you for your interest in the 1325.AI <strong>${documentLabel}</strong>.</p>
               
