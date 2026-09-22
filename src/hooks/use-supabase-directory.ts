@@ -33,6 +33,7 @@ interface SupabaseBusiness {
   is_founding_sponsor: boolean | null;
   category_group?: string | null;
   country?: string | null;
+  phone?: string | null;
   total_count: number;
 }
 
@@ -52,7 +53,7 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     state: business.state || '',
     country: business.country || '',
     zipCode: business.zip_code || '',
-    phone: '',
+    phone: business.phone || '',
     email: '',
     website: business.website || '',
     logoUrl: logoUrl,
