@@ -124,6 +124,14 @@ const HomePage: React.FC = () => {
 
               <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
                 <Link
+                  to="/what-kayla-does"
+                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
+                >
+                  <Sparkles className="w-4 h-4 text-mansagold" aria-hidden="true" />
+                  Deploy Kayla
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </Link>
+                <Link
                   to="/investors"
                   className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
                 >
