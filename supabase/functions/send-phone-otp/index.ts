@@ -63,7 +63,9 @@ serve(async (req) => {
     }
 
     // Generate 6-digit OTP
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpBytes = new Uint32Array(1);
+    crypto.getRandomValues(otpBytes);
+    const otpCode = (100000 + (otpBytes[0] % 900000)).toString();
 
     // Hash the OTP using SHA-256 before storing
     const encoder = new TextEncoder();

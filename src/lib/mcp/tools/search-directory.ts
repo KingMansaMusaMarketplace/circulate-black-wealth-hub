@@ -156,7 +156,12 @@ export default defineTool({
     const applyFilters = (base: any): any => {
       let b = base;
       if (query) {
-        b = b.or(`business_name.ilike.%${query}%,description.ilike.%${query}%`);
+        // Strip PostgREST filter metacharacters so a caller cannot break out of
+        // the `.or()` expression and craft their own filter.
+        const safeQuery = String(query).replace(/[,()\\%*"']/g, ' ').trim().slice(0, 100);
+        if (safeQuery) {
+          b = b.or(`business_name.ilike.%${safeQuery}%,description.ilike.%${safeQuery}%`);
+        }
       }
       if (category) b = b.ilike("category", `%${category}%`);
       if (city) b = b.ilike("city", `%${city}%`);
