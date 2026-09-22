@@ -187,6 +187,8 @@ const HomePage: React.FC = () => {
           </div>
         </section>
 
+        {/* Why people buy: trust, standing, belonging */}
+        <WhyBuyBand />
 
         {/* Corporate partner wall — shows live partners and open slots */}
         <SponsorWallStrip openSlots={2} />
