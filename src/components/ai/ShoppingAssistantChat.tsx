@@ -264,7 +264,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => voice.setEnabled(!voice.enabled)}
+              onClick={() => { voice.cancelStream(); voice.setEnabled(!voice.enabled); }}
               aria-pressed={voice.enabled}
               className={`h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20 ${voice.enabled ? '' : 'opacity-60'}`}
               aria-label={voice.enabled ? 'Turn off voice replies' : 'Turn on voice replies'}
