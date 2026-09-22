@@ -56,9 +56,9 @@ const CookieConsentBanner: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="fixed bottom-0 left-0 right-0 z-[9999] p-2 sm:p-4 md:p-6"
+          className="fixed bottom-0 left-0 right-0 z-[9999] p-2 sm:p-4 md:p-6 pointer-events-none"
         >
-          <div className="relative max-w-4xl mx-auto bg-card border border-border rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+          <div className="pointer-events-auto relative max-w-4xl mx-auto bg-card border border-border rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
             <Cookie className="h-8 w-8 text-primary shrink-0 hidden sm:block" />
 
             <div className="flex-1 text-xs sm:text-sm text-muted-foreground pr-6 sm:pr-0">
