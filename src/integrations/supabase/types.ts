@@ -28281,6 +28281,7 @@ export type Database = {
           website_url: string
         }[]
       }
+      zzz_is_priv_actor: { Args: never; Returns: boolean }
     }
     Enums: {
       answering_action: "answered_faq" | "took_message" | "forwarded"
