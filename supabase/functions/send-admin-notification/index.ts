@@ -2,6 +2,15 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
+const esc = (value: unknown): string =>
+  String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -187,11 +196,11 @@ const handler = async (req: Request): Promise<Response> => {
                     <h3>Business Details</h3>
                     <div class="info-row">
                       <span class="label">Business Name:</span>
-                      <span class="value">${data.businessName}</span>
+                      <span class="value">${esc(data.businessName)}</span>
                     </div>
                     <div class="info-row">
                       <span class="label">Owner Email:</span>
-                      <span class="value">${data.ownerEmail || 'Not provided'}</span>
+                      <span class="value">${esc(data.ownerEmail || 'Not provided')}</span>
                     </div>
                     <div class="info-row">
                       <span class="label">Business ID:</span>
@@ -271,16 +280,16 @@ const handler = async (req: Request): Promise<Response> => {
                 <div class="content">
                   <div class="milestone-box">
                     <div style="font-size: 48px;">${emoji}</div>
-                    <div class="milestone-title">${milestoneDesc}</div>
+                    <div class="milestone-title">${esc(milestoneDesc)}</div>
                     <p style="color: #059669; font-weight: 600;">Congratulations!</p>
                   </div>
                   <p>Great news! One of your sales agents has reached an important milestone.</p>
                   <div class="info-box">
                     <h3>Agent Details</h3>
-                    <div class="info-row"><span class="label">Agent Name:</span><span class="value">${data.agentName}</span></div>
-                    <div class="info-row"><span class="label">Email:</span><span class="value">${data.agentEmail}</span></div>
-                    <div class="info-row"><span class="label">Milestone Type:</span><span class="value">${milestoneDesc}</span></div>
-                    <div class="info-row"><span class="label">Current Value:</span><span class="value">${data.milestoneValue}</span></div>
+                    <div class="info-row"><span class="label">Agent Name:</span><span class="value">${esc(data.agentName)}</span></div>
+                    <div class="info-row"><span class="label">Email:</span><span class="value">${esc(data.agentEmail)}</span></div>
+                    <div class="info-row"><span class="label">Milestone Type:</span><span class="value">${esc(milestoneDesc)}</span></div>
+                    <div class="info-row"><span class="label">Current Value:</span><span class="value">${esc(data.milestoneValue)}</span></div>
                   </div>
                   <p><strong>Consider:</strong></p>
                   <ul>
