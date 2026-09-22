@@ -41,31 +41,36 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
               lat={business.lat}
               lng={business.lng}
               businessName={business.name}
-              address={business.address}
-              city={business.city}
-              state={business.state}
+              address={street}
+              city={city}
+              state={state}
               country={business.country}
             />
           ) : (
             <div className="h-80 bg-gradient-to-br from-muted to-muted/50 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <MapPin size={48} className="text-muted-foreground mx-auto mb-2" />
-                <p className="text-muted-foreground">Address not available</p>
+                <p className="text-muted-foreground">Location not listed yet</p>
               </div>
             </div>
           )}
-          <div className="text-center mt-4">
-            <p className="text-muted-foreground mb-4">{business.address}, {business.city}, {business.state} {business.zipCode}</p>
-            <a 
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-primary hover:underline"
-            >
-              <MapPin size={16} className="mr-1" />
-              Get Directions
-            </a>
-          </div>
+          {locationLine && (
+            <div className="text-center mt-4">
+              <p className="text-muted-foreground mb-1">{fullLocationLine}</p>
+              {!street && (
+                <p className="text-xs text-muted-foreground/70 mb-3">Street address not listed</p>
+              )}
+              <a 
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.name}, ${locationLine}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-primary hover:underline"
+              >
+                <MapPin size={16} className="mr-1" />
+                Get Directions
+              </a>
+            </div>
+          )}
         </div>
       </div>
       
