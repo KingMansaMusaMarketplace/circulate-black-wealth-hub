@@ -329,7 +329,10 @@ const ShoppingAssistantChatInner: React.FC = () => {
                     {voice.available && (
                       <button
                         type="button"
-                        onClick={() => (voice.isSpeaking ? voice.stop() : voice.speak(msg.content))}
+                        onClick={() => {
+                          if (voice.isSpeaking) { voice.cancelStream(); voice.stop(); }
+                          else voice.speak(msg.content);
+                        }}
                         className="mt-1 inline-flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors"
                         aria-label={voice.isSpeaking ? 'Stop Kayla speaking' : 'Hear this answer'}
                       >
