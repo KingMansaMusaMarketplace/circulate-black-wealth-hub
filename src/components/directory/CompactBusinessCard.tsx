@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { getBusinessCardImage } from '@/utils/businessBanners';
 
 interface CompactBusinessCardProps {
@@ -97,10 +98,10 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
         </div>
 
         {/* Address */}
-        {business.address && (
+        {formatBusinessLocation(business.address, business.city, business.state, (business as any).country) && (
           <p className="text-xs text-gray-400 mt-1.5 truncate">
             <MapPin className="w-3 h-3 inline mr-1 text-mansagold/50" />
-            {business.address}{business.city || business.state ? `, ${[business.city, business.state].filter(Boolean).join(', ')}` : ''}
+            {formatBusinessLocation(business.address, business.city, business.state, (business as any).country)}
           </p>
         )}
 

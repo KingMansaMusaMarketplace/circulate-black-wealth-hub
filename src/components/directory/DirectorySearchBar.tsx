@@ -4,6 +4,7 @@ import { Search, SlidersHorizontal, Grid, List, Map, Navigation, Loader2, X, Spa
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { LocationData } from '@/hooks/location/types';
 import { searchBusinesses } from '@/lib/api/directory-api';
 import { Business } from '@/types/business';
@@ -176,8 +177,8 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
                       <div>
                         <div className="font-medium text-sm">{business.name}</div>
                         <div className="text-xs text-gray-500">{business.category}</div>
-                        {business.address && (
-                          <div className="text-xs text-gray-400 mt-1">{business.address}</div>
+                        {formatBusinessLocation(business.address, (business as any).city, (business as any).state, (business as any).country) && (
+                          <div className="text-xs text-gray-400 mt-1">{formatBusinessLocation(business.address, (business as any).city, (business as any).state, (business as any).country)}</div>
                         )}
                       </div>
                       {business.isFeatured && (

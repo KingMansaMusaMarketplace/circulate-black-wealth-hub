@@ -4,6 +4,7 @@ import { MapPin, Star, ArrowRight, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { cleanField } from '@/utils/format-location';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
@@ -91,10 +92,10 @@ const BusinessCard = ({
           {description}
         </CardDescription>
         
-        {address && (
+        {cleanField(address) && (
           <div className="flex items-center text-base text-gray-200 mb-2">
             <MapPin className="h-4 w-4 mr-1.5 flex-shrink-0 text-mansagold/70" />
-            <span className="truncate">{address}</span>
+            <span className="truncate">{cleanField(address)}</span>
           </div>
         )}
         

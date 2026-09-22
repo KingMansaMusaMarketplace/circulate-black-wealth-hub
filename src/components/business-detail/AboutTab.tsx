@@ -2,13 +2,19 @@ import React from 'react';
 import { Calendar, Users, MapPin, Clock, Phone, Globe } from 'lucide-react';
 import { Business } from '@/types/business';
 import BusinessLocationMap from './BusinessLocationMap';
+import { cleanField, formatBusinessLocation } from '@/utils/format-location';
 
 interface AboutTabProps {
   business: Business;
 }
 
 const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
-  const hasAddress = business.address && business.city && business.state;
+  const street = cleanField(business.address);
+  const city = cleanField(business.city);
+  const state = cleanField(business.state);
+  const hasAddress = Boolean(city && state);
+  const locationLine = formatBusinessLocation(business.address, business.city, business.state, business.country);
+  const fullLocationLine = [locationLine, cleanField(business.zipCode)].filter(Boolean).join(' ');
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -35,31 +41,36 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
               lat={business.lat}
               lng={business.lng}
               businessName={business.name}
-              address={business.address}
-              city={business.city}
-              state={business.state}
+              address={street}
+              city={city}
+              state={state}
               country={business.country}
             />
           ) : (
             <div className="h-80 bg-gradient-to-br from-muted to-muted/50 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <MapPin size={48} className="text-muted-foreground mx-auto mb-2" />
-                <p className="text-muted-foreground">Address not available</p>
+                <p className="text-muted-foreground">Location not listed yet</p>
               </div>
             </div>
           )}
-          <div className="text-center mt-4">
-            <p className="text-muted-foreground mb-4">{business.address}, {business.city}, {business.state} {business.zipCode}</p>
-            <a 
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-primary hover:underline"
-            >
-              <MapPin size={16} className="mr-1" />
-              Get Directions
-            </a>
-          </div>
+          {locationLine && (
+            <div className="text-center mt-4">
+              <p className="text-muted-foreground mb-1">{fullLocationLine}</p>
+              {!street && (
+                <p className="text-xs text-muted-foreground/70 mb-3">Street address not listed</p>
+              )}
+              <a 
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.name}, ${locationLine}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-primary hover:underline"
+              >
+                <MapPin size={16} className="mr-1" />
+                Get Directions
+              </a>
+            </div>
+          )}
         </div>
       </div>
       
@@ -91,13 +102,15 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
               </div>
             )}
             
-            <div className="flex items-start gap-3">
-              <MapPin size={18} className="text-primary mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-medium">Address</p>
-                <p className="text-muted-foreground">{business.address}, {business.city}, {business.state}</p>
+            {locationLine && (
+              <div className="flex items-start gap-3">
+                <MapPin size={18} className="text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-medium">{street ? 'Address' : 'Location'}</p>
+                  <p className="text-muted-foreground">{locationLine}</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         

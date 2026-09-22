@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { QrCode, MapPin, Star, Share2, Calendar, ArrowLeft } from 'lucide-react';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { Business } from '@/types/business';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 import CheckInButton from './CheckInButton';
@@ -77,10 +78,12 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
                 <span className="ml-2 text-sm text-gray-600">{business.rating} ({business.reviewCount} reviews)</span>
               </div>
             </div>
-            <div className="flex items-center text-sm text-gray-500 mb-4">
-              <MapPin size={16} className="mr-1" />
-              {business.address}, {business.city}, {business.state}
-            </div>
+            {formatBusinessLocation(business.address, business.city, business.state, (business as any).country) && (
+              <div className="flex items-center text-sm text-gray-500 mb-4">
+                <MapPin size={16} className="mr-1" />
+                {formatBusinessLocation(business.address, business.city, business.state, (business as any).country)}
+              </div>
+            )}
           </div>
           
           <div className="flex flex-wrap items-center gap-2">

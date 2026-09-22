@@ -10,6 +10,7 @@ import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 import { motion } from 'framer-motion';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { trackFeaturedEvent } from '@/lib/featured-tracking';
 
 interface PremiumBusinessCardProps {
@@ -183,11 +184,11 @@ const PremiumBusinessCard = ({
               {description}
             </CardDescription>
             
-            {address && (
+            {formatBusinessLocation(address, city, state) && (
               <div className="flex items-center text-base text-gray-300 mb-2 group-hover:text-gray-200 transition-colors">
                 <MapPin className="h-4 w-4 mr-1.5 flex-shrink-0 text-mansagold/70" />
                 <span className="truncate">
-                  {address}{city || state ? `, ${[city, state].filter(Boolean).join(', ')}` : ''}
+                  {formatBusinessLocation(address, city, state)}
                 </span>
               </div>
             )}

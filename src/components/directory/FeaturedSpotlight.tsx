@@ -4,6 +4,7 @@ import { Star, MapPin, ArrowRight, Sparkles, Crown, ChevronLeft, ChevronRight } 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import OptimizedImage from '@/components/ui/optimized-image';
+import { formatBusinessLocation } from '@/utils/format-location';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Business } from '@/types/business';
@@ -94,10 +95,10 @@ const FeaturedSpotlightCard: React.FC<{ business: Business }> = ({ business }) =
                 <span className="text-white font-semibold">{business.rating}</span>
                 <span className="ml-1 text-gray-400">({business.reviewCount} reviews)</span>
               </div>
-              {business.address && (
+              {formatBusinessLocation(business.address, business.city, business.state, (business as any).country) && (
                 <div className="flex items-center">
                   <MapPin className="h-4 w-4 text-mansagold/70 mr-1" />
-                  <span className="truncate max-w-[200px]">{business.address}</span>
+                  <span className="truncate max-w-[200px]">{formatBusinessLocation(business.address, business.city, business.state, (business as any).country)}</span>
                 </div>
               )}
             </div>
