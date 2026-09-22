@@ -128,13 +128,14 @@ serve(async (req) => {
     }
 
 
-    // Validate event structure after signature verification
+    // Validate event structure after signature verification.
+    // Never fail the delivery for this: Stripe would retry forever.
     const validation = validateWebhookEvent(event);
     if (!validation.valid) {
       console.error(`Webhook event validation failed: ${validation.error}`);
       return new Response(
-        JSON.stringify({ error: `Invalid event structure: ${validation.error}` }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        JSON.stringify({ received: true, ignored: `Invalid event structure: ${validation.error}` }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -145,6 +146,8 @@ serve(async (req) => {
 
     console.log(`Processing webhook event: ${event.type}`);
 
+    // All handling runs in the background so Stripe always gets a fast 200.
+    const processEvent = async () => {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
@@ -695,6 +698,18 @@ serve(async (req) => {
 
       default:
         console.log(`Unhandled event type: ${event.type}`);
+    }
+    };
+
+    const background = processEvent().catch((err) => {
+      console.error(`Background processing failed for ${event.type}:`, err);
+    });
+    // @ts-ignore EdgeRuntime is provided by the Supabase edge runtime
+    if (typeof EdgeRuntime !== "undefined" && EdgeRuntime?.waitUntil) {
+      // @ts-ignore
+      EdgeRuntime.waitUntil(background);
+    } else {
+      await background;
     }
 
     return new Response(JSON.stringify({ received: true }), {
