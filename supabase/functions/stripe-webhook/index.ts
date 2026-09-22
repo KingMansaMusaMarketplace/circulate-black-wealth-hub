@@ -699,6 +699,18 @@ serve(async (req) => {
       default:
         console.log(`Unhandled event type: ${event.type}`);
     }
+    };
+
+    const background = processEvent().catch((err) => {
+      console.error(`Background processing failed for ${event.type}:`, err);
+    });
+    // @ts-ignore EdgeRuntime is provided by the Supabase edge runtime
+    if (typeof EdgeRuntime !== "undefined" && EdgeRuntime?.waitUntil) {
+      // @ts-ignore
+      EdgeRuntime.waitUntil(background);
+    } else {
+      await background;
+    }
 
     return new Response(JSON.stringify({ received: true }), {
       status: 200,
