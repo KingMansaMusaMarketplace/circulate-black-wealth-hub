@@ -5,6 +5,7 @@
 // Google: no ping API anymore — Google auto-recrawls submitted sitemaps every few days.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 
 const SITE_URL = "https://1325.ai";
 const INDEXNOW_KEY = "c583cef06a2040428e892d8d8f766627";
@@ -22,6 +23,10 @@ const corsHeaders = {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  // Only the scheduled job (CRON_SECRET / service role) or an admin may trigger this.
+  const auth = await requireAdminOrCron(req, corsHeaders);
+  if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
 
   const startedAt = Date.now();
   const supabase = createClient(
