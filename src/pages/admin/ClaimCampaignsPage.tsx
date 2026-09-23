@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Mail, Plus, Send, RefreshCw, Users } from 'lucide-react';
+import CampaignRecipientsDialog from '@/components/admin/CampaignRecipientsDialog';
 
 interface Campaign {
   id: string;
@@ -247,7 +248,8 @@ const ClaimCampaignsPage: React.FC = () => {
                       {c.last_run_at && <span className="text-foreground/60">Last run {new Date(c.last_run_at).toLocaleString()}</span>}
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    <CampaignRecipientsDialog source={{ kind: 'claim', campaignId: c.id }} title={c.name} />
                     <Button
                       variant="outline"
                       disabled={busy === c.id}
