@@ -11,8 +11,6 @@ import meetKaylaVideo from '@/assets/meet-kayla-upgraded.mp4.asset.json';
 // The WKWebView crashes when the WebRTC voice stack initializes,
 // so the entire section is omitted on iOS (also satisfies App Store review).
 const MeetKaylaSection: React.FC = () => {
-  const { platform } = useCapacitor();
-  if (platform === 'ios') return null;
   return <MeetKaylaSectionInner />;
 };
 

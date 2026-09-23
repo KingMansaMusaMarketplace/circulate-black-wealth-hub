@@ -43,8 +43,7 @@ function readStoredPreference(): boolean {
 }
 
 export function useKaylaVoice() {
-  const isNativeIOS =
-    typeof window !== 'undefined' && window.Capacitor?.getPlatform?.() === 'ios';
+  const isNativeIOS = false; // voice enabled on iOS
 
   const [enabled, setEnabledState] = useState<boolean>(() => !isNativeIOS && readStoredPreference());
   const [isSpeaking, setIsSpeaking] = useState(false);

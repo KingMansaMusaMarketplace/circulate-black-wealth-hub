@@ -48,9 +48,7 @@ const saveStoredMessages = (messages: Message[]) => {
 };
 
 const ShoppingAssistantChat: React.FC = () => {
-  const { platform } = useCapacitor();
-  // CRITICAL iOS: Hide floating "Ask Kayla" widget on iOS to prevent crashes & App Store rejection.
-  if (platform === 'ios') return null;
+  // iOS enabled: microphone permission text is declared in Info.plist.
   return <ShoppingAssistantChatInner />;
 };
 
