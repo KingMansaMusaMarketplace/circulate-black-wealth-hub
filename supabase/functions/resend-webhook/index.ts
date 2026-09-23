@@ -134,6 +134,29 @@ const handler = async (req: Request): Promise<Response> => {
       console.log(`Successfully recorded ${eventType} event for ${recipientEmail}`);
     }
 
+    // Campaign tracking: claim invites + Holiday Special sends
+    if (emailId && ["opened", "clicked", "bounced", "complained"].includes(eventType)) {
+      const now = new Date().toISOString();
+      const col = eventType === "opened" ? "opened_at" : eventType === "clicked" ? "clicked_at" : "bounced_at";
+      for (const table of ["business_claim_invites", "holiday_campaign_sends"]) {
+        const { error } = await supabase.from(table).update({ [col]: now }).eq("resend_id", emailId).is(col, null);
+        if (error) console.error(`[resend-webhook] ${table} update failed:`, error.message);
+      }
+      // A click implies an open
+      if (eventType === "clicked") {
+        for (const table of ["business_claim_invites", "holiday_campaign_sends"]) {
+          await supabase.from(table).update({ opened_at: now }).eq("resend_id", emailId).is("opened_at", null);
+        }
+      }
+      // Bad address or spam complaint: never email again
+      if ((eventType === "bounced" || eventType === "complained") && recipientEmail) {
+        await supabase.from("claim_email_optouts").upsert(
+          { email: recipientEmail.trim().toLowerCase(), reason: eventType },
+          { onConflict: "email", ignoreDuplicates: true },
+        );
+      }
+    }
+
     // Update lead if this is an open or click event
     if (leadId && (eventType === "opened" || eventType === "clicked")) {
       const updateField = eventType === "opened" ? "invitation_opened_at" : "invitation_clicked_at";

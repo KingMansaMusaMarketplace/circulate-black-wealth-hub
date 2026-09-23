@@ -176,7 +176,7 @@ serve(async (req: Request): Promise<Response> => {
         if (invErr) throw new Error(invErr.message);
 
 
-        const { error: sendErr } = await resend.emails.send({
+        const { data: sendData, error: sendErr } = await resend.emails.send({
           from: FROM,
           to: [email],
           subject: `${biz.business_name} is listed on 1325.AI — claim it free`,
@@ -196,6 +196,8 @@ serve(async (req: Request): Promise<Response> => {
           business_id: biz.id,
           email,
           status: "sent",
+          sent_at: new Date().toISOString(),
+          resend_id: (sendData as any)?.id ?? null,
         });
         sent++;
       } catch (e) {
