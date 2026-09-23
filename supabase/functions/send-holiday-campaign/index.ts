@@ -118,7 +118,13 @@ serve(async (req) => {
       const { data: recipients, error } = await supabase.rpc("get_holiday_campaign_recipients", { _wave: wave, _limit: limit });
       if (error) throw error;
       let sent = 0, failed = 0, stopped = false;
-      for (const r of recipients ?? []) {
+      const all = (recipients ?? []) as any[];
+      const lower = [...new Set(all.map((r) => String(r.email).trim().toLowerCase()))];
+      const { data: blockedRows } = lower.length
+        ? await supabase.from("claim_email_optouts").select("email").in("email", lower)
+        : { data: [] as any[] };
+      const blocked = new Set((blockedRows ?? []).map((b: any) => b.email));
+      for (const r of all.filter((x) => !blocked.has(String(x.email).trim().toLowerCase()))) {
         const tok = await unsubUrlFor(supabase, r.email);
         const unsub = `${SITE}/unsubscribe?token=${tok}`;
         const oneClick = `${Deno.env.get("SUPABASE_URL")}/functions/v1/handle-email-unsubscribe?token=${tok}`;
