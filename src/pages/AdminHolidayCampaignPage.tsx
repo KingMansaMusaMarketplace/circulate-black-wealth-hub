@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import CampaignRecipientsDialog from "@/components/admin/CampaignRecipientsDialog";
 
 type Stats = { eligible: number; unsubscribed: number; waves: Record<string, { sent: number; failed: number }> };
 const WAVE_NAMES: Record<number, string> = { 1: "Launch (Oct 1)", 2: "Reminder (mid-Nov)", 3: "Last chance (~Dec 15)" };
@@ -43,7 +44,10 @@ export default function AdminHolidayCampaignPage() {
 
   return (
     <main className="mx-auto max-w-3xl space-y-6 p-6">
-      <h1 className="text-3xl font-bold">Holiday Special email campaign</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-3xl font-bold">Holiday Special email campaign</h1>
+        <CampaignRecipientsDialog source={{ kind: 'holiday' }} title="Holiday Special" triggerClassName="" />
+      </div>
       <p className="text-muted-foreground">Pro at $149/mo locked forever · sign-ups Oct 1 – Dec 31. Send in daily batches to protect deliverability.</p>
 
       <Card>

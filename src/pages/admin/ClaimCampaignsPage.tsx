@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Mail, Plus, Send, RefreshCw, Users } from 'lucide-react';
+import CampaignRecipientsDialog from '@/components/admin/CampaignRecipientsDialog';
 
 interface Campaign {
   id: string;
