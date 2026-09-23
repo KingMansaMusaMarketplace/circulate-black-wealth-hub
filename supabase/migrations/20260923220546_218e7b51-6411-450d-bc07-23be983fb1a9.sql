@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.mark_claim_invite_claimed() FROM PUBLIC, anon, authenticated;
