@@ -10080,6 +10080,39 @@ export type Database = {
           },
         ]
       }
+      holiday_campaign_sends: {
+        Row: {
+          business_id: string | null
+          created_at: string
+          email: string
+          error: string | null
+          id: string
+          resend_id: string | null
+          status: string
+          wave: number
+        }
+        Insert: {
+          business_id?: string | null
+          created_at?: string
+          email: string
+          error?: string | null
+          id?: string
+          resend_id?: string | null
+          status?: string
+          wave: number
+        }
+        Update: {
+          business_id?: string | null
+          created_at?: string
+          email?: string
+          error?: string | null
+          id?: string
+          resend_id?: string | null
+          status?: string
+          wave?: number
+        }
+        Relationships: []
+      }
       host_applications: {
         Row: {
           admin_notes: string | null
@@ -27271,6 +27304,16 @@ export type Database = {
           verified_by: string
         }[]
       }
+      get_holiday_campaign_recipients: {
+        Args: { _limit: number; _wave: number }
+        Returns: {
+          business_id: string
+          business_name: string
+          city: string
+          email: string
+        }[]
+      }
+      get_holiday_campaign_stats: { Args: never; Returns: Json }
       get_impact_leaderboard: { Args: { p_limit?: number }; Returns: Json }
       get_invitation_by_token: {
         Args: { p_token: string }

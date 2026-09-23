@@ -143,6 +143,8 @@ const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
 const LazyUnsubscribePage = lazy(() => import('@/pages/UnsubscribePage'));
+const LazyHolidaySpecialPage = lazy(() => import('@/pages/HolidaySpecialPage'));
+const LazyAdminHolidayCampaignPage = lazy(() => import('@/pages/AdminHolidayCampaignPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyErrorPage = lazy(() => import('@/pages/ErrorPage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
@@ -595,6 +597,8 @@ function App() {
                               <Route path="/admin/security-autopilot" element={<RequireAdmin><LazySecurityAutopilotPage /></RequireAdmin>} />
 <Route path="/admin/enterprise-partners" element={<RequireAdmin><LazyEnterprisePartnersAdminPage /></RequireAdmin>} />
                               <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
+                        <Route path="/admin/holiday-campaign" element={<RequireAdmin><LazyAdminHolidayCampaignPage /></RequireAdmin>} />
+                              <Route path="/admin/holiday-campaign" element={<RequireAdmin><LazyAdminHolidayCampaignPage /></RequireAdmin>} />
                               <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                               <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
                               <Route path="/admin/marketing-analytics" element={<RequireAdmin><LazyMarketingAnalyticsPage /></RequireAdmin>} />
@@ -1176,6 +1180,7 @@ function App() {
                               <Route path="/user-profile" element={<LazyUserProfilePage />} />
                               <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                               <Route path="/unsubscribe" element={<LazyUnsubscribePage />} />
+<Route path="/holiday-special" element={<LazyHolidaySpecialPage />} />
                               
                               {/* W */}
 <Route path="/welcome" element={<LazyWelcomePage />} />
@@ -1255,6 +1260,7 @@ function App() {
                         <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
                         <Route path="/admin/heygen" element={<RequireAdmin><LazyHeyGenStudioPage /></RequireAdmin>} />
                         <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
+                        <Route path="/admin/holiday-campaign" element={<RequireAdmin><LazyAdminHolidayCampaignPage /></RequireAdmin>} />
                         <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
                         <Route path="/admin/marketing-analytics" element={<RequireAdmin><LazyMarketingAnalyticsPage /></RequireAdmin>} />
                         <Route path="/admin/marketing-materials" element={<RequireAdmin><LazyAdminMarketingMaterialsPage /></RequireAdmin>} />
@@ -1829,6 +1835,7 @@ function App() {
                         <Route path="/user-profile" element={<LazyUserProfilePage />} />
                         <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                         <Route path="/unsubscribe" element={<LazyUnsubscribePage />} />
+<Route path="/holiday-special" element={<LazyHolidaySpecialPage />} />
                         
                         {/* V */}
                         <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
@@ -1858,6 +1865,7 @@ function App() {
                         <Route path="/admin-dashboard" element={<RequireAdmin><LazyAdminDashboardPage /></RequireAdmin>} />
                         <Route path="/admin/commissions" element={<RequireAdmin><LazyCommissionsPage /></RequireAdmin>} />
                         <Route path="/admin/email-list" element={<RequireAdmin><LazyAdminEmailListPage /></RequireAdmin>} />
+                        <Route path="/admin/holiday-campaign" element={<RequireAdmin><LazyAdminHolidayCampaignPage /></RequireAdmin>} />
                         <Route path="/admin/emails" element={<RequireAdmin><LazyAdminEmailAnalyticsPage /></RequireAdmin>} />
                         <Route path="/admin/fraud-detection" element={<RequireAdmin><LazyAdminFraudDetectionPage /></RequireAdmin>} />
                         <Route path="/admin/marketing-analytics" element={<RequireAdmin><LazyMarketingAnalyticsPage /></RequireAdmin>} />
