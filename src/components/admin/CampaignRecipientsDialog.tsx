@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Download, Loader2, Users } from 'lucide-react';
+import { Download, Eye, Loader2, MousePointerClick, Phone, Users } from 'lucide-react';
 
 type Source = { kind: 'claim'; campaignId: string } | { kind: 'holiday' };
 
@@ -14,11 +14,15 @@ interface Row {
   sentAt: string;
   status: string;
   detail: string;
+  phone: string;
+  opened: boolean;
+  clicked: boolean;
 }
 
 const STATUS_STYLE: Record<string, string> = {
   sent: 'bg-mansablue-light/15 text-mansablue-light border-mansablue-light/40',
   claimed: 'bg-mansagold/15 text-mansagold border-mansagold/40',
+  bounced: 'bg-destructive/15 text-destructive border-destructive/40',
   failed: 'bg-destructive/15 text-destructive border-destructive/40',
 };
 
@@ -41,28 +45,32 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
       if (source.kind === 'claim') {
         const { data } = await supabase
           .from('business_claim_invites')
-          .select('business_id,email,status,error_message,sent_at,claimed_at,created_at')
+          .select('business_id,email,status,error_message,sent_at,claimed_at,created_at,opened_at,clicked_at,bounced_at,reminder_sent_at')
           .eq('campaign_id', source.campaignId)
           .order('created_at', { ascending: false })
           .limit(5000);
         raw = (data ?? []).map((r: any) => ({
           business_id: r.business_id,
           email: r.email,
-          status: r.claimed_at ? 'claimed' : r.status,
-          detail: r.error_message ?? (r.claimed_at ? `Claimed ${new Date(r.claimed_at).toLocaleDateString()}` : ''),
+          status: r.claimed_at ? 'claimed' : r.bounced_at ? 'bounced' : r.status,
+          detail: r.error_message ?? (r.claimed_at ? `Claimed ${new Date(r.claimed_at).toLocaleDateString()}` : r.reminder_sent_at ? 'Reminder sent' : ''),
+          opened: !!r.opened_at,
+          clicked: !!r.clicked_at,
           at: r.sent_at ?? r.created_at,
         }));
       } else {
         const { data } = await supabase
           .from('holiday_campaign_sends')
-          .select('business_id,email,wave,status,error,created_at')
+          .select('business_id,email,wave,status,error,created_at,opened_at,clicked_at,bounced_at')
           .order('created_at', { ascending: false })
           .limit(5000);
         const waves: Record<number, string> = { 1: 'Launch', 2: 'Reminder', 3: 'Last chance' };
         raw = (data ?? []).map((r: any) => ({
           business_id: r.business_id,
           email: r.email,
-          status: r.status,
+          status: r.bounced_at ? 'bounced' : r.status,
+          opened: !!r.opened_at,
+          clicked: !!r.clicked_at,
           detail: [waves[r.wave] ?? `Wave ${r.wave}`, r.error].filter(Boolean).join(' · '),
           at: r.created_at,
         }));
@@ -73,7 +81,7 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
       for (let i = 0; i < ids.length; i += 200) {
         const { data } = await supabase
           .from('businesses')
-          .select('id,business_name,city,state')
+          .select('id,business_name,city,state,phone')
           .in('id', ids.slice(i, i + 200));
         (data ?? []).forEach((b: any) => (biz[b.id] = b));
       }
@@ -88,6 +96,9 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
             sentAt: r.at ? new Date(r.at).toLocaleString() : '',
             status: r.status ?? '',
             detail: r.detail ?? '',
+            phone: b?.phone ?? '',
+            opened: !!r.opened,
+            clicked: !!r.clicked,
           };
         }),
       );
@@ -99,30 +110,37 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
     const s = q.trim().toLowerCase();
     return rows.filter(
       (r) =>
-        (filter === 'all' || r.status === filter) &&
+        (filter === 'all' ||
+          r.status === filter ||
+          (filter === 'opened' && r.opened) ||
+          (filter === 'clicked' && r.clicked)) &&
         (!s || `${r.business} ${r.email} ${r.location}`.toLowerCase().includes(s)),
     );
   }, [rows, q, filter]);
 
-  const download = () => {
+  const download = (list: Row[] = shown, suffix = 'recipients') => {
     const esc = (v: string) => `"${v.replace(/"/g, '""')}"`;
     const csv = [
-      ['Business', 'Email', 'Location', 'Sent', 'Status', 'Details'],
-      ...shown.map((r) => [r.business, r.email, r.location, r.sentAt, r.status, r.detail]),
+      ['Business', 'Phone', 'Email', 'Location', 'Sent', 'Opened', 'Clicked', 'Status', 'Details'],
+      ...list.map((r) => [r.business, r.phone, r.email, r.location, r.sentAt, r.opened ? 'Yes' : 'No', r.clicked ? 'Yes' : 'No', r.status, r.detail]),
     ]
       .map((line) => line.map(esc).join(','))
       .join('\n');
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${title.replace(/\s+/g, '-').toLowerCase()}-recipients.csv`;
+    a.download = `${title.replace(/\s+/g, '-').toLowerCase()}-${suffix}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   const counts = useMemo(() => {
-    const c: Record<string, number> = { all: rows.length, sent: 0, claimed: 0, failed: 0 };
-    rows.forEach((r) => (c[r.status] = (c[r.status] ?? 0) + 1));
+    const c: Record<string, number> = { all: rows.length, sent: 0, opened: 0, clicked: 0, claimed: 0, failed: 0, bounced: 0 };
+    rows.forEach((r) => {
+      c[r.status] = (c[r.status] ?? 0) + 1;
+      if (r.opened) c.opened++;
+      if (r.clicked) c.clicked++;
+    });
     return c;
   }, [rows]);
 
@@ -146,7 +164,7 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
             onChange={(e) => setQ(e.target.value)}
             className="max-w-xs bg-background/60 border-mansagold/20"
           />
-          {['all', 'sent', 'claimed', 'failed'].map((f) => (
+          {['all', 'sent', 'opened', 'clicked', 'claimed', 'bounced', 'failed'].map((f) => (
             <Button
               key={f}
               size="sm"
@@ -163,9 +181,23 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
           ))}
           <Button
             size="sm"
-            onClick={download}
+            variant="outline"
+            onClick={() =>
+              download(
+                rows.filter((r) => (r.opened || r.clicked) && r.status !== 'claimed' && r.phone),
+                'call-list',
+              )
+            }
+            disabled={!rows.some((r) => (r.opened || r.clicked) && r.status !== 'claimed' && r.phone)}
+            className="ml-auto border-mansagold/40 hover:bg-mansagold/10"
+          >
+            <Phone className="w-4 h-4 mr-2" /> Call list
+          </Button>
+          <Button
+            size="sm"
+            onClick={() => download()}
             disabled={!shown.length}
-            className="ml-auto bg-mansagold text-mansablue-dark font-semibold hover:bg-mansagold-light"
+            className=" bg-mansagold text-mansablue-dark font-semibold hover:bg-mansagold-light"
           >
             <Download className="w-4 h-4 mr-2" /> Download spreadsheet
           </Button>
@@ -186,6 +218,7 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
                   <th className="p-3">Email</th>
                   <th className="p-3">Location</th>
                   <th className="p-3">Sent</th>
+                  <th className="p-3">Engagement</th>
                   <th className="p-3">Status</th>
                 </tr>
               </thead>
@@ -196,6 +229,10 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
                     <td className="p-3 text-foreground/80">{r.email}</td>
                     <td className="p-3 text-foreground/80">{r.location || '—'}</td>
                     <td className="p-3 text-foreground/70 whitespace-nowrap">{r.sentAt}</td>
+                    <td className="p-3 whitespace-nowrap text-xs">
+                      <span className={r.opened ? 'text-mansagold' : 'text-foreground/40'}><Eye className="inline w-3.5 h-3.5 mr-1" />{r.opened ? 'Opened' : 'Not opened'}</span>
+                      {r.clicked && <span className="ml-3 text-mansagold"><MousePointerClick className="inline w-3.5 h-3.5 mr-1" />Clicked</span>}
+                    </td>
                     <td className="p-3">
                       <span
                         className={`inline-block rounded-full border px-2 py-0.5 text-xs capitalize ${STATUS_STYLE[r.status] ?? 'border-border text-foreground/70'}`}
