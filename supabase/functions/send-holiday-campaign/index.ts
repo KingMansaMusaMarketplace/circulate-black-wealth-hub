@@ -76,7 +76,7 @@ async function unsubUrlFor(supabase: any, email: string) {
     token = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
     await supabase.from("email_unsubscribe_tokens").insert({ token, email });
   }
-  return `${SITE}/email-unsubscribe?token=${token}`;
+  return token as string;
 }
 
 serve(async (req) => {
@@ -106,7 +106,7 @@ serve(async (req) => {
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)) return json({ error: "Enter a valid test email" }, 400);
       const { error } = await resend.emails.send({
         from: FROM, to: [to], subject: `[TEST] ${WAVES[wave].subject}`,
-        html: renderEmail(wave, "Sample Business", "Chicago", `${SITE}/email-unsubscribe`),
+        html: renderEmail(wave, "Sample Business", "Chicago", `${SITE}/unsubscribe`),
       });
       if (error) return json({ error: error.message }, 502);
       return json({ success: true });
@@ -119,11 +119,13 @@ serve(async (req) => {
       if (error) throw error;
       let sent = 0, failed = 0, stopped = false;
       for (const r of recipients ?? []) {
-        const unsub = await unsubUrlFor(supabase, r.email);
+        const tok = await unsubUrlFor(supabase, r.email);
+        const unsub = `${SITE}/unsubscribe?token=${tok}`;
+        const oneClick = `${Deno.env.get("SUPABASE_URL")}/functions/v1/handle-email-unsubscribe?token=${tok}`;
         const { data, error: sendErr } = await resend.emails.send({
           from: FROM, to: [r.email], subject: WAVES[wave].subject,
           html: renderEmail(wave, r.business_name ?? "", r.city, unsub),
-          headers: { "List-Unsubscribe": `<${unsub}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
+          headers: { "List-Unsubscribe": `<${oneClick}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
           tags: [{ name: "campaign", value: "holiday_2026" }, { name: "wave", value: String(wave) }],
         });
         if (sendErr) failed++; else sent++;
