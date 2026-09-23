@@ -12,7 +12,7 @@ const corsHeaders = {
 const SITE_URL = Deno.env.get("FRONTEND_URL") || "https://1325.ai";
 const FROM = "1325.AI <listings@1325.ai>";
 const DIGEST_TO = Deno.env.get("CAMPAIGN_DIGEST_TO") || "partner@1325.ai";
-const MAILING_ADDRESS = "1325.AI · Mansa Musa Marketplace, 200 E Randolph St, Suite 5100, Chicago, IL 60601";
+const MAILING_ADDRESS = "1325.AI · Mansa Musa Marketplace, 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628, USA";
 const MAX_REMINDERS = 200;
 
 const esc = (s: string) =>
