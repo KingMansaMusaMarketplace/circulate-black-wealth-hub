@@ -7,7 +7,7 @@ import { requireAdminOrCron } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-cron-secret",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-cron-secret, x-job-token",
 };
 const SITE_URL = Deno.env.get("FRONTEND_URL") || "https://1325.ai";
 const FROM = "1325.AI <listings@1325.ai>";
@@ -37,7 +37,14 @@ ${esc(MAILING_ADDRESS)}<br/><a href="${unsubUrl}" style="color:#666;">Unsubscrib
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
-  const auth = await requireAdminOrCron(req, corsHeaders);
+  const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!) as any;
+  let allowed = false;
+  const jobToken = req.headers.get("x-job-token");
+  if (jobToken) {
+    const { data: t } = await supabase.from("internal_job_tokens").select("token").eq("name", "claim-campaign-daily").maybeSingle();
+    allowed = !!t?.token && t.token === jobToken;
+  }
+  const auth = allowed ? { authenticated: true } as any : await requireAdminOrCron(req, corsHeaders);
   if (!auth.authenticated) {
     return new Response(JSON.stringify({ error: auth.error }), {
       status: auth.status ?? 401,
@@ -45,7 +52,6 @@ serve(async (req) => {
     });
   }
 
-  const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!) as any;
   const key = Deno.env.get("RESEND_API_KEY");
   if (!key) return new Response(JSON.stringify({ error: "RESEND_API_KEY missing" }), { status: 500, headers: corsHeaders });
   const resend = new Resend(key);
