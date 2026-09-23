@@ -110,121 +110,163 @@ const ClaimCampaignsPage: React.FC = () => {
     }
   };
 
+  const statusStyle = (s: string) =>
+    s === 'active'
+      ? 'bg-mansagold/15 text-mansagold border-mansagold/40'
+      : s === 'completed'
+      ? 'bg-mansablue-light/15 text-mansablue-light border-mansablue-light/40'
+      : 'bg-muted/40 text-muted-foreground border-border';
+
+  const inputCls =
+    'bg-background/60 border-mansagold/20 focus-visible:ring-mansagold/60 focus-visible:border-mansagold/60 h-11';
+
   return (
     <>
       <Helmet><title>Claim Campaigns | 1325.AI Admin</title></Helmet>
-      <div className="min-h-screen bg-background text-foreground p-6 md:p-10">
-        <div className="max-w-5xl mx-auto space-y-8">
-          <div className="flex items-start justify-between gap-4 flex-wrap">
+      <div className="dark min-h-screen bg-background text-foreground">
+        {/* Header band */}
+        <div className="relative overflow-hidden border-b border-mansagold/20 bg-gradient-to-br from-mansablue-dark via-background to-background">
+          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_85%_0%,hsl(var(--mansagold)/0.35),transparent_45%)]" />
+          <div className="relative max-w-6xl mx-auto px-6 md:px-10 py-10 flex items-end justify-between gap-6 flex-wrap">
             <div>
-              <h1 className="text-3xl font-bold">Claim Campaigns</h1>
-              <p className="text-muted-foreground mt-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-mansagold">1325.AI · Growth Operations</p>
+              <h1 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">Claim Campaigns</h1>
+              <p className="mt-3 max-w-2xl text-base text-foreground/75">
                 Invite unclaimed directory listings to claim their business and start a paid plan.
               </p>
             </div>
-            <Button variant="outline" onClick={load} disabled={loading}>
+            <Button
+              variant="outline"
+              onClick={load}
+              disabled={loading}
+              className="border-mansagold/40 text-mansagold hover:bg-mansagold/10 hover:text-mansagold"
+            >
               <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
               Refresh
             </Button>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-10 space-y-10">
+          {/* Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
               { label: 'Ready to invite', value: stats.unclaimed, icon: Users },
               { label: 'Invited', value: stats.invited, icon: Mail },
               { label: 'Claimed', value: stats.claimed, icon: Send },
             ].map((s) => (
-              <Card key={s.label}>
-                <CardContent className="pt-6">
-                  <div className="flex items-center gap-3">
-                    <s.icon className="w-5 h-5 text-muted-foreground" />
-                    <div>
-                      <div className="text-2xl font-bold">{s.value.toLocaleString()}</div>
-                      <div className="text-xs uppercase tracking-wider text-muted-foreground">{s.label}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <div
+                key={s.label}
+                className="rounded-2xl border border-mansagold/20 bg-card/60 p-6 shadow-[0_10px_30px_-15px_hsl(var(--mansagold)/0.35)]"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/70">{s.label}</span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-mansagold/15">
+                    <s.icon className="w-4 h-4 text-mansagold" />
+                  </span>
+                </div>
+                <div className="mt-4 text-4xl font-bold tabular-nums">{s.value.toLocaleString()}</div>
+              </div>
             ))}
           </div>
 
-          <Card>
-            <CardHeader><CardTitle className="text-lg">New campaign</CardTitle></CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="cname">Campaign name</Label>
-                  <Input id="cname" value={form.name} placeholder="Atlanta pilot"
+          {/* New campaign */}
+          <Card className="rounded-2xl border-mansagold/20 bg-card/60">
+            <CardHeader className="border-b border-border/60">
+              <CardTitle className="text-xl flex items-center gap-2">
+                <Plus className="w-5 h-5 text-mansagold" /> New campaign
+              </CardTitle>
+              <p className="text-sm text-foreground/70">Start small — one city at a time keeps emails out of spam folders.</p>
+            </CardHeader>
+            <CardContent className="pt-6 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-2">
+                  <Label htmlFor="cname" className="text-foreground/85">Campaign name</Label>
+                  <Input id="cname" className={inputCls} value={form.name} placeholder="Atlanta pilot"
                     onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 </div>
-                <div>
-                  <Label htmlFor="climit">Emails per batch (max 500)</Label>
-                  <Input id="climit" type="number" min={1} max={500} value={form.daily_limit}
+                <div className="space-y-2">
+                  <Label htmlFor="climit" className="text-foreground/85">Emails per batch (max 500)</Label>
+                  <Input id="climit" className={inputCls} type="number" min={1} max={500} value={form.daily_limit}
                     onChange={(e) => setForm({ ...form, daily_limit: Number(e.target.value) })} />
                 </div>
-                <div>
-                  <Label htmlFor="ccity">City (optional)</Label>
-                  <Input id="ccity" value={form.target_city} placeholder="Atlanta"
+                <div className="space-y-2">
+                  <Label htmlFor="ccity" className="text-foreground/85">City (optional)</Label>
+                  <Input id="ccity" className={inputCls} value={form.target_city} placeholder="Atlanta"
                     onChange={(e) => setForm({ ...form, target_city: e.target.value })} />
                 </div>
-                <div>
-                  <Label htmlFor="cstate">State (optional)</Label>
-                  <Input id="cstate" value={form.target_state} placeholder="GA"
+                <div className="space-y-2">
+                  <Label htmlFor="cstate" className="text-foreground/85">State (optional)</Label>
+                  <Input id="cstate" className={inputCls} value={form.target_state} placeholder="GA"
                     onChange={(e) => setForm({ ...form, target_state: e.target.value })} />
                 </div>
-                <div className="md:col-span-2">
-                  <Label htmlFor="ccat">Category (optional)</Label>
-                  <Input id="ccat" value={form.target_category} placeholder="Barbershop"
+                <div className="md:col-span-2 space-y-2">
+                  <Label htmlFor="ccat" className="text-foreground/85">Category (optional)</Label>
+                  <Input id="ccat" className={inputCls} value={form.target_category} placeholder="Barbershop"
                     onChange={(e) => setForm({ ...form, target_category: e.target.value })} />
                 </div>
               </div>
-              <Button onClick={createCampaign} disabled={creating}>
+              <Button
+                onClick={createCampaign}
+                disabled={creating}
+                className="h-11 px-6 bg-mansagold text-mansablue-dark font-semibold hover:bg-mansagold-light"
+              >
                 {creating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}
                 Create campaign
               </Button>
             </CardContent>
           </Card>
 
+          {/* Campaign list */}
           <div className="space-y-4">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-mansagold">Your campaigns</h2>
             {loading ? (
-              <div className="text-center py-16 text-muted-foreground">
-                <Loader2 className="w-6 h-6 animate-spin mx-auto mb-3" />
+              <div className="text-center py-16 text-foreground/70">
+                <Loader2 className="w-6 h-6 animate-spin mx-auto mb-3 text-mansagold" />
                 Loading campaigns…
               </div>
             ) : campaigns.length === 0 ? (
-              <Card><CardContent className="py-12 text-center text-muted-foreground">
+              <div className="rounded-2xl border border-dashed border-mansagold/30 py-14 text-center text-foreground/70">
                 No campaigns yet. Create one above — start small with a single city.
-              </CardContent></Card>
+              </div>
             ) : campaigns.map((c) => (
-              <Card key={c.id}>
-                <CardContent className="pt-6">
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-lg font-semibold">{c.name}</h3>
-                        <Badge variant="secondary">{c.status}</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {[c.target_city, c.target_state, c.target_category].filter(Boolean).join(' · ') || 'All listings'}
-                        {' · '}{c.daily_limit} per batch
-                      </p>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Sent {c.total_sent} · Claimed {c.total_claimed}
-                        {c.last_run_at ? ` · Last run ${new Date(c.last_run_at).toLocaleString()}` : ''}
-                      </p>
+              <div key={c.id} className="rounded-2xl border border-border bg-card/60 p-6 transition-colors hover:border-mansagold/40">
+                <div className="flex flex-wrap items-center justify-between gap-5">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-3">
+                      <h3 className="text-lg font-semibold">{c.name}</h3>
+                      <Badge variant="outline" className={`capitalize ${statusStyle(c.status)}`}>{c.status}</Badge>
                     </div>
-                    <div className="flex gap-2">
-                      <Button variant="outline" disabled={busy === c.id} onClick={() => runBatch(c.id, true)}>
-                        Preview count
-                      </Button>
-                      <Button disabled={busy === c.id} onClick={() => runBatch(c.id, false)}>
-                        {busy === c.id ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
-                        Send batch
-                      </Button>
+                    <p className="text-sm text-foreground/70 mt-1">
+                      {[c.target_city, c.target_state, c.target_category].filter(Boolean).join(' · ') || 'All listings'}
+                      {' · '}{c.daily_limit} per batch
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-6 text-sm">
+                      <span><span className="font-semibold text-mansagold tabular-nums">{c.total_sent.toLocaleString()}</span> <span className="text-foreground/70">sent</span></span>
+                      <span><span className="font-semibold text-mansagold tabular-nums">{c.total_claimed.toLocaleString()}</span> <span className="text-foreground/70">claimed</span></span>
+                      {c.last_run_at && <span className="text-foreground/60">Last run {new Date(c.last_run_at).toLocaleString()}</span>}
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      disabled={busy === c.id}
+                      onClick={() => runBatch(c.id, true)}
+                      className="border-mansagold/40 text-foreground hover:bg-mansagold/10"
+                    >
+                      Preview count
+                    </Button>
+                    <Button
+                      disabled={busy === c.id}
+                      onClick={() => runBatch(c.id, false)}
+                      className="bg-mansagold text-mansablue-dark font-semibold hover:bg-mansagold-light"
+                    >
+                      {busy === c.id ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                      Send batch
+                    </Button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
