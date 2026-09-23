@@ -4,15 +4,12 @@ import { Mic, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
-import { useCapacitor } from '@/hooks/use-capacitor';
 import meetKaylaVideo from '@/assets/meet-kayla-upgraded.mp4.asset.json';
 
 // CRITICAL iOS: Completely skip mounting Kayla on iOS.
 // The WKWebView crashes when the WebRTC voice stack initializes,
 // so the entire section is omitted on iOS (also satisfies App Store review).
 const MeetKaylaSection: React.FC = () => {
-  const { platform } = useCapacitor();
-  if (platform === 'ios') return null;
   return <MeetKaylaSectionInner />;
 };
 

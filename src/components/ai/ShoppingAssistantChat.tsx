@@ -8,7 +8,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import ReactMarkdown from 'react-markdown';
 import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
 import { useToast } from '@/hooks/use-toast';
-import { useCapacitor } from '@/hooks/use-capacitor';
 
 type Message = { role: 'user' | 'assistant'; content: string };
 
@@ -48,9 +47,7 @@ const saveStoredMessages = (messages: Message[]) => {
 };
 
 const ShoppingAssistantChat: React.FC = () => {
-  const { platform } = useCapacitor();
-  // CRITICAL iOS: Hide floating "Ask Kayla" widget on iOS to prevent crashes & App Store rejection.
-  if (platform === 'ios') return null;
+  // iOS enabled: microphone permission text is declared in Info.plist.
   return <ShoppingAssistantChatInner />;
 };
 
