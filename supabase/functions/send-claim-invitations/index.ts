@@ -32,43 +32,58 @@ function buildEmail(opts: {
   unsubUrl: string;
 }) {
   const loc = [opts.city, opts.state].filter(Boolean).join(", ");
-  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:24px 12px;">
+  const LOGO = "https://agoclnqfyinwjxdmjnns.supabase.co/storage/v1/object/public/marketing-assets/email/1325ai-logo.jpg";
+  const now = new Date();
+  const holidayOn = now >= new Date("2026-10-01T00:00:00-05:00") && now < new Date("2027-01-01T00:00:00-06:00");
+  const benefit = (t: string, d: string) => `<tr><td valign="top" style="padding:0 12px 12px 0;width:22px;color:#FFB300;font-size:16px;font-weight:700;">&#10003;</td><td style="padding:0 0 12px;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">${t}</strong> ${d}</td></tr>`;
+  const holiday = holidayOn ? `
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;background:#003366;background-image:linear-gradient(135deg,#002347 0%,#003366 60%,#0b4a85 100%);border-radius:12px;">
+            <tr><td style="padding:26px 24px;text-align:center;">
+              <div style="display:inline-block;background:#FFB300;color:#000;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:999px;">Holiday Special &middot; Oct 1 &ndash; Dec 31</div>
+              <div style="color:#ffffff;font-size:20px;font-weight:700;margin:16px 0 6px;">Upgrade to 1325.AI Pro</div>
+              <div style="margin:0 0 6px;"><span style="color:#FFB300;font-size:44px;font-weight:800;line-height:1;">$149</span><span style="color:#ffffff;font-size:16px;">/month</span></div>
+              <div style="color:#c9d6e6;font-size:14px;margin:0 0 4px;">Regularly <span style="text-decoration:line-through;">$299/month</span> &mdash; save $150 every month</div>
+              <div style="color:#ffffff;font-size:13px;margin:0 0 18px;">Lock in $149 for as long as you stay subscribed. Sign up by December 31.</div>
+              <a href="${SITE_URL}/holiday-special" style="display:inline-block;border:2px solid #FFB300;color:#FFB300;font-weight:700;font-size:14px;text-decoration:none;padding:10px 24px;border-radius:8px;">See the Holiday Special</a>
+            </td></tr>
+          </table>` : "";
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#eef1f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f5;padding:28px 12px;">
     <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e5e5;">
-        <tr><td style="background:#000000;padding:24px;text-align:center;">
-          <div style="color:#FFB300;font-size:22px;font-weight:700;letter-spacing:1px;">1325.AI</div>
-          <div style="color:#ffffff;opacity:.7;font-size:12px;margin-top:4px;">Verified Black-Owned Business Directory</div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(0,35,71,.12);">
+        <tr><td style="background:#0a2a52;padding:28px 24px 22px;text-align:center;">
+          <img src="${LOGO}" width="150" height="150" alt="1325.AI" style="display:block;margin:0 auto;border-radius:14px;border:0;" />
+          <div style="color:#FFB300;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-top:14px;">Verified Black-Owned Business Directory</div>
         </td></tr>
-        <tr><td style="padding:32px 28px;color:#111111;">
-          <h1 style="margin:0 0 16px;font-size:22px;line-height:1.3;">${esc(opts.businessName)} is already listed on 1325.AI</h1>
-          <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#333;">
+        <tr><td style="height:4px;background:#FFB300;line-height:4px;font-size:0;">&nbsp;</td></tr>
+        <tr><td style="padding:34px 32px 30px;color:#111111;">
+          <h1 style="margin:0 0 16px;font-size:24px;line-height:1.3;color:#0a2a52;">${esc(opts.businessName)} is already listed on 1325.AI</h1>
+          <p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#333;">
             We found and verified <strong>${esc(opts.businessName)}</strong>${loc ? ` in ${esc(loc)}` : ""} and added it to our directory of Black-owned businesses at no cost to you.
           </p>
-          <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#333;">
+          <p style="margin:0 0 24px;font-size:15px;line-height:1.65;color:#333;">
             Claim your free listing to control your profile, add photos and hours, respond to reviews, and get discovered by AI assistants that shop on your customers' behalf.
           </p>
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;background:#fffaf0;border:1px solid #FFE0A3;border-left:4px solid #FFB300;border-radius:8px;">
-            <tr><td style="padding:18px 20px;">
-              <div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#003366;margin:0 0 10px;">Why 1325.AI is different</div>
-              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">Found by AI assistants.</strong> When customers ask an AI assistant for a Black-owned business nearby, 1325.AI can point them to you.</p>
-              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">More than a listing.</strong> Customers can call, book appointments, and pay you right from your page.</p>
-              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">Verified means trusted.</strong> Every business is checked, so customers know you're the real deal.</p>
-              <p style="margin:0;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">Free to claim.</strong> No credit card needed.</p>
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 30px;">
+            <tr><td style="background:#FFB300;border-radius:10px;box-shadow:0 4px 14px rgba(255,179,0,.35);">
+              <a href="${opts.claimUrl}" style="display:inline-block;padding:16px 38px;color:#000000;font-weight:800;font-size:17px;text-decoration:none;">Claim Your Free Listing</a>
             </td></tr>
           </table>
-          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 24px;">
-            <tr><td style="background:#FFB300;border-radius:8px;">
-              <a href="${opts.claimUrl}" style="display:inline-block;padding:14px 32px;color:#000000;font-weight:700;font-size:16px;text-decoration:none;">Claim Your Free Listing</a>
-            </td></tr>
-          </table>
-          <p style="margin:0 0 8px;font-size:13px;color:#666;">This link is unique to your business and expires in 30 days.</p>
+          <div style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#003366;margin:0 0 14px;border-top:1px solid #e6eaf0;padding-top:24px;">Why 1325.AI is different</div>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">
+            ${benefit("Found by AI assistants.", "When customers ask an AI assistant for a Black-owned business nearby, 1325.AI can point them to you.")}
+            ${benefit("More than a listing.", "Customers can call, book appointments, and pay you right from your page.")}
+            ${benefit("Verified means trusted.", "Every business is checked, so customers know you're the real deal.")}
+            ${benefit("Free to claim.", "No credit card needed.")}
+          </table>${holiday}
+          <p style="margin:0 0 6px;font-size:13px;color:#666;">This link is unique to your business and expires in 30 days.</p>
           <p style="margin:0;font-size:13px;color:#666;">Not the owner? You can safely ignore this email.</p>
         </td></tr>
-        <tr><td style="padding:20px 28px;background:#fafafa;border-top:1px solid #eee;font-size:11px;color:#888;line-height:1.6;">
+        <tr><td style="padding:22px 32px;background:#0a2a52;font-size:11px;color:#b8c6d8;line-height:1.7;text-align:center;">
+          <div style="color:#FFB300;font-weight:700;font-size:13px;letter-spacing:1px;margin-bottom:6px;">1325.AI</div>
           ${esc(MAILING_ADDRESS)}<br/>
           You received this because your business appears in our public directory.
-          <a href="${opts.unsubUrl}" style="color:#666;text-decoration:underline;">Unsubscribe</a> to never hear from us again.
+          <a href="${opts.unsubUrl}" style="color:#ffffff;text-decoration:underline;">Unsubscribe</a> to never hear from us again.
         </td></tr>
       </table>
     </td></tr>
