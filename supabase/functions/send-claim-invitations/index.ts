@@ -43,7 +43,14 @@ function buildEmail(opts: {
               <div style="color:#ffffff;font-size:20px;font-weight:700;margin:16px 0 6px;">Upgrade to 1325.AI Pro</div>
               <div style="margin:0 0 6px;"><span style="color:#FFB300;font-size:44px;font-weight:800;line-height:1;">$149</span><span style="color:#ffffff;font-size:16px;">/month</span></div>
               <div style="color:#c9d6e6;font-size:14px;margin:0 0 4px;">Regularly <span style="text-decoration:line-through;">$299/month</span> &mdash; save $150 every month</div>
-              <div style="color:#ffffff;font-size:13px;margin:0 0 18px;">Lock in $149 for as long as you stay subscribed. Sign up by December 31.</div>
+              <div style="color:#ffffff;font-size:13px;margin:0 0 14px;">Lock in $149 for as long as you stay subscribed. Sign up by December 31.</div>
+              <div style="color:#FFB300;font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 8px;">What Pro includes</div>
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 18px;text-align:left;">
+                <tr><td style="color:#FFB300;font-size:14px;padding:3px 8px 3px 0;vertical-align:top;">&#10003;</td><td style="color:#ffffff;font-size:14px;padding:3px 0;">Kayla and the 42 Agentic AI Employees working for your business</td></tr>
+                <tr><td style="color:#FFB300;font-size:14px;padding:3px 8px 3px 0;vertical-align:top;">&#10003;</td><td style="color:#ffffff;font-size:14px;padding:3px 0;">Online booking and appointment requests from customers</td></tr>
+                <tr><td style="color:#FFB300;font-size:14px;padding:3px 8px 3px 0;vertical-align:top;">&#10003;</td><td style="color:#ffffff;font-size:14px;padding:3px 0;">Priority placement and a verified, claimed profile</td></tr>
+                <tr><td style="color:#FFB300;font-size:14px;padding:3px 8px 3px 0;vertical-align:top;">&#10003;</td><td style="color:#ffffff;font-size:14px;padding:3px 0;">~4 Roles Covered &mdash; over $18,000 a month in staff time saved</td></tr>
+              </table>
               <a href="${SITE_URL}/holiday-special" style="display:inline-block;border:2px solid #FFB300;color:#FFB300;font-weight:700;font-size:14px;text-decoration:none;padding:10px 24px;border-radius:8px;">See the Holiday Special</a>
             </td></tr>
           </table>` : "";
