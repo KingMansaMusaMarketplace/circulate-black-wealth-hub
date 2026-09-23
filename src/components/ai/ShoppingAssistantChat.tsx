@@ -8,7 +8,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import ReactMarkdown from 'react-markdown';
 import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
 import { useToast } from '@/hooks/use-toast';
-import { useCapacitor } from '@/hooks/use-capacitor';
 
 type Message = { role: 'user' | 'assistant'; content: string };
 
