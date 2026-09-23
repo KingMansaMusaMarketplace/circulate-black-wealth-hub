@@ -48,6 +48,15 @@ function buildEmail(opts: {
           <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#333;">
             Claim your free listing to control your profile, add photos and hours, respond to reviews, and get discovered by AI assistants that shop on your customers' behalf.
           </p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;background:#fffaf0;border:1px solid #FFE0A3;border-left:4px solid #FFB300;border-radius:8px;">
+            <tr><td style="padding:18px 20px;">
+              <div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#003366;margin:0 0 10px;">Why 1325.AI is different</div>
+              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">Found by AI assistants.</strong> When customers ask an AI assistant for a Black-owned business nearby, 1325.AI can point them to you.</p>
+              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">More than a listing.</strong> Customers can call, book appointments, and pay you right from your page.</p>
+              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">Verified means trusted.</strong> Every business is checked, so customers know you're the real deal.</p>
+              <p style="margin:0;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">Free to claim.</strong> No credit card needed.</p>
+            </td></tr>
+          </table>
           <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 24px;">
             <tr><td style="background:#FFB300;border-radius:8px;">
               <a href="${opts.claimUrl}" style="display:inline-block;padding:14px 32px;color:#000000;font-weight:700;font-size:16px;text-decoration:none;">Claim Your Free Listing</a>
