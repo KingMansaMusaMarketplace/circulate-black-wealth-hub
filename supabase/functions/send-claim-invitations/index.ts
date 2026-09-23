@@ -14,7 +14,7 @@ const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const RESEND_KEY = Deno.env.get("RESEND_API_KEY");
 const SITE_URL = Deno.env.get("FRONTEND_URL") || "https://1325.ai";
 const FROM = "1325.AI <listings@1325.ai>";
-const MAILING_ADDRESS = "1325.AI · Mansa Musa Marketplace, 200 E Randolph St, Suite 5100, Chicago, IL 60601";
+const MAILING_ADDRESS = "1325.AI · Mansa Musa Marketplace, 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628, USA";
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
