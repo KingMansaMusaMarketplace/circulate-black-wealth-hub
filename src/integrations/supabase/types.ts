@@ -4312,40 +4312,52 @@ export type Database = {
       }
       business_claim_invites: {
         Row: {
+          bounced_at: string | null
           business_id: string
           campaign_id: string | null
           claimed_at: string | null
+          clicked_at: string | null
           created_at: string
           email: string
           error_message: string | null
           id: string
           opened_at: string | null
+          reminder_sent_at: string | null
+          resend_id: string | null
           sent_at: string
           status: string
           updated_at: string
         }
         Insert: {
+          bounced_at?: string | null
           business_id: string
           campaign_id?: string | null
           claimed_at?: string | null
+          clicked_at?: string | null
           created_at?: string
           email: string
           error_message?: string | null
           id?: string
           opened_at?: string | null
+          reminder_sent_at?: string | null
+          resend_id?: string | null
           sent_at?: string
           status?: string
           updated_at?: string
         }
         Update: {
+          bounced_at?: string | null
           business_id?: string
           campaign_id?: string | null
           claimed_at?: string | null
+          clicked_at?: string | null
           created_at?: string
           email?: string
           error_message?: string | null
           id?: string
           opened_at?: string | null
+          reminder_sent_at?: string | null
+          resend_id?: string | null
           sent_at?: string
           status?: string
           updated_at?: string
@@ -10082,31 +10094,40 @@ export type Database = {
       }
       holiday_campaign_sends: {
         Row: {
+          bounced_at: string | null
           business_id: string | null
+          clicked_at: string | null
           created_at: string
           email: string
           error: string | null
           id: string
+          opened_at: string | null
           resend_id: string | null
           status: string
           wave: number
         }
         Insert: {
+          bounced_at?: string | null
           business_id?: string | null
+          clicked_at?: string | null
           created_at?: string
           email: string
           error?: string | null
           id?: string
+          opened_at?: string | null
           resend_id?: string | null
           status?: string
           wave: number
         }
         Update: {
+          bounced_at?: string | null
           business_id?: string | null
+          clicked_at?: string | null
           created_at?: string
           email?: string
           error?: string | null
           id?: string
+          opened_at?: string | null
           resend_id?: string | null
           status?: string
           wave?: number
