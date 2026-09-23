@@ -34,7 +34,7 @@ function buildEmail(opts: {
   const loc = [opts.city, opts.state].filter(Boolean).join(", ");
   const LOGO = "https://agoclnqfyinwjxdmjnns.supabase.co/storage/v1/object/public/marketing-assets/email/1325ai-logo.jpg";
   const now = new Date();
-  const holidayOn = now >= new Date("2026-09-20T00:00:00-05:00") && now < new Date("2027-01-01T00:00:00-06:00");
+  const holidayOn = now >= new Date("2026-10-01T00:00:00-05:00") && now < new Date("2027-01-01T00:00:00-06:00");
   const benefit = (t: string, d: string) => `<tr><td valign="top" style="padding:0 12px 12px 0;width:22px;color:#FFB300;font-size:16px;font-weight:700;">&#10003;</td><td style="padding:0 0 12px;font-size:14px;line-height:1.55;color:#333;"><strong style="color:#003366;">${t}</strong> ${d}</td></tr>`;
   const holiday = holidayOn ? `
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;background:#003366;background-image:linear-gradient(135deg,#002347 0%,#003366 60%,#0b4a85 100%);border-radius:12px;">
