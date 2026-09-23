@@ -63,7 +63,7 @@ function renderEmail(wave: number, name: string, city: string | null, unsubUrl: 
 </td></tr>
 <tr><td style="padding:18px 32px;font-size:12px;line-height:1.6;color:#777;text-align:center">
 You're receiving this because your business is listed in the 1325.AI directory.<br>
-Mansa Musa Marketplace, Inc. d/b/a 1325.AI · Chicago, IL · contact@mansamusamarketplace.com<br>
+Mansa Musa Marketplace, Inc. d/b/a 1325.AI · Chicago, IL · partner@1325.ai<br>
 <a href="${unsubUrl}" style="color:#777">Unsubscribe</a>
 </td></tr></table></td></tr></table></body></html>`;
 }
