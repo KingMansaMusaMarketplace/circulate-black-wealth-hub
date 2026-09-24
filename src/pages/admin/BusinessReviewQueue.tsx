@@ -664,6 +664,7 @@ const BusinessReviewQueue: React.FC = () => {
                         </Button>
                         <Button
                           size="sm" variant="outline"
+                          className="bg-transparent border-mansagold text-mansagold hover:bg-mansagold hover:text-mansablue"
                           disabled={actingId === lead.id}
                           onClick={() => requeue(lead)}
                         >
