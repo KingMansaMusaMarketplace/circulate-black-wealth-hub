@@ -1,12 +1,15 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import LoginContainer from '@/components/auth/LoginContainer';
 import LoginForm from '@/components/auth/LoginForm';
 import { secureSignIn } from '@/lib/security/auth-security';
 
 const LoginPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect');
+  const signupHref = redirect ? `/signup?redirect=${encodeURIComponent(redirect)}` : '/signup';
   const handleSignIn = async (email: string, password: string) => {
     return await secureSignIn(email, password);
   };
@@ -48,6 +51,12 @@ const LoginPage: React.FC = () => {
           <LoginContainer>
             <LoginForm onSubmit={handleSignIn} />
           </LoginContainer>
+          <p className="text-center text-sm text-white/80 mt-6">
+            New to 1325.AI?{' '}
+            <Link to={signupHref} className="font-semibold text-mansagold underline underline-offset-4 hover:text-mansagold/80">
+              Create a free account
+            </Link>
+          </p>
         </div>
       </div>
     </div>
