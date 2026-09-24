@@ -117,6 +117,30 @@ serve(async (req: Request): Promise<Response> => {
     const resend = new Resend(RESEND_KEY);
 
     const body = await req.json().catch(() => ({}));
+
+    // Test mode: send one sample email to an admin-chosen address. No records written.
+    if (typeof body?.test_to === "string") {
+      const to = body.test_to.trim().toLowerCase();
+      if (!EMAIL_RE.test(to) || to.length > 255) throw new Error("Enter a valid test email");
+      const html = buildEmail({
+        businessName: "Sample Business",
+        city: "Chicago",
+        state: "IL",
+        claimUrl: `${SITE_URL}/claim-business`,
+        unsubUrl: `${SITE_URL}/unsubscribe`,
+      });
+      const { error: tErr } = await resend.emails.send({
+        from: FROM,
+        to: [to],
+        subject: "[TEST] Sample Business is listed on 1325.AI — claim it free",
+        html,
+      });
+      if (tErr) throw new Error(tErr.message);
+      return new Response(JSON.stringify({ success: true, test: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const campaignId: string | undefined = body?.campaign_id;
     const dryRun: boolean = body?.dry_run === true;
     if (!campaignId) throw new Error("campaign_id is required");
