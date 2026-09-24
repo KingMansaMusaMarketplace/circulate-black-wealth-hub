@@ -1,0 +1,2 @@
+ALTER TABLE public.businesses_private ADD COLUMN IF NOT EXISTS email_source text, ADD COLUMN IF NOT EXISTS email_checked_at timestamptz, ADD COLUMN IF NOT EXISTS email_check_result text;
+CREATE INDEX IF NOT EXISTS idx_bp_email_checked ON public.businesses_private(email_checked_at);

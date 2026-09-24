@@ -5972,6 +5972,9 @@ export type Database = {
           business_id: string
           created_at: string
           email: string | null
+          email_check_result: string | null
+          email_checked_at: string | null
+          email_source: string | null
           latitude: number | null
           longitude: number | null
           owner_id: string
@@ -5985,6 +5988,9 @@ export type Database = {
           business_id: string
           created_at?: string
           email?: string | null
+          email_check_result?: string | null
+          email_checked_at?: string | null
+          email_source?: string | null
           latitude?: number | null
           longitude?: number | null
           owner_id: string
@@ -5998,6 +6004,9 @@ export type Database = {
           business_id?: string
           created_at?: string
           email?: string | null
+          email_check_result?: string | null
+          email_checked_at?: string | null
+          email_source?: string | null
           latitude?: number | null
           longitude?: number | null
           owner_id?: string
