@@ -35,16 +35,21 @@ async function fetchText(url: string) {
     if (!r.ok) return "";
     const t = (r.headers.get("content-type") || "");
     if (!t.includes("html") && !t.includes("text")) return "";
-    return (await r.text()).slice(0, 200_000);
+    return (await r.text()).slice(0, 150_000);
   } catch { return ""; }
 }
 
 function pick(html: string, siteHost: string) {
   const found = new Set<string>();
-  for (const m of html.matchAll(/mailto:([^"'?>\s]+)/gi)) {
-    const c = clean(decodeURIComponent(m[1])); if (c) found.add(c);
+  let i = html.indexOf("@"); let n = 0;
+  const LOC = /[A-Za-z0-9._%+-]{1,64}$/, DOM = /^[A-Za-z0-9.-]{1,120}\.[A-Za-z]{2,24}/;
+  while (i !== -1 && n < 300) {
+    n++;
+    const l = html.slice(Math.max(0, i - 64), i).match(LOC)?.[0];
+    const d = html.slice(i + 1, i + 140).match(DOM)?.[0];
+    if (l && d) { const c = clean(l + "@" + d); if (c) found.add(c); }
+    i = html.indexOf("@", i + 1);
   }
-  for (const m of html.matchAll(EMAIL_RE)) { const c = clean(m[0]); if (c) found.add(c); }
   const list = [...found];
   const host = siteHost.replace(/^www\./, "");
   return list.find((e) => e.endsWith("@" + host)) || list[0] || null;
@@ -100,7 +105,7 @@ Deno.serve(async (req) => {
     ]);
     return json({ checked, found, left });
   }
-  const limit = Math.min(Math.max(Number(body.limit) || 25, 1), 30);
+  const limit = Math.min(Math.max(Number(body.limit) || 10, 1), 15);
 
   const { data: rows, error } = await admin
     .from("businesses_private")
@@ -123,7 +128,7 @@ Deno.serve(async (req) => {
     await admin.from("businesses_private").update(upd).eq("business_id", r.business_id).eq("email", PLACEHOLDER);
     return result;
   };
-  await Promise.all(Array.from({ length: 6 }, worker));
+  await Promise.all(Array.from({ length: 5 }, worker));
   const tally: Record<string, number> = {};
   results.forEach((x) => (tally[x] = (tally[x] || 0) + 1));
   return json({ checked: results.length, found, tally });
