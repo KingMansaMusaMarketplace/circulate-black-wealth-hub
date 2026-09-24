@@ -31,6 +31,7 @@ const ClaimCampaignsPage: React.FC = () => {
   const [busy, setBusy] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [stats, setStats] = useState({ unclaimed: 0, invited: 0, claimed: 0 });
+  const [testTo, setTestTo] = useState('Clarence@1325.ai');
 
   const [form, setForm] = useState({
     name: '',
@@ -106,6 +107,22 @@ const ClaimCampaignsPage: React.FC = () => {
       if (!dryRun) load();
     } catch (err: any) {
       toast({ title: 'Send failed', description: err?.message, variant: 'destructive' });
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const sendTest = async () => {
+    setBusy('test');
+    try {
+      const { data, error } = await supabase.functions.invoke('send-claim-invitations', {
+        body: { test_to: testTo.trim() },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      toast({ title: 'Test sent', description: `Check ${testTo.trim()} in a minute or two.` });
+    } catch (err: any) {
+      toast({ title: 'Test failed', description: err?.message, variant: 'destructive' });
     } finally {
       setBusy(null);
     }
