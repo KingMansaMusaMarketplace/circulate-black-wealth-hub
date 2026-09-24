@@ -72,14 +72,21 @@ const BusinessReviewQueue: React.FC = () => {
   });
   const [enriching, setEnriching] = useState(false);
 
-  const [territory, setTerritory] = useState<'all' | 'il' | 'ga' | 'other'>(() =>
-    (localStorage.getItem('reviewTerritory') as any) || 'all');
-  useEffect(() => { localStorage.setItem('reviewTerritory', territory); }, [territory]);
+  const [territory, setTerritory] = useState<'all' | 'ah' | 'ip' | 'qz'>(() => {
+    const v = localStorage.getItem('reviewNameRange');
+    return (v === 'ah' || v === 'ip' || v === 'qz') ? v : 'all';
+  });
+  useEffect(() => { localStorage.setItem('reviewNameRange', territory); }, [territory]);
 
   const applyTerritory = useCallback((q: any) => {
-    if (territory === 'il') return q.in('state', ['IL', 'Illinois', 'il', 'ILLINOIS']);
-    if (territory === 'ga') return q.in('state', ['GA', 'Georgia', 'ga', 'GEORGIA']);
-    if (territory === 'other') return q.or('state.is.null,state.not.in.(IL,Illinois,il,ILLINOIS,GA,Georgia,ga,GEORGIA)');
+    const letters = (from: string, to: string) => {
+      const out: string[] = [];
+      for (let c = from.charCodeAt(0); c <= to.charCodeAt(0); c++) out.push(String.fromCharCode(c));
+      return out;
+    };
+    if (territory === 'ah') return q.or(letters('a','h').map(l => `business_name.ilike.${l}%`).join(','));
+    if (territory === 'ip') return q.or(letters('i','p').map(l => `business_name.ilike.${l}%`).join(','));
+    if (territory === 'qz') { letters('a','p').forEach(l => { q = q.not('business_name', 'ilike', `${l}%`); }); return q; }
     return q;
   }, [territory]);
 
@@ -465,8 +472,8 @@ const BusinessReviewQueue: React.FC = () => {
           )}
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm text-white/70">My area:</span>
-            {([['all','All'],['il','Illinois — Lisa'],['ga','Georgia — Maurice'],['other','Everywhere else — Clarence']] as const).map(([k,label]) => (
+            <span className="text-sm text-white/70">My letters:</span>
+            {([['all','All'],['ah','A–H — Lisa'],['ip','I–P — Maurice'],['qz','Q–Z — Clarence']] as const).map(([k,label]) => (
               <Button key={k} size="sm" variant="outline" onClick={() => setTerritory(k)}
                 className={territory === k ? 'bg-mansagold text-mansablue border-mansagold hover:bg-mansagold' : 'border-mansagold/50 text-mansagold bg-transparent hover:bg-mansagold/10'}>
                 {label}
