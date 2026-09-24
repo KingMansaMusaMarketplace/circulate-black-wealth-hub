@@ -28546,7 +28546,7 @@ export type Database = {
     Enums: {
       answering_action: "answered_faq" | "took_message" | "forwarded"
       api_key_environment: "test" | "live"
-      app_role: "admin" | "customer" | "business" | "sales_agent"
+      app_role: "admin" | "customer" | "business" | "sales_agent" | "reviewer"
       badge_category: "referrals" | "earnings" | "recruitment" | "special"
       badge_tier: "bronze" | "silver" | "gold" | "platinum" | "diamond"
       business_submission_status:
@@ -28799,7 +28799,7 @@ export const Constants = {
     Enums: {
       answering_action: ["answered_faq", "took_message", "forwarded"],
       api_key_environment: ["test", "live"],
-      app_role: ["admin", "customer", "business", "sales_agent"],
+      app_role: ["admin", "customer", "business", "sales_agent", "reviewer"],
       badge_category: ["referrals", "earnings", "recruitment", "special"],
       badge_tier: ["bronze", "silver", "gold", "platinum", "diamond"],
       business_submission_status: [
