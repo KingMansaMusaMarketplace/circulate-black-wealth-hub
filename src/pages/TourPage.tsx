@@ -3,8 +3,6 @@ import { useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import holidayVideo from "@/assets/tour/tour-holiday.mp4.asset.json";
 import everydayVideo from "@/assets/tour/tour.mp4.asset.json";
-import holidayThumb from "@/assets/tour/tour-holiday-thumb.jpg.asset.json";
-import everydayThumb from "@/assets/tour/tour-thumb.jpg.asset.json";
 
 const START = Date.parse("2026-10-01T05:00:00Z");
 const END = Date.parse("2027-01-01T06:00:00Z");
@@ -27,7 +25,7 @@ export default function TourPage() {
   const holiday = now >= START && now < END;
   const claim = safeClaimUrl(params.get("claim"));
   const src = holiday ? holidayVideo.url : everydayVideo.url;
-  const poster = holiday ? holidayThumb.url : everydayThumb.url;
+  const poster = holiday ? "/videos/tour-holiday-thumb.jpg" : "/videos/tour-thumb.jpg";
 
   return (
     <main className="min-h-screen bg-background text-foreground">
