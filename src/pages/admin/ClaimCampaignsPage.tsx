@@ -63,7 +63,13 @@ const ClaimCampaignsPage: React.FC = () => {
     setLoading(false);
   };
 
-  useEffect(() => { load(); }, []);
+  const [finder, setFinder] = useState<{ checked: number; found: number; left: number } | null>(null);
+  useEffect(() => {
+    load();
+    supabase.functions.invoke('find-business-emails', { body: { stats: true } }).then(({ data }) => {
+      if (data && typeof data.checked === 'number') setFinder(data);
+    });
+  }, []);
 
   const createCampaign = async () => {
     if (!form.name.trim()) {
@@ -189,6 +195,13 @@ const ClaimCampaignsPage: React.FC = () => {
               </Button>
             </div>
           </div>
+
+          {finder && (
+            <div className="rounded-xl border border-mansagold/20 bg-card/60 px-5 py-3 text-sm text-foreground/85">
+              <span className="font-semibold text-mansagold">Website email finder:</span>{' '}
+              Sites checked: <b>{finder.checked.toLocaleString()}</b> · Emails found: <b>{finder.found.toLocaleString()}</b> · Left to check: <b>{finder.left.toLocaleString()}</b>
+            </div>
+          )}
 
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">

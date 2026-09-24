@@ -101,7 +101,7 @@ Deno.serve(async (req) => {
   const body = await req.json().catch(() => ({}));
   if (body.stats) {
     const [{ count: checked }, { count: found }, { count: left }] = await Promise.all([
-      admin.from("businesses_private").select("business_id", { count: "exact", head: true }).not("email_checked_at", "is", null),
+      admin.from("businesses_private").select("business_id", { count: "exact", head: true }).not("email_checked_at", "is", null).neq("email_check_result", "no_website"),
       admin.from("businesses_private").select("business_id", { count: "exact", head: true }).eq("email_source", "found on website"),
       admin.from("businesses_private").select("business_id", { count: "exact", head: true }).eq("email", PLACEHOLDER).is("email_checked_at", null),
     ]);
