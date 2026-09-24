@@ -52,7 +52,9 @@ function pick(html: string, siteHost: string) {
   }
   const list = [...found];
   const host = siteHost.replace(/^www\./, "");
-  return list.find((e) => e.endsWith("@" + host)) || list[0] || null;
+  const base = host.split(".").slice(-2).join(".");
+  const FREE = /@(gmail|yahoo|ymail|outlook|hotmail|live|icloud|me|aol|comcast|att|sbcglobal|bellsouth|verizon|msn|protonmail)\./;
+  return list.find((e) => e.split("@")[1].endsWith(base)) || list.find((e) => FREE.test(e)) || null;
 }
 
 async function check(website: string) {
