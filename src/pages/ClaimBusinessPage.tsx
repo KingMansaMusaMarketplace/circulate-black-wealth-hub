@@ -22,7 +22,7 @@ const ClaimBusinessPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   
-  const [status, setStatus] = useState<'loading' | 'ready' | 'success' | 'error' | 'expired'>('loading');
+  const [status, setStatus] = useState<'loading' | 'start' | 'ready' | 'success' | 'error' | 'expired'>('loading');
   const [businessName, setBusinessName] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [claiming, setClaiming] = useState(false);
