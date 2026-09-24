@@ -33,8 +33,7 @@ const ClaimBusinessPage: React.FC = () => {
   useEffect(() => {
     const verifyToken = async () => {
       if (!token) {
-        setStatus('error');
-        setError('No claim token provided');
+        setStatus('start');
         return;
       }
 
