@@ -45,8 +45,7 @@ const ClaimCampaignsPage: React.FC = () => {
     setLoading(true);
     const [{ data, error }, unclaimed, invited, claimed] = await Promise.all([
       supabase.from('business_claim_campaigns').select('*').order('created_at', { ascending: false }),
-      supabase.from('businesses').select('id', { count: 'exact', head: true })
-        .eq('listing_status', 'live').eq('claim_status', 'unclaimed').is('claim_invited_at', null).not('email', 'is', null),
+      (supabase.rpc as any)('count_claim_ready').then((r: any) => ({ count: Number(r.data ?? 0) })),
       supabase.from('businesses').select('id', { count: 'exact', head: true }).not('claim_invited_at', 'is', null),
       supabase.from('businesses').select('id', { count: 'exact', head: true }).eq('claim_status', 'claimed'),
     ]);
