@@ -177,8 +177,7 @@ const BusinessReviewQueue: React.FC = () => {
         action: businessId ? {
           label: 'Undo',
           onClick: async () => {
-            await supabase.from('businesses').update({ listing_status: 'draft', is_verified: false } as any).eq('id', businessId);
-            await supabase.from('b2b_external_leads').update({ verification_status: 'needs_review' } as any).eq('id', lead.id);
+            await (supabase.rpc as any)('unpublish_reviewed_lead', { _lead_id: lead.id, _business_id: businessId });
             toast.success(`Unpublished ${lead.business_name}`);
             await Promise.all([fetchLeads(), fetchCounts()]);
           },
