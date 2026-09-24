@@ -1,0 +1,1 @@
+update public.business_claim_campaigns set status='running' where id='63374f3a-3697-4bca-bd86-6c14cf761dee';
