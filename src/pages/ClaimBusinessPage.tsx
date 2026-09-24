@@ -16,6 +16,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { savePendingClaim, clearPendingClaim } from '@/components/auth/PendingClaimRedirect';
 
 const ClaimBusinessPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -99,11 +100,21 @@ const ClaimBusinessPage: React.FC = () => {
     verifyToken();
   }, [token, isDirectory]);
 
+  const returnUrl = `/claim-business?token=${token}${isDirectory ? '&type=directory' : ''}`;
+
+  // Forget the saved claim link once it has been used or is no longer valid
+  useEffect(() => {
+    if (status === 'success' || status === 'error' || status === 'expired') clearPendingClaim();
+  }, [status]);
+
+  const goToAuth = (path: '/login' | '/signup') => {
+    savePendingClaim(returnUrl);
+    navigate(`${path}?redirect=${encodeURIComponent(returnUrl)}`);
+  };
+
   const handleClaim = async () => {
     if (!user) {
-      // Redirect to login with return URL
-      const returnUrl = `/claim-business?token=${token}${isDirectory ? '&type=directory' : ''}`;
-      navigate(`/login?redirect=${encodeURIComponent(returnUrl)}`);
+      goToAuth('/login');
       return;
     }
 
@@ -169,7 +180,7 @@ const ClaimBusinessPage: React.FC = () => {
                 ? 'Business Claimed!' 
                 : status === 'error' || status === 'expired'
                   ? 'Claim Failed'
-                  : 'Claim Your Business'}
+                  : status === 'start' ? 'Claim Your Free Listing' : 'Claim Your Business'}
             </CardTitle>
           </CardHeader>
 
@@ -186,7 +197,7 @@ const ClaimBusinessPage: React.FC = () => {
                 <div className="text-center">
                   <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 mb-4">
                     <Sparkles className="h-3 w-3 mr-1" />
-                    AI-Discovered Business
+                    {isDirectory ? 'Your 1325.AI Listing' : 'AI-Discovered Business'}
                   </Badge>
                   <h3 className="text-xl font-semibold text-white mb-2">{businessName}</h3>
                   <p className="text-slate-400 text-sm">
@@ -241,6 +252,15 @@ const ClaimBusinessPage: React.FC = () => {
                     </>
                   )}
                 </Button>
+                {!user && (
+                  <Button
+                    variant="outline"
+                    onClick={() => goToAuth('/signup')}
+                    className="w-full h-12 border-mansagold/50 text-mansagold hover:bg-mansagold/10"
+                  >
+                    New here? Create a Free Account & Claim
+                  </Button>
+                )}
               </>
             )}
 

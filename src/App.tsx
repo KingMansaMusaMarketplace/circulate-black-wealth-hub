@@ -8,6 +8,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Progress } from "@/components/ui/progress";
 import { AuthProvider } from "@/contexts/AuthContext";
+import PendingClaimRedirect from "@/components/auth/PendingClaimRedirect";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { GuestProvider } from "@/contexts/GuestContext";
 import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
@@ -556,6 +557,7 @@ function App() {
                 {isCapacitorPlatform() ? (
                   <HashRouter>
                     <ScrollToTop />
+                    <PendingClaimRedirect />
                     <AnalyticsTracker />
                     <TooltipProvider>
                     <div className="min-h-screen bg-background" role="application" aria-label="1325.AI">
@@ -1224,6 +1226,7 @@ function App() {
                 ) : (
                   <BrowserRouter>
                     <ScrollToTop />
+                    <PendingClaimRedirect />
                     <AnalyticsTracker />
                   <TooltipProvider>
                   <div className="min-h-screen bg-background" role="application" aria-label="1325.AI">
