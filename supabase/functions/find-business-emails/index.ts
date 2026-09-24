@@ -114,7 +114,8 @@ Deno.serve(async (req) => {
     .is("email_checked_at", null)
     .not("businesses.website", "is", null)
     .neq("businesses.website", "")
-    .limit(limit);
+    .order("business_id")
+    .range(Number(body.offset) || 0, (Number(body.offset) || 0) + limit - 1);
   if (error) return json({ error: error.message }, 500);
 
   let found = 0;
