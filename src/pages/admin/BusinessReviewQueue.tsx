@@ -394,6 +394,19 @@ const BusinessReviewQueue: React.FC = () => {
             </p>
           </header>
 
+          <div role="note" className="rounded-xl border-2 border-mansagold bg-mansagold/10 p-5 space-y-2">
+            <h2 className="text-lg font-bold text-mansagold flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5" /> Reviewer Instructions — Read Before Deciding
+            </h2>
+            <ol className="list-decimal pl-5 space-y-1 text-white">
+              <li><strong>Click and open every link</strong> on each business (website, social media, sources) before you Approve, Re-verify, or Reject.</li>
+              <li>Confirm from what you see that the business is <strong>Black-owned</strong> (owner photos, "About" page, press, Black-owned tags, etc.).</li>
+              <li><strong>No email is NOT a reason to reject.</strong> A business without an email can still be approved if the links show it is Black-owned.</li>
+              <li>If you can't tell for sure, choose <strong>Re-verify</strong> instead of Reject.</li>
+            </ol>
+          </div>
+
+
           {isAdmin && <PhotoBackfillCard />}
 
           {isAdmin && (
