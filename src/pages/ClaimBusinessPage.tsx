@@ -99,11 +99,21 @@ const ClaimBusinessPage: React.FC = () => {
     verifyToken();
   }, [token, isDirectory]);
 
+  const returnUrl = `/claim-business?token=${token}${isDirectory ? '&type=directory' : ''}`;
+
+  // Forget the saved claim link once it has been used or is no longer valid
+  useEffect(() => {
+    if (status === 'success' || status === 'error' || status === 'expired') clearPendingClaim();
+  }, [status]);
+
+  const goToAuth = (path: '/login' | '/signup') => {
+    savePendingClaim(returnUrl);
+    navigate(`${path}?redirect=${encodeURIComponent(returnUrl)}`);
+  };
+
   const handleClaim = async () => {
     if (!user) {
-      // Redirect to login with return URL
-      const returnUrl = `/claim-business?token=${token}${isDirectory ? '&type=directory' : ''}`;
-      navigate(`/login?redirect=${encodeURIComponent(returnUrl)}`);
+      goToAuth('/login');
       return;
     }
 
