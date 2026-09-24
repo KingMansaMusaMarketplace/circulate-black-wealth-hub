@@ -26728,6 +26728,7 @@ export type Database = {
         Args: { p_business_id: string; p_tier?: string }
         Returns: Json
       }
+      count_claim_ready: { Args: never; Returns: number }
       create_sales_agent_application_secure: {
         Args: {
           p_business_experience?: string
@@ -27135,6 +27136,21 @@ export type Database = {
           referrals: number
           user_id: string
           user_name: string
+        }[]
+      }
+      get_claim_campaign_candidates: {
+        Args: {
+          _category: string
+          _city: string
+          _limit: number
+          _state: string
+        }
+        Returns: {
+          business_name: string
+          city: string
+          email: string
+          id: string
+          state: string
         }[]
       }
       get_coalition_stats: { Args: never; Returns: Json }
