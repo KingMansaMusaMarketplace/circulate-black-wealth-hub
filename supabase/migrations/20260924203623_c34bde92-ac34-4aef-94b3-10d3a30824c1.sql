@@ -1,0 +1,1 @@
+ALTER TABLE public.b2b_external_leads ADD COLUMN IF NOT EXISTS website_status text, ADD COLUMN IF NOT EXISTS website_checked_at timestamptz;
