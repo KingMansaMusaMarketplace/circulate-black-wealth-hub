@@ -78,7 +78,13 @@ Deno.serve(async (req) => {
   const admin = createClient(url, key);
 
   const token = (req.headers.get("Authorization") || "").replace("Bearer ", "");
-  if (token !== key) {
+  const jobTok = req.headers.get("x-job-token");
+  let jobOk = false;
+  if (jobTok) {
+    const { data } = await admin.from("internal_job_tokens").select("token").eq("name", "find-business-emails").maybeSingle();
+    jobOk = !!data && data.token === jobTok;
+  }
+  if (token !== key && !jobOk) {
     const { data: u } = await admin.auth.getUser(token);
     if (!u?.user) return json({ error: "unauthorized" }, 401);
     const { data: ok } = await admin.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
