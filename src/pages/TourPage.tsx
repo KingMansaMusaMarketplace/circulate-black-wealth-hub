@@ -24,8 +24,9 @@ export default function TourPage() {
   const now = Date.now();
   const holiday = now >= START && now < END;
   const claim = safeClaimUrl(params.get("claim"));
-  const src = holiday ? holidayVideo.url : everydayVideo.url;
-  const poster = holiday ? "/videos/tour-holiday-thumb.jpg" : "/videos/tour-thumb.jpg";
+  // Campaign always plays the latest 1:08 Holiday video (user decision Sep 23 2026).
+  const src = holidayVideo.url || everydayVideo.url;
+  const poster = "/videos/tour-holiday-thumb.jpg";
 
   return (
     <main className="min-h-screen bg-background text-foreground">
