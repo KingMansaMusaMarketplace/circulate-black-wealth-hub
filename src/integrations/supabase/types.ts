@@ -2168,6 +2168,7 @@ export type Database = {
           phone_valid: boolean | null
           price_range: string | null
           priority_rank: string | null
+          reviewed_by: string | null
           social_profiles: Json | null
           source_citations: string[] | null
           source_id: string | null
@@ -2246,6 +2247,7 @@ export type Database = {
           phone_valid?: boolean | null
           price_range?: string | null
           priority_rank?: string | null
+          reviewed_by?: string | null
           social_profiles?: Json | null
           source_citations?: string[] | null
           source_id?: string | null
@@ -2324,6 +2326,7 @@ export type Database = {
           phone_valid?: boolean | null
           price_range?: string | null
           priority_rank?: string | null
+          reviewed_by?: string | null
           social_profiles?: Json | null
           source_citations?: string[] | null
           source_id?: string | null
@@ -26608,6 +26611,7 @@ export type Database = {
         Returns: Json
       }
       can_access_admin_features: { Args: never; Returns: boolean }
+      can_review_businesses: { Args: never; Returns: boolean }
       can_view_business_contact: {
         Args: { business_id_param: string }
         Returns: boolean
@@ -28092,6 +28096,7 @@ export type Database = {
       process_pending_commissions: { Args: never; Returns: undefined }
       process_pending_referrals: { Args: never; Returns: Json }
       process_withdrawal: { Args: { p_request_id: string }; Returns: boolean }
+      publish_reviewed_lead: { Args: { _lead_id: string }; Returns: string }
       record_business_metric:
         | {
             Args: {
@@ -28470,6 +28475,10 @@ export type Database = {
         }
         Returns: string
       }
+      unpublish_reviewed_lead: {
+        Args: { _business_id: string; _lead_id: string }
+        Returns: undefined
+      }
       update_agent_tier: { Args: { p_agent_id: string }; Returns: undefined }
       update_partner_commission_tier: {
         Args: { p_partner_id: string }
@@ -28546,7 +28555,7 @@ export type Database = {
     Enums: {
       answering_action: "answered_faq" | "took_message" | "forwarded"
       api_key_environment: "test" | "live"
-      app_role: "admin" | "customer" | "business" | "sales_agent"
+      app_role: "admin" | "customer" | "business" | "sales_agent" | "reviewer"
       badge_category: "referrals" | "earnings" | "recruitment" | "special"
       badge_tier: "bronze" | "silver" | "gold" | "platinum" | "diamond"
       business_submission_status:
@@ -28799,7 +28808,7 @@ export const Constants = {
     Enums: {
       answering_action: ["answered_faq", "took_message", "forwarded"],
       api_key_environment: ["test", "live"],
-      app_role: ["admin", "customer", "business", "sales_agent"],
+      app_role: ["admin", "customer", "business", "sales_agent", "reviewer"],
       badge_category: ["referrals", "earnings", "recruitment", "special"],
       badge_tier: ["bronze", "silver", "gold", "platinum", "diamond"],
       business_submission_status: [

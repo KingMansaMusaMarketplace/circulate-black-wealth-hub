@@ -13,6 +13,7 @@ import OwnershipAuditCard from '@/components/admin/OwnershipAuditCard';
 import DeadLinkAuditCard from '@/components/admin/DeadLinkAuditCard';
 import OwnershipSpotCheckCard from '@/components/admin/OwnershipSpotCheckCard';
 import PhotoBackfillCard from '@/components/admin/PhotoBackfillCard';
+import { useServerAdminVerification } from '@/hooks/useServerAdminVerification';
 
 type Lead = {
   id: string;
@@ -54,6 +55,7 @@ type EnrichmentStats = {
 };
 
 const BusinessReviewQueue: React.FC = () => {
+  const { isAdmin } = useServerAdminVerification();
   const [status, setStatus] = useState<StatusFilter>('needs_review');
   const [search, setSearch] = useState('');
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -123,7 +125,7 @@ const BusinessReviewQueue: React.FC = () => {
     });
   }, []);
 
-  useEffect(() => { fetchLeads(); fetchCounts(); fetchEnrichmentStats(); }, [fetchLeads, fetchCounts, fetchEnrichmentStats]);
+  useEffect(() => { fetchLeads(); fetchCounts(); if (isAdmin) fetchEnrichmentStats(); }, [fetchLeads, fetchCounts, fetchEnrichmentStats, isAdmin]);
 
   // --- selection + keyboard fast lane state ---
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -140,27 +142,13 @@ const BusinessReviewQueue: React.FC = () => {
   };
 
   // Publishes one lead. Returns the new business id (or throws).
-  const publishLead = async (lead: Lead, ownerId: string, pullPhotos = true) => {
-    const { data: inserted, error: insErr } = await supabase.from('businesses').insert({
-      owner_id: ownerId,
-      name: lead.business_name,
-      business_name: lead.business_name,
-      category: lead.category,
-      city: lead.city,
-      state: lead.state,
-      website: lead.website_url,
-      phone: lead.verified_phone || lead.phone_number,
-      description: lead.business_description,
-      logo_url: lead.logo_url,
-      banner_url: lead.banner_url,
-      address: lead.verified_address,
-      is_verified: true,
-      listing_status: 'live',
-    } as any).select('id').single();
+  const publishLead = async (lead: Lead, _ownerId: string, pullPhotos = true) => {
+    const { data: newId, error: insErr } = await (supabase.rpc as any)('publish_reviewed_lead', { _lead_id: lead.id });
     if (insErr) throw insErr;
+    const inserted = { id: newId as string };
 
     let photosPulled = false;
-    if (pullPhotos && inserted?.id && lead.website_url) {
+    if (isAdmin && pullPhotos && inserted?.id && lead.website_url) {
       try {
         const { data: branding } = await supabase.functions.invoke('bulk-refresh-business-branding', {
           body: { ids: [inserted.id] },
@@ -170,12 +158,6 @@ const BusinessReviewQueue: React.FC = () => {
         console.warn('Branding refresh failed', brandErr);
       }
     }
-
-    const { error: updErr } = await supabase
-      .from('b2b_external_leads')
-      .update({ verification_status: 'promoted', verified_at: new Date().toISOString() } as any)
-      .eq('id', lead.id);
-    if (updErr) throw updErr;
 
     return { businessId: inserted?.id as string | undefined, photosPulled };
   };
@@ -195,8 +177,7 @@ const BusinessReviewQueue: React.FC = () => {
         action: businessId ? {
           label: 'Undo',
           onClick: async () => {
-            await supabase.from('businesses').update({ listing_status: 'draft', is_verified: false } as any).eq('id', businessId);
-            await supabase.from('b2b_external_leads').update({ verification_status: 'needs_review' } as any).eq('id', lead.id);
+            await (supabase.rpc as any)('unpublish_reviewed_lead', { _lead_id: lead.id, _business_id: businessId });
             toast.success(`Unpublished ${lead.business_name}`);
             await Promise.all([fetchLeads(), fetchCounts()]);
           },
@@ -396,9 +377,11 @@ const BusinessReviewQueue: React.FC = () => {
       <div className="min-h-screen bg-black text-white px-4 py-8 md:px-8">
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="flex items-center justify-between">
-            <Button asChild variant="ghost" size="sm" className="text-white/90 hover:text-white">
-              <Link to="/admin"><ArrowLeft className="h-4 w-4 mr-1" /> Admin</Link>
-            </Button>
+            {isAdmin ? (
+              <Button asChild variant="ghost" size="sm" className="text-white/90 hover:text-white">
+                <Link to="/admin"><ArrowLeft className="h-4 w-4 mr-1" /> Admin</Link>
+              </Button>
+            ) : <span />}
             <Button variant="outline" size="sm" onClick={() => { fetchLeads(); fetchCounts(); }}>
               <RefreshCw className="h-4 w-4 mr-1" /> Refresh
             </Button>
@@ -411,10 +394,9 @@ const BusinessReviewQueue: React.FC = () => {
             </p>
           </header>
 
-          <PhotoBackfillCard />
+          {isAdmin && <PhotoBackfillCard />}
 
-
-
+          {isAdmin && (
           <Card className="bg-slate-900/60 border-white/10">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-base flex items-center gap-2">
@@ -456,6 +438,7 @@ const BusinessReviewQueue: React.FC = () => {
               </p>
             </CardContent>
           </Card>
+          )}
 
           <Tabs value={status} onValueChange={(v) => setStatus(v as StatusFilter)}>
             <TabsList className="bg-slate-900/60 border border-white/10">
@@ -467,11 +450,13 @@ const BusinessReviewQueue: React.FC = () => {
             </TabsList>
           </Tabs>
 
-          <OwnershipSpotCheckCard />
-
-          <OwnershipAuditCard />
-
-          <DeadLinkAuditCard />
+          {isAdmin && (
+            <>
+              <OwnershipSpotCheckCard />
+              <OwnershipAuditCard />
+              <DeadLinkAuditCard />
+            </>
+          )}
 
 
 

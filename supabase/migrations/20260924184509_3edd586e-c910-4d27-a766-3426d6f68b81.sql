@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.stamp_lead_reviewer() FROM anon, public, authenticated;
