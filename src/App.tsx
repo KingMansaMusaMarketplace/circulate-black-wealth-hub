@@ -16,6 +16,7 @@ import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnboarding";
 import RequireAdmin from '@/components/auth/RequireAdmin';
+import RequireReviewer from '@/components/auth/RequireReviewer';
 const ShoppingAssistantChat = lazy(() => import("@/components/ai/ShoppingAssistantChat"));
 import { HelmetProvider } from 'react-helmet-async';
 // initializeCapacitorPlugins is dynamically imported below to avoid dual static+dynamic import
@@ -619,7 +620,7 @@ function App() {
                               <Route path="/admin/investor-requests" element={<RequireAdmin><LazyAdminInvestorRequestsPage /></RequireAdmin>} />
                               <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                               <Route path="/admin/kayla-scoreboard" element={<RequireAdmin><LazyKaylaScoreboardPage /></RequireAdmin>} />
-                              <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
+                              <Route path="/admin/business-review" element={<RequireReviewer><LazyBusinessReviewQueue /></RequireReviewer>} />
                               <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
 <Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
                               <Route path="/admin/sponsor-agreements" element={<RequireAdmin><LazyAdminSponsorAgreements /></RequireAdmin>} />
@@ -1281,7 +1282,7 @@ function App() {
                         <Route path="/admin/investor-requests" element={<RequireAdmin><LazyAdminInvestorRequestsPage /></RequireAdmin>} />
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                               <Route path="/admin/kayla-scoreboard" element={<RequireAdmin><LazyKaylaScoreboardPage /></RequireAdmin>} />
-                        <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
+                        <Route path="/admin/business-review" element={<RequireReviewer><LazyBusinessReviewQueue /></RequireReviewer>} />
                         <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
 <Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
                               <Route path="/admin/sponsor-agreements" element={<RequireAdmin><LazyAdminSponsorAgreements /></RequireAdmin>} />
@@ -1888,7 +1889,7 @@ function App() {
                         <Route path="/admin/investor-requests" element={<RequireAdmin><LazyAdminInvestorRequestsPage /></RequireAdmin>} />
                         <Route path="/admin/ai-workforce" element={<RequireAdmin><LazyAIWorkforceDashboard /></RequireAdmin>} />
                               <Route path="/admin/kayla-scoreboard" element={<RequireAdmin><LazyKaylaScoreboardPage /></RequireAdmin>} />
-                        <Route path="/admin/business-review" element={<RequireAdmin><LazyBusinessReviewQueue /></RequireAdmin>} />
+                        <Route path="/admin/business-review" element={<RequireReviewer><LazyBusinessReviewQueue /></RequireReviewer>} />
                         <Route path="/admin/claim-campaigns" element={<RequireAdmin><LazyAdminClaimCampaigns /></RequireAdmin>} />
 <Route path="/admin/abandoned-checkouts" element={<RequireAdmin><LazyAdminAbandonedCheckouts /></RequireAdmin>} />
                               <Route path="/admin/sponsor-agreements" element={<RequireAdmin><LazyAdminSponsorAgreements /></RequireAdmin>} />
