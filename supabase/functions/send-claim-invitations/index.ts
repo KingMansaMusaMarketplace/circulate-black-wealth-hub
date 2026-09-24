@@ -156,21 +156,13 @@ serve(async (req: Request): Promise<Response> => {
 
     const limit = Math.min(Math.max(Number(campaign.daily_limit) || 200, 1), 500);
 
-    // Candidate listings: live, unclaimed, never invited, has an email
-    let q = supabase
-      .from("businesses")
-      .select("id, business_name, email, city, state")
-      .eq("listing_status", "live")
-      .eq("claim_status", "unclaimed")
-      .is("claim_invited_at", null)
-      .not("email", "is", null)
-      .limit(limit);
-
-    if (campaign.target_city) q = q.eq("city", campaign.target_city);
-    if (campaign.target_state) q = q.eq("state", campaign.target_state);
-    if (campaign.target_category) q = q.eq("category", campaign.target_category);
-
-    const { data: rows, error: bErr } = await q;
+    // Candidate listings: live, unclaimed, never invited, has an email (private or public)
+    const { data: rows, error: bErr } = await supabase.rpc("get_claim_campaign_candidates", {
+      _city: campaign.target_city || null,
+      _state: campaign.target_state || null,
+      _category: campaign.target_category || null,
+      _limit: limit,
+    });
     if (bErr) throw new Error(`Failed to load listings: ${bErr.message}`);
 
     const candidates = (rows ?? []).filter(
