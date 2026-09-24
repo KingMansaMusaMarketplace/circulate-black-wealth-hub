@@ -72,23 +72,34 @@ const BusinessReviewQueue: React.FC = () => {
   });
   const [enriching, setEnriching] = useState(false);
 
+  const [territory, setTerritory] = useState<'all' | 'il' | 'ga' | 'other'>(() =>
+    (localStorage.getItem('reviewTerritory') as any) || 'all');
+  useEffect(() => { localStorage.setItem('reviewTerritory', territory); }, [territory]);
+
+  const applyTerritory = useCallback((q: any) => {
+    if (territory === 'il') return q.in('state', ['IL', 'Illinois', 'il', 'ILLINOIS']);
+    if (territory === 'ga') return q.in('state', ['GA', 'Georgia', 'ga', 'GEORGIA']);
+    if (territory === 'other') return q.or('state.is.null,state.not.in.(IL,Illinois,il,ILLINOIS,GA,Georgia,ga,GEORGIA)');
+    return q;
+  }, [territory]);
+
   const fetchCounts = useCallback(async () => {
     const results = await Promise.all(STATUS_COUNT_KEYS.map(async (s) => {
-      const { count } = await supabase
+      const { count } = await applyTerritory(supabase
         .from('b2b_external_leads')
         .select('id', { count: 'exact', head: true })
-        .eq('verification_status', s);
+        .eq('verification_status', s));
       return [s, count ?? 0] as const;
     }));
     setCounts(Object.fromEntries(results) as Record<StatusFilter, number>);
-  }, []);
+  }, [applyTerritory]);
 
   const fetchLeads = useCallback(async () => {
     setLoading(true);
-    let q = supabase
+    let q = applyTerritory(supabase
       .from('b2b_external_leads')
       .select('id,business_name,category,city,state,website_url,phone_number,business_description,logo_url,banner_url,confidence_score,black_owned_confidence,black_owned_evidence,verification_status,verification_notes,verified_phone,verified_address,created_at')
-      .eq('verification_status', status)
+      .eq('verification_status', status))
       .order('created_at', { ascending: false })
       .limit(50);
     if (search.trim()) q = q.ilike('business_name', `%${search.trim()}%`);
@@ -96,7 +107,7 @@ const BusinessReviewQueue: React.FC = () => {
     if (error) toast.error(error.message);
     setLeads((data ?? []) as Lead[]);
     setLoading(false);
-  }, [status, search]);
+  }, [status, search, applyTerritory]);
 
   const fetchEnrichmentStats = useCallback(async () => {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -452,6 +463,16 @@ const BusinessReviewQueue: React.FC = () => {
             </CardContent>
           </Card>
           )}
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm text-white/70">My area:</span>
+            {([['all','All'],['il','Illinois — Lisa'],['ga','Georgia — Maurice'],['other','Everywhere else — Clarence']] as const).map(([k,label]) => (
+              <Button key={k} size="sm" variant="outline" onClick={() => setTerritory(k)}
+                className={territory === k ? 'bg-mansagold text-mansablue border-mansagold hover:bg-mansagold' : 'border-mansagold/50 text-mansagold bg-transparent hover:bg-mansagold/10'}>
+                {label}
+              </Button>
+            ))}
+          </div>
 
           <Tabs value={status} onValueChange={(v) => setStatus(v as StatusFilter)}>
             <TabsList className="bg-slate-900/60 border border-white/10">
