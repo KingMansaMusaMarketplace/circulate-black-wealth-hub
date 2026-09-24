@@ -267,18 +267,55 @@ const ClaimBusinessPage: React.FC = () => {
               </div>
             )}
 
+            {status === 'start' && (
+              <div className="space-y-4">
+                <p className="text-slate-300 text-sm text-center">
+                  Listing your business on 1325.AI is free. Pick the option that fits you:
+                </p>
+                <div className="bg-slate-800/50 rounded-lg p-4 space-y-2">
+                  <p className="text-sm font-medium text-white">Got an email from us?</p>
+                  <p className="text-xs text-slate-400">
+                    Open it and tap the <strong>Claim your listing</strong> button. That special link proves the business is yours.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => navigate('/business-signup')}
+                  className="w-full h-12 bg-mansagold hover:bg-mansagold/90 text-mansablue font-semibold"
+                >
+                  Add or Claim My Business Free
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => navigate('/directory')}
+                  className="w-full border-slate-600 text-slate-300 hover:bg-slate-800"
+                >
+                  Find My Business in the Directory
+                </Button>
+                <p className="text-xs text-slate-500 text-center">
+                  Need help? Email <a className="underline" href="mailto:Partner@1325.AI">Partner@1325.AI</a>
+                </p>
+              </div>
+            )}
+
             {(status === 'error' || status === 'expired') && (
               <div className="text-center space-y-4">
                 <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
                   <p className="text-red-300">{error}</p>
                 </div>
                 
-                {status === 'expired' && (
-                  <p className="text-slate-400 text-sm">
-                    Contact the person who shared this link to get a new one.
-                  </p>
-                )}
+                <p className="text-slate-400 text-sm">
+                  {status === 'expired'
+                    ? 'Email Partner@1325.AI and we will send you a fresh link.'
+                    : 'You can still add or claim your business for free.'}
+                </p>
 
+                <Button
+                  onClick={() => navigate('/business-signup')}
+                  className="w-full bg-mansagold hover:bg-mansagold/90 text-mansablue font-semibold"
+                >
+                  Add or Claim My Business Free
+                </Button>
                 <Button
                   variant="outline"
                   onClick={() => navigate('/directory')}
