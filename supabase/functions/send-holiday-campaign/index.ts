@@ -58,6 +58,8 @@ function renderEmail(wave: number, name: string, city: string | null, unsubUrl: 
 <li>Priority placement and a verified, claimed profile</li>
 <li>~4 Roles Covered — over $18,000 a month in staff time saved</li>
 </ul>
+<p style="font-size:15px;font-weight:700;text-align:center;margin:24px 0 8px">Watch the tour</p>
+<a href="${SITE}/tour?utm_source=email&utm_campaign=holiday_2026&utm_content=wave${wave}_video" style="display:block;text-decoration:none"><img src="${SITE}/videos/tour-holiday-thumb.jpg" alt="Watch the 1325.AI tour" width="504" style="display:block;width:100%;max-width:504px;height:auto;border-radius:10px;border:2px solid #FFB300;margin:0 auto"/></a>
 <p style="text-align:center;margin:26px 0"><a href="${SITE}/holiday-special?utm_source=email&utm_campaign=holiday_2026&utm_content=wave${wave}" style="background:#FFB300;color:#1a1a1a;text-decoration:none;font-weight:800;font-size:17px;padding:14px 30px;border-radius:8px;display:inline-block">Lock in $149/mo</a></p>
 <p style="font-size:14px;line-height:1.6;color:#555;margin:0">Offer valid for sign-ups October 1 – December 31, 2026. Price stays $149/month as long as your subscription stays active. Questions? Call 312.900.6004.</p>
 </td></tr>

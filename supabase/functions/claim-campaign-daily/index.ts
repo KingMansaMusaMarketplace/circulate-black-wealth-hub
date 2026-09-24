@@ -18,6 +18,15 @@ const MAX_REMINDERS = 200;
 const esc = (s: string) =>
   String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 
+function tourBlock(claimUrl: string) {
+  const now = new Date();
+  const holiday = now >= new Date("2026-10-01T00:00:00-05:00") && now < new Date("2027-01-01T00:00:00-06:00");
+  const thumb = `${SITE_URL}/videos/${holiday ? "tour-holiday-thumb" : "tour-thumb"}.jpg`;
+  const href = `${SITE_URL}/tour?claim=${encodeURIComponent(claimUrl)}&utm_source=email&utm_campaign=claim_reminder`;
+  return `<p style="font-size:15px;font-weight:700;color:#111;text-align:center;margin:24px 0 8px;">Watch the tour</p>
+<a href="${href}" style="display:block;text-decoration:none;"><img src="${thumb}" alt="Watch the 1325.AI tour" width="504" style="display:block;width:100%;max-width:504px;height:auto;border-radius:10px;border:2px solid #FFB300;margin:0 auto;"/></a>`;
+}
+
 function reminderHtml(name: string, claimUrl: string, unsubUrl: string) {
   return `<!DOCTYPE html><html><body style="margin:0;background:#f5f5f5;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;">
 <table role="presentation" width="100%" style="padding:24px 12px;"><tr><td align="center">
@@ -28,6 +37,7 @@ function reminderHtml(name: string, claimUrl: string, unsubUrl: string) {
 <p style="font-size:15px;line-height:1.6;color:#333;">Your free listing on 1325.AI is still waiting for you. Claiming it takes about two minutes and lets you update your hours, photos and contact details so customers can find you.</p>
 <table role="presentation" style="margin:24px auto;"><tr><td style="background:#FFB300;border-radius:8px;">
 <a href="${claimUrl}" style="display:inline-block;padding:14px 32px;color:#000;font-weight:700;text-decoration:none;">Claim Your Free Listing</a></td></tr></table>
+${tourBlock(claimUrl)}
 <p style="font-size:13px;color:#666;">This is the only reminder we'll send.</p>
 </td></tr>
 <tr><td style="padding:20px 28px;background:#fafafa;border-top:1px solid #eee;font-size:11px;color:#888;">
