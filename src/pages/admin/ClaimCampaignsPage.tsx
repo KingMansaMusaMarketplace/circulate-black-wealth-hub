@@ -31,6 +31,7 @@ const ClaimCampaignsPage: React.FC = () => {
   const [busy, setBusy] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [stats, setStats] = useState({ unclaimed: 0, invited: 0, claimed: 0 });
+  const [testTo, setTestTo] = useState('Clarence@1325.ai');
 
   const [form, setForm] = useState({
     name: '',
@@ -111,6 +112,22 @@ const ClaimCampaignsPage: React.FC = () => {
     }
   };
 
+  const sendTest = async () => {
+    setBusy('test');
+    try {
+      const { data, error } = await supabase.functions.invoke('send-claim-invitations', {
+        body: { test_to: testTo.trim() },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      toast({ title: 'Test sent', description: `Check ${testTo.trim()} in a minute or two.` });
+    } catch (err: any) {
+      toast({ title: 'Test failed', description: err?.message, variant: 'destructive' });
+    } finally {
+      setBusy(null);
+    }
+  };
+
   const statusStyle = (s: string) =>
     s === 'active'
       ? 'bg-mansagold/15 text-mansagold border-mansagold/40'
@@ -149,6 +166,31 @@ const ClaimCampaignsPage: React.FC = () => {
         </div>
 
         <div className="max-w-6xl mx-auto px-6 md:px-10 py-10 space-y-10">
+          {/* Test email */}
+          <div className="rounded-2xl border border-mansagold/30 bg-card/60 p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mansagold">Send a test email</p>
+            <p className="mt-2 text-sm text-foreground/75">
+              Sends one sample claim email (for "Sample Business, Chicago") so you can see it in a real inbox. Nothing is recorded and no business is emailed.
+            </p>
+            <div className="mt-4 flex flex-col sm:flex-row gap-3">
+              <Input
+                type="email"
+                value={testTo}
+                onChange={(e) => setTestTo(e.target.value)}
+                className={inputCls}
+                aria-label="Test email address"
+              />
+              <Button
+                onClick={sendTest}
+                disabled={busy === 'test'}
+                className="h-11 bg-mansagold text-mansablue-dark hover:bg-mansagold/90 font-semibold"
+              >
+                {busy === 'test' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                Send test
+              </Button>
+            </div>
+          </div>
+
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
