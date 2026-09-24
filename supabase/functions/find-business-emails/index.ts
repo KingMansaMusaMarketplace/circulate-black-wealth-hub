@@ -35,7 +35,7 @@ async function fetchText(url: string) {
     if (!r.ok) return "";
     const t = (r.headers.get("content-type") || "");
     if (!t.includes("html") && !t.includes("text")) return "";
-    return (await r.text()).slice(0, 600_000);
+    return (await r.text()).slice(0, 200_000);
   } catch { return ""; }
 }
 
@@ -100,7 +100,7 @@ Deno.serve(async (req) => {
     ]);
     return json({ checked, found, left });
   }
-  const limit = Math.min(Math.max(Number(body.limit) || 40, 1), 60);
+  const limit = Math.min(Math.max(Number(body.limit) || 25, 1), 30);
 
   const { data: rows, error } = await admin
     .from("businesses_private")
@@ -113,13 +113,17 @@ Deno.serve(async (req) => {
   if (error) return json({ error: error.message }, 500);
 
   let found = 0;
-  const results = await Promise.all((rows || []).map(async (r: any) => {
+  const results: string[] = [];
+  const queue = [...(rows || [])];
+  const worker = async () => { while (queue.length) { const r: any = queue.shift(); results.push(await one(r)); } };
+  const one = async (r: any) => {
     const { email, result } = await check(r.businesses.website);
     const upd: Record<string, unknown> = { email_checked_at: new Date().toISOString(), email_check_result: result };
     if (email) { upd.email = email; upd.email_source = "found on website"; found++; }
     await admin.from("businesses_private").update(upd).eq("business_id", r.business_id).eq("email", PLACEHOLDER);
     return result;
-  }));
+  };
+  await Promise.all(Array.from({ length: 6 }, worker));
   const tally: Record<string, number> = {};
   results.forEach((x) => (tally[x] = (tally[x] || 0) + 1));
   return json({ checked: results.length, found, tally });
