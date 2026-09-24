@@ -17,6 +17,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { savePendingClaim, clearPendingClaim } from '@/components/auth/PendingClaimRedirect';
+import { savePendingClaim, clearPendingClaim } from '@/components/auth/PendingClaimRedirect';
 
 const ClaimBusinessPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -252,6 +253,15 @@ const ClaimBusinessPage: React.FC = () => {
                     </>
                   )}
                 </Button>
+                {!user && (
+                  <Button
+                    variant="outline"
+                    onClick={() => goToAuth('/signup')}
+                    className="w-full h-12 border-mansagold/50 text-mansagold hover:bg-mansagold/10"
+                  >
+                    New here? Create a Free Account & Claim
+                  </Button>
+                )}
               </>
             )}
 
