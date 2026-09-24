@@ -1,0 +1,3 @@
+update public.business_claim_campaigns set status='paused' where id='63374f3a-3697-4bca-bd86-6c14cf761dee';
+update public.businesses_private set email=null where email in ('tbowling@nogreenthumb.com','qa+harpervine.20260510@1325.ai');
+insert into public.claim_email_optouts(email) values ('tbowling@nogreenthumb.com'),('qa+harpervine.20260510@1325.ai'),('advertise@urbanmatter.com') on conflict (email) do nothing;
