@@ -180,7 +180,7 @@ const ClaimBusinessPage: React.FC = () => {
                 ? 'Business Claimed!' 
                 : status === 'error' || status === 'expired'
                   ? 'Claim Failed'
-                  : 'Claim Your Business'}
+                  : status === 'start' ? 'Claim Your Free Listing' : 'Claim Your Business'}
             </CardTitle>
           </CardHeader>
 
@@ -197,7 +197,7 @@ const ClaimBusinessPage: React.FC = () => {
                 <div className="text-center">
                   <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 mb-4">
                     <Sparkles className="h-3 w-3 mr-1" />
-                    AI-Discovered Business
+                    {isDirectory ? 'Your 1325.AI Listing' : 'AI-Discovered Business'}
                   </Badge>
                   <h3 className="text-xl font-semibold text-white mb-2">{businessName}</h3>
                   <p className="text-slate-400 text-sm">
