@@ -21,7 +21,7 @@ const esc = (s: string) =>
 function tourBlock(claimUrl: string) {
   const now = new Date();
   const holiday = now >= new Date("2026-10-01T00:00:00-05:00") && now < new Date("2027-01-01T00:00:00-06:00");
-  const thumb = `${SITE_URL}/videos/${holiday ? "tour-holiday-thumb" : "tour-thumb"}.jpg`;
+  const thumb = `${SITE_URL}/videos/tour-holiday-thumb.jpg`;
   const href = `${SITE_URL}/tour?claim=${encodeURIComponent(claimUrl)}&utm_source=email&utm_campaign=claim_reminder`;
   return `<p style="font-size:15px;font-weight:700;color:#111;text-align:center;margin:24px 0 8px;">Watch the tour</p>
 <a href="${href}" style="display:block;text-decoration:none;"><img src="${thumb}" alt="Watch the 1325.AI tour" width="504" style="display:block;width:100%;max-width:504px;height:auto;border-radius:10px;border:2px solid #FFB300;margin:0 auto;"/></a>`;
