@@ -22,6 +22,7 @@ type Lead = {
   city: string | null;
   state: string | null;
   website_url: string | null;
+  website_status?: string | null;
   phone_number: string | null;
   business_description: string | null;
   logo_url: string | null;
@@ -105,7 +106,7 @@ const BusinessReviewQueue: React.FC = () => {
     setLoading(true);
     let q = applyTerritory(supabase
       .from('b2b_external_leads')
-      .select('id,business_name,category,city,state,website_url,phone_number,business_description,logo_url,banner_url,confidence_score,black_owned_confidence,black_owned_evidence,verification_status,verification_notes,verified_phone,verified_address,created_at')
+      .select('id,business_name,category,city,state,website_url,website_status,phone_number,business_description,logo_url,banner_url,confidence_score,black_owned_confidence,black_owned_evidence,verification_status,verification_notes,verified_phone,verified_address,created_at')
       .eq('verification_status', status))
       .order('created_at', { ascending: false })
       .limit(50);
@@ -632,6 +633,18 @@ const BusinessReviewQueue: React.FC = () => {
                                className="text-xs text-mansagold inline-flex items-center gap-1 mt-1">
                               {lead.website_url} <ExternalLink className="h-3 w-3" />
                             </a>
+                          )}
+                          {lead.website_status === 'not_found' && (
+                            <div className="mt-1">
+                              <Badge variant="destructive" className="text-xs">Website not found</Badge>
+                              <a
+                                href={`https://www.google.com/search?q=${encodeURIComponent(`${lead.business_name} ${lead.city ?? ''} ${lead.state ?? ''}`)}`}
+                                target="_blank" rel="noreferrer"
+                                className="ml-2 text-xs text-mansagold underline"
+                              >
+                                Search Google instead
+                              </a>
+                            </div>
                           )}
                         </div>
                       </div>

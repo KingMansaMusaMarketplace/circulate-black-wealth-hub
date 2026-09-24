@@ -2183,7 +2183,9 @@ export type Database = {
           verified_address: string | null
           verified_at: string | null
           verified_phone: string | null
+          website_checked_at: string | null
           website_domain: string | null
+          website_status: string | null
           website_url: string | null
           website_valid: boolean | null
           zip_code: string | null
@@ -2262,7 +2264,9 @@ export type Database = {
           verified_address?: string | null
           verified_at?: string | null
           verified_phone?: string | null
+          website_checked_at?: string | null
           website_domain?: string | null
+          website_status?: string | null
           website_url?: string | null
           website_valid?: boolean | null
           zip_code?: string | null
@@ -2341,7 +2345,9 @@ export type Database = {
           verified_address?: string | null
           verified_at?: string | null
           verified_phone?: string | null
+          website_checked_at?: string | null
           website_domain?: string | null
+          website_status?: string | null
           website_url?: string | null
           website_valid?: boolean | null
           zip_code?: string | null
