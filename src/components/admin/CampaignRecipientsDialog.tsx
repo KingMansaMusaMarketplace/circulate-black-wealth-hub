@@ -119,19 +119,22 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
   }, [rows, q, filter]);
 
   const download = (list: Row[] = shown, suffix = 'recipients') => {
-    const esc = (v: string) => `"${v.replace(/"/g, '""')}"`;
+    const esc = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
     const csv = [
       ['Business', 'Phone', 'Email', 'Location', 'Sent', 'Opened', 'Clicked', 'Status', 'Details'],
       ...list.map((r) => [r.business, r.phone, r.email, r.location, r.sentAt, r.opened ? 'Yes' : 'No', r.clicked ? 'Yes' : 'No', r.status, r.detail]),
     ]
       .map((line) => line.map(esc).join(','))
-      .join('\n');
-    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      .join('\r\n');
+    // BOM so Excel shows accented names (e.g. BIÂN) correctly
+    const url = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' }));
     const a = document.createElement('a');
     a.href = url;
     a.download = `${title.replace(/\s+/g, '-').toLowerCase()}-${suffix}.csv`;
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   const counts = useMemo(() => {
