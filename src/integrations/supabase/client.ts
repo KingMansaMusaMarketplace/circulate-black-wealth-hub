@@ -105,7 +105,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     fetch: (url, options: RequestInit = {}) => {
       // CRITICAL: Shorter timeout on iOS (8s) vs web (15s)
       // iOS WKWebView can hang on slow connections
-      const timeoutMs = isIOSDevice() ? 8000 : 15000;
+      // Server functions (e.g. sending an email batch) can run much longer.
+      const isFunctionCall = url.toString().includes('/functions/v1/');
+      const timeoutMs = isFunctionCall ? 150000 : isIOSDevice() ? 8000 : 15000;
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
         console.warn('[SUPABASE] Request timeout after', timeoutMs, 'ms:', url);
