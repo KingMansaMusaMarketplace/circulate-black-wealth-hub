@@ -76,6 +76,8 @@ function buildEmail(opts: {
               <a href="${opts.claimUrl}" style="display:inline-block;padding:16px 38px;color:#000000;font-weight:800;font-size:17px;text-decoration:none;">Claim Your Free Listing</a>
             </td></tr>
           </table>
+          <p style="font-size:15px;font-weight:700;color:#0a2a52;text-align:center;margin:0 0 8px;">Watch the tour</p>
+          <a href="${SITE_URL}/tour?claim=${encodeURIComponent(opts.claimUrl)}&utm_source=email&utm_campaign=claim_invite" style="display:block;text-decoration:none;margin:0 0 30px;"><img src="${SITE_URL}/videos/${holidayOn ? "tour-holiday-thumb" : "tour-thumb"}.jpg" alt="Watch the 1325.AI tour" width="504" style="display:block;width:100%;max-width:504px;height:auto;border-radius:10px;border:2px solid #FFB300;margin:0 auto;"/></a>
           <div style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#003366;margin:0 0 14px;border-top:1px solid #e6eaf0;padding-top:24px;">Why 1325.AI is different</div>
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">
             ${benefit("Found by AI assistants.", "When customers ask an AI assistant for a Black-owned business nearby, 1325.AI can point them to you.")}
