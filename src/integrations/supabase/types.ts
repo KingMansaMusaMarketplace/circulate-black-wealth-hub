@@ -28435,6 +28435,10 @@ export type Database = {
         Args: { p_business_id: string; p_pin: string }
         Returns: undefined
       }
+      set_lead_review_status: {
+        Args: { _lead_id: string; _status: string }
+        Returns: undefined
+      }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
       slugify: { Args: { input: string }; Returns: string }
