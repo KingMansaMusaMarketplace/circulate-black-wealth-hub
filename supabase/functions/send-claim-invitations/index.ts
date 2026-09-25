@@ -16,7 +16,8 @@ const SITE_URL = Deno.env.get("FRONTEND_URL") || "https://1325.ai";
 const FROM = "1325.AI <listings@1325.ai>";
 const MAILING_ADDRESS = "1325.AI · Mansa Musa Marketplace, 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628, USA";
 
-const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const EMAIL_RE = /^(?!.*\.\.)[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function esc(s: string): string {
   return String(s ?? "").replace(/[&<>"']/g, (c) =>
@@ -218,14 +219,7 @@ serve(async (req: Request): Promise<Response> => {
           }, { onConflict: "business_id" });
         if (tokErr) throw new Error(tokErr.message);
 
-        const { error: invErr } = await supabase
-          .from("businesses")
-          .update({ claim_invited_at: new Date().toISOString() })
-          .eq("id", biz.id);
-        if (invErr) throw new Error(invErr.message);
-
-
-        const { data: sendData, error: sendErr } = await resend.emails.send({
+        const payload = {
           from: FROM,
           to: [email],
           subject: `${biz.business_name} is listed on 1325.AI — claim it free`,
@@ -237,8 +231,24 @@ serve(async (req: Request): Promise<Response> => {
             unsubUrl,
           }),
           headers: { "List-Unsubscribe": `<${unsubUrl}>` },
-        });
+        };
+        // Stay well under the provider's 10-per-second limit; retry briefly if throttled.
+        let sendData: any = null;
+        let sendErr: any = null;
+        for (let attempt = 0; attempt < 3; attempt++) {
+          await sleep(attempt === 0 ? 250 : 1500 * attempt);
+          ({ data: sendData, error: sendErr } = await resend.emails.send(payload));
+          const msg = String(sendErr?.message ?? "");
+          if (!sendErr || !/too many requests|rate limit/i.test(msg)) break;
+        }
         if (sendErr) throw new Error(String((sendErr as any)?.message ?? sendErr));
+
+        // Only mark as invited once the email actually went out, so failures get retried.
+        const { error: invErr } = await supabase
+          .from("businesses")
+          .update({ claim_invited_at: new Date().toISOString() })
+          .eq("id", biz.id);
+        if (invErr) console.error(`[send-claim-invitations] mark invited failed ${biz.id}:`, invErr);
 
         await supabase.from("business_claim_invites").insert({
           campaign_id: campaignId,
