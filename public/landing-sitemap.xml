@@ -96,12 +96,13 @@
   <url><loc>https://1325.ai/black-owned/city/colorado-springs-co</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/toledo-oh</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/hyattsville-md</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/chesapeake-va</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/macon-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/shreveport-la</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/chesapeake-va</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/greenville-sc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/mobile-al</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/st-petersburg-fl</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/east-point-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/aurora-co</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/fort-wayne-in</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/clarksville-tn</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -110,7 +111,6 @@
   <url><loc>https://1325.ai/black-owned/city/san-jose-ca</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/tacoma-wa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/harrisburg-pa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/east-point-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/hartford-ct</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/new-haven-ct</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/laurel-md</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -169,20 +169,20 @@
   <url><loc>https://1325.ai/black-owned/city/saginaw-mi</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/missouri-city-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/stockton-ca</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/snellville-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/brockton-ma</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/gainesville-fl</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/greenville-nc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/snellville-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/ottawa-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/salt-lake-city-ut</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/kent-wa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/ottawa-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/newnan-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/east-orange-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/irvington-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/high-point-nc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/stockbridge-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/chandler-az</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/sugar-land-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/high-point-nc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/irvington-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/stockbridge-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/east-orange-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/chandler-az</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/dover-de</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/brampton-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/florence-sc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -254,28 +254,28 @@
   <url><loc>https://1325.ai/black-owned/city/plainfield-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/suffolk-va</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/portland-me</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/alpharetta-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/youngstown-oh</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/aurora-il</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/cedar-hill-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/aurora-il</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/monroe-la</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/stamford-ct</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/alpharetta-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/charleston-wv</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/scarborough-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/lithonia-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/stamford-ct</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/edmonton-ab</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/winnipeg-mb</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/queens-ny</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/scarborough-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/federal-way-wa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/london-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/buford-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/queens-ny</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/antioch-ca</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/riverdale-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/lithonia-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/loganville-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/antioch-ca</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/sandy-springs-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/johns-creek-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/lilburn-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/petersburg-va</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/loganville-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/bessemer-al</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/upper-marlboro-md</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/austell-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -921,25 +921,26 @@
   <url><loc>https://1325.ai/black-owned/category/personal-injury-attorney</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/pediatrician</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/pediatric-clinic</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/cleaning-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/professional-photography-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/black-owned-cannabis-dispensary</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/artisanal-bakery</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/medical-cannabis-dispensary</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/skincare-brand</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/professional-photography-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/compounding-pharmacy</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/tax-preparation-and-accounting-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/mental-health-counseling-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/cajun-seafood-restaurant</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/business-directory</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/vegan-comfort-food-restaurant</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/african-american-funeral-home</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/black-owned-cannabis-dispensary</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/black-owned-church</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/cleaning-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/islamic-mosque</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/therapy-practice</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/mobile-notary-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/black-owned-church</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/pressure-washing-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/it-consulting</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/nail-salon-spa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/skincare-brand</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/luxury-interior-design</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/east-african-restaurant</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/residential-commercial-cleaning-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -947,20 +948,20 @@
   <url><loc>https://1325.ai/black-owned/category/dry-cleaning-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/bbq-catering</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/financial-advisor</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/compounding-pharmacy</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/web-design-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/multicultural-hair-salon</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/black-community-newspaper</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/african-clothing-boutique</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/self-service-laundromat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/residential-and-commercial-plumbing-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/black-community-newspaper</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/multicultural-hair-salon</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/african-clothing-boutique</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/towing-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/wedding-and-event-planner</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/marketing-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/towing-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/trucking-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/soul-food-restaurant-catering</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/music-lessons</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/360-photo-booth-rental</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/catering</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/soul-food-restaurant-catering</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/residential-and-commercial-plumbing-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/event-planning-and-design</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/tailoring-and-alterations</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/computer-repair-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -979,46 +980,46 @@
   <url><loc>https://1325.ai/black-owned/category/dance-fitness-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/black-owned-barbershop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/black-owned-bakery</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/music-lessons</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/american-restaurant</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/african-american-church</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/educational-tutoring-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/personal-injury-law-firm</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/bakery-cafe</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/used-car-dealer</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/residential-interior-design</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/wellness-center</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/interior-design</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/vegan-cafe</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/event-venue-rental</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/full-service-laundromat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/child-development-center</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/wedding-and-portrait-photography</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/custom-software-development</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/full-service-laundromat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/commercial-cleaning-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/barbershop-salon</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/organic-juice-bar</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/mobile-auto-repair</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/dry-cleaner</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/notary-public-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/luxury-travel-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/mobile-car-detailing-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/general-freight-trucking</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/child-development-center</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/custom-software-development</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/dry-cleaner</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/mobile-car-detailing-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/luxury-travel-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/bakery-cafe</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/software-development-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/butcher-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/wellness-center</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/clothing-alterations-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/organic-juice-bar</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/medical-day-spa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/black-owned-cigar-lounge</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/african-american-weekly-newspaper</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/primary-care-medical-practice</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/luxury-nail-salon</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/tow-truck-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/podcast-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/full-service-moving-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/luxury-nail-salon</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/wedding-planning-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/cybersecurity-consulting</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/wedding-planning-event-coordination</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/wedding-planning-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/residential-property-management</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/yoga-and-wellness-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/wedding-planning-and-event-design</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/full-service-moving-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/massage-therapy-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/vegan-food-truck</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/caribbean-food-truck</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -1039,48 +1040,47 @@
   <url><loc>https://1325.ai/black-owned/category/video-production-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/mobile-car-detailing</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/wealth-management-firm</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/tow-truck-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/candle-making-retail</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/medical-day-spa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/clothing-alterations-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/express-car-wash</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/candle-making-retail</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/strength-training-gym</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/african-american-hair-salon</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/residential-and-commercial-roofing-contractor</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/private-investigation-firm</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/natural-skincare-brand</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/funeral-home-and-cremation-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/holistic-day-spa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/tow-truck-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/tutoring-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/residential-and-commercial-roofing-contractor</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/funeral-home-and-cremation-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/yoga-and-pilates-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/affordable-housing-developer</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/artisan-chocolate-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/children-s-dance-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/bail-bond-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/business-development-consulting</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/holistic-day-spa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/multi-style-dance-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/residential-real-estate-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/affordable-housing-developer</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/cardiology-practice</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/breakfast-brunch-cafe</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/custom-hat-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/web-design-and-development-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/breakfast-brunch-cafe</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/natural-skincare-brand</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/cookie-bakery</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/web-design-and-development-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/portrait-and-event-photography-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/hat-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/jamaican-food-truck</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/cardiology-practice</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/ghanaian-restaurant</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/event-planning-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/pentecostal-church</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/residential-real-estate-agency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/african-fashion-boutique</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/massage-therapy-spa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/hat-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/senegalese-restaurant</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/bbq-food-truck</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/tutoring-service</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/private-investigation-firm</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/community-health-center</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/tax-preparation-accounting-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/juice-bar-smoothie-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/community-development-nonprofit</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/burger-restaurant</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/massage-therapy-spa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/auto-repair</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/yoga-and-pilates-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/burger-restaurant</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/film-and-video-production-company</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/specialty-coffee-roastery</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/business-consulting-firm</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -1919,20 +1919,23 @@
   <url><loc>https://1325.ai/black-owned/in/hyattsville-md/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/hyattsville-md/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/hyattsville-md/real-estate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/chesapeake-va/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/chesapeake-va/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/chesapeake-va/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/macon-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/macon-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/macon-ga/real-estate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/shreveport-la/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/shreveport-la/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/chesapeake-va/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/chesapeake-va/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/chesapeake-va/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/greenville-sc/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/greenville-sc/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/greenville-sc/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/mobile-al/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/st-petersburg-fl/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/st-petersburg-fl/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/east-point-ga/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/east-point-ga/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/east-point-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/fort-wayne-in/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/fort-wayne-in/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/fort-wayne-in/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -1953,9 +1956,6 @@
   <url><loc>https://1325.ai/black-owned/in/harrisburg-pa/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/harrisburg-pa/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/harrisburg-pa/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/east-point-ga/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/east-point-ga/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/east-point-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/hartford-ct/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/hartford-ct/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/new-haven-ct/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -2069,6 +2069,7 @@
   <url><loc>https://1325.ai/black-owned/in/saginaw-mi/boutiques</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/missouri-city-tx/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/missouri-city-tx/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/snellville-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/brockton-ma/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/brockton-ma/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/gainesville-fl/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -2076,25 +2077,24 @@
   <url><loc>https://1325.ai/black-owned/in/gainesville-fl/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/gainesville-fl/real-estate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/greenville-nc/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/snellville-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/ottawa-on/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/salt-lake-city-ut/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/kent-wa/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/kent-wa/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/kent-wa/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/ottawa-on/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/newnan-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/newnan-ga/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/newnan-ga/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/east-orange-nj/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/irvington-nj/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/irvington-nj/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/irvington-nj/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/high-point-nc/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/stockbridge-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/chandler-az/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/sugar-land-tx/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/high-point-nc/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/irvington-nj/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/irvington-nj/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/irvington-nj/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/stockbridge-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/east-orange-nj/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/chandler-az/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/dover-de/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/dover-de/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/brampton-on/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -2231,27 +2231,28 @@
   <url><loc>https://1325.ai/black-owned/in/plainfield-nj/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/suffolk-va/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/suffolk-va/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/alpharetta-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/alpharetta-ga/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/youngstown-oh/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/cedar-hill-tx/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/aurora-il/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/aurora-il/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/cedar-hill-tx/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/monroe-la/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/stamford-ct/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/alpharetta-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/alpharetta-ga/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/charleston-wv/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/charleston-wv/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/charleston-wv/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/federal-way-wa/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/buford-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/buford-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/queens-ny/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/antioch-ca/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/riverdale-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/riverdale-ga/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/lithonia-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/lithonia-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/lithonia-ga/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/stamford-ct/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/queens-ny/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/federal-way-wa/mental-health</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/buford-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/buford-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/riverdale-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/riverdale-ga/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/loganville-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/antioch-ca/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/sandy-springs-ga/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/sandy-springs-ga/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/johns-creek-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -2260,7 +2261,6 @@
   <url><loc>https://1325.ai/black-owned/in/lilburn-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/lilburn-ga/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/petersburg-va/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/loganville-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/upper-marlboro-md/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/upper-marlboro-md/boutiques</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/austell-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
