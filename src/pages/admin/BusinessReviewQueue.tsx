@@ -92,30 +92,21 @@ const BusinessReviewQueue: React.FC = () => {
   }, [territory]);
 
   const fetchCounts = useCallback(async () => {
-    const results = await Promise.all(STATUS_COUNT_KEYS.map(async (s) => {
-      const { count } = await applyTerritory(supabase
-        .from('b2b_external_leads')
-        .select('id', { count: 'exact', head: true })
-        .eq('verification_status', s));
-      return [s, count ?? 0] as const;
-    }));
-    setCounts(Object.fromEntries(results) as Record<StatusFilter, number>);
-  }, [applyTerritory]);
+    const { data, error } = await (supabase as any).rpc('review_queue_counts', { _range: territory });
+    if (error) { toast.error(error.message); return; }
+    const c = (data ?? {}) as Record<string, number>;
+    setCounts(Object.fromEntries(STATUS_COUNT_KEYS.map(s => [s, Number(c[s] ?? 0)])) as Record<StatusFilter, number>);
+  }, [territory]);
 
   const fetchLeads = useCallback(async () => {
     setLoading(true);
-    let q = applyTerritory(supabase
-      .from('b2b_external_leads')
-      .select('id,business_name,category,city,state,website_url,website_status,phone_number,business_description,logo_url,banner_url,confidence_score,black_owned_confidence,black_owned_evidence,verification_status,verification_notes,verified_phone,verified_address,created_at')
-      .eq('verification_status', status))
-      .order('created_at', { ascending: false })
-      .limit(50);
-    if (search.trim()) q = q.ilike('business_name', `%${search.trim()}%`);
-    const { data, error } = await q;
+    const { data, error } = await (supabase as any).rpc('review_queue_leads', {
+      _status: status, _range: territory, _search: search.trim() || null, _limit: 50,
+    });
     if (error) toast.error(error.message);
     setLeads((data ?? []) as Lead[]);
     setLoading(false);
-  }, [status, search, applyTerritory]);
+  }, [status, search, territory]);
 
   const fetchEnrichmentStats = useCallback(async () => {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
