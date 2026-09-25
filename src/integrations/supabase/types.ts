@@ -26493,6 +26493,10 @@ export type Database = {
     Functions: {
       _is_admin_current_user: { Args: never; Returns: boolean }
       _is_admin_or_service: { Args: never; Returns: boolean }
+      _review_range_match: {
+        Args: { _name: string; _range: string }
+        Returns: boolean
+      }
       _sales_agent_grading_active: { Args: never; Returns: boolean }
       _sec_is_admin_or_system: { Args: never; Returns: boolean }
       _sec_priv_actor: { Args: never; Returns: boolean }
@@ -28184,6 +28188,16 @@ export type Database = {
       }
       resolve_category_group: { Args: { p_category: string }; Returns: string }
       resolve_country: { Args: { p_state: string }; Returns: string }
+      review_queue_counts: { Args: { _range?: string }; Returns: Json }
+      review_queue_leads: {
+        Args: {
+          _limit?: number
+          _range?: string
+          _search?: string
+          _status: string
+        }
+        Returns: Json[]
+      }
       revoke_role: {
         Args: {
           target_role: Database["public"]["Enums"]["app_role"]
