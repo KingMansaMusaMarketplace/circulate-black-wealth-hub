@@ -104,7 +104,7 @@ const ClaimBusinessPage: React.FC = () => {
 
   // Forget the saved claim link once it has been used or is no longer valid
   useEffect(() => {
-    if (status === 'success' || status === 'error' || status === 'expired') clearPendingClaim();
+    if (status === 'success' || status === 'error' || status === 'expired' || (status === 'ready' && user)) clearPendingClaim();
   }, [status]);
 
   const goToAuth = (path: '/login' | '/signup') => {

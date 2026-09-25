@@ -27,6 +27,8 @@ const PendingClaimRedirect = () => {
     try { saved = JSON.parse(localStorage.getItem(PENDING_CLAIM_KEY) || 'null'); } catch { saved = null; }
     if (!saved?.url || !saved.url.startsWith('/claim-business')) return;
     if (!saved.at || Date.now() - saved.at > MAX_AGE_MS) { clearPendingClaim(); return; }
+    // One-shot: clear before redirecting so owners can leave the claim page freely.
+    clearPendingClaim();
     navigate(saved.url, { replace: true });
   }, [user, location.pathname, navigate]);
 
