@@ -177,7 +177,7 @@ const BusinessReviewQueue: React.FC = () => {
     try {
       const { data: authData } = await supabase.auth.getUser();
       const ownerId = authData?.user?.id;
-      if (!ownerId) throw new Error('You must be signed in as an admin to approve.');
+      if (!ownerId) throw new Error('You must be signed in to approve.');
 
       const { businessId, photosPulled } = await publishLead(lead, ownerId);
       if (photosPulled) toast.success(`Pulled real photos from ${lead.business_name}'s website`);
@@ -241,10 +241,7 @@ const BusinessReviewQueue: React.FC = () => {
   const reject = async (lead: Lead) => {
     setActingId(lead.id);
     try {
-      const { error } = await supabase
-        .from('b2b_external_leads')
-        .update({ verification_status: 'rejected' } as any)
-        .eq('id', lead.id);
+      const { error } = await (supabase.rpc as any)('set_lead_review_status', { _lead_id: lead.id, _status: 'rejected' });
       if (error) throw error;
       toast.success(`Rejected: ${lead.business_name}`);
       await Promise.all([fetchLeads(), fetchCounts()]);
@@ -284,10 +281,7 @@ const BusinessReviewQueue: React.FC = () => {
 
     setActingId(lead.id);
     try {
-      const { error } = await supabase
-        .from('b2b_external_leads')
-        .update({ verification_status: 'pending' } as any)
-        .eq('id', lead.id);
+      const { error } = await (supabase.rpc as any)('set_lead_review_status', { _lead_id: lead.id, _status: 'pending' });
       if (error) throw error;
       toast.success(`Re-queued: ${lead.business_name}`);
       await Promise.all([fetchLeads(), fetchCounts()]);
