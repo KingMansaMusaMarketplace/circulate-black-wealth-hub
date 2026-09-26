@@ -28205,6 +28205,7 @@ export type Database = {
         }
         Returns: undefined
       }
+      run_data_retention_cleanup: { Args: never; Returns: Json }
       sanitize_text_input: {
         Args: { input_text: string; max_length?: number }
         Returns: string
