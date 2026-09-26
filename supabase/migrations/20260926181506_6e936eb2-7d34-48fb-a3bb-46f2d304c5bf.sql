@@ -1,0 +1,2 @@
+GRANT EXECUTE ON FUNCTION public.search_directory_businesses(text,text,numeric,integer,integer,text,text,text,text) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.search_directory_businesses(text,text,text,text,integer,integer) TO anon, authenticated;
