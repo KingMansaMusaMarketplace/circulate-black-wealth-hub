@@ -78,13 +78,7 @@ const BookingConfirmation: React.FC = () => {
         property: Array.isArray(row.vacation_properties) ? row.vacation_properties[0] : row.vacation_properties,
       });
 
-      // Update status to confirmed if still pending (payment succeeded)
-      if (data.status === 'pending') {
-        await supabase
-          .from('vacation_bookings')
-          .update({ status: 'confirmed', payment_status: 'paid' })
-          .eq('id', bookingId);
-      }
+      // Confirmation is set server-side by the Stripe webhook — guests cannot self-confirm.
     } catch (err: any) {
       console.error('Error fetching booking:', err);
       setError(err.message);
