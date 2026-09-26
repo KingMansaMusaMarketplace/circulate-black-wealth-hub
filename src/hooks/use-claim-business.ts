@@ -105,14 +105,15 @@ export const useClaimBusiness = () => {
     }
   });
 
-  // Start claim process (for business owners clicking "Claim This Business")
+  // Start claim process (for business owners clicking "Claim This Business").
+  // Only admins/reviewers can mint claim links; owners go through sign-up + verification.
   const initiateClaim = async (leadId: string) => {
-    if (!user) {
-      toast.error('Please sign in to claim your business');
-      return null;
-    }
-
-    return generateClaimToken.mutateAsync(leadId);
+    const lead = externalLeads?.find((l) => l.id === leadId);
+    const params = new URLSearchParams({ claim: leadId });
+    if (lead?.business_name) params.set('name', lead.business_name);
+    toast.info('Create your free business account to verify and claim this listing.');
+    window.location.assign(`/business-signup?${params.toString()}`);
+    return null;
   };
 
   return {
