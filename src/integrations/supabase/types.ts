@@ -26491,6 +26491,10 @@ export type Database = {
       }
     }
     Functions: {
+      _beta_caller_ok: {
+        Args: { p_email: string; p_user_id: string }
+        Returns: boolean
+      }
       _is_admin_current_user: { Args: never; Returns: boolean }
       _is_admin_or_service: { Args: never; Returns: boolean }
       _review_range_match: {
