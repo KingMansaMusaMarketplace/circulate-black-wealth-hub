@@ -141,6 +141,9 @@ const DirectoryPage: React.FC = () => {
         '43d56453-75d7-4915-94e9-3dc619bbff8f', // Heritage (Long Beach) — replaced by Channing Capital
         'eb75504b-b6d4-413a-9a93-1feae1282115', // Hot Grease — replaced by The IT Architect Corporation
         'd5c9cde2-c599-4ac8-ae3e-d2de40e942f4', // Q1227 — no photo, website offline (removed Sep 27 2026)
+        '7e93eda8-c9c5-4def-804f-081a50414ab1', // Bludso's BBQ (removed Sep 27 2026)
+        '5890c0c5-fa83-47ad-b574-f8886c3f8b24', // Bludso's Bar & Que (duplicate)
+        '849275ec-fe58-496e-91ec-5bfb90412c54', // Bludso's Bar & Que (duplicate)
       ];
 
       const selectCols = 'id, name, business_name, description, category, address, city, state, zip_code, website, logo_url, banner_url, average_rating, review_count, is_verified, latitude, longitude, created_at, updated_at';
