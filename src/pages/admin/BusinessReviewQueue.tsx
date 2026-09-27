@@ -1,3 +1,4 @@
+import ClaimRequestsCard from "@/components/admin/ClaimRequestsCard";
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -410,6 +411,8 @@ const BusinessReviewQueue: React.FC = () => {
             </ol>
           </div>
 
+
+          <ClaimRequestsCard />
 
           {isAdmin && <PhotoBackfillCard />}
 
