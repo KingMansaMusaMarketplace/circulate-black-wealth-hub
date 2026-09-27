@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { savePendingLeadClaim } from '@/lib/lead-claim';
 
 // Public-safe external lead interface (excludes PII fields)
 export interface ExternalLead {
@@ -109,9 +110,9 @@ export const useClaimBusiness = () => {
   // Only admins/reviewers can mint claim links; owners go through sign-up + verification.
   const initiateClaim = async (leadId: string) => {
     const lead = externalLeads?.find((l) => l.id === leadId);
+    savePendingLeadClaim(leadId, lead?.business_name);
     const params = new URLSearchParams({ claim: leadId });
     if (lead?.business_name) params.set('name', lead.business_name);
-    toast.info('Create your free business account to verify and claim this listing.');
     window.location.assign(`/business-signup?${params.toString()}`);
     return null;
   };

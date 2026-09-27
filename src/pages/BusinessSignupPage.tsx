@@ -8,6 +8,7 @@ import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
+import { readPendingLeadClaim, savePendingLeadClaim } from '@/lib/lead-claim';
 import { 
   Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, 
   Wallet, BarChart3, Shield, Star, Sparkles, MessageSquare, Gift, 
@@ -23,10 +24,18 @@ const BusinessSignupPage: React.FC = () => {
   const referralCode = searchParams.get('ref') || '';
   const betaMode = searchParams.get('beta') === 'true';
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
+  const [pendingClaim] = useState(() => readPendingLeadClaim());
+  const claimLeadId = searchParams.get('claim') || pendingClaim?.leadId || '';
+  const claimName = (searchParams.get('name') || pendingClaim?.name || '').slice(0, 120);
 
   useEffect(() => {
     trackFunnelEvent('business_signup_page_view', { ref: referralCode || null });
   }, [referralCode]);
+
+  // Remember the chosen listing so the claim is filed after sign-up or sign-in.
+  useEffect(() => {
+    if (searchParams.get('claim')) savePendingLeadClaim(searchParams.get('claim')!, searchParams.get('name') || undefined);
+  }, [searchParams]);
 
   const checkReferralCode = async (code: string): Promise<SalesAgent | null> => {
     if (!code) return null;
@@ -546,11 +555,26 @@ const BusinessSignupPage: React.FC = () => {
               </div>
             )}
             <div className="animate-fade-in mb-12">
+              {claimLeadId && (
+                <div role="status" className="mb-6 rounded-2xl border-2 border-mansagold/50 bg-mansagold/10 p-5">
+                  <p className="text-lg font-bold text-mansagold">
+                    You're claiming: {claimName || 'your business listing'}
+                  </p>
+                  <p className="mt-1 text-sm text-white/85">
+                    Create your free account (or sign in if you already have one). Your claim is saved automatically,
+                    and our team will verify you're the owner before handing over the listing.
+                  </p>
+                  <Link to="/login" className="mt-2 inline-block text-sm font-semibold text-mansagold underline">
+                    Already have an account? Sign in
+                  </Link>
+                </div>
+              )}
               <BusinessSignupForm 
                 referralCode={referralCode}
                 referringAgent={referringAgent}
                 onCheckReferralCode={checkReferralCode}
                 betaMode={betaMode}
+                defaultBusinessName={claimName}
               />
             </div>
 

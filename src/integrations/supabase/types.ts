@@ -13619,6 +13619,51 @@ export type Database = {
           },
         ]
       }
+      lead_claim_requests: {
+        Row: {
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          id: string
+          lead_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          id?: string
+          lead_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          id?: string
+          lead_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_claim_requests_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_external_leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_claim_requests_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_external_leads_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lead_scores: {
         Row: {
           ai_reasoning: string | null
@@ -26795,6 +26840,10 @@ export type Database = {
         }
         Returns: string
       }
+      decide_lead_claim_request: {
+        Args: { _approve: boolean; _request_id: string }
+        Returns: Json
+      }
       delete_user_account: { Args: { user_id: string }; Returns: undefined }
       delete_user_account_immediate: { Args: never; Returns: Json }
       enforce_admin_only_columns: {
@@ -27982,6 +28031,20 @@ export type Database = {
           city: string
           slug: string
           state: string
+        }[]
+      }
+      list_lead_claim_requests: {
+        Args: never
+        Returns: {
+          business_name: string
+          city: string
+          created_at: string
+          id: string
+          lead_id: string
+          requester_email: string
+          requester_name: string
+          state: string
+          website_url: string
         }[]
       }
       list_partner_directories: {
