@@ -2,7 +2,8 @@ import { supabase } from '@/integrations/supabase/client';
 
 /** Remembers which discovered listing an owner chose to claim, until they sign in. */
 export const PENDING_LEAD_CLAIM_KEY = 'pendingLeadClaim';
-const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+// Short window: long enough to finish sign-up / email confirmation, short enough not to hijack a later session.
+const MAX_AGE_MS = 2 * 60 * 60 * 1000;
 
 export interface PendingLeadClaim { leadId: string; name?: string; at: number }
 
