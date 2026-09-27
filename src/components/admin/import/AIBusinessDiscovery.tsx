@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -320,7 +321,7 @@ export const AIBusinessDiscovery: React.FC<AIBusinessDiscoveryProps> = ({ onClos
                           )}
                           {business.website && (
                             <a
-                              href={business.website}
+                              href={externalUrl(business.website)}
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}

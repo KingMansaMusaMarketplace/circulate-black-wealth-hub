@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -430,7 +431,7 @@ const AdminDevelopers: React.FC = () => {
                           <span>{dev.company_name}</span>
                           {dev.website_url && (
                             <a 
-                              href={dev.website_url} 
+                              href={externalUrl(dev.website_url)} 
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="text-xs text-mansagold hover:underline flex items-center gap-1"

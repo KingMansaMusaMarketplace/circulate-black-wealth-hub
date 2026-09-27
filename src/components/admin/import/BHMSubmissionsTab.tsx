@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -185,7 +186,7 @@ export const BHMSubmissionsTab: React.FC = () => {
                       </p>
                       {submission.website_url && (
                         <a 
-                          href={submission.website_url} 
+                          href={externalUrl(submission.website_url)} 
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="text-blue-400 hover:text-blue-300 flex-shrink-0"

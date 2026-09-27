@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Building2, Check, ExternalLink, X } from 'lucide-react';
@@ -65,7 +66,7 @@ const ClaimRequestsCard = () => {
               <p className="text-sm text-white/75">
                 {[r.city, r.state].filter(Boolean).join(', ')}
                 {r.website_url && (
-                  <a href={r.website_url} target="_blank" rel="noopener noreferrer" className="ml-2 inline-flex items-center gap-1 text-mansagold underline">
+                  <a href={externalUrl(r.website_url)} target="_blank" rel="noopener noreferrer" className="ml-2 inline-flex items-center gap-1 text-mansagold underline">
                     website <ExternalLink className="h-3 w-3" />
                   </a>
                 )}

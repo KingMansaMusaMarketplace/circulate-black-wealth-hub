@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import React, { useMemo, useState } from 'react';
 import {
   Copy,
@@ -169,7 +170,7 @@ const ProspectRow: React.FC<RowProps> = ({ prospect, onSelect, selected, onToggl
       <div className="flex flex-wrap items-center gap-2">
         {prospect.website && (
           <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8">
-            <a href={prospect.website} target="_blank" rel="noopener noreferrer">
+            <a href={externalUrl(prospect.website)} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="w-3 h-3 mr-1" /> Website
             </a>
           </Button>
