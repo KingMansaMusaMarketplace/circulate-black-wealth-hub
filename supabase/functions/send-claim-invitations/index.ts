@@ -189,7 +189,36 @@ serve(async (req: Request): Promise<Response> => {
       .in("email", emails);
     const blocked = new Set((optouts ?? []).map((o: any) => o.email));
 
-    const targets = candidates.filter((b: any) => !blocked.has(b.email.trim().toLowerCase()));
+    const unblocked = candidates.filter((b: any) => !blocked.has(b.email.trim().toLowerCase()));
+
+    // Skip addresses whose domain cannot receive mail (dead/guessed domains cause bounces).
+    const domainOk = new Map<string, boolean>();
+    const checkDomain = async (domain: string) => {
+      if (domainOk.has(domain)) return domainOk.get(domain)!;
+      let ok = true;
+      try {
+        const mx = await Deno.resolveDns(domain, "MX");
+        if (!mx.length) { try { ok = (await Deno.resolveDns(domain, "A")).length > 0; } catch { ok = false; } }
+      } catch (e) {
+        const msg = String((e as Error)?.message ?? e);
+        ok = !/NotFound|NXDOMAIN|no record/i.test(msg) ? true : false;
+      }
+      domainOk.set(domain, ok);
+      return ok;
+    };
+    const targets: any[] = [];
+    const deadEmails: string[] = [];
+    for (const b of unblocked) {
+      const email = b.email.trim().toLowerCase();
+      if (await checkDomain(email.split("@")[1])) targets.push(b);
+      else deadEmails.push(email);
+    }
+    if (deadEmails.length && !dryRun) {
+      await supabase.from("claim_email_optouts").upsert(
+        [...new Set(deadEmails)].map((email) => ({ email, reason: "invalid_domain" })),
+        { onConflict: "email", ignoreDuplicates: true },
+      );
+    }
 
     if (dryRun) {
       return new Response(
