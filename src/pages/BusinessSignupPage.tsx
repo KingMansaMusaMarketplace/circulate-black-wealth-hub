@@ -8,7 +8,7 @@ import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
-import { readPendingLeadClaim, savePendingLeadClaim } from '@/lib/lead-claim';
+import { clearPendingLeadClaim, savePendingLeadClaim } from '@/lib/lead-claim';
 import { 
   Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, 
   Wallet, BarChart3, Shield, Star, Sparkles, MessageSquare, Gift, 
@@ -24,17 +24,18 @@ const BusinessSignupPage: React.FC = () => {
   const referralCode = searchParams.get('ref') || '';
   const betaMode = searchParams.get('beta') === 'true';
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
-  const [pendingClaim] = useState(() => readPendingLeadClaim());
-  const claimLeadId = searchParams.get('claim') || pendingClaim?.leadId || '';
-  const claimName = (searchParams.get('name') || pendingClaim?.name || '').slice(0, 120);
+  // Only show a claim when the link itself carries it; a stale saved claim never leaks into an unrelated sign-up.
+  const claimLeadId = searchParams.get('claim') || '';
+  const claimName = claimLeadId ? (searchParams.get('name') || '').slice(0, 120) : '';
 
   useEffect(() => {
     trackFunnelEvent('business_signup_page_view', { ref: referralCode || null });
   }, [referralCode]);
 
-  // Remember the chosen listing so the claim is filed after sign-up or sign-in.
+  // Remember the chosen listing so the claim is filed after sign-up or sign-in; forget it on a plain sign-up visit.
   useEffect(() => {
     if (searchParams.get('claim')) savePendingLeadClaim(searchParams.get('claim')!, searchParams.get('name') || undefined);
+    else clearPendingLeadClaim();
   }, [searchParams]);
 
   const checkReferralCode = async (code: string): Promise<SalesAgent | null> => {

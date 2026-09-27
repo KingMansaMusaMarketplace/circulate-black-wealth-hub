@@ -12,6 +12,9 @@ const PendingLeadClaimSubmitter = () => {
     if (!user || busy.current) return;
     const pending = readPendingLeadClaim();
     if (!pending) return;
+    // Only file for an account that signed in after the claim was chosen; an older session is someone else's context.
+    const signedInAt = user.last_sign_in_at ? Date.parse(user.last_sign_in_at) : 0;
+    if (!signedInAt || signedInAt < pending.at) { clearPendingLeadClaim(); return; }
     busy.current = true;
     submitLeadClaimRequest(pending.leadId, user.id)
       .then(() => {
