@@ -140,6 +140,7 @@ const DirectoryPage: React.FC = () => {
         'eadad328-0eb1-4a18-b54e-a5ff24540a6d', // Fixins Soul Kitchen
         '43d56453-75d7-4915-94e9-3dc619bbff8f', // Heritage (Long Beach) — replaced by Channing Capital
         'eb75504b-b6d4-413a-9a93-1feae1282115', // Hot Grease — replaced by The IT Architect Corporation
+        'd5c9cde2-c599-4ac8-ae3e-d2de40e942f4', // Q1227 — no photo, website offline (removed Sep 27 2026)
       ];
 
       const selectCols = 'id, name, business_name, description, category, address, city, state, zip_code, website, logo_url, banner_url, average_rating, review_count, is_verified, latitude, longitude, created_at, updated_at';
