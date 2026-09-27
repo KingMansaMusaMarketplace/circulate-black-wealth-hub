@@ -16,7 +16,7 @@ export const PLATFORM_PLANS = [
   { name: "Kayla AI Essentials", price: "$19/month", note: "Basic Kayla AI, 5 QR codes" },
   { name: "Business Pro", price: "$39/month", note: "Full analytics, priority placement, 25 QR codes" },
   { name: "Kayla AI Starter", price: "$79/month", note: "Kayla agent team for core business tasks" },
-  { name: "Kayla AI Pro", price: "$299/month", note: "Advanced AI coaching, B2B matching, churn alerts, unlimited QR" },
+  { name: "Kayla AI Pro", price: "$299/month regular — HOLIDAY SPECIAL: $149/month locked in forever for sign-ups October 1 to December 31, 2026 (always mention this special when Pro or pricing comes up)", note: "Advanced AI coaching, B2B matching, churn alerts, unlimited QR" },
   { name: "Kayla AI Enterprise", price: "From $899/month", note: "Multi-location, white-label, dedicated support, API access" },
 ] as const;
 
