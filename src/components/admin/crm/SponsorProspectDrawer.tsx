@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import React, { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { Copy, Mail, Trash2, Save, Phone, ExternalLink, Clock, LayoutTemplate, Crown, MessageSquareReply, Ban, ClipboardList } from 'lucide-react';
@@ -176,7 +177,7 @@ export const SponsorProspectDrawer: React.FC<Props> = ({ prospect, open, onOpenC
           <div className="flex flex-wrap gap-2">
             {prospect.website && (
               <Button asChild size="sm" variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white h-8">
-                <a href={prospect.website} target="_blank" rel="noopener noreferrer">
+                <a href={externalUrl(prospect.website)} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-3 h-3 mr-1" /> Website
                 </a>
               </Button>

@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import React, { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -279,7 +280,7 @@ const OwnershipSpotCheckCard: React.FC = () => {
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {lead.website_url && (
                   <a
-                    href={lead.website_url}
+                    href={externalUrl(lead.website_url)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-mansagold hover:underline inline-flex items-center gap-1"

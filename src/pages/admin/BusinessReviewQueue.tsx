@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import ClaimRequestsCard from "@/components/admin/ClaimRequestsCard";
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -617,7 +618,7 @@ const BusinessReviewQueue: React.FC = () => {
                             {lead.category} · {lead.city}{lead.state ? `, ${lead.state}` : ''}
                           </p>
                           {lead.website_url && (
-                            <a href={lead.website_url} target="_blank" rel="noreferrer"
+                            <a href={externalUrl(lead.website_url)} target="_blank" rel="noreferrer"
                                className="text-xs text-mansagold inline-flex items-center gap-1 mt-1">
                               {lead.website_url} <ExternalLink className="h-3 w-3" />
                             </a>

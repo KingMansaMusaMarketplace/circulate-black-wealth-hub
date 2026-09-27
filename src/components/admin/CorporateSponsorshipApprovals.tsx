@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -283,7 +284,7 @@ const CorporateSponsorshipApprovals: React.FC = () => {
                             <div className="font-medium">{subscription.company_name}</div>
                             {subscription.website_url && (
                               <a
-                                href={subscription.website_url}
+                                href={externalUrl(subscription.website_url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-xs text-blue-600 hover:underline"

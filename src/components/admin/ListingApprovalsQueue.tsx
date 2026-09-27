@@ -1,3 +1,4 @@
+import { externalUrl } from '@/lib/external-url';
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -254,7 +255,7 @@ The 1325.AI Team`;
                         )}
                         {b.website && (
                           <a
-                            href={b.website}
+                            href={externalUrl(b.website)}
                             target="_blank"
                             rel="noreferrer"
                             title={
