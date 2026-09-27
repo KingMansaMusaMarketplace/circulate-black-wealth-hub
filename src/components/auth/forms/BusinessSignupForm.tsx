@@ -40,6 +40,7 @@ interface BusinessSignupFormProps {
   onCheckReferralCode?: (code: string) => Promise<any>;
   onSuccess?: () => void;
   betaMode?: boolean;
+  defaultBusinessName?: string;
 }
 
 // Retry helper for business record creation (handles race condition with handle_new_user trigger)
@@ -75,6 +76,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   referralCode = '', 
   onSuccess,
   betaMode = false,
+  defaultBusinessName = '',
 }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +94,8 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     reset,
     watch,
   } = useForm<BusinessSignupFormData>({
-    resolver: zodResolver(businessSignupSchema)
+    resolver: zodResolver(businessSignupSchema),
+    defaultValues: defaultBusinessName ? { businessName: defaultBusinessName } as Partial<BusinessSignupFormData> : undefined,
   });
 
   const passwordValue = watch('password', '');

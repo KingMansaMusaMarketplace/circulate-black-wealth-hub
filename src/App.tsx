@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Progress } from "@/components/ui/progress";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PendingClaimRedirect from "@/components/auth/PendingClaimRedirect";
+import PendingLeadClaimSubmitter from "@/components/auth/PendingLeadClaimSubmitter";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { GuestProvider } from "@/contexts/GuestContext";
 import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
@@ -559,6 +560,7 @@ function App() {
                   <HashRouter>
                     <ScrollToTop />
                     <PendingClaimRedirect />
+                    <PendingLeadClaimSubmitter />
                     <AnalyticsTracker />
                     <TooltipProvider>
                     <div className="min-h-screen bg-background" role="application" aria-label="1325.AI">
@@ -1228,6 +1230,7 @@ function App() {
                   <BrowserRouter>
                     <ScrollToTop />
                     <PendingClaimRedirect />
+                    <PendingLeadClaimSubmitter />
                     <AnalyticsTracker />
                   <TooltipProvider>
                   <div className="min-h-screen bg-background" role="application" aria-label="1325.AI">
