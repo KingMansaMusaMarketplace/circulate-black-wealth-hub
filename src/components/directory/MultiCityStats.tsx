@@ -24,8 +24,8 @@ const MultiCityStats: React.FC<MultiCityStatsProps> = ({ selectedCity }) => {
     {
       icon: <MapPin className={iconClass} />,
       label: 'Coverage',
-      value: '50 States + Canada',
-      description: '1,200+ cities across US & Canada'
+      value: 'Global',
+      description: '2,500+ cities across the U.S., Canada, Africa, Europe, the Caribbean & Asia'
     },
     {
       icon: <Users className={iconClass} />,
