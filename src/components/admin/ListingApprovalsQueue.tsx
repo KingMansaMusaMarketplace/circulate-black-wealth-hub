@@ -101,7 +101,7 @@ const ListingApprovalsQueue: React.FC = () => {
 
   const approve = async (ids: string[]) => {
     if (ids.length === 0) return;
-    if (!window.confirm(`Approve ${ids.length} listing(s)? They will go live in the directory.`)) return;
+    if (ids.length > 1 && !window.confirm(`Approve ${ids.length} listings? They will go live in the directory.`)) return;
     setBusy(true);
     const { data: { user } } = await supabase.auth.getUser();
     const { error } = await supabase
