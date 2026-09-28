@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "ai.1325/mcp",
   "title": "1325.AI",
-  "description": "Verified directory of 47,000+ Black-owned U.S. businesses. Search, profiles, maps, rewards.",
-  "version": "0.1.3",
+  "description": "Verified directory of 48,000+ Black-owned businesses worldwide. Search, profiles, maps, rewards.",
+  "version": "0.1.4",
   "repository": {
     "url": "https://github.com/1325ai/1325ai",
     "source": "github"
