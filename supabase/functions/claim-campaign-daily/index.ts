@@ -40,6 +40,7 @@ function reminderHtml(name: string, claimUrl: string, unsubUrl: string) {
 <a href="${claimUrl}" style="display:inline-block;padding:14px 32px;color:#000;font-weight:700;text-decoration:none;">Claim Your Free Listing</a></td></tr></table>
 ${tourBlock(claimUrl)}
 <p style="font-size:13px;color:#666;">This is the only reminder we'll send.</p>
+${SIGNATURE_HTML}
 </td></tr>
 <tr><td style="padding:20px 28px;background:#fafafa;border-top:1px solid #eee;font-size:11px;color:#888;">
 ${esc(MAILING_ADDRESS)}<br/><a href="${unsubUrl}" style="color:#666;">Unsubscribe</a></td></tr>

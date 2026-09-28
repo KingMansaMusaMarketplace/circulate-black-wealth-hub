@@ -99,11 +99,15 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Add tracking pixel to email
     const trackingPixel = `<img src="${supabaseUrl}/functions/v1/track-sponsor-email-open?id=${trackingId}" width="1" height="1" style="display:none" />`;
-    const bodyWithTracking = personalizedBody + trackingPixel;
+    const signed = personalizedBody.includes('</body>')
+      ? personalizedBody.replace('</body>', `${SIGNATURE_HTML}</body>`)
+      : personalizedBody + SIGNATURE_HTML;
+    const bodyWithTracking = signed + trackingPixel;
 
     // Send the email
     const { data: emailResult, error: emailError } = await resend.emails.send({
-      from: "1325.AI <Partner@1325.AI>",
+      from: "Thomas at 1325.AI <Partner@1325.AI>",
+      reply_to: "Partner@1325.AI",
       to: [prospect.primary_contact_email],
       subject: personalizedSubject,
       html: bodyWithTracking,

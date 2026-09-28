@@ -89,6 +89,7 @@ function buildEmail(opts: {
           </table>${holiday}
           <p style="margin:0 0 6px;font-size:13px;color:#666;">This link is unique to your business and expires in 30 days.</p>
           <p style="margin:0;font-size:13px;color:#666;">Not the owner? You can safely ignore this email.</p>
+          ${SIGNATURE_HTML}
         </td></tr>
         <tr><td style="padding:22px 32px;background:#0a2a52;font-size:11px;color:#b8c6d8;line-height:1.7;text-align:center;">
           <div style="color:#FFB300;font-weight:700;font-size:13px;letter-spacing:1px;margin-bottom:6px;">1325.AI</div>
