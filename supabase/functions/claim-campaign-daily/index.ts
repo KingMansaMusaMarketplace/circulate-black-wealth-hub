@@ -10,7 +10,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-cron-secret, x-job-token",
 };
 const SITE_URL = Deno.env.get("FRONTEND_URL") || "https://1325.ai";
-const FROM = "1325.AI <listings@1325.ai>";
+const FROM = "Thomas at 1325.AI <Partner@1325.AI>";
+const REPLY_TO = "Partner@1325.AI";
 const DIGEST_TO = Deno.env.get("CAMPAIGN_DIGEST_TO") || "partner@1325.ai";
 const MAILING_ADDRESS = "1325.AI · Mansa Musa Marketplace, 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628, USA";
 const MAX_REMINDERS = 200;
@@ -108,6 +109,7 @@ serve(async (req) => {
       const unsubUrl = `${SITE_URL}/email-unsubscribe?email=${encodeURIComponent(email)}`;
       const { error } = await resend.emails.send({
         from: FROM,
+        reply_to: REPLY_TO,
         to: [email],
         subject: `Reminder: claim ${b.business_name} on 1325.AI`,
         html: reminderHtml(b.business_name, claimUrl, unsubUrl),
@@ -161,7 +163,8 @@ ${row("Emails sent", hSent)}${row("Opened", hOpened)}${row("Clicked", hClicked)}
   const nothing = cSent + reminded + cOpened + cClicked + cClaimed + cBounced + hSent + hOpened + hClicked + hBounced === 0;
   let digestSent = false;
   if (!nothing || body?.force_digest === true) {
-    const { error } = await resend.emails.send({ from: FROM, to: [DIGEST_TO], subject: "1325.AI daily campaign summary", html });
+    const { error } = await resend.emails.send({ from: FROM,
+        reply_to: REPLY_TO, to: [DIGEST_TO], subject: "1325.AI daily campaign summary", html });
     digestSent = !error;
   }
 
