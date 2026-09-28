@@ -12,7 +12,7 @@ type Decision = {
   created_at: string;
 };
 
-const LABEL: Record<string, string> = { approved: 'Approved', rejected: 'Rejected', sent_back: 'Sent back' };
+const LABEL: Record<string, string> = { approved: 'Approved', rejected: 'Rejected', sent_back: 'Sent back', undone: 'Approval undone' };
 const TONE: Record<string, string> = {
   approved: 'bg-green-500/20 text-green-300 border-green-500/40',
   rejected: 'bg-red-500/20 text-red-300 border-red-500/40',
