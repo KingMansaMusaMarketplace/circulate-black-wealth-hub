@@ -19273,6 +19273,42 @@ export type Database = {
           },
         ]
       }
+      review_decisions: {
+        Row: {
+          backfilled: boolean
+          business_id: string | null
+          business_name: string | null
+          created_at: string
+          decision: string
+          id: string
+          lead_id: string
+          reviewer_email: string | null
+          reviewer_id: string | null
+        }
+        Insert: {
+          backfilled?: boolean
+          business_id?: string | null
+          business_name?: string | null
+          created_at?: string
+          decision: string
+          id?: string
+          lead_id: string
+          reviewer_email?: string | null
+          reviewer_id?: string | null
+        }
+        Update: {
+          backfilled?: boolean
+          business_id?: string | null
+          business_name?: string | null
+          created_at?: string
+          decision?: string
+          id?: string
+          lead_id?: string
+          reviewer_email?: string | null
+          reviewer_id?: string | null
+        }
+        Relationships: []
+      }
       review_requests: {
         Row: {
           booking_id: string
@@ -28101,6 +28137,10 @@ export type Database = {
           reason_param: string
           user_agent_param?: string
         }
+        Returns: undefined
+      }
+      log_review_decision: {
+        Args: { _business_id: string; _decision: string; _lead_id: string }
         Returns: undefined
       }
       log_user_activity: {
