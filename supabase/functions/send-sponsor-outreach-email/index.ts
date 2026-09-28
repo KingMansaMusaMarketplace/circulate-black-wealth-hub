@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { SIGNATURE_HTML } from "../_shared/email-signature.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAdmin } from "../_shared/auth-guard.ts";
@@ -189,9 +190,7 @@ function getDefaultOutreachBody(): string {
   
   <p>Would you have 15 minutes this week or next for a quick chat?</p>
   
-  <p>Best regards,<br>
-  <strong>The 1325.AI Team</strong><br>
-  <a href="https://1325.ai" style="color: #1B365D;">1325.ai</a></p>
+  <p>Best regards,</p>
   
   <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
   

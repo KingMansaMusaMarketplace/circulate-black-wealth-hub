@@ -1,6 +1,7 @@
 // Daily job: (1) one polite reminder to unclaimed invitees 5+ days after the first email,
 // (2) a summary email of yesterday's campaign numbers to the admin inbox.
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { SIGNATURE_HTML } from "../_shared/email-signature.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAdminOrCron } from "../_shared/auth-guard.ts";
