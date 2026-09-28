@@ -18,7 +18,7 @@ const MultiCityStats: React.FC<MultiCityStatsProps> = ({ selectedCity }) => {
     {
       icon: <Building2 className={iconClass} />,
       label: 'Businesses',
-      value: '21,000+',
+      value: '48,000+',
       description: 'And growing daily'
     },
     {
