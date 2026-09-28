@@ -273,7 +273,7 @@ const ClaimBusinessPage: React.FC = () => {
                 </div>
                 
                 <p className="text-slate-400 text-sm">
-                  Our team will confirm you own this business within 1–2 business days. We'll email you once it's approved.
+                  Our team will confirm you own this business within 1–2 business days.
                 </p>
 
                 <Button
