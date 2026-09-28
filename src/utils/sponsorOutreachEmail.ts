@@ -2,8 +2,16 @@ import type { SponsorProspect } from '@/hooks/use-sponsor-crm';
 
 const SIGNATURE = [
   'Thomas D. Bowling',
-  'Founder & CEO, 1325.AI, Inc.',
-  'Partner@1325.AI · (312) 900-6004 · https://1325.ai',
+  'MANSA MUSA MARKETPLACE, INC.',
+  'Founder, Chairman & CEO | 1325.ai',
+  'Partner@1325.AI',
+  'THE FUTURE IS ALREADY HERE !',
+  'Global Headquarters: 1000 E. 111th St, Suite 1100, Chicago, IL 60628',
+  'Office: (312) 900-6004',
+  'Web: www.1325.ai',
+  'App Store: Mansa Musa Marketplace',
+  '',
+  'STRICT CONFIDENTIALITY & IP NOTICE Copyright © 2026 1325.ai / Mansa Musa Marketplace, Inc. All Rights Reserved. This communication and any attachments contain proprietary and confidential information intended solely for the individual or entity named above. Unauthorized disclosure, copying, or distribution is strictly prohibited and protected under federal intellectual property and trade secret laws.',
 ].join('\n');
 
 const MCP_PARAGRAPH =

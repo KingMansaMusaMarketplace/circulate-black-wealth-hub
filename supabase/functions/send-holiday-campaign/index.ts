@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { SIGNATURE_HTML } from "../_shared/email-signature.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAdmin } from "../_shared/auth-guard.ts";
@@ -62,6 +63,7 @@ function renderEmail(wave: number, name: string, city: string | null, unsubUrl: 
 <a href="${SITE}/tour?utm_source=email&utm_campaign=holiday_2026&utm_content=wave${wave}_video" style="display:block;text-decoration:none"><img src="${SITE}/videos/tour-holiday-thumb.jpg" alt="Watch the 1325.AI tour" width="504" style="display:block;width:100%;max-width:504px;height:auto;border-radius:10px;border:2px solid #FFB300;margin:0 auto"/></a>
 <p style="text-align:center;margin:26px 0"><a href="${SITE}/holiday-special?utm_source=email&utm_campaign=holiday_2026&utm_content=wave${wave}" style="background:#FFB300;color:#1a1a1a;text-decoration:none;font-weight:800;font-size:17px;padding:14px 30px;border-radius:8px;display:inline-block">Lock in $149/mo</a></p>
 <p style="font-size:14px;line-height:1.6;color:#555;margin:0">Offer valid for sign-ups October 1 – December 31, 2026. Price stays $149/month as long as your subscription stays active. Questions? Call 312.900.6004.</p>
+${SIGNATURE_HTML}
 </td></tr>
 <tr><td style="padding:18px 32px;font-size:12px;line-height:1.6;color:#777;text-align:center">
 You're receiving this because your business is listed in the 1325.AI directory.<br>
