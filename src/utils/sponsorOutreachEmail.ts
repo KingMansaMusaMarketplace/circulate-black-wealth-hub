@@ -10,7 +10,7 @@ const MCP_PARAGRAPH =
   'We also operate a live MCP server — the Model Context Protocol, the standard AI assistants like ChatGPT and Claude use to pull real data. That means our verified businesses, and the sponsors attached to them, are already discoverable inside AI assistants when someone asks for a Black-owned business near them. The system is covered under U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.';
 
 const PLATFORM_PARAGRAPH =
-  '1325.AI is the largest verified directory of Black-owned businesses — more than 48,000 live listings across the U.S., Canada, Africa, Europe, the Caribbean and Asia, each one ownership-verified rather than self-reported. Owners use the platform for booking, loyalty, payments, and marketing, supported by 42 Agentic AI Employees that handle the back office most small businesses cannot afford to staff.';
+  '1325.AI is the largest verified directory of Black-owned businesses — more than 48,000 live listings across the U.S., Canada, Africa, Europe, the Caribbean and Asia, each one reviewed by our team. Owners use the platform for booking, loyalty, payments, and marketing, supported by 42 Agentic AI Employees that handle the back office most small businesses cannot afford to staff.';
 
 export interface SponsorEmail {
   subject: string;

@@ -36,7 +36,7 @@ const faqItems = [
     id: 'founding-partner',
     icon: Shield,
     question: 'What is "Founding Partner" status?',
-    answer: 'Founding Partners are early adopters who join during our growth phase. Benefits include priority support, early access to new features, higher revenue share tiers as we scale, and recognition on our Partners page. This status is exclusive to partners who join before we reach 10,000 businesses.'
+    answer: 'Founding Partners are early adopters who join during our growth phase. Benefits include priority support, early access to new features, higher revenue share tiers as we scale, and recognition on our Partners page.'
   },
   {
     id: 'embed-widget',
