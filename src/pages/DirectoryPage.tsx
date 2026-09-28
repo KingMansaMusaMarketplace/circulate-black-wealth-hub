@@ -131,7 +131,6 @@ const DirectoryPage: React.FC = () => {
         'e89be587-eb45-4685-b577-6ffd332f51ae', // OSA Ortho Spine America - Dr. John G. Atwater
         'c188b47b-9d41-4e97-ba06-043e0b4c9b92', // Channing Capital Management (replaces Heritage)
         '56eea0b6-d1ec-4c68-af4a-191fc91d30a7', // Blavity.org
-        'c9afd7c1-d37d-455d-9dcd-b11bb0c685cd', // The IT Architect Corporation (replaces Hot Grease)
         '0c23893e-21a0-4672-a5c7-fa64e78b1323', // Atlanta Hustle (UFA)
       ];
       // Businesses to exclude from Featured Spotlight
@@ -144,6 +143,7 @@ const DirectoryPage: React.FC = () => {
         '7e93eda8-c9c5-4def-804f-081a50414ab1', // Bludso's BBQ (removed Sep 27 2026)
         '5890c0c5-fa83-47ad-b574-f8886c3f8b24', // Bludso's Bar & Que (duplicate)
         '849275ec-fe58-496e-91ec-5bfb90412c54', // Bludso's Bar & Que (duplicate)
+        'c9afd7c1-d37d-455d-9dcd-b11bb0c685cd', // The IT Architect Corporation (removed Sep 28 2026)
       ];
 
       const selectCols = 'id, name, business_name, description, category, address, city, state, zip_code, website, logo_url, banner_url, average_rating, review_count, is_verified, latitude, longitude, created_at, updated_at';
