@@ -16,7 +16,7 @@ Starting today, Kayla can handle:
 
 ✦ 24/7 Review Management: She drafts professional, on-brand responses to every customer review in seconds.
 
-✦ B2B Matchmaking: She scans our network of 33,000+ businesses to find your next supplier or partner.
+✦ B2B Matchmaking: She scans our network of 48,000+ businesses to find your next supplier or partner.
 
 ✦ Churn Prediction: She identifies at-risk customers before they leave, helping you protect your revenue.
 
@@ -42,7 +42,7 @@ Kayla isn't a chatbot. She's an Autonomous AI Employee — built to run the back
 
 What she does:
 ✦ 24/7 Review Management — professional responses drafted in seconds
-✦ B2B Matchmaking — scans 33,000+ businesses to find your next partner
+✦ B2B Matchmaking — scans 48,000+ businesses to find your next partner
 ✦ Churn Prediction — catches at-risk customers before they leave
 ✦ Content Generation — social posts & promotions on autopilot
 

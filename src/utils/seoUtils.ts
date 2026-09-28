@@ -120,7 +120,7 @@ export const pageSEO = {
   },
   about: {
     title: 'About 1325.AI | Circulate Black Dollars Intentionally',
-    description: 'Meet 1325.AI — the AI-powered platform helping you find, support and circulate dollars to 47,000+ Black-owned businesses nationwide.',
+    description: 'Meet 1325.AI — the AI-powered platform helping you find, support and circulate dollars to 47,000+ Black-owned businesses worldwide.',
     keywords: ['about 1325.AI', 'Black-owned business platform', 'Black economic empowerment', 'Black dollar circulation', 'support Black businesses'],
   },
   impact: {

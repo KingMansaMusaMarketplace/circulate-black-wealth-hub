@@ -41,7 +41,7 @@ export const KaylaOutreachPreview: React.FC<Props> = ({ businessName }) => {
               </li>
               <li className="text-sm text-white/90 flex items-start gap-2">
                 <Sparkles className="h-3 w-3 text-yellow-400 mt-1 shrink-0" />
-                <span><strong className="text-white">B2B Matchmaking</strong> — scans our network of 33,000+ businesses to find your next supplier or partner</span>
+                <span><strong className="text-white">B2B Matchmaking</strong> — scans our network of 48,000+ businesses to find your next supplier or partner</span>
               </li>
               <li className="text-sm text-white/90 flex items-start gap-2">
                 <Sparkles className="h-3 w-3 text-yellow-400 mt-1 shrink-0" />
