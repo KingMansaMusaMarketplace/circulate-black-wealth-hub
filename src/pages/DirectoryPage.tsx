@@ -132,6 +132,7 @@ const DirectoryPage: React.FC = () => {
         'c188b47b-9d41-4e97-ba06-043e0b4c9b92', // Channing Capital Management (replaces Heritage)
         '56eea0b6-d1ec-4c68-af4a-191fc91d30a7', // Blavity.org
         '0c23893e-21a0-4672-a5c7-fa64e78b1323', // Atlanta Hustle (UFA)
+        '48a40881-7f4b-4266-90b4-2e72419ea629', // National Association of Black Accountants (NABA) — added Sep 28 2026
       ];
       // Businesses to exclude from Featured Spotlight
       const EXCLUDED_FEATURED_IDS = [
