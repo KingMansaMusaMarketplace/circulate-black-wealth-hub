@@ -92,8 +92,8 @@ export const useClaimBusiness = () => {
     },
     onSuccess: (data) => {
       if (data.success) {
-        toast.success(`Successfully claimed ${data.business_name}!`, {
-          description: 'You can now manage this business listing.'
+        toast.success(`Claim request sent for ${data.business_name}`, {
+          description: 'Our team will confirm ownership within 1–2 business days.'
         });
         queryClient.invalidateQueries({ queryKey: ['external-leads-directory'] });
       } else {
