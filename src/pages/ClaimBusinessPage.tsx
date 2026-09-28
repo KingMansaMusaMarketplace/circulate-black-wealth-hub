@@ -131,7 +131,7 @@ const ClaimBusinessPage: React.FC = () => {
 
       if (result.success) {
         setStatus('success');
-        toast.success('Business claimed successfully!');
+        toast.success('Claim request sent — our team will review it.');
       } else {
         throw new Error(result.error || 'Failed to claim business');
       }
@@ -177,7 +177,7 @@ const ClaimBusinessPage: React.FC = () => {
             
             <CardTitle className="text-2xl text-white">
               {status === 'success' 
-                ? 'Business Claimed!' 
+                ? 'Claim Request Sent' 
                 : status === 'error' || status === 'expired'
                   ? 'Claim Failed'
                   : status === 'start' ? 'Claim Your Free Listing' : 'Claim Your Business'}
@@ -268,12 +268,12 @@ const ClaimBusinessPage: React.FC = () => {
               <div className="text-center space-y-4">
                 <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
                   <p className="text-emerald-300">
-                    <strong>{businessName}</strong> is now verified as yours!
+                    Request received for <strong>{businessName}</strong>.
                   </p>
                 </div>
                 
                 <p className="text-slate-400 text-sm">
-                  You can now manage your business listing from your dashboard.
+                  Our team will confirm you own this business within 1–2 business days.
                 </p>
 
                 <Button

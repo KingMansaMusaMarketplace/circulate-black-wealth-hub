@@ -13621,33 +13621,71 @@ export type Database = {
       }
       lead_claim_requests: {
         Row: {
+          business_id: string | null
           created_at: string
           decided_at: string | null
           decided_by: string | null
           id: string
-          lead_id: string
+          lead_id: string | null
           status: string
           user_id: string
         }
         Insert: {
+          business_id?: string | null
           created_at?: string
           decided_at?: string | null
           decided_by?: string | null
           id?: string
-          lead_id: string
+          lead_id?: string | null
           status?: string
           user_id: string
         }
         Update: {
+          business_id?: string | null
           created_at?: string
           decided_at?: string | null
           decided_by?: string | null
           id?: string
-          lead_id?: string
+          lead_id?: string | null
           status?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "lead_claim_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_claim_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_claim_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_claim_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_claim_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "lead_claim_requests_lead_id_fkey"
             columns: ["lead_id"]
@@ -26765,7 +26803,7 @@ export type Database = {
         Returns: Json
       }
       claim_business_lead: {
-        Args: { p_token: string; p_user_id: string }
+        Args: { p_token: string; p_user_id?: string }
         Returns: Json
       }
       claim_directory_business: { Args: { p_token: string }; Returns: Json }
@@ -28072,6 +28110,7 @@ export type Database = {
       list_lead_claim_requests: {
         Args: never
         Returns: {
+          business_id: string
           business_name: string
           city: string
           created_at: string
