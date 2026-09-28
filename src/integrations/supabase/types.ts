@@ -19517,6 +19517,24 @@ export type Database = {
           },
         ]
       }
+      reviewer_letter_ranges: {
+        Row: {
+          created_at: string
+          name_range: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          name_range: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          name_range?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           business_id: string

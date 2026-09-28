@@ -38,6 +38,11 @@ const ClaimRequestsCard = () => {
       if (error) throw error;
       if (data && data.success === false) throw new Error(data.error || 'Could not complete');
       toast.success(approve ? `Claim approved: ${req.business_name}` : `Claim rejected: ${req.business_name}`);
+      if (approve) {
+        const { error: mailErr } = await supabase.functions.invoke('notify-claim-approved', { body: { requestId: req.id } });
+        if (mailErr) toast.error('Approved, but the confirmation email to the owner failed to send.');
+        else toast.success('Confirmation email sent to the owner.');
+      }
       await load();
     } catch (e: any) {
       toast.error(e.message || 'Failed');
