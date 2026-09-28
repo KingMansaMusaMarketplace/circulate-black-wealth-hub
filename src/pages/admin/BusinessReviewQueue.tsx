@@ -16,6 +16,7 @@ import DeadLinkAuditCard from '@/components/admin/DeadLinkAuditCard';
 import OwnershipSpotCheckCard from '@/components/admin/OwnershipSpotCheckCard';
 import PhotoBackfillCard from '@/components/admin/PhotoBackfillCard';
 import { useServerAdminVerification } from '@/hooks/useServerAdminVerification';
+import ReviewDecisionsLog from '@/components/admin/ReviewDecisionsLog';
 
 type Lead = {
   id: string;
@@ -480,6 +481,11 @@ const BusinessReviewQueue: React.FC = () => {
               ))}
             </TabsList>
           </Tabs>
+
+          <ReviewDecisionsLog
+            isAdmin={!!isAdmin}
+            refreshKey={counts.promoted * 1000003 + counts.rejected * 1009 + counts.pending}
+          />
 
           {isAdmin && (
             <>
