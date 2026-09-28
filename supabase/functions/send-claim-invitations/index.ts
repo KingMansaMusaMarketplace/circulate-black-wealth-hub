@@ -13,7 +13,8 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const RESEND_KEY = Deno.env.get("RESEND_API_KEY");
 const SITE_URL = Deno.env.get("FRONTEND_URL") || "https://1325.ai";
-const FROM = "1325.AI <listings@1325.ai>";
+const FROM = "Thomas at 1325.AI <Partner@1325.AI>";
+const REPLY_TO = "Partner@1325.AI";
 const MAILING_ADDRESS = "1325.AI · Mansa Musa Marketplace, 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628, USA";
 
 const EMAIL_RE = /^(?!.*\.\.)[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
@@ -134,6 +135,7 @@ serve(async (req: Request): Promise<Response> => {
       });
       const { error: tErr } = await resend.emails.send({
         from: FROM,
+        reply_to: REPLY_TO,
         to: [to],
         subject: "[TEST] Sample Business is listed on 1325.AI — claim it free",
         html,
@@ -250,6 +252,7 @@ serve(async (req: Request): Promise<Response> => {
 
         const payload = {
           from: FROM,
+        reply_to: REPLY_TO,
           to: [email],
           subject: `${biz.business_name} is listed on 1325.AI — claim it free`,
           html: buildEmail({
