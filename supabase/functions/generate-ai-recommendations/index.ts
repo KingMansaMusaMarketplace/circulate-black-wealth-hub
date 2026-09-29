@@ -133,13 +133,12 @@ Please recommend 5 businesses that would be perfect for this user. Return JSON f
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-3.7-flash',
+        model: 'openai/gpt-6-astra',
+        response_format: { type: 'json_object' },
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        temperature: 0.7,
-        max_tokens: 1000,
       }),
     });
 
@@ -155,8 +154,11 @@ Please recommend 5 businesses that would be perfect for this user. Return JSON f
     // Parse AI response
     let recommendations;
     try {
-      const parsed = JSON.parse(aiContent);
-      recommendations = parsed.recommendations;
+      const cleaned = String(aiContent).replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+      const parsed = JSON.parse(cleaned);
+      const validIds = new Set((businesses || []).map((b: any) => b.id));
+      recommendations = (parsed.recommendations || []).filter((r: any) => validIds.has(r.business_id));
+      if (!recommendations.length) throw new Error('No valid recommendations');
     } catch (parseError) {
       console.error('[AI Recommendations] Failed to parse AI response:', aiContent);
       throw new Error('Failed to parse AI recommendations');
