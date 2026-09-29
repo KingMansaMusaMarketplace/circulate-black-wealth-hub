@@ -720,7 +720,8 @@ const BusinessReviewQueue: React.FC = () => {
                           <RefreshCw className="h-4 w-4 mr-1" /> Re-verify
                         </Button>
                         <Button
-                          size="sm" variant="destructive"
+                          size="sm"
+                          className="bg-red-600 text-white hover:bg-red-500 font-semibold"
                           disabled={actingId === lead.id}
                           onClick={() => reject(lead)}
                         >
