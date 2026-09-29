@@ -26632,6 +26632,17 @@ export type Database = {
         Args: { p_email: string; p_user_id: string }
         Returns: boolean
       }
+      _gamify_award: {
+        Args: {
+          p_desc: string
+          p_icon: string
+          p_name: string
+          p_pts: number
+          p_type: string
+          p_user: string
+        }
+        Returns: undefined
+      }
       _is_admin_current_user: { Args: never; Returns: boolean }
       _is_admin_or_service: { Args: never; Returns: boolean }
       _review_range_match: {
@@ -28317,6 +28328,10 @@ export type Database = {
         }
         Returns: string
       }
+      record_member_activity: {
+        Args: { p_day: string; p_user: string }
+        Returns: undefined
+      }
       record_partner_referral_signup: {
         Args: {
           p_business_id?: string
@@ -28329,6 +28344,7 @@ export type Database = {
       }
       redeem_beta_code: { Args: { p_beta_code: string }; Returns: Json }
       refill_expired_marketing_credits: { Args: never; Returns: Json }
+      refresh_weekly_leaderboard: { Args: never; Returns: undefined }
       refund_marketing_credit: {
         Args: { p_bucket: string; p_business_id: string }
         Returns: undefined
