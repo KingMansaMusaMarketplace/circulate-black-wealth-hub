@@ -54,16 +54,16 @@ export const ReviewDecisionsLog: React.FC<{ isAdmin: boolean; refreshKey?: numbe
       </CardHeader>
       <CardContent className="space-y-4">
         {loading ? (
-          <div className="flex items-center text-white/70"><Loader2 className="h-4 w-4 mr-2 animate-spin" />Loading…</div>
+          <div className="flex items-center text-white/95"><Loader2 className="h-4 w-4 mr-2 animate-spin" />Loading…</div>
         ) : rows.length === 0 ? (
-          <p className="text-white/70">No decisions recorded yet.</p>
+          <p className="text-white/95">No decisions recorded yet.</p>
         ) : (
           <>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {Object.entries(totals).map(([who, t]) => (
                 <div key={who} className="rounded bg-black/30 p-3 text-sm">
                   <div className="text-white font-medium truncate">{who}</div>
-                  <div className="text-white/70">
+                  <div className="text-white/95">
                     {t.approved} approved · {t.rejected} rejected · {t.sent_back} sent back
                   </div>
                 </div>
@@ -74,8 +74,8 @@ export const ReviewDecisionsLog: React.FC<{ isAdmin: boolean; refreshKey?: numbe
                 <div key={r.id} className="flex items-center gap-3 rounded bg-white/5 px-3 py-2 text-sm">
                   <Badge className={TONE[r.decision] ?? ''}>{LABEL[r.decision] ?? r.decision}</Badge>
                   <span className="text-white flex-1 truncate">{r.business_name}</span>
-                  {isAdmin && <span className="text-white/60 truncate hidden sm:inline">{r.reviewer_email}</span>}
-                  <span className="text-white/60 shrink-0">{new Date(r.created_at).toLocaleString()}</span>
+                  {isAdmin && <span className="text-white/95 truncate hidden sm:inline">{r.reviewer_email}</span>}
+                  <span className="text-white/95 shrink-0">{new Date(r.created_at).toLocaleString()}</span>
                 </div>
               ))}
             </div>

@@ -438,23 +438,23 @@ const BusinessReviewQueue: React.FC = () => {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div className="bg-black/30 rounded p-3">
-                  <div className="text-white/40 text-xs uppercase">Missing emails</div>
+                  <div className="text-white/95 text-xs uppercase">Missing emails</div>
                   <div className="text-xl font-bold text-mansagold">{enrichment.total_missing_email.toLocaleString()}</div>
                 </div>
                 <div className="bg-black/30 rounded p-3">
-                  <div className="text-white/40 text-xs uppercase">Total enriched</div>
+                  <div className="text-white/95 text-xs uppercase">Total enriched</div>
                   <div className="text-xl font-bold text-white">{enrichment.total_enriched.toLocaleString()}</div>
                 </div>
                 <div className="bg-black/30 rounded p-3">
-                  <div className="text-white/40 text-xs uppercase">Enriched 24h</div>
+                  <div className="text-white/95 text-xs uppercase">Enriched 24h</div>
                   <div className="text-xl font-bold text-green-400">{enrichment.enriched_24h.toLocaleString()}</div>
                 </div>
                 <div className="bg-black/30 rounded p-3">
-                  <div className="text-white/40 text-xs uppercase">Runs today</div>
+                  <div className="text-white/95 text-xs uppercase">Runs today</div>
                   <div className="text-xl font-bold text-white">{enrichment.run_today.toLocaleString()}</div>
                 </div>
               </div>
-              <p className="text-xs text-white/80 mt-3">
+              <p className="text-xs text-white/95 mt-3">
                 Kayla scrapes public business websites and uses AI to extract owner/operator emails with confidence scores.
                 Auto-runs daily at ~500 leads/day. Manual runs process 50 leads.
               </p>
@@ -463,7 +463,7 @@ const BusinessReviewQueue: React.FC = () => {
           )}
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm text-white/70">My letters:</span>
+            <span className="text-sm text-white/95">My letters:</span>
             {([['all','All'],['ah','A–H — Lisa'],['ip','I–P — Maurice'],['qz','Q–Z — Clarence']] as const).map(([k,label]) => (
               <Button key={k} size="sm" variant="outline" onClick={() => setTerritory(k)}
                 className={territory === k ? 'bg-mansagold text-mansablue border-mansagold hover:bg-mansagold' : 'border-mansagold/50 text-mansagold bg-transparent hover:bg-mansagold/10'}>
@@ -501,7 +501,7 @@ const BusinessReviewQueue: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative max-w-sm flex-1 min-w-[220px]">
-              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+              <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/95" />
               <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -562,7 +562,7 @@ const BusinessReviewQueue: React.FC = () => {
                 Select high-confidence (95%+)
               </Button>
 
-              <span className="text-xs text-white/80 ml-auto">
+              <span className="text-xs text-white/95 ml-auto">
                 Keyboard: <kbd className="px-1 bg-white/10 rounded">A</kbd> approve ·{' '}
                 <kbd className="px-1 bg-white/10 rounded">R</kbd> reject ·{' '}
                 <kbd className="px-1 bg-white/10 rounded">↑↓</kbd> move ·{' '}
@@ -678,7 +678,7 @@ const BusinessReviewQueue: React.FC = () => {
                       )}
                       {ownershipOk ? (
                         <p className="text-xs text-emerald-200/90 bg-emerald-500/10 border border-emerald-500/30 rounded p-2">
-                          <span className="text-white/80">Ownership evidence:</span> {lead.black_owned_evidence}
+                          <span className="text-white/95">Ownership evidence:</span> {lead.black_owned_evidence}
                         </p>
                       ) : (
                         <div className="flex items-start gap-2 text-sm bg-red-500/10 border border-red-500/30 rounded p-2">
@@ -698,9 +698,9 @@ const BusinessReviewQueue: React.FC = () => {
                         </div>
                       )}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-white/90">
-                        <div><span className="text-white/40">Perplexity phone:</span> {lead.phone_number || '—'}</div>
-                        <div><span className="text-white/40">Site phone:</span> {lead.verified_phone || '—'}</div>
-                        <div className="md:col-span-2"><span className="text-white/40">Site address:</span> {lead.verified_address || '—'}</div>
+                        <div><span className="text-white/95">Perplexity phone:</span> {lead.phone_number || '—'}</div>
+                        <div><span className="text-white/95">Site phone:</span> {lead.verified_phone || '—'}</div>
+                        <div className="md:col-span-2"><span className="text-white/95">Site address:</span> {lead.verified_address || '—'}</div>
                       </div>
                       <div className="flex flex-wrap gap-2 pt-2">
                         <Button
