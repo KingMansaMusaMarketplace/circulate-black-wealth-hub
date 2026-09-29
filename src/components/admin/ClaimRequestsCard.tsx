@@ -84,7 +84,7 @@ const ClaimRequestsCard = () => {
               <Button size="sm" disabled={actingId === r.id} onClick={() => decide(r, true)} className="bg-mansagold text-black hover:bg-mansagold/90">
                 <Check className="mr-1 h-4 w-4" /> Approve
               </Button>
-              <Button size="sm" variant="outline" disabled={actingId === r.id} onClick={() => decide(r, false)}>
+              <Button size="sm" disabled={actingId === r.id} onClick={() => decide(r, false)} className="bg-red-600 text-white hover:bg-red-500 font-semibold">
                 <X className="mr-1 h-4 w-4" /> Reject
               </Button>
             </div>
