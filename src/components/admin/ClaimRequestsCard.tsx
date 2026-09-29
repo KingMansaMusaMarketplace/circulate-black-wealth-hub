@@ -59,7 +59,7 @@ const ClaimRequestsCard = () => {
         <CardTitle className="text-base flex items-center gap-2">
           <Building2 className="h-4 w-4 text-mansagold" /> Owner Claim Requests ({items.length})
         </CardTitle>
-        <p className="text-sm text-white/80">
+        <p className="text-sm text-white/95">
           Confirm the person really owns the business (check the website and email domain) before approving.
         </p>
       </CardHeader>
@@ -68,7 +68,7 @@ const ClaimRequestsCard = () => {
           <div key={r.id} className="flex flex-col gap-2 rounded-lg border border-white/10 bg-black/30 p-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
               <p className="font-semibold text-white">{r.business_name}</p>
-              <p className="text-sm text-white/75">
+              <p className="text-sm text-white/95">
                 {[r.city, r.state].filter(Boolean).join(', ')}
                 {r.website_url && (
                   <a href={externalUrl(r.website_url)} target="_blank" rel="noopener noreferrer" className="ml-2 inline-flex items-center gap-1 text-mansagold underline">
@@ -76,7 +76,7 @@ const ClaimRequestsCard = () => {
                   </a>
                 )}
               </p>
-              <p className="text-sm text-white/75">
+              <p className="text-sm text-white/95">
                 Requested by {r.requester_name || 'unknown'} · {r.requester_email || 'no email'} · {new Date(r.created_at).toLocaleDateString()}
               </p>
             </div>
