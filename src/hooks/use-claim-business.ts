@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
-import { savePendingLeadClaim } from '@/lib/lead-claim';
+import { savePendingLeadClaim, submitLeadClaimRequest } from '@/lib/lead-claim';
 
 // Public-safe external lead interface (excludes PII fields)
 export interface ExternalLead {
@@ -110,6 +110,23 @@ export const useClaimBusiness = () => {
   // Only admins/reviewers can mint claim links; owners go through sign-up + verification.
   const initiateClaim = async (leadId: string) => {
     const lead = externalLeads?.find((l) => l.id === leadId);
+    // Already signed in: file the request now (the post-sign-in submitter only handles fresh sign-ins).
+    if (user) {
+      setClaimingId(leadId);
+      try {
+        await submitLeadClaimRequest(leadId, user.id);
+        toast.success('Claim request sent — our team will confirm ownership within 1–2 business days.', {
+          description: lead?.business_name ? `Listing: ${lead.business_name}` : undefined,
+          duration: 8000,
+        });
+      } catch (e) {
+        console.error('Claim request failed', e);
+        toast.error('We could not send your claim request. Please try again.');
+      } finally {
+        setClaimingId(null);
+      }
+      return null;
+    }
     savePendingLeadClaim(leadId, lead?.business_name);
     const params = new URLSearchParams({ claim: leadId });
     if (lead?.business_name) params.set('name', lead.business_name);

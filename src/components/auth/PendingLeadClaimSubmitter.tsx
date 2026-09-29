@@ -24,7 +24,10 @@ const PendingLeadClaimSubmitter = () => {
           duration: 8000,
         });
       })
-      .catch((e) => console.error('Claim request failed', e))
+      .catch((e) => {
+        console.error('Claim request failed', e);
+        toast.error('We could not send your claim request. Please click "Claim This Business" again.');
+      })
       .finally(() => { busy.current = false; });
   }, [user]);
 
