@@ -158,38 +158,24 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     m.addSource('biz', {
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
-      cluster: true,
-      clusterMaxZoom: 13,
-      clusterRadius: 50,
+      cluster: false,
     });
+    // Every business gets its own dot; dots grow as you zoom in.
     m.addLayer({
-      id: 'biz-clusters', type: 'circle', source: 'biz', filter: ['has', 'point_count'],
+      id: 'biz-points', type: 'circle', source: 'biz',
       paint: {
-        'circle-color': ['step', ['get', 'point_count'], '#D97706', 100, '#F59E0B', 1000, '#FFB300'],
-        'circle-radius': ['step', ['get', 'point_count'], 16, 100, 22, 1000, 30],
-        'circle-stroke-width': 3,
-        'circle-stroke-color': '#1e293b',
-      },
-    });
-    m.addLayer({
-      id: 'biz-cluster-count', type: 'symbol', source: 'biz', filter: ['has', 'point_count'],
-      layout: { 'text-field': ['get', 'point_count_abbreviated'], 'text-size': 12 },
-      paint: { 'text-color': '#000000' },
-    });
-    m.addLayer({
-      id: 'biz-points', type: 'circle', source: 'biz', filter: ['!', ['has', 'point_count']],
-      paint: {
-        'circle-color': '#D97706',
-        'circle-radius': 8,
-        'circle-stroke-width': 3,
+        'circle-color': '#FFB300',
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 1.5, 6, 2.5, 10, 4.5, 13, 7, 16, 9],
+        'circle-opacity': ['interpolate', ['linear'], ['zoom'], 2, 0.75, 10, 0.95],
+        'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 8, 0, 11, 1.5, 14, 2.5],
         'circle-stroke-color': '#1e293b',
       },
     });
     m.addLayer({
       id: 'biz-highlight', type: 'circle', source: 'biz', filter: ['==', ['get', 'id'], ''],
       paint: {
-        'circle-color': '#D97706',
-        'circle-radius': 11,
+        'circle-color': '#FFB300',
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 5, 12, 10, 16, 12],
         'circle-stroke-width': 3,
         'circle-stroke-color': '#FCD34D',
       },
