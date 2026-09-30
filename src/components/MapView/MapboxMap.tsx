@@ -132,128 +132,142 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     }
   }, [userLocation]);
 
-  // Track if we've done initial bounds fit
-  const hasInitialFit = useRef(false);
   const lastFitSignature = useRef<string>('');
+  const handlersRef = useRef({ onBusinessClick, onMarkerHover, flyToOnClick });
+  handlersRef.current = { onBusinessClick, onMarkerHover, flyToOnClick };
 
-  // Add/update markers when businesses change or map becomes ready
+  // User location marker
   useEffect(() => {
     if (!map.current || !mapReady) return;
-
-    // Clear existing markers
-    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
-
-    // Add user location marker
     if (userLocation) {
-      const userMarker = new mapboxgl.Marker({
-        color: '#3B82F6', // Blue color for user
-        scale: 1.2
-      })
+      const userMarker = new mapboxgl.Marker({ color: '#3B82F6', scale: 1.2 })
         .setLngLat([userLocation.lng, userLocation.lat])
         .setPopup(new mapboxgl.Popup().setHTML('<div class="font-medium">Your Location</div>'))
         .addTo(map.current);
-      
       markersRef.current.push(userMarker);
     }
+  }, [userLocation, mapReady]);
 
-    // Only plot businesses that have real coordinates
-    const hasValidCoords = (b: BusinessLocation) =>
-      Number.isFinite(Number(b.lat)) && Number.isFinite(Number(b.lng)) &&
-      Number(b.lat) !== 0 && Number(b.lng) !== 0 &&
-      Number(b.lat) >= -90 && Number(b.lat) <= 90 &&
-      Number(b.lng) >= -180 && Number(b.lng) <= 180;
+  // Set up clustered source + layers once
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !mapReady || m.getSource('biz')) return;
 
-    const mappableBusinesses = businesses.filter(hasValidCoords);
-
-    // Add business markers
-    mappableBusinesses.forEach(business => {
-      const isHighlighted = highlightedBusinessId === business.id;
-      
-      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
-        <div class="p-2">
-          <h3 class="font-medium text-sm mb-1">${business.name}</h3>
-          <p class="text-xs text-gray-600 mb-1">${business.category}</p>
-          ${business.distance ? `<p class="text-xs text-blue-600">${business.distance}</p>` : ''}
-        </div>
-      `);
-
-      // Create custom marker element for highlighting
-      const el = document.createElement('div');
-      el.className = 'mapbox-marker';
-      el.style.cssText = `
-        width: ${isHighlighted ? '24px' : '20px'};
-        height: ${isHighlighted ? '24px' : '20px'};
-        background: ${isHighlighted ? '#D97706' : '#D97706'};
-        border: 3px solid ${isHighlighted ? '#FCD34D' : '#1e293b'};
-        border-radius: 50%;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: ${isHighlighted ? '0 0 20px rgba(217, 119, 6, 0.6)' : '0 2px 4px rgba(0,0,0,0.3)'};
-        ${isHighlighted ? 'animation: pulse 1.5s infinite;' : ''}
-      `;
-
-      const marker = new mapboxgl.Marker({ element: el })
-        .setLngLat([business.lng, business.lat])
-        .setPopup(popup)
-        .addTo(map.current!);
-
-      // Add hover listener
-      el.addEventListener('mouseenter', () => {
-        onMarkerHover?.(business.id);
-      });
-      
-      el.addEventListener('mouseleave', () => {
-        onMarkerHover?.(null);
-      });
-
-      // Add click listener for business selection
-      if (onBusinessClick) {
-        el.addEventListener('click', (e) => {
-          e.stopPropagation();
-          
-          // Fly to the clicked business marker
-          if (flyToOnClick && map.current) {
-            map.current.flyTo({
-              center: [business.lng, business.lat],
-              zoom: 15,
-              pitch: 50,
-              duration: 1200,
-              essential: true,
-            });
-          }
-          
-          onBusinessClick(business.id);
-        });
-      }
-
-      markersRef.current.push(marker);
+    m.addSource('biz', {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: [] },
+      cluster: true,
+      clusterMaxZoom: 13,
+      clusterRadius: 50,
+    });
+    m.addLayer({
+      id: 'biz-clusters', type: 'circle', source: 'biz', filter: ['has', 'point_count'],
+      paint: {
+        'circle-color': ['step', ['get', 'point_count'], '#D97706', 100, '#F59E0B', 1000, '#FFB300'],
+        'circle-radius': ['step', ['get', 'point_count'], 16, 100, 22, 1000, 30],
+        'circle-stroke-width': 3,
+        'circle-stroke-color': '#1e293b',
+      },
+    });
+    m.addLayer({
+      id: 'biz-cluster-count', type: 'symbol', source: 'biz', filter: ['has', 'point_count'],
+      layout: { 'text-field': ['get', 'point_count_abbreviated'], 'text-size': 12 },
+      paint: { 'text-color': '#000000' },
+    });
+    m.addLayer({
+      id: 'biz-points', type: 'circle', source: 'biz', filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': '#D97706',
+        'circle-radius': 8,
+        'circle-stroke-width': 3,
+        'circle-stroke-color': '#1e293b',
+      },
+    });
+    m.addLayer({
+      id: 'biz-highlight', type: 'circle', source: 'biz', filter: ['==', ['get', 'id'], ''],
+      paint: {
+        'circle-color': '#D97706',
+        'circle-radius': 11,
+        'circle-stroke-width': 3,
+        'circle-stroke-color': '#FCD34D',
+      },
     });
 
-    // Re-fit the map whenever the set of shown businesses changes
-    const fitSignature = mappableBusinesses.map(b => b.id).join(',');
-    if (fitSignature !== lastFitSignature.current && markersRef.current.length > 0) {
+    m.on('click', 'biz-clusters', (e) => {
+      const f: any = (e as any).features?.[0];
+      if (!f) return;
+      const src = m.getSource('biz') as mapboxgl.GeoJSONSource;
+      src.getClusterExpansionZoom(f.properties!.cluster_id, (err, zoom) => {
+        if (err || zoom == null) return;
+        m.easeTo({ center: (f.geometry as any).coordinates, zoom });
+      });
+    });
+
+    const popup = new mapboxgl.Popup({ offset: 15, closeButton: false });
+    m.on('click', 'biz-points', (e) => {
+      const f: any = (e as any).features?.[0];
+      if (!f) return;
+      const [lng, lat] = (f.geometry as any).coordinates;
+      const p = f.properties as any;
+      const esc = (s: string) => String(s ?? '').replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
+      popup.setLngLat([lng, lat])
+        .setHTML(`<div class="p-2"><h3 class="font-medium text-sm mb-1">${esc(p.name)}</h3><p class="text-xs text-gray-600">${esc(p.category)}</p></div>`)
+        .addTo(m);
+      const h = handlersRef.current;
+      if (h.flyToOnClick) m.flyTo({ center: [lng, lat], zoom: 15, pitch: 50, duration: 1200, essential: true });
+      h.onBusinessClick?.(p.id);
+    });
+    m.on('mouseenter', 'biz-points', (e) => {
+      m.getCanvas().style.cursor = 'pointer';
+      const id = (e as any).features?.[0]?.properties?.id;
+      if (id) handlersRef.current.onMarkerHover?.(id);
+    });
+    m.on('mouseleave', 'biz-points', () => {
+      m.getCanvas().style.cursor = '';
+      handlersRef.current.onMarkerHover?.(null);
+    });
+    m.on('mouseenter', 'biz-clusters', () => { m.getCanvas().style.cursor = 'pointer'; });
+    m.on('mouseleave', 'biz-clusters', () => { m.getCanvas().style.cursor = ''; });
+  }, [mapReady]);
+
+  // Update data
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !mapReady) return;
+    const src = m.getSource('biz') as mapboxgl.GeoJSONSource | undefined;
+    if (!src) return;
+
+    const valid = businesses.filter(b =>
+      Number.isFinite(Number(b.lat)) && Number.isFinite(Number(b.lng)) &&
+      Number(b.lat) !== 0 && Number(b.lng) !== 0 &&
+      Math.abs(Number(b.lat)) <= 90 && Math.abs(Number(b.lng)) <= 180);
+
+    src.setData({
+      type: 'FeatureCollection',
+      features: valid.map(b => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [Number(b.lng), Number(b.lat)] },
+        properties: { id: b.id, name: b.name, category: b.category },
+      })),
+    });
+
+    const sig = `${valid.length}:${valid[0]?.id ?? ''}:${valid[valid.length - 1]?.id ?? ''}`;
+    if (sig !== lastFitSignature.current && valid.length > 0 && !userLocation) {
       const bounds = new mapboxgl.LngLatBounds();
-
-      // Add user location to bounds
-      if (userLocation) {
-        bounds.extend([userLocation.lng, userLocation.lat]);
-      }
-
-      // Add business locations to bounds
-      mappableBusinesses.forEach(business => {
-        bounds.extend([business.lng, business.lat]);
-      });
-
-      map.current.fitBounds(bounds, {
-        padding: 50,
-        maxZoom: 15
-      });
-
-      lastFitSignature.current = fitSignature;
-      hasInitialFit.current = true;
+      valid.forEach(b => bounds.extend([Number(b.lng), Number(b.lat)]));
+      m.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+      lastFitSignature.current = sig;
     }
-  }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover, mapReady, flyToOnClick]);
+  }, [businesses, mapReady, userLocation]);
+
+  // Highlight
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !mapReady || !m.getLayer('biz-highlight')) return;
+    m.setFilter('biz-highlight', ['all', ['!', ['has', 'point_count']], ['==', ['get', 'id'], highlightedBusinessId || '']]);
+  }, [highlightedBusinessId, mapReady]);
 
   if (mapError) {
     return (
