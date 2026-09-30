@@ -327,7 +327,7 @@ The 1325.AI Team`;
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setRejectFor(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={reject} disabled={busy || !rejectReason.trim()}>
+            <Button variant="destructive" onClick={() => reject()} disabled={busy}>
               {busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />} Reject Listing
             </Button>
           </DialogFooter>
