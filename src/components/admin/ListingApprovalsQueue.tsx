@@ -120,19 +120,20 @@ const ListingApprovalsQueue: React.FC = () => {
     refresh();
   };
 
-  const reject = async () => {
-    if (!rejectFor || !rejectReason.trim()) return toast.error('Reason required');
+  const reject = async (target?: Business) => {
+    const biz = target ?? rejectFor;
+    if (!biz) return;
     setBusy(true);
     const { data: { user } } = await supabase.auth.getUser();
     const { error } = await supabase
       .from('businesses')
       .update({
         listing_status: 'rejected',
-        listing_rejection_reason: rejectReason,
+        listing_rejection_reason: rejectReason.trim() || null,
         listing_reviewed_by: user?.id ?? null,
         listing_reviewed_at: new Date().toISOString(),
       })
-      .eq('id', rejectFor.id);
+      .eq('id', biz.id);
     setBusy(false);
     if (error) return toast.error('Reject failed: ' + error.message);
     toast.success('Listing rejected');
@@ -279,7 +280,7 @@ The 1325.AI Team`;
                           </Button>
                         )}
                         {tab !== 'rejected' && (
-                          <Button size="sm" variant="destructive" onClick={() => setRejectFor(b)} disabled={busy}>
+                          <Button size="sm" variant="destructive" onClick={() => reject(b)} disabled={busy}>
                             <X className="h-3 w-3 mr-1" /> Reject
                           </Button>
                         )}
@@ -326,7 +327,7 @@ The 1325.AI Team`;
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setRejectFor(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={reject} disabled={busy || !rejectReason.trim()}>
+            <Button variant="destructive" onClick={() => reject()} disabled={busy}>
               {busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />} Reject Listing
             </Button>
           </DialogFooter>
