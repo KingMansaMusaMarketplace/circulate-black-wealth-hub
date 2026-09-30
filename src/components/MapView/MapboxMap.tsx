@@ -150,7 +150,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     }
   }, [userLocation, mapReady]);
 
-  // Set up clustered source + layers once
+  // Set up dot source + layers once
   useEffect(() => {
     const m = map.current;
     if (!m || !mapReady || m.getSource('biz')) return;
@@ -181,16 +181,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       },
     });
 
-    m.on('click', 'biz-clusters', (e) => {
-      const f: any = (e as any).features?.[0];
-      if (!f) return;
-      const src = m.getSource('biz') as mapboxgl.GeoJSONSource;
-      src.getClusterExpansionZoom(f.properties!.cluster_id, (err, zoom) => {
-        if (err || zoom == null) return;
-        m.easeTo({ center: (f.geometry as any).coordinates, zoom });
-      });
-    });
-
     const popup = new mapboxgl.Popup({ offset: 15, closeButton: false });
     m.on('click', 'biz-points', (e) => {
       const f: any = (e as any).features?.[0];
@@ -214,8 +204,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       m.getCanvas().style.cursor = '';
       handlersRef.current.onMarkerHover?.(null);
     });
-    m.on('mouseenter', 'biz-clusters', () => { m.getCanvas().style.cursor = 'pointer'; });
-    m.on('mouseleave', 'biz-clusters', () => { m.getCanvas().style.cursor = ''; });
   }, [mapReady]);
 
   // Update data
@@ -252,7 +240,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   useEffect(() => {
     const m = map.current;
     if (!m || !mapReady || !m.getLayer('biz-highlight')) return;
-    m.setFilter('biz-highlight', ['all', ['!', ['has', 'point_count']], ['==', ['get', 'id'], highlightedBusinessId || '']]);
+    m.setFilter('biz-highlight', ['==', ['get', 'id'], highlightedBusinessId || '']);
   }, [highlightedBusinessId, mapReady]);
 
   if (mapError) {
