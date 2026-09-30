@@ -407,7 +407,7 @@ export const useSupabaseDirectory = () => {
   const { data: mapMarkersData } = useQuery({
     queryKey: mapMarkersKey,
     queryFn: async () => {
-      const { data, error } = await (supabase.rpc as any)('get_directory_map_markers', {
+      const args = {
         p_search_term: searchTerm || null,
         p_category: filterOptions.category || null,
         p_min_rating: filterOptions.minRating || null,
@@ -415,8 +415,26 @@ export const useSupabaseDirectory = () => {
         p_country: country || null,
         p_state: stateCode || null,
         p_city: city || null,
-      });
-      if (error) throw error;
+      };
+      // Server caps each response at 1000 rows; fetch pages in parallel batches.
+      const PAGE = 1000;
+      const all: any[] = [];
+      for (let start = 0; start < 60000; start += PAGE * 6) {
+        const batch = await Promise.all(
+          Array.from({ length: 6 }, (_, i) => {
+            const from = start + i * PAGE;
+            return (supabase.rpc as any)('get_directory_map_markers', args).range(from, from + PAGE - 1);
+          })
+        );
+        let done = false;
+        for (const { data, error } of batch) {
+          if (error) throw error;
+          all.push(...(data || []));
+          if (!data || data.length < PAGE) done = true;
+        }
+        if (done) break;
+      }
+      const data = all;
       return (data || []) as { id: string; business_name: string; latitude: number; longitude: number; category: string; average_rating: number }[];
     },
     staleTime: 5 * 60 * 1000,

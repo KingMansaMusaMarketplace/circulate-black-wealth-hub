@@ -196,7 +196,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     });
 
     m.on('click', 'biz-clusters', (e) => {
-      const f = e.features?.[0];
+      const f: any = (e as any).features?.[0];
       if (!f) return;
       const src = m.getSource('biz') as mapboxgl.GeoJSONSource;
       src.getClusterExpansionZoom(f.properties!.cluster_id, (err, zoom) => {
@@ -207,7 +207,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
     const popup = new mapboxgl.Popup({ offset: 15, closeButton: false });
     m.on('click', 'biz-points', (e) => {
-      const f = e.features?.[0];
+      const f: any = (e as any).features?.[0];
       if (!f) return;
       const [lng, lat] = (f.geometry as any).coordinates;
       const p = f.properties as any;
@@ -221,7 +221,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     });
     m.on('mouseenter', 'biz-points', (e) => {
       m.getCanvas().style.cursor = 'pointer';
-      const id = (e.features?.[0]?.properties as any)?.id;
+      const id = (e as any).features?.[0]?.properties?.id;
       if (id) handlersRef.current.onMarkerHover?.(id);
     });
     m.on('mouseleave', 'biz-points', () => {
