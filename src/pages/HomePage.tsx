@@ -12,6 +12,7 @@ import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueSha
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
 import WhyBuyBand from '@/components/homepage/WhyBuyBand';
+import WhyNowVideo from '@/components/homepage/WhyNowVideo';
 
 
 /**
@@ -188,6 +189,8 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Why people buy: trust, standing, belonging */}
+        <WhyNowVideo />
+
         <WhyBuyBand />
 
         {/* Corporate partner wall — shows live partners and open slots */}
