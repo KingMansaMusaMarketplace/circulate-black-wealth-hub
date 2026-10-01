@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import Stripe from 'https://esm.sh/stripe@14.21.0';
@@ -51,7 +52,7 @@ serve(async (req) => {
     // Create a portal session
     const session = await stripe.billingPortal.sessions.create({
       customer: subscription.stripe_customer_id,
-      return_url: returnUrl || `${req.headers.get('origin')}/sponsor-dashboard`,
+      return_url: safeReturnUrl(returnUrl, `${safeOrigin(req)}/sponsor-dashboard`),
     });
 
     console.log('Portal session created:', session.id);

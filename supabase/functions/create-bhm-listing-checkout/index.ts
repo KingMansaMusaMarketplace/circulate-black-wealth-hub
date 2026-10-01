@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
@@ -64,8 +65,8 @@ serve(async (req) => {
         },
       ],
       mode: "payment",
-      success_url: `${req.headers.get("origin")}/listing-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/?listing=cancelled`,
+      success_url: `${safeOrigin(req)}/listing-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${safeOrigin(req)}/?listing=cancelled`,
       metadata: {
         business_url: businessUrl,
         email: email,

@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import Stripe from "https://esm.sh/stripe@18.5.0";
@@ -224,7 +225,7 @@ serve(async (req) => {
     logStep("Booking created", { bookingId: booking.id });
 
     // Build line items for Stripe Checkout
-    const origin = req.headers.get("origin") || "https://circulate-black-wealth-hub.lovable.app";
+    const origin = safeOrigin(req);
     
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       {

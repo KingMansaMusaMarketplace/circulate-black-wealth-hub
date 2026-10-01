@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 /**
  * @fileoverview QR Code Transaction Processing Engine
  *
@@ -198,7 +199,7 @@ serve(async (req) => {
       apiVersion: "2023-10-16",
     });
 
-    const origin = req.headers.get("origin") || "https://mansamusamarketplace.com";
+    const origin = safeOrigin(req);
     const productName = business?.business_name
       ? `Payment to ${business.business_name}`
       : "QR Code Payment";

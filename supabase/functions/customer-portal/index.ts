@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
@@ -46,7 +47,7 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     log("Stripe customer", { customerId });
 
-    const origin = req.headers.get("origin") || "https://mansamusamarketplace.com";
+    const origin = safeOrigin(req);
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: `${origin}/profile`,
