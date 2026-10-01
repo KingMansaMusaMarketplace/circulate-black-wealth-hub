@@ -1,11 +1,7 @@
 // Lightweight CSV utilities for admin exports
 
-const escape = (val: any): string => {
-  if (val === null || val === undefined) return '';
-  const s = String(val);
-  if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
-  return s;
-};
+import { csvCell } from '@/lib/csv-safe';
+const escape = (val: any): string => csvCell(val);
 
 export function toCSV<T extends Record<string, any>>(rows: T[], columns: { key: keyof T | string; label: string; get?: (row: T) => any }[]): string {
   const header = columns.map(c => escape(c.label)).join(',');
