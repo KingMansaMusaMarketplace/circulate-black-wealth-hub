@@ -35,7 +35,7 @@ const DEFAULT_PLATFORM_FEE_PERCENTAGE = 2.50; // 2.5%
 // Input validation schema
 const paymentIntentSchema = z.object({
   businessId: z.string().uuid(),
-  amount: z.number().positive().max(999999.99),
+  amount: z.number().min(0.5).max(10000),
   description: z.string().max(500).optional().default("Payment"),
   customerEmail: z.string().email().max(255).optional(),
   customerName: z.string().max(100).optional(),
@@ -79,7 +79,13 @@ serve(async (req) => {
       );
     }
     
-    const { businessId, amount, description, customerEmail, customerName, metadata } = parseResult.data;
+    const { businessId, amount, description, customerEmail, customerName } = parseResult.data;
+    // Caller metadata is informational only: keep a few short notes and never let it
+    // override server-controlled keys or mark anything as purchased/fulfilled.
+    const metadata: Record<string, string> = {};
+    for (const [k, v] of Object.entries(parseResult.data.metadata || {}).slice(0, 5)) {
+      if (/^[a-z0-9_]{1,30}$/i.test(k)) metadata[`note_${k}`] = String(v).slice(0, 200);
+    }
 
     // Get business Stripe account
     const { data: paymentAccount, error: accountError } = await supabaseClient
@@ -115,9 +121,10 @@ serve(async (req) => {
       },
       description,
       metadata: {
+        ...metadata,
         business_id: businessId,
         customer_id: user.id,
-        ...metadata,
+        kind: "direct_payment_to_business",
       },
       receipt_email: customerEmail,
     });
