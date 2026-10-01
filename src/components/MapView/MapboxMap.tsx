@@ -228,11 +228,17 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     });
 
     const sig = `${valid.length}:${valid[0]?.id ?? ''}:${valid[valid.length - 1]?.id ?? ''}`;
-    if (sig !== lastFitSignature.current && valid.length > 0 && !userLocation) {
-      const bounds = new mapboxgl.LngLatBounds();
-      valid.forEach(b => bounds.extend([Number(b.lng), Number(b.lat)]));
-      m.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+    if (sig !== lastFitSignature.current && valid.length > 0) {
       lastFitSignature.current = sig;
+      // With location on, stay near the user unless none of the results are visible there.
+      const view = m.getBounds();
+      const anyVisible = !!userLocation && !!view &&
+        valid.some(b => view.contains([Number(b.lng), Number(b.lat)]));
+      if (!anyVisible) {
+        const bounds = new mapboxgl.LngLatBounds();
+        valid.forEach(b => bounds.extend([Number(b.lng), Number(b.lat)]));
+        m.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+      }
     }
   }, [businesses, mapReady, userLocation]);
 
