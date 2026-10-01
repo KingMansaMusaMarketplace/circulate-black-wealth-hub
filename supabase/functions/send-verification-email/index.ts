@@ -55,20 +55,38 @@ const handler = async (req: Request): Promise<Response> => {
     const cleanEmail = String(email).trim().toLowerCase();
 
     // Only send to a real account whose email is not yet confirmed.
+    // Allowed callers: the backend itself, the signed-in account owner, or a
+    // brand-new signup (account created in the last 15 minutes, not yet confirmed).
     if (!isServiceRoleCaller(req)) {
       const admin = createClient(
         Deno.env.get("SUPABASE_URL")!,
         Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
       ) as any;
-      const { data: list } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-      const match = (list?.users || []).find(
-        (u: any) => (u.email || "").toLowerCase() === cleanEmail,
-      );
-      if (!match || match.email_confirmed_at) {
-        // Do not reveal whether the address exists.
-        return new Response(JSON.stringify({ success: true }), {
-          status: 200, headers: { "Content-Type": "application/json", ...corsHeaders },
-        });
+      const silentOk = () => new Response(JSON.stringify({ success: true }), {
+        status: 200, headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+
+      const token = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
+      let caller: any = null;
+      if (token) {
+        const { data } = await admin.auth.getUser(token);
+        caller = data?.user ?? null;
+      }
+
+      if (caller) {
+        if ((caller.email || "").toLowerCase() !== cleanEmail || caller.email_confirmed_at) {
+          return silentOk();
+        }
+      } else {
+        const { data: list } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
+        const match = (list?.users || []).find(
+          (u: any) => (u.email || "").toLowerCase() === cleanEmail,
+        );
+        const fresh = match && Date.now() - new Date(match.created_at).getTime() < 15 * 60 * 1000;
+        if (!match || match.email_confirmed_at || !fresh) {
+          // Do not reveal whether the address exists.
+          return silentOk();
+        }
       }
     }
 
