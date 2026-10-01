@@ -13,6 +13,7 @@ import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
 import WhyBuyBand from '@/components/homepage/WhyBuyBand';
 import WhyNowVideo from '@/components/homepage/WhyNowVideo';
+import HolidayVideoCard from '@/components/homepage/HolidayVideoCard';
 
 
 /**
@@ -190,6 +191,7 @@ const HomePage: React.FC = () => {
 
         {/* Why people buy: trust, standing, belonging */}
         <WhyNowVideo />
+        <HolidayVideoCard />
 
         <WhyBuyBand />
 

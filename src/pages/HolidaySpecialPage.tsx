@@ -8,6 +8,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { shouldHideStripePayments } from "@/utils/platform-utils";
+import TapToPlayVideo from "@/components/homepage/TapToPlayVideo";
+import holidayVideo from "@/assets/holiday-special.mp4.asset.json";
+import holidayPoster from "@/assets/holiday-special-poster.jpg.asset.json";
 
 const START = Date.parse("2026-10-01T05:00:00Z");
 const END = Date.parse("2027-01-01T06:00:00Z");
@@ -60,6 +63,10 @@ export default function HolidaySpecialPage() {
         <p className="mt-4 text-lg text-muted-foreground">
           Locked in forever. Regular price <span className="line-through">$299/mo</span>.
         </p>
+
+        <div className="mt-10">
+          <TapToPlayVideo src={holidayVideo.url} poster={holidayPoster.url} label="Play the Holiday Special video" />
+        </div>
 
         <Card className="mt-10 text-left">
           <CardContent className="space-y-4 p-6 md:p-8">
