@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Play, ArrowRight } from 'lucide-react';
-import video from '@/assets/why-1325-why-now.mp4.asset.json';
 import poster from '@/assets/why-1325-why-now-poster.jpg.asset.json';
 
 const YT_ID = 'JYFefyXl9WI';
