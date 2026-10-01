@@ -18,11 +18,6 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const supabaseClient = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-  );
-
   try {
     logStep("Function started");
 
@@ -35,6 +30,12 @@ serve(async (req) => {
     if (!email) {
       throw new Error("Email is required");
     }
+    if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+      throw new Error("Invalid email");
+    }
+    if (typeof businessUrl !== "string" || businessUrl.length > 500) {
+      throw new Error("Invalid business URL");
+    }
 
     logStep("Received request", { businessUrl, email });
 
@@ -43,21 +44,12 @@ serve(async (req) => {
       apiVersion: "2025-08-27.basil",
     });
 
-    // Check if customer exists
-    const customers = await stripe.customers.list({ email, limit: 1 });
-    let customerId;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
-      logStep("Found existing customer", { customerId });
-    }
-
     // BHM Quick Add Price ID - $50/year special
     const priceId = "price_1SwMpgAsptTW1mCmwWojeyNY";
 
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
-      customer: customerId,
-      customer_email: customerId ? undefined : email,
+      customer_email: email,
       line_items: [
         {
           price: priceId,
@@ -75,24 +67,6 @@ serve(async (req) => {
     });
 
     logStep("Checkout session created", { sessionId: session.id });
-
-    // Store the lead in the database
-    const { error: insertError } = await supabaseClient
-      .from("b2b_external_leads")
-      .insert({
-        business_name: "Pending - BHM Quick Add",
-        source_query: "bhm_quick_add",
-        website_url: businessUrl,
-        owner_email: email,
-        validation_status: "pending_payment",
-        validation_notes: `BHM Quick Add submission. Checkout session: ${session.id}`,
-      });
-
-    if (insertError) {
-      logStep("Warning: Could not store lead", { error: insertError.message });
-    } else {
-      logStep("Lead stored successfully");
-    }
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

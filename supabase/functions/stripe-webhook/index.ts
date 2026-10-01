@@ -263,25 +263,26 @@ serve(async (req) => {
           } else if (updatedLead) {
             console.log(`BHM lead marked as paid, expires: ${expiresAt.toISOString()}`);
           } else {
-            // If no matching pending lead found, try to find by email
-            const { error: emailUpdateError } = await supabaseClient
+            // Lead is now created only after confirmed payment (never by the public checkout call)
+            const { error: insertLeadError } = await supabaseClient
               .from('b2b_external_leads')
-              .update({ 
+              .insert({
+                business_name: 'Pending - BHM Quick Add',
+                source_query: 'bhm_quick_add',
+                website_url: businessUrl,
+                owner_email: session.customer_details?.email || email,
                 validation_status: 'paid',
                 validation_notes: `Payment confirmed. Checkout session: ${session.id}. Amount: $${paymentAmount}`,
                 listing_type: 'bhm_promo',
                 listing_expires_at: expiresAt.toISOString(),
                 payment_amount: paymentAmount,
                 paid_at: new Date().toISOString()
-              })
-              .eq('source_query', 'bhm_quick_add')
-              .eq('owner_email', email)
-              .eq('validation_status', 'pending_payment');
+              });
 
-            if (emailUpdateError) {
-              console.error('Error updating BHM lead by email:', emailUpdateError);
+            if (insertLeadError) {
+              console.error('Error creating paid BHM lead:', insertLeadError);
             } else {
-              console.log(`BHM lead marked as paid via email, expires: ${expiresAt.toISOString()}`);
+              console.log(`BHM lead created as paid, expires: ${expiresAt.toISOString()}`);
             }
           }
 
