@@ -1,3 +1,4 @@
+import { assertPublicUrl } from "../_shared/public-url.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 const corsHeaders = {
@@ -205,6 +206,7 @@ async function webResearch(args: {
 
   if (mode === "scrape" || mode === "summarize") {
     if (!args.url) throw new Error("url is required for scrape/summarize mode");
+    args.url = assertPublicUrl(args.url);
     const formats = mode === "summarize" ? ["summary"] : ["markdown"];
     const res = await fetch(`${base}/scrape`, {
       method: "POST",
