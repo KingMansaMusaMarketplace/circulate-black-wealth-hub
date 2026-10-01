@@ -1,3 +1,5 @@
+import { assertPublicUrl } from "../_shared/public-url.ts";
+const scrapeRate = new Map<string, { count: number; resetAt: number }>();
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
@@ -88,10 +90,25 @@ serve(async (req) => {
     }
 
     // Format URL
-    let formattedUrl = url.trim();
-    if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
-      formattedUrl = `https://${formattedUrl}`;
+    let formattedUrl: string;
+    try {
+      formattedUrl = assertPublicUrl(url);
+    } catch (e) {
+      return new Response(
+        JSON.stringify({ success: false, error: (e as Error).message }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
+    // Per-user cap on paid scrapes (10 per hour per warm instance).
+    const now = Date.now();
+    const rl = scrapeRate.get(user.id);
+    if (rl && rl.resetAt > now && rl.count >= 10) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Too many website imports. Please try again later.' }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    scrapeRate.set(user.id, rl && rl.resetAt > now ? { count: rl.count + 1, resetAt: rl.resetAt } : { count: 1, resetAt: now + 3600_000 });
 
     console.log('Scraping website:', formattedUrl);
 
