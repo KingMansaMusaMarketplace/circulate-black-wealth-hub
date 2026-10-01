@@ -100,11 +100,28 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
     
+    // Only verified business owners (or admins) may send branded invitations,
+    // and the inviter identity comes from the server, not the request.
+    const guardClient = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    );
+    const [{ data: ownedBiz }, { data: isAdmin }] = await Promise.all([
+      guardClient.from("businesses").select("business_name").eq("owner_id", authResult.userId).limit(1).maybeSingle(),
+      guardClient.rpc("has_role", { _user_id: authResult.userId, _role: "admin" }),
+    ]);
+    if (!ownedBiz && !isAdmin) {
+      return new Response(
+        JSON.stringify({ error: "Only business owners can send invitations" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     // Sanitize inputs to prevent XSS in emails
-    const sanitizedBusinessName = businessName.replace(/[<>]/g, '');
-    const sanitizedInviterName = inviterName?.replace(/[<>]/g, '') || 'A 1325.AI member';
-    const sanitizedInviterBusinessName = inviterBusinessName?.replace(/[<>]/g, '');
-    const sanitizedPersonalMessage = personalMessage?.replace(/[<>]/g, '');
+    const sanitizedBusinessName = businessName.replace(/[<>]/g, '').slice(0, 120);
+    const sanitizedInviterName = inviterName?.replace(/[<>]/g, '').slice(0, 80) || 'A 1325.AI member';
+    const sanitizedInviterBusinessName = (ownedBiz?.business_name ?? inviterBusinessName)?.replace(/[<>]/g, '').slice(0, 120);
+    const sanitizedPersonalMessage = personalMessage?.replace(/[<>]/g, '').replace(/https?:\/\/\S+/gi, '').slice(0, 500);
 
     console.log(`Sending B2B invitation to: ${sanitizedBusinessName} (${businessEmail})`);
 
