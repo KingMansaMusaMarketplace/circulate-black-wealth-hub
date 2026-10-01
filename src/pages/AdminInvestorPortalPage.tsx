@@ -1,3 +1,4 @@
+import { csvCell } from '@/lib/csv-safe';
 import React, { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -109,7 +110,7 @@ const AdminInvestorPortalPage: React.FC = () => {
   const exportCsv = (rows: any[], filename: string) => {
     if (rows.length === 0) return;
     const cols = Object.keys(rows[0]);
-    const esc = (v: any) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const esc = (v: any) => csvCell(v);
     const csv = [cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n');
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
     const a = document.createElement('a');

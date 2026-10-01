@@ -62,8 +62,15 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error('Prospect has no email address');
     }
 
-    let emailSubject = subject;
-    let emailBody = body;
+    // Free-typed admin content is treated as plain text: HTML is escaped, links
+    // and scripts can't be injected, and length is capped.
+    const escHtml = (v: string) => v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    let emailSubject = subject ? String(subject).replace(/[\r\n<>]/g, ' ').slice(0, 200) : subject;
+    let emailBody = body
+      ? `<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6;color:#333">${
+          escHtml(String(body).slice(0, 10000)).split(/\n{2,}/).map((p) => `<p>${p.replace(/\n/g, '<br/>')}</p>`).join('')
+        }</div>`
+      : body;
 
     // If template_id provided, use that template
     if (template_id) {
@@ -128,7 +135,7 @@ const handler = async (req: Request): Promise<Response> => {
         activity_type: 'email',
         subject: personalizedSubject,
         body: personalizedBody,
-        performed_by,
+        performed_by: authResult.userId ?? performed_by,
         performed_at: new Date().toISOString(),
         outcome: 'sent',
       });

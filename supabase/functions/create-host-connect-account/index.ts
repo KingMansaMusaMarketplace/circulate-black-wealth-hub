@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
@@ -42,7 +43,7 @@ serve(async (req) => {
     if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
-    const origin = req.headers.get("origin") || "https://circulate-black-wealth-hub.lovable.app";
+    const origin = safeOrigin(req);
     
     // Validate input
     const ConnectSchema = z.object({
@@ -108,8 +109,8 @@ serve(async (req) => {
     // Create account onboarding link
     const accountLink = await stripe.accountLinks.create({
       account: accountId,
-      refresh_url: refreshUrl || `${origin}/stays/host/dashboard?stripe_refresh=true`,
-      return_url: returnUrl || `${origin}/stays/host/dashboard?stripe_connected=true`,
+      refresh_url: safeReturnUrl(refreshUrl, `${origin}/stays/host/dashboard?stripe_refresh=true`),
+      return_url: safeReturnUrl(returnUrl, `${origin}/stays/host/dashboard?stripe_connected=true`),
       type: "account_onboarding",
     });
     logStep("Created onboarding link", { url: accountLink.url });

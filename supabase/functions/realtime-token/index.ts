@@ -75,25 +75,14 @@ serve(async (req) => {
     }
 
     if (!userId) {
-      const fwd = req.headers.get('x-forwarded-for') || '';
-      const ip = (fwd.split(',')[0] || '').trim() || req.headers.get('cf-connecting-ip') || 'unknown';
-      const rl = checkGuestRateLimit(ip);
-      if (!rl.allowed) {
-        const retryAfterSec = Math.max(1, Math.ceil((rl.resetAt - Date.now()) / 1000));
-        console.warn(`[realtime-token] Guest rate limit hit for IP ${ip} (count=${rl.count})`);
-        return new Response(
-          JSON.stringify({
-            error: 'rate_limited',
-            message: "You've reached the daily limit for guest demos. Sign in (free) to keep talking to Kayla.",
-            retry_after_seconds: retryAfterSec,
-          }),
-          {
-            status: 429,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json', 'Retry-After': String(retryAfterSec) },
-          }
-        );
-      }
-      console.log(`[realtime-token] Guest session (no auth) — IP ${ip}, count ${rl.count}/${GUEST_MAX_SESSIONS_PER_DAY}`);
+      // Paid voice sessions require a signed-in account.
+      return new Response(
+        JSON.stringify({
+          error: 'auth_required',
+          message: "Please sign in (free) to talk to Kayla by voice.",
+        }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     // Check if user is admin (only for authenticated users)

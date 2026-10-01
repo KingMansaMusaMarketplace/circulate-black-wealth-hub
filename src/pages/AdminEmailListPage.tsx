@@ -1,3 +1,4 @@
+import { csvCell } from '@/lib/csv-safe';
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -106,7 +107,7 @@ export default function AdminEmailListPage() {
 
     const csvContent = [
       headers.join(','),
-      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+      ...rows.map(row => row.map(cell => csvCell(cell)).join(','))
     ].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv' });

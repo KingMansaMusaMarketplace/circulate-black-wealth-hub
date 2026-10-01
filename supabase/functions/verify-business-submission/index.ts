@@ -1,7 +1,7 @@
 // Verify Business Submission
 // Kayla-powered verification: checks website live, matches address/phone,
 // looks for Black-owned signals across the web, and scores confidence.
-// Runs on submit (no auth required — the submission row is the input).
+// Runs once on submit for brand-new submissions; re-runs and results are admin-only.
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
@@ -290,45 +290,41 @@ serve(async (req) => {
       });
     }
 
+    if (typeof submission_id !== "string" || !/^[0-9a-f-]{36}$/i.test(submission_id)) {
+      return new Response(JSON.stringify({ error: "Invalid submission_id" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Determine caller role BEFORE touching the submission.
+    let isAdmin = false;
+    const authHeader = req.headers.get("Authorization");
+    if (authHeader?.startsWith("Bearer ")) {
+      try {
+        const { data: userData } = await supabase.auth.getUser(authHeader.slice(7));
+        if (userData?.user) {
+          const { data: roleRow } = await supabase
+            .from("user_roles").select("role")
+            .eq("user_id", userData.user.id).eq("role", "admin").maybeSingle();
+          isAdmin = !!roleRow;
+        }
+      } catch (_) { /* not admin */ }
+    }
+
     const { data: submission, error: fetchErr } = await supabase
       .from("business_submissions")
       .select("*")
       .eq("id", submission_id)
-      .single();
+      .maybeSingle();
 
-    if (fetchErr || !submission) {
-      return new Response(JSON.stringify({ error: "Submission not found" }), {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    // Non-admins may only kick off the one-time check for a brand-new submission
+    // (created in the last 10 minutes, never checked). Same generic reply otherwise.
+    const fresh = submission &&
+      Date.now() - new Date(submission.created_at).getTime() < 10 * 60 * 1000;
+    if (fetchErr || !submission || (!isAdmin && (submission.kayla_report || !fresh))) {
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
-    }
-
-    // Prevent unauthenticated re-runs: once a submission has been verified,
-    // only authenticated admins can trigger another run (protects LLM spend).
-    if (submission.kayla_report) {
-      const authHeader = req.headers.get("Authorization");
-      let isAdmin = false;
-      if (authHeader?.startsWith("Bearer ")) {
-        try {
-          const token = authHeader.slice(7);
-          const { data: userData } = await supabase.auth.getUser(token);
-          if (userData?.user) {
-            const { data: roleRow } = await supabase
-              .from("user_roles")
-              .select("role")
-              .eq("user_id", userData.user.id)
-              .eq("role", "admin")
-              .maybeSingle();
-            isAdmin = !!roleRow;
-          }
-        } catch (_) { /* fall through */ }
-      }
-      if (!isAdmin) {
-        return new Response(
-          JSON.stringify({ error: "Already verified" }),
-          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-        );
-      }
     }
 
     // SSRF guard: refuse to fetch non-public URLs before any outbound request.
@@ -427,7 +423,7 @@ serve(async (req) => {
       .eq("id", submission_id);
 
     return new Response(
-      JSON.stringify({ ok: true, confidence_score: finalScore, report }),
+      JSON.stringify(isAdmin ? { ok: true, confidence_score: finalScore, report } : { ok: true }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err: any) {

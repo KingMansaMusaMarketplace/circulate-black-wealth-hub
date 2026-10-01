@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 /**
  * Create Stripe Checkout for API tier subscription.
  * Tiers: pro ($299/mo, 10k calls) | enterprise ($999/mo, 100k calls)
@@ -73,7 +74,7 @@ serve(async (req) => {
       customerId = existing.data[0]?.id ?? null;
     }
 
-    const origin = req.headers.get("origin") || "https://1325.ai";
+    const origin = safeOrigin(req);
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId ?? undefined,

@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 // Creates a Stripe Identity verification session for a host (~$1.50/check)
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
@@ -29,7 +30,7 @@ serve(async (req) => {
       apiVersion: "2025-08-27.basil",
     });
 
-    const origin = req.headers.get("origin") || Deno.env.get("APP_URL") || "https://1325.ai";
+    const origin = safeOrigin(req);
 
     const session = await stripe.identity.verificationSessions.create({
       type: "document",

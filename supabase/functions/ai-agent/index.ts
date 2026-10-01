@@ -64,6 +64,15 @@ serve(async (req) => {
       });
     }
 
+    // Support tickets are platform-wide, so only admins may run ticket resolution.
+    const { data: callerIsAdmin } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+    if (type === 'ticket_resolution' && !callerIsAdmin) {
+      return new Response(JSON.stringify({ error: "Admin access required" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     let result: Record<string, unknown> = {};
 
     switch (type) {
@@ -80,7 +89,7 @@ serve(async (req) => {
         result = await resolveTickets(supabase, lovableApiKey, businessId, targetId);
         break;
       case 'full_analysis':
-        result = await runFullAnalysis(supabase, lovableApiKey, businessId);
+        result = await runFullAnalysis(supabase, lovableApiKey, businessId, !!callerIsAdmin);
         break;
       default:
         throw new Error(`Unknown task type: ${type}`);
@@ -541,12 +550,12 @@ async function resolveTickets(supabase: any, apiKey: string, businessId: string,
 }
 
 // Full Analysis - Run all agents
-async function runFullAnalysis(supabase: any, apiKey: string, businessId: string) {
+async function runFullAnalysis(supabase: any, apiKey: string, businessId: string, includeTickets = false) {
   const [leads, churn, deals, tickets] = await Promise.all([
     qualifyLeads(supabase, apiKey, businessId),
     predictChurn(supabase, apiKey, businessId),
     scoreDeals(supabase, apiKey, businessId),
-    resolveTickets(supabase, apiKey, businessId)
+    includeTickets ? resolveTickets(supabase, apiKey, businessId) : Promise.resolve({ message: "Admin only", resolutions: [] })
   ]);
 
   return {

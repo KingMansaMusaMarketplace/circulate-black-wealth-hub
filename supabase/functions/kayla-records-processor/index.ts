@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-import { requireBusinessOwner, requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
+import { requireAuth, requireBusinessOwner, requireAdminOrCron, authErrorResponse } from "../_shared/auth-guard.ts";
 import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 
 const corsHeaders = {
@@ -19,13 +19,20 @@ serve(async (req) => {
     const { action, documentId, businessId } = await req.json();
 
     if (action === "process") {
-      // Fetch document record first to know which business owns it
+      // Authenticate before touching any document record.
+      const preAuth = await requireAuth(req, corsHeaders);
+      if (!preAuth.authenticated) return authErrorResponse(preAuth, corsHeaders);
+      // Fetch document record to know which business owns it
       const { data: doc, error: docErr } = await supabase
         .from("document_records")
         .select("*")
         .eq("id", documentId)
         .single();
-      if (docErr || !doc) throw new Error("Document not found");
+      if (docErr || !doc) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), {
+          status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
 
       // Enforce ownership: only the owning business (or admin) may process this document
       const ownerCheck = await requireBusinessOwner(req, doc.business_id, corsHeaders);

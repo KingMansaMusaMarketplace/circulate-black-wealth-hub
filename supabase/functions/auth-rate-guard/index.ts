@@ -51,10 +51,18 @@ Deno.serve(async (req) => {
 
     // If this is a success signal, reset the rate limit
     if (success === true) {
-      await supabaseAdmin.rpc('reset_auth_rate_limit', {
-        p_identifier: sanitizedId,
-        p_attempt_type: safeType,
-      });
+      // Only a signed-in user may clear the limit, and only for their own email.
+      const token = (req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+      const { data: authData } = token
+        ? await supabaseAdmin.auth.getUser(token)
+        : { data: { user: null } } as any;
+      const callerEmail = authData?.user?.email?.toLowerCase().trim();
+      if (callerEmail && callerEmail === sanitizedId) {
+        await supabaseAdmin.rpc('reset_auth_rate_limit', {
+          p_identifier: sanitizedId,
+          p_attempt_type: safeType,
+        });
+      }
       return new Response(
         JSON.stringify({ allowed: true, remaining_attempts: 5, retry_after_seconds: 0 }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

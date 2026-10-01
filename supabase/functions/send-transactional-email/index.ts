@@ -121,6 +121,38 @@ Deno.serve(async (req) => {
   // Create Supabase client with service role (bypasses RLS)
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
+  // Caller authorization: backend and admins may send anything. Signed-in users
+  // may only send to their own address or to a template's fixed internal address.
+  // Anonymous callers may only trigger fixed-recipient (internal) templates.
+  {
+    const bearer = (req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '')
+    const isService = !!bearer && bearer === supabaseServiceKey
+    if (!isService) {
+      let callerId: string | null = null
+      let callerEmail: string | null = null
+      if (bearer) {
+        const { data } = await supabase.auth.getUser(bearer)
+        callerId = data?.user?.id ?? null
+        callerEmail = data?.user?.email?.toLowerCase() ?? null
+      }
+      let allowed = !!template.to
+      if (!allowed && callerId) {
+        if (callerEmail && callerEmail === effectiveRecipient.toLowerCase()) {
+          allowed = true
+        } else {
+          const { data: isAdmin } = await supabase.rpc('has_role', { _user_id: callerId, _role: 'admin' })
+          allowed = !!isAdmin
+        }
+      }
+      if (!allowed) {
+        return new Response(JSON.stringify({ error: 'Not allowed to send to this recipient' }), {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+    }
+  }
+
   // 2. Check suppression list (fail-closed: if we can't verify, don't send)
   const { data: suppressed, error: suppressionError } = await supabase
     .from('suppressed_emails')

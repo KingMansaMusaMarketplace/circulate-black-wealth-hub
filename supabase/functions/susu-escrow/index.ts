@@ -87,7 +87,12 @@ serve(async (req) => {
       .eq('id', circle_id)
       .single();
 
-    if (circleError || !circle) {
+    // Only members or the circle creator may act on or view a circle.
+    const isParticipant = !!circle && (
+      circle.created_by === callerId ||
+      (circle.susu_memberships || []).some((m: any) => m.user_id === callerId)
+    );
+    if (circleError || !circle || !isParticipant) {
       return new Response(
         JSON.stringify({ success: false, error: 'Circle not found' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 404 }

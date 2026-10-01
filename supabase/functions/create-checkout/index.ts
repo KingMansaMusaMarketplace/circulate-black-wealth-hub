@@ -1,3 +1,4 @@
+import { safeOrigin, safeReturnUrl } from "../_shared/safe-origin.ts";
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
@@ -303,8 +304,8 @@ serve(async (req) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "subscription",
-      success_url: `${req.headers.get("origin")}/payment-confirmation?session_id={CHECKOUT_SESSION_ID}&user_type=${userType}`,
-      cancel_url: `${req.headers.get("origin")}/${userType === 'corporate' ? 'corporate-sponsorship' : 'signup'}`,
+      success_url: `${safeOrigin(req)}/payment-confirmation?session_id={CHECKOUT_SESSION_ID}&user_type=${userType}`,
+      cancel_url: `${safeOrigin(req)}/${userType === 'corporate' ? 'corporate-sponsorship' : 'signup'}`,
       metadata: {
         userType,
         email,

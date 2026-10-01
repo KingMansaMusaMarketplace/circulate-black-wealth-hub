@@ -1,3 +1,4 @@
+import { assertPublicUrl } from "../_shared/public-url.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
@@ -66,7 +67,7 @@ Deno.serve(async (req) => {
       bytes = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     } else {
-      const res = await fetch(sourceUrl!);
+      const res = await fetch(assertPublicUrl(sourceUrl), { redirect: "error" });
       if (!res.ok) return json({ error: `Source fetch failed: ${res.status}` }, 502);
       bytes = new Uint8Array(await res.arrayBuffer());
     }
