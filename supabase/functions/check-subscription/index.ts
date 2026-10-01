@@ -72,11 +72,16 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Signed-out or expired sessions are normal (e.g. during sign-out or token
+  // refresh). Answer "not subscribed" instead of a 401 so the app never crashes.
   const unauthorized = () =>
-    new Response(JSON.stringify({ error: "Not authenticated" }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 401,
-    });
+    new Response(
+      JSON.stringify({ subscribed: false, subscription_tier: "free", authenticated: false }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      },
+    );
 
   try {
     console.log("[CHECK-SUBSCRIPTION] Function started");
