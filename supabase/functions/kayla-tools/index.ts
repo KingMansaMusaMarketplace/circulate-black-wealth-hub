@@ -29,8 +29,9 @@ async function searchBusinesses(
     query = query.ilike("city", `%${args.city}%`);
   }
   if (args.query) {
-    query = query.or(
-      `business_name.ilike.%${args.query}%,category.ilike.%${args.query}%,description.ilike.%${args.query}%`
+    const q = safeFilterTerm(args.query);
+    if (q) query = query.or(
+      `business_name.ilike.%${q}%,category.ilike.%${q}%,description.ilike.%${q}%`
     );
   }
 
@@ -101,7 +102,8 @@ async function getNearbyBusinesses(
     .limit(limit);
 
   if (args.category) {
-    query = query.or(`category.ilike.%${args.category}%,description.ilike.%${args.category}%`);
+    const c = safeFilterTerm(args.category);
+    if (c) query = query.or(`category.ilike.%${c}%,description.ilike.%${c}%`);
   }
 
   const { data, error } = await query.order("average_rating", { ascending: false });
@@ -165,6 +167,11 @@ async function getAgentStats(
   };
 }
 
+
+// Strip PostgREST filter syntax characters so user text can't alter OR filters.
+function safeFilterTerm(v: unknown): string {
+  return String(v ?? "").replace(/[,()*%\\:."']/g, " ").replace(/\s+/g, " ").trim().slice(0, 100);
+}
 // --- Web Research (Firecrawl) ---
 
 async function webResearch(args: {

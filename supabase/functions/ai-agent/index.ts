@@ -89,7 +89,7 @@ serve(async (req) => {
         result = await resolveTickets(supabase, lovableApiKey, businessId, targetId);
         break;
       case 'full_analysis':
-        result = await runFullAnalysis(supabase, lovableApiKey, businessId);
+        result = await runFullAnalysis(supabase, lovableApiKey, businessId, !!callerIsAdmin);
         break;
       default:
         throw new Error(`Unknown task type: ${type}`);
