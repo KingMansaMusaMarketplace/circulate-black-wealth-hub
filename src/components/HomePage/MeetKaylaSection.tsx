@@ -4,6 +4,8 @@ import { Mic, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import meetKaylaVideo from '@/assets/meet-kayla-upgraded.mp4.asset.json';
 
 // CRITICAL iOS: Completely skip mounting Kayla on iOS.
@@ -25,7 +27,15 @@ const MeetKaylaSectionInner: React.FC = () => {
     endConversation,
   } = useVoiceConnection({});
 
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const handleStart = async () => {
+    // Voice chat is free but needs an account, so guests go to sign-in first.
+    if (!user) {
+      navigate('/login?redirect=/');
+      return;
+    }
     try {
       await startConversation();
     } catch (error) {
@@ -106,7 +116,7 @@ const MeetKaylaSectionInner: React.FC = () => {
                   ) : (
                     <>
                       <Mic className="mr-2 h-5 w-5 kayla-mic-pulse" />
-                      Try it now — Talk to Kayla
+                      {user ? 'Try it now — Talk to Kayla' : 'Sign in free to talk to Kayla'}
                     </>
                   )}
                 </Button>
