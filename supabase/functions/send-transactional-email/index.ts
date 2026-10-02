@@ -135,7 +135,12 @@ Deno.serve(async (req) => {
         callerId = data?.user?.id ?? null
         callerEmail = data?.user?.email?.toLowerCase() ?? null
       }
-      let allowed = !!template.to
+      // Fixed-content confirmation emails the site sends on a visitor's behalf.
+      // Their wording is set by us, so they can't be used to send custom messages.
+      const PUBLIC_CONFIRMATIONS = new Set(['contact-confirmation'])
+      const SIGNED_IN_CONFIRMATIONS = new Set(['booking-confirmation', 'business-live-confirmation'])
+      let allowed = !!template.to || PUBLIC_CONFIRMATIONS.has(templateName)
+      if (!allowed && callerId && SIGNED_IN_CONFIRMATIONS.has(templateName)) allowed = true
       if (!allowed && callerId) {
         if (callerEmail && callerEmail === effectiveRecipient.toLowerCase()) {
           allowed = true
