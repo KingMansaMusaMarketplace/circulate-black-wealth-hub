@@ -59,7 +59,7 @@ const DropZone: React.FC<DropZoneProps> = ({ onUploadClick, onDrop }) => {
       <p className="text-gray-500 mb-2">
         {isDragging ? "Drop image to upload" : "Click or drag to upload a product image"}
       </p>
-      <p className="text-xs text-gray-400 mb-4">PNG, JPG, WEBP up to 5MB</p>
+      <p className="text-xs text-gray-400 mb-4">PNG, JPG, WEBP up to 20MB</p>
       <Button 
         type="button" 
         variant="outline"

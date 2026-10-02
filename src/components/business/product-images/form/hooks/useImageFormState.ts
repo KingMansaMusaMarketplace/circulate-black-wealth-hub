@@ -47,9 +47,9 @@ export const useImageFormState = ({
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("File is too large. Maximum size is 5MB.");
+      // Validate file size (max 20MB)
+      if (file.size > 20 * 1024 * 1024) {
+        toast.error("File is too large. Maximum size is 20MB.");
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
