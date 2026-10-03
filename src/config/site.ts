@@ -51,7 +51,7 @@ export const siteConfig = {
   // Social (to be updated)
   social: {
     twitter: 'https://twitter.com/1325ai',
-    instagram: 'https://instagram.com/1325ai',
+    instagram: 'https://www.instagram.com/thirteentwentyfive.ai',
     linkedin: 'https://linkedin.com/company/1325ai',
     youtube: 'https://www.youtube.com/@1325AI',
   },
