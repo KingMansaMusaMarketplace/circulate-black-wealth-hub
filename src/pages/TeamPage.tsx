@@ -2,6 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Linkedin, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import craig from '@/assets/team/navy_bg/Craig_Stevenson.jpg';
 
 // Background-only pass: all headshots re-composited onto Kayla's navy (#0D1D30)
 // so the leadership grid reads as one deliberate gallery. Subjects unchanged.
@@ -236,6 +238,39 @@ const TeamPage = () => {
             {leadership.map((m, i) => (
               <MemberCard key={m.name} member={m} index={i} />
             ))}
+          </div>
+        </section>
+
+        {/* In Memoriam */}
+        <section className="border-y border-mansagold/25 bg-black">
+          <div className="max-w-5xl mx-auto px-6 py-20 grid md:grid-cols-3 gap-10 items-center">
+            <div className="md:col-span-1">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden border-2 border-mansagold/50">
+                <img
+                  src={craig}
+                  alt="Craig Lamont Stevenson"
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
+                />
+              </div>
+            </div>
+            <div className="md:col-span-2">
+              <p className="text-mansagold text-xs uppercase tracking-[0.35em] mb-4">In Memoriam</p>
+              <h2 className="text-3xl md:text-5xl font-serif font-light mb-3">Craig Lamont Stevenson</h2>
+              <p className="text-mansagold uppercase tracking-widest text-sm mb-2">Co-Founder</p>
+              <p className="text-blue-100/60 italic mb-6">February 3, 1962 &ndash; August 7, 2026</p>
+              <p className="text-blue-100/80 text-lg leading-relaxed">
+                Craig gave his name, his work and his belief to 1325.AI before it had proof, funding or
+                applause. He treated every business owner as a neighbor, and his work continues in every
+                business on this platform.
+              </p>
+              <Link
+                to="/in-memoriam/craig-stevenson"
+                className="inline-block mt-6 text-sm text-mansagold uppercase tracking-wider hover:underline"
+              >
+                Read his full tribute
+              </Link>
+            </div>
           </div>
         </section>
 

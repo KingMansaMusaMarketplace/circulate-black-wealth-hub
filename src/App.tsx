@@ -196,6 +196,7 @@ const LazyKaylaGTMKitPage = lazy(() => import('@/pages/KaylaGTMKitPage'));
 const LazyWhatKaylaDoesPage = lazy(() => import('@/pages/WhatKaylaDoesPage'));
 const LazyKaylaTeamPage = lazy(() => import('@/pages/KaylaTeamPage'));
 const LazyTeamPage = lazy(() => import('@/pages/TeamPage'));
+const LazyInMemoriamCraig = lazy(() => import('@/pages/InMemoriamCraigStevensonPage'));
 const LazyAIAssistantPage = lazy(() => import('@/pages/AIAssistantPage'));
 const LazyMarketingStudio = lazy(() => import('@/pages/MarketingStudio'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
@@ -788,6 +789,7 @@ function App() {
                               <Route path="/kayla/team" element={<LazyKaylaTeamPage />} />
                               <Route path="/team" element={<LazyTeamPage />} />
                               <Route path="/leadership" element={<LazyTeamPage />} />
+                              <Route path="/in-memoriam/craig-stevenson" element={<LazyInMemoriamCraig />} />
                               <Route path="/error" element={<LazyErrorPage />} />
                               
                               {/* F */}
@@ -1455,6 +1457,7 @@ function App() {
                         <Route path="/kayla/team" element={<LazyKaylaTeamPage />} />
                         <Route path="/team" element={<LazyTeamPage />} />
                         <Route path="/leadership" element={<LazyTeamPage />} />
+                        <Route path="/in-memoriam/craig-stevenson" element={<LazyInMemoriamCraig />} />
                         <Route path="/error" element={<LazyErrorPage />} />
                         
                         {/* F */}
