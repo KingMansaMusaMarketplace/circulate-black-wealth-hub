@@ -124,7 +124,7 @@ const PricingSection = () => {
               Power Your Business with <span className="text-mansagold">Kayla AI</span>
             </h2>
             <p className="text-lg text-white max-w-2xl mx-auto mb-8">
-              Powered by Kayla's 42 Agentic AI employees. Choose the plan that fits your growth stage.
+              Powered by Kayla's 42 Agentic AI Employees. Choose the plan that fits your growth stage.
             </p>
 
             {/* Toggle */}
