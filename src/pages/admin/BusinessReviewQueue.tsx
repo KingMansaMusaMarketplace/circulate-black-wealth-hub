@@ -147,8 +147,15 @@ const BusinessReviewQueue: React.FC = () => {
   const [focusIdx, setFocusIdx] = useState(0);
 
   // Reviewers must open a business's website before any decision buttons unlock.
-  const [openedSites, setOpenedSites] = useState<Set<string>>(new Set());
-  const markOpened = (id: string) => setOpenedSites(prev => new Set(prev).add(id));
+  // Remembered for the browser session so a page refresh doesn't re-lock checked businesses.
+  const [openedSites, setOpenedSites] = useState<Set<string>>(() => {
+    try { return new Set(JSON.parse(sessionStorage.getItem('review-opened-sites') || '[]')); } catch { return new Set(); }
+  });
+  const markOpened = (id: string) => setOpenedSites(prev => {
+    const next = new Set(prev).add(id);
+    try { sessionStorage.setItem('review-opened-sites', JSON.stringify([...next].slice(-2000))); } catch { /* ignore */ }
+    return next;
+  });
   const needsSiteCheck = (lead: Lead) => !!lead.website_url && !openedSites.has(lead.id);
 
   const toggleSelected = (id: string) => {
@@ -633,7 +640,7 @@ const BusinessReviewQueue: React.FC = () => {
                           </p>
                           {lead.website_url && (
                             <a href={externalUrl(lead.website_url)} target="_blank" rel="noreferrer"
-                               onClick={() => markOpened(lead.id)} onAuxClick={() => markOpened(lead.id)}
+                               onMouseDown={() => markOpened(lead.id)} onClick={() => markOpened(lead.id)} onAuxClick={() => markOpened(lead.id)}
                                className="text-xs text-mansagold inline-flex items-center gap-1 mt-1">
                               {lead.website_url} <ExternalLink className="h-3 w-3" />
                             </a>
@@ -644,6 +651,7 @@ const BusinessReviewQueue: React.FC = () => {
                               <a
                                 href={`https://www.google.com/search?q=${encodeURIComponent(`${lead.business_name} ${lead.city ?? ''} ${lead.state ?? ''}`)}`}
                                 target="_blank" rel="noreferrer"
+                                onMouseDown={() => markOpened(lead.id)} onClick={() => markOpened(lead.id)}
                                 className="ml-2 text-xs text-mansagold underline"
                               >
                                 Search Google instead
