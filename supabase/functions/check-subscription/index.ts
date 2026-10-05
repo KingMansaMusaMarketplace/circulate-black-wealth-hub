@@ -20,7 +20,8 @@ const PRICE_ID_TO_TIER: Record<string, string> = {
   'price_1TNLXeAsptTW1mCmb6dsvL2y': 'kayla_pro_annual',          // $2,990/yr
   'price_1TGzewAsptTW1mCmYKjYk0Fn': 'kayla_pro_founders',        // $149/mo Founders' Lock
   'price_1TRNO1AsptTW1mCm7jTSG7CL': 'kayla_pro_founders',        // $149/mo Founders' Lock (v2)
-  'price_1TRNR9AsptTW1mCm19tnfU19': 'kayla_pro',                 // $249/mo regular Pro
+  'price_1UN3eEAsptTW1mCm411r8xVp': 'kayla_pro',                 // $299/mo regular Pro
+  'price_1TRNR9AsptTW1mCm19tnfU19': 'kayla_pro',                 // legacy $249/mo Pro (existing subscribers)
   'price_1TNLTCAsptTW1mCmVEccEd1D': 'kayla_enterprise',          // $899/mo
   'price_1TNLU6AsptTW1mCmvlaqtQsZ': 'kayla_enterprise',          // $50/seat add-on
   // Business tiers

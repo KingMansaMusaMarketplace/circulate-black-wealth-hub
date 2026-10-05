@@ -46,7 +46,7 @@ This platform offers incredible tools to help your business thrive:
 As a member of our community, you can sign up using our exclusive link:
 ${partner.referral_link}
 
-🔥 Founding 100 Offer: the first 100 businesses lock in Pro at $149/mo — forever (regular price $249/mo). Spots are limited!
+🔥 Founding 100 Offer: the first 100 businesses lock in Pro at $149/mo — forever (regular price $299/mo). Spots are limited!
 
 Questions? Reply to this email or visit 1325.AI to learn more.
 
@@ -117,12 +117,12 @@ ${partner.directory_name}`,
 
 The Founding 100 program at 1325.AI is filling up fast. Only the first 100 businesses lock in Pro at $149/mo — forever.
 
-After 100 spots are claimed, Pro is $249/mo.
+After 100 spots are claimed, Pro is $299/mo.
 
 💰 THE VALUE: $700/month in business tools for $149/month = 4.7x ROI, locked in for life
 
 As a Founding 100 member, you get:
-✓ Pro tier locked in at $149/mo forever (vs. $249 regular)
+✓ Pro tier locked in at $149/mo forever (vs. $299 regular)
 ✓ Priority directory placement
 ✓ Founding Member badge
 ✓ Early access to all new features

@@ -1,14 +1,14 @@
 /**
  * Founding Member program — first 100 paying businesses get Pro at $149/mo, locked in forever.
- * After 100 spots fill (or for non-founders), regular Pro is $249/mo.
+ * After 100 spots fill (or for non-founders), regular Pro is $299/mo.
  */
 export const FOUNDING_MEMBER_PRICE_MONTHLY_USD = 149;
-export const REGULAR_PRO_PRICE_MONTHLY_USD = 249;
+export const REGULAR_PRO_PRICE_MONTHLY_USD = 299;
 export const FOUNDING_MEMBER_SLOT_CAP = 100;
 
 // Stripe price IDs (created via stripe-create_stripe_product_and_price)
 export const STRIPE_FOUNDING_PRICE_ID = 'price_1TRNO1AsptTW1mCm7jTSG7CL';
-export const STRIPE_REGULAR_PRO_PRICE_ID = 'price_1TRNR9AsptTW1mCm19tnfU19';
+export const STRIPE_REGULAR_PRO_PRICE_ID = 'price_1UN3eEAsptTW1mCm411r8xVp';
 
 export const getFoundingMemberHeadline = (remaining: number): string =>
   remaining > 0

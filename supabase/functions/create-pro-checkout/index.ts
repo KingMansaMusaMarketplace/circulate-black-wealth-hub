@@ -10,7 +10,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const REGULAR_PRO_PRICE_ID = "price_1TRNR9AsptTW1mCm19tnfU19";
+const REGULAR_PRO_PRICE_ID = "price_1UN3eEAsptTW1mCm411r8xVp";
 
 const log = (step: string, details?: unknown) =>
   console.log(

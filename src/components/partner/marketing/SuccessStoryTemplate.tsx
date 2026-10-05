@@ -45,7 +45,7 @@ Ready to write your own success story?
 🔗 Join 1325.AI: ${partner.referral_link}
 📱 Partner Code: ${partner.referral_code}
 
-👑 Founding 100 Offer: the first 100 businesses lock in Pro at $149/mo — forever (regular $249/mo). Spots are limited!
+👑 Founding 100 Offer: the first 100 businesses lock in Pro at $149/mo — forever (regular $299/mo). Spots are limited!
 
 #BlackOwnedBusiness #1325AI #SuccessStory #BuyBlack`;
   };

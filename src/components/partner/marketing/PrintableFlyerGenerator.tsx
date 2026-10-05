@@ -106,7 +106,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
     <div class="cta-section">
       <div class="cta-left">
         <h2>Founding 100 Offer</h2>
-        <p>First 100 businesses lock in Pro at $149/mo — forever (regular $249/mo). Spots are limited.</p>
+        <p>First 100 businesses lock in Pro at $149/mo — forever (regular $299/mo). Spots are limited.</p>
         <div class="link">${safeLinkText}</div>
         <p style="margin-top: 12px; font-size: 0.875rem;">Partner Code: <strong>${safeCode}</strong></p>
       </div>
