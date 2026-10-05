@@ -76,7 +76,7 @@ const SalesAgentSignupPage: React.FC = () => {
           <ProgressiveDisclosure
             id="sales-agent-benefits"
             title="Why Become a Sales Agent?"
-            message="Earn up to 25% commission on business referrals, get access to exclusive marketing materials, and build a sustainable income stream with our growing marketplace."
+            message="Earn up to 15% commission on business referrals, get access to exclusive marketing materials, and build a sustainable income stream with our growing marketplace."
             position="bottom"
             autoShow={true}
             delay={4000}
