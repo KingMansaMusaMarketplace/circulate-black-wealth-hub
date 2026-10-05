@@ -436,7 +436,7 @@ const WhatKaylaDoesPage: React.FC = () => {
             Meet <span className="text-mansagold" style={{ fontFamily: "'Playfair Display', serif" }}>Kayla</span>
           </h1>
           <p className="text-lg md:text-xl text-white max-w-3xl mx-auto mb-6">
-            42 Agentic AI employees working 24/7 across {DEPARTMENTS.length - 1} departments — 
+            42 Agentic AI Employees working 24/7 across {DEPARTMENTS.length - 1} departments — 
             replacing <span className="text-mansagold font-bold">${totalSavings.toLocaleString()}/mo</span> in operational costs.
           </p>
           <p className="text-white/80 max-w-2xl mx-auto text-sm md:text-base">
