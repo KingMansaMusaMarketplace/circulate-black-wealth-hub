@@ -6,7 +6,8 @@
   - [x] Part 1: Front matter + Executive Summary
   - [x] Parts 2–4 (Market, Architecture, 42 Agents)
   - [x] Parts 5–7 (Owners, Directory, Shoppers)
-  - [ ] Parts 8–17 + Appendices A–E
+  - [x] Parts 8–10 (Marketplace, AI distribution, Pricing)
+  - [ ] Parts 11–17 + Appendices A–E
   - Pro confirmed $299 (Oct 5); app + Stripe switched to $299 (new price; old $249 subscribers kept)
 - [ ] Claim-your-business invites stopped Sep 29 — investigate (awaiting user go)
 
