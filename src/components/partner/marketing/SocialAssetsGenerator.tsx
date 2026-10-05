@@ -31,7 +31,7 @@ const SocialAssetsGenerator: React.FC<SocialAssetsGeneratorProps> = ({ partner }
       characterLimit: 280,
       content: `🚀 We've partnered with @1325ai!
 
-👑 Founding 100 Offer: first 100 businesses lock in Pro at $149/mo — forever (regular $249/mo).
+👑 Founding 100 Offer: first 100 businesses lock in Pro at $149/mo — forever (regular $299/mo).
 
 Get discovered, connect B2B, build wealth.
 
@@ -57,7 +57,7 @@ ${partner.referral_link}`,
 
 If you're a business owner, this is your opportunity to join a movement focused on building generational wealth.
 
-Founding 100 Offer — the first 100 businesses lock in Pro at just $149/mo, forever. After 100 spots, regular Pro is $249/mo. Spots are limited:
+Founding 100 Offer — the first 100 businesses lock in Pro at just $149/mo, forever. After 100 spots, regular Pro is $299/mo. Spots are limited:
 ${partner.referral_link}
 
 Let's circulate wealth and build legacy together. 💪`,
@@ -81,7 +81,7 @@ ${partner.directory_name} has partnered with 1325.ai to bring you an amazing opp
 🔹 Build customer loyalty programs
 🔹 Track your impact on the community
 
-🔥 Founding 100 Offer: first 100 businesses lock in Pro at $149/mo forever (regular $249/mo). Claim a spot:
+🔥 Founding 100 Offer: first 100 businesses lock in Pro at $149/mo forever (regular $299/mo). Claim a spot:
 ${partner.referral_link}
 
 Tag a business owner who needs to see this! 👇`,
@@ -93,7 +93,7 @@ Tag a business owner who needs to see this! 👇`,
       icon: <MessageCircle className="w-4 h-4" />,
       content: `Hey! I wanted to share something with you. ${partner.directory_name} just partnered with 1325.ai — a platform for community businesses.
 
-👑 Right now they're running a Founding 100 Offer — first 100 businesses lock in Pro at $149/mo forever (regular $249/mo).
+👑 Right now they're running a Founding 100 Offer — first 100 businesses lock in Pro at $149/mo forever (regular $299/mo).
 
 You can get discovered by more customers, connect with other businesses, and access community savings circles.
 

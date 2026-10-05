@@ -41,7 +41,7 @@ export const FoundingMemberOffer = () => {
       if (error) throw error;
       if (data?.error === "SLOTS_FULL") {
         toast.info(
-          "All 100 Founding spots are taken — switching you to regular Pro at $249/mo.",
+          "All 100 Founding spots are taken — switching you to regular Pro at $299/mo.",
         );
         return startCheckout("create-pro-checkout");
       }
