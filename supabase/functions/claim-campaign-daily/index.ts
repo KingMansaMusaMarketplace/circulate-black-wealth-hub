@@ -71,6 +71,29 @@ serve(async (req) => {
   const body = await req.json().catch(() => ({}));
   const skipReminders = body?.skip_reminders === true;
 
+  // ---------- 0. Automatic daily invite batches for every "running" campaign ----------
+  let autoSent = 0, autoFailed = 0;
+  const autoResults: any[] = [];
+  if (body?.skip_invites !== true) {
+    const { data: running } = await supabase.from("business_claim_campaigns").select("id, name").eq("status", "running");
+    const cron = Deno.env.get("CRON_SECRET") ?? "";
+    const results = await Promise.all((running ?? []).map(async (c: any) => {
+      try {
+        const r = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-claim-invitations`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-cron-secret": cron },
+          body: JSON.stringify({ campaign_id: c.id }),
+        });
+        const j = await r.json().catch(() => ({}));
+        return { campaign: c.name, id: c.id, sent: j?.sent ?? 0, failed: j?.failed ?? 0, error: r.ok ? undefined : (j?.error ?? r.status) };
+      } catch (e) {
+        return { campaign: c.name, id: c.id, sent: 0, failed: 0, error: String(e) };
+      }
+    }));
+    for (const r of results) { autoSent += r.sent; autoFailed += r.failed; autoResults.push(r); }
+    console.log("[claim-campaign-daily] auto invites", JSON.stringify(autoResults));
+  }
+
   // ---------- 1. Reminders ----------
   let reminded = 0, reminderFailed = 0;
   if (!skipReminders) {
