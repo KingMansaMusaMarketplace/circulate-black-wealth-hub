@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const metrics = [
   { value: '42', unit: 'AI Agents', detail: 'Autonomous workforce led by Kayla, our CEO agent.' },
   { value: '17', unit: 'Revenue Streams', detail: 'Subscriptions, sponsorships, B2B, stays, rideshare and more.' },
-  { value: '$18,000+', unit: '/mo Saved', detail: 'Operator savings vs. traditional staffing for an SMB.' },
+  { value: '$20,450', unit: '/mo Saved', detail: 'Operator savings vs. traditional staffing for an SMB.' },
   { value: '$2.10T US / $9.1T Global', unit: 'Addressable', detail: 'Black consumer economy — $2.10T in the U.S. (2025) and $9.1T globally — we are building rails for.' },
 ];
 
