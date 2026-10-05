@@ -49,3 +49,4 @@
 - [ ] Check first automatic claim invite run (daily 9am Chicago) worked
 - [x] Roster switched to Meet Kayla page (6 depts, $20,450/mo, 68x); website $18,000 -> $20,450 (12 spots); capital E fixed
 - [x] Recombine into one 174-page book
+- [x] Nationwide claim campaign started: 200\/day, daily 9am Chicago
