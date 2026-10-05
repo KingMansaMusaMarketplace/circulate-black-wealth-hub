@@ -377,7 +377,7 @@ const BusinessReviewQueue: React.FC = () => {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [leads, focusIdx, bulkApproving]);
+  }, [leads, focusIdx, bulkApproving, openedSites]);
 
 
 
