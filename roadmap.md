@@ -45,7 +45,7 @@
 - [x] Part 18 Step-by-step guides (38 pages, 45 guides)
 - [x] Part 19 Website in pictures (20 pages). Website mismatches found: Kayla page 6 depts/$20,450/68x vs manual; /developers Coming Soon; /business-signup opens Kayla page; sales signup needs login
 - [ ] Investor & market detail (confirmed numbers only)
-- [ ] Recombine into one book with continuous page numbers
+- [x] Recombine into one 174-page book
 - [ ] Check first automatic claim invite run (daily 9am Chicago) worked
 - [x] Roster switched to Meet Kayla page (6 depts, $20,450/mo, 68x); website $18,000 -> $20,450 (12 spots); capital E fixed
-- [ ] Recombine: update Part 5 invite note; recheck page numbers (Part 2-4 length changed)
+- [x] Recombine into one 174-page book
