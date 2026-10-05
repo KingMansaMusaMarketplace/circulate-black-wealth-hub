@@ -146,6 +146,11 @@ const BusinessReviewQueue: React.FC = () => {
   const [bulkProgress, setBulkProgress] = useState({ done: 0, total: 0 });
   const [focusIdx, setFocusIdx] = useState(0);
 
+  // Reviewers must open a business's website before any decision buttons unlock.
+  const [openedSites, setOpenedSites] = useState<Set<string>>(new Set());
+  const markOpened = (id: string) => setOpenedSites(prev => new Set(prev).add(id));
+  const needsSiteCheck = (lead: Lead) => !!lead.website_url && !openedSites.has(lead.id);
+
   const toggleSelected = (id: string) => {
     setSelected(prev => {
       const next = new Set(prev);
@@ -360,6 +365,8 @@ const BusinessReviewQueue: React.FC = () => {
         e.preventDefault(); setFocusIdx(i => Math.min(i + 1, leads.length - 1));
       } else if (key === 'arrowup' || key === 'k') {
         e.preventDefault(); setFocusIdx(i => Math.max(i - 1, 0));
+      } else if ((key === 'a' || key === 'r') && lead && needsSiteCheck(lead)) {
+        e.preventDefault(); toast.error('Open the website first, then decide.');
       } else if (key === 'a' && lead) {
         e.preventDefault(); approve(lead);
       } else if (key === 'r' && lead) {
@@ -370,7 +377,7 @@ const BusinessReviewQueue: React.FC = () => {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [leads, focusIdx, bulkApproving]);
+  }, [leads, focusIdx, bulkApproving, openedSites]);
 
 
 
@@ -540,7 +547,8 @@ const BusinessReviewQueue: React.FC = () => {
               <Button
                 size="sm"
                 className="bg-mansagold text-black hover:bg-mansagold/90"
-                disabled={selected.size === 0 || bulkApproving}
+                disabled={selected.size === 0 || bulkApproving || !isAdmin}
+                title={!isAdmin ? 'Reviewers approve one at a time after checking each website' : undefined}
                 onClick={bulkApprove}
               >
                 {bulkApproving
@@ -625,6 +633,7 @@ const BusinessReviewQueue: React.FC = () => {
                           </p>
                           {lead.website_url && (
                             <a href={externalUrl(lead.website_url)} target="_blank" rel="noreferrer"
+                               onClick={() => markOpened(lead.id)} onAuxClick={() => markOpened(lead.id)}
                                className="text-xs text-mansagold inline-flex items-center gap-1 mt-1">
                               {lead.website_url} <ExternalLink className="h-3 w-3" />
                             </a>
@@ -702,11 +711,16 @@ const BusinessReviewQueue: React.FC = () => {
                         <div><span className="text-white/95">Site phone:</span> {lead.verified_phone || '—'}</div>
                         <div className="md:col-span-2"><span className="text-white/95">Site address:</span> {lead.verified_address || '—'}</div>
                       </div>
+                      {needsSiteCheck(lead) && (
+                        <p className="text-xs text-mansagold pt-2">
+                          Open the website above first — the buttons unlock after you check it.
+                        </p>
+                      )}
                       <div className="flex flex-wrap gap-2 pt-2">
                         <Button
                           size="sm"
                           className="bg-mansagold text-black hover:bg-mansagold/90"
-                          disabled={actingId === lead.id}
+                          disabled={actingId === lead.id || needsSiteCheck(lead)}
                           onClick={() => approve(lead)}
                         >
                           <CheckCircle2 className="h-4 w-4 mr-1" /> Approve & Publish
@@ -714,7 +728,7 @@ const BusinessReviewQueue: React.FC = () => {
                         <Button
                           size="sm" variant="outline"
                           className="bg-transparent border-mansagold text-mansagold hover:bg-mansagold hover:text-mansablue"
-                          disabled={actingId === lead.id}
+                          disabled={actingId === lead.id || needsSiteCheck(lead)}
                           onClick={() => requeue(lead)}
                         >
                           <RefreshCw className="h-4 w-4 mr-1" /> Re-verify
@@ -722,7 +736,7 @@ const BusinessReviewQueue: React.FC = () => {
                         <Button
                           size="sm"
                           className="bg-red-600 text-white hover:bg-red-500 font-semibold"
-                          disabled={actingId === lead.id}
+                          disabled={actingId === lead.id || needsSiteCheck(lead)}
                           onClick={() => reject(lead)}
                         >
                           <XCircle className="h-4 w-4 mr-1" /> Reject
