@@ -5,8 +5,9 @@
 - [ ] **Platform Manual v67 full rewrite (Oct 5, 2026)** — delivered in parts to /mnt/documents, then combined. Generator in /tmp/man (lib.py + partN.py).
   - [x] Part 1: Front matter + Executive Summary
   - [x] Parts 2–4 (Market, Architecture, 42 Agents)
-  - [ ] Parts 5–17 + Appendices A–E
-  - Pro confirmed $299 (Oct 5)
+  - [x] Parts 5–7 (Owners, Directory, Shoppers)
+  - [ ] Parts 8–17 + Appendices A–E
+  - Pro confirmed $299 (Oct 5); app + Stripe switched to $299 (new price; old $249 subscribers kept)
 - [ ] Claim-your-business invites stopped Sep 29 — investigate (awaiting user go)
 
 - [ ] **Mon Sep 7, 2026 — Build Craig L. Stevenson memorial.** Approved plan archived at `.lovable/plan/memorial-for-craig-l-stevenson-2026-09-04.md`.
