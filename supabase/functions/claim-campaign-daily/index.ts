@@ -176,7 +176,7 @@ serve(async (req) => {
 <tr><td style="padding:24px 28px;">
 <h2 style="font-size:16px;margin:0 0 8px;color:#003366;">Claim campaigns</h2>
 <table width="100%" style="font-size:14px;border-collapse:collapse;">
-${row("Emails sent", cSent)}${row("Reminders sent", reminded)}${row("Opened", cOpened)}${row("Clicked Claim", cClicked)}${row("Claimed", cClaimed)}${row("Bounced (removed)", cBounced)}${row("Failed", cFailed + reminderFailed)}
+${row("New invites sent today (automatic)", autoSent)}${row("Emails sent", cSent)}${row("Reminders sent", reminded)}${row("Opened", cOpened)}${row("Clicked Claim", cClicked)}${row("Claimed", cClaimed)}${row("Bounced (removed)", cBounced)}${row("Failed", cFailed + reminderFailed)}
 </table>
 <h2 style="font-size:16px;margin:24px 0 8px;color:#003366;">Holiday Special</h2>
 <table width="100%" style="font-size:14px;border-collapse:collapse;">
@@ -193,7 +193,7 @@ ${row("Emails sent", hSent)}${row("Opened", hOpened)}${row("Clicked", hClicked)}
     digestSent = !error;
   }
 
-  return new Response(JSON.stringify({ success: true, reminded, reminderFailed, digestSent }), {
+  return new Response(JSON.stringify({ success: true, autoSent, autoFailed, autoResults, reminded, reminderFailed, digestSent }), {
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 });
