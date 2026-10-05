@@ -36,7 +36,7 @@ const SalesAgentHelpSection: React.FC = () => {
       title: "Commission Structure",
       description: "Understanding how you earn money",
       items: [
-        "25% commission on business referrals",
+        "Up to 15% commission on business referrals",
         "15% commission on customer referrals",
         "Monthly payout system",
         "Recurring commissions available"
