@@ -61,7 +61,7 @@ const PartnershipFrameworkPage: React.FC = () => {
     { value: '42', label: 'Agentic AI Employees' },
     { value: '7', label: 'Operating Divisions' },
     { value: '~4', label: 'Roles Covered' },
-    { value: '$18K+', label: 'Monthly Salary Equivalent' },
+    { value: '$20K+', label: 'Monthly Salary Equivalent' },
     { value: '$1.04M', label: '5-Year Cumulative Value' },
   ];
 

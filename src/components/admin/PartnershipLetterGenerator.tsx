@@ -57,7 +57,7 @@ We believe our two organizations share the same values, and we'd like to explore
 
 1325.AI has built the rails for what comes next: an agentic commerce protocol protected by U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending. In plain terms, we've built the infrastructure layer that lets AI agents discover, verify, and transact with Black-owned businesses at global scale — and a team of 42 Agentic AI Employees that handles the back office for those businesses.
 
-What that means for ${org}: your members get an AI back office covering roughly four roles per business — bookkeeping, scheduling, marketing, customer support — for a fraction of what those hires cost. Most partners see savings north of $18,000 a month per business.
+What that means for ${org}: your members get an AI back office covering roughly four roles per business — bookkeeping, scheduling, marketing, customer support — for a fraction of what those hires cost. Most partners see savings of about $20,450 a month per business.
 
 Beyond the operational benefit to your members, the income opportunity is real. A conservative ${f.conversionPct}% conversion of your ${f.memberCount.toLocaleString('en-US')} members at $${f.monthlyRate}/month generates approximately ${money(grossAnnual)} in annual platform revenue. Under our standard ${f.revSharePct}% revenue share, that is roughly ${money(partnerAnnual)} a year to ${org} — recurring, with no infrastructure for you to build or maintain.
 

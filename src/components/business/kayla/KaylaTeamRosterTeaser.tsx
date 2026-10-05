@@ -65,7 +65,7 @@ export const KaylaTeamRosterTeaser: React.FC = () => {
         </div>
 
         <p className="text-[11px] text-white/40 mt-3">
-          Kayla coordinates {ALL_PERSONAS.length - 1} named specialists — ~4 roles covered, $18,000+/mo in human labor saved.
+          Kayla coordinates {ALL_PERSONAS.length - 1} named specialists — ~4 roles covered, $20,450/mo in human labor saved.
         </p>
       </CardContent>
     </Card>

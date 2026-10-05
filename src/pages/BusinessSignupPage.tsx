@@ -485,7 +485,7 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div className="text-center">
-                    <p className="text-3xl md:text-4xl font-extrabold text-green-400">$18,000+</p>
+                    <p className="text-3xl md:text-4xl font-extrabold text-green-400">$20,450</p>
                     <p className="text-sm text-slate-400">Savings Per Month</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
@@ -649,7 +649,7 @@ const BusinessSignupPage: React.FC = () => {
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
-                    <p className="text-3xl font-bold text-green-400">$18,000+</p>
+                    <p className="text-3xl font-bold text-green-400">$20,450</p>
                     <p className="text-sm text-slate-400">Savings Per Month</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />

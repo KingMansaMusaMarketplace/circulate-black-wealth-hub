@@ -19,7 +19,7 @@ const perks = [
   "Kayla and the 42 Agentic AI Employees working for your business",
   "Online booking and appointment requests from customers",
   "Priority placement and a verified, claimed profile",
-  "~4 Roles Covered — over $18,000 a month in staff time saved",
+  "~4 Roles Covered — $20,450 a month in staff time saved",
 ];
 
 export default function HolidaySpecialPage() {
