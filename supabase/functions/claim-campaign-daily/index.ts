@@ -71,6 +71,29 @@ serve(async (req) => {
   const body = await req.json().catch(() => ({}));
   const skipReminders = body?.skip_reminders === true;
 
+  // ---------- 0. Automatic daily invite batches for every "running" campaign ----------
+  let autoSent = 0, autoFailed = 0;
+  const autoResults: any[] = [];
+  if (body?.skip_invites !== true) {
+    const { data: running } = await supabase.from("business_claim_campaigns").select("id, name").eq("status", "running");
+    const cron = Deno.env.get("CRON_SECRET") ?? "";
+    const results = await Promise.all((running ?? []).map(async (c: any) => {
+      try {
+        const r = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-claim-invitations`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-cron-secret": cron },
+          body: JSON.stringify({ campaign_id: c.id }),
+        });
+        const j = await r.json().catch(() => ({}));
+        return { campaign: c.name, id: c.id, sent: j?.sent ?? 0, failed: j?.failed ?? 0, error: r.ok ? undefined : (j?.error ?? r.status) };
+      } catch (e) {
+        return { campaign: c.name, id: c.id, sent: 0, failed: 0, error: String(e) };
+      }
+    }));
+    for (const r of results) { autoSent += r.sent; autoFailed += r.failed; autoResults.push(r); }
+    console.log("[claim-campaign-daily] auto invites", JSON.stringify(autoResults));
+  }
+
   // ---------- 1. Reminders ----------
   let reminded = 0, reminderFailed = 0;
   if (!skipReminders) {
@@ -153,7 +176,7 @@ serve(async (req) => {
 <tr><td style="padding:24px 28px;">
 <h2 style="font-size:16px;margin:0 0 8px;color:#003366;">Claim campaigns</h2>
 <table width="100%" style="font-size:14px;border-collapse:collapse;">
-${row("Emails sent", cSent)}${row("Reminders sent", reminded)}${row("Opened", cOpened)}${row("Clicked Claim", cClicked)}${row("Claimed", cClaimed)}${row("Bounced (removed)", cBounced)}${row("Failed", cFailed + reminderFailed)}
+${row("New invites sent today (automatic)", autoSent)}${row("Emails sent", cSent)}${row("Reminders sent", reminded)}${row("Opened", cOpened)}${row("Clicked Claim", cClicked)}${row("Claimed", cClaimed)}${row("Bounced (removed)", cBounced)}${row("Failed", cFailed + reminderFailed)}
 </table>
 <h2 style="font-size:16px;margin:24px 0 8px;color:#003366;">Holiday Special</h2>
 <table width="100%" style="font-size:14px;border-collapse:collapse;">
@@ -170,7 +193,7 @@ ${row("Emails sent", hSent)}${row("Opened", hOpened)}${row("Clicked", hClicked)}
     digestSent = !error;
   }
 
-  return new Response(JSON.stringify({ success: true, reminded, reminderFailed, digestSent }), {
+  return new Response(JSON.stringify({ success: true, autoSent, autoFailed, autoResults, reminded, reminderFailed, digestSent }), {
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 });
