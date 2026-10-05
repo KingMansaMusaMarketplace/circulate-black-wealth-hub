@@ -5,7 +5,7 @@
 - [ ] **Platform Manual v67 full rewrite (Oct 5, 2026)** — delivered in parts to /mnt/documents, then combined. Generator in /tmp/man (lib.py + partN.py).
   - [x] Part 1: Front matter + Executive Summary
   - [ ] Parts 2–17 + Appendices A–E
-  - Waiting on Thomas: confirm Pro price ($299 vs $249 in code)
+  - Pro confirmed $299 (Oct 5)
 - [ ] Claim-your-business invites stopped Sep 29 — investigate (awaiting user go)
 
 - [ ] **Mon Sep 7, 2026 — Build Craig L. Stevenson memorial.** Approved plan archived at `.lovable/plan/memorial-for-craig-l-stevenson-2026-09-04.md`.
