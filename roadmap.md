@@ -43,7 +43,7 @@
 ## Manual expansion to 180+ pages (in parts)
 - [x] Part 4B: Agentic AI Employee Handbook (43 pages, one per employee)
 - [x] Part 18 Step-by-step guides (38 pages, 45 guides)
-- [ ] Screenshots of the site with button notes
+- [x] Part 19 Website in pictures (20 pages). Website mismatches found: Kayla page 6 depts/$20,450/68x vs manual; /developers Coming Soon; /business-signup opens Kayla page; sales signup needs login
 - [ ] Investor & market detail (confirmed numbers only)
 - [ ] Recombine into one book with continuous page numbers
 - [ ] Check first automatic claim invite run (daily 9am Chicago) worked
