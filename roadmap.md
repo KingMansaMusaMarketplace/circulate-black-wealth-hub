@@ -8,6 +8,8 @@
   - [x] Parts 5–7 (Owners, Directory, Shoppers)
   - [x] Parts 8–10 (Marketplace, AI distribution, Pricing)
   - [x] Parts 11–13 (Partners, Admin, Security)
+  - [x] Parts 14–15 (iPhone, Go-to-Market)
+  - [ ] Parts 16–17 (Series A — amount conflict awaiting owner; Team + Craig memorial)
   - [ ] Part 14–15 done; Parts 16–17 + Appendices A–E
   - Pro confirmed $299 (Oct 5); app + Stripe switched to $299 (new price; old $249 subscribers kept)
 - [ ] Claim-your-business invites stopped Sep 29 — investigate (awaiting user go)
