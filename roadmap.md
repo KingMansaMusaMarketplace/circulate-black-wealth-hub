@@ -10,7 +10,7 @@
   - [x] Parts 11–13 (Partners, Admin, Security)
   - [x] Parts 14–15 (iPhone, Go-to-Market)
   - [x] Parts 16–17 (Series A $10–20M; Team + Craig memorial)
-  - [ ] Appendices A–E (42 roster, glossary, patent reference, constants, page index) + final combined PDF
+  - [x] Appendices A–E + combined PDF (66 pages)
   - Pro confirmed $299 (Oct 5); app + Stripe switched to $299 (new price; old $249 subscribers kept)
 - [ ] Claim-your-business invites stopped Sep 29 — investigate (awaiting user go)
 
