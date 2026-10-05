@@ -2,6 +2,12 @@
 
 ## Scheduled
 
+- [ ] **Platform Manual v67 full rewrite (Oct 5, 2026)** — delivered in parts to /mnt/documents, then combined. Generator in /tmp/man (lib.py + partN.py).
+  - [x] Part 1: Front matter + Executive Summary
+  - [ ] Parts 2–17 + Appendices A–E
+  - Waiting on Thomas: confirm Pro price ($299 vs $249 in code)
+- [ ] Claim-your-business invites stopped Sep 29 — investigate (awaiting user go)
+
 - [ ] **Mon Sep 7, 2026 — Build Craig L. Stevenson memorial.** Approved plan archived at `.lovable/plan/memorial-for-craig-l-stevenson-2026-09-04.md`.
   - Waiting on Thomas: tribute text, a quote from Craig (optional), his birth date, any extra photos, and whether the Resolution PDF should be public.
   - Photo already removed from `/team`; files saved at `src/assets/team/navy_bg/Craig_Stevenson.jpg`.
