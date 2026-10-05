@@ -39,3 +39,11 @@
 - [ ] Confirm Kayla's spoken voice sounds human (Marin) after signing in
 
 - [ ] Instagram @thirteentwentyfive.ai setup (profile, posts, link on site)
+
+## Manual expansion to 180+ pages (in parts)
+- [x] Part 4B: Agentic AI Employee Handbook (43 pages, one per employee)
+- [ ] Step-by-step guides (owners, shoppers, reviewers, admins)
+- [ ] Screenshots of the site with button notes
+- [ ] Investor & market detail (confirmed numbers only)
+- [ ] Recombine into one book with continuous page numbers
+- [ ] Check first automatic claim invite run (daily 9am Chicago) worked
