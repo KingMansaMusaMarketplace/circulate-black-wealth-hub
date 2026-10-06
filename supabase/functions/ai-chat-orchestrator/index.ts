@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 import { retrieveRAGContext, retrievePersonalMemory } from "../_shared/kayla-memory.ts";
 import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
+import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
 
 // Memory + platform knowledge now live in _shared/kayla-memory.ts so every
 // Kayla surface remembers the same things.
@@ -412,6 +413,7 @@ Deno.serve(async (req) => {
         lovableApiKey: LOVABLE_API_KEY,
         userId: user.id,
         businessId: ownedBusinessId,
+        forceWeb: category === "search" || category === "critical",
       }),
     ]);
     if (ragContext) systemPrompt += ragContext;
@@ -426,8 +428,17 @@ Deno.serve(async (req) => {
     let responseStream: Response;
     let modelUsed = 'gemini';
 
+    // PREMIUM BRAIN + SELF-CHECK for strategy, money, legal, forecasts (text only;
+    // image questions keep the vision path below).
+    const premium = !messageHasImage && wantsPremium(category, lastUserMessage)
+      ? await premiumChatAnswer({ systemPrompt, messages, lovableApiKey: LOVABLE_API_KEY, label: "orchestrator-premium" })
+      : null;
+
     try {
-      switch (category) {
+      if (premium) {
+        responseStream = new Response(textToChatSSE(premium.text, "premium"), { headers: { "Content-Type": "text/event-stream" } });
+        modelUsed = premium.reviewed ? 'premium+self-check' : 'premium';
+      } else switch (category) {
         case 'simple': {
           // Gemini — fast & cheap
           responseStream = await callGemini(messages, systemPrompt, LOVABLE_API_KEY);
