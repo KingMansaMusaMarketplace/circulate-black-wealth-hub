@@ -169,7 +169,10 @@ const DirectoryPage: React.FC = () => {
 
       const error = topRatedRes.error || pinnedRes.error;
       // Pinned businesses appear first in the spotlight
-      const data = [...(pinnedRes.data || []), ...(topRatedRes.data || [])];
+      const pinnedOrdered = [...(pinnedRes.data || [])].sort(
+        (a: any, b: any) => PINNED_FEATURED_IDS.indexOf(a.id) - PINNED_FEATURED_IDS.indexOf(b.id),
+      );
+      const data = [...pinnedOrdered, ...(topRatedRes.data || [])];
       
       if (error) throw error;
       
