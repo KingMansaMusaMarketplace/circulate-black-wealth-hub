@@ -385,6 +385,7 @@ export function textToChatSSE(text: string, model: string): ReadableStream<Uint8
 
 /** Questions that deserve the premium brain + self-check. */
 export function wantsPremium(category: string, question: string): boolean {
-  if (category === "critical" || category === "complex") return true;
-  return /\b(strategy|strategic|forecast|projection|contract|agreement|negotiat|business plan|pricing strategy|valuation|legal)\b/i.test(question);
+  if (category === "critical") return true;
+  if (category === "simple") return false;
+  return /\b(strateg|forecast|projection|predict|contract|agreement|negotiat|business plan|pricing|valuation|legal|lawsuit|liabilit|compliance|regulat|tax|irs|loan|lender|credit|invest|fundrais|equity|cap table|cash ?flow|runway|budget|profit|revenue|margin|insurance|payroll|grant)\b/i.test(question);
 }
