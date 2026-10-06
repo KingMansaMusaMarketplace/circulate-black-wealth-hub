@@ -4,3 +4,4 @@
 - Kayla web lookups live only in `_shared/kayla-grounding.ts` `webSearch` (Perplexity first, Firecrawl fallback); answers that used the web must end with a Sources list from returned URLs only.
 - Voice Kayla (`realtime-token`) builds instructions from `buildKaylaSystemPrompt` + memory; only speaking style lives in that file, so voice and chat never drift.
 - Approved weekly scoreboard fixes (`kayla_improvement_proposals`, status approved) are injected via `loadApprovedImprovements` in every Kayla channel; nothing applies without admin approval.
+- Each Agentic AI Employee reads its own approved/rejected history via `agentLessons` in `_shared/kayla-agent-learning.ts`; team handoffs (max 2 per question) live only in `_shared/kayla-handoffs.ts` and are logged to `kayla_agent_handoffs`; per-employee test questions are `kayla_benchmark_cases.agent_name`. Keeps learning and teamwork in one place.
