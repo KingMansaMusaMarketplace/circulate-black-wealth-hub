@@ -131,7 +131,7 @@ serve(async (req) => {
             </div>
             <p style="font-size:13px;color:#6b7280;line-height:1.6;">
               For your security, change this password immediately after signing in.
-              If you didn't request this, contact support@mansamusamarketplace.com right away.
+              If you didn't request this, contact Partner@1325.AI right away.
             </p>
           </div>
         </div>
