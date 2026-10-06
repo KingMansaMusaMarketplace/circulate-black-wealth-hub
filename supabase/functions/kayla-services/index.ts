@@ -19,6 +19,8 @@ const isPlaceholder = (url: string | null): boolean => {
   return PLACEHOLDER_PATTERNS.some(p => lc.includes(p));
 };
 
+import { agentLessons } from "../_shared/kayla-agent-learning.ts";
+
 async function callAI(prompt: string, systemPrompt: string): Promise<string | null> {
   const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
   if (!LOVABLE_API_KEY) return null;
@@ -230,7 +232,7 @@ Never be defensive. Sound human, not corporate. Sign off with the business name.
 
     const draft = await callAI(
       `Review (${review.rating}/5 stars): "${review.review_text}"`,
-      applyLearningToPrompt(basePrompt, reviewCtx)
+      applyLearningToPrompt(basePrompt, reviewCtx) + await agentLessons(supabase, "review-manager", review.business_id)
     );
 
     if (draft) {

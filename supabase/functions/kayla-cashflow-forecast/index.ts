@@ -6,6 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
+import { logHandoff } from "../_shared/kayla-handoffs.ts";
 import { agentLessons } from "../_shared/kayla-agent-learning.ts";
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning, buildReasoning } from "../_shared/kayla-coordination.ts";
@@ -189,6 +190,25 @@ Return forecasts for the next 3 months. Each forecast should include:
       );
     }
 
+    // HANDOFF: a projected cash gap goes to the Grant-Finder automatically.
+    const gap = forecasts.find((f: any) => (f.projected_net ?? 0) < 0);
+    let handoff: { to: string; reason: string } | null = null;
+    if (gap) {
+      const reason = `${gap.forecast_period} projects a cash gap of $${Math.abs(gap.projected_net).toLocaleString()}`;
+      handoff = { to: "Grant-Finder", reason };
+      const run = fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/kayla-grant-matcher`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: req.headers.get("Authorization") || "" },
+        body: JSON.stringify({ businessId }),
+      }).then(async (r) => {
+        await logHandoff(supabase, { business_id: businessId, from_agent: "Cash-Flow Analyst", to_agent: "Grant-Finder", reason, channel: "agent", status: r.ok ? "done" : "failed" });
+      }).catch(() => {});
+      // deno-lint-ignore no-explicit-any
+      const rt = (globalThis as any).EdgeRuntime;
+      if (rt?.waitUntil) rt.waitUntil(run);
+      await appendDecision(supabase, businessId, "Cash-Flow Analyst", `Handed off to Grant-Finder: ${reason}.`, {});
+    }
+
     // Decision feedback log (existing learning loop)
     try {
       await supabase.from("ai_agent_feedback").insert({
@@ -200,7 +220,7 @@ Return forecasts for the next 3 months. Each forecast should include:
       });
     } catch {}
 
-    return new Response(JSON.stringify({ success: true, forecasts }), {
+    return new Response(JSON.stringify({ success: true, forecasts, handoff }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {

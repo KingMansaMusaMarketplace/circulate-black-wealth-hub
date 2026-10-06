@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { retrieveRAGContext, retrievePersonalMemory } from "../_shared/kayla-memory.ts";
 import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
+import { buildTeamBriefing, logHandoff } from "../_shared/kayla-handoffs.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
 
 // Memory + platform knowledge now live in _shared/kayla-memory.ts so every
@@ -419,6 +420,17 @@ Deno.serve(async (req) => {
     if (ragContext) systemPrompt += ragContext;
     if (personalMemory) systemPrompt += personalMemory;
     if (grounding.block) systemPrompt += grounding.block;
+
+    // ========== TEAM HANDOFFS: involved Agentic AI Employees brief Kayla ==========
+    const team = await buildTeamBriefing(supabase, lastUserMessage, ownedBusinessId);
+    if (team.block) {
+      systemPrompt += team.block;
+      console.log(`[orchestrator] team: ${team.team.join(", ")} | handoffs: ${team.handoffs.join(", ") || "none"}`);
+      for (const h of team.handoffs) {
+        const [from, to] = h.split(" → ");
+        logHandoff(supabase, { business_id: ownedBusinessId, from_agent: from, to_agent: to, reason: lastUserMessage.slice(0, 160), channel: "chat" });
+      }
+    }
     if (grounding.calls.length) {
       console.log(`[orchestrator] grounding: ${grounding.calls.map((c) => c.tool).join(", ")}`);
     }
