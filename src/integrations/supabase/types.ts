@@ -12280,6 +12280,69 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_improvement_proposals: {
+        Row: {
+          created_at: string
+          diagnosis: string | null
+          grader_notes: string | null
+          id: string
+          proposed_rule: string
+          question: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          run_id: string | null
+          score: number | null
+          source_result_id: string | null
+          status: string
+          weak_answer: string | null
+        }
+        Insert: {
+          created_at?: string
+          diagnosis?: string | null
+          grader_notes?: string | null
+          id?: string
+          proposed_rule: string
+          question: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          run_id?: string | null
+          score?: number | null
+          source_result_id?: string | null
+          status?: string
+          weak_answer?: string | null
+        }
+        Update: {
+          created_at?: string
+          diagnosis?: string | null
+          grader_notes?: string | null
+          id?: string
+          proposed_rule?: string
+          question?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          run_id?: string | null
+          score?: number | null
+          source_result_id?: string | null
+          status?: string
+          weak_answer?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kayla_improvement_proposals_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "kayla_benchmark_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kayla_improvement_proposals_source_result_id_fkey"
+            columns: ["source_result_id"]
+            isOneToOne: true
+            referencedRelation: "kayla_benchmark_results"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kayla_inventory_items: {
         Row: {
           ai_notes: string | null
