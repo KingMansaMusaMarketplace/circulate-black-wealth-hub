@@ -289,6 +289,12 @@ When helping admins, provide specific guidance on navigating the dashboard, unde
           required: ["city"]
         }
       },
+      {
+        type: "function",
+        name: "web_search",
+        description: "Search the live web for current outside facts: news, laws and regulations, tax rules, market data, rates, grants. Use whenever the answer could have changed recently or is outside 1325.AI. Say where the information came from.",
+        parameters: { type: "object", properties: { query: { type: "string", description: "What to look up" } }, required: ["query"] }
+      },
       { type: "function", name: "check_loyalty_points", description: "Check the current user's loyalty points balance, tier, and earning history.", parameters: { type: "object", properties: {}, required: [] } },
       { type: "function", name: "get_upcoming_bookings", description: "Get the user's upcoming confirmed or pending bookings.", parameters: { type: "object", properties: {}, required: [] } },
       { type: "function", name: "get_churn_alerts", description: "Get customers at high risk of churning for the business owner.", parameters: { type: "object", properties: {}, required: [] } },
