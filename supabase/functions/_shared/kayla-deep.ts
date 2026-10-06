@@ -251,3 +251,140 @@ Return the corrected report in full. Where the draft was right, keep it word for
     return { result: draft as T, corrections: [], reviewed: false };
   }
 }
+
+// =============================================================================
+// PREMIUM CHAT ANSWER — newest/strongest model + self-check, for hard chat
+// questions (strategy, forecasts, contracts, money, legal).
+//
+//   1. Draft on the premium reasoning model with the full Kayla prompt
+//      (including live lookups and memory).
+//   2. Self-check: a second pass re-reads the draft against the same facts,
+//      removes anything unsupported, and fixes the wording before the person
+//      ever sees it.
+//
+// Fail-open: returns null on any failure so callers fall back to their
+// standard streaming path.
+// =============================================================================
+
+function msgText(content: unknown): string {
+  if (typeof content === "string") return content;
+  if (Array.isArray(content)) {
+    return content.map((p: any) => (p?.type === "text" ? p.text : "")).filter(Boolean).join("\n");
+  }
+  return "";
+}
+
+async function responsesText(
+  lovableApiKey: string,
+  input: any[],
+  effort: "low" | "medium" | "high",
+  label: string,
+): Promise<string> {
+  const res = await fetchAIWithRetry(
+    RESPONSES,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${lovableApiKey}`,
+        "Content-Type": "application/json",
+        "X-Lovable-AIG-SDK": "fetch",
+      },
+      body: JSON.stringify({
+        model: PREMIUM_MODEL,
+        input,
+        stream: true,
+        store: false,
+        reasoning: { effort },
+      }),
+    },
+    { attempts: 2, label },
+  );
+  if (!res.ok) {
+    console.warn(`[${label}] ${res.status}: ${(await res.text()).slice(0, 300)}`);
+    return "";
+  }
+  return (await readResponsesStream(res)).trim();
+}
+
+export interface PremiumChatOptions {
+  systemPrompt: string;
+  messages: Array<{ role: string; content: unknown }>;
+  lovableApiKey: string;
+  label?: string;
+}
+
+export interface PremiumChatResult {
+  text: string;
+  reviewed: boolean;
+}
+
+export async function premiumChatAnswer(opts: PremiumChatOptions): Promise<PremiumChatResult | null> {
+  const label = opts.label ?? "kayla-premium-chat";
+  try {
+    const convo = opts.messages
+      .filter((m) => m.role === "user" || m.role === "assistant")
+      .slice(-12)
+      .map((m) => ({ role: m.role, content: msgText(m.content).slice(0, 8000) }))
+      .filter((m) => m.content);
+    if (!convo.length) return null;
+
+    const draft = await responsesText(
+      opts.lovableApiKey,
+      [{ role: "developer", content: opts.systemPrompt }, ...convo],
+      "medium",
+      `${label}-draft`,
+    );
+    if (!draft) return null;
+
+    const lastQuestion = convo.filter((m) => m.role === "user").slice(-1)[0]?.content || "";
+    const review = await responsesText(
+      opts.lovableApiKey,
+      [
+        {
+          role: "developer",
+          content: `You are Kayla's final self-check before an answer reaches a business owner. Re-read the DRAFT against the RULES & FACTS. Then output ONLY the final answer text (no preamble, no notes about reviewing).
+
+Fix, in this order:
+1. Remove or soften any number, date, law, price, name or claim that is NOT supported by the facts/lookups or by well-established general knowledge. Never add new facts.
+2. If a "Sources:" list is present, keep only URLs that appear in the live lookups; drop any other URL.
+3. Make sure the answer actually answers the question and ends with a concrete next step.
+4. Keep Kayla's voice, the brand rules, and the length rules. If the draft is already correct, return it unchanged.
+
+=== RULES & FACTS ===
+${opts.systemPrompt.slice(-24000)}`,
+        },
+        { role: "user", content: `QUESTION:\n${lastQuestion}\n\nDRAFT:\n${draft}` },
+      ],
+      "low",
+      `${label}-review`,
+    );
+
+    const finalText = review && review.length > 20 ? review : draft;
+    return { text: finalText, reviewed: !!review };
+  } catch (e) {
+    console.warn(`[${label}] failed (falling back):`, e);
+    return null;
+  }
+}
+
+/** Turn finished text into an OpenAI-compatible SSE stream the chat UIs already read. */
+export function textToChatSSE(text: string, model: string): ReadableStream<Uint8Array> {
+  const encoder = new TextEncoder();
+  return new ReadableStream({
+    start(controller) {
+      const size = 24;
+      for (let i = 0; i < text.length; i += size) {
+        const data = { choices: [{ delta: { content: text.slice(i, i + size) }, index: 0 }], model };
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+      }
+      controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+      controller.close();
+    },
+  });
+}
+
+/** Questions that deserve the premium brain + self-check. */
+export function wantsPremium(category: string, question: string): boolean {
+  if (category === "critical" || category === "complex") return true;
+  return /\b(strategy|strategic|forecast|projection|contract|agreement|negotiat|business plan|pricing strategy|valuation|legal)\b/i.test(question);
+}
