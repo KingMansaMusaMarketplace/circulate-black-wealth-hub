@@ -31,7 +31,12 @@ export interface GroundingOptions {
   businessId?: string | null;
   /** Hard ceiling on wall-clock time spent looking things up. */
   budgetMs?: number;
+  /** Guarantee one live web search (used for news/law/market/high-stakes questions). */
+  forceWeb?: boolean;
 }
+
+/** Questions that need current outside facts: news, laws, market data. */
+export const NEEDS_LIVE_FACTS = /\b(news|latest|current(ly)?|today|this (week|month|year)|recent(ly)?|20\d\d|law|laws|legal|statute|regulation|regulat|rule change|ordinance|tax (rate|rule|law|deadline)|irs|sba|minimum wage|interest rate|prime rate|inflation|market (data|size|rate|trend)|stock|grant(s)?|deadline|election|policy)\b/i;
 
 export interface GroundingResult {
   /** Prompt fragment to append to the system prompt ("" when nothing found). */
@@ -119,7 +124,7 @@ function toolSpecs(opts: { owner: boolean; user: boolean; web: boolean }) {
       function: {
         name: "web_search",
         description:
-          "Search the live web for current outside information: news, market rates, grant programs, regulations, competitors. Use only when the answer depends on information outside 1325.AI.",
+          "Search the live web for current outside information: news, laws and regulations, tax rules, market data and rates, grant programs, competitors, economic figures. Use whenever the answer depends on information outside 1325.AI or could have changed recently.",
         parameters: {
           type: "object",
           properties: { query: { type: "string" } },
@@ -262,22 +267,28 @@ async function myBusinessMetrics(supabase: any, businessId: string) {
   };
 }
 
-async function webSearch(query: string) {
+export async function webSearch(query: string) {
   const perplexity = Deno.env.get("PERPLEXITY_API_KEY");
   if (perplexity) {
     const res = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${perplexity}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "sonar",
+        model: "sonar-pro",
         messages: [
-          { role: "system", content: "Answer factually and briefly. Cite sources." },
+          { role: "system", content: "Answer factually and briefly with dates where relevant. Prefer official and primary sources (government sites, regulators, company filings, major news outlets). Cite sources." },
           { role: "user", content: query },
         ],
         max_tokens: 700,
       }),
     });
-    if (!res.ok) throw new Error(`perplexity ${res.status}`);
+    if (!res.ok) {
+      const body = await res.text();
+      if (res.status === 401 && body.includes("insufficient_quota")) {
+        console.error("[kayla-grounding] Perplexity API credits exhausted — buy credits at console.perplexity.ai");
+      }
+      throw new Error(`perplexity ${res.status}: ${body.slice(0, 200)}`);
+    }
     const data = await res.json();
     return {
       answer: data.choices?.[0]?.message?.content || "",
@@ -333,6 +344,7 @@ export async function gatherLiveGrounding(opts: GroundingOptions): Promise<Groun
 Rules:
 - Call a tool whenever the answer depends on real data: a business, a category, a city, the person's own account or their own business numbers, or current outside information.
 - Call nothing at all for greetings, opinions, "how do I use X" navigation questions, or anything answerable from general platform knowledge.
+- For current news, laws or regulations, tax rules, market data, rates, grants or anything that may have changed recently, ALWAYS call web_search — never rely on memory for those.
 - Never make more than 3 calls. Stop as soon as you have enough.
 - When you are done, reply with the single word DONE.`,
     },
@@ -433,13 +445,30 @@ Rules:
     console.error("[kayla-grounding] failed (non-fatal):", e);
   }
 
+  // Guarantee a live web check for news/law/market/high-stakes questions when
+  // the planner skipped it.
+  if ((opts.forceWeb || NEEDS_LIVE_FACTS.test(text)) && webAvailable()
+      && !calls.some((c) => c.tool === "web_search" && c.ok) && Date.now() < deadline + 6000) {
+    try {
+      const result = await webSearch(text.slice(0, 400));
+      const serialized = JSON.stringify(result).slice(0, 6000);
+      calls.push({ tool: "web_search", args: { query: text.slice(0, 120), forced: true }, ok: true, summary: serialized.slice(0, 200) });
+      findings.push(`### web_search(${JSON.stringify({ query: text.slice(0, 120) })})\n${serialized}`);
+    } catch (e) {
+      calls.push({ tool: "web_search", args: { forced: true }, ok: false, summary: (e as Error).message.slice(0, 200) });
+    }
+  }
+
   if (!findings.length) return { block: "", calls };
+  const usedWeb = calls.some((c) => c.tool === "web_search" && c.ok);
 
   const block = `
 
 [LIVE LOOKUPS — real data retrieved just now. TREAT AS FACT and prefer it over anything you remember. If a lookup returned nothing, say so plainly rather than inventing an answer. When you use a figure from here, say where it came from (e.g. "from your dashboard", "from the directory", "from a live web search").]
 ${findings.join("\n\n")}
-[END LIVE LOOKUPS]`;
+[END LIVE LOOKUPS]${usedWeb ? `
+
+[SOURCES RULE — a live web search was used. End your answer with a short "**Sources:**" list of clickable markdown links, using ONLY URLs that appear in the web_search results above (never invent or guess a URL). Mention the date of the information when it matters (laws, rates, news). If the results did not answer the question, say so plainly instead of guessing.]` : ""}`;
 
   return { block, calls };
 }
