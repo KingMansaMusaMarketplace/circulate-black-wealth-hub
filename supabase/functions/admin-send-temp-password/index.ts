@@ -108,7 +108,7 @@ serve(async (req) => {
     const loginUrl = (Deno.env.get("APP_URL") || "https://1325.ai") + "/login";
 
     const emailResp = await resend.emails.send({
-      from: "1325.AI <noreply@1325.ai>",
+      from: "Thomas at 1325.AI <Partner@1325.AI>",
       to: [email],
       subject: "Your Temporary Password - 1325.AI",
       html: `
