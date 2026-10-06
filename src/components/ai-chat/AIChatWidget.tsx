@@ -1,3 +1,4 @@
+import { HealthPrivacyNotice } from '@/components/ai/HealthPrivacyNotice';
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
@@ -327,7 +328,7 @@ const AIChatWidgetInner: React.FC = () => {
           </ScrollArea>
 
           <CardContent className="border-t p-4">
-            <form onSubmit={handleSubmit} className="flex gap-2">
+            <form onSubmit={handleSubmit} className="flex gap-2 ph-no-capture">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -339,6 +340,7 @@ const AIChatWidgetInner: React.FC = () => {
                 <Send className="h-4 w-4" />
               </Button>
             </form>
+            <HealthPrivacyNotice />
           </CardContent>
         </Card>
       )}

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { HealthPrivacyNotice } from '@/components/ai/HealthPrivacyNotice';
 import { MessageCircle, X, Send, Sparkles, Loader2, Trash2, Volume2, VolumeX, Mic, Square } from 'lucide-react';
 import { useKaylaVoice } from '@/hooks/use-kayla-voice';
 import { useVoiceInput } from '@/hooks/use-voice-input';
@@ -389,8 +390,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
             <Send className="h-4 w-4" />
           </Button>
         </div>
+        </div>
+        <HealthPrivacyNotice />
       </div>
-    </div>
   );
 };
 
