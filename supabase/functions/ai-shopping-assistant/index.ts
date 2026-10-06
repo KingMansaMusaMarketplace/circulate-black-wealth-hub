@@ -1,6 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt } from "../_shared/kayla-brain.ts";
+import { gatherLiveGrounding, NEEDS_LIVE_FACTS } from "../_shared/kayla-grounding.ts";
+import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
 
 // Simple per-caller throttle so the public shopping assistant cannot be used
 // to burn paid AI credits. Guests get a small allowance; signed-in users more.
@@ -228,6 +230,37 @@ INSTRUCTIONS:
 - Keep replies tight: 2–4 sentences plus a short bullet list of recommendations when applicable.
 - Use markdown for emphasis and lists. Always say "1325.AI" — never "Mansa Musa Marketplace" alone.
 - The LIVE BUSINESS RESULTS above are a DIRECTORY SEARCH ONLY. Questions about 1325.AI itself — the founder and leadership, the company, plans and pricing, how booking or loyalty works, the AI team, pages and links — are answered from the PLATFORM KNOWLEDGE below, NEVER from the directory results. Never say you have "no record" of a person or topic that the platform knowledge covers (for example the founder, Thomas D. Bowling).`;
+
+    // ONE BRAIN: hard questions (strategy, money, legal, forecasts) and questions
+    // needing current facts get the same premium brain, live web lookups and
+    // self-check as the main chat.
+    const lastText = String(lastUser || "");
+    const needsLive = NEEDS_LIVE_FACTS.test(lastText);
+    if (needsLive || wantsPremium("complex", lastText)) {
+      try {
+        const grounding = await gatherLiveGrounding({
+          supabase, question: lastText, lovableApiKey: LOVABLE_API_KEY, userId: userId || null, forceWeb: needsLive,
+        });
+        const fullPrompt = systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({}) + buildAgentBrandBlock() + (grounding.block || "");
+        const premium = await premiumChatAnswer({
+          systemPrompt: fullPrompt,
+          messages: messages.slice(-10).map((m: any) => ({ role: m?.role === "assistant" ? "assistant" : "user", content: String(m?.content ?? "") })),
+          lovableApiKey: LOVABLE_API_KEY,
+          label: "shopping-premium",
+        });
+        if (premium) {
+          runDetails.premium = true;
+          runDetails.self_checked = premium.reviewed;
+          runDetails.grounding = grounding.calls.map((c) => c.tool);
+          await logRun(supabase, "kayla-shopping", "success", startedAt, runDetails);
+          return new Response(textToChatSSE(premium.text, "premium"), {
+            headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+          });
+        }
+      } catch (e) {
+        console.warn("[shopping] premium path failed, using fast path", e);
+      }
+    }
 
     const response = await fetchAIWithRetry("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
