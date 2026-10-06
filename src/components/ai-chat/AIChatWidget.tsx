@@ -1,3 +1,4 @@
+import { HealthPrivacyNotice } from '@/components/ai/HealthPrivacyNotice';
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';

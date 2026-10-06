@@ -500,6 +500,7 @@ export const AIAssistant = () => {
             )}
           </Button>
         </div>
+        <HealthPrivacyNotice className="text-white/70" />
       </div>
     </Card>
   );
