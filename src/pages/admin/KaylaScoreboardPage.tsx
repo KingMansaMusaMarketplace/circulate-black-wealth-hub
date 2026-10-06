@@ -8,6 +8,7 @@ import { ArrowLeft, Brain, Play, RefreshCw, CheckCircle2, AlertTriangle } from '
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { KaylaImprovementApprovals } from '@/components/admin/KaylaImprovementApprovals';
+import { AgentScorecard } from '@/components/admin/AgentScorecard';
 
 interface Run {
   id: string;
@@ -216,6 +217,7 @@ const KaylaScoreboardPage: React.FC = () => {
           </Card>
         </div>
 
+        <AgentScorecard />
         <KaylaImprovementApprovals />
       </div>
     </div>
