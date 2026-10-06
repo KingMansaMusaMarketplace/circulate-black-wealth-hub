@@ -211,9 +211,7 @@ serve(async (req) => {
     };
 
     const approvedLessons = await loadApprovedImprovements(supabase);
-    const systemPrompt = approvedLessons + `
-
-⚠️ ABSOLUTE BRAND RULE — READ FIRST: The product is named **1325.AI**. You MUST refer to it as "1325.AI" in every response. NEVER say "Mansa Musa Marketplace directory", "Mansa Musa Marketplace website", or "the Mansa Musa Marketplace" as the product name. "Mansa Musa Marketplace" is ONLY the parent brand and may appear ONLY as a parenthetical aside, e.g. "1325.AI (also known as Mansa Musa Marketplace)". Default to just "1325.AI". Violating this rule is a critical error.
+    const systemPrompt = `⚠️ ABSOLUTE BRAND RULE — READ FIRST: The product is named **1325.AI**. You MUST refer to it as "1325.AI" in every response. NEVER say "Mansa Musa Marketplace directory", "Mansa Musa Marketplace website", or "the Mansa Musa Marketplace" as the product name. "Mansa Musa Marketplace" is ONLY the parent brand and may appear ONLY as a parenthetical aside, e.g. "1325.AI (also known as Mansa Musa Marketplace)". Default to just "1325.AI". Violating this rule is a critical error.
 
 You are Kayla, the AI shopping assistant for **1325.AI** — the premier directory of Black-owned businesses (also known as Mansa Musa Marketplace).
 
@@ -244,7 +242,7 @@ INSTRUCTIONS:
         const grounding = await gatherLiveGrounding({
           supabase, question: lastText, lovableApiKey: LOVABLE_API_KEY, userId: userId || null, forceWeb: needsLive,
         });
-        const fullPrompt = systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({}) + buildAgentBrandBlock() + (grounding.block || "");
+        const fullPrompt = systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({}) + buildAgentBrandBlock() + approvedLessons + (grounding.block || "");
         const premium = await premiumChatAnswer({
           systemPrompt: fullPrompt,
           messages: messages.slice(-10).map((m: any) => ({ role: m?.role === "assistant" ? "assistant" : "user", content: String(m?.content ?? "") })),
@@ -274,7 +272,7 @@ INSTRUCTIONS:
       body: JSON.stringify({
         model: "google/gemini-3.7-flash",
         messages: [
-          { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() },
+          { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() + approvedLessons },
           // Callers may only speak as the user or assistant — never 'system'.
           ...messages.slice(-10).map((m: any) => ({
             role: m?.role === "assistant" ? "assistant" : "user",

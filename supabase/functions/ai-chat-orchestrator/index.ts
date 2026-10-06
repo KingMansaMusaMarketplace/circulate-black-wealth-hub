@@ -381,7 +381,7 @@ Deno.serve(async (req) => {
       if (!roleError && roleData) isAdmin = true;
     } catch { /* not admin */ }
 
-    let systemPrompt = buildSystemPrompt(isAdmin);
+    let systemPrompt = buildSystemPrompt(isAdmin) + await loadApprovedImprovements(supabase);
     const lastMessage = messages[messages.length - 1];
     const lastUserMessage = getMessageText(lastMessage?.content || '');
     const messageHasImage = hasImage(lastMessage?.content);
