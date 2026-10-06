@@ -273,6 +273,7 @@ const VacationRentalsPage: React.FC = () => {
                 <div className="relative overflow-hidden rounded-xl border border-mansagold/40 bg-black shadow-2xl shadow-mansagold/10 aspect-video">
                   <video
                     src="/videos/MansaStays-LeaseListing-2min.mp4"
+                    poster="/images/posters/MansaStays-LeaseListing.jpg"
                     controls
                     preload="metadata"
                     playsInline
@@ -334,6 +335,7 @@ const VacationRentalsPage: React.FC = () => {
                 <div className="relative overflow-hidden rounded-xl border border-mansagold/40 bg-black shadow-2xl shadow-mansagold/10 aspect-video">
                   <video
                     src="/videos/MansaStays-HowToList-2min.mp4"
+                    poster="/images/posters/MansaStays-HowToList.jpg"
                     controls
                     preload="metadata"
                     playsInline
