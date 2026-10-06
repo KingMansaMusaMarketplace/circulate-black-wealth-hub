@@ -36,6 +36,7 @@ async function answerQuestion(
   supabase: any,
   question: string,
   key: string,
+  agentName?: string | null,
 ): Promise<{ answer: string; model: string; tools: string }> {
   const { category } = await classifyQuery(question, key);
   const model = category === "simple"
@@ -49,7 +50,8 @@ async function answerQuestion(
     budgetMs: 12000,
   });
 
-  const system = buildKaylaSystemPrompt({ isAdmin: false }) + grounding.block;
+  const system = buildKaylaSystemPrompt({ isAdmin: false }) + grounding.block +
+    (agentName ? `\n[ROLE] Answer as ${agentName}, one of Kayla's Agentic AI Employees. Be accurate and practical.` : "");
 
   const resp = await fetchAIWithRetry(GATEWAY, {
     method: "POST",
@@ -178,11 +180,11 @@ serve(async (req) => {
     }
 
     const label = body.label || `Run ${new Date().toISOString().slice(0, 16).replace("T", " ")}`;
-    const limit = Math.min(Number(body.limit) || 100, 100);
+    const limit = Math.min(Number(body.limit) || 150, 150);
 
     const { data: cases } = await supabase
       .from("kayla_benchmark_cases")
-      .select("id, question, expected_facts, must_not_say")
+      .select("id, question, expected_facts, must_not_say, agent_name")
       .eq("is_active", true)
       .limit(limit);
 
@@ -248,7 +250,7 @@ serve(async (req) => {
         const started = Date.now();
         let answer = "", model = "", tools = "";
         try {
-          const res = await answerQuestion(supabase, c.question, key);
+          const res = await answerQuestion(supabase, c.question, key, c.agent_name);
           answer = res.answer; model = res.model; tools = res.tools;
         } catch (e) {
           answer = `[error: ${(e as Error).message}]`;
@@ -260,6 +262,7 @@ serve(async (req) => {
         await supabase.from("kayla_benchmark_results").insert({
           run_id: runId,
           case_id: c.id,
+          agent_name: c.agent_name ?? null,
           question: c.question,
           answer,
           score,
