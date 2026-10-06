@@ -6,6 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
+import { agentLessons } from "../_shared/kayla-agent-learning.ts";
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
 import { runDeepJsonReport, reviewJsonReport } from "../_shared/kayla-deep.ts";
@@ -58,7 +59,7 @@ serve(async (req) => {
     if (!LOVABLE_API_KEY) throw new Error("AI not configured");
 
     const sharedCtx = await getBusinessContext(supabase, business_id);
-    const ctxFragment = contextAsPromptFragment(sharedCtx);
+    const ctxFragment = contextAsPromptFragment(sharedCtx) + await agentLessons(supabase, "kayla-investment-readiness", business_id);
 
     const prompt = `You are an investment readiness advisor. Assess this business for investor appeal:
 ${ctxFragment}

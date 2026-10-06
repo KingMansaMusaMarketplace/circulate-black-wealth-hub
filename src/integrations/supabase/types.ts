@@ -11010,6 +11010,39 @@ export type Database = {
           },
         ]
       }
+      kayla_agent_handoffs: {
+        Row: {
+          business_id: string | null
+          channel: string
+          created_at: string
+          from_agent: string
+          id: string
+          reason: string | null
+          status: string
+          to_agent: string
+        }
+        Insert: {
+          business_id?: string | null
+          channel?: string
+          created_at?: string
+          from_agent: string
+          id?: string
+          reason?: string | null
+          status?: string
+          to_agent: string
+        }
+        Update: {
+          business_id?: string | null
+          channel?: string
+          created_at?: string
+          from_agent?: string
+          id?: string
+          reason?: string | null
+          status?: string
+          to_agent?: string
+        }
+        Relationships: []
+      }
       kayla_agent_reports: {
         Row: {
           actions_taken: Json | null
@@ -11104,6 +11137,7 @@ export type Database = {
       }
       kayla_benchmark_cases: {
         Row: {
+          agent_name: string | null
           category: string
           created_at: string
           expected_facts: string
@@ -11113,6 +11147,7 @@ export type Database = {
           question: string
         }
         Insert: {
+          agent_name?: string | null
           category?: string
           created_at?: string
           expected_facts: string
@@ -11122,6 +11157,7 @@ export type Database = {
           question: string
         }
         Update: {
+          agent_name?: string | null
           category?: string
           created_at?: string
           expected_facts?: string
@@ -11135,6 +11171,7 @@ export type Database = {
       kayla_benchmark_results: {
         Row: {
           accuracy: number | null
+          agent_name: string | null
           answer: string | null
           case_id: string | null
           created_at: string
@@ -11151,6 +11188,7 @@ export type Database = {
         }
         Insert: {
           accuracy?: number | null
+          agent_name?: string | null
           answer?: string | null
           case_id?: string | null
           created_at?: string
@@ -11167,6 +11205,7 @@ export type Database = {
         }
         Update: {
           accuracy?: number | null
+          agent_name?: string | null
           answer?: string | null
           case_id?: string | null
           created_at?: string
@@ -27153,6 +27192,18 @@ export type Database = {
         Returns: {
           is_active: boolean
           referral_code: string
+        }[]
+      }
+      get_agent_scorecard: {
+        Args: never
+        Returns: {
+          agent_name: string
+          approvals: number
+          handoffs: number
+          last_tested: string
+          rejections: number
+          test_score: number
+          tests_run: number
         }[]
       }
       get_agent_tier_progress: {
