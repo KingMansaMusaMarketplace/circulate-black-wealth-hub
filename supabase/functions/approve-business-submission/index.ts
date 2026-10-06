@@ -53,7 +53,7 @@ async function sendApprovalEmail(email: string, businessName: string, listingUrl
         "Authorization": `Bearer ${key}`,
       },
       body: JSON.stringify({
-        from: "1325.AI <hello@1325.ai>",
+        from: "Thomas at 1325.AI <Partner@1325.AI>",
         to: [email],
         subject: `🎉 ${businessName} is now live on 1325.AI`,
         html: `

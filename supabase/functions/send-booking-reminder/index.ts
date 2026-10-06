@@ -97,7 +97,7 @@ const handler = async (req: Request): Promise<Response> => {
         });
 
         const emailResponse = await resend.emails.send({
-          from: "1325.AI <bookings@1325.ai>",
+          from: "Thomas at 1325.AI <Partner@1325.AI>",
           to: [booking.customer_email],
           subject: `Reminder: Appointment with ${booking.business.business_name} in ${hoursUntil} hours`,
           html: emailHtml,

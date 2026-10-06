@@ -138,7 +138,7 @@ serve(async (req) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              from: '1325.AI <noreply@1325.ai>',
+              from: 'Thomas at 1325.AI <Partner@1325.AI>',
               to: [reminder.email],
               subject: `🌟 Time for your ${getTierFrequencyText(reminder.tier)} social media spotlight!`,
               html: emailHtml,

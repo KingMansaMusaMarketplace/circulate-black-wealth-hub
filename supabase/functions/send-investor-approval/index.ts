@@ -140,7 +140,7 @@ Deno.serve(async (req) => {
       method: 'POST',
       headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: '1325.AI Investor Relations <noreply@1325.ai>',
+        from: 'Thomas at 1325.AI <Partner@1325.AI>',
         to: [reqRow.email],
         bcc: ['Partner@1325.AI'],
         reply_to: 'Partner@1325.AI',

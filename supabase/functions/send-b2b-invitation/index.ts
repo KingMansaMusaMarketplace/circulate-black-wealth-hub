@@ -147,7 +147,7 @@ const handler = async (req: Request): Promise<Response> => {
       : signupUrl;
     
     const emailResponse = await resend.emails.send({
-      from: "1325.AI <noreply@1325.ai>",
+      from: "Thomas at 1325.AI <Partner@1325.AI>",
       to: [businessEmail],
       subject: `${inviterName} invites you to join the 1325.AI B2B Marketplace`,
       html: `

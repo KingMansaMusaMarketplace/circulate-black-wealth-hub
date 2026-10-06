@@ -108,7 +108,7 @@ const handler = async (req: Request): Promise<Response> => {
     switch (type) {
       case 'application':
         emailResponse = await resend.emails.send({
-          from: "1325.ai Partners <partners@1325.ai>",
+          from: "Thomas at 1325.AI <Partner@1325.AI>",
           to: [partnerEmail],
           subject: "We've Received Your Partner Application!",
           html: `
@@ -170,7 +170,7 @@ const handler = async (req: Request): Promise<Response> => {
         });
 
         await resend.emails.send({
-          from: "1325.ai System <noreply@1325.ai>",
+          from: "Thomas at 1325.AI <Partner@1325.AI>",
           to: [ADMIN_EMAIL],
           subject: `🆕 New Partner Application: ${partnerName}`,
           html: `
@@ -216,7 +216,7 @@ const handler = async (req: Request): Promise<Response> => {
         }[tier as 'founding' | 'premium' | 'standard'] ?? { name: 'Standard Partner', revenueShare: '10%', flatFee: '$15' };
 
         emailResponse = await resend.emails.send({
-          from: "1325.ai Partners <partners@1325.ai>",
+          from: "Thomas at 1325.AI <Partner@1325.AI>",
           to: [partnerEmail],
           subject: "🎉 Congratulations! Your Partner Application is Approved!",
           html: `
@@ -272,7 +272,7 @@ const handler = async (req: Request): Promise<Response> => {
 
       case 'rejection':
         emailResponse = await resend.emails.send({
-          from: "1325.ai Partners <partners@1325.ai>",
+          from: "Thomas at 1325.AI <Partner@1325.AI>",
           to: [partnerEmail],
           subject: "Update on Your Partner Application",
           html: `
