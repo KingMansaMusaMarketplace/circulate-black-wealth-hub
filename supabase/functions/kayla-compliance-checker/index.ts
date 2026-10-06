@@ -6,6 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
+import { agentLessons } from "../_shared/kayla-agent-learning.ts";
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
 import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
@@ -39,7 +40,7 @@ serve(async (req) => {
     if (!LOVABLE_API_KEY || !business) throw new Error("Cannot generate compliance reminders");
 
     const sharedCtx = await getBusinessContext(supabase, business_id);
-    const ctxFragment = contextAsPromptFragment(sharedCtx);
+    const ctxFragment = contextAsPromptFragment(sharedCtx) + await agentLessons(supabase, "kayla-compliance-checker", business_id);
 
     const prompt = `You are a business compliance advisor. Generate compliance reminders for:
 ${ctxFragment}

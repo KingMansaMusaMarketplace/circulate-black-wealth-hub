@@ -6,6 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
+import { agentLessons } from "../_shared/kayla-agent-learning.ts";
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning } from "../_shared/kayla-coordination.ts";
 import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
@@ -45,7 +46,7 @@ serve(async (req) => {
       : "No specific products provided — suggest general pricing strategy for this category.";
 
     const sharedCtx = await getBusinessContext(supabase, businessId);
-    const ctxFragment = contextAsPromptFragment(sharedCtx);
+    const ctxFragment = contextAsPromptFragment(sharedCtx) + await agentLessons(supabase, "kayla-price-optimizer", businessId);
 
     const prompt = `You are a pricing strategist for small businesses. Analyze and suggest optimal pricing.
 ${ctxFragment}

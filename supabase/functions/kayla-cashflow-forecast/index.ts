@@ -6,6 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
+import { agentLessons } from "../_shared/kayla-agent-learning.ts";
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { getBusinessContext, contextAsPromptFragment, appendDecision, logLearning, buildReasoning } from "../_shared/kayla-coordination.ts";
 import { runDeepJsonReport, reviewJsonReport } from "../_shared/kayla-deep.ts";
@@ -61,7 +62,7 @@ serve(async (req) => {
 
     // SHARED BRAIN: read what the rest of the team already knows
     const sharedCtx = await getBusinessContext(supabase, businessId);
-    const ctxFragment = contextAsPromptFragment(sharedCtx);
+    const ctxFragment = contextAsPromptFragment(sharedCtx) + await agentLessons(supabase, "kayla-cashflow-forecast", businessId);
 
     const prompt = `You are a financial analyst AI for small businesses. Based on this data, generate a 3-month cash flow forecast.
 
