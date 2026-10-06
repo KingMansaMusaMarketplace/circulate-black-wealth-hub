@@ -124,6 +124,7 @@ const DirectoryPage: React.FC = () => {
     queryFn: async () => {
       // Pinned businesses to always include in Featured Spotlight
       const PINNED_FEATURED_IDS = [
+        'eb5c7868-5345-4dab-9acd-4206067e7947', // Renard Blended Whiskey — added Oct 6 2026
         'f2751beb-d2f7-4990-93b4-606caaeaf1d5', // Kipani's Kloset
         '63b178aa-f944-4b93-83ba-5ebdb8a5b0eb', // Kimi Ellen, CPA
         '37173eb6-c8e7-46a8-be27-83a671360e85', // Martha's Vineyard Comedy Fest
