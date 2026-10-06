@@ -52,7 +52,10 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
       }
 
       // Combine: prioritized first, then top-rated to fill remaining slots
-      const combined = [...(prioritized || []), ...(topRated || [])].slice(0, limit);
+      const ordered = [...(prioritized || [])].sort(
+        (a, b) => FEATURED_PARTNER_IDS.indexOf(a.id) - FEATURED_PARTNER_IDS.indexOf(b.id),
+      );
+      const combined = [...ordered, ...(topRated || [])].slice(0, limit);
 
       return combined.map(b => {
         const business = mapSupabaseBusinessToBusiness(b);
