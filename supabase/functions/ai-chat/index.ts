@@ -1,9 +1,10 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { routeAgents } from "../_shared/kayla-agent-router.ts";
-import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { retrieveRAGContext, retrievePersonalMemory, persistSession, resolveSessionId } from "../_shared/kayla-memory.ts";
 import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
+import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -136,7 +137,7 @@ Deno.serve(async (req) => {
     }
 
     // ===== ONE BRAIN: the shared Kayla prompt, identical everywhere =====
-    let systemPrompt = buildKaylaSystemPrompt({ isAdmin });
+    let systemPrompt = buildKaylaSystemPrompt({ isAdmin }) + await loadApprovedImprovements(supabase);
 
     // ===== MEMORY: this chat used to have none. Now it remembers. =====
     const sessionId = resolveSessionId(requestBody.session_id);
@@ -164,6 +165,7 @@ Deno.serve(async (req) => {
         lovableApiKey: LOVABLE_API_KEY,
         userId: user.id,
         businessId: ownedBusinessId,
+        forceWeb: category === "search" || category === "critical",
       }),
     ]);
     if (ragContext) systemPrompt += ragContext;
@@ -171,6 +173,29 @@ Deno.serve(async (req) => {
     if (grounding.block) systemPrompt += grounding.block;
     if (grounding.calls.length) {
       console.log(`[ai-chat] grounding: ${grounding.calls.map((c) => c.tool).join(", ")}`);
+    }
+
+    // ===== PREMIUM BRAIN + SELF-CHECK for strategy, money, legal, forecasts =====
+    if (wantsPremium(category, lastUserMsg)) {
+      const premium = await premiumChatAnswer({ systemPrompt, messages, lovableApiKey: LOVABLE_API_KEY, label: "ai-chat-premium" });
+      if (premium) {
+        console.log(`[ai-chat] premium answer (reviewed=${premium.reviewed})`);
+        const encoder = new TextEncoder();
+        const head = encoder.encode(
+          `data: ${JSON.stringify({ agents: routeAgents(lastUserMsg), session_id: sessionId, model_used: "premium", depth: category, self_checked: premium.reviewed })}\n\n`,
+        );
+        const body = textToChatSSE(premium.text, "premium");
+        const stream = new ReadableStream({
+          async start(controller) {
+            controller.enqueue(head);
+            const r = body.getReader();
+            while (true) { const { done, value } = await r.read(); if (done) break; controller.enqueue(value); }
+            controller.close();
+          },
+        });
+        return new Response(stream, { headers: { ...corsHeaders, "Content-Type": "text/event-stream" } });
+      }
+      console.warn("[ai-chat] premium path unavailable — falling back to standard model");
     }
 
     // Simple questions stay on the fast model; anything harder gets the

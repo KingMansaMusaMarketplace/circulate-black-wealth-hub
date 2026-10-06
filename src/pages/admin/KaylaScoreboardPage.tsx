@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Brain, Play, RefreshCw, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { KaylaImprovementApprovals } from '@/components/admin/KaylaImprovementApprovals';
 
 interface Run {
   id: string;
@@ -214,6 +215,8 @@ const KaylaScoreboardPage: React.FC = () => {
             </div>
           </Card>
         </div>
+
+        <KaylaImprovementApprovals />
       </div>
     </div>
   );

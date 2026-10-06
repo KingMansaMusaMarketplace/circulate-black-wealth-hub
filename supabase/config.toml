@@ -316,3 +316,5 @@ project_id = "agoclnqfyinwjxdmjnns"
     verify_jwt = false
   [functions.send-claim-invitations]
     verify_jwt = false
+  [functions.kayla-weekly-improvement]
+    verify_jwt = false

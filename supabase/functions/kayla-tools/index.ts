@@ -1,4 +1,5 @@
 import { assertPublicUrl } from "../_shared/public-url.ts";
+import { webSearch } from "../_shared/kayla-grounding.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 const corsHeaders = {
@@ -305,6 +306,8 @@ Deno.serve(async (req) => {
       check_loyalty_points: () => checkLoyaltyPoints(supabase, user.id),
       get_upcoming_bookings: () => getUpcomingBookings(supabase, user.id),
       web_research: () => webResearch(toolArgs || {}),
+      // Same live web lookup the chat uses (news, laws, market data) with sources.
+      web_search: () => webSearch(String(toolArgs?.query || "").slice(0, 400)),
     };
 
     // Business owner tools
