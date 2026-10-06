@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { HealthPrivacyNotice } from '@/components/ai/HealthPrivacyNotice';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';

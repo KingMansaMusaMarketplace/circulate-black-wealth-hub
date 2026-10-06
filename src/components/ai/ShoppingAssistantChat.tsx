@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { HealthPrivacyNotice } from '@/components/ai/HealthPrivacyNotice';
 import { MessageCircle, X, Send, Sparkles, Loader2, Trash2, Volume2, VolumeX, Mic, Square } from 'lucide-react';
 import { useKaylaVoice } from '@/hooks/use-kayla-voice';
 import { useVoiceInput } from '@/hooks/use-voice-input';
