@@ -52,7 +52,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log('Sending newsletter welcome email to:', cleanEmail);
 
     const emailResponse = await resend.emails.send({
-      from: "1325.AI <newsletter@1325.ai>",
+      from: "Thomas at 1325.AI <Partner@1325.AI>",
       to: [cleanEmail],
       subject: "Welcome to 1325.AI Newsletter! 🎉",
       html: `

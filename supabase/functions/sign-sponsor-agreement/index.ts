@@ -184,7 +184,7 @@ serve(async (req) => {
           </table>`;
 
         await resend.emails.send({
-          from: "1325.AI Partnerships <partnerships@1325.ai>",
+          from: "Thomas at 1325.AI <Partner@1325.AI>",
           to: [b.contact_email],
           subject: `Signed: 1325.AI ${tier.name} Sponsorship Agreement`,
           html: `
@@ -199,7 +199,7 @@ serve(async (req) => {
 
         const adminTo = Deno.env.get("SPONSORSHIP_NOTIFY_EMAIL") || "partnerships@1325.ai";
         await resend.emails.send({
-          from: "1325.AI Platform <partnerships@1325.ai>",
+          from: "Thomas at 1325.AI <Partner@1325.AI>",
           to: [adminTo],
           subject: `New sponsorship signed — ${b.company_name} (${tier.name}, ${usd(annualCents)}/yr)`,
           html: `

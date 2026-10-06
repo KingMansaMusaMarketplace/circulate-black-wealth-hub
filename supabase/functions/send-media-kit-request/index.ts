@@ -174,7 +174,7 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const adminEmailResponse = await resend.emails.send({
-      from: "1325.AI Media Kit <media@1325.ai>",
+      from: "Thomas at 1325.AI <Partner@1325.AI>",
       to: [adminEmail],
       subject: `📋 Media Kit Access Request: ${fullName} - ${documentLabel}`,
       html: adminEmailContent,
@@ -230,7 +230,7 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const requesterEmailResponse = await resend.emails.send({
-      from: "1325.AI <noreply@1325.ai>",
+      from: "Thomas at 1325.AI <Partner@1325.AI>",
       to: [email],
       subject: `Your Media Kit Access Request - ${documentLabel}`,
       html: requesterEmailContent,

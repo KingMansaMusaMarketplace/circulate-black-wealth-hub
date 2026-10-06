@@ -52,7 +52,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending password reset email to:", email);
 
     const emailResponse = await resend.emails.send({
-      from: "1325.AI <noreply@1325.ai>",
+      from: "Thomas at 1325.AI <Partner@1325.AI>",
       to: [email],
       subject: "Reset Your Password - 1325.AI",
       html: `

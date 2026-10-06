@@ -91,7 +91,7 @@ serve(async (req) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              from: '1325.AI <noreply@1325.ai>',
+              from: 'Thomas at 1325.AI <Partner@1325.AI>',
               to: [email],
               subject: `📊 Your ${monthName} Sponsorship Impact Report`,
               html: emailHtml,

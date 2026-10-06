@@ -108,7 +108,7 @@ serve(async (req) => {
     const loginUrl = (Deno.env.get("APP_URL") || "https://1325.ai") + "/login";
 
     const emailResp = await resend.emails.send({
-      from: "1325.AI <noreply@1325.ai>",
+      from: "Thomas at 1325.AI <Partner@1325.AI>",
       to: [email],
       subject: "Your Temporary Password - 1325.AI",
       html: `
@@ -131,7 +131,7 @@ serve(async (req) => {
             </div>
             <p style="font-size:13px;color:#6b7280;line-height:1.6;">
               For your security, change this password immediately after signing in.
-              If you didn't request this, contact support@mansamusamarketplace.com right away.
+              If you didn't request this, contact Partner@1325.AI right away.
             </p>
           </div>
         </div>

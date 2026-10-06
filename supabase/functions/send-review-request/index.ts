@@ -228,7 +228,7 @@ serve(async (req) => {
 
     // Send email via Resend
     const { data: emailData, error: emailError } = await resend.emails.send({
-      from: '1325.AI <reviews@1325.ai>',
+      from: 'Thomas at 1325.AI <Partner@1325.AI>',
       to: [booking.customer_email],
       subject: `How was your experience at ${business.business_name}?`,
       html: emailHTML,

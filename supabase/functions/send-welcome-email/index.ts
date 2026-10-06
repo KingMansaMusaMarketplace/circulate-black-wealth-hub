@@ -70,7 +70,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log('Email template rendered successfully');
 
     const emailResponse = await resend.emails.send({
-      from: '1325.AI <welcome@1325.ai>',
+      from: 'Thomas at 1325.AI <Partner@1325.AI>',
       to: [email],
       subject: `Welcome to 1325.AI, ${fullName}! 🎉`,
       html,

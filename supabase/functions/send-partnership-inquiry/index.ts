@@ -9,7 +9,7 @@ const corsHeaders = {
 };
 
 const PARTNER_INBOX = "Partner@1325.AI";
-const FROM = "1325.AI Partnerships <noreply@1325.ai>";
+const FROM = "Thomas at 1325.AI <Partner@1325.AI>";
 
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
