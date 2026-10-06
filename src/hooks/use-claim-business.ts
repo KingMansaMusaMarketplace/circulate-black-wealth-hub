@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Capacitor } from '@capacitor/core';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -128,6 +129,13 @@ export const useClaimBusiness = () => {
       return null;
     }
     savePendingLeadClaim(leadId, lead?.business_name);
+    // iOS app blocks /business-signup (App Store rules) and bounces to home — use sign-in instead;
+    // PendingLeadClaimSubmitter files the saved claim once they sign in.
+    if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
+      toast.info('Sign in or create a free account to finish claiming this listing.', { duration: 8000 });
+      window.location.assign('/auth');
+      return null;
+    }
     const params = new URLSearchParams({ claim: leadId });
     if (lead?.business_name) params.set('name', lead.business_name);
     window.location.assign(`/business-signup?${params.toString()}`);
