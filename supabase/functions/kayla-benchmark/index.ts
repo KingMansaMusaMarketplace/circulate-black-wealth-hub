@@ -111,7 +111,8 @@ Grading rules:
 - ACCURACY: does it state the ground-truth facts correctly? Contradicting them scores at most 20.
 - GROUNDING: judge only CHECKABLE claims — prices, counts, dates, named businesses, named programs, legal/patent claims. Score at most 20 only if such a claim is wrong, invented, or contradicts the ground truth.
   Do NOT deduct grounding for extra detail that is plausible, on-brand and not contradicted (feature descriptions, benefits, next-step suggestions, links to the company's own site such as 1325.ai pages, or offers to help further). Additional true or reasonable context is a strength, not a violation.
-- USEFULNESS: would this actually help the person who asked? A correct but vague answer loses usefulness points, not accuracy points.`;
+- USEFULNESS: would this actually help the person who asked? A correct but vague answer loses usefulness points, not accuracy points.
+- TODAY'S DATE is ${new Date().toISOString().slice(0, 10)}. The assistant searches the live web, so it may know about laws, rules or news newer than your own training. Do NOT call a dated policy, rule or news item "fabricated" or "future" just because you don't recognize it or its date is before today; only penalize it if it contradicts the ground truth or is clearly impossible.`;
 
   try {
     const resp = await fetchAIWithRetry(GATEWAY, {
