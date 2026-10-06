@@ -14,7 +14,6 @@ import { mapSupabaseBusinessToBusiness } from '@/lib/api/directory/mappers';
 
 // Prioritized business IDs for Featured Partners (order matters)
 const FEATURED_PARTNER_IDS = [
-  'eb5c7868-5345-4dab-9acd-4206067e7947', // Renard Blended Whiskey
   'a1b2c3d4-e5f6-7890-abcd-300000000001', // Apparel Redefined
   'b09811d2-336f-4a99-a73f-4d2d4e2cd4f1', // Miguel Wilson Collection
   '0c23893e-21a0-4672-a5c7-fa64e78b1323', // Atlanta Hustle
@@ -52,10 +51,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
       }
 
       // Combine: prioritized first, then top-rated to fill remaining slots
-      const ordered = [...(prioritized || [])].sort(
-        (a, b) => FEATURED_PARTNER_IDS.indexOf(a.id) - FEATURED_PARTNER_IDS.indexOf(b.id),
-      );
-      const combined = [...ordered, ...(topRated || [])].slice(0, limit);
+      const combined = [...(prioritized || []), ...(topRated || [])].slice(0, limit);
 
       return combined.map(b => {
         const business = mapSupabaseBusinessToBusiness(b);
