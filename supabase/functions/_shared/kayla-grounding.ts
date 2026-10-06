@@ -270,6 +270,7 @@ async function myBusinessMetrics(supabase: any, businessId: string) {
 export async function webSearch(query: string) {
   const perplexity = Deno.env.get("PERPLEXITY_API_KEY");
   if (perplexity) {
+   try {
     const res = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${perplexity}`, "Content-Type": "application/json" },
@@ -294,6 +295,10 @@ export async function webSearch(query: string) {
       answer: data.choices?.[0]?.message?.content || "",
       sources: data.citations || [],
     };
+   } catch (e) {
+    // Fall through to Firecrawl so Kayla still gets live facts.
+    console.warn("[kayla-grounding] Perplexity unavailable, trying Firecrawl:", (e as Error).message.slice(0, 120));
+   }
   }
 
   const firecrawl = Deno.env.get("FIRECRAWL_API_KEY");
@@ -301,7 +306,7 @@ export async function webSearch(query: string) {
     const res = await fetch("https://api.firecrawl.dev/v2/search", {
       method: "POST",
       headers: { Authorization: `Bearer ${firecrawl}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ query, limit: 5 }),
+      body: JSON.stringify({ query, limit: 5, scrapeOptions: { formats: ["markdown"], onlyMainContent: true } }),
     });
     if (!res.ok) throw new Error(`firecrawl ${res.status}`);
     const data = await res.json();
@@ -309,6 +314,7 @@ export async function webSearch(query: string) {
       title: r.title,
       url: r.url,
       snippet: r.description || r.snippet,
+      excerpt: String(r.markdown || "").slice(0, 900),
     }));
     return { results };
   }
