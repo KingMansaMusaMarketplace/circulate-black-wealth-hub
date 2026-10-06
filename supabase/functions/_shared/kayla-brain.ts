@@ -350,3 +350,30 @@ When genuinely torn between two categories, always choose the harder one.`,
     return { category: "complex", reason: "classifier error — escalated" };
   }
 }
+
+// -----------------------------------------------------------------------------
+// APPROVED IMPROVEMENTS — rules an admin approved from the weekly
+// self-improvement list. Loaded by every channel (chat, voice, app) so a fix
+// applies everywhere at once. Cached briefly per function instance.
+// -----------------------------------------------------------------------------
+let improvementsCache: { at: number; block: string } | null = null;
+
+export async function loadApprovedImprovements(supabase: any): Promise<string> {
+  if (improvementsCache && Date.now() - improvementsCache.at < 5 * 60 * 1000) return improvementsCache.block;
+  try {
+    const { data } = await supabase
+      .from("kayla_improvement_proposals")
+      .select("proposed_rule")
+      .eq("status", "approved")
+      .order("reviewed_at", { ascending: false })
+      .limit(40);
+    const rules = (data || []).map((r: any) => String(r.proposed_rule || "").trim()).filter(Boolean);
+    const block = rules.length
+      ? `\n\n**LESSONS FROM YOUR SCOREBOARD (approved by the 1325.AI team — follow these):**\n${rules.map((r: string) => `- ${r}`).join("\n")}`
+      : "";
+    improvementsCache = { at: Date.now(), block };
+    return block;
+  } catch {
+    return "";
+  }
+}

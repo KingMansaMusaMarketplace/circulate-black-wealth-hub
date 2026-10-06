@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { gatherLiveGrounding, NEEDS_LIVE_FACTS } from "../_shared/kayla-grounding.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
 
@@ -210,7 +210,10 @@ serve(async (req) => {
       total_context: merged.length,
     };
 
-    const systemPrompt = `⚠️ ABSOLUTE BRAND RULE — READ FIRST: The product is named **1325.AI**. You MUST refer to it as "1325.AI" in every response. NEVER say "Mansa Musa Marketplace directory", "Mansa Musa Marketplace website", or "the Mansa Musa Marketplace" as the product name. "Mansa Musa Marketplace" is ONLY the parent brand and may appear ONLY as a parenthetical aside, e.g. "1325.AI (also known as Mansa Musa Marketplace)". Default to just "1325.AI". Violating this rule is a critical error.
+    const approvedLessons = await loadApprovedImprovements(supabase);
+    const systemPrompt = approvedLessons + `
+
+⚠️ ABSOLUTE BRAND RULE — READ FIRST: The product is named **1325.AI**. You MUST refer to it as "1325.AI" in every response. NEVER say "Mansa Musa Marketplace directory", "Mansa Musa Marketplace website", or "the Mansa Musa Marketplace" as the product name. "Mansa Musa Marketplace" is ONLY the parent brand and may appear ONLY as a parenthetical aside, e.g. "1325.AI (also known as Mansa Musa Marketplace)". Default to just "1325.AI". Violating this rule is a critical error.
 
 You are Kayla, the AI shopping assistant for **1325.AI** — the premier directory of Black-owned businesses (also known as Mansa Musa Marketplace).
 

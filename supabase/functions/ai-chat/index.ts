@@ -1,7 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { routeAgents } from "../_shared/kayla-agent-router.ts";
-import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { retrieveRAGContext, retrievePersonalMemory, persistSession, resolveSessionId } from "../_shared/kayla-memory.ts";
 import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
@@ -137,7 +137,7 @@ Deno.serve(async (req) => {
     }
 
     // ===== ONE BRAIN: the shared Kayla prompt, identical everywhere =====
-    let systemPrompt = buildKaylaSystemPrompt({ isAdmin });
+    let systemPrompt = buildKaylaSystemPrompt({ isAdmin }) + await loadApprovedImprovements(supabase);
 
     // ===== MEMORY: this chat used to have none. Now it remembers. =====
     const sessionId = resolveSessionId(requestBody.session_id);

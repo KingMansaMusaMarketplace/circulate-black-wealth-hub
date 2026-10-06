@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
-import { buildKaylaSystemPrompt } from "../_shared/kayla-brain.ts";
+import { buildKaylaSystemPrompt, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { retrievePersonalMemory } from "../_shared/kayla-memory.ts";
 
 const corsHeaders = {
@@ -167,7 +167,7 @@ You're confident but not stiff. You know your stuff but you don't need to prove 
 
 `;
     const personalMemory = await retrievePersonalMemory(userId, supabase, null).catch(() => "");
-    let kaylaInstructions = buildKaylaSystemPrompt({ isAdmin }) + "\n\n" + VOICE_STYLE + (personalMemory || "");
+    let kaylaInstructions = buildKaylaSystemPrompt({ isAdmin }) + await loadApprovedImprovements(supabase) + "\n\n" + VOICE_STYLE + (personalMemory || "");
 
     // Add admin-specific knowledge if user is admin
     if (isAdmin) {
