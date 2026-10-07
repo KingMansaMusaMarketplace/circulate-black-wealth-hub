@@ -41,7 +41,7 @@ const PitchSlide9Traction: React.FC = () => {
             Traction & Goals
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            2026 <span className="text-mansagold">Targets</span>
+            2026 <span className="text-mansagold">Goals</span> &amp; Where We Are Today
           </h2>
         </motion.div>
 
