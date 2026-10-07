@@ -1,6 +1,7 @@
 // Checks whether discovered-business website addresses exist (DNS lookup).
 // Tags b2b_external_leads.website_status = 'ok' | 'not_found'.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { requireAdminOrCron } from "../_shared/auth-guard.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -37,9 +38,11 @@ async function resolves(host: string): Promise<boolean | null> {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
-  const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  // Only admins or scheduled jobs may run this — it writes to lead records.
+  const auth = await requireAdminOrCron(req, cors);
+  if (!auth.authenticated) return auth.response ?? new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...cors, "Content-Type": "application/json" } });
 
-  // No login needed: this only runs harmless address lookups on unchecked rows.
+  const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const body = await req.json().catch(() => ({}));
   const limit = Math.min(Number(body.limit) || 300, 600);
 
