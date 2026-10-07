@@ -384,38 +384,39 @@ const BusinessSubmissionBox: React.FC = () => {
             className="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-tight"
             style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
           >
-            Register your Black-owned business for free.
+            Ready to list your business? It's free.
           </h2>
           <p className="mt-1.5 text-white/75 max-w-2xl leading-relaxed text-sm">
-            Join the national directory trusted by intentional consumers and
-            surfaced by leading AI assistants. Verification is <strong className="text-white">100% free</strong> — no credit card, no hidden fees, no listing cost. Most reviews are completed within 48 hours.
+            Listing is <strong className="text-white">100% free</strong> — no credit card, no hidden fees, no listing cost. Every listing is reviewed before it goes live.
           </p>
           <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-white">
             <span className="inline-flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> 100% free — no credit card required</span>
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Human-reviewed by our compliance team</span>
             <span className="inline-flex items-center gap-1.5"><Lock className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> Encrypted &amp; confidential</span>
-            <span className="inline-flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" style={{ color: '#FFB300' }} /> 48-hour turnaround</span>
           </div>
         </div>
 
-        {/* Toggle — keeps the homepage tight until the user opts in */}
+        {/* Button — on the homepage, scrolls up to the short form */}
         <div className="px-6 md:px-8 py-5 bg-white">
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => {
+              const quick = document.getElementById('list-your-business');
+              if (quick && !open) {
+                quick.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+              }
+              setOpen((v) => !v);
+            }}
             aria-expanded={open}
             aria-controls="business-registration-form"
             className="w-full flex items-center justify-center gap-2 h-11 rounded-sm text-white font-semibold text-sm tracking-wide uppercase transition-opacity hover:opacity-90"
             style={{ background: '#003366' }}
           >
-            {open ? 'Hide Registration Form' : 'Register & Get Approved'}
-            <ChevronDown
-              className={`w-4 h-4 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
-            />
+            {open ? 'Hide Registration Form' : 'Get My Free Listing'}
           </button>
           {!open && (
             <p className="mt-2 text-center text-xs text-neutral-500">
-              Takes about 2 minutes · Free · Reviewed within 48 hours
+              Free · Takes under a minute
             </p>
           )}
         </div>
