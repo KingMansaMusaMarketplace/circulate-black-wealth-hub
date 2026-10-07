@@ -149,7 +149,7 @@ const handler = async (req: Request): Promise<Response> => {
     const sanitizedInviterBusinessName = (ownedBiz?.business_name ?? inviterBusinessName)?.replace(/[<>]/g, '').slice(0, 120);
     const sanitizedPersonalMessage = personalMessage?.replace(/[<>]/g, '').replace(/https?:\/\/\S+/gi, '').slice(0, 500);
 
-    console.log(`Sending B2B invitation to: ${sanitizedBusinessName} (${businessEmail})`);
+    console.log(`Sending B2B invitation to: ${sanitizedBusinessName}`);
 
     // Build signup URL with UTM params for tracking
     const utmParams = new URLSearchParams({
@@ -174,7 +174,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     const emailResponse = await resend.emails.send({
       from: "Thomas at 1325.AI <Partner@1325.AI>",
-      to: [businessEmail],
+      to: [recipientEmail],
       subject: `${inviterName} invites you to join the 1325.AI B2B Marketplace`,
       html: `
         <!DOCTYPE html>
