@@ -34,7 +34,7 @@ const HomePage: React.FC = () => {
     trackFunnelEvent('homepage_view');
     queryClient.invalidateQueries();
     updateMetaTags({
-      title: 'Find a Black-Owned Business You Can Trust — 1325.AI',
+      title: 'Find a Black-Owned Business and Allies You Can Trust — 1325.AI',
       description:
         `Every listing verified. Every dollar you spend circulates. Search ${liveCount} Black-owned businesses worldwide, kept accurate by Kayla and 42 Agentic AI Employees.`,
       path: '/about-1325',
