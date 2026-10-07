@@ -49,6 +49,9 @@ const ListingApprovalsQueue: React.FC = () => {
   const [rejectFor, setRejectFor] = useState<Business | null>(null);
   const [rejectReason, setRejectReason] = useState('');
   const [busy, setBusy] = useState(false);
+  const [claims, setClaims] = useState<Record<string, { by: string; at: string }>>({});
+  const [names, setNames] = useState<Record<string, string>>({});
+  const [me, setMe] = useState<string | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search.trim()), 350);
@@ -65,9 +68,20 @@ const ListingApprovalsQueue: React.FC = () => {
     setCounts({ new: n.count ?? 0, unverified: u.count ?? 0, rejected: r.count ?? 0 });
   };
 
-  const load = async () => {
-    setLoading(true);
-    setSelected(new Set());
+  const loadClaims = async () => {
+    const { data } = await (supabase as any).from('listing_review_claims').select('business_id, claimed_by, claimed_at');
+    const map: Record<string, { by: string; at: string }> = {};
+    (data || []).forEach((r: any) => { map[r.business_id] = { by: r.claimed_by, at: r.claimed_at }; });
+    setClaims(map);
+    const unknown = [...new Set(Object.values(map).map((c) => c.by))].filter((id) => !names[id]);
+    if (unknown.length) {
+      const { data: ps } = await supabase.rpc('get_public_profile_info', { user_ids: unknown });
+      if (ps) setNames((n) => { const m = { ...n }; (ps as any[]).forEach((p) => { m[p.id] = p.full_name || 'A reviewer'; }); return m; });
+    }
+  };
+
+  const load = async (silent = false) => {
+    if (!silent) { setLoading(true); setSelected(new Set()); }
     let q = supabase
       .from('businesses')
       .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason, website_status, website_checked_at, black_owned_evidence, listing_type')
@@ -83,15 +97,39 @@ const ListingApprovalsQueue: React.FC = () => {
     }
 
     const { data, error } = await q;
-    setLoading(false);
-    if (error) return toast.error('Load failed: ' + error.message);
-    setItems((data as any) || []);
+    if (!silent) setLoading(false);
+    if (error) { if (!silent) toast.error('Load failed: ' + error.message); return; }
+    const rows = (data as any) || [];
+    setItems(rows);
+    if (silent) setSelected((s) => new Set([...s].filter((id) => rows.some((r: any) => r.id === id))));
+    loadClaims();
   };
 
   useEffect(() => { load(); /* eslint-disable-next-line */ }, [tab, debouncedSearch]);
-  useEffect(() => { loadCounts(); }, []);
+  useEffect(() => { loadCounts(); supabase.auth.getUser().then(({ data }) => setMe(data.user?.id ?? null)); }, []);
+  // Keep every reviewer's screen in sync: re-check the list every 15 seconds.
+  useEffect(() => {
+    const t = setInterval(() => { if (!document.hidden) { load(true); loadCounts(); } }, 15000);
+    return () => clearInterval(t);
+    // eslint-disable-next-line
+  }, [tab, debouncedSearch]);
 
   const refresh = () => { load(); loadCounts(); };
+
+  const isFresh = (at: string) => Date.now() - new Date(at).getTime() < 10 * 60 * 1000;
+  const takenByOther = (id: string) => { const c = claims[id]; return !!c && c.by !== me && isFresh(c.at); };
+
+  const claim = async (id: string) => {
+    if (!me) return;
+    const { error } = await (supabase as any).from('listing_review_claims')
+      .upsert({ business_id: id, claimed_by: me, claimed_at: new Date().toISOString() });
+    if (error) { toast.error('Someone else just started reviewing this one'); }
+    loadClaims();
+  };
+  const release = async (id: string) => {
+    await (supabase as any).from('listing_review_claims').delete().eq('business_id', id);
+    loadClaims();
+  };
 
   const filtered = items;
 
@@ -101,12 +139,14 @@ const ListingApprovalsQueue: React.FC = () => {
       const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n;
     });
 
-  const approve = async (ids: string[]) => {
-    if (ids.length === 0) return;
+  const approve = async (ids0: string[]) => {
+    const ids = ids0.filter((id) => !takenByOther(id));
+    if (ids.length === 0) return toast.error('Someone else is reviewing that listing');
     if (ids.length > 1 && !window.confirm(`Approve ${ids.length} listings? They will go live in the directory.`)) return;
     setBusy(true);
     const { data: { user } } = await supabase.auth.getUser();
-    const { error } = await supabase
+    // Only update listings still waiting in this tab, so a second click can't redo someone else's work.
+    let q = supabase
       .from('businesses')
       .update({
         listing_status: 'live',
@@ -116,10 +156,18 @@ const ListingApprovalsQueue: React.FC = () => {
         listing_rejection_reason: null,
       })
       .in('id', ids);
+    if (tab === 'new') q = q.in('listing_status', ['draft', 'pending', 'pending_review']);
+    else if (tab === 'unverified') q = q.eq('is_verified', false);
+    else q = q.eq('listing_status', 'rejected');
+    const { data, error } = await q.select('id');
     setBusy(false);
     if (error) return toast.error('Approve failed: ' + error.message);
-    const allyCount = items.filter((r) => ids.includes(r.id) && r.listing_type === 'ally').length;
-    toast.success(`Approved ${ids.length} listing(s)` + (allyCount ? ` — ${allyCount} went to the Allies page only` : ''));
+    const done = (data || []).map((r: any) => r.id);
+    const skipped = ids.length - done.length;
+    const allyCount = items.filter((r) => done.includes(r.id) && r.listing_type === 'ally').length;
+    if (done.length) toast.success(`Approved ${done.length} listing(s)` + (allyCount ? ` — ${allyCount} went to the Allies page only` : ''));
+    if (skipped) toast.info(`${skipped} listing(s) were already handled by another reviewer — skipped`);
+    await supabase.from('listing_review_claims').delete().in('business_id', ids);
     refresh();
   };
 
@@ -137,9 +185,10 @@ const ListingApprovalsQueue: React.FC = () => {
   const reject = async (target?: Business) => {
     const biz = target ?? rejectFor;
     if (!biz) return;
+    if (takenByOther(biz.id)) return toast.error('Someone else is reviewing that listing');
     setBusy(true);
     const { data: { user } } = await supabase.auth.getUser();
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('businesses')
       .update({
         listing_status: 'rejected',
@@ -147,10 +196,14 @@ const ListingApprovalsQueue: React.FC = () => {
         listing_reviewed_by: user?.id ?? null,
         listing_reviewed_at: new Date().toISOString(),
       })
-      .eq('id', biz.id);
+      .eq('id', biz.id)
+      .neq('listing_status', 'rejected')
+      .select('id');
     setBusy(false);
     if (error) return toast.error('Reject failed: ' + error.message);
-    toast.success('Listing rejected');
+    if (!data?.length) toast.info('Already rejected by another reviewer');
+    else toast.success('Listing rejected');
+    await supabase.from('listing_review_claims').delete().eq('business_id', biz.id);
     setRejectFor(null);
     setRejectReason('');
     refresh();
@@ -294,16 +347,31 @@ The 1325.AI Team`;
 
                       </div>
                       <div className="flex flex-col gap-1">
+                        {(() => {
+                          const c = claims[b.id];
+                          const mine = c && c.by === me;
+                          const other = c && !mine && isFresh(c.at);
+                          if (other) return (
+                            <Badge className="text-xs bg-amber-600/25 text-amber-200 border-amber-500/50 justify-center">
+                              {names[c.by] || 'Someone'} is reviewing
+                            </Badge>
+                          );
+                          return (
+                            <Button size="sm" variant={mine ? 'secondary' : 'outline'} onClick={() => (mine ? release(b.id) : claim(b.id))} className="text-xs">
+                              {mine ? "✓ You're on it (undo)" : "I'm on it"}
+                            </Button>
+                          );
+                        })()}
                         {tab !== 'rejected' && (
-                          <Button size="sm" onClick={() => approve([b.id])} disabled={busy}>
+                          <Button size="sm" onClick={() => approve([b.id])} disabled={busy || takenByOther(b.id)}>
                             <Check className="h-3 w-3 mr-1" /> Approve
                           </Button>
                         )}
-                        <Button size="sm" variant="outline" onClick={() => switchType(b)} disabled={busy} className="text-xs">
+                        <Button size="sm" variant="outline" onClick={() => switchType(b)} disabled={busy || takenByOther(b.id)} className="text-xs">
                           {b.listing_type === 'ally' ? 'Move to main directory' : 'Move to Allies'}
                         </Button>
                         {tab !== 'rejected' && (
-                          <Button size="sm" variant="destructive" onClick={() => reject(b)} disabled={busy}>
+                          <Button size="sm" variant="destructive" onClick={() => reject(b)} disabled={busy || takenByOther(b.id)}>
                             <X className="h-3 w-3 mr-1" /> Reject
                           </Button>
                         )}
