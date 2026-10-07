@@ -46,11 +46,12 @@ export default defineTool({
       { auth: { persistSession: false, autoRefreshToken: false } },
     );
 
-    let q: any = supabase.from("businesses").select("category").limit(5000);
-    if (city) q = q.ilike("city", `%${city}%`);
-    if (state) q = q.ilike("state", `%${state}%`);
-
-    const { data, error } = await q;
+    // Counts every approved (live) listing server-side; "Black-Owned X" folds into "X".
+    const { data, error } = await (supabase as any).rpc("get_mcp_category_counts", {
+      p_city: city || null,
+      p_state: state || null,
+      p_limit: limit ?? 30,
+    });
     if (error) {
       return {
         content: [{ type: "text", text: `Category lookup failed: ${error.message}` }],
@@ -58,17 +59,8 @@ export default defineTool({
       };
     }
 
-    const counts = new Map<string, number>();
-    for (const row of data ?? []) {
-      const c = (row.category ?? "").trim();
-      if (!c) continue;
-      counts.set(c, (counts.get(c) ?? 0) + 1);
-    }
-
-    const categories = [...counts.entries()]
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, limit ?? 30);
+    const categories = ((data ?? []) as Array<{ category: string; business_count: number | string }>)
+      .map((r) => ({ name: String(r.category), count: Number(r.business_count) }));
 
     const scope = [city, state].filter(Boolean).join(", ");
     const header = categories.length
