@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { csvCell } from '@/lib/csv-safe';
 import { supabase } from '@/integrations/supabase/client';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -119,7 +120,7 @@ export const CampaignRecipientsDialog: React.FC<{ source: Source; title: string;
   }, [rows, q, filter]);
 
   const download = (list: Row[] = shown, suffix = 'recipients') => {
-    const esc = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const esc = csvCell;
     const csv = [
       ['Business', 'Phone', 'Email', 'Location', 'Sent', 'Opened', 'Clicked', 'Status', 'Details'],
       ...list.map((r) => [r.business, r.phone, r.email, r.location, r.sentAt, r.opened ? 'Yes' : 'No', r.clicked ? 'Yes' : 'No', r.status, r.detail]),

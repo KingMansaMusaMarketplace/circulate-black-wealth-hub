@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { csvCell } from '@/lib/csv-safe';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -111,12 +112,7 @@ const DataExportManager: React.FC = () => {
           csvLines.push(headers.join(','));
           
           rows.forEach(row => {
-            const values = headers.map(h => {
-              const val = row[h];
-              if (val === null || val === undefined) return '';
-              if (typeof val === 'object') return JSON.stringify(val).replace(/"/g, '""');
-              return String(val).includes(',') ? `"${val}"` : val;
-            });
+            const values = headers.map(h => csvCell(row[h]));
             csvLines.push(values.join(','));
           });
         }

@@ -1,4 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { foldHistory } from "../_shared/safe-history.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { routeAgents } from "../_shared/kayla-agent-router.ts";
 import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
@@ -217,7 +218,8 @@ Deno.serve(async (req) => {
           model,
           messages: [
             { role: "system", content: systemPrompt },
-            ...messages,
+            // Caller history is folded into a labeled user-role transcript (no caller-authored assistant turns).
+            ...foldHistory(messages, undefined, { maxTurns: 50 }),
           ],
           stream: true,
         }),

@@ -11,6 +11,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { requireAdminOrCron } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -67,16 +68,10 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) return json({ error: "LOVABLE_API_KEY not configured" }, 500);
 
-    // ---- who is calling? ----
-    let isAdmin = false;
-    const token = (req.headers.get("Authorization") || "").replace("Bearer ", "").trim();
-    if (token) {
-      const { data } = await supabase.auth.getUser(token);
-      if (data?.user?.id) {
-        const { data: ok } = await supabase.rpc("has_role", { _user_id: data.user.id, _role: "admin" });
-        isAdmin = !!ok;
-      }
-    }
+    // ---- who is calling? Only admins or the scheduled job (x-cron-secret). ----
+    const auth = await requireAdminOrCron(req, corsHeaders);
+    if (!auth.authenticated) return json({ error: auth.error ?? "Unauthorized" }, auth.status ?? 401);
+    const isAdmin = auth.userId !== "cron" && auth.userId !== "service";
     if (!isAdmin) {
       const since = new Date(Date.now() - 6 * 86400000).toISOString();
       const { count } = await supabase

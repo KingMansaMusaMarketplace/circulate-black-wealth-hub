@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { csvCell } from '@/lib/csv-safe';
 import {
   Dialog,
   DialogContent,
@@ -98,9 +99,7 @@ const ExportReportsDialog: React.FC<ExportReportsDialogProps> = ({ open, onOpenC
         if (format === 'csv') {
           const headers = Object.keys(data[0]).join(',');
           const rows = data.map(row => 
-            Object.values(row).map(val => 
-              typeof val === 'string' ? `"${val.replace(/"/g, '""')}"` : val
-            ).join(',')
+            Object.values(row).map(val => csvCell(val)).join(',')
           );
           content = [headers, ...rows].join('\n');
           mimeType = 'text/csv';
