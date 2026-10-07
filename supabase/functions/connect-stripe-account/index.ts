@@ -132,10 +132,14 @@ serve(async (req) => {
     }
 
     // Create account link for onboarding
+    // Only send Stripe back to our own sites — never a caller-supplied origin.
+    const ALLOWED_ORIGINS = ["https://1325.ai", "https://www.1325.ai", "https://circulate-black-wealth-hub.lovable.app"];
+    const reqOrigin = req.headers.get("origin") || "";
+    const siteOrigin = ALLOWED_ORIGINS.includes(reqOrigin) ? reqOrigin : "https://1325.ai";
     const accountLink = await stripe.accountLinks.create({
       account: accountId,
-      refresh_url: `${req.headers.get("origin")}/business-dashboard`,
-      return_url: `${req.headers.get("origin")}/business-dashboard?stripe=success`,
+      refresh_url: `${siteOrigin}/business-dashboard`,
+      return_url: `${siteOrigin}/business-dashboard?stripe=success`,
       type: "account_onboarding",
     });
 

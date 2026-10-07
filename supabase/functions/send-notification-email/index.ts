@@ -113,6 +113,14 @@ const handler = async (req: Request): Promise<Response> => {
           { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
         );
       }
+      // Non-admins can only ever email their own verified account address.
+      (notificationRequest as any).email = claims.user.email;
+    }
+    if (!notificationRequest.email) {
+      return new Response(
+        JSON.stringify({ error: 'No recipient email' }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
     }
 
     console.log('Processing notification type:', notificationRequest.type);
