@@ -42,6 +42,16 @@ const BusinessOnboardingPage: React.FC = () => {
         
         if (data && data.length > 0) {
           setBusiness(data[0]);
+        } else if (user.user_metadata?.user_type === 'business' && user.user_metadata?.business_name) {
+          // Quick sign-up (email link) has no listing yet: create the draft from what the owner typed.
+          const name = String(user.user_metadata.business_name).slice(0, 120);
+          const { data: created, error: insertError } = await supabase
+            .from('businesses')
+            .insert({ name, business_name: name, owner_id: user.id, email: user.email, listing_status: 'draft' } as any)
+            .select('*')
+            .single();
+          if (insertError) console.error('Draft business creation failed:', insertError);
+          else setBusiness(created);
         }
       } catch (err) {
         console.error('Error:', err);

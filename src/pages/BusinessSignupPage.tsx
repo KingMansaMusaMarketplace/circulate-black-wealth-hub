@@ -4,6 +4,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
+import QuickBusinessSignup from '@/components/auth/forms/QuickBusinessSignup';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
@@ -24,6 +25,7 @@ const BusinessSignupPage: React.FC = () => {
   const referralCode = searchParams.get('ref') || '';
   const betaMode = searchParams.get('beta') === 'true';
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
+  const [usePassword, setUsePassword] = useState(false);
   // Only show a claim when the link itself carries it; a stale saved claim never leaks into an unrelated sign-up.
   const claimLeadId = searchParams.get('claim') || '';
   const claimName = claimLeadId ? (searchParams.get('name') || '').slice(0, 120) : '';
@@ -449,6 +451,49 @@ const BusinessSignupPage: React.FC = () => {
       </div>
       
       <main className="relative z-10 flex-1 py-8">
+        {/* Sign-up form first; the Kayla pitch follows below */}
+        <div className="container mx-auto px-4 mb-12">
+          {claimLeadId && (
+            <div role="status" className="max-w-xl mx-auto mb-6 rounded-2xl border-2 border-mansagold/50 bg-mansagold/10 p-5">
+              <p className="text-lg font-bold text-mansagold">You're claiming: {claimName || 'your business listing'}</p>
+              <p className="mt-1 text-sm text-white/85">
+                Create your free account (or sign in if you already have one). Your claim is saved automatically,
+                and our team will verify you're the owner before handing over the listing.
+              </p>
+            </div>
+          )}
+          {betaMode && (
+            <div className="max-w-xl mx-auto mb-6 p-4 rounded-xl border border-mansagold/30 bg-mansagold/10 text-center">
+              <p className="text-mansagold font-semibold text-lg">Welcome, Beta Tester!</p>
+              <p className="text-sm text-slate-300 mt-1">Enter your beta code below along with your details.</p>
+            </div>
+          )}
+          {usePassword || betaMode ? (
+            <>
+              <BusinessSignupForm
+                referralCode={referralCode}
+                referringAgent={referringAgent}
+                onCheckReferralCode={checkReferralCode}
+                betaMode={betaMode}
+                defaultBusinessName={claimName}
+              />
+              {!betaMode && (
+                <p className="text-center mt-3">
+                  <button type="button" onClick={() => setUsePassword(false)} className="text-sm text-mansagold underline">
+                    Back to the quick form (no password)
+                  </button>
+                </p>
+              )}
+            </>
+          ) : (
+            <QuickBusinessSignup
+              referralCode={referralCode}
+              defaultBusinessName={claimName}
+              onUsePassword={() => setUsePassword(true)}
+            />
+          )}
+        </div>
+
         {/* Kayla Hero Banner */}
         <div className="container mx-auto px-4 mb-8 animate-fade-in">
           <div className="relative max-w-5xl mx-auto">
@@ -466,10 +511,10 @@ const BusinessSignupPage: React.FC = () => {
                   <span className="text-sm font-semibold text-mansagold">Powered by Agentic AI</span>
                 </div>
                 
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-4">
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-4">
                   <span className="text-white">Meet </span>
                   <span className="bg-gradient-to-r from-mansagold via-amber-300 to-orange-400 bg-clip-text text-transparent font-['Playfair_Display']">Kayla</span>
-                </h1>
+                </h2>
                 <p className="text-2xl md:text-3xl text-white font-bold mb-3">
                   Start Free, Upgrade When You’re Ready
                 </p>
@@ -546,38 +591,6 @@ const BusinessSignupPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Quick Signup — placed early so visitors don't have to scroll through all features */}
-            {betaMode && (
-              <div className="animate-fade-in mb-6 p-4 rounded-xl border border-mansagold/30 bg-mansagold/10 text-center">
-                <p className="text-mansagold font-semibold text-lg">🎉 Welcome, Beta Tester!</p>
-                <p className="text-sm text-slate-300 mt-1">
-                  Enter your beta code below along with your details to create your free business account.
-                </p>
-              </div>
-            )}
-            <div className="animate-fade-in mb-12">
-              {claimLeadId && (
-                <div role="status" className="mb-6 rounded-2xl border-2 border-mansagold/50 bg-mansagold/10 p-5">
-                  <p className="text-lg font-bold text-mansagold">
-                    You're claiming: {claimName || 'your business listing'}
-                  </p>
-                  <p className="mt-1 text-sm text-white/85">
-                    Create your free account (or sign in if you already have one). Your claim is saved automatically,
-                    and our team will verify you're the owner before handing over the listing.
-                  </p>
-                  <Link to="/login" className="mt-2 inline-block text-sm font-semibold text-mansagold underline">
-                    Already have an account? Sign in
-                  </Link>
-                </div>
-              )}
-              <BusinessSignupForm 
-                referralCode={referralCode}
-                referringAgent={referringAgent}
-                onCheckReferralCode={checkReferralCode}
-                betaMode={betaMode}
-                defaultBusinessName={claimName}
-              />
-            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {kaylaAIServices.map((feature, index) => (
