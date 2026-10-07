@@ -51,7 +51,7 @@ serve(async (req) => {
     // Verify ownership of the business (or location-manager)
     const { data: ownedBiz } = await supabase
       .from("businesses")
-      .select("id")
+      .select("id, phone")
       .eq("id", businessId)
       .or(`owner_id.eq.${auth.userId},location_manager_id.eq.${auth.userId}`)
       .maybeSingle();
@@ -59,6 +59,15 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ success: false, error: "Forbidden: not business owner" }),
         { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Only text the phone number saved on this business listing — never an arbitrary number.
+    const digits = (v: unknown) => String(v ?? "").replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+    if (!ownedBiz.phone || digits(ownedBiz.phone) !== digits(phoneNumber) || digits(phoneNumber).length < 10) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Please save this phone number on your business profile first, then verify it." }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 

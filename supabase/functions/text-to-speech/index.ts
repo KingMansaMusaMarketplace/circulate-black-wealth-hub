@@ -15,7 +15,9 @@ Deno.serve(async (req) => {
     const auth = await requireAuth(req, corsHeaders);
     if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
 
-    const { text, voice = 'marin', instructions } = await req.json();
+    const { text, voice = 'marin' } = await req.json();
+    // Delivery style is server-controlled only; caller-supplied instructions are ignored.
+    const instructions: string | undefined = undefined;
     
     if (!text) {
       return new Response(

@@ -196,7 +196,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <p>A new directory partner application has been submitted and requires review.</p>
                   <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
                     <div class="info-row"><div class="info-label">Directory</div><div class="info-value">${partnerName}</div></div>
-                    <div class="info-row"><div class="info-label">Email</div><div class="info-value">${partnerEmail}</div></div>
+                    <div class="info-row"><div class="info-label">Email</div><div class="info-value">${escapeHtml(partnerEmail)}</div></div>
                     <div class="info-row"><div class="info-label">Partner ID</div><div class="info-value" style="font-family: monospace; font-size: 12px;">${partnerId}</div></div>
                   </div>
                   <a href="${APP_URL}/admin" class="cta-button">Review in Admin Dashboard</a>
