@@ -119,7 +119,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
       ] as const).map(([k, label, type, ac]) => (
         <div key={k} className="space-y-1">
           <Label htmlFor={`qbs-${k}`} className="text-foreground font-semibold">{label}</Label>
-          <Input id={`qbs-${k}`} type={type} autoComplete={ac} value={values[k]} onChange={set(k)} className="h-12 text-base" aria-invalid={!!errors[k]} />
+          <Input id={`qbs-${k}`} type={type} autoComplete={ac} value={values[k]} onChange={set(k)} className="h-12 text-base bg-white text-neutral-900 caret-neutral-900 placeholder:text-neutral-500 [-webkit-text-fill-color:#111827]" aria-invalid={!!errors[k]} />
           {errors[k] && <p className="text-sm text-destructive">{errors[k]}</p>}
         </div>
       ))}
