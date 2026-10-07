@@ -49,6 +49,11 @@ const KaylaDemoSection = () => {
       });
 
       if (fnError) throw fnError;
+      if (data?.error === "SIGN_IN_REQUIRED") {
+        setError("Please sign in (it's free) to chat with Kayla.");
+        setShowCta(true);
+        return;
+      }
       if (data?.error) {
         setError(data.error);
         return;

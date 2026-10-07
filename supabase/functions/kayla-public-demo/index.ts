@@ -3,6 +3,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { buildKaylaSystemPrompt, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { requireAuth } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -116,8 +117,15 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const ip = getClientIp(req);
-    const limit = checkLimit(ip);
+    // Sign-in required: anonymous visitors can no longer spend AI credits.
+    const authResult = await requireAuth(req, corsHeaders);
+    if (!authResult.authenticated || !authResult.userId) {
+      return new Response(JSON.stringify({ error: "SIGN_IN_REQUIRED" }), {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const limit = checkLimit(`user:${authResult.userId}`);
     if (!limit.ok) {
       return new Response(
         JSON.stringify({
