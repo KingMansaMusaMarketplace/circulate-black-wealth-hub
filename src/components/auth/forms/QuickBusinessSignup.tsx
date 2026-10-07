@@ -141,10 +141,19 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
         </div>
         {errors.blackOwned && <p className="text-sm text-destructive">{errors.blackOwned}</p>}
         {blackOwned === 'no' && (
-          <p className="text-sm text-foreground rounded-md bg-muted p-3">
-            Thank you for standing with the community! Our main directory is for Black-owned businesses, so you'll join as an
-            <strong className="text-foreground"> Ally Business</strong>, shown on our separate Allies page once approved.
-          </p>
+          <div className="text-sm text-foreground rounded-md bg-muted p-3 space-y-2">
+            <p>
+              <strong>Welcome, Ally!</strong> Thank you for standing with the community. Our main directory is for Black-owned
+              businesses, so you'll join as an <strong>Ally Business</strong>, shown on our Allies page once approved.
+            </p>
+            <p className="font-semibold">As an Ally Business, you get:</p>
+            <ul className="space-y-1">
+              <li>✓ A <strong>free listing</strong> on our Allies page, with your phone, website and logo</li>
+              <li>✓ A <strong>"Proud Ally of 1325.AI"</strong> badge for your own website</li>
+              <li>✓ <strong>Kayla and the 42 Agentic AI Employees</strong> on the same plans as every business</li>
+              <li>✓ Sponsor opportunities to show your support in a bigger way</li>
+            </ul>
+          </div>
         )}
       </fieldset>
       {blackOwned && (
