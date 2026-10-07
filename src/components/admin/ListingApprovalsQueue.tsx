@@ -35,6 +35,7 @@ interface Business {
   website_status?: string | null;
   website_checked_at?: string | null;
   black_owned_evidence?: string | null;
+  listing_type?: string | null;
 }
 
 const ListingApprovalsQueue: React.FC = () => {
@@ -69,7 +70,7 @@ const ListingApprovalsQueue: React.FC = () => {
     setSelected(new Set());
     let q = supabase
       .from('businesses')
-      .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason, website_status, website_checked_at, black_owned_evidence')
+      .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason, website_status, website_checked_at, black_owned_evidence, listing_type')
       .order('created_at', { ascending: false })
       .limit(100);
     if (tab === 'new') q = q.in('listing_status', ['draft', 'pending', 'pending_review']);
@@ -117,7 +118,19 @@ const ListingApprovalsQueue: React.FC = () => {
       .in('id', ids);
     setBusy(false);
     if (error) return toast.error('Approve failed: ' + error.message);
-    toast.success(`Approved ${ids.length} listing(s)`);
+    const allyCount = items.filter((r) => ids.includes(r.id) && r.listing_type === 'ally').length;
+    toast.success(`Approved ${ids.length} listing(s)` + (allyCount ? ` — ${allyCount} went to the Allies page only` : ''));
+    refresh();
+  };
+
+  const switchType = async (b: Business) => {
+    const next = b.listing_type === 'ally' ? 'black_owned' : 'ally';
+    if (!window.confirm(next === 'ally' ? `Move "${b.name}" to Allies (not Black-owned)?` : `Move "${b.name}" to the main Black-owned directory?`)) return;
+    setBusy(true);
+    const { error } = await supabase.from('businesses').update({ listing_type: next } as any).eq('id', b.id);
+    setBusy(false);
+    if (error) return toast.error('Change failed: ' + error.message);
+    toast.success(next === 'ally' ? 'Moved to Allies' : 'Moved to main directory');
     refresh();
   };
 
@@ -228,6 +241,7 @@ The 1325.AI Team`;
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-semibold">{b.name}</span>
                           <Badge variant="secondary" className="text-xs">{b.listing_status}</Badge>
+                          {b.listing_type === 'ally' && <Badge className="text-xs bg-orange-600/25 text-orange-200 border-orange-500/50">Ally</Badge>}
                           {b.is_verified && <Badge className="text-xs bg-green-600/20 text-green-300 border-green-600/30">verified</Badge>}
                           {b.website && b.website_status === 'dead' && (
                             <Badge className="text-xs bg-red-600/25 text-red-200 border-red-500/50">
@@ -245,7 +259,7 @@ The 1325.AI Team`;
                           {[b.city, b.state].filter(Boolean).join(', ') || '—'} · {b.email || 'no email'} · {b.phone || 'no phone'}
                         </div>
                         {b.black_owned_evidence && (
-                          <p className={`text-xs mt-1 font-semibold ${b.black_owned_evidence.startsWith('SUPPORTER') ? 'text-orange-300' : 'text-mansagold'}`}>
+                          <p className={`text-xs mt-1 font-semibold ${b.black_owned_evidence.startsWith('ALLY') ? 'text-orange-300' : 'text-mansagold'}`}>
                             {b.black_owned_evidence}
                           </p>
                         )}
@@ -285,6 +299,9 @@ The 1325.AI Team`;
                             <Check className="h-3 w-3 mr-1" /> Approve
                           </Button>
                         )}
+                        <Button size="sm" variant="outline" onClick={() => switchType(b)} disabled={busy} className="text-xs">
+                          {b.listing_type === 'ally' ? 'Move to main directory' : 'Move to Allies'}
+                        </Button>
                         {tab !== 'rejected' && (
                           <Button size="sm" variant="destructive" onClick={() => reject(b)} disabled={busy}>
                             <X className="h-3 w-3 mr-1" /> Reject

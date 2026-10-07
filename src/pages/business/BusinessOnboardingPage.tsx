@@ -48,11 +48,12 @@ const BusinessOnboardingPage: React.FC = () => {
           const { data: created, error: insertError } = await supabase
             .from('businesses')
             .insert({ name, business_name: name, owner_id: user.id, email: user.email, listing_status: 'draft',
+              listing_type: user.user_metadata.black_owned === false ? 'ally' : 'black_owned',
               // Owner's own answer for reviewers; never auto-approves ownership.
               black_owned_evidence: user.user_metadata.black_owned === true
                 ? 'Owner self-attested: at least 51% Black-owned (needs reviewer verification)'
                 : user.user_metadata.black_owned === false
-                  ? 'SUPPORTER BUSINESS: owner says NOT Black-owned. Do not add to main directory.'
+                  ? 'ALLY BUSINESS: owner says NOT Black-owned. Approving sends it to the Allies page only.'
                   : null,
             } as any)
             .select('*')

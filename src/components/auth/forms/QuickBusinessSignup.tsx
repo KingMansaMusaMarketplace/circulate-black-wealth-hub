@@ -63,7 +63,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
           business_name: businessName,
           referral_code: referralCode || null,
           black_owned: blackOwned === 'yes',
-          listing_type: blackOwned === 'yes' ? 'black_owned' : 'supporter',
+          listing_type: blackOwned === 'yes' ? 'black_owned' : 'ally',
           profile_completion_percentage: 25,
         },
       },
@@ -130,8 +130,8 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
         {errors.blackOwned && <p className="text-sm text-destructive">{errors.blackOwned}</p>}
         {blackOwned === 'no' && (
           <p className="text-sm text-muted-foreground rounded-md bg-muted p-3">
-            Thank you for supporting the community! Our main directory is for Black-owned businesses, so you'll join as a
-            <strong className="text-foreground"> Supporter Business</strong>, shown separately once approved.
+            Thank you for standing with the community! Our main directory is for Black-owned businesses, so you'll join as a
+            <strong className="text-foreground"> Ally Business</strong>, shown on our separate Allies page once approved.
           </p>
         )}
       </fieldset>
