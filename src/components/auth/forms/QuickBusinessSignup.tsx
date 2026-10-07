@@ -18,10 +18,12 @@ interface Props {
   referralCode?: string;
   defaultBusinessName?: string;
   onUsePassword?: () => void;
+  /** Homepage uses an h2 and its own wording; the sign-up page keeps the h1. */
+  asSection?: boolean;
 }
 
 /** Short business sign-up: three fields, one button, passwordless email sign-in link. */
-const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusinessName = '', onUsePassword }) => {
+const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusinessName = '', onUsePassword, asSection = false }) => {
   const [values, setValues] = useState({ fullName: '', email: '', businessName: defaultBusinessName });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -97,7 +99,9 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
   return (
     <form onSubmit={submit} noValidate className="max-w-xl mx-auto rounded-3xl border-2 border-mansagold/50 bg-card p-6 md:p-8 shadow-2xl space-y-4">
       <div className="text-center">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-foreground">List your business free</h1>
+        {asSection
+          ? <h2 className="text-3xl md:text-4xl font-extrabold text-foreground">Own a business? List it free</h2>
+          : <h1 className="text-3xl md:text-4xl font-extrabold text-foreground">List your business free</h1>}
         <p className="text-muted-foreground mt-1">Takes 30 seconds. No password, no credit card.</p>
       </div>
       {([
@@ -143,6 +147,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
         By continuing you agree to our <Link to="/terms" className="underline">Terms</Link> and <Link to="/privacy" className="underline">Privacy Policy</Link>.
         {' '}Already have an account? <Link to="/login" className="underline text-mansagold">Sign in</Link>
         {onUsePassword && <> · <button type="button" onClick={onUsePassword} className="underline">Use a password instead</button></>}
+        {asSection && <> · <Link to="/business-signup" className="underline">Use a password instead</Link></>}
       </p>
     </form>
   );

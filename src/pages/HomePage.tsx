@@ -1,3 +1,4 @@
+import HomeBusinessSignup from '@/components/HomePage/HomeBusinessSignup';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Youtube, TrendingUp, Users, PlayCircle, ArrowRight, Sparkles } from 'lucide-react';
@@ -188,6 +189,11 @@ const HomePage: React.FC = () => {
             </blockquote>
           </div>
         </section>
+
+        {/* Short business sign-up, right below the top banner */}
+        <SectionErrorBoundary sectionName="Business Signup">
+          <HomeBusinessSignup />
+        </SectionErrorBoundary>
 
         {/* Why people buy: trust, standing, belonging */}
         <WhyNowVideo />
