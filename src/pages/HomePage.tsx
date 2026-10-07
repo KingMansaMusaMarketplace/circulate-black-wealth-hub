@@ -108,7 +108,7 @@ const HomePage: React.FC = () => {
           {/* Hero content */}
           <div className="max-w-4xl text-center space-y-8">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-[1.1] text-white">
-              Find a Black-owned business you can{' '}
+              Find a Black-owned business and Allies you can{' '}
               <span className="text-mansagold italic font-normal">trust</span> — anywhere in the world.
             </h1>
 
