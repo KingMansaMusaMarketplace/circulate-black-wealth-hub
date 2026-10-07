@@ -30,6 +30,7 @@ function lazyWithRetry<T extends ComponentType<any>>(
 // Lazy load all page components with retry for resilience
 export const LazyAboutPage = lazyWithRetry(() => import('@/pages/AboutPage'));
 export const LazyDirectoryPage = lazyWithRetry(() => import('@/pages/DirectoryPage'));
+export const LazyAlliesPage = lazyWithRetry(() => import('@/pages/AlliesPage'));
 export const LazyBlackOwnedIndexPage = lazyWithRetry(() => import('@/pages/landing/BlackOwnedIndexPage'));
 export const LazyBlackOwnedCityPage = lazyWithRetry(() => import('@/pages/landing/LandingListPage').then(m => ({ default: () => <m.default mode="city" /> })));
 export const LazyBlackOwnedCategoryPage = lazyWithRetry(() => import('@/pages/landing/LandingListPage').then(m => ({ default: () => <m.default mode="category" /> })));
