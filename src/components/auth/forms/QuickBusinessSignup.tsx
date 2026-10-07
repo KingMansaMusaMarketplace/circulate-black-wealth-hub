@@ -94,7 +94,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
       <div className="max-w-xl mx-auto rounded-3xl border-2 border-mansagold/50 bg-card p-6 md:p-8 text-center shadow-2xl">
         <MailCheck className="w-12 h-12 text-mansagold mx-auto mb-3" />
         <h2 className="text-2xl font-bold text-foreground mb-2">Check your email</h2>
-        <p className="text-muted-foreground">
+        <p className="text-foreground/80">
           We sent a sign-in link to <strong className="text-foreground">{sentTo}</strong>. Tap it to finish setting up your free listing.
         </p>
         <button type="button" onClick={() => setSentTo('')} className="mt-4 text-sm text-mansagold underline">
@@ -110,7 +110,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
         {asSection
           ? <h2 className="text-3xl md:text-4xl font-extrabold text-foreground">Own a business? List it free</h2>
           : <h1 className="text-3xl md:text-4xl font-extrabold text-foreground">List your business free</h1>}
-        <p className="text-muted-foreground mt-1">Takes 30 seconds. No password, no credit card.</p>
+        <p className="text-foreground/80 mt-1">Takes 30 seconds. No password, no credit card.</p>
       </div>
       {([
         ['fullName', 'Your name', 'text', 'name'],
@@ -133,7 +133,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
               role="radio"
               aria-checked={blackOwned === v}
               onClick={() => setBlackOwned(v)}
-              className={`h-12 rounded-md border-2 font-semibold transition ${blackOwned === v ? 'border-mansagold bg-mansagold/15 text-foreground' : 'border-input text-muted-foreground'}`}
+              className={`h-12 rounded-md border-2 font-semibold transition ${blackOwned === v ? 'border-mansagold bg-mansagold/15 text-foreground' : 'border-input text-foreground/80'}`}
             >
               {v === 'yes' ? 'Yes' : 'No'}
             </button>
@@ -141,7 +141,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
         </div>
         {errors.blackOwned && <p className="text-sm text-destructive">{errors.blackOwned}</p>}
         {blackOwned === 'no' && (
-          <p className="text-sm text-muted-foreground rounded-md bg-muted p-3">
+          <p className="text-sm text-foreground/80 rounded-md bg-muted p-3">
             Thank you for standing with the community! Our main directory is for Black-owned businesses, so you'll join as a
             <strong className="text-foreground"> Ally Business</strong>, shown on our separate Allies page once approved.
           </p>
@@ -149,12 +149,12 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
       </fieldset>
       {blackOwned && (
         <div className="space-y-3 rounded-md border border-input p-3">
-          <label className="flex items-start gap-3 text-sm text-muted-foreground cursor-pointer">
+          <label className="flex items-start gap-3 text-sm text-foreground/80 cursor-pointer">
             <input type="checkbox" checked={ownerOk} onChange={(e) => setOwnerOk(e.target.checked)} className="mt-1 h-4 w-4 accent-mansagold" />
             <span><strong className="text-foreground">Ownership.</strong> I certify that I am the legal owner or a duly authorized representative of the business identified above and possess the authority to register it in this directory.</span>
           </label>
           {blackOwned === 'yes' && (
-            <label className="flex items-start gap-3 text-sm text-muted-foreground cursor-pointer">
+            <label className="flex items-start gap-3 text-sm text-foreground/80 cursor-pointer">
               <input type="checkbox" checked={attestOk} onChange={(e) => setAttestOk(e.target.checked)} className="mt-1 h-4 w-4 accent-mansagold" />
               <span><strong className="text-foreground">Legal attestation.</strong> I attest under penalty of perjury that this business is at least 51% Black-owned and that all information provided herein is accurate and truthful. I acknowledge that fraudulent submissions may result in permanent removal and potential legal action.</span>
             </label>
@@ -166,7 +166,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
       <Button type="submit" disabled={loading} className="w-full h-12 text-lg font-bold bg-mansagold text-black hover:bg-mansagold/90">
         {loading ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Sending…</> : 'Get My Free Listing'}
       </Button>
-      <p className="text-xs text-center text-muted-foreground">
+      <p className="text-xs text-center text-foreground/80">
         By continuing you agree to our <Link to="/terms" className="underline">Terms</Link> and <Link to="/privacy" className="underline">Privacy Policy</Link>.
         {' '}Already have an account? <Link to="/login" className="underline text-mansagold">Sign in</Link>
         {onUsePassword && <> · <button type="button" onClick={onUsePassword} className="underline">Use a password instead</button></>}
