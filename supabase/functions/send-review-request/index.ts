@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@4.0.0";
-import { requireAuth, authErrorResponse } from "../_shared/auth-guard.ts";
+import { requireAuth, authErrorResponse, escapeHtml } from "../_shared/auth-guard.ts";
 
 const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
 
@@ -189,18 +189,18 @@ serve(async (req) => {
         </head>
         <body>
           <div class="header">
-            ${business.logo_url ? `<img src="${business.logo_url}" alt="${business.business_name}" class="logo" />` : ''}
+            ${business.logo_url ? `<img src="${escapeHtml(business.logo_url)}" alt="${escapeHtml(business.business_name ?? '')}" class="logo" />` : ''}
             <h1 style="margin: 0;">How was your experience?</h1>
           </div>
           
           <div class="content">
-            <p>Hi ${booking.customer_name},</p>
+            <p>Hi ${escapeHtml(booking.customer_name ?? '')},</p>
             
-            <p>Thank you for choosing <strong>${business.business_name}</strong>! We hope you had a great experience.</p>
+            <p>Thank you for choosing <strong>${escapeHtml(business.business_name ?? '')}</strong>! We hope you had a great experience.</p>
             
             <div class="business-card">
-              <h3 style="margin-top: 0;">${business.business_name}</h3>
-              <p style="color: #6b7280; margin: 5px 0;">${business.category}</p>
+              <h3 style="margin-top: 0;">${escapeHtml(business.business_name ?? '')}</h3>
+              <p style="color: #6b7280; margin: 5px 0;">${escapeHtml(business.category ?? '')}</p>
               <p style="margin: 5px 0;"><strong>Service Date:</strong> ${new Date(booking.booking_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
             

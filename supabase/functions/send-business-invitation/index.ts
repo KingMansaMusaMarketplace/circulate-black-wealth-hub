@@ -34,7 +34,11 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { invitationId, inviterName }: InvitationRequest = await req.json();
+    const { invitationId, inviterName: rawInviterName }: InvitationRequest = await req.json();
+    // Bound caller-supplied display name: plain text, no links/markup, max 60 chars.
+    const inviterName = typeof rawInviterName === "string"
+      ? rawInviterName.replace(/[\u0000-\u001F<>]/g, "").replace(/https?:\/\/\S+/gi, "").trim().slice(0, 60)
+      : "";
 
     // Create Supabase client to get invitation details
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
