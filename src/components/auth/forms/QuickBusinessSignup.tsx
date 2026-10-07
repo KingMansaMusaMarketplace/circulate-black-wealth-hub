@@ -142,7 +142,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
         {errors.blackOwned && <p className="text-sm text-destructive">{errors.blackOwned}</p>}
         {blackOwned === 'no' && (
           <p className="text-sm text-foreground rounded-md bg-muted p-3">
-            Thank you for standing with the community! Our main directory is for Black-owned businesses, so you'll join as a
+            Thank you for standing with the community! Our main directory is for Black-owned businesses, so you'll join as an
             <strong className="text-foreground"> Ally Business</strong>, shown on our separate Allies page once approved.
           </p>
         )}
