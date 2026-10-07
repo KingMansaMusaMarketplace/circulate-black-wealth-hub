@@ -511,10 +511,10 @@ const BusinessSignupPage: React.FC = () => {
                   <span className="text-sm font-semibold text-mansagold">Powered by Agentic AI</span>
                 </div>
                 
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-4">
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-4">
                   <span className="text-white">Meet </span>
                   <span className="bg-gradient-to-r from-mansagold via-amber-300 to-orange-400 bg-clip-text text-transparent font-['Playfair_Display']">Kayla</span>
-                </h1>
+                </h2>
                 <p className="text-2xl md:text-3xl text-white font-bold mb-3">
                   Start Free, Upgrade When You’re Ready
                 </p>
