@@ -18,7 +18,7 @@ const HolidayAnnouncementBar: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 py-3.5 md:py-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm md:text-lg text-center font-medium">
         <Gift className="w-5 h-5 md:w-6 md:h-6 shrink-0 animate-bounce" />
         <span>
-          <strong className="uppercase tracking-wide">Holiday Special</strong>{' '}
+          <strong className="uppercase tracking-wide font-extrabold text-red-700">Holiday Special</strong>{' '}
           <span className="opacity-80">(Oct 1 – Dec 31):</span> 1325.AI Pro is{' '}
           <strong className="text-lg md:text-2xl">$149/mo</strong>{' '}
           <span className="opacity-80">(regularly <span className="line-through">$299</span>)</span> locked in forever.
