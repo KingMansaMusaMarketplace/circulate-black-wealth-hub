@@ -15,7 +15,7 @@ const PitchSlide9Traction: React.FC = () => {
   const goals2026 = [
     { icon: DollarSign, value: '$2.4M', label: 'Target ARR', color: 'mansagold' },
     { icon: Building2, value: '500+', label: 'Registered Businesses', color: 'blue' },
-    { icon: Users, value: '10,000+', label: 'Active Users', color: 'green' },
+    { icon: Users, value: '206', label: 'Registered Accounts (actual, Oct 2026)', color: 'green' },
     { icon: Target, value: '72hrs', label: 'Target Circulation Time', color: 'purple' },
   ];
 
