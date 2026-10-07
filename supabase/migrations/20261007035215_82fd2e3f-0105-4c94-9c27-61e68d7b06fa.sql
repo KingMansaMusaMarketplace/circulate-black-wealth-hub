@@ -1,0 +1,1 @@
+ALTER FUNCTION public._review_range_match(text, text) SET search_path = public;
