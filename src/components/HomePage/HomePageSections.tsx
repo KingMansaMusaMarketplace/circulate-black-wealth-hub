@@ -3,6 +3,7 @@ import React, { Suspense, lazy } from 'react';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import LazySection from './LazySection';
 import BlackOwnedDiscoverySection from './BlackOwnedDiscoverySection';
+import HomeBusinessSignup from './HomeBusinessSignup';
 
 // Lazy load all non-critical sections
 const ConsumerBenefits = lazy(() => import('./ConsumerBenefits'));
@@ -30,6 +31,11 @@ const SectionSkeleton = ({ height = "h-32" }: { height?: string }) => (
 const HomePageSections: React.FC = () => {
   return (
     <>
+      {/* Short business sign-up, right below the top banner */}
+      <SectionErrorBoundary sectionName="Business Signup">
+        <HomeBusinessSignup />
+      </SectionErrorBoundary>
+
       {/* 1. Mission Preview — removed per user request */}
 
       {/* 2. Consumer Benefits — removed per user request */}
