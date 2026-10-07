@@ -118,7 +118,7 @@ const ListingApprovalsQueue: React.FC = () => {
       .in('id', ids);
     setBusy(false);
     if (error) return toast.error('Approve failed: ' + error.message);
-    const allyCount = rows.filter((r) => ids.includes(r.id) && r.listing_type === 'ally').length;
+    const allyCount = items.filter((r) => ids.includes(r.id) && r.listing_type === 'ally').length;
     toast.success(`Approved ${ids.length} listing(s)` + (allyCount ? ` — ${allyCount} went to the Allies page only` : ''));
     refresh();
   };
