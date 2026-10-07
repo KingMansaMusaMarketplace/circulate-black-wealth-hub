@@ -6,6 +6,7 @@ import Navbar from './navbar/Navbar';
 import Footer from './Footer';
 import BottomTabBar from './mobile/BottomTabBar';
 import BackToButton from './ui/BackToButton';
+import HolidayAnnouncementBar from './homepage/HolidayAnnouncementBar';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -58,6 +59,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="flex flex-col min-h-screen">
       {!isNative && (
         <div data-tour="directory-link">
+          <HolidayAnnouncementBar />
           <Navbar />
         </div>
       )}
