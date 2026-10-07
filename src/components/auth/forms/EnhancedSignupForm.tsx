@@ -25,7 +25,7 @@ const EnhancedSignupForm: React.FC = () => {
                   </div>
                   <div>
                     <p className="font-bold text-lg bg-gradient-to-r from-mansablue via-purple-600 to-mansagold bg-clip-text text-transparent">
-                      📖 See All Features in Detail
+                      See All Features in Detail
                     </p>
                     <p className="text-sm text-foreground/70 font-medium">
                       Learn everything your business will get
@@ -52,7 +52,7 @@ const EnhancedSignupForm: React.FC = () => {
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-mansablue/10 rounded-full blur-2xl"></div>
             <div className="relative">
               <CardTitle className="text-4xl font-bold bg-gradient-to-r from-mansablue via-mansablue-light to-mansagold bg-clip-text text-transparent animate-fade-in">Create Your Account</CardTitle>
-              <CardDescription className="text-lg text-foreground/80 font-medium">Complete your registration to get started 🎉</CardDescription>
+              <CardDescription className="text-lg text-foreground/80 font-medium">Complete your registration to get started</CardDescription>
             </div>
           </CardHeader>
           <CardContent className="px-8">
