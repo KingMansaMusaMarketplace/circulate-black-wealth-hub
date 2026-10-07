@@ -13,7 +13,7 @@ const HolidayAnnouncementBar: React.FC = () => {
   return (
     <Link
       to="/holiday-special"
-      className="group block w-full bg-gradient-to-r from-mansablue via-mansagold to-mansablue text-black shadow-lg hover:brightness-110 transition"
+      className="group block w-full bg-gradient-to-r from-orange-500 via-mansagold to-orange-500 text-black shadow-lg hover:brightness-110 transition"
     >
       <div className="max-w-6xl mx-auto px-4 py-3.5 md:py-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm md:text-lg text-center font-medium">
         <Gift className="w-5 h-5 md:w-6 md:h-6 shrink-0 animate-bounce" />
