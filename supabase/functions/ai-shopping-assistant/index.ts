@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { foldHistory } from "../_shared/safe-history.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { gatherLiveGrounding, NEEDS_LIVE_FACTS } from "../_shared/kayla-grounding.ts";
@@ -274,10 +275,7 @@ INSTRUCTIONS:
         messages: [
           { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() + approvedLessons },
           // Callers may only speak as the user or assistant — never 'system'.
-          ...messages.slice(-10).map((m: any) => ({
-            role: m?.role === "assistant" ? "assistant" : "user",
-            content: String(m?.content ?? "").slice(0, 10000),
-          })),
+          ...foldHistory(messages, undefined, { maxTurns: 10 }),
         ],
         stream: true,
       }),

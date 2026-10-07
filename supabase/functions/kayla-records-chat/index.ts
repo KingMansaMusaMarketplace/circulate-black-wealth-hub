@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { foldHistory } from "../_shared/safe-history.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { requireBusinessOwner, authErrorResponse } from "../_shared/auth-guard.ts";
 import { fetchAIWithRetry, buildAgentBrandBlock } from "../_shared/kayla-brain.ts";
@@ -60,15 +61,8 @@ Guidelines:
 
     const messages = [
       { role: "system" as const, content: systemPrompt + buildAgentBrandBlock() },
-      ...(Array.isArray(conversationHistory) ? conversationHistory : [])
-        .filter((m: any) => m && typeof m === 'object' && typeof m.content === 'string')
-        .slice(-20)
-        .map((m: any) => ({
-          // Callers may only speak as the user or assistant — never 'system'.
-          role: m.role === 'assistant' ? 'assistant' as const : 'user' as const,
-          content: String(m.content).slice(0, 10000),
-        })),
-      { role: "user" as const, content: question },
+      // Caller history is folded into a labeled user-role transcript (no caller-authored assistant turns).
+      ...foldHistory(conversationHistory, String(question), { maxTurns: 20 }),
     ];
 
     // Stream response
