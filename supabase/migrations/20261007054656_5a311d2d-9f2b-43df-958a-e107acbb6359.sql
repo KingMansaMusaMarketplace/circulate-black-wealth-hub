@@ -1,0 +1,1 @@
+ALTER FUNCTION public.get_mcp_category_counts(text, text, integer) SECURITY INVOKER;
