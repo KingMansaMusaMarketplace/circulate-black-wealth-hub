@@ -31,6 +31,8 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
   const [failure, setFailure] = useState('');
   const [started, setStarted] = useState(false);
   const [blackOwned, setBlackOwned] = useState<'' | 'yes' | 'no'>('');
+  const [ownerOk, setOwnerOk] = useState(false);
+  const [attestOk, setAttestOk] = useState(false);
 
   const set = (k: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!started) { setStarted(true); trackFunnelEvent('business_signup_started', { ref: referralCode || null }); }
@@ -51,6 +53,10 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
       setErrors({ blackOwned: 'Please choose Yes or No' });
       return;
     }
+    if (!ownerOk || (blackOwned === 'yes' && !attestOk)) {
+      setErrors({ attest: blackOwned === 'yes' ? 'Please check both boxes to continue' : 'Please check the box to continue' });
+      return;
+    }
     setErrors({});
     setLoading(true);
     const { fullName, email, businessName } = parsed.data;
@@ -66,6 +72,8 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
           referral_code: referralCode || null,
           black_owned: blackOwned === 'yes',
           listing_type: blackOwned === 'yes' ? 'black_owned' : 'ally',
+          ownership_certified_at: new Date().toISOString(),
+          black_owned_attested_at: blackOwned === 'yes' ? new Date().toISOString() : null,
           profile_completion_percentage: 25,
         },
       },
@@ -139,6 +147,21 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
           </p>
         )}
       </fieldset>
+      {blackOwned && (
+        <div className="space-y-3 rounded-md border border-input p-3">
+          <label className="flex items-start gap-3 text-sm text-muted-foreground cursor-pointer">
+            <input type="checkbox" checked={ownerOk} onChange={(e) => setOwnerOk(e.target.checked)} className="mt-1 h-4 w-4 accent-mansagold" />
+            <span><strong className="text-foreground">Ownership.</strong> I certify that I am the legal owner or a duly authorized representative of the business identified above and possess the authority to register it in this directory.</span>
+          </label>
+          {blackOwned === 'yes' && (
+            <label className="flex items-start gap-3 text-sm text-muted-foreground cursor-pointer">
+              <input type="checkbox" checked={attestOk} onChange={(e) => setAttestOk(e.target.checked)} className="mt-1 h-4 w-4 accent-mansagold" />
+              <span><strong className="text-foreground">Legal attestation.</strong> I attest under penalty of perjury that this business is at least 51% Black-owned and that all information provided herein is accurate and truthful. I acknowledge that fraudulent submissions may result in permanent removal and potential legal action.</span>
+            </label>
+          )}
+          {errors.attest && <p className="text-sm text-destructive">{errors.attest}</p>}
+        </div>
+      )}
       {failure && <p role="alert" className="text-sm text-destructive">{failure}</p>}
       <Button type="submit" disabled={loading} className="w-full h-12 text-lg font-bold bg-mansagold text-black hover:bg-mansagold/90">
         {loading ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Sending…</> : 'Get My Free Listing'}
