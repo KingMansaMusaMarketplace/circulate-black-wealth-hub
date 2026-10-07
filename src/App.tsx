@@ -77,6 +77,7 @@ const RedeemBetaCodePage = lazy(() => import('./pages/RedeemBetaCodePage'));
 import {
   LazyAboutPage,
   LazyDirectoryPage,
+  LazyAlliesPage,
   LazyBlackOwnedIndexPage,
   LazyBlackOwnedCityPage,
   LazyBlackOwnedCategoryPage,
