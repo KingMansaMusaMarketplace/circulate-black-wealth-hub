@@ -40,7 +40,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   // Only admins or scheduled jobs may run this — it writes to lead records.
   const auth = await requireAdminOrCron(req, cors);
-  if (!auth.authenticated) return auth.response ?? new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...cors, "Content-Type": "application/json" } });
+  if (!auth.authenticated) return new Response(JSON.stringify({ error: auth.error ?? "Unauthorized" }), { status: auth.status ?? 401, headers: { ...cors, "Content-Type": "application/json" } });
 
   const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const body = await req.json().catch(() => ({}));

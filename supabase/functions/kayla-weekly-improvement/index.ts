@@ -70,7 +70,7 @@ serve(async (req) => {
 
     // ---- who is calling? Only admins or the scheduled job (x-cron-secret). ----
     const auth = await requireAdminOrCron(req, corsHeaders);
-    if (!auth.authenticated) return auth.response ?? json({ error: "Unauthorized" }, 401);
+    if (!auth.authenticated) return json({ error: auth.error ?? "Unauthorized" }, auth.status ?? 401);
     const isAdmin = auth.userId !== "cron" && auth.userId !== "service";
     if (!isAdmin) {
       const since = new Date(Date.now() - 6 * 86400000).toISOString();
