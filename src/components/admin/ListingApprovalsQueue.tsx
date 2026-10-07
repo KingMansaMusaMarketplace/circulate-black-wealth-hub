@@ -34,6 +34,7 @@ interface Business {
   listing_rejection_reason?: string | null;
   website_status?: string | null;
   website_checked_at?: string | null;
+  black_owned_evidence?: string | null;
 }
 
 const ListingApprovalsQueue: React.FC = () => {
@@ -243,6 +244,11 @@ The 1325.AI Team`;
                         <div className="text-xs text-white/90 mt-0.5">
                           {[b.city, b.state].filter(Boolean).join(', ') || '—'} · {b.email || 'no email'} · {b.phone || 'no phone'}
                         </div>
+                        {b.black_owned_evidence && (
+                          <p className={`text-xs mt-1 font-semibold ${b.black_owned_evidence.startsWith('SUPPORTER') ? 'text-orange-300' : 'text-mansagold'}`}>
+                            {b.black_owned_evidence}
+                          </p>
+                        )}
                         {b.description && (
                           <p className="text-xs text-white/80 mt-1 line-clamp-2">{b.description}</p>
                         )}
