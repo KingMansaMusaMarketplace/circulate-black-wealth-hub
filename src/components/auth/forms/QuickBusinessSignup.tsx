@@ -150,12 +150,12 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
       {blackOwned && (
         <div className="space-y-3 rounded-md border border-input p-3">
           <label className="flex items-start gap-3 text-sm text-foreground cursor-pointer">
-            <input type="checkbox" checked={ownerOk} onChange={(e) => setOwnerOk(e.target.checked)} className="mt-1 h-4 w-4 accent-mansagold" />
+            <input type="checkbox" checked={ownerOk} onChange={(e) => { setOwnerOk(e.target.checked); setErrors((p) => ({ ...p, attest: undefined })); }} className="mt-0.5 h-6 w-6 shrink-0 accent-mansagold" />
             <span><strong className="text-foreground">Ownership.</strong> I certify that I am the legal owner or a duly authorized representative of the business identified above and possess the authority to register it in this directory.</span>
           </label>
           {blackOwned === 'yes' && (
             <label className="flex items-start gap-3 text-sm text-foreground cursor-pointer">
-              <input type="checkbox" checked={attestOk} onChange={(e) => setAttestOk(e.target.checked)} className="mt-1 h-4 w-4 accent-mansagold" />
+              <input type="checkbox" checked={attestOk} onChange={(e) => { setAttestOk(e.target.checked); setErrors((p) => ({ ...p, attest: undefined })); }} className="mt-0.5 h-6 w-6 shrink-0 accent-mansagold" />
               <span><strong className="text-foreground">Legal attestation.</strong> I attest under penalty of perjury that this business is at least 51% Black-owned and that all information provided herein is accurate and truthful. I acknowledge that fraudulent submissions may result in permanent removal and potential legal action.</span>
             </label>
           )}
