@@ -25,7 +25,7 @@ interface Props {
 /** Short business sign-up: three fields, one button, passwordless email sign-in link. */
 const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusinessName = '', onUsePassword, asSection = false }) => {
   const [values, setValues] = useState({ fullName: '', email: '', businessName: defaultBusinessName });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Record<string, string | undefined>>({});
   const [loading, setLoading] = useState(false);
   const [sentTo, setSentTo] = useState('');
   const [failure, setFailure] = useState('');
