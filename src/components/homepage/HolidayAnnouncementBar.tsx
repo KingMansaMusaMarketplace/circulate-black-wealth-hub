@@ -13,7 +13,7 @@ const HolidayAnnouncementBar: React.FC = () => {
   return (
     <Link
       to="/holiday-special"
-      className="block w-full bg-black border-b border-mansagold/40 text-mansagold hover:bg-mansagold/10 transition-colors"
+      className="block w-full bg-mansagold text-black hover:opacity-90 transition-opacity"
     >
       <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-center gap-2 text-xs sm:text-sm text-center">
         <Gift className="w-4 h-4 shrink-0" />
