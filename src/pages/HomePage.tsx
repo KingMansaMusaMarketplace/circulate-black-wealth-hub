@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-mansagold" />
               </span>
               <span className="text-[11px] uppercase tracking-widest font-semibold text-mansagold font-mono">
-                🎁 Holiday Special · Pro $149/mo (reg. $299) Locked In Forever →
+                Holiday Special · Pro $149/mo (reg. $299) Locked In Forever →
               </span>
             </Link>
           ) : (
