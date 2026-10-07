@@ -76,7 +76,7 @@ const ListingApprovalsQueue: React.FC = () => {
     const unknown = [...new Set(Object.values(map).map((c) => c.by))].filter((id) => !names[id]);
     if (unknown.length) {
       const { data: ps } = await supabase.rpc('get_public_profile_info', { user_ids: unknown });
-      if (ps) setNames((n) => { const m = { ...n }; (ps as any[]).forEach((p) => { m[p.id] = p.full_name || 'A reviewer'; }); return m; });
+      if (ps) setNames((n) => { const m = { ...n }; (ps as any[]).forEach((p) => { m[p.id] = p.display_name || 'A reviewer'; }); return m; });
     }
   };
 
