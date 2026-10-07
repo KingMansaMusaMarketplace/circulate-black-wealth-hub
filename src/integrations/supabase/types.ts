@@ -5698,6 +5698,7 @@ export type Database = {
           listing_reviewed_at: string | null
           listing_reviewed_by: string | null
           listing_status: string | null
+          listing_type: string
           location_manager_id: string | null
           location_name: string | null
           location_type: string | null
@@ -5764,6 +5765,7 @@ export type Database = {
           listing_reviewed_at?: string | null
           listing_reviewed_by?: string | null
           listing_status?: string | null
+          listing_type?: string
           location_manager_id?: string | null
           location_name?: string | null
           location_type?: string | null
@@ -5830,6 +5832,7 @@ export type Database = {
           listing_reviewed_at?: string | null
           listing_reviewed_by?: string | null
           listing_status?: string | null
+          listing_type?: string
           location_manager_id?: string | null
           location_name?: string | null
           location_type?: string | null
@@ -27214,6 +27217,20 @@ export type Database = {
           next_tier: string
           next_tier_threshold: number
           progress_percentage: number
+        }[]
+      }
+      get_ally_businesses: {
+        Args: { p_limit?: number; p_offset?: number; p_search?: string }
+        Returns: {
+          category: string
+          city: string
+          description: string
+          id: string
+          logo_url: string
+          name: string
+          phone: string
+          state: string
+          website: string
         }[]
       }
       get_application_details: {
