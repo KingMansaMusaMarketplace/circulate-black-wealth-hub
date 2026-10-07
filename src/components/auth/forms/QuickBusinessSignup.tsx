@@ -28,6 +28,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
   const [sentTo, setSentTo] = useState('');
   const [failure, setFailure] = useState('');
   const [started, setStarted] = useState(false);
+  const [blackOwned, setBlackOwned] = useState<'' | 'yes' | 'no'>('');
 
   const set = (k: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!started) { setStarted(true); trackFunnelEvent('business_signup_started', { ref: referralCode || null }); }
@@ -44,6 +45,10 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
       setErrors(errs);
       return;
     }
+    if (!blackOwned) {
+      setErrors({ blackOwned: 'Please choose Yes or No' });
+      return;
+    }
     setErrors({});
     setLoading(true);
     const { fullName, email, businessName } = parsed.data;
@@ -57,6 +62,8 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
           full_name: fullName,
           business_name: businessName,
           referral_code: referralCode || null,
+          black_owned: blackOwned === 'yes',
+          listing_type: blackOwned === 'yes' ? 'black_owned' : 'supporter',
           profile_completion_percentage: 25,
         },
       },
@@ -104,6 +111,30 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
           {errors[k] && <p className="text-sm text-destructive">{errors[k]}</p>}
         </div>
       ))}
+      <fieldset className="space-y-2">
+        <legend className="text-foreground font-semibold">Is this business at least 51% Black-owned?</legend>
+        <div className="grid grid-cols-2 gap-3">
+          {(['yes', 'no'] as const).map((v) => (
+            <button
+              key={v}
+              type="button"
+              role="radio"
+              aria-checked={blackOwned === v}
+              onClick={() => setBlackOwned(v)}
+              className={`h-12 rounded-md border-2 font-semibold transition ${blackOwned === v ? 'border-mansagold bg-mansagold/15 text-foreground' : 'border-input text-muted-foreground'}`}
+            >
+              {v === 'yes' ? 'Yes' : 'No'}
+            </button>
+          ))}
+        </div>
+        {errors.blackOwned && <p className="text-sm text-destructive">{errors.blackOwned}</p>}
+        {blackOwned === 'no' && (
+          <p className="text-sm text-muted-foreground rounded-md bg-muted p-3">
+            Thank you for supporting the community! Our main directory is for Black-owned businesses, so you'll join as a
+            <strong className="text-foreground"> Supporter Business</strong>, shown separately once approved.
+          </p>
+        )}
+      </fieldset>
       {failure && <p role="alert" className="text-sm text-destructive">{failure}</p>}
       <Button type="submit" disabled={loading} className="w-full h-12 text-lg font-bold bg-mansagold text-black hover:bg-mansagold/90">
         {loading ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Sending…</> : 'Get My Free Listing'}
