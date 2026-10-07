@@ -241,6 +241,7 @@ The 1325.AI Team`;
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-semibold">{b.name}</span>
                           <Badge variant="secondary" className="text-xs">{b.listing_status}</Badge>
+                          {b.listing_type === 'ally' && <Badge className="text-xs bg-orange-600/25 text-orange-200 border-orange-500/50">Ally</Badge>}
                           {b.is_verified && <Badge className="text-xs bg-green-600/20 text-green-300 border-green-600/30">verified</Badge>}
                           {b.website && b.website_status === 'dead' && (
                             <Badge className="text-xs bg-red-600/25 text-red-200 border-red-500/50">
@@ -298,6 +299,9 @@ The 1325.AI Team`;
                             <Check className="h-3 w-3 mr-1" /> Approve
                           </Button>
                         )}
+                        <Button size="sm" variant="outline" onClick={() => switchType(b)} disabled={busy} className="text-xs">
+                          {b.listing_type === 'ally' ? 'Move to main directory' : 'Move to Allies'}
+                        </Button>
                         {tab !== 'rejected' && (
                           <Button size="sm" variant="destructive" onClick={() => reject(b)} disabled={busy}>
                             <X className="h-3 w-3 mr-1" /> Reject
