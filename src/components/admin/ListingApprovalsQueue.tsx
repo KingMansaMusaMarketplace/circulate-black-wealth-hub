@@ -34,6 +34,7 @@ interface Business {
   listing_rejection_reason?: string | null;
   website_status?: string | null;
   website_checked_at?: string | null;
+  black_owned_evidence?: string | null;
 }
 
 const ListingApprovalsQueue: React.FC = () => {
@@ -68,7 +69,7 @@ const ListingApprovalsQueue: React.FC = () => {
     setSelected(new Set());
     let q = supabase
       .from('businesses')
-      .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason, website_status, website_checked_at')
+      .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason, website_status, website_checked_at, black_owned_evidence')
       .order('created_at', { ascending: false })
       .limit(100);
     if (tab === 'new') q = q.in('listing_status', ['draft', 'pending', 'pending_review']);
@@ -243,6 +244,11 @@ The 1325.AI Team`;
                         <div className="text-xs text-white/90 mt-0.5">
                           {[b.city, b.state].filter(Boolean).join(', ') || '—'} · {b.email || 'no email'} · {b.phone || 'no phone'}
                         </div>
+                        {b.black_owned_evidence && (
+                          <p className={`text-xs mt-1 font-semibold ${b.black_owned_evidence.startsWith('SUPPORTER') ? 'text-orange-300' : 'text-mansagold'}`}>
+                            {b.black_owned_evidence}
+                          </p>
+                        )}
                         {b.description && (
                           <p className="text-xs text-white/80 mt-1 line-clamp-2">{b.description}</p>
                         )}

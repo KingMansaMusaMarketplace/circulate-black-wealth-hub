@@ -47,7 +47,14 @@ const BusinessOnboardingPage: React.FC = () => {
           const name = String(user.user_metadata.business_name).slice(0, 120);
           const { data: created, error: insertError } = await supabase
             .from('businesses')
-            .insert({ name, business_name: name, owner_id: user.id, email: user.email, listing_status: 'draft' } as any)
+            .insert({ name, business_name: name, owner_id: user.id, email: user.email, listing_status: 'draft',
+              // Owner's own answer for reviewers; never auto-approves ownership.
+              black_owned_evidence: user.user_metadata.black_owned === true
+                ? 'Owner self-attested: at least 51% Black-owned (needs reviewer verification)'
+                : user.user_metadata.black_owned === false
+                  ? 'SUPPORTER BUSINESS: owner says NOT Black-owned. Do not add to main directory.'
+                  : null,
+            } as any)
             .select('*')
             .single();
           if (insertError) console.error('Draft business creation failed:', insertError);
