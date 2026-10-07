@@ -168,7 +168,6 @@ Deno.serve(async (req) => {
   if (suppressionError) {
     console.error('Suppression check failed — refusing to send', {
       error: suppressionError,
-      effectiveRecipient,
     })
     return new Response(
       JSON.stringify({ error: 'Failed to verify suppression status' }),
@@ -409,7 +408,7 @@ Deno.serve(async (req) => {
     )
   } catch (e) {
     const msg = (e as Error).message
-    console.error('Resend send threw', { error: msg, templateName, effectiveRecipient })
+    console.error('Resend send threw', { error: msg, templateName })
     await supabase.from('email_send_log').insert({
       message_id: messageId,
       template_name: templateName,

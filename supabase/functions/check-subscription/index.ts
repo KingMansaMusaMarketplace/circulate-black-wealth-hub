@@ -206,7 +206,7 @@ serve(async (req) => {
       updated_at: new Date().toISOString(),
     }, { onConflict: 'email' });
 
-    console.log(`[CHECK-SUBSCRIPTION] Updated subscriber record: ${user.email}, tier: ${subscriptionTier}, subscribed: ${hasActiveSub}, status: ${status}`);
+    console.log(`[CHECK-SUBSCRIPTION] Updated subscriber record: ${user.id}, tier: ${subscriptionTier}, subscribed: ${hasActiveSub}, status: ${status}`);
 
     return new Response(JSON.stringify({
       subscribed: hasActiveSub,
