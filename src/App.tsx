@@ -360,10 +360,10 @@ const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading...
 
   if (stalled) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <div className="min-h-screen bg-black flex items-center justify-center p-6">
         <div className="text-center space-y-4 max-w-sm">
-          <h2 className="text-lg font-semibold text-foreground">Still loading…</h2>
-          <p className="text-sm text-muted-foreground">
+          <h2 className="text-lg font-semibold text-white">Still loading…</h2>
+          <p className="text-sm text-white/70">
             This page is taking longer than expected. Check your connection and try again.
           </p>
           <button
@@ -378,9 +378,10 @@ const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading...
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
+    // Match the site's True Black page color so switching pages never flashes white.
+    <div className="min-h-screen bg-black flex items-center justify-center">
       <div className="text-center space-y-4">
-        <p className="text-muted-foreground">{message}</p>
+        <p className="text-white/70">{message}</p>
         <Progress value={75} className="w-64 mx-auto" />
       </div>
     </div>
