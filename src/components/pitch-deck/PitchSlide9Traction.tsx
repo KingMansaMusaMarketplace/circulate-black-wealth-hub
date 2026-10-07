@@ -13,10 +13,10 @@ import {
 
 const PitchSlide9Traction: React.FC = () => {
   const goals2026 = [
-    { icon: DollarSign, value: '$2.4M', label: 'Target ARR', color: 'mansagold' },
-    { icon: Building2, value: '500+', label: 'Registered Businesses', color: 'blue' },
+    { icon: DollarSign, value: '$2.4M', label: 'Goal: Yearly Revenue by end of 2026', color: 'mansagold' },
+    { icon: Building2, value: '500+', label: 'Goal: Registered Businesses by end of 2026', color: 'blue' },
     { icon: Users, value: '206', label: 'Registered Accounts (actual, Oct 2026)', color: 'green' },
-    { icon: Target, value: '72hrs', label: 'Target Circulation Time', color: 'purple' },
+    { icon: Target, value: '72hrs', label: 'Goal: Circulation Time', color: 'purple' },
   ];
 
   const milestones = [
