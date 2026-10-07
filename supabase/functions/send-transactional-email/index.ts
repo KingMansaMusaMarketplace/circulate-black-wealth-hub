@@ -188,7 +188,7 @@ Deno.serve(async (req) => {
       status: 'suppressed',
     })
 
-    console.log('Email suppressed', { effectiveRecipient, templateName })
+    console.log('Email suppressed', { templateName })
     return new Response(
       JSON.stringify({ success: false, reason: 'email_suppressed' }),
       {
@@ -380,7 +380,7 @@ Deno.serve(async (req) => {
     })
 
     if (error) {
-      console.error('Resend send failed', { error, templateName, effectiveRecipient })
+      console.error('Resend send failed', { error, templateName })
       await supabase.from('email_send_log').insert({
         message_id: messageId,
         template_name: templateName,
@@ -401,7 +401,7 @@ Deno.serve(async (req) => {
       status: 'sent',
     })
 
-    console.log('Transactional email sent via Resend', { templateName, effectiveRecipient, resendId: data?.id })
+    console.log('Transactional email sent via Resend', { templateName, resendId: data?.id })
 
     return new Response(
       JSON.stringify({ success: true, sent: true, id: data?.id }),

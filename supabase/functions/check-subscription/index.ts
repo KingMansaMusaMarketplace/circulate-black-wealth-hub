@@ -111,7 +111,7 @@ serve(async (req) => {
       return unauthorized();
     }
 
-    console.log(`[CHECK-SUBSCRIPTION] User authenticated: ${user.email}`);
+    console.log(`[CHECK-SUBSCRIPTION] User authenticated: ${user.id}`);
 
     // Initialize Stripe
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -126,7 +126,7 @@ serve(async (req) => {
 
     // If no customer found, user is not subscribed
     if (customers.data.length === 0) {
-      console.log(`[CHECK-SUBSCRIPTION] No Stripe customer found for email: ${user.email}`);
+      console.log(`[CHECK-SUBSCRIPTION] No Stripe customer found for user: ${user.id}`);
       await supabaseAdmin.from("subscribers").upsert({
         email: user.email,
         user_id: user.id,

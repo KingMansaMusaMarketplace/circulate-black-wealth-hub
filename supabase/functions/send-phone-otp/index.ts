@@ -125,7 +125,7 @@ serve(async (req) => {
       }
     } else {
       // Server-side log only — NEVER return OTP in HTTP response
-      console.log(`[DEV MODE] OTP for ${phoneNumber}: ${otpCode}`);
+      console.log("[DEV MODE] SMS provider not configured; OTP generated but not sent");
     }
 
     // SECURITY: Never return the OTP in the response body

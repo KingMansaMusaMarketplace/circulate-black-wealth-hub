@@ -71,7 +71,7 @@ const handler = async (req: Request): Promise<Response> => {
       ? escapeHtml(invitation.invitee_business_name)
       : undefined;
     const message = invitation.message ? escapeHtml(invitation.message) : undefined;
-    console.log("Sending business invitation to:", email);
+    console.log("Sending business invitation", { invitationId: invitation.id });
 
     const signupUrl = `${Deno.env.get("SITE_URL") || "https://1325.ai"}/business-signup?invite=${invitation.invitation_token}`;
 
