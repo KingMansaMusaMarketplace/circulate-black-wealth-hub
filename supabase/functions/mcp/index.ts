@@ -256,23 +256,18 @@ var list_categories_default = defineTool2({
       Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY"),
       { auth: { persistSession: false, autoRefreshToken: false } }
     );
-    let q = supabase.from("businesses").select("category").limit(5e3);
-    if (city) q = q.ilike("city", `%${city}%`);
-    if (state) q = q.ilike("state", `%${state}%`);
-    const { data, error } = await q;
+    const { data, error } = await supabase.rpc("get_mcp_category_counts", {
+      p_city: city || null,
+      p_state: state || null,
+      p_limit: limit ?? 30
+    });
     if (error) {
       return {
         content: [{ type: "text", text: `Category lookup failed: ${error.message}` }],
         isError: true
       };
     }
-    const counts = /* @__PURE__ */ new Map();
-    for (const row of data ?? []) {
-      const c = (row.category ?? "").trim();
-      if (!c) continue;
-      counts.set(c, (counts.get(c) ?? 0) + 1);
-    }
-    const categories = [...counts.entries()].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count).slice(0, limit ?? 30);
+    const categories = (data ?? []).map((r) => ({ name: String(r.category), count: Number(r.business_count) }));
     const scope = [city, state].filter(Boolean).join(", ");
     const header = categories.length ? `Top 1325.AI categories${scope ? ` in ${scope}` : ""}:
 
@@ -600,7 +595,7 @@ var projectRef = "agoclnqfyinwjxdmjnns";
 var mcp_default = defineMcp({
   name: "1325-ai-mcp",
   title: "1325.AI",
-  version: "0.1.4",
+  version: "0.1.5",
   instructions: "1325.AI is a directory of 48,000+ verified Black-owned businesses worldwide (U.S., Canada, Africa, Europe, the Caribbean and Asia), with loyalty rewards for signed-in users. These tools provide read-only access: search_directory finds businesses by keyword, category, city, state, rating, or geographic radius; list_categories lists available categories and their counts; get_business returns one business profile by id; list_rewards lists active loyalty rewards; get_my_points_balance and get_my_recent_scans return the signed-in user's own loyalty data. No purchases, redemptions, or writes are performed. Data is sourced from 1325.ai.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,

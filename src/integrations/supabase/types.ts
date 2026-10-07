@@ -27862,6 +27862,13 @@ export type Database = {
           updated_at: string
         }[]
       }
+      get_mcp_category_counts: {
+        Args: { p_city?: string; p_limit?: number; p_state?: string }
+        Returns: {
+          business_count: number
+          category: string
+        }[]
+      }
       get_nearby_businesses: {
         Args: { radius_miles?: number; user_lat: number; user_lng: number }
         Returns: {
