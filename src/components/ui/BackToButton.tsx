@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { isHolidaySpecialActive } from '@/components/homepage/HolidayAnnouncementBar';
 
 const BackToButton: React.FC = () => {
   const navigate = useNavigate();
@@ -19,7 +20,8 @@ const BackToButton: React.FC = () => {
   };
 
   return (
-    <div className="fixed top-4 left-4 z-50">
+    // While the Holiday banner shows, sit below the banner + menu so it never covers them.
+    <div className={`fixed left-4 z-50 ${isHolidaySpecialActive() ? 'top-36' : 'top-4'}`}>
       <Button
         variant="ghost"
         size="sm"

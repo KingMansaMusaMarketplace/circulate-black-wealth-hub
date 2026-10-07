@@ -56,14 +56,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-black">
       {!isNative && (
         <div data-tour="directory-link">
           <HolidayAnnouncementBar />
           <Navbar />
         </div>
       )}
-      <main className={`flex-1 ${shouldShowTabBar ? 'pb-16' : ''}`}>
+      <main className={`flex-1 bg-black ${shouldShowTabBar ? 'pb-16' : ''}`}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={pageAnimationKey}
