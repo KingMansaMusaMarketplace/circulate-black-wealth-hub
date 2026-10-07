@@ -25,7 +25,7 @@ const EnhancedSignupForm: React.FC = () => {
                   </div>
                   <div>
                     <p className="font-bold text-lg bg-gradient-to-r from-mansablue via-purple-600 to-mansagold bg-clip-text text-transparent">
-                      📖 See All Features in Detail
+                      See All Features in Detail
                     </p>
                     <p className="text-sm text-foreground/70 font-medium">
                       Learn everything your business will get
@@ -52,7 +52,7 @@ const EnhancedSignupForm: React.FC = () => {
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-mansablue/10 rounded-full blur-2xl"></div>
             <div className="relative">
               <CardTitle className="text-4xl font-bold bg-gradient-to-r from-mansablue via-mansablue-light to-mansagold bg-clip-text text-transparent animate-fade-in">Create Your Account</CardTitle>
-              <CardDescription className="text-lg text-foreground/80 font-medium">Complete your registration to get started 🎉</CardDescription>
+              <CardDescription className="text-lg text-foreground/80 font-medium">Complete your registration to get started</CardDescription>
             </div>
           </CardHeader>
           <CardContent className="px-8">
@@ -107,7 +107,7 @@ const EnhancedSignupForm: React.FC = () => {
             <div className="space-y-4">
               <h3 className="text-3xl font-bold bg-gradient-to-r from-mansablue via-mansablue-light to-mansagold bg-clip-text text-transparent group-hover:scale-105 transition-all duration-300">I'm a Customer</h3>
               <p className="text-foreground/80 text-base leading-relaxed px-2 font-medium">
-                Discover great businesses, earn rewards, and find amazing local spots 🎁
+                Discover great businesses, earn rewards, and find amazing local spots
               </p>
             </div>
             <div className="pt-4">
@@ -140,7 +140,7 @@ const EnhancedSignupForm: React.FC = () => {
             <div className="space-y-4">
               <h3 className="text-3xl font-bold bg-gradient-to-r from-mansagold via-mansagold-light to-mansablue bg-clip-text text-transparent group-hover:scale-105 transition-all duration-300">I'm a Business</h3>
               <p className="text-foreground/80 text-base leading-relaxed px-2 font-medium">
-                List your business, connect with customers, and grow your community presence 🚀
+                List your business, connect with customers, and grow your community presence
               </p>
             </div>
             <div className="pt-4">

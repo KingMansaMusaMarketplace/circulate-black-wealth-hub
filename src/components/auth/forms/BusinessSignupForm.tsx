@@ -208,7 +208,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
               <CheckCircle className="h-6 w-6 text-white" />
             </div>
             <AlertDescription className="text-gray-800 font-medium text-base">
-              <strong className="text-green-700 text-lg block mb-2">🎉 Business account created!</strong>
+              <strong className="text-green-700 text-lg block mb-2">Business account created!</strong>
               Check your email to verify, then complete your listing to go live.
             </AlertDescription>
           </div>
@@ -409,7 +409,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                     Creating Business Account...
                   </>
                 ) : (
-                  'Create Business Account 🚀'
+                  'Create Business Account'
                 )}
               </Button>
 

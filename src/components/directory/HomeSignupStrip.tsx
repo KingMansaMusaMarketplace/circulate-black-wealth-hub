@@ -29,7 +29,7 @@ const HomeSignupStrip: React.FC = () => {
           <Globe className="w-4 h-4 text-mansagold flex-shrink-0" />
           <span className="truncate">
             <strong className="text-mansagold">1325.AI</strong>
-            <span className="hidden sm:inline"> — Join 10,000+ people saving money and supporting Black-owned businesses</span>
+            <span className="hidden sm:inline"> — Save money and support Black-owned businesses</span>
             <span className="sm:hidden"> — Save at Black-owned businesses</span>
           </span>
         </div>
