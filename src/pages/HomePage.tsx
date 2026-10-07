@@ -15,6 +15,7 @@ import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
 import WhyBuyBand from '@/components/homepage/WhyBuyBand';
 import WhyNowVideo from '@/components/homepage/WhyNowVideo';
 import HolidayVideoCard from '@/components/homepage/HolidayVideoCard';
+import { isHolidaySpecialActive } from '@/components/homepage/HolidayAnnouncementBar';
 
 
 /**
@@ -62,15 +63,26 @@ const HomePage: React.FC = () => {
       <div className="bg-black text-zinc-100 selection:bg-mansagold/30 min-h-screen">
         {/* Screen 1 — Hero (VC Institutional) */}
         <section className="flex flex-col items-center px-6 py-16 md:py-20 max-w-6xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-10 border border-mansagold/30 rounded-full bg-mansagold/5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mansagold opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-mansagold" />
-            </span>
-            <span className="text-[10px] uppercase tracking-widest font-medium text-mansagold font-mono">
-              Live on the Model Context Protocol Registry
-            </span>
-          </div>
+          {isHolidaySpecialActive() ? (
+            <Link
+              to="/holiday-special"
+              className="inline-flex items-center gap-2 px-4 py-1.5 mb-10 border border-mansagold/60 rounded-full bg-mansagold/10 hover:bg-mansagold/20 transition-colors"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mansagold opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-mansagold" />
+              </span>
+              <span className="text-[11px] uppercase tracking-widest font-semibold text-mansagold font-mono">
+                🎁 Holiday Special · Pro $149/mo (reg. $299) Locked In Forever →
+              </span>
+            </Link>
+          ) : (
+            <div className="inline-flex items-center gap-2 px-3 py-1 mb-10 border border-mansagold/30 rounded-full bg-mansagold/5">
+              <span className="text-[10px] uppercase tracking-widest font-medium text-mansagold font-mono">
+                Live on the Model Context Protocol Registry
+              </span>
+            </div>
+          )}
 
           {/* Credibility metric strip */}
           <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-8 py-8 mb-12 border-y border-white/10">
