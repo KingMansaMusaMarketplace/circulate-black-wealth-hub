@@ -89,6 +89,19 @@ const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
     .filter(g => (hasCounts ? g.count > 0 : true))
     .sort((a, b) => a.name.localeCompare(b.name));
 
+  if (!mobileRow && !showAll) {
+    return (
+      <div className="mb-6">
+        <button
+          onClick={() => setShowAll(true)}
+          className="rounded-xl border border-mansagold/60 bg-slate-900/50 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-900/80"
+        >
+          Browse by category <span className="text-mansagold">({groups.length}) ▾</span>
+        </button>
+      </div>
+    );
+  }
+
   if (mobileRow && !showAll) {
     return (
       <div className="mb-5">
@@ -118,9 +131,9 @@ const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
     <div className={compact ? 'mb-6' : 'mb-10'}>
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-white font-semibold text-base sm:text-lg">Browse by category</h2>
-        {mobileRow && (
+        {(
           <button onClick={() => setShowAll(false)} className="text-sm font-medium text-mansagold">
-            Show less
+            {mobileRow ? 'Show less' : 'Hide categories'}
           </button>
         )}
       </div>
