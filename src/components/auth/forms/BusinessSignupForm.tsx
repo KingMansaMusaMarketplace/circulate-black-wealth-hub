@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 import { FormCheckbox } from './FormCheckbox';
 import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import { useNavigate } from 'react-router-dom';
+import OwnershipQuestion, { OwnershipAnswer, ownershipError, ownershipMetadata } from './OwnershipQuestion';
 
 const businessSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -45,7 +46,7 @@ interface BusinessSignupFormProps {
 
 // Retry helper for business record creation (handles race condition with handle_new_user trigger)
 const createBusinessWithRetry = async (
-  businessData: { name: string; business_name: string; owner_id: string; email: string; city: string; listing_status: string },
+  businessData: { name: string; business_name: string; owner_id: string; email: string; city: string; listing_status: string; listing_type: string; black_owned_evidence: string },
   maxRetries = 3
 ): Promise<{ success: boolean; error?: string }> => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -86,6 +87,10 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const [success, setSuccess] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [startedTracked, setStartedTracked] = useState(false);
+  const [blackOwned, setBlackOwned] = useState<OwnershipAnswer>('');
+  const [ownerOk, setOwnerOk] = useState(false);
+  const [attestOk, setAttestOk] = useState(false);
+  const [ownErr, setOwnErr] = useState<{ field: string; message: string } | null>(null);
 
   const {
     register,
@@ -110,6 +115,8 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
 
 
   const onSubmit = async (data: BusinessSignupFormData) => {
+    const oe = ownershipError(blackOwned, ownerOk, attestOk);
+    if (oe) { setOwnErr(oe); return; }
     setIsLoading(true);
     setError(null);
     setEmailExists(false);
@@ -124,6 +131,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           city_zip: data.cityZip,
           referral_code: referralCode || null,
           profile_completion_percentage: 25,
+          ...ownershipMetadata(blackOwned),
         }
       );
 
@@ -160,6 +168,10 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           email: data.email,
           city: data.cityZip,
           listing_status: 'draft',
+          listing_type: blackOwned === 'no' ? 'ally' : 'black_owned',
+          black_owned_evidence: blackOwned === 'no'
+            ? 'ALLY BUSINESS: owner says NOT Black-owned. Approving sends it to the Allies page only.'
+            : 'Owner self-attested: at least 51% Black-owned (needs reviewer verification)',
         });
 
         if (!businessResult.success) {
@@ -317,6 +329,20 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                 {errors.cityZip && (
                   <p className="text-sm text-red-600">{errors.cityZip.message}</p>
                 )}
+              </div>
+
+              {/* Light theme colors so the question reads dark-on-white like the rest of this form */}
+              <div className="light space-y-4 [--foreground:224_71.4%_4.1%] [--muted:220_14.3%_95.9%] [--input:220_13%_70%]">
+              <OwnershipQuestion
+                value={blackOwned}
+                onChange={(v) => { setBlackOwned(v); setOwnErr(null); }}
+                ownerOk={ownerOk}
+                onOwnerOk={(v) => { setOwnerOk(v); setOwnErr(null); }}
+                attestOk={attestOk}
+                onAttestOk={(v) => { setAttestOk(v); setOwnErr(null); }}
+                answerError={ownErr?.field === 'blackOwned' ? ownErr.message : undefined}
+                attestError={ownErr?.field === 'attest' ? ownErr.message : undefined}
+              />
               </div>
 
               {/* Beta Code Field */}

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Loader2, MailCheck } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
+import OwnershipQuestion, { ownershipMetadata, savePendingOwnership } from './OwnershipQuestion';
 
 const schema = z.object({
   fullName: z.string().trim().min(2, 'Please enter your name').max(100),
@@ -60,6 +61,8 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
     setErrors({});
     setLoading(true);
     const { fullName, email, businessName } = parsed.data;
+    // Returning accounts keep old sign-up details, so remember this answer for the onboarding step.
+    savePendingOwnership(email, blackOwned, businessName);
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -70,10 +73,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
           full_name: fullName,
           business_name: businessName,
           referral_code: referralCode || null,
-          black_owned: blackOwned === 'yes',
-          listing_type: blackOwned === 'yes' ? 'black_owned' : 'ally',
-          ownership_certified_at: new Date().toISOString(),
-          black_owned_attested_at: blackOwned === 'yes' ? new Date().toISOString() : null,
+          ...ownershipMetadata(blackOwned),
           profile_completion_percentage: 25,
         },
       },
@@ -123,54 +123,16 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
           {errors[k] && <p className="text-sm text-destructive">{errors[k]}</p>}
         </div>
       ))}
-      <fieldset className="space-y-2">
-        <legend className="text-foreground font-semibold">Is this business at least 51% Black-owned?</legend>
-        <div className="grid grid-cols-2 gap-3">
-          {(['yes', 'no'] as const).map((v) => (
-            <button
-              key={v}
-              type="button"
-              role="radio"
-              aria-checked={blackOwned === v}
-              onClick={() => setBlackOwned(v)}
-              className={`h-12 rounded-md border-2 font-semibold transition ${blackOwned === v ? 'border-mansagold bg-mansagold/15 text-foreground' : 'border-input text-foreground'}`}
-            >
-              {v === 'yes' ? 'Yes' : 'No'}
-            </button>
-          ))}
-        </div>
-        {errors.blackOwned && <p className="text-sm text-destructive">{errors.blackOwned}</p>}
-        {blackOwned === 'no' && (
-          <div className="text-sm text-foreground rounded-md bg-muted p-3 space-y-2">
-            <p>
-              <strong>Welcome, Ally!</strong> Thank you for standing with the community. Our main directory is for Black-owned
-              businesses, so you'll join as an <strong>Ally Business</strong>, shown on our Allies page once approved.
-            </p>
-            <p className="font-semibold">As an Ally Business, you get:</p>
-            <ul className="space-y-1">
-              <li>✓ A <strong>free listing</strong> on our Allies page, with your phone, website and logo</li>
-              <li>✓ A <strong>"Proud Ally of 1325.AI"</strong> badge for your own website</li>
-              <li>✓ <strong>Kayla and the 42 Agentic AI Employees</strong> on the same plans as every business</li>
-              <li>✓ Sponsor opportunities to show your support in a bigger way</li>
-            </ul>
-          </div>
-        )}
-      </fieldset>
-      {blackOwned && (
-        <div className="space-y-3 rounded-md border border-input p-3">
-          <label className="flex items-start gap-3 text-sm text-foreground cursor-pointer">
-            <input type="checkbox" checked={ownerOk} onChange={(e) => { setOwnerOk(e.target.checked); setErrors((p) => ({ ...p, attest: undefined })); }} className="mt-0.5 h-6 w-6 shrink-0 accent-mansagold" />
-            <span><strong className="text-foreground">Ownership.</strong> I certify that I am the legal owner or a duly authorized representative of the business identified above and possess the authority to register it in this directory.</span>
-          </label>
-          {blackOwned === 'yes' && (
-            <label className="flex items-start gap-3 text-sm text-foreground cursor-pointer">
-              <input type="checkbox" checked={attestOk} onChange={(e) => { setAttestOk(e.target.checked); setErrors((p) => ({ ...p, attest: undefined })); }} className="mt-0.5 h-6 w-6 shrink-0 accent-mansagold" />
-              <span><strong className="text-foreground">Legal attestation.</strong> I attest under penalty of perjury that this business is at least 51% Black-owned and that all information provided herein is accurate and truthful. I acknowledge that fraudulent submissions may result in permanent removal and potential legal action.</span>
-            </label>
-          )}
-          {errors.attest && <p className="text-sm text-destructive">{errors.attest}</p>}
-        </div>
-      )}
+      <OwnershipQuestion
+        value={blackOwned}
+        onChange={(v) => { setBlackOwned(v); setErrors((p) => ({ ...p, blackOwned: undefined, attest: undefined })); }}
+        ownerOk={ownerOk}
+        onOwnerOk={(v) => { setOwnerOk(v); setErrors((p) => ({ ...p, attest: undefined })); }}
+        attestOk={attestOk}
+        onAttestOk={(v) => { setAttestOk(v); setErrors((p) => ({ ...p, attest: undefined })); }}
+        answerError={errors.blackOwned}
+        attestError={errors.attest}
+      />
       {failure && <p role="alert" className="text-sm text-destructive">{failure}</p>}
       <Button type="submit" disabled={loading} className="w-full h-12 text-lg font-bold bg-mansagold text-black hover:bg-mansagold/90">
         {loading ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Sending…</> : 'Get My Free Listing'}

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
+import { readPendingOwnership, clearPendingOwnership, ownershipMetadata } from '@/components/auth/forms/OwnershipQuestion';
 import { supabase } from '@/integrations/supabase/client';
 import { BusinessProfileBuilder } from '@/components/business/BusinessProfileBuilder';
 import { toast } from 'sonner';
@@ -40,24 +41,39 @@ const BusinessOnboardingPage: React.FC = () => {
           console.error('Error fetching business:', error);
         }
         
-        if (data && data.length > 0) {
+        const meta = user.user_metadata || {};
+        const pending = readPendingOwnership(user.email);
+        const wantedName = String(pending?.businessName || meta.business_name || '').trim().slice(0, 120);
+        const norm = (v: unknown) => String(v || '').trim().toLowerCase();
+        const alreadyListed = (data || []).some((b: any) => norm(b.business_name || b.name) === norm(wantedName));
+        // New short-form sign-ups (or a returning owner adding another business) get a draft listing.
+        const needsDraft = meta.user_type === 'business' && wantedName && (!data?.length || (pending && !alreadyListed));
+
+        if (data && data.length > 0 && !needsDraft) {
           setBusiness(data[0]);
-        } else if (user.user_metadata?.user_type === 'business' && user.user_metadata?.business_name) {
-          // Quick sign-up (email link) has no listing yet: create the draft from what the owner typed.
-          const name = String(user.user_metadata.business_name).slice(0, 120);
+          clearPendingOwnership();
+        } else if (needsDraft) {
+          // The latest answer on this device wins over older sign-up details.
+          const isAlly = pending ? pending.value === 'no' : meta.black_owned === false;
+          const isBlackOwned = pending ? pending.value === 'yes' : meta.black_owned === true;
+          const name = wantedName;
+          if (pending) {
+            supabase.auth.updateUser({ data: { ...ownershipMetadata(pending.value), business_name: name } }).catch(() => {});
+          }
           const { data: created, error: insertError } = await supabase
             .from('businesses')
             .insert({ name, business_name: name, owner_id: user.id, email: user.email, listing_status: 'draft',
-              listing_type: user.user_metadata.black_owned === false ? 'ally' : 'black_owned',
+              listing_type: isAlly ? 'ally' : 'black_owned',
               // Owner's own answer for reviewers; never auto-approves ownership.
-              black_owned_evidence: user.user_metadata.black_owned === true
+              black_owned_evidence: isBlackOwned
                 ? 'Owner self-attested: at least 51% Black-owned (needs reviewer verification)'
-                : user.user_metadata.black_owned === false
+                : isAlly
                   ? 'ALLY BUSINESS: owner says NOT Black-owned. Approving sends it to the Allies page only.'
                   : null,
             } as any)
             .select('*')
             .single();
+          clearPendingOwnership();
           if (insertError) console.error('Draft business creation failed:', insertError);
           else setBusiness(created);
         }
