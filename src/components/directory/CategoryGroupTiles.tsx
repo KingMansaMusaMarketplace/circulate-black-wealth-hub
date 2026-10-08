@@ -131,9 +131,9 @@ const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
     <div className={compact ? 'mb-6' : 'mb-10'}>
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-white font-semibold text-base sm:text-lg">Browse by category</h2>
-        {mobileRow && (
+        {(
           <button onClick={() => setShowAll(false)} className="text-sm font-medium text-mansagold">
-            Show less
+            {mobileRow ? 'Show less' : 'Hide categories'}
           </button>
         )}
       </div>
