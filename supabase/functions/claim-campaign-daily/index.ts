@@ -166,6 +166,14 @@ serve(async (req) => {
     count("holiday_campaign_sends", "bounced_at"),
   ]);
 
+  // Email security scanners "click" every link within seconds of delivery. Count a click as a
+  // real person only when it came 5+ minutes after the email was sent.
+  const { data: clickRows } = await supabase.from("business_claim_invites")
+    .select("sent_at, clicked_at").gte("clicked_at", since).limit(5000);
+  const cRealClicks = (clickRows ?? []).filter((r: any) =>
+    r.sent_at && Date.parse(r.clicked_at) - Date.parse(r.sent_at) >= 5 * 60 * 1000).length;
+  const cScanner = cClicked - cRealClicks;
+
   const row = (label: string, v: number) =>
     `<tr><td style="padding:8px 0;color:#333;border-bottom:1px solid #eee;">${label}</td><td style="padding:8px 0;text-align:right;font-weight:700;border-bottom:1px solid #eee;">${v.toLocaleString()}</td></tr>`;
   const html = `<!DOCTYPE html><html><body style="margin:0;background:#f5f5f5;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;">
@@ -176,7 +184,7 @@ serve(async (req) => {
 <tr><td style="padding:24px 28px;">
 <h2 style="font-size:16px;margin:0 0 8px;color:#003366;">Claim campaigns</h2>
 <table width="100%" style="font-size:14px;border-collapse:collapse;">
-${row("New invites sent today (automatic)", autoSent)}${row("Emails sent", cSent)}${row("Reminders sent", reminded)}${row("Opened", cOpened)}${row("Clicked Claim", cClicked)}${row("Claimed", cClaimed)}${row("Bounced (removed)", cBounced)}${row("Failed", cFailed + reminderFailed)}
+${row("New invites sent today (automatic)", autoSent)}${row("Emails sent", cSent)}${row("Reminders sent", reminded)}${row("Opened", cOpened)}${row("Clicked Claim (likely real people)", cRealClicks)}${row("Automatic clicks by email security scanners", cScanner)}${row("Claimed", cClaimed)}${row("Bounced (removed)", cBounced)}${row("Failed", cFailed + reminderFailed)}
 </table>
 <h2 style="font-size:16px;margin:24px 0 8px;color:#003366;">Holiday Special</h2>
 <table width="100%" style="font-size:14px;border-collapse:collapse;">

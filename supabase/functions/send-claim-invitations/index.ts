@@ -33,6 +33,7 @@ function buildEmail(opts: {
   state: string | null;
   claimUrl: string;
   unsubUrl: string;
+  listingUrl?: string;
 }) {
   const loc = [opts.city, opts.state].filter(Boolean).join(", ");
   const LOGO = "https://agoclnqfyinwjxdmjnns.supabase.co/storage/v1/object/public/marketing-assets/email/1325ai-logo.jpg";
@@ -71,6 +72,10 @@ function buildEmail(opts: {
           <p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#333;">
             We found and verified <strong>${esc(opts.businessName)}</strong>${loc ? ` in ${esc(loc)}` : ""} and added it to our directory of Black-owned businesses at no cost to you.
           </p>
+          ${opts.listingUrl ? `<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#333;">
+            <a href="${opts.listingUrl}" style="color:#0a2a52;font-weight:700;text-decoration:underline;">See your listing on 1325.AI &rarr;</a>
+          </p>` : ""}
+          <p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#333;"><strong>It's 100% free.</strong> No credit card, no contract.</p>
           <p style="margin:0 0 24px;font-size:15px;line-height:1.65;color:#333;">
             Claim your free listing to control your profile, add photos and hours, respond to reviews, and get discovered by AI assistants that shop on your customers' behalf.
           </p>
@@ -139,7 +144,7 @@ serve(async (req: Request): Promise<Response> => {
         from: FROM,
         reply_to: REPLY_TO,
         to: [to],
-        subject: "[TEST] Sample Business is listed on 1325.AI — claim it free",
+        subject: "[TEST] Is this your business on 1325.AI? Sample Business",
         html,
       });
       if (tErr) throw new Error(tErr.message);
@@ -256,13 +261,14 @@ serve(async (req: Request): Promise<Response> => {
           from: FROM,
         reply_to: REPLY_TO,
           to: [email],
-          subject: `${biz.business_name} is listed on 1325.AI — claim it free`,
+          subject: `Is this your business on 1325.AI? ${biz.business_name}`,
           html: buildEmail({
             businessName: biz.business_name,
             city: biz.city,
             state: biz.state,
             claimUrl,
             unsubUrl,
+            listingUrl: `${SITE_URL}/business/${biz.id}?utm_source=email&utm_campaign=claim_invite`,
           }),
           headers: { "List-Unsubscribe": `<${unsubUrl}>` },
         };
