@@ -331,6 +331,8 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                 )}
               </div>
 
+              {/* Light theme colors so the question reads dark-on-white like the rest of this form */}
+              <div className="light space-y-4 [--foreground:224_71.4%_4.1%] [--muted:220_14.3%_95.9%] [--input:220_13%_70%]">
               <OwnershipQuestion
                 value={blackOwned}
                 onChange={(v) => { setBlackOwned(v); setOwnErr(null); }}
@@ -341,6 +343,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                 answerError={ownErr?.field === 'blackOwned' ? ownErr.message : undefined}
                 attestError={ownErr?.field === 'attest' ? ownErr.message : undefined}
               />
+              </div>
 
               {/* Beta Code Field */}
               <div className="space-y-2">
