@@ -84,3 +84,26 @@ const OwnershipQuestion: React.FC<Props> = ({ value, onChange, ownerOk, onOwnerO
 );
 
 export default OwnershipQuestion;
+
+const PENDING_KEY = '1325_pending_business_signup';
+
+/** Remember the latest short-form answer on this device (returning accounts keep their old sign-up details). */
+export const savePendingOwnership = (email: string, value: OwnershipAnswer, businessName: string) => {
+  try {
+    localStorage.setItem(PENDING_KEY, JSON.stringify({ email: email.trim().toLowerCase(), value, businessName: businessName.trim(), at: Date.now() }));
+  } catch { /* storage unavailable */ }
+};
+
+/** Pending answer for this email, if saved in the last 7 days. */
+export const readPendingOwnership = (email?: string | null): { value: 'yes' | 'no'; businessName: string } | null => {
+  try {
+    const raw = localStorage.getItem(PENDING_KEY);
+    if (!raw || !email) return null;
+    const p = JSON.parse(raw);
+    if (p.email !== email.trim().toLowerCase() || Date.now() - p.at > 7 * 864e5) return null;
+    if (p.value !== 'yes' && p.value !== 'no') return null;
+    return { value: p.value, businessName: String(p.businessName || '') };
+  } catch { return null; }
+};
+
+export const clearPendingOwnership = () => { try { localStorage.removeItem(PENDING_KEY); } catch { /* ignore */ } };
