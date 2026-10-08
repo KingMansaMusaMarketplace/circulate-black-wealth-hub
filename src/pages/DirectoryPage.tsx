@@ -439,7 +439,7 @@ const DirectoryPage: React.FC = () => {
               showFilters={showFilters}
               toggleFilters={toggleFilters}
             />
-            <p className="-mt-8 mb-10 text-center text-sm text-gray-400">
+            <p className="-mt-8 mb-10 text-center text-lg sm:text-xl text-gray-300">
               Looking for our Ally network?{' '}
               <a href="/allies" className="font-semibold text-mansagold underline-offset-4 hover:underline">
                 Browse Allies →
