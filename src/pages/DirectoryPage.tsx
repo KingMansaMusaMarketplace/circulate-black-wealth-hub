@@ -52,6 +52,7 @@ const DirectoryPage: React.FC = () => {
   const { user } = useAuth();
   const { recordBusinessView, recordAttemptedAction, showSignupPrompt, setShowSignupPrompt, lastAttemptedAction } = useGuest();
   const isMobile = useIsMobile();
+  const [placeOpen, setPlaceOpen] = useState(false);
   const routerLocation = useRouterLocation();
 
   // Remember this directory URL (path + query + hash) so the
@@ -446,7 +447,15 @@ const DirectoryPage: React.FC = () => {
             </p>
           </div>
           
-          {/* Browse by place: country → state/region → city */}
+          {/* Browse by place: country → state/region → city (collapsed on phones) */}
+          {isMobile && !placeOpen && !(country || stateCode || selectedCityName) ? (
+            <button
+              onClick={() => setPlaceOpen(true)}
+              className="mb-4 w-full rounded-xl border border-white/10 bg-slate-900/40 px-4 py-3 text-left text-sm font-medium text-white"
+            >
+              📍 Browse by place <span className="text-mansagold">— country, state, city</span>
+            </button>
+          ) : (
           <PlaceBrowseBar
             countries={countries}
             states={states}
@@ -457,8 +466,9 @@ const DirectoryPage: React.FC = () => {
             onCountryChange={selectCountry}
             onStateChange={selectState}
             onCityChange={selectCity}
-            onClear={() => { selectCountry(undefined); }}
+            onClear={() => { selectCountry(undefined); setPlaceOpen(false); }}
           />
+          )}
 
           {/* Browse by main category (50+ groups), then by specific type */}
           <CategoryGroupTiles
@@ -468,6 +478,7 @@ const DirectoryPage: React.FC = () => {
             subCategories={subCategories}
             selectedCategory={filterOptions.category}
             onSelectCategory={handleCategorySelect}
+            mobileRow={isMobile}
           />
 
           {browseCrumb && (
