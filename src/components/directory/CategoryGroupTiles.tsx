@@ -12,6 +12,8 @@ interface CategoryGroupTilesProps {
   selectedCategory?: string;
   onSelectCategory?: (category?: string) => void;
   compact?: boolean;
+  /** Phones: show one swipeable row instead of the full grid */
+  mobileRow?: boolean;
 }
 
 const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
@@ -22,7 +24,9 @@ const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
   selectedCategory,
   onSelectCategory,
   compact = false,
+  mobileRow = false,
 }) => {
+  const [showAll, setShowAll] = React.useState(false);
   if (selectedGroup) {
     return (
       <div className="mb-6">
@@ -85,9 +89,41 @@ const CategoryGroupTiles: React.FC<CategoryGroupTilesProps> = ({
     .filter(g => (hasCounts ? g.count > 0 : true))
     .sort((a, b) => a.name.localeCompare(b.name));
 
+  if (mobileRow && !showAll) {
+    return (
+      <div className="mb-5">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-white font-semibold text-base">Browse by category</h2>
+          <button onClick={() => setShowAll(true)} className="text-sm font-medium text-mansagold">
+            See all ({groups.length})
+          </button>
+        </div>
+        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
+          {groups.map(group => (
+            <button
+              key={group.name}
+              onClick={() => onSelectGroup(group.name)}
+              className="shrink-0 snap-start rounded-full border border-white/15 bg-slate-900/50 px-3 py-2 text-sm text-gray-100"
+            >
+              <span aria-hidden className="mr-1">{group.icon}</span>
+              {group.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={compact ? 'mb-6' : 'mb-10'}>
-      <h2 className="text-white font-semibold text-base sm:text-lg mb-3">Browse by category</h2>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-white font-semibold text-base sm:text-lg">Browse by category</h2>
+        {mobileRow && (
+          <button onClick={() => setShowAll(false)} className="text-sm font-medium text-mansagold">
+            Show less
+          </button>
+        )}
+      </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
         {groups.map((group) => (
           <button
