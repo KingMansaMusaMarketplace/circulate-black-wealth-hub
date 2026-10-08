@@ -119,7 +119,7 @@ const BusinessOnboardingPage: React.FC = () => {
                 ← Back
               </Button>
               <h1 className="text-2xl font-bold text-white">Complete Your Listing</h1>
-              <p className="text-white/90">Fill in the details to go live</p>
+              <p className="text-white/90">{business?.listing_type === 'ally' ? 'Fill in the details. After review, your listing goes on the Ally Businesses page.' : 'Fill in the details to go live'}</p>
             </div>
             
             <BusinessProfileBuilder
@@ -175,7 +175,9 @@ const BusinessOnboardingPage: React.FC = () => {
               Welcome, {businessName}! 🎉
             </h1>
             <p className="text-lg text-white">
-              Your business is almost ready to be discovered by customers on 1325.AI.
+              {business?.listing_type === 'ally'
+                ? 'Thank you for joining as an Ally Business. After our team reviews it, your listing will appear on the Ally Businesses page, where you can get your Proud Ally badge.'
+                : 'Your business is almost ready to be discovered by customers on 1325.AI.'}
             </p>
           </motion.div>
 
