@@ -62,6 +62,9 @@ const NavigationMenuTrigger = React.forwardRef<
   <NavigationMenuPrimitive.Trigger
     ref={ref}
     className={cn(navigationMenuTriggerStyle(), "group", className)}
+    // Open on click only: hover-open made the first click close the menu again.
+    onPointerMove={(e) => e.preventDefault()}
+    onPointerLeave={(e) => e.preventDefault()}
     {...props}
   >
     {children}{" "}
