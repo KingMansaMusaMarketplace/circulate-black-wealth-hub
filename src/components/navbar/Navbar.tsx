@@ -24,9 +24,13 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const { user } = useAuth();
   const isPhone = useIsMobile();
   // Full tab bar needs ~1520px; below that use the menu button so no tab gets cut off
-  const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1520);
+  // Laptops (1024-1520px) keep the full tab row, shrunk to fit; only tablets/phones get the menu button
+  const getW = () => (typeof window !== 'undefined' ? window.innerWidth : 1600);
+  const [winW, setWinW] = useState(getW);
+  const isNarrow = winW < 1024;
+  const tabScale = Math.min(1, winW / 1520);
   useEffect(() => {
-    const onResize = () => setIsNarrow(window.innerWidth < 1520);
+    const onResize = () => setWinW(getW());
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
@@ -118,7 +122,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             >
               <Logo />
               {!isMobile && (
-                <div className="ml-3 xl:ml-6">
+                <div className="ml-3 xl:ml-6" style={{ zoom: tabScale } as React.CSSProperties}>
                   <NavLinks />
                 </div>
               )}
