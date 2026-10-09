@@ -109,6 +109,19 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/compare/salesforce" className={itemClass}>
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 shadow-sm">
+                      <BookOpen className="h-3.5 w-3.5 text-white" />
+                    </div>
+                    <div className="text-sm font-semibold text-white group-hover:text-mansagold transition-colors">1325.AI vs. Salesforce</div>
+                  </div>
+                  <p className="line-clamp-2 text-xs leading-snug text-slate-400 mt-1 ml-8">
+                    How our AI staff compares to enterprise software
+                  </p>
+                </Link>
+              </li>
+              <li>
                 <Link to="/learning-hub" className={itemClass}>
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-gradient-to-br from-purple-500 to-violet-500 shadow-sm">
