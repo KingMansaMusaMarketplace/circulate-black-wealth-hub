@@ -219,7 +219,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto overscroll-contain" 
+            className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto overscroll-contain md:left-auto md:w-[420px] md:right-0" 
             data-mobile-menu 
             style={{ WebkitOverflowScrolling: 'touch' }}
           >
