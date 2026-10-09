@@ -163,6 +163,18 @@ const BusinessDetailPage = () => {
 
       const row = Array.isArray(data) ? data[0] : data;
       if (!row) {
+        if (!cachedBusiness && user && isUuid) {
+          const { data: own } = await supabase
+            .from('businesses')
+            .select('id')
+            .eq('id', businessId)
+            .eq('owner_id', user.id)
+            .maybeSingle();
+          if (own) {
+            setError('PENDING_REVIEW');
+            return;
+          }
+        }
         if (!cachedBusiness) {
           setError('Business not found');
         }
@@ -350,13 +362,20 @@ const BusinessDetailPage = () => {
       <div className="min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden px-4">
         <BackgroundAccent />
         <div className="relative z-10 text-center max-w-md space-y-6">
-          <div className="text-6xl">😔</div>
+          <div className="text-6xl">{error === 'PENDING_REVIEW' ? '⏳' : '😔'}</div>
           <h2 className="text-xl font-bold text-white">
-            {error?.includes('timed out') ? 'Connection Issue' : 'Business Not Found'}
+            {error === 'PENDING_REVIEW' ? 'Your listing is waiting for review' : error?.includes('timed out') ? 'Connection Issue' : 'Business Not Found'}
           </h2>
-          <p className="text-slate-400 text-sm">
-            {error || 'This business listing could not be loaded.'}
+          <p className="text-slate-200 text-base">
+            {error === 'PENDING_REVIEW'
+              ? 'Thank you! Your business was saved. Our team reviews every new listing before it goes public — usually within 1–2 business days. You can keep editing it from your Business Dashboard.'
+              : error || 'This business listing could not be loaded.'}
           </p>
+          {error === 'PENDING_REVIEW' && (
+            <Button onClick={() => navigate('/business-dashboard')} className="bg-mansagold hover:bg-mansagold/90 text-black font-semibold">
+              Go to my Business Dashboard
+            </Button>
+          )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button
               onClick={() => setRetryCount(c => c + 1)}
