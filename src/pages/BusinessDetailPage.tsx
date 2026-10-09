@@ -368,7 +368,7 @@ const BusinessDetailPage = () => {
           </h2>
           <p className="text-slate-200 text-base">
             {error === 'PENDING_REVIEW'
-              ? 'Thank you! Your business was saved. Our team reviews every new listing before it goes public — usually within 1–2 business days. You can keep editing it from your Business Dashboard.'
+              ? 'Thank you! Your business was saved. Our team reviews every new listing before it goes public. You will get an email once it is approved. You can keep editing it from your Business Dashboard.'
               : error || 'This business listing could not be loaded.'}
           </p>
           {error === 'PENDING_REVIEW' && (
