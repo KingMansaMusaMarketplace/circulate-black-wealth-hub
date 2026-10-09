@@ -100,7 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className={`bg-gradient-to-r from-slate-950/95 via-blue-950/95 to-slate-950/95 backdrop-blur-xl shadow-2xl z-50 w-full sticky top-0 border-b border-white/10 transition-all duration-300 ${className}`}
       >
-        <div className="w-full px-2 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-visible">
+        <div className="w-full px-2 sm:px-4 lg:px-6 max-w-[1600px] mx-auto overflow-visible">
           <div className="flex h-16 items-center justify-between w-full gap-1 sm:gap-3 overflow-visible">
             <motion.div 
               className="flex items-center min-w-0 flex-shrink-0"
@@ -110,7 +110,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             >
               <Logo />
               {!isMobile && (
-                <div className="ml-8 hidden md:block">
+                <div className="ml-3 xl:ml-6 hidden md:block">
                   <NavLinks />
                 </div>
               )}

@@ -51,7 +51,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
 
   const resourceItems: MenuItem[] = [
     { to: '/education', label: 'Education Center' },
-    { to: '/mentorship', label: 'Mentorship' },
     { to: '/how-it-works', label: 'How It Works' },
     { to: '/subscription', label: 'Plans' },
     { to: '/support', label: 'Support' },
