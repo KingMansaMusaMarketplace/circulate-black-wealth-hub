@@ -177,7 +177,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                     e.preventDefault();
                     toggleMobileMenu(e);
                   }}
-                  className="md:hidden relative z-50 touch-manipulation hover:bg-white/10 text-white transition-all duration-300 hover:scale-105 rounded-lg select-none border border-white/10"
+                  className="relative z-50 touch-manipulation hover:bg-white/10 text-white transition-all duration-300 hover:scale-105 rounded-lg select-none border border-white/10"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
                   style={{ 
