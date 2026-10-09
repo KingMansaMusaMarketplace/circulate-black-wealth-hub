@@ -78,6 +78,7 @@ import {
   LazyAboutPage,
   LazyDirectoryPage,
   LazyAlliesPage,
+  LazyCompareSalesforcePage,
   LazyBlackOwnedIndexPage,
   LazyBlackOwnedCityPage,
   LazyBlackOwnedCategoryPage,
@@ -768,6 +769,7 @@ function App() {
                               <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
                               <Route path="/allies" element={<LazyAlliesPage />} />
+                              <Route path="/compare/salesforce" element={<LazyCompareSalesforcePage />} />
                               <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
                               <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
                               <Route path="/minority-business-marketplace" element={<LazyBlackOwnedIndexPage />} />
@@ -1439,6 +1441,7 @@ function App() {
                         <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         <Route path="/allies" element={<LazyAlliesPage />} />
+                        <Route path="/compare/salesforce" element={<LazyCompareSalesforcePage />} />
                         <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
                         <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
                         <Route path="/minority-business-marketplace" element={<LazyBlackOwnedIndexPage />} />

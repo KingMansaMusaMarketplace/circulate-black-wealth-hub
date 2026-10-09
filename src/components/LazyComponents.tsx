@@ -76,3 +76,4 @@ export const LazyB2BDashboardPage = lazyWithRetry(() => import('@/pages/business
 
 // Noir Travel
 export const LazyNoirLandingPage = lazyWithRetry(() => import('@/pages/NoirLandingPage'));
+export const LazyCompareSalesforcePage = lazyWithRetry(() => import('@/pages/CompareSalesforcePage'));
