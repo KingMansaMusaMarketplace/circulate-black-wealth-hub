@@ -255,6 +255,12 @@ const HomePage: React.FC = () => {
                 </div>
               ))}
             </div>
+            <p className="mt-8 text-base sm:text-lg text-gray-300">
+              How does this compare to Salesforce's AI agents?{' '}
+              <Link to="/compare/salesforce" className="font-semibold text-mansagold underline-offset-4 hover:underline">
+                See the comparison →
+              </Link>
+            </p>
           </div>
         </section>
 
