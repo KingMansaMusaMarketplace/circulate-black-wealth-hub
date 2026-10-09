@@ -136,12 +136,6 @@ const MeetKaylaSectionInner: React.FC = () => {
               )}
             </>
           )}
-          <p className="mt-6 text-base sm:text-lg text-gray-300">
-            How does this compare to Salesforce's AI agents?{' '}
-            <a href="/compare/salesforce" className="font-semibold text-mansagold underline-offset-4 hover:underline">
-              See the comparison →
-            </a>
-          </p>
         </motion.div>
       </div>
     </section>
