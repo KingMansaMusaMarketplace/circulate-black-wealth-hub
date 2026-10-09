@@ -62,6 +62,9 @@ const NavigationMenuTrigger = React.forwardRef<
   <NavigationMenuPrimitive.Trigger
     ref={ref}
     className={cn(navigationMenuTriggerStyle(), "group", className)}
+    // Open on click only: hover-open made the first click close the menu again.
+    onPointerMove={(e) => e.preventDefault()}
+    onPointerLeave={(e) => e.preventDefault()}
     {...props}
   >
     {children}{" "}
@@ -83,6 +86,7 @@ const NavigationMenuContent = React.forwardRef<
       "absolute left-0 top-full mt-1.5 w-auto data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 rounded-md border bg-popover text-popover-foreground shadow-lg z-50",
       className
     )}
+    onPointerLeave={(e) => e.preventDefault()}
     {...props}
   />
 ))
