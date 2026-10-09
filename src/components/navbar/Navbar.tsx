@@ -22,7 +22,15 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const isMobile = useIsMobile();
+  const isPhone = useIsMobile();
+  // Full tab bar needs ~1520px; below that use the menu button so no tab gets cut off
+  const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1520);
+  useEffect(() => {
+    const onResize = () => setIsNarrow(window.innerWidth < 1520);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  const isMobile = isPhone || isNarrow;
   const { isAdmin } = useServerAdminVerification();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -100,7 +108,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className={`bg-gradient-to-r from-slate-950/95 via-blue-950/95 to-slate-950/95 backdrop-blur-xl shadow-2xl z-50 w-full sticky top-0 border-b border-white/10 transition-all duration-300 ${className}`}
       >
-        <div className="w-full px-2 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-visible">
+        <div className="w-full px-2 sm:px-4 lg:px-6 max-w-[1600px] mx-auto overflow-visible">
           <div className="flex h-16 items-center justify-between w-full gap-1 sm:gap-3 overflow-visible">
             <motion.div 
               className="flex items-center min-w-0 flex-shrink-0"
@@ -110,7 +118,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             >
               <Logo />
               {!isMobile && (
-                <div className="ml-8 hidden md:block">
+                <div className="ml-3 xl:ml-6">
                   <NavLinks />
                 </div>
               )}
@@ -148,7 +156,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                 <Search className="h-5 w-5" />
               </Button>
 
-              {user && !isMobile && (
+              {user && !isPhone && (
                 <div className="transition-all duration-300 hover:scale-105">
                   <NotificationBell />
                 </div>
@@ -169,7 +177,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                     e.preventDefault();
                     toggleMobileMenu(e);
                   }}
-                  className="md:hidden relative z-50 touch-manipulation hover:bg-white/10 text-white transition-all duration-300 hover:scale-105 rounded-lg select-none border border-white/10"
+                  className="relative z-50 touch-manipulation hover:bg-white/10 text-white transition-all duration-300 hover:scale-105 rounded-lg select-none border border-white/10"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
                   style={{ 
@@ -201,7 +209,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-40 md:hidden"
+            className="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-40"
             onClick={closeMobileMenu}
             style={{ touchAction: 'manipulation' }}
           />
@@ -211,7 +219,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-x-0 top-16 bottom-0 z-50 md:hidden overflow-y-auto overscroll-contain" 
+            className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto overscroll-contain md:left-auto md:w-[420px] md:right-0" 
             data-mobile-menu 
             style={{ WebkitOverflowScrolling: 'touch' }}
           >
