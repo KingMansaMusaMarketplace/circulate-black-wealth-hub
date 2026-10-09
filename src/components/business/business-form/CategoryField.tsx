@@ -7,7 +7,25 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { businessCategories } from '@/data/categories';
+import * as C from '@/data/categories';
+const { businessCategories } = C;
+
+const sortByName = (a: C.BusinessCategory, b: C.BusinessCategory) => a.name.localeCompare(b.name);
+const CATEGORY_GROUPS = [
+  { label: 'Beauty & Personal Care', items: C.beautyCategories },
+  { label: 'Business Services', items: C.businessServiceCategories },
+  { label: 'Education', items: C.educationCategories },
+  { label: 'Entertainment & Events', items: C.entertainmentCategories },
+  { label: 'Fitness & Wellness', items: C.fitnessCategories },
+  { label: 'Food & Drink', items: C.foodCategories },
+  { label: 'Health & Medical', items: C.medicalCategories },
+  { label: 'Home & Local Services', items: [...C.serviceCategories, ...C.serviceProviderCategories] },
+  { label: 'Legal', items: C.legalCategories },
+  { label: 'Retail & Shopping', items: C.retailCategories },
+  { label: 'Technology', items: C.technologyCategories },
+  { label: 'Vacation Rentals & Stays', items: C.vacationRentalCategories },
+  { label: 'Other', items: C.otherCategories },
+].map(g => ({ ...g, items: [...g.items].sort(sortByName) }));
 import { UseFormReturn } from 'react-hook-form';
 
 interface CategoryFieldProps {
@@ -56,8 +74,9 @@ const CategoryField: React.FC<CategoryFieldProps> = ({ form, name }) => {
                 <CommandInput placeholder="Search categories..." />
                 <CommandList className="max-h-[400px] overflow-y-auto">
                   <CommandEmpty>No category found.</CommandEmpty>
-                  <CommandGroup>
-                    {businessCategories.map((category) => (
+                  {CATEGORY_GROUPS.map((group) => (
+                  <CommandGroup key={group.label} heading={group.label} className="[&_[cmdk-group-heading]]:text-mansagold [&_[cmdk-group-heading]]:font-bold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide">
+                    {group.items.map((category) => (
                       <CommandItem
                         key={category.id}
                         value={category.name}
@@ -87,6 +106,7 @@ const CategoryField: React.FC<CategoryFieldProps> = ({ form, name }) => {
                       </CommandItem>
                     ))}
                   </CommandGroup>
+                  ))}
                 </CommandList>
               </Command>
             </PopoverContent>
