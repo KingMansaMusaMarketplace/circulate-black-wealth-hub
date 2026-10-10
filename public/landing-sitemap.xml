@@ -288,14 +288,14 @@
   <url><loc>https://1325.ai/black-owned/city/evansville-in</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/windsor-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/calgary-ab</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/north-las-vegas-nv</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/camden-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/woodstock-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/palmdale-ca</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/camden-nj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/north-las-vegas-nv</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/joliet-il</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/hamilton-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/villa-rica-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/chamblee-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/joliet-il</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/woodstock-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/hamilton-on</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/midwest-city-ok</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/george-town-caym</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/powder-springs-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -659,8 +659,8 @@
   <url><loc>https://1325.ai/black-owned/category/florist</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/soul-food-catering</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/general-contractor</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/category/real-estate-brokerage</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/women-s-clothing-boutique</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/category/real-estate-brokerage</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/electrical-contractor</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/black-business-chamber-of-commerce</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/category/funeral-home</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -2215,7 +2215,6 @@
   <url><loc>https://1325.ai/black-owned/in/tucker-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/tucker-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/tucker-ga/real-estate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/florissant-mo/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/brooklyn-park-mn/spas</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/paterson-nj/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/paterson-nj/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -2292,20 +2291,21 @@
   <url><loc>https://1325.ai/black-owned/in/burlington-vt/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/windsor-on/coffee-shops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/windsor-on/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/north-las-vegas-nv/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/woodstock-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/woodstock-ga/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/woodstock-ga/boutiques</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/woodstock-ga/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/camden-nj/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/camden-nj/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/camden-nj/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/camden-nj/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/camden-nj/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/villa-rica-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/north-las-vegas-nv/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/joliet-il/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/joliet-il/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/joliet-il/real-estate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/woodstock-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/woodstock-ga/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/woodstock-ga/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/hamilton-on/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/villa-rica-ga/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/george-town-caym/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/george-town-caym/creative-studios</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/greenville-ms/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
