@@ -59,7 +59,8 @@ const ListingApprovalsQueue: React.FC = () => {
   }, [search]);
 
   const loadCounts = async () => {
-    const base = () => supabase.from('businesses').select('id', { count: 'exact', head: true });
+    // Only businesses with a website (owner self-signups always show)
+    const base = () => supabase.from('businesses').select('id', { count: 'exact', head: true }).or('website.neq.,and(owner_id.not.is.null,owner_id.neq.bd72a75e-1310-4f40-9c74-380443b09d9b)');
     const [n, u, r] = await Promise.all([
       base().in('listing_status', ['draft', 'pending', 'pending_review']),
       base().in('listing_status', ['live', 'pending']).eq('is_verified', false),
@@ -86,7 +87,8 @@ const ListingApprovalsQueue: React.FC = () => {
       .from('businesses')
       .select('id, name, owner_id, logo_url, listing_status, is_verified, created_at, category, city, state, description, website, email, phone, listing_rejection_reason, website_status, website_checked_at, black_owned_evidence, listing_type')
       .order('created_at', { ascending: false })
-      .limit(100);
+      .limit(100)
+      .or('website.neq.,and(owner_id.not.is.null,owner_id.neq.bd72a75e-1310-4f40-9c74-380443b09d9b)');
     if (tab === 'new') q = q.in('listing_status', ['draft', 'pending', 'pending_review']);
     else if (tab === 'unverified') q = q.in('listing_status', ['live', 'pending']).eq('is_verified', false);
     else q = q.eq('listing_status', 'rejected');
