@@ -1,3 +1,4 @@
+import { assetUrl } from '@/utils/assetUrl';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -165,7 +166,7 @@ const EnterpriseOrgLandingPage: React.FC = () => {
             <div className="mb-8 flex items-center justify-center gap-4 sm:gap-6">
               {isAames ? (
                 <img
-                  src={aamesLogo.url}
+                  src={assetUrl(aamesLogo.url)}
                   alt="The Association of African Methodist Episcopal Scouts logo"
                   className="h-20 w-20 rounded-full bg-white p-1 sm:h-28 sm:w-28"
                   loading="eager"

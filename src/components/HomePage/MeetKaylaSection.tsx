@@ -1,3 +1,4 @@
+import { assetUrl } from '@/utils/assetUrl';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mic, Loader2 } from 'lucide-react';
@@ -67,7 +68,7 @@ const MeetKaylaSectionInner: React.FC = () => {
           {/* Meet Kayla intro video */}
           <div className="max-w-3xl mx-auto mb-6 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
             <video
-              src={meetKaylaVideo.url}
+              src={assetUrl(meetKaylaVideo.url)}
               controls
               playsInline
               className="w-full aspect-video"

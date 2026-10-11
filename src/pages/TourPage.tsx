@@ -1,3 +1,4 @@
+import { assetUrl } from '@/utils/assetUrl';
 import { Helmet } from "react-helmet-async";
 import { useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -25,7 +26,7 @@ export default function TourPage() {
   const holiday = now >= START && now < END;
   const claim = safeClaimUrl(params.get("claim"));
   // Campaign always plays the latest 1:08 Holiday video (user decision Sep 23 2026).
-  const src = holidayVideo.url || everydayVideo.url;
+  const src = assetUrl(holidayVideo.url || everydayVideo.url);
   const poster = "/videos/tour-holiday-thumb.jpg";
 
   return (

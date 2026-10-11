@@ -1,3 +1,4 @@
+import { assetUrl } from '@/utils/assetUrl';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -63,7 +64,7 @@ const EnterpriseOrgKitPage: React.FC = () => {
           <div className="flex items-center justify-between gap-6 border-b border-slate-200 pb-6">
             <div className="flex items-center gap-4">
               {isAames && (
-                <img src={aamesLogo.url} alt={`${shortName} logo`} className="h-16 w-16 object-contain" />
+                <img src={assetUrl(aamesLogo.url)} alt={`${shortName} logo`} className="h-16 w-16 object-contain" />
               )}
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">

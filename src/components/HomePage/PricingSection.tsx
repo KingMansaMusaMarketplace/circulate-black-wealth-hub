@@ -1,5 +1,6 @@
 
 
+import { assetUrl } from '@/utils/assetUrl';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Sparkles, Zap, Crown, Building2, ArrowRight, Star } from 'lucide-react';
@@ -99,7 +100,7 @@ const PricingSection = () => {
         <ScrollReveal>
           <div className="max-w-4xl mx-auto mb-8 rounded-2xl overflow-hidden border border-mansagold/30 shadow-2xl shadow-mansagold/10 bg-black">
             <video
-              src={deepDiveVideo.url}
+              src={assetUrl(deepDiveVideo.url)}
               controls
               preload="metadata"
               playsInline
