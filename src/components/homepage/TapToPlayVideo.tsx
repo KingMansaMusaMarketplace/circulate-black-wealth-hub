@@ -1,3 +1,4 @@
+import { assetUrl } from '@/utils/assetUrl';
 import React, { useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 
@@ -22,8 +23,8 @@ const TapToPlayVideo: React.FC<Props> = ({ src, poster, label, className = '' })
     <div className={`relative mx-auto w-full max-w-[360px] aspect-[9/16] rounded-2xl overflow-hidden border border-mansagold/30 bg-black ${className}`}>
       <video
         ref={ref}
-        src={src}
-        poster={poster}
+        src={assetUrl(src)}
+        poster={assetUrl(poster)}
         preload="none"
         playsInline
         controls={playing}
