@@ -3,6 +3,7 @@ import { foldHistory } from "../_shared/safe-history.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { gatherLiveGrounding, NEEDS_LIVE_FACTS } from "../_shared/kayla-grounding.ts";
+import { foldUntrustedHistory } from "../_shared/untrusted-history.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
 
 // Simple per-caller throttle so the public shopping assistant cannot be used
@@ -246,7 +247,7 @@ INSTRUCTIONS:
         const fullPrompt = systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({}) + buildAgentBrandBlock() + approvedLessons + (grounding.block || "");
         const premium = await premiumChatAnswer({
           systemPrompt: fullPrompt,
-          messages: messages.slice(-10).map((m: any) => ({ role: m?.role === "assistant" ? "assistant" : "user", content: String(m?.content ?? "") })),
+          messages: foldUntrustedHistory(messages, 10),
           lovableApiKey: LOVABLE_API_KEY,
           label: "shopping-premium",
         });
@@ -275,7 +276,7 @@ INSTRUCTIONS:
         messages: [
           { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() + approvedLessons },
           // Callers may only speak as the user or assistant — never 'system'.
-          ...foldHistory(messages, undefined, { maxTurns: 10 }),
+          ...foldUntrustedHistory(messages, 10),
         ],
         stream: true,
       }),
