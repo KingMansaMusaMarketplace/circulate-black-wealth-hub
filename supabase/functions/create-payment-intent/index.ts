@@ -35,7 +35,8 @@ const DEFAULT_PLATFORM_FEE_PERCENTAGE = 2.50; // 2.5%
 // Input validation schema
 const paymentIntentSchema = z.object({
   businessId: z.string().uuid(),
-  amount: z.number().min(0.5).max(10000),
+  // The amount is never taken from the caller: it comes from a bill the business created.
+  invoiceId: z.string().uuid(),
   description: z.string().max(500).optional().default("Payment"),
   customerEmail: z.string().email().max(255).optional(),
   customerName: z.string().max(100).optional(),
@@ -74,12 +75,43 @@ serve(async (req) => {
     if (!parseResult.success) {
       console.error("Validation failed:", parseResult.error.errors);
       return new Response(
-        JSON.stringify({ error: "Invalid request data", details: parseResult.error.errors }),
+        JSON.stringify({ error: "Invalid request data" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
     
-    const { businessId, amount, description, customerEmail, customerName } = parseResult.data;
+    const { businessId, invoiceId, customerName } = parseResult.data;
+
+    const admin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+    const { data: invoice } = await admin
+      .from("invoices")
+      .select("id, business_id, customer_email, total_amount, amount, status, invoice_number")
+      .eq("id", invoiceId)
+      .maybeSingle();
+
+    const callerEmail = (user.email || "").trim().toLowerCase();
+    const billEmail = (invoice?.customer_email || "").trim().toLowerCase();
+    if (!invoice || invoice.business_id !== businessId || !callerEmail || billEmail !== callerEmail) {
+      return new Response(JSON.stringify({ error: "Bill not found" }), {
+        status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (["paid", "cancelled", "void", "refunded"].includes(String(invoice.status || "").toLowerCase())) {
+      return new Response(JSON.stringify({ error: "This bill can no longer be paid" }), {
+        status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const amount = Number(invoice.total_amount ?? invoice.amount);
+    if (!Number.isFinite(amount) || amount < 0.5 || amount > 10000) {
+      return new Response(JSON.stringify({ error: "This bill has an invalid amount" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const description = `Invoice ${invoice.invoice_number || invoice.id}`.slice(0, 500);
+    const customerEmail = user.email;
     // Caller metadata is informational only: keep a few short notes and never let it
     // override server-controlled keys or mark anything as purchased/fulfilled.
     const metadata: Record<string, string> = {};
@@ -124,7 +156,8 @@ serve(async (req) => {
         ...metadata,
         business_id: businessId,
         customer_id: user.id,
-        kind: "direct_payment_to_business",
+        invoice_id: invoice.id,
+        kind: "invoice_payment_to_business",
       },
       receipt_email: customerEmail,
     });
