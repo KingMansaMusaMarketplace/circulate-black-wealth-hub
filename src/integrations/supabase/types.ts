@@ -18315,6 +18315,7 @@ export type Database = {
           ip_address: unknown
           referral_code: string
           sales_agent_id: string | null
+          scan_notified_at: string | null
           scan_source: string | null
           scanned_at: string
           user_agent: string | null
@@ -18328,6 +18329,7 @@ export type Database = {
           ip_address?: unknown
           referral_code: string
           sales_agent_id?: string | null
+          scan_notified_at?: string | null
           scan_source?: string | null
           scanned_at?: string
           user_agent?: string | null
@@ -18341,6 +18343,7 @@ export type Database = {
           ip_address?: unknown
           referral_code?: string
           sales_agent_id?: string | null
+          scan_notified_at?: string | null
           scan_source?: string | null
           scanned_at?: string
           user_agent?: string | null
@@ -26790,6 +26793,14 @@ export type Database = {
       _beta_caller_ok: {
         Args: { p_email: string; p_user_id: string }
         Returns: boolean
+      }
+      _calculate_business_impact_scorecard_impl: {
+        Args: { p_business_id: string }
+        Returns: Json
+      }
+      _check_and_award_badges_impl: {
+        Args: { p_sales_agent_id: string }
+        Returns: undefined
       }
       _gamify_award: {
         Args: {
