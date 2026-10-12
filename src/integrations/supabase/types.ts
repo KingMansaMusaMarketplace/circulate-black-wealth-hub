@@ -28871,6 +28871,7 @@ export type Database = {
           zip_code: string
         }[]
       }
+      sync_cron_secret: { Args: { p_secret: string }; Returns: undefined }
       track_material_download: {
         Args: { p_material_id: string; p_user_id: string }
         Returns: undefined
