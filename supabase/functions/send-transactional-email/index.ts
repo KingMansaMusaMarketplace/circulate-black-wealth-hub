@@ -139,7 +139,18 @@ Deno.serve(async (req) => {
       // Their wording is set by us, so they can't be used to send custom messages.
       const PUBLIC_CONFIRMATIONS = new Set(['contact-confirmation'])
       const SIGNED_IN_CONFIRMATIONS = new Set(['booking-confirmation', 'business-live-confirmation'])
-      let allowed = !!template.to || PUBLIC_CONFIRMATIONS.has(templateName)
+      let allowed = !!template.to
+      if (!allowed && PUBLIC_CONFIRMATIONS.has(templateName)) {
+        // Only confirm a real contact form sent from this address in the last 10 minutes.
+        const since = new Date(Date.now() - 10 * 60 * 1000).toISOString()
+        const { data: recent } = await supabase
+          .from('contact_submissions')
+          .select('id')
+          .ilike('email', effectiveRecipient.toLowerCase())
+          .gte('created_at', since)
+          .limit(1)
+        allowed = !!recent && recent.length > 0
+      }
       if (!allowed && callerId && SIGNED_IN_CONFIRMATIONS.has(templateName)) allowed = true
       if (!allowed && callerId) {
         if (callerEmail && callerEmail === effectiveRecipient.toLowerCase()) {
