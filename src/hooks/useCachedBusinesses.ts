@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { safeFilterTerm } from '@/lib/api/directory/safe-filter-term';
 import { supabase } from '@/integrations/supabase/client';
 import { expandCategoryGroup } from '@/lib/api/directory/expand-category';
 
@@ -58,7 +59,7 @@ export const useCachedBusinesses = (filters?: BusinessFilters, limit = 20) => {
       }
 
       if (filters?.searchTerm) {
-        query = query.or(`business_name.ilike.%${filters.searchTerm}%,name.ilike.%${filters.searchTerm}%,description.ilike.%${filters.searchTerm}%`);
+        { const t = safeFilterTerm(filters.searchTerm); if (t) query = query.or(`business_name.ilike.%${t}%,name.ilike.%${t}%,description.ilike.%${t}%`); }
       }
 
       const { data, error } = await query;

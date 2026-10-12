@@ -191,36 +191,30 @@ async function executeAction(
         const { field, value, customer_id_field } = action.action_config;
         const customerId = getNestedValue(context, customer_id_field || "customer_id");
 
-        // SECURITY: only allow safe non-financial profile fields. Block wallet_balance,
-        // subscription_tier, economic_karma, is_founding_member, role columns, etc.
-        const SAFE_PROFILE_FIELDS = new Set([
+        // SECURITY: workflows only edit the business's OWN customer record (customers table),
+        // never a person's account profile. Only safe, non-financial fields are allowed.
+        const SAFE_CUSTOMER_FIELDS = new Set([
           "notes",
           "city",
           "state",
           "zip_code",
-          "preferred_categories",
-          "bio",
+          "lifecycle_stage",
+          "customer_status",
+          "next_followup_date",
         ]);
-        if (!SAFE_PROFILE_FIELDS.has(field)) {
+        if (!SAFE_CUSTOMER_FIELDS.has(field)) {
           throw new Error(`Field '${field}' not allowed in workflows`);
         }
 
-        // Restrict updates to customers that have interacted with this business
-        const { data: customerLink } = await supabase
+        const { data: updated, error } = await supabase
           .from("customers")
-          .select("id")
-          .eq("user_id", customerId)
+          .update({ [field]: resolveTemplate(value, context) })
+          .eq("id", customerId)
           .eq("business_id", businessId)
-          .maybeSingle();
-
-        if (!customerLink) {
+          .select("id");
+        if (!error && (!updated || updated.length === 0)) {
           throw new Error("Customer is not linked to this business");
         }
-
-        const { error } = await supabase
-          .from("profiles")
-          .update({ [field]: resolveTemplate(value, context) })
-          .eq("id", customerId);
 
         if (error) throw error;
         return { success: true, output: { field, value } };

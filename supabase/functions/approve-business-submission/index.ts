@@ -41,7 +41,11 @@ async function requireAdmin(req: Request) {
   return { ok: true, userId, admin };
 }
 
-async function sendApprovalEmail(email: string, businessName: string, listingUrl: string) {
+const escHtml = (v: string) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+
+async function sendApprovalEmail(email: string, rawBusinessName: string, listingUrl: string) {
+  const businessName = escHtml(rawBusinessName);
+  const subjectName = String(rawBusinessName ?? '').replace(/[\r\n]/g, ' ').slice(0, 120);
   // Best effort — attempt via Resend if key exists, otherwise no-op.
   const key = Deno.env.get("RESEND_API_KEY");
   if (!key) return { sent: false, reason: "no RESEND_API_KEY" };
@@ -55,7 +59,7 @@ async function sendApprovalEmail(email: string, businessName: string, listingUrl
       body: JSON.stringify({
         from: "Thomas at 1325.AI <Partner@1325.AI>",
         to: [email],
-        subject: `🎉 ${businessName} is now live on 1325.AI`,
+        subject: `🎉 ${subjectName} is now live on 1325.AI`,
         html: `
           <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#000;color:#fff">
             <h1 style="color:#FFB300">Welcome to the 1325.AI directory!</h1>

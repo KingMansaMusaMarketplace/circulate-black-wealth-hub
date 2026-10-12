@@ -1,3 +1,4 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { requireAdmin, authErrorResponse, escapeHtml } from "../_shared/auth-guard.ts";
@@ -24,17 +25,33 @@ const handler = async (req: Request): Promise<Response> => {
   if (!auth.authenticated) return authErrorResponse(auth, corsHeaders);
 
   try {
-    const body: RejectionEmailRequest = await req.json();
-    const email = String(body.email || "").trim();
-    const companyName = escapeHtml(body.companyName);
-    const reason = body.reason ? escapeHtml(body.reason) : undefined;
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-      return new Response(JSON.stringify({ error: "Invalid email" }), {
+    const body: any = await req.json();
+    const subscriptionId = String(body.subscriptionId || "").trim();
+    if (!/^[0-9a-f-]{36}$/i.test(subscriptionId)) {
+      return new Response(JSON.stringify({ error: "Invalid subscription" }), {
         status: 400, headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
+    // Recipient and company come from the stored, rejected application — never from the request.
+    const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const { data: sub } = await admin
+      .from("corporate_subscriptions")
+      .select("user_id, company_name, status")
+      .eq("id", subscriptionId)
+      .maybeSingle();
+    const { data: prof } = sub?.user_id
+      ? await admin.from("profiles").select("email").eq("id", sub.user_id).maybeSingle()
+      : { data: null };
+    const email = String(prof?.email || "").trim();
+    if (!sub || sub.status !== "rejected" || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      return new Response(JSON.stringify({ error: "Application not found or not rejected" }), {
+        status: 404, headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+    const companyName = escapeHtml(sub.company_name);
+    const reason = body.reason ? escapeHtml(String(body.reason).slice(0, 1000)) : undefined;
 
-    console.log('Sending sponsor rejection email to:', email);
+    console.log('Sending sponsor rejection email');
 
     const emailResponse = await resend.emails.send({
       from: "Thomas at 1325.AI <Partner@1325.AI>",

@@ -157,3 +157,15 @@ export function authErrorResponse(result: AuthResult, corsHeaders: Record<string
     { status: result.status || 401, headers: { ...corsHeaders, ...JSON_HEADERS } }
   );
 }
+
+/**
+ * Test emails may only go to the signed-in admin's own address or a @1325.ai address.
+ * Prevents admin "test" tools from being used to email arbitrary people.
+ */
+export async function isAllowedTestRecipient(supabase: any, userId: string | undefined, to: string): Promise<boolean> {
+  const addr = String(to || '').trim().toLowerCase();
+  if (/@1325\.ai$/.test(addr)) return true;
+  if (!userId || userId === 'cron' || userId === 'service') return false;
+  const { data } = await supabase.auth.admin.getUserById(userId);
+  return !!data?.user?.email && data.user.email.toLowerCase() === addr;
+}

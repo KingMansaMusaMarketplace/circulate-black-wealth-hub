@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { SIGNATURE_HTML } from "../_shared/email-signature.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { Resend } from "npm:resend@2.0.0";
-import { requireAdmin } from "../_shared/auth-guard.ts";
+import { requireAdmin, isAllowedTestRecipient } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -108,6 +108,7 @@ serve(async (req) => {
     if (action === "test") {
       const to = String(body.to ?? "").trim().toLowerCase();
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)) return json({ error: "Enter a valid test email" }, 400);
+      if (!(await isAllowedTestRecipient(supabase, auth.userId, to))) return json({ error: "Test emails can only go to your own address or a @1325.ai address" }, 403);
       const { error } = await resend.emails.send({
         from: FROM, to: [to], subject: `[TEST] ${WAVES[wave].subject}`,
         html: renderEmail(wave, "Sample Business", "Chicago", `${SITE}/unsubscribe`),

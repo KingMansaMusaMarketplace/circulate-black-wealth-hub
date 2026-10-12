@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { SIGNATURE_HTML } from "../_shared/email-signature.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { Resend } from "npm:resend@2.0.0";
-import { requireAdminOrCron } from "../_shared/auth-guard.ts";
+import { requireAdminOrCron, isAllowedTestRecipient } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -133,6 +133,7 @@ serve(async (req: Request): Promise<Response> => {
     if (typeof body?.test_to === "string") {
       const to = body.test_to.trim().toLowerCase();
       if (!EMAIL_RE.test(to) || to.length > 255) throw new Error("Enter a valid test email");
+      if (!(await isAllowedTestRecipient(supabase, auth.userId, to))) throw new Error("Test emails can only go to your own address or a @1325.ai address");
       const html = buildEmail({
         businessName: "Sample Business",
         city: "Chicago",

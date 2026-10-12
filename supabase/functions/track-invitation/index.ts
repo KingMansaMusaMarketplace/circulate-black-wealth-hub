@@ -59,7 +59,7 @@ const handler = async (req: Request): Promise<Response> => {
       return new Response("Missing token", { status: 400, headers: corsHeaders });
     }
 
-    console.log(`Tracking invitation ${action} for token: ${token}`);
+    console.log(`Tracking invitation ${action}`);
 
     // Initialize Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;

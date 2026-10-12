@@ -175,7 +175,7 @@ const handler = async (req: Request): Promise<Response> => {
         break;
     }
 
-    console.log(`Sending ${type} email to ${recipientEmail}`);
+    console.log(`Sending ${type} email`);
     
     const emailResponse = await resend.emails.send({
       from: "Thomas at 1325.AI <Partner@1325.AI>",

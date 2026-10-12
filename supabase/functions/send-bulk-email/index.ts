@@ -127,7 +127,26 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
     
-    const { recipients, subject, content } = parseResult.data;
+    const { recipients: requested, subject, content } = parseResult.data;
+    const supabaseAdmin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+
+    // Only send to registered 1325.AI users (the list the admin page shows) — never to arbitrary addresses.
+    const wanted = [...new Set(requested.map((e) => e.trim().toLowerCase()))];
+    const allowedSet = new Set<string>();
+    for (let i = 0; i < wanted.length; i += 500) {
+      const { data: rows } = await supabaseAdmin
+        .from("profiles")
+        .select("email")
+        .in("email", wanted.slice(i, i + 500));
+      (rows ?? []).forEach((r: any) => allowedSet.add(String(r.email).toLowerCase()));
+    }
+    const recipients = wanted.filter((e) => allowedSet.has(e));
+    if (recipients.length === 0) {
+      return new Response(
+        JSON.stringify({ success: false, error: "None of the selected addresses belong to registered users" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
 
     console.log(`Sending bulk email to ${recipients.length} recipients`);
 

@@ -72,7 +72,7 @@ Deno.serve(async (req) => {
 
     const { data: signed, error: signErr } = await admin.storage
       .from("admin-backups")
-      .createSignedUrl(backup.storage_path, 300);
+      .createSignedUrl(backup.storage_path, 60);
     if (signErr || !signed) throw new Error(signErr?.message || "Sign failed");
 
     return new Response(JSON.stringify({ url: signed.signedUrl, expires_in: 300 }), {

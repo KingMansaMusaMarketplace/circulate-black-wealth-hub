@@ -147,7 +147,8 @@ const handler = async (req: Request): Promise<Response> => {
     const sanitizedBusinessName = businessName.replace(/[<>]/g, '').slice(0, 120);
     const sanitizedInviterName = inviterName?.replace(/[<>]/g, '').slice(0, 80) || 'A 1325.AI member';
     const sanitizedInviterBusinessName = (ownedBiz?.business_name ?? inviterBusinessName)?.replace(/[<>]/g, '').slice(0, 120);
-    const sanitizedPersonalMessage = personalMessage?.replace(/[<>]/g, '').replace(/https?:\/\/\S+/gi, '').slice(0, 500);
+    // Only admins may add a personal note; other senders get the standard platform message.
+    const sanitizedPersonalMessage = isAdmin ? personalMessage?.replace(/[<>]/g, '').replace(/https?:\/\/\S+/gi, '').slice(0, 500) : undefined;
 
     console.log(`Sending B2B invitation to: ${sanitizedBusinessName}`);
 
