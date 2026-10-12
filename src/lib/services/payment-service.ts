@@ -76,7 +76,8 @@ export const paymentService = {
 
   async createPaymentIntent(params: {
     businessId: string;
-    amount: number;
+    /** The business's bill; the amount charged always comes from this bill. */
+    invoiceId: string;
     description?: string;
     customerEmail?: string;
     customerName?: string;
