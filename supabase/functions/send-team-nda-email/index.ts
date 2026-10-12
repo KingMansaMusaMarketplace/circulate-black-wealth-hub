@@ -33,9 +33,22 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { recipientEmail, recipientName, ndaPdfBase64, coverLetterPdfBase64 }: TeamNDAEmailRequest = await req.json();
 
-    if (!recipientEmail || !recipientName) {
-      throw new Error("Missing required fields: recipientEmail and recipientName");
-    }
+    const bad = (msg: string) => new Response(JSON.stringify({ error: msg }), {
+      status: 400, headers: { "Content-Type": "application/json", ...corsHeaders },
+    });
+    const emailRe = /^[^\s@<>"',;]{1,64}@[A-Za-z0-9.-]{1,190}\.[A-Za-z]{2,24}$/;
+    if (typeof recipientEmail !== "string" || !emailRe.test(recipientEmail.trim())) return bad("A valid recipient email is required.");
+    if (typeof recipientName !== "string" || !recipientName.trim() || recipientName.length > 120) return bad("A valid recipient name is required.");
+    // Attachments must be real PDFs under 5 MB each.
+    const MAX_PDF = 5 * 1024 * 1024;
+    const isPdf = (b64?: string) => {
+      if (b64 === undefined || b64 === null || b64 === "") return true;
+      if (typeof b64 !== "string" || !/^[A-Za-z0-9+/=\s]+$/.test(b64)) return false;
+      if (b64.length * 0.75 > MAX_PDF) return false;
+      try { return atob(b64.replace(/\s/g, "").slice(0, 8)).startsWith("%PDF-"); } catch { return false; }
+    };
+    if (!isPdf(ndaPdfBase64) || !isPdf(coverLetterPdfBase64)) return bad("Attachments must be PDF files under 5 MB.");
+    const safeName = recipientName.trim().replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 
     const emailHtml = `
 <!DOCTYPE html>
@@ -68,7 +81,7 @@ const handler = async (req: Request): Promise<Response> => {
     <p class="company-info">1325.AI, Inc. — Chicago, Illinois</p>
   </div>
 
-  <p>Dear ${recipientName},</p>
+  <p>Dear ${safeName},</p>
 
   <p>As we work toward our goal of taking 1325.AI to an IPO, it is essential that we maintain the highest standards of professional and legal protection. To help you understand the scope of the attached agreement, here is a simplified summary of how this protects our collective future:</p>
 
@@ -143,7 +156,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "1325.AI <Partner@1325.AI>",
-      to: [recipientEmail],
+      to: [recipientEmail.trim()],
       subject: "Important: 1325.AI Team NDA Summary & Action Items",
       html: emailHtml,
       attachments: attachments.length > 0 ? attachments : undefined,
