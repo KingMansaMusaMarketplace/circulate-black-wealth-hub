@@ -11,6 +11,8 @@ import { toast } from 'sonner';
 interface PaymentFormProps {
   businessId: string;
   businessName: string;
+  /** Bill created by the business; the customer pays exactly its total. */
+  invoiceId: string;
   onSuccess?: (paymentIntentId: string) => void;
   suggestedAmount?: number;
 }
@@ -18,6 +20,7 @@ interface PaymentFormProps {
 const PaymentForm: React.FC<PaymentFormProps> = ({
   businessId,
   businessName,
+  invoiceId,
   onSuccess,
   suggestedAmount = 0,
 }) => {
@@ -39,7 +42,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       
       const result = await paymentService.createPaymentIntent({
         businessId,
-        amount: amountValue,
+        invoiceId,
         description: description || `Payment to ${businessName}`,
       });
 
@@ -81,7 +84,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
               step="0.01"
               min="0.01"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              readOnly
               placeholder="Enter amount"
               required
             />
