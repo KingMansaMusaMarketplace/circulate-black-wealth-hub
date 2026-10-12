@@ -311,22 +311,34 @@ serve(async (req) => {
       } catch (_) { /* not admin */ }
     }
 
-    const { data: submission, error: fetchErr } = await supabase
+    // Read only the fields needed to decide access; the full record is loaded after the check passes.
+    const { data: gate, error: fetchErr } = await supabase
       .from("business_submissions")
-      .select("*")
+      .select("id, created_at, kayla_report, submitter_ip")
       .eq("id", submission_id)
       .maybeSingle();
 
     // Non-admins may only kick off the one-time check for a brand-new submission
     // (created in the last 10 minutes, never checked). Same generic reply otherwise.
-    const fresh = submission &&
-      Date.now() - new Date(submission.created_at).getTime() < 10 * 60 * 1000;
+    const fresh = gate &&
+      Date.now() - new Date(gate.created_at).getTime() < 10 * 60 * 1000;
     // Non-admins must also be the original submitter (same network address).
     const callerIp = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim()
       || req.headers.get("cf-connecting-ip") || "";
-    const sameSubmitter = !!submission && !!callerIp && !!submission.submitter_ip &&
-      String(submission.submitter_ip).split("/")[0] === callerIp;
-    if (fetchErr || !submission || (!isAdmin && (submission.kayla_report || !fresh || !sameSubmitter))) {
+    const sameSubmitter = !!gate && !!callerIp && !!gate.submitter_ip &&
+      String(gate.submitter_ip).split("/")[0] === callerIp;
+    if (fetchErr || !gate || (!isAdmin && (gate.kayla_report || !fresh || !sameSubmitter))) {
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const { data: submission } = await supabase
+      .from("business_submissions")
+      .select("*")
+      .eq("id", submission_id)
+      .maybeSingle();
+    if (!submission) {
       return new Response(JSON.stringify({ ok: true }), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
