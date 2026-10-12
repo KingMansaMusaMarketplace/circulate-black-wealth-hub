@@ -92,6 +92,12 @@ serve(async (req) => {
         status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+    const items = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 5 });
+    if (!items.data.some((li) => li.price?.id === "price_1TRNO1AsptTW1mCm7jTSG7CL")) {
+      return new Response(JSON.stringify({ error: "SESSION_NOT_ELIGIBLE" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const businessId = session.metadata?.business_id || null;
 
     const supabaseAdmin = createClient(
