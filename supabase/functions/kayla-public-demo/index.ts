@@ -3,6 +3,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { buildKaylaSystemPrompt, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { foldUntrustedHistory } from "../_shared/untrusted-history.ts";
 import { requireAuth } from "../_shared/auth-guard.ts";
 
 const corsHeaders = {
@@ -173,7 +174,7 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({
           model: "google/gemini-3.7-flash",
-          messages: [{ role: "system", content: systemPrompt }, ...messages],
+          messages: [{ role: "system", content: systemPrompt }, ...foldUntrustedHistory(messages)],
           max_tokens: 1200,
         }),
       },

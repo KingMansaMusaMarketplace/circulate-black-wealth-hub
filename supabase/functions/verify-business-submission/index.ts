@@ -321,7 +321,12 @@ serve(async (req) => {
     // (created in the last 10 minutes, never checked). Same generic reply otherwise.
     const fresh = submission &&
       Date.now() - new Date(submission.created_at).getTime() < 10 * 60 * 1000;
-    if (fetchErr || !submission || (!isAdmin && (submission.kayla_report || !fresh))) {
+    // Non-admins must also be the original submitter (same network address).
+    const callerIp = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim()
+      || req.headers.get("cf-connecting-ip") || "";
+    const sameSubmitter = !!submission && !!callerIp && !!submission.submitter_ip &&
+      String(submission.submitter_ip).split("/")[0] === callerIp;
+    if (fetchErr || !submission || (!isAdmin && (submission.kayla_report || !fresh || !sameSubmitter))) {
       return new Response(JSON.stringify({ ok: true }), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });

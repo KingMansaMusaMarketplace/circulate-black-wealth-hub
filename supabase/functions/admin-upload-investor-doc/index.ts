@@ -61,15 +61,27 @@ Deno.serve(async (req) => {
       return json({ error: "Filename not allowed" }, 400);
     }
 
+    const MAX_BYTES = 25 * 1024 * 1024; // 25 MB
     let bytes: Uint8Array;
     if (base64) {
+      if (typeof base64 !== "string" || base64.length * 0.75 > MAX_BYTES) {
+        return json({ error: "File is too large (max 25 MB)" }, 413);
+      }
       const bin = atob(base64);
       bytes = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     } else {
       const res = await fetch(assertPublicUrl(sourceUrl), { redirect: "error" });
       if (!res.ok) return json({ error: `Source fetch failed: ${res.status}` }, 502);
+      const len = Number(res.headers.get("content-length") || "0");
+      if (len > MAX_BYTES) return json({ error: "File is too large (max 25 MB)" }, 413);
       bytes = new Uint8Array(await res.arrayBuffer());
+    }
+
+    // Only real PDF files within the size limit may be stored.
+    const head = String.fromCharCode(...bytes.subarray(0, 5));
+    if (bytes.length === 0 || bytes.length > MAX_BYTES || head !== "%PDF-") {
+      return json({ error: "Only PDF files up to 25 MB are allowed" }, 400);
     }
 
     const { error: upErr } = await admin.storage

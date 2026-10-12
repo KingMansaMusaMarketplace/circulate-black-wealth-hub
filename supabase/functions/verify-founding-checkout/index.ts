@@ -80,9 +80,23 @@ serve(async (req) => {
       throw new Error("Missing subscription or customer on session");
     }
 
+    // Only a founding-offer checkout created for THIS user can claim a slot.
     const metadataUserId = session.metadata?.user_id;
-    if (metadataUserId && metadataUserId !== user.id) {
-      throw new Error("Session does not belong to this user");
+    if (!metadataUserId || metadataUserId !== user.id) {
+      return new Response(JSON.stringify({ error: "SESSION_NOT_ELIGIBLE" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (session.metadata?.tier !== "kayla_pro_founders" || session.mode !== "subscription") {
+      return new Response(JSON.stringify({ error: "SESSION_NOT_ELIGIBLE" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const items = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 5 });
+    if (!items.data.some((li) => li.price?.id === "price_1TRNO1AsptTW1mCm7jTSG7CL")) {
+      return new Response(JSON.stringify({ error: "SESSION_NOT_ELIGIBLE" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     const businessId = session.metadata?.business_id || null;
 
@@ -109,7 +123,7 @@ serve(async (req) => {
       );
       return new Response(
         JSON.stringify({
-          error: isFull ? "SLOTS_FULL" : claimError.message,
+          error: isFull ? "SLOTS_FULL" : "CLAIM_FAILED",
         }),
         {
           status: isFull ? 409 : 500,
@@ -130,7 +144,7 @@ serve(async (req) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     log("ERROR", { message });
-    return new Response(JSON.stringify({ error: message }), {
+    return new Response(JSON.stringify({ error: "Could not verify your founding checkout. Please contact support." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

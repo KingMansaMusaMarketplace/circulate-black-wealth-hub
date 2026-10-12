@@ -1,4 +1,5 @@
 import React, { useState, lazy, Suspense } from 'react';
+import { csvCell } from '@/lib/csv-safe';
 import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
@@ -131,15 +132,7 @@ export const BusinessImportDashboard: React.FC = () => {
         headers.join(','),
         ...data.map(row => 
           headers.map(header => {
-            const value = row[header as keyof typeof row];
-            // Handle null/undefined values and escape quotes
-            if (value === null || value === undefined) return '';
-            const stringValue = String(value);
-            // Escape quotes and wrap in quotes if contains comma, quote, or newline
-            if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
-              return `"${stringValue.replace(/"/g, '""')}"`;
-            }
-            return stringValue;
+            return csvCell(row[header as keyof typeof row]);
           }).join(',')
         )
       ].join('\n');

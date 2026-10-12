@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { csvCell } from '@/lib/csv-safe';
 import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -86,7 +87,7 @@ const AbandonedCheckoutsPage: React.FC = () => {
       r.mode,
       r.status,
       r.customer_id ?? '',
-    ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','));
+    ].map((v) => csvCell(v)).join(','));
     const csv = [header.join(','), ...lines].join('\n');
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
     const a = document.createElement('a');

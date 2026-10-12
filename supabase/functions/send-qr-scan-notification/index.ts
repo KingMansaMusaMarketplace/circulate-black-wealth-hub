@@ -63,6 +63,20 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Only the person who made this scan (same network address) or, for a
+    // conversion, the signed-in user who converted may trigger the notice.
+    const ok = new Response(JSON.stringify({ success: true }),
+      { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } });
+    if (notificationType === 'conversion') {
+      const jwt = (req.headers.get('Authorization') || '').replace('Bearer ', '');
+      const { data: u } = jwt ? await supabase.auth.getUser(jwt) : { data: null };
+      if (!u?.user || !scanRow.converted_user_id || u.user.id !== scanRow.converted_user_id) return ok;
+    } else {
+      const callerIp = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim()
+        || req.headers.get('cf-connecting-ip') || '';
+      if (!callerIp || !scanRow.ip_address || String(scanRow.ip_address).split('/')[0] !== callerIp) return ok;
+    }
+
     const anchorTs = notificationType === 'conversion'
       ? (scanRow.converted_at ?? scanRow.scanned_at)
       : scanRow.scanned_at;
