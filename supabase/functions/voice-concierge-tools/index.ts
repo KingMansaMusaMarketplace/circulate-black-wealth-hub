@@ -173,9 +173,16 @@ serve(async (req) => {
             average_rating, review_count, logo_url, banner_url
           `)
           .eq("id", args.business_id)
-          .single();
+          // Only verified, live, public directory listings are readable here.
+          .eq("listing_status", "live")
+          .eq("is_verified", true)
+          .maybeSingle();
 
         if (error) throw error;
+        if (!data) {
+          result = { business: null, services: [], message: "Business not found." };
+          break;
+        }
 
         // Get services if available
         const { data: services } = await supabase
