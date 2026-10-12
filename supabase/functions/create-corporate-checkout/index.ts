@@ -16,7 +16,7 @@ serve(async (req) => {
   try {
     const { tier, companyName, email, logoUrl, websiteUrl } = await req.json();
     
-    console.log("Creating corporate checkout:", { tier, companyName, email });
+    console.log("Creating corporate checkout:", { tier });
 
     // Get auth token
     const authHeader = req.headers.get("Authorization");

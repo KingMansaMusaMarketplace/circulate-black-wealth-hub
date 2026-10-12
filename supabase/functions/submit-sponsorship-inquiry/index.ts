@@ -77,7 +77,7 @@ serve(async (req) => {
 
   try {
     const payload = (await req.json()) as InquiryPayload;
-    console.log("New sponsorship inquiry:", payload.companyName, payload.email);
+    console.log("New sponsorship inquiry received");
 
     if (!payload.companyName || !payload.email || !payload.contactName) {
       return new Response(

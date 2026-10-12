@@ -327,7 +327,7 @@ serve(async (req) => {
           const user = users.users.find(u => u.email === customerEmail);
           
           if (!user) {
-            console.error(`No user found with email: ${customerEmail}`);
+            console.error("No user found for Stripe customer email");
             break;
           }
 
