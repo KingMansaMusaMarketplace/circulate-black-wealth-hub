@@ -93,7 +93,7 @@ const handler = async (req: Request): Promise<Response> => {
         try {
           const redirectUrl = new URL(redirect);
           isAllowedRedirect = allowedOrigins.some(origin => {
-            try { return new URL(origin).hostname === redirectUrl.hostname; } 
+            try { return redirectUrl.protocol === "https:" && new URL(origin).origin === redirectUrl.origin; }
             catch { return false; }
           });
         } catch {
