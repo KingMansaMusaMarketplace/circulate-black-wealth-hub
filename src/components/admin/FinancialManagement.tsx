@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { csvCell } from '@/lib/csv-safe';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -149,7 +150,7 @@ const FinancialManagement: React.FC = () => {
     }
 
     const headers = Object.keys(data[0]).join(',');
-    const rows = data.map(row => Object.values(row).join(',')).join('\n');
+    const rows = data.map(row => Object.values(row).map(csvCell).join(',')).join('\n');
     const csv = `${headers}\n${rows}`;
     
     const blob = new Blob([csv], { type: 'text/csv' });
