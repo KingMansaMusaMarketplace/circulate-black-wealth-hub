@@ -127,7 +127,26 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
     
-    const { recipients, subject, content } = parseResult.data;
+    const { recipients: requested, subject, content } = parseResult.data;
+
+    // Only send to people actually on the active email list — never to arbitrary addresses.
+    const wanted = [...new Set(requested.map((e) => e.trim().toLowerCase()))];
+    const allowedSet = new Set<string>();
+    for (let i = 0; i < wanted.length; i += 500) {
+      const { data: rows } = await supabaseAdmin
+        .from("email_subscriptions")
+        .select("email")
+        .eq("is_active", true)
+        .in("email", wanted.slice(i, i + 500));
+      (rows ?? []).forEach((r: any) => allowedSet.add(String(r.email).toLowerCase()));
+    }
+    const recipients = wanted.filter((e) => allowedSet.has(e));
+    if (recipients.length === 0) {
+      return new Response(
+        JSON.stringify({ success: false, error: "None of the selected addresses are active subscribers" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
 
     console.log(`Sending bulk email to ${recipients.length} recipients`);
 
