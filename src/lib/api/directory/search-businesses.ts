@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { safeFilterTerm } from './safe-filter-term';
 import { Business } from '@/types/business';
 import { mapSupabaseBusinessToBusiness } from './mappers';
 
@@ -35,7 +36,7 @@ export async function searchBusinesses(
       }
       
       // Apply text search
-      query = query.or(`business_name.ilike.%${term}%,category.ilike.%${term}%`);
+      { const t = safeFilterTerm(term); if (t) query = query.or(`business_name.ilike.%${t}%,category.ilike.%${t}%`); }
       query = query.limit(20);
       
       const { data, error } = await query;

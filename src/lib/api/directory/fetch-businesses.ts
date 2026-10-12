@@ -1,5 +1,6 @@
 
 import { supabase } from '@/integrations/supabase/client';
+import { safeFilterTerm } from './safe-filter-term';
 import { toast } from 'sonner';
 import { Business } from '@/types/business';
 import { BusinessFilters, PaginationParams, BusinessQueryResult } from './types';
@@ -31,7 +32,7 @@ export async function fetchBusinesses(
         .select('*', { count: 'exact' });
       
       if (filters?.searchTerm) {
-        query = query.or(`business_name.ilike.%${filters.searchTerm}%,category.ilike.%${filters.searchTerm}%`);
+        { const t = safeFilterTerm(filters.searchTerm); if (t) query = query.or(`business_name.ilike.%${t}%,category.ilike.%${t}%`); }
       }
       
       if (expandedCategories) {
@@ -132,7 +133,7 @@ async function applyFeaturedPlacements(businesses: any[], filters?: BusinessFilt
       .eq('status', 'active');
 
     if (filters?.category && filters.category !== 'all') {
-      q = q.or(`category.eq.${filters.category},category.is.null`);
+      q = q.or(`category.eq."${safeFilterTerm(filters.category)}",category.is.null`);
     }
 
     const { data: placements } = await q;
