@@ -148,8 +148,7 @@ const CorporateSponsorshipApprovals: React.FC = () => {
           if (!userError && userData?.email) {
             await supabase.functions.invoke('send-sponsor-rejection', {
               body: {
-                email: userData.email,
-                companyName: selectedSubscription.company_name,
+                subscriptionId: selectedSubscription.id,
                 reason: rejectionReason,
               }
             });
