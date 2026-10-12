@@ -15,6 +15,7 @@ import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
 import WhyBuyBand from '@/components/homepage/WhyBuyBand';
 import WhyNowVideo from '@/components/homepage/WhyNowVideo';
 import HolidayVideoCard from '@/components/homepage/HolidayVideoCard';
+import AutonomousWorkforceVideo from '@/components/homepage/AutonomousWorkforceVideo';
 import { isHolidaySpecialActive } from '@/components/homepage/HolidayAnnouncementBar';
 
 
@@ -212,6 +213,7 @@ const HomePage: React.FC = () => {
         <HolidayVideoCard />
 
         <WhyBuyBand />
+        <AutonomousWorkforceVideo />
 
         {/* Corporate partner wall — shows live partners and open slots */}
         <SponsorWallStrip openSlots={2} />
