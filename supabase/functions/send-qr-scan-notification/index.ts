@@ -72,9 +72,17 @@ const handler = async (req: Request): Promise<Response> => {
       const { data: u } = jwt ? await supabase.auth.getUser(jwt) : { data: null };
       if (!u?.user || !scanRow.converted_user_id || u.user.id !== scanRow.converted_user_id) return ok;
     } else {
-      const callerIp = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim()
-        || req.headers.get('cf-connecting-ip') || '';
+      const callerIp = (req.headers.get('cf-connecting-ip') || '').trim()
+        || (req.headers.get('x-forwarded-for') || '').split(',')[0].trim();
       if (!callerIp || !scanRow.ip_address || String(scanRow.ip_address).split('/')[0] !== callerIp) return ok;
+      // Send at most one "scanned" email per scan, claimed atomically.
+      const { data: claimed } = await supabase
+        .from('qr_code_scans')
+        .update({ scan_notified_at: new Date().toISOString() })
+        .eq('id', scanRow.id)
+        .is('scan_notified_at', null)
+        .select('id');
+      if (!claimed || claimed.length === 0) return ok;
     }
 
     const anchorTs = notificationType === 'conversion'
