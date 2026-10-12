@@ -108,6 +108,7 @@ serve(async (req) => {
     if (action === "test") {
       const to = String(body.to ?? "").trim().toLowerCase();
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)) return json({ error: "Enter a valid test email" }, 400);
+      if (!(await isAllowedTestRecipient(supabase, auth.userId, to))) return json({ error: "Test emails can only go to your own address or a @1325.ai address" }, 403);
       const { error } = await resend.emails.send({
         from: FROM, to: [to], subject: `[TEST] ${WAVES[wave].subject}`,
         html: renderEmail(wave, "Sample Business", "Chicago", `${SITE}/unsubscribe`),

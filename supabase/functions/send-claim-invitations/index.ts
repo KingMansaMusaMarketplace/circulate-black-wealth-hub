@@ -133,6 +133,7 @@ serve(async (req: Request): Promise<Response> => {
     if (typeof body?.test_to === "string") {
       const to = body.test_to.trim().toLowerCase();
       if (!EMAIL_RE.test(to) || to.length > 255) throw new Error("Enter a valid test email");
+      if (!(await isAllowedTestRecipient(supabase, auth.userId, to))) throw new Error("Test emails can only go to your own address or a @1325.ai address");
       const html = buildEmail({
         businessName: "Sample Business",
         city: "Chicago",
