@@ -59,7 +59,15 @@ serve(async (req) => {
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-    console.log(`Authenticated user: ${user.id}`);
+    // Only admins may trigger paid website scrapes (used by the admin import tools).
+    const { data: isAdmin } = await supabaseAuth.rpc('has_role', { _user_id: user.id, _role: 'admin' });
+    if (!isAdmin) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Admin access required' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    console.log(`Authenticated admin: ${user.id}`);
     // ========== END AUTHENTICATION CHECK ==========
 
     const { url, saveAsDraft } = await req.json();
