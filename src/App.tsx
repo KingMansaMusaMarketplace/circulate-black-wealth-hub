@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import ImpactPage from '@/pages/ImpactPage';
 import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import SubmitBusinessRedirect from '@/components/routing/SubmitBusinessRedirect';
 import { isCapacitorPlatform } from '@/utils/capacitor-platform-check';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -671,7 +672,9 @@ function App() {
                                   <LazyBusinessFormPage />
                                 </IOSProtectedRoute>
                               } />
-                              <Route path="/business-signup" element={
+                              <Route path="/submit-business" element={<SubmitBusinessRedirect />} />
+                              <Route path="/submit-business" element={<SubmitBusinessRedirect />} />
+                        <Route path="/business-signup" element={
                                 <IOSProtectedRoute>
                                   <LazyBusinessSignupPage />
                                 </IOSProtectedRoute>
