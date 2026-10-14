@@ -19,7 +19,6 @@ const SubmitBusinessRedirect = () => {
         window.clearInterval(t);
       } else if (++tries > 40) window.clearInterval(t);
     }, 150);
-    return () => window.clearInterval(t);
   }, [navigate]);
   return null;
 };
