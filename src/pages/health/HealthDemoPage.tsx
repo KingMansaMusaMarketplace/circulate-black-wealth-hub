@@ -268,28 +268,55 @@ const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, patients: Pat
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
   const View = VIEWS[mod];
+  const current = MODULES.find((m) => m.key === mod)!;
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Helmet><title>1325 Clinical — Investor Demo | 1325.AI</title>
         <meta name="description" content="Investor preview of 1325 Clinical, a planned AI-powered health record system by 1325.AI. Sample data only." /></Helmet>
-      <div className="flex items-center justify-center gap-2 bg-mansagold px-4 py-2 text-center text-sm font-medium text-foreground">
-        <Lock className="h-4 w-4" /> Investor demo · All patients are fictional sample data · Not yet approved for real patient records
+      <div className="flex items-center justify-center gap-2 border-b border-mansagold/30 bg-mansagold/10 px-4 py-1.5 text-center text-xs font-medium tracking-wide text-mansagold">
+        <Lock className="h-3.5 w-3.5" /> INVESTOR DEMO · Fictional sample data · Not yet approved for real patient records
       </div>
-      <header className="border-b border-border px-6 py-8">
-        <p className="text-sm uppercase tracking-widest text-mansagold">health.1325.ai · Enterprise Edition</p>
-        <h1 className="mt-2 text-3xl font-bold md:text-4xl">1325 Clinical</h1>
-        <p className="mt-2 max-w-2xl text-muted-foreground">One system for patient charts, record review, remote monitoring, prior authorization and billing — with Kayla doing the reading so doctors can do the doctoring.</p>
+      <header className="flex h-16 items-center justify-between gap-4 border-b border-border bg-card px-6">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-mansagold"><HeartPulse className="h-5 w-5 text-background" /></div>
+          <div className="leading-tight">
+            <p className="text-base font-semibold tracking-tight">1325 Clinical</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Enterprise Edition</p>
+          </div>
+        </div>
+        <div className="relative hidden max-w-md flex-1 md:block">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input className="h-9 pl-9" placeholder="Search patients, cases, claims…" />
+        </div>
+        <div className="flex items-center gap-3">
+          <Badge variant="outline" className="hidden gap-1 sm:flex"><ShieldCheck className="h-3 w-3" />Sample workspace</Badge>
+          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted text-xs font-semibold">MD</div>
+        </div>
       </header>
-      <div className="flex flex-col md:flex-row">
-        <nav className="flex gap-1 overflow-x-auto border-b border-border p-3 md:w-60 md:flex-col md:border-b-0 md:border-r">
+      <div className="flex flex-1 flex-col md:flex-row">
+        <nav className="flex gap-1 overflow-x-auto border-b border-border bg-card/50 p-3 md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
+          <p className="hidden px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground md:block">Workspace</p>
           {MODULES.map(({ key, label, icon: Icon }) => (
             <button key={key} onClick={() => setMod(key)}
-              className={`flex shrink-0 items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${mod === key ? 'bg-mansagold/15 text-mansagold' : 'text-muted-foreground hover:bg-muted'}`}>
-              <Icon className="h-4 w-4" />{label}</button>))}
+              className={`flex shrink-0 items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${mod === key ? 'border-l-2 border-mansagold bg-mansagold/10 text-foreground' : 'border-l-2 border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+              <Icon className={`h-4 w-4 ${mod === key ? 'text-mansagold' : ''}`} />{label}</button>))}
+          <div className="mt-auto hidden rounded-lg border border-border p-3 md:block">
+            <p className="flex items-center gap-2 text-xs font-semibold"><BrainCircuit className="h-4 w-4 text-mansagold" />Kayla Clinical AI</p>
+            <p className="mt-1 text-xs text-muted-foreground">Organizes records. Doctors make every medical decision.</p>
+          </div>
         </nav>
-        <main className="flex-1 p-6"><View /></main>
+        <main className="flex-1 bg-muted/20 p-6 md:p-8">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-2 border-b border-border pb-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">health.1325.ai</p>
+              <h1 className="mt-1 text-2xl font-semibold tracking-tight">{current.label}</h1>
+            </div>
+            <p className="text-sm text-muted-foreground">Thursday · Sample clinic</p>
+          </div>
+          <View />
+        </main>
       </div>
-      <footer className="border-t border-border px-6 py-6 text-xs text-muted-foreground">
+      <footer className="border-t border-border bg-card px-6 py-4 text-[11px] leading-relaxed text-muted-foreground">
         1325 Clinical is a product in development by 1325.AI (Mansa Musa Marketplace, Inc.). This preview shows planned features with fictional data. It is not a medical device and is not yet certified for protected health information. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.
       </footer>
     </div>
