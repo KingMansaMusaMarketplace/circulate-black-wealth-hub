@@ -52,4 +52,5 @@
 - [x] Nationwide claim campaign started: 200\/day, daily 9am Chicago
 
 - [ ] Dr. Atwater clinical dossier PDF
-- [ ] health.1325.ai investor demo built at /health (sample data). Real records wait on AWS BAA + attorney; subdomain not yet connected
+- [x] health.1325.ai tour at /health + working sample-only workspace at /health/app (sign-in, charts, schedule, Kayla record review, prior auth, billing, team)
+- [ ] Test the workspace signed in (Thomas) with a made-up sample PDF
