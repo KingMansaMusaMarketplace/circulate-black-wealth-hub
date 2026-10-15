@@ -673,7 +673,6 @@ function App() {
                                 </IOSProtectedRoute>
                               } />
                               <Route path="/submit-business" element={<SubmitBusinessRedirect />} />
-                              <Route path="/submit-business" element={<SubmitBusinessRedirect />} />
                         <Route path="/business-signup" element={
                                 <IOSProtectedRoute>
                                   <LazyBusinessSignupPage />
