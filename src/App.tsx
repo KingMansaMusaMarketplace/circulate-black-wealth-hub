@@ -587,7 +587,7 @@ function App() {
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
                               {/* Home — Kayla-led front door is the landing page */}
-                              <Route path="/" element={<HomePage />} />
+                              <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? <LazyHealthDemoPage /> : <HomePage />} />
                               <Route path="/about-1325" element={<LazyAboutPage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
@@ -1260,7 +1260,7 @@ function App() {
                         <Layout>
                           <Routes>
                           {/* Home — Kayla-led front door is the landing page */}
-                          <Route path="/" element={<HomePage />} />
+                          <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? <LazyHealthDemoPage /> : <HomePage />} />
                           <Route path="/about-1325" element={<LazyAboutPage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
