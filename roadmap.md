@@ -52,4 +52,4 @@
 - [x] Nationwide claim campaign started: 200\/day, daily 9am Chicago
 
 - [ ] Dr. Atwater clinical dossier PDF
-- [ ] Build health.1325.ai on the enterprise side (Phase 1 no patient data) — waiting on Thomas "go" for Board Check; Phase 2 patient records waits on AWS BAA + attorney
+- [ ] health.1325.ai investor demo built at /health (sample data). Real records wait on AWS BAA + attorney; subdomain not yet connected
