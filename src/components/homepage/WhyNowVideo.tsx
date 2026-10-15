@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import video from '@/assets/why-1325-ep1.mp4.asset.json';
-import poster from '@/assets/why-1325-ep1-poster.jpg.asset.json';
+import video from '@/assets/why-1325-ep1-v7.mp4.asset.json';
+import poster from '@/assets/why-1325-ep1-v7-poster.jpg.asset.json';
 import TapToPlayVideo from './TapToPlayVideo';
 
 /** Home page founder video: Building in Public, Episode 1 ("Day Zero"). */
