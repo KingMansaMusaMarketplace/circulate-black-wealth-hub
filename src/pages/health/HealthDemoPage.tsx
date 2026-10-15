@@ -276,7 +276,7 @@ export default function HealthDemoPage() {
       <div className="flex items-center justify-center gap-2 border-b border-mansagold/30 bg-mansagold/10 px-4 py-1.5 text-center text-xs font-medium tracking-wide text-mansagold">
         <Lock className="h-3.5 w-3.5" /> INVESTOR DEMO · Fictional sample data · Not yet approved for real patient records
       </div>
-      <header className="flex h-16 items-center justify-between gap-4 border-b border-border bg-card px-6">
+      <header className="flex h-16 items-center justify-between gap-4 border-b-2 border-mansagold bg-mansablue px-6 text-foreground">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-mansagold"><HeartPulse className="h-5 w-5 text-background" /></div>
           <div className="leading-tight">
@@ -294,7 +294,7 @@ export default function HealthDemoPage() {
         </div>
       </header>
       <div className="flex flex-1 flex-col md:flex-row">
-        <nav className="flex gap-1 overflow-x-auto border-b border-border bg-card/50 p-3 md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
+        <nav className="flex gap-1 overflow-x-auto border-b border-mansablue/40 bg-mansablue-dark/40 p-3 md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
           <p className="hidden px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground md:block">Workspace</p>
           {MODULES.map(({ key, label, icon: Icon }) => (
             <button key={key} onClick={() => setMod(key)}
@@ -305,7 +305,7 @@ export default function HealthDemoPage() {
             <p className="mt-1 text-xs text-muted-foreground">Organizes records. Doctors make every medical decision.</p>
           </div>
         </nav>
-        <main className="flex-1 bg-muted/20 p-6 md:p-8">
+        <main className="flex-1 bg-background p-6 md:p-8">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-2 border-b border-border pb-4">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">health.1325.ai</p>
