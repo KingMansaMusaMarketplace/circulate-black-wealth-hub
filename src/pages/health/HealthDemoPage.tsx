@@ -290,7 +290,7 @@ export default function HealthDemoPage() {
         </div>
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="hidden gap-1 border-mansagold/60 text-mansagold sm:flex"><ShieldCheck className="h-3 w-3" />Sample workspace</Badge>
-          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-mansagold bg-mansagold text-xs font-semibold text-mansablue">MD</div>
+          <a href="/health/app" className="rounded-md bg-mansagold px-3 py-1.5 text-xs font-semibold text-mansablue hover:bg-mansagold-dark">Open live workspace</a>
         </div>
       </header>
       <div className="flex flex-1 flex-col md:flex-row">
