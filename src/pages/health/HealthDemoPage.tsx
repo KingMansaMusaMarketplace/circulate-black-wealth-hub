@@ -280,8 +280,8 @@ export default function HealthDemoPage() {
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-mansagold"><HeartPulse className="h-5 w-5 text-background" /></div>
           <div className="leading-tight">
-            <p className="text-base font-semibold tracking-tight">1325 Clinical</p>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Enterprise Edition</p>
+            <p className="text-base font-semibold tracking-tight text-mansagold">1325 Clinical</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-mansagold/70">Enterprise Edition</p>
           </div>
         </div>
         <div className="relative hidden max-w-md flex-1 md:block">
@@ -289,12 +289,12 @@ export default function HealthDemoPage() {
           <Input className="h-9 pl-9" placeholder="Search patients, cases, claims…" />
         </div>
         <div className="flex items-center gap-3">
-          <Badge variant="outline" className="hidden gap-1 sm:flex"><ShieldCheck className="h-3 w-3" />Sample workspace</Badge>
-          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted text-xs font-semibold">MD</div>
+          <Badge variant="outline" className="hidden gap-1 border-mansagold/60 text-mansagold sm:flex"><ShieldCheck className="h-3 w-3" />Sample workspace</Badge>
+          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-mansagold bg-mansagold text-xs font-semibold text-mansablue">MD</div>
         </div>
       </header>
       <div className="flex flex-1 flex-col md:flex-row">
-        <nav className="flex gap-1 overflow-x-auto border-b border-mansablue/40 bg-mansablue-dark/40 p-3 md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
+        <nav className="flex gap-1 overflow-x-auto border-b border-border bg-card p-3 md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
           <p className="hidden px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground md:block">Workspace</p>
           {MODULES.map(({ key, label, icon: Icon }) => (
             <button key={key} onClick={() => setMod(key)}
