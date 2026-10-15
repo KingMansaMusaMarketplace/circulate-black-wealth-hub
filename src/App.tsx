@@ -1270,7 +1270,6 @@ function App() {
                               <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthDemoPage />} />
                               <Route path="/health/app" element={<LazyHealthWorkspacePage />} />
-                              <Route path="/health/app" element={<LazyHealthWorkspacePage />} />
                               <Route path="/supplier-api" element={<LazySupplierApiDocsPage />} />
                               <Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
                         <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
