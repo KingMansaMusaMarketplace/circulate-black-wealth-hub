@@ -12,43 +12,35 @@ const json = (b: unknown, status = 200) =>
 
 const MAX_CHARS = 700_000;
 
-const TOOL = {
-  type: "function",
-  function: {
-    name: "save_review",
-    description: "Save the structured record review.",
-    parameters: {
-      type: "object",
-      properties: {
-        summary: { type: "string", description: "3-5 sentence plain-English overview for the examining doctor." },
-        incident_date: { type: "string", description: "Date of the injury/incident if stated, else empty." },
-        timeline: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              date: { type: "string" }, provider: { type: "string" }, complaint: { type: "string" },
-              findings: { type: "string" }, treatment: { type: "string" }, page: { type: "string" },
-            },
-            required: ["date", "provider", "complaint", "findings", "treatment", "page"],
-          },
-        },
-        pre_existing: {
-          type: "array", description: "Complaints/conditions documented BEFORE the incident date.",
-          items: { type: "object", properties: { date: { type: "string" }, provider: { type: "string" }, quote: { type: "string" }, page: { type: "string" } }, required: ["date", "quote", "page"] },
-        },
-        discrepancies: {
-          type: "array", description: "Patient-reported symptoms that conflict with objective findings or imaging.",
-          items: { type: "object", properties: { subjective: { type: "string" }, objective: { type: "string" }, severity: { type: "string", enum: ["low", "medium", "high"] }, pages: { type: "string" } }, required: ["subjective", "objective", "severity", "pages"] },
-        },
-        gaps_in_care: { type: "array", items: { type: "string" } },
-        questions_for_exam: { type: "array", items: { type: "string" }, description: "Things the doctor may want to ask or test during the exam." },
-        report_outline: { type: "array", items: { type: "string" } },
-      },
-      required: ["summary", "timeline", "pre_existing", "discrepancies", "gaps_in_care", "questions_for_exam", "report_outline"],
-    },
-  },
-};
+const str = { type: "string" };
+const obj = (props: Record<string, unknown>) => ({ type: "object", additionalProperties: false, properties: props, required: Object.keys(props) });
+const arr = (items: unknown) => ({ type: "array", items });
+const SCHEMA = obj({
+  summary: str,
+  incident_date: str,
+  timeline: arr(obj({ date: str, provider: str, complaint: str, findings: str, treatment: str, page: str })),
+  pre_existing: arr(obj({ date: str, provider: str, quote: str, page: str })),
+  discrepancies: arr(obj({ subjective: str, objective: str, severity: { type: "string", enum: ["low", "medium", "high"] }, pages: str })),
+  gaps_in_care: arr(str),
+  questions_for_exam: arr(str),
+  report_outline: arr(str),
+});
+
+async function readStream(res: Response): Promise<string> {
+  const reader = res.body!.getReader(); const dec = new TextDecoder();
+  let buf = "", out = "";
+  for (;;) {
+    const { done, value } = await reader.read(); if (done) break;
+    buf += dec.decode(value, { stream: true });
+    const lines = buf.split("\n"); buf = lines.pop() ?? "";
+    for (const line of lines) {
+      if (!line.startsWith("data:")) continue;
+      const d = line.slice(5).trim(); if (!d || d === "[DONE]") continue;
+      try { const ev = JSON.parse(d); if (ev.type === "response.output_text.delta") out += ev.delta ?? ""; } catch { /* skip */ }
+    }
+  }
+  return out;
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
@@ -74,37 +66,31 @@ Deno.serve(async (req) => {
 
     const key = Deno.env.get("LOVABLE_API_KEY");
     if (!key) return json({ error: "AI not configured" }, 500);
-    const model = "google/gemini-2.5-pro";
-    const ai = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const model = "openai/gpt-6-astra";
+    const ai = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
       method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      headers: { "Lovable-API-Key": key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", "X-Lovable-AIG-SDK": "fetch" },
       body: JSON.stringify({
-        model,
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are Kayla Clinical, a medical-legal record organizer for 1325 Clinical. The records are fictional SAMPLE data. " +
-              "Organize facts only; never diagnose, never decide fault — the examining doctor decides. " +
-              "Pages are marked like [Page 12]. Cite page numbers for every item. Quote exactly when quoting. " +
-              "Never invent anything not in the text; if a field is unknown, write 'Not stated'.",
-          },
-          { role: "user", content: `Review these records:\n\n${text.slice(0, MAX_CHARS)}` },
-        ],
-        tools: [TOOL],
-        tool_choice: { type: "function", function: { name: "save_review" } },
+        model, stream: true, store: false,
+        reasoning: { effort: "medium" },
+        instructions:
+          "You are Kayla Clinical, a medical-legal record organizer for 1325 Clinical. The records are fictional SAMPLE data. " +
+          "Organize facts only; never diagnose, never decide fault — the examining doctor decides. " +
+          "Pages are marked like [Page 12]. Cite page numbers for every item. Quote exactly when quoting. " +
+          "Never invent anything not in the text; if a field is unknown, write 'Not stated'. pre_existing = complaints dated before the incident; discrepancies = patient-reported symptoms that conflict with objective findings or imaging.",
+        input: [{ role: "user", content: `Review these records:\n\n${text.slice(0, MAX_CHARS)}` }],
+        text: { format: { type: "json_schema", name: "record_review", strict: true, schema: SCHEMA } },
       }),
     });
     if (!ai.ok) {
       await userClient.from("hc_documents").update({ status: "failed" }).eq("id", documentId);
       if (ai.status === 429) return json({ error: "Kayla is busy — try again in a minute." }, 429);
       if (ai.status === 402) return json({ error: "AI credits used up — add credits to continue." }, 402);
+      console.error("gateway", ai.status, await ai.text());
       return json({ error: "Kayla could not finish the review" }, 502);
     }
-    const out = await ai.json();
-    const args = out?.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
     let result: unknown;
-    try { result = JSON.parse(args); } catch { result = null; }
+    try { result = JSON.parse(await readStream(ai)); } catch { result = null; }
     if (!result) {
       await userClient.from("hc_documents").update({ status: "failed" }).eq("id", documentId);
       return json({ error: "Kayla returned an unreadable review" }, 502);
