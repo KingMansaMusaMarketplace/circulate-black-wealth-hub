@@ -101,6 +101,7 @@ import OAuthConsentPage from './pages/OAuthConsentPage';
 const LazyConnectPage = lazy(() => import('./pages/ConnectPage'));
 const LazyMcpDocsPage = lazy(() => import('./pages/McpDocsPage'));
 const LazyHealthDemoPage = lazy(() => import('./pages/health/HealthDemoPage'));
+const LazyHealthWorkspacePage = lazy(() => import('./pages/health/HealthWorkspacePage'));
 const LazySupplierApiDocsPage = lazy(() => import('./pages/SupplierApiDocsPage'));
 
 // Media Kit page
@@ -594,6 +595,7 @@ function App() {
                               <Route path="/connect" element={<LazyConnectPage />} />
 <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthDemoPage />} />
+                              <Route path="/health/app" element={<LazyHealthWorkspacePage />} />
                               <Route path="/supplier-api" element={<LazySupplierApiDocsPage />} />
 <Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
                               <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
@@ -1267,6 +1269,7 @@ function App() {
 <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthDemoPage />} />
+                              <Route path="/health/app" element={<LazyHealthWorkspacePage />} />
                               <Route path="/supplier-api" element={<LazySupplierApiDocsPage />} />
                               <Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
                         <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
