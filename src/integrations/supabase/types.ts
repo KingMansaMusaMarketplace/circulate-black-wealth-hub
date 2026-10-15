@@ -10113,6 +10113,544 @@ export type Database = {
           },
         ]
       }
+      hc_appointments: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          duration_min: number
+          id: string
+          patient_id: string | null
+          reason: string | null
+          starts_at: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          duration_min?: number
+          id?: string
+          patient_id?: string | null
+          reason?: string | null
+          starts_at: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          duration_min?: number
+          id?: string
+          patient_id?: string | null
+          reason?: string | null
+          starts_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_appointments_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_appointments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_claims: {
+        Row: {
+          amount: number
+          clinic_id: string
+          cpt_code: string | null
+          created_at: string
+          description: string | null
+          icd10_code: string | null
+          id: string
+          paid_amount: number
+          patient_id: string | null
+          status: string
+          submitted_on: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          clinic_id: string
+          cpt_code?: string | null
+          created_at?: string
+          description?: string | null
+          icd10_code?: string | null
+          id?: string
+          paid_amount?: number
+          patient_id?: string | null
+          status?: string
+          submitted_on?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          clinic_id?: string
+          cpt_code?: string | null
+          created_at?: string
+          description?: string | null
+          icd10_code?: string | null
+          id?: string
+          paid_amount?: number
+          patient_id?: string | null
+          status?: string
+          submitted_on?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_claims_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_claims_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_clinics: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          name: string
+          specialty: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          name: string
+          specialty?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          name?: string
+          specialty?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      hc_documents: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          created_by: string | null
+          file_name: string
+          id: string
+          pages: number | null
+          patient_id: string | null
+          status: string
+          storage_path: string | null
+          updated_at: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          created_by?: string | null
+          file_name: string
+          id?: string
+          pages?: number | null
+          patient_id?: string | null
+          status?: string
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          created_by?: string | null
+          file_name?: string
+          id?: string
+          pages?: number | null
+          patient_id?: string | null
+          status?: string
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_documents_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_documents_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_encounters: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          note: string | null
+          patient_id: string
+          provider: string | null
+          visit_date: string
+          visit_type: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          patient_id: string
+          provider?: string | null
+          visit_date?: string
+          visit_type?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          patient_id?: string
+          provider?: string | null
+          visit_date?: string
+          visit_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_encounters_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_encounters_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_medications: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          dose: string | null
+          id: string
+          name: string
+          patient_id: string
+          status: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          dose?: string | null
+          id?: string
+          name: string
+          patient_id: string
+          status?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          dose?: string | null
+          id?: string
+          name?: string
+          patient_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_medications_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_medications_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_members: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          email: string | null
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_members_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_patients: {
+        Row: {
+          allergies: string[]
+          clinic_id: string
+          conditions: string[]
+          created_at: string
+          dob: string | null
+          first_name: string
+          id: string
+          is_sample: boolean
+          last_name: string
+          mrn: string | null
+          notes: string | null
+          payer: string | null
+          risk: string
+          sex: string | null
+          updated_at: string
+        }
+        Insert: {
+          allergies?: string[]
+          clinic_id: string
+          conditions?: string[]
+          created_at?: string
+          dob?: string | null
+          first_name: string
+          id?: string
+          is_sample?: boolean
+          last_name: string
+          mrn?: string | null
+          notes?: string | null
+          payer?: string | null
+          risk?: string
+          sex?: string | null
+          updated_at?: string
+        }
+        Update: {
+          allergies?: string[]
+          clinic_id?: string
+          conditions?: string[]
+          created_at?: string
+          dob?: string | null
+          first_name?: string
+          id?: string
+          is_sample?: boolean
+          last_name?: string
+          mrn?: string | null
+          notes?: string | null
+          payer?: string | null
+          risk?: string
+          sex?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_patients_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_prior_auths: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          decided_on: string | null
+          id: string
+          notes: string | null
+          patient_id: string | null
+          payer: string | null
+          service: string
+          status: string
+          submitted_on: string | null
+          updated_at: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          decided_on?: string | null
+          id?: string
+          notes?: string | null
+          patient_id?: string | null
+          payer?: string | null
+          service: string
+          status?: string
+          submitted_on?: string | null
+          updated_at?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          decided_on?: string | null
+          id?: string
+          notes?: string | null
+          patient_id?: string | null
+          payer?: string | null
+          service?: string
+          status?: string
+          submitted_on?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_prior_auths_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_prior_auths_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_reviews: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          document_id: string
+          id: string
+          model: string | null
+          result: Json
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          document_id: string
+          id?: string
+          model?: string | null
+          result?: Json
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          document_id?: string
+          id?: string
+          model?: string | null
+          result?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_reviews_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_reviews_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "hc_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_vitals: {
+        Row: {
+          a1c: number | null
+          bp_dia: number | null
+          bp_sys: number | null
+          clinic_id: string
+          created_at: string
+          heart_rate: number | null
+          id: string
+          patient_id: string
+          recorded_on: string
+          weight_lb: number | null
+        }
+        Insert: {
+          a1c?: number | null
+          bp_dia?: number | null
+          bp_sys?: number | null
+          clinic_id: string
+          created_at?: string
+          heart_rate?: number | null
+          id?: string
+          patient_id: string
+          recorded_on?: string
+          weight_lb?: number | null
+        }
+        Update: {
+          a1c?: number | null
+          bp_dia?: number | null
+          bp_sys?: number | null
+          clinic_id?: string
+          created_at?: string
+          heart_rate?: number | null
+          id?: string
+          patient_id?: string
+          recorded_on?: string
+          weight_lb?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_vitals_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_vitals_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       holiday_campaign_sends: {
         Row: {
           bounced_at: string | null
@@ -28238,6 +28776,16 @@ export type Database = {
         Args: { p_business_id: string; p_customer_id: string }
         Returns: boolean
       }
+      hc_add_member: {
+        Args: { _clinic: string; _email: string; _role?: string }
+        Returns: string
+      }
+      hc_create_clinic: {
+        Args: { _name: string; _specialty?: string }
+        Returns: string
+      }
+      hc_is_member: { Args: { _clinic: string }; Returns: boolean }
+      hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
       increment_community_wealth: {
         Args: {
           p_amount: number
