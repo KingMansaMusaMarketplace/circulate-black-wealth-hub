@@ -270,13 +270,13 @@ export default function HealthDemoPage() {
   const View = VIEWS[mod];
   const current = MODULES.find((m) => m.key === mod)!;
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="theme-clinical dark flex min-h-screen flex-col">
       <Helmet><title>1325 Clinical — Investor Demo | 1325.AI</title>
         <meta name="description" content="Investor preview of 1325 Clinical, a planned AI-powered health record system by 1325.AI. Sample data only." /></Helmet>
       <div className="flex items-center justify-center gap-2 border-b border-mansagold/30 bg-mansagold/10 px-4 py-1.5 text-center text-xs font-medium tracking-wide text-mansagold">
         <Lock className="h-3.5 w-3.5" /> INVESTOR DEMO · Fictional sample data · Not yet approved for real patient records
       </div>
-      <header className="flex h-16 items-center justify-between gap-4 border-b-2 border-mansagold bg-mansablue px-6 text-foreground">
+      <header className="flex h-16 items-center justify-between gap-4 border-b-2 border-mansagold theme-clinical-bar px-6 shadow-lg text-foreground">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-mansagold"><HeartPulse className="h-5 w-5 text-background" /></div>
           <div className="leading-tight">
@@ -286,7 +286,7 @@ export default function HealthDemoPage() {
         </div>
         <div className="relative hidden max-w-md flex-1 md:block">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input className="h-9 pl-9" placeholder="Search patients, cases, claims…" />
+          <Input className="h-9 border-mansagold/30 bg-background/40 pl-9" placeholder="Search patients, cases, claims…" />
         </div>
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="hidden gap-1 border-mansagold/60 text-mansagold sm:flex"><ShieldCheck className="h-3 w-3" />Sample workspace</Badge>
@@ -294,18 +294,18 @@ export default function HealthDemoPage() {
         </div>
       </header>
       <div className="flex flex-1 flex-col md:flex-row">
-        <nav className="flex gap-1 overflow-x-auto border-b border-border bg-card p-3 md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
+        <nav className="flex gap-1 overflow-x-auto border-b border-border bg-card/80 p-3 backdrop-blur md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
           <p className="hidden px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground md:block">Workspace</p>
           {MODULES.map(({ key, label, icon: Icon }) => (
             <button key={key} onClick={() => setMod(key)}
               className={`flex shrink-0 items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${mod === key ? 'border-l-2 border-mansagold bg-mansagold/10 text-foreground' : 'border-l-2 border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
               <Icon className={`h-4 w-4 ${mod === key ? 'text-mansagold' : ''}`} />{label}</button>))}
-          <div className="mt-auto hidden rounded-lg border border-border p-3 md:block">
+          <div className="mt-auto hidden rounded-lg border border-mansagold/40 bg-mansagold/5 p-3 md:block">
             <p className="flex items-center gap-2 text-xs font-semibold"><BrainCircuit className="h-4 w-4 text-mansagold" />Kayla Clinical AI</p>
             <p className="mt-1 text-xs text-muted-foreground">Organizes records. Doctors make every medical decision.</p>
           </div>
         </nav>
-        <main className="flex-1 bg-background p-6 md:p-8">
+        <main className="flex-1 p-6 md:p-8">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-2 border-b border-border pb-4">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">health.1325.ai</p>

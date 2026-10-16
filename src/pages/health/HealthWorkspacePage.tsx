@@ -27,7 +27,7 @@ const Banner = () => (
   </div>
 );
 const Brand = () => (
-  <div className="flex items-center gap-2 font-semibold text-mansagold"><HeartPulse className="h-5 w-5" /> 1325 Clinical <span className="hidden text-xs font-normal text-primary-foreground/70 sm:inline">Enterprise Edition</span></div>
+  <div className="flex items-center gap-2 font-semibold text-mansagold"><HeartPulse className="h-5 w-5" /> 1325 Clinical <span className="hidden text-xs font-normal text-foreground/70 sm:inline">Enterprise Edition</span></div>
 );
 
 function SignIn() {
@@ -49,7 +49,7 @@ function SignIn() {
         <CardContent className="space-y-3">
           <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input type="password" placeholder="Password" value={pw} onChange={(e) => setPw(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && go()} />
-          <Button disabled={busy} onClick={go} className="w-full bg-mansablue text-primary-foreground">{mode === 'in' ? 'Sign in' : 'Create account'}</Button>
+          <Button disabled={busy} onClick={go} className="w-full bg-mansagold text-mansablue hover:bg-mansagold-dark">{mode === 'in' ? 'Sign in' : 'Create account'}</Button>
           <button className="w-full text-sm text-muted-foreground hover:text-foreground" onClick={() => setMode(mode === 'in' ? 'up' : 'in')}>{mode === 'in' ? 'New here? Create an account' : 'Have an account? Sign in'}</button>
           <Link to="/health" className="block text-center text-xs text-muted-foreground underline">Take the guided tour instead</Link>
         </CardContent>
@@ -68,7 +68,7 @@ function CreateClinic({ onDone }: { onDone: () => void }) {
           <p className="text-sm text-muted-foreground">We'll fill it with three made-up patients, visits, claims and authorizations so you can try everything right away.</p>
           <Input placeholder="Clinic name" value={name} onChange={(e) => setName(e.target.value)} />
           <Input placeholder="Specialty (optional)" value={spec} onChange={(e) => setSpec(e.target.value)} />
-          <Button disabled={busy} className="w-full bg-mansablue text-primary-foreground" onClick={async () => {
+          <Button disabled={busy} className="w-full bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => {
             setBusy(true);
             const { error } = await db.rpc('hc_create_clinic', { _name: name, _specialty: spec || null });
             setBusy(false);
@@ -102,25 +102,25 @@ export default function HealthWorkspacePage() {
   useEffect(() => { loadPatients(); }, [loadPatients]);
 
   const shellHeader = (
-    <header className="flex h-14 items-center justify-between border-b-2 border-mansagold bg-mansablue px-4 text-primary-foreground">
+    <header className="flex h-14 items-center justify-between border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
       <Brand />
-      {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-primary-foreground/80 md:inline">{clinic?.name}</span>
-        <Button size="sm" variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10" onClick={() => supabase.auth.signOut()}><LogOut className="h-4 w-4" /></Button></div>}
+      {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-foreground/80 md:inline">{clinic?.name}</span>
+        <Button size="sm" variant="ghost" className="text-foreground hover:bg-foreground/10" onClick={() => supabase.auth.signOut()}><LogOut className="h-4 w-4" /></Button></div>}
     </header>
   );
 
   const props = { clinicId: clinic?.id, patients, reloadPatients: loadPatients, isOwner: role === 'owner' };
   const current = NAV.find((n) => n.k === tab)!;
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="theme-clinical dark min-h-screen">
       <Helmet><title>1325 Clinical Workspace | health.1325.ai</title><meta name="robots" content="noindex" /></Helmet>
       <Banner />
       {shellHeader}
       {loading ? null : !user ? <SignIn /> : clinic === undefined ? null : !clinic ? <CreateClinic onDone={loadClinic} /> : (
         <div className="flex">
-          <aside className="hidden w-60 shrink-0 border-r bg-card p-3 md:block">
+          <aside className="hidden w-60 shrink-0 border-r bg-card/80 p-3 md:block">
             {NAV.map((n) => (
-              <button key={n.k} onClick={() => setTab(n.k)} className={`mb-1 flex w-full items-center gap-3 rounded-md border-l-2 px-3 py-2 text-sm transition ${tab === n.k ? 'border-mansagold bg-mansablue/5 font-medium text-mansablue dark:text-mansagold' : 'border-transparent text-muted-foreground hover:bg-muted'}`}>
+              <button key={n.k} onClick={() => setTab(n.k)} className={`mb-1 flex w-full items-center gap-3 rounded-md border-l-2 px-3 py-2 text-sm transition ${tab === n.k ? 'border-mansagold bg-mansagold/10 font-medium text-mansagold' : 'border-transparent text-muted-foreground hover:bg-muted'}`}>
                 <n.i className="h-4 w-4" /> {n.l}
               </button>
             ))}
