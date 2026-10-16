@@ -5,6 +5,10 @@ import kaylaCall1 from '@/assets/health-call/kayla-1.mp3';
 import kaylaCall2 from '@/assets/health-call/kayla-2.mp3';
 import kaylaCall3 from '@/assets/health-call/kayla-3.mp3';
 import kaylaCall4 from '@/assets/health-call/kayla-4.mp3';
+import patientCall0 from '@/assets/health-call/patient-0.mp3';
+import patientCall1 from '@/assets/health-call/patient-1.mp3';
+import patientCall2 from '@/assets/health-call/patient-2.mp3';
+import patientCall3 from '@/assets/health-call/patient-3.mp3';
 import { Helmet } from 'react-helmet-async';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
@@ -742,16 +746,17 @@ const CALL_SCRIPT: { who: 'Kayla' | 'Patient' | 'Flag'; text: string }[] = [
   { who: 'Kayla', text: "Hi, this is Kayla calling from your doctor's office. Am I speaking with Avery?" },
   { who: 'Patient', text: 'Yes, this is Avery.' },
   { who: 'Kayla', text: 'For your privacy, can you please confirm your date of birth?' },
-  { who: 'Patient', text: '(Sample date of birth confirmed.)' },
+  { who: 'Patient', text: "Sure. It's March 4th, 1960. (sample)" },
   { who: 'Kayla', text: "Thank you. You came home from the hospital last week. How are you feeling — better, the same, or worse?" },
   { who: 'Patient', text: 'A little better, but my ankles are more swollen than yesterday.' },
   { who: 'Kayla', text: 'Thank you for telling me. Did you weigh yourself this morning?' },
-  { who: 'Patient', text: "Yes — 170 pounds. It was 166 two days ago." },
+  { who: 'Patient', text: 'Yes — 170 pounds. It was 166 two days ago.' },
   { who: 'Flag', text: 'Safety rule triggered: weight up 4 lb in 2 days + new swelling. Escalating to the nurse.' },
   { who: 'Kayla', text: "That change matters, so I'm connecting you with Nurse Taylor right now. Please stay on the line." },
 ];
 
 const KAYLA_AUDIO = [kaylaCall0, kaylaCall1, kaylaCall2, kaylaCall3, kaylaCall4];
+const PATIENT_AUDIO = [patientCall0, patientCall1, patientCall2, patientCall3];
 
 const VoiceOutreach = () => {
   const [step, setStep] = useState(0);
@@ -772,7 +777,7 @@ const VoiceOutreach = () => {
     const id = ++runId.current;
     audioRef.current?.pause();
     setStep(0); setRunning(true);
-    let k = 0;
+    let k = 0; let pk = 0;
     await wait(400);
     for (let i = 0; i < CALL_SCRIPT.length; i++) {
       if (runId.current !== id) return;
@@ -780,6 +785,11 @@ const VoiceOutreach = () => {
       if (CALL_SCRIPT[i].who === 'Kayla') {
         setSpeaking(true);
         await playLine(KAYLA_AUDIO[k++]);
+        setSpeaking(false);
+        await wait(500);
+      } else if (CALL_SCRIPT[i].who === 'Patient') {
+        setSpeaking(true);
+        await playLine(PATIENT_AUDIO[pk++]);
         setSpeaking(false);
         await wait(500);
       } else {
