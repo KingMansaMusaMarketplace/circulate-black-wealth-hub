@@ -60,9 +60,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
   const clinical = isClinicalContext();
   const copy = clinical
     ? {
-        title: 'Kayla — Clinical AI Co-Pilot',
-        subtitle: '1325 Clinical · Enterprise Intelligence',
-        hello: "Hello, I'm Kayla, your clinical co-pilot.",
+        title: 'Kayla, Ph.D. — Clinical AI Co-Pilot',
+        subtitle: 'EMR & Clinical Informatics Expert',
+        hello: "Hello, I'm Dr. Kayla — your EMR systems expert.",
         intro: 'Ask me about chart review, CME record timelines, or prior-authorization appeals. Sample data only — never enter real patient information.',
         prompts: [
           'Build a 5-column CME treatment timeline',
@@ -157,7 +157,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: allMessages }),
+        body: JSON.stringify({ messages: allMessages, ...(clinical ? { mode: 'clinical' } : {}) }),
       });
 
       if (!resp.ok) {

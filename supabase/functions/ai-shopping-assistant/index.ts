@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { foldHistory } from "../_shared/safe-history.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
+import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt, buildClinicalPersonaBlock, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { gatherLiveGrounding, NEEDS_LIVE_FACTS } from "../_shared/kayla-grounding.ts";
 import { foldUntrustedHistory } from "../_shared/untrusted-history.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
@@ -107,7 +107,8 @@ serve(async (req) => {
   let runDetails: Record<string, unknown> = {};
 
   try {
-    const { messages, sessionId } = await req.json();
+    const { messages, sessionId, mode } = await req.json();
+    const clinicalBlock = mode === "clinical" ? buildClinicalPersonaBlock() : "";
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: "messages array is required" }), {
         status: 400,
@@ -244,7 +245,7 @@ INSTRUCTIONS:
         const grounding = await gatherLiveGrounding({
           supabase, question: lastText, lovableApiKey: LOVABLE_API_KEY, userId: userId || null, forceWeb: needsLive,
         });
-        const fullPrompt = systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({}) + buildAgentBrandBlock() + approvedLessons + (grounding.block || "");
+        const fullPrompt = systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({}) + buildAgentBrandBlock() + approvedLessons + clinicalBlock + (grounding.block || "");
         const premium = await premiumChatAnswer({
           systemPrompt: fullPrompt,
           messages: foldUntrustedHistory(messages, 10),
@@ -274,7 +275,7 @@ INSTRUCTIONS:
       body: JSON.stringify({
         model: "google/gemini-3.7-flash",
         messages: [
-          { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() + approvedLessons },
+          { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() + approvedLessons + clinicalBlock },
           // Callers may only speak as the user or assistant — never 'system'.
           ...foldUntrustedHistory(messages, 10),
         ],
