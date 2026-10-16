@@ -74,7 +74,7 @@ export function Dashboard({ clinicId, patients, go }: P & { go: (k: string) => v
         {stats.map((s) => (
           <button key={s.l} onClick={() => go(s.k)} className="rounded-xl border bg-card p-5 text-left transition hover:border-mansagold/60">
             <div className="text-xs uppercase tracking-wide text-muted-foreground">{s.l}</div>
-            <div className="mt-2 text-3xl font-semibold text-mansablue dark:text-mansagold">{s.v}</div>
+            <div className="mt-2 text-3xl font-semibold text-mansagold">{s.v}</div>
           </button>
         ))}
       </div>
@@ -128,7 +128,7 @@ export function Patients({ clinicId, patients, reloadPatients }: P) {
       <CardHeader className="flex flex-row items-center justify-between gap-4 space-y-0">
         <Input placeholder="Search sample patients" value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" />
         <Dialog>
-          <DialogTrigger asChild><Button className="bg-mansablue text-primary-foreground"><Plus className="mr-1 h-4 w-4" /> New sample patient</Button></DialogTrigger>
+          <DialogTrigger asChild><Button className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" /> New sample patient</Button></DialogTrigger>
           <DialogContent>
             <DialogHeader><DialogTitle>New sample patient</DialogTitle></DialogHeader>
             <p className="rounded-md bg-mansagold/10 p-2 text-xs text-mansagold-dark">Use made-up names only. Real patient information is not allowed.</p>
@@ -142,7 +142,7 @@ export function Patients({ clinicId, patients, reloadPatients }: P) {
             </div>
             <Field label="Conditions (comma separated)"><Input value={f.conditions} onChange={(e) => setF({ ...f, conditions: e.target.value })} /></Field>
             <Field label="Allergies (comma separated)"><Input value={f.allergies} onChange={(e) => setF({ ...f, allergies: e.target.value })} /></Field>
-            <Button onClick={add} className="bg-mansablue text-primary-foreground">Save</Button>
+            <Button onClick={add} className="bg-mansagold text-mansablue hover:bg-mansagold-dark">Save</Button>
           </DialogContent>
         </Dialog>
       </CardHeader>
@@ -216,7 +216,7 @@ function Chart({ clinicId, patient, back }: { clinicId: string; patient: Row; ba
             <Input placeholder="Provider / facility" value={note.provider} onChange={(e) => setNote({ ...note, provider: e.target.value })} />
           </div>
           <Textarea placeholder="Visit note (sample)" value={note.note} onChange={(e) => setNote({ ...note, note: e.target.value })} />
-          <Button className="bg-mansablue text-primary-foreground" onClick={async () => { if (note.note && await save('hc_encounters', { clinic_id: clinicId, patient_id: patient.id, ...note }, 'Note saved')) { setNote({ ...note, note: '' }); enc.reload(); } }}>Save note</Button>
+          <Button className="bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => { if (note.note && await save('hc_encounters', { clinic_id: clinicId, patient_id: patient.id, ...note }, 'Note saved')) { setNote({ ...note, note: '' }); enc.reload(); } }}>Save note</Button>
           <div className="border-l-2 border-mansagold/50 pl-4">
             {enc.rows.map((e) => <div key={e.id} className="pb-4"><div className="text-xs text-muted-foreground">{e.visit_date} · {e.visit_type} · {e.provider}</div><div className="text-sm">{e.note}</div></div>)}
           </div>
@@ -240,7 +240,7 @@ export function Schedule({ clinicId, patients }: P) {
       <Card className="lg:col-span-2"><CardHeader><CardTitle className="text-base">Appointments</CardTitle></CardHeader>
         <CardContent className="space-y-5">
           {Object.entries(groups).map(([d, list]) => (
-            <div key={d}><div className="mb-2 text-xs font-semibold uppercase tracking-wide text-mansablue dark:text-mansagold">{d}</div>
+            <div key={d}><div className="mb-2 text-xs font-semibold uppercase tracking-wide text-mansagold">{d}</div>
               {list.map((a) => (
                 <div key={a.id} className="mb-2 flex items-center justify-between gap-2 rounded-lg border p-3">
                   <div><div className="font-medium">{format(parseISO(a.starts_at), 'h:mm a')} · {a.duration_min} min · {fullName(byId[a.patient_id])}</div><div className="text-sm text-muted-foreground">{a.reason}</div></div>
@@ -256,7 +256,7 @@ export function Schedule({ clinicId, patients }: P) {
           <Field label="Date & time"><Input type="datetime-local" value={f.when} onChange={(e) => setF({ ...f, when: e.target.value })} /></Field>
           <Field label="Length"><StatusPicker value={f.duration_min} options={['15', '30', '45', '60', '90']} onChange={(v) => setF({ ...f, duration_min: v })} /></Field>
           <Field label="Reason"><Input value={f.reason} onChange={(e) => setF({ ...f, reason: e.target.value })} /></Field>
-          <Button className="w-full bg-mansablue text-primary-foreground" onClick={async () => {
+          <Button className="w-full bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => {
             if (!f.patient_id || !f.when) return toast.error('Pick a patient and time');
             if (await save('hc_appointments', { clinic_id: clinicId, patient_id: f.patient_id, starts_at: new Date(f.when).toISOString(), duration_min: Number(f.duration_min), reason: f.reason }, 'Visit booked')) appts.reload();
           }}>Book</Button>
@@ -306,7 +306,7 @@ export function RecordReview({ clinicId, patients }: P) {
           <p className="flex items-start gap-2 rounded-md bg-mansagold/10 p-3 text-sm text-mansagold-dark"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" /> Sample or made-up records only. Do not upload real patient files.</p>
           <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
             <PatientPicker patients={patients} value={patientId} onChange={setPatientId} />
-            <label className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-mansablue px-4 py-2 text-sm font-medium text-primary-foreground ${busy ? 'pointer-events-none opacity-60' : ''}`}>
+            <label className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-mansagold px-4 py-2 text-sm font-medium text-mansablue ${busy ? 'pointer-events-none opacity-60' : ''}`}>
               <FileUp className="h-4 w-4" /> Upload PDF or text
               <input type="file" accept=".pdf,.txt" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) run(f); }} />
             </label>
@@ -366,7 +366,7 @@ export function PriorAuth({ clinicId, patients }: P) {
           <PatientPicker patients={patients} value={f.patient_id} onChange={(v) => setF({ ...f, patient_id: v, payer: byId[v]?.payer || f.payer })} />
           <Input placeholder="Service (e.g. MRI lumbar)" value={f.service} onChange={(e) => setF({ ...f, service: e.target.value })} />
           <Input placeholder="Insurance" value={f.payer} onChange={(e) => setF({ ...f, payer: e.target.value })} />
-          <Button className="bg-mansablue text-primary-foreground" onClick={async () => { if (!f.patient_id || !f.service) return toast.error('Patient and service required'); if (await save('hc_prior_auths', { clinic_id: clinicId, ...f }, 'Request created')) rows.reload(); }}>Create</Button>
+          <Button className="bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => { if (!f.patient_id || !f.service) return toast.error('Patient and service required'); if (await save('hc_prior_auths', { clinic_id: clinicId, ...f }, 'Request created')) rows.reload(); }}>Create</Button>
         </CardContent></Card>
       <Card><CardContent className="pt-6"><Table>
         <TableHeader><TableRow><TableHead>Patient</TableHead><TableHead>Service</TableHead><TableHead>Insurance</TableHead><TableHead>Sent</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
@@ -389,7 +389,7 @@ export function Billing({ clinicId, patients }: P) {
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
         {[['Billed', money(billed)], ['Collected', money(paid)], ['Denied claims', rows.rows.filter((c) => c.status === 'Denied').length]].map(([l, v]) => (
-          <div key={l as string} className="rounded-xl border bg-card p-5"><div className="text-xs uppercase tracking-wide text-muted-foreground">{l}</div><div className="mt-2 text-2xl font-semibold text-mansablue dark:text-mansagold">{v}</div></div>
+          <div key={l as string} className="rounded-xl border bg-card p-5"><div className="text-xs uppercase tracking-wide text-muted-foreground">{l}</div><div className="mt-2 text-2xl font-semibold text-mansagold">{v}</div></div>
         ))}
       </div>
       <Card><CardHeader><CardTitle className="text-base">New claim</CardTitle></CardHeader>
@@ -398,7 +398,7 @@ export function Billing({ clinicId, patients }: P) {
           <Input placeholder="CPT code" value={f.cpt_code} onChange={(e) => setF({ ...f, cpt_code: e.target.value })} />
           <Input placeholder="ICD-10 code" value={f.icd10_code} onChange={(e) => setF({ ...f, icd10_code: e.target.value })} />
           <Input placeholder="Amount $" type="number" value={f.amount} onChange={(e) => setF({ ...f, amount: e.target.value })} />
-          <Button className="bg-mansablue text-primary-foreground" onClick={async () => { if (!f.patient_id || !f.amount) return toast.error('Patient and amount required'); if (await save('hc_claims', { clinic_id: clinicId, ...f, amount: Number(f.amount) }, 'Claim created')) rows.reload(); }}>Create</Button>
+          <Button className="bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => { if (!f.patient_id || !f.amount) return toast.error('Patient and amount required'); if (await save('hc_claims', { clinic_id: clinicId, ...f, amount: Number(f.amount) }, 'Claim created')) rows.reload(); }}>Create</Button>
         </CardContent></Card>
       <Card><CardContent className="pt-6"><Table>
         <TableHeader><TableRow><TableHead>Patient</TableHead><TableHead>CPT</TableHead><TableHead>ICD-10</TableHead><TableHead>Amount</TableHead><TableHead>Paid</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
@@ -421,7 +421,7 @@ export function Team({ clinicId, isOwner }: P) {
           <div className="grid gap-2 sm:grid-cols-[1fr_140px_auto]">
             <Input placeholder="Team member's email (they must have a 1325.AI account)" value={email} onChange={(e) => setEmail(e.target.value)} />
             <StatusPicker value={role} options={['doctor', 'staff']} onChange={setRole} />
-            <Button className="bg-mansablue text-primary-foreground" onClick={async () => {
+            <Button className="bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => {
               const { data, error } = await db.rpc('hc_add_member', { _clinic: clinicId, _email: email, _role: role });
               if (error) return toast.error(error.message);
               if (data === 'not_found') return toast.error('No account with that email yet — ask them to sign up first.');
