@@ -1,5 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import logo1325 from '@/assets/1325-ai-logo.png';
+import kaylaCall0 from '@/assets/health-call/kayla-0.mp3';
+import kaylaCall1 from '@/assets/health-call/kayla-1.mp3';
+import kaylaCall2 from '@/assets/health-call/kayla-2.mp3';
+import kaylaCall3 from '@/assets/health-call/kayla-3.mp3';
+import kaylaCall4 from '@/assets/health-call/kayla-4.mp3';
 import { Helmet } from 'react-helmet-async';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
@@ -746,16 +751,42 @@ const CALL_SCRIPT: { who: 'Kayla' | 'Patient' | 'Flag'; text: string }[] = [
   { who: 'Kayla', text: "That change matters, so I'm connecting you with Nurse Taylor right now. Please stay on the line." },
 ];
 
+const KAYLA_AUDIO = [kaylaCall0, kaylaCall1, kaylaCall2, kaylaCall3, kaylaCall4];
+
 const VoiceOutreach = () => {
   const [step, setStep] = useState(0);
   const [running, setRunning] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const runId = React.useRef(0);
   const shown = CALL_SCRIPT.slice(0, step);
   const finished = step >= CALL_SCRIPT.length;
-  const start = () => {
+  React.useEffect(() => () => { runId.current += 1; audioRef.current?.pause(); }, []);
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const playLine = (src: string) => new Promise<void>((resolve) => {
+    const a = new Audio(src); audioRef.current = a;
+    a.onended = () => resolve(); a.onerror = () => resolve();
+    a.play().catch(() => resolve());
+  });
+  const start = async () => {
+    const id = ++runId.current;
+    audioRef.current?.pause();
     setStep(0); setRunning(true);
-    let i = 0;
-    const tick = () => { i += 1; setStep(i); if (i < CALL_SCRIPT.length) setTimeout(tick, 1400); else setRunning(false); };
-    setTimeout(tick, 400);
+    let k = 0;
+    await wait(400);
+    for (let i = 0; i < CALL_SCRIPT.length; i++) {
+      if (runId.current !== id) return;
+      setStep(i + 1);
+      if (CALL_SCRIPT[i].who === 'Kayla') {
+        setSpeaking(true);
+        await playLine(KAYLA_AUDIO[k++]);
+        setSpeaking(false);
+        await wait(500);
+      } else {
+        await wait(1600);
+      }
+    }
+    if (runId.current === id) setRunning(false);
   };
   return (
     <div className="space-y-6">
@@ -791,7 +822,7 @@ const VoiceOutreach = () => {
             {shown.length === 0 && <p className="text-muted-foreground">Press "Simulate patient call" to watch Kayla make a check-in call.</p>}
             {shown.map((l, i) => l.who === 'Flag'
               ? <p key={i} className="rounded-md border border-destructive/50 bg-destructive/10 p-2 text-destructive"><AlertTriangle className="mr-1 inline h-4 w-4" />{l.text}</p>
-              : <p key={i}><b className={l.who === 'Kayla' ? 'text-mansagold' : ''}>{l.who}:</b> {l.text}</p>)}
+              : <p key={i}><b className={l.who === 'Kayla' ? 'text-mansagold' : ''}>{l.who}:</b> {l.text}{speaking && i === shown.length - 1 && l.who === 'Kayla' && <span className="ml-2 animate-pulse text-xs text-mansagold">● speaking</span>}</p>)}
           </div>
           <div className="rounded-md border p-3 text-sm">
             <p className="mb-2 font-semibold">Saved to Avery's chart automatically</p>
