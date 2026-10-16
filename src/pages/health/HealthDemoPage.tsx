@@ -3,7 +3,7 @@ import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
-  HeartPulse, LayoutDashboard, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
+  HeartPulse, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -89,11 +89,14 @@ const CLAIMS = [
 
 const MODULES = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { key: 'inbox', label: 'Inbox & Tasks', icon: Inbox },
   { key: 'patients', label: 'Patient Charts', icon: Users },
   { key: 'cme', label: 'CME Record Review', icon: FileSearch },
   { key: 'rpm', label: 'Remote Monitoring', icon: HeartPulse },
+  { key: 'careplans', label: 'Chronic Care Plans', icon: Target },
   { key: 'auth', label: 'Prior Authorization', icon: ClipboardCheck },
   { key: 'billing', label: 'Billing & Claims', icon: Receipt },
+  { key: 'revenue', label: 'Practice Revenue', icon: TrendingUp },
   { key: 'compliance', label: 'Compliance', icon: ShieldCheck },
 ] as const;
 type ModuleKey = typeof MODULES[number]['key'];
@@ -264,7 +267,115 @@ const Compliance = () => (
   </div>
 );
 
-const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance };
+const INBOX = [
+  { kind: 'Lab result', pri: 'Urgent', patient: 'Avery Example', text: 'Potassium 5.6 mmol/L (high). Kayla: on lisinopril + spironolactone — consider repeat BMP and dose review.', due: 'Today' },
+  { kind: 'Refill request', pri: 'Normal', patient: 'Jordan Sample', text: 'Gabapentin 300 mg — flagged: 3rd early refill in 90 days. Review before signing.', due: 'Today' },
+  { kind: 'Note to sign', pri: 'Normal', patient: 'Morgan Placeholder', text: 'Shoulder follow-up note drafted by Kayla from the visit. Ready for signature.', due: 'Today' },
+  { kind: 'Patient message', pri: 'Normal', patient: 'Avery Example', text: '"My ankles are a little swollen this week." Kayla matched it to a 3 lb weight gain from home scale.', due: 'Today' },
+  { kind: 'Lab result', pri: 'Routine', patient: 'Jordan Sample', text: 'A1c 6.9% (down from 7.4%). Within goal range — no action needed.', due: 'This week' },
+  { kind: 'Prior auth update', pri: 'Routine', patient: 'Morgan Placeholder', text: 'Shoulder PT, 8 sessions — approved by Sample Commercial HMO.', due: 'This week' },
+];
+const priVariant = (p: string) => (p === 'Urgent' ? 'destructive' : p === 'Normal' ? 'secondary' : 'outline');
+
+const InboxView = () => {
+  const [done, setDone] = useState<number[]>([]);
+  const open = INBOX.filter((_, i) => !done.includes(i)).length;
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Open items" value={String(open)} icon={Inbox} />
+        <Stat label="Urgent" value="1" icon={AlertTriangle} />
+        <Stat label="Notes to sign" value="1" icon={FileText} />
+        <Stat label="Pre-sorted by Kayla" value="100%" icon={BrainCircuit} />
+      </div>
+      <Card><CardHeader><CardTitle className="text-base">Doctor's inbox — sorted by Kayla, most urgent first</CardTitle></CardHeader>
+        <CardContent className="space-y-3">{INBOX.map((m, i) => (
+          <div key={i} className={`flex flex-col gap-3 rounded-md border border-border p-3 sm:flex-row sm:items-center sm:justify-between ${done.includes(i) ? 'opacity-40' : ''}`}>
+            <div className="space-y-1">
+              <div className="flex flex-wrap items-center gap-2"><Badge variant={priVariant(m.pri)}>{m.pri}</Badge><span className="text-sm font-medium">{m.kind}</span><span className="text-sm text-muted-foreground">· {m.patient} · {m.due}</span></div>
+              <p className="text-sm text-muted-foreground">{m.text}</p>
+            </div>
+            <Button size="sm" variant={done.includes(i) ? 'outline' : 'default'} onClick={() => setDone((d) => d.includes(i) ? d.filter((x) => x !== i) : [...d, i])}>
+              {done.includes(i) ? 'Undo' : 'Sign off'}</Button>
+          </div>))}
+        </CardContent></Card>
+    </div>
+  );
+};
+
+const CARE_PLANS = [
+  { patient: 'Avery Example', program: 'CCM + RPM', conditions: 'Heart failure, Type 2 diabetes', minutes: 41, goal: 20, code: 'CPT 99490 + 99439',
+    goals: [['Daily weight logged', 90], ['Sodium under 2 g/day', 70], ['A1c under 7.5%', 100]], next: 'Call Friday to review swelling and weight trend.' },
+  { patient: 'Jordan Sample', program: 'CCM', conditions: 'Hypertension, Type 2 diabetes, chronic back pain', minutes: 24, goal: 20, code: 'CPT 99490',
+    goals: [['Blood pressure under 130/80', 55], ['Walk 20 min, 5 days/week', 40], ['Reduce gabapentin use', 30]], next: 'Pain-management referral pending after CME exam.' },
+  { patient: 'Morgan Placeholder', program: 'Not enrolled', conditions: 'Hypothyroidism', minutes: 0, goal: 20, code: '—',
+    goals: [['TSH in normal range', 80]], next: 'Kayla: qualifies only with 2+ chronic conditions — not eligible yet.' },
+];
+
+const CarePlans = () => (
+  <div className="space-y-6">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Stat label="Enrolled patients" value="2" icon={Users} />
+      <Stat label="Care minutes this month" value="65" icon={Activity} />
+      <Stat label="Billable this month" value="2 of 2" icon={Receipt} />
+      <Stat label="Est. monthly CCM revenue" value="$186" icon={TrendingUp} />
+    </div>
+    <div className="grid gap-6 lg:grid-cols-3">
+      {CARE_PLANS.map((c) => (
+        <Card key={c.patient}><CardHeader className="space-y-1">
+          <CardTitle className="text-base">{c.patient}</CardTitle>
+          <div className="flex flex-wrap gap-2"><Badge variant={c.program === 'Not enrolled' ? 'outline' : 'secondary'}>{c.program}</Badge><span className="text-xs text-muted-foreground">{c.conditions}</span></div>
+        </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <div><div className="mb-1 flex justify-between"><span>Care-team minutes</span><b>{c.minutes} / {c.goal} min</b></div>
+              <Progress value={Math.min(100, (c.minutes / c.goal) * 100)} /></div>
+            <div className="space-y-2"><p className="font-medium">Care-plan goals</p>
+              {c.goals.map(([g, v]) => (<div key={g as string}><div className="mb-1 flex justify-between text-xs"><span>{g}</span><span>{v}%</span></div><Progress value={v as number} /></div>))}
+            </div>
+            <div className="flex justify-between text-xs text-muted-foreground"><span>Billing code</span><span>{c.code}</span></div>
+            <p className="rounded-md border border-border p-2 text-xs"><BrainCircuit className="mr-1 inline h-3.5 w-3.5 text-mansagold" />{c.next}</p>
+          </CardContent></Card>))}
+    </div>
+    <p className="text-xs text-muted-foreground">Sample figures for demonstration. Real reimbursement depends on payer, location and current-year fee schedules.</p>
+  </div>
+);
+
+const REVENUE_MONTHS = [['May', 48], ['Jun', 52], ['Jul', 55], ['Aug', 51], ['Sep', 58], ['Oct', 62]] as const;
+
+const Revenue = () => (
+  <div className="space-y-6">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Stat label="Collected this month" value="$62,400" icon={TrendingUp} />
+      <Stat label="Denial rate" value="7.8%" icon={AlertTriangle} />
+      <Stat label="Days to get paid" value="31" icon={Calendar} />
+      <Stat label="Recovered by Kayla appeals" value="$4,160" icon={BrainCircuit} />
+    </div>
+    <div className="grid gap-6 lg:grid-cols-2">
+      <Card><CardHeader><CardTitle className="text-base">Monthly collections (thousands)</CardTitle></CardHeader>
+        <CardContent><div className="flex h-48 items-end gap-3">
+          {REVENUE_MONTHS.map(([m, v]) => (
+            <div key={m} className="flex flex-1 flex-col items-center gap-2">
+              <span className="text-xs text-muted-foreground">${v}k</span>
+              <div className="w-full rounded-t-md bg-mansagold" style={{ height: `${(v / 62) * 100}%` }} />
+              <span className="text-xs">{m}</span>
+            </div>))}
+        </div></CardContent></Card>
+      <Card><CardHeader><CardTitle className="text-base">Top denial reasons</CardTitle></CardHeader>
+        <CardContent className="space-y-3 text-sm">
+          {[['Missing prior authorization', 42], ['Medical necessity', 27], ['Coding mismatch', 18], ['Eligibility / coverage', 13]].map(([r, v]) => (
+            <div key={r as string}><div className="mb-1 flex justify-between"><span>{r}</span><span>{v}%</span></div><Progress value={v as number} /></div>))}
+          <p className="text-muted-foreground">Kayla's suggestion: auto-checking prior authorization before scheduling could prevent about 4 in 10 denials.</p>
+        </CardContent></Card>
+    </div>
+    <Card><CardHeader><CardTitle className="text-base">Money waiting to be collected</CardTitle></CardHeader>
+      <CardContent><div className="grid gap-3 sm:grid-cols-4 text-sm">
+        {[['0–30 days', '$38,900'], ['31–60 days', '$12,300'], ['61–90 days', '$5,100'], ['90+ days', '$2,750']].map(([b, v]) => (
+          <div key={b} className="rounded-md border border-border p-3"><p className="text-muted-foreground">{b}</p><p className="text-lg font-semibold">{v}</p></div>))}
+      </div><p className="mt-3 text-xs text-muted-foreground">All figures are fictional sample data for demonstration.</p></CardContent></Card>
+  </div>
+);
+
+const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
