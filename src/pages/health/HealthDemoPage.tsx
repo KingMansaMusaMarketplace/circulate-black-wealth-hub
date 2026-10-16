@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,

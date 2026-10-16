@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
