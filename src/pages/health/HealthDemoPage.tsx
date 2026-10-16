@@ -3,7 +3,7 @@ import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
-  HeartPulse, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
+  HeartPulse, FlaskConical, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -91,6 +91,8 @@ const MODULES = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { key: 'inbox', label: 'Inbox & Tasks', icon: Inbox },
   { key: 'patients', label: 'Patient Charts', icon: Users },
+  { key: 'labs', label: 'Lab Orders & Results', icon: FlaskConical },
+  { key: 'rx', label: 'e-Prescriptions', icon: Pill },
   { key: 'cme', label: 'CME Record Review', icon: FileSearch },
   { key: 'rpm', label: 'Remote Monitoring', icon: HeartPulse },
   { key: 'careplans', label: 'Chronic Care Plans', icon: Target },
@@ -375,7 +377,106 @@ const Revenue = () => (
   </div>
 );
 
-const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance };
+type LabRow = { test: string; value: string; range: string; flag: 'H' | 'L' | '' };
+const LAB_PANELS: { patient: string; panel: string; date: string; status: string; rows: LabRow[]; kayla: string }[] = [
+  { patient: 'Avery Example', panel: 'Basic Metabolic Panel (BMP)', date: 'Oct 14', status: 'Resulted', kayla: 'Potassium is high and kidney function dipped slightly. Likely related to lisinopril + spironolactone. Consider repeat BMP in 3–5 days and dose review.',
+    rows: [{ test: 'Potassium', value: '5.6 mmol/L', range: '3.5–5.1', flag: 'H' }, { test: 'Sodium', value: '138 mmol/L', range: '135–145', flag: '' }, { test: 'Creatinine', value: '1.4 mg/dL', range: '0.6–1.2', flag: 'H' }, { test: 'Glucose', value: '128 mg/dL', range: '70–99', flag: 'H' }] },
+  { patient: 'Jordan Sample', panel: 'Hemoglobin A1c', date: 'Oct 10', status: 'Resulted', kayla: 'A1c improved from 7.4% to 6.9% over 3 months. At goal — continue current plan.',
+    rows: [{ test: 'Hemoglobin A1c', value: '6.9 %', range: '< 7.0 goal', flag: '' }] },
+  { patient: 'Morgan Placeholder', panel: 'Thyroid Panel (TSH, Free T4)', date: 'Oct 15', status: 'Pending', kayla: 'Sample collected this morning. Results expected within 24 hours.', rows: [] },
+];
+const LAB_TESTS = ['Complete Blood Count (CBC)', 'Basic Metabolic Panel (BMP)', 'Lipid Panel', 'Hemoglobin A1c', 'Thyroid Panel (TSH)', 'Urinalysis'];
+
+const Labs = () => {
+  const [orders, setOrders] = useState<{ test: string; patient: string }[]>([]);
+  const [test, setTest] = useState(LAB_TESTS[0]);
+  const [patient, setPatient] = useState(PATIENTS[0].name);
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Results to review" value="2" icon={FlaskConical} />
+        <Stat label="Abnormal values" value="3" icon={AlertTriangle} />
+        <Stat label="Pending" value={String(1 + orders.length)} icon={Calendar} />
+        <Stat label="Explained by Kayla" value="100%" icon={BrainCircuit} />
+      </div>
+      <Card><CardHeader><CardTitle className="text-base">New lab order</CardTitle></CardHeader>
+        <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <select value={patient} onChange={(e) => setPatient(e.target.value)} className="h-10 rounded-md border border-input bg-background px-3 text-sm">
+            {PATIENTS.map((p) => <option key={p.id}>{p.name}</option>)}</select>
+          <select value={test} onChange={(e) => setTest(e.target.value)} className="h-10 flex-1 rounded-md border border-input bg-background px-3 text-sm">
+            {LAB_TESTS.map((t) => <option key={t}>{t}</option>)}</select>
+          <Button onClick={() => setOrders((o) => [...o, { test, patient }])}>Send order to lab</Button>
+        </CardContent>
+        {orders.length > 0 && <CardContent className="space-y-2 pt-0">{orders.map((o, i) => (
+          <div key={i} className="flex items-center justify-between rounded-md border border-border p-2 text-sm"><span>{o.test} · {o.patient}</span><Badge variant="secondary">Sent to Sample Lab</Badge></div>))}</CardContent>}
+      </Card>
+      <div className="grid gap-6 lg:grid-cols-3">
+        {LAB_PANELS.map((l) => (
+          <Card key={l.panel}><CardHeader className="space-y-1">
+            <CardTitle className="text-base">{l.panel}</CardTitle>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground"><span>{l.patient} · {l.date}</span><Badge variant={l.status === 'Pending' ? 'outline' : 'secondary'}>{l.status}</Badge></div>
+          </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              {l.rows.length > 0 && <table className="w-full"><thead className="text-left text-xs text-muted-foreground"><tr><th>Test</th><th>Result</th><th>Normal</th></tr></thead>
+                <tbody>{l.rows.map((r) => (<tr key={r.test} className="border-t border-border">
+                  <td className="py-1.5">{r.test}</td>
+                  <td className={r.flag ? 'font-semibold text-destructive' : ''}>{r.value}{r.flag && ` (${r.flag})`}</td>
+                  <td className="text-muted-foreground">{r.range}</td></tr>))}</tbody></table>}
+              <p className="rounded-md border border-border p-2 text-xs"><BrainCircuit className="mr-1 inline h-3.5 w-3.5 text-mansagold" />{l.kayla}</p>
+            </CardContent></Card>))}
+      </div>
+    </div>
+  );
+};
+
+const RX = [
+  { patient: 'Avery Example', drug: 'Lisinopril', dose: '20 mg, once daily', refills: 2, pharmacy: 'Sample Pharmacy #12', status: 'Active' },
+  { patient: 'Avery Example', drug: 'Spironolactone', dose: '25 mg, once daily', refills: 1, pharmacy: 'Sample Pharmacy #12', status: 'Active' },
+  { patient: 'Avery Example', drug: 'Metformin', dose: '1000 mg, twice daily', refills: 3, pharmacy: 'Sample Pharmacy #12', status: 'Active' },
+  { patient: 'Jordan Sample', drug: 'Gabapentin', dose: '300 mg, three times daily', refills: 0, pharmacy: 'Sample Mail Order', status: 'Refill requested' },
+  { patient: 'Jordan Sample', drug: 'Amlodipine', dose: '10 mg, once daily', refills: 4, pharmacy: 'Sample Mail Order', status: 'Active' },
+  { patient: 'Morgan Placeholder', drug: 'Levothyroxine', dose: '75 mcg, once daily', refills: 5, pharmacy: 'Sample Pharmacy #3', status: 'Active' },
+];
+const INTERACTIONS = [
+  { level: 'Major', patient: 'Avery Example', text: 'Lisinopril + Spironolactone can raise potassium. Today\'s potassium is 5.6 (high). Review before the next refill.' },
+  { level: 'Caution', patient: 'Jordan Sample', text: 'Gabapentin: 3rd early refill request in 90 days. Check the state prescription-monitoring report before approving.' },
+  { level: 'Caution', patient: 'Avery Example', text: 'Metformin: creatinine is 1.4. Confirm kidney function (eGFR) supports the current dose.' },
+];
+
+const Prescriptions = () => {
+  const [sent, setSent] = useState<number[]>([]);
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Active prescriptions" value="6" icon={Pill} />
+        <Stat label="Refill requests" value="1" icon={Inbox} />
+        <Stat label="Interaction alerts" value="3" icon={AlertTriangle} />
+        <Stat label="Sent to pharmacy today" value={String(sent.length)} icon={Receipt} />
+      </div>
+      <Card><CardHeader><CardTitle className="flex items-center gap-2 text-base"><AlertTriangle className="h-4 w-4 text-destructive" />Kayla safety alerts</CardTitle></CardHeader>
+        <CardContent className="space-y-2 text-sm">{INTERACTIONS.map((a) => (
+          <div key={a.text} className="flex gap-3 rounded-md border border-border p-3">
+            <Badge variant={a.level === 'Major' ? 'destructive' : 'secondary'}>{a.level}</Badge>
+            <p><b>{a.patient}:</b> {a.text}</p></div>))}
+        </CardContent></Card>
+      <Card><CardHeader><CardTitle className="text-base">Medication list</CardTitle></CardHeader>
+        <CardContent className="overflow-x-auto"><table className="w-full text-sm"><thead className="text-left text-muted-foreground">
+          <tr><th className="py-1">Patient</th><th>Medicine</th><th>Dose</th><th>Refills left</th><th>Pharmacy</th><th></th></tr></thead>
+          <tbody>{RX.map((r, i) => (<tr key={i} className="border-t border-border">
+            <td className="py-2">{r.patient}</td><td className="font-medium">{r.drug}</td><td>{r.dose}</td><td>{r.refills}</td>
+            <td className="text-muted-foreground">{r.pharmacy}</td>
+            <td className="text-right">{sent.includes(i)
+              ? <Badge variant="outline">Sent ✓</Badge>
+              : <Button size="sm" variant={r.status === 'Refill requested' ? 'default' : 'outline'} onClick={() => setSent((s) => [...s, i])}>
+                  {r.status === 'Refill requested' ? 'Review & send refill' : 'Send to pharmacy'}</Button>}</td>
+          </tr>))}</tbody></table>
+          <p className="mt-3 text-xs text-muted-foreground">Demo only — nothing is sent to a real pharmacy. Live e-prescribing would connect through a certified network such as Surescripts.</p>
+        </CardContent></Card>
+    </div>
+  );
+};
+
+const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
