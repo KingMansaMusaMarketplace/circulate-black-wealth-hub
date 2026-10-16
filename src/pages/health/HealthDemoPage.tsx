@@ -832,7 +832,7 @@ const VoiceOutreach = () => {
             {shown.length === 0 && <p className="text-muted-foreground">Press "Simulate patient call" to watch Kayla make a check-in call.</p>}
             {shown.map((l, i) => l.who === 'Flag'
               ? <p key={i} className="rounded-md border border-destructive/50 bg-destructive/10 p-2 text-destructive"><AlertTriangle className="mr-1 inline h-4 w-4" />{l.text}</p>
-              : <p key={i}><b className={l.who === 'Kayla' ? 'text-mansagold' : ''}>{l.who}:</b> {l.text}{speaking && i === shown.length - 1 && l.who === 'Kayla' && <span className="ml-2 animate-pulse text-xs text-mansagold">● speaking</span>}</p>)}
+              : <p key={i}><b className={l.who === 'Kayla' ? 'text-mansagold' : ''}>{l.who}:</b> {l.text}{speaking && i === shown.length - 1 && <span className="ml-2 animate-pulse text-xs text-mansagold">● speaking</span>}</p>)}
           </div>
           <div className="rounded-md border p-3 text-sm">
             <p className="mb-2 font-semibold">Saved to Avery's chart automatically</p>
