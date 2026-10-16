@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import Papa from 'papaparse';
-import readXlsxFile from 'read-excel-file';
+import readXlsxFile from 'read-excel-file/browser';
 import { Upload, Download, FileSpreadsheet, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
