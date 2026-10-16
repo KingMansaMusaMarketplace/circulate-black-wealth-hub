@@ -1323,3 +1323,36 @@
   from { offset-distance: 0%; }
   to   { offset-distance: 100%; }
 }
+
+/* 1325 Clinical (health.1325.ai) — full 1325.AI theme: True Black + MansaBlue surfaces, MansaGold accents */
+.theme-clinical {
+  --background: 220 60% 4%;
+  --foreground: 40 30% 96%;
+  --card: 212 70% 9%;
+  --card-foreground: 40 30% 96%;
+  --popover: 212 70% 9%;
+  --popover-foreground: 40 30% 96%;
+  --primary: 45 100% 50%;
+  --primary-foreground: 210 100% 12%;
+  --secondary: 210 60% 16%;
+  --secondary-foreground: 40 30% 96%;
+  --muted: 212 55% 13%;
+  --muted-foreground: 215 20% 70%;
+  --accent: 210 60% 18%;
+  --accent-foreground: 45 100% 60%;
+  --border: 210 45% 20%;
+  --input: 210 45% 22%;
+  --ring: 45 100% 50%;
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(1200px 500px at 85% -10%, hsl(var(--mansablue) / 0.55), transparent 60%),
+    radial-gradient(800px 400px at -10% 110%, hsl(var(--mansagold) / 0.06), transparent 60%);
+  color: hsl(var(--foreground));
+}
+.theme-clinical .rounded-lg.border,
+.theme-clinical [class*="rounded-xl"].border {
+  box-shadow: 0 1px 0 hsl(var(--mansagold) / 0.08) inset, 0 12px 32px -16px hsl(0 0% 0% / 0.8);
+}
+.theme-clinical-bar {
+  background-image: linear-gradient(90deg, hsl(var(--mansablue-dark)), hsl(var(--mansablue)) 60%, hsl(var(--mansablue-dark)));
+}

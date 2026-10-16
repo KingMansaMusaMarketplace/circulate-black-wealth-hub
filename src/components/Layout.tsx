@@ -40,6 +40,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     '/qr-scanner',
     '/admin-dashboard',
     '/business',
+    '/health',
   ];
   
   // On native apps, ALWAYS show bottom tab bar for navigation recovery
@@ -47,7 +48,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const shouldShowTabBar = isNative;
   
   // Check if current path matches any no-layout page (exact match or starts with)
-  const shouldShowLayout = !noLayoutPages.some(page => 
+  const isHealthHost = typeof window !== 'undefined' && window.location.hostname.startsWith('health.');
+  const shouldShowLayout = !isHealthHost && !noLayoutPages.some(page => 
     location.pathname === page || location.pathname.startsWith(page + '/')
   );
 
@@ -85,3 +87,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 
 export default Layout;
+
