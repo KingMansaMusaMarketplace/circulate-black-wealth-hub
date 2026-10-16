@@ -238,7 +238,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
       <button
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-primary-foreground shadow-lg hover:opacity-90 transition-all animate-in slide-in-from-bottom-4"
-        aria-label="Open AI Shopping Assistant"
+        aria-label="Open Kayla, your personal assistant"
       >
         <Sparkles className="h-5 w-5" />
         <span className="text-sm font-medium hidden sm:inline">Ask Kayla</span>
@@ -253,7 +253,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
         <div className="flex items-center gap-2 text-primary-foreground">
           <Sparkles className="h-5 w-5" />
           <div>
-            <p className="text-sm font-semibold">Kayla — Shopping Assistant</p>
+            <p className="text-sm font-semibold">Kayla — Your Personal Assistant</p>
             <p className="text-xs opacity-80">Find Black-owned businesses</p>
           </div>
         </div>
