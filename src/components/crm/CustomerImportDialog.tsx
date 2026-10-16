@@ -119,9 +119,31 @@ export default function CustomerImportDialog({ businessId, onImported, trigger }
         bizId = data?.id;
       }
       if (!bizId) throw new Error('No business found for your account.');
+      // Duplicate check: skip anyone whose email or phone is already saved (or repeated in the file)
+      const normEmail = (e?: string) => (e || '').trim().toLowerCase();
+      const normPhone = (p?: string) => (p || '').replace(/\D/g, '').slice(-10);
+      const seenEmails = new Set<string>();
+      const seenPhones = new Set<string>();
+      for (let from = 0; ; from += 1000) {
+        const { data: existing, error: exErr } = await supabase
+          .from('customers').select('email, phone').eq('business_id', bizId).range(from, from + 999);
+        if (exErr) throw exErr;
+        (existing || []).forEach((c: any) => {
+          const e = normEmail(c.email); if (e) seenEmails.add(e);
+          const p = normPhone(c.phone); if (p.length >= 7) seenPhones.add(p);
+        });
+        if (!existing || existing.length < 1000) break;
+      }
+      const fresh = rows.filter((r) => {
+        const e = normEmail(r.email); const p = normPhone(r.phone);
+        if ((e && seenEmails.has(e)) || (p.length >= 7 && seenPhones.has(p))) return false;
+        if (e) seenEmails.add(e); if (p.length >= 7) seenPhones.add(p);
+        return true;
+      });
+      const dupes = rows.length - fresh.length;
       let done = 0;
-      for (let i = 0; i < rows.length; i += 200) {
-        const chunk = rows.slice(i, i + 200).map((r) => ({
+      for (let i = 0; i < fresh.length; i += 200) {
+        const chunk = fresh.slice(i, i + 200).map((r) => ({
           ...r, business_id: bizId!, created_by: user.id, source: 'import',
           customer_status: 'active', lifecycle_stage: 'customer',
         }));
@@ -129,7 +151,10 @@ export default function CustomerImportDialog({ businessId, onImported, trigger }
         if (error) throw error;
         done += chunk.length;
       }
-      toast.success(`Imported ${done} customer${done === 1 ? '' : 's'}.`);
+      toast.success(
+        `Imported ${done} customer${done === 1 ? '' : 's'}` +
+        (dupes ? ` · skipped ${dupes} already on your list.` : '.')
+      );
       reset(); setOpen(false); onImported?.();
     } catch (e: any) {
       toast.error(e?.message || 'Import failed.');
