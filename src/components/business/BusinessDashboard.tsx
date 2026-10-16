@@ -7,6 +7,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { EmptyDashboardState } from './EmptyDashboardState';
 import PlatformFeesCard from './PlatformFeesCard';
 import BoostVisibilityCard from './BoostVisibilityCard';
+import CustomerImportDialog from '@/components/crm/CustomerImportDialog';
 
 interface BusinessDashboardProps {
   businessId: string;
@@ -140,13 +141,29 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
     );
   }
 
+  const importBar = (
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-white/10 bg-slate-900/40 p-4">
+      <div>
+        <p className="font-semibold text-white">Bring your past customers with you</p>
+        <p className="text-sm text-white/70">Drag in a CSV or Excel list and they'll appear in your Customers page.</p>
+      </div>
+      <CustomerImportDialog businessId={businessId} />
+    </div>
+  );
+
   // Show empty state for new businesses with no bookings
   if (stats?.thisMonthCount === 0 && stats?.thisWeekCount === 0) {
-    return <EmptyDashboardState businessId={businessId} />;
+    return (
+      <div className="space-y-6">
+        {importBar}
+        <EmptyDashboardState businessId={businessId} />
+      </div>
+    );
   }
 
   return (
     <div className="space-y-6">
+      {importBar}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
