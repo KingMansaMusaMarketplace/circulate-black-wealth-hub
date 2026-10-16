@@ -98,6 +98,7 @@ const MODULES = [
   { key: 'cme', label: 'CME Record Review', icon: FileSearch },
   { key: 'rpm', label: 'Remote Monitoring', icon: HeartPulse },
   { key: 'careplans', label: 'Chronic Care Plans', icon: Target },
+  { key: 'voice', label: 'Kayla Voice Outreach', icon: MessageSquare },
   { key: 'referrals', label: 'Referrals', icon: Send },
   { key: 'auth', label: 'Prior Authorization', icon: ClipboardCheck },
   { key: 'billing', label: 'Billing & Claims', icon: Receipt },
@@ -725,7 +726,88 @@ const Quality = () => (
   </div>
 );
 
-const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality };
+const CAMPAIGNS = [
+  { name: 'After-hospital check-in calls', who: 'Patients home from the hospital in the last 7 days', calls: 46, done: 91 },
+  { name: 'Monthly chronic care calls', who: 'Care-plan patients (counts toward care minutes)', calls: 128, done: 84 },
+  { name: 'Overdue screening reminders', who: 'Patients with open care gaps', calls: 97, done: 76 },
+  { name: 'Appointment confirmations', who: 'Everyone booked in the next 48 hours', calls: 69, done: 88 },
+];
+
+const CALL_SCRIPT: { who: 'Kayla' | 'Patient' | 'Flag'; text: string }[] = [
+  { who: 'Kayla', text: "Hi, this is Kayla calling from your doctor's office. Am I speaking with Avery?" },
+  { who: 'Patient', text: 'Yes, this is Avery.' },
+  { who: 'Kayla', text: 'For your privacy, can you please confirm your date of birth?' },
+  { who: 'Patient', text: '(Sample date of birth confirmed.)' },
+  { who: 'Kayla', text: "Thank you. You came home from the hospital last week. How are you feeling — better, the same, or worse?" },
+  { who: 'Patient', text: 'A little better, but my ankles are more swollen than yesterday.' },
+  { who: 'Kayla', text: 'Thank you for telling me. Did you weigh yourself this morning?' },
+  { who: 'Patient', text: "Yes — 170 pounds. It was 166 two days ago." },
+  { who: 'Flag', text: 'Safety rule triggered: weight up 4 lb in 2 days + new swelling. Escalating to the nurse.' },
+  { who: 'Kayla', text: "That change matters, so I'm connecting you with Nurse Taylor right now. Please stay on the line." },
+];
+
+const VoiceOutreach = () => {
+  const [step, setStep] = useState(0);
+  const [running, setRunning] = useState(false);
+  const shown = CALL_SCRIPT.slice(0, step);
+  const finished = step >= CALL_SCRIPT.length;
+  const start = () => {
+    setStep(0); setRunning(true);
+    let i = 0;
+    const tick = () => { i += 1; setStep(i); if (i < CALL_SCRIPT.length) setTimeout(tick, 1400); else setRunning(false); };
+    setTimeout(tick, 400);
+  };
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Calls completed this week" value="340" icon={MessageSquare} />
+        <Stat label="Handled without staff" value="82%" icon={BrainCircuit} />
+        <Stat label="Staff hours saved" value="41 hrs" icon={TrendingUp} />
+        <Stat label="Sent to a nurse" value="12" icon={AlertTriangle} />
+      </div>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2"><CardHeader><CardTitle className="text-base">Active call campaigns (sample)</CardTitle></CardHeader>
+          <CardContent className="space-y-4 text-sm">{CAMPAIGNS.map((c) => (
+            <div key={c.name}>
+              <div className="mb-1 flex items-center justify-between gap-2"><span><b>{c.name}</b><span className="block text-xs text-muted-foreground">{c.who}</span></span>
+                <span className="text-right"><b>{c.calls}</b> calls<span className="block text-xs text-muted-foreground">{c.done}% reached</span></span></div>
+              <Progress value={c.done} /></div>))}
+          </CardContent></Card>
+        <Card><CardHeader><CardTitle className="flex items-center gap-2 text-base"><ShieldCheck className="h-4 w-4 text-mansagold" />Safety rules Kayla always follows</CardTitle></CardHeader>
+          <CardContent className="space-y-2 text-sm">
+            <p>• Confirms identity before sharing anything.</p>
+            <p>• Chest pain or trouble breathing → tells patient to call 911 and alerts staff.</p>
+            <p>• Weight up 3+ lb in 2 days (heart failure) → nurse transfer.</p>
+            <p>• Never diagnoses or changes medicine.</p>
+            <p>• Patient can ask for a human at any time.</p>
+          </CardContent></Card>
+      </div>
+      <Card><CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0">
+          <CardTitle className="text-base">Sample call: Avery Example — after-hospital check-in</CardTitle>
+          <Button size="sm" onClick={start} disabled={running}>{running ? 'Call in progress…' : finished ? 'Replay sample call' : 'Simulate patient call'}</Button>
+        </CardHeader>
+        <CardContent className="grid gap-6 lg:grid-cols-3">
+          <div className="space-y-2 text-sm lg:col-span-2">
+            {shown.length === 0 && <p className="text-muted-foreground">Press "Simulate patient call" to watch Kayla make a check-in call.</p>}
+            {shown.map((l, i) => l.who === 'Flag'
+              ? <p key={i} className="rounded-md border border-destructive/50 bg-destructive/10 p-2 text-destructive"><AlertTriangle className="mr-1 inline h-4 w-4" />{l.text}</p>
+              : <p key={i}><b className={l.who === 'Kayla' ? 'text-mansagold' : ''}>{l.who}:</b> {l.text}</p>)}
+          </div>
+          <div className="rounded-md border p-3 text-sm">
+            <p className="mb-2 font-semibold">Saved to Avery's chart automatically</p>
+            {finished ? (<div className="space-y-1">
+              <p>• Symptom: new ankle swelling</p><p>• Weight: 170 lb (up 4 lb in 2 days)</p>
+              <p>• Medicines: taking as prescribed</p><p>• Action: warm transfer to nurse</p>
+              <p>• Task added to doctor's Inbox</p></div>)
+              : <p className="text-muted-foreground">Notes appear here when the call ends.</p>}
+          </div>
+        </CardContent></Card>
+      <p className="text-xs text-muted-foreground">Demo only — no real phone calls are made. All patients and numbers are fictional. Live calling would require a healthcare-grade phone service with a signed agreement.</p>
+    </div>
+  );
+};
+
+const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
