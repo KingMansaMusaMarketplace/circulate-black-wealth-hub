@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import Papa from 'papaparse';
-import readXlsxFile from 'read-excel-file/browser';
+import { readSheet } from 'read-excel-file/browser';
 import { Upload, Download, FileSpreadsheet, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -86,8 +86,8 @@ export default function CustomerImportDialog({ businessId, onImported, trigger }
       if (name.endsWith('.csv')) {
         Papa.parse<Row>(file, { header: true, skipEmptyLines: true, complete: (r) => handleRaw(r.data) });
       } else if (name.endsWith('.xlsx')) {
-        const sheet = await readXlsxFile(file);
-        const [head, ...body] = sheet;
+        const sheet = await readSheet(file);
+        const [head, ...body] = sheet as unknown[][];
         const headers = (head || []).map((h) => String(h ?? ''));
         handleRaw(body.map((r) => Object.fromEntries(headers.map((h, i) => [h, r[i] == null ? '' : String(r[i])]))));
       } else {
