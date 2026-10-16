@@ -3,7 +3,7 @@ import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
-  HeartPulse, FlaskConical, History, Network, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
+  HeartPulse, FlaskConical, History, Video, Smartphone, Mic, MicOff, PhoneOff, MessageSquare, Network, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -93,6 +93,8 @@ const MODULES = [
   { key: 'patients', label: 'Patient Charts', icon: Users },
   { key: 'labs', label: 'Lab Orders & Results', icon: FlaskConical },
   { key: 'rx', label: 'e-Prescriptions', icon: Pill },
+  { key: 'video', label: 'Video Visits', icon: Video },
+  { key: 'portal', label: 'Patient Portal', icon: Smartphone },
   { key: 'cme', label: 'CME Record Review', icon: FileSearch },
   { key: 'rpm', label: 'Remote Monitoring', icon: HeartPulse },
   { key: 'careplans', label: 'Chronic Care Plans', icon: Target },
@@ -557,7 +559,91 @@ const Interop = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop };
+const VideoVisits = () => {
+  const [inCall, setInCall] = useState<string | null>(null);
+  const [muted, setMuted] = useState(false);
+  const visits = [
+    { time: '1:00 PM', patient: 'Avery Example', reason: 'Swelling + weight check (RPM follow-up)', status: 'Waiting room' },
+    { time: '1:30 PM', patient: 'Morgan Placeholder', reason: 'Thyroid lab review', status: 'Checked in' },
+    { time: '2:15 PM', patient: 'Jordan Sample', reason: 'Medication review', status: 'Scheduled' },
+  ];
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Video visits today" value="3" icon={Video} />
+        <Stat label="In waiting room" value="1" icon={Users} />
+        <Stat label="Avg. wait" value="2 min" icon={Calendar} />
+        <Stat label="Notes drafted by Kayla" value="Auto" icon={BrainCircuit} />
+      </div>
+      {inCall ? (
+        <div className="grid gap-6 lg:grid-cols-3">
+          <Card className="lg:col-span-2"><CardContent className="p-4">
+            <div className="relative flex aspect-video items-center justify-center rounded-lg border border-border bg-muted">
+              <div className="text-center"><div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-mansagold/20 text-2xl font-semibold text-mansagold">
+                {inCall.split(' ').map((w) => w[0]).join('')}</div>
+                <p className="font-medium">{inCall}</p><p className="text-sm text-muted-foreground">Sample video visit · 04:12</p></div>
+              <div className="absolute bottom-3 right-3 flex h-20 w-28 items-center justify-center rounded-md border border-border bg-card text-xs text-muted-foreground">You</div>
+            </div>
+            <div className="mt-4 flex justify-center gap-3">
+              <Button variant="outline" size="icon" onClick={() => setMuted(!muted)} aria-label="Mute">{muted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}</Button>
+              <Button variant="destructive" onClick={() => setInCall(null)}><PhoneOff className="mr-2 h-4 w-4" />End visit</Button>
+            </div>
+          </CardContent></Card>
+          <Card><CardHeader><CardTitle className="flex items-center gap-2 text-base"><BrainCircuit className="h-4 w-4 text-mansagold" />Kayla live note</CardTitle></CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <p><b>Subjective:</b> Patient reports mild ankle swelling for 5 days.</p>
+              <p><b>Objective:</b> Home scale +3 lb in 7 days; BP 132/84 (home cuff).</p>
+              <p><b>Assessment:</b> Possible fluid retention, heart failure.</p>
+              <p><b>Plan:</b> Doctor to decide — Kayla suggests repeat BMP and diuretic review.</p>
+              <p className="text-xs text-muted-foreground">Draft only. The doctor reviews and signs.</p>
+            </CardContent></Card>
+        </div>
+      ) : (
+        <Card><CardHeader><CardTitle className="text-base">Today's video visits</CardTitle></CardHeader>
+          <CardContent className="space-y-3">{visits.map((v) => (
+            <div key={v.time} className="flex flex-col gap-3 rounded-md border border-border p-3 sm:flex-row sm:items-center sm:justify-between">
+              <div><p className="font-medium">{v.patient} <span className="text-sm text-muted-foreground">· {v.time}</span></p><p className="text-sm text-muted-foreground">{v.reason}</p></div>
+              <div className="flex items-center gap-2"><Badge variant={v.status === 'Waiting room' ? 'destructive' : 'outline'}>{v.status}</Badge>
+                <Button size="sm" onClick={() => setInCall(v.patient)}><Video className="mr-2 h-4 w-4" />Start video visit</Button></div>
+            </div>))}
+            <p className="text-xs text-muted-foreground">Demo only — no camera or real call is used. A live version would use a healthcare-grade video service with a signed agreement.</p>
+          </CardContent></Card>
+      )}
+    </div>
+  );
+};
+
+const PatientPortal = () => {
+  const [msgs, setMsgs] = useState([{ from: 'Avery Example', text: 'My ankles are a little swollen this week.' }, { from: 'Care team', text: 'Thanks, Avery. Dr. Sample will see you by video at 1:00 PM today.' }]);
+  const [draft, setDraft] = useState('');
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">Preview of what <b>Avery Example</b> (sample patient) sees on her phone.</p>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="mx-auto w-full max-w-sm lg:col-span-1"><CardContent className="space-y-4 p-4">
+          <div className="flex items-center gap-2 border-b border-border pb-3"><img src={logo1325} alt="1325.AI" className="h-6 w-auto" /><span className="text-sm font-semibold">My Health</span></div>
+          <p className="text-lg font-semibold">Hi, Avery 👋</p>
+          <div className="rounded-md border border-mansagold/40 bg-mansagold/10 p-3 text-sm"><p className="font-medium">Next visit: Today, 1:00 PM</p><p className="text-muted-foreground">Video visit with Dr. Sample</p>
+            <Button size="sm" className="mt-2 w-full"><Video className="mr-2 h-4 w-4" />Join video visit</Button></div>
+          <div className="space-y-2 text-sm"><p className="font-medium">New results</p>
+            <div className="rounded-md border border-border p-2"><p>Basic Metabolic Panel · Oct 14</p><p className="text-xs text-muted-foreground">Your doctor has reviewed these and will discuss them at your visit.</p></div></div>
+          <div className="space-y-2 text-sm"><p className="font-medium">My medicines</p>
+            {['Lisinopril 20 mg', 'Spironolactone 25 mg', 'Metformin 1000 mg'].map((m) => (<div key={m} className="flex justify-between rounded-md border border-border p-2"><span>{m}</span><button className="text-xs text-mansagold">Request refill</button></div>))}</div>
+        </CardContent></Card>
+        <Card className="lg:col-span-2"><CardHeader><CardTitle className="flex items-center gap-2 text-base"><MessageSquare className="h-4 w-4 text-mansagold" />Secure messages</CardTitle></CardHeader>
+          <CardContent className="space-y-3">
+            {msgs.map((m, i) => (<div key={i} className={`flex ${m.from === 'Care team' ? 'justify-start' : 'justify-end'}`}>
+              <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${m.from === 'Care team' ? 'bg-muted' : 'bg-primary text-primary-foreground'}`}><p className="text-xs opacity-70">{m.from}</p>{m.text}</div></div>))}
+            <div className="flex gap-2"><Input value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Type a sample message as Avery..." />
+              <Button onClick={() => { if (!draft.trim()) return; setMsgs((x) => [...x, { from: 'Avery Example', text: draft }, { from: 'Care team', text: 'Message received. Kayla has sent it to your care team\'s inbox.' }]); setDraft(''); }}>Send</Button></div>
+            <p className="text-xs text-muted-foreground">Patient messages go straight into the doctor's Inbox, sorted by Kayla. Demo only — fictional patient.</p>
+          </CardContent></Card>
+      </div>
+    </div>
+  );
+};
+
+const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
