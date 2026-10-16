@@ -3,7 +3,7 @@ import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
-  HeartPulse, FlaskConical, History, Video, Smartphone, Mic, MicOff, PhoneOff, MessageSquare, Network, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
+  HeartPulse, FlaskConical, History, Send, Award, Video, Smartphone, Mic, MicOff, PhoneOff, MessageSquare, Network, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -98,9 +98,11 @@ const MODULES = [
   { key: 'cme', label: 'CME Record Review', icon: FileSearch },
   { key: 'rpm', label: 'Remote Monitoring', icon: HeartPulse },
   { key: 'careplans', label: 'Chronic Care Plans', icon: Target },
+  { key: 'referrals', label: 'Referrals', icon: Send },
   { key: 'auth', label: 'Prior Authorization', icon: ClipboardCheck },
   { key: 'billing', label: 'Billing & Claims', icon: Receipt },
   { key: 'revenue', label: 'Practice Revenue', icon: TrendingUp },
+  { key: 'quality', label: 'Quality Scores', icon: Award },
   { key: 'interop', label: 'Connections (Epic / Cerner)', icon: Network },
   { key: 'audit', label: 'Activity Log', icon: History },
   { key: 'compliance', label: 'Compliance', icon: ShieldCheck },
@@ -643,7 +645,87 @@ const PatientPortal = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal };
+const REFERRAL_STEPS = ['Sent', 'Received', 'Scheduled', 'Seen', 'Report back'];
+const INITIAL_REFERRALS = [
+  { patient: 'Jordan Sample', to: 'Pain Management · Dr. Example', reason: 'Chronic low back pain after accident', step: 2, packet: 'MRI, CME summary, med list' },
+  { patient: 'Avery Example', to: 'Cardiology · Sample Heart Center', reason: 'Heart failure follow-up', step: 4, packet: 'Echo, BMP, weight trend' },
+  { patient: 'Morgan Placeholder', to: 'Physical Therapy · Sample PT', reason: 'Shoulder strain', step: 3, packet: 'Visit note, prior auth approval' },
+];
+const SPECIALTIES = ['Cardiology', 'Endocrinology', 'Orthopedics', 'Pain Management', 'Neurology', 'Physical Therapy'];
+
+const Referrals = () => {
+  const [list, setList] = useState(INITIAL_REFERRALS);
+  const [patient, setPatient] = useState(PATIENTS[0].name);
+  const [spec, setSpec] = useState(SPECIALTIES[0]);
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Open referrals" value={String(list.filter((r) => r.step < 4).length)} icon={Send} />
+        <Stat label="Waiting on specialist" value="1" icon={Calendar} />
+        <Stat label="Reports received" value={String(list.filter((r) => r.step === 4).length)} icon={FileText} />
+        <Stat label="Packets built by Kayla" value="Auto" icon={BrainCircuit} />
+      </div>
+      <Card><CardHeader><CardTitle className="text-base">New referral</CardTitle></CardHeader>
+        <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <select value={patient} onChange={(e) => setPatient(e.target.value)} className="h-10 rounded-md border border-input bg-background px-3 text-sm">{PATIENTS.map((p) => <option key={p.id}>{p.name}</option>)}</select>
+          <select value={spec} onChange={(e) => setSpec(e.target.value)} className="h-10 flex-1 rounded-md border border-input bg-background px-3 text-sm">{SPECIALTIES.map((x) => <option key={x}>{x}</option>)}</select>
+          <Button onClick={() => setList((l) => [{ patient, to: `${spec} · Sample Specialist`, reason: 'New referral', step: 0, packet: 'Kayla attached recent notes, labs and med list' }, ...l])}>Send referral</Button>
+        </CardContent></Card>
+      <Card><CardHeader><CardTitle className="text-base">Referral tracker</CardTitle></CardHeader>
+        <CardContent className="space-y-4">{list.map((r, i) => (
+          <div key={i} className="space-y-3 rounded-md border border-border p-3">
+            <div className="flex flex-col justify-between gap-1 sm:flex-row"><div><p className="font-medium">{r.patient} → {r.to}</p><p className="text-sm text-muted-foreground">{r.reason}</p></div>
+              <p className="text-xs text-muted-foreground">Packet: {r.packet}</p></div>
+            <div className="flex gap-1">{REFERRAL_STEPS.map((st, j) => (
+              <div key={st} className="flex-1"><div className={`h-1.5 rounded-full ${j <= r.step ? 'bg-mansagold' : 'bg-muted'}`} /><p className={`mt-1 text-[11px] ${j <= r.step ? '' : 'text-muted-foreground'}`}>{st}</p></div>))}</div>
+          </div>))}
+          <p className="text-xs text-muted-foreground">Demo only — nothing is sent to a real specialist.</p>
+        </CardContent></Card>
+    </div>
+  );
+};
+
+const MEASURES = [
+  { name: 'Diabetes: A1c under control (< 9%)', score: 92, goal: 85, gap: 0 },
+  { name: 'Blood pressure controlled (< 140/90)', score: 71, goal: 75, gap: 1 },
+  { name: 'Breast cancer screening', score: 64, goal: 70, gap: 1 },
+  { name: 'Colorectal cancer screening', score: 58, goal: 70, gap: 2 },
+  { name: 'Depression screening & follow-up', score: 81, goal: 75, gap: 0 },
+  { name: 'Flu vaccine this season', score: 47, goal: 60, gap: 2 },
+];
+
+const Quality = () => (
+  <div className="space-y-6">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Stat label="Overall quality score" value="72 / 100" icon={Award} />
+      <Stat label="Measures at goal" value="2 of 6" icon={ClipboardCheck} />
+      <Stat label="Care gaps to close" value="6" icon={AlertTriangle} />
+      <Stat label="Possible bonus at risk" value="$3,200" icon={TrendingUp} />
+    </div>
+    <div className="grid gap-6 lg:grid-cols-3">
+      <Card className="lg:col-span-2"><CardHeader><CardTitle className="text-base">Quality measures (sample, HEDIS / MIPS style)</CardTitle></CardHeader>
+        <CardContent className="space-y-4 text-sm">{MEASURES.map((m) => (
+          <div key={m.name}>
+            <div className="mb-1 flex items-center justify-between gap-2"><span>{m.name}</span>
+              <span className="flex items-center gap-2"><b>{m.score}%</b><Badge variant={m.score >= m.goal ? 'outline' : 'destructive'}>{m.score >= m.goal ? 'At goal' : `Goal ${m.goal}%`}</Badge></span></div>
+            <Progress value={m.score} /></div>))}
+        </CardContent></Card>
+      <Card><CardHeader><CardTitle className="flex items-center gap-2 text-base"><BrainCircuit className="h-4 w-4 text-mansagold" />Kayla's care-gap list</CardTitle></CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          <p>• <b>Jordan Sample</b>: colorectal screening overdue — order at next visit.</p>
+          <p>• <b>Jordan Sample</b>: BP 138/88 — recheck in 2 weeks.</p>
+          <p>• <b>Avery Example</b>: flu vaccine not given — offer at 1:00 PM video visit follow-up.</p>
+          <p>• <b>Avery Example</b>: colorectal screening due.</p>
+          <p>• <b>Morgan Placeholder</b>: breast cancer screening due.</p>
+          <p>• <b>Morgan Placeholder</b>: flu vaccine not given.</p>
+          <p className="text-xs text-muted-foreground">Closing these gaps raises the clinic's score with insurance plans.</p>
+        </CardContent></Card>
+    </div>
+    <p className="text-xs text-muted-foreground">All scores and dollar amounts are fictional sample data for demonstration.</p>
+  </div>
+);
+
+const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
