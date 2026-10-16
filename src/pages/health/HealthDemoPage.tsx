@@ -3,7 +3,7 @@ import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
-  HeartPulse, FlaskConical, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
+  HeartPulse, FlaskConical, History, Network, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -99,6 +99,8 @@ const MODULES = [
   { key: 'auth', label: 'Prior Authorization', icon: ClipboardCheck },
   { key: 'billing', label: 'Billing & Claims', icon: Receipt },
   { key: 'revenue', label: 'Practice Revenue', icon: TrendingUp },
+  { key: 'interop', label: 'Connections (Epic / Cerner)', icon: Network },
+  { key: 'audit', label: 'Activity Log', icon: History },
   { key: 'compliance', label: 'Compliance', icon: ShieldCheck },
 ] as const;
 type ModuleKey = typeof MODULES[number]['key'];
@@ -476,7 +478,86 @@ const Prescriptions = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance };
+const AUDIT = [
+  { time: '8:14 AM', user: 'Dr. Sample (Physician)', action: 'Viewed chart', patient: 'Jordan Sample', detail: 'Opened CME record summary', flag: '' },
+  { time: '8:21 AM', user: 'Kayla (AI Co-Pilot)', action: 'Generated summary', patient: 'Jordan Sample', detail: 'Built treatment timeline from 412 sample pages', flag: '' },
+  { time: '8:40 AM', user: 'R. Example (Nurse)', action: 'Edited vitals', patient: 'Avery Example', detail: 'Weight 182 lb → 185 lb', flag: '' },
+  { time: '9:02 AM', user: 'Dr. Sample (Physician)', action: 'Signed note', patient: 'Morgan Placeholder', detail: 'Shoulder follow-up note signed', flag: '' },
+  { time: '9:15 AM', user: 'T. Placeholder (Billing)', action: 'Exported claim', patient: 'Avery Example', detail: 'Claim CLM-5004 appeal packet (PDF)', flag: '' },
+  { time: '9:48 AM', user: 'J. Demo (Front desk)', action: 'Viewed chart', patient: 'Jordan Sample', detail: 'Opened full chart — not on today\'s assigned list', flag: 'Unusual access' },
+  { time: '10:05 AM', user: 'Unknown device', action: 'Failed sign-in', patient: '—', detail: '3 failed attempts for account r.example — account locked', flag: 'Security' },
+];
+
+const AuditLog = () => {
+  const [q, setQ] = useState('');
+  const rows = AUDIT.filter((a) => `${a.user} ${a.action} ${a.patient} ${a.detail}`.toLowerCase().includes(q.toLowerCase()));
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Events today" value="7" icon={History} />
+        <Stat label="Charts opened" value="2" icon={Users} />
+        <Stat label="Flagged by Kayla" value="2" icon={AlertTriangle} />
+        <Stat label="Log can be edited" value="Never" icon={Lock} />
+      </div>
+      <Card><CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <CardTitle className="text-base">Who opened what, and when</CardTitle>
+        <div className="flex gap-2"><Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search person, patient or action" className="sm:w-72" />
+          <Button variant="outline" size="sm">Export report</Button></div>
+      </CardHeader>
+        <CardContent className="overflow-x-auto"><table className="w-full text-sm"><thead className="text-left text-muted-foreground">
+          <tr><th className="py-1">Time</th><th>Person</th><th>Action</th><th>Patient</th><th>Details</th><th></th></tr></thead>
+          <tbody>{rows.map((a, i) => (<tr key={i} className="border-t border-border">
+            <td className="py-2 whitespace-nowrap">{a.time}</td><td>{a.user}</td><td className="font-medium">{a.action}</td><td>{a.patient}</td>
+            <td className="text-muted-foreground">{a.detail}</td>
+            <td>{a.flag && <Badge variant="destructive">{a.flag}</Badge>}</td></tr>))}</tbody></table>
+          <p className="mt-3 text-xs text-muted-foreground">Sample events. In the live system every view, edit, export and sign-in would be recorded automatically and kept for at least 6 years.</p>
+        </CardContent></Card>
+    </div>
+  );
+};
+
+const CONNECTIONS = [
+  { name: 'Epic', type: 'Hospital EHR', how: 'FHIR R4 API (App Orchard / Showroom)', status: 'Planned' },
+  { name: 'Oracle Health (Cerner)', type: 'Hospital EHR', how: 'FHIR R4 API (Code program)', status: 'Planned' },
+  { name: 'athenahealth', type: 'Clinic EHR', how: 'FHIR R4 + athenaOne API', status: 'Planned' },
+  { name: 'eClinicalWorks', type: 'Clinic EHR', how: 'FHIR R4 API', status: 'Planned' },
+  { name: 'Labs (Quest / Labcorp)', type: 'Lab results', how: 'HL7 v2 messages', status: 'Planned' },
+  { name: 'Surescripts', type: 'e-Prescribing', how: 'NCPDP SCRIPT', status: 'Planned' },
+  { name: 'Health information exchanges', type: 'Record sharing', how: 'Carequality / CommonWell (via TEFCA)', status: 'Planned' },
+];
+
+const Interop = () => {
+  const [imported, setImported] = useState(false);
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Standard used" value="FHIR R4" icon={Network} />
+        <Stat label="Systems planned" value="7" icon={Stethoscope} />
+        <Stat label="Live connections" value="0" icon={Lock} />
+        <Stat label="Mapped by Kayla" value="Auto" icon={BrainCircuit} />
+      </div>
+      <Card><CardHeader><CardTitle className="text-base">Connection roadmap</CardTitle></CardHeader>
+        <CardContent className="overflow-x-auto"><table className="w-full text-sm"><thead className="text-left text-muted-foreground">
+          <tr><th className="py-1">System</th><th>Type</th><th>How it connects</th><th>Status</th></tr></thead>
+          <tbody>{CONNECTIONS.map((c) => (<tr key={c.name} className="border-t border-border">
+            <td className="py-2 font-medium">{c.name}</td><td>{c.type}</td><td className="text-muted-foreground">{c.how}</td>
+            <td><Badge variant="secondary">{c.status}</Badge></td></tr>))}</tbody></table></CardContent></Card>
+      <Card><CardHeader><CardTitle className="text-base">Demo: import a patient record from another hospital</CardTitle></CardHeader>
+        <CardContent className="space-y-3 text-sm">
+          <p className="text-muted-foreground">Shows how a record from a hospital system would arrive and be sorted into the chart. Uses a fictional sample record only.</p>
+          <Button onClick={() => setImported(true)} disabled={imported}>{imported ? 'Imported ✓' : 'Import sample record (FHIR)'}</Button>
+          {imported && (
+            <div className="grid gap-2 sm:grid-cols-2">
+              {[['Patient details', 'Avery Example · DOB on file'], ['Diagnoses', '3 conditions → Problem list'], ['Medications', '4 medicines → 1 duplicate removed by Kayla'], ['Allergies', '1 allergy → added'], ['Lab results', '12 results → Labs screen'], ['Visit notes', '6 notes → Timeline']].map(([k, v]) => (
+                <div key={k} className="rounded-md border border-border p-3"><p className="font-medium">{k}</p><p className="text-muted-foreground">{v}</p></div>))}
+            </div>)}
+          <p className="text-xs text-muted-foreground">No live connections exist yet. Each would require that vendor's developer program approval and signed agreements.</p>
+        </CardContent></Card>
+    </div>
+  );
+};
+
+const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
