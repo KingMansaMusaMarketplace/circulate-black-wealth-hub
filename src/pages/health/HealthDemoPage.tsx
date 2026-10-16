@@ -288,7 +288,6 @@ export default function HealthDemoPage() {
             <p className="text-sm font-medium text-foreground">Dr. John Atwater</p>
           </div>
         </div>
-        </div>
         <div className="relative hidden max-w-md flex-1 md:block">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input className="h-9 border-mansagold/30 bg-background/40 pl-9" placeholder="Search patients, cases, claims…" />
