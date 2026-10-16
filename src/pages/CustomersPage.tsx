@@ -12,6 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import CustomerImportDialog from '@/components/crm/CustomerImportDialog';
 
 export default function CustomersPage() {
   const navigate = useNavigate();
@@ -137,6 +138,8 @@ export default function CustomersPage() {
                   Manage and track all your customer relationships
                 </p>
               </div>
+              <div className="flex flex-wrap gap-2">
+              <CustomerImportDialog businessId={businessId} onImported={loadData} />
               <Button 
                 onClick={() => navigate('/customers/new')} 
                 className="gap-2 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-semibold"
@@ -144,6 +147,7 @@ export default function CustomersPage() {
                 <Plus className="h-4 w-4" />
                 Add Customer
               </Button>
+              </div>
             </div>
           </div>
         </div>
