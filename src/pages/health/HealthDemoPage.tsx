@@ -278,11 +278,16 @@ export default function HealthDemoPage() {
       </div>
       <header className="flex h-16 items-center justify-between gap-4 border-b-2 border-mansagold theme-clinical-bar px-6 shadow-lg text-foreground">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-mansagold"><HeartPulse className="h-5 w-5 text-background" /></div>
+          <img src={logo1325} alt="1325.AI logo" className="h-10 w-10 rounded-lg object-contain" />
           <div className="leading-tight">
             <p className="text-base font-semibold tracking-tight text-mansagold">1325 Clinical</p>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-mansagold/70">Enterprise Edition</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-mansagold/70">Enterprise Edition · by 1325.AI</p>
           </div>
+          <div className="ml-4 hidden border-l border-mansagold/30 pl-4 leading-tight lg:block">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-mansagold/70">Chief Medical Advisor</p>
+            <p className="text-sm font-medium text-foreground">Dr. John Atwater</p>
+          </div>
+        </div>
         </div>
         <div className="relative hidden max-w-md flex-1 md:block">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
