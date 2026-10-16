@@ -52,7 +52,35 @@ const ShoppingAssistantChat: React.FC = () => {
   return <ShoppingAssistantChatInner />;
 };
 
+const isClinicalContext = () =>
+  typeof window !== 'undefined' &&
+  (window.location.hostname.startsWith('health.') || window.location.pathname.startsWith('/health'));
+
 const ShoppingAssistantChatInner: React.FC = () => {
+  const clinical = isClinicalContext();
+  const copy = clinical
+    ? {
+        title: 'Kayla — Clinical AI Co-Pilot',
+        subtitle: '1325 Clinical · Enterprise Intelligence',
+        hello: "Hello, I'm Kayla, your clinical co-pilot.",
+        intro: 'Ask me about chart review, CME record timelines, or prior-authorization appeals. Sample data only — never enter real patient information.',
+        prompts: [
+          'Build a 5-column CME treatment timeline',
+          'Flag pre-existing vs. new injury conflicts',
+          'Draft a prior-authorization appeal letter',
+        ],
+        button: 'Ask Kayla Clinical AI',
+        placeholder: 'Ask a chart, CME, or billing question...',
+      }
+    : {
+        title: 'Kayla — Your Personal Assistant',
+        subtitle: 'Find Black-owned businesses',
+        hello: "Hi! I'm Kayla 👋",
+        intro: 'Ask me to find businesses, get recommendations, or explore the marketplace.',
+        prompts: ['Find a caterer in Atlanta', 'Best rated hair salons', 'Black-owned bookstores'],
+        button: 'Ask Kayla',
+        placeholder: 'Ask Kayla anything...',
+      };
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(() => loadStoredMessages());
   const [input, setInput] = useState('');
