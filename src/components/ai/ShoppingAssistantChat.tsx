@@ -52,7 +52,35 @@ const ShoppingAssistantChat: React.FC = () => {
   return <ShoppingAssistantChatInner />;
 };
 
+const isClinicalContext = () =>
+  typeof window !== 'undefined' &&
+  (window.location.hostname.startsWith('health.') || window.location.pathname.startsWith('/health'));
+
 const ShoppingAssistantChatInner: React.FC = () => {
+  const clinical = isClinicalContext();
+  const copy = clinical
+    ? {
+        title: 'Kayla — Clinical AI Co-Pilot',
+        subtitle: '1325 Clinical · Enterprise Intelligence',
+        hello: "Hello, I'm Kayla, your clinical co-pilot.",
+        intro: 'Ask me about chart review, CME record timelines, or prior-authorization appeals. Sample data only — never enter real patient information.',
+        prompts: [
+          'Build a 5-column CME treatment timeline',
+          'Flag pre-existing vs. new injury conflicts',
+          'Draft a prior-authorization appeal letter',
+        ],
+        button: 'Ask Kayla Clinical AI',
+        placeholder: 'Ask a chart, CME, or billing question...',
+      }
+    : {
+        title: 'Kayla — Your Personal Assistant',
+        subtitle: 'Find Black-owned businesses',
+        hello: "Hi! I'm Kayla 👋",
+        intro: 'Ask me to find businesses, get recommendations, or explore the marketplace.',
+        prompts: ['Find a caterer in Atlanta', 'Best rated hair salons', 'Black-owned bookstores'],
+        button: 'Ask Kayla',
+        placeholder: 'Ask Kayla anything...',
+      };
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(() => loadStoredMessages());
   const [input, setInput] = useState('');
@@ -241,7 +269,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
         aria-label="Open Kayla, your personal assistant"
       >
         <Sparkles className="h-5 w-5" />
-        <span className="text-sm font-medium hidden sm:inline">Ask Kayla</span>
+        <span className="text-sm font-medium hidden sm:inline">{copy.button}</span>
       </button>
     );
   }
@@ -253,8 +281,8 @@ const ShoppingAssistantChatInner: React.FC = () => {
         <div className="flex items-center gap-2 text-primary-foreground">
           <Sparkles className="h-5 w-5" />
           <div>
-            <p className="text-sm font-semibold">Kayla — Your Personal Assistant</p>
-            <p className="text-xs opacity-80">Find Black-owned businesses</p>
+            <p className="text-sm font-semibold">{copy.title}</p>
+            <p className="text-xs opacity-80">{copy.subtitle}</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -294,10 +322,10 @@ const ShoppingAssistantChatInner: React.FC = () => {
         {messages.length === 0 && (
           <div className="text-center text-muted-foreground py-8">
             <Sparkles className="h-8 w-8 mx-auto mb-3 opacity-50" />
-            <p className="text-sm font-medium">Hi! I'm Kayla 👋</p>
-            <p className="text-xs mt-1">Ask me to find businesses, get recommendations, or explore the marketplace.</p>
+            <p className="text-sm font-medium">{copy.hello}</p>
+            <p className="text-xs mt-1">{copy.intro}</p>
             <div className="mt-4 space-y-2">
-              {['Find a caterer in Atlanta', 'Best rated hair salons', 'Black-owned bookstores'].map(q => (
+              {copy.prompts.map(q => (
                 <button
                   key={q}
                   onClick={() => { setInput(q); }}
@@ -363,7 +391,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask Kayla anything..."
+            placeholder={copy.placeholder}
             disabled={isLoading}
             className="text-sm"
           />
