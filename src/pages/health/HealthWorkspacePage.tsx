@@ -23,10 +23,12 @@ import SpecialtyExamples from './workspace/SpecialtyExamples';
 import EnterpriseReadiness from './EnterpriseReadiness';
 import DoctorDay from './workspace/DoctorDay';
 import SamplePatientChart from './workspace/SamplePatientChart';
+import MedicationReview from './workspace/MedicationReview';
 
 const NAV = [
   { k: 'doctor-day', l: 'Connected Doctor Day', i: Calendar },
   { k: 'sample-chart', l: 'Expanded Sample Chart', i: ClipboardCheck },
+  { k: 'medication-review', l: 'Medication Review Assistance', i: ClipboardCheck },
   { k: 'intake', l: 'Clinic Intake', i: Lock },
   { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
   { k: 'patients', l: 'Patients', i: Users },
@@ -153,6 +155,7 @@ export default function HealthWorkspacePage() {
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
             {tab === 'doctor-day' && <DoctorDay key={`${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
             {tab === 'sample-chart' && <SamplePatientChart key={`${user.id}:${clinic.id}`} />}
+            {tab === 'medication-review' && <MedicationReview key={`${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}

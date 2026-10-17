@@ -1,4 +1,5 @@
 # 1325 Clinical rules
+- Medication-review assistance uses exact sample-chart medicine quotations in a shared local read-only rehearsal; absent allergies stay unknown and future dose discussion stays uncompleted, with no prescribing, interaction screening, saved approval or delivery, so documentation gaps cannot become clinical safety clearance.
 - Clinical record review uses server-owned fixtures, rejects client record text, validates exact page quotations before saving, and records separate clinic-authorized review decisions; this prevents uploads from bypassing the fictional-only stage and keeps AI completion distinct from physician review.
 - Clinical pilot readiness stores fixed boolean attestations only, derives requester identity from validated Auth, and remains awaiting independent verification; neither clinic reports nor signed agreements enable real-record processing in the unapproved environment.
 - The clinical BAA route is a read-only preparation page without signature submission or agreement storage until approved legal documents and vendor coverage exist; this prevents placeholder copy from becoming an executable contract.
