@@ -68,9 +68,16 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       url.searchParams.delete('access');
       window.history.replaceState({}, '', url.toString());
     }
-    const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
-    if (localStorage.getItem(KEY) && saved && saved <= Date.now()) { setState('timeout'); return; }
-    verify(false);
+    (async () => {
+      const { data: s } = await supabase.auth.getSession();
+      if (s.session) {
+        const { data } = await supabase.functions.invoke('health-access', { body: { action: 'admin' } });
+        if (data?.ok) { setIsAdmin(true); setState('open'); return; }
+      }
+      const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
+      if (localStorage.getItem(KEY) && saved && saved <= Date.now()) { setState('timeout'); return; }
+      verify(false);
+    })();
   }, []);
 
   useEffect(() => {

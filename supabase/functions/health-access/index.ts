@@ -70,6 +70,17 @@ Deno.serve(async (req) => {
   let body: unknown;
   try { body = await req.json(); } catch { return json({ error: "Invalid request" }, 400); }
 
+  // Admins (verified server-side via user_roles) always have access
+  if ((body as { action?: string })?.action === "admin") {
+    const jwt = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+    if (!jwt) return json({ ok: false });
+    const { data: u } = await db.auth.getUser(jwt);
+    if (!u?.user) return json({ ok: false });
+    const { data: isAdmin } = await db.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
+    if (!isAdmin) return json({ ok: false });
+    return json({ ok: true, admin: true });
+  }
+
   const v = Verify.safeParse(body);
   if (v.success) {
     const { data: r } = await db.from("hc_access_requests").select("id, full_name, expires_at, device_id").eq("access_token", v.data.token).eq("status", "approved").maybeSingle();
