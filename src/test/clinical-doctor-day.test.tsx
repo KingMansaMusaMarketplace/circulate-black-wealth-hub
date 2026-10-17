@@ -49,15 +49,15 @@ describe('connected fictional doctor-day', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Knee injury — Riley Demo' }));
     expect(screen.queryByRole('region', { name: 'Source transcript' })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Back' })).toBeDisabled();
-    fireEvent.click(screen.getByRole('tab', { name: '5. Follow-up' }));
+    fireEvent.mouseDown(screen.getByRole('tab', { name: '5. Follow-up' }), { button: 0, ctrlKey: false });
     expect(screen.getByRole('button', { name: /For now, use ice/ })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('tab', { name: 'Español' }));
+    fireEvent.mouseDown(screen.getByRole('tab', { name: 'Español' }), { button: 0, ctrlKey: false });
     expect(screen.getByRole('button', { name: /Por ahora, use hielo/ })).toBeInTheDocument();
   });
   it('passes the selected case into existing clinic notes at both visit and review stages', () => {
     render(<DoctorDay clinicId="sample-clinic" clinicRole="doctor" />);
     fireEvent.click(screen.getByRole('button', { name: 'Blood pressure check — Sam Placeholder' }));
-    fireEvent.click(screen.getByRole('tab', { name: '3. Visit transcript' }));
+    fireEvent.mouseDown(screen.getByRole('tab', { name: '3. Visit transcript' }), { button: 0, ctrlKey: false });
     expect(screen.getByTestId('clinic-note-case')).toHaveTextContent('visit-blood-pressure-v1');
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.getByTestId('clinic-note-case')).toHaveTextContent('visit-blood-pressure-v1');
