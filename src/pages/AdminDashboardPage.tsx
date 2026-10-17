@@ -57,7 +57,7 @@ import SystemHealthDashboard from '@/components/admin/SystemHealthDashboard';
 import PartnerOnboardingFunnel from '@/components/admin/PartnerOnboardingFunnel';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { PlayCircle, Home } from 'lucide-react';
+import { PlayCircle, Home, Activity, ExternalLink } from 'lucide-react';
 
 const AdminDashboardPage: React.FC = () => {
   const { user } = useAuth();
@@ -222,6 +222,17 @@ const AdminDashboardPage: React.FC = () => {
                     <p style={{ color: 'rgba(191, 219, 254, 0.7)' }} className="text-sm">
                       Complete control center for managing your platform.
                     </p>
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="mt-3 h-auto min-h-11 max-w-full justify-start whitespace-normal border-primary text-primary hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <a href="https://health.1325.ai/" target="_blank" rel="noopener noreferrer">
+                        <Activity className="h-4 w-4 shrink-0" />
+                        <span className="text-left">1325 Clinical — health.1325.ai</span>
+                        <ExternalLink className="h-4 w-4 shrink-0" />
+                      </a>
+                    </Button>
                   </div>
                   <div className="flex items-center gap-3">
                     {activeTab !== 'hub' && (
