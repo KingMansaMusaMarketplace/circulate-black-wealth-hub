@@ -2,6 +2,7 @@
 
 ## Clinical record review first
 - [x] Add clinic intake, existing account/clinic registration and locked BAA/CME upload stages.
+- [ ] Verify intake navigation and authenticated clinic signup end-to-end — blocked: live preview still serves old routes; external Supabase has no available authenticated test session.
 - [ ] Enable agreement and CME uploads — blocked: attorney-approved agreement, confirmed vendor coverage and independently verified dedicated healthcare environment.
 - [x] Add clinic BAA preparation page on health.1325.ai; signing unavailable without an attorney-approved agreement.
 - [ ] Verify BAA page navigation in the live preview — blocked: preview continues serving older clinical files despite saved changes and successful build checks.
