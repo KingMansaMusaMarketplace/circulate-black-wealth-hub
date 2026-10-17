@@ -1,108 +1,82 @@
-// 1325 Clinical — Kayla record review (SAMPLE DATA ONLY).
-// Reads text extracted from a sample record file and returns a structured
-// CME (Compulsory Medical Examination) review. Doctors make every decision.
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+// Fixed fictional records only. No uploaded text or patient data accepted.
+import { createClient } from 'npm:@supabase/supabase-js@2';
+import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors';
+import { z } from 'npm:zod@3';
+import { buildClinicalRecordReviewPrompt, fetchAIWithRetry, loadApprovedImprovements } from '../_shared/kayla-brain.ts';
+import { canReview, SAMPLE_CASE_ID, SAMPLE_PAGES, validateSources } from './sample-case.ts';
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
-};
-const json = (b: unknown, status = 200) =>
-  new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-
-const MAX_CHARS = 700_000;
-
-const str = { type: "string" };
-const obj = (props: Record<string, unknown>) => ({ type: "object", additionalProperties: false, properties: props, required: Object.keys(props) });
-const arr = (items: unknown) => ({ type: "array", items });
-const SCHEMA = obj({
-  summary: str,
-  incident_date: str,
-  timeline: arr(obj({ date: str, provider: str, complaint: str, findings: str, treatment: str, page: str })),
-  pre_existing: arr(obj({ date: str, provider: str, quote: str, page: str })),
-  discrepancies: arr(obj({ subjective: str, objective: str, severity: { type: "string", enum: ["low", "medium", "high"] }, pages: str })),
-  gaps_in_care: arr(str),
-  questions_for_exam: arr(str),
-  report_outline: arr(str),
+const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token' };
+const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+const RequestSchema = z.discriminatedUnion('action', [
+  z.object({ action: z.literal('generate'), clinic_id: z.string().uuid(), sample_case_id: z.literal(SAMPLE_CASE_ID) }).strict(),
+  z.object({ action: z.literal('decision'), review_id: z.string().uuid(), decision: z.enum(['accepted', 'revision_requested']) }).strict(),
+]);
+const ResultSchema = z.object({
+  findings: z.array(z.object({ category: z.enum(['timeline', 'pre_existing', 'conflict', 'gap']), date: z.string(), finding: z.string().min(1), sources: z.array(z.object({ page: z.number().int().min(1).max(SAMPLE_PAGES.length), quote: z.string().min(8) })).min(1) })).min(1),
+  questions_for_exam: z.array(z.string()), report_outline: z.array(z.string()),
 });
-
-async function readStream(res: Response): Promise<string> {
-  const reader = res.body!.getReader(); const dec = new TextDecoder();
-  let buf = "", out = "";
-  for (;;) {
-    const { done, value } = await reader.read(); if (done) break;
-    buf += dec.decode(value, { stream: true });
-    const lines = buf.split("\n"); buf = lines.pop() ?? "";
-    for (const line of lines) {
-      if (!line.startsWith("data:")) continue;
-      const d = line.slice(5).trim(); if (!d || d === "[DONE]") continue;
-      try { const ev = JSON.parse(d); if (ev.type === "response.output_text.delta") out += ev.delta ?? ""; } catch { /* skip */ }
-    }
-  }
-  return out;
-}
+const str = { type: 'string' };
+const obj = (properties: Record<string, unknown>) => ({ type: 'object', additionalProperties: false, properties, required: Object.keys(properties) });
+const arr = (items: unknown) => ({ type: 'array', items });
+const schema = obj({ findings: arr(obj({ category: { type: 'string', enum: ['timeline', 'pre_existing', 'conflict', 'gap'] }, date: str, finding: str, sources: arr(obj({ page: { type: 'integer' }, quote: str })) })), questions_for_exam: arr(str), report_outline: arr(str) });
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
+  if (req.method !== 'POST') return json({ error: 'Use POST' }, 405);
   try {
-    const auth = req.headers.get("Authorization");
-    if (!auth) return json({ error: "Sign in required" }, 401);
-    const url = Deno.env.get("SUPABASE_URL")!;
-    const userClient = createClient(url, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: auth } } });
-    const { data: u } = await userClient.auth.getUser();
-    if (!u?.user) return json({ error: "Sign in required" }, 401);
-
-    const body = await req.json().catch(() => null);
-    const documentId = typeof body?.document_id === "string" ? body.document_id : "";
-    const text = typeof body?.text === "string" ? body.text : "";
-    if (!/^[0-9a-f-]{36}$/i.test(documentId)) return json({ error: "Invalid document" }, 400);
-    if (text.trim().length < 50) return json({ error: "Not enough readable text in this file" }, 400);
-
-    // RLS: user can only read documents in their own clinic
-    const { data: doc } = await userClient.from("hc_documents").select("id, clinic_id").eq("id", documentId).maybeSingle();
-    if (!doc) return json({ error: "Document not found" }, 404);
-
-    await userClient.from("hc_documents").update({ status: "reviewing" }).eq("id", documentId);
-
-    const key = Deno.env.get("LOVABLE_API_KEY");
-    if (!key) return json({ error: "AI not configured" }, 500);
-    const model = "openai/gpt-6-astra";
-    const ai = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
-      method: "POST",
-      headers: { "Lovable-API-Key": key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", "X-Lovable-AIG-SDK": "fetch" },
-      body: JSON.stringify({
-        model, stream: true, store: false,
-        reasoning: { effort: "medium" },
-        instructions:
-          "You are Kayla Clinical, a medical-legal record organizer for 1325 Clinical. The records are fictional SAMPLE data. " +
-          "Organize facts only; never diagnose, never decide fault — the examining doctor decides. " +
-          "Pages are marked like [Page 12]. Cite page numbers for every item. Quote exactly when quoting. " +
-          "Never invent anything not in the text; if a field is unknown, write 'Not stated'. pre_existing = complaints dated before the incident; discrepancies = patient-reported symptoms that conflict with objective findings or imaging.",
-        input: [{ role: "user", content: `Review these records:\n\n${text.slice(0, MAX_CHARS)}` }],
-        text: { format: { type: "json_schema", name: "record_review", strict: true, schema: SCHEMA } },
+    const auth = req.headers.get('Authorization');
+    if (!auth?.startsWith('Bearer ')) return json({ error: 'Sign in required' }, 401);
+    const url = Deno.env.get('SUPABASE_URL');
+    const anon = Deno.env.get('SUPABASE_ANON_KEY');
+    const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    if (!url || !anon || !serviceKey) return json({ error: 'Review service unavailable' }, 503);
+    const caller = createClient(url, anon, { global: { headers: { Authorization: auth } } });
+    const { data: userData, error: authError } = await caller.auth.getUser();
+    if (authError || !userData.user) return json({ error: 'Sign in required' }, 401);
+    const parsed = RequestSchema.safeParse(await req.json().catch(() => null));
+    if (!parsed.success) return json({ error: 'Only the built-in fictional case and review decisions are allowed. Uploaded text and patient records are blocked.' }, 400);
+    const body = parsed.data;
+    const service = createClient(url, serviceKey, { auth: { persistSession: false } });
+    let clinicId: string;
+    let review: { id: string; clinic_id: string } | null = null;
+    if (body.action === 'decision') {
+      const { data, error } = await caller.from('hc_reviews').select('id, clinic_id').eq('id', body.review_id).maybeSingle();
+      if (error || !data) return json({ error: 'Review not found' }, 404);
+      review = data; clinicId = data.clinic_id;
+    } else clinicId = body.clinic_id;
+    const { data: member } = await caller.from('hc_members').select('role').eq('clinic_id', clinicId).eq('user_id', userData.user.id).maybeSingle();
+    if (!member) return json({ error: 'Clinic access required' }, 403);
+    if (body.action === 'decision') {
+      if (!canReview(member.role) || !review) return json({ error: 'A clinic doctor or owner must record the sample review decision' }, 403);
+      const { data, error } = await service.from('hc_review_decisions').insert({ clinic_id: clinicId, review_id: review.id, reviewer_id: userData.user.id, decision: body.decision }).select().single();
+      if (error) throw error;
+      return json({ decision: data });
+    }
+    const key = Deno.env.get('LOVABLE_API_KEY');
+    if (!key) return json({ error: 'AI not configured' }, 503);
+    const model = 'google/gemini-3.1-pro-preview';
+    const improvements = await loadApprovedImprovements(service);
+    const ai = await fetchAIWithRetry('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST', headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model, temperature: 0, max_tokens: 8000,
+        messages: [{ role: 'system', content: buildClinicalRecordReviewPrompt() + improvements }, { role: 'user', content: SAMPLE_PAGES.map(p => `[Bundle Page ${p.page}] ${p.file}\n${p.text}`).join('\n\n') }],
+        response_format: { type: 'json_schema', json_schema: { name: 'clinical_draft', strict: true, schema } },
       }),
-    });
-    if (!ai.ok) {
-      await userClient.from("hc_documents").update({ status: "failed" }).eq("id", documentId);
-      if (ai.status === 429) return json({ error: "Kayla is busy — try again in a minute." }, 429);
-      if (ai.status === 402) return json({ error: "AI credits used up — add credits to continue." }, 402);
-      console.error("gateway", ai.status, await ai.text());
-      return json({ error: "Kayla could not finish the review" }, 502);
+    }, { label: 'clinical-record-review' });
+    if (!ai.ok) return json({ error: ai.status === 429 ? 'Kayla is busy. Try again shortly.' : 'Kayla could not generate the draft. Try again.' }, ai.status === 429 ? 429 : 502);
+    const response = await ai.json();
+    const result = ResultSchema.parse(JSON.parse(response.choices?.[0]?.message?.content ?? 'null'));
+    validateSources(result);
+    const { data: doc, error: docError } = await service.from('hc_documents').insert({ clinic_id: clinicId, file_name: 'Fictional CME case — six-page bundle', pages: SAMPLE_PAGES.length, status: 'draft_ready', created_by: userData.user.id }).select().single();
+    if (docError || !doc) throw docError ?? new Error('Document save failed');
+    const { data: saved, error: saveError } = await service.from('hc_reviews').insert({ clinic_id: clinicId, document_id: doc.id, model, result: { ...result, sample_case_id: SAMPLE_CASE_ID, source_pages: SAMPLE_PAGES, citation_check: 'Exact quotations and page bounds checked; clinical interpretation requires physician review.' } }).select().single();
+    if (saveError) {
+      await service.from('hc_documents').delete().eq('id', doc.id);
+      throw saveError;
     }
-    let result: unknown;
-    try { result = JSON.parse(await readStream(ai)); } catch { result = null; }
-    if (!result) {
-      await userClient.from("hc_documents").update({ status: "failed" }).eq("id", documentId);
-      return json({ error: "Kayla returned an unreadable review" }, 502);
-    }
-
-    const { data: review, error } = await userClient
-      .from("hc_reviews").insert({ clinic_id: doc.clinic_id, document_id: documentId, result, model }).select().single();
-    if (error) throw error;
-    await userClient.from("hc_documents").update({ status: "reviewed" }).eq("id", documentId);
-    return json({ review });
-  } catch (e) {
-    console.error("health-kayla-review", e);
-    return json({ error: "Something went wrong" }, 500);
+    return json({ review: saved });
+  } catch {
+    // Never log record text or AI drafts.
+    return json({ error: 'Draft could not be validated or saved. No completed review was recorded. Please retry.' }, 502);
   }
 });
