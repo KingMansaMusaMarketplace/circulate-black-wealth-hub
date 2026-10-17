@@ -16,7 +16,8 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { savePendingClaim, clearPendingClaim } from '@/components/auth/PendingClaimRedirect';
+import { clearPendingClaim } from '@/components/auth/PendingClaimRedirect';
+import ClaimAccountForm from '@/components/claim/ClaimAccountForm';
 
 const ClaimBusinessPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -27,6 +28,7 @@ const ClaimBusinessPage: React.FC = () => {
   const [businessName, setBusinessName] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [claiming, setClaiming] = useState(false);
+  const [claimedNow, setClaimedNow] = useState(false);
 
   const token = searchParams.get('token');
   const isDirectory = searchParams.get('type') === 'directory';
@@ -107,16 +109,8 @@ const ClaimBusinessPage: React.FC = () => {
     if (status === 'success' || status === 'error' || status === 'expired' || (status === 'ready' && user)) clearPendingClaim();
   }, [status, user]);
 
-  const goToAuth = (path: '/login' | '/signup') => {
-    savePendingClaim(returnUrl);
-    navigate(`${path}?redirect=${encodeURIComponent(returnUrl)}`);
-  };
-
   const handleClaim = async () => {
-    if (!user) {
-      goToAuth('/login');
-      return;
-    }
+    if (!user) return;
 
     setClaiming(true);
 
@@ -127,11 +121,12 @@ const ClaimBusinessPage: React.FC = () => {
 
       if (claimError) throw claimError;
 
-      const result = data as { success: boolean; error?: string; business_name?: string };
+      const result = data as { success: boolean; error?: string; business_name?: string; claimed?: boolean };
 
       if (result.success) {
+        setClaimedNow(!!result.claimed);
         setStatus('success');
-        toast.success('Claim request sent — our team will review it.');
+        toast.success(result.claimed ? 'Your listing is claimed — welcome!' : 'Claim request sent — our team will review it.');
       } else {
         throw new Error(result.error || 'Failed to claim business');
       }
@@ -177,7 +172,7 @@ const ClaimBusinessPage: React.FC = () => {
             
             <CardTitle className="text-2xl text-white">
               {status === 'success' 
-                ? 'Claim Request Sent' 
+                ? (claimedNow ? 'Listing Claimed!' : 'Claim Request Sent') 
                 : status === 'error' || status === 'expired'
                   ? 'Claim Failed'
                   : status === 'start' ? 'Claim Your Free Listing' : 'Claim Your Business'}
@@ -222,43 +217,25 @@ const ClaimBusinessPage: React.FC = () => {
                   </div>
                 </div>
 
-                {!user && (
-                  <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
-                    <p className="text-sm text-amber-300 text-center">
-                      You'll need to sign in or create an account to claim this business
-                    </p>
-                  </div>
-                )}
-
-                <Button
-                  onClick={handleClaim}
-                  disabled={claiming}
-                  className="w-full h-12 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold"
-                >
-                  {claiming ? (
-                    <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Claiming...
-                    </>
-                  ) : user ? (
-                    <>
-                      <CheckCircle2 className="h-4 w-4 mr-2" />
-                      Claim This Business
-                    </>
-                  ) : (
-                    <>
-                      Sign In & Claim
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </>
-                  )}
-                </Button>
-                {!user && (
+                {!user ? (
+                  <ClaimAccountForm returnUrl={returnUrl} />
+                ) : (
                   <Button
-                    variant="outline"
-                    onClick={() => goToAuth('/signup')}
-                    className="w-full h-12 border-mansagold/50 text-mansagold hover:bg-mansagold/10"
+                    onClick={handleClaim}
+                    disabled={claiming}
+                    className="w-full h-12 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold"
                   >
-                    New here? Create a Free Account & Claim
+                    {claiming ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Claiming...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="h-4 w-4 mr-2" />
+                        Claim This Business
+                      </>
+                    )}
                   </Button>
                 )}
               </>
@@ -268,12 +245,14 @@ const ClaimBusinessPage: React.FC = () => {
               <div className="text-center space-y-4">
                 <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
                   <p className="text-emerald-300">
-                    Request received for <strong>{businessName}</strong>.
+                    {claimedNow ? <>You now own <strong>{businessName}</strong> on 1325.AI.</> : <>Request received for <strong>{businessName}</strong>.</>}
                   </p>
                 </div>
-                
+
                 <p className="text-slate-400 text-sm">
-                  Our team will confirm you own this business within 1–2 business days.
+                  {claimedNow
+                    ? 'Head to your dashboard to update your hours, photos and contact details.'
+                    : 'You signed in with a different email than the invitation, so our team will confirm you own this business within 1–2 business days.'}
                 </p>
 
                 <Button
