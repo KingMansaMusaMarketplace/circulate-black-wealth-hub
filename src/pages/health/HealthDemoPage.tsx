@@ -24,6 +24,7 @@ import ExecutiveWalkthrough from './ExecutiveWalkthrough';
 import ExecutiveNotePreview from './ExecutiveNotePreview';
 import ChartPrep from './workspace/ChartPrep';
 import CareGuide from './workspace/CareGuide';
+import PriorAuthorization from './workspace/PriorAuthorization';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -253,15 +254,7 @@ const RPM = () => (
   </div>
 );
 
-const PriorAuth = () => (
-  <Card><CardHeader><CardTitle className="text-base">Prior authorization requests</CardTitle></CardHeader>
-    <CardContent className="space-y-3 text-sm">
-      {[['Lumbar MRI follow-up', 'Jordan Sample', 'Draft ready'], ['Cardiac rehab, 12 sessions', 'Avery Example', 'Submitted'], ['Shoulder PT, 8 sessions', 'Morgan Placeholder', 'Approved']].map(([s, p, st]) => (
-        <div key={s} className="flex items-center justify-between rounded-md border border-border p-3">
-          <div><p className="font-medium">{s}</p><p className="text-muted-foreground">{p}</p></div><Badge variant={st === 'Approved' ? 'outline' : 'secondary'}>{st}</Badge></div>))}
-      <p className="text-muted-foreground">Kayla pulls the supporting notes from the chart and writes the request. Staff review and send it.</p>
-    </CardContent></Card>
-);
+const PriorAuth = PriorAuthorization;
 
 const Billing = () => (
   <Card><CardHeader><CardTitle className="text-base">Claims</CardTitle></CardHeader>
