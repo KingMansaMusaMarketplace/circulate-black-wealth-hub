@@ -17,6 +17,7 @@ import CareGuide from './workspace/CareGuide';
 import DocumentationCheck from './workspace/DocumentationCheck';
 import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
 import { EndPrivateSessionButton } from './PrivateSession';
+import ExecutiveWalkthrough from './ExecutiveWalkthrough';
 
 const NAV = [
   { k: 'intake', l: 'Clinic Intake', i: Lock },
@@ -50,6 +51,7 @@ export default function HealthWorkspacePage() {
   const [role, setRole] = useState('');
   const [patients, setPatients] = useState<Row[]>([]);
   const [tab, setTab] = useState('review');
+  const tourReturnTab = useRef<string | null>(null);
   useEffect(() => {
     const view = searchParams.get('view');
     if (view === 'cme') setTab('review');
@@ -132,6 +134,7 @@ export default function HealthWorkspacePage() {
             </div>
             <p className="text-xs text-muted-foreground">health.1325.ai · {clinic.name}</p>
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
+            <ExecutiveWalkthrough key={`${user.id}:${clinic.id}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />
             {tab === 'dashboard' && <Dashboard {...props} go={setTab} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
             {tab === 'patients' && <Patients {...props} />}
