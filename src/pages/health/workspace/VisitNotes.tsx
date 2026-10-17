@@ -106,6 +106,13 @@ export default function VisitNotes({ clinicId, clinicRole }: { clinicId: string;
               <Button size="sm" variant="outline" disabled={saving} onClick={() => decide('rejected')}><X className="mr-1 h-4 w-4" />Reject</Button>
             </div> : <p className="border-t pt-3 text-xs text-muted-foreground">Only a clinic doctor or owner can sign this note.</p>)}
             {signoff?.decision === 'rejected' && <Button size="sm" variant="outline" disabled={busy} onClick={draft}>Draft a new version</Button>}
+            {signoff?.decision === 'signed' && <Button size="sm" variant="outline" onClick={() => {
+              try {
+                const img = new Image(); img.src = logo1325;
+                const doc = buildReviewedReport({ visitTitle: visit.title, transcript: visit.lines, note: note.note, decision: signoff.decision, signedAt: signoff.created_at }, img.complete ? img : undefined);
+                doc.save(`1325-clinical-reviewed-note-${visit.id}.pdf`);
+              } catch (e) { toast.error((e as Error).message); }
+            }}><Download className="mr-1 h-4 w-4" />Download signed report (PDF)</Button>}
             <p className="text-xs text-muted-foreground">Tap any line to see where it came from in the transcript. Kayla supports clinicians; she does not diagnose.</p>
           </div>
         )}

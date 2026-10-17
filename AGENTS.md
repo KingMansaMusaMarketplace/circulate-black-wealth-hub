@@ -19,3 +19,4 @@
 - Clinical chart prep uses exact numbered fixture excerpts; chronology sorts immutable dated records with undated records last and validates flag quotes. Neither accepts chart text, invents current findings, promotes planned visits to completed events, or persists approval.
 - Clinical care guides use fixed bilingual paraphrases checked against exact fictional transcript quotes; no clinical text input, saved approval or patient delivery, so preparing a guide cannot bypass review or healthcare clearance.
 - Clinical billing documentation check uses fixed findings tied to exact fictional transcript quotes and never suggests codes, visit levels, or claim submission; prevents AI from implying payment eligibility.
+- Clinical reviewed-report PDFs are generated in the browser only from doctor-signed notes (rejected/unsigned refused) and carry fictional-sample and confidentiality labels; prevents AI drafts from looking like approved records.
