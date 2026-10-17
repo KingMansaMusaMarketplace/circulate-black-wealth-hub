@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import PilotReadiness from '../pages/health/workspace/PilotReadiness';
@@ -8,7 +9,7 @@ vi.mock('@/pages/health/workspace/hc', () => ({ useRows: () => ({ rows: [], load
 describe('pilot readiness submission', () => {
   it('submits boolean readiness only, without patient text or a supplied owner', async () => {
     mocks.invoke.mockResolvedValueOnce({ data: { real_records_allowed: false }, error: null });
-    render(<PilotReadiness clinicId="clinic-1" clinicRole="owner" />);
+    render(<MemoryRouter><PilotReadiness clinicId="clinic-1" clinicRole="owner" /></MemoryRouter>);
     fireEvent.click(screen.getByRole('checkbox', { name: 'Signed clinic agreement' }));
     fireEvent.click(screen.getByRole('button', { name: 'Submit readiness request' }));
     await waitFor(() => expect(mocks.reload).toHaveBeenCalled());
@@ -17,7 +18,7 @@ describe('pilot readiness submission', () => {
     } } });
   });
   it('does not permit staff to report readiness', () => {
-    render(<PilotReadiness clinicId="clinic-1" clinicRole="staff" />);
+    render(<MemoryRouter><PilotReadiness clinicId="clinic-1" clinicRole="staff" /></MemoryRouter>);
     expect(screen.queryByRole('button', { name: 'Submit readiness request' })).not.toBeInTheDocument();
     expect(screen.getByRole('checkbox', { name: 'Signed clinic agreement' })).toBeDisabled();
   });
