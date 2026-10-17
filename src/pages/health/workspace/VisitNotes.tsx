@@ -6,9 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { Row, useRows } from './hc';
 import { canSign, SAMPLE_VISITS } from './sample-visits';
+import { buildReviewedReport } from './reviewed-report';
+import logo1325 from '@/assets/1325-ai-logo.png';
 
-const SECTIONS = [
 const logoImg = typeof Image !== 'undefined' ? Object.assign(new Image(), { src: logo1325 }) : undefined;
+const SECTIONS = [
   ['subjective', 'Patient\u2019s story'],
   ['objective', 'Exam findings'],
   ['assessment', 'Assessment'],
