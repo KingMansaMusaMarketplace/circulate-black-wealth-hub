@@ -54,6 +54,7 @@ const menuGroups: MenuGroup[] = [
     defaultOpen: true,
     items: [
       { id: 'hub', label: 'Hub', icon: Home },
+      { id: 'admin-health-clinical', label: '1325 Clinical (health.1325.ai)', icon: Activity, route: 'https://health.1325.ai/' },
     ],
   },
   {
@@ -139,7 +140,6 @@ const menuGroups: MenuGroup[] = [
       { id: 'system', label: 'Settings', icon: Sliders },
       { id: 'ai', label: 'AI Tools', icon: Bot },
       { id: 'admin-ai-workforce', label: 'AI Workforce', icon: Bot, route: '/admin/ai-workforce' },
-      { id: 'admin-health-clinical', label: '1325 Clinical (health.1325.ai)', icon: Gauge, route: 'https://health.1325.ai/' },
       { id: 'admin-kayla-scoreboard', label: 'Kayla Scoreboard', icon: Gauge, route: '/admin/kayla-scoreboard' },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge },
       { id: 'webhooks', label: 'Webhooks', icon: Webhook },
