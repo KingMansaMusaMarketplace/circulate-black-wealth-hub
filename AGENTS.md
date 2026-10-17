@@ -1,4 +1,5 @@
 # AGENTS
+- Connected clinical doctor-day shares one validated fictional case across rehearsal slots, historical chart/transcript, existing clinic-scoped note decisions and unapproved follow-up guides; case changes reset navigation, illustrative slots never mark encounters complete, and note signatures never unlock booking or delivery.
 - Clinical enterprise readiness is a shared informational drawer using the existing intake lock policy; fixed unverified legal/vendor/pilot statuses cannot approve, certify or activate services, so presentation never becomes a healthcare clearance mechanism.
 - Clinical specialty examples share a read-only fixture screen across demo and clinic workspace, with exact transcript excerpts and case-local source selection; separate rehearsal sources never enter generated notes, signatures, exports or patient delivery.
 - Clinical practice impact uses a shared local-only calculator with blank visitor-supplied assumptions and a pure validated calculation; modeled time-capacity value is never represented as measured savings, revenue or product pricing.

@@ -1,5 +1,17 @@
 # Roadmap
 
+## Full clinical roadmap — approved staged scope
+- [x] Connected fictional doctor-day: one selected case across schedule rehearsal, chart prep, transcript, existing clinic note decisions and independently unapproved follow-up; 35 targeted/regression tests pass, build OK, public access gate verified.
+- [ ] Verify doctor-day note generation, signed decision and readback in an approved signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
+- [ ] Complete chart and change history — follows connected workflow.
+- [ ] Clinical assistance and medication safety — requires qualified clinical validation before live use.
+- [ ] Laboratory, pharmacy and record-system connections — blocked for live use by approved providers, agreements and credentials.
+- [ ] Secure patient communication — blocked for live use by healthcare clearance and consent review.
+- [ ] Billing operations — sample preparation first; live eligibility/claims require qualified review and approved providers.
+- [ ] Enterprise operations, recovery and migration — preparation first; operational guarantees require independently tested infrastructure.
+- [ ] Doctor pilot evaluation — blocked by approved healthcare environment, agreements and participating clinics.
+- [ ] Healthcare clearance — blocked by attorney-approved agreements, written vendor coverage and independently verified safeguards.
+
 ## Clinical executive additions — one at a time
 - [x] 1. Guided executive walkthrough: four manual stops in demo and clinic workspace; 12 targeted tests pass and unapproved visitors remain locked out.
 - [ ] Verify walkthrough in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
