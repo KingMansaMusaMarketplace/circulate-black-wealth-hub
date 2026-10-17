@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Clinical record review first
-- [ ] Add clinic BAA preparation page on health.1325.ai; signing unavailable without an attorney-approved agreement.
+- [x] Add clinic BAA preparation page on health.1325.ai; signing unavailable without an attorney-approved agreement.
 - [ ] Enable clinic BAA signing — blocked: attorney-approved agreement and confirmed vendor coverage not supplied.
 - [x] Build a locked real-record pilot readiness request with metadata-only checklist, server-enforced data block, and safety tests.
 - [ ] Verify signed-in pilot submission, stored requester identity and cross-clinic denial — blocked: external Supabase has no available authenticated test session.

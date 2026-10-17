@@ -106,6 +106,7 @@ export default function HealthWorkspacePage() {
   const shellHeader = (
     <header className="flex h-14 items-center justify-between border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
       <Brand />
+      <Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button>
       {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-foreground/80 md:inline">{clinic?.name}</span>
         <Button size="sm" variant="ghost" className="text-foreground hover:bg-foreground/10" onClick={() => supabase.auth.signOut()}><LogOut className="h-4 w-4" /></Button></div>}
     </header>

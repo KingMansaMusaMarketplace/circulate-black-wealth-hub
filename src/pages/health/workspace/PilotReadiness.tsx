@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ClipboardCheck, Loader2, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -44,6 +45,7 @@ export default function PilotReadiness({ clinicId, clinicRole }: { clinicId: str
       <Lock className="h-4 w-4 shrink-0 text-mansagold" /><div><p className="font-medium">Patient uploads remain locked—even with a signed clinic BAA.</p>
         <p className="mt-1 text-muted-foreground">Checking these items reports readiness only. It cannot approve this environment or enable records, processing or patient calls. Do not enter patient information or upload agreements here.</p></div>
     </div>
+    <Button variant="outline" size="sm" asChild><Link to="/health/baa">Clinic BAA · Agreement preparation</Link></Button>
     <div className="divide-y">
       {PILOT_FIELDS.map(key => <label key={key} className="flex cursor-pointer items-start gap-3 py-4">
         <Checkbox aria-label={requirements[key].title} checked={values[key]} disabled={!canSubmit || saving || requests.loading} onCheckedChange={checked => setChecklist({ ...values, [key]: checked === true })} />
