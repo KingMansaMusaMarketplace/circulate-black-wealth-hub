@@ -34,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    console.log('Sending corporate welcome email to:', email);
+    console.log('Sending corporate welcome email');
 
     const tierBenefits = tier === 'gold' ? `
       <ul>

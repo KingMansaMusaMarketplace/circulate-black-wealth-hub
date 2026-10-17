@@ -192,16 +192,28 @@ export async function persistSession(
       ? String(typeof firstUser.content === "string" ? firstUser.content : JSON.stringify(firstUser.content)).slice(0, 80)
       : "Kayla session";
 
-    await supabase.from("ai_chat_sessions").upsert(
-      {
-        id: sessionId,
-        user_id: userId,
-        title,
-        messages,
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "id" },
-    );
+    const { data: existing } = await supabase
+      .from("ai_chat_sessions")
+      .select("user_id")
+      .eq("id", sessionId)
+      .maybeSingle();
+    if (existing) {
+      // Never touch a session that belongs to someone else.
+      if (existing.user_id !== userId) return;
+      await supabase
+        .from("ai_chat_sessions")
+        .update({ title, messages, updated_at: new Date().toISOString() })
+        .eq("id", sessionId)
+        .eq("user_id", userId);
+      return;
+    }
+    await supabase.from("ai_chat_sessions").insert({
+      id: sessionId,
+      user_id: userId,
+      title,
+      messages,
+      updated_at: new Date().toISOString(),
+    });
   } catch (e) {
     console.error("[kayla-memory] session upsert failed (non-fatal):", e);
   }

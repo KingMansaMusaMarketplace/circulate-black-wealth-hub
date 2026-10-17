@@ -49,6 +49,10 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    const safeUrl = new URL(resetUrl).toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+    if (!/^https:\/\//.test(safeUrl)) {
+      return new Response(JSON.stringify({ error: "Invalid reset URL" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } });
+    }
     console.log("Sending password reset email");
 
     const emailResponse = await resend.emails.send({
@@ -70,7 +74,7 @@ const handler = async (req: Request): Promise<Response> => {
             </p>
             
             <div style="text-align: center; margin: 40px 0;">
-              <a href="${resetUrl}" 
+              <a href="${safeUrl}" 
                  style="background: #dc2626; color: white; padding: 16px 32px; text-decoration: none; 
                         border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">
                 Reset Password
@@ -82,7 +86,7 @@ const handler = async (req: Request): Promise<Response> => {
             </p>
             <p style="color: #3730a3; font-size: 14px; word-break: break-all; background: #f3f4f6; 
                       padding: 10px; border-radius: 4px;">
-              ${resetUrl}
+              ${safeUrl}
             </p>
             
             <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb;">

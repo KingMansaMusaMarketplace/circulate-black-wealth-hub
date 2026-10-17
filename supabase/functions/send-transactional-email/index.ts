@@ -151,7 +151,8 @@ Deno.serve(async (req) => {
           .limit(1)
         allowed = !!recent && recent.length > 0
       }
-      if (!allowed && callerId && SIGNED_IN_CONFIRMATIONS.has(templateName)) allowed = true
+      // Signed-in confirmations may only go to the caller's own address (checked below) or be sent by an admin.
+      void SIGNED_IN_CONFIRMATIONS
       if (!allowed && callerId) {
         if (callerEmail && callerEmail === effectiveRecipient.toLowerCase()) {
           allowed = true

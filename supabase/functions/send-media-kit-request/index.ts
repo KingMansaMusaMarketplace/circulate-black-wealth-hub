@@ -46,9 +46,12 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { fullName, email, company, role, reason, documentType }: MediaKitRequest = await req.json();
 
-    console.log(`Processing media kit access request from ${fullName} (${email}) for ${documentType}`);
+    console.log('Processing media kit access request');
 
     // Validate required fields
+    if (!Object.prototype.hasOwnProperty.call(documentLabels, String(documentType))) {
+      return new Response(JSON.stringify({ error: 'Invalid document type' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
     if (!fullName || !email || !reason || !documentType) {
       return new Response(JSON.stringify({ 
         success: false, 
@@ -85,7 +88,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log('Request stored successfully:', requestData.id);
 
-    const documentLabel = documentLabels[documentType] || documentType;
+    const documentLabel = documentLabels[documentType];
     const baseUrl = supabaseUrl.replace('.supabase.co', '.lovableproject.com');
 
     // Send notification email to admin

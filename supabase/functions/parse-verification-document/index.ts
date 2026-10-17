@@ -159,7 +159,7 @@ Extract all relevant information and assess the document's validity for business
     }
 
     const extraction = JSON.parse(toolCall.function.arguments);
-    console.log('Document extraction result:', extraction);
+    console.log('Document extraction completed');
 
     return new Response(JSON.stringify({
       success: true,
