@@ -19,14 +19,15 @@ const SECTIONS = [
   ['plan', 'Plan'],
 ] as const;
 
-export default function VisitNotes({ clinicId, clinicRole }: { clinicId: string; clinicRole: string }) {
+export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { clinicId: string; clinicRole: string; selectedVisitId?: string }) {
   const notes = useRows('hc_visit_notes', clinicId);
   const signoffs = useRows('hc_note_signoffs', clinicId);
-  const [visitId, setVisitId] = useState<string>(SAMPLE_VISITS[0].id);
+  const [localVisitId, setVisitId] = useState<string>(SAMPLE_VISITS[0].id);
+  const visitId = selectedVisitId ?? localVisitId;
   const [busy, setBusy] = useState(false);
   const [saving, setSaving] = useState(false);
   const [hl, setHl] = useState<number[]>([]);
-  const visit = SAMPLE_VISITS.find((v) => v.id === visitId)!;
+  const visit = SAMPLE_VISITS.find((v) => v.id === visitId);
   const note: Row | undefined = notes.rows.find((n) => n.sample_visit_id === visitId);
   const signoff = signoffs.rows.find((s) => s.note_id === note?.id);
   const doctor = canSign(clinicRole);
@@ -59,6 +60,8 @@ export default function VisitNotes({ clinicId, clinicRole }: { clinicId: string;
 
   const status = !note ? null : signoff ? (signoff.decision === 'signed' ? 'Signed by doctor' : 'Rejected by doctor') : 'Draft — AI generated · awaiting doctor';
 
+  if (!visit) return <p role="alert">Only built-in fictional visits are available.</p>;
+
   return <div className="space-y-6">
     <div className="flex flex-wrap items-start justify-between gap-4 border-b pb-6">
       <div>
@@ -72,9 +75,9 @@ export default function VisitNotes({ clinicId, clinicRole }: { clinicId: string;
       </div>
     </div>
 
-    <div className="flex flex-wrap gap-2">
+    {!selectedVisitId && <div className="flex flex-wrap gap-2">
       {SAMPLE_VISITS.map((v) => <Button key={v.id} size="sm" variant={v.id === visitId ? 'default' : 'outline'} onClick={() => { setVisitId(v.id); setHl([]); }}>{v.title}</Button>)}
-    </div>
+    </div>}
 
     <div className="grid gap-6 lg:grid-cols-2">
       <section aria-label="Sample transcript" className="rounded-lg border bg-card p-4">
