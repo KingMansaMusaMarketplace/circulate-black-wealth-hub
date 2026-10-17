@@ -32,6 +32,7 @@ import DoctorDay from './workspace/DoctorDay';
 import SamplePatientChart from './workspace/SamplePatientChart';
 import MedicationReview from './workspace/MedicationReview';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
+import PatientCommunication from './workspace/PatientCommunication';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -119,7 +120,7 @@ const MODULES = [
   { key: 'labs', label: 'Lab Orders & Results', icon: FlaskConical },
   { key: 'rx', label: 'e-Prescriptions', icon: Pill },
   { key: 'video', label: 'Video Visits', icon: Video },
-  { key: 'portal', label: 'Patient Portal', icon: Smartphone },
+  { key: 'portal', label: 'Patient Communication', icon: Smartphone },
   { key: 'cme', label: 'CME Record Review', icon: FileSearch },
   { key: 'rpm', label: 'Remote Monitoring', icon: HeartPulse },
   { key: 'careplans', label: 'Chronic Care Plans', icon: Target },
@@ -596,35 +597,7 @@ const VideoVisits = () => {
   );
 };
 
-const PatientPortal = () => {
-  const [msgs, setMsgs] = useState([{ from: 'Avery Example', text: 'My ankles are a little swollen this week.' }, { from: 'Care team', text: 'Thanks, Avery. Dr. Sample will see you by video at 1:00 PM today.' }]);
-  const [draft, setDraft] = useState('');
-  return (
-    <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">Preview of what <b>Avery Example</b> (sample patient) sees on her phone.</p>
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="mx-auto w-full max-w-sm lg:col-span-1"><CardContent className="space-y-4 p-4">
-          <div className="flex items-center gap-2 border-b border-border pb-3"><img src={logo1325} alt="1325.AI" className="h-6 w-auto" /><span className="text-sm font-semibold">My Health</span></div>
-          <p className="text-lg font-semibold">Hi, Avery 👋</p>
-          <div className="rounded-md border border-mansagold/40 bg-mansagold/10 p-3 text-sm"><p className="font-medium">Next visit: Today, 1:00 PM</p><p className="text-muted-foreground">Video visit with Dr. Sample</p>
-            <Button size="sm" className="mt-2 w-full"><Video className="mr-2 h-4 w-4" />Join video visit</Button></div>
-          <div className="space-y-2 text-sm"><p className="font-medium">New results</p>
-            <div className="rounded-md border border-border p-2"><p>Basic Metabolic Panel · Oct 14</p><p className="text-xs text-muted-foreground">Your doctor has reviewed these and will discuss them at your visit.</p></div></div>
-          <div className="space-y-2 text-sm"><p className="font-medium">My medicines</p>
-            {['Lisinopril 20 mg', 'Spironolactone 25 mg', 'Metformin 1000 mg'].map((m) => (<div key={m} className="flex justify-between rounded-md border border-border p-2"><span>{m}</span><button className="text-xs text-mansagold">Request refill</button></div>))}</div>
-        </CardContent></Card>
-        <Card className="lg:col-span-2"><CardHeader><CardTitle className="flex items-center gap-2 text-base"><MessageSquare className="h-4 w-4 text-mansagold" />Secure messages</CardTitle></CardHeader>
-          <CardContent className="space-y-3">
-            {msgs.map((m, i) => (<div key={i} className={`flex ${m.from === 'Care team' ? 'justify-start' : 'justify-end'}`}>
-              <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${m.from === 'Care team' ? 'bg-muted' : 'bg-primary text-primary-foreground'}`}><p className="text-xs opacity-70">{m.from}</p>{m.text}</div></div>))}
-            <div className="flex gap-2"><Input value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Type a sample message as Avery..." />
-              <Button onClick={() => { if (!draft.trim()) return; setMsgs((x) => [...x, { from: 'Avery Example', text: draft }, { from: 'Care team', text: 'Message received. Kayla has sent it to your care team\'s inbox.' }]); setDraft(''); }}>Send</Button></div>
-            <p className="text-xs text-muted-foreground">Patient messages go straight into the doctor's Inbox, sorted by Kayla. Demo only — fictional patient.</p>
-          </CardContent></Card>
-      </div>
-    </div>
-  );
-};
+const PatientPortal = PatientCommunication;
 
 const REFERRAL_STEPS = ['Sent', 'Received', 'Scheduled', 'Seen', 'Report back'];
 const INITIAL_REFERRALS = [
