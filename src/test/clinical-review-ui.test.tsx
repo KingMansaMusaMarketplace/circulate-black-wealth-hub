@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import RecordReview from '../pages/health/workspace/RecordReview';
@@ -9,7 +10,7 @@ vi.mock('@/pages/health/workspace/hc', () => ({ useRows: (table: string) => ({ l
 
 describe('source-linked review interactions', () => {
   it('opens the cited source record instead of an unrelated page', () => {
-    render(<RecordReview clinicId="clinic-1" clinicRole="staff" />);
+    render(<MemoryRouter><RecordReview clinicId="clinic-1" clinicRole="staff" /></MemoryRouter>);
     fireEvent.click(screen.getByRole('button', { name: /Fictional CME case/ }));
     fireEvent.click(screen.getByRole('button', { name: 'Source · page 1' }));
     expect(screen.getByRole('region', { name: 'Source page' })).toHaveTextContent('FICTIONAL SAMPLE — Intermittent low back pain documented.');
