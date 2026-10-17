@@ -18,6 +18,7 @@ import DocumentationCheck from './workspace/DocumentationCheck';
 import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
 import { EndPrivateSessionButton } from './PrivateSession';
 import ExecutiveWalkthrough from './ExecutiveWalkthrough';
+import PracticeImpact from './workspace/PracticeImpact';
 
 const NAV = [
   { k: 'intake', l: 'Clinic Intake', i: Lock },
@@ -31,6 +32,7 @@ const NAV = [
   { k: 'care', l: 'Care Guide', i: ClipboardCheck },
   { k: 'doccheck', l: 'Billing Documentation Check', i: Receipt },
   { k: 'auth', l: 'Prior Authorization', i: ClipboardCheck },
+  { k: 'impact', l: 'Practice Impact', i: ClipboardCheck },
   { k: 'billing', l: 'Billing & Claims', i: Receipt },
   { k: 'team', l: 'Team', i: UserCog },
 ];
@@ -152,6 +154,7 @@ export default function HealthWorkspacePage() {
             {tab === 'care' && <CareGuide key={`${user.id}:${clinic.id}`} />}
             {tab === 'doccheck' && <DocumentationCheck key={`${user.id}:${clinic.id}`} />}
             {tab === 'auth' && <PriorAuth {...props} />}
+            {tab === 'impact' && <PracticeImpact key={`${user.id}:${clinic.id}`} />}
             {tab === 'billing' && <Billing {...props} />}
             {tab === 'team' && <Team {...props} />}
           </main>

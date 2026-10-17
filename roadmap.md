@@ -5,7 +5,7 @@
 - [ ] Verify walkthrough in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
 - [x] 2. Fictional prior-authorization packet draft — shared demo/workspace screen; exact source excerpts, unsaved review rehearsal, locked signature/export/sending; 10 targeted tests pass and access gate remains locked.
 - [ ] Verify authorization packet in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
-- [ ] 3. Practice impact calculator — visitor inputs only, no unverified savings claims.
+- [ ] 3. Practice impact calculator — added blank-input scenario calculator to demo/workspace; verify arithmetic and access locks.
 - [ ] 4. Specialty-specific fictional examples — Primary Care, Orthopedics, Cardiology.
 - [ ] 5. Enterprise readiness drawer — verified statuses only; real records remain locked.
 

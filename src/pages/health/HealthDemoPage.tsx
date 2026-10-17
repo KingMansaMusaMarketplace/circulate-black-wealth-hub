@@ -25,6 +25,7 @@ import ExecutiveNotePreview from './ExecutiveNotePreview';
 import ChartPrep from './workspace/ChartPrep';
 import CareGuide from './workspace/CareGuide';
 import PriorAuthorization from './workspace/PriorAuthorization';
+import PracticeImpact from './workspace/PracticeImpact';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -118,6 +119,7 @@ const MODULES = [
   { key: 'auth', label: 'Prior Authorization', icon: ClipboardCheck },
   { key: 'billing', label: 'Billing & Claims', icon: Receipt },
   { key: 'revenue', label: 'Practice Revenue', icon: TrendingUp },
+  { key: 'impact', label: 'Practice Impact', icon: TrendingUp },
   { key: 'quality', label: 'Quality Scores', icon: Award },
   { key: 'interop', label: 'Connections (Epic / Cerner)', icon: Network },
   { key: 'audit', label: 'Activity Log', icon: History },
@@ -846,7 +848,7 @@ const VoiceOutreach = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
+const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
