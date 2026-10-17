@@ -28,7 +28,7 @@ const Banner = () => (
   </div>
 );
 const Brand = () => (
-  <div className="flex items-center gap-2 font-semibold text-mansagold"><img src={logo1325} alt="1325.AI logo" className="h-8 w-8 rounded-md object-contain" /> 1325 Clinical <span className="hidden text-xs font-normal text-foreground/70 sm:inline">Enterprise Edition</span><span className="ml-3 hidden border-l border-mansagold/30 pl-3 text-xs font-normal text-foreground/80 lg:inline">Chief Medical Advisor: <span className="text-mansagold">Dr. John Atwater</span></span></div>
+  <div className="flex items-center gap-2 font-semibold text-mansagold"><img src={logo1325} alt="1325.AI logo" className="h-8 w-8 rounded-md object-contain" /> 1325 Clinical <span className="hidden text-xs font-normal text-foreground/70 sm:inline">Enterprise Edition</span></div>
 );
 
 function SignIn() {
