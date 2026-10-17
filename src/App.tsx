@@ -100,6 +100,7 @@ import {
 import OAuthConsentPage from './pages/OAuthConsentPage';
 const LazyConnectPage = lazy(() => import('./pages/ConnectPage'));
 const LazyMcpDocsPage = lazy(() => import('./pages/McpDocsPage'));
+const LazyHealthAccessGate = lazy(() => import('./pages/health/HealthAccessGate'));
 const LazyHealthDemoPage = lazy(() => import('./pages/health/HealthDemoPage'));
 const LazyHealthWorkspacePage = lazy(() => import('./pages/health/HealthWorkspacePage'));
 const LazyHealthBaaPage = lazy(() => import('./pages/health/HealthBaaPage'));
@@ -590,16 +591,16 @@ function App() {
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
                               {/* Home — Kayla-led front door is the landing page */}
-                              <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? <LazyHealthDemoPage /> : <HomePage />} />
+                              <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <HomePage />} />
                               <Route path="/about-1325" element={<LazyAboutPage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
 <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
-                              <Route path="/health" element={<LazyHealthDemoPage />} />
-                              <Route path="/health/app" element={<LazyHealthWorkspacePage />} />
-                              <Route path="/health/baa" element={<LazyHealthBaaPage />} />
-                              <Route path="/health/intake" element={<LazyHealthIntakePage />} />
+                              <Route path="/health" element={<LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate>} />
+                              <Route path="/health/app" element={<LazyHealthAccessGate><LazyHealthWorkspacePage /></LazyHealthAccessGate>} />
+                              <Route path="/health/baa" element={<LazyHealthAccessGate><LazyHealthBaaPage /></LazyHealthAccessGate>} />
+                              <Route path="/health/intake" element={<LazyHealthAccessGate><LazyHealthIntakePage /></LazyHealthAccessGate>} />
                               <Route path="/supplier-api" element={<LazySupplierApiDocsPage />} />
 <Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
                               <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
@@ -1266,16 +1267,16 @@ function App() {
                         <Layout>
                           <Routes>
                           {/* Home — Kayla-led front door is the landing page */}
-                          <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? <LazyHealthDemoPage /> : <HomePage />} />
+                          <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <HomePage />} />
                           <Route path="/about-1325" element={<LazyAboutPage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
 <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
-                              <Route path="/health" element={<LazyHealthDemoPage />} />
-                              <Route path="/health/app" element={<LazyHealthWorkspacePage />} />
-                              <Route path="/health/baa" element={<LazyHealthBaaPage />} />
-                              <Route path="/health/intake" element={<LazyHealthIntakePage />} />
+                              <Route path="/health" element={<LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate>} />
+                              <Route path="/health/app" element={<LazyHealthAccessGate><LazyHealthWorkspacePage /></LazyHealthAccessGate>} />
+                              <Route path="/health/baa" element={<LazyHealthAccessGate><LazyHealthBaaPage /></LazyHealthAccessGate>} />
+                              <Route path="/health/intake" element={<LazyHealthAccessGate><LazyHealthIntakePage /></LazyHealthAccessGate>} />
                               <Route path="/supplier-api" element={<LazySupplierApiDocsPage />} />
                               <Route path="/mcp-docs" element={<Navigate to="/connect/docs" replace />} />
                         <Route path="/connect-chatgpt" element={<Navigate to="/connect" replace />} />
