@@ -12,6 +12,7 @@ import RecordReview from './workspace/RecordReview';
 import VisitNotes from './workspace/VisitNotes';
 import ClinicIntake from './workspace/ClinicIntake';
 import ChartPrep from './workspace/ChartPrep';
+import MedicalChronology from './workspace/MedicalChronology';
 import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
 
 const NAV = [
@@ -20,6 +21,7 @@ const NAV = [
   { k: 'patients', l: 'Patients', i: Users },
   { k: 'schedule', l: 'Schedule', i: Calendar },
   { k: 'prep', l: 'Pre-Visit Chart Prep', i: ClipboardCheck },
+  { k: 'chronology', l: 'Medical Chronology', i: Calendar },
   { k: 'review', l: 'CME Files & Review', i: BrainCircuit },
   { k: 'notes', l: 'AI Note-Taking', i: NotebookPen },
   { k: 'auth', l: 'Prior Authorization', i: ClipboardCheck },
@@ -47,6 +49,7 @@ export default function HealthWorkspacePage() {
     const view = searchParams.get('view');
     if (view === 'cme') setTab('review');
     else if (view === 'prep') setTab('prep');
+    else if (view === 'chronology') setTab('chronology');
   }, [searchParams]);
 
   const [clinicError, setClinicError] = useState('');
@@ -126,6 +129,7 @@ export default function HealthWorkspacePage() {
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
             {tab === 'prep' && <ChartPrep key={`${user.id}:${clinic.id}`} />}
+            {tab === 'chronology' && <MedicalChronology key={`${user.id}:${clinic.id}`} />}
             {tab === 'review' && <RecordReview clinicId={clinic.id} clinicRole={role} />}
             {tab === 'notes' && <VisitNotes clinicId={clinic.id} clinicRole={role} />}
             {tab === 'auth' && <PriorAuth {...props} />}
