@@ -1,7 +1,8 @@
 # Roadmap
 
 ## Clinical record review first
-- [ ] Build a locked real-record pilot readiness request with metadata-only checklist, server-enforced data block, and safety tests.
+- [x] Build a locked real-record pilot readiness request with metadata-only checklist, server-enforced data block, and safety tests.
+- [ ] Verify signed-in pilot submission, stored requester identity and cross-clinic denial — blocked: external Supabase has no available authenticated test session.
 - [ ] Activate real-record processing in a dedicated approved healthcare environment — blocked: attorney review, signed clinic/vendor agreements and independently verified safeguards.
 - [x] Build a server-owned fictional CME case with page-linked Kayla drafts and source viewer.
 - [x] Save physician review decisions with clinic-scoped access; block arbitrary record uploads.
