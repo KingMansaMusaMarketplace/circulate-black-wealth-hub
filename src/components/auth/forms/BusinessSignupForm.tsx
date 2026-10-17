@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 import { FormCheckbox } from './FormCheckbox';
 import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import { useNavigate } from 'react-router-dom';
+import { getSafeRedirect } from '@/lib/auth-redirect';
 import OwnershipQuestion, { OwnershipAnswer, ownershipError, ownershipMetadata } from './OwnershipQuestion';
 
 const businessSignupSchema = z.object({
@@ -91,6 +92,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const [ownerOk, setOwnerOk] = useState(false);
   const [attestOk, setAttestOk] = useState(false);
   const [ownErr, setOwnErr] = useState<{ field: string; message: string } | null>(null);
+  const [showBeta, setShowBeta] = useState(false);
 
   const {
     register,
@@ -188,7 +190,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         
         if (result.data.session) {
           setTimeout(() => {
-            navigate('/business/onboarding');
+            navigate(getSafeRedirect() || '/business/onboarding');
           }, 1000);
         }
         
@@ -271,7 +273,10 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                     <div className="flex flex-col sm:flex-row gap-2 pl-9">
                       <Button
                         type="button"
-                        onClick={() => navigate(`/login?email=${encodeURIComponent(existingEmail)}`)}
+                        onClick={() => {
+                          const r = getSafeRedirect();
+                          navigate(`/login?email=${encodeURIComponent(existingEmail)}${r ? `&redirect=${encodeURIComponent(r)}` : ''}`);
+                        }}
                         className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
                       >
                         Sign in instead →
@@ -345,7 +350,12 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
               />
               </div>
 
-              {/* Beta Code Field */}
+              {/* Beta Code Field — tucked away unless the person came from a beta invite */}
+              {!betaMode && !showBeta ? (
+                <button type="button" onClick={() => setShowBeta(true)} className="text-sm text-mansablue underline underline-offset-4">
+                  Have a beta code?
+                </button>
+              ) : (
               <div className="space-y-2">
                 <Label htmlFor="betaCode" className="text-gray-900 font-semibold flex items-center gap-2">
                   <Gift className="w-4 h-4 text-mansagold" />
@@ -355,7 +365,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                   id="betaCode"
                   {...register('betaCode')}
                   disabled={isLoading}
-                  autoFocus={betaMode}
+                  autoFocus={betaMode || showBeta}
                   placeholder="Enter your beta code if you have one"
                   className={`border-2 focus:border-mansagold ${betaMode ? 'border-mansagold bg-mansagold/5' : 'border-dashed'}`}
                 />
@@ -363,6 +373,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                   Beta testers: enter the code from your invitation email to unlock free access.
                 </p>
               </div>
+              )}
 
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-gray-900 font-semibold flex items-center gap-2">
