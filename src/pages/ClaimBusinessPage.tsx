@@ -16,7 +16,8 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { savePendingClaim, clearPendingClaim } from '@/components/auth/PendingClaimRedirect';
+import { clearPendingClaim } from '@/components/auth/PendingClaimRedirect';
+import ClaimAccountForm from '@/components/claim/ClaimAccountForm';
 
 const ClaimBusinessPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -27,6 +28,7 @@ const ClaimBusinessPage: React.FC = () => {
   const [businessName, setBusinessName] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [claiming, setClaiming] = useState(false);
+  const [claimedNow, setClaimedNow] = useState(false);
 
   const token = searchParams.get('token');
   const isDirectory = searchParams.get('type') === 'directory';
@@ -127,11 +129,12 @@ const ClaimBusinessPage: React.FC = () => {
 
       if (claimError) throw claimError;
 
-      const result = data as { success: boolean; error?: string; business_name?: string };
+      const result = data as { success: boolean; error?: string; business_name?: string; claimed?: boolean };
 
       if (result.success) {
+        setClaimedNow(!!result.claimed);
         setStatus('success');
-        toast.success('Claim request sent — our team will review it.');
+        toast.success(result.claimed ? 'Your listing is claimed — welcome!' : 'Claim request sent — our team will review it.');
       } else {
         throw new Error(result.error || 'Failed to claim business');
       }
