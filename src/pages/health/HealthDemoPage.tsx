@@ -29,6 +29,7 @@ import PracticeImpact from './workspace/PracticeImpact';
 import SpecialtyExamples from './workspace/SpecialtyExamples';
 import EnterpriseReadiness from './EnterpriseReadiness';
 import DoctorDay from './workspace/DoctorDay';
+import SamplePatientChart from './workspace/SamplePatientChart';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -108,6 +109,7 @@ const CLAIMS = [
 
 const MODULES = [
   { key: 'doctor-day', label: 'Connected Doctor Day', icon: Calendar },
+  { key: 'sample-chart', label: 'Expanded Sample Chart', icon: FileText },
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { key: 'inbox', label: 'Inbox & Tasks', icon: Inbox },
   { key: 'patients', label: 'Patient Charts', icon: Users },
@@ -853,7 +855,7 @@ const VoiceOutreach = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
+const VIEWS: Record<ModuleKey, React.FC> = { 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');

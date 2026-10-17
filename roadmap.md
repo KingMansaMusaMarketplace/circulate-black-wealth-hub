@@ -3,7 +3,9 @@
 ## Full clinical roadmap — approved staged scope
 - [x] Connected fictional doctor-day: one selected case across schedule rehearsal, chart prep, transcript, existing clinic note decisions and independently unapproved follow-up; 35 targeted/regression tests pass, build OK, public access gate verified.
 - [ ] Verify doctor-day note generation, signed decision and readback in an approved signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
-- [ ] Complete chart and change history — follows connected workflow.
+- [x] Expanded fictional chart — exact historical excerpts, unknown demographics/allergies/reconciliation, planned versus received results, original transcript and honest undated source baseline; shared demo/workspace and Doctor Day. 32 focused/regression tests pass, build OK, public gate verified.
+- [ ] Actual saved chart-change history — blocked: approved persistent clinical audit design and healthcare environment; no fabricated edits, actors or timestamps added.
+- [ ] Verify expanded chart in an approved visitor and signed-in clinic session — blocked: external Supabase has no managed authenticated test session; no access bypass added.
 - [ ] Clinical assistance and medication safety — requires qualified clinical validation before live use.
 - [ ] Laboratory, pharmacy and record-system connections — blocked for live use by approved providers, agreements and credentials.
 - [ ] Secure patient communication — blocked for live use by healthcare clearance and consent review.

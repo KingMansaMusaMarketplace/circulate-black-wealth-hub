@@ -22,9 +22,11 @@ import PracticeImpact from './workspace/PracticeImpact';
 import SpecialtyExamples from './workspace/SpecialtyExamples';
 import EnterpriseReadiness from './EnterpriseReadiness';
 import DoctorDay from './workspace/DoctorDay';
+import SamplePatientChart from './workspace/SamplePatientChart';
 
 const NAV = [
   { k: 'doctor-day', l: 'Connected Doctor Day', i: Calendar },
+  { k: 'sample-chart', l: 'Expanded Sample Chart', i: ClipboardCheck },
   { k: 'intake', l: 'Clinic Intake', i: Lock },
   { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
   { k: 'patients', l: 'Patients', i: Users },
@@ -150,6 +152,7 @@ export default function HealthWorkspacePage() {
             <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
             {tab === 'doctor-day' && <DoctorDay key={`${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
+            {tab === 'sample-chart' && <SamplePatientChart key={`${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
