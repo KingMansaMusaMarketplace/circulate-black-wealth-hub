@@ -37,6 +37,7 @@ export default function ClinicIntake({ clinicId, clinicName, clinicRole, signedI
         <Badge variant="outline" className="mt-3">Portal not activated · No approved clinics for real records</Badge>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Real case files can be accepted only in a dedicated, independently approved healthcare environment. This workspace cannot receive, preview, store or process those files.</p>
         <Button disabled={!availability.cmeUpload} className="mt-4"><Lock className="mr-2 h-4 w-4" />CME file upload locked</Button>
+        {clinicId && clinicRole && <Button variant="outline" asChild className="mt-4 sm:ml-3"><Link to="/health/app?view=cme">Open CME files & doctor review<ArrowRight className="ml-2 h-4 w-4" /></Link></Button>}
         <p className="mt-3 text-xs text-muted-foreground">Clinic registration, checklist reports and signatures never unlock this portal. Patient calls remain blocked.</p>
       </div>
     </section>
