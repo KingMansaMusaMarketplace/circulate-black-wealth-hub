@@ -3,7 +3,7 @@
 ## Clinical executive additions — one at a time
 - [x] 1. Guided executive walkthrough: four manual stops in demo and clinic workspace; 12 targeted tests pass and unapproved visitors remain locked out.
 - [ ] Verify walkthrough in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
-- [ ] 2. Fictional prior-authorization packet draft — next after walkthrough delivery; doctor review, no insurer submission.
+- [ ] 2. Fictional prior-authorization packet draft — implemented in demo and clinic workspace; verify source links, review rehearsal and locked sending.
 - [ ] 3. Practice impact calculator — visitor inputs only, no unverified savings claims.
 - [ ] 4. Specialty-specific fictional examples — Primary Care, Orthopedics, Cardiology.
 - [ ] 5. Enterprise readiness drawer — verified statuses only; real records remain locked.

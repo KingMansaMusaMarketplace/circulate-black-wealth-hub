@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { db, fullName, money, Row, useRows } from './hc';
+import PriorAuthorization from './PriorAuthorization';
 
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
 
@@ -264,27 +265,8 @@ export function Schedule({ clinicId, patients }: P) {
 }
 
 /* ---------- Prior authorization ---------- */
-export function PriorAuth({ clinicId, patients }: P) {
-  const rows = useRows('hc_prior_auths', clinicId);
-  const byId = Object.fromEntries(patients.map((p) => [p.id, p]));
-  const [f, setF] = useState({ patient_id: '', service: '', payer: '', notes: '' });
-  return (
-    <div className="space-y-6">
-      <Card><CardHeader><CardTitle className="text-base">New request</CardTitle></CardHeader>
-        <CardContent className="grid gap-3 md:grid-cols-4">
-          <PatientPicker patients={patients} value={f.patient_id} onChange={(v) => setF({ ...f, patient_id: v, payer: byId[v]?.payer || f.payer })} />
-          <Input placeholder="Service (e.g. MRI lumbar)" value={f.service} onChange={(e) => setF({ ...f, service: e.target.value })} />
-          <Input placeholder="Insurance" value={f.payer} onChange={(e) => setF({ ...f, payer: e.target.value })} />
-          <Button className="bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => { if (!f.patient_id || !f.service) return toast.error('Patient and service required'); if (await save('hc_prior_auths', { clinic_id: clinicId, ...f }, 'Request created')) rows.reload(); }}>Create</Button>
-        </CardContent></Card>
-      <Card><CardContent className="pt-6"><Table>
-        <TableHeader><TableRow><TableHead>Patient</TableHead><TableHead>Service</TableHead><TableHead>Insurance</TableHead><TableHead>Sent</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
-        <TableBody>{rows.rows.map((a) => (
-          <TableRow key={a.id}><TableCell>{fullName(byId[a.patient_id])}</TableCell><TableCell>{a.service}</TableCell><TableCell>{a.payer}</TableCell><TableCell>{a.submitted_on || '—'}</TableCell>
-            <TableCell><StatusPicker value={a.status} options={['Draft', 'Pending', 'Approved', 'Denied', 'Appealed']} onChange={async (s) => { await patch('hc_prior_auths', a.id, { status: s, submitted_on: s === 'Pending' && !a.submitted_on ? new Date().toISOString().slice(0, 10) : a.submitted_on, decided_on: /Approved|Denied/.test(s) ? new Date().toISOString().slice(0, 10) : a.decided_on }); rows.reload(); }} /></TableCell></TableRow>
-        ))}</TableBody></Table></CardContent></Card>
-    </div>
-  );
+export function PriorAuth(_props: P) {
+  return <PriorAuthorization />;
 }
 
 /* ---------- Billing ---------- */
