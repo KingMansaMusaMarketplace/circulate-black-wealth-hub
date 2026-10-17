@@ -27,6 +27,7 @@ import CareGuide from './workspace/CareGuide';
 import PriorAuthorization from './workspace/PriorAuthorization';
 import PracticeImpact from './workspace/PracticeImpact';
 import SpecialtyExamples from './workspace/SpecialtyExamples';
+import EnterpriseReadiness from './EnterpriseReadiness';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -879,6 +880,7 @@ export default function HealthDemoPage() {
         </div>
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="hidden gap-1 border-mansagold/60 text-mansagold sm:flex"><ShieldCheck className="h-3 w-3" />Sample workspace</Badge>
+          <EnterpriseReadiness />
           <a href="/health/app" className="rounded-md bg-mansagold px-3 py-1.5 text-xs font-semibold text-mansablue hover:bg-mansagold-dark">Open live workspace</a>
         </div>
       </header>

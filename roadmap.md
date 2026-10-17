@@ -9,7 +9,8 @@
 - [ ] Verify calculator in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
 - [x] 4. Specialty-specific fictional examples — shared read-only Primary Care, Orthopedics and Cardiology screen; existing primary care/knee sources and a separate clearly fictional cardiology rehearsal; 9 specialty tests pass (15 with tour/private-session regressions), build OK; unapproved visitors see only the access request.
 - [ ] Verify specialty examples in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
-- [ ] 5. Enterprise readiness drawer — verified statuses only; real records remain locked.
+- [x] 5. Enterprise readiness drawer — shared demo/workspace panel; sample evaluation available, legal/vendor clearance unverified, pilot not activated; existing upload/call locks unchanged. Five readiness tests and 15 regression tests pass; build OK; unapproved visitors remain gated.
+- [ ] Verify readiness drawer in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
 
 ## Clinical private-session exit
 - [x] Add shared left-panel exit, small-screen equivalent, persistent screen lock, and preserved approval/device binding.

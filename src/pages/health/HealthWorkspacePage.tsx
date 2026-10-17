@@ -20,6 +20,7 @@ import { EndPrivateSessionButton } from './PrivateSession';
 import ExecutiveWalkthrough from './ExecutiveWalkthrough';
 import PracticeImpact from './workspace/PracticeImpact';
 import SpecialtyExamples from './workspace/SpecialtyExamples';
+import EnterpriseReadiness from './EnterpriseReadiness';
 
 const NAV = [
   { k: 'intake', l: 'Clinic Intake', i: Lock },
@@ -114,7 +115,7 @@ export default function HealthWorkspacePage() {
   const shellHeader = (
     <header className="flex min-h-14 flex-wrap items-center justify-between gap-2 py-2 border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
       <Brand />
-      <div className="flex gap-1"><Button variant="ghost" size="sm" asChild><Link to="/health/intake">Clinic intake</Link></Button><Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button></div>
+      <div className="flex flex-wrap gap-1"><EnterpriseReadiness /><Button variant="ghost" size="sm" asChild><Link to="/health/intake">Clinic intake</Link></Button><Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button></div>
       {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-foreground/80 md:inline">{loadedFor === userId ? clinic?.name : ''}</span>
         <Button size="sm" variant="ghost" className="text-foreground hover:bg-foreground/10" onClick={() => supabase.auth.signOut()}><LogOut className="h-4 w-4" /></Button></div>}
     </header>
