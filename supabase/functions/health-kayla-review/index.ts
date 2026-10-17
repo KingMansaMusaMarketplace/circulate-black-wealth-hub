@@ -4,12 +4,14 @@ import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors'
 import { z } from 'npm:zod@3';
 import { buildClinicalRecordReviewPrompt, fetchAIWithRetry, loadApprovedImprovements } from '../_shared/kayla-brain.ts';
 import { canReview, SAMPLE_CASE_ID, SAMPLE_PAGES, validateSources } from './sample-case.ts';
+import { PILOT_LOCK, pilotInsert } from './pilot-policy.ts';
 
 const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token' };
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
 const RequestSchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('generate'), clinic_id: z.string().uuid(), sample_case_id: z.literal(SAMPLE_CASE_ID) }).strict(),
   z.object({ action: z.literal('decision'), review_id: z.string().uuid(), decision: z.enum(['accepted', 'revision_requested']) }).strict(),
+  z.object({ action: z.literal('pilot_request'), clinic_id: z.string().uuid(), checklist: z.object({ clinic_baa_reported: z.boolean(), vendor_baas_reported: z.boolean(), attorney_review_reported: z.boolean(), safeguards_reported: z.boolean(), doctor_assigned_reported: z.boolean() }).strict() }).strict(),
 ]);
 const ResultSchema = z.object({
   findings: z.array(z.object({ category: z.enum(['timeline', 'pre_existing', 'conflict', 'gap']), date: z.string(), finding: z.string().min(1), sources: z.array(z.object({ page: z.number().int().min(1).max(SAMPLE_PAGES.length), quote: z.string().min(8) })).min(1) })).min(1),
@@ -71,6 +73,12 @@ Deno.serve(async (req) => {
     } else clinicId = body.clinic_id;
     const { data: member } = await caller.from('hc_members').select('role').eq('clinic_id', clinicId).eq('user_id', userData.user.id).maybeSingle();
     if (!member) return json({ error: 'Clinic access required' }, 403);
+    if (body.action === 'pilot_request') {
+      if (!canReview(member.role)) return json({ error: 'A clinic doctor or owner must submit pilot readiness' }, 403);
+      const { data, error } = await service.from('hc_pilot_requests').upsert(pilotInsert(clinicId, userData.user.id, body.checklist), { onConflict: 'clinic_id' }).select().single();
+      if (error) throw error;
+      return json({ request: data, ...PILOT_LOCK });
+    }
     if (body.action === 'decision') {
       if (!canReview(member.role) || !review) return json({ error: 'A clinic doctor or owner must record the sample review decision' }, 403);
       const { data, error } = await service.from('hc_review_decisions').insert({ clinic_id: clinicId, review_id: review.id, reviewer_id: userData.user.id, decision: body.decision }).select().single();

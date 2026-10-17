@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { Row, useRows } from './hc';
+import PilotReadiness from './PilotReadiness';
 
 export default function RecordReview({ clinicId, clinicRole }: { clinicId: string; clinicRole: string }) {
   const docs = useRows('hc_documents', clinicId);
@@ -58,6 +59,7 @@ export default function RecordReview({ clinicId, clinicRole }: { clinicId: strin
       <div><p className="font-medium">Real record uploads and patient calls are blocked.</p>
         <p className="mt-1 text-muted-foreground">Only the built-in six-page fictional case is available. Real records require healthcare attorney and vendor clearance; calls also require approved consent safeguards.</p></div>
     </div>
+    <PilotReadiness clinicId={clinicId} clinicRole={clinicRole} />
     <div className="grid gap-6 lg:grid-cols-[250px_minmax(0,1fr)]">
       <section className="min-w-0 space-y-3"><h3 className="text-sm font-semibold">Review files</h3>
         {docs.loading && <p className="text-sm text-muted-foreground">Loading files…</p>}
