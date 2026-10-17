@@ -9,7 +9,9 @@
 - [x] Fictional medication-review assistance — shared demo/workspace, exact medicine references and documentation gaps; unknown allergies, unperformed interaction/dose screening and locked prescribing/signature/export/delivery; 24 targeted/regression tests pass.
 - [ ] Verify medication-review assistance in an approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
 - [ ] Live clinical assistance and medication safety — blocked: qualified clinical validation, approved drug knowledge provider and healthcare clearance required.
-- [ ] Laboratory, pharmacy and record-system connections — blocked for live use by approved providers, agreements and credentials.
+- [x] Clinical connection preparation — shared laboratory/pharmacy/record-system requirements and illustrative mappings; no fabricated imports, provider partnerships or live exchange, and all exchange actions remain locked.
+- [ ] Verify connection preparation in approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no access bypass added.
+- [ ] Live laboratory, pharmacy and record-system connections — blocked: approved providers, agreements, credentials, healthcare clearance and provider-specific validation required.
 - [ ] Secure patient communication — blocked for live use by healthcare clearance and consent review.
 - [ ] Billing operations — sample preparation first; live eligibility/claims require qualified review and approved providers.
 - [ ] Enterprise operations, recovery and migration — preparation first; operational guarantees require independently tested infrastructure.
