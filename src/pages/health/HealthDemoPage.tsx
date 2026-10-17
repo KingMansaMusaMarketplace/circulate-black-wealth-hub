@@ -36,6 +36,8 @@ import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
 import DoctorEvaluation from './workspace/DoctorEvaluation';
+import FacilitySelector from './FacilitySelector';
+import { DEFAULT_FACILITY_CONTEXT, resolveFacilityContext, type FacilityContext } from './workspace/facility-context';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -792,6 +794,8 @@ const VoiceOutreach = () => {
 const VIEWS: Record<ModuleKey, React.FC> = { evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
+  const [facilityContext, setFacilityContext] = useState<FacilityContext>(DEFAULT_FACILITY_CONTEXT);
+  const { facility } = resolveFacilityContext(facilityContext);
   const [mod, setMod] = useState<ModuleKey>('dashboard');
   const [tourStep, setTourStep] = useState<number | null>(null);
   const [tourRevision, setTourRevision] = useState(0);
@@ -822,6 +826,7 @@ export default function HealthDemoPage() {
           <a href="/health/app" className="rounded-md bg-mansagold px-3 py-1.5 text-xs font-semibold text-mansablue hover:bg-mansagold-dark">Open live workspace</a>
         </div>
       </header>
+      <FacilitySelector value={facilityContext} onChange={(next) => { setFacilityContext(next); setTourStep(null); setTourRevision((revision) => revision + 1); }} />
       <div className="flex flex-1 flex-col md:flex-row">
         <nav className="flex gap-1 overflow-x-auto border-b border-border bg-card/80 p-3 backdrop-blur md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
           <p className="hidden px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground md:block">Workspace</p>
@@ -841,10 +846,10 @@ export default function HealthDemoPage() {
               <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">health.1325.ai</p>
               <h1 className="mt-1 text-2xl font-semibold">{tourStep === null ? current.label : 'Executive walkthrough'}</h1>
             </div>
-            <p className="text-sm text-muted-foreground">Thursday · Sample clinic</p>
+            <p className="text-sm text-muted-foreground">{facility.name} · {facilityContext.department} · Fictional</p>
           </div>
           <ExecutiveWalkthrough key={tourRevision} onStep={(_, step) => setTourStep(step)} onEnd={() => setTourStep(null)} />
-          {tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : <View />}
+          <div key={`${facilityContext.facilityId}:${facilityContext.department}`}>{tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : <View />}</div>
         </main>
       </div>
       <footer className="border-t border-border bg-card px-6 py-4 text-[11px] leading-relaxed text-muted-foreground">
