@@ -20,6 +20,31 @@ const obj = (properties: Record<string, unknown>) => ({ type: 'object', addition
 const arr = (items: unknown) => ({ type: 'array', items });
 const schema = obj({ findings: arr(obj({ category: { type: 'string', enum: ['timeline', 'pre_existing', 'conflict', 'gap'] }, date: str, finding: str, sources: arr(obj({ page: { type: 'integer' }, quote: str })) })), questions_for_exam: arr(str), report_outline: arr(str) });
 
+async function readStream(response: Response): Promise<string> {
+  if (!response.body) throw new Error('Empty AI stream');
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '', output = '';
+  const consume = (line: string) => {
+    if (!line.startsWith('data:')) return;
+    const payload = line.slice(5).trim();
+    if (!payload || payload === '[DONE]') return;
+    const event = JSON.parse(payload);
+    if (event.type === 'error' || event.type === 'response.failed' || event.type === 'response.incomplete') throw new Error('AI stream failed');
+    if (event.type === 'response.output_text.delta') output += event.delta ?? '';
+  };
+  for (;;) {
+    const { done, value } = await reader.read();
+    buffer += decoder.decode(value, { stream: !done });
+    const lines = buffer.split('\n'); buffer = lines.pop() ?? '';
+    lines.forEach(consume);
+    if (done) break;
+  }
+  if (buffer.trim()) consume(buffer);
+  if (!output.trim()) throw new Error('Empty AI output');
+  return output;
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
   if (req.method !== 'POST') return json({ error: 'Use POST' }, 405);
@@ -54,18 +79,18 @@ Deno.serve(async (req) => {
     }
     const key = Deno.env.get('LOVABLE_API_KEY');
     if (!key) return json({ error: 'AI not configured' }, 503);
-    const model = 'google/gemini-3.1-pro-preview';
+    const model = 'openai/gpt-6-astra';
     const improvements = await loadApprovedImprovements(service);
-    const ai = await fetchAIWithRetry('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST', headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model, temperature: 0, max_tokens: 8000,
-        messages: [{ role: 'system', content: buildClinicalRecordReviewPrompt() + improvements }, { role: 'user', content: SAMPLE_PAGES.map(p => `[Bundle Page ${p.page}] ${p.file}\n${p.text}`).join('\n\n') }],
-        response_format: { type: 'json_schema', json_schema: { name: 'clinical_draft', strict: true, schema } },
+    const ai = await fetchAIWithRetry('https://ai.gateway.lovable.dev/v1/responses', {
+      method: 'POST', headers: { 'Lovable-API-Key': key, Authorization: `Bearer ${key}`, 'X-Lovable-AIG-SDK': 'fetch', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model, stream: true, store: false,
+        reasoning: { effort: 'medium', summary: 'auto' }, include: ['reasoning.encrypted_content'],
+        input: [{ role: 'system', content: buildClinicalRecordReviewPrompt() + improvements }, { role: 'user', content: SAMPLE_PAGES.map(p => `[Bundle Page ${p.page}] ${p.file}\n${p.text}`).join('\n\n') }],
+        text: { format: { type: 'json_schema', name: 'clinical_draft', strict: true, schema } },
       }),
     }, { label: 'clinical-record-review' });
     if (!ai.ok) return json({ error: ai.status === 429 ? 'Kayla is busy. Try again shortly.' : 'Kayla could not generate the draft. Try again.' }, ai.status === 429 ? 429 : 502);
-    const response = await ai.json();
-    const result = ResultSchema.parse(JSON.parse(response.choices?.[0]?.message?.content ?? 'null'));
+    const result = ResultSchema.parse(JSON.parse(await readStream(ai)));
     validateSources(result);
     const { data: doc, error: docError } = await service.from('hc_documents').insert({ clinic_id: clinicId, file_name: 'Fictional CME case — six-page bundle', pages: SAMPLE_PAGES.length, status: 'draft_ready', created_by: userData.user.id }).select().single();
     if (docError || !doc) throw docError ?? new Error('Document save failed');
