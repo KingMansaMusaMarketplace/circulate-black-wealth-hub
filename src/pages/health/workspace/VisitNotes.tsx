@@ -28,6 +28,11 @@ export default function VisitNotes({ clinicId, clinicRole }: { clinicId: string;
   const note: Row | undefined = notes.rows.find((n) => n.sample_visit_id === visitId);
   const signoff = signoffs.rows.find((s) => s.note_id === note?.id);
   const doctor = canSign(clinicRole);
+  const { user } = useAuth();
+  const members = useRows('hc_members', clinicId);
+  const myName = members.rows.find((m) => m.user_id === user?.id)?.display_name ?? '';
+  const [signerName, setSignerName] = useState('');
+  useEffect(() => { if (myName) setSignerName((cur) => cur || myName); }, [myName]);
 
   const draft = async () => {
     setBusy(true);
@@ -43,7 +48,7 @@ export default function VisitNotes({ clinicId, clinicRole }: { clinicId: string;
     if (!note) return;
     setSaving(true);
     try {
-      const { data, error } = await supabase.functions.invoke('health-kayla-notes', { body: { action: 'decision', note_id: note.id, decision } });
+      const { data, error } = await supabase.functions.invoke('health-kayla-notes', { body: { action: 'decision', note_id: note.id, decision, signer_name: signerName.trim() } });
       if (error || data?.error) throw new Error(data?.error ?? error?.message ?? 'Could not save');
       await signoffs.reload(); toast.success(decision === 'signed' ? 'Note signed' : 'Note sent back');
     } catch (e) { toast.error(e instanceof Error ? e.message : 'Could not save'); }
@@ -104,15 +109,19 @@ export default function VisitNotes({ clinicId, clinicRole }: { clinicId: string;
               <h4 className="mb-1 font-medium">Needs physician review</h4>
               <ul className="list-disc space-y-1 pl-5">{note.note.flags.map((f: Row, i: number) => <li key={i}>{f.text}</li>)}</ul>
             </div>}
-            {!signoff && (doctor ? <div className="flex gap-2 border-t pt-3">
-              <Button size="sm" disabled={saving} onClick={() => decide('signed')}><Check className="mr-1 h-4 w-4" />Sign note</Button>
-              <Button size="sm" variant="outline" disabled={saving} onClick={() => decide('rejected')}><X className="mr-1 h-4 w-4" />Reject</Button>
+            {!signoff && (doctor ? <div className="space-y-2 border-t pt-3">
+              <label className="block text-xs font-medium" htmlFor="signer-name">Your name as it should appear on the signed report</label>
+              <Input id="signer-name" value={signerName} maxLength={100} placeholder="e.g. Dr. Jane Smith, MD" onChange={(e) => setSignerName(e.target.value)} />
+              <div className="flex gap-2">
+              <Button size="sm" disabled={saving || signerName.trim().length < 2} onClick={() => decide('signed')}><Check className="mr-1 h-4 w-4" />Sign note</Button>
+              <Button size="sm" variant="outline" disabled={saving || signerName.trim().length < 2} onClick={() => decide('rejected')}><X className="mr-1 h-4 w-4" />Reject</Button>
+              </div>
             </div> : <p className="border-t pt-3 text-xs text-muted-foreground">Only a clinic doctor or owner can sign this note.</p>)}
+            {signoff?.signer_name && <p className="text-xs text-muted-foreground">Decision by {signoff.signer_name}</p>}
             {signoff?.decision === 'rejected' && <Button size="sm" variant="outline" disabled={busy} onClick={draft}>Draft a new version</Button>}
             {signoff?.decision === 'signed' && <Button size="sm" variant="outline" onClick={() => {
               try {
-                
-                const doc = buildReviewedReport({ visitTitle: visit.title, transcript: visit.lines, note: note.note, decision: signoff.decision, signedAt: signoff.created_at }, logoImg?.complete ? logoImg : undefined);
+                const doc = buildReviewedReport({ visitTitle: visit.title, transcript: visit.lines, note: note.note, decision: signoff.decision, signedAt: signoff.created_at, signerName: signoff.signer_name ?? undefined }, logoImg?.complete ? logoImg : undefined);
                 doc.save(`1325-clinical-reviewed-note-${visit.id}.pdf`);
               } catch (e) { toast.error((e as Error).message); }
             }}><Download className="mr-1 h-4 w-4" />Download signed report (PDF)</Button>}
