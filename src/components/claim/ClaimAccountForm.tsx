@@ -5,6 +5,8 @@ import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { savePendingClaim } from '@/components/auth/PendingClaimRedirect';
+import { PasswordStrengthIndicator } from '@/components/auth/forms/PasswordStrengthIndicator';
+import { passwordProblems } from '@/lib/auth-redirect';
 
 /** Inline sign-up / sign-in so invited owners never leave the claim page. */
 const ClaimAccountForm: React.FC<{ returnUrl: string }> = ({ returnUrl }) => {
@@ -18,7 +20,8 @@ const ClaimAccountForm: React.FC<{ returnUrl: string }> = ({ returnUrl }) => {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (password.length < 8) { setError('Password must be at least 8 characters.'); return; }
+    const problems = mode === 'signup' ? passwordProblems(password) : [];
+    if (problems.length) { setError(`Your password needs ${problems.join(', ')}.`); return; }
     setBusy(true);
     savePendingClaim(returnUrl);
     try {
@@ -68,6 +71,7 @@ const ClaimAccountForm: React.FC<{ returnUrl: string }> = ({ returnUrl }) => {
       <div className="space-y-1">
         <Label htmlFor="claim-password" className="text-slate-300">{mode === 'signup' ? 'Choose a password' : 'Password'}</Label>
         <Input id="claim-password" type="password" required minLength={8} autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} value={password} onChange={(e) => setPassword(e.target.value)} />
+        {mode === 'signup' && <PasswordStrengthIndicator password={password} />}
       </div>
       {error && <p className="text-sm text-red-300">{error}</p>}
       <Button type="submit" disabled={busy} className="w-full h-12 bg-mansagold hover:bg-mansagold/90 text-mansablue font-semibold">

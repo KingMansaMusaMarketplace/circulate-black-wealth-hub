@@ -5,11 +5,15 @@ import AuthLayout from '@/components/auth/AuthLayout';
 import LoginContainer from '@/components/auth/LoginContainer';
 import SignupForm from '@/components/auth/SignupForm';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
+import { getSafeRedirect } from '@/lib/auth-redirect';
+import logo1325 from '@/assets/1325-ai-logo.webp';
 
 const SignupPage = () => {
   useEffect(() => {
     trackFunnelEvent('customer_signup_page_view');
   }, []);
+  const redirect = getSafeRedirect();
+  const loginHref = redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : '/login';
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden flex flex-col justify-center py-12">
       {/* Animated background elements */}
@@ -27,9 +31,9 @@ const SignupPage = () => {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16 space-y-6">
-            <div className="w-28 h-28 rounded-3xl bg-gradient-blue-gold flex items-center justify-center mx-auto shadow-2xl shadow-mansagold/50 animate-fade-in hover:scale-110 transition-all duration-500 hover:shadow-mansagold/70">
-              <span className="text-text-on-blue font-spartan font-bold text-5xl drop-shadow-lg">M</span>
-            </div>
+            <Link to="/" aria-label="1325.AI home" className="block w-fit mx-auto animate-fade-in">
+              <img src={logo1325} alt="1325.AI" className="h-24 w-auto mx-auto drop-shadow-lg" />
+            </Link>
             <div className="space-y-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
               <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-mansagold via-mansagold-light to-white bg-clip-text text-transparent drop-shadow-lg">
                 Join the Movement
@@ -54,7 +58,7 @@ const SignupPage = () => {
           <div className="mt-12 text-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
             <p className="text-lg text-white font-medium">
               Already have an account?{' '}
-              <Link to="/login" className="font-bold bg-gradient-to-r from-mansagold via-mansagold-light to-mansagold bg-clip-text text-transparent hover:from-mansagold-light hover:via-white hover:to-mansagold-light transition-all duration-300 drop-shadow-md">
+              <Link to={loginHref} className="font-bold bg-gradient-to-r from-mansagold via-mansagold-light to-mansagold bg-clip-text text-transparent hover:from-mansagold-light hover:via-white hover:to-mansagold-light transition-all duration-300 drop-shadow-md">
                 Log in →
               </Link>
             </p>
