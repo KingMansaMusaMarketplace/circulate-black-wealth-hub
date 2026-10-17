@@ -14,14 +14,14 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@capacitor/android": "^7.4.3",
+    "@capacitor/android": "^7.6.9",
     "@capacitor/app": "^7.1.0",
     "@capacitor/camera": "^7.0.2",
-    "@capacitor/cli": "^7.4.3",
-    "@capacitor/core": "^7.4.3",
+    "@capacitor/cli": "^7.6.9",
+    "@capacitor/core": "^7.6.9",
     "@capacitor/geolocation": "7.1.2",
     "@capacitor/haptics": "^7.0.2",
-    "@capacitor/ios": "^7.4.3",
+    "@capacitor/ios": "^7.6.9",
     "@capacitor/local-notifications": "^7.0.3",
     "@capacitor/network": "^7.0.2",
     "@capacitor/preferences": "^7.0.2",
@@ -148,6 +148,13 @@
     "vitest": "^3.2.4"
   },
   "overrides": {
-    "esbuild": "^0.25.12"
+    "esbuild": "^0.25.12",
+    "@xmldom/xmldom": "^0.9.12",
+    "fast-uri": "^3.1.8",
+    "proxy-addr": "^2.0.8",
+    "hono": "^4.13.7",
+    "ip-address": "^10.7.4",
+    "qs": "^6.16.1",
+    "@modelcontextprotocol/sdk": "^1.31.0"
   }
 }
