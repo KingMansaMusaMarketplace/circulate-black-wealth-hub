@@ -10405,6 +10405,7 @@ export type Database = {
         Row: {
           clinic_id: string
           created_at: string
+          display_name: string | null
           email: string | null
           id: string
           role: string
@@ -10413,6 +10414,7 @@ export type Database = {
         Insert: {
           clinic_id: string
           created_at?: string
+          display_name?: string | null
           email?: string | null
           id?: string
           role?: string
@@ -10421,6 +10423,7 @@ export type Database = {
         Update: {
           clinic_id?: string
           created_at?: string
+          display_name?: string | null
           email?: string | null
           id?: string
           role?: string
@@ -10444,6 +10447,7 @@ export type Database = {
           id: string
           note_id: string
           signer_id: string
+          signer_name: string | null
         }
         Insert: {
           clinic_id: string
@@ -10452,6 +10456,7 @@ export type Database = {
           id?: string
           note_id: string
           signer_id: string
+          signer_name?: string | null
         }
         Update: {
           clinic_id?: string
@@ -10460,6 +10465,7 @@ export type Database = {
           id?: string
           note_id?: string
           signer_id?: string
+          signer_name?: string | null
         }
         Relationships: [
           {
@@ -28961,6 +28967,10 @@ export type Database = {
       }
       hc_is_member: { Args: { _clinic: string }; Returns: boolean }
       hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
+      hc_set_my_display_name: {
+        Args: { _clinic_id: string; _name: string }
+        Returns: undefined
+      }
       increment_community_wealth: {
         Args: {
           p_amount: number
