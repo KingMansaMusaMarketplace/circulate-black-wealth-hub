@@ -1,5 +1,10 @@
 # Roadmap
 
+## Clinical executive quality overview — approved presentation scope
+- [x] Add a shared executive overview with existing fictional source evidence, unknown performance results and locked healthcare services; preserve clinical colors and facility-only presentation. Replaces the demo-only invented quality scores.
+- [x] Run focused safety/regression checks: 20 tests pass, build OK, and public access gate hides the overview with no runtime errors.
+- [ ] Verify approved visitor and signed-in clinic overview navigation — blocked: external Supabase has no managed authenticated test session.
+
 ## Clinical facility selector — approved presentation scope
 - [x] Add shared fictional practice/hospital facility and department selection in demo/workspace without changing colors, clinic access or live-service locks. Locations are illustrative, not connected hospital facilities.
 - [x] Verify selection/reset behavior and existing safety regressions: 19 tests pass, build OK, and public access gate hides the selector.

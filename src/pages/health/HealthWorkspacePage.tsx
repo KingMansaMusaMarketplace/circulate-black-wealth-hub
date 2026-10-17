@@ -29,6 +29,7 @@ import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
 import DoctorEvaluation from './workspace/DoctorEvaluation';
+import ExecutiveQuality from './workspace/ExecutiveQuality';
 import FacilitySelector from './FacilitySelector';
 import { DEFAULT_FACILITY_CONTEXT, type FacilityContext } from './workspace/facility-context';
 
@@ -54,6 +55,7 @@ const NAV = [
   { k: 'billing', l: 'Billing Preparation', i: Receipt },
   { k: 'reliability', l: 'Backup, Recovery & Migration', i: ClipboardCheck },
   { k: 'evaluation', l: 'Doctor Evaluation', i: ClipboardCheck },
+  { k: 'quality', l: 'Executive Quality Overview', i: LayoutDashboard },
   { k: 'team', l: 'Team', i: UserCog },
 ];
 
@@ -187,6 +189,7 @@ export default function HealthWorkspacePage() {
             {tab === 'billing' && <BillingPreparation key={`${user.id}:${clinic.id}`} />}
             {tab === 'reliability' && <EnterpriseReliability key={`${user.id}:${clinic.id}`} />}
             {tab === 'evaluation' && <DoctorEvaluation key={`${user.id}:${clinic.id}`} />}
+            {tab === 'quality' && <ExecutiveQuality key={`${user.id}:${clinic.id}:${facilityContext.facilityId}:${facilityContext.department}`} facilityContext={facilityContext} onNavigate={navigateTab} />}
             {tab === 'team' && <Team {...props} />}
           </main>
         </div>

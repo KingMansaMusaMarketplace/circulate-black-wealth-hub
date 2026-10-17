@@ -36,6 +36,7 @@ import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
 import DoctorEvaluation from './workspace/DoctorEvaluation';
+import ExecutiveQuality from './workspace/ExecutiveQuality';
 import FacilitySelector from './FacilitySelector';
 import { DEFAULT_FACILITY_CONTEXT, resolveFacilityContext, type FacilityContext } from './workspace/facility-context';
 
@@ -138,7 +139,7 @@ const MODULES = [
   { key: 'revenue', label: 'Practice Revenue', icon: TrendingUp },
   { key: 'impact', label: 'Practice Impact', icon: TrendingUp },
   { key: 'specialties', label: 'Specialty Examples', icon: Stethoscope },
-  { key: 'quality', label: 'Quality Scores', icon: Award },
+  { key: 'quality', label: 'Executive Quality Overview', icon: Award },
   { key: 'interop', label: 'Clinical Connections', icon: Network },
   { key: 'audit', label: 'Activity Log', icon: History },
   { key: 'compliance', label: 'Compliance', icon: ShieldCheck },
@@ -638,46 +639,6 @@ const Referrals = () => {
   );
 };
 
-const MEASURES = [
-  { name: 'Diabetes: A1c under control (< 9%)', score: 92, goal: 85, gap: 0 },
-  { name: 'Blood pressure controlled (< 140/90)', score: 71, goal: 75, gap: 1 },
-  { name: 'Breast cancer screening', score: 64, goal: 70, gap: 1 },
-  { name: 'Colorectal cancer screening', score: 58, goal: 70, gap: 2 },
-  { name: 'Depression screening & follow-up', score: 81, goal: 75, gap: 0 },
-  { name: 'Flu vaccine this season', score: 47, goal: 60, gap: 2 },
-];
-
-const Quality = () => (
-  <div className="space-y-6">
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <Stat label="Overall quality score" value="72 / 100" icon={Award} />
-      <Stat label="Measures at goal" value="2 of 6" icon={ClipboardCheck} />
-      <Stat label="Care gaps to close" value="6" icon={AlertTriangle} />
-      <Stat label="Possible bonus at risk" value="$3,200" icon={TrendingUp} />
-    </div>
-    <div className="grid gap-6 lg:grid-cols-3">
-      <Card className="lg:col-span-2"><CardHeader><CardTitle className="text-base">Quality measures (sample, HEDIS / MIPS style)</CardTitle></CardHeader>
-        <CardContent className="space-y-4 text-sm">{MEASURES.map((m) => (
-          <div key={m.name}>
-            <div className="mb-1 flex items-center justify-between gap-2"><span>{m.name}</span>
-              <span className="flex items-center gap-2"><b>{m.score}%</b><Badge variant={m.score >= m.goal ? 'outline' : 'destructive'}>{m.score >= m.goal ? 'At goal' : `Goal ${m.goal}%`}</Badge></span></div>
-            <Progress value={m.score} /></div>))}
-        </CardContent></Card>
-      <Card><CardHeader><CardTitle className="flex items-center gap-2 text-base"><BrainCircuit className="h-4 w-4 text-mansagold" />Kayla's care-gap list</CardTitle></CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <p>• <b>Jordan Sample</b>: colorectal screening overdue — order at next visit.</p>
-          <p>• <b>Jordan Sample</b>: BP 138/88 — recheck in 2 weeks.</p>
-          <p>• <b>Avery Example</b>: flu vaccine not given — offer at 1:00 PM video visit follow-up.</p>
-          <p>• <b>Avery Example</b>: colorectal screening due.</p>
-          <p>• <b>Morgan Placeholder</b>: breast cancer screening due.</p>
-          <p>• <b>Morgan Placeholder</b>: flu vaccine not given.</p>
-          <p className="text-xs text-muted-foreground">Closing these gaps raises the clinic's score with insurance plans.</p>
-        </CardContent></Card>
-    </div>
-    <p className="text-xs text-muted-foreground">All scores and dollar amounts are fictional sample data for demonstration.</p>
-  </div>
-);
-
 const CAMPAIGNS = [
   { name: 'After-hospital check-in calls', who: 'Patients home from the hospital in the last 7 days', calls: 46, done: 91 },
   { name: 'Monthly chronic care calls', who: 'Care-plan patients (counts toward care minutes)', calls: 128, done: 84 },
@@ -791,7 +752,7 @@ const VoiceOutreach = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
+const VIEWS: Record<ModuleKey, React.FC> = { evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: ExecutiveQuality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
   const [facilityContext, setFacilityContext] = useState<FacilityContext>(DEFAULT_FACILITY_CONTEXT);
@@ -849,7 +810,7 @@ export default function HealthDemoPage() {
             <p className="text-sm text-muted-foreground">{facility.name} · {facilityContext.department} · Fictional</p>
           </div>
           <ExecutiveWalkthrough key={tourRevision} onStep={(_, step) => setTourStep(step)} onEnd={() => setTourStep(null)} />
-          <div key={`${facilityContext.facilityId}:${facilityContext.department}`}>{tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : <View />}</div>
+          <div key={`${facilityContext.facilityId}:${facilityContext.department}`}>{tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : mod === 'quality' ? <ExecutiveQuality facilityContext={facilityContext} onNavigate={(next) => { setMod(next); setTourStep(null); setTourRevision((revision) => revision + 1); }} /> : <View />}</div>
         </main>
       </div>
       <footer className="border-t border-border bg-card px-6 py-4 text-[11px] leading-relaxed text-muted-foreground">
