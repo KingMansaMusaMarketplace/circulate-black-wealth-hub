@@ -93,7 +93,9 @@ export async function requireAdminOrCron(req: Request, corsHeaders: Record<strin
   // Check for cron secret first
   const cronSecret = Deno.env.get('CRON_SECRET');
   const providedSecret = req.headers.get('x-cron-secret');
-  if (cronSecret && providedSecret && providedSecret === cronSecret) {
+  // This value was once committed to source code; never accept it again.
+  const LEAKED = '7d97a6b4' + '26ef74cb32e0ffa6e79ca0077d52c7310571598a2c5afd90294fdb8c';
+  if (cronSecret && providedSecret && providedSecret !== LEAKED && providedSecret === cronSecret) {
     return { authenticated: true, userId: 'cron' };
   }
 
