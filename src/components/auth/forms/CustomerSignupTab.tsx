@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 import { FormCheckbox } from './FormCheckbox';
 import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import { useNavigate } from 'react-router-dom';
+import { getSafeRedirect } from '@/lib/auth-redirect';
 
 const customerSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -71,7 +72,7 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
         email: data.email,
         password: data.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/welcome`,
+          emailRedirectTo: `${window.location.origin}${getSafeRedirect() || '/welcome'}`,
           data: {
             user_type: 'customer',
             signup_platform: platform,
@@ -151,7 +152,7 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
           
           if (authData.session) {
             setTimeout(() => {
-              navigate('/welcome');
+              navigate(getSafeRedirect() || '/welcome');
             }, 1000);
           }
         }
