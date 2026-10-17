@@ -1,0 +1,29 @@
+import { useState } from 'react';
+import { ClipboardCheck, FileSearch, Lock, RotateCcw } from 'lucide-react';
+import logo1325 from '@/assets/1325-ai-logo.png';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { SAMPLE_VISITS } from './sample-visits';
+import { blankEvaluation, doctorEvaluation, type EvaluationObservation } from './doctor-evaluation';
+
+const OPTIONS: { value: EvaluationObservation; label: string }[] = [
+  { value: 'not_reviewed', label: 'Not reviewed' },
+  { value: 'issue_observed', label: 'Issue observed' },
+  { value: 'no_issue_observed', label: 'No issue observed' },
+];
+export default function DoctorEvaluation() {
+  const [visitId, setVisitId] = useState<string>(SAMPLE_VISITS[0].id);
+  const [observations, setObservations] = useState(blankEvaluation);
+  const state = doctorEvaluation(visitId);
+  return <div className="space-y-6">
+    <header className="flex flex-wrap items-start justify-between gap-4 border-b border-border pb-5"><div><Badge variant="outline" className="mb-2 border-mansagold/40 text-mansagold">Fictional evaluation rehearsal</Badge><h2 className="text-xl font-semibold">Doctor evaluation preparation</h2><p className="mt-1 text-sm text-muted-foreground">Pilot not activated · clinical validation not verified</p></div><img src={logo1325} alt="1325.AI" className="h-12 w-12 object-contain" /></header>
+    <div role="note" className="flex gap-3 border-l-2 border-mansagold bg-mansagold/5 p-4 text-sm"><Lock className="h-5 w-5 shrink-0 text-mansagold" /><div><p className="font-medium">Real patient testing remains locked</p><p className="mt-1 text-muted-foreground">Live evaluation requires healthcare clearance, participating clinics, an agreed study protocol and independent clinical review. Rehearsal observations are unsaved and are not study results, doctor sign-off or pilot approval.</p></div></div>
+    <fieldset><legend className="mb-3 text-sm font-medium">Fictional evaluation case</legend><div className="flex flex-wrap gap-2">{SAMPLE_VISITS.map((visit) => <Button key={visit.id} variant={visit.id === visitId ? 'default' : 'outline'} aria-pressed={visit.id === visitId} className="h-auto whitespace-normal text-left" onClick={() => { setVisitId(visit.id); setObservations(blankEvaluation()); }}>{visit.title}</Button>)}</div></fieldset>
+    <div className="grid items-start gap-8 xl:grid-cols-2">
+      <section aria-label="Evaluation observations" className="min-w-0 space-y-5"><div className="flex flex-wrap items-center justify-between gap-2"><h3 className="flex items-center gap-2 font-semibold"><ClipboardCheck className="h-4 w-4 text-mansagold" />Review criteria</h3><Button variant="ghost" size="sm" onClick={() => setObservations(blankEvaluation())}><RotateCcw className="mr-2 h-4 w-4" />Reset observations</Button></div><p className="text-xs text-muted-foreground">Local rehearsal only · no measured accuracy, safety or time-savings results</p>{state.criteria.map((criterion) => <fieldset key={criterion.id} className="space-y-3 border-b border-border pb-5"><legend className="font-medium">{criterion.title}</legend><p className="text-sm text-muted-foreground">{criterion.question}</p><div className="flex flex-wrap gap-2">{OPTIONS.map((option) => <Button key={option.value} size="sm" variant={observations[criterion.id] === option.value ? 'default' : 'outline'} aria-pressed={observations[criterion.id] === option.value} onClick={() => setObservations((current) => ({ ...current, [criterion.id]: option.value }))}>{option.label}</Button>)}</div></fieldset>)}</section>
+      <section aria-label="Evaluation source transcript" className="min-w-0 space-y-3 border-t border-border pt-5 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0"><h3 className="flex items-center gap-2 font-semibold"><FileSearch className="h-4 w-4 text-mansagold" />Original fictional transcript</h3><p className="text-xs text-muted-foreground">Undated fixture · not an evaluated AI draft or real patient encounter</p><ol className="space-y-2 text-sm">{state.visit.lines.map((line, index) => <li key={`${visitId}:${index}`} className="border-b border-border py-2"><span className="mr-2 text-xs text-muted-foreground">L{index + 1}</span>{line}</li>)}</ol></section>
+    </div>
+    <section className="space-y-4 border-t border-border pt-5"><h3 className="font-semibold">Before an approved doctor pilot</h3><ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground"><li>Confirm legal agreements, exact vendor coverage and independently verified healthcare safeguards.</li><li>Identify participating clinics and qualified reviewers; agree scope and any required ethics review.</li><li>Define case selection, comparison method, error severity, time measurement and stopping rules before collecting results.</li><li>Record errors and measured outcomes in an approved environment; independently review findings before making public claims.</li></ul><dl className="grid gap-4 text-sm sm:grid-cols-3">{['Participating clinics', 'Measured review time', 'Independent study approval'].map((label) => <div key={label}><dt className="text-muted-foreground">{label}</dt><dd className="mt-1">Not supplied or verified</dd></div>)}</dl></section>
+    <div className="flex flex-wrap gap-2 border-t border-border pt-4"><Button variant="outline" disabled={!state.canStartPilot}><Lock className="mr-2 h-4 w-4" />Start real patient pilot</Button><Button variant="outline" disabled={!state.canSubmit}>Submit evaluation</Button><Button variant="outline" disabled={!state.canApprove}>Approve pilot</Button><Button variant="outline" disabled={!state.canExport}>Export study results</Button></div>
+  </div>;
+}
