@@ -89,7 +89,7 @@ async function executeAction(
         if (!targetId) throw new Error(`Target ID not found in field: ${target_id_field}`);
 
         // SECURITY: workflows may only tag customer-facing records they own.
-        const ALLOWED_TAG_TABLES = new Set(["customers", "bookings", "b2b_connections"]);
+        const ALLOWED_TAG_TABLES = new Set(["customers", "bookings"]);
         if (!ALLOWED_TAG_TABLES.has(target_table)) {
           throw new Error(`Table '${target_table}' not allowed for tag operations`);
         }
@@ -99,7 +99,10 @@ async function executeAction(
           .from(target_table)
           .select("tags")
           .eq("id", targetId)
-          .single();
+          .eq("business_id", businessId)
+          .maybeSingle();
+
+        if (!current) throw new Error("Target record not found for this business");
 
         let tags = current?.tags || [];
         if (action.action_type === "add_tag") {
@@ -111,7 +114,8 @@ async function executeAction(
         const { error } = await supabase
           .from(target_table)
           .update({ tags })
-          .eq("id", targetId);
+          .eq("id", targetId)
+          .eq("business_id", businessId);
 
         if (error) throw error;
         return { success: true, output: { tags } };
