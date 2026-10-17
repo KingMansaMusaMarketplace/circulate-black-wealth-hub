@@ -114,7 +114,7 @@ function SessionEnded({ onResume }: { onResume: () => void }) {
   );
 }
 
-function Teaser() {
+function Teaser({ notice = "" }: { notice?: string }) {
   const [form, setForm] = useState({ full_name: '', organization: '', role: '', work_email: '', phone: '' });
   const [nda, setNda] = useState(false);
   const [error, setError] = useState('');
@@ -178,6 +178,7 @@ function Teaser() {
             <form onSubmit={submit} className="space-y-4">
               <h2 className="text-2xl font-semibold">Request access</h2>
               <p className="text-sm opacity-75">Each request is reviewed personally.</p>
+              {notice && <p className="text-sm rounded-md p-3" style={{ background: "rgba(255,179,0,0.15)", color: "#FFB300" }}>{notice}</p>}
               <Input placeholder="Full name" value={form.full_name} onChange={set('full_name')} maxLength={120} className="bg-white text-black" />
               <Input placeholder="Clinic / hospital / organization" value={form.organization} onChange={set('organization')} maxLength={160} className="bg-white text-black" />
               <select value={form.role} onChange={set('role')} className="w-full h-10 rounded-md px-3 bg-white text-black text-sm">
