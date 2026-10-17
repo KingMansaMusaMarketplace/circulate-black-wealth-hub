@@ -1,7 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://esm.sh/zod@3.23.8";
-import { approvedContent, confirmationPage, emailWasAccepted } from './confirmation.ts';
+import { accessRequestEmail, approvedContent, confirmationPage, emailWasAccepted } from './confirmation.ts';
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -125,13 +125,13 @@ Deno.serve(async (req) => {
   if (error || !r) return json({ error: "Could not save your request." }, 500);
 
   const link = (d: string) => `${FN_URL}?id=${r.id}&t=${r.decision_token}&d=${d}`;
-  const row = (k: string, val: string) => `<tr><td style="padding:4px 12px 4px 0;color:#666">${k}</td><td><b>${esc(val)}</b></td></tr>`;
+  const requestEmail = accessRequestEmail({ ...p.data, work_email: email }, {
+    approve: link('approve'), deny: link('deny'), revoke: link('revoke'),
+  });
   await resend.emails.send({
     from: FROM, to: [OWNER], reply_to: email,
     subject: `New 1325 Clinical access request: ${p.data.full_name} — ${p.data.organization}`,
-    html: `<h2>New access request for health.1325.ai</h2><table>${row("Name", p.data.full_name)}${row("Organization", p.data.organization)}${row("Role", p.data.role)}${row("Work email", email)}${row("Phone", p.data.phone || "—")}${row("Agreed to confidentiality", "Yes")}</table>
-<p><a href="${link("approve")}" style="background:#1a7f37;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Approve (7 days)</a> &nbsp; <a href="${link("deny")}" style="background:#b42318;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Deny</a></p>
-<p style="margin-top:24px">Changed your mind later? <a href="${link("revoke")}" style="background:#333;color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none">Revoke access</a> locks this person out immediately.</p>`,
+    ...requestEmail,
   });
   return json({ ok: true });
 });

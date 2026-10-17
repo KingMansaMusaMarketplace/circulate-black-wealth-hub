@@ -1,6 +1,6 @@
 # AGENTS
 - Clinical private-session exit is shared through PrivateSessionContext and persists a browser lock across routes/tabs; it preserves approval/device binding and signs out locally before reloading to stop detached media.
-- Clinical access confirmation rendering lives in health-access/confirmation.ts; email status requires the provider message ID, not merely a completed send call, to avoid false delivery claims.
+- Clinical access confirmations and owner request emails render in health-access/confirmation.ts with escaped visitor fields and matching plain-text email content; email status requires the provider message ID, not merely a completed send call, to avoid false delivery claims.
 - Public directory lookup functions (search_directory_businesses, get_directory_*) must stay executable by anon + authenticated; security revokes broke the directory Sep 26 2026.
 - Hard Kayla chat questions (strategy/money/legal/forecast) go through `premiumChatAnswer` in `_shared/kayla-deep.ts` (premium draft + self-check) on every chat function; keeps quality consistent and fail-open to the fast model.
 - Kayla web lookups live only in `_shared/kayla-grounding.ts` `webSearch` (Perplexity first, Firecrawl fallback); answers that used the web must end with a Sources list from returned URLs only.
