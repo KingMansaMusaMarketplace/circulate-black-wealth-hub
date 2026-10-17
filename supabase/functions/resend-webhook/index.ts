@@ -71,7 +71,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     
-    console.log("Received Resend webhook:", JSON.stringify(payload, null, 2));
+    console.log("Received Resend webhook:", payload?.type);
 
     // Initialize Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -131,7 +131,7 @@ const handler = async (req: Request): Promise<Response> => {
       console.error("Error inserting email event:", insertError);
       // Don't fail the webhook, just log the error
     } else {
-      console.log(`Successfully recorded ${eventType} event for ${recipientEmail}`);
+      console.log(`Successfully recorded ${eventType} event`);
     }
 
     // Campaign tracking: claim invites + Holiday Special sends

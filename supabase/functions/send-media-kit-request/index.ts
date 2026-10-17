@@ -46,7 +46,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { fullName, email, company, role, reason, documentType }: MediaKitRequest = await req.json();
 
-    console.log(`Processing media kit access request from ${fullName} (${email}) for ${documentType}`);
+    console.log('Processing media kit access request');
 
     // Validate required fields
     if (!fullName || !email || !reason || !documentType) {

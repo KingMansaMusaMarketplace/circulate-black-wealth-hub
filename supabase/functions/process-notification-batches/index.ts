@@ -143,9 +143,9 @@ const handler = async (req: Request): Promise<Response> => {
             subject: `${events.length} ${getNotificationTypeLabel(notificationType)} Notifications`,
             html: emailHtml,
           });
-          console.log(`Batch sent to ${recipient}`);
+          console.log('Batch sent to admin recipient');
         } catch (error) {
-          console.error(`Failed to send batch to ${recipient}:`, error);
+          console.error('Failed to send batch to admin recipient:', (error as any)?.message ?? error);
         }
       }
 
@@ -219,7 +219,7 @@ async function sendIndividualNotification(supabase: any, resend: any, event: any
         html: emailHtml,
       });
     } catch (error) {
-      console.error(`Failed to send to ${recipient}:`, error);
+      console.error('Failed to send notification to admin recipient:', (error as any)?.message ?? error);
     }
   }
 }

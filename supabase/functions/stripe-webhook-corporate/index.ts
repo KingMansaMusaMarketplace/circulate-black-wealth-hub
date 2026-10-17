@@ -173,7 +173,7 @@ serve(async (req) => {
                 tier: metadata.tier,
               },
             });
-            console.log("Welcome email sent to:", userData.user.email);
+            console.log("Welcome email sent for user:", metadata.user_id);
           } catch (emailError) {
             console.error("Failed to send welcome email:", emailError);
             // Don't fail the webhook if email fails
