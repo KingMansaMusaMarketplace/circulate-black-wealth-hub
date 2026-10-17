@@ -28,7 +28,7 @@ const Request = z.object({
   organization: z.string().trim().min(2).max(160),
   role: z.string().trim().min(2).max(80),
   work_email: z.string().trim().email().max(255),
-  phone: z.string().trim().max(40).optional().default(""),
+  phone: z.string().trim().min(7).max(40),
   nda: z.literal(true),
 });
 const Verify = z.object({ action: z.literal("verify"), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional() });

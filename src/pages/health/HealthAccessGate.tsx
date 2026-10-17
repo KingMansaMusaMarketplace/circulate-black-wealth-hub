@@ -16,7 +16,7 @@ const schema = z.object({
   organization: z.string().trim().min(2, 'Enter your clinic or organization').max(160),
   role: z.string().trim().min(2, 'Choose your role').max(80),
   work_email: z.string().trim().email('Enter a valid work email').max(255),
-  phone: z.string().trim().max(40),
+  phone: z.string().trim().min(7, 'Enter your phone number').max(40),
 });
 
 function deviceId() {
@@ -177,16 +177,16 @@ function Teaser({ notice = "" }: { notice?: string }) {
           ) : (
             <form onSubmit={submit} className="space-y-4">
               <h2 className="text-2xl font-semibold">Request access</h2>
-              <p className="text-sm opacity-75">Each request is reviewed personally.</p>
+              <p className="text-sm opacity-75">All fields are required. Each request is reviewed personally.</p>
               {notice && <p className="text-sm rounded-md p-3" style={{ background: "rgba(255,179,0,0.15)", color: "#FFB300" }}>{notice}</p>}
-              <Input placeholder="Full name" value={form.full_name} onChange={set('full_name')} maxLength={120} className="bg-white text-black" />
-              <Input placeholder="Clinic / hospital / organization" value={form.organization} onChange={set('organization')} maxLength={160} className="bg-white text-black" />
-              <select value={form.role} onChange={set('role')} className="w-full h-10 rounded-md px-3 bg-white text-black text-sm">
-                <option value="">Your role…</option>
+              <Input required placeholder="Full name *" value={form.full_name} onChange={set('full_name')} maxLength={120} className="bg-white text-black" />
+              <Input required placeholder="Clinic / hospital / organization *" value={form.organization} onChange={set('organization')} maxLength={160} className="bg-white text-black" />
+              <select required value={form.role} onChange={set('role')} className="w-full h-10 rounded-md px-3 bg-white text-black text-sm">
+                <option value="">Your role… *</option>
                 {['Physician (MD/DO)', 'Nurse Practitioner / PA', 'Practice Manager', 'Healthcare Attorney', 'Investor', 'Other'].map((r) => <option key={r}>{r}</option>)}
               </select>
-              <Input type="email" placeholder="Work email" value={form.work_email} onChange={set('work_email')} maxLength={255} className="bg-white text-black" />
-              <Input type="tel" placeholder="Phone (optional)" value={form.phone} onChange={set('phone')} maxLength={40} className="bg-white text-black" />
+              <Input type="email" required placeholder="Work email *" value={form.work_email} onChange={set('work_email')} maxLength={255} className="bg-white text-black" />
+              <Input type="tel" required placeholder="Phone *" value={form.phone} onChange={set('phone')} maxLength={40} className="bg-white text-black" />
               <label className="flex gap-3 text-xs opacity-85 items-start">
                 <input type="checkbox" checked={nda} onChange={(e) => setNda(e.target.checked)} className="mt-0.5" />
                 <span>I agree that all materials, screens and workflows shown in 1325 Clinical are proprietary and confidential to 1325.AI, and I will not copy, share, or reproduce them.</span>
