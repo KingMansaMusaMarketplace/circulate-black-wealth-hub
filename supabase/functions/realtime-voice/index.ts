@@ -194,7 +194,15 @@ When ending conversations, casually mention telling friends about the platform. 
       socket.onmessage = (event) => {
         try {
           if (openaiWs.readyState === WebSocket.OPEN) {
-            openaiWs.send(event.data);
+            // Only relay audio/conversation events; never let the client rewrite the session rules.
+            const ALLOWED = new Set(['input_audio_buffer.append','input_audio_buffer.commit','input_audio_buffer.clear','conversation.item.create','response.create','response.cancel']);
+            let parsed: any;
+            try { parsed = JSON.parse(typeof event.data === 'string' ? event.data : ''); } catch { return; }
+            if (!parsed || !ALLOWED.has(parsed.type)) return;
+            if (parsed.type === 'response.create' && parsed.response) {
+              delete parsed.response.instructions; delete parsed.response.tools;
+            }
+            openaiWs.send(JSON.stringify(parsed));
           }
         } catch (error) {
           console.error('Error forwarding to OpenAI:', error);

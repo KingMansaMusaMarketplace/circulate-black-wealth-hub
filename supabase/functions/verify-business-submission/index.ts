@@ -323,8 +323,8 @@ serve(async (req) => {
     const fresh = gate &&
       Date.now() - new Date(gate.created_at).getTime() < 10 * 60 * 1000;
     // Non-admins must also be the original submitter (same network address).
-    const callerIp = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim()
-      || req.headers.get("cf-connecting-ip") || "";
+    // Only trust the address set by the network edge; client-sent forwarding headers can be faked.
+    const callerIp = (req.headers.get("cf-connecting-ip") || "").trim();
     const sameSubmitter = !!gate && !!callerIp && !!gate.submitter_ip &&
       String(gate.submitter_ip).split("/")[0] === callerIp;
     if (fetchErr || !gate || (!isAdmin && (gate.kayla_report || !fresh || !sameSubmitter))) {
