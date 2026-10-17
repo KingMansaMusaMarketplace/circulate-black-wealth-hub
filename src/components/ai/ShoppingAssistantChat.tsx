@@ -49,6 +49,7 @@ const saveStoredMessages = (messages: Message[]) => {
 
 const ShoppingAssistantChat: React.FC = () => {
   // iOS enabled: microphone permission text is declared in Info.plist.
+  if (isClinicalContext() && localStorage.getItem('hc_preview_session_closed')) return null;
   return <ShoppingAssistantChatInner />;
 };
 

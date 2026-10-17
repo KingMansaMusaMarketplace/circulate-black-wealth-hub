@@ -2,7 +2,8 @@
 
 ## Clinical private-session exit
 - [x] Add shared left-panel exit, small-screen equivalent, persistent screen lock, and preserved approval/device binding.
-- [ ] Verify approved visitor exit in the live preview.
+- [x] Verify persistent lock screen in the live preview and approval/device preservation in two passing tests.
+- [ ] Verify approved visitor click/sign-out/resume end-to-end — blocked: external Supabase has no authenticated visitor test session.
 
 ## Clinical invitation delivery
 - [x] Add plain-text invitation, simpler wording, consistent reply-to, and Spam/Junk guidance after access requests.
