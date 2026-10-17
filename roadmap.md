@@ -7,7 +7,8 @@
 - [ ] Verify authorization packet in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
 - [x] 3. Practice impact calculator — blank visitor inputs, transparent time/value calculations, no promised savings or pricing; 13 targeted tests pass and unapproved visitors remain locked out.
 - [ ] Verify calculator in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
-- [ ] 4. Specialty-specific fictional examples — Primary Care, Orthopedics, Cardiology.
+- [x] 4. Specialty-specific fictional examples — shared read-only Primary Care, Orthopedics and Cardiology screen; existing primary care/knee sources and a separate clearly fictional cardiology rehearsal; 9 specialty tests pass (15 with tour/private-session regressions), build OK; unapproved visitors see only the access request.
+- [ ] Verify specialty examples in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
 - [ ] 5. Enterprise readiness drawer — verified statuses only; real records remain locked.
 
 ## Clinical private-session exit
