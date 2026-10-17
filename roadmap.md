@@ -6,7 +6,9 @@
 - [x] Expanded fictional chart — exact historical excerpts, unknown demographics/allergies/reconciliation, planned versus received results, original transcript and honest undated source baseline; shared demo/workspace and Doctor Day. 32 focused/regression tests pass, build OK, public gate verified.
 - [ ] Actual saved chart-change history — blocked: approved persistent clinical audit design and healthcare environment; no fabricated edits, actors or timestamps added.
 - [ ] Verify expanded chart in an approved visitor and signed-in clinic session — blocked: external Supabase has no managed authenticated test session; no access bypass added.
-- [ ] Clinical assistance and medication safety — requires qualified clinical validation before live use.
+- [x] Fictional medication-review assistance — shared demo/workspace, exact medicine references and documentation gaps; unknown allergies, unperformed interaction/dose screening and locked prescribing/signature/export/delivery; 24 targeted/regression tests pass.
+- [ ] Verify medication-review assistance in an approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
+- [ ] Live clinical assistance and medication safety — blocked: qualified clinical validation, approved drug knowledge provider and healthcare clearance required.
 - [ ] Laboratory, pharmacy and record-system connections — blocked for live use by approved providers, agreements and credentials.
 - [ ] Secure patient communication — blocked for live use by healthcare clearance and consent review.
 - [ ] Billing operations — sample preparation first; live eligibility/claims require qualified review and approved providers.
