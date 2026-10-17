@@ -35,6 +35,7 @@ import ConnectionPreparation from './workspace/ConnectionPreparation';
 import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
+import DoctorEvaluation from './workspace/DoctorEvaluation';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -131,6 +132,7 @@ const MODULES = [
   { key: 'auth', label: 'Prior Authorization', icon: ClipboardCheck },
   { key: 'billing', label: 'Billing Preparation', icon: Receipt },
   { key: 'reliability', label: 'Backup, Recovery & Migration', icon: ShieldCheck },
+  { key: 'evaluation', label: 'Doctor Evaluation', icon: ClipboardCheck },
   { key: 'revenue', label: 'Practice Revenue', icon: TrendingUp },
   { key: 'impact', label: 'Practice Impact', icon: TrendingUp },
   { key: 'specialties', label: 'Specialty Examples', icon: Stethoscope },
@@ -787,7 +789,7 @@ const VoiceOutreach = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
+const VIEWS: Record<ModuleKey, React.FC> = { evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: Quality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
