@@ -10,7 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, Row } from './workspace/hc';
-import { Billing, Dashboard, Patients, PriorAuth, RecordReview, Schedule, Team } from './workspace/Screens';
+import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
+import RecordReview from './workspace/RecordReview';
 
 const NAV = [
   { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
@@ -87,7 +88,7 @@ export default function HealthWorkspacePage() {
   const [clinic, setClinic] = useState<Row | null | undefined>(undefined);
   const [role, setRole] = useState('');
   const [patients, setPatients] = useState<Row[]>([]);
-  const [tab, setTab] = useState('dashboard');
+  const [tab, setTab] = useState('review');
 
   const loadClinic = useCallback(async () => {
     if (!user) return;
@@ -111,7 +112,7 @@ export default function HealthWorkspacePage() {
   );
 
   const props = { clinicId: clinic?.id, patients, reloadPatients: loadPatients, isOwner: role === 'owner' };
-  const current = NAV.find((n) => n.k === tab)!;
+  const current = NAV.find((n) => n.k === tab) ?? NAV[0];
   return (
     <div className="theme-clinical dark min-h-screen">
       <Helmet><title>1325 Clinical Workspace | health.1325.ai</title><meta name="robots" content="noindex" /></Helmet>
@@ -136,7 +137,7 @@ export default function HealthWorkspacePage() {
             {tab === 'dashboard' && <Dashboard {...props} go={setTab} />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
-            {tab === 'review' && <RecordReview {...props} />}
+            {tab === 'review' && <RecordReview clinicId={clinic.id} clinicRole={role} />}
             {tab === 'auth' && <PriorAuth {...props} />}
             {tab === 'billing' && <Billing {...props} />}
             {tab === 'team' && <Team {...props} />}
