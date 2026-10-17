@@ -1,5 +1,9 @@
 # Roadmap
 
+## Clinical invitation delivery
+- [x] Add plain-text invitation, simpler wording, consistent reply-to, and Spam/Junk guidance after access requests.
+- [ ] Confirm inbox placement with recipient mailboxes — cannot guarantee placement or access recipient mailbox settings.
+
 ## Five clinical additions — sequential delivery
 - [x] 1. Pre-Visit Chart Prep: fixed fictional prior-visit excerpts, clickable sources, missing-information flags, no real-record intake.
 - [ ] Verify chart prep inside a signed-in clinic — blocked: external Supabase provides no authenticated test session.
