@@ -7,8 +7,8 @@
 - [ ] Verify chronology inside a signed-in clinic — blocked: external Supabase provides no authenticated test session.
 - [x] 3. Plain-language patient care guide — fixed English/Spanish fictional plans, source links, missing-instruction flags, unapproved drafts, no patient delivery.
 - [ ] Verify care guide inside a signed-in clinic — blocked: external Supabase provides no authenticated test session.
-- [ ] 4. Billing completeness check — follows care guide review.
-- [ ] 5. Doctor-reviewed PDF report export — follows billing review.
+- [x] 4. Billing completeness check — follows care guide review.
+- [x] 5. Doctor-reviewed PDF report export — follows billing review.
 
 ## Clinical record review first
 - [x] Connect signed-in clinic creation to saved clinic readback, email-confirmation state and account-safe workspace loading; 14 focused tests passed and build checks succeeded.
