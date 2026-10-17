@@ -75,7 +75,12 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
       `$${r.total_earned.toFixed(2)}`,
     ]);
     
-    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const cell = (v: unknown) => {
+      let s = String(v ?? '');
+      if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+      return `"${s.replace(/"/g, '""')}"`;
+    };
+    const csv = [headers.map(cell).join(','), ...rows.map(r => r.map(cell).join(','))].join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

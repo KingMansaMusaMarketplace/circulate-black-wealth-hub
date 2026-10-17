@@ -71,7 +71,13 @@ Deno.serve(async (req) => {
       bytes = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     } else {
-      const res = await fetch(assertPublicUrl(sourceUrl), { redirect: "error" });
+      const target = new URL(String(sourceUrl));
+      const host = target.hostname.toLowerCase();
+      const ALLOWED_HOSTS = ["1325.ai", "www.1325.ai", "circulate-black-wealth-hub.lovable.app", "agoclnqfyinwjxdmjnns.supabase.co"];
+      if (target.protocol !== "https:" || !ALLOWED_HOSTS.includes(host)) {
+        return json({ error: "Source must be an https link on an approved 1325.AI site" }, 400);
+      }
+      const res = await fetch(assertPublicUrl(target.toString()), { redirect: "error" });
       if (!res.ok) return json({ error: `Source fetch failed: ${res.status}` }, 502);
       const len = Number(res.headers.get("content-length") || "0");
       if (len > MAX_BYTES) return json({ error: "File is too large (max 25 MB)" }, 413);

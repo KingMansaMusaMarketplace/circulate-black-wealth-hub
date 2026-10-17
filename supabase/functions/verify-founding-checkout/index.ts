@@ -98,6 +98,14 @@ serve(async (req) => {
         status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+    // Confirm directly with Stripe that the subscription is really live and belongs to this checkout's customer.
+    const sub = await stripe.subscriptions.retrieve(subscriptionId);
+    const subCustomer = typeof sub.customer === "string" ? sub.customer : sub.customer?.id;
+    if (!["active", "trialing"].includes(sub.status) || subCustomer !== customerId) {
+      return new Response(JSON.stringify({ error: "SESSION_NOT_ELIGIBLE" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const businessId = session.metadata?.business_id || null;
 
     const supabaseAdmin = createClient(
