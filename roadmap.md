@@ -5,7 +5,8 @@
 - [ ] Verify chart prep inside a signed-in clinic — blocked: external Supabase provides no authenticated test session.
 - [x] 2. Medical chronology timeline — fixed fictional case, dated events, undated index, source viewer, gap/conflict flags and record-type filters.
 - [ ] Verify chronology inside a signed-in clinic — blocked: external Supabase provides no authenticated test session.
-- [ ] 3. Plain-language patient care guide — follows chronology review.
+- [x] 3. Plain-language patient care guide — fixed English/Spanish fictional plans, source links, missing-instruction flags, unapproved drafts, no patient delivery.
+- [ ] Verify care guide inside a signed-in clinic — blocked: external Supabase provides no authenticated test session.
 - [ ] 4. Billing completeness check — follows care guide review.
 - [ ] 5. Doctor-reviewed PDF report export — follows billing review.
 
