@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import PriorAuthorization from '@/pages/health/workspace/PriorAuthorization';
 import { AUTHORIZATION_VISIT_ID, prepareAuthorizationPacket, validateAuthorizationEvidence } from '@/pages/health/workspace/prior-authorization';
 import { findVisit } from '@/pages/health/workspace/sample-visits';
@@ -30,6 +30,7 @@ describe('Fictional prior authorization safeguards', () => {
     expect(packet.gaps.map((gap) => gap.id)).toEqual(['identity', 'order', 'rationale', 'payer', 'appeal']);
   });
   it('review rehearsal cannot unlock sending, signature or export and clears on reset', () => {
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', { configurable: true, value: vi.fn() });
     render(<PriorAuthorization />);
     fireEvent.click(screen.getByRole('button', { name: 'Prepare fictional packet' }));
     for (const box of screen.getAllByRole('checkbox')) fireEvent.click(box);
