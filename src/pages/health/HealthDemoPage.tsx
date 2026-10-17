@@ -31,6 +31,7 @@ import EnterpriseReadiness from './EnterpriseReadiness';
 import DoctorDay from './workspace/DoctorDay';
 import SamplePatientChart from './workspace/SamplePatientChart';
 import MedicationReview from './workspace/MedicationReview';
+import ConnectionPreparation from './workspace/ConnectionPreparation';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -130,7 +131,7 @@ const MODULES = [
   { key: 'impact', label: 'Practice Impact', icon: TrendingUp },
   { key: 'specialties', label: 'Specialty Examples', icon: Stethoscope },
   { key: 'quality', label: 'Quality Scores', icon: Award },
-  { key: 'interop', label: 'Connections (Epic / Cerner)', icon: Network },
+  { key: 'interop', label: 'Clinical Connections', icon: Network },
   { key: 'audit', label: 'Activity Log', icon: History },
   { key: 'compliance', label: 'Compliance', icon: ShieldCheck },
 ] as const;
@@ -539,46 +540,7 @@ const AuditLog = () => {
   );
 };
 
-const CONNECTIONS = [
-  { name: 'Epic', type: 'Hospital EHR', how: 'FHIR R4 API (App Orchard / Showroom)', status: 'Planned' },
-  { name: 'Oracle Health (Cerner)', type: 'Hospital EHR', how: 'FHIR R4 API (Code program)', status: 'Planned' },
-  { name: 'athenahealth', type: 'Clinic EHR', how: 'FHIR R4 + athenaOne API', status: 'Planned' },
-  { name: 'eClinicalWorks', type: 'Clinic EHR', how: 'FHIR R4 API', status: 'Planned' },
-  { name: 'Labs (Quest / Labcorp)', type: 'Lab results', how: 'HL7 v2 messages', status: 'Planned' },
-  { name: 'Surescripts', type: 'e-Prescribing', how: 'NCPDP SCRIPT', status: 'Planned' },
-  { name: 'Health information exchanges', type: 'Record sharing', how: 'Carequality / CommonWell (via TEFCA)', status: 'Planned' },
-];
-
-const Interop = () => {
-  const [imported, setImported] = useState(false);
-  return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Standard used" value="FHIR R4" icon={Network} />
-        <Stat label="Systems planned" value="7" icon={Stethoscope} />
-        <Stat label="Live connections" value="0" icon={Lock} />
-        <Stat label="Mapped by Kayla" value="Auto" icon={BrainCircuit} />
-      </div>
-      <Card><CardHeader><CardTitle className="text-base">Connection roadmap</CardTitle></CardHeader>
-        <CardContent className="overflow-x-auto"><table className="w-full text-sm"><thead className="text-left text-muted-foreground">
-          <tr><th className="py-1">System</th><th>Type</th><th>How it connects</th><th>Status</th></tr></thead>
-          <tbody>{CONNECTIONS.map((c) => (<tr key={c.name} className="border-t border-border">
-            <td className="py-2 font-medium">{c.name}</td><td>{c.type}</td><td className="text-muted-foreground">{c.how}</td>
-            <td><Badge variant="secondary">{c.status}</Badge></td></tr>))}</tbody></table></CardContent></Card>
-      <Card><CardHeader><CardTitle className="text-base">Demo: import a patient record from another hospital</CardTitle></CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          <p className="text-muted-foreground">Shows how a record from a hospital system would arrive and be sorted into the chart. Uses a fictional sample record only.</p>
-          <Button onClick={() => setImported(true)} disabled={imported}>{imported ? 'Imported ✓' : 'Import sample record (FHIR)'}</Button>
-          {imported && (
-            <div className="grid gap-2 sm:grid-cols-2">
-              {[['Patient details', 'Avery Example · DOB on file'], ['Diagnoses', '3 conditions → Problem list'], ['Medications', '4 medicines → 1 duplicate removed by Kayla'], ['Allergies', '1 allergy → added'], ['Lab results', '12 results → Labs screen'], ['Visit notes', '6 notes → Timeline']].map(([k, v]) => (
-                <div key={k} className="rounded-md border border-border p-3"><p className="font-medium">{k}</p><p className="text-muted-foreground">{v}</p></div>))}
-            </div>)}
-          <p className="text-xs text-muted-foreground">No live connections exist yet. Each would require that vendor's developer program approval and signed agreements.</p>
-        </CardContent></Card>
-    </div>
-  );
-};
+const Interop = ConnectionPreparation;
 
 const VideoVisits = () => {
   const [inCall, setInCall] = useState<string | null>(null);
