@@ -10555,6 +10555,51 @@ export type Database = {
           },
         ]
       }
+      hc_review_decisions: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          decision: string
+          id: string
+          review_id: string
+          reviewer_id: string
+          updated_at: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          decision: string
+          id?: string
+          review_id: string
+          reviewer_id: string
+          updated_at?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          decision?: string
+          id?: string
+          review_id?: string
+          reviewer_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_review_decisions_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_review_decisions_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: false
+            referencedRelation: "hc_reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hc_reviews: {
         Row: {
           clinic_id: string
