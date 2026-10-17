@@ -1,8 +1,8 @@
 # Roadmap
 
 ## Clinical safety panel — approved presentation scope
-- [ ] Add a shared advisory panel with fictional source-linked gaps, unperformed safety checks and physician-review boundaries; preserve colors and existing service locks.
-- [ ] Run focused safety/regression checks and verify the public access gate.
+- [x] Add a shared advisory panel with fictional source-linked gaps, unperformed safety checks and physician-review boundaries; preserve colors and existing service locks.
+- [x] Run focused safety/regression checks: 23 tests pass, build OK, and both clinical routes hide the private controls from unapproved visitors with no runtime errors.
 - [ ] Verify approved visitor and signed-in clinic panel use — blocked: external Supabase has no managed authenticated test session.
 
 ## Clinical executive quality overview — approved presentation scope
