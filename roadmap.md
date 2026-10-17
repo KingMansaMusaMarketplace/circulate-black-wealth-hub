@@ -15,7 +15,7 @@
 - [x] Fictional patient communication portal — shared source excerpts, bilingual unapproved care guides and unscheduled follow-up preparation; no patient input or live delivery. 16 targeted/regression tests pass, build OK; public access gate verified.
 - [ ] Verify patient communication in approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
 - [ ] Secure patient communication — blocked for live use by healthcare clearance, approved providers and consent review.
-- [ ] Fictional billing preparation — shared documentation evidence, unknown coverage/claim/payment statuses and locked submission/collection/export.
+- [x] Fictional billing preparation — shared documentation evidence, unknown coverage/claim/payment statuses and locked submission/collection/export; 17 targeted/regression tests pass, build OK and public access gate verified.
 - [ ] Verify billing preparation in approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
 - [ ] Live billing operations — blocked: healthcare clearance, qualified billing review and approved eligibility/claims/payment providers.
 - [ ] Enterprise operations, recovery and migration — preparation first; operational guarantees require independently tested infrastructure.
