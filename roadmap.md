@@ -1,5 +1,10 @@
 # Roadmap
 
+## Clinical record review first
+- [ ] Build a server-owned fictional CME case with page-linked Kayla drafts and source viewer.
+- [ ] Save physician review decisions with clinic-scoped access; block arbitrary record uploads.
+- [ ] Run targeted safety tests and verify available screens; real records/calls await healthcare clearance.
+
 ## Scheduled
 
 - [ ] **Platform Manual v67 full rewrite (Oct 5, 2026)** — delivered in parts to /mnt/documents, then combined. Generator in /tmp/man (lib.py + partN.py).
