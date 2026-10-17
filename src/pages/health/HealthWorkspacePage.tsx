@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { BrainCircuit, Calendar, ClipboardCheck, HeartPulse, LayoutDashboard, Lock, LogOut, Receipt, Users, UserCog } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,7 @@ const NAV = [
   { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
   { k: 'patients', l: 'Patients', i: Users },
   { k: 'schedule', l: 'Schedule', i: Calendar },
-  { k: 'review', l: 'Kayla Record Review', i: BrainCircuit },
+  { k: 'review', l: 'CME Files & Review', i: BrainCircuit },
   { k: 'auth', l: 'Prior Authorization', i: ClipboardCheck },
   { k: 'billing', l: 'Billing & Claims', i: Receipt },
   { k: 'team', l: 'Team', i: UserCog },
@@ -87,10 +87,12 @@ function CreateClinic({ onDone }: { onDone: () => void }) {
 
 export default function HealthWorkspacePage() {
   const { user, loading } = useAuth();
+  const [searchParams] = useSearchParams();
   const [clinic, setClinic] = useState<Row | null | undefined>(undefined);
   const [role, setRole] = useState('');
   const [patients, setPatients] = useState<Row[]>([]);
   const [tab, setTab] = useState('review');
+  useEffect(() => { if (searchParams.get('view') === 'cme') setTab('review'); }, [searchParams]);
 
   const loadClinic = useCallback(async () => {
     if (!user) return;
@@ -125,9 +127,9 @@ export default function HealthWorkspacePage() {
         <div className="flex">
           <aside className="hidden w-60 shrink-0 border-r bg-card/80 p-3 md:block">
             {NAV.map((n) => (
-              <button key={n.k} onClick={() => setTab(n.k)} className={`mb-1 flex w-full items-center gap-3 rounded-md border-l-2 px-3 py-2 text-sm transition ${tab === n.k ? 'border-mansagold bg-mansagold/10 font-medium text-mansagold' : 'border-transparent text-muted-foreground hover:bg-muted'}`}>
+              <Button variant="ghost" key={n.k} onClick={() => setTab(n.k)} className={`mb-1 flex h-auto w-full justify-start gap-3 whitespace-normal rounded-md border-l-2 px-3 py-2 text-left text-sm transition ${tab === n.k ? 'border-mansagold bg-mansagold/10 font-medium text-mansagold' : 'border-transparent text-muted-foreground hover:bg-muted'}`}>
                 <n.i className="h-4 w-4" /> {n.l}
-              </button>
+              </Button>
             ))}
             <div className="mt-6 rounded-lg border border-mansagold/40 bg-mansagold/5 p-3 text-xs text-muted-foreground"><b className="text-foreground">Kayla Clinical AI</b><br />Organizes records. Doctors make every medical decision.</div>
           </aside>
