@@ -33,6 +33,7 @@ export default function HealthBaaPage() {
         <div className="flex items-center gap-3"><FileCheck2 className="h-6 w-6 text-mansagold" /><h2 className="text-xl font-semibold">Agreement pending legal review</h2></div>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">There is no agreement to accept, sign or download here. This preparation page is not a contract, legal advice, proof of vendor coverage or a certification of compliance with the Health Insurance Portability and Accountability Act (HIPAA).</p>
         <Button disabled className="mt-5"><Lock className="mr-2 h-4 w-4" />Signing unavailable</Button>
+        <Button variant="outline" asChild className="mt-5 sm:ml-3"><Link to="/health/intake">Clinic intake & upload status<ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
       </section>
       <section className="border-t py-8"><h2 className="text-xl font-semibold">Required before clinic signing</h2>
         <div className="mt-4 divide-y">{reviewItems.map((item, index) => <div key={item.title} className="flex gap-4 py-5"><span className="text-sm font-semibold text-mansagold">0{index + 1}</span><div><h3 className="font-medium">{item.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.detail}</p></div></div>)}</div>
