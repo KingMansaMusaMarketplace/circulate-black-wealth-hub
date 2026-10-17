@@ -1,6 +1,8 @@
 # Roadmap
 
 ## Clinical record review first
+- [x] Connect signed-in clinic creation to saved clinic readback, email-confirmation state and account-safe workspace loading; 14 focused tests passed and build checks succeeded.
+- [ ] Verify new clinic account creation end-to-end — blocked: preview still serves the previous sign-in form after explicit source reads; authenticated testing and hosted sign-in settings checks unavailable for external Supabase.
 - [x] Build clinic-only CME upload screen, saved fictional file statuses, source-linked drafts and doctor review; uploads locked. All 27 targeted clinical tests passed.
 - [ ] Verify CME screen navigation and clinic access — blocked: preview still serves older source (/health/intake returns 404); authenticated end-to-end checks unavailable for external Supabase.
 - [x] Add clinic intake, existing account/clinic registration and locked BAA/CME upload stages.

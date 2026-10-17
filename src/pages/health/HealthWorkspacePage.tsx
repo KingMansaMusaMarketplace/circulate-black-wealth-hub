@@ -1,18 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
-import { toast } from 'sonner';
-import { BrainCircuit, Calendar, ClipboardCheck, HeartPulse, LayoutDashboard, Lock, LogOut, Receipt, Users, UserCog } from 'lucide-react';
+import { BrainCircuit, Calendar, ClipboardCheck, LayoutDashboard, Lock, LogOut, Receipt, Users, UserCog } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, Row } from './workspace/hc';
 import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
 import RecordReview from './workspace/RecordReview';
 import ClinicIntake from './workspace/ClinicIntake';
+import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
 
 const NAV = [
   { k: 'intake', l: 'Clinic Intake', i: Lock },
@@ -34,59 +32,8 @@ const Brand = () => (
   <div className="flex items-center gap-2 font-semibold text-mansagold"><img src={logo1325} alt="1325.AI logo" className="h-8 w-8 rounded-md object-contain" /> 1325 Clinical <span className="hidden text-xs font-normal text-foreground/70 sm:inline">Enterprise Edition</span></div>
 );
 
-function SignIn() {
-  const [mode, setMode] = useState<'in' | 'up'>('in');
-  const [email, setEmail] = useState(''); const [pw, setPw] = useState(''); const [busy, setBusy] = useState(false);
-  const go = async () => {
-    setBusy(true);
-    const r = mode === 'in'
-      ? await supabase.auth.signInWithPassword({ email, password: pw })
-      : await supabase.auth.signUp({ email, password: pw, options: { emailRedirectTo: `${window.location.origin}/health/app` } });
-    setBusy(false);
-    if (r.error) return toast.error(r.error.message);
-    if (mode === 'up' && !r.data.session) toast.success('Check your email to confirm, then sign in.');
-  };
-  return (
-    <div className="flex min-h-[70vh] items-center justify-center p-6">
-      <Card className="w-full max-w-sm">
-        <CardHeader><CardTitle>{mode === 'in' ? 'Sign in to 1325 Clinical' : 'Create your clinic account'}</CardTitle></CardHeader>
-        <CardContent className="space-y-3">
-          <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Input type="password" placeholder="Password" value={pw} onChange={(e) => setPw(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && go()} />
-          <Button disabled={busy} onClick={go} className="w-full bg-mansagold text-mansablue hover:bg-mansagold-dark">{mode === 'in' ? 'Sign in' : 'Create account'}</Button>
-          <button className="w-full text-sm text-muted-foreground hover:text-foreground" onClick={() => setMode(mode === 'in' ? 'up' : 'in')}>{mode === 'in' ? 'New here? Create an account' : 'Have an account? Sign in'}</button>
-          <Link to="/health" className="block text-center text-xs text-muted-foreground underline">Take the guided tour instead</Link>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
-
-function CreateClinic({ onDone }: { onDone: () => void }) {
-  const [name, setName] = useState(''); const [spec, setSpec] = useState(''); const [busy, setBusy] = useState(false);
-  return (
-    <div className="flex min-h-[70vh] items-center justify-center p-6">
-      <Card className="w-full max-w-md">
-        <CardHeader><CardTitle>Set up your sample clinic</CardTitle></CardHeader>
-        <CardContent className="space-y-3">
-          <p className="text-sm text-muted-foreground">We'll fill it with three made-up patients, visits, claims and authorizations so you can try everything right away.</p>
-          <Input placeholder="Clinic name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input placeholder="Specialty (optional)" value={spec} onChange={(e) => setSpec(e.target.value)} />
-          <Button disabled={busy} className="w-full bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => {
-            setBusy(true);
-            const { error } = await db.rpc('hc_create_clinic', { _name: name, _specialty: spec || null });
-            setBusy(false);
-            if (error) return toast.error(error.message);
-            onDone();
-          }}>Create clinic</Button>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
-
 export default function HealthWorkspacePage() {
-  const { user, loading } = useAuth();
+  const { user, loading, authInitialized } = useAuth();
   const [searchParams] = useSearchParams();
   const [clinic, setClinic] = useState<Row | null | undefined>(undefined);
   const [role, setRole] = useState('');
@@ -94,24 +41,51 @@ export default function HealthWorkspacePage() {
   const [tab, setTab] = useState('review');
   useEffect(() => { if (searchParams.get('view') === 'cme') setTab('review'); }, [searchParams]);
 
-  const loadClinic = useCallback(async () => {
-    if (!user) return;
-    const { data } = await db.from('hc_members').select('role, hc_clinics(*)').eq('user_id', user.id).order('created_at').limit(1).maybeSingle();
-    setRole(data?.role ?? ''); setClinic(data?.hc_clinics ?? null);
-  }, [user]);
+  const [clinicError, setClinicError] = useState('');
+  const [loadedFor, setLoadedFor] = useState<string | null>(null);
+  const userId = user?.id ?? null;
+  const currentUser = useRef(userId);
+  currentUser.current = userId;
+  const requestVersion = useRef(0);
+
+  const loadClinic = useCallback(async (preferredClinicId?: string) => {
+    if (!userId) return;
+    const version = ++requestVersion.current;
+    setClinicError('');
+    try {
+      let query = db.from('hc_members').select('role, hc_clinics(*)').eq('user_id', userId);
+      if (preferredClinicId) query = query.eq('clinic_id', preferredClinicId);
+      const { data, error } = await query.order('created_at').limit(1).maybeSingle();
+      if (currentUser.current !== userId || version !== requestVersion.current) return;
+      if (error) throw new Error(error.message);
+      if (preferredClinicId && !data?.hc_clinics) throw new Error('Your clinic was saved, but workspace access could not be confirmed. Retry opening it; do not create another clinic.');
+      setRole(data?.role ?? ''); setClinic(data?.hc_clinics ?? null); setLoadedFor(userId);
+    } catch (error) {
+      if (currentUser.current !== userId || version !== requestVersion.current) return;
+      setClinicError(error instanceof Error ? error.message : 'Clinic access could not be checked.');
+      throw error;
+    }
+  }, [userId]);
   const loadPatients = useCallback(async () => {
-    if (!clinic) return;
-    const { data } = await db.from('hc_patients').select('*').eq('clinic_id', clinic.id).order('last_name');
-    setPatients(data ?? []);
-  }, [clinic]);
-  useEffect(() => { loadClinic(); }, [loadClinic]);
-  useEffect(() => { loadPatients(); }, [loadPatients]);
+    if (!clinic || loadedFor !== userId) return;
+    const clinicId = clinic.id;
+    const { data, error } = await db.from('hc_patients').select('*').eq('clinic_id', clinicId).order('last_name');
+    if (currentUser.current !== userId) return;
+    if (!error) setPatients(data ?? []);
+  }, [clinic, loadedFor, userId]);
+  useEffect(() => {
+    ++requestVersion.current;
+    setClinic(undefined); setRole(''); setPatients([]); setLoadedFor(null); setClinicError('');
+    if (userId) void loadClinic().catch(() => {});
+    return () => { ++requestVersion.current; };
+  }, [userId, loadClinic]);
+  useEffect(() => { void loadPatients(); }, [loadPatients]);
 
   const shellHeader = (
-    <header className="flex h-14 items-center justify-between border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
+    <header className="flex min-h-14 flex-wrap items-center justify-between gap-2 py-2 border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
       <Brand />
       <div className="flex gap-1"><Button variant="ghost" size="sm" asChild><Link to="/health/intake">Clinic intake</Link></Button><Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button></div>
-      {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-foreground/80 md:inline">{clinic?.name}</span>
+      {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-foreground/80 md:inline">{loadedFor === userId ? clinic?.name : ''}</span>
         <Button size="sm" variant="ghost" className="text-foreground hover:bg-foreground/10" onClick={() => supabase.auth.signOut()}><LogOut className="h-4 w-4" /></Button></div>}
     </header>
   );
@@ -123,7 +97,7 @@ export default function HealthWorkspacePage() {
       <Helmet><title>1325 Clinical Workspace | health.1325.ai</title><meta name="robots" content="noindex" /></Helmet>
       <Banner />
       {shellHeader}
-      {loading ? null : !user ? <SignIn /> : clinic === undefined ? null : !clinic ? <CreateClinic onDone={loadClinic} /> : (
+      {loading || !authInitialized ? <p role="status" className="p-8 text-muted-foreground">Checking sign-in…</p> : !user ? <ClinicSignIn /> : clinicError && clinic === undefined ? <section role="alert" className="mx-auto max-w-lg space-y-4 p-8"><h1 className="text-xl font-semibold">Clinic access could not be checked</h1><p className="text-sm text-muted-foreground">{clinicError}</p><Button variant="outline" onClick={() => { void loadClinic().catch(() => {}); }}>Retry clinic access</Button></section> : loadedFor !== userId || clinic === undefined ? <p role="status" className="p-8 text-muted-foreground">Loading your clinic…</p> : !clinic ? <CreateSampleClinic key={user.id} onDone={loadClinic} /> : (
         <div className="flex">
           <aside className="hidden w-60 shrink-0 border-r bg-card/80 p-3 md:block">
             {NAV.map((n) => (
