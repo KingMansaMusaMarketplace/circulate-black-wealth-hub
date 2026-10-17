@@ -109,7 +109,8 @@ Deno.serve(async (req) => {
     from: FROM, to: [OWNER], reply_to: email,
     subject: `New 1325 Clinical access request: ${p.data.full_name} — ${p.data.organization}`,
     html: `<h2>New access request for health.1325.ai</h2><table>${row("Name", p.data.full_name)}${row("Organization", p.data.organization)}${row("Role", p.data.role)}${row("Work email", email)}${row("Phone", p.data.phone || "—")}${row("Agreed to confidentiality", "Yes")}</table>
-<p><a href="${link("approve")}" style="background:#1a7f37;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Approve</a> &nbsp; <a href="${link("deny")}" style="background:#b42318;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Deny</a></p>`,
+<p><a href="${link("approve")}" style="background:#1a7f37;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Approve (7 days)</a> &nbsp; <a href="${link("deny")}" style="background:#b42318;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Deny</a></p>
+<p style="margin-top:24px">Changed your mind later? <a href="${link("revoke")}" style="background:#333;color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none">Revoke access</a> locks this person out immediately.</p>`,
   });
   return json({ ok: true });
 });
