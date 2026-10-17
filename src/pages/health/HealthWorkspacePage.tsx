@@ -27,6 +27,7 @@ import MedicationReview from './workspace/MedicationReview';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
 import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
+import EnterpriseReliability from './workspace/EnterpriseReliability';
 
 const NAV = [
   { k: 'doctor-day', l: 'Connected Doctor Day', i: Calendar },
@@ -48,6 +49,7 @@ const NAV = [
   { k: 'impact', l: 'Practice Impact', i: ClipboardCheck },
   { k: 'specialties', l: 'Specialty Examples', i: ClipboardCheck },
   { k: 'billing', l: 'Billing Preparation', i: Receipt },
+  { k: 'reliability', l: 'Backup, Recovery & Migration', i: ClipboardCheck },
   { k: 'team', l: 'Team', i: UserCog },
 ];
 
@@ -176,6 +178,7 @@ export default function HealthWorkspacePage() {
             {tab === 'impact' && <PracticeImpact key={`${user.id}:${clinic.id}`} />}
             {tab === 'specialties' && <SpecialtyExamples key={`${user.id}:${clinic.id}`} />}
             {tab === 'billing' && <BillingPreparation key={`${user.id}:${clinic.id}`} />}
+            {tab === 'reliability' && <EnterpriseReliability key={`${user.id}:${clinic.id}`} />}
             {tab === 'team' && <Team {...props} />}
           </main>
         </div>

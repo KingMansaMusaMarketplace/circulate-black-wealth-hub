@@ -18,7 +18,9 @@
 - [x] Fictional billing preparation — shared documentation evidence, unknown coverage/claim/payment statuses and locked submission/collection/export; 17 targeted/regression tests pass, build OK and public access gate verified.
 - [ ] Verify billing preparation in approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
 - [ ] Live billing operations — blocked: healthcare clearance, qualified billing review and approved eligibility/claims/payment providers.
-- [ ] Enterprise operations, recovery and migration — preparation first; operational guarantees require independently tested infrastructure.
+- [ ] Backup, recovery and clinic-migration preparation — shared read-only requirements, unknown operational evidence and locked execution; implementation and checks in progress.
+- [ ] Verify operations preparation in approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
+- [ ] Live enterprise operations, recovery and migration — blocked: approved healthcare infrastructure, provider agreements and independently witnessed backup, restore and migration validation.
 - [ ] Doctor pilot evaluation — blocked by approved healthcare environment, agreements and participating clinics.
 - [ ] Healthcare clearance — blocked by attorney-approved agreements, written vendor coverage and independently verified safeguards.
 
