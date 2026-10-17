@@ -65,7 +65,9 @@ Deno.serve(async (req) => {
     try {
     const emailResult = await resend.emails.send({
       from: FROM, to: [r.work_email], subject: "Your private access to 1325 Clinical",
-      html: `<p>Hello ${esc(r.full_name)},</p><p>Your request to view the 1325 Clinical private physician preview has been approved.</p><p><a href="${SITE}/?access=${access}">Open your private preview</a></p><p>Each visit lasts 45 minutes. Your link works for ${WINDOW_DAYS} days (until ${expires.toUTCString()}) and only on the first device that opens it, so please don't forward it.</p><p>All materials are proprietary and confidential to 1325.AI (U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending).</p><p>Thomas<br>1325.AI</p>`,
+      reply_to: 'Partner@1325.AI',
+      text: `Hello ${r.full_name},\n\nThomas approved your request to view 1325 Clinical.\n\nOpen your preview: ${SITE}/?access=${access}\n\nYour link expires ${expires.toUTCString()}. Each visit lasts 45 minutes. Use the same device for every visit and do not forward your link.\n\nIf this message reached Spam/Junk, mark it Not Junk and add Partner@1325.AI to your contacts.\n\nThomas\n1325.AI\nPartner@1325.AI\n\nPrivate and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.`,
+      html: `<p>Hello ${esc(r.full_name)},</p><p>Thomas approved your request to view 1325 Clinical.</p><p><a href="${SITE}/?access=${access}">Open your preview</a></p><p>Your link expires ${expires.toUTCString()}. Each visit lasts 45 minutes. Use the same device for every visit and do not forward your link.</p><p>If this message reached Spam/Junk, mark it Not Junk and add Partner@1325.AI to your contacts.</p><p>Thomas<br>1325.AI<br>Partner@1325.AI</p><p>Private and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.</p>`,
     });
     accepted = emailWasAccepted(emailResult);
     } catch {

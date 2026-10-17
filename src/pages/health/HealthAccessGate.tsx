@@ -183,6 +183,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
               <ShieldCheck className="h-12 w-12 mx-auto mb-4" style={{ color: '#FFB300' }} />
               <h2 className="text-2xl font-semibold mb-2">Request received</h2>
               <p className="opacity-80">Thank you. Our team will review your request personally. If approved, you'll receive a private access link by email.</p>
+              <p className="mt-5 text-sm opacity-80">After approval, check your inbox and Spam/Junk for an email from <strong>Partner@1325.AI</strong>. Mark it “Not Junk” and add the sender to your contacts.</p>
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-4">
