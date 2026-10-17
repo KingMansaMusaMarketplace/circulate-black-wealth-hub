@@ -1,5 +1,10 @@
 # Roadmap
 
+## Clinical safety panel — approved presentation scope
+- [x] Add a shared advisory panel with fictional source-linked gaps, unperformed safety checks and physician-review boundaries; preserve colors and existing service locks.
+- [x] Run focused safety/regression checks: 23 tests pass, build OK, and both clinical routes hide the private controls from unapproved visitors with no runtime errors.
+- [ ] Verify approved visitor and signed-in clinic panel use — blocked: external Supabase has no managed authenticated test session.
+
 ## Clinical executive quality overview — approved presentation scope
 - [x] Add a shared executive overview with existing fictional source evidence, unknown performance results and locked healthcare services; preserve clinical colors and facility-only presentation. Replaces the demo-only invented quality scores.
 - [x] Run focused safety/regression checks: 20 tests pass, build OK, and public access gate hides the overview with no runtime errors.
