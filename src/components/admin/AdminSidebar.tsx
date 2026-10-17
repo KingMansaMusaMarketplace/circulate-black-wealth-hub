@@ -139,6 +139,7 @@ const menuGroups: MenuGroup[] = [
       { id: 'system', label: 'Settings', icon: Sliders },
       { id: 'ai', label: 'AI Tools', icon: Bot },
       { id: 'admin-ai-workforce', label: 'AI Workforce', icon: Bot, route: '/admin/ai-workforce' },
+      { id: 'admin-health-clinical', label: '1325 Clinical (health.1325.ai)', icon: Gauge, route: 'https://health.1325.ai/' },
       { id: 'admin-kayla-scoreboard', label: 'Kayla Scoreboard', icon: Gauge, route: '/admin/kayla-scoreboard' },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge },
       { id: 'webhooks', label: 'Webhooks', icon: Webhook },
@@ -160,7 +161,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
   const { data: badges } = useAdminBadgeCounts();
 
   const handleItemClick = (item: { id: string; route?: string }) => {
-    if (item.route) {
+    if (item.route?.startsWith('https://')) {
+      window.open(item.route, '_blank', 'noopener');
+    } else if (item.route) {
       navigate(item.route);
     } else {
       onTabChange(item.id);
