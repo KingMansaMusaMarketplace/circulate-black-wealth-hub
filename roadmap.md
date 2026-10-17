@@ -1,9 +1,11 @@
 # Roadmap
 
 ## Clinical record review first
-- [ ] Build a server-owned fictional CME case with page-linked Kayla drafts and source viewer.
-- [ ] Save physician review decisions with clinic-scoped access; block arbitrary record uploads.
-- [ ] Run targeted safety tests and verify available screens; real records/calls await healthcare clearance.
+- [x] Build a server-owned fictional CME case with page-linked Kayla drafts and source viewer.
+- [x] Save physician review decisions with clinic-scoped access; block arbitrary record uploads.
+- [x] Run targeted safety tests and verify available public screens.
+- [ ] Verify signed-in generation, source readback, review decisions and Kayla scoreboard — blocked: external Supabase has no test session available.
+- [ ] Enable real records and patient calls — blocked: healthcare attorney/vendor clearance, HIPAA safeguards and calling consent approval.
 
 ## Scheduled
 
@@ -58,4 +60,4 @@
 
 - [ ] Dr. Atwater clinical dossier PDF
 - [x] health.1325.ai tour at /health + working sample-only workspace at /health/app (sign-in, charts, schedule, Kayla record review, prior auth, billing, team)
-- [ ] Test the workspace signed in (Thomas) with a made-up sample PDF
+- [ ] Test the workspace signed in (Thomas) with the built-in fictional CME case — external Supabase test session unavailable; arbitrary uploads intentionally blocked.
