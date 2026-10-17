@@ -40,7 +40,7 @@ describe('clinical advisory safety boundaries', () => {
     const source = screen.getByRole('region', { name: 'Safety source transcript' });
     expect(within(source).getByText(SAMPLE_VISITS[2].lines[5])).toBeInTheDocument();
     expect(within(source).queryByText(SAMPLE_VISITS[0].lines[6])).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'Close', exact: true }));
+    fireEvent.click(screen.getByRole('button', { name: /^Close$/ }));
     fireEvent.click(screen.getByRole('button', { name: 'Clinical safety' }));
     expect(screen.queryByRole('region', { name: 'Safety source transcript' })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: SAMPLE_VISITS[0].title })).toHaveAttribute('aria-pressed', 'true');
