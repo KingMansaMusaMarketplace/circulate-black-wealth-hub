@@ -8,6 +8,7 @@ import { Row, useRows } from './hc';
 import { canSign, SAMPLE_VISITS } from './sample-visits';
 
 const SECTIONS = [
+const logoImg = typeof Image !== 'undefined' ? Object.assign(new Image(), { src: logo1325 }) : undefined;
   ['subjective', 'Patient\u2019s story'],
   ['objective', 'Exam findings'],
   ['assessment', 'Assessment'],
@@ -108,8 +109,8 @@ export default function VisitNotes({ clinicId, clinicRole }: { clinicId: string;
             {signoff?.decision === 'rejected' && <Button size="sm" variant="outline" disabled={busy} onClick={draft}>Draft a new version</Button>}
             {signoff?.decision === 'signed' && <Button size="sm" variant="outline" onClick={() => {
               try {
-                const img = new Image(); img.src = logo1325;
-                const doc = buildReviewedReport({ visitTitle: visit.title, transcript: visit.lines, note: note.note, decision: signoff.decision, signedAt: signoff.created_at }, img.complete ? img : undefined);
+                
+                const doc = buildReviewedReport({ visitTitle: visit.title, transcript: visit.lines, note: note.note, decision: signoff.decision, signedAt: signoff.created_at }, logoImg?.complete ? logoImg : undefined);
                 doc.save(`1325-clinical-reviewed-note-${visit.id}.pdf`);
               } catch (e) { toast.error((e as Error).message); }
             }}><Download className="mr-1 h-4 w-4" />Download signed report (PDF)</Button>}
