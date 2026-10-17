@@ -1,8 +1,8 @@
 # Roadmap
 
 ## Clinical facility selector — approved presentation scope
-- [ ] Add shared fictional practice/hospital facility and department selection in demo/workspace without changing colors, clinic access or live-service locks.
-- [ ] Verify selection/reset behavior and existing safety regressions.
+- [x] Add shared fictional practice/hospital facility and department selection in demo/workspace without changing colors, clinic access or live-service locks. Locations are illustrative, not connected hospital facilities.
+- [x] Verify selection/reset behavior and existing safety regressions: 19 tests pass, build OK, and public access gate hides the selector.
 - [ ] Verify approved visitor and signed-in clinic viewing — blocked: external Supabase has no managed authenticated test session.
 
 ## Full clinical roadmap — approved staged scope
