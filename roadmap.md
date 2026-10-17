@@ -1,5 +1,10 @@
 # Roadmap
 
+## Clinical facility selector — approved presentation scope
+- [ ] Add shared fictional practice/hospital facility and department selection in demo/workspace without changing colors, clinic access or live-service locks.
+- [ ] Verify selection/reset behavior and existing safety regressions.
+- [ ] Verify approved visitor and signed-in clinic viewing — blocked: external Supabase has no managed authenticated test session.
+
 ## Full clinical roadmap — approved staged scope
 - [x] Connected fictional doctor-day: one selected case across schedule rehearsal, chart prep, transcript, existing clinic note decisions and independently unapproved follow-up; 35 targeted/regression tests pass, build OK, public access gate verified.
 - [ ] Verify doctor-day note generation, signed decision and readback in an approved signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
