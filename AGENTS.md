@@ -1,4 +1,5 @@
 # AGENTS
+- Clinical enterprise readiness is a shared informational drawer using the existing intake lock policy; fixed unverified legal/vendor/pilot statuses cannot approve, certify or activate services, so presentation never becomes a healthcare clearance mechanism.
 - Clinical specialty examples share a read-only fixture screen across demo and clinic workspace, with exact transcript excerpts and case-local source selection; separate rehearsal sources never enter generated notes, signatures, exports or patient delivery.
 - Clinical practice impact uses a shared local-only calculator with blank visitor-supplied assumptions and a pure validated calculation; modeled time-capacity value is never represented as measured savings, revenue or product pricing.
 - Clinical prior-authorization preparation shares one fixed transcript packet across demo and workspace, validates exact source quotes, keeps review rehearsal unsaved, and has no signature, export or submission action; prevents fictional drafts from becoming insurer-ready claims.
